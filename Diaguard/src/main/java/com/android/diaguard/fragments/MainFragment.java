@@ -104,8 +104,19 @@ public class MainFragment extends Fragment {
 
         int difference = Helper.getDifferenceInMinutes(latestEvent.getDate(), now);
         String textAgo = getString(R.string.latest);
+        if(difference > 2879) {
+            difference = difference / 60 / 24;
+            textAgo = textAgo.replace("[unit]", getString(R.string.days));
+        }
+        else if(difference > 119) {
+            difference = difference / 60;
+            textAgo = textAgo.replace("[unit]", getString(R.string.hours));
+        }
+        else {
+            textAgo = textAgo.replace("[unit]", getString(R.string.minutes));
+        }
         textAgo = textAgo.replace("[value]", Integer.toString(difference));
-        textAgo = textAgo.replace("[unit]", getString(R.string.minutes));
+
         textViewLatestAgo.setText(textAgo);
     }
 

@@ -86,6 +86,8 @@
     <string name="datestart">Start date</string>
     <string name="day">Day</string>
     <string name="days">Days</string>
+    <string name="hour">Hour</string>
+    <string name="hours">Hours</string>
     <string name="in">in</string>
     <string name="minute">Minute</string>
     <string name="minutes">Minutes</string>

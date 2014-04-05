@@ -79,6 +79,8 @@
     <string name="datestart">Startdatum</string>
     <string name="day">Tag</string>
     <string name="days">Tagen</string>
+    <string name="hour">Stunde</string>
+    <string name="hours">Stunden</string>
     <string name="minutes">Minuten</string>
     <string name="month">Monat</string>
     <string name="months">Monaten</string>

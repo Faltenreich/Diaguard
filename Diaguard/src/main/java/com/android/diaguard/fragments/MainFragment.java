@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.diaguard.CalculatorActivity;
+import com.android.diaguard.ExportActivity;
 import com.android.diaguard.NewEventActivity;
 import com.android.diaguard.R;
 import com.android.diaguard.database.DatabaseDataSource;
@@ -48,19 +50,42 @@ public class MainFragment extends Fragment {
 
         getComponents();
 
-        getView().findViewById(R.id.linearlayout_newevent).setOnClickListener(new View.OnClickListener() {
+        getView().findViewById(R.id.layout_newevent).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), NewEventActivity.class));
             }
         });
 
-        getView().findViewById(R.id.linearlayout_timeline).setOnClickListener(new View.OnClickListener() {
+        getView().findViewById(R.id.layout_timeline).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.content_frame, new TimelineFragment())
                         .commit();
+            }
+        });
+
+        getView().findViewById(R.id.layout_log).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.content_frame, new LogFragment())
+                        .commit();
+            }
+        });
+
+        getView().findViewById(R.id.layout_calculator).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), CalculatorActivity.class));
+            }
+        });
+
+        getView().findViewById(R.id.layout_export).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ExportActivity.class));
             }
         });
 
@@ -103,6 +128,16 @@ public class MainFragment extends Fragment {
         textViewLatestValue.setText(format.format(value));
 
         int difference = Helper.getDifferenceInMinutes(latestEvent.getDate(), now);
+
+        textViewLatestAgo.setTextColor(getResources().getColor(android.R.color.darker_gray));
+        // Highlight if last measurement is more than ten hours ago
+        if(difference < 2) {
+            textViewLatestAgo.setText(getString(R.string.latest_moments));
+            return;
+        }
+        else if(difference > 600)
+            textViewLatestAgo.setTextColor(getResources().getColor(R.color.red));
+
         String textAgo = getString(R.string.latest);
         if(difference > 2879) {
             difference = difference / 60 / 24;

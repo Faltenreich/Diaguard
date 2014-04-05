@@ -47,6 +47,7 @@
     <string name="keyword">Stichwort</string>
     <string name="keywords">Stichwörter</string>
     <string name="latest">vor [value] [unit]</string>
+    <string name="latest_moments">vor Kurzem</string>
     <string name="log">Protokoll</string>
     <string name="meal">Mahlzeit</string>
     <string name="newevent">Tagebucheintrag</string>
@@ -222,6 +223,7 @@
     </string-array>
 
     <!-- VALIDATORS -->
+    <string name="validator_value_infuture">Ereignis darf nicht in der Zukunft liegen</string>
     <string name="validator_value_empty">Bitte geben Sie einen Wert an</string>
     <string name="validator_value_none">Mindestens ein Item muss gewählt werden</string>
     <string name="validator_value_unrealistic">Unrealistischer Wert</string>

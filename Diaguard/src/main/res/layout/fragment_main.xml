@@ -11,7 +11,7 @@
         android:orientation="vertical">
 
         <!-- New event -->
-        <LinearLayout android:id="@+id/linearlayout_newevent"
+        <LinearLayout android:id="@+id/layout_newevent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_between"
@@ -86,8 +86,6 @@
                     style="@style/BoxLabel"/>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="center"
                     style="@style/Box"
@@ -96,7 +94,7 @@
                     <TextView android:id="@+id/textview_latest_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="32sp"/>
+                        style="@style/BoxText"/>
 
                     <TextView android:id="@+id/textview_latest_ago"
                         android:layout_width="wrap_content"
@@ -110,29 +108,22 @@
             </LinearLayout>
 
             <!-- Timeline -->
-            <LinearLayout android:id="@+id/linearlayout_timeline"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:layout_marginLeft="4dp"
-                android:clickable="true">
+                android:layout_marginLeft="4dp">
 
                 <TextView
                     android:text="@string/timeline"
                     style="@style/BoxLabel"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    style="@style/Box"
-                    android:background="@color/green">
+                <LinearLayout android:id="@+id/layout_timeline"
+                    style="@style/BoxClickable">
 
                     <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
+                        style="@style/BoxImage"
                         android:src="@drawable/chart_white"/>
 
                 </LinearLayout>
@@ -141,7 +132,7 @@
 
             </LinearLayout>
 
-            </LinearLayout>
+        </LinearLayout>
 
         <!-- Trend -->
         <LinearLayout
@@ -155,8 +146,6 @@
                 style="@style/BoxLabel"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
             android:orientation="horizontal"
             style="@style/Box"
             android:paddingTop="6dp">
@@ -232,6 +221,90 @@
         </LinearLayout>
 
         <View style="@style/BoxShadow"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/margin_between">
+
+            <!-- Log -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginRight="4dp">
+
+                <TextView
+                    android:text="@string/log"
+                    style="@style/BoxLabel"/>
+
+                <LinearLayout android:id="@+id/layout_log"
+                    style="@style/BoxClickable">
+
+                    <ImageView
+                        style="@style/BoxImage"
+                        android:src="@drawable/log_white"/>
+
+                </LinearLayout>
+
+                <View style="@style/BoxShadow"/>
+
+            </LinearLayout>
+
+            <!-- Calculator -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp">
+
+                <TextView
+                    android:text="@string/calculator"
+                    style="@style/BoxLabel"/>
+
+                <LinearLayout android:id="@+id/layout_calculator"
+                    style="@style/BoxClickable">
+
+                    <ImageView
+                        style="@style/BoxImage"
+                        android:src="@drawable/calculator_white"/>
+
+                </LinearLayout>
+
+                <View style="@style/BoxShadow"/>
+
+            </LinearLayout>
+
+            <!-- Calculator -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginLeft="4dp">
+
+                <TextView
+                    android:text="@string/export"
+                    style="@style/BoxLabel"/>
+
+                <LinearLayout android:id="@+id/layout_export"
+                    style="@style/BoxClickable">
+
+                    <ImageView
+                        style="@style/BoxImage"
+                        android:src="@drawable/export_white"/>
+
+                </LinearLayout>
+
+                <View style="@style/BoxShadow"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 

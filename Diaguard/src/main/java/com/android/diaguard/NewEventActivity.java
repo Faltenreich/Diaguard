@@ -154,6 +154,12 @@ public class NewEventActivity extends ActionBarActivity implements IActivity {
 
                 // Validation
 
+                Calendar now = Calendar.getInstance();
+                if(time.after(now)) {
+                    ViewHelper.showToastError(this, getString(R.string.validator_value_infuture));
+                    inputIsValid = false;
+                }
+
                 if(!Validator.containsNumber(editTextText)) {
                     editTextValue.setError(getString(R.string.validator_value_empty));
                     inputIsValid = false;

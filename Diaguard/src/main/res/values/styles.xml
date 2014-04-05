@@ -36,7 +36,14 @@
     </style>
 
     <style name="Box" parent="PaddingMain">
+        <item name="android:layout_height">64dp</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:background">@android:color/white</item>
+    </style>
+
+    <style name="BoxClickable" parent="Box">
+        <item name="android:background">@drawable/button_green</item>
+        <item name="android:gravity">center</item>
     </style>
 
     <style name="BoxShadow" parent="PaddingMain">
@@ -60,6 +67,11 @@
     <style name="BoxTextDesc">
         <item name="android:textColor">@android:color/darker_gray</item>
         <item name="android:textSize">@dimen/text_small</item>
+    </style>
+
+    <style name="BoxImage">
+        <item name="android:layout_width">@dimen/size_image_big</item>
+        <item name="android:layout_height">@dimen/size_image_big</item>
     </style>
 
     <style name="Image">

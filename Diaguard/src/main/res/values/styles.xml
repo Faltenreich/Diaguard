@@ -1,0 +1,150 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <item name="android:actionBarStyle">@style/ActionBarTheme</item>
+        <item name="actionBarStyle">@style/ActionBarTheme</item>
+    </style>
+
+    <style name="ActionBarTheme"
+        parent="@style/Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/green</item>
+        <item name="android:titleTextStyle">@style/ActionBarTitleText</item>
+        <item name="android:subtitleTextStyle">@style/ActionBarSubtitleText</item>
+        <item name="titleTextStyle">@style/ActionBarTitleText</item>
+    </style>
+
+    <style name="ActionBarTitleText"
+        parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="ActionBarSubtitleText"
+        parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="Main" parent="PaddingMain">
+        <item name="android:background">@color/gray</item>
+    </style>
+    
+    <style name="PaddingMain">
+        <item name="android:paddingLeft">@dimen/padding_end</item>
+        <item name="android:paddingRight">@dimen/padding_end</item>
+        <item name="android:paddingTop">@dimen/margin_between</item>
+        <item name="android:paddingBottom">@dimen/margin_between</item>
+    </style>
+
+    <style name="Box" parent="PaddingMain">
+        <item name="android:background">@android:color/white</item>
+    </style>
+
+    <style name="BoxShadow" parent="PaddingMain">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">3dp</item>
+        <item name="android:background">@android:color/darker_gray</item>
+    </style>
+
+    <style name="BoxLabel">
+        <item name="android:layout_height">24dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@color/green</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="BoxText">
+        <item name="android:textSize">@dimen/text_large</item>
+    </style>
+
+    <style name="BoxTextDesc">
+        <item name="android:textColor">@android:color/darker_gray</item>
+        <item name="android:textSize">@dimen/text_small</item>
+    </style>
+
+    <style name="Image">
+        <item name="android:layout_width">@dimen/size_image</item>
+        <item name="android:layout_height">@dimen/size_image</item>
+        <item name="android:padding">@dimen/padding</item>
+    </style>
+
+    <style name="Label">
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:textSize">8pt</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="TableRow">
+        <item name="android:layout_marginBottom">4pt</item>
+    </style>
+
+    <style name="AverageBloodSugar">
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:textSize">@dimen/text_large</item>
+    </style>
+
+    <style name="AverageBloodSugarDesc">
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:textColor">@android:color/darker_gray</item>
+        <item name="android:textSize">@dimen/text_small</item>
+    </style>
+
+    <style name="ActionButton">
+        <item name="android:background">@drawable/actionbutton</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="LayoutClickable">
+        <item name="android:background">@drawable/button</item>
+    </style>
+
+    <style name="Title">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="TitleButton">
+        <item name="android:background">@drawable/actionbutton</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_marginLeft">10dp</item>
+    </style>
+
+    <style name="ImageButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:layout_margin">10dp</item>
+    </style>
+    
+    <style name="TextViewMainLabel">
+        <item name="android:textSize">22sp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="TextViewRow">
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="SeparatorRow">
+        <item name="android:background">@color/green</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">5dp</item>
+    </style>
+
+    <style name="Row">
+        <item name="android:paddingBottom">5dp</item>
+    </style>
+
+    <style name="Toolbar">
+        <item name="android:background">@color/dkgray</item>
+    </style>
+
+</resources>

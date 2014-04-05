@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="@dimen/height_element"
+    android:gravity="center"
+    style="@style/Toolbar">
+
+    <ImageView android:id="@+id/button_previous"
+        android:layout_height="match_parent"
+        android:layout_width="@dimen/height_element"
+        android:padding="@dimen/margin_between"
+        android:src="@drawable/ic_action_previous_item"
+        android:tag="1"
+        style="@style/ActionButton"/>
+
+    <Button android:id="@+id/button_date"
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:padding="@dimen/padding"
+        style="@style/ActionButton"/>
+
+    <ImageView android:id="@+id/button_next"
+        android:layout_height="match_parent"
+        android:layout_width="@dimen/height_element"
+        android:padding="@dimen/margin_between"
+        android:src="@drawable/ic_action_next_item"
+        android:tag="1"
+        style="@style/ActionButton"/>
+
+</LinearLayout>

@@ -1,0 +1,241 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.android.diaguard.fragments.MainFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/Main">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- New event -->
+        <LinearLayout android:id="@+id/linearlayout_newevent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_between"
+            android:orientation="vertical"
+            android:clickable="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/button_white">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_gravity="center_vertical"
+                        android:layout_centerVertical="true"
+                        style="@style/PaddingMain">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/newevent"
+                            android:textSize="@dimen/text_medium"
+                            android:layout_gravity="left"
+                            style="@style/BoxText"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/newevent_desc"
+                            android:layout_gravity="left"
+                            style="@style/BoxTextDesc"/>
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:src="@drawable/ic_add_grid"
+                        android:layout_alignParentRight="true"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <View style="@style/BoxShadow"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/margin_between">
+
+            <!-- Latest -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginRight="4dp">
+
+                <TextView
+                    android:text="@string/bloodsugar"
+                    style="@style/BoxLabel"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    style="@style/Box"
+                    android:paddingTop="2dp">
+
+                    <TextView android:id="@+id/textview_latest_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="32sp"/>
+
+                    <TextView android:id="@+id/textview_latest_ago"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/BoxTextDesc" />
+
+                </LinearLayout>
+
+                <View style="@style/BoxShadow"/>
+
+            </LinearLayout>
+
+            <!-- Timeline -->
+            <LinearLayout android:id="@+id/linearlayout_timeline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginLeft="4dp"
+                android:clickable="true">
+
+                <TextView
+                    android:text="@string/timeline"
+                    style="@style/BoxLabel"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    style="@style/Box"
+                    android:background="@color/green">
+
+                    <ImageView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:src="@drawable/chart_white"/>
+
+                </LinearLayout>
+
+                <View style="@style/BoxShadow"/>
+
+            </LinearLayout>
+
+            </LinearLayout>
+
+        <!-- Trend -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_between"
+            android:orientation="vertical">
+
+            <TextView
+                android:text="@string/trend"
+                style="@style/BoxLabel"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:orientation="horizontal"
+            style="@style/Box"
+            android:paddingTop="6dp">
+
+            <ImageView android:id="@+id/imageview_trend"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginRight="@dimen/margin_between"
+                android:src="@drawable/arrow_up"
+                android:layout_gravity="center_horizontal"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView android:id="@+id/textview_avg_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/BoxText"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/month"
+                    style="@style/BoxTextDesc"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView android:id="@+id/textview_avg_week"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/BoxText"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/week"
+                    style="@style/BoxTextDesc"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView android:id="@+id/textview_avg_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/BoxText"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/day"
+                    style="@style/BoxTextDesc"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View style="@style/BoxShadow"/>
+
+        </LinearLayout>
+
+        </LinearLayout>
+
+
+</RelativeLayout>

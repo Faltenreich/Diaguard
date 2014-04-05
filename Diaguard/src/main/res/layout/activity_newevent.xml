@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/ltgray">
+
+        <LinearLayout android:id="@+id/content_static"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:orientation="vertical"
+            style="@style/PaddingMain">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button android:id="@+id/button_date"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:onClick="onClickShowDatePicker"/>
+
+                <Button android:id="@+id/button_time"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:onClick="onClickShowTimePicker"/>
+
+            </LinearLayout>
+
+            <EditText android:id="@+id/edittext_notes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/note"
+                android:inputType="textMultiLine|textCapSentences"
+                android:maxLines="2"
+                android:layout_marginTop="@dimen/padding"/>
+
+            <Button android:id="@+id/button_add"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/add_value"
+                android:onClick="onClickAddValue"
+                android:layout_marginTop="@dimen/padding"/>
+
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/content_dynamic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/gray"
+            style="@style/PaddingMain"/>
+
+        </LinearLayout>
+
+    </ScrollView>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="semitransparent_light">#99ffffff</color>
+    <color name="semitransparent_dark">#11000000</color>
+
+    <color name="greenlight">#ff74c29f</color>
+    <color name="green">#ff457e61</color>
+    <color name="greendark">#ff3a6e52</color>
+
+    <color name="ltgray">#fff3f3f3</color>
+    <color name="gray">#eed1d1d1</color>
+    <color name="dkgray">#cc252525</color>
+
+</resources>

@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- GENERAL -->
+    <string name="app_name">Diaguard</string>
+    <string name="about">Über</string>
+    <string name="activity">Aktivität</string>
+    <string name="add_value">Wert hinzufügen</string>
+    <string name="all">Alle</string>
+    <string name="application">Anwendung</string>
+    <string name="back">Zurück</string>
+    <string name="backup">Sicherung</string>
+    <string name="backupchoose">Sicherung wählen</string>
+    <string name="bloodpressure">Blutdruck</string>
+    <string name="bloodsugar">Blutzucker</string>
+    <string name="bloodsugar_average">Durchschnitt:</string>
+    <string name="bloodsugar_current">Aktueller Blutzucker</string>
+    <string name="bloodsugar_last">Zuletzt:</string>
+    <string name="bolus_no1">Es wird empfohlen, keinen Bolus zu verabreichen.</string>
+    <string name="bolus_no2">Stattdessen sollten schnelle Kohlenhydrate konsumiert werden, um tiefere Blutzuckerlevel zu vermeiden.</string>
+    <string name="calculator">Bolusrechner</string>
+    <string name="calendar">Kalender</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="category">Kategorie</string>
+    <string name="categories">Kategorien</string>
+    <string name="cleanup">Aufräumen</string>
+    <string name="cleanup_desc">Dies wird alle Einträge vor dem gewählten Datum dauerhaft löschen.</string>
+    <string name="correction">Korrekturwert</string>
+    <string name="data">Daten</string>
+    <string name="deleteevent">Ereignis löschen</string>
+    <string name="deleteevent_desc">Dieses Ereignis endgültig löschen?</string>
+    <string name="development">Entwicklung</string>
+    <string name="drawer_close">Navigator schließen</string>
+    <string name="drawer_open">Navigator öffnen</string>
+    <string name="editevent">Ereignis bearbeiten</string>
+    <string name="event">Ereignis</string>
+    <string name="export_day">Exportiere Tag</string>
+    <string name="export_progress">PDF wird erstellt</string>
+    <string name="export_finished">PDF wurde abgelegt unter</string>
+    <string name="factor">KE-Faktor</string>
+    <string name="factors">KE-Faktoren</string>
+    <string name="filter">Filter</string>
+    <string name="finish">Fertig</string>
+    <string name="general">Allgemein</string>
+    <string name="hba1c">HbA1c</string>
+    <string name="home">Übersicht</string>
+    <string name="keyword">Stichwort</string>
+    <string name="keywords">Stichwörter</string>
+    <string name="latest">vor [value] [unit]</string>
+    <string name="log">Protokoll</string>
+    <string name="meal">Mahlzeit</string>
+    <string name="newevent">Tagebucheintrag</string>
+    <string name="newevent_desc">Neue Messwerte hinzufügen</string>
+    <string name="next">Weiter</string>
+    <string name="none">Keine</string>
+    <string name="note">Notiz</string>
+    <string name="notes">Notizen</string>
+    <string name="ok">OK</string>
+    <string name="pulse">Puls</string>
+    <string name="settings">Einstellungen</string>
+    <string name="setup">Einrichten</string>
+    <string name="store_values">Werte eintragen</string>
+    <string name="textsize">Schriftgröße</string>
+    <string name="therapy">Therapie</string>
+    <string name="time">Zeit</string>
+    <string name="timeline">Tagebuch</string>
+    <string name="undefined">Keine Angabe</string>
+    <string name="units">Einheiten</string>
+    <string name="value">Wert</string>
+    <string name="weight">Gewicht</string>
+
+    <!-- DATE -->
+    <string name="before">vor</string>
+    <string name="current">Aktuell</string>
+    <string name="date">Datum</string>
+    <string name="dateend">Enddatum</string>
+    <string name="dateformat">Zeitformat</string>
+    <string name="dateofbirth">Geburtsdatum</string>
+    <string name="datestart">Startdatum</string>
+    <string name="day">Tag</string>
+    <string name="days">Tagen</string>
+    <string name="minutes">Minuten</string>
+    <string name="month">Monat</string>
+    <string name="months">Monaten</string>
+    <string name="notyet">Noch nie</string>
+    <string name="now">Jetzt</string>
+    <string name="today">Heute</string>
+    <string name="tomorrow">Morgen</string>
+    <string name="week">Woche</string>
+    <string name="weeks">Wochen</string>
+    <string name="yesterday">Gestern</string>
+
+    <string-array name="weekdays">
+        <item>Sonntag</item>
+        <item>Montag</item>
+        <item>Dienstag</item>
+        <item>Mittwoch</item>
+        <item>Donnerstag</item>
+        <item>Freitag</item>
+        <item>Samstag</item>
+    </string-array>
+
+    <string name="morning">Morgens</string>
+    <string name="noon">Mittags</string>
+    <string name="evening">Abends</string>
+    <string name="night">Nachts</string>
+    <string-array name="factor_names">
+        <item>Morgens</item>
+        <item>Mittags</item>
+        <item>Abends</item>
+        <item>Nachts</item>
+    </string-array>
+
+    <!-- ACTIONS -->
+    <string-array name="actions">
+        <item>Bearbeiten</item>
+        <item>Löschen</item>
+    </string-array>
+
+    <string name="dateformat_default">DD.MM.YYYY</string>
+
+    <string-array name="textsizes">
+        <item>Klein</item>
+        <item>Normal</item>
+        <item>Groß</item>
+    </string-array>
+
+    <!-- SETUP -->
+    <string name="setup_def_start">Dieses Setup soll Ihnen dabei helfen, Diaguard an Ihre Ansprüche anzupassen.\n\nFalls Sie diesen Schritt überspringen möchten, klicken Sie auf Überspringen, um eine eher allgemeine Erfahrung zu erhalten.</string>
+    <string name="setup_def_type">Bitte geben Sie ihren Diabetestyp an.\nBei keiner Angabe wird jedwede Funktionalität aktiv.</string>
+    <string name="type1">Typ 1</string>
+    <string name="type2">Typ 2</string>
+    <string name="gestational">Gestationsdiabetes</string>
+
+    <!-- CATEGORIES -->
+    <string-array name="categories">
+        <item>Blutzucker</item>
+        <item>Bolus</item>
+        <item>Mahlzeit</item>
+        <item>Aktivität</item>
+        <item>HbA1c</item>
+        <item>Gewicht</item>
+        <item>Puls</item>
+    </string-array>
+    <string-array name="categories_acronyms">
+        <item>Blutz.</item>
+        <item>Bolus</item>
+        <item>Mahl</item>
+        <item>Aktiv.</item>
+        <item>HbA1c</item>
+        <item>Gew.</item>
+        <item>Puls</item>
+    </string-array>
+
+    <string-array name="bolus_units">
+        <item>Insulineinheiten</item>
+    </string-array>
+    <string-array name="bolus_units_acronyms">
+        <item>IE</item>
+    </string-array>
+    <string-array name="bolus_units_values">
+        <item>1</item>
+    </string-array>
+
+    <string name="meal_units_default">Kohlenhydrate</string>
+    <string-array name="meal_units">
+        <item>Kohlenhydrate</item>
+        <item>Kohlenhydrateinheiten</item>
+        <item>Broteinheiten</item>
+    </string-array>
+    <string-array name="meal_units_acronyms">
+        <item>KH</item>
+        <item>KE</item>
+        <item>BE</item>
+    </string-array>
+
+    <string name="activity_units_default">Minuten</string>
+    <string-array name="activity_units">
+        <item>Minuten</item>
+    </string-array>
+
+    <string name="hba1c_units_default">Prozent</string>
+    <string-array name="hba1c_units">
+        <item>Prozent</item>
+        <item>mmol/mol</item>
+    </string-array>
+
+    <string name="weight_units_default">Kilogramm</string>
+    <string-array name="weight_units">
+        <item>Kilogramm</item>
+        <item>Pfund</item>
+    </string-array>
+
+    <string-array name="pulse_units">
+        <item>Schläge pro Minute</item>
+    </string-array>
+    <string-array name="pulse_units_acronyms">
+        <item>spm</item>
+    </string-array>
+
+    <!-- FILTERS -->
+    <string-array name="filters">
+        <item>Tag</item>
+        <item>Woche</item>
+        <item>Monat</item>
+        <item>Jahr</item>
+    </string-array>
+
+
+    <!-- KEYWORDS -->
+    <string-array name="keywords">
+        <item>Nach dem Aufstehen</item>
+        <item>Vor dem Frühstück</item>
+        <item>Nach dem Frühstück</item>
+        <item>Vor dem Mittagessen</item>
+        <item>Nach dem Mittagessen</item>
+        <item>Vor dem Abendbrot</item>
+        <item>Nach dem Abendbrot</item>
+        <item>Vor dem Schlafengehen</item>
+    </string-array>
+
+    <!-- VALIDATORS -->
+    <string name="validator_value_empty">Bitte geben Sie einen Wert an</string>
+    <string name="validator_value_none">Mindestens ein Item muss gewählt werden</string>
+    <string name="validator_value_unrealistic">Unrealistischer Wert</string>
+    <string name="validator_value_enddate">Enddatum muss vor Startdatum liegen</string>
+
+    <!-- SETTINGS -->
+    <string name="pref_therapy_targets">Zielwerte</string>
+    <string name="pref_therapy_targets_target">Zielwert</string>
+
+    <string name="pref_therapy_limits">Grenzwerte</string>
+    <string name="pref_therapy_targets_highlight">Grenzbereiche hervorheben?</string>
+    <string name="pref_therapy_targets_hyperclycemia">Grenze für Überzuckerung</string>
+    <string name="pref_therapy_targets_hypoclycemia">Grenze für Unterzuckerung</string>
+
+    <string name="pref_data_cleanup_confirm_title">Ereignisse löschen?</string>
+    <string name="pref_data_cleanup_confirm_message">Einträge wären betroffen</string>
+    <string name="pref_data_cleanup_return">Ereignisse wurden gelöscht</string>
+
+    <string name="pref_data_backup_message">Stellen Sie Daten mithilfe einer lokalen Sicherung wieder her.
+        Entscheiden Sie, ob die Sicherung in eine bestehende Datenbank eingepflegt oder ob diese komplett neu aufgesetzt werden soll.</string>
+    <string name="pref_data_backup_finished">Sicherung wird angelegt</string>
+    <string name="pref_data_backup_clearexisting">Bestehende Daten löschen?</string>
+    <string-array name="backup_actions">
+        <item>Sicherung anlegen</item>
+        <item>Sicherung wiederherstellen</item>
+    </string-array>
+    <string name="pref_data_backup_import">Sicherung wird eingespielt</string>
+
+    <string name="pref_data_export_message">
+        Jeder Export wird lokal auf Ihrer Speicherkarte abgelegt und kann zusätzlich via E-Mail versendet werden.</string>
+    <string name="pref_data_export_finished">Daten werden auf SD Karte exportiert</string>
+    <string name="pref_data_export_mail_message">Meine Daten im Anhang gesendet via Diaguard</string>
+
+</resources>

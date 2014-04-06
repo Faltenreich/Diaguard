@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -50,6 +51,7 @@ public class MainActivity extends ActionBarActivity {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_frame, new MainFragment())
+                .addToBackStack("Home")
                 .commit();
         initializeDrawer();
     }
@@ -78,7 +80,11 @@ public class MainActivity extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Fragment fragment;
                 switch(position) {
-                    case 0: fragment = new MainFragment(); break;
+                    case 0: fragment = new MainFragment();
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        for(int i = 0; i < fragmentManager.getBackStackEntryCount(); ++i)
+                            fragmentManager.popBackStack();
+                        break;
                     case 1: fragment = new TimelineFragment(); break;
                     case 2: fragment = new LogFragment(); break;
                     case 3: startActivity(new Intent (MainActivity.this, CalculatorActivity.class)); return;

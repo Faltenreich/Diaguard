@@ -9,8 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.diaguard.CalculatorActivity;
-import com.android.diaguard.ExportActivity;
 import com.android.diaguard.NewEventActivity;
 import com.android.diaguard.R;
 import com.android.diaguard.database.DatabaseDataSource;
@@ -29,10 +27,10 @@ public class MainFragment extends Fragment {
 
     TextView textViewLatestValue;
     TextView textViewLatestAgo;
+    ImageView imageViewTrend;
     TextView textViewAverageMonth;
     TextView textViewAverageWeek;
     TextView textViewAverageDay;
-    ImageView imageViewTrend;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,8 +44,13 @@ public class MainFragment extends Fragment {
         initialize();
     }
 
-    private void initialize()  {
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateContent();
+    }
 
+    private void initialize()  {
         getComponents();
 
         getView().findViewById(R.id.layout_newevent).setOnClickListener(new View.OnClickListener() {
@@ -56,39 +59,19 @@ public class MainFragment extends Fragment {
                 startActivity(new Intent(getActivity(), NewEventActivity.class));
             }
         });
+    }
 
-        getView().findViewById(R.id.layout_timeline).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.content_frame, new TimelineFragment())
-                        .commit();
-            }
-        });
+    private void getComponents() {
+        textViewLatestValue = (TextView) getView().findViewById(R.id.textview_latest_value);
+        textViewLatestAgo = (TextView) getView().findViewById(R.id.textview_latest_ago);
 
-        getView().findViewById(R.id.layout_log).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.content_frame, new LogFragment())
-                        .commit();
-            }
-        });
+        imageViewTrend = (ImageView) getView().findViewById(R.id.imageview_trend);
+        textViewAverageMonth = (TextView) getView().findViewById(R.id.textview_avg_month);
+        textViewAverageWeek = (TextView) getView().findViewById(R.id.textview_avg_week);
+        textViewAverageDay = (TextView) getView().findViewById(R.id.textview_avg_day);
+    }
 
-        getView().findViewById(R.id.layout_calculator).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), CalculatorActivity.class));
-            }
-        });
-
-        getView().findViewById(R.id.layout_export).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ExportActivity.class));
-            }
-        });
-
+    private void updateContent() {
         dataSource = new DatabaseDataSource(getActivity());
         dataSource.open();
 
@@ -96,7 +79,7 @@ public class MainFragment extends Fragment {
             preferenceHelper = new PreferenceHelper(getActivity());
             format = Helper.getDecimalFormat();
             setBoxCurrent();
-            setInfoBox();
+            setBoxTrend();
         }
         else {
             textViewLatestValue.setText(Helper.PLACEHOLDER);
@@ -110,16 +93,6 @@ public class MainFragment extends Fragment {
         dataSource.close();
     }
 
-    private void getComponents() {
-        textViewLatestValue = (TextView) getView().findViewById(R.id.textview_latest_value);
-        textViewLatestAgo = (TextView) getView().findViewById(R.id.textview_latest_ago);
-
-        textViewAverageMonth = (TextView) getView().findViewById(R.id.textview_avg_month);
-        textViewAverageWeek = (TextView) getView().findViewById(R.id.textview_avg_week);
-        textViewAverageDay = (TextView) getView().findViewById(R.id.textview_avg_day);
-        imageViewTrend = (ImageView) getView().findViewById(R.id.imageview_trend);
-    }
-
     private void setBoxCurrent() {
         Calendar now = Calendar.getInstance();
         Event latestEvent = dataSource.getLatestEvent(Event.Category.BloodSugar);
@@ -130,12 +103,12 @@ public class MainFragment extends Fragment {
         int difference = Helper.getDifferenceInMinutes(latestEvent.getDate(), now);
 
         textViewLatestAgo.setTextColor(getResources().getColor(android.R.color.darker_gray));
-        // Highlight if last measurement is more than ten hours ago
+        // Highlight if last measurement is more than eight hours ago
         if(difference < 2) {
             textViewLatestAgo.setText(getString(R.string.latest_moments));
             return;
         }
-        else if(difference > 600)
+        else if(difference > 480)
             textViewLatestAgo.setTextColor(getResources().getColor(R.color.red));
 
         String textAgo = getString(R.string.latest);
@@ -155,7 +128,7 @@ public class MainFragment extends Fragment {
         textViewLatestAgo.setText(textAgo);
     }
 
-    private void setInfoBox() {
+    private void setBoxTrend() {
         float avgMonth = preferenceHelper.
                 formatDefaultToCustomUnit(Event.Category.BloodSugar,
                         dataSource.getBloodSugarAverage(30));
@@ -191,7 +164,7 @@ public class MainFragment extends Fragment {
         // which difference should be visualized?
         float sensitivity = 30 * preferenceHelper.getUnitValue(Event.Category.BloodSugar);
 
-        // TODO: Infinitely adjustment, better calculation, testing
+        // TODO: Infinite adjustment, better calculation, testing, tip
         if(difference > sensitivity) {
             imageViewTrend.setImageResource(R.drawable.arrow_up);
         }

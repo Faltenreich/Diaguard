@@ -114,6 +114,13 @@ public class CalculatorActivity extends ActionBarActivity implements IActivity {
             public void onNothingSelected(AdapterView<?> parentView) {
             }
         });
+
+        findViewById(R.id.button_calculate).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submit();
+            }
+        });
     }
 
     private boolean validate() {

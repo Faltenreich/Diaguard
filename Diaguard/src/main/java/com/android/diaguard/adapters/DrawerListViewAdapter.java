@@ -1,6 +1,7 @@
 package com.android.diaguard.adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,8 @@ public class DrawerListViewAdapter extends BaseAdapter {
 
         txtTitle.setText(titles[position]);
         imgIcon.setImageResource(icons[position]);
+
+        if (position == 0) { txtTitle.setTypeface(null, Typeface.BOLD); }
 
         return itemView;
     }

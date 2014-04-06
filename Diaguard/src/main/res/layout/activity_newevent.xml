@@ -53,6 +53,8 @@
 
         </LinearLayout>
 
+        <View style="@style/BoxShadow"/>
+
         <LinearLayout android:id="@+id/content_dynamic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

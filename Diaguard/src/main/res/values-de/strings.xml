@@ -8,6 +8,7 @@
     <string name="add_value">Wert hinzufügen</string>
     <string name="all">Alle</string>
     <string name="application">Anwendung</string>
+    <string name="average">Durchschnitt</string>
     <string name="back">Zurück</string>
     <string name="backup">Sicherung</string>
     <string name="backupchoose">Sicherung wählen</string>
@@ -65,6 +66,7 @@
     <string name="therapy">Therapie</string>
     <string name="time">Zeit</string>
     <string name="timeline">Tagebuch</string>
+    <string name="tip">Tipp</string>
     <string name="undefined">Keine Angabe</string>
     <string name="units">Einheiten</string>
     <string name="value">Wert</string>
@@ -209,6 +211,19 @@
         <item>Jahr</item>
     </string-array>
 
+    <!-- TIPPS -->
+    <array name="tip_good">
+        <item>Du hast es im Griff!</item>
+    </array>
+    <array name="tip_trend_good">
+        <item>Du hast es immer besser im Griff!</item>
+    </array>
+    <array name="tip_trend_bad">
+        <item>Es ist noch Luft nach oben</item>
+    </array>
+    <array name="tip_measurements">
+        <item>Du solltest häufiger Deinen Blutzucker messen</item>
+    </array>
 
     <!-- KEYWORDS -->
     <string-array name="keywords">

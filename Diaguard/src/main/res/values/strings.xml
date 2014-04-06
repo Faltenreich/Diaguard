@@ -8,6 +8,7 @@
     <string name="add_value">Add value</string>
     <string name="all">All</string>
     <string name="application">Application</string>
+    <string name="average">Average</string>
     <string name="back">Back</string>
     <string name="backup">Backup</string>
     <string name="backupchoose">Choose backup</string>
@@ -70,6 +71,7 @@
     <string name="tags">Tags</string>
     <string name="textsize">Text Size</string>
     <string name="timeline">Timeline</string>
+    <string name="tip">Tip</string>
     <string name="today">Today</string>
     <string name="trend">Trend</string>
     <string name="undefined">Undefined</string>
@@ -310,6 +312,20 @@
         <item>Month</item>
         <item>Year</item>
     </string-array>
+
+    <!-- TIPPS -->
+    <array name="tip_good">
+        <item>You\'re doing good!</item>
+    </array>
+    <array name="tip_trend_good">
+        <item>You\'re getting better!</item>
+    </array>
+    <array name="tip_trend_bad">
+        <item>You can do better</item>
+    </array>
+    <array name="tip_measurements">
+        <item>You should measure your blood more often</item>
+    </array>
 
     <!-- VALIDATORS -->
     <string name="validator_value_infuture">Event cannot take place in the future</string>

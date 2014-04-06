@@ -54,4 +54,6 @@
 
     </RelativeLayout>
 
+    <View style="@style/BoxShadow"/>
+
 </LinearLayout>

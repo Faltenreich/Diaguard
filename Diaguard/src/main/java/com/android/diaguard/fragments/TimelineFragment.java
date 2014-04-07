@@ -71,6 +71,12 @@ public class TimelineFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        updateContent();
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         updateContent();
@@ -470,6 +476,9 @@ public class TimelineFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_filter:
                 openFilters();
+                return true;
+            case R.id.action_newevent:
+                startActivity(new Intent(getActivity(), NewEventActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

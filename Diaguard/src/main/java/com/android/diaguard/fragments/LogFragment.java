@@ -10,6 +10,8 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -50,6 +52,7 @@ public class LogFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_log, container, false);
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -60,9 +63,20 @@ public class LogFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        updateListView();
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         updateListView();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.report, menu);
     }
 
     public void initialize() {
@@ -254,6 +268,9 @@ public class LogFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_filter:
                 openFilters();
+                return true;
+            case R.id.action_newevent:
+                startActivity(new Intent(getActivity(), NewEventActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

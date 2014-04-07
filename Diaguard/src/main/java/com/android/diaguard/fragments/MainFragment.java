@@ -5,6 +5,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,6 +16,7 @@ import android.widget.TextView;
 
 import com.android.diaguard.MainActivity;
 import com.android.diaguard.NewEventActivity;
+import com.android.diaguard.PreferencesActivity;
 import com.android.diaguard.R;
 import com.android.diaguard.database.DatabaseDataSource;
 import com.android.diaguard.database.Event;
@@ -46,6 +50,7 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -61,6 +66,11 @@ public class MainFragment extends Fragment {
         updateContent();
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.main, menu);
+    }
+
     private void initialize()  {
         getComponents();
 
@@ -74,7 +84,7 @@ public class MainFragment extends Fragment {
         getView().findViewById(R.id.layout_today).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).replaceFragment(new TimelineFragment(), true);
+                ((MainActivity) getActivity()).replaceFragment(MainActivity.FragmentType.Timeline, true);
             }
         });
     }
@@ -198,7 +208,6 @@ public class MainFragment extends Fragment {
     }
 
     private void setBoxToday() {
-
         chartHelper = new ChartHelper(getActivity());
         renderChart();
         setChartData();
@@ -300,5 +309,16 @@ public class MainFragment extends Fragment {
         linearLayoutChart.removeAllViews();
         linearLayoutChart.addView(chartHelper.chartView);
         chartHelper.chartView.repaint();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                startActivity(new Intent (getActivity(), PreferencesActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

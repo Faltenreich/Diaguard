@@ -8,4 +8,9 @@
         android:title="@string/filter"
         diaguard:showAsAction="ifRoom"/>
 
+    <item android:id="@+id/action_newevent"
+        android:icon="@drawable/ic_action_new"
+        android:title="@string/newevent"
+        diaguard:showAsAction="ifRoom"/>
+
 </menu>

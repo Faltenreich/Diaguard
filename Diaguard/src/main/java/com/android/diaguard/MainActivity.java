@@ -1,8 +1,6 @@
 package com.android.diaguard;
 
-import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -11,13 +9,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.android.diaguard.adapters.DrawerListViewAdapter;
 import com.android.diaguard.fragments.CalculatorFragment;
@@ -31,9 +26,17 @@ import java.util.List;
 
 public class MainActivity extends ActionBarActivity {
 
-    DrawerLayout drawerLayout;
+    public enum FragmentType {
+        Main,
+        Timeline,
+        Log,
+        Calculator,
+        Export
+    }
+
+    private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
-    ListView drawerList;
+    private ListView drawerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,16 +59,9 @@ public class MainActivity extends ActionBarActivity {
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
     private void initialize() {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-        replaceFragment(new MainFragment(), false);
+        replaceFragment(FragmentType.Main, false);
         initializeDrawer();
     }
 
@@ -92,29 +88,7 @@ public class MainActivity extends ActionBarActivity {
         drawerList.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Fragment fragment;
-                switch (position) {
-                    case 0:
-                        fragment = new MainFragment();
-                        break;
-                    case 1:
-                        fragment = new TimelineFragment();
-                        break;
-                    case 2:
-                        fragment = new LogFragment();
-                        break;
-                    case 3:
-                        fragment = new CalculatorFragment();
-                        break;
-                    case 4:
-                        fragment = new ExportFragment();
-                        break;
-                    default:
-                        return;
-                }
-                replaceFragment(fragment, true);
-                //((TextView) view.findViewById(R.id.title)).setTypeface(null, Typeface.BOLD);
+                replaceFragment(FragmentType.values()[position], true);
                 drawerLayout.closeDrawer(drawerList);
             }
         });
@@ -145,8 +119,36 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
     }
 
-    public void replaceFragment(Fragment fragment, boolean addToBackStack) {
+    /**
+     * Open a new Fragment
+     * @param fragmentType Enum to detect the specific Fragment to open
+     * @param addToBackStack TRUE for every Fragment except the first one opened
+     */
+    public void replaceFragment(FragmentType fragmentType, boolean addToBackStack) {
+
         FragmentManager fragmentManager = getSupportFragmentManager();
+
+        Fragment fragment;
+        switch (fragmentType) {
+            case Main:
+                fragment = new MainFragment();
+                break;
+            case Timeline:
+                fragment = new TimelineFragment();
+                break;
+            case Log:
+                fragment = new LogFragment();
+                break;
+            case Calculator:
+                fragment = new CalculatorFragment();
+                break;
+            case Export:
+                fragment = new ExportFragment();
+                break;
+            default:
+                return;
+        }
+
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.content_frame, fragment);
         if(addToBackStack)
@@ -154,6 +156,7 @@ public class MainActivity extends ActionBarActivity {
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         transaction.commit();
 
+        /*
         // Highlight current item
         if(drawerList != null) {
             for (int i = 0; i < drawerList.getChildCount(); i++) {
@@ -162,7 +165,10 @@ public class MainActivity extends ActionBarActivity {
                 if (textViewListItem != null)
                     textViewListItem.setTypeface(null, Typeface.NORMAL);
             }
+            ((TextView) drawerList.getChildAt(fragmentType.ordinal()).
+                    findViewById(R.id.title)).setTypeface(null, Typeface.BOLD);
         }
+        */
     }
 
     @Override
@@ -173,9 +179,6 @@ public class MainActivity extends ActionBarActivity {
                     drawerLayout.closeDrawer(drawerList);
                 else
                     drawerLayout.openDrawer(drawerList);
-                return true;
-            case R.id.action_settings:
-                startActivity(new Intent (this, PreferencesActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

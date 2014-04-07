@@ -20,6 +20,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.diaguard.adapters.DrawerListViewAdapter;
+import com.android.diaguard.fragments.CalculatorFragment;
+import com.android.diaguard.fragments.ExportFragment;
 import com.android.diaguard.fragments.LogFragment;
 import com.android.diaguard.fragments.MainFragment;
 import com.android.diaguard.fragments.TimelineFragment;
@@ -36,7 +38,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.drawer);
+        setContentView(R.layout.activity_main);
         setTitle(getString(R.string.app_name));
         initialize();
     }
@@ -63,9 +65,7 @@ public class MainActivity extends ActionBarActivity {
 
     private void initialize() {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.content_frame, new MainFragment())
-                .commit();
+        replaceFragment(new MainFragment(), false);
         initializeDrawer();
     }
 
@@ -92,13 +92,11 @@ public class MainActivity extends ActionBarActivity {
         drawerList.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 Fragment fragment;
                 switch (position) {
                     case 0:
                         fragment = new MainFragment();
-                        FragmentManager fragmentManager = getSupportFragmentManager();
-                        for (int i = 0; i < fragmentManager.getBackStackEntryCount(); ++i)
-                            fragmentManager.popBackStack();
                         break;
                     case 1:
                         fragment = new TimelineFragment();
@@ -107,29 +105,16 @@ public class MainActivity extends ActionBarActivity {
                         fragment = new LogFragment();
                         break;
                     case 3:
-                        startActivity(new Intent(MainActivity.this, CalculatorActivity.class));
-                        return;
+                        fragment = new CalculatorFragment();
+                        break;
                     case 4:
-                        startActivity(new Intent(MainActivity.this, ExportActivity.class));
-                        return;
+                        fragment = new ExportFragment();
+                        break;
                     default:
                         return;
                 }
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.content_frame, fragment)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        .commit();
-
-                // Highlight current item
-                for (int i=0; i< drawerList.getChildCount(); i++)
-                {
-                    View v = drawerList.getChildAt(i);
-                    TextView textViewListItem = (TextView) v.findViewById(R.id.title);
-                    if(textViewListItem != null)
-                        textViewListItem.setTypeface(null, Typeface.NORMAL);
-                }
-                ((TextView) view.findViewById(R.id.title)).setTypeface(null, Typeface.BOLD);
-
+                replaceFragment(fragment, true);
+                //((TextView) view.findViewById(R.id.title)).setTypeface(null, Typeface.BOLD);
                 drawerLayout.closeDrawer(drawerList);
             }
         });
@@ -137,18 +122,18 @@ public class MainActivity extends ActionBarActivity {
         drawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
                 drawerLayout,         /* DrawerLayout object */
-                R.drawable.ic_drawer,  /* nav drawer icon to replace 'Up' caret */
-                R.string.drawer_open,  /* "open drawer" description */
-                R.string.drawer_close  /* "close drawer" description */
+                R.drawable.ic_drawer,  /* nav activity_main icon to replace 'Up' caret */
+                R.string.drawer_open,  /* "open activity_main" description */
+                R.string.drawer_close  /* "close activity_main" description */
         ) {
 
-            /** Called when a drawer has settled in a completely closed state. */
+            /** Called when a activity_main has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
                 getSupportActionBar().setTitle(getString(R.string.app_name));
             }
 
-            /** Called when a drawer has settled in a completely open state. */
+            /** Called when a activity_main has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 getSupportActionBar().setTitle(getString(R.string.app_name));
@@ -158,6 +143,26 @@ public class MainActivity extends ActionBarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+    }
+
+    public void replaceFragment(Fragment fragment, boolean addToBackStack) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.content_frame, fragment);
+        if(addToBackStack)
+            transaction.addToBackStack(null);
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        transaction.commit();
+
+        // Highlight current item
+        if(drawerList != null) {
+            for (int i = 0; i < drawerList.getChildCount(); i++) {
+                View v = drawerList.getChildAt(i);
+                TextView textViewListItem = (TextView) v.findViewById(R.id.title);
+                if (textViewListItem != null)
+                    textViewListItem.setTypeface(null, Typeface.NORMAL);
+            }
+        }
     }
 
     @Override

@@ -136,6 +136,68 @@
 
         </LinearLayout>
 
+        <!-- Today -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="@dimen/margin_between">
+
+            <TextView
+                android:text="@string/today"
+                style="@style/BoxLabel"/>
+
+            <LinearLayout android:id="@+id/layout_today"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@drawable/button_white"
+                android:padding="0dp">
+
+                <LinearLayout android:id="@+id/layout_chart"
+                    android:layout_width="fill_parent"
+                    android:layout_height="128dp"
+                    android:orientation="horizontal"/>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/padding">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/morning"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        style="@style/BoxTextDesc"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/noon"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        style="@style/BoxTextDesc"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/evening"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        style="@style/BoxTextDesc"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View style="@style/BoxShadow"/>
+
+        </LinearLayout>
+
         <!-- Averages -->
         <LinearLayout
             android:layout_width="match_parent"

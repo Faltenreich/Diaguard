@@ -1,24 +1,23 @@
-package com.android.diaguard;
+package com.android.diaguard.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 
+import com.android.diaguard.R;
 import com.android.diaguard.database.DatabaseDataSource;
 import com.android.diaguard.database.Event;
-import com.android.diaguard.fragments.DatePickerFragment;
 import com.android.diaguard.helpers.Helper;
 import com.android.diaguard.helpers.PreferenceHelper;
 import com.android.diaguard.helpers.ViewHelper;
@@ -49,7 +48,7 @@ import java.util.Calendar;
 /**
  * Created by Filip on 30.11.13.
  */
-public class ExportActivity extends ActionBarActivity implements IActivity {
+public class ExportFragment extends Fragment {
 
     private DatabaseDataSource dataSource;
     private PreferenceHelper preferenceHelper;
@@ -62,26 +61,24 @@ public class ExportActivity extends ActionBarActivity implements IActivity {
     private Button buttonDateStart;
     private Button buttonDateEnd;
     private CheckBox checkBoxMail;
+    Button buttonExport;
 
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_export);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle(getString(R.string.export));
-        initialize();
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_export, container, false);
+        return view;
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.formular, menu);
-        return super.onCreateOptionsMenu(menu);
+    public void onActivityCreated (Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initialize();
     }
 
     public void initialize() {
 
-        dataSource = new DatabaseDataSource(this);
-        preferenceHelper = new PreferenceHelper(this);
+        dataSource = new DatabaseDataSource(getActivity());
+        preferenceHelper = new PreferenceHelper(getActivity());
 
         dateEnd = Calendar.getInstance();
         dateStart = Calendar.getInstance();
@@ -93,29 +90,51 @@ public class ExportActivity extends ActionBarActivity implements IActivity {
     }
 
     public void getComponents() {
-        spinnerFormat = (Spinner) findViewById(R.id.spinner_format);
-        buttonDateStart = (Button) findViewById(R.id.button_datestart);
-        buttonDateEnd = (Button) findViewById(R.id.button_dateend);
-        checkBoxMail = (CheckBox) findViewById(R.id.checkbox_mail);
+        spinnerFormat = (Spinner) getView().findViewById(R.id.spinner_format);
+        buttonDateStart = (Button) getView().findViewById(R.id.button_datestart);
+        buttonDateEnd = (Button) getView().findViewById(R.id.button_dateend);
+        checkBoxMail = (CheckBox) getView().findViewById(R.id.checkbox_mail);
+        buttonExport = (Button) getView().findViewById(R.id.button_export);
     }
 
     public void initializeGUI() {
-        buttonDateEnd.setText(dateFormat.format(dateEnd.getTime()));
+
         buttonDateStart.setText(dateFormat.format(dateStart.getTime()));
+        buttonDateStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showStartDatePicker();
+            }
+        });
+
+        buttonDateEnd.setText(dateFormat.format(dateEnd.getTime()));
+        buttonDateEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showEndDatePicker();
+            }
+        });
+
+        buttonExport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                export();
+            }
+        });
     }
 
     private boolean validate() {
         boolean isValid = true;
 
         if(dateStart.after(dateEnd)) {
-            ViewHelper.showToastError(this, getString(R.string.validator_value_enddate));
+            ViewHelper.showToastError(getActivity(), getActivity().getString(R.string.validator_value_enddate));
             isValid = false;
         }
 
         return isValid;
     }
 
-    private void submit() {
+    private void export() {
         if(validate()) {
             if(spinnerFormat.getSelectedItem().toString().toLowerCase().equals("pdf")) {
                 PDFExportTask pdfExportTask = new PDFExportTask();
@@ -132,8 +151,8 @@ public class ExportActivity extends ActionBarActivity implements IActivity {
         SimpleDateFormat format = preferenceHelper.getDateFormat();
         String subject = getString(R.string.app_name) + " " + getString(R.string.export) + ": " +
                 format.format(dateStart.getTime()) + " - " + format.format(dateEnd.getTime());
-        intent.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);
-        intent.putExtra(android.content.Intent.EXTRA_TEXT,
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        intent.putExtra(Intent.EXTRA_TEXT,
                 getString(R.string.pref_data_export_mail_message));
         startActivity(intent);
     }
@@ -146,7 +165,7 @@ public class ExportActivity extends ActionBarActivity implements IActivity {
 
     // LISTENERS
 
-    public void onClickShowStartDatePicker (View view) {
+    public void showStartDatePicker () {
         new DatePickerFragment(dateStart) {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
@@ -155,10 +174,10 @@ public class ExportActivity extends ActionBarActivity implements IActivity {
                 dateStart.set(Calendar.DAY_OF_MONTH, day);
                 buttonDateStart.setText(dateFormat.format(dateStart.getTime()));
             }
-        }.show(getSupportFragmentManager(), "StartDatePicker");
+        }.show(getActivity().getSupportFragmentManager(), "StartDatePicker");
     }
 
-    public void onClickShowEndDatePicker (View view) {
+    public void showEndDatePicker () {
         new DatePickerFragment(dateEnd) {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
@@ -167,21 +186,7 @@ public class ExportActivity extends ActionBarActivity implements IActivity {
                 dateEnd.set(Calendar.DAY_OF_MONTH, day);
                 buttonDateEnd.setText(dateFormat.format(dateEnd.getTime()));
             }
-        }.show(getSupportFragmentManager(), "EndDatePicker");
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_cancel:
-                finish();
-                return true;
-            case R.id.action_done:
-                submit();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+        }.show(getActivity().getSupportFragmentManager(), "EndDatePicker");
     }
 
     // ASYNCTASKS
@@ -344,13 +349,11 @@ public class ExportActivity extends ActionBarActivity implements IActivity {
                 sendAttachment(file);
             else
                 openPDF(file);
-
-            finish();
         }
 
         @Override
         protected void onPreExecute() {
-            progressDialog = new ProgressDialog(ExportActivity.this);
+            progressDialog = new ProgressDialog(getActivity());
             progressDialog.setMessage(getResources().getString(R.string.export_progress));
             progressDialog.setIndeterminate(true);
             progressDialog.setCancelable(false);
@@ -413,7 +416,7 @@ public class ExportActivity extends ActionBarActivity implements IActivity {
         public void onEndPage (PdfWriter writer, Document document) {
             PdfContentByte cb = writer.getDirectContent();
             cb.saveState();
-            String text = ExportActivity.this.getString(R.string.app_name);
+            String text = ExportFragment.this.getString(R.string.app_name);
             cb.beginText();
             cb.setFontAndSize(helv, 12);
             //cb.showText(text);

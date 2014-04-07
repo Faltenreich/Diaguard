@@ -38,7 +38,7 @@ import java.util.List;
 /**
  * Created by Filip on 19.10.13.
  */
-public class NewEventActivity extends ActionBarActivity implements IActivity {
+public class NewEventActivity extends ActionBarActivity {
 
     DatabaseDataSource dataSource;
     PreferenceHelper preferenceHelper;
@@ -55,7 +55,7 @@ public class NewEventActivity extends ActionBarActivity implements IActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newevent);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(getString(R.string.newevent));
         initialize();
     }
@@ -103,7 +103,6 @@ public class NewEventActivity extends ActionBarActivity implements IActivity {
                 time = (Calendar)extras.getSerializable("Date");
 
             if (extras.getLong("ID") != 0L) {
-                TextView title = (TextView) findViewById(R.id.textview_title);
                 setTitle(getString(R.string.editevent));
 
                 dataSource.open();

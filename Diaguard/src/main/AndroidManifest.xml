@@ -44,25 +44,6 @@
                 android:name="com.android.diaguard.MainActivity"
                 android:value="com.android.diaguard.MainActivity" />
         </activity>
-        <activity
-            android:name=".CalculatorActivity"
-            android:label="Calculator"
-            android:parentActivityName="com.android.diaguard.MainActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="com.android.diaguard.MainActivity"
-                android:value="com.android.diaguard.MainActivity" />
-        </activity>
-        <activity
-            android:name=".ExportActivity"
-            android:label="Export"
-            android:parentActivityName="com.android.diaguard.MainActivity"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="com.android.diaguard.MainActivity"
-                android:value="com.android.diaguard.MainActivity" />
-        </activity>
     </application>
 
 </manifest>

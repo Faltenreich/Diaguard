@@ -1,29 +1,39 @@
 package com.android.diaguard.fragments;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.diaguard.MainActivity;
 import com.android.diaguard.NewEventActivity;
 import com.android.diaguard.R;
 import com.android.diaguard.database.DatabaseDataSource;
 import com.android.diaguard.database.Event;
+import com.android.diaguard.helpers.ChartHelper;
 import com.android.diaguard.helpers.Helper;
 import com.android.diaguard.helpers.PreferenceHelper;
 
+import org.achartengine.chart.PointStyle;
+import org.achartengine.model.XYSeries;
+import org.achartengine.renderer.XYSeriesRenderer;
+
 import java.text.DecimalFormat;
 import java.util.Calendar;
+import java.util.List;
 
 public class MainFragment extends Fragment {
 
     DatabaseDataSource dataSource;
     PreferenceHelper preferenceHelper;
     DecimalFormat format;
+    ChartHelper chartHelper;
 
     TextView textViewLatestValue;
     TextView textViewLatestAgo;
@@ -31,6 +41,7 @@ public class MainFragment extends Fragment {
     TextView textViewAverageMonth;
     TextView textViewAverageWeek;
     TextView textViewAverageDay;
+    LinearLayout linearLayoutChart;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,6 +70,13 @@ public class MainFragment extends Fragment {
                 startActivity(new Intent(getActivity(), NewEventActivity.class));
             }
         });
+
+        getView().findViewById(R.id.layout_today).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).replaceFragment(new TimelineFragment(), true);
+            }
+        });
     }
 
     private void getComponents() {
@@ -69,6 +87,8 @@ public class MainFragment extends Fragment {
         textViewAverageMonth = (TextView) getView().findViewById(R.id.textview_avg_month);
         textViewAverageWeek = (TextView) getView().findViewById(R.id.textview_avg_week);
         textViewAverageDay = (TextView) getView().findViewById(R.id.textview_avg_day);
+
+        linearLayoutChart = (LinearLayout) getView().findViewById(R.id.layout_chart);
     }
 
     private void updateContent() {
@@ -89,6 +109,7 @@ public class MainFragment extends Fragment {
             textViewAverageWeek.setText(Helper.PLACEHOLDER);
             textViewAverageDay.setText(Helper.PLACEHOLDER);
         }
+        setBoxToday();
 
         dataSource.close();
     }
@@ -174,5 +195,110 @@ public class MainFragment extends Fragment {
         else {
             imageViewTrend.setImageResource(R.drawable.arrow_neutral);
         }
+    }
+
+    private void setBoxToday() {
+
+        chartHelper = new ChartHelper(getActivity());
+        renderChart();
+        setChartData();
+        initializeChart();
+    }
+
+    private void renderChart() {
+        chartHelper.render();
+        chartHelper.renderer.removeAllRenderers();
+
+        XYSeriesRenderer seriesRendererBloodSugar = new XYSeriesRenderer();
+        seriesRendererBloodSugar.setPointStyle(PointStyle.DIAMOND);
+        seriesRendererBloodSugar.setColor(Color.BLACK);
+        seriesRendererBloodSugar.setFillPoints(true);
+        seriesRendererBloodSugar.setLineWidth(Helper.getDPI(getActivity(), 1.5f));
+
+        chartHelper.renderer.addSeriesRenderer(seriesRendererBloodSugar);
+        chartHelper.renderer.setLabelsTextSize(Helper.getDPI(getActivity(), 14));
+        chartHelper.renderer.setYAxisMax(
+                preferenceHelper.formatDefaultToCustomUnit(Event.Category.BloodSugar, 280));
+        chartHelper.renderer.setShowAxes(false);
+        chartHelper.renderer.setShowLabels(false);
+        chartHelper.renderer.setShowGrid(false);
+        chartHelper.renderer.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        chartHelper.renderer.setMargins(new int[] { 0, 0, 0, 0});
+
+        renderChartLimits();
+    }
+
+    private void renderChartLimits() {
+        XYSeriesRenderer seriesRendererHyperglycemia = new XYSeriesRenderer();
+        seriesRendererHyperglycemia.setColor(Color.argb(0, 0, 0, 0));
+        XYSeriesRenderer.FillOutsideLine fill = new XYSeriesRenderer.FillOutsideLine(XYSeriesRenderer.FillOutsideLine.Type.ABOVE);
+        fill.setColor(Color.argb(40, 252, 126, 126));
+        seriesRendererHyperglycemia.addFillOutsideLine(fill);
+        chartHelper.renderer.addSeriesRenderer(seriesRendererHyperglycemia);
+
+        XYSeriesRenderer seriesRendererHypoglycemia = new XYSeriesRenderer();
+        seriesRendererHypoglycemia.setLineWidth(0);
+        seriesRendererHypoglycemia.setColor(Color.argb(0, 0, 0, 0));
+        fill = new XYSeriesRenderer.FillOutsideLine(XYSeriesRenderer.FillOutsideLine.Type.BELOW);
+        fill.setColor(Color.argb(40, 126, 126, 252));
+        seriesRendererHypoglycemia.addFillOutsideLine(fill);
+        chartHelper.renderer.addSeriesRenderer(seriesRendererHypoglycemia);
+    }
+
+    private void setChartData() {
+        chartHelper.seriesDataset.clear();
+
+        XYSeries seriesBloodSugar = new XYSeries("Blood Sugar");
+        chartHelper.seriesDataset.addSeries(seriesBloodSugar);
+
+        dataSource.open();
+        List<Event> bloodSugarOfDay = dataSource.getEventsOfDay(Calendar.getInstance(), Event.Category.BloodSugar);
+        dataSource.close();
+
+        if(bloodSugarOfDay.size() == 0)
+            return;
+        else if(bloodSugarOfDay.size() > 1)
+            chartHelper.renderer.setPointSize(0);
+
+        float rangeMaximum =
+                preferenceHelper.formatDefaultToCustomUnit(Event.Category.BloodSugar, 260);
+        float highestValue = rangeMaximum;
+
+        for(Event event : bloodSugarOfDay) {
+
+            float x_value = Helper.formatCalendarToHourMinutes(event.getDate());
+
+            if(event.getValue() > highestValue)
+                highestValue = event.getValue();
+
+            seriesBloodSugar.add(x_value, preferenceHelper.
+                    formatDefaultToCustomUnit(Event.Category.BloodSugar, event.getValue()));
+        }
+
+        chartHelper.renderer.setYAxisMax(
+                preferenceHelper.formatDefaultToCustomUnit(Event.Category.BloodSugar, highestValue + 20));
+
+        setChartLimits();
+    }
+
+    private void setChartLimits() {
+        float limitHyperglycemia = preferenceHelper.getLimitHyperglycemia();
+        XYSeries seriesHyperglycemia = new XYSeries("Hyperglycemia");
+        chartHelper.seriesDataset.addSeries(seriesHyperglycemia);
+        seriesHyperglycemia.add(-10, limitHyperglycemia);
+        seriesHyperglycemia.add(26, limitHyperglycemia);
+
+        float limitHypoglycemia = preferenceHelper.getLimitHypoglycemia();
+        XYSeries seriesHypoglycemia = new XYSeries("Hypoglycemia");
+        chartHelper.seriesDataset.addSeries(seriesHypoglycemia);
+        seriesHypoglycemia.add(-10, limitHypoglycemia);
+        seriesHypoglycemia.add(26, limitHypoglycemia);
+    }
+
+    private void initializeChart() {
+        chartHelper.initialize();
+        linearLayoutChart.removeAllViews();
+        linearLayoutChart.addView(chartHelper.chartView);
+        chartHelper.chartView.repaint();
     }
 }

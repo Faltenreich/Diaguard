@@ -19,6 +19,7 @@
     <string name="bloodsugar_last">Zuletzt:</string>
     <string name="bolus_no1">Es wird empfohlen, keinen Bolus zu verabreichen.</string>
     <string name="bolus_no2">Stattdessen sollten schnelle Kohlenhydrate konsumiert werden, um tiefere Blutzuckerlevel zu vermeiden.</string>
+    <string name="calculate">Berechnen</string>
     <string name="calculator">Bolusrechner</string>
     <string name="calendar">Kalender</string>
     <string name="cancel">Abbrechen</string>

@@ -7,11 +7,9 @@
     android:layout_height="match_parent">
 
     <!-- The main content view -->
-    <FrameLayout
-        android:id="@+id/content_frame"
+    <FrameLayout android:id="@+id/content_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        </FrameLayout>
+        android:layout_height="match_parent"/>
 
     <!-- The navigation activity_main -->
     <ListView android:id="@+id/left_drawer"

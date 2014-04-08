@@ -1,6 +1,7 @@
 package com.android.diaguard;
 
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.diaguard.adapters.DrawerListViewAdapter;
 import com.android.diaguard.fragments.CalculatorFragment;
@@ -128,7 +130,11 @@ public class MainActivity extends ActionBarActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 
-        Fragment fragment;
+        // Do nothing if the user wants to reopen the current visible Fragment
+        Fragment fragment = fragmentManager.findFragmentByTag(fragmentType.toString());
+        if(fragment != null && fragment.isVisible())
+            return;
+
         switch (fragmentType) {
             case Main:
                 fragment = new MainFragment();
@@ -150,13 +156,12 @@ public class MainActivity extends ActionBarActivity {
         }
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.content_frame, fragment);
+        transaction.replace(R.id.content_frame, fragment, fragmentType.toString());
         if(addToBackStack)
             transaction.addToBackStack(null);
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         transaction.commit();
 
-        /*
         // Highlight current item
         if(drawerList != null) {
             for (int i = 0; i < drawerList.getChildCount(); i++) {
@@ -168,7 +173,6 @@ public class MainActivity extends ActionBarActivity {
             ((TextView) drawerList.getChildAt(fragmentType.ordinal()).
                     findViewById(R.id.title)).setTypeface(null, Typeface.BOLD);
         }
-        */
     }
 
     @Override

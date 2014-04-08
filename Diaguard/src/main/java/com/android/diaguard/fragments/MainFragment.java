@@ -2,6 +2,7 @@ package com.android.diaguard.fragments;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -208,10 +209,8 @@ public class MainFragment extends Fragment {
     }
 
     private void setBoxToday() {
-        chartHelper = new ChartHelper(getActivity());
-        renderChart();
-        setChartData();
-        initializeChart();
+        ChartTask chartTask = new ChartTask();
+        chartTask.execute();
     }
 
     private void renderChart() {
@@ -264,9 +263,7 @@ public class MainFragment extends Fragment {
         List<Event> bloodSugarOfDay = dataSource.getEventsOfDay(Calendar.getInstance(), Event.Category.BloodSugar);
         dataSource.close();
 
-        if(bloodSugarOfDay.size() == 0)
-            return;
-        else if(bloodSugarOfDay.size() > 1)
+        if(bloodSugarOfDay.size() > 1)
             chartHelper.renderer.setPointSize(0);
 
         float rangeMaximum =
@@ -319,6 +316,23 @@ public class MainFragment extends Fragment {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private class ChartTask extends AsyncTask<Void, Void, Void> {
+        /** The system calls this to perform work in a worker thread and
+         * delivers it the parameters given to AsyncTask.execute() */
+        protected Void doInBackground(Void... urls) {
+            chartHelper = new ChartHelper(getActivity());
+            renderChart();
+            setChartData();
+            return null;
+        }
+
+        /** The system calls this to perform work in the UI thread and delivers
+         * the result from doInBackground() */
+        protected void onPostExecute(Void param) {
+            initializeChart();
         }
     }
 }

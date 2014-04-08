@@ -5,7 +5,7 @@
     android:layout_height="@dimen/height_element"
     android:paddingLeft="32dp"
     android:paddingRight="32dp"
-    android:background="@drawable/actionbutton">
+    android:background="@drawable/button_white">
 
     <LinearLayout
         android:id="@+id/layoutRight"

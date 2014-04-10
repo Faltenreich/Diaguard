@@ -1,22 +1,20 @@
-package com.android.diaguard.fragments;
+package com.android.diaguard;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.android.diaguard.R;
 import com.android.diaguard.database.DatabaseDataSource;
 import com.android.diaguard.database.Event;
 import com.android.diaguard.helpers.Helper;
@@ -32,7 +30,7 @@ import java.util.List;
  * Created by Filip on 15.11.13.
  */
 
-public class CalculatorFragment extends Fragment {
+public class CalculatorActivity extends ActionBarActivity {
 
     DatabaseDataSource dataSource;
     PreferenceHelper preferenceHelper;
@@ -51,28 +49,24 @@ public class CalculatorFragment extends Fragment {
 
     Spinner spinnerFactors;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_calculator, container, false);
-        setHasOptionsMenu(true);
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated (Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        getActivity().setTitle(getString(R.string.calculator));
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_calculator);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle(getString(R.string.calculator));
         initialize();
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.formular, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     public void initialize() {
-        dataSource = new DatabaseDataSource(getActivity());
-        preferenceHelper = new PreferenceHelper(getActivity());
+        dataSource = new DatabaseDataSource(this);
+        preferenceHelper = new PreferenceHelper(this);
         decimalFormat = Helper.getDecimalFormat();
 
         getComponents();
@@ -80,16 +74,16 @@ public class CalculatorFragment extends Fragment {
     }
 
     public void getComponents() {
-        editTextBloodSugar = (EditText) getView().findViewById(R.id.edittext_bloodsugar);
-        editTextTargetValue = (EditText) getView().findViewById(R.id.edittext_target);
-        editTextMeal = (EditText) getView().findViewById(R.id.edittext_meal);
-        editTextCorrection = (EditText) getView().findViewById(R.id.edittext_correction);
-        editTextFactor = (EditText) getView().findViewById(R.id.edittext_factor);
-        textViewUnitBloodSugar = (TextView) getView().findViewById(R.id.textview_unit_bloodsugar);
-        textViewUnitTargetValue = (TextView) getView().findViewById(R.id.textview_unit_target);
-        textViewUnitCorrection = (TextView) getView().findViewById(R.id.textview_unit_correction);
-        textViewUnitMeal = (TextView) getView().findViewById(R.id.textview_unit_meal);
-        spinnerFactors = (Spinner) getView().findViewById(R.id.spinner_factors);
+        editTextBloodSugar = (EditText) findViewById(R.id.edittext_bloodsugar);
+        editTextTargetValue = (EditText) findViewById(R.id.edittext_target);
+        editTextMeal = (EditText) findViewById(R.id.edittext_meal);
+        editTextCorrection = (EditText) findViewById(R.id.edittext_correction);
+        editTextFactor = (EditText) findViewById(R.id.edittext_factor);
+        textViewUnitBloodSugar = (TextView) findViewById(R.id.textview_unit_bloodsugar);
+        textViewUnitTargetValue = (TextView) findViewById(R.id.textview_unit_target);
+        textViewUnitCorrection = (TextView) findViewById(R.id.textview_unit_correction);
+        textViewUnitMeal = (TextView) findViewById(R.id.textview_unit_meal);
+        spinnerFactors = (Spinner) findViewById(R.id.spinner_factors);
     }
 
     public void initializeGUI() {
@@ -131,7 +125,7 @@ public class CalculatorFragment extends Fragment {
             editTextBloodSugar.setError(getString(R.string.validator_value_empty));
             isValid = false;
         }
-        else if(!Validator.validateEventValue(getActivity(), Event.Category.BloodSugar,
+        else if(!Validator.validateEventValue(this, Event.Category.BloodSugar,
                 preferenceHelper.formatCustomToDefaultUnit(Event.Category.BloodSugar,
                         Float.parseFloat(bloodSugar)))) {
             editTextBloodSugar.setError(getString(R.string.validator_value_unrealistic));
@@ -211,8 +205,8 @@ public class CalculatorFragment extends Fragment {
         final float bolus = calculateBolus(currentBloodSugar, targetBloodSugar, meal, correction, factor);
 
         // Build AlertDialog
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
-        LayoutInflater inflater = getActivity().getLayoutInflater();
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
         View viewPopup = inflater.inflate(R.layout.popup_result, null);
 
         // Show formula for calculating bolus
@@ -306,6 +300,9 @@ public class CalculatorFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_cancel:
+                finish();
+                return true;
             case R.id.action_done:
                 submit();
                 return true;

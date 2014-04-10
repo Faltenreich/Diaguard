@@ -1,26 +1,24 @@
-package com.android.diaguard.fragments;
+package com.android.diaguard;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 
-import com.android.diaguard.R;
 import com.android.diaguard.database.DatabaseDataSource;
 import com.android.diaguard.database.Event;
+import com.android.diaguard.fragments.DatePickerFragment;
 import com.android.diaguard.helpers.Helper;
 import com.android.diaguard.helpers.PreferenceHelper;
 import com.android.diaguard.helpers.ViewHelper;
@@ -51,7 +49,7 @@ import java.util.Calendar;
 /**
  * Created by Filip on 30.11.13.
  */
-public class ExportFragment extends Fragment {
+public class ExportActivity extends ActionBarActivity {
 
     private DatabaseDataSource dataSource;
     private PreferenceHelper preferenceHelper;
@@ -65,29 +63,25 @@ public class ExportFragment extends Fragment {
     private Button buttonDateEnd;
     private CheckBox checkBoxMail;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_export, container, false);
-        setHasOptionsMenu(true);
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated (Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        getActivity().setTitle(getString(R.string.export));
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_export);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle(getString(R.string.export));
         initialize();
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.formular, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     public void initialize() {
 
-        dataSource = new DatabaseDataSource(getActivity());
-        preferenceHelper = new PreferenceHelper(getActivity());
+        dataSource = new DatabaseDataSource(this);
+        preferenceHelper = new PreferenceHelper(this);
 
         dateEnd = Calendar.getInstance();
         dateStart = Calendar.getInstance();
@@ -99,10 +93,10 @@ public class ExportFragment extends Fragment {
     }
 
     public void getComponents() {
-        spinnerFormat = (Spinner) getView().findViewById(R.id.spinner_format);
-        buttonDateStart = (Button) getView().findViewById(R.id.button_datestart);
-        buttonDateEnd = (Button) getView().findViewById(R.id.button_dateend);
-        checkBoxMail = (CheckBox) getView().findViewById(R.id.checkbox_mail);
+        spinnerFormat = (Spinner) findViewById(R.id.spinner_format);
+        buttonDateStart = (Button) findViewById(R.id.button_datestart);
+        buttonDateEnd = (Button) findViewById(R.id.button_dateend);
+        checkBoxMail = (CheckBox) findViewById(R.id.checkbox_mail);
     }
 
     public void initializeGUI() {
@@ -128,7 +122,7 @@ public class ExportFragment extends Fragment {
         boolean isValid = true;
 
         if(dateStart.after(dateEnd)) {
-            ViewHelper.showToastError(getActivity(), getActivity().getString(R.string.validator_value_enddate));
+            ViewHelper.showToastError(this, getString(R.string.validator_value_enddate));
             isValid = false;
         }
 
@@ -175,7 +169,7 @@ public class ExportFragment extends Fragment {
                 dateStart.set(Calendar.DAY_OF_MONTH, day);
                 buttonDateStart.setText(dateFormat.format(dateStart.getTime()));
             }
-        }.show(getActivity().getSupportFragmentManager(), "StartDatePicker");
+        }.show(getSupportFragmentManager(), "StartDatePicker");
     }
 
     public void showEndDatePicker () {
@@ -187,7 +181,7 @@ public class ExportFragment extends Fragment {
                 dateEnd.set(Calendar.DAY_OF_MONTH, day);
                 buttonDateEnd.setText(dateFormat.format(dateEnd.getTime()));
             }
-        }.show(getActivity().getSupportFragmentManager(), "EndDatePicker");
+        }.show(getSupportFragmentManager(), "EndDatePicker");
     }
 
     // ASYNCTASKS
@@ -350,11 +344,13 @@ public class ExportFragment extends Fragment {
                 sendAttachment(file);
             else
                 openPDF(file);
+
+            finish();
         }
 
         @Override
         protected void onPreExecute() {
-            progressDialog = new ProgressDialog(getActivity());
+            progressDialog = new ProgressDialog(ExportActivity.this);
             progressDialog.setMessage(getResources().getString(R.string.export_progress));
             progressDialog.setIndeterminate(true);
             progressDialog.setCancelable(false);
@@ -417,7 +413,7 @@ public class ExportFragment extends Fragment {
         public void onEndPage (PdfWriter writer, Document document) {
             PdfContentByte cb = writer.getDirectContent();
             cb.saveState();
-            String text = ExportFragment.this.getString(R.string.app_name);
+            String text = ExportActivity.this.getString(R.string.app_name);
             cb.beginText();
             cb.setFontAndSize(helv, 12);
             //cb.showText(text);
@@ -437,6 +433,9 @@ public class ExportFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_cancel:
+                finish();
+                return true;
             case R.id.action_done:
                 export();
                 return true;

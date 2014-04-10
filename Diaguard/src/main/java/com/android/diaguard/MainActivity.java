@@ -1,5 +1,6 @@
 package com.android.diaguard;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -17,8 +18,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.diaguard.adapters.DrawerListViewAdapter;
-import com.android.diaguard.fragments.CalculatorFragment;
-import com.android.diaguard.fragments.ExportFragment;
 import com.android.diaguard.fragments.LogFragment;
 import com.android.diaguard.fragments.MainFragment;
 import com.android.diaguard.fragments.TimelineFragment;
@@ -33,7 +32,8 @@ public class MainActivity extends ActionBarActivity {
         Timeline,
         Log,
         Calculator,
-        Export
+        Export,
+        Settings
     }
 
     private DrawerLayout drawerLayout;
@@ -63,7 +63,7 @@ public class MainActivity extends ActionBarActivity {
 
     private void initialize() {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-        replaceFragment(FragmentType.Main, false);
+        replaceFragment(FragmentType.Main);
         initializeDrawer();
     }
 
@@ -74,6 +74,7 @@ public class MainActivity extends ActionBarActivity {
         menuItems.add(getString(R.string.log));
         menuItems.add(getString(R.string.calculator));
         menuItems.add(getString(R.string.export));
+        menuItems.add(getString(R.string.settings));
 
         int[] menuImages = new int[menuItems.size()];
         menuImages[0] = R.drawable.home;
@@ -81,6 +82,7 @@ public class MainActivity extends ActionBarActivity {
         menuImages[2] = R.drawable.log;
         menuImages[3] = R.drawable.calculator;
         menuImages[4] = R.drawable.export;
+        menuImages[5] = R.drawable.settings;
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerList = (ListView) findViewById(R.id.drawer_navigation);
@@ -90,7 +92,7 @@ public class MainActivity extends ActionBarActivity {
         drawerList.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                replaceFragment(FragmentType.values()[position], true);
+                replaceFragment(FragmentType.values()[position]);
                 drawerLayout.closeDrawer(drawerList);
             }
         });
@@ -124,9 +126,8 @@ public class MainActivity extends ActionBarActivity {
     /**
      * Open a new Fragment
      * @param fragmentType Enum to detect the specific Fragment to open
-     * @param addToBackStack TRUE for every Fragment except the first one opened
      */
-    public void replaceFragment(FragmentType fragmentType, boolean addToBackStack) {
+    public void replaceFragment(FragmentType fragmentType) {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -146,19 +147,20 @@ public class MainActivity extends ActionBarActivity {
                 fragment = new LogFragment();
                 break;
             case Calculator:
-                fragment = new CalculatorFragment();
-                break;
+                startActivity(new Intent(this, CalculatorActivity.class));
+                return;
             case Export:
-                fragment = new ExportFragment();
-                break;
+                startActivity(new Intent(this, ExportActivity.class));
+                return;
+            case Settings:
+                startActivity(new Intent(this, PreferencesActivity.class));
+                return;
             default:
                 return;
         }
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.frame_content, fragment, fragmentType.toString());
-        if(addToBackStack)
-            transaction.addToBackStack(null);
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         transaction.commit();
 

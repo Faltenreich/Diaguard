@@ -332,6 +332,9 @@ public class NewEventActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_cancel:
+                finish();
+                return true;
             case R.id.action_done:
                 submit();
                 return true;

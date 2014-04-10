@@ -29,6 +29,10 @@ public class DatabaseDataSource {
         db = dbHelper.getWritableDatabase();
     }
 
+    public boolean isOpen() {
+        return dbHelper.getWritableDatabase() != null && dbHelper.getWritableDatabase().isOpen();
+    }
+
     public void close() {
         dbHelper.close();
     }

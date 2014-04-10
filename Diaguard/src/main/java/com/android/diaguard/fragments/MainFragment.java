@@ -6,8 +6,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +49,6 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-        setHasOptionsMenu(true);
         return view;
     }
 
@@ -68,11 +65,6 @@ public class MainFragment extends Fragment {
         updateContent();
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.main, menu);
-    }
-
     private void initialize()  {
         getComponents();
 
@@ -86,7 +78,7 @@ public class MainFragment extends Fragment {
         getView().findViewById(R.id.layout_today).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).replaceFragment(MainActivity.FragmentType.Timeline, true);
+                ((MainActivity) getActivity()).replaceFragment(MainActivity.FragmentType.Timeline);
             }
         });
     }
@@ -104,14 +96,18 @@ public class MainFragment extends Fragment {
     }
 
     private void updateContent() {
+
         dataSource = new DatabaseDataSource(getActivity());
         dataSource.open();
 
+        preferenceHelper = new PreferenceHelper(getActivity());
+
         if(dataSource.countEvents(Event.Category.BloodSugar) > 0) {
-            preferenceHelper = new PreferenceHelper(getActivity());
             format = Helper.getDecimalFormat();
             setBoxCurrent();
             setBoxTrend();
+
+            dataSource.close();
         }
         else {
             textViewLatestValue.setText(Helper.PLACEHOLDER);
@@ -122,8 +118,6 @@ public class MainFragment extends Fragment {
             textViewAverageDay.setText(Helper.PLACEHOLDER);
         }
         setBoxToday();
-
-        dataSource.close();
     }
 
     private void setBoxCurrent() {
@@ -232,7 +226,7 @@ public class MainFragment extends Fragment {
         chartHelper.renderer.setShowLabels(false);
         chartHelper.renderer.setShowGrid(false);
         chartHelper.renderer.setBackgroundColor(getResources().getColor(android.R.color.transparent));
-        chartHelper.renderer.setMargins(new int[] { 0, 0, 0, 0});
+        chartHelper.renderer.setMargins(new int[]{0, 0, 0, 0});
 
         renderChartLimits();
     }
@@ -260,9 +254,10 @@ public class MainFragment extends Fragment {
         XYSeries seriesBloodSugar = new XYSeries("Blood Sugar");
         chartHelper.seriesDataset.addSeries(seriesBloodSugar);
 
-        dataSource.open();
-        List<Event> bloodSugarOfDay = dataSource.getEventsOfDay(Calendar.getInstance(), Event.Category.BloodSugar);
-        dataSource.close();
+        DatabaseDataSource dataSource1 = new DatabaseDataSource(getActivity());
+        dataSource1.open();
+        List<Event> bloodSugarOfDay = dataSource1.getEventsOfDay(Calendar.getInstance(), Event.Category.BloodSugar);
+        dataSource1.close();
 
         if(bloodSugarOfDay.size() > 1)
             chartHelper.renderer.setPointSize(0);

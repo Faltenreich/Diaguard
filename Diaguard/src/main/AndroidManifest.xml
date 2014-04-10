@@ -28,40 +28,40 @@
         </activity>
         <activity
             android:name=".NewEventActivity"
-            android:label="New Event"
+            android:label="@string/newevent"
             android:parentActivityName="com.android.diaguard.MainActivity"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait">
             <meta-data
-                android:name="com.android.diaguard.MainActivity"
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.android.diaguard.MainActivity" />
             </activity>
         <activity
             android:name=".CalculatorActivity"
-            android:label="Calculator"
+            android:label="@string/calculator"
             android:parentActivityName="com.android.diaguard.MainActivity"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait">
             <meta-data
-                android:name="com.android.diaguard.MainActivity"
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.android.diaguard.MainActivity" />
         </activity>
         <activity
             android:name=".ExportActivity"
-            android:label="Export"
+            android:label="@string/export"
             android:parentActivityName="com.android.diaguard.MainActivity"
             android:screenOrientation="portrait">
             <meta-data
-                android:name="com.android.diaguard.MainActivity"
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.android.diaguard.MainActivity" />
         </activity>
 
         <activity
             android:name=".PreferencesActivity"
-            android:label="Settings"
+            android:label="@string/settings"
             android:parentActivityName="com.android.diaguard.MainActivity">
             <meta-data
-                android:name="com.android.diaguard.MainActivity"
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.android.diaguard.MainActivity" />
         </activity>
     </application>

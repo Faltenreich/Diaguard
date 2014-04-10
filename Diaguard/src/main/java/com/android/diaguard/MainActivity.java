@@ -2,7 +2,6 @@ package com.android.diaguard;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -15,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.android.diaguard.adapters.DrawerListViewAdapter;
 import com.android.diaguard.fragments.LogFragment;
@@ -107,14 +105,14 @@ public class MainActivity extends ActionBarActivity {
 
             /** Called when a activity_main has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
                 getSupportActionBar().setTitle(getString(R.string.app_name));
+                invalidateOptionsMenu();
             }
 
             /** Called when a activity_main has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
                 getSupportActionBar().setTitle(getString(R.string.app_name));
+                invalidateOptionsMenu();
             }
         };
         drawerLayout.setDrawerListener(drawerToggle);
@@ -166,6 +164,11 @@ public class MainActivity extends ActionBarActivity {
 
         // Highlight current item
         if(drawerList != null) {
+
+            int position = fragmentType.ordinal();
+            drawerList.setItemChecked(position, true);
+
+            /*
             for (int i = 0; i < drawerList.getChildCount(); i++) {
                 View v = drawerList.getChildAt(i);
                 TextView textViewListItem = (TextView) v.findViewById(R.id.title);
@@ -174,6 +177,7 @@ public class MainActivity extends ActionBarActivity {
             }
             ((TextView) drawerList.getChildAt(fragmentType.ordinal()).
                     findViewById(R.id.title)).setTypeface(null, Typeface.BOLD);
+            */
         }
     }
 

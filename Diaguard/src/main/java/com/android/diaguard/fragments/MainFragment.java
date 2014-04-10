@@ -64,6 +64,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        getActivity().setTitle(getString(R.string.app_name));
         updateContent();
     }
 

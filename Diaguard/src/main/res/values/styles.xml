@@ -23,30 +23,21 @@
         parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle">
         <item name="android:textColor">@android:color/white</item>
     </style>
-
-    <style name="Main" parent="PaddingMain">
-        <item name="android:background">@color/gray</item>
-    </style>
     
-    <style name="PaddingMain">
+    <style name="Main">
         <item name="android:paddingLeft">@dimen/padding_end</item>
         <item name="android:paddingRight">@dimen/padding_end</item>
         <item name="android:paddingTop">@dimen/margin_between</item>
         <item name="android:paddingBottom">@dimen/margin_between</item>
     </style>
 
-    <style name="Box" parent="PaddingMain">
+    <style name="Box" parent="Main">
         <item name="android:layout_height">64dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:background">@android:color/white</item>
     </style>
 
-    <style name="BoxClickable" parent="Box">
-        <item name="android:background">@drawable/button_green</item>
-        <item name="android:gravity">center</item>
-    </style>
-
-    <style name="BoxShadow" parent="PaddingMain">
+    <style name="BoxShadow" parent="Main">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">3dp</item>
         <item name="android:background">@android:color/darker_gray</item>
@@ -82,13 +73,12 @@
 
     <style name="Label">
         <item name="android:layout_height">fill_parent</item>
-        <item name="android:textSize">8pt</item>
         <item name="android:textStyle">bold</item>
         <item name="android:gravity">center_vertical</item>
     </style>
 
     <style name="TableRow">
-        <item name="android:layout_marginBottom">4pt</item>
+        <item name="android:layout_marginBottom">@dimen/margin_between</item>
     </style>
 
     <style name="AverageBloodSugar">
@@ -103,7 +93,7 @@
     </style>
 
     <style name="ActionButton">
-        <item name="android:background">@drawable/actionbutton</item>
+        <item name="android:background">@drawable/button_green</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
 
@@ -118,17 +108,20 @@
         <item name="android:layout_centerVertical">true</item>
     </style>
 
-    <style name="TitleButton">
-        <item name="android:background">@drawable/actionbutton</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:layout_marginLeft">10dp</item>
-    </style>
-
     <style name="ImageButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:adjustViewBounds">true</item>
         <item name="android:layout_margin">10dp</item>
+    </style>
+
+    <style name="SpinnerButtonStyle" parent="android:Widget.Holo.Light.Spinner">
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_height">@dimen/height_element</item>
     </style>
     
     <style name="TextViewMainLabel">
@@ -155,8 +148,5 @@
         <item name="android:paddingBottom">5dp</item>
     </style>
 
-    <style name="Toolbar">
-        <item name="android:background">@color/dkgray</item>
-    </style>
 
 </resources>

@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
             android:orientation="vertical"
-            style="@style/PaddingMain">
+            style="@style/Main">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -25,14 +25,18 @@
                 <Button android:id="@+id/button_date"
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
-                    android:layout_weight="3"
-                    android:onClick="onClickShowDatePicker"/>
+                    android:layout_weight="1"
+                    android:onClick="onClickShowDatePicker"
+                    style="@style/SpinnerButtonStyle"
+                    android:gravity="center"/>
 
                 <Button android:id="@+id/button_time"
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
-                    android:layout_weight="2"
-                    android:onClick="onClickShowTimePicker"/>
+                    android:layout_weight="1"
+                    android:onClick="onClickShowTimePicker"
+                    style="@style/SpinnerButtonStyle"
+                    android:gravity="center"/>
 
             </LinearLayout>
 
@@ -60,7 +64,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="@color/gray"
-            style="@style/PaddingMain"/>
+            style="@style/Main"/>
 
         </LinearLayout>
 

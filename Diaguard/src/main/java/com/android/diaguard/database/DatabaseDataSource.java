@@ -213,6 +213,36 @@ public class DatabaseDataSource {
         }
         return events;
     }
+    public List<Event> getEvents(Calendar timeStart, Calendar timeEnd, Event.Category category) {
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " WHERE " +
+                DatabaseHelper.DATE + " >= Datetime('" + format.format(timeStart.getTime()) + "') AND " +
+                DatabaseHelper.DATE + " <= Datetime('" + format.format(timeEnd.getTime()) + "') AND " +
+                DatabaseHelper.CATEGORY + " = '" + category.name() + "' " +
+                "ORDER BY " + DatabaseHelper.DATE + ";";
+        Cursor cursor = db.rawQuery(query, null);
+
+        List<Event> events = new ArrayList<Event>();
+
+        if (cursor.moveToFirst()) {
+            while(cursor.isAfterLast() == false) {
+
+                Event event = new Event();
+                event.setId(Integer.parseInt(cursor.getString(0)));
+                event.setValue(Float.parseFloat(cursor.getString(1)));
+                event.setDate(cursor.getString(2));
+                event.setNotes(cursor.getString(3));
+                event.setCategory(Event.Category.valueOf(cursor.getString(4)));
+
+                events.add(event);
+
+                cursor.moveToNext();
+            }
+        }
+        return events;
+    }
 
     /**
      * Get the latest event

@@ -83,7 +83,7 @@ public class MainActivity extends ActionBarActivity {
         menuImages[4] = R.drawable.export;
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerList = (ListView) findViewById(R.id.left_drawer);
+        drawerList = (ListView) findViewById(R.id.drawer_navigation);
         DrawerListViewAdapter adapter = new DrawerListViewAdapter(this,
                 menuItems.toArray(new String[menuItems.size()]), menuImages);
         drawerList.setAdapter(adapter);
@@ -156,7 +156,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.content_frame, fragment, fragmentType.toString());
+        transaction.replace(R.id.frame_content, fragment, fragmentType.toString());
         if(addToBackStack)
             transaction.addToBackStack(null);
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);

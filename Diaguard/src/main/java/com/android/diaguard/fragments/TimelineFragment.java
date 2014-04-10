@@ -9,12 +9,10 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -33,6 +31,7 @@ import com.android.diaguard.helpers.PreferenceHelper;
 import org.achartengine.chart.PointStyle;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYSeriesRenderer;
+import org.achartengine.tools.PanListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -73,6 +72,7 @@ public class TimelineFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        getActivity().setTitle(getString(R.string.timeline));
         updateContent();
     }
 
@@ -129,39 +129,6 @@ public class TimelineFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 nextDay();
-            }
-        });
-
-        GestureDetector.SimpleOnGestureListener simpleOnGestureListener = new GestureDetector.SimpleOnGestureListener(){
-            @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                float sensitivity = 250;
-                // Horizontal Swipe
-                // Left
-                if((e2.getX() - e1.getX()) > sensitivity){
-                    time.set(Calendar.DAY_OF_MONTH, time.get(Calendar.DAY_OF_MONTH) - 1);
-                    updateContent();
-                }
-                // Right
-                else if((e1.getX() - e2.getX()) > sensitivity){
-                    time.set(Calendar.DAY_OF_MONTH, time.get(Calendar.DAY_OF_MONTH) + 1);
-                    updateContent();
-                }
-                return super.onFling(e1, e2, velocityX, velocityY);
-            }
-        };
-        final GestureDetector gestureDetector = new GestureDetector(getActivity(),simpleOnGestureListener);
-        getView().findViewById(R.id.layoutMain).setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                gestureDetector.onTouchEvent(motionEvent);
-                return false;
-            }
-        });
-        getView().findViewById(R.id.layoutMain).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
             }
         });
     }
@@ -245,19 +212,19 @@ public class TimelineFragment extends Fragment {
         chartHelperChart.seriesDataset.addSeries(seriesBloodSugar);
 
         dataSource.open();
-        List<Event> bloodSugarOfDay = dataSource.getEventsOfDay(time, Event.Category.BloodSugar);
+        List<Event> bloodSugar = dataSource.getEventsOfDay(time, Event.Category.BloodSugar);
         dataSource.close();
 
-        if(bloodSugarOfDay.size() == 0)
+        if(bloodSugar.size() == 0)
             return;
-        else if(bloodSugarOfDay.size() > 1)
+        else if(bloodSugar.size() > 1)
             chartHelperChart.renderer.setPointSize(0);
 
         float rangeMaximum =
                 preferenceHelper.formatDefaultToCustomUnit(Event.Category.BloodSugar, 260);
         float highestValue = rangeMaximum;
 
-        for(Event event : bloodSugarOfDay) {
+        for(Event event : bloodSugar) {
 
             float x_value = Helper.formatCalendarToHourMinutes(event.getDate());
 
@@ -288,6 +255,17 @@ public class TimelineFragment extends Fragment {
 
     private void initializeChart() {
         chartHelperChart.initialize();
+        chartHelperChart.chartView.addPanListener(new PanListener() {
+            @Override
+            public void panApplied() {
+
+
+                chartHelperTable.renderer.setXAxisMin(chartHelperChart.renderer.getXAxisMin());
+                chartHelperTable.renderer.setXAxisMax(chartHelperChart.renderer.getXAxisMax());
+                chartHelperTable.renderer.setXLabels(23);
+                chartHelperTable.chartView.repaint();
+            }
+        });
         layoutChart.removeAllViews();
         layoutChart.addView(chartHelperChart.chartView);
         chartHelperChart.chartView.repaint();
@@ -406,6 +384,16 @@ public class TimelineFragment extends Fragment {
 
     private void initializeTable() {
         chartHelperTable.initialize();
+        chartHelperTable.chartView.addPanListener(new PanListener() {
+            @Override
+            public void panApplied() {
+
+                chartHelperChart.renderer.setXAxisMin(chartHelperTable.renderer.getXAxisMin());
+                chartHelperChart.renderer.setXAxisMax(chartHelperTable.renderer.getXAxisMax());
+                chartHelperChart.renderer.setXLabels(23);
+                chartHelperChart.chartView.repaint();
+            }
+        });
         layoutTableValues.removeAllViews();
         layoutTableValues.addView(chartHelperTable.chartView);
         chartHelperTable.chartView.repaint();

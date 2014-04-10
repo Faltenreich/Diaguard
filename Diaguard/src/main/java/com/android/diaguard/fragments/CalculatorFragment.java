@@ -5,6 +5,9 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -51,13 +54,20 @@ public class CalculatorFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_calculator, container, false);
+        setHasOptionsMenu(true);
         return view;
     }
 
     @Override
     public void onActivityCreated (Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        getActivity().setTitle(getString(R.string.calculator));
         initialize();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.formular, menu);
     }
 
     public void initialize() {
@@ -108,13 +118,6 @@ public class CalculatorFragment extends Fragment {
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-            }
-        });
-
-        getView().findViewById(R.id.button_calculate).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                submit();
             }
         });
     }
@@ -298,5 +301,16 @@ public class CalculatorFragment extends Fragment {
         dataSource.open();
         dataSource.insertEvents(events);
         dataSource.close();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_done:
+                submit();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

@@ -2,8 +2,9 @@
 <resources>
 
     <color name="semitransparent_light">#99ffffff</color>
+    <color name="semitransparent_transparent">#11ffffff</color>
     <color name="semitransparent_dark">#11000000</color>
-    <color name="semitransparent_green">#DD457e61</color>
+    <color name="semitransparent_green">#99457e61</color>
 
     <color name="greenlight">#ff74c29f</color>
     <color name="green">#ff457e61</color>

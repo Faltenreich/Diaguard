@@ -32,6 +32,7 @@ import com.android.diaguard.helpers.ViewHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -146,13 +147,13 @@ public class NewEventActivity extends ActionBarActivity {
             boolean inputIsValid = true;
 
             for (int position = 0; position < linearLayoutValues.getChildCount(); position++) {
+
                 View view = linearLayoutValues.getChildAt(position);
                 EditText editTextValue = (EditText) view.findViewById(R.id.value);
                 String editTextText = editTextValue.getText().toString();
                 Event.Category category = (Event.Category) view.getTag();
 
                 // Validation
-
                 Calendar now = Calendar.getInstance();
                 if(time.after(now)) {
                     ViewHelper.showToastError(this, getString(R.string.validator_value_infuture));
@@ -213,6 +214,9 @@ public class NewEventActivity extends ActionBarActivity {
             new SwipeDismissTouchListener.OnDismissCallback() {
                 @Override
                 public void onDismiss(View view1, Object token) {
+                    int position = Arrays.asList(preferenceHelper.getActiveCategories()).indexOf(view.getTag());
+                    if(position != -1)
+                        selectedCategories[position] = false;
                     linearLayoutValues.removeView(view);
                 }
             }
@@ -328,9 +332,6 @@ public class NewEventActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_cancel:
-                finish();
-                return true;
             case R.id.action_done:
                 submit();
                 return true;

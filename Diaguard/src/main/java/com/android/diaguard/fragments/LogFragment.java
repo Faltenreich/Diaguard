@@ -8,15 +8,14 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
 
@@ -65,6 +64,7 @@ public class LogFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        getActivity().setTitle(getString(R.string.log));
         updateListView();
     }
 
@@ -103,30 +103,22 @@ public class LogFragment extends Fragment {
 
     public void initializeGUI() {
 
-        GestureDetector.SimpleOnGestureListener simpleOnGestureListener = new GestureDetector.SimpleOnGestureListener(){
+        getView().findViewById(R.id.button_date).setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                float sensitivity = 250;
-                // Horizontal Swipe
-                // Left
-                if((e2.getX() - e1.getX()) > sensitivity){
-                    time.set(Calendar.DAY_OF_MONTH, time.get(Calendar.DAY_OF_MONTH) - 1);
-                    updateListView();
-                }
-                // Right
-                else if((e1.getX() - e2.getX()) > sensitivity){
-                    time.set(Calendar.DAY_OF_MONTH, time.get(Calendar.DAY_OF_MONTH) + 1);
-                    updateListView();
-                }
-                return super.onFling(e1, e2, velocityX, velocityY);
+            public void onClick(View v) {
+                showDatePicker();
             }
-        };
-        final GestureDetector gestureDetector = new GestureDetector(getActivity(),simpleOnGestureListener);
-        listViewEvents.setOnTouchListener(new View.OnTouchListener() {
+        });
+        getView().findViewById(R.id.button_previous).setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                gestureDetector.onTouchEvent(motionEvent);
-                return false;
+            public void onClick(View v) {
+                previousDay();
+            }
+        });
+        getView().findViewById(R.id.button_next).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nextDay();
             }
         });
 
@@ -173,7 +165,7 @@ public class LogFragment extends Fragment {
 
         SimpleDateFormat format = preferenceHelper.getDateFormat();
         String weekDay = getResources().getStringArray(R.array.weekdays)[time.get(Calendar.DAY_OF_WEEK)-1];
-        // TODO: set date
+        ((Button)getView().findViewById(R.id.button_date)).setText(weekDay.substring(0,2) + "., " + format.format(time.getTime()));
 
         dataSource.open();
         List<Event> eventsOfDay = dataSource.getEventsOfDay(time);
@@ -192,33 +184,17 @@ public class LogFragment extends Fragment {
 
     // LISTENERS
 
-    public void onClickPrevious (View view) {
-        if(view.getTag() != null) {
-            int days = Integer.parseInt(view.getTag().toString());
-            if(days > 7)
-                time.set(Calendar.MONTH, time.get(Calendar.MONTH) - 1);
-            else
-                time.set(Calendar.DAY_OF_MONTH, time.get(Calendar.DAY_OF_MONTH) - days);
-        }
-        else
-            time.set(Calendar.MONTH, time.get(Calendar.MONTH) - 1);
+    public void previousDay () {
+        time.set(Calendar.DAY_OF_MONTH, time.get(Calendar.DAY_OF_MONTH) - 1);
         updateListView();
     }
 
-    public void onClickNext (View view) {
-        if(view.getTag() != null) {
-            int days = Integer.parseInt(view.getTag().toString());
-            if(days > 7)
-                time.set(Calendar.MONTH, time.get(Calendar.MONTH) + 1);
-            else
-                time.set(Calendar.DAY_OF_MONTH, time.get(Calendar.DAY_OF_MONTH) + days);
-        }
-        else
-            time.set(Calendar.MONTH, time.get(Calendar.MONTH) + 1);
+    public void nextDay () {
+        time.set(Calendar.DAY_OF_MONTH, time.get(Calendar.DAY_OF_MONTH) + 1);
         updateListView();
     }
 
-    public void onClickShowDatePicker (View view) {
+    public void showDatePicker () {
         DialogFragment newFragment = new DatePickerFragment(time) {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
@@ -229,12 +205,6 @@ public class LogFragment extends Fragment {
             }
         };
         newFragment.show(getActivity().getSupportFragmentManager(), "DatePicker");
-    }
-
-    public void startNewEventActivity() {
-        Intent intent = new Intent (getActivity(), NewEventActivity.class);
-        intent.putExtra("Date", time);
-        startActivity(intent);
     }
 
     public void openFilters() {

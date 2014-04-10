@@ -1,32 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="@dimen/height_element"
-    android:gravity="center"
-    style="@style/Toolbar">
+    android:background="@color/green">
 
     <ImageView android:id="@+id/button_previous"
         android:layout_height="match_parent"
         android:layout_width="@dimen/height_element"
         android:padding="@dimen/margin_between"
         android:src="@drawable/ic_action_previous_item"
-        android:tag="1"
-        style="@style/ActionButton"/>
+        style="@style/ActionButton"
+        android:layout_marginLeft="32dp"/>
 
     <Button android:id="@+id/button_date"
         android:layout_height="match_parent"
         android:layout_width="wrap_content"
-        android:padding="@dimen/padding"
-        style="@style/ActionButton"/>
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        style="@style/ActionButton"
+        android:layout_centerHorizontal="true"/>
 
     <ImageView android:id="@+id/button_next"
         android:layout_height="match_parent"
         android:layout_width="@dimen/height_element"
         android:padding="@dimen/margin_between"
         android:src="@drawable/ic_action_next_item"
-        android:tag="1"
-        style="@style/ActionButton"/>
+        style="@style/ActionButton"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="32dp"/>
 
-</LinearLayout>
+</RelativeLayout>

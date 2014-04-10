@@ -3,7 +3,8 @@
     tools:context="com.android.diaguard.fragments.MainFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/Main">
+    style="@style/Main"
+    android:background="@color/gray">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,7 +35,7 @@
                         android:orientation="vertical"
                         android:layout_gravity="center_vertical"
                         android:layout_centerVertical="true"
-                        style="@style/PaddingMain">
+                        style="@style/Main">
 
                         <TextView
                             android:layout_width="wrap_content"

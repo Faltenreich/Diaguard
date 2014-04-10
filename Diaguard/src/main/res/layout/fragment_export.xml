@@ -4,8 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    style="@style/Main"
-    android:background="@android:color/white">
+    style="@style/Main">
 
     <TextView
         android:layout_width="fill_parent"
@@ -27,7 +26,8 @@
 
             <Button android:id="@+id/button_datestart"
                 android:layout_weight="2"
-                android:onClick="onClickShowStartDatePicker"/>
+                android:onClick="onClickShowStartDatePicker"
+                style="@style/SpinnerButtonStyle"/>
 
         </TableRow>
 
@@ -40,7 +40,8 @@
 
             <Button android:id="@+id/button_dateend"
                 android:layout_weight="2"
-                android:onClick="onClickShowEndDatePicker"/>
+                android:onClick="onClickShowEndDatePicker"
+                style="@style/SpinnerButtonStyle"/>
 
         </TableRow>
 
@@ -67,11 +68,6 @@
 
         </TableRow>
 
-        </TableLayout>
-
-    <Button android:id="@+id/button_export"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/export"/>
+    </TableLayout>
 
 </LinearLayout>

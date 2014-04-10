@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -61,18 +64,24 @@ public class ExportFragment extends Fragment {
     private Button buttonDateStart;
     private Button buttonDateEnd;
     private CheckBox checkBoxMail;
-    Button buttonExport;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_export, container, false);
+        setHasOptionsMenu(true);
         return view;
     }
 
     @Override
     public void onActivityCreated (Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        getActivity().setTitle(getString(R.string.export));
         initialize();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.formular, menu);
     }
 
     public void initialize() {
@@ -94,7 +103,6 @@ public class ExportFragment extends Fragment {
         buttonDateStart = (Button) getView().findViewById(R.id.button_datestart);
         buttonDateEnd = (Button) getView().findViewById(R.id.button_dateend);
         checkBoxMail = (CheckBox) getView().findViewById(R.id.checkbox_mail);
-        buttonExport = (Button) getView().findViewById(R.id.button_export);
     }
 
     public void initializeGUI() {
@@ -112,13 +120,6 @@ public class ExportFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 showEndDatePicker();
-            }
-        });
-
-        buttonExport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                export();
             }
         });
     }
@@ -430,6 +431,17 @@ public class ExportFragment extends Fragment {
             total.setTextMatrix(0, 0);
             //total.showText(String.valueOf(writer.getPageNumber() - 1));
             total.endText();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_done:
+                export();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

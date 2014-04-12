@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
 
+import com.android.diaguard.MainActivity;
 import com.android.diaguard.NewEventActivity;
 import com.android.diaguard.R;
 import com.android.diaguard.adapters.ListViewAdapterEvents;
@@ -64,7 +65,7 @@ public class LogFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().setTitle(getString(R.string.log));
+        ((MainActivity)getActivity()).getSupportActionBar().setTitle(getString(R.string.log));
         updateListView();
     }
 
@@ -233,6 +234,12 @@ public class LogFragment extends Fragment {
         dialog.show();
     }
 
+    public void startNewEventActivity() {
+        Intent intent = new Intent (getActivity(), NewEventActivity.class);
+        intent.putExtra("Date", time);
+        startActivity(intent);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -240,7 +247,7 @@ public class LogFragment extends Fragment {
                 openFilters();
                 return true;
             case R.id.action_newevent:
-                startActivity(new Intent(getActivity(), NewEventActivity.class));
+                startNewEventActivity();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -30,7 +30,7 @@
             android:name=".NewEventActivity"
             android:label="@string/newevent"
             android:parentActivityName="com.android.diaguard.MainActivity"
-            android:windowSoftInputMode="adjustPan"
+            android:windowSoftInputMode="adjustResize|stateHidden"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -40,7 +40,7 @@
             android:name=".CalculatorActivity"
             android:label="@string/calculator"
             android:parentActivityName="com.android.diaguard.MainActivity"
-            android:windowSoftInputMode="adjustPan"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

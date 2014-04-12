@@ -61,7 +61,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().setTitle(getString(R.string.app_name));
+        ((MainActivity)getActivity()).getSupportActionBar().setTitle(getString(R.string.app_name));
         updateContent();
     }
 
@@ -78,7 +78,7 @@ public class MainFragment extends Fragment {
         getView().findViewById(R.id.layout_today).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).replaceFragment(MainActivity.FragmentType.Timeline);
+                ((MainActivity)getActivity()).replaceFragment(MainActivity.FragmentType.Timeline);
             }
         });
     }
@@ -104,7 +104,8 @@ public class MainFragment extends Fragment {
 
         if(dataSource.countEvents(Event.Category.BloodSugar) > 0) {
             format = Helper.getDecimalFormat();
-            setBoxCurrent();
+
+            setBoxLatest();
             setBoxTrend();
 
             dataSource.close();
@@ -120,9 +121,9 @@ public class MainFragment extends Fragment {
         setBoxToday();
     }
 
-    private void setBoxCurrent() {
+    private void setBoxLatest() {
         Calendar now = Calendar.getInstance();
-        Event latestEvent = dataSource.getLatestEvent(Event.Category.BloodSugar);
+        final Event latestEvent = dataSource.getLatestEvent(Event.Category.BloodSugar);
 
         float value = preferenceHelper.formatDefaultToCustomUnit(Event.Category.BloodSugar, latestEvent.getValue());
         textViewLatestValue.setText(format.format(value));
@@ -153,6 +154,15 @@ public class MainFragment extends Fragment {
         textAgo = textAgo.replace("[value]", Integer.toString(difference));
 
         textViewLatestAgo.setText(textAgo);
+
+        getView().findViewById(R.id.layout_latest).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), NewEventActivity.class);
+                intent.putExtra("ID", latestEvent.getId());
+                startActivity(intent);
+            }
+        });
     }
 
     private void setBoxTrend() {

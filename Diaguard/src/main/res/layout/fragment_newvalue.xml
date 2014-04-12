@@ -8,49 +8,28 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_element"
-        android:background="@color/ltgray"
-        android:paddingLeft="@dimen/padding_end"
-        android:paddingRight="@dimen/padding_end">
+        android:layout_height="64dp"
+        android:background="@android:color/white">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <ImageView android:id="@+id/image"
+            android:layout_width="64dp"
+            android:layout_height="match_parent"/>
+
+        <EditText android:id="@+id/value"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true">
+            android:inputType="numberDecimal"
+            android:layout_marginLeft="32dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"/>
 
-            <ImageView android:id="@+id/image"
-                android:layout_gravity="center_vertical"
-                style="@style/Image"/>
-
-            <TextView android:id="@+id/category"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/margin_between"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <TextView android:id="@+id/unit"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:padding="@dimen/padding">
-
-            <EditText android:id="@+id/value"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:gravity="center"/>
-
-            <TextView android:id="@+id/unit"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_marginLeft="@dimen/margin_between"/>
-
-        </LinearLayout>
+            android:layout_marginRight="24dp"
+            android:layout_alignParentRight="true"
+            android:gravity="center_horizontal"
+            android:layout_centerVertical="true"/>
 
     </RelativeLayout>
 

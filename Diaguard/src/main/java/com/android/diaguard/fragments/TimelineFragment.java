@@ -1,7 +1,5 @@
 package com.android.diaguard.fragments;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -20,6 +18,7 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.android.diaguard.MainActivity;
 import com.android.diaguard.NewEventActivity;
 import com.android.diaguard.R;
 import com.android.diaguard.database.DatabaseDataSource;
@@ -72,7 +71,7 @@ public class TimelineFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().setTitle(getString(R.string.timeline));
+        ((MainActivity)getActivity()).getSupportActionBar().setTitle(getString(R.string.timeline));
         updateContent();
     }
 
@@ -84,7 +83,7 @@ public class TimelineFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.report, menu);
+        inflater.inflate(R.menu.add, menu);
     }
 
     public void initialize() {
@@ -426,31 +425,6 @@ public class TimelineFragment extends Fragment {
         newFragment.show(getActivity().getSupportFragmentManager(), "DatePicker");
     }
 
-    public void openFilters () {
-        final boolean[] checkedCategoriesTemporary = activeCategories.clone();
-
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
-        dialogBuilder.setMultiChoiceItems(R.array.categories, activeCategories,
-                new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        activeCategories = checkedCategoriesTemporary.clone();
-                        dialog.cancel();
-                    }
-                })
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        updateContent();
-                    }
-                });
-        AlertDialog dialog = dialogBuilder.create();
-        dialog.show();
-    }
-
     public void startNewEventActivity() {
         Intent intent = new Intent (getActivity(), NewEventActivity.class);
         intent.putExtra("Date", time);
@@ -462,11 +436,8 @@ public class TimelineFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_filter:
-                openFilters();
-                return true;
             case R.id.action_newevent:
-                startActivity(new Intent(getActivity(), NewEventActivity.class));
+                startNewEventActivity();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

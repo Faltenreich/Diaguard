@@ -8,14 +8,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/ltgray">
+        android:orientation="vertical">
 
         <LinearLayout android:id="@+id/content_static"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
             android:orientation="vertical"
-            style="@style/Main">
+            style="@style/Main"
+            android:background="@android:color/white">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -47,24 +47,80 @@
                 android:inputType="textMultiLine|textCapSentences"
                 android:maxLines="2"
                 android:layout_marginTop="@dimen/padding"/>
-
-            <Button android:id="@+id/button_add"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/add_value"
-                android:onClick="onClickAddValue"
-                android:layout_marginTop="@dimen/padding"/>
-
         </LinearLayout>
 
         <View style="@style/BoxShadow"/>
 
-        <LinearLayout android:id="@+id/content_dynamic"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@color/gray"
-            style="@style/Main"/>
+            style="@style/Main">
+
+            <LinearLayout android:id="@+id/content_dynamic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
+
+            <!-- New event -->
+            <LinearLayout android:id="@+id/layout_newvalue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:onClick="onClickAddValue">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/button_white">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_centerVertical="true"
+                            style="@style/Main">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/add_value"
+                                android:textSize="@dimen/text_medium"
+                                style="@style/BoxText"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/add_value_desc"
+                                android:layout_gravity="left"
+                                style="@style/BoxTextDesc"/>
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:src="@drawable/ic_grid_bloodsugar"
+                            android:layout_alignParentRight="true"
+                            android:clickable="true"
+                            android:onClick="onClickAddValue"
+                            android:tag="0"/>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <View style="@style/BoxShadow"/>
+
+            </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 

@@ -2,6 +2,7 @@ package com.android.diaguard;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.diaguard.adapters.DrawerListViewAdapter;
 import com.android.diaguard.fragments.LogFragment;
@@ -42,7 +44,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle(getString(R.string.app_name));
+        getSupportActionBar().setTitle(getString(R.string.app_name));
         initialize();
     }
 
@@ -85,7 +87,7 @@ public class MainActivity extends ActionBarActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerList = (ListView) findViewById(R.id.drawer_navigation);
         DrawerListViewAdapter adapter = new DrawerListViewAdapter(this,
-                menuItems.toArray(new String[menuItems.size()]), menuImages);
+                menuItems.toArray(new String[menuItems.size()]), menuImages, 3);
         drawerList.setAdapter(adapter);
         drawerList.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
@@ -105,17 +107,18 @@ public class MainActivity extends ActionBarActivity {
 
             /** Called when a activity_main has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
-                getSupportActionBar().setTitle(getString(R.string.app_name));
                 invalidateOptionsMenu();
             }
 
             /** Called when a activity_main has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
-                getSupportActionBar().setTitle(getString(R.string.app_name));
                 invalidateOptionsMenu();
             }
         };
         drawerLayout.setDrawerListener(drawerToggle);
+
+        // TODO: Open up on first start
+        //drawerLayout.openDrawer(drawerList);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -128,6 +131,20 @@ public class MainActivity extends ActionBarActivity {
     public void replaceFragment(FragmentType fragmentType) {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
+
+        // Highlight selected item
+        if(drawerList != null && fragmentType.ordinal() < ((DrawerListViewAdapter)drawerList.getAdapter()).fragmentCount) {
+
+            for (int i = 0; i < drawerList.getChildCount(); i++) {
+                View v = drawerList.getChildAt(i);
+                TextView textViewListItem = (TextView) v.findViewById(R.id.title);
+                if (textViewListItem != null)
+                    textViewListItem.setTypeface(null, Typeface.NORMAL);
+            }
+
+            ((TextView) drawerList.getChildAt(fragmentType.ordinal()).
+                    findViewById(R.id.title)).setTypeface(null, Typeface.BOLD);
+        }
 
         // Do nothing if the user wants to reopen the current visible Fragment
         Fragment fragment = fragmentManager.findFragmentByTag(fragmentType.toString());
@@ -161,24 +178,6 @@ public class MainActivity extends ActionBarActivity {
         transaction.replace(R.id.frame_content, fragment, fragmentType.toString());
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         transaction.commit();
-
-        // Highlight current item
-        if(drawerList != null) {
-
-            int position = fragmentType.ordinal();
-            drawerList.setItemChecked(position, true);
-
-            /*
-            for (int i = 0; i < drawerList.getChildCount(); i++) {
-                View v = drawerList.getChildAt(i);
-                TextView textViewListItem = (TextView) v.findViewById(R.id.title);
-                if (textViewListItem != null)
-                    textViewListItem.setTypeface(null, Typeface.NORMAL);
-            }
-            ((TextView) drawerList.getChildAt(fragmentType.ordinal()).
-                    findViewById(R.id.title)).setTypeface(null, Typeface.BOLD);
-            */
-        }
     }
 
     @Override

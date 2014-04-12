@@ -86,10 +86,11 @@
                     android:text="@string/bloodsugar"
                     style="@style/BoxLabel"/>
 
-                <LinearLayout
+                <LinearLayout android:id="@+id/layout_latest"
                     android:orientation="vertical"
                     android:gravity="center"
                     style="@style/Box"
+                    android:background="@drawable/button_white"
                     android:paddingTop="2dp">
 
                     <TextView android:id="@+id/textview_latest_value"

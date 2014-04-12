@@ -300,6 +300,9 @@ public class CalculatorActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
             case R.id.action_cancel:
                 finish();
                 return true;

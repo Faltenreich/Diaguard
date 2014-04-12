@@ -78,7 +78,6 @@ public class NewEventActivity extends ActionBarActivity {
         selectedCategories = new boolean[activeCategories.length];
 
         getComponents();
-        initializeGUI();
         checkIntents();
 
         setDate();
@@ -91,8 +90,6 @@ public class NewEventActivity extends ActionBarActivity {
         buttonDate = (Button) findViewById(R.id.button_date);
         buttonTime = (Button) findViewById(R.id.button_time);
     }
-
-    public void initializeGUI() {}
 
     private void checkIntents() {
 
@@ -118,10 +115,10 @@ public class NewEventActivity extends ActionBarActivity {
 
                 editTextNotes.setText(event.getNotes());
 
-                findViewById(R.id.button_add).setVisibility(View.GONE);
+                findViewById(R.id.layout_newvalue).setVisibility(View.GONE);
             }
             else
-                findViewById(R.id.button_add).setVisibility(View.VISIBLE);
+                findViewById(R.id.layout_newvalue).setVisibility(View.VISIBLE);
         }
     }
 
@@ -133,6 +130,10 @@ public class NewEventActivity extends ActionBarActivity {
     private void setTime() {
         SimpleDateFormat format = preferenceHelper.getTimeFormat();
         buttonTime.setText(format.format(time.getTime()));
+    }
+
+    private boolean inputWasMade() {
+        return linearLayoutValues.getChildCount() > 0;
     }
 
     private void submit() {
@@ -234,9 +235,6 @@ public class NewEventActivity extends ActionBarActivity {
                 "drawable", getPackageName());
         image.setImageResource(resourceId);
 
-        TextView categoryName = (TextView) view.findViewById(R.id.category);
-        categoryName.setText(preferenceHelper.getCategoryName(category));
-
         TextView unit = (TextView) view.findViewById(R.id.unit);
         unit.setText(preferenceHelper.getUnitAcronym(category));
 
@@ -260,9 +258,6 @@ public class NewEventActivity extends ActionBarActivity {
         int resourceId = getResources().getIdentifier(name,
                 "drawable", getPackageName());
         image.setImageResource(resourceId);
-
-        TextView textViewCategoryName = (TextView) view.findViewById(R.id.category);
-        textViewCategoryName.setText(preferenceHelper.getCategoryName(category));
 
         TextView textViewUnit = (TextView) view.findViewById(R.id.unit);
         textViewUnit.setText(preferenceHelper.getUnitAcronym(category));
@@ -305,33 +300,59 @@ public class NewEventActivity extends ActionBarActivity {
     }
 
     public void onClickAddValue (View view) {
+        if(view.getTag() != null)
+            addValue(Event.Category.BloodSugar);
+        else {
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(NewEventActivity.this);
+            dialogBuilder.setMultiChoiceItems(activeCategories, selectedCategories,
+                    new DialogInterface.OnMultiChoiceClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        }
+                    }
+            )
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    })
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            for (int position = selectedCategories.length - 1; position >= 0; position--)
+                                if (selectedCategories[position])
+                                    addValue(Event.Category.values()[position]);
+                        }
+                    });
+            AlertDialog dialog = dialogBuilder.create();
+            dialog.show();
+        }
+    }
 
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(NewEventActivity.this);
-        dialogBuilder.setMultiChoiceItems(activeCategories, selectedCategories,
-                new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                })
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        for (int position = selectedCategories.length-1; position >= 0; position--)
-                            if (selectedCategories[position])
-                                addValue(Event.Category.values()[position]);
-                    }
-                });
-        AlertDialog dialog = dialogBuilder.create();
-        dialog.show();
+    @Override
+    public void onBackPressed() {
+        if(inputWasMade()) {
+            new AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.confirmation_exit))
+                    .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+
+                    })
+                    .setNegativeButton(getString(R.string.cancel), null)
+                    .show();
+        }
+        else
+            finish();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
             case R.id.action_cancel:
                 finish();
                 return true;
@@ -343,4 +364,3 @@ public class NewEventActivity extends ActionBarActivity {
         }
     }
 }
-

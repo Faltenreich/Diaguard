@@ -6,6 +6,7 @@
     <string name="about">About</string>
     <string name="activity">Activity</string>
     <string name="add_value">Add value</string>
+    <string name="add_value_desc">Choose categories and measurements</string>
     <string name="all">All</string>
     <string name="application">Application</string>
     <string name="average">Average</string>
@@ -333,6 +334,10 @@
     <string name="validator_value_none">At least one item must be checked</string>
     <string name="validator_value_unrealistic">Unrealistic value</string>
     <string name="validator_value_enddate">End date must be after start date</string>
+
+    <!-- VALIDATORS -->
+    <string name="confirmation_exit">Dismiss changes?</string>
+    <string name="confirmation_exit_desc">Every entered value will be lost</string>
 
     <!-- SETTINGS -->
     <string name="pref_therapy_targets">Target values</string>

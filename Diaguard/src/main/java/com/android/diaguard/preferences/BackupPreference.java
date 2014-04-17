@@ -106,6 +106,7 @@ public class BackupPreference extends DialogPreference {
                 csvArrayDates[position] = preferenceHelper.getDateAndTimeFormat().format(date.getTime());
             }
             catch (ParseException ex) {
+                Log.e("BackupPreference", ex.getMessage());
             }
         }
 

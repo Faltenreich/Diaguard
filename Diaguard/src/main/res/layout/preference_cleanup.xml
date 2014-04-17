@@ -10,7 +10,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/cleanup_desc"
-        android:textSize="16dp"/>
+        android:textSize="16sp"/>
 
     <DatePicker android:id="@+id/datepicker"
         android:layout_width="fill_parent"

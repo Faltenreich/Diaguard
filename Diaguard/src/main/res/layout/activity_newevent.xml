@@ -63,65 +63,52 @@
                 android:orientation="vertical"/>
 
             <!-- New event -->
-            <LinearLayout android:id="@+id/layout_newvalue"
+            <RelativeLayout android:id="@+id/layout_newvalue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:clickable="true"
-                android:onClick="onClickAddValue">
+                android:onClick="onClickAddValue"
+                android:background="@drawable/button_white">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@drawable/button_white">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_centerVertical="true"
+                        style="@style/Main">
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <LinearLayout
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_centerVertical="true"
-                            style="@style/Main">
+                            android:text="@string/add_value"
+                            android:textSize="@dimen/text_medium"
+                            style="@style/BoxText"/>
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/add_value"
-                                android:textSize="@dimen/text_medium"
-                                style="@style/BoxText"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/add_value_desc"
+                            android:layout_gravity="left"
+                            style="@style/BoxTextDesc"/>
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/add_value_desc"
-                                android:layout_gravity="left"
-                                style="@style/BoxTextDesc"/>
+                    </LinearLayout>
 
-                        </LinearLayout>
+                    <ImageView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:src="@drawable/ic_grid_bloodsugar"
+                        android:layout_alignParentRight="true"
+                        android:clickable="true"
+                        android:onClick="onClickAddValue"
+                        android:tag="0"/>
 
-                        <ImageView
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
-                            android:src="@drawable/ic_grid_bloodsugar"
-                            android:layout_alignParentRight="true"
-                            android:clickable="true"
-                            android:onClick="onClickAddValue"
-                            android:tag="0"/>
+                </RelativeLayout>
 
-                    </RelativeLayout>
-
-                </LinearLayout>
-
-                <View style="@style/BoxShadow"/>
-
-            </LinearLayout>
-
-            </LinearLayout>
+            <View style="@style/BoxShadow"/>
 
         </LinearLayout>
 
-    </ScrollView>
+    </LinearLayout>
+
+</ScrollView>

@@ -29,7 +29,7 @@
         <TextView android:id="@+id/textViewResult"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="28dp"/>
+            android:textSize="28sp"/>
 
         <TextView android:id="@+id/textViewUnit"
             android:layout_width="wrap_content"

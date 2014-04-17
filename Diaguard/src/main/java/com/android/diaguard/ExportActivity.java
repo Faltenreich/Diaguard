@@ -100,22 +100,8 @@ public class ExportActivity extends ActionBarActivity {
     }
 
     public void initializeGUI() {
-
         buttonDateStart.setText(dateFormat.format(dateStart.getTime()));
-        buttonDateStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showStartDatePicker();
-            }
-        });
-
         buttonDateEnd.setText(dateFormat.format(dateEnd.getTime()));
-        buttonDateEnd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showEndDatePicker();
-            }
-        });
     }
 
     private boolean validate() {
@@ -160,7 +146,7 @@ public class ExportActivity extends ActionBarActivity {
 
     // LISTENERS
 
-    public void showStartDatePicker () {
+    public void onClickShowStartDatePicker (View view) {
         new DatePickerFragment(dateStart) {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
@@ -172,7 +158,7 @@ public class ExportActivity extends ActionBarActivity {
         }.show(getSupportFragmentManager(), "StartDatePicker");
     }
 
-    public void showEndDatePicker () {
+    public void onClickShowEndDatePicker (View view) {
         new DatePickerFragment(dateEnd) {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {

@@ -34,6 +34,8 @@
     <string name="deleteevent">Delete Event</string>
     <string name="deleteevent_desc">Are you sure you want to delete this event?</string>
     <string name="development">Development</string>
+    <string name="drawer_close">Close Navigator</string>
+    <string name="drawer_open">Open Navigator</string>
     <string name="editevent">Edit Event</string>
     <string name="event">Event</string>
     <string name="export">Export</string>

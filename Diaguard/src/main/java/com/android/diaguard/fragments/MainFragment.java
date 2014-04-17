@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 
 import com.android.diaguard.MainActivity;
 import com.android.diaguard.NewEventActivity;
-import com.android.diaguard.PreferencesActivity;
 import com.android.diaguard.R;
 import com.android.diaguard.database.DatabaseDataSource;
 import com.android.diaguard.database.Event;
@@ -48,8 +46,7 @@ public class MainFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
     @Override
@@ -272,9 +269,7 @@ public class MainFragment extends Fragment {
         if(bloodSugarOfDay.size() > 1)
             chartHelper.renderer.setPointSize(0);
 
-        float rangeMaximum =
-                preferenceHelper.formatDefaultToCustomUnit(Event.Category.BloodSugar, 260);
-        float highestValue = rangeMaximum;
+        float highestValue = preferenceHelper.formatDefaultToCustomUnit(Event.Category.BloodSugar, 260);
 
         for(Event event : bloodSugarOfDay) {
 
@@ -312,17 +307,6 @@ public class MainFragment extends Fragment {
         linearLayoutChart.removeAllViews();
         linearLayoutChart.addView(chartHelper.chartView);
         chartHelper.chartView.repaint();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                startActivity(new Intent (getActivity(), PreferencesActivity.class));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     private class ChartTask extends AsyncTask<Void, Void, Void> {

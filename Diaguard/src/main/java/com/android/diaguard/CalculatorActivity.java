@@ -166,7 +166,7 @@ public class CalculatorActivity extends ActionBarActivity {
 
             String targetValueString = editTextTargetValue.getText().toString();
             float targetBloodSugar;
-            if(Validator.containsNumber(targetValueString) == false)
+            if(!Validator.containsNumber(targetValueString))
                 targetBloodSugar = preferenceHelper.getTargetValue();
             else
                 targetBloodSugar = Float.parseFloat(targetValueString);

@@ -46,7 +46,7 @@ public class ListViewAdapterEvents extends BaseAdapter {
         // Preload image resources to improve performance
         imageResources = new HashMap<String, Integer>();
         for(Event.Category category : Event.Category.values()) {
-            String name = category.name().toString().toLowerCase();
+            String name = category.name().toLowerCase();
             int resourceId = context.getResources().getIdentifier(name,
                     "drawable", context.getPackageName());
             imageResources.put(name, resourceId);

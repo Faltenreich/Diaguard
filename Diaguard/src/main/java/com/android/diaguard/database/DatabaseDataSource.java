@@ -201,7 +201,7 @@ public class DatabaseDataSource {
         List<Event> events = new ArrayList<Event>();
 
         if (cursor.moveToFirst()) {
-            while(cursor.isAfterLast() == false) {
+            while(!cursor.isAfterLast()) {
 
                 Event event = new Event();
                 event.setId(Integer.parseInt(cursor.getString(0)));
@@ -231,7 +231,7 @@ public class DatabaseDataSource {
         List<Event> events = new ArrayList<Event>();
 
         if (cursor.moveToFirst()) {
-            while(cursor.isAfterLast() == false) {
+            while(!cursor.isAfterLast()) {
 
                 Event event = new Event();
                 event.setId(Integer.parseInt(cursor.getString(0)));
@@ -290,7 +290,7 @@ public class DatabaseDataSource {
         List<Event> events = new ArrayList<Event>();
 
         if (cursor.moveToFirst()) {
-            while(cursor.isAfterLast() == false) {
+            while(!cursor.isAfterLast()) {
 
                 Event event = new Event();
                 event.setId(Integer.parseInt(cursor.getString(0)));
@@ -328,7 +328,7 @@ public class DatabaseDataSource {
 
         if (cursor.moveToFirst()) {
 
-            while(cursor.isAfterLast() == false) {
+            while(!cursor.isAfterLast()) {
 
                 Event event = new Event();
                 event.setId(Integer.parseInt(cursor.getString(0)));
@@ -372,7 +372,7 @@ public class DatabaseDataSource {
 
         if (cursor.moveToFirst()) {
 
-            while(cursor.isAfterLast() == false) {
+            while(!cursor.isAfterLast()) {
 
                 Event event = new Event();
                 event.setId(Integer.parseInt(cursor.getString(0)));

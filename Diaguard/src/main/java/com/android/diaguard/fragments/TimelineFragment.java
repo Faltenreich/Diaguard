@@ -219,9 +219,7 @@ public class TimelineFragment extends Fragment {
         else if(bloodSugar.size() > 1)
             chartHelperChart.renderer.setPointSize(0);
 
-        float rangeMaximum =
-                preferenceHelper.formatDefaultToCustomUnit(Event.Category.BloodSugar, 260);
-        float highestValue = rangeMaximum;
+        float highestValue = preferenceHelper.formatDefaultToCustomUnit(Event.Category.BloodSugar, 260);
 
         for(Event event : bloodSugar) {
 

@@ -248,7 +248,7 @@
 
     <!-- VALIDATORS -->
     <string name="confirmation_exit">Änderungen verwerfen?</string>
-    <string name="confirmation_exit_desc">Alle eingetragenen Werte gehen verloren</string>
+    <string name="confirmation_exit_desc">Dies wird alle eingetragenen Werte verwerfen</string>
 
     <!-- SETTINGS -->
     <string name="pref_therapy_targets">Zielwerte</string>

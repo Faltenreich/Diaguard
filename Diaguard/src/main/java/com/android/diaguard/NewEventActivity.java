@@ -47,6 +47,7 @@ public class NewEventActivity extends ActionBarActivity {
 
     Calendar time;
     LinkedHashMap<Event.Category, Boolean> selectedCategoriesMap;
+    boolean inputWasMade;
 
     LinearLayout linearLayoutValues;
     EditText editTextNotes;
@@ -74,6 +75,7 @@ public class NewEventActivity extends ActionBarActivity {
         preferenceHelper = new PreferenceHelper(this);
 
         time = Calendar.getInstance();
+        inputWasMade = false;
 
         selectedCategoriesMap = new LinkedHashMap<Event.Category, Boolean>();
         for (Event.Category category : preferenceHelper.getActiveCategories()) {
@@ -100,8 +102,9 @@ public class NewEventActivity extends ActionBarActivity {
 
         if (extras != null) {
 
-            if(extras.getSerializable("Date") != null)
-                time = (Calendar)extras.getSerializable("Date");
+            if(extras.getSerializable("Date") != null) {
+                time = (Calendar) extras.getSerializable("Date");
+            }
 
             if (extras.getLong("ID") != 0L) {
                 setTitle(getString(R.string.editevent));
@@ -133,10 +136,6 @@ public class NewEventActivity extends ActionBarActivity {
     private void setTime() {
         SimpleDateFormat format = preferenceHelper.getTimeFormat();
         buttonTime.setText(format.format(time.getTime()));
-    }
-
-    private boolean inputWasMade() {
-        return linearLayoutValues.getChildCount() > 0;
     }
 
     private void submit() {
@@ -209,6 +208,8 @@ public class NewEventActivity extends ActionBarActivity {
 
     private void addValue(final Event.Category category) {
 
+        inputWasMade = true;
+
         selectedCategoriesMap.put(category, true);
 
         // Add view
@@ -222,6 +223,8 @@ public class NewEventActivity extends ActionBarActivity {
                 public void onDismiss(View view1, Object token) {
                     selectedCategoriesMap.put(category, false);
                     linearLayoutValues.removeView(view);
+                    if(linearLayoutValues.getChildCount() == 0)
+                        inputWasMade = false;
                 }
             }
         ));
@@ -354,9 +357,10 @@ public class NewEventActivity extends ActionBarActivity {
 
     @Override
     public void onBackPressed() {
-        if(inputWasMade()) {
+        if(inputWasMade) {
             new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.confirmation_exit))
+                    .setMessage(getString(R.string.confirmation_exit_desc))
                     .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

@@ -338,8 +338,8 @@
     <string name="validator_value_enddate">End date must be after start date</string>
 
     <!-- VALIDATORS -->
-    <string name="confirmation_exit">Dismiss changes?</string>
-    <string name="confirmation_exit_desc">Every entered value will be lost</string>
+    <string name="confirmation_exit">Discard changes?</string>
+    <string name="confirmation_exit_desc">This will discard all entered data</string>
 
     <!-- SETTINGS -->
     <string name="pref_therapy_targets">Target values</string>

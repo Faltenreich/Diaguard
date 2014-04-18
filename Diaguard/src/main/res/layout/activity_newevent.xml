@@ -102,9 +102,9 @@
                         android:onClick="onClickAddValue"
                         android:tag="0"/>
 
-                </RelativeLayout>
+                <View style="@style/BoxShadow" android:layout_alignParentBottom="true"/>
 
-            <View style="@style/BoxShadow"/>
+                </RelativeLayout>
 
         </LinearLayout>
 

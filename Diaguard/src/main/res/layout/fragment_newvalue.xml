@@ -13,7 +13,8 @@
 
         <ImageView android:id="@+id/image"
             android:layout_width="64dp"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:background="@color/green"/>
 
         <EditText android:id="@+id/value"
             android:layout_width="130dp"
@@ -21,7 +22,8 @@
             android:inputType="numberDecimal"
             android:layout_marginLeft="32dp"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:gravity="center_horizontal"/>
 
         <TextView android:id="@+id/unit"
             android:layout_width="50dp"

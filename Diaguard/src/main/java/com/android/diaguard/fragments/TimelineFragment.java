@@ -308,7 +308,7 @@ public class TimelineFragment extends Fragment {
 
                 // Category image
                 ImageView image = new ImageView(getActivity());
-                int resourceId = getResources().getIdentifier(category.name().toLowerCase(),
+                int resourceId = getResources().getIdentifier(category.name().toLowerCase() + "_black",
                         "drawable", getActivity().getPackageName());
                 image.setImageResource(resourceId);
                 image.setLayoutParams(new LinearLayout.LayoutParams(

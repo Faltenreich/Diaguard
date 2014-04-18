@@ -32,9 +32,10 @@ import com.android.diaguard.helpers.ViewHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Filip on 19.10.13.
@@ -45,8 +46,7 @@ public class NewEventActivity extends ActionBarActivity {
     PreferenceHelper preferenceHelper;
 
     Calendar time;
-    String[] activeCategories;
-    boolean[] selectedCategories;
+    LinkedHashMap<Event.Category, Boolean> selectedCategoriesMap;
 
     LinearLayout linearLayoutValues;
     EditText editTextNotes;
@@ -74,8 +74,11 @@ public class NewEventActivity extends ActionBarActivity {
         preferenceHelper = new PreferenceHelper(this);
 
         time = Calendar.getInstance();
-        activeCategories = preferenceHelper.getActiveCategoriesNames();
-        selectedCategories = new boolean[activeCategories.length];
+
+        selectedCategoriesMap = new LinkedHashMap<Event.Category, Boolean>();
+        for (Event.Category category : preferenceHelper.getActiveCategories()) {
+            selectedCategoriesMap.put(category, false);
+        }
 
         getComponents();
         checkIntents();
@@ -204,7 +207,9 @@ public class NewEventActivity extends ActionBarActivity {
         }
     }
 
-    private void addValue(Event.Category category) {
+    private void addValue(final Event.Category category) {
+
+        selectedCategoriesMap.put(category, true);
 
         // Add view
         LayoutInflater inflater = getLayoutInflater();
@@ -215,9 +220,7 @@ public class NewEventActivity extends ActionBarActivity {
             new SwipeDismissTouchListener.OnDismissCallback() {
                 @Override
                 public void onDismiss(View view1, Object token) {
-                    int position = Arrays.asList(preferenceHelper.getActiveCategories()).indexOf(view.getTag());
-                    if(position != -1)
-                        selectedCategories[position] = false;
+                    selectedCategoriesMap.put(category, false);
                     linearLayoutValues.removeView(view);
                 }
             }
@@ -300,11 +303,29 @@ public class NewEventActivity extends ActionBarActivity {
     }
 
     public void onClickAddValue (View view) {
-        if(view.getTag() != null)
-            addValue(Event.Category.BloodSugar);
+
+        if(view.getTag() != null) {
+            int tag = Integer.parseInt((String) view.getTag());
+
+            // Quick order to add a new BloodSugar value
+            if(tag == Event.Category.BloodSugar.ordinal() && !selectedCategoriesMap.get(Event.Category.BloodSugar)) {
+                addValue(Event.Category.BloodSugar);
+            }
+        }
+
         else {
+            String[] categoryNames = new String[selectedCategoriesMap.size()];
+            final boolean[] selectedCategories = new boolean[selectedCategoriesMap.size()];
+
+            int position = 0;
+            for (Map.Entry entry : selectedCategoriesMap.entrySet()) {
+                categoryNames[position] = preferenceHelper.getCategoryName((Event.Category)entry.getKey());
+                selectedCategories[position] = (Boolean)entry.getValue();
+                position++;
+            }
+
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(NewEventActivity.this);
-            dialogBuilder.setMultiChoiceItems(activeCategories, selectedCategories,
+            dialogBuilder.setMultiChoiceItems(categoryNames, selectedCategories,
                     new DialogInterface.OnMultiChoiceClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which, boolean isChecked) {
@@ -318,9 +339,12 @@ public class NewEventActivity extends ActionBarActivity {
                     })
                     .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            for (int position = selectedCategories.length - 1; position >= 0; position--)
-                                if (selectedCategories[position])
+                            List<Boolean> selectedCategoriesList = new ArrayList<Boolean>(selectedCategoriesMap.values());
+                            for (int position = selectedCategories.length - 1; position >= 0; position--) {
+                                boolean categoryWasSelectedBefore = selectedCategoriesList.get(position);
+                                if (selectedCategories[position] && !categoryWasSelectedBefore)
                                     addValue(Event.Category.values()[position]);
+                            }
                         }
                     });
             AlertDialog dialog = dialogBuilder.create();

@@ -256,6 +256,7 @@ public class CalculatorActivity extends ActionBarActivity {
                             storeValues(bloodSugar, mealFinal, bolus);
                     }
                 });
+
         AlertDialog dialog = dialogBuilder.create();
         dialog.setCanceledOnTouchOutside(true);
 

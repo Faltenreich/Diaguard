@@ -181,6 +181,8 @@ public class LogFragment extends Fragment {
 
         ListViewAdapterEvents adapter = new ListViewAdapterEvents(getActivity(), visibleEventsOfDay);
         listViewEvents.setAdapter(adapter);
+
+        listViewEvents.setEmptyView(getView().findViewById(R.id.listViewEventsEmpty));
     }
 
     // LISTENERS

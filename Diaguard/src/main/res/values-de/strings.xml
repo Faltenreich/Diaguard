@@ -3,6 +3,7 @@
 
     <!-- GENERAL -->
     <string name="app_name">Diaguard</string>
+    <string name="app_stamp">Erstellt mit Diaguard</string>
     <string name="about">Über</string>
     <string name="activity">Aktivität</string>
     <string name="add_value">Wert hinzufügen</string>
@@ -35,7 +36,7 @@
     <string name="development">Entwicklung</string>
     <string name="drawer_close">Navigator schließen</string>
     <string name="drawer_open">Navigator öffnen</string>
-    <string name="editevent">Ereignis bearbeiten</string>
+    <string name="editevent">Eintrag bearbeiten</string>
     <string name="event">Ereignis</string>
     <string name="export_day">Exportiere Tag</string>
     <string name="export_progress">PDF wird erstellt</string>
@@ -51,6 +52,7 @@
     <string name="keywords">Stichwörter</string>
     <string name="latest">vor [value] [unit]</string>
     <string name="latest_moments">vor Kurzem</string>
+    <string name="listview_empty">Keine Einträge vorhanden</string>
     <string name="log">Protokoll</string>
     <string name="meal">Mahlzeit</string>
     <string name="newevent">Tagebucheintrag</string>
@@ -76,6 +78,7 @@
 
     <!-- DATE -->
     <string name="before">vor</string>
+    <string name="calendarweek">Kalenderwoche</string>
     <string name="current">Aktuell</string>
     <string name="date">Datum</string>
     <string name="dateend">Enddatum</string>
@@ -212,20 +215,6 @@
         <item>Monat</item>
         <item>Jahr</item>
     </string-array>
-
-    <!-- TIPPS -->
-    <array name="tip_good">
-        <item>Du hast es im Griff!</item>
-    </array>
-    <array name="tip_trend_good">
-        <item>Du hast es immer besser im Griff!</item>
-    </array>
-    <array name="tip_trend_bad">
-        <item>Es ist noch Luft nach oben</item>
-    </array>
-    <array name="tip_measurements">
-        <item>Du solltest häufiger Deinen Blutzucker messen</item>
-    </array>
 
     <!-- KEYWORDS -->
     <string-array name="keywords">

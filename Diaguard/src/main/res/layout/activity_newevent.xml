@@ -93,7 +93,7 @@
 
                     </LinearLayout>
 
-                    <ImageView
+                    <ImageView android:id="@+id/button_quickvalue"
                         android:layout_width="64dp"
                         android:layout_height="64dp"
                         android:src="@drawable/ic_grid_bloodsugar"

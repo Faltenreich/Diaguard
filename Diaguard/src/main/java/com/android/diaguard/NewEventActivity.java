@@ -221,10 +221,7 @@ public class NewEventActivity extends ActionBarActivity {
             new SwipeDismissTouchListener.OnDismissCallback() {
                 @Override
                 public void onDismiss(View view1, Object token) {
-                    selectedCategoriesMap.put(category, false);
-                    linearLayoutValues.removeView(view);
-                    if(linearLayoutValues.getChildCount() == 0)
-                        inputWasMade = false;
+                    removeValue(category);
                 }
             }
         ));
@@ -274,6 +271,25 @@ public class NewEventActivity extends ActionBarActivity {
         editTextValue.setSelection(editTextValue.getText().length());
 
         linearLayoutValues.addView(view);
+    }
+
+    private void removeValue(Event.Category category) {
+
+        selectedCategoriesMap.put(category, false);
+
+        for(int position = 0; position < linearLayoutValues.getChildCount(); position++) {
+
+            View view = linearLayoutValues.getChildAt(position);
+
+            if(view != null && view.getTag() != null && view.getTag() instanceof Event.Category) {
+                Event.Category childCategory = (Event.Category) view.getTag();
+                if(category == childCategory) {
+                    linearLayoutValues.removeViewAt(position);
+                    if(linearLayoutValues.getChildCount() == 0)
+                        inputWasMade = false;
+                }
+            }
+        }
     }
 
     // LISTENERS
@@ -333,8 +349,7 @@ public class NewEventActivity extends ActionBarActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                         }
-                    }
-            )
+                    })
                     .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.cancel();
@@ -343,10 +358,18 @@ public class NewEventActivity extends ActionBarActivity {
                     .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             List<Boolean> selectedCategoriesList = new ArrayList<Boolean>(selectedCategoriesMap.values());
+
                             for (int position = selectedCategories.length - 1; position >= 0; position--) {
+
                                 boolean categoryWasSelectedBefore = selectedCategoriesList.get(position);
+
+                                // Add new value
                                 if (selectedCategories[position] && !categoryWasSelectedBefore)
                                     addValue(Event.Category.values()[position]);
+
+                                // Remove old value
+                                else if (!selectedCategories[position] && categoryWasSelectedBefore)
+                                    removeValue(Event.Category.values()[position]);
                             }
                         }
                     });

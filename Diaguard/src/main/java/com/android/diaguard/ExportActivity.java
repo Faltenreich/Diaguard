@@ -26,19 +26,16 @@ import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
-import com.itextpdf.text.ExceptionConverter;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPRow;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
-import com.itextpdf.text.pdf.PdfTemplate;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.File;
@@ -62,6 +59,8 @@ public class ExportActivity extends ActionBarActivity {
     private Button buttonDateStart;
     private Button buttonDateEnd;
     private CheckBox checkBoxMail;
+
+    private Event.Category[] selectedCategories;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +86,8 @@ public class ExportActivity extends ActionBarActivity {
         dateStart = Calendar.getInstance();
         dateStart.set(Calendar.DAY_OF_MONTH, 1);
         dateFormat = preferenceHelper.getDateFormat();
+
+        selectedCategories = new Event.Category[] {Event.Category.BloodSugar, Event.Category.Bolus, Event.Category.Meal, Event.Category.Activity};
 
         getComponents();
         initializeGUI();
@@ -176,19 +177,9 @@ public class ExportActivity extends ActionBarActivity {
 
         ProgressDialog progressDialog;
         private final int TEXT_SIZE = 9;
-        Font fontMediumGray;
-        Font fontMedium;
-        Font fontBold;
 
         @Override
         protected File doInBackground(Void... params) {
-
-            fontMedium = FontFactory.getFont(FontFactory.HELVETICA, TEXT_SIZE);
-            fontMediumGray = FontFactory.getFont(FontFactory.HELVETICA, TEXT_SIZE);
-            fontMediumGray.setColor(BaseColor.DARK_GRAY);
-            fontBold = FontFactory.getFont(FontFactory.HELVETICA, TEXT_SIZE, Font.BOLD);
-
-            publishProgress(getString(R.string.export_progress));
 
             File directory = new File(Helper.PATH_STORAGE);
             if (directory != null)
@@ -199,9 +190,17 @@ public class ExportActivity extends ActionBarActivity {
 
             // iTextG
             try {
+                Font fontBasis = FontFactory.getFont(FontFactory.HELVETICA, TEXT_SIZE);
+                Font fontBold = FontFactory.getFont(FontFactory.HELVETICA, TEXT_SIZE, Font.BOLD);
+                Font fontGray = FontFactory.getFont(FontFactory.HELVETICA, TEXT_SIZE, BaseColor.GRAY);
+                Font fontRed = FontFactory.getFont(FontFactory.HELVETICA, TEXT_SIZE, BaseColor.RED);
+                Font fontBlue = FontFactory.getFont(FontFactory.HELVETICA, TEXT_SIZE, BaseColor.BLUE);
+
                 Document document = new Document();
+
                 PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(file));
                 HeaderFooter event = new HeaderFooter();
+                writer.setBoxSize("Header", new Rectangle(36, 54, 559, 788));
                 writer.setPageEvent(event);
 
                 document.open();
@@ -232,6 +231,7 @@ public class ExportActivity extends ActionBarActivity {
                     if(currentDay > 1 && dateIteration.get(Calendar.DAY_OF_WEEK) == 2) {
                         document.newPage();
                         document.add(getWeekBar(dateIteration));
+                        document.add(Chunk.NEWLINE);
                     }
 
                     PdfPTable table = new PdfPTable(13);
@@ -248,7 +248,7 @@ public class ExportActivity extends ActionBarActivity {
                     cell.setBorder(Rectangle.BOTTOM);
                     table.addCell(cell);
                     for(int i = 0; i < 12; i++) {
-                        cell = new PdfPCell(new Paragraph(Integer.toString(i * 2), fontMediumGray));
+                        cell = new PdfPCell(new Paragraph(Integer.toString(i * 2), fontGray));
                         cell.setBorder(0);
                         cell.setBorder(Rectangle.BOTTOM);
                         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -256,54 +256,63 @@ public class ExportActivity extends ActionBarActivity {
                     }
 
                     // Content
-                    Event.Category[] categories = Event.Category.values();
                     dataSource.open();
-                    float[][] values = dataSource.getAverageDataTable(dateIteration, categories, 12);
+                    float[][] values = dataSource.getAverageDataTable(dateIteration, selectedCategories, 12);
                     dataSource.close();
 
                     // Insert values into table
-                    for(int categoryPosition = 0; categoryPosition < categories.length; categoryPosition++) {
-                        Event.Category category = categories[categoryPosition];
+                    for(int categoryPosition = 0; categoryPosition < selectedCategories.length; categoryPosition++) {
+                        Event.Category category = selectedCategories[categoryPosition];
 
-                        cell = new PdfPCell(new Paragraph(preferenceHelper.getCategoryName(category), fontMedium));
+                        cell = new PdfPCell(new Paragraph(preferenceHelper.getCategoryName(category), fontGray));
                         cell.setBorder(0);
-                        if(categoryPosition == categories.length-1)
+                        if(categoryPosition == selectedCategories.length-1)
                             cell.setBorder(Rectangle.BOTTOM);
                         table.addCell(cell);
 
                         for(int hour = 0; hour < 12; hour++) {
+
                             float value = preferenceHelper.formatDefaultToCustomUnit(category,
                                     values[categoryPosition][hour]);
-                            String valueString;
+
+                            Paragraph paragraph = new Paragraph();
                             if(value > 0) {
+
+                                String valueString;
                                 if(category == Event.Category.BloodSugar && value > 20)
                                     valueString = Helper.getRationalFormat().format(value);
                                 else
                                     valueString = Helper.getDecimalFormat().format(value);
-                            }
-                            else
-                                valueString = "   ";
-                            cell = new PdfPCell(new Paragraph(valueString, fontMedium));
 
+                                if(category == Event.Category.BloodSugar) {
+                                    if (value < preferenceHelper.getLimitHypoglycemia())
+                                        paragraph = new Paragraph(valueString, fontBlue);
+                                    else if (value > preferenceHelper.getLimitHyperglycemia())
+                                        paragraph = new Paragraph(valueString, fontRed);
+                                    else
+                                        paragraph = new Paragraph(valueString, fontBasis);
+                                }
+                            }
+
+                            cell = new PdfPCell(paragraph);
                             cell.setBorder(0);
-                            if(categoryPosition == categories.length-1)
+                            if(categoryPosition == selectedCategories.length-1)
                                 cell.setBorder(Rectangle.BOTTOM);
                             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                             table.addCell(cell);
                         }
                     }
 
-                    // Row background
+                    // Alternating row background
                     boolean b = true;
                     for(PdfPRow r: table.getRows()) {
-                        for(PdfPCell c: r.getCells()) {
+                        for(PdfPCell c: r.getCells())
                             c.setBackgroundColor(b ? BaseColor.WHITE : new BaseColor(222,222,222));
-                        }
                         b = !b;
                     }
 
                     document.add(table);
-                    document.add(new Paragraph(" ", fontMedium));
+                    document.add(Chunk.NEWLINE);
 
                     publishProgress(getString(R.string.day) + " " + currentDay + "/" + totalDays);
 
@@ -361,15 +370,16 @@ public class ExportActivity extends ActionBarActivity {
 
     private Paragraph getWeekBar(Calendar weekStart) {
 
-        Calendar weekEnd = Calendar.getInstance();
-        weekEnd.set(Calendar.DAY_OF_MONTH, weekStart.get(Calendar.DAY_OF_MONTH) + 6);
-
         Paragraph paragraph = new Paragraph();
 
         // Week
-        Chunk chunk = new Chunk(getString(R.string.week) + " " + weekStart.get(Calendar.WEEK_OF_YEAR));
+        Chunk chunk = new Chunk(getString(R.string.calendarweek) + " " + weekStart.get(Calendar.WEEK_OF_YEAR));
         chunk.setFont(FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD));
         paragraph.add(chunk);
+
+        Calendar weekEnd = Calendar.getInstance();
+        weekEnd.setTime(weekStart.getTime());
+        weekEnd.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
 
         // Dates
         chunk = new Chunk("\n" + preferenceHelper.getDateFormat().format(weekStart.getTime()) + " - " +
@@ -378,42 +388,6 @@ public class ExportActivity extends ActionBarActivity {
         paragraph.add(chunk);
 
         return paragraph;
-    }
-
-    /** Inner class to add a header and a footer. */
-    class HeaderFooter extends PdfPageEventHelper {
-
-        protected PdfTemplate total;
-        protected BaseFont helv;
-
-        public void onOpenDocument(PdfWriter writer, Document document) {
-            total = writer.getDirectContent().createTemplate(100, 100);
-            total.setBoundingBox(new Rectangle(100, 100, 100, 100));
-            try {
-                helv = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.WINANSI, BaseFont.NOT_EMBEDDED);
-            } catch (Exception e) {
-                throw new ExceptionConverter(e);
-            }
-        }
-
-        public void onEndPage (PdfWriter writer, Document document) {
-            PdfContentByte cb = writer.getDirectContent();
-            cb.saveState();
-            String text = ExportActivity.this.getString(R.string.app_name);
-            cb.beginText();
-            cb.setFontAndSize(helv, 12);
-            //cb.showText(text);
-            cb.endText();
-            cb.restoreState();
-        }
-
-        public void onCloseDocument(PdfWriter writer, Document document) {
-            total.beginText();
-            total.setFontAndSize(helv, 12);
-            total.setTextMatrix(0, 0);
-            //total.showText(String.valueOf(writer.getPageNumber() - 1));
-            total.endText();
-        }
     }
 
     @Override
@@ -430,6 +404,38 @@ public class ExportActivity extends ActionBarActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    class HeaderFooter extends PdfPageEventHelper {
+
+        int pageNumber;
+
+        public void onOpenDocument(PdfWriter writer, Document document) {
+
+        }
+
+        public void onChapter(PdfWriter writer, Document document,
+                              float paragraphPosition, Paragraph title) {
+            pageNumber = 1;
+        }
+
+        public void onStartPage(PdfWriter writer, Document document) {
+            pageNumber++;
+        }
+
+        public void onEndPage(PdfWriter writer, Document document) {
+            Rectangle rect = writer.getBoxSize("Header");
+
+            Chunk chunk = new Chunk(getString(R.string.app_stamp), FontFactory.getFont(FontFactory.HELVETICA, 9, BaseColor.GRAY));
+            ColumnText.showTextAligned(writer.getDirectContent(),
+                    Element.ALIGN_LEFT, new Phrase(chunk),
+                    rect.getLeft(), rect.getBottom() - 18, 0);
+
+            chunk = new Chunk(getString(R.string.app_website), FontFactory.getFont(FontFactory.HELVETICA, 9, BaseColor.GRAY));
+            ColumnText.showTextAligned(writer.getDirectContent(),
+                    Element.ALIGN_RIGHT, new Phrase(chunk),
+                    rect.getRight(), rect.getBottom() - 18, 0);
         }
     }
 }

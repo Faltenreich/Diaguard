@@ -430,6 +430,7 @@ public class DatabaseDataSource {
             float oldValue = values[category][hour];
             float newValue;
 
+            // Sum of everything but Blood Sugar (average)
             if(event.getCategory() == Event.Category.BloodSugar) {
                 if(oldValue > 0) {
                     // Calculate Average per hour

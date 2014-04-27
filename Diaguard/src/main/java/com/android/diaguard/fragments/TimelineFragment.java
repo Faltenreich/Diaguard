@@ -255,8 +255,6 @@ public class TimelineFragment extends Fragment {
         chartHelperChart.chartView.addPanListener(new PanListener() {
             @Override
             public void panApplied() {
-
-
                 chartHelperTable.renderer.setXAxisMin(chartHelperChart.renderer.getXAxisMin());
                 chartHelperTable.renderer.setXAxisMax(chartHelperChart.renderer.getXAxisMax());
                 chartHelperTable.renderer.setXLabels(23);
@@ -366,7 +364,6 @@ public class TimelineFragment extends Fragment {
             for(int hour = 0; hour < 12; hour++) {
                 float value = values[categoryPosition][hour];
                 if(value > 0) {
-
                     float x_value = (hour * 2) + 1;
                     float y_value = activeCategoryCount - 1 - categoryPosition + 0.25f;
                     String valueString = Helper.getRationalFormat().

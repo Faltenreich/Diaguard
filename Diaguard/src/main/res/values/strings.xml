@@ -3,6 +3,8 @@
 
     <!-- GENERAL -->
     <string name="app_name">Diaguard</string>
+    <string name="app_stamp">Created with Diaguard</string>
+    <string name="app_website">facebook.com/diaguard</string>
     <string name="about">About</string>
     <string name="activity">Activity</string>
     <string name="add_value">Add value</string>
@@ -36,7 +38,7 @@
     <string name="development">Development</string>
     <string name="drawer_close">Close Navigator</string>
     <string name="drawer_open">Open Navigator</string>
-    <string name="editevent">Edit Event</string>
+    <string name="editevent">Edit Entry</string>
     <string name="event">Event</string>
     <string name="export">Export</string>
     <string name="export_day">Export Day</string>
@@ -55,6 +57,7 @@
     <string name="keywords">Keywords</string>
     <string name="latest">[value] [unit] ago</string>
     <string name="latest_moments">Moments ago</string>
+    <string name="listview_empty">No data available</string>
     <string name="log">Log</string>
     <string name="mail">E-Mail</string>
     <string name="meal">Meal</string>
@@ -84,6 +87,7 @@
 
     <!-- DATE -->
     <string name="before">before</string>
+    <string name="calendarweek">Calendar week</string>
     <string name="current">Current</string>
     <string name="date">Date</string>
     <string name="dateend">End date</string>
@@ -315,20 +319,6 @@
         <item>Month</item>
         <item>Year</item>
     </string-array>
-
-    <!-- TIPPS -->
-    <array name="tip_good">
-        <item>You\'re doing good!</item>
-    </array>
-    <array name="tip_trend_good">
-        <item>You\'re getting better!</item>
-    </array>
-    <array name="tip_trend_bad">
-        <item>You can do better</item>
-    </array>
-    <array name="tip_measurements">
-        <item>You should measure your blood more often</item>
-    </array>
 
     <!-- VALIDATORS -->
     <string name="validator_value_infuture">Event cannot take place in the future</string>

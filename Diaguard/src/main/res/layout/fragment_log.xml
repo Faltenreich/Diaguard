@@ -22,4 +22,12 @@
         android:layout_above="@id/toolbar"
         android:layout_alignParentTop="true"/>
 
+    <TextView
+        android:id="@+id/listViewEventsEmpty"
+        android:text="@string/listview_empty"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        />
+
 </RelativeLayout>

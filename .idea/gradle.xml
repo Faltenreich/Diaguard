@@ -7,8 +7,8 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="W:\Android Studio\DiaguardProject" />
-            <option value="W:\Android Studio\DiaguardProject\Diaguard" />
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/Diaguard" />
           </set>
         </option>
       </GradleProjectSettings>

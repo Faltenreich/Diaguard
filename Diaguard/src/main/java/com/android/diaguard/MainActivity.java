@@ -3,6 +3,7 @@ package com.android.diaguard;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -107,12 +108,18 @@ public class MainActivity extends ActionBarActivity {
 
             /** Called when a activity_main has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
-                invalidateOptionsMenu();
+                if(Build.VERSION.SDK_INT < 11)
+                    supportInvalidateOptionsMenu();
+                else
+                    invalidateOptionsMenu();
             }
 
             /** Called when a activity_main has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
-                invalidateOptionsMenu();
+                if(Build.VERSION.SDK_INT < 11)
+                    supportInvalidateOptionsMenu();
+                else
+                    invalidateOptionsMenu();
             }
         };
         drawerLayout.setDrawerListener(drawerToggle);

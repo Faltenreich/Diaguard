@@ -285,19 +285,22 @@ public class TimelineFragment extends Fragment {
         chartHelperTable.renderer.removeAllRenderers();
         layoutTableLabels.removeAllViews();
 
+
         // Row backgrounds
+        /*
         for(int row = 0; row < activeCategoryCount; row++) {
             XYSeriesRenderer seriesRenderer = new XYSeriesRenderer();
             seriesRenderer.setColor(Color.argb(0, 0, 0, 0));
             XYSeriesRenderer.FillOutsideLine fill =
                     new XYSeriesRenderer.FillOutsideLine(XYSeriesRenderer.FillOutsideLine.Type.ABOVE);
             if((row + activeCategoryCount) % 2 == 0)
-                fill.setColor(Color.argb(40, 126, 126, 126));
+                fill.setColor(getResources().getColor(R.color.gray));
             else
-                fill.setColor(getResources().getColor(R.color.ltgray));
+                fill.setColor(Color.WHITE);
             seriesRenderer.addFillOutsideLine(fill);
             chartHelperTable.renderer.addSeriesRenderer(seriesRenderer);
         }
+        */
 
         // Table
         int activeCategoryPosition = 0;
@@ -308,12 +311,13 @@ public class TimelineFragment extends Fragment {
 
                 // Category image
                 ImageView image = new ImageView(getActivity());
-                int resourceId = getResources().getIdentifier(category.name().toLowerCase() + "_black",
+                int resourceId = getResources().getIdentifier(category.name().toLowerCase(),
                         "drawable", getActivity().getPackageName());
                 image.setImageResource(resourceId);
-                image.setLayoutParams(new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT, 1.0f));
+                int imageSize = (int) Helper.getDPI(getActivity(), 32);
+                image.setLayoutParams(new LinearLayout.LayoutParams(imageSize, imageSize, 1.0f));
+                int imagePadding = (int) Helper.getDPI(getActivity(), 4);
+                // image.setPadding(imagePadding, imagePadding, imagePadding, imagePadding);
                 layoutTableLabels.addView(image);
 
                 chartHelperTable.renderer.addYTextLabel(activeCategoryPosition, preferenceHelper.getCategoryAcronym(category));
@@ -331,8 +335,8 @@ public class TimelineFragment extends Fragment {
         chartHelperTable.renderer.setYAxisMin(0);
         chartHelperTable.renderer.setYAxisMax(activeCategoryPosition);
         chartHelperTable.renderer.setYLabels(activeCategoryPosition);
-        chartHelperTable.renderer.setYLabelsColor(0, Color.TRANSPARENT);
-        chartHelperTable.renderer.setXLabelsColor(Color.TRANSPARENT);
+        chartHelperTable.renderer.setShowGrid(true);
+        chartHelperTable.renderer.setShowLabels(false);
     }
 
     private void setTableData() {
@@ -340,12 +344,14 @@ public class TimelineFragment extends Fragment {
         chartHelperTable.seriesDataset.clear();
 
         // Paint rows
+        /*
         for(int row = 0; row < activeCategoryCount; row++) {
             XYSeries series = new XYSeries("Background");
             chartHelperTable.seriesDataset.addSeries(series);
             series.add(-10, row);
             series.add(26, row);
         }
+        */
 
         List<Event.Category> checkedCategoriesList = new ArrayList<Event.Category>();
         for(int position = 0; position < activeCategories.length; position++) {

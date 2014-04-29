@@ -49,7 +49,7 @@ public class ChartHelper {
 
     public void render() {
         renderBasics();
-        renderInApp();
+        renderTime();
     }
 
     private void renderBasics() {
@@ -61,29 +61,29 @@ public class ChartHelper {
 
         renderer.setPanEnabled(false, false);
         renderer.setZoomEnabled(false, false);
+        renderer.setShowLegend(false);
+        renderer.setShowGrid(false);
+        renderer.setGridColor(Color.DKGRAY);
+        renderer.setAxesColor(Color.DKGRAY);
+        renderer.setApplyBackgroundColor(true);
+        renderer.setBackgroundColor(Color.argb(0x00, 0xff, 0x00, 0x00));
+        renderer.setPointSize(Helper.getDPI(activity, 4));
 
         renderer.setMargins(new int[]{0, (int) Helper.getDPI(activity, 40), 0, (int) Helper.getDPI(activity, 10)});
         renderer.setMarginsColor(activity.getResources().getColor(R.color.ltgray));
+
         renderer.setLabelsTextSize(Helper.getDPI(activity, 12));
         renderer.setLabelsColor(Color.DKGRAY);
-        renderer.setXLabelsColor(Color.DKGRAY);
-        renderer.setYLabelsColor(0, Color.DKGRAY);
-        renderer.setPointSize(Helper.getDPI(activity, 4));
 
-        renderer.setApplyBackgroundColor(true);
-        renderer.setBackgroundColor(Color.argb(0x00, 0xff, 0x00, 0x00));
+        renderer.setXLabelsColor(Color.DKGRAY);
         renderer.setXRoundedLabels(false);
 
-        renderer.setShowLegend(false);
-        renderer.setShowGrid(false);
-
-        renderer.setAxesColor(Color.DKGRAY);
+        renderer.setYLabelsColor(0, Color.DKGRAY);
+        renderer.setYLabelsPadding(Helper.getDPI(activity, 10));
+        renderer.setYLabelsAlign(Paint.Align.RIGHT);
     }
 
-    private void renderInApp() {
-        renderer.setYLabelsPadding(Helper.getDPI(activity, Helper.getDPI(activity, 2.5f)));
-        renderer.setYAxisAlign(Paint.Align.LEFT, 0);
-        renderer.setYLabelsAlign(Paint.Align.RIGHT);
+    private void renderTime() {
 
         switch(activity.getResources().getConfiguration().orientation) {
             case Configuration.ORIENTATION_PORTRAIT:

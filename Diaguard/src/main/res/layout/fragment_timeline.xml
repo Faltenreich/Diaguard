@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:background="@android:color/darker_gray">
+    android:background="@color/ltgray">
 
     <LinearLayout android:id="@+id/toolbar"
         android:layout_width="fill_parent"
@@ -18,12 +18,8 @@
     <RelativeLayout android:id="@+id/layoutMain"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/ltgray"
         android:layout_above="@id/toolbar"
-        android:paddingTop="@dimen/margin_between"
-        android:paddingLeft="@dimen/margin_between"
-        android:paddingRight="@dimen/margin_between"
-        android:paddingBottom="0dp">
+        android:padding="@dimen/margin_between">
 
         <LinearLayout android:id="@+id/scrollview_table"
             android:layout_width="fill_parent"
@@ -37,12 +33,14 @@
                 <LinearLayout android:id="@+id/table_values"
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"/>
 
                 <LinearLayout android:id="@+id/table_labels"
-                    android:layout_width="24dp"
+                    android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"/>
+                    android:orientation="vertical"
+                    android:gravity="right"/>
 
             </RelativeLayout>
 
@@ -52,8 +50,9 @@
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_above="@id/scrollview_table"/>
+            android:layout_above="@id/scrollview_table"
+            android:background="@android:color/white"
+            android:layout_marginBottom="4dp"/>
 
     </RelativeLayout>
 

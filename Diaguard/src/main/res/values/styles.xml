@@ -1,17 +1,19 @@
 <resources>
 
-    <!-- Base application theme. -->
+    <!-- Every value twice to guarantee compatibility for API < 11 -->
     <style name="AppTheme" parent="Theme.AppCompat.Light">
-        <item name="android:actionBarStyle">@style/ActionBarTheme</item>
         <item name="actionBarStyle">@style/ActionBarTheme</item>
+        <item name="android:actionBarStyle">@style/ActionBarTheme</item>
     </style>
 
     <style name="ActionBarTheme"
         parent="@style/Widget.AppCompat.ActionBar">
+        <item name="background">@color/green</item>
         <item name="android:background">@color/green</item>
-        <item name="android:titleTextStyle">@style/ActionBarTitleText</item>
-        <item name="android:subtitleTextStyle">@style/ActionBarSubtitleText</item>
         <item name="titleTextStyle">@style/ActionBarTitleText</item>
+        <item name="android:titleTextStyle">@style/ActionBarTitleText</item>
+        <item name="subtitleTextStyle">@style/ActionBarSubtitleText</item>
+        <item name="android:subtitleTextStyle">@style/ActionBarSubtitleText</item>
     </style>
 
     <style name="ActionBarTitleText"

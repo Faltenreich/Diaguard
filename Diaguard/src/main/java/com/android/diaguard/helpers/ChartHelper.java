@@ -63,7 +63,7 @@ public class ChartHelper {
         renderer.setZoomEnabled(false, false);
         renderer.setShowLegend(false);
         renderer.setShowGrid(false);
-        renderer.setGridColor(Color.DKGRAY);
+        renderer.setGridColor(Color.GRAY);
         renderer.setAxesColor(Color.DKGRAY);
         renderer.setApplyBackgroundColor(true);
         renderer.setBackgroundColor(Color.argb(0x00, 0xff, 0x00, 0x00));

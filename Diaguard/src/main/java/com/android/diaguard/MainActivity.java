@@ -98,15 +98,9 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-        drawerToggle = new ActionBarDrawerToggle(
-                this,                  /* host Activity */
-                drawerLayout,         /* DrawerLayout object */
-                R.drawable.ic_drawer,  /* nav activity_main icon to replace 'Up' caret */
-                R.string.drawer_open,  /* "open activity_main" description */
-                R.string.drawer_close  /* "close activity_main" description */
-        ) {
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer,
+                R.string.drawer_open, R.string.drawer_close) {
 
-            /** Called when a activity_main has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 if(Build.VERSION.SDK_INT < 11)
                     supportInvalidateOptionsMenu();
@@ -114,7 +108,6 @@ public class MainActivity extends ActionBarActivity {
                     invalidateOptionsMenu();
             }
 
-            /** Called when a activity_main has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 if(Build.VERSION.SDK_INT < 11)
                     supportInvalidateOptionsMenu();
@@ -124,8 +117,16 @@ public class MainActivity extends ActionBarActivity {
         };
         drawerLayout.setDrawerListener(drawerToggle);
 
-        // TODO: Open up on first start
-        //drawerLayout.openDrawer(drawerList);
+        /*
+        // Hint for the Navigation Drawer
+        drawerLayout.openDrawer(drawerList);
+        new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    drawerLayout.closeDrawer(drawerList);
+                }
+        }, 1300);
+        */
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);

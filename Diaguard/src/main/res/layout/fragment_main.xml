@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     style="@style/Main"
+    android:paddingBottom="0dp"
     android:background="@color/gray">
 
     <LinearLayout
@@ -24,13 +25,21 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_white">
 
+                <ImageView android:id="@+id/imageview_newevent"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:src="@drawable/ic_add_grid"
+                    android:layout_alignParentRight="true"/>
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_gravity="center_vertical"
                     android:layout_centerVertical="true"
-                    style="@style/Main">
+                    style="@style/Main"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@id/imageview_newevent">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -38,22 +47,18 @@
                         android:text="@string/newevent"
                         android:textSize="@dimen/text_medium"
                         android:layout_gravity="left"
-                        style="@style/BoxText"/>
+                        style="@style/BoxText"
+                        android:singleLine="true"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/newevent_desc"
                         android:layout_gravity="left"
-                        style="@style/BoxTextDesc"/>
+                        style="@style/BoxTextDesc"
+                        android:singleLine="true"/>
 
                 </LinearLayout>
-
-                <ImageView
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:src="@drawable/ic_add_grid"
-                    android:layout_alignParentRight="true"/>
 
             </RelativeLayout>
 

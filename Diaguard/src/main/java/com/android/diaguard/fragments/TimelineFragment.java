@@ -278,7 +278,9 @@ public class TimelineFragment extends Fragment {
 
     private void renderTable() {
 
-        getView().findViewById(R.id.table).setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, activeCategoryCount * 75));
+        getView().findViewById(R.id.table).setLayoutParams(
+                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        activeCategoryCount * (int)Helper.getDPI(getActivity(), 32)));
         chartHelperTable.render();
         chartHelperTable.renderer.removeAllRenderers();
         layoutTableLabels.removeAllViews();
@@ -312,8 +314,6 @@ public class TimelineFragment extends Fragment {
                 image.setLayoutParams(new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.MATCH_PARENT, 1.0f));
-                int padding = (int) Helper.getDPI(getActivity(), 2);
-                image.setPadding(padding, padding, padding, padding);
                 layoutTableLabels.addView(image);
 
                 chartHelperTable.renderer.addYTextLabel(activeCategoryPosition, preferenceHelper.getCategoryAcronym(category));
@@ -331,8 +331,8 @@ public class TimelineFragment extends Fragment {
         chartHelperTable.renderer.setYAxisMin(0);
         chartHelperTable.renderer.setYAxisMax(activeCategoryPosition);
         chartHelperTable.renderer.setYLabels(activeCategoryPosition);
-        chartHelperTable.renderer.setMargins(new int[]{0, 0,
-                (int) Helper.getDPI(getActivity(), -20), (int) Helper.getDPI(getActivity(), 10)});
+        chartHelperTable.renderer.setYLabelsColor(0, Color.TRANSPARENT);
+        chartHelperTable.renderer.setXLabelsColor(Color.TRANSPARENT);
     }
 
     private void setTableData() {

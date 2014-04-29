@@ -3,11 +3,11 @@
 
     <!-- GENERAL -->
     <string name="app_name">Diaguard</string>
-    <string name="app_stamp">Erstellt mit Diaguard</string>
+    <string name="app_stamp">Bericht generiert am</string>
     <string name="about">Über</string>
     <string name="activity">Aktivität</string>
     <string name="add_value">Wert hinzufügen</string>
-    <string name="add_value_desc">Kategorien und Messwerte wählen</string>
+    <string name="add_value_desc">Kategorien wählen</string>
     <string name="all">Alle</string>
     <string name="application">Anwendung</string>
     <string name="average">Durchschnitt</string>
@@ -56,7 +56,7 @@
     <string name="log">Protokoll</string>
     <string name="meal">Mahlzeit</string>
     <string name="newevent">Tagebucheintrag</string>
-    <string name="newevent_desc">Neue Messwerte hinzufügen</string>
+    <string name="newevent_desc">Messwerte hinzufügen</string>
     <string name="next">Weiter</string>
     <string name="none">Keine</string>
     <string name="note">Notiz</string>
@@ -235,9 +235,12 @@
     <string name="validator_value_unrealistic">Unrealistischer Wert</string>
     <string name="validator_value_enddate">Enddatum muss vor Startdatum liegen</string>
 
-    <!-- VALIDATORS -->
     <string name="confirmation_exit">Änderungen verwerfen?</string>
     <string name="confirmation_exit_desc">Dies wird alle eingetragenen Werte verwerfen</string>
+
+    <!-- ERRORS -->
+    <string name="error_no_mail">Keine App zum Senden von E-Mails gefunden</string>
+    <string name="error_no_pdf">Keine App zum Öffnen von PDFs gefunden</string>
 
     <!-- SETTINGS -->
     <string name="pref_therapy_targets">Zielwerte</string>

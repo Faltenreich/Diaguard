@@ -1,6 +1,7 @@
 package com.android.diaguard;
 
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -136,13 +137,23 @@ public class ExportActivity extends ActionBarActivity {
         intent.putExtra(Intent.EXTRA_SUBJECT, subject);
         intent.putExtra(Intent.EXTRA_TEXT,
                 getString(R.string.pref_data_export_mail_message));
-        startActivity(intent);
+        try {
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            ViewHelper.showToastError(this, getString(R.string.error_no_mail));
+            Log.e("Send Mail", e.getMessage());
+        }
     }
 
     private void openPDF(File file) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(Uri.fromFile(file), Helper.MIME_PDF);
-        startActivity(intent);
+        try {
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            ViewHelper.showToastError(this, getString(R.string.error_no_pdf));
+            Log.e("Open PDF", e.getMessage());
+        }
     }
 
     // LISTENERS
@@ -218,7 +229,6 @@ public class ExportActivity extends ActionBarActivity {
                 int totalDays = Helper.getDifferenceInDays(dateStart, dateEnd) + 1;
 
                 String[] weekDays = getResources().getStringArray(R.array.weekdays);
-                float[] colsWidth = {3,1,1,1,1,1,1,1,1,1,1,1,1};
 
                 document.add(getWeekBar(dateIteration));
                 document.add(Chunk.NEWLINE);
@@ -235,7 +245,7 @@ public class ExportActivity extends ActionBarActivity {
                     }
 
                     PdfPTable table = new PdfPTable(13);
-                    table.setWidths(colsWidth);
+                    table.setWidths(new float[]{3,1,1,1,1,1,1,1,1,1,1,1,1});
                     table.setWidthPercentage(100);
 
                     PdfPCell cell;
@@ -307,12 +317,12 @@ public class ExportActivity extends ActionBarActivity {
                     boolean b = true;
                     for(PdfPRow r: table.getRows()) {
                         for(PdfPCell c: r.getCells())
-                            c.setBackgroundColor(b ? BaseColor.WHITE : new BaseColor(222,222,222));
+                            c.setBackgroundColor(b ? BaseColor.WHITE : new BaseColor(230,230,230));
                         b = !b;
                     }
 
                     document.add(table);
-                    document.add(Chunk.NEWLINE);
+                    document.add(new Paragraph(" ", fontBasis));
 
                     publishProgress(getString(R.string.day) + " " + currentDay + "/" + totalDays);
 
@@ -427,12 +437,17 @@ public class ExportActivity extends ActionBarActivity {
         public void onEndPage(PdfWriter writer, Document document) {
             Rectangle rect = writer.getBoxSize("Header");
 
-            Chunk chunk = new Chunk(getString(R.string.app_stamp), FontFactory.getFont(FontFactory.HELVETICA, 9, BaseColor.GRAY));
+            Calendar today = Calendar.getInstance();
+            String stamp = getString(R.string.app_stamp) + " " +
+                    preferenceHelper.getDateFormat().format(today.getTime());
+            Chunk chunk = new Chunk(stamp,
+                    FontFactory.getFont(FontFactory.HELVETICA, 9, BaseColor.GRAY));
             ColumnText.showTextAligned(writer.getDirectContent(),
                     Element.ALIGN_LEFT, new Phrase(chunk),
                     rect.getLeft(), rect.getBottom() - 18, 0);
 
-            chunk = new Chunk(getString(R.string.app_website), FontFactory.getFont(FontFactory.HELVETICA, 9, BaseColor.GRAY));
+            chunk = new Chunk(getString(R.string.app_website),
+                    FontFactory.getFont(FontFactory.HELVETICA, 9, BaseColor.GRAY));
             ColumnText.showTextAligned(writer.getDirectContent(),
                     Element.ALIGN_RIGHT, new Phrase(chunk),
                     rect.getRight(), rect.getBottom() - 18, 0);

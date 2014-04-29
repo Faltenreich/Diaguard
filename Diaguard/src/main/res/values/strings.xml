@@ -3,12 +3,12 @@
 
     <!-- GENERAL -->
     <string name="app_name">Diaguard</string>
-    <string name="app_stamp">Created with Diaguard</string>
+    <string name="app_stamp">Report generated on</string>
     <string name="app_website">facebook.com/diaguard</string>
     <string name="about">About</string>
     <string name="activity">Activity</string>
     <string name="add_value">Add value</string>
-    <string name="add_value_desc">Choose categories and measurements</string>
+    <string name="add_value_desc">Choose categories</string>
     <string name="all">All</string>
     <string name="application">Application</string>
     <string name="average">Average</string>
@@ -62,7 +62,7 @@
     <string name="mail">E-Mail</string>
     <string name="meal">Meal</string>
     <string name="newevent">Diary entry</string>
-    <string name="newevent_desc">Add measurements of medical value</string>
+    <string name="newevent_desc">Add measurements</string>
     <string name="next">Continue</string>
     <string name="none">None</string>
     <string name="note">Note</string>
@@ -327,9 +327,12 @@
     <string name="validator_value_unrealistic">Unrealistic value</string>
     <string name="validator_value_enddate">End date must be after start date</string>
 
-    <!-- VALIDATORS -->
     <string name="confirmation_exit">Discard changes?</string>
     <string name="confirmation_exit_desc">This will discard all entered data</string>
+
+    <!-- ERRORS -->
+    <string name="error_no_mail">No app found to send E-Mail</string>
+    <string name="error_no_pdf">No app found to open PDF</string>
 
     <!-- SETTINGS -->
     <string name="pref_therapy_targets">Target values</string>

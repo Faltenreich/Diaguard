@@ -70,29 +70,6 @@
                 android:onClick="onClickAddValue"
                 android:background="@drawable/button_white">
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_centerVertical="true"
-                        style="@style/Main">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/add_value"
-                            android:textSize="@dimen/text_medium"
-                            style="@style/BoxText"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/add_value_desc"
-                            android:layout_gravity="left"
-                            style="@style/BoxTextDesc"/>
-
-                    </LinearLayout>
-
                     <ImageView android:id="@+id/button_quickvalue"
                         android:layout_width="64dp"
                         android:layout_height="64dp"
@@ -102,7 +79,34 @@
                         android:onClick="onClickAddValue"
                         android:tag="0"/>
 
-                <View style="@style/BoxShadow" android:layout_alignParentBottom="true"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_centerVertical="true"
+                        style="@style/Main"
+                        android:layout_alignParentLeft="true"
+                        android:layout_toLeftOf="@id/button_quickvalue">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/add_value"
+                            android:textSize="@dimen/text_medium"
+                            style="@style/BoxText"
+                            android:singleLine="true"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/add_value_desc"
+                            android:layout_gravity="left"
+                            style="@style/BoxTextDesc"
+                            android:singleLine="true"/>
+
+                    </LinearLayout>
+
+                    <View style="@style/BoxShadow" android:layout_alignParentBottom="true"/>
 
                 </RelativeLayout>
 

@@ -65,20 +65,19 @@ public class ChartHelper {
         renderer.setMargins(new int[]{0, (int) Helper.getDPI(activity, 40), 0, (int) Helper.getDPI(activity, 10)});
         renderer.setMarginsColor(activity.getResources().getColor(R.color.ltgray));
         renderer.setLabelsTextSize(Helper.getDPI(activity, 12));
-        renderer.setLabelsColor(Color.BLACK);
+        renderer.setLabelsColor(Color.DKGRAY);
+        renderer.setXLabelsColor(Color.DKGRAY);
+        renderer.setYLabelsColor(0, Color.DKGRAY);
         renderer.setPointSize(Helper.getDPI(activity, 4));
 
         renderer.setApplyBackgroundColor(true);
-        renderer.setBackgroundColor(activity.getResources().getColor(R.color.ltgray));
-        renderer.setYLabelsColor(0, Color.BLACK);
-        renderer.setXLabelsColor(Color.BLACK);
+        renderer.setBackgroundColor(Color.argb(0x00, 0xff, 0x00, 0x00));
         renderer.setXRoundedLabels(false);
 
         renderer.setShowLegend(false);
-        renderer.setShowGrid(true);
+        renderer.setShowGrid(false);
 
-        renderer.setAxesColor(Color.BLACK);
-        renderer.setGridColor(Color.GRAY);
+        renderer.setAxesColor(Color.DKGRAY);
     }
 
     private void renderInApp() {

@@ -65,6 +65,7 @@
     <string name="pulse">Puls</string>
     <string name="settings">Einstellungen</string>
     <string name="setup">Einrichten</string>
+    <string name="startscreen">Startbildschirm</string>
     <string name="store_values">Werte eintragen</string>
     <string name="textsize">Schriftgröße</string>
     <string name="therapy">Therapie</string>
@@ -75,6 +76,12 @@
     <string name="units">Einheiten</string>
     <string name="value">Wert</string>
     <string name="weight">Gewicht</string>
+
+    <string-array name="startscreens">
+        <item>Übersicht</item>
+        <item>Tagebuch</item>
+        <item>Protokoll</item>
+    </string-array>
 
     <!-- DATE -->
     <string name="before">vor</string>

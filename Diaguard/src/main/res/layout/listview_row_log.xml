@@ -25,7 +25,8 @@
         <TextView
             android:id="@+id/time"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"/>
+            android:layout_width="wrap_content"
+            style="@style/BoxTextDesc"/>
 
     </LinearLayout>
 
@@ -39,7 +40,7 @@
 
         <ImageView
             android:id="@+id/image"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/height_element"
             android:layout_height="@dimen/height_element"
             android:layout_marginRight="@dimen/padding_end"/>
 
@@ -47,17 +48,16 @@
             android:id="@+id/value"
             android:layout_height="wrap_content"
             android:layout_width="60dp"
-            android:layout_marginLeft="@dimen/margin_between"
-            android:textStyle="bold"
-            android:textSize="@dimen/text_medium"
-            android:gravity="center"/>
+            android:gravity="right"
+            style="@style/BoxText"/>
 
         <TextView
             android:id="@+id/unit"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_marginLeft="@dimen/margin_between"
-            android:gravity="center_vertical"/>
+            android:layout_marginLeft="16dp"
+            android:gravity="center_vertical"
+            style="@style/BoxTextDesc"/>
 
     </LinearLayout>
 

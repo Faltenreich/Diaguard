@@ -29,14 +29,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqliteDatabase) {
-        sqliteDatabase.execSQL("CREATE TABLE " + EVENTS + " (" + ID + " INTEGER PRIMARY KEY, " + VALUE + " REAL NOT NULL, " +
+        sqliteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + EVENTS + " (" + ID + " INTEGER PRIMARY KEY, " + VALUE + " REAL NOT NULL, " +
                 DATE + " TEXT NOT NULL, " + NOTES + " TEXT, " + CATEGORY + " TEXT NOT NULL);");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqliteDatabase, int oldVersion, int newVersion) {
         // Alter to avoid dropping user data
-        //sqliteDatabase.execSQL("DROP TABLE IF EXISTS " + EVENTS);
-        onCreate(sqliteDatabase);
+        // if (newVersion != oldVersion)
+        // sqliteDatabase.execSQL("DROP TABLE IF EXISTS " + EVENTS);
     }
 }

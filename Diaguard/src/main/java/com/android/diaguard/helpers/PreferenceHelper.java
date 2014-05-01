@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.android.diaguard.MainActivity;
 import com.android.diaguard.R;
 import com.android.diaguard.database.Event;
 import com.android.diaguard.preferences.CategoryPreference;
@@ -27,6 +28,16 @@ public class PreferenceHelper {
     public PreferenceHelper(Activity activity) {
         this.activity = activity;
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+    }
+
+    public MainActivity.FragmentType getStartFragment() {
+        int startFragment = Integer.parseInt(sharedPreferences.getString("start_fragment", "0"));
+        switch(startFragment) {
+            case 0: return MainActivity.FragmentType.Home;
+            case 1: return MainActivity.FragmentType.Timeline;
+            case 2: return MainActivity.FragmentType.Log;
+            default: return MainActivity.FragmentType.Home;
+        }
     }
 
     // DATES
@@ -54,7 +65,7 @@ public class PreferenceHelper {
 
     public float getTargetValue() {
         float targetValue = Float.valueOf(sharedPreferences.getString("target",
-                activity.getResources().getString(R.string.pref_therapy_targets_target_default)));
+                activity.getString(R.string.pref_therapy_targets_target_default)));
         return formatDefaultToCustomUnit(Event.Category.BloodSugar, targetValue);
     }
 
@@ -64,13 +75,13 @@ public class PreferenceHelper {
 
     public float getLimitHyperglycemia() {
         float limitHyperglycemia = Float.valueOf(sharedPreferences.getString("hyperclycemia",
-                activity.getResources().getString(R.string.pref_therapy_targets_hyperclycemia_default)));
+                activity.getString(R.string.pref_therapy_targets_hyperclycemia_default)));
         return formatDefaultToCustomUnit(Event.Category.BloodSugar, limitHyperglycemia);
     }
 
     public float getLimitHypoglycemia() {
         float limitHypoglycemia = Float.valueOf(sharedPreferences.getString("hypoclycemia",
-                activity.getResources().getString(R.string.pref_therapy_targets_hypoclycemia_default)));
+                activity.getString(R.string.pref_therapy_targets_hypoclycemia_default)));
         return formatDefaultToCustomUnit(Event.Category.BloodSugar, limitHypoglycemia);
     }
 

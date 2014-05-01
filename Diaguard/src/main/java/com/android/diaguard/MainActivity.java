@@ -22,6 +22,7 @@ import com.android.diaguard.adapters.DrawerListViewAdapter;
 import com.android.diaguard.fragments.LogFragment;
 import com.android.diaguard.fragments.MainFragment;
 import com.android.diaguard.fragments.TimelineFragment;
+import com.android.diaguard.helpers.PreferenceHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ import java.util.List;
 public class MainActivity extends ActionBarActivity {
 
     public enum FragmentType {
-        Main,
+        Home,
         Timeline,
         Log,
         Calculator,
@@ -52,20 +53,22 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
-        drawerToggle.syncState();
+        if(drawerToggle != null)
+            drawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        drawerToggle.onConfigurationChanged(newConfig);
+        if(drawerToggle != null)
+            drawerToggle.onConfigurationChanged(newConfig);
     }
 
     private void initialize() {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-        replaceFragment(FragmentType.Main);
         initializeDrawer();
+        PreferenceHelper preferenceHelper = new PreferenceHelper(this);
+        replaceFragment(preferenceHelper.getStartFragment());
     }
 
     private void initializeDrawer() {
@@ -138,29 +141,35 @@ public class MainActivity extends ActionBarActivity {
      */
     public void replaceFragment(FragmentType fragmentType) {
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        // Highlighting
+        if(drawerList != null && drawerList.getChildCount() > 0 &&
+                fragmentType.ordinal() < ((DrawerListViewAdapter)drawerList.getAdapter()).fragmentCount) {
 
-        // Highlight selected item
-        if(drawerList != null && fragmentType.ordinal() < ((DrawerListViewAdapter)drawerList.getAdapter()).fragmentCount) {
-
+            // De-highlight every item
             for (int i = 0; i < drawerList.getChildCount(); i++) {
                 View v = drawerList.getChildAt(i);
-                TextView textViewListItem = (TextView) v.findViewById(R.id.title);
-                if (textViewListItem != null)
-                    textViewListItem.setTypeface(null, Typeface.NORMAL);
+                if(v != null) {
+                    TextView textViewListItem = (TextView) v.findViewById(R.id.title);
+                    if (textViewListItem != null)
+                        textViewListItem.setTypeface(null, Typeface.NORMAL);
+                }
             }
 
-            ((TextView) drawerList.getChildAt(fragmentType.ordinal()).
-                    findViewById(R.id.title)).setTypeface(null, Typeface.BOLD);
+            // Highlight selected item
+            TextView selectedChild = (TextView) drawerList.getChildAt(fragmentType.ordinal()).
+                    findViewById(R.id.title);
+            if (selectedChild != null)
+                selectedChild.setTypeface(null, Typeface.BOLD);
         }
 
         // Do nothing if the user wants to reopen the current visible Fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentByTag(fragmentType.toString());
         if(fragment != null && fragment.isVisible())
             return;
 
         switch (fragmentType) {
-            case Main:
+            case Home:
                 fragment = new MainFragment();
                 break;
             case Timeline:

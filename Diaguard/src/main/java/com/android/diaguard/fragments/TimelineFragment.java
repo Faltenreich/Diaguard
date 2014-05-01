@@ -335,7 +335,7 @@ public class TimelineFragment extends Fragment {
         chartHelperTable.renderer.setYAxisMin(0);
         chartHelperTable.renderer.setYAxisMax(activeCategoryPosition);
         chartHelperTable.renderer.setYLabels(activeCategoryPosition);
-        chartHelperTable.renderer.setShowGrid(true);
+        chartHelperTable.renderer.setShowGridX(true);
         chartHelperTable.renderer.setShowLabels(false);
     }
 
@@ -371,7 +371,7 @@ public class TimelineFragment extends Fragment {
                 float value = values[categoryPosition][hour];
                 if(value > 0) {
                     float x_value = (hour * 2) + 1;
-                    float y_value = activeCategoryCount - 1 - categoryPosition + 0.25f;
+                    float y_value = activeCategoryCount - 1 - categoryPosition + 0.3f;
                     String valueString = Helper.getRationalFormat().
                             format(preferenceHelper.formatDefaultToCustomUnit(category, value));
 

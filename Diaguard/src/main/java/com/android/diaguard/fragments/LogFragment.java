@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.ListView;
 
 import com.android.diaguard.MainActivity;
 import com.android.diaguard.NewEventActivity;
@@ -26,6 +25,7 @@ import com.android.diaguard.adapters.ListViewAdapterEvents;
 import com.android.diaguard.database.DatabaseDataSource;
 import com.android.diaguard.database.Event;
 import com.android.diaguard.helpers.PreferenceHelper;
+import com.android.diaguard.views.EndlessListView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class LogFragment extends Fragment {
     Calendar time;
     boolean[] checkedCategories;
 
-    ListView listViewEvents;
+    EndlessListView listViewEvents;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -99,7 +99,7 @@ public class LogFragment extends Fragment {
     }
 
     public void getComponents() {
-        listViewEvents = (ListView) getView().findViewById(R.id.listViewEvents);
+        listViewEvents = (EndlessListView) getView().findViewById(R.id.listViewEvents);
     }
 
     public void initializeGUI() {

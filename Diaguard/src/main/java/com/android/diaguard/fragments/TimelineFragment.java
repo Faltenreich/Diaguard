@@ -181,6 +181,10 @@ public class TimelineFragment extends Fragment {
         seriesRendererBloodSugar.setFillPoints(true);
         seriesRendererBloodSugar.setLineWidth(Helper.getDPI(getActivity(), 1.5f));
 
+        seriesRendererBloodSugar.setAnnotationsColor(Color.DKGRAY);
+        seriesRendererBloodSugar.setAnnotationsTextAlign(Paint.Align.CENTER);
+        seriesRendererBloodSugar.setAnnotationsTextSize(Helper.getDPI(getActivity(), 14));
+
         chartHelperChart.renderer.addSeriesRenderer(seriesRendererBloodSugar);
         chartHelperChart.renderer.setLabelsTextSize(Helper.getDPI(getActivity(), 14));
         chartHelperChart.renderer.setYAxisMax(
@@ -228,8 +232,10 @@ public class TimelineFragment extends Fragment {
             if(event.getValue() > highestValue)
                 highestValue = event.getValue();
 
-            seriesBloodSugar.add(x_value, preferenceHelper.
-                    formatDefaultToCustomUnit(Event.Category.BloodSugar, event.getValue()));
+            float y_value = preferenceHelper.
+                    formatDefaultToCustomUnit(Event.Category.BloodSugar, event.getValue());
+            seriesBloodSugar.add(x_value, y_value);
+            seriesBloodSugar.addAnnotation(Helper.getDecimalFormat().format(y_value), x_value, event.getValue() + Helper.getDPI(getActivity(), 3));
         }
 
         chartHelperChart.renderer.setYAxisMax(
@@ -287,20 +293,18 @@ public class TimelineFragment extends Fragment {
 
 
         // Row backgrounds
-        /*
         for(int row = 0; row < activeCategoryCount; row++) {
             XYSeriesRenderer seriesRenderer = new XYSeriesRenderer();
             seriesRenderer.setColor(Color.argb(0, 0, 0, 0));
             XYSeriesRenderer.FillOutsideLine fill =
                     new XYSeriesRenderer.FillOutsideLine(XYSeriesRenderer.FillOutsideLine.Type.ABOVE);
             if((row + activeCategoryCount) % 2 == 0)
-                fill.setColor(getResources().getColor(R.color.gray));
+                fill.setColor(getResources().getColor(R.color.ltgray));
             else
                 fill.setColor(Color.WHITE);
             seriesRenderer.addFillOutsideLine(fill);
             chartHelperTable.renderer.addSeriesRenderer(seriesRenderer);
         }
-        */
 
         // Table
         int activeCategoryPosition = 0;
@@ -311,13 +315,13 @@ public class TimelineFragment extends Fragment {
 
                 // Category image
                 ImageView image = new ImageView(getActivity());
-                int resourceId = getResources().getIdentifier(category.name().toLowerCase(),
+                int resourceId = getResources().getIdentifier(category.name().toLowerCase() + "_plain",
                         "drawable", getActivity().getPackageName());
                 image.setImageResource(resourceId);
                 int imageSize = (int) Helper.getDPI(getActivity(), 32);
                 image.setLayoutParams(new LinearLayout.LayoutParams(imageSize, imageSize, 1.0f));
                 int imagePadding = (int) Helper.getDPI(getActivity(), 4);
-                // image.setPadding(imagePadding, imagePadding, imagePadding, imagePadding);
+                image.setPadding(imagePadding, imagePadding, imagePadding, imagePadding);
                 layoutTableLabels.addView(image);
 
                 chartHelperTable.renderer.addYTextLabel(activeCategoryPosition, preferenceHelper.getCategoryAcronym(category));
@@ -334,8 +338,6 @@ public class TimelineFragment extends Fragment {
 
         chartHelperTable.renderer.setYAxisMin(0);
         chartHelperTable.renderer.setYAxisMax(activeCategoryPosition);
-        chartHelperTable.renderer.setYLabels(activeCategoryPosition);
-        chartHelperTable.renderer.setShowGridX(true);
         chartHelperTable.renderer.setShowLabels(false);
     }
 
@@ -344,14 +346,12 @@ public class TimelineFragment extends Fragment {
         chartHelperTable.seriesDataset.clear();
 
         // Paint rows
-        /*
         for(int row = 0; row < activeCategoryCount; row++) {
             XYSeries series = new XYSeries("Background");
             chartHelperTable.seriesDataset.addSeries(series);
             series.add(-10, row);
             series.add(26, row);
         }
-        */
 
         List<Event.Category> checkedCategoriesList = new ArrayList<Event.Category>();
         for(int position = 0; position < activeCategories.length; position++) {

@@ -17,6 +17,7 @@ import com.android.diaguard.helpers.Helper;
 import com.android.diaguard.helpers.PreferenceHelper;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -34,16 +35,17 @@ public class ListViewAdapterEvents extends BaseAdapter {
     }
 
     Context context;
-    List<Event> events;
+    public List<Event> events;
     PreferenceHelper preferenceHelper;
     HashMap<String, Integer> imageResources;
 
-    public ListViewAdapterEvents(Context context, List<Event> events){
-        this.events = events;
+    public ListViewAdapterEvents(Context context){
         this.context = context;
+        this.events = new ArrayList<Event>();
+
         preferenceHelper = new PreferenceHelper((Activity)context);
 
-        // Preload image resources to improve performance
+        // Pre-load image resources
         imageResources = new HashMap<String, Integer>();
         for(Event.Category category : Event.Category.values()) {
             String name = category.name().toLowerCase();
@@ -51,7 +53,6 @@ public class ListViewAdapterEvents extends BaseAdapter {
                     "drawable", context.getPackageName());
             imageResources.put(name, resourceId);
         }
-
     }
 
     public int getCount() {

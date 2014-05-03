@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ListView;
 
 import com.android.diaguard.MainActivity;
 import com.android.diaguard.NewEventActivity;
@@ -25,7 +26,6 @@ import com.android.diaguard.adapters.ListViewAdapterEvents;
 import com.android.diaguard.database.DatabaseDataSource;
 import com.android.diaguard.database.Event;
 import com.android.diaguard.helpers.PreferenceHelper;
-import com.android.diaguard.views.EndlessListView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class LogFragment extends Fragment {
     Calendar time;
     boolean[] checkedCategories;
 
-    EndlessListView listViewEvents;
+    ListView listViewEvents;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -99,7 +99,7 @@ public class LogFragment extends Fragment {
     }
 
     public void getComponents() {
-        listViewEvents = (EndlessListView) getView().findViewById(R.id.listViewEvents);
+        listViewEvents = (ListView) getView().findViewById(R.id.listViewEvents);
     }
 
     public void initializeGUI() {
@@ -148,6 +148,42 @@ public class LogFragment extends Fragment {
                 dialog.show();
             }
         });
+
+        /*
+        listViewEvents.setOnScrollListener(new EndlessScrollListener() {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to your AdapterView
+                int i = 0;
+            }
+        });
+        listViewEvents.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+            int currentFirstVisibleItem;
+            int currentVisibleItemCount;
+            int currentScrollState;
+
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                this.currentScrollState = scrollState;
+                this.isScrollCompleted();
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                this.currentFirstVisibleItem = firstVisibleItem;
+                this.currentVisibleItemCount = visibleItemCount;
+            }
+
+            private void isScrollCompleted() {
+                if (this.currentVisibleItemCount > 0 && this.currentScrollState == SCROLL_STATE_IDLE) {
+                    ((EndlessListViewAdapter)listViewEvents.getAdapter()).isScrollingDown = true;
+                    ((EndlessListViewAdapter)listViewEvents.getAdapter()).isScrollingUp = true;
+                }
+            }
+        });
+        */
     }
 
     private void editEvent(Event event) {
@@ -179,7 +215,14 @@ public class LogFragment extends Fragment {
                 visibleEventsOfDay.add(event);
         }
 
-        ListViewAdapterEvents adapter = new ListViewAdapterEvents(getActivity(), visibleEventsOfDay);
+        ListViewAdapterEvents adapter = new ListViewAdapterEvents(getActivity());
+        adapter.events.addAll(visibleEventsOfDay);
+        /*
+        EndlessListViewAdapter adapter = new EndlessListViewAdapter(
+                getActivity(),
+                Calendar.getInstance(),
+                preferenceHelper.getActiveCategories());
+        */
         listViewEvents.setAdapter(adapter);
 
         listViewEvents.setEmptyView(getView().findViewById(R.id.listViewEventsEmpty));

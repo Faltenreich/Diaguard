@@ -18,8 +18,7 @@
     <RelativeLayout android:id="@+id/layoutMain"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@id/toolbar"
-        android:padding="@dimen/margin_between">
+        android:layout_above="@id/toolbar">
 
         <LinearLayout android:id="@+id/scrollview_table"
             android:layout_width="fill_parent"
@@ -33,14 +32,13 @@
                 <LinearLayout android:id="@+id/table_values"
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/white"/>
+                    android:layout_height="wrap_content"/>
 
                 <LinearLayout android:id="@+id/table_labels"
-                    android:layout_width="40dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:gravity="right"/>
+                    android:layout_marginLeft="@dimen/margin_between"/>
 
             </RelativeLayout>
 

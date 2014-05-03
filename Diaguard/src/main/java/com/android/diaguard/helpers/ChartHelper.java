@@ -1,7 +1,6 @@
 package com.android.diaguard.helpers;
 
 import android.app.Activity;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Paint;
 
@@ -37,7 +36,7 @@ public class ChartHelper {
 
     public void initialize() {
 
-        // Needed for empty chart to render correctly
+        // Needed for empty chart to render labels correctly (WTF?)
         XYSeriesRenderer rendererFake = new XYSeriesRenderer();
         renderer.addSeriesRenderer(rendererFake);
         XYSeries seriesFake = new XYSeries("");
@@ -69,7 +68,7 @@ public class ChartHelper {
         renderer.setBackgroundColor(Color.argb(0x00, 0xff, 0x00, 0x00));
         renderer.setPointSize(Helper.getDPI(activity, 4));
 
-        renderer.setMargins(new int[]{0, (int) Helper.getDPI(activity, 40), 0, (int) Helper.getDPI(activity, 10)});
+        renderer.setMargins(new int[]{0, 0, 0, 0});
         renderer.setMarginsColor(activity.getResources().getColor(R.color.ltgray));
 
         renderer.setLabelsTextSize(Helper.getDPI(activity, 12));
@@ -79,21 +78,17 @@ public class ChartHelper {
         renderer.setXRoundedLabels(false);
 
         renderer.setYLabelsColor(0, Color.DKGRAY);
-        renderer.setYLabelsPadding(Helper.getDPI(activity, 10));
-        renderer.setYLabelsAlign(Paint.Align.RIGHT);
+        renderer.setYLabelsAlign(Paint.Align.LEFT);
+        renderer.setYLabelsPadding(Helper.getDPI(activity, 100));
     }
 
     private void renderTime() {
 
-        switch(activity.getResources().getConfiguration().orientation) {
-            case Configuration.ORIENTATION_PORTRAIT:
-                renderer.setXLabels(12);
-                break;
-            case Configuration.ORIENTATION_LANDSCAPE:
-                renderer.setXLabels(24);
-        }
-        renderer.setXAxisMin(0);
-        renderer.setXAxisMax(24);
+        renderer.setXAxisMin(-3);
+        renderer.setXAxisMax(25);
+        renderer.setXLabels(0);
+        for(int hour = 0; hour <= 24; hour = hour + 2)
+            renderer.addXTextLabel(hour, Integer.toString(hour));
 
         renderer.setYLabels(6);
         float minimum = new PreferenceHelper(activity).

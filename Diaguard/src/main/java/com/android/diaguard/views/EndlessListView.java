@@ -55,7 +55,7 @@ public class EndlessListView extends ListView implements AbsListView.OnScrollLis
             // It is time to add new data. We call the listener
             this.addFooterView(footer);
             isLoading = true;
-            listener.loadData();
+            //listener.loadData();
         }
     }
 
@@ -66,16 +66,13 @@ public class EndlessListView extends ListView implements AbsListView.OnScrollLis
         LayoutInflater inflater = (LayoutInflater) super.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         footer = (View) inflater.inflate(resId, null);
         this.addFooterView(footer);
-
     }
-
 
     public void setAdapter(ListViewAdapterEvents adapter) {
         super.setAdapter(adapter);
         this.adapter = adapter;
         this.removeFooterView(footer);
     }
-
 
     public void addNewData(List<String> data) {
 
@@ -86,12 +83,11 @@ public class EndlessListView extends ListView implements AbsListView.OnScrollLis
         isLoading = false;
     }
 
-
-    public EndlessListener setListener() {
+    public EndlessListener getListener() {
         return listener;
     }
 
-
     public static interface EndlessListener {
         public void loadData() ;
-    }}
+    }
+}

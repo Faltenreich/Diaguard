@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="endless-1.2.3">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Diaguard/build/exploded-aar/com.commonsware.cwac/endless/1.2.3/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/Diaguard/build/exploded-aar/com.commonsware.cwac/endless/1.2.3/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="adapter-1.0.1">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/Diaguard/build/exploded-aar/com.commonsware.cwac/adapter/1.0.1/res" />
+      <root url="jar://$PROJECT_DIR$/Diaguard/build/exploded-aar/com.commonsware.cwac/adapter/1.0.1/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

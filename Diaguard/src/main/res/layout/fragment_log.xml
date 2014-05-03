@@ -14,7 +14,7 @@
 
     </LinearLayout>
 
-    <com.android.diaguard.views.EndlessListView android:id="@+id/listViewEvents"
+    <ListView android:id="@+id/listViewEvents"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:cacheColorHint="#fff"

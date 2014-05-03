@@ -93,12 +93,6 @@ public class PreferenceHelper {
         return categories[position];
     }
 
-    public String getCategoryAcronym(Event.Category category) {
-        int position = Event.Category.valueOf(category.name()).ordinal();
-        String[] categories = activity.getResources().getStringArray(R.array.categories_acronyms);
-        return categories[position];
-    }
-
     // UNITS
 
     public String[] getUnitsNames(Event.Category category) {

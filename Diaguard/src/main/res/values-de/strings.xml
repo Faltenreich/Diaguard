@@ -159,15 +159,6 @@
         <item>Gewicht</item>
         <item>Puls</item>
     </string-array>
-    <string-array name="categories_acronyms">
-        <item>Blutz.</item>
-        <item>Bolus</item>
-        <item>Mahl</item>
-        <item>Aktiv.</item>
-        <item>HbA1c</item>
-        <item>Gew.</item>
-        <item>Puls</item>
-    </string-array>
 
     <string-array name="bolus_units">
         <item>Insulineinheiten</item>

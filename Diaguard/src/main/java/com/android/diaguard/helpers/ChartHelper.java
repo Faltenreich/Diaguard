@@ -19,13 +19,13 @@ import org.achartengine.renderer.XYSeriesRenderer;
  */
 public class ChartHelper {
 
+    public final int CHART_OFFSET_LEFT = 3;
+    public final int CHART_OFFSET_RIGHT = 1;
+
     Activity activity;
 
-    /** The main dataset that includes all the series that go into a chart. */
     public XYMultipleSeriesDataset seriesDataset;
-    /** The main rendererBloodSugar that includes all the renderers customizing a chart. */
     public XYMultipleSeriesRenderer renderer;
-    /** The chart view that displays the data. */
     public GraphicalView chartView;
 
     public ChartHelper(Activity activity) {
@@ -58,7 +58,7 @@ public class ChartHelper {
         renderer.setSelectableBuffer(10);
         renderer.setAntialiasing(true);
 
-        renderer.setPanEnabled(false, false);
+        renderer.setPanEnabled(false , false);
         renderer.setZoomEnabled(false, false);
         renderer.setShowLegend(false);
         renderer.setShowGrid(false);
@@ -83,9 +83,8 @@ public class ChartHelper {
     }
 
     private void renderTime() {
-
-        renderer.setXAxisMin(-3);
-        renderer.setXAxisMax(25);
+        renderer.setXAxisMin(0 - CHART_OFFSET_LEFT);
+        renderer.setXAxisMax(24 + CHART_OFFSET_RIGHT);
         renderer.setXLabels(0);
         for(int hour = 0; hour <= 24; hour = hour + 2)
             renderer.addXTextLabel(hour, Integer.toString(hour));

@@ -13,20 +13,19 @@
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true">
 
-        <TextView
-            android:id="@+id/time"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_marginRight="32dp"
-            style="@style/BoxTextDesc"
-            android:textSize="@dimen/text_medium"/>
-
         <ImageView android:id="@+id/notes"
             android:layout_width="@dimen/size_image"
             android:layout_height="@dimen/size_image"
             android:padding="@dimen/padding"
+            android:layout_marginRight="@dimen/padding_end"
             android:src="@drawable/info"
             android:visibility="invisible"/>
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginRight="@dimen/margin_between"/>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -55,14 +54,13 @@
             android:layout_height="wrap_content"
             android:layout_width="60dp"
             android:gravity="right"
-            style="@style/BoxText"/>
+            android:textSize="@dimen/text_medium"/>
 
         <TextView
             android:id="@+id/unit"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_marginLeft="@dimen/margin_between"
-            style="@style/BoxTextDesc"/>
+            android:layout_marginLeft="@dimen/padding_end"/>
 
     </LinearLayout>
 

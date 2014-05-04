@@ -32,7 +32,7 @@
     <string name="correction">Korrekturwert</string>
     <string name="data">Daten</string>
     <string name="deleteevent">Ereignis löschen</string>
-    <string name="deleteevent_desc">Dieses Ereignis endgültig löschen?</string>
+    <string name="deleteevent_desc">Wert aus Tagebuch entfernen</string>
     <string name="development">Entwicklung</string>
     <string name="drawer_close">Navigator schließen</string>
     <string name="drawer_open">Navigator öffnen</string>

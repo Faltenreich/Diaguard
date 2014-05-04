@@ -101,6 +101,15 @@ public class DatabaseDataSource {
     }
 
     /**
+     * Delete a single Event
+     * @param id The id of the Event to delete
+     * @return How many Events did the WHERE-Clause affect
+     */
+    public int deleteEventById(Long id) {
+        return db.delete(DatabaseHelper.EVENTS, DatabaseHelper.ID + " = " + id, null);
+    }
+
+    /**
      * Delete all Events before a specific Date
      * @param calendar The Date everything should be deleted before
      * @return How many Events did the WHERE-Clause affect

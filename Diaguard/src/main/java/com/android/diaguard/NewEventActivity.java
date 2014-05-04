@@ -69,6 +69,22 @@ public class NewEventActivity extends ActionBarActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null)
+            if (extras.getLong("ID") != 0L)
+                menu.findItem(R.id.action_delete).setVisible(true);
+            else
+                menu.findItem(R.id.action_delete).setVisible(false);
+        else
+                menu.findItem(R.id.action_delete).setVisible(false);
+
+        return true;
+    }
+
     public void initialize() {
 
         dataSource = new DatabaseDataSource(this);
@@ -123,8 +139,9 @@ public class NewEventActivity extends ActionBarActivity {
 
                 findViewById(R.id.layout_newvalue).setVisibility(View.GONE);
             }
-            else
+            else {
                 findViewById(R.id.layout_newvalue).setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -204,6 +221,23 @@ public class NewEventActivity extends ActionBarActivity {
                 finish();
             }
         }
+    }
+
+    private boolean deleteEvent() {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            if (extras.getLong("ID") != 0L) {
+                setTitle(getString(R.string.editevent));
+                dataSource.open();
+                dataSource.deleteEventById(extras.getLong("ID"));
+                dataSource.close();
+                return true;
+            }
+            else
+                return false;
+        }
+        else
+            return false;
     }
 
     private void addValue(final Event.Category category) {
@@ -404,8 +438,8 @@ public class NewEventActivity extends ActionBarActivity {
             case android.R.id.home:
                 finish();
                 return true;
-            case R.id.action_cancel:
-                finish();
+            case R.id.action_delete:
+                deleteEvent();
                 return true;
             case R.id.action_done:
                 submit();

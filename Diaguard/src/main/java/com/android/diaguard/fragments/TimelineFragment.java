@@ -239,7 +239,7 @@ public class TimelineFragment extends Fragment {
             float y_value = preferenceHelper.
                     formatDefaultToCustomUnit(Event.Category.BloodSugar, event.getValue());
             seriesBloodSugar.add(x_value, y_value);
-            seriesBloodSugar.addAnnotation(Helper.getDecimalFormat().format(y_value), x_value, event.getValue() + Helper.getDPI(getActivity(), 3));
+            seriesBloodSugar.addAnnotation(Helper.getDecimalFormat().format(y_value), x_value, y_value + ((y_value / event.getValue()) * 7));
         }
 
         chartHelperChart.renderer.setYAxisMax(
@@ -315,13 +315,13 @@ public class TimelineFragment extends Fragment {
 
                 // Category image
                 ImageView image = new ImageView(getActivity());
-                int resourceId = getResources().getIdentifier(category.name().toLowerCase() + "_plain",
+                int resourceId = getResources().getIdentifier(category.name().toLowerCase(),
                         "drawable", getActivity().getPackageName());
                 image.setImageResource(resourceId);
                 int imageSize = (int) Helper.getDPI(getActivity(), 32);
                 image.setLayoutParams(new LinearLayout.LayoutParams(imageSize, imageSize, 1.0f));
-                int imagePadding = (int) Helper.getDPI(getActivity(), 4);
-                image.setPadding(imagePadding, imagePadding, imagePadding, imagePadding);
+                int imagePadding = (int) Helper.getDPI(getActivity(), 1);
+                image.setPadding(0, 0, 0, imagePadding);
                 layoutTableLabels.addView(image);
 
                 XYSeriesRenderer seriesRenderer = new XYSeriesRenderer();

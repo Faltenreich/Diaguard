@@ -75,8 +75,9 @@ public class NewEventActivity extends ActionBarActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null)
-            if (extras.getLong("ID") != 0L)
+            if (extras.getLong("ID") != 0L) {
                 menu.findItem(R.id.action_delete).setVisible(true);
+            }
             else
                 menu.findItem(R.id.action_delete).setVisible(false);
         else

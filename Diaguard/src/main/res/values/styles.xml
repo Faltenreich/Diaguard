@@ -14,6 +14,10 @@
         <item name="android:titleTextStyle">@style/ActionBarTitleText</item>
         <item name="subtitleTextStyle">@style/ActionBarSubtitleText</item>
         <item name="android:subtitleTextStyle">@style/ActionBarSubtitleText</item>
+        <item name="android:minWidth">0dip</item>
+        <item name="android:padding">0dip</item>
+        <item name="android:paddingLeft">0dip</item>
+        <item name="android:paddingRight">0dip</item>
     </style>
 
     <style name="ActionBarTitleText"

@@ -304,6 +304,9 @@ public class CalculatorActivity extends ActionBarActivity {
             case android.R.id.home:
                 finish();
                 return true;
+            case R.id.action_cancel:
+                finish();
+                return true;
             case R.id.action_done:
                 submit();
                 return true;

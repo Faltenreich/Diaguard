@@ -256,8 +256,16 @@ public class NewEventActivity extends ActionBarActivity {
                 "drawable", getPackageName());
         image.setImageResource(resourceId);
 
-        TextView unit = (TextView) view.findViewById(R.id.unit);
-        unit.setText(preferenceHelper.getUnitAcronym(category));
+        TextView value = (TextView) view.findViewById(R.id.value);
+        value.setHint(preferenceHelper.getUnitAcronym(category));
+
+        ImageView imageDelete = (ImageView) view.findViewById(R.id.delete);
+        imageDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeValue(category);
+            }
+        });
 
         Animation animationSlideInLeft =
                 AnimationUtils.loadAnimation(NewEventActivity.this,

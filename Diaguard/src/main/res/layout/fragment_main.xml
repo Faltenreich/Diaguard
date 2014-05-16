@@ -1,39 +1,47 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/semitransparent_green">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <LinearLayout android:id="@+id/layout_latest"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@drawable/circle_white"
+        android:layout_margin="20dp"
+        android:layout_centerHorizontal="true">
+
+        <TextView android:id="@+id/textview_latest_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:text="240"/>
+
+        <TextView android:id="@+id/textview_latest_ago"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            style="@style/BoxTextDesc"
+            android:text="vor 20 Minuten"/>
+
+    </LinearLayout>
 
     <!-- Charting -->
     <RelativeLayout android:id="@+id/layout_chart"
         android:layout_width="match_parent"
-        android:layout_height="192dp">
+        android:layout_height="192dp"
+        android:visibility="gone">
 
         <LinearLayout android:id="@+id/chartview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:background="@color/semitransparent_green"/>
-
-        <LinearLayout android:id="@+id/layout_latest"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:background="@drawable/circle_white"
-            android:layout_margin="20dp">
-
-            <TextView android:id="@+id/textview_latest_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="30sp"
-                android:textStyle="bold"/>
-
-            <TextView android:id="@+id/textview_latest_ago"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                style="@style/BoxTextDesc"/>
-
-        </LinearLayout>
+            android:orientation="horizontal"/>
 
         <LinearLayout
             android:layout_width="fill_parent"

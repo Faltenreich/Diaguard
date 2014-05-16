@@ -37,6 +37,7 @@
     <string name="data">Data</string>
     <string name="deleteevent">Delete event</string>
     <string name="deleteevent_desc">Remove event from timeline</string>
+    <string name="deletevalue">Delete value</string>
     <string name="development">Development</string>
     <string name="drawer_close">Close Navigator</string>
     <string name="drawer_open">Open Navigator</string>

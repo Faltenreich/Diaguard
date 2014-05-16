@@ -14,27 +14,25 @@
         <ImageView android:id="@+id/image"
             android:layout_width="64dp"
             android:layout_height="match_parent"
-            android:background="@color/green"/>
+            android:background="@color/green"
+            android:contentDescription="@string/category"/>
 
         <EditText android:id="@+id/value"
-            android:layout_width="130dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
-            android:layout_marginLeft="32dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:layout_centerInParent="true"
             android:gravity="center_horizontal"/>
 
-        <TextView android:id="@+id/unit"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="24dp"
+        <ImageView android:id="@+id/delete"
+            android:layout_width="64dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_action_delete_green"
             android:layout_alignParentRight="true"
-            android:gravity="center_horizontal"
-            android:layout_centerVertical="true"/>
+            android:padding="16dp"
+            android:background="@drawable/button_transparent"
+            android:contentDescription="@string/deletevalue"/>
 
     </RelativeLayout>
-
-    <View style="@style/BoxShadow"/>
 
 </LinearLayout>

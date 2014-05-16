@@ -1,1 +1,1 @@
-include ':Diaguard'
+include ':Diaguard', ':HoloCircularProgressBar'

@@ -26,11 +26,11 @@ import com.android.diaguard.database.Event;
 import com.android.diaguard.helpers.ChartHelper;
 import com.android.diaguard.helpers.Helper;
 import com.android.diaguard.helpers.PreferenceHelper;
+import com.android.diaguard.helpers.ViewHelper;
 
-import org.achartengine.chart.PointStyle;
+import org.achartengine.model.SeriesSelection;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYSeriesRenderer;
-import org.achartengine.tools.PanListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,6 +42,7 @@ import java.util.List;
  */
 public class TimelineFragment extends Fragment {
 
+    private final String NORMAL = "Normal";
     private final String HYPERGLYCEMIA = "Hyperglycemia";
     private final String HYPOGLYCEMIA = "Hypoglycemia";
     private final String BACKGROUND = "Background";
@@ -101,8 +102,8 @@ public class TimelineFragment extends Fragment {
         for(int item = 0; item < categories.length; item++)
             activeCategories[item] = preferenceHelper.isCategoryActive(categories[item]);
 
-        chartHelperChart = new ChartHelper(getActivity());
-        chartHelperTable = new ChartHelper(getActivity());
+        chartHelperChart = new ChartHelper(getActivity(), ChartHelper.ChartType.ScatterChart);
+        chartHelperTable = new ChartHelper(getActivity(), ChartHelper.ChartType.LineChart);
 
         getComponents();
         initializeGUI();
@@ -164,110 +165,90 @@ public class TimelineFragment extends Fragment {
     //region Chart
 
     private void updateChart() {
+        chartHelperChart.renderer.removeAllRenderers();
+        chartHelperChart.seriesDataset.clear();
+
+        chartHelperChart.render();
         renderChart();
         setChartData();
-
-        if(preferenceHelper.limitsAreHighlighted()) {
-            renderChartLimits();
-            setChartLimits();
-        }
-
         initializeChart();
+
+        chartHelperChart.chartView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SeriesSelection seriesSelection = chartHelperChart.chartView.getCurrentSeriesAndPoint();
+                if (seriesSelection != null) {
+                    ViewHelper.showToastMessage(getActivity(), seriesSelection.getValue() +
+                            " " + preferenceHelper.getUnitAcronym(Event.Category.BloodSugar));
+                }
+            }
+        });
     }
 
     private void renderChart() {
-        chartHelperChart.render();
-        chartHelperChart.renderer.removeAllRenderers();
+        XYSeriesRenderer seriesRenderer = ChartHelper.getSeriesRendererForBloodSugar(getActivity());
+        chartHelperChart.renderer.addSeriesRenderer(seriesRenderer);
 
-        XYSeriesRenderer seriesRendererBloodSugar = new XYSeriesRenderer();
-        seriesRendererBloodSugar.setPointStyle(PointStyle.DIAMOND);
-        seriesRendererBloodSugar.setColor(Color.BLACK);
-        seriesRendererBloodSugar.setFillPoints(true);
-        seriesRendererBloodSugar.setLineWidth(Helper.getDPI(getActivity(), 1.5f));
+        if(preferenceHelper.limitsAreHighlighted()) {
+            XYSeriesRenderer seriesRendererHyper = ChartHelper.getSeriesRendererForBloodSugar(getActivity());
+            seriesRendererHyper.setColor(getResources().getColor(R.color.red));
+            chartHelperChart.renderer.addSeriesRenderer(seriesRendererHyper);
+            XYSeriesRenderer seriesRendererHypo = ChartHelper.getSeriesRendererForBloodSugar(getActivity());
+            seriesRendererHypo.setColor(getResources().getColor(R.color.blue));
+            chartHelperChart.renderer.addSeriesRenderer(seriesRendererHypo);
+        }
 
-        seriesRendererBloodSugar.setAnnotationsColor(Color.DKGRAY);
-        seriesRendererBloodSugar.setAnnotationsTextAlign(Paint.Align.CENTER);
-        seriesRendererBloodSugar.setAnnotationsTextSize(Helper.getDPI(getActivity(), 14));
-
-        chartHelperChart.renderer.addSeriesRenderer(seriesRendererBloodSugar);
         chartHelperChart.renderer.setLabelsTextSize(Helper.getDPI(getActivity(), 14));
+        chartHelperChart.renderer.setShowGrid(true);
+        chartHelperChart.renderer.setShowGridY(true);
         chartHelperChart.renderer.setYAxisMax(
                 preferenceHelper.formatDefaultToCustomUnit(Event.Category.BloodSugar, 280));
     }
 
-    private void renderChartLimits() {
-        XYSeriesRenderer seriesRendererHyperglycemia = new XYSeriesRenderer();
-        seriesRendererHyperglycemia.setColor(Color.argb(0, 0, 0, 0));
-        XYSeriesRenderer.FillOutsideLine fill = new XYSeriesRenderer.FillOutsideLine(XYSeriesRenderer.FillOutsideLine.Type.ABOVE);
-        fill.setColor(Color.argb(40,252,126,126));
-        seriesRendererHyperglycemia.addFillOutsideLine(fill);
-        chartHelperChart.renderer.addSeriesRenderer(seriesRendererHyperglycemia);
-
-        XYSeriesRenderer seriesRendererHypoglycemia = new XYSeriesRenderer();
-        seriesRendererHypoglycemia.setLineWidth(0);
-        seriesRendererHypoglycemia.setColor(Color.argb(0,0,0,0));
-        fill = new XYSeriesRenderer.FillOutsideLine(XYSeriesRenderer.FillOutsideLine.Type.BELOW);
-        fill.setColor(Color.argb(40, 126, 126, 252));
-        seriesRendererHypoglycemia.addFillOutsideLine(fill);
-        chartHelperChart.renderer.addSeriesRenderer(seriesRendererHypoglycemia);
-    }
-
     private void setChartData() {
-        chartHelperChart.seriesDataset.clear();
-
-        XYSeries seriesBloodSugar = new XYSeries("Blood Sugar");
+        XYSeries seriesBloodSugar = new XYSeries(NORMAL);
         chartHelperChart.seriesDataset.addSeries(seriesBloodSugar);
+
+        XYSeries seriesBloodSugarHyper = new XYSeries(HYPERGLYCEMIA);
+        XYSeries seriesBloodSugarHypo = new XYSeries(HYPOGLYCEMIA);
+
+        if(preferenceHelper.limitsAreHighlighted()) {
+            chartHelperChart.seriesDataset.addSeries(seriesBloodSugarHyper);
+            chartHelperChart.seriesDataset.addSeries(seriesBloodSugarHypo);
+        }
 
         dataSource.open();
         List<Event> bloodSugar = dataSource.getEventsOfDay(time, Event.Category.BloodSugar);
         dataSource.close();
 
-        if(bloodSugar.size() == 0)
-            return;
-        else if(bloodSugar.size() > 1)
-            chartHelperChart.renderer.setPointSize(0);
-
-        float highestValue = preferenceHelper.formatDefaultToCustomUnit(Event.Category.BloodSugar, 260);
-
         for(Event event : bloodSugar) {
-
             float x_value = Helper.formatCalendarToHourMinutes(event.getDate());
-
-            if(event.getValue() > highestValue)
-                highestValue = event.getValue();
 
             float y_value = preferenceHelper.
                     formatDefaultToCustomUnit(Event.Category.BloodSugar, event.getValue());
-            seriesBloodSugar.add(x_value, y_value);
-            seriesBloodSugar.addAnnotation(Helper.getDecimalFormat().format(y_value), x_value, y_value + ((y_value / event.getValue()) * 7));
+
+            // Adjust y axis
+            if(y_value > chartHelperChart.renderer.getYAxisMax())
+                chartHelperChart.renderer.setYAxisMax(preferenceHelper.
+                        formatDefaultToCustomUnit(Event.Category.BloodSugar, y_value + 30));
+
+            // Add value
+            if(preferenceHelper.limitsAreHighlighted()) {
+                if(event.getValue() > preferenceHelper.getLimitHyperglycemia())
+                    seriesBloodSugarHyper.add(x_value, y_value);
+                else if(event.getValue() < preferenceHelper.getLimitHypoglycemia())
+                    seriesBloodSugarHypo.add(x_value, y_value);
+                else
+                    seriesBloodSugar.add(x_value, y_value);
+            }
+            else {
+                seriesBloodSugar.add(x_value, y_value);
+            }
         }
-
-        chartHelperChart.renderer.setYAxisMax(
-                preferenceHelper.formatDefaultToCustomUnit(Event.Category.BloodSugar, highestValue + 20));
-    }
-
-    private void setChartLimits() {
-        float limitHyperglycemia = preferenceHelper.getLimitHyperglycemia();
-        XYSeries seriesHyperglycemia = new XYSeries(HYPERGLYCEMIA);
-        chartHelperChart.seriesDataset.addSeries(seriesHyperglycemia);
-        seriesHyperglycemia.add(-10, limitHyperglycemia);
-        seriesHyperglycemia.add(26, limitHyperglycemia);
-
-        float limitHypoglycemia = preferenceHelper.getLimitHypoglycemia();
-        XYSeries seriesHypoglycemia = new XYSeries(HYPOGLYCEMIA);
-        chartHelperChart.seriesDataset.addSeries(seriesHypoglycemia);
-        seriesHypoglycemia.add(-10, limitHypoglycemia);
-        seriesHypoglycemia.add(26, limitHypoglycemia);
     }
 
     private void initializeChart() {
         chartHelperChart.initialize();
-        chartHelperChart.chartView.addPanListener(new PanListener() {
-            @Override
-            public void panApplied() {
-                panAppliedToEverything(true);
-            }
-        });
         layoutChart.removeAllViews();
         layoutChart.addView(chartHelperChart.chartView);
         chartHelperChart.chartView.repaint();
@@ -287,10 +268,12 @@ public class TimelineFragment extends Fragment {
 
         getView().findViewById(R.id.table).setLayoutParams(
                 new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                        activeCategoryCount * (int)Helper.getDPI(getActivity(), 32)));
-        chartHelperTable.render();
-        chartHelperTable.renderer.removeAllRenderers();
+                        activeCategoryCount * (int) Helper.getDPI(getActivity(), 32))
+        );
+
         layoutTableLabels.removeAllViews();
+        chartHelperTable.renderer.removeAllRenderers();
+        chartHelperTable.render();
 
         // Row backgrounds
         for(int row = 0; row < activeCategoryCount; row++) {
@@ -346,10 +329,10 @@ public class TimelineFragment extends Fragment {
 
         // Paint rows
         for(int row = 0; row < activeCategoryCount; row++) {
-            XYSeries series = new XYSeries(BACKGROUND);
+            XYSeries series = new XYSeries(BACKGROUND + row);
             chartHelperTable.seriesDataset.addSeries(series);
-            series.add(-10, row);
-            series.add(26, row);
+            series.add(0 - ChartHelper.CHART_OFFSET_LEFT, row);
+            series.add(24 + ChartHelper.CHART_OFFSET_RIGHT, row);
         }
 
         List<Event.Category> checkedCategoriesList = new ArrayList<Event.Category>();
@@ -383,58 +366,9 @@ public class TimelineFragment extends Fragment {
 
     private void initializeTable() {
         chartHelperTable.initialize();
-        chartHelperTable.chartView.addPanListener(new PanListener() {
-            @Override
-            public void panApplied() {
-                panAppliedToEverything(false);
-            }
-        });
         layoutTableValues.removeAllViews();
         layoutTableValues.addView(chartHelperTable.chartView);
         chartHelperTable.chartView.repaint();
-    }
-
-    private void panAppliedToEverything(boolean chartIsSource) {
-        ChartHelper sourceChart;
-        ChartHelper affectedChart;
-
-        if(chartIsSource) {
-            sourceChart = chartHelperChart;
-            affectedChart = chartHelperTable;
-        }
-        else {
-            sourceChart = chartHelperTable;
-            affectedChart = chartHelperChart;
-        }
-        affectedChart.renderer.setXAxisMin(sourceChart.renderer.getXAxisMin());
-        affectedChart.renderer.setXAxisMax(sourceChart.renderer.getXAxisMax());
-        affectedChart.renderer.setXLabels(23);
-
-        // Repaint colored backgrounds
-        for(XYSeries series : chartHelperChart.seriesDataset.getSeries()) {
-            if (series.getTitle().equals(HYPERGLYCEMIA)) {
-                series.clear();
-                float limitHyperglycemia = preferenceHelper.getLimitHyperglycemia();
-                series.add(chartHelperChart.renderer.getXAxisMin(), limitHyperglycemia);
-                series.add(chartHelperChart.renderer.getXAxisMax(), limitHyperglycemia);
-            }
-            else if(series.getTitle().equals(HYPOGLYCEMIA)) {
-                series.clear();
-                float limitHypoglycemia = preferenceHelper.getLimitHypoglycemia();
-                series.add(chartHelperChart.renderer.getXAxisMin(), limitHypoglycemia);
-                series.add(chartHelperChart.renderer.getXAxisMax(), limitHypoglycemia);
-            }
-        }
-        for(XYSeries series : chartHelperTable.seriesDataset.getSeries()) {
-            if(series.getTitle().equals(BACKGROUND)) {
-                int height = (int) series.getMaxY();
-                series.clear();
-                series.add(chartHelperTable.renderer.getXAxisMin(), height);
-                series.add(chartHelperTable.renderer.getXAxisMax(), height);
-            }
-        }
-
-        affectedChart.chartView.repaint();
     }
 
     //endregion

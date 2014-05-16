@@ -126,6 +126,8 @@ public class LogFragment extends Fragment {
         listViewEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final Event event = (Event) listViewEvents.getAdapter().getItem(position);
+                editEvent(event);
+                /*
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle(preferenceHelper.getCategoryName(event.getCategory()))
                         .setItems(R.array.actions, new DialogInterface.OnClickListener() {
@@ -146,6 +148,7 @@ public class LogFragment extends Fragment {
                 AlertDialog dialog = builder.create();
                 dialog.setCanceledOnTouchOutside(true);
                 dialog.show();
+                */
             }
         });
 

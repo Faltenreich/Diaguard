@@ -269,16 +269,83 @@ public class DatabaseDataSource {
                 "ORDER BY " + DatabaseHelper.DATE + " DESC LIMIT 1;";
         Cursor cursor = db.rawQuery(query, null);
 
-        Event event = new Event();
-
-        if (cursor.moveToFirst()) {
+        if (cursor.moveToLast()) {
+            Event event = new Event();
             event.setId(Integer.parseInt(cursor.getString(0)));
             event.setValue(Float.parseFloat(cursor.getString(1)));
             event.setDate(cursor.getString(2));
             event.setNotes(cursor.getString(3));
             event.setCategory(Event.Category.valueOf(cursor.getString(4)));
+            return event;
         }
-        return event;
+        else
+            return null;
+    }
+
+    /**
+     * Get the latest event
+     * @param category The specific Category to choose Events from
+     * @param until The day after
+     * @return The latest event
+     */
+    public Event getLatestEvent(Event.Category category, Calendar until) {
+
+        Calendar dayBefore = Calendar.getInstance();
+        dayBefore.setTime(until.getTime());
+        dayBefore.set(Calendar.DAY_OF_YEAR, dayBefore.get(Calendar.DAY_OF_YEAR) - 1);
+
+        String dateString = new SimpleDateFormat("yyyy-MM-dd").format(dayBefore.getTime());
+
+        String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " WHERE " +
+                DatabaseHelper.CATEGORY + " = '" + category.name() + "' AND " +
+                DatabaseHelper.DATE + " <= Datetime('" + dateString + " 23:59:59') " +
+                "ORDER BY " + DatabaseHelper.DATE + " DESC LIMIT 1;";
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToLast()) {
+            Event event = new Event();
+            event.setId(Integer.parseInt(cursor.getString(0)));
+            event.setValue(Float.parseFloat(cursor.getString(1)));
+            event.setDate(cursor.getString(2));
+            event.setNotes(cursor.getString(3));
+            event.setCategory(Event.Category.valueOf(cursor.getString(4)));
+            return event;
+        }
+        else
+            return null;
+    }
+
+    /**
+     * Get the latest event
+     * @param category The specific Category to choose Events from
+     * @param from The day before
+     * @return The latest event
+     */
+    public Event getNextEvent(Event.Category category, Calendar from) {
+
+        Calendar dayBefore = Calendar.getInstance();
+        dayBefore.setTime(from.getTime());
+        dayBefore.set(Calendar.DAY_OF_YEAR, dayBefore.get(Calendar.DAY_OF_YEAR) + 1);
+
+        String dateString = new SimpleDateFormat("yyyy-MM-dd").format(dayBefore.getTime());
+
+        String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " WHERE " +
+                DatabaseHelper.CATEGORY + " = '" + category.name() + "' AND " +
+                DatabaseHelper.DATE + " >= Datetime('" + dateString + " 00:00:00') " +
+                "ORDER BY " + DatabaseHelper.DATE + " DESC LIMIT 1;";
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToLast()) {
+            Event event = new Event();
+            event.setId(Integer.parseInt(cursor.getString(0)));
+            event.setValue(Float.parseFloat(cursor.getString(1)));
+            event.setDate(cursor.getString(2));
+            event.setNotes(cursor.getString(3));
+            event.setCategory(Event.Category.valueOf(cursor.getString(4)));
+            return event;
+        }
+        else
+            return null;
     }
 
     /**

@@ -58,11 +58,12 @@
     </style>
 
     <style name="BoxText">
+        <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">@dimen/text_large</item>
     </style>
 
     <style name="BoxTextDesc">
-        <item name="android:textColor">@android:color/darker_gray</item>
+        <item name="android:textColor">@color/gray</item>
         <item name="android:textSize">@dimen/text_small</item>
     </style>
 

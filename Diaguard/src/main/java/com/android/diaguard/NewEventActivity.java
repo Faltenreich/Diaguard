@@ -69,6 +69,22 @@ public class NewEventActivity extends ActionBarActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null)
+            if (extras.getLong("ID") != 0L)
+                menu.findItem(R.id.action_delete).setVisible(true);
+            else
+                menu.findItem(R.id.action_delete).setVisible(false);
+        else
+            menu.findItem(R.id.action_delete).setVisible(false);
+
+        return true;
+    }
+
     public void initialize() {
 
         dataSource = new DatabaseDataSource(this);
@@ -120,6 +136,7 @@ public class NewEventActivity extends ActionBarActivity {
                 addValue(event.getCategory(), value);
 
                 editTextNotes.setText(event.getNotes());
+
 
                 findViewById(R.id.layout_newvalue).setVisibility(View.GONE);
             }
@@ -293,6 +310,20 @@ public class NewEventActivity extends ActionBarActivity {
         }
     }
 
+    private void deleteEvent() {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            long id = extras.getLong("ID");
+            if (id != 0L) {
+                dataSource.open();
+                Event event = dataSource.getEventById(id);
+                dataSource.deleteEvent(event);
+                dataSource.close();
+                finish();
+            }
+        }
+    }
+
     // LISTENERS
 
     public void onClickShowDatePicker (View view) {
@@ -405,8 +436,8 @@ public class NewEventActivity extends ActionBarActivity {
             case android.R.id.home:
                 finish();
                 return true;
-            case R.id.action_cancel:
-                finish();
+            case R.id.action_delete:
+                deleteEvent();
                 return true;
             case R.id.action_done:
                 submit();

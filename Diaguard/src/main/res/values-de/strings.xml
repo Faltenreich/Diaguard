@@ -12,6 +12,7 @@
     <string name="application">Anwendung</string>
     <string name="average">Durchschnitt</string>
     <string name="back">Zurück</string>
+    <string name="background">Hintergrund</string>
     <string name="backup">Sicherung</string>
     <string name="backupchoose">Sicherung wählen</string>
     <string name="bloodpressure">Blutdruck</string>
@@ -19,6 +20,7 @@
     <string name="bloodsugar_average">Durchschnitt:</string>
     <string name="bloodsugar_current">Aktueller Blutzucker</string>
     <string name="bloodsugar_last">Zuletzt:</string>
+    <string name="bloodsugar_latest">Letzter Blutzucker</string>
     <string name="bolus_no1">Es wird empfohlen, keinen Bolus zu verabreichen.</string>
     <string name="bolus_no2">Stattdessen sollten schnelle Kohlenhydrate konsumiert werden, um tiefere Blutzuckerlevel zu vermeiden.</string>
     <string name="calculate">Berechnen</string>
@@ -127,6 +129,10 @@
         <item>Abends</item>
         <item>Nachts</item>
     </string-array>
+
+    <string name="early">Früh</string>
+    <string name="daytime">Tagsüber</string>
+    <string name="late">Spät</string>
 
     <!-- ACTIONS -->
     <string-array name="actions">

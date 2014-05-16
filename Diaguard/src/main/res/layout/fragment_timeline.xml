@@ -38,7 +38,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="@color/ltgray"
                     android:paddingLeft="4dp"/>
 
             </RelativeLayout>
@@ -50,7 +49,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_above="@id/scrollview_table"
-            android:background="@android:color/white"
+            android:background="@color/semitransparent_green"
             android:layout_marginBottom="4dp"/>
 
     </RelativeLayout>

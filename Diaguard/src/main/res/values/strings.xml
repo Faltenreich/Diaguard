@@ -13,6 +13,7 @@
     <string name="application">Application</string>
     <string name="average">Average</string>
     <string name="back">Back</string>
+    <string name="background">Background</string>
     <string name="backup">Backup</string>
     <string name="backupchoose">Choose backup</string>
     <string name="bloodpressure">Blood Pressure</string>
@@ -20,6 +21,7 @@
     <string name="bloodsugar_average">Average:</string>
     <string name="bloodsugar_current">Current Blood Sugar</string>
     <string name="bloodsugar_last">Last:</string>
+    <string name="bloodsugar_latest">Latest Blood Sugar</string>
     <string name="bolus">Bolus</string>
     <string name="bolus_no1">It is recommended not to inject a bolus.</string>
     <string name="bolus_no2">Instead some carbohydrate-heavy products should be consumed to prevent lower blood sugar level.</string>
@@ -137,6 +139,10 @@
     <string name="noon">Noon</string>
     <string name="evening">Evening</string>
     <string name="night">Night</string>
+
+    <string name="early">Early</string>
+    <string name="daytime">Daytime</string>
+    <string name="late">Late</string>
 
     <string-array name="factor_names">
         <item>Morning</item>

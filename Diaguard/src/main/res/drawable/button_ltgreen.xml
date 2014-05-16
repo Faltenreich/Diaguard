@@ -3,11 +3,11 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- focused -->
-    <item android:state_focused="true" android:drawable="@color/semitransparent_light" />
+    <item android:state_focused="true" android:drawable="@color/green" />
     <!-- focused and pressed-->
-    <item android:state_focused="true" android:state_pressed="true" android:drawable="@color/semitransparent_light" />
+    <item android:state_focused="true" android:state_pressed="true" android:drawable="@color/green" />
     <!-- pressed -->
-    <item android:state_pressed="true" android:drawable="@color/semitransparent_light" />
+    <item android:state_pressed="true" android:drawable="@color/green" />
     <!-- default -->
     <item android:drawable="@color/semitransparent_green" />
 

@@ -5,9 +5,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -50,7 +47,6 @@ public class MainFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
@@ -65,11 +61,6 @@ public class MainFragment extends Fragment {
         super.onResume();
         ((MainActivity)getActivity()).getSupportActionBar().setTitle(getString(R.string.app_name));
         updateContent();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.add, menu);
     }
 
     private void getComponents() {
@@ -127,6 +118,13 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), CalculatorActivity.class));
+            }
+        });
+
+        getView().findViewById(R.id.layout_chart).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).replaceFragment(MainActivity.FragmentType.Timeline);
             }
         });
     }
@@ -298,15 +296,4 @@ public class MainFragment extends Fragment {
     }
 
     // endregion
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_newevent:
-                startActivity(new Intent (getActivity(), NewEventActivity.class));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 }

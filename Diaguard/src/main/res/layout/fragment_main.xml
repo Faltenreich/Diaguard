@@ -4,16 +4,12 @@
 
     <RelativeLayout android:id="@+id/layout_chart"
         android:layout_width="match_parent"
-        android:layout_height="175dp">
+        android:layout_height="175dp"
+        android:background="@drawable/button_ltgreen">
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/semitransparent_green"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="4dp"
             android:background="@color/green"
             android:layout_alignParentBottom="true"/>
 
@@ -36,7 +32,7 @@
             android:layout_height="80dp"
             android:background="@drawable/circlebutton_white_small"
             android:src="@drawable/calculator"
-            android:padding="@dimen/padding_end"/>
+            android:padding="10dp"/>
 
         <LinearLayout android:id="@+id/layout_latest"
             android:layout_width="150dp"
@@ -45,8 +41,8 @@
             android:gravity="center"
             android:background="@drawable/circlebutton_white"
             android:padding="@dimen/padding_end"
-            android:layout_marginRight="@dimen/padding_end"
-            android:layout_marginLeft="@dimen/padding_end">
+            android:layout_marginRight="@dimen/margin_between"
+            android:layout_marginLeft="@dimen/margin_between">
 
             <TextView android:id="@+id/textview_latest_value"
                 android:layout_width="match_parent"
@@ -69,7 +65,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:background="@drawable/circlebutton_green_small"
-            android:src="@drawable/add"
+            android:src="@drawable/ic_action_new"
             android:padding="@dimen/padding_end"/>
 
     </LinearLayout>
@@ -78,7 +74,7 @@
     <LinearLayout android:id="@+id/layout_averages"
         android:orientation="horizontal"
         style="@style/Box"
-        android:background="@color/green"
+        android:background="@color/semitransparent_green"
         android:layout_alignParentBottom="true">
 
         <LinearLayout
@@ -143,12 +139,19 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_above="@+id/layout_averages"
+        android:background="@color/green"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_below="@id/layout_chart"
-        android:layout_above="@id/layout_averages">
+        android:layout_above="@id/layout_averages"
+        android:layout_marginTop="80dp">
 
 
 

@@ -9,7 +9,6 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/Diaguard" />
-            <option value="$PROJECT_DIR$/HoloCircularProgressBar" />
           </set>
         </option>
       </GradleProjectSettings>

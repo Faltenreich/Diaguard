@@ -51,6 +51,8 @@
     <string name="factors">Factors</string>
     <string name="filter">Filter</string>
     <string name="finish">Finish</string>
+    <string name="firstvisit">First visit?</string>
+    <string name="firstvisit_desc">Enter your first value</string>
     <string name="format">Format</string>
     <string name="general">General</string>
     <string name="hba1c">HbA1c</string>

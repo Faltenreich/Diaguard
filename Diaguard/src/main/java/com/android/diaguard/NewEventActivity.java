@@ -256,8 +256,8 @@ public class NewEventActivity extends ActionBarActivity {
                 "drawable", getPackageName());
         image.setImageResource(resourceId);
 
-        TextView value = (TextView) view.findViewById(R.id.value);
-        value.setHint(preferenceHelper.getUnitAcronym(category));
+        TextView textViewValue = (TextView) view.findViewById(R.id.value);
+        textViewValue.setHint(preferenceHelper.getUnitAcronym(category));
 
         ImageView imageDelete = (ImageView) view.findViewById(R.id.delete);
         imageDelete.setOnClickListener(new View.OnClickListener() {
@@ -288,8 +288,8 @@ public class NewEventActivity extends ActionBarActivity {
                 "drawable", getPackageName());
         image.setImageResource(resourceId);
 
-        TextView textViewUnit = (TextView) view.findViewById(R.id.unit);
-        textViewUnit.setText(preferenceHelper.getUnitAcronym(category));
+        TextView textViewValue = (TextView) view.findViewById(R.id.value);
+        textViewValue.setHint(preferenceHelper.getUnitAcronym(category));
 
         EditText editTextValue = (EditText) view.findViewById(R.id.value);
         editTextValue.setText(Helper.getDecimalFormat().format(value));

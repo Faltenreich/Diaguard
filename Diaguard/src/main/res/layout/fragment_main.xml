@@ -72,16 +72,18 @@
 
     <!-- Averages -->
     <LinearLayout android:id="@+id/layout_averages"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
         android:orientation="horizontal"
-        style="@style/Box"
-        android:background="@color/semitransparent_green"
-        android:layout_alignParentBottom="true">
+        android:background="@color/green"
+        android:layout_alignParentBottom="true"
+        android:gravity="center">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:gravity="center_horizontal"
+            android:layout_weight="1"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView android:id="@+id/textview_avg_month"
@@ -100,8 +102,8 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:gravity="center_horizontal"
+            android:layout_weight="1"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView android:id="@+id/textview_avg_week"
@@ -120,8 +122,8 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:gravity="center_horizontal"
+            android:layout_weight="1"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView android:id="@+id/textview_avg_day"
@@ -143,18 +145,22 @@
         android:layout_width="match_parent"
         android:layout_height="4dp"
         android:layout_above="@+id/layout_averages"
-        android:background="@color/green"/>
+        android:background="@color/green"
+        android:visibility="gone"/>
 
-    <LinearLayout
+    <LinearLayout android:id="@+id/layout_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_below="@id/layout_chart"
         android:layout_above="@id/layout_averages"
-        android:layout_marginTop="80dp">
+        android:layout_marginTop="75dp"
+        android:paddingLeft="@dimen/padding_end"
+        android:paddingRight="@dimen/padding_end">
 
+        <ListView android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-
-        </LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>

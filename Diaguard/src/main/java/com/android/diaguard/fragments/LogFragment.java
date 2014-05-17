@@ -22,7 +22,7 @@ import android.widget.ListView;
 import com.android.diaguard.MainActivity;
 import com.android.diaguard.NewEventActivity;
 import com.android.diaguard.R;
-import com.android.diaguard.adapters.ListViewAdapterEvents;
+import com.android.diaguard.adapters.ListViewAdapterLog;
 import com.android.diaguard.database.DatabaseDataSource;
 import com.android.diaguard.database.Event;
 import com.android.diaguard.helpers.PreferenceHelper;
@@ -218,7 +218,7 @@ public class LogFragment extends Fragment {
                 visibleEventsOfDay.add(event);
         }
 
-        ListViewAdapterEvents adapter = new ListViewAdapterEvents(getActivity());
+        ListViewAdapterLog adapter = new ListViewAdapterLog(getActivity());
         adapter.events.addAll(visibleEventsOfDay);
         /*
         EndlessListViewAdapter adapter = new EndlessListViewAdapter(

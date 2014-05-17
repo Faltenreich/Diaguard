@@ -254,6 +254,7 @@ public class CalculatorActivity extends ActionBarActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         if(checkBoxStoreValues.isChecked())
                             storeValues(bloodSugar, mealFinal, bolus);
+                        finish();
                     }
                 });
 

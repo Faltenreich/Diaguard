@@ -197,6 +197,15 @@
         <item>Weight</item>
         <item>Pulse</item>
     </string-array>
+    <string-array name="categories_info">
+        <item>measured</item>
+        <item>applied</item>
+        <item>eaten</item>
+        <item>exercised</item>
+        <item>measured</item>
+        <item>measured</item>
+        <item>measured</item>
+    </string-array>
 
     <string-array name="bloodsugar_units">
         <item>mg/dL</item>

@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.diaguard.CalculatorActivity;
 import com.android.diaguard.MainActivity;
 import com.android.diaguard.NewEventActivity;
 import com.android.diaguard.R;
+import com.android.diaguard.adapters.ListViewAdapterMain;
 import com.android.diaguard.database.DatabaseDataSource;
 import com.android.diaguard.database.Event;
 import com.android.diaguard.helpers.ChartHelper;
@@ -44,6 +46,7 @@ public class MainFragment extends Fragment {
     TextView textViewAverageWeek;
     TextView textViewAverageDay;
     LinearLayout linearLayoutChart;
+    ListView listViewEvents;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -72,14 +75,42 @@ public class MainFragment extends Fragment {
         textViewAverageDay = (TextView) getView().findViewById(R.id.textview_avg_day);
 
         linearLayoutChart = (LinearLayout) getView().findViewById(R.id.chartview);
+
+        listViewEvents = (ListView) getView().findViewById(R.id.listview);
     }
 
     private void updateContent() {
+
+        getView().findViewById(R.id.image_newevent).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), NewEventActivity.class));
+            }
+        });
+
+        getView().findViewById(R.id.image_calculator).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), CalculatorActivity.class));
+            }
+        });
+
+        getView().findViewById(R.id.layout_chart).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).replaceFragment(MainActivity.FragmentType.Timeline);
+            }
+        });
 
         dataSource = new DatabaseDataSource(getActivity());
         dataSource.open();
 
         preferenceHelper = new PreferenceHelper(getActivity());
+
+        List<Event> lastEvents = dataSource.getEventsOfDay(Calendar.getInstance());
+        ListViewAdapterMain adapter = new ListViewAdapterMain(getActivity());
+        adapter.events.addAll(lastEvents);
+        listViewEvents.setAdapter(adapter);
 
         if(dataSource.countEvents(Event.Category.BloodSugar) > 0) {
             textViewLatestValue.setTextSize(34);
@@ -106,62 +137,23 @@ public class MainFragment extends Fragment {
         }
 
         dataSource.close();
-
-        getView().findViewById(R.id.image_newevent).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), NewEventActivity.class));
-            }
-        });
-
-        getView().findViewById(R.id.image_calculator).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), CalculatorActivity.class));
-            }
-        });
-
-        getView().findViewById(R.id.layout_chart).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((MainActivity)getActivity()).replaceFragment(MainActivity.FragmentType.Timeline);
-            }
-        });
     }
 
     private void setBoxLatest() {
-        Calendar now = Calendar.getInstance();
+
         final Event latestEvent = dataSource.getLatestEvent(Event.Category.BloodSugar);
 
         float value = preferenceHelper.formatDefaultToCustomUnit(Event.Category.BloodSugar, latestEvent.getValue());
         textViewLatestValue.setText(format.format(value));
 
-        int difference = Helper.getDifferenceInMinutes(latestEvent.getDate(), now);
+        int differenceInMinutes = Helper.getDifferenceInMinutes(latestEvent.getDate(), Calendar.getInstance());
 
-        textViewLatestAgo.setTextColor(getResources().getColor(android.R.color.darker_gray));
         // Highlight if last measurement is more than eight hours ago
-        if(difference < 2) {
-            textViewLatestAgo.setText(getString(R.string.latest_moments));
-            return;
-        }
-        else if(difference > 480)
+        textViewLatestAgo.setTextColor(getResources().getColor(android.R.color.darker_gray));
+        if(differenceInMinutes > 480)
             textViewLatestAgo.setTextColor(getResources().getColor(R.color.red));
 
-        String textAgo = getString(R.string.latest);
-        if(difference > 2879) {
-            difference = difference / 60 / 24;
-            textAgo = textAgo.replace("[unit]", getString(R.string.days));
-        }
-        else if(difference > 119) {
-            difference = difference / 60;
-            textAgo = textAgo.replace("[unit]", getString(R.string.hours));
-        }
-        else {
-            textAgo = textAgo.replace("[unit]", getString(R.string.minutes));
-        }
-        textAgo = textAgo.replace("[value]", Integer.toString(difference));
-
-        textViewLatestAgo.setText(textAgo);
+        textViewLatestAgo.setText(Helper.getTextAgo(getActivity(), differenceInMinutes));
 
         getView().findViewById(R.id.layout_latest).setOnClickListener(new View.OnClickListener() {
             @Override

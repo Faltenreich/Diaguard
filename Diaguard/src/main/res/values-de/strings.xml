@@ -168,6 +168,15 @@
         <item>Gewicht</item>
         <item>Puls</item>
     </string-array>
+    <string-array name="categories_info">
+        <item>gemessen</item>
+        <item>verabreicht</item>
+        <item>gegessen</item>
+        <item>trainiert</item>
+        <item>gemessen</item>
+        <item>gemessen</item>
+        <item>gemessen</item>
+    </string-array>
 
     <string-array name="bolus_units">
         <item>Insulineinheiten</item>

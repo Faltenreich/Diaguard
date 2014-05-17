@@ -3,6 +3,8 @@ package com.android.diaguard.helpers;
 import android.content.Context;
 import android.os.Environment;
 
+import com.android.diaguard.R;
+
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
@@ -57,5 +59,28 @@ public class Helper {
     public static int getDifferenceInMinutes(Calendar dateStart, Calendar dateEnd) {
         long diffMilliseconds = dateEnd.getTimeInMillis() - dateStart.getTimeInMillis();
         return (int)(diffMilliseconds / (60 * 1000));
+    }
+
+    public static String getTextAgo(Context context, int differenceInMinutes) {
+
+        if(differenceInMinutes < 2) {
+            return context.getString(R.string.latest_moments);
+        }
+
+        String textAgo = context.getString(R.string.latest);
+
+        if(differenceInMinutes > 2879) {
+            differenceInMinutes = differenceInMinutes / 60 / 24;
+            textAgo = textAgo.replace("[unit]", context.getString(R.string.days));
+        }
+        else if(differenceInMinutes > 119) {
+            differenceInMinutes = differenceInMinutes / 60;
+            textAgo = textAgo.replace("[unit]", context.getString(R.string.hours));
+        }
+        else {
+            textAgo = textAgo.replace("[unit]", context.getString(R.string.minutes));
+        }
+
+        return  textAgo.replace("[value]", Integer.toString(differenceInMinutes));
     }
 }

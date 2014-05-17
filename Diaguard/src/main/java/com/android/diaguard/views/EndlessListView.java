@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
-import com.android.diaguard.adapters.ListViewAdapterEvents;
+import com.android.diaguard.adapters.ListViewAdapterLog;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class EndlessListView extends ListView implements AbsListView.OnScrollLis
     private View footer;
     private boolean isLoading;
     private EndlessListener listener;
-    private ListViewAdapterEvents adapter;
+    private ListViewAdapterLog adapter;
 
     public EndlessListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -68,7 +68,7 @@ public class EndlessListView extends ListView implements AbsListView.OnScrollLis
         this.addFooterView(footer);
     }
 
-    public void setAdapter(ListViewAdapterEvents adapter) {
+    public void setAdapter(ListViewAdapterLog adapter) {
         super.setAdapter(adapter);
         this.adapter = adapter;
         this.removeFooterView(footer);

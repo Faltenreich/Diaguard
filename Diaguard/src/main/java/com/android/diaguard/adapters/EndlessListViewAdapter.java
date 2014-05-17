@@ -33,7 +33,7 @@ public class EndlessListViewAdapter extends EndlessAdapter {
     public boolean isScrollingDown;
 
     public EndlessListViewAdapter(Context context, Calendar startDate, Event.Category[] categories) {
-        super(new ListViewAdapterEvents(context));
+        super(new ListViewAdapterLog(context));
 
         this.dataSource = new DatabaseDataSource(context);
         this.currentDate = Calendar.getInstance();
@@ -60,8 +60,8 @@ public class EndlessListViewAdapter extends EndlessAdapter {
         rotate.setRepeatCount(Animation.INFINITE);
     }
 
-    protected ListViewAdapterEvents getWrappedEventAdapter() {
-        return (ListViewAdapterEvents)getWrappedAdapter();
+    protected ListViewAdapterLog getWrappedEventAdapter() {
+        return (ListViewAdapterLog)getWrappedAdapter();
     }
 
     @Override

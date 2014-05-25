@@ -77,17 +77,15 @@ public class MainActivity extends ActionBarActivity {
         menuItems.add(getString(R.string.home));
         menuItems.add(getString(R.string.timeline));
         menuItems.add(getString(R.string.log));
+        //menuItems.add(getString(R.string.statistics));
         menuItems.add(getString(R.string.calculator));
         menuItems.add(getString(R.string.export));
         menuItems.add(getString(R.string.settings));
 
-        int[] menuImages = new int[menuItems.size()];
-        menuImages[0] = R.drawable.home;
-        menuImages[1] = R.drawable.chart;
-        menuImages[2] = R.drawable.log;
-        menuImages[3] = R.drawable.calculator;
-        menuImages[4] = R.drawable.export;
-        menuImages[5] = R.drawable.settings;
+        int[] menuImages = new int[3];
+        menuImages[0] = R.drawable.calculator;
+        menuImages[1] = R.drawable.export;
+        menuImages[2] = R.drawable.settings;
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerList = (ListView) findViewById(R.id.drawer_navigation);

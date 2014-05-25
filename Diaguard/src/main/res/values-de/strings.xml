@@ -56,7 +56,7 @@
     <string name="keyword">Stichwort</string>
     <string name="keywords">Stichwörter</string>
     <string name="latest">vor [value] [unit]</string>
-    <string name="latest_moments">vor Kurzem</string>
+    <string name="latest_moments">vor kurzem</string>
     <string name="listview_empty">Keine Einträge vorhanden</string>
     <string name="log">Protokoll</string>
     <string name="meal">Mahlzeit</string>
@@ -68,9 +68,15 @@
     <string name="notes">Notizen</string>
     <string name="ok">OK</string>
     <string name="pulse">Puls</string>
+    <string name="recently">Kürzlich</string>
     <string name="settings">Einstellungen</string>
     <string name="setup">Einrichten</string>
     <string name="startscreen">Startbildschirm</string>
+    <string name="statistics">Statistiken</string>
+    <string name="statistics_day">Letzte 24 Stunden</string>
+    <string name="statistics_week">Letzte 7 Tage</string>
+    <string name="statistics_weeks">Letzte 14 Tage</string>
+    <string name="statistics_month">Letzten Monat</string>
     <string name="store_values">Werte eintragen</string>
     <string name="textsize">Schriftgröße</string>
     <string name="therapy">Therapie</string>

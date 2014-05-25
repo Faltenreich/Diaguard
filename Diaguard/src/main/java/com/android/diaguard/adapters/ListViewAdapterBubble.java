@@ -22,18 +22,19 @@ import java.util.List;
 /**
  * Created by Filip on 04.11.13.
  */
-public class ListViewAdapterMain extends BaseAdapter {
+public class ListViewAdapterBubble extends BaseAdapter {
 
     private static class ViewHolder {
-        TextView value;
         TextView time;
+        TextView value;
+        TextView unit;
     }
 
     Context context;
     public List<Event> events;
     PreferenceHelper preferenceHelper;
 
-    public ListViewAdapterMain(Context context){
+    public ListViewAdapterBubble(Context context){
         this.context = context;
         this.events = new ArrayList<Event>();
         preferenceHelper = new PreferenceHelper((Activity)context);
@@ -58,11 +59,12 @@ public class ListViewAdapterMain extends BaseAdapter {
         {
             LayoutInflater inflate = (LayoutInflater) context.
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflate.inflate(R.layout.listview_row_main, null);
+            convertView = inflate.inflate(R.layout.listview_row_bubble, null);
 
             holder = new ViewHolder();
-            holder.value = (TextView) convertView.findViewById(R.id.value);
             holder.time = (TextView) convertView.findViewById(R.id.time);
+            holder.value = (TextView) convertView.findViewById(R.id.value);
+            holder.unit = (TextView) convertView.findViewById(R.id.unit);
 
             convertView.setTag(holder);
         }
@@ -71,30 +73,20 @@ public class ListViewAdapterMain extends BaseAdapter {
 
         Event event = getItem(position);
 
-        float valueFloat = preferenceHelper.formatDefaultToCustomUnit(
-                event.getCategory(), event.getValue());
-        DecimalFormat format = Helper.getDecimalFormat();
-        String value = format.format(valueFloat);
-
-        String unit = preferenceHelper.getUnitAcronym(event.getCategory());
-
-        String info = context.getResources().
-                getTextArray(R.array.categories_info)[event.getCategory().ordinal()].toString();
-
-        holder.value.setText(value + " " + unit + " " + info);
-
         int differenceInMinutes = Helper.getDifferenceInMinutes(event.getDate(), Calendar.getInstance());
         holder.time.setText(Helper.getTextAgo(context, differenceInMinutes));
 
+        float valueFloat = preferenceHelper.formatDefaultToCustomUnit(
+                event.getCategory(), event.getValue());
+        DecimalFormat format = Helper.getDecimalFormat();
+        holder.value.setText(format.format(valueFloat));
+
+        holder.unit.setText(preferenceHelper.getUnitAcronym(event.getCategory()));
+
+        int size = (int)Helper.getDPI(context, 120);
         AbsListView.LayoutParams layoutParams =
-                new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                        (int) context.getResources().getDimension(R.dimen.height_element));
+                new AbsListView.LayoutParams(size, size);
         convertView.setLayoutParams(layoutParams);
         return convertView;
-    }
-
-    @Override
-    public boolean isEnabled(int position) {
-        return false;
     }
 }

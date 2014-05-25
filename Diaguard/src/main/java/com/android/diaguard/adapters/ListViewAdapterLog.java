@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -74,7 +73,7 @@ public class ListViewAdapterLog extends BaseAdapter {
         {
             LayoutInflater inflate = (LayoutInflater) context.
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflate.inflate(R.layout.listview_row_log, null);
+            convertView = inflate.inflate(R.layout.listview_row_log, parent, false);
 
             holder = new ViewHolder();
             holder.image = (ImageView) convertView.findViewById(R.id.image);
@@ -113,11 +112,6 @@ public class ListViewAdapterLog extends BaseAdapter {
 
         if(event.getNotes().length() > 0)
             holder.noteInfo.setVisibility(View.VISIBLE);
-
-        AbsListView.LayoutParams layoutParams =
-                new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                        (int) context.getResources().getDimension(R.dimen.height_element));
-        convertView.setLayoutParams(layoutParams);
         return convertView;
     }
 }

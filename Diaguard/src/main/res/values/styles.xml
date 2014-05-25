@@ -84,6 +84,15 @@
         <item name="android:gravity">center_vertical</item>
     </style>
 
+    <style name="LabelWithGreenBackground" parent="Main">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/height_element</item>
+        <item name="android:background">@color/green_lt</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
     <style name="TableRow">
         <item name="android:layout_marginBottom">@dimen/margin_between</item>
     </style>
@@ -149,6 +158,12 @@
 
     <style name="Row">
         <item name="android:paddingBottom">5dp</item>
+    </style>
+
+    <style name="MenuItem">
+        <item name="android:textSize">@dimen/text_large</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 

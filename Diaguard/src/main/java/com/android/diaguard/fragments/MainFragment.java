@@ -1,33 +1,25 @@
 package com.android.diaguard.fragments;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.diaguard.CalculatorActivity;
 import com.android.diaguard.MainActivity;
 import com.android.diaguard.NewEventActivity;
 import com.android.diaguard.R;
-import com.android.diaguard.adapters.ListViewAdapterMain;
 import com.android.diaguard.database.DatabaseDataSource;
 import com.android.diaguard.database.Event;
 import com.android.diaguard.helpers.ChartHelper;
 import com.android.diaguard.helpers.Helper;
 import com.android.diaguard.helpers.PreferenceHelper;
 
-import org.achartengine.model.XYSeries;
-import org.achartengine.renderer.XYSeriesRenderer;
-
 import java.text.DecimalFormat;
 import java.util.Calendar;
-import java.util.List;
 
 public class MainFragment extends Fragment {
 
@@ -45,8 +37,6 @@ public class MainFragment extends Fragment {
     TextView textViewAverageMonth;
     TextView textViewAverageWeek;
     TextView textViewAverageDay;
-    LinearLayout linearLayoutChart;
-    ListView listViewEvents;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,10 +63,6 @@ public class MainFragment extends Fragment {
         textViewAverageMonth = (TextView) getView().findViewById(R.id.textview_avg_month);
         textViewAverageWeek = (TextView) getView().findViewById(R.id.textview_avg_week);
         textViewAverageDay = (TextView) getView().findViewById(R.id.textview_avg_day);
-
-        linearLayoutChart = (LinearLayout) getView().findViewById(R.id.chartview);
-
-        listViewEvents = (ListView) getView().findViewById(R.id.listview);
     }
 
     private void updateContent() {
@@ -107,19 +93,11 @@ public class MainFragment extends Fragment {
 
         preferenceHelper = new PreferenceHelper(getActivity());
 
-        List<Event> lastEvents = dataSource.getEventsOfDay(Calendar.getInstance());
-        ListViewAdapterMain adapter = new ListViewAdapterMain(getActivity());
-        adapter.events.addAll(lastEvents);
-        listViewEvents.setAdapter(adapter);
-
         if(dataSource.countEvents(Event.Category.BloodSugar) > 0) {
             textViewLatestValue.setTextSize(34);
             format = Helper.getDecimalFormat();
-            setBoxLatest();
-            setBoxAverages();
-
-            ChartTask chartTask = new ChartTask();
-            chartTask.execute();
+            setLatestBloodSugar();
+            setAverageBloodSugar();
         }
         else {
             textViewAverageMonth.setText(Helper.PLACEHOLDER);
@@ -139,7 +117,7 @@ public class MainFragment extends Fragment {
         dataSource.close();
     }
 
-    private void setBoxLatest() {
+    private void setLatestBloodSugar() {
 
         final Event latestEvent = dataSource.getLatestEvent(Event.Category.BloodSugar);
 
@@ -165,7 +143,7 @@ public class MainFragment extends Fragment {
         });
     }
 
-    private void setBoxAverages() {
+    private void setAverageBloodSugar() {
         float avgMonth = preferenceHelper.
                 formatDefaultToCustomUnit(Event.Category.BloodSugar,
                         dataSource.getBloodSugarAverage(30));
@@ -193,99 +171,4 @@ public class MainFragment extends Fragment {
         textViewAverageWeek.setText(avgWeekString);
         textViewAverageDay.setText(avgDayString);
     }
-
-    // region Chart
-
-    private void updateChart() {
-        chartHelper = new ChartHelper(getActivity(), ChartHelper.ChartType.ScatterChart);
-        renderChart();
-        setChartData();
-    }
-
-    private void renderChart() {
-        chartHelper.renderer.removeAllRenderers();
-        chartHelper.render();
-
-        XYSeriesRenderer seriesRenderer = ChartHelper.getSeriesRendererForBloodSugar(getActivity());
-        chartHelper.renderer.addSeriesRenderer(seriesRenderer);
-
-        if(preferenceHelper.limitsAreHighlighted()) {
-            XYSeriesRenderer seriesRendererHyper = ChartHelper.getSeriesRendererForBloodSugar(getActivity());
-            seriesRendererHyper.setColor(getResources().getColor(R.color.red));
-            chartHelper.renderer.addSeriesRenderer(seriesRendererHyper);
-            XYSeriesRenderer seriesRendererHypo = ChartHelper.getSeriesRendererForBloodSugar(getActivity());
-            seriesRendererHypo.setColor(getResources().getColor(R.color.blue));
-            chartHelper.renderer.addSeriesRenderer(seriesRendererHypo);
-        }
-
-        chartHelper.renderer.setYAxisMax(
-                preferenceHelper.formatDefaultToCustomUnit(Event.Category.BloodSugar, 280));
-        chartHelper.renderer.setShowAxes(false);
-        chartHelper.renderer.setShowLabels(false);
-    }
-
-    private void setChartData() {
-        chartHelper.seriesDataset.clear();
-
-        XYSeries seriesBloodSugar = new XYSeries(NORMAL);
-        chartHelper.seriesDataset.addSeries(seriesBloodSugar);
-
-        XYSeries seriesBloodSugarHyper = new XYSeries(HYPERGLYCEMIA);
-        XYSeries seriesBloodSugarHypo = new XYSeries(HYPOGLYCEMIA);
-
-        if(preferenceHelper.limitsAreHighlighted()) {
-            chartHelper.seriesDataset.addSeries(seriesBloodSugarHyper);
-            chartHelper.seriesDataset.addSeries(seriesBloodSugarHypo);
-        }
-
-        DatabaseDataSource dataSource = new DatabaseDataSource(getActivity());
-        dataSource.open();
-        List<Event> bloodSugar = dataSource.getEventsOfDay(Calendar.getInstance(), Event.Category.BloodSugar);
-        dataSource.close();
-
-        for(Event event : bloodSugar) {
-            float x_value = Helper.formatCalendarToHourMinutes(event.getDate());
-
-            float y_value = preferenceHelper.
-                    formatDefaultToCustomUnit(Event.Category.BloodSugar, event.getValue());
-
-            // Adjust y axis
-            if(y_value > chartHelper.renderer.getYAxisMax())
-                chartHelper.renderer.setYAxisMax(preferenceHelper.
-                        formatDefaultToCustomUnit(Event.Category.BloodSugar, y_value + 30));
-
-            // Add value
-            if(preferenceHelper.limitsAreHighlighted()) {
-                if(event.getValue() > preferenceHelper.getLimitHyperglycemia())
-                    seriesBloodSugarHyper.add(x_value, y_value);
-                else if(event.getValue() < preferenceHelper.getLimitHypoglycemia())
-                    seriesBloodSugarHypo.add(x_value, y_value);
-                else
-                    seriesBloodSugar.add(x_value, y_value);
-            }
-            else {
-                seriesBloodSugar.add(x_value, y_value);
-            }
-        }
-    }
-
-    private void initializeChart() {
-        chartHelper.initialize();
-        linearLayoutChart.removeAllViews();
-        linearLayoutChart.addView(chartHelper.chartView);
-        chartHelper.chartView.repaint();
-    }
-
-    private class ChartTask extends AsyncTask<Void, Void, Void> {
-        protected Void doInBackground(Void... urls) {
-            updateChart();
-            return null;
-        }
-
-        protected void onPostExecute(Void param) {
-            initializeChart();
-        }
-    }
-
-    // endregion
 }

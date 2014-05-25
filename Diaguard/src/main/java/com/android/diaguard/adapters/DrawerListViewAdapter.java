@@ -38,7 +38,7 @@ public class DrawerListViewAdapter extends BaseAdapter {
         else {
             itemView = inflater.inflate(R.layout.drawer_list_item_activity, parent, false);
             ImageView imgIcon = (ImageView) itemView.findViewById(R.id.icon);
-            imgIcon.setImageResource(icons[position]);
+            imgIcon.setImageResource(icons[position - fragmentCount]);
         }
 
         TextView txtTitle = (TextView) itemView.findViewById(R.id.title);

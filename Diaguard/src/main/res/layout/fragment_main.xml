@@ -2,68 +2,73 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout android:id="@+id/layout_chart"
+    <LinearLayout android:id="@+id/layout_chart"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:background="@drawable/button_ltgreen">
+        android:layout_height="wrap_content"
+        android:background="@color/green_lt"
+        android:orientation="vertical"
+        android:gravity="center"
+        style="@style/Main">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="bottom">
+
+            <TextView android:id="@+id/textview_latest_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="60sp"
+                android:text="244"
+                android:textColor="@android:color/white"/>
+
+            <TextView android:id="@+id/textview_latest_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textColor="@color/gray"
+                android:text="mg/dL"
+                android:layout_marginLeft="@dimen/margin_between"/>
+
+            </LinearLayout>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="4dp"
+            android:layout_height="1dp"
             android:background="@color/green"
-            android:layout_alignParentBottom="true"/>
+            android:layout_marginTop="@dimen/margin_between"
+            android:layout_marginBottom="@dimen/margin_between"/>
 
-        </RelativeLayout>
-    
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="45dp">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/margin_between"
+            android:layout_marginBottom="@dimen/margin_between">
 
-        <ImageView android:id="@+id/image_calculator"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:background="@drawable/circlebutton_white_small"
-            android:src="@drawable/calculator"
-            android:padding="10dp"/>
-
-        <LinearLayout android:id="@+id/layout_latest"
-            android:layout_width="150dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:background="@drawable/circlebutton_white"
-            android:padding="@dimen/padding_end"
-            android:layout_marginRight="@dimen/margin_between"
-            android:layout_marginLeft="@dimen/margin_between">
-
-            <TextView android:id="@+id/textview_latest_value"
+            <TextView android:id="@+id/textview_latest_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:textSize="34sp"
-                android:textStyle="bold"
-                android:text="@string/firstvisit"/>
+                android:textColor="@color/gray"/>
 
             <TextView android:id="@+id/textview_latest_ago"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                style="@style/BoxTextDesc"
+                android:textColor="@android:color/white"
                 android:text="@string/firstvisit_desc"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
-        <ImageView android:id="@+id/image_newevent"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:background="@drawable/circlebutton_green_small"
-            android:src="@drawable/ic_action_new"
-            android:padding="@dimen/padding_end"/>
-
-    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/green"
+        android:layout_below="@id/layout_chart"/>
 
     <!-- Averages -->
     <LinearLayout android:id="@+id/layout_averages"
@@ -138,17 +143,106 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="4dp"
+        android:layout_height="2dp"
         android:background="@color/green"
         android:layout_above="@id/layout_averages"/>
 
-    <LinearLayout android:id="@+id/layout_listview"
+    <!-- Navigation -->
+    <LinearLayout android:id="@+id/layout_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/layout_chart"
         android:layout_above="@id/layout_averages"
-        android:layout_marginTop="75dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        style="@style/Main">
+
+        <RelativeLayout android:id="@+id/button_timeline"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:background="@drawable/button_ltgreen"
+            android:layout_marginBottom="@dimen/margin_between">
+
+            <ImageView
+                android:layout_width="@dimen/height_element"
+                android:layout_height="@dimen/height_element"
+                android:src="@drawable/chart"
+                android:layout_marginLeft="@dimen/margin_between"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/timeline"
+                android:textSize="@dimen/text_large"
+                android:textColor="@android:color/white"
+                android:layout_centerInParent="true"/>
+
+            </RelativeLayout>
+
+        <RelativeLayout android:id="@+id/button_log"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_element"
+            android:background="@drawable/button_ltgreen"
+            android:layout_marginBottom="@dimen/margin_between">
+
+            <ImageView
+                android:layout_width="@dimen/height_element"
+                android:layout_height="@dimen/height_element"
+                android:src="@drawable/log"
+                android:layout_marginLeft="@dimen/margin_between"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/log"
+                android:textSize="@dimen/text_large"
+                android:textColor="@android:color/white"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout android:id="@+id/button_calculator"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_element"
+            android:background="@drawable/button_ltgreen"
+            android:layout_marginBottom="@dimen/margin_between">
+
+            <ImageView
+                android:layout_width="@dimen/height_element"
+                android:layout_height="@dimen/height_element"
+                android:src="@drawable/calculator_white"
+                android:layout_marginLeft="@dimen/margin_between"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/calculator"
+                android:textSize="@dimen/text_large"
+                android:textColor="@android:color/white"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout android:id="@+id/button_export"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_element"
+            android:background="@drawable/button_ltgreen"
+            android:layout_marginBottom="@dimen/margin_between">
+
+            <ImageView
+                android:layout_width="@dimen/height_element"
+                android:layout_height="@dimen/height_element"
+                android:src="@drawable/export_white"
+                android:layout_marginLeft="@dimen/margin_between"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/export"
+                android:textSize="@dimen/text_large"
+                android:textColor="@android:color/white"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
 
     </LinearLayout>
 

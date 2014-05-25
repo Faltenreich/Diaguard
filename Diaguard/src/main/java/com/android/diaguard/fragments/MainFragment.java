@@ -4,11 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android.diaguard.CalculatorActivity;
+import com.android.diaguard.ExportActivity;
 import com.android.diaguard.MainActivity;
 import com.android.diaguard.NewEventActivity;
 import com.android.diaguard.R;
@@ -33,6 +37,7 @@ public class MainFragment extends Fragment {
     ChartHelper chartHelper;
 
     TextView textViewLatestValue;
+    TextView textViewLatestTime;
     TextView textViewLatestAgo;
     TextView textViewAverageMonth;
     TextView textViewAverageWeek;
@@ -40,6 +45,7 @@ public class MainFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
@@ -47,6 +53,11 @@ public class MainFragment extends Fragment {
     public void onActivityCreated (Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getComponents();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.add, menu);
     }
 
     @Override
@@ -58,6 +69,7 @@ public class MainFragment extends Fragment {
 
     private void getComponents() {
         textViewLatestValue = (TextView) getView().findViewById(R.id.textview_latest_value);
+        textViewLatestTime = (TextView) getView().findViewById(R.id.textview_latest_time);
         textViewLatestAgo = (TextView) getView().findViewById(R.id.textview_latest_ago);
 
         textViewAverageMonth = (TextView) getView().findViewById(R.id.textview_avg_month);
@@ -67,24 +79,31 @@ public class MainFragment extends Fragment {
 
     private void updateContent() {
 
-        getView().findViewById(R.id.image_newevent).setOnClickListener(new View.OnClickListener() {
+        getView().findViewById(R.id.button_timeline).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), NewEventActivity.class));
+                ((MainActivity)getActivity()).replaceFragment(MainActivity.FragmentType.Timeline);
             }
         });
 
-        getView().findViewById(R.id.image_calculator).setOnClickListener(new View.OnClickListener() {
+        getView().findViewById(R.id.button_log).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).replaceFragment(MainActivity.FragmentType.Log);
+            }
+        });
+
+        getView().findViewById(R.id.button_calculator).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), CalculatorActivity.class));
             }
         });
 
-        getView().findViewById(R.id.layout_chart).setOnClickListener(new View.OnClickListener() {
+        getView().findViewById(R.id.button_export).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).replaceFragment(MainActivity.FragmentType.Timeline);
+                startActivity(new Intent(getActivity(), ExportActivity.class));
             }
         });
 
@@ -94,7 +113,6 @@ public class MainFragment extends Fragment {
         preferenceHelper = new PreferenceHelper(getActivity());
 
         if(dataSource.countEvents(Event.Category.BloodSugar) > 0) {
-            textViewLatestValue.setTextSize(34);
             format = Helper.getDecimalFormat();
             setLatestBloodSugar();
             setAverageBloodSugar();
@@ -103,15 +121,6 @@ public class MainFragment extends Fragment {
             textViewAverageMonth.setText(Helper.PLACEHOLDER);
             textViewAverageWeek.setText(Helper.PLACEHOLDER);
             textViewAverageDay.setText(Helper.PLACEHOLDER);
-            textViewLatestValue.setTextSize(24);
-
-            getView().findViewById(R.id.layout_latest).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), NewEventActivity.class);
-                    startActivity(intent);
-                }
-            });
         }
 
         dataSource.close();
@@ -121,26 +130,19 @@ public class MainFragment extends Fragment {
 
         final Event latestEvent = dataSource.getLatestEvent(Event.Category.BloodSugar);
 
+        textViewLatestTime.setText(preferenceHelper.getDateAndTimeFormat().format(latestEvent.getDate().getTime()) + " | ");
+
         float value = preferenceHelper.formatDefaultToCustomUnit(Event.Category.BloodSugar, latestEvent.getValue());
         textViewLatestValue.setText(format.format(value));
 
         int differenceInMinutes = Helper.getDifferenceInMinutes(latestEvent.getDate(), Calendar.getInstance());
 
         // Highlight if last measurement is more than eight hours ago
-        textViewLatestAgo.setTextColor(getResources().getColor(android.R.color.darker_gray));
+        textViewLatestAgo.setTextColor(getResources().getColor(android.R.color.white));
         if(differenceInMinutes > 480)
             textViewLatestAgo.setTextColor(getResources().getColor(R.color.red));
 
         textViewLatestAgo.setText(Helper.getTextAgo(getActivity(), differenceInMinutes));
-
-        getView().findViewById(R.id.layout_latest).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), NewEventActivity.class);
-                intent.putExtra("ID", latestEvent.getId());
-                startActivity(intent);
-            }
-        });
     }
 
     private void setAverageBloodSugar() {
@@ -170,5 +172,16 @@ public class MainFragment extends Fragment {
         textViewAverageMonth.setText(avgMonthString);
         textViewAverageWeek.setText(avgWeekString);
         textViewAverageDay.setText(avgDayString);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_newevent:
+                startActivity(new Intent(getActivity(), NewEventActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

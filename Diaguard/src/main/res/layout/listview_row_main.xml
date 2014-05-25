@@ -2,23 +2,29 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    style="@style/Main">
+    android:layout_height="@dimen/height_element"
+    android:gravity="center_vertical">
 
-    <TextView
-        android:id="@+id/time"
+    <ImageView android:id="@+id/image"
+        android:layout_width="@dimen/height_element"
+        android:layout_height="match_parent" />
+
+    <TextView android:id="@+id/value"
         android:layout_height="match_parent"
         android:layout_width="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/image"
         android:gravity="center_vertical"
-        android:textColor="@android:color/darker_gray"/>
+        android:layout_marginLeft="@dimen/margin_between"
+        android:textSize="@dimen/text_large"
+        android:textColor="@color/green"
+        android:textStyle="bold"/>
 
-    <TextView
-        android:id="@+id/value"
+    <ImageView
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:gravity="center_vertical"
-        android:layout_toLeftOf="@id/time"/>
+        android:adjustViewBounds="true"
+        android:padding="@dimen/padding_end"
+        android:src="@drawable/arrow_right"
+        android:layout_alignParentRight="true"/>
 
 </RelativeLayout>

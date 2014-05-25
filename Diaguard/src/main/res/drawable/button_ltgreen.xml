@@ -3,12 +3,35 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- focused -->
-    <item android:state_focused="true" android:drawable="@color/green" />
+    <item android:state_focused="true">
+        <shape>
+            <solid android:color="@color/green"/>
+            <stroke android:width="2dp" android:color="@color/green"/>
+        </shape>
+    </item>
+
     <!-- focused and pressed-->
-    <item android:state_focused="true" android:state_pressed="true" android:drawable="@color/green" />
+    <item android:state_focused="true" android:state_pressed="true">
+        <shape>
+            <solid android:color="@color/green"/>
+            <stroke android:width="2dp" android:color="@color/green"/>
+        </shape>
+    </item>
+
     <!-- pressed -->
-    <item android:state_pressed="true" android:drawable="@color/green" />
+    <item android:state_pressed="true">
+        <shape>
+            <solid android:color="@color/green"/>
+            <stroke android:width="2dp" android:color="@color/green"/>
+        </shape>
+    </item>
+
     <!-- default -->
-    <item android:drawable="@color/semitransparent_green" />
+    <item>
+        <shape>
+            <solid android:color="@color/green_lt"/>
+            <stroke android:width="2dp" android:color="@color/semitransparent_green"/>
+        </shape>
+    </item>
 
 </selector>

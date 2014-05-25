@@ -55,7 +55,7 @@
     <string name="home">Übersicht</string>
     <string name="keyword">Stichwort</string>
     <string name="keywords">Stichwörter</string>
-    <string name="latest">vor [value] [unit]</string>
+    <string name="latest">Vor [value] [unit]</string>
     <string name="latest_moments">vor kurzem</string>
     <string name="listview_empty">Keine Einträge vorhanden</string>
     <string name="log">Protokoll</string>

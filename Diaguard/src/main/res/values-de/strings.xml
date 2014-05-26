@@ -10,7 +10,7 @@
     <string name="add_value_desc">Kategorien wählen</string>
     <string name="all">Alle</string>
     <string name="application">Anwendung</string>
-    <string name="average">Durchschnitt</string>
+    <string name="average">Durch-\nschnitt</string>
     <string name="back">Zurück</string>
     <string name="background">Hintergrund</string>
     <string name="backup">Sicherung</string>
@@ -117,6 +117,14 @@
     <string name="week">Woche</string>
     <string name="weeks">Wochen</string>
     <string name="yesterday">Gestern</string>
+    <string name="last_24hours">Letzte 24 Stunden</string>
+    <string name="last_7days">Letzte 7 Tage</string>
+    <string name="last_14days">Letzte 14 Tage</string>
+    <string name="last_30days">Letzte 30 Tage</string>
+    <string name="measurements_today">Messungen</string>
+    <string name="hypergylcemia_today">Überzuck-\nerungen</string>
+    <string name="hypogylcemia_today">Unterzuck-\nerungen</string>
+    <string name="today_entries">Tagebuch-\neinträge</string>
 
     <string-array name="weekdays">
         <item>Sonntag</item>

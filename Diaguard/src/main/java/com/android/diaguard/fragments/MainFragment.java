@@ -9,16 +9,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
-import com.android.diaguard.CalculatorActivity;
-import com.android.diaguard.ExportActivity;
 import com.android.diaguard.MainActivity;
 import com.android.diaguard.NewEventActivity;
 import com.android.diaguard.R;
 import com.android.diaguard.database.DatabaseDataSource;
 import com.android.diaguard.database.Event;
-import com.android.diaguard.helpers.ChartHelper;
 import com.android.diaguard.helpers.Helper;
 import com.android.diaguard.helpers.PreferenceHelper;
 
@@ -27,14 +25,9 @@ import java.util.Calendar;
 
 public class MainFragment extends Fragment {
 
-    private final String NORMAL = "Normal";
-    private final String HYPERGLYCEMIA = "Hyperglycemia";
-    private final String HYPOGLYCEMIA = "Hypoglycemia";
-
     DatabaseDataSource dataSource;
     PreferenceHelper preferenceHelper;
     DecimalFormat format;
-    ChartHelper chartHelper;
 
     TextView textViewLatestValue;
     TextView textViewLatestTime;
@@ -56,15 +49,15 @@ public class MainFragment extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.add, menu);
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         ((MainActivity)getActivity()).getSupportActionBar().setTitle(getString(R.string.app_name));
         updateContent();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.add, menu);
     }
 
     private void getComponents() {
@@ -79,33 +72,13 @@ public class MainFragment extends Fragment {
 
     private void updateContent() {
 
-        getView().findViewById(R.id.button_timeline).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((MainActivity)getActivity()).replaceFragment(MainActivity.FragmentType.Timeline);
-            }
-        });
-
-        getView().findViewById(R.id.button_log).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((MainActivity)getActivity()).replaceFragment(MainActivity.FragmentType.Log);
-            }
-        });
-
-        getView().findViewById(R.id.button_calculator).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), CalculatorActivity.class));
-            }
-        });
-
-        getView().findViewById(R.id.button_export).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ExportActivity.class));
-            }
-        });
+        ((Button)getView().findViewById(R.id.button_newevent)).
+                setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(getActivity(), NewEventActivity.class));
+                    }
+                });
 
         dataSource = new DatabaseDataSource(getActivity());
         dataSource.open();
@@ -129,6 +102,16 @@ public class MainFragment extends Fragment {
     private void setLatestBloodSugar() {
 
         final Event latestEvent = dataSource.getLatestEvent(Event.Category.BloodSugar);
+
+        Calendar startOfDay = Calendar.getInstance();
+        long now = startOfDay.getTimeInMillis();
+        startOfDay.set(Calendar.HOUR_OF_DAY, 0);
+        startOfDay.set(Calendar.MINUTE, 0);
+        startOfDay.set(Calendar.SECOND, 0);
+        startOfDay.set(Calendar.MILLISECOND, 0);
+        long passed = now - startOfDay.getTimeInMillis();
+        long secondsPassed = passed / 1000;
+        int percentageOfDay = (int)secondsPassed / 86400;
 
         textViewLatestTime.setText(preferenceHelper.getDateAndTimeFormat().format(latestEvent.getDate().getTime()) + " | ");
 
@@ -178,7 +161,7 @@ public class MainFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_newevent:
-                startActivity(new Intent(getActivity(), NewEventActivity.class));
+                startActivity(new Intent (getActivity(), NewEventActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -3,7 +3,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray">
+    android:background="@color/black_lt">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -63,29 +63,17 @@
             <!-- New event -->
             <RelativeLayout android:id="@+id/layout_newvalue"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="64dp"
                 android:clickable="true"
                 android:onClick="onClickAddValue"
                 android:background="@drawable/button_green">
-
-                    <ImageView android:id="@+id/button_quickvalue"
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:src="@drawable/ic_grid_bloodsugar"
-                        android:layout_alignParentRight="true"
-                        android:clickable="true"
-                        android:onClick="onClickAddValue"
-                        android:tag="0"
-                        android:visibility="gone"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_centerVertical="true"
-                        style="@style/Main"
-                        android:layout_alignParentLeft="true"
-                        android:layout_toLeftOf="@id/button_quickvalue">
+                        style="@style/Main">
 
                         <TextView
                             android:layout_width="wrap_content"

@@ -37,10 +37,17 @@
         <item name="android:paddingBottom">@dimen/margin_between</item>
     </style>
 
-    <style name="Box" parent="Main">
-        <item name="android:layout_height">64dp</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:background">@android:color/white</item>
+    <style name="Box">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@color/black_lt</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingLeft">@dimen/padding_end</item>
+        <item name="android:paddingRight">@dimen/margin_between</item>
+        <item name="android:paddingTop">@dimen/margin_between</item>
+        <item name="android:paddingBottom">@dimen/margin_between</item>
     </style>
 
     <style name="BoxShadow" parent="Main">
@@ -59,12 +66,13 @@
 
     <style name="BoxText">
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">@dimen/text_large</item>
+        <item name="android:textSize">30sp</item>
     </style>
 
     <style name="BoxTextDesc">
         <item name="android:textColor">@color/gray</item>
-        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:textSize">@dimen/text_micro</item>
+        <item name="android:lines">2</item>
     </style>
 
     <style name="BoxImage">

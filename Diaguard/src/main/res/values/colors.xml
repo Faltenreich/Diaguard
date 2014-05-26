@@ -12,12 +12,13 @@
     <color name="green">#457e61</color>
     <color name="green_dk">#346d50</color>
 
-    <color name="ltgray">#fff3f3f3</color>
+    <color name="gray_lt">#fff3f3f3</color>
     <color name="gray">#eed1d1d1</color>
-    <color name="dkgray">#eeb1b1b1</color>
+    <color name="gray_dk">#eeb1b1b1</color>
 
     <color name="graygrid">#33000000</color>
-    <color name="black_lt">#ee3d3d3d</color>
+    <color name="black_lt">#ee616161</color>
+    <color name="black">#42423f</color>
 
     <color name="ltred">#66ff0000</color>
     <color name="red">#99ff0000</color>

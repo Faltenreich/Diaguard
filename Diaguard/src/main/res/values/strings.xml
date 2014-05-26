@@ -74,6 +74,7 @@
     <string name="notes">Notes</string>
     <string name="ok">OK</string>
     <string name="person">Person</string>
+    <string name="placeholder">-</string>
     <string name="pulse">Pulse</string>
     <string name="recently">Recently</string>
     <string name="settings">Settings</string>
@@ -96,6 +97,7 @@
     <string name="units">Units</string>
     <string name="value">Value</string>
     <string name="weight">Weight</string>
+    <string name="zero">0</string>
 
     <string-array name="startscreens">
         <item>Home</item>

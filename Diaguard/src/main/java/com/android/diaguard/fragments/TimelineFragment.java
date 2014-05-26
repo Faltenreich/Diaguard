@@ -281,7 +281,7 @@ public class TimelineFragment extends Fragment {
             XYSeriesRenderer.FillOutsideLine fill =
                     new XYSeriesRenderer.FillOutsideLine(XYSeriesRenderer.FillOutsideLine.Type.ABOVE);
             if((row + activeCategoryCount) % 2 == 0)
-                fill.setColor(getResources().getColor(R.color.ltgray));
+                fill.setColor(getResources().getColor(R.color.gray_lt));
             else
                 fill.setColor(Color.WHITE);
             seriesRenderer.addFillOutsideLine(fill);

@@ -9,7 +9,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.diaguard.MainActivity;
@@ -72,14 +71,6 @@ public class MainFragment extends Fragment {
 
     private void updateContent() {
 
-        ((Button)getView().findViewById(R.id.button_newevent)).
-                setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        startActivity(new Intent(getActivity(), NewEventActivity.class));
-                    }
-                });
-
         dataSource = new DatabaseDataSource(getActivity());
         dataSource.open();
 
@@ -103,17 +94,7 @@ public class MainFragment extends Fragment {
 
         final Event latestEvent = dataSource.getLatestEvent(Event.Category.BloodSugar);
 
-        Calendar startOfDay = Calendar.getInstance();
-        long now = startOfDay.getTimeInMillis();
-        startOfDay.set(Calendar.HOUR_OF_DAY, 0);
-        startOfDay.set(Calendar.MINUTE, 0);
-        startOfDay.set(Calendar.SECOND, 0);
-        startOfDay.set(Calendar.MILLISECOND, 0);
-        long passed = now - startOfDay.getTimeInMillis();
-        long secondsPassed = passed / 1000;
-        int percentageOfDay = (int)secondsPassed / 86400;
-
-        textViewLatestTime.setText(preferenceHelper.getDateAndTimeFormat().format(latestEvent.getDate().getTime()) + " | ");
+        textViewLatestTime.setText(preferenceHelper.getDateAndTimeFormat().format(latestEvent.getDate().getTime()));
 
         float value = preferenceHelper.formatDefaultToCustomUnit(Event.Category.BloodSugar, latestEvent.getValue());
         textViewLatestValue.setText(format.format(value));
@@ -126,6 +107,10 @@ public class MainFragment extends Fragment {
             textViewLatestAgo.setTextColor(getResources().getColor(R.color.red));
 
         textViewLatestAgo.setText(Helper.getTextAgo(getActivity(), differenceInMinutes));
+    }
+
+    private void updateDashboard() {
+
     }
 
     private void setAverageBloodSugar() {

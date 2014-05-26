@@ -3,7 +3,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black_lt">
+    android:background="@color/gray">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -47,7 +47,10 @@
                 android:inputType="textMultiLine|textCapSentences"
                 android:maxLines="2"
                 android:layout_marginTop="@dimen/padding"/>
+
         </LinearLayout>
+
+        <View style="@style/Shadow"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -66,7 +69,7 @@
                 android:layout_height="64dp"
                 android:clickable="true"
                 android:onClick="onClickAddValue"
-                android:background="@drawable/button_green">
+                android:background="@drawable/button_ltgreen">
 
                     <LinearLayout
                         android:layout_width="wrap_content"

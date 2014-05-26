@@ -41,7 +41,7 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:background">@color/black_lt</item>
+        <item name="android:background">@color/black</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:orientation">vertical</item>
         <item name="android:paddingLeft">@dimen/padding_end</item>
@@ -65,7 +65,7 @@
     </style>
 
     <style name="BoxText">
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@color/green_lt</item>
         <item name="android:textSize">30sp</item>
     </style>
 
@@ -172,6 +172,27 @@
         <item name="android:textSize">@dimen/text_large</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Shadow">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">3dp</item>
+        <item name="android:background">@color/black_lt</item>
+    </style>
+
+    <style name="BackgroundRound">
+    </style>
+
+    <style name="BackgroundRoundWhite" parent="BackgroundRound">
+        <item name="android:background">@drawable/background_round_white</item>
+    </style>
+
+    <style name="BackgroundRoundGreen" parent="BackgroundRound">
+        <item name="android:background">@drawable/background_round_green</item>
+    </style>
+
+    <style name="BackgroundRoundGreenLt" parent="BackgroundRound">
+        <item name="android:background">@drawable/background_round_green_lt</item>
     </style>
 
 

@@ -1,91 +1,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
 
-    <LinearLayout android:id="@+id/layout_chart"
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#DD457e61"/>
+
+    <!-- Dashboard -->
+    <LinearLayout android:id="@+id/layout_dashboard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/green_lt"
         android:orientation="vertical"
-        android:gravity="center"
-        style="@style/Main">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="bottom">
-
-            <TextView android:id="@+id/textview_latest_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="60sp"
-                android:textColor="@android:color/white"/>
-
-            <TextView android:id="@+id/textview_latest_unit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:textColor="@color/gray"
-                android:text="mg/dL"
-                android:layout_marginLeft="@dimen/margin_between"/>
-
-            </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/green"
-            android:layout_marginTop="@dimen/margin_between"
-            android:layout_marginBottom="@dimen/margin_between"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/margin_between"
-            android:layout_marginBottom="@dimen/margin_between">
-
-            <TextView android:id="@+id/textview_latest_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:textColor="@color/gray"/>
-
-            <TextView android:id="@+id/textview_latest_ago"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:textColor="@android:color/white"
-                android:text="@string/firstvisit_desc"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    <View android:id="@+id/separator"
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:background="@color/green"
-        android:layout_below="@+id/layout_chart"/>
-
-    <Button android:id="@+id/button_newevent"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:background="@color/black_lt"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/button_green"
-        android:text="@string/newevent"
-        android:textColor="@android:color/white"
-        android:layout_margin="@dimen/margin_between"
-        android:visibility="gone"/>
-
-    <!-- Navigation -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/separator"
-        android:orientation="vertical"
-        android:background="@android:color/darker_gray">
+        android:paddingTop="1dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -116,7 +46,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/BoxText"
-                    android:text="6"/>
+                    android:text="@string/zero"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -135,7 +65,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/BoxText"
-                    android:text="2"/>
+                    android:text="@string/zero"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -153,7 +83,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/BoxText"
-                    android:text="0"/>
+                    android:text="@string/zero"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -186,7 +116,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/BoxText"
-                    android:text="12"/>
+                    android:text="@string/zero"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -204,7 +134,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/BoxText"
-                    android:text="24"/>
+                    android:text="@string/zero"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -221,7 +151,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/BoxText"
-                    android:text="2"/>
+                    android:text="@string/zero"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -237,8 +167,7 @@
             android:layout_width="match_parent"
             android:layout_height="96dp"
             android:orientation="horizontal"
-            android:baselineAligned="false"
-            android:layout_marginBottom="1dp">
+            android:baselineAligned="false">
 
             <LinearLayout
                 style="@style/Box"
@@ -248,7 +177,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/BoxText"
-                    android:textSize="@dimen/text_medium"
+                    android:textSize="16sp"
                     android:text="@string/average"
                     android:textColor="@android:color/darker_gray"/>
 
@@ -261,7 +190,8 @@
                 <TextView android:id="@+id/textview_avg_day"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/BoxText"/>
+                    style="@style/BoxText"
+                    android:text="@string/placeholder"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -278,7 +208,8 @@
                 <TextView android:id="@+id/textview_avg_week"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/BoxText"/>
+                    style="@style/BoxText"
+                    android:text="@string/placeholder"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -294,7 +225,8 @@
                 <TextView android:id="@+id/textview_avg_month"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/BoxText"/>
+                    style="@style/BoxText"
+                    android:text="@string/placeholder"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -305,6 +237,66 @@
             </LinearLayout>
 
         </LinearLayout>
+
+    </LinearLayout>
+
+    <View android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@color/green"
+        android:layout_above="@id/layout_dashboard"/>
+
+    <LinearLayout android:id="@+id/layout_latest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_above="@id/separator"
+        android:layout_alignParentTop="true"
+        android:paddingBottom="30dp"
+        style="@style/Main">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="bottom">
+
+            <TextView android:id="@+id/textview_latest_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="60sp"
+                android:textColor="@android:color/white"/>
+
+            <TextView android:id="@+id/textview_latest_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textColor="@color/gray"
+                android:text="mg/dL"
+                android:layout_marginLeft="@dimen/margin_between"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginTop="@dimen/margin_between"
+            android:layout_marginBottom="@dimen/margin_between"/>
+
+        <TextView android:id="@+id/textview_latest_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textColor="@color/gray"/>
+
+        <TextView android:id="@+id/textview_latest_ago"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textColor="@android:color/white"
+            android:text="@string/firstvisit_desc"/>
 
     </LinearLayout>
 

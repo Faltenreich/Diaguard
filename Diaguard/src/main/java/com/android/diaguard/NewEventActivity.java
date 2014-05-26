@@ -24,7 +24,6 @@ import com.android.diaguard.database.DatabaseDataSource;
 import com.android.diaguard.database.Event;
 import com.android.diaguard.fragments.DatePickerFragment;
 import com.android.diaguard.fragments.TimePickerFragment;
-import com.android.diaguard.helpers.Helper;
 import com.android.diaguard.helpers.PreferenceHelper;
 import com.android.diaguard.helpers.SwipeDismissTouchListener;
 import com.android.diaguard.helpers.Validator;
@@ -118,10 +117,6 @@ public class NewEventActivity extends ActionBarActivity {
 
         if (extras != null) {
 
-            if(extras.getSerializable("Date") != null) {
-                time = (Calendar) extras.getSerializable("Date");
-            }
-
             if (extras.getLong("ID") != 0L) {
                 setTitle(getString(R.string.editevent));
 
@@ -133,17 +128,26 @@ public class NewEventActivity extends ActionBarActivity {
 
                 float value = preferenceHelper.
                         formatDefaultToCustomUnit(event.getCategory(), event.getValue());
-                addValue(event.getCategory(), value);
+                addValue(event.getCategory(), Float.toString(value), false, false);
 
                 editTextNotes.setText(event.getNotes());
 
 
                 findViewById(R.id.layout_newvalue).setVisibility(View.GONE);
             }
+
+            else if(extras.getSerializable("Date") != null) {
+                time = (Calendar) extras.getSerializable("Date");
+                addValue(Event.Category.BloodSugar, null, false, true);
+            }
+
             else {
                 findViewById(R.id.layout_newvalue).setVisibility(View.VISIBLE);
+                addValue(Event.Category.BloodSugar, null, false, true);
             }
         }
+        else
+            addValue(Event.Category.BloodSugar, null, false, true);
     }
 
     private void setDate() {
@@ -224,7 +228,14 @@ public class NewEventActivity extends ActionBarActivity {
         }
     }
 
-    private void addValue(final Event.Category category) {
+    /**
+     * Add new value to LinearLayout
+     * @param category The Category to add
+     * @param value Initialize with value
+     * @param animate Shall the new View animated at inseration?
+     * @param removable Is the new View removeable?
+     */
+    private void addValue(final Event.Category category, String value, boolean animate, boolean removable) {
 
         inputWasMade = true;
 
@@ -232,23 +243,25 @@ public class NewEventActivity extends ActionBarActivity {
 
         // Add view
         LayoutInflater inflater = getLayoutInflater();
-        final View view = inflater.inflate(R.layout.fragment_newvalue, null);
+        final View view = inflater.inflate(R.layout.fragment_newvalue, linearLayoutValues, false);
         view.setTag(category);
 
-        view.setOnTouchListener(new SwipeDismissTouchListener(view, null,
-            new SwipeDismissTouchListener.OnDismissCallback() {
+        if(removable) {
+            view.setOnTouchListener(new SwipeDismissTouchListener(view, null,
+                    new SwipeDismissTouchListener.OnDismissCallback() {
+                        @Override
+                        public void onDismiss(View view1, Object token) {
+                            removeValue(category);
+                        }
+                    }
+            ));
+            // Must be overwritten for SwipeToDismiss to work properly (WTF?)
+            view.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onDismiss(View view1, Object token) {
-                    removeValue(category);
+                public void onClick(View view) {
                 }
-            }
-        ));
-        // Must be overwritten for SwipeToDismiss to work properly (WTF?)
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });
+            });
+        }
 
         ImageView image = (ImageView) view.findViewById(R.id.image);
         String name = category.name().toLowerCase();
@@ -258,6 +271,9 @@ public class NewEventActivity extends ActionBarActivity {
 
         TextView textViewValue = (TextView) view.findViewById(R.id.value);
         textViewValue.setHint(preferenceHelper.getUnitAcronym(category));
+        if(value != null) {
+            textViewValue.setText(value);
+        }
 
         ImageView imageDelete = (ImageView) view.findViewById(R.id.delete);
         imageDelete.setOnClickListener(new View.OnClickListener() {
@@ -267,36 +283,15 @@ public class NewEventActivity extends ActionBarActivity {
             }
         });
 
-        Animation animationSlideInLeft =
-                AnimationUtils.loadAnimation(NewEventActivity.this,
-                        android.R.anim.slide_in_left);
-        animationSlideInLeft.setDuration(300);
-        view.startAnimation(animationSlideInLeft);
+        if(animate) {
+            Animation animationSlideInLeft =
+                    AnimationUtils.loadAnimation(NewEventActivity.this,
+                            android.R.anim.slide_in_left);
+            animationSlideInLeft.setDuration(300);
+            view.startAnimation(animationSlideInLeft);
+        }
 
         linearLayoutValues.addView(view, 0);
-    }
-
-    private void addValue(Event.Category category, float value) {
-
-        LayoutInflater inflater = getLayoutInflater();
-        View view = inflater.inflate(R.layout.fragment_newvalue, null);
-        view.setTag(category);
-
-        ImageView image = (ImageView) view.findViewById(R.id.image);
-        String name = category.name().toLowerCase();
-        int resourceId = getResources().getIdentifier(name,
-                "drawable", getPackageName());
-        image.setImageResource(resourceId);
-
-        TextView textViewValue = (TextView) view.findViewById(R.id.value);
-        textViewValue.setHint(preferenceHelper.getUnitAcronym(category));
-
-        EditText editTextValue = (EditText) view.findViewById(R.id.value);
-        editTextValue.setText(Helper.getDecimalFormat().format(value));
-        editTextValue.requestFocus();
-        editTextValue.setSelection(editTextValue.getText().length());
-
-        linearLayoutValues.addView(view);
     }
 
     private void removeValue(Event.Category category) {
@@ -362,65 +357,53 @@ public class NewEventActivity extends ActionBarActivity {
     }
 
     public void onClickAddValue (View view) {
+        String[] categoryNames = new String[selectedCategoriesMap.size()];
+        final boolean[] selectedCategories = new boolean[selectedCategoriesMap.size()];
 
-        if(view.getTag() != null) {
-            int tag = Integer.parseInt((String) view.getTag());
-
-            // Quick order to add a new BloodSugar value
-            if(tag == Event.Category.BloodSugar.ordinal() && !selectedCategoriesMap.get(Event.Category.BloodSugar)) {
-                addValue(Event.Category.BloodSugar);
-            }
+        int position = 0;
+        for (Map.Entry entry : selectedCategoriesMap.entrySet()) {
+            categoryNames[position] = preferenceHelper.getCategoryName((Event.Category)entry.getKey());
+            selectedCategories[position] = (Boolean)entry.getValue();
+            position++;
         }
 
-        else {
-            String[] categoryNames = new String[selectedCategoriesMap.size()];
-            final boolean[] selectedCategories = new boolean[selectedCategoriesMap.size()];
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(NewEventActivity.this);
+        dialogBuilder.setMultiChoiceItems(categoryNames, selectedCategories,
+                new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                })
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        List<Boolean> selectedCategoriesList = new ArrayList<Boolean>(selectedCategoriesMap.values());
 
-            int position = 0;
-            for (Map.Entry entry : selectedCategoriesMap.entrySet()) {
-                categoryNames[position] = preferenceHelper.getCategoryName((Event.Category)entry.getKey());
-                selectedCategories[position] = (Boolean)entry.getValue();
-                position++;
-            }
+                        for (int position = selectedCategories.length - 1; position >= 0; position--) {
 
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(NewEventActivity.this);
-            dialogBuilder.setMultiChoiceItems(categoryNames, selectedCategories,
-                    new DialogInterface.OnMultiChoiceClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                            boolean categoryWasSelectedBefore = selectedCategoriesList.get(position);
+
+                            // Add new value
+                            if (selectedCategories[position] && !categoryWasSelectedBefore)
+                                addValue(Event.Category.values()[position], null, true, true);
+
+                            // Remove old value
+                            else if (!selectedCategories[position] && categoryWasSelectedBefore)
+                                removeValue(Event.Category.values()[position]);
                         }
-                    })
-                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    })
-                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            List<Boolean> selectedCategoriesList = new ArrayList<Boolean>(selectedCategoriesMap.values());
-
-                            for (int position = selectedCategories.length - 1; position >= 0; position--) {
-
-                                boolean categoryWasSelectedBefore = selectedCategoriesList.get(position);
-
-                                // Add new value
-                                if (selectedCategories[position] && !categoryWasSelectedBefore)
-                                    addValue(Event.Category.values()[position]);
-
-                                // Remove old value
-                                else if (!selectedCategories[position] && categoryWasSelectedBefore)
-                                    removeValue(Event.Category.values()[position]);
-                            }
-                        }
-                    });
-            AlertDialog dialog = dialogBuilder.create();
-            dialog.show();
-        }
+                    }
+                });
+        AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
     }
 
     @Override
     public void onBackPressed() {
-        if(inputWasMade) {
+        if(inputWasMade && !inputWasMade) {
             new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.confirmation_exit))
                     .setMessage(getString(R.string.confirmation_exit_desc))

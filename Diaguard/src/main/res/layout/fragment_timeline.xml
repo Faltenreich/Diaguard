@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:background="@color/ltgray">
+    android:background="@color/gray_lt">
 
     <LinearLayout android:id="@+id/toolbar"
         android:layout_width="fill_parent"

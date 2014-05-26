@@ -2,36 +2,16 @@
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- focused -->
-    <item android:state_focused="true">
-        <shape>
-            <solid android:color="@color/green"/>
-            <stroke android:width="2dp" android:color="@color/green"/>
-        </shape>
-    </item>
+    <item android:state_focused="true"
+        android:drawable="@drawable/background_round_green_lt"/>
 
-    <!-- focused and pressed-->
-    <item android:state_focused="true" android:state_pressed="true">
-        <shape>
-            <solid android:color="@color/green"/>
-            <stroke android:width="2dp" android:color="@color/green"/>
-        </shape>
-    </item>
+    <item android:state_focused="true"
+        android:state_pressed="true"
+        android:drawable="@drawable/background_round_green_lt"/>
 
-    <!-- pressed -->
-    <item android:state_pressed="true">
-        <shape>
-            <solid android:color="@color/green"/>
-            <stroke android:width="2dp" android:color="@color/green"/>
-        </shape>
-    </item>
+    <item android:state_pressed="true"
+        android:drawable="@drawable/background_round_green_lt"/>
 
-    <!-- default -->
-    <item>
-        <shape>
-            <solid android:color="@color/green_lt"/>
-            <stroke android:width="2dp" android:color="@color/semitransparent_green"/>
-        </shape>
-    </item>
+    <item android:drawable="@drawable/background_round_green"/>
 
 </selector>

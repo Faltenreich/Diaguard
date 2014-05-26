@@ -73,7 +73,7 @@ public class ChartHelper {
         renderer.setPointSize(Helper.getDPI(activity, 7));
 
         renderer.setMargins(new int[]{0, 0, 0, 0});
-        renderer.setMarginsColor(activity.getResources().getColor(R.color.ltgray));
+        renderer.setMarginsColor(activity.getResources().getColor(R.color.gray_lt));
 
         renderer.setXRoundedLabels(false);
         renderer.setLabelsTextSize(Helper.getDPI(activity, 12));

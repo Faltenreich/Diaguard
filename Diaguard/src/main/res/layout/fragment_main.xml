@@ -1,46 +1,104 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background">
+    android:orientation="vertical"
+    android:background="@color/gray"
+    style="@style/Main">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#DD457e61"/>
+    <!-- Latest Blood Sugar -->
 
-    <!-- Dashboard -->
-    <LinearLayout android:id="@+id/layout_dashboard"
+    <LinearLayout android:id="@+id/layout_latest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/black_lt"
-        android:layout_alignParentBottom="true"
-        android:paddingTop="1dp">
+        android:gravity="center"
+        android:paddingBottom="30dp"
+        android:background="@drawable/background_round_green_lt"
+        style="@style/Main"
+        android:layout_marginBottom="@dimen/margin_between">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="bottom">
+
+            <TextView android:id="@+id/textview_latest_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="60sp"
+                android:textColor="@android:color/white"/>
+
+            <TextView android:id="@+id/textview_latest_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textColor="@color/gray"
+                android:text="mg/dL"
+                android:layout_marginLeft="@dimen/margin_between"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/white"
+            android:layout_marginTop="@dimen/margin_between"
+            android:layout_marginBottom="@dimen/margin_between"/>
+
+        <TextView android:id="@+id/textview_latest_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textColor="@color/gray"/>
+
+        <TextView android:id="@+id/textview_latest_ago"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textColor="@android:color/white"
+            android:text="@string/firstvisit_desc"/>
+
+    </LinearLayout>
+
+    <!-- Dashboard -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/background_round_white">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="96dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:baselineAligned="false"
-            android:layout_marginBottom="1dp">
+            android:gravity="center_vertical"
+            android:background="@drawable/background_round_top_gray_lt"
+            android:paddingLeft="@dimen/padding_end">
+
+            <ImageView
+                android:layout_width="@dimen/size_image"
+                android:layout_height="@dimen/size_image"
+                android:src="@drawable/calendar"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/today"
+                android:layout_marginLeft="@dimen/margin_between"
+                android:textColor="@color/green_lt"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            style="@style/Main">
 
             <LinearLayout
-                style="@style/Box"
-                android:layout_marginRight="1dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/BoxText"
-                    android:textSize="@dimen/text_medium"
-                    android:text="@string/today"
-                    android:textColor="@android:color/darker_gray"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                style="@style/Box"
-                android:layout_marginRight="1dp">
+                style="@style/Box">
 
                 <TextView android:id="@+id/measurements"
                     android:layout_width="wrap_content"
@@ -58,8 +116,7 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/Box"
-                android:layout_marginRight="1dp">
+                style="@style/Box">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -94,6 +151,100 @@
             </LinearLayout>
 
         </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@color/gray_lt"
+            android:paddingLeft="@dimen/padding_end">
+
+            <ImageView
+                android:layout_width="@dimen/size_image"
+                android:layout_height="@dimen/size_image"
+                android:src="@drawable/average"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/average"
+                android:layout_marginLeft="@dimen/margin_between"
+                android:textColor="@color/green_lt"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            style="@style/Main">
+
+            <LinearLayout
+                style="@style/Box">
+
+                <TextView android:id="@+id/textview_avg_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/BoxText"
+                    android:text="@string/placeholder"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/BoxTextDesc"
+                    android:text="@string/last_24hours"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/Box">
+
+                <TextView android:id="@+id/textview_avg_week"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/BoxText"
+                    android:text="@string/placeholder"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/BoxTextDesc"
+                    android:text="@string/last_7days"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/Box">
+
+                <TextView android:id="@+id/textview_avg_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/BoxText"
+                    android:text="@string/placeholder"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/BoxTextDesc"
+                    android:text="@string/last_30days"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Dashboard -->
+    <LinearLayout android:id="@+id/layout_dashboard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/corners"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -163,141 +314,6 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="96dp"
-            android:orientation="horizontal"
-            android:baselineAligned="false">
-
-            <LinearLayout
-                style="@style/Box"
-                android:layout_marginRight="1dp">
-
-                <TextView android:id="@+id/textview_avg_weeks"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/BoxText"
-                    android:textSize="16sp"
-                    android:text="@string/average"
-                    android:textColor="@android:color/darker_gray"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                style="@style/Box"
-                android:layout_marginRight="1dp">
-
-                <TextView android:id="@+id/textview_avg_day"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/BoxText"
-                    android:text="@string/placeholder"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/BoxTextDesc"
-                    android:text="@string/last_24hours"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                style="@style/Box"
-                android:layout_marginRight="1dp">
-
-                <TextView android:id="@+id/textview_avg_week"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/BoxText"
-                    android:text="@string/placeholder"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/BoxTextDesc"
-                    android:text="@string/last_7days"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                style="@style/Box">
-
-                <TextView android:id="@+id/textview_avg_month"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/BoxText"
-                    android:text="@string/placeholder"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/BoxTextDesc"
-                    android:text="@string/last_30days"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
     </LinearLayout>
 
-    <View android:id="@+id/separator"
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:background="@color/green"
-        android:layout_above="@id/layout_dashboard"/>
-
-    <LinearLayout android:id="@+id/layout_latest"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_above="@id/separator"
-        android:layout_alignParentTop="true"
-        android:paddingBottom="30dp"
-        style="@style/Main">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="bottom">
-
-            <TextView android:id="@+id/textview_latest_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="60sp"
-                android:textColor="@android:color/white"/>
-
-            <TextView android:id="@+id/textview_latest_unit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:textColor="@color/gray"
-                android:text="mg/dL"
-                android:layout_marginLeft="@dimen/margin_between"/>
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
-            android:layout_marginTop="@dimen/margin_between"
-            android:layout_marginBottom="@dimen/margin_between"/>
-
-        <TextView android:id="@+id/textview_latest_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:textColor="@color/gray"/>
-
-        <TextView android:id="@+id/textview_latest_ago"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:textColor="@android:color/white"
-            android:text="@string/firstvisit_desc"/>
-
-    </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>

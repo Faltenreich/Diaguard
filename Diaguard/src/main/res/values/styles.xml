@@ -8,6 +8,7 @@
 
     <style name="ActionBarTheme"
         parent="@style/Widget.AppCompat.ActionBar">
+        <item name="android:icon">@drawable/ic_launcher_inverted</item>
         <item name="background">@color/green</item>
         <item name="android:background">@color/green</item>
         <item name="titleTextStyle">@style/ActionBarTitleText</item>
@@ -37,17 +38,12 @@
         <item name="android:paddingBottom">@dimen/margin_between</item>
     </style>
 
-    <style name="Box">
+    <style name="Box" parent="Main">
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:background">@color/black</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:orientation">vertical</item>
-        <item name="android:paddingLeft">@dimen/padding_end</item>
-        <item name="android:paddingRight">@dimen/margin_between</item>
-        <item name="android:paddingTop">@dimen/margin_between</item>
-        <item name="android:paddingBottom">@dimen/margin_between</item>
     </style>
 
     <style name="BoxShadow" parent="Main">
@@ -66,7 +62,8 @@
 
     <style name="BoxText">
         <item name="android:textColor">@color/green_lt</item>
-        <item name="android:textSize">30sp</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="BoxTextDesc">

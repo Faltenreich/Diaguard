@@ -4,15 +4,14 @@
 
     <item>
         <shape>
-            <solid android:color="@color/black_lt"/>
+            <solid android:color="@color/gray_lt"/>
             <corners android:radius="@dimen/corners"/>
         </shape>
     </item>
 
-    <item android:bottom="3dp">
+    <item android:top="3dp">
         <shape>
-            <solid android:color="@color/green_lt"/>
-            <corners android:radius="@dimen/corners"/>
+            <solid android:color="@color/gray_lt"/>
         </shape>
     </item>
 

@@ -22,9 +22,7 @@ import com.android.diaguard.helpers.PreferenceHelper;
 import com.android.diaguard.helpers.Validator;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 /**
  * Created by Filip on 15.11.13.
@@ -265,16 +263,16 @@ public class CalculatorActivity extends ActionBarActivity {
     }
 
     private void storeValues(float currentBloodSugar, float meal, float bolus) {
+        dataSource.open();
+
         Calendar now = Calendar.getInstance();
 
-        List<Event> events = new ArrayList<Event>();
         Event event = new Event();
-
         event.setValue(currentBloodSugar);
         event.setDate(now);
         event.setNotes("");
         event.setCategory(Event.Category.BloodSugar);
-        events.add(event);
+        dataSource.insertEvent(event);
 
         if(meal > 0) {
             event = new Event();
@@ -282,7 +280,7 @@ public class CalculatorActivity extends ActionBarActivity {
             event.setDate(now);
             event.setNotes("");
             event.setCategory(Event.Category.Meal);
-            events.add(event);
+            dataSource.insertEvent(event);
         }
 
         if(bolus > 0) {
@@ -291,11 +289,9 @@ public class CalculatorActivity extends ActionBarActivity {
             event.setDate(now);
             event.setNotes("");
             event.setCategory(Event.Category.Bolus);
-            events.add(event);
+            dataSource.insertEvent(event);
         }
 
-        dataSource.open();
-        dataSource.insertEvents(events);
         dataSource.close();
     }
 

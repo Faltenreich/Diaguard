@@ -104,9 +104,9 @@ public class ListViewAdapterLog extends BaseAdapter {
         // Highlighting
         if(event.getCategory() == Event.Category.BloodSugar &&
                 preferenceHelper.limitsAreHighlighted()) {
-            if(valueFloat >= preferenceHelper.getLimitHyperglycemia())
+            if(valueFloat > preferenceHelper.getLimitHyperglycemia())
                 holder.value.setTextColor(Color.RED);
-            else if(valueFloat <= preferenceHelper.getLimitHypoglycemia())
+            else if(valueFloat < preferenceHelper.getLimitHypoglycemia())
                 holder.value.setTextColor(Color.BLUE);
         }
 

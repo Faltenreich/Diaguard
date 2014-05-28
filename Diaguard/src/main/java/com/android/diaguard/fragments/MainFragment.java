@@ -27,17 +27,24 @@ public class MainFragment extends Fragment {
     DatabaseDataSource dataSource;
     PreferenceHelper preferenceHelper;
     DecimalFormat format;
+    Calendar time;
 
     TextView textViewLatestValue;
+    TextView textViewLatestUnit;
     TextView textViewLatestTime;
     TextView textViewLatestAgo;
+
+    TextView textViewMeasurements;
+    TextView textViewHyperglycemia;
+    TextView textViewHypoglycemia;
+
     TextView textViewAverageMonth;
     TextView textViewAverageWeek;
     TextView textViewAverageDay;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
+        //setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
@@ -61,8 +68,13 @@ public class MainFragment extends Fragment {
 
     private void getComponents() {
         textViewLatestValue = (TextView) getView().findViewById(R.id.textview_latest_value);
+        textViewLatestUnit = (TextView) getView().findViewById(R.id.textview_latest_unit);
         textViewLatestTime = (TextView) getView().findViewById(R.id.textview_latest_time);
         textViewLatestAgo = (TextView) getView().findViewById(R.id.textview_latest_ago);
+
+        textViewMeasurements = (TextView) getView().findViewById(R.id.textview_measurements);
+        textViewHyperglycemia = (TextView) getView().findViewById(R.id.textview_hyperglycemia);
+        textViewHypoglycemia = (TextView) getView().findViewById(R.id.textview_hypoglycemia);
 
         textViewAverageMonth = (TextView) getView().findViewById(R.id.textview_avg_month);
         textViewAverageWeek = (TextView) getView().findViewById(R.id.textview_avg_week);
@@ -71,15 +83,24 @@ public class MainFragment extends Fragment {
 
     private void updateContent() {
 
+        getView().findViewById(R.id.button_newevent).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), NewEventActivity.class));
+            }
+        });
+
         dataSource = new DatabaseDataSource(getActivity());
         dataSource.open();
 
         preferenceHelper = new PreferenceHelper(getActivity());
 
+        time = Calendar.getInstance();
+
         if(dataSource.countEvents(Event.Category.BloodSugar) > 0) {
             format = Helper.getDecimalFormat();
-            setLatestBloodSugar();
-            setAverageBloodSugar();
+            updateLatest();
+            updateDashboard();
         }
         else {
             textViewAverageMonth.setText(Helper.PLACEHOLDER);
@@ -90,19 +111,22 @@ public class MainFragment extends Fragment {
         dataSource.close();
     }
 
-    private void setLatestBloodSugar() {
+    private void updateLatest() {
 
-        final Event latestEvent = dataSource.getLatestEvent(Event.Category.BloodSugar);
+        Event latestEvent = dataSource.getLatestEvent(Event.Category.BloodSugar);
 
-        textViewLatestTime.setText(preferenceHelper.getDateAndTimeFormat().format(latestEvent.getDate().getTime()));
-
+        // Value
         float value = preferenceHelper.formatDefaultToCustomUnit(Event.Category.BloodSugar, latestEvent.getValue());
         textViewLatestValue.setText(format.format(value));
 
+        textViewLatestUnit.setText(preferenceHelper.getUnitAcronym(Event.Category.BloodSugar));
+
+        // Time
+        textViewLatestTime.setText(preferenceHelper.getDateAndTimeFormat().format(latestEvent.getDate().getTime()) + " | ");
         int differenceInMinutes = Helper.getDifferenceInMinutes(latestEvent.getDate(), Calendar.getInstance());
 
         // Highlight if last measurement is more than eight hours ago
-        textViewLatestAgo.setTextColor(getResources().getColor(android.R.color.white));
+        textViewLatestAgo.setTextColor(getResources().getColor(R.color.green_lt));
         if(differenceInMinutes > 480)
             textViewLatestAgo.setTextColor(getResources().getColor(R.color.red));
 
@@ -110,10 +134,26 @@ public class MainFragment extends Fragment {
     }
 
     private void updateDashboard() {
-
+        updateToday();
+        updateAverage();
     }
 
-    private void setAverageBloodSugar() {
+    private void updateToday() {
+        int measurements = dataSource.countEventsOfDay(time, Event.Category.BloodSugar);
+        textViewMeasurements.setText(Integer.toString(measurements) + "x");
+
+        int countHypers = dataSource.countEventsAboveValue(time,
+                Event.Category.BloodSugar,
+                preferenceHelper.getLimitHyperglycemia());
+        textViewHyperglycemia.setText(Integer.toString(countHypers) + "x");
+
+        int countHypos = dataSource.countEventsBelowValue(time,
+                Event.Category.BloodSugar,
+                preferenceHelper.getLimitHypoglycemia());
+        textViewHypoglycemia.setText(Integer.toString(countHypos) + "x");
+    }
+
+    private void updateAverage() {
         float avgMonth = preferenceHelper.
                 formatDefaultToCustomUnit(Event.Category.BloodSugar,
                         dataSource.getBloodSugarAverage(30));

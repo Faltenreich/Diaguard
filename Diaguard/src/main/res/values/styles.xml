@@ -4,21 +4,17 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light">
         <item name="actionBarStyle">@style/ActionBarTheme</item>
         <item name="android:actionBarStyle">@style/ActionBarTheme</item>
+        <item name="homeAsUpIndicator">@drawable/ic_up</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_up</item>
     </style>
 
-    <style name="ActionBarTheme"
-        parent="@style/Widget.AppCompat.ActionBar">
-        <item name="android:icon">@drawable/ic_launcher_inverted</item>
+    <style name="ActionBarTheme" parent="@style/Widget.AppCompat.ActionBar">
         <item name="background">@color/green</item>
         <item name="android:background">@color/green</item>
         <item name="titleTextStyle">@style/ActionBarTitleText</item>
         <item name="android:titleTextStyle">@style/ActionBarTitleText</item>
         <item name="subtitleTextStyle">@style/ActionBarSubtitleText</item>
         <item name="android:subtitleTextStyle">@style/ActionBarSubtitleText</item>
-        <item name="android:minWidth">0dip</item>
-        <item name="android:padding">0dip</item>
-        <item name="android:paddingLeft">0dip</item>
-        <item name="android:paddingRight">0dip</item>
     </style>
 
     <style name="ActionBarTitleText"
@@ -31,45 +27,46 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
     
-    <style name="Main">
+    <style name="Padding">
         <item name="android:paddingLeft">@dimen/padding_end</item>
         <item name="android:paddingRight">@dimen/padding_end</item>
         <item name="android:paddingTop">@dimen/margin_between</item>
         <item name="android:paddingBottom">@dimen/margin_between</item>
     </style>
 
-    <style name="Box" parent="Main">
+    <style name="Box">
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:gravity">center_vertical</item>
         <item name="android:orientation">vertical</item>
+        <item name="android:paddingLeft">@dimen/padding_end</item>
+        <item name="android:paddingRight">@dimen/padding</item>
+        <item name="android:paddingBottom">@dimen/margin_between</item>
     </style>
 
-    <style name="BoxShadow" parent="Main">
+    <style name="BoxShadow" parent="Padding">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">3dp</item>
         <item name="android:background">@android:color/darker_gray</item>
     </style>
 
     <style name="BoxLabel">
-        <item name="android:layout_height">24dp</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:gravity">center</item>
-        <item name="android:background">@color/green</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:background">@color/gray_lt</item>
+        <item name="android:paddingLeft">@dimen/padding_end</item>
+        <item name="android:gravity">center_vertical</item>
     </style>
 
     <style name="BoxText">
         <item name="android:textColor">@color/green_lt</item>
         <item name="android:textSize">26sp</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="BoxTextDesc">
-        <item name="android:textColor">@color/gray</item>
+        <item name="android:textColor">@color/black_lt</item>
         <item name="android:textSize">@dimen/text_micro</item>
-        <item name="android:lines">2</item>
     </style>
 
     <style name="BoxImage">
@@ -89,7 +86,7 @@
         <item name="android:gravity">center_vertical</item>
     </style>
 
-    <style name="LabelWithGreenBackground" parent="Main">
+    <style name="LabelWithGreenBackground" parent="Padding">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/height_element</item>
         <item name="android:background">@color/green_lt</item>

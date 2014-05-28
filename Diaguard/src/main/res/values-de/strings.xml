@@ -60,6 +60,7 @@
     <string name="listview_empty">Keine Einträge vorhanden</string>
     <string name="log">Protokoll</string>
     <string name="meal">Mahlzeit</string>
+    <string name="measured">Gemessen</string>
     <string name="newevent">Tagebucheintrag</string>
     <string name="newevent_desc">Messwerte hinzufügen</string>
     <string name="next">Weiter</string>
@@ -121,10 +122,6 @@
     <string name="last_7days">Letzte 7 Tage</string>
     <string name="last_14days">Letzte 14 Tage</string>
     <string name="last_30days">Letzte 30 Tage</string>
-    <string name="measurements_today">Messungen</string>
-    <string name="hypergylcemia_today">Überzuck-\nerungen</string>
-    <string name="hypogylcemia_today">Unterzuck-\nerungen</string>
-    <string name="today_entries">Tagebuch-\neinträge</string>
 
     <string-array name="weekdays">
         <item>Sonntag</item>

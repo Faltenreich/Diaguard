@@ -18,6 +18,13 @@ import java.util.List;
  */
 public class DatabaseDataSource {
 
+    public static final String DB_FORMAT_DATE = "yyyy-MM-dd";
+    public static final String DB_FORMAT_DATE_AND_TIME = "yyyy-MM-dd HH:mm:ss";
+    public static final String DB_FORMAT_TIME = "HH:mm";
+
+    public static final String FIRST_SECOND_OF_DAY = "00:00:00";
+    public static final String LAST_SECOND_OF_DAY = "23:59:59";
+
     private SQLiteDatabase db;
     private DatabaseHelper dbHelper;
 
@@ -25,108 +32,81 @@ public class DatabaseDataSource {
         dbHelper = new DatabaseHelper(context);
     }
 
+    //region Database
+
     public void open() {
         db = dbHelper.getWritableDatabase();
-    }
-
-    public boolean isOpen() {
-        return dbHelper.getWritableDatabase() != null && dbHelper.getWritableDatabase().isOpen();
     }
 
     public void close() {
         dbHelper.close();
     }
 
-    // EVENTS
+    public boolean isOpen() {
+        return dbHelper.getWritableDatabase() != null &&
+                dbHelper.getWritableDatabase().isOpen();
+    }
 
-    /**
-     * Insert one single Event
-     * @param event The Event to insert
-     * @return The ID of the inserted Event (-1 if something went wrong)
-     */
+    // endregion
+
+    //region Events
+
     public long insertEvent(Event event) {
-
         ContentValues values = new ContentValues();
         values.put(DatabaseHelper.VALUE, event.getValue());
-        values.put(DatabaseHelper.DATE, Helper.getDateDatabaseFormat().format(event.getDate().getTime()));
+        values.put(DatabaseHelper.DATE,
+                Helper.getDateDatabaseFormat().format(event.getDate().getTime()));
         values.put(DatabaseHelper.NOTES, event.getNotes());
         values.put(DatabaseHelper.CATEGORY, event.getCategory().toString());
 
-        return db.insertOrThrow(DatabaseHelper.EVENTS, null, values);
+        return db.insertOrThrow(DatabaseHelper.EVENTS,
+                null,
+                values);
     }
 
-    /**
-     * Insert multiple Events
-     * @param events The Events to insert
-     * @return The Number of inserted Events
-     */
     public int insertEvents(List<Event> events) {
-
-        for(Event event: events) {
-            ContentValues values = new ContentValues();
-            values.put(DatabaseHelper.VALUE, event.getValue());
-            values.put(DatabaseHelper.DATE, Helper.getDateDatabaseFormat().format(event.getDate().getTime()));
-            values.put(DatabaseHelper.NOTES, event.getNotes());
-            values.put(DatabaseHelper.CATEGORY, event.getCategory().toString());
-
-            db.insertOrThrow(DatabaseHelper.EVENTS, null, values);
-        }
+        for(Event event: events)
+            insertEvent(event);
 
         return events.size();
     }
 
-    /**
-     * Update an existing Event
-     * @param event The Event to update
-     * @return The ID of the updated Event (-1 if something went wrong)
-     */
     public long updateEvent(Event event) {
-
         ContentValues values = new ContentValues();
         values.put(DatabaseHelper.VALUE, event.getValue());
-        values.put(DatabaseHelper.DATE, Helper.getDateDatabaseFormat().format(event.getDate().getTime()));
+        values.put(DatabaseHelper.DATE, Helper.getDateDatabaseFormat().
+                format(event.getDate().getTime()));
         values.put(DatabaseHelper.NOTES, event.getNotes());
         values.put(DatabaseHelper.CATEGORY, event.getCategory().toString());
 
-        return db.update(DatabaseHelper.EVENTS, values, DatabaseHelper.ID + " = " + event.getId(), null);
+        return db.update(DatabaseHelper.EVENTS,
+                values,
+                DatabaseHelper.ID + " = " + event.getId(),
+                null);
     }
 
-    /**
-     * Delete a single Event
-     * @param event The Event to delete
-     * @return How many Events did the WHERE-Clause affect
-     */
     public int deleteEvent(Event event) {
-        return db.delete(DatabaseHelper.EVENTS, DatabaseHelper.ID + " = " + event.getId(), null);
+        return db.delete(DatabaseHelper.EVENTS,
+                DatabaseHelper.ID + " = " + event.getId(),
+                null);
     }
 
-    /**
-     * Delete a single Event
-     * @param id The id of the Event to delete
-     * @return How many Events did the WHERE-Clause affect
-     */
     public int deleteEventById(Long id) {
-        return db.delete(DatabaseHelper.EVENTS, DatabaseHelper.ID + " = " + id, null);
+        return db.delete(DatabaseHelper.EVENTS,
+                DatabaseHelper.ID + " = " + id,
+                null);
     }
 
-    /**
-     * Delete all Events before a specific Date
-     * @param calendar The Date everything should be deleted before
-     * @return How many Events did the WHERE-Clause affect
-     */
     public int deleteEventsBefore(Calendar calendar) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format = new SimpleDateFormat(DB_FORMAT_DATE);
         String date = format.format(calendar.getTime());
 
-        return db.delete(DatabaseHelper.EVENTS, DatabaseHelper.DATE + " <=Datetime('" + date + " 23:59:59')", null);
+        return db.delete(DatabaseHelper.EVENTS,
+                DatabaseHelper.DATE + " <= Datetime('" + date + " " + LAST_SECOND_OF_DAY + "')",
+                null);
     }
 
-    /**
-     * Count all Events of a specific Category from a specific day
-     * @return How many Events are affected
-     */
     public int countEvents(Event.Category category) {
-
         String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " WHERE " +
                 DatabaseHelper.CATEGORY + " = '" + category.name() + "' ";
         Cursor cursor = db.rawQuery(query, null);
@@ -136,18 +116,13 @@ public class DatabaseDataSource {
         return count;
     }
 
-    /**
-     * Count all Events of a specific Category from a specific day
-     * @return How many Events are affected
-     */
     public int countEventsOfDay(Calendar day, Event.Category category) {
-
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format = new SimpleDateFormat(DB_FORMAT_DATE);
         String date = format.format(day.getTime());
 
         String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " WHERE " +
-                DatabaseHelper.DATE + " >= Datetime('" + date + " 00:00:00') AND " +
-                DatabaseHelper.DATE + " <= Datetime('" + date + " 23:59:59') AND " +
+                DatabaseHelper.DATE + " >= Datetime('" + date + " " + FIRST_SECOND_OF_DAY + "') AND " +
+                DatabaseHelper.DATE + " <= Datetime('" + date + " " + LAST_SECOND_OF_DAY + "') AND " +
                 DatabaseHelper.CATEGORY + " = '" + category.name() + "' ";
         Cursor cursor = db.rawQuery(query, null);
         int count = cursor.getCount();
@@ -156,18 +131,12 @@ public class DatabaseDataSource {
         return count;
     }
 
-    /**
-     * Count all Events before a specific Date (for Backup)
-     * @param calendar The last Date to count Events
-     * @return How many Events are affected
-     */
     public int countEventsBefore(Calendar calendar) {
-
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String date = format.format(calendar.getTime());
 
         String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " WHERE " +
-                DatabaseHelper.DATE + " <=Datetime('" + date + " 23:59:59')";
+                DatabaseHelper.DATE + " <=Datetime('" + date + " " + LAST_SECOND_OF_DAY + "')";
         Cursor cursor = db.rawQuery(query, null);
         int count = cursor.getCount();
         cursor.close();
@@ -175,13 +144,39 @@ public class DatabaseDataSource {
         return count;
     }
 
-    /**
-     * Get one specific Event
-     * @param id The Id of the specific Event
-     * @return The specific Event
-     */
-    public Event getEventById(long id) {
+    public int countEventsAboveValue(Calendar day, Event.Category category, float limit) {
+        SimpleDateFormat format = new SimpleDateFormat(DB_FORMAT_DATE);
+        String date = format.format(day.getTime());
 
+        String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " WHERE " +
+                DatabaseHelper.VALUE + " > " + limit + " AND " +
+                DatabaseHelper.DATE + " >= Datetime('" + date + " " + FIRST_SECOND_OF_DAY + "') AND " +
+                DatabaseHelper.DATE + " <= Datetime('" + date + " " + LAST_SECOND_OF_DAY + "') AND " +
+                DatabaseHelper.CATEGORY + " = '" + category.name() + "' ";
+        Cursor cursor = db.rawQuery(query, null);
+        int count = cursor.getCount();
+        cursor.close();
+
+        return count;
+    }
+
+    public int countEventsBelowValue(Calendar day, Event.Category category, float limit) {
+        SimpleDateFormat format = new SimpleDateFormat(DB_FORMAT_DATE);
+        String date = format.format(day.getTime());
+
+        String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " WHERE " +
+                DatabaseHelper.VALUE + " < " + limit + " AND " +
+                DatabaseHelper.DATE + " >= Datetime('" + date + " " + FIRST_SECOND_OF_DAY + "') AND " +
+                DatabaseHelper.DATE + " <= Datetime('" + date + " " + LAST_SECOND_OF_DAY + "') AND " +
+                DatabaseHelper.CATEGORY + " = '" + category.name() + "' ";
+        Cursor cursor = db.rawQuery(query, null);
+        int count = cursor.getCount();
+        cursor.close();
+
+        return count;
+    }
+
+    public Event getEventById(long id) {
         String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " WHERE " +
                 DatabaseHelper.ID + " = " + id;
         Cursor cursor = db.rawQuery(query, null);
@@ -198,57 +193,19 @@ public class DatabaseDataSource {
         return event;
     }
 
-    /**
-     * Get all Events
-     * @return All Events
-     */
     public List<Event> getEvents() {
-
         String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " ORDER BY " + DatabaseHelper.DATE;
         Cursor cursor = db.rawQuery(query, null);
 
         List<Event> events = new ArrayList<Event>();
-
         if (cursor.moveToFirst()) {
             while(!cursor.isAfterLast()) {
-
                 Event event = new Event();
                 event.setId(Integer.parseInt(cursor.getString(0)));
                 event.setValue(Float.parseFloat(cursor.getString(1)));
                 event.setDate(cursor.getString(2));
                 event.setNotes(cursor.getString(3));
                 event.setCategory(Event.Category.valueOf(cursor.getString(4)));
-
-                events.add(event);
-
-                cursor.moveToNext();
-            }
-        }
-        return events;
-    }
-    public List<Event> getEvents(Calendar timeStart, Calendar timeEnd, Event.Category category) {
-
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-        String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " WHERE " +
-                DatabaseHelper.DATE + " >= Datetime('" + format.format(timeStart.getTime()) + "') AND " +
-                DatabaseHelper.DATE + " <= Datetime('" + format.format(timeEnd.getTime()) + "') AND " +
-                DatabaseHelper.CATEGORY + " = '" + category.name() + "' " +
-                "ORDER BY " + DatabaseHelper.DATE + ";";
-        Cursor cursor = db.rawQuery(query, null);
-
-        List<Event> events = new ArrayList<Event>();
-
-        if (cursor.moveToFirst()) {
-            while(!cursor.isAfterLast()) {
-
-                Event event = new Event();
-                event.setId(Integer.parseInt(cursor.getString(0)));
-                event.setValue(Float.parseFloat(cursor.getString(1)));
-                event.setDate(cursor.getString(2));
-                event.setNotes(cursor.getString(3));
-                event.setCategory(Event.Category.valueOf(cursor.getString(4)));
-
                 events.add(event);
 
                 cursor.moveToNext();
@@ -257,11 +214,6 @@ public class DatabaseDataSource {
         return events;
     }
 
-    /**
-     * Get the latest event
-     * @param category The specific Category to choose Events from
-     * @return The latest event
-     */
     public Event getLatestEvent(Event.Category category) {
 
         String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " WHERE " +
@@ -282,84 +234,13 @@ public class DatabaseDataSource {
             return null;
     }
 
-    /**
-     * Get the latest event
-     * @param category The specific Category to choose Events from
-     * @param until The day after
-     * @return The latest event
-     */
-    public Event getLatestEvent(Event.Category category, Calendar until) {
-
-        Calendar dayBefore = Calendar.getInstance();
-        dayBefore.setTime(until.getTime());
-        dayBefore.set(Calendar.DAY_OF_YEAR, dayBefore.get(Calendar.DAY_OF_YEAR) - 1);
-
-        String dateString = new SimpleDateFormat("yyyy-MM-dd").format(dayBefore.getTime());
-
-        String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " WHERE " +
-                DatabaseHelper.CATEGORY + " = '" + category.name() + "' AND " +
-                DatabaseHelper.DATE + " <= Datetime('" + dateString + " 23:59:59') " +
-                "ORDER BY " + DatabaseHelper.DATE + " DESC LIMIT 1;";
-        Cursor cursor = db.rawQuery(query, null);
-
-        if (cursor.moveToLast()) {
-            Event event = new Event();
-            event.setId(Integer.parseInt(cursor.getString(0)));
-            event.setValue(Float.parseFloat(cursor.getString(1)));
-            event.setDate(cursor.getString(2));
-            event.setNotes(cursor.getString(3));
-            event.setCategory(Event.Category.valueOf(cursor.getString(4)));
-            return event;
-        }
-        else
-            return null;
-    }
-
-    /**
-     * Get the latest event
-     * @param category The specific Category to choose Events from
-     * @param from The day before
-     * @return The latest event
-     */
-    public Event getNextEvent(Event.Category category, Calendar from) {
-
-        Calendar dayBefore = Calendar.getInstance();
-        dayBefore.setTime(from.getTime());
-        dayBefore.set(Calendar.DAY_OF_YEAR, dayBefore.get(Calendar.DAY_OF_YEAR) + 1);
-
-        String dateString = new SimpleDateFormat("yyyy-MM-dd").format(dayBefore.getTime());
-
-        String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " WHERE " +
-                DatabaseHelper.CATEGORY + " = '" + category.name() + "' AND " +
-                DatabaseHelper.DATE + " >= Datetime('" + dateString + " 00:00:00') " +
-                "ORDER BY " + DatabaseHelper.DATE + " DESC LIMIT 1;";
-        Cursor cursor = db.rawQuery(query, null);
-
-        if (cursor.moveToLast()) {
-            Event event = new Event();
-            event.setId(Integer.parseInt(cursor.getString(0)));
-            event.setValue(Float.parseFloat(cursor.getString(1)));
-            event.setDate(cursor.getString(2));
-            event.setNotes(cursor.getString(3));
-            event.setCategory(Event.Category.valueOf(cursor.getString(4)));
-            return event;
-        }
-        else
-            return null;
-    }
-
-    /**
-     * Get all Events of one Day
-     * @param date The specific Day to choose Events from
-     * @return Every Event from the specific Day
-     */
     public List<Event> getEventsOfDay(Calendar date) {
 
         String dateString = new SimpleDateFormat("yyyy-MM-dd").format(date.getTime());
 
         String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " WHERE " +
-                DatabaseHelper.DATE + " >= Datetime('" + dateString + " 00:00:00') AND " +
-                DatabaseHelper.DATE + " <= Datetime('" + dateString + " 23:59:59') " +
+                DatabaseHelper.DATE + " >= Datetime('" + dateString + " " + FIRST_SECOND_OF_DAY + "') AND " +
+                DatabaseHelper.DATE + " <= Datetime('" + dateString + " " + LAST_SECOND_OF_DAY + "') " +
                 "ORDER BY " + DatabaseHelper.DATE + ";";
         Cursor cursor = db.rawQuery(query, null);
 
@@ -383,19 +264,13 @@ public class DatabaseDataSource {
         return events;
     }
 
-    /**
-     * Get all Events of one Day
-     * @param date The specific Day to choose Events from
-     * @param category The specific Category to choose Events from
-     * @return Every Event from the specific Day
-     */
     public List<Event> getEventsOfDay(Calendar date, Event.Category category) {
 
-        String dateString = new SimpleDateFormat("yyyy-MM-dd").format(date.getTime());
+        String dateString = new SimpleDateFormat(DB_FORMAT_DATE).format(date.getTime());
 
         String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " WHERE " +
-                DatabaseHelper.DATE + " >= Datetime('" + dateString + " 00:00:00') AND " +
-                DatabaseHelper.DATE + " <= Datetime('" + dateString + " 23:59:59') AND " +
+                DatabaseHelper.DATE + " >= Datetime('" + dateString + " " + FIRST_SECOND_OF_DAY + "') AND " +
+                DatabaseHelper.DATE + " <= Datetime('" + dateString + " " + LAST_SECOND_OF_DAY + "') AND " +
                 DatabaseHelper.CATEGORY + " = '" + category.name() + "' " +
                 " ORDER BY " + DatabaseHelper.DATE;
         Cursor cursor = db.rawQuery(query, null);
@@ -421,12 +296,6 @@ public class DatabaseDataSource {
         return events;
     }
 
-    /**
-     * Get all Events of one Day
-     * @param date The specific Day to choose Events from
-     * @param categories The specific Categories to choose Events from
-     * @return Every Event from the specific Day
-     */
     public List<Event> getEventsOfDay(Calendar date, Event.Category[] categories) {
 
         String dateString = new SimpleDateFormat("yyyy-MM-dd").format(date.getTime());
@@ -438,8 +307,8 @@ public class DatabaseDataSource {
         whereCategory = whereCategory.substring(1);
 
         String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " WHERE " +
-                DatabaseHelper.DATE + " >= Datetime('" + dateString + " 00:00:00') AND " +
-                DatabaseHelper.DATE + " <= Datetime('" + dateString + " 23:59:59') AND " +
+                DatabaseHelper.DATE + " >= Datetime('" + dateString + " " + FIRST_SECOND_OF_DAY + "') AND " +
+                DatabaseHelper.DATE + " <= Datetime('" + dateString + " " + LAST_SECOND_OF_DAY + "') AND " +
                 DatabaseHelper.CATEGORY + " in (" + whereCategory + ") " +
                 " ORDER BY " + DatabaseHelper.DATE;
         Cursor cursor = db.rawQuery(query, null);
@@ -465,11 +334,6 @@ public class DatabaseDataSource {
         return events;
     }
 
-    /**
-     * Calculate Average BloodSugar
-     * @param rangeInDays Time span to calculate within
-     * @return Average BloodSugar
-     */
     public float getBloodSugarAverage(int rangeInDays) {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -490,9 +354,6 @@ public class DatabaseDataSource {
         return average;
     }
 
-    /**
-     * Get a two-dimensional array with all values (average or sum) for graphical output
-     */
     public float[][] getAverageDataTable(Calendar date, Event.Category[] categories, int columns) {
 
         float[][] values = new float[categories.length][columns];
@@ -525,4 +386,6 @@ public class DatabaseDataSource {
         }
         return values;
     }
+
+    // endregion
 }

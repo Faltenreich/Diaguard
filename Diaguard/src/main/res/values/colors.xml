@@ -13,8 +13,8 @@
     <color name="green_dk">#346d50</color>
 
     <color name="gray_lt">#fff3f3f3</color>
-    <color name="gray">#eed1d1d1</color>
-    <color name="gray_dk">#eeb1b1b1</color>
+    <color name="gray">#ffeaeaea</color>
+    <color name="gray_dk">#eed1d1d1</color>
 
     <color name="graygrid">#33000000</color>
     <color name="black_lt">#747474</color>

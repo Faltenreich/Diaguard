@@ -5,7 +5,7 @@
     android:layout_height="@dimen/height_element"
     android:orientation="horizontal"
     android:gravity="center_vertical"
-    style="@style/Main"
+    style="@style/Padding"
     android:background="@color/green_lt">
 
     <TextView android:id="@+id/label"

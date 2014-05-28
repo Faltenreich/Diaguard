@@ -44,7 +44,7 @@ public class MainFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //setHasOptionsMenu(true);
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
@@ -83,13 +83,6 @@ public class MainFragment extends Fragment {
 
     private void updateContent() {
 
-        getView().findViewById(R.id.button_newevent).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), NewEventActivity.class));
-            }
-        });
-
         dataSource = new DatabaseDataSource(getActivity());
         dataSource.open();
 
@@ -118,6 +111,13 @@ public class MainFragment extends Fragment {
         // Value
         float value = preferenceHelper.formatDefaultToCustomUnit(Event.Category.BloodSugar, latestEvent.getValue());
         textViewLatestValue.setText(format.format(value));
+        // Highlighting
+        if(preferenceHelper.limitsAreHighlighted()) {
+            if(value > preferenceHelper.getLimitHyperglycemia())
+                textViewLatestValue.setTextColor(getResources().getColor(R.color.red));
+            else if(value < preferenceHelper.getLimitHypoglycemia())
+                textViewLatestValue.setTextColor(getResources().getColor(R.color.blue));
+        }
 
         textViewLatestUnit.setText(preferenceHelper.getUnitAcronym(Event.Category.BloodSugar));
 
@@ -126,7 +126,7 @@ public class MainFragment extends Fragment {
         int differenceInMinutes = Helper.getDifferenceInMinutes(latestEvent.getDate(), Calendar.getInstance());
 
         // Highlight if last measurement is more than eight hours ago
-        textViewLatestAgo.setTextColor(getResources().getColor(R.color.green_lt));
+        textViewLatestAgo.setTextColor(getResources().getColor(R.color.green));
         if(differenceInMinutes > 480)
             textViewLatestAgo.setTextColor(getResources().getColor(R.color.red));
 
@@ -139,18 +139,18 @@ public class MainFragment extends Fragment {
     }
 
     private void updateToday() {
-        int measurements = dataSource.countEventsOfDay(time, Event.Category.BloodSugar);
-        textViewMeasurements.setText(Integer.toString(measurements) + "x");
+        int measurements = dataSource.countEvents(Event.Category.BloodSugar, time);
+        textViewMeasurements.setText(Integer.toString(measurements));
 
-        int countHypers = dataSource.countEventsAboveValue(time,
-                Event.Category.BloodSugar,
+        int countHypers = dataSource.countEventsAboveValue(Event.Category.BloodSugar,
+                time,
                 preferenceHelper.getLimitHyperglycemia());
-        textViewHyperglycemia.setText(Integer.toString(countHypers) + "x");
+        textViewHyperglycemia.setText(Integer.toString(countHypers));
 
-        int countHypos = dataSource.countEventsBelowValue(time,
-                Event.Category.BloodSugar,
+        int countHypos = dataSource.countEventsBelowValue(Event.Category.BloodSugar,
+                time,
                 preferenceHelper.getLimitHypoglycemia());
-        textViewHypoglycemia.setText(Integer.toString(countHypos) + "x");
+        textViewHypoglycemia.setText(Integer.toString(countHypos));
     }
 
     private void updateAverage() {

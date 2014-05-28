@@ -53,6 +53,8 @@
     <string name="general">Allgemein</string>
     <string name="hba1c">HbA1c</string>
     <string name="home">Übersicht</string>
+    <string name="hyper">Hyper-\nglykämie</string>
+    <string name="hypo">Hypo-\nglykämie</string>
     <string name="keyword">Stichwort</string>
     <string name="keywords">Stichwörter</string>
     <string name="latest">Vor [value] [unit]</string>
@@ -60,7 +62,7 @@
     <string name="listview_empty">Keine Einträge vorhanden</string>
     <string name="log">Protokoll</string>
     <string name="meal">Mahlzeit</string>
-    <string name="measured">Gemessen</string>
+    <string name="measured">Mal gemessen</string>
     <string name="newevent">Tagebucheintrag</string>
     <string name="newevent_desc">Messwerte hinzufügen</string>
     <string name="next">Weiter</string>

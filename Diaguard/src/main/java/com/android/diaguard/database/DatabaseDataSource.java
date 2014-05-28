@@ -106,6 +106,15 @@ public class DatabaseDataSource {
                 null);
     }
 
+    public int countEvents() {
+        String query = "SELECT * FROM " + DatabaseHelper.EVENTS;
+        Cursor cursor = db.rawQuery(query, null);
+        int count = cursor.getCount();
+        cursor.close();
+
+        return count;
+    }
+
     public int countEvents(Event.Category category) {
         String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " WHERE " +
                 DatabaseHelper.CATEGORY + " = '" + category.name() + "' ";
@@ -116,7 +125,7 @@ public class DatabaseDataSource {
         return count;
     }
 
-    public int countEventsOfDay(Calendar day, Event.Category category) {
+    public int countEvents(Event.Category category, Calendar day) {
         SimpleDateFormat format = new SimpleDateFormat(DB_FORMAT_DATE);
         String date = format.format(day.getTime());
 
@@ -132,11 +141,11 @@ public class DatabaseDataSource {
     }
 
     public int countEventsBefore(Calendar calendar) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format = new SimpleDateFormat(DB_FORMAT_DATE);
         String date = format.format(calendar.getTime());
 
         String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " WHERE " +
-                DatabaseHelper.DATE + " <=Datetime('" + date + " " + LAST_SECOND_OF_DAY + "')";
+                DatabaseHelper.DATE + " <= Datetime('" + date + " " + LAST_SECOND_OF_DAY + "')";
         Cursor cursor = db.rawQuery(query, null);
         int count = cursor.getCount();
         cursor.close();
@@ -144,7 +153,7 @@ public class DatabaseDataSource {
         return count;
     }
 
-    public int countEventsAboveValue(Calendar day, Event.Category category, float limit) {
+    public int countEventsAboveValue(Event.Category category, Calendar day, float limit) {
         SimpleDateFormat format = new SimpleDateFormat(DB_FORMAT_DATE);
         String date = format.format(day.getTime());
 
@@ -160,7 +169,7 @@ public class DatabaseDataSource {
         return count;
     }
 
-    public int countEventsBelowValue(Calendar day, Event.Category category, float limit) {
+    public int countEventsBelowValue(Event.Category category, Calendar day, float limit) {
         SimpleDateFormat format = new SimpleDateFormat(DB_FORMAT_DATE);
         String date = format.format(day.getTime());
 
@@ -215,7 +224,6 @@ public class DatabaseDataSource {
     }
 
     public Event getLatestEvent(Event.Category category) {
-
         String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " WHERE " +
                 DatabaseHelper.CATEGORY + " = '" + category.name() + "' " +
                 "ORDER BY " + DatabaseHelper.DATE + " DESC LIMIT 1;";
@@ -235,8 +243,7 @@ public class DatabaseDataSource {
     }
 
     public List<Event> getEventsOfDay(Calendar date) {
-
-        String dateString = new SimpleDateFormat("yyyy-MM-dd").format(date.getTime());
+        String dateString = new SimpleDateFormat(DB_FORMAT_DATE).format(date.getTime());
 
         String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " WHERE " +
                 DatabaseHelper.DATE + " >= Datetime('" + dateString + " " + FIRST_SECOND_OF_DAY + "') AND " +
@@ -298,7 +305,7 @@ public class DatabaseDataSource {
 
     public List<Event> getEventsOfDay(Calendar date, Event.Category[] categories) {
 
-        String dateString = new SimpleDateFormat("yyyy-MM-dd").format(date.getTime());
+        String dateString = new SimpleDateFormat(DB_FORMAT_DATE).format(date.getTime());
 
         String whereCategory = "";
         for(Event.Category category : categories) {
@@ -335,8 +342,7 @@ public class DatabaseDataSource {
     }
 
     public float getBloodSugarAverage(int rangeInDays) {
-
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat(DB_FORMAT_DATE_AND_TIME);
         Calendar now = Calendar.getInstance();
         Calendar dateBefore = Calendar.getInstance();
         dateBefore.set(Calendar.HOUR_OF_DAY, now.get(Calendar.HOUR_OF_DAY) - (rangeInDays * 24));

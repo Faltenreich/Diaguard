@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:layout_width="@dimen/height_element"
         android:padding="@dimen/margin_between"
-        android:src="@drawable/ic_action_previous_item"
+        android:src="@drawable/ic_action_previous"
         style="@style/ActionButton"
         android:layout_marginLeft="32dp"/>
 
@@ -26,7 +26,7 @@
         android:layout_height="match_parent"
         android:layout_width="@dimen/height_element"
         android:padding="@dimen/margin_between"
-        android:src="@drawable/ic_action_next_item"
+        android:src="@drawable/ic_action_next"
         style="@style/ActionButton"
         android:layout_alignParentRight="true"
         android:layout_marginRight="32dp"/>

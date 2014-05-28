@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,7 +19,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.android.diaguard.database.DatabaseDataSource;
@@ -40,6 +41,9 @@ import java.util.Map;
  * Created by Filip on 19.10.13.
  */
 public class NewEventActivity extends ActionBarActivity {
+
+    public static final String EXTRA_ID = "ID";
+    public static final String EXTRA_DATE = "Date";
 
     DatabaseDataSource dataSource;
     PreferenceHelper preferenceHelper;
@@ -74,7 +78,7 @@ public class NewEventActivity extends ActionBarActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null)
-            if (extras.getLong("ID") != 0L)
+            if (extras.getLong(EXTRA_ID) != 0L)
                 menu.findItem(R.id.action_delete).setVisible(true);
             else
                 menu.findItem(R.id.action_delete).setVisible(false);
@@ -117,7 +121,7 @@ public class NewEventActivity extends ActionBarActivity {
 
         if (extras != null) {
 
-            if (extras.getLong("ID") != 0L) {
+            if (extras.getLong(EXTRA_ID) != 0L) {
                 setTitle(getString(R.string.editevent));
 
                 dataSource.open();
@@ -136,8 +140,8 @@ public class NewEventActivity extends ActionBarActivity {
                 findViewById(R.id.layout_newvalue).setVisibility(View.GONE);
             }
 
-            else if(extras.getSerializable("Date") != null) {
-                time = (Calendar) extras.getSerializable("Date");
+            else if(extras.getSerializable(EXTRA_DATE) != null) {
+                time = (Calendar) extras.getSerializable(EXTRA_DATE);
                 addValue(Event.Category.BloodSugar, null, false, true);
             }
 
@@ -162,7 +166,7 @@ public class NewEventActivity extends ActionBarActivity {
 
     private void submit() {
 
-        // Iterate through all generated views
+        // Check whether there are values to submit
         int valueCount = linearLayoutValues.getChildCount();
         if(valueCount == 0) {
             ViewHelper.showToastError(this, getString(R.string.validator_value_none));
@@ -171,8 +175,8 @@ public class NewEventActivity extends ActionBarActivity {
             List<Event> events = new ArrayList<Event>();
             boolean inputIsValid = true;
 
+            // Iterate through all generated views
             for (int position = 0; position < linearLayoutValues.getChildCount(); position++) {
-
                 View view = linearLayoutValues.getChildAt(position);
                 EditText editTextValue = (EditText) view.findViewById(R.id.value);
                 String editTextText = editTextValue.getText().toString();
@@ -211,7 +215,7 @@ public class NewEventActivity extends ActionBarActivity {
                 dataSource.open();
                 Bundle extras = getIntent().getExtras();
                 if (extras != null) {
-                    long id = extras.getLong("ID");
+                    long id = extras.getLong(EXTRA_ID);
                     if (id != 0L) {
                         events.get(0).setId(id);
                         dataSource.updateEvent(events.get(0));
@@ -228,17 +232,7 @@ public class NewEventActivity extends ActionBarActivity {
         }
     }
 
-    /**
-     * Add new value to LinearLayout
-     * @param category The Category to add
-     * @param value Initialize with value
-     * @param animate Shall the new View animated at inseration?
-     * @param removable Is the new View removeable?
-     */
     private void addValue(final Event.Category category, String value, boolean animate, boolean removable) {
-
-        inputWasMade = true;
-
         selectedCategoriesMap.put(category, true);
 
         // Add view
@@ -246,6 +240,7 @@ public class NewEventActivity extends ActionBarActivity {
         final View view = inflater.inflate(R.layout.fragment_newvalue, linearLayoutValues, false);
         view.setTag(category);
 
+        // Swipe to dismiss
         if(removable) {
             view.setOnTouchListener(new SwipeDismissTouchListener(view, null,
                     new SwipeDismissTouchListener.OnDismissCallback() {
@@ -263,18 +258,38 @@ public class NewEventActivity extends ActionBarActivity {
             });
         }
 
+        // Category image
         ImageView image = (ImageView) view.findViewById(R.id.image);
         String name = category.name().toLowerCase();
         int resourceId = getResources().getIdentifier(name,
                 "drawable", getPackageName());
         image.setImageResource(resourceId);
 
-        TextView textViewValue = (TextView) view.findViewById(R.id.value);
-        textViewValue.setHint(preferenceHelper.getUnitAcronym(category));
+        // Value
+        EditText editTextValue = (EditText) view.findViewById(R.id.value);
+        editTextValue.setHint(preferenceHelper.getUnitAcronym(category));
         if(value != null) {
-            textViewValue.setText(value);
+            editTextValue.setText(value);
         }
 
+        // OnChangeListener
+        TextWatcher textChangedListener = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                inputWasMade = true;
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        };
+        editTextValue.addTextChangedListener(textChangedListener);
+
+        // Removable
         ImageView imageDelete = (ImageView) view.findViewById(R.id.delete);
         imageDelete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -283,6 +298,7 @@ public class NewEventActivity extends ActionBarActivity {
             }
         });
 
+        // Animation
         if(animate) {
             Animation animationSlideInLeft =
                     AnimationUtils.loadAnimation(NewEventActivity.this,
@@ -295,11 +311,9 @@ public class NewEventActivity extends ActionBarActivity {
     }
 
     private void removeValue(Event.Category category) {
-
         selectedCategoriesMap.put(category, false);
 
         for(int position = 0; position < linearLayoutValues.getChildCount(); position++) {
-
             View view = linearLayoutValues.getChildAt(position);
 
             if(view != null && view.getTag() != null && view.getTag() instanceof Event.Category) {
@@ -330,7 +344,6 @@ public class NewEventActivity extends ActionBarActivity {
     // LISTENERS
 
     public void onClickShowDatePicker (View view) {
-
         DialogFragment newFragment = new DatePickerFragment(time) {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
@@ -344,7 +357,6 @@ public class NewEventActivity extends ActionBarActivity {
     }
 
     public void onClickShowTimePicker (View view) {
-
         DialogFragment newFragment = new TimePickerFragment(time) {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -384,7 +396,6 @@ public class NewEventActivity extends ActionBarActivity {
                         List<Boolean> selectedCategoriesList = new ArrayList<Boolean>(selectedCategoriesMap.values());
 
                         for (int position = selectedCategories.length - 1; position >= 0; position--) {
-
                             boolean categoryWasSelectedBefore = selectedCategoriesList.get(position);
 
                             // Add new value
@@ -403,7 +414,7 @@ public class NewEventActivity extends ActionBarActivity {
 
     @Override
     public void onBackPressed() {
-        if(inputWasMade && !inputWasMade) {
+        if(inputWasMade) {
             new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.confirmation_exit))
                     .setMessage(getString(R.string.confirmation_exit_desc))

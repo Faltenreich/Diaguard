@@ -28,10 +28,10 @@
         <ImageView android:id="@+id/delete"
             android:layout_width="64dp"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_action_delete_green"
+            android:src="@drawable/ic_action_remove"
             android:layout_alignParentRight="true"
             android:padding="16dp"
-            android:background="@drawable/button_transparent"
+            android:background="@drawable/button_transparent_dk"
             android:contentDescription="@string/deletevalue"/>
 
     </RelativeLayout>

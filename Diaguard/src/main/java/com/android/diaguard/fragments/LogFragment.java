@@ -191,14 +191,8 @@ public class LogFragment extends Fragment {
 
     private void editEvent(Event event) {
         Intent intent = new Intent(getActivity(), NewEventActivity.class);
-        intent.putExtra("ID", event.getId());
+        intent.putExtra(NewEventActivity.EXTRA_ID, event.getId());
         startActivity(intent);
-    }
-
-    private void deleteEvent(Event event) {
-        dataSource.open();
-        dataSource.deleteEvent(event);
-        dataSource.close();
     }
 
     private void updateListView() {
@@ -284,7 +278,7 @@ public class LogFragment extends Fragment {
 
     public void startNewEventActivity() {
         Intent intent = new Intent (getActivity(), NewEventActivity.class);
-        intent.putExtra("Date", time);
+        intent.putExtra(NewEventActivity.EXTRA_DATE, time);
         startActivity(intent);
     }
 

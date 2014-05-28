@@ -1,256 +1,257 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/gray_dk"
-    style="@style/Padding">
+    android:background="@color/gray">
 
-    <!-- Latest Blood Sugar -->
-    <LinearLayout android:id="@+id/layout_latest"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/background_round_white"
-        android:layout_marginBottom="@dimen/margin_between">
-
-        <LinearLayout
-            style="@style/BoxLabel"
-            android:background="@drawable/background_round_top_gray_lt">
-
-            <ImageView
-                android:layout_width="@dimen/size_image"
-                android:layout_height="@dimen/size_image"
-                android:src="@drawable/bloodsugar_plain"
-                android:padding="6dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/bloodsugar_latest"
-                android:layout_marginLeft="@dimen/padding"
-                android:textColor="@color/green_lt"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:paddingBottom="11dp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="bottom">
-
-                <TextView android:id="@+id/textview_latest_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/BoxText"
-                    android:text="@string/firstvisit"
-                    android:textSize="60sp"/>
-
-                <TextView android:id="@+id/textview_latest_unit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_between"
-                    android:lines="1"
-                    style="@style/BoxTextDesc"/>
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/green_lt"
-                android:layout_marginTop="@dimen/margin_between"
-                android:layout_marginBottom="@dimen/margin_between"
-                android:layout_marginLeft="@dimen/padding_end"
-                android:layout_marginRight="@dimen/padding_end"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView android:id="@+id/textview_latest_time"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:textColor="@color/black_lt"/>
-
-                <TextView android:id="@+id/textview_latest_ago"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:text="@string/firstvisit_desc"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <!-- Dashboard -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/background_round_white"
-        android:layout_marginBottom="@dimen/margin_between">
+        style="@style/Padding">
 
-        <LinearLayout
-            style="@style/BoxLabel"
-            android:background="@drawable/background_round_top_gray_lt">
+        <!-- Latest Blood Sugar -->
+        <LinearLayout android:id="@+id/layout_latest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/background_round_white"
+            android:layout_marginBottom="@dimen/margin_between">
 
-            <ImageView
-                android:layout_width="@dimen/size_image"
-                android:layout_height="@dimen/size_image"
-                android:src="@drawable/calendar"/>
+            <LinearLayout
+                style="@style/BoxLabelBackground"
+                android:background="@drawable/background_round_top_gray_lt">
 
-            <TextView
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:layout_width="@dimen/size_image"
+                    android:layout_height="@dimen/size_image"
+                    android:src="@drawable/ic_drop"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bloodsugar_latest"
+                    style="@style/BoxLabel"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/today"
-                android:layout_marginLeft="@dimen/padding"
-                android:textColor="@color/green_lt"/>
+                android:orientation="vertical"
+                android:gravity="center"
+                android:paddingBottom="11dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="bottom">
+
+                    <TextView android:id="@+id/textview_latest_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/BoxText"
+                        android:text="@string/firstvisit"
+                        android:textSize="60sp"/>
+
+                    <TextView android:id="@+id/textview_latest_unit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_between"
+                        android:lines="1"
+                        style="@style/BoxTextDesc"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/green_lt"
+                    android:layout_marginTop="@dimen/margin_between"
+                    android:layout_marginBottom="@dimen/margin_between"
+                    android:layout_marginLeft="@dimen/padding_end"
+                    android:layout_marginRight="@dimen/padding_end"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView android:id="@+id/textview_latest_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:textColor="@color/gray_dk"/>
+
+                    <TextView android:id="@+id/textview_latest_ago"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/firstvisit_desc"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 
+        <!-- Dashboard -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            style="@style/Padding">
+            android:orientation="vertical"
+            android:background="@drawable/background_round_white"
+            android:layout_marginBottom="@dimen/margin_between">
 
             <LinearLayout
-                style="@style/Box">
+                style="@style/BoxLabelBackground"
+                android:background="@drawable/background_round_top_gray_lt">
 
-                <TextView android:id="@+id/textview_measurements"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/BoxText"
-                    android:text="@string/zero"/>
+                <ImageView
+                    android:layout_width="@dimen/size_image"
+                    android:layout_height="@dimen/size_image"
+                    android:src="@drawable/ic_calendar"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/BoxTextDesc"
-                    android:text="@string/measured"/>
+                    android:text="@string/today"
+                    style="@style/BoxLabel"/>
 
             </LinearLayout>
 
             <LinearLayout
-                style="@style/Box">
-
-                <TextView android:id="@+id/textview_hyperglycemia"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/BoxText"
-                    android:text="@string/zero"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/BoxTextDesc"
-                    android:text="@string/hyper"/>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                style="@style/Box">
-
-                <TextView android:id="@+id/textview_hypoglycemia"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/BoxText"
-                    android:text="@string/zero"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/BoxTextDesc"
-                    android:text="@string/hypo"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/BoxLabel">
-
-            <ImageView
-                android:layout_width="@dimen/size_image"
-                android:layout_height="@dimen/size_image"
-                android:src="@drawable/average"/>
-
-            <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/average"
-                android:layout_marginLeft="@dimen/padding"
-                android:textColor="@color/green_lt"/>
+                android:orientation="horizontal"
+                style="@style/Padding">
 
-        </LinearLayout>
+                <LinearLayout
+                    style="@style/Box">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            style="@style/Padding"
-            android:paddingBottom="11dp">
+                    <TextView android:id="@+id/textview_measurements"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/BoxText"
+                        android:text="@string/zero"/>
 
-            <LinearLayout
-                style="@style/Box">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/BoxTextDesc"
+                        android:text="@string/measured"/>
 
-                <TextView android:id="@+id/textview_avg_day"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/BoxText"
-                    android:text="@string/placeholder"/>
+                </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/BoxTextDesc"
-                    android:text="@string/last_24hours"/>
+                <LinearLayout
+                    style="@style/Box">
+
+                    <TextView android:id="@+id/textview_hyperglycemia"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/BoxText"
+                        android:text="@string/zero"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/BoxTextDesc"
+                        android:text="@string/hyper"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/Box">
+
+                    <TextView android:id="@+id/textview_hypoglycemia"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/BoxText"
+                        android:text="@string/zero"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/BoxTextDesc"
+                        android:text="@string/hypo"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
             <LinearLayout
-                style="@style/Box">
+                style="@style/BoxLabelBackground">
 
-                <TextView android:id="@+id/textview_avg_week"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/BoxText"
-                    android:text="@string/placeholder"/>
+                <ImageView
+                    android:layout_width="@dimen/size_image"
+                    android:layout_height="@dimen/size_image"
+                    android:src="@drawable/ic_average"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/BoxTextDesc"
-                    android:text="@string/last_7days"/>
+                    android:text="@string/average"
+                    style="@style/BoxLabel"/>
 
             </LinearLayout>
 
             <LinearLayout
-                style="@style/Box">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                style="@style/Padding"
+                android:paddingBottom="11dp">
 
-                <TextView android:id="@+id/textview_avg_month"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/BoxText"
-                    android:text="@string/placeholder"/>
+                <LinearLayout
+                    style="@style/Box">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/BoxTextDesc"
-                    android:text="@string/last_30days"/>
+                    <TextView android:id="@+id/textview_avg_day"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/BoxText"
+                        android:text="@string/placeholder"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/BoxTextDesc"
+                        android:text="@string/last_24hours"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/Box">
+
+                    <TextView android:id="@+id/textview_avg_week"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/BoxText"
+                        android:text="@string/placeholder"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/BoxTextDesc"
+                        android:text="@string/last_7days"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/Box">
+
+                    <TextView android:id="@+id/textview_avg_month"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/BoxText"
+                        android:text="@string/placeholder"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/BoxTextDesc"
+                        android:text="@string/last_30days"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -258,13 +259,4 @@
 
     </LinearLayout>
 
-    <!-- New event -->
-    <Button android:id="@+id/button_newevent"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:text="@string/newevent"
-        android:background="@drawable/button_green_round"
-        android:textColor="@android:color/white"
-        android:layout_marginBottom="@dimen/margin_between"/>
-
-</LinearLayout>
+</ScrollView>

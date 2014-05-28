@@ -57,8 +57,8 @@
     <string name="general">General</string>
     <string name="hba1c">HbA1c</string>
     <string name="home">Home</string>
-    <string name="hyper">Hyper</string>
-    <string name="hypo">Hypo</string>
+    <string name="hyper">Hyper-\nglycemia</string>
+    <string name="hypo">Hypo-\nglycemia</string>
     <string name="dataimport">Import</string>
     <string name="keyword">Keyword</string>
     <string name="keywords">Keywords</string>
@@ -68,7 +68,7 @@
     <string name="log">Log</string>
     <string name="mail">E-Mail</string>
     <string name="meal">Meal</string>
-    <string name="measured">Measured</string>
+    <string name="measured">Times measured</string>
     <string name="newevent">Diary entry</string>
     <string name="newevent_desc">Add measurements</string>
     <string name="next">Continue</string>

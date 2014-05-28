@@ -3,7 +3,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_dk">
+    android:background="@color/gray">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -92,6 +92,7 @@
                             android:text="@string/add_value_desc"
                             android:layout_gravity="left"
                             style="@style/BoxTextDesc"
+                            android:textColor="@color/gray"
                             android:singleLine="true"/>
 
                     </LinearLayout>

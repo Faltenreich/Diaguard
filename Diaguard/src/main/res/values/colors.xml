@@ -8,22 +8,15 @@
     <color name="semitransparent_dark">#11000000</color>
     <color name="semitransparent_green">#BB457e61</color>
 
-    <color name="green_lt">#729B86</color>
-    <color name="green">#457e61</color>
-    <color name="green_dk">#346d50</color>
+    <color name="green_lt">#ff6d947f</color>
+    <color name="green">#ff478063</color>
 
     <color name="gray_lt">#fff3f3f3</color>
-    <color name="gray">#ffeaeaea</color>
-    <color name="gray_dk">#eed1d1d1</color>
+    <color name="gray">#ffd4d4d4</color>
+    <color name="gray_dk">#ff8c8c8c</color>
 
-    <color name="graygrid">#33000000</color>
-    <color name="black_lt">#747474</color>
-    <color name="black">#42423f</color>
+    <color name="red">#ffdd6050</color>
 
-    <color name="ltred">#66ff0000</color>
-    <color name="red">#99ff0000</color>
-
-    <color name="ltblue">#663357ff</color>
-    <color name="blue">#993357ff</color>
+    <color name="blue">#ff6d82cb</color>
 
 </resources>

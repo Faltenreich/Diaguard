@@ -353,7 +353,7 @@ public class TimelineFragment extends Fragment {
                 if(value > 0) {
                     float x_value = (hour * 2) + 1;
                     float y_value = activeCategoryCount - 1 - categoryPosition + 0.3f;
-                    String valueString = Helper.getRationalFormat().
+                    String valueString = preferenceHelper.getDecimalFormat(Event.Category.BloodSugar).
                             format(preferenceHelper.formatDefaultToCustomUnit(category, value));
 
                     series.add(x_value, y_value);

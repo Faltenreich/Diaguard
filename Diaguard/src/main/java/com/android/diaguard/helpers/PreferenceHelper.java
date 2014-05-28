@@ -10,11 +10,11 @@ import com.android.diaguard.database.Event;
 import com.android.diaguard.preferences.CategoryPreference;
 import com.android.diaguard.preferences.FactorPreference;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.EnumMap;
 import java.util.List;
 
 /**
@@ -22,13 +22,15 @@ import java.util.List;
  */
 public class PreferenceHelper {
 
-    Activity activity;
-    SharedPreferences sharedPreferences;
+    private Activity activity;
+    private SharedPreferences sharedPreferences;
 
     public PreferenceHelper(Activity activity) {
         this.activity = activity;
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
     }
+
+    // GENERAL
 
     public MainActivity.FragmentType getStartFragment() {
         int startFragment = Integer.parseInt(sharedPreferences.getString("start_fragment", "0"));
@@ -83,6 +85,26 @@ public class PreferenceHelper {
         float limitHypoglycemia = Float.valueOf(sharedPreferences.getString("hypoclycemia",
                 activity.getString(R.string.pref_therapy_targets_hypoclycemia_default)));
         return formatDefaultToCustomUnit(Event.Category.BloodSugar, limitHypoglycemia);
+    }
+
+    public float getCorrectionValue() {
+        float defaultValue = Float.parseFloat(sharedPreferences.getString("correction_value", "40"));
+        return formatDefaultToCustomUnit(Event.Category.BloodSugar, defaultValue);
+    }
+
+    public DecimalFormat getDecimalFormat(Event.Category category) {
+        switch (category) {
+            case Bolus:
+            case HbA1c:
+            case Weight:
+                return new DecimalFormat("#0.#");
+            default:
+                float unitValue = getUnitValue(category);
+                if(unitValue == 1)
+                    return new DecimalFormat("#0");
+                else
+                    return new DecimalFormat("#0.#");
+        }
     }
 
     // CATEGORIES
@@ -165,7 +187,6 @@ public class PreferenceHelper {
     }
 
     public Daytime getCurrentDaytime() {
-
         Calendar now = Calendar.getInstance();
         int hour = now.get(Calendar.HOUR_OF_DAY);
 
@@ -180,15 +201,7 @@ public class PreferenceHelper {
     }
 
     public float getFactorValue(Daytime daytime) {
-        return sharedPreferences.getFloat(FactorPreference.FACTOR +
-                daytime.toString(), 0);
-    }
-
-    // CORRECTION VALUE
-
-    public float getCorrectionValue() {
-        float defaultValue = Float.parseFloat(sharedPreferences.getString("correction_value", "40"));
-        return formatDefaultToCustomUnit(Event.Category.BloodSugar, defaultValue);
+        return sharedPreferences.getFloat(FactorPreference.FACTOR + daytime.toString(), 0);
     }
 
     // CATEGORIES
@@ -205,27 +218,5 @@ public class PreferenceHelper {
                 activeCategories.add(Event.Category.values()[item]);
 
         return activeCategories.toArray(new Event.Category[activeCategories.size()]);
-    }
-
-    public String[] getActiveCategoriesNames() {
-        List<String> activeCategories = new ArrayList<String>();
-        String[] categoryNames = activity.getResources().getStringArray(R.array.categories);
-
-        for(int item = 0; item < Event.Category.values().length; item++)
-            if(isCategoryActive(Event.Category.values()[item]))
-                activeCategories.add(categoryNames[item]);
-
-        return activeCategories.toArray(new String[activeCategories.size()]);
-    }
-
-    public EnumMap<Event.Category, Boolean> getActiveCategoriesHashMap() {
-
-        EnumMap<Event.Category, Boolean> activeCategories =
-                new  EnumMap<Event.Category, Boolean>(Event.Category.class);
-
-        for(int item = 0; item < Event.Category.values().length; item++)
-            activeCategories.put(Event.Category.values()[item], isCategoryActive(Event.Category.values()[item]));
-
-        return activeCategories;
     }
 }

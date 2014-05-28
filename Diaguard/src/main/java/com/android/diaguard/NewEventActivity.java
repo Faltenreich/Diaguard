@@ -132,7 +132,8 @@ public class NewEventActivity extends ActionBarActivity {
 
                 float value = preferenceHelper.
                         formatDefaultToCustomUnit(event.getCategory(), event.getValue());
-                addValue(event.getCategory(), Float.toString(value), false, false);
+                addValue(event.getCategory(), preferenceHelper.getDecimalFormat(
+                        event.getCategory()).format(value), false, false);
 
                 editTextNotes.setText(event.getNotes());
 

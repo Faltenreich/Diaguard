@@ -281,18 +281,13 @@ public class ExportActivity extends ActionBarActivity {
                         table.addCell(cell);
 
                         for(int hour = 0; hour < 12; hour++) {
-
                             float value = preferenceHelper.formatDefaultToCustomUnit(category,
                                     values[categoryPosition][hour]);
 
                             Paragraph paragraph = new Paragraph();
                             if(value > 0) {
-
-                                String valueString;
-                                if(category == Event.Category.BloodSugar && value > 20)
-                                    valueString = Helper.getRationalFormat().format(value);
-                                else
-                                    valueString = Helper.getDecimalFormat().format(value);
+                                String valueString = preferenceHelper.
+                                        getDecimalFormat(category).format(value);
 
                                 if(category == Event.Category.BloodSugar) {
                                     if (value < preferenceHelper.getLimitHypoglycemia())

@@ -21,7 +21,6 @@ import com.android.diaguard.database.Event;
 import com.android.diaguard.helpers.Helper;
 import com.android.diaguard.helpers.PreferenceHelper;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,8 +73,6 @@ public class StatisticsFragment extends Fragment {
     }
 
     private void updateContent() {
-
-        DecimalFormat format = Helper.getDecimalFormat();
         List<ListItem> statistics = new ArrayList<ListItem>();
 
         statistics.add(new ListItem(getString(R.string.recently), null, true));
@@ -86,7 +83,7 @@ public class StatisticsFragment extends Fragment {
                         dataSource.getBloodSugarAverage(1));
 
         if(avgDay > 0)
-            avgString = format.format(avgDay);
+            avgString = preferenceHelper.getDecimalFormat(Event.Category.BloodSugar).format(avgDay);
         statistics.add(new ListItem(getString(R.string.statistics_day), avgString));
 
         float avgWeek = preferenceHelper.
@@ -95,7 +92,7 @@ public class StatisticsFragment extends Fragment {
 
         avgString = Helper.PLACEHOLDER;
         if(avgWeek > 0)
-            avgString = format.format(avgWeek);
+            avgString = preferenceHelper.getDecimalFormat(Event.Category.BloodSugar).format(avgWeek);
         statistics.add(new ListItem(getString(R.string.statistics_week), avgString));
 
         float avgWeeks = preferenceHelper.
@@ -104,7 +101,7 @@ public class StatisticsFragment extends Fragment {
 
         avgString = Helper.PLACEHOLDER;
         if(avgWeeks > 0)
-            avgString = format.format(avgWeeks);
+            avgString = preferenceHelper.getDecimalFormat(Event.Category.BloodSugar).format(avgWeeks);
         statistics.add(new ListItem(getString(R.string.statistics_weeks), avgString));
 
         float avgMonth = preferenceHelper.
@@ -113,7 +110,7 @@ public class StatisticsFragment extends Fragment {
 
         avgString = Helper.PLACEHOLDER;
         if(avgMonth > 0)
-            avgString = format.format(avgMonth);
+            avgString = preferenceHelper.getDecimalFormat(Event.Category.BloodSugar).format(avgMonth);
         statistics.add(new ListItem(getString(R.string.statistics_month), avgString));
 
         ListViewAdapter adapter =

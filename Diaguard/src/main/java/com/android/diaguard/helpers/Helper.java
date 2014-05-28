@@ -20,7 +20,6 @@ public class Helper {
     public static final String PLACEHOLDER = "-";
 
     public static DecimalFormat getDecimalFormat() {
-
         DecimalFormat decimalFormat = new DecimalFormat("#.#");
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
         symbols.setDecimalSeparator('.');

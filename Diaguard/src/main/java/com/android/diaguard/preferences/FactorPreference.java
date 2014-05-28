@@ -13,8 +13,6 @@ import com.android.diaguard.R;
 import com.android.diaguard.helpers.Helper;
 import com.android.diaguard.helpers.PreferenceHelper;
 
-import java.text.DecimalFormat;
-
 /**
  * Created by Filip on 04.11.13.
  */
@@ -50,25 +48,27 @@ public class FactorPreference extends DialogPreference {
         evening = (EditText) view.findViewById(R.id.evening);
         night = (EditText) view.findViewById(R.id.night);
 
-        DecimalFormat format = Helper.getDecimalFormat();
-
         if(sharedPreferences.contains(FACTOR + PreferenceHelper.Daytime.Morning)) {
-            morning.setText(format.format(sharedPreferences.getFloat(FACTOR + PreferenceHelper.Daytime.Morning, 1)));
+            morning.setText(Helper.getDecimalFormat().format(
+                    sharedPreferences.getFloat(FACTOR + PreferenceHelper.Daytime.Morning, 1)));
             morning.setSelection(morning.length());
         }
 
         if(sharedPreferences.contains(FACTOR + PreferenceHelper.Daytime.Noon)) {
-            noon.setText(format.format(sharedPreferences.getFloat(FACTOR + PreferenceHelper.Daytime.Noon, 1)));
+            noon.setText(Helper.getDecimalFormat().format(
+                    sharedPreferences.getFloat(FACTOR + PreferenceHelper.Daytime.Noon, 1)));
             noon.setSelection(noon.length());
         }
 
         if(sharedPreferences.contains(FACTOR + PreferenceHelper.Daytime.Evening)) {
-            evening.setText(format.format(sharedPreferences.getFloat(FACTOR + PreferenceHelper.Daytime.Evening, 1)));
+            evening.setText(Helper.getDecimalFormat().format(
+                    sharedPreferences.getFloat(FACTOR + PreferenceHelper.Daytime.Evening, 1)));
             evening.setSelection(evening.length());
         }
 
         if(sharedPreferences.contains(FACTOR + PreferenceHelper.Daytime.Night)) {
-            night.setText(format.format(sharedPreferences.getFloat(FACTOR + PreferenceHelper.Daytime.Night, 1)));
+            night.setText(Helper.getDecimalFormat().format(
+                    sharedPreferences.getFloat(FACTOR + PreferenceHelper.Daytime.Night, 1)));
             night.setSelection(night.length());
         }
     }

@@ -19,14 +19,12 @@ import com.android.diaguard.database.Event;
 import com.android.diaguard.helpers.Helper;
 import com.android.diaguard.helpers.PreferenceHelper;
 
-import java.text.DecimalFormat;
 import java.util.Calendar;
 
 public class MainFragment extends Fragment {
 
     DatabaseDataSource dataSource;
     PreferenceHelper preferenceHelper;
-    DecimalFormat format;
     Calendar time;
 
     TextView textViewLatestValue;
@@ -91,7 +89,6 @@ public class MainFragment extends Fragment {
         time = Calendar.getInstance();
 
         if(dataSource.countEvents(Event.Category.BloodSugar) > 0) {
-            format = Helper.getDecimalFormat();
             updateLatest();
             updateDashboard();
         }
@@ -109,8 +106,10 @@ public class MainFragment extends Fragment {
         Event latestEvent = dataSource.getLatestEvent(Event.Category.BloodSugar);
 
         // Value
-        float value = preferenceHelper.formatDefaultToCustomUnit(Event.Category.BloodSugar, latestEvent.getValue());
-        textViewLatestValue.setText(format.format(value));
+        float value = preferenceHelper.
+                formatDefaultToCustomUnit(Event.Category.BloodSugar, latestEvent.getValue());
+        textViewLatestValue.setText(preferenceHelper.
+                getDecimalFormat(Event.Category.BloodSugar).format(value));
         // Highlighting
         if(preferenceHelper.limitsAreHighlighted()) {
             if(value > preferenceHelper.getLimitHyperglycemia())
@@ -122,8 +121,10 @@ public class MainFragment extends Fragment {
         textViewLatestUnit.setText(preferenceHelper.getUnitAcronym(Event.Category.BloodSugar));
 
         // Time
-        textViewLatestTime.setText(preferenceHelper.getDateAndTimeFormat().format(latestEvent.getDate().getTime()) + " | ");
-        int differenceInMinutes = Helper.getDifferenceInMinutes(latestEvent.getDate(), Calendar.getInstance());
+        textViewLatestTime.setText(preferenceHelper.
+                getDateAndTimeFormat().format(latestEvent.getDate().getTime()) + " | ");
+        int differenceInMinutes =
+                Helper.getDifferenceInMinutes(latestEvent.getDate(), Calendar.getInstance());
 
         // Highlight if last measurement is more than eight hours ago
         textViewLatestAgo.setTextColor(getResources().getColor(R.color.green));
@@ -164,16 +165,16 @@ public class MainFragment extends Fragment {
                 formatDefaultToCustomUnit(Event.Category.BloodSugar,
                         dataSource.getBloodSugarAverage(1));
 
-        if(avgMonth > 20)
-            format = new DecimalFormat("#");
-
-        String avgMonthString = format.format(avgMonth);
+        String avgMonthString = preferenceHelper.
+                getDecimalFormat(Event.Category.BloodSugar).format(avgMonth);
         if(avgMonth <= 0)
             avgMonthString = Helper.PLACEHOLDER;
-        String avgWeekString = format.format(avgWeek);
+        String avgWeekString = preferenceHelper.
+                getDecimalFormat(Event.Category.BloodSugar).format(avgWeek);
         if(avgWeek <= 0)
             avgWeekString = Helper.PLACEHOLDER;
-        String avgDayString = format.format(avgDay);
+        String avgDayString = preferenceHelper.
+                getDecimalFormat(Event.Category.BloodSugar).format(avgDay);
         if(avgDay <= 0)
             avgDayString = Helper.PLACEHOLDER;
 

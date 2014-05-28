@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.android.diaguard.R;
 import com.android.diaguard.database.Event;
-import com.android.diaguard.helpers.Helper;
 import com.android.diaguard.helpers.PreferenceHelper;
 import com.android.diaguard.helpers.Validator;
 
@@ -44,7 +43,7 @@ public class BloodSugarPreference extends EditTextPreference {
         editTextValue = (EditText) view.findViewById(R.id.value);
         float value = Float.parseFloat(sharedPreferences.getString(getKey(), ""));
         value = preferenceHelper.formatDefaultToCustomUnit(Event.Category.BloodSugar, value);
-        editTextValue.setText(Helper.getDecimalFormat().format(value));
+        editTextValue.setText(preferenceHelper.getDecimalFormat(Event.Category.BloodSugar).format(value));
         editTextValue.setSelection(editTextValue.getText().length());
 
         textViewUnit = (TextView) view.findViewById(R.id.unit);

@@ -21,7 +21,6 @@ import com.android.diaguard.helpers.Helper;
 import com.android.diaguard.helpers.PreferenceHelper;
 import com.android.diaguard.helpers.Validator;
 
-import java.text.DecimalFormat;
 import java.util.Calendar;
 
 /**
@@ -32,7 +31,6 @@ public class CalculatorActivity extends ActionBarActivity {
 
     DatabaseDataSource dataSource;
     PreferenceHelper preferenceHelper;
-    DecimalFormat decimalFormat;
 
     EditText editTextBloodSugar;
     EditText editTextTargetValue;
@@ -65,7 +63,6 @@ public class CalculatorActivity extends ActionBarActivity {
     public void initialize() {
         dataSource = new DatabaseDataSource(this);
         preferenceHelper = new PreferenceHelper(this);
-        decimalFormat = Helper.getDecimalFormat();
 
         getComponents();
         initializeGUI();
@@ -92,10 +89,12 @@ public class CalculatorActivity extends ActionBarActivity {
         textViewUnitMeal.setText(preferenceHelper.getUnitAcronym(Event.Category.Meal));
 
         float targetValue = preferenceHelper.getTargetValue();
-        editTextTargetValue.setHint(decimalFormat.format(targetValue));
+        editTextTargetValue.setHint(preferenceHelper.
+                getDecimalFormat(Event.Category.BloodSugar).format(targetValue));
 
         float correctionValue = preferenceHelper.getCorrectionValue();
-        editTextCorrection.setHint(decimalFormat.format(correctionValue));
+        editTextCorrection.setHint(preferenceHelper.
+                getDecimalFormat(Event.Category.BloodSugar).format(correctionValue));
 
         spinnerFactors.setSelection(preferenceHelper.getCurrentDaytime().ordinal());
         spinnerFactors.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -106,7 +105,7 @@ public class CalculatorActivity extends ActionBarActivity {
                 if(factor == 0)
                     editTextFactor.setHint("");
                 else
-                    editTextFactor.setHint(decimalFormat.format(factor));
+                    editTextFactor.setHint(Helper.getDecimalFormat().format(factor));
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
@@ -207,13 +206,6 @@ public class CalculatorActivity extends ActionBarActivity {
         LayoutInflater inflater = getLayoutInflater();
         View viewPopup = inflater.inflate(R.layout.popup_result, null);
 
-        // Show formula for calculating bolus
-        TextView textViewFormula = (TextView) viewPopup.findViewById(R.id.textViewFormula);
-        textViewFormula.setText("((" + decimalFormat.format(currentBloodSugar) + " mg/dL - " +
-                decimalFormat.format(targetBloodSugar) + " mg/dL) / (50 mg/dL * " +
-                decimalFormat.format(factor) + ")) + (" + decimalFormat.format(meal/12) +
-                " BE * " + decimalFormat.format(factor) + ") =");
-
         // Handle negative bolus
         TextView textViewInfo = (TextView) viewPopup.findViewById(R.id.textViewInfo);
         if(bolus <= 0) {
@@ -221,7 +213,8 @@ public class CalculatorActivity extends ActionBarActivity {
             textViewInfo.setVisibility(View.VISIBLE);
             // TODO: adjust to user settings
             if(bolus < -1)
-                textViewInfo.setText(textViewInfo.getText().toString() + " " + getString(R.string.bolus_no2));
+                textViewInfo.setText(textViewInfo.getText().toString() + " " +
+                        getString(R.string.bolus_no2));
         }
         else {
             viewPopup.findViewById(R.id.result).setVisibility(View.VISIBLE);
@@ -229,7 +222,7 @@ public class CalculatorActivity extends ActionBarActivity {
         }
 
         TextView textViewValue = (TextView) viewPopup.findViewById(R.id.textViewResult);
-        textViewValue.setText(decimalFormat.format(bolus));
+        textViewValue.setText(Helper.getRationalFormat().format(bolus));
 
         TextView textViewUnit = (TextView) viewPopup.findViewById(R.id.textViewUnit);
         textViewUnit.setText(preferenceHelper.getUnitAcronym(Event.Category.Bolus));

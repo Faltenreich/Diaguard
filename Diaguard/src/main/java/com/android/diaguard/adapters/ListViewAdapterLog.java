@@ -12,10 +12,8 @@ import android.widget.TextView;
 
 import com.android.diaguard.R;
 import com.android.diaguard.database.Event;
-import com.android.diaguard.helpers.Helper;
 import com.android.diaguard.helpers.PreferenceHelper;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +28,7 @@ public class ListViewAdapterLog extends BaseAdapter {
         TextView time;
         TextView unit;
         TextView value;
-        ImageView noteInfo;
+        View noteInfo;
     }
 
     Context context;
@@ -67,8 +65,8 @@ public class ListViewAdapterLog extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-
         ViewHolder holder;
+
         if (convertView == null)
         {
             LayoutInflater inflate = (LayoutInflater) context.
@@ -80,7 +78,7 @@ public class ListViewAdapterLog extends BaseAdapter {
             holder.time = (TextView)convertView.findViewById(R.id.time);
             holder.unit = (TextView)convertView.findViewById(R.id.unit);
             holder.value = (TextView)convertView.findViewById(R.id.value);
-            holder.noteInfo = (ImageView) convertView.findViewById(R.id.notes);
+            holder.noteInfo = convertView.findViewById(R.id.notes);
 
             convertView.setTag(holder);
         }
@@ -95,23 +93,22 @@ public class ListViewAdapterLog extends BaseAdapter {
 
         holder.unit.setText(preferenceHelper.getUnitAcronym(event.getCategory()));
 
-        float valueFloat = preferenceHelper.formatDefaultToCustomUnit(
+        float value = preferenceHelper.formatDefaultToCustomUnit(
                 event.getCategory(), event.getValue());
-        DecimalFormat format = Helper.getDecimalFormat();
-        holder.value.setText(format.format(valueFloat));
-        holder.value.setTextColor(Color.BLACK);
+        holder.value.setText(preferenceHelper.getDecimalFormat(event.getCategory()).format(value));
 
         // Highlighting
-        if(event.getCategory() == Event.Category.BloodSugar &&
-                preferenceHelper.limitsAreHighlighted()) {
-            if(valueFloat > preferenceHelper.getLimitHyperglycemia())
+        holder.value.setTextColor(Color.BLACK);
+        if(event.getCategory() == Event.Category.BloodSugar && preferenceHelper.limitsAreHighlighted()) {
+            if(value > preferenceHelper.getLimitHyperglycemia())
                 holder.value.setTextColor(context.getResources().getColor(R.color.red));
-            else if(valueFloat < preferenceHelper.getLimitHypoglycemia())
+            else if(value < preferenceHelper.getLimitHypoglycemia())
                 holder.value.setTextColor(context.getResources().getColor(R.color.blue));
         }
 
         if(event.getNotes().length() > 0)
             holder.noteInfo.setVisibility(View.VISIBLE);
+
         return convertView;
     }
 }

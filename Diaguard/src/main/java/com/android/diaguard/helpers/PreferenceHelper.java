@@ -1,6 +1,7 @@
 package com.android.diaguard.helpers;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
@@ -11,6 +12,7 @@ import com.android.diaguard.preferences.CategoryPreference;
 import com.android.diaguard.preferences.FactorPreference;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,12 +24,12 @@ import java.util.List;
  */
 public class PreferenceHelper {
 
-    private Activity activity;
+    private Context context;
     private SharedPreferences sharedPreferences;
 
-    public PreferenceHelper(Activity activity) {
-        this.activity = activity;
-        this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+    public PreferenceHelper(Activity context) {
+        this.context = context;
+        this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     // GENERAL
@@ -50,7 +52,7 @@ public class PreferenceHelper {
 
     public SimpleDateFormat getDateFormat() {
         String dateString = sharedPreferences.getString("dateformat",
-                activity.getResources().getString(R.string.dateformat_default));
+                context.getResources().getString(R.string.dateformat_default));
 
         dateString = dateString.replace("YYYY", "yyyy");
         dateString = dateString.replace("mm", "MM");
@@ -66,9 +68,8 @@ public class PreferenceHelper {
     // BLOOD SUGAR
 
     public float getTargetValue() {
-        float targetValue = Float.valueOf(sharedPreferences.getString("target",
-                activity.getString(R.string.pref_therapy_targets_target_default)));
-        return formatDefaultToCustomUnit(Event.Category.BloodSugar, targetValue);
+        return Float.valueOf(sharedPreferences.getString("target",
+                context.getString(R.string.pref_therapy_targets_target_default)));
     }
 
     public boolean limitsAreHighlighted() {
@@ -76,42 +77,46 @@ public class PreferenceHelper {
     }
 
     public float getLimitHyperglycemia() {
-        float limitHyperglycemia = Float.valueOf(sharedPreferences.getString("hyperclycemia",
-                activity.getString(R.string.pref_therapy_targets_hyperclycemia_default)));
-        return formatDefaultToCustomUnit(Event.Category.BloodSugar, limitHyperglycemia);
+        return Float.valueOf(sharedPreferences.getString("hyperclycemia",
+                context.getString(R.string.pref_therapy_targets_hyperclycemia_default)));
     }
 
     public float getLimitHypoglycemia() {
-        float limitHypoglycemia = Float.valueOf(sharedPreferences.getString("hypoclycemia",
-                activity.getString(R.string.pref_therapy_targets_hypoclycemia_default)));
-        return formatDefaultToCustomUnit(Event.Category.BloodSugar, limitHypoglycemia);
+        return Float.valueOf(sharedPreferences.getString("hypoclycemia",
+                context.getString(R.string.pref_therapy_targets_hypoclycemia_default)));
     }
 
     public float getCorrectionValue() {
-        float defaultValue = Float.parseFloat(sharedPreferences.getString("correction_value", "40"));
-        return formatDefaultToCustomUnit(Event.Category.BloodSugar, defaultValue);
+        return Float.parseFloat(sharedPreferences.getString("correction_value", "40"));
     }
 
+    // TODO: Locale
     public DecimalFormat getDecimalFormat(Event.Category category) {
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setDecimalSeparator('.');
+
+        String formatString = "#0";
         switch (category) {
             case Bolus:
             case HbA1c:
             case Weight:
-                return new DecimalFormat("#0.#");
+                formatString = "#0.#";
             default:
                 float unitValue = getUnitValue(category);
-                if(unitValue == 1)
-                    return new DecimalFormat("#0");
-                else
-                    return new DecimalFormat("#0.#");
+                if(unitValue != 1)
+                    formatString = "#0.#";
         }
+
+        DecimalFormat format = new DecimalFormat(formatString);
+        format.setDecimalFormatSymbols(symbols);
+        return format;
     }
 
     // CATEGORIES
 
     public String getCategoryName(Event.Category category) {
         int position = Event.Category.valueOf(category.name()).ordinal();
-        String[] categories = activity.getResources().getStringArray(R.array.categories);
+        String[] categories = context.getResources().getStringArray(R.array.categories);
         return categories[position];
     }
 
@@ -119,9 +124,9 @@ public class PreferenceHelper {
 
     public String[] getUnitsNames(Event.Category category) {
         String categoryName = category.name().toLowerCase();
-        int resourceIdUnits = activity.getResources().getIdentifier(categoryName +
-                "_units", "array", activity.getPackageName());
-        return activity.getResources().getStringArray(resourceIdUnits);
+        int resourceIdUnits = context.getResources().getIdentifier(categoryName +
+                "_units", "array", context.getPackageName());
+        return context.getResources().getStringArray(resourceIdUnits);
     }
 
     public String getUnitName(Event.Category category) {
@@ -132,12 +137,12 @@ public class PreferenceHelper {
 
     public String[] getUnitsAcronyms(Event.Category category) {
         String categoryName = category.name().toLowerCase();
-        int resourceIdUnits = activity.getResources().getIdentifier(categoryName +
-                "_units_acronyms", "array", activity.getPackageName());
+        int resourceIdUnits = context.getResources().getIdentifier(categoryName +
+                "_units_acronyms", "array", context.getPackageName());
         if(resourceIdUnits == 0)
             return null;
         else
-            return activity.getResources().getStringArray(resourceIdUnits);
+            return context.getResources().getStringArray(resourceIdUnits);
     }
 
     public String getUnitAcronym(Event.Category category) {
@@ -157,9 +162,9 @@ public class PreferenceHelper {
 
     public String[] getUnitsValues(Event.Category category) {
         String categoryName = category.name().toLowerCase();
-        int resourceIdUnits = activity.getResources().getIdentifier(categoryName +
-                "_units_values", "array", activity.getPackageName());
-        return activity.getResources().getStringArray(resourceIdUnits);
+        int resourceIdUnits = context.getResources().getIdentifier(categoryName +
+                "_units_values", "array", context.getPackageName());
+        return context.getResources().getStringArray(resourceIdUnits);
     }
 
     public float getUnitValue(Event.Category category) {

@@ -102,7 +102,6 @@ public class MainFragment extends Fragment {
     }
 
     private void updateLatest() {
-
         Event latestEvent = dataSource.getLatestEvent(Event.Category.BloodSugar);
 
         // Value
@@ -110,14 +109,16 @@ public class MainFragment extends Fragment {
                 formatDefaultToCustomUnit(Event.Category.BloodSugar, latestEvent.getValue());
         textViewLatestValue.setText(preferenceHelper.
                 getDecimalFormat(Event.Category.BloodSugar).format(value));
+
         // Highlighting
         if(preferenceHelper.limitsAreHighlighted()) {
-            if(value > preferenceHelper.getLimitHyperglycemia())
+            if(latestEvent.getValue() > preferenceHelper.getLimitHyperglycemia())
                 textViewLatestValue.setTextColor(getResources().getColor(R.color.red));
-            else if(value < preferenceHelper.getLimitHypoglycemia())
+            else if(latestEvent.getValue() < preferenceHelper.getLimitHypoglycemia())
                 textViewLatestValue.setTextColor(getResources().getColor(R.color.blue));
         }
 
+        // Unit
         textViewLatestUnit.setText(preferenceHelper.getUnitAcronym(Event.Category.BloodSugar));
 
         // Time

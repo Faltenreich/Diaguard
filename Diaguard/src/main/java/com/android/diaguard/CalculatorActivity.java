@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -88,11 +89,14 @@ public class CalculatorActivity extends ActionBarActivity {
         textViewUnitCorrection.setText(unitAcronym);
         textViewUnitMeal.setText(preferenceHelper.getUnitAcronym(Event.Category.Meal));
 
-        float targetValue = preferenceHelper.getTargetValue();
+        float targetValue = preferenceHelper.formatDefaultToCustomUnit(
+                Event.Category.BloodSugar, preferenceHelper.getTargetValue());
         editTextTargetValue.setHint(preferenceHelper.
                 getDecimalFormat(Event.Category.BloodSugar).format(targetValue));
 
-        float correctionValue = preferenceHelper.getCorrectionValue();
+        float correctionValue = preferenceHelper.formatDefaultToCustomUnit(
+                Event.Category.BloodSugar,
+                preferenceHelper.getCorrectionValue());
         editTextCorrection.setHint(preferenceHelper.
                 getDecimalFormat(Event.Category.BloodSugar).format(correctionValue));
 
@@ -114,22 +118,27 @@ public class CalculatorActivity extends ActionBarActivity {
     }
 
     private boolean validate() {
-
         boolean isValid = true;
-        String bloodSugar = editTextBloodSugar.getText().toString();
 
-        if(!Validator.containsNumber(bloodSugar)) {
+        String bloodSugar = editTextBloodSugar.getText().toString();
+        if(bloodSugar.length() == 0) {
             editTextBloodSugar.setError(getString(R.string.validator_value_empty));
             isValid = false;
         }
-        else if(!Validator.validateEventValue(this, Event.Category.BloodSugar,
-                preferenceHelper.formatCustomToDefaultUnit(Event.Category.BloodSugar,
-                        Float.parseFloat(bloodSugar)))) {
-            editTextBloodSugar.setError(getString(R.string.validator_value_unrealistic));
-            isValid = false;
+        else {
+            if(!Validator.containsNumber(bloodSugar)) {
+                editTextBloodSugar.setError(getString(R.string.validator_value_empty));
+                isValid = false;
+            }
+            else if(!Validator.validateEventValue(this, Event.Category.BloodSugar,
+                    preferenceHelper.formatCustomToDefaultUnit(Event.Category.BloodSugar,
+                            Float.parseFloat(bloodSugar)))) {
+                editTextBloodSugar.setError(getString(R.string.validator_value_unrealistic));
+                isValid = false;
+            }
+            else
+                editTextBloodSugar.setError(null);
         }
-        else
-            editTextBloodSugar.setError(null);
 
         if(editTextMeal.length() > 0) {
             if(!Validator.containsNumber(editTextFactor.getText().toString()) &&
@@ -155,25 +164,32 @@ public class CalculatorActivity extends ActionBarActivity {
     }
 
     private void submit() {
-
         if(validate()) {
-
             // Blood Sugar
             final float currentBloodSugar = preferenceHelper.formatCustomToDefaultUnit(Event.Category.BloodSugar, Float.parseFloat(editTextBloodSugar.getText().toString()));
 
             String targetValueString = editTextTargetValue.getText().toString();
             float targetBloodSugar;
             if(!Validator.containsNumber(targetValueString))
-                targetBloodSugar = preferenceHelper.getTargetValue();
+                targetBloodSugar = preferenceHelper.formatDefaultToCustomUnit(
+                        Event.Category.BloodSugar, preferenceHelper.getTargetValue());
             else
                 targetBloodSugar = Float.parseFloat(targetValueString);
             targetBloodSugar = preferenceHelper.formatCustomToDefaultUnit(Event.Category.BloodSugar, targetBloodSugar);
 
+            Editable editableText = editTextCorrection.getText();
+            CharSequence charSequenceHint = editTextCorrection.getHint();
             float correction;
-            if(Validator.containsNumber(editTextCorrection.getText().toString()))
-                correction = Float.parseFloat(editTextCorrection.getText().toString());
+            if(editableText != null && Validator.containsNumber(editableText.toString())) {
+                String correctionText = editableText.toString();
+                correction = Float.parseFloat(correctionText);
+            }
+            else if(charSequenceHint != null && Validator.containsNumber(charSequenceHint.toString())) {
+                String correctionHint = charSequenceHint.toString();
+                correction = Float.parseFloat(correctionHint);
+            }
             else
-                correction = Float.parseFloat(editTextCorrection.getHint().toString());
+                return;
 
             // Meal
             String mealString = editTextMeal.getText().toString();

@@ -177,7 +177,9 @@ public class TimelineFragment extends Fragment {
             public void onClick(View v) {
                 SeriesSelection seriesSelection = chartHelperChart.chartView.getCurrentSeriesAndPoint();
                 if (seriesSelection != null) {
-                    ViewHelper.showToastMessage(getActivity(), seriesSelection.getValue() +
+                    double value = seriesSelection.getValue();
+                    ViewHelper.showToastMessage(getActivity(),
+                            preferenceHelper.getDecimalFormat(Event.Category.BloodSugar).format(value) +
                             " " + preferenceHelper.getUnitAcronym(Event.Category.BloodSugar));
                 }
             }
@@ -227,9 +229,10 @@ public class TimelineFragment extends Fragment {
                     formatDefaultToCustomUnit(Event.Category.BloodSugar, event.getValue());
 
             // Adjust y axis
-            if(y_value > chartHelperChart.renderer.getYAxisMax())
+            if(y_value > chartHelperChart.renderer.getYAxisMax()) {
                 chartHelperChart.renderer.setYAxisMax(preferenceHelper.
-                        formatDefaultToCustomUnit(Event.Category.BloodSugar, y_value + 30));
+                        formatDefaultToCustomUnit(Event.Category.BloodSugar, event.getValue() + 30));
+            }
 
             // Add value
             if(preferenceHelper.limitsAreHighlighted()) {

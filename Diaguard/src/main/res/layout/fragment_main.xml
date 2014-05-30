@@ -59,14 +59,14 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/margin_between"
                         android:lines="1"
-                        style="@style/BoxTextDesc"/>
+                        android:textColor="@color/gray_dk"/>
 
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/green_lt"
+                    android:background="@color/gray_dk"
                     android:layout_marginTop="@dimen/margin_between"
                     android:layout_marginBottom="@dimen/margin_between"
                     android:layout_marginLeft="@dimen/padding_end"

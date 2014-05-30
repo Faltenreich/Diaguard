@@ -30,7 +30,6 @@ import com.android.diaguard.helpers.SwipeDismissTouchListener;
 import com.android.diaguard.helpers.Validator;
 import com.android.diaguard.helpers.ViewHelper;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
@@ -76,20 +75,18 @@ public class NewEventActivity extends ActionBarActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null)
-            if (extras.getLong(EXTRA_ID) != 0L)
-                menu.findItem(R.id.action_delete).setVisible(true);
-            else
-                menu.findItem(R.id.action_delete).setVisible(false);
-        else
-            menu.findItem(R.id.action_delete).setVisible(false);
+        MenuItem deleteEvent = menu.findItem(R.id.action_delete);
+        if(deleteEvent != null) {
+            Bundle extras = getIntent().getExtras();
+            deleteEvent.setVisible(false);
+            if (extras != null && extras.getLong(EXTRA_ID) != 0L)
+                deleteEvent.setVisible(true);
+        }
 
         return true;
     }
 
     public void initialize() {
-
         dataSource = new DatabaseDataSource(this);
         preferenceHelper = new PreferenceHelper(this);
 
@@ -103,7 +100,6 @@ public class NewEventActivity extends ActionBarActivity {
 
         getComponents();
         checkIntents();
-
         setDate();
         setTime();
     }
@@ -116,11 +112,9 @@ public class NewEventActivity extends ActionBarActivity {
     }
 
     private void checkIntents() {
-
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
-
             if (extras.getLong(EXTRA_ID) != 0L) {
                 setTitle(getString(R.string.editevent));
 
@@ -137,7 +131,6 @@ public class NewEventActivity extends ActionBarActivity {
 
                 editTextNotes.setText(event.getNotes());
 
-
                 findViewById(R.id.layout_newvalue).setVisibility(View.GONE);
             }
 
@@ -151,57 +144,61 @@ public class NewEventActivity extends ActionBarActivity {
                 addValue(Event.Category.BloodSugar, null, false, true);
             }
         }
-        else
+        else {
             addValue(Event.Category.BloodSugar, null, false, true);
+        }
     }
 
     private void setDate() {
-        SimpleDateFormat format = preferenceHelper.getDateFormat();
-        buttonDate.setText(format.format(time.getTime()));
+        buttonDate.setText(preferenceHelper.getDateFormat().format(time.getTime()));
     }
 
     private void setTime() {
-        SimpleDateFormat format = preferenceHelper.getTimeFormat();
-        buttonTime.setText(format.format(time.getTime()));
+        buttonTime.setText(preferenceHelper.getTimeFormat().format(time.getTime()));
     }
 
     private void submit() {
 
         // Check whether there are values to submit
-        int valueCount = linearLayoutValues.getChildCount();
-        if(valueCount == 0) {
+        if(linearLayoutValues.getChildCount() == 0) {
             ViewHelper.showToastError(this, getString(R.string.validator_value_none));
+            return;
         }
-        else {
-            List<Event> events = new ArrayList<Event>();
-            boolean inputIsValid = true;
 
-            // Iterate through all generated views
-            for (int position = 0; position < linearLayoutValues.getChildCount(); position++) {
-                View view = linearLayoutValues.getChildAt(position);
+        List<Event> events = new ArrayList<Event>();
+        boolean inputIsValid = true;
+
+        // Iterate through all generated views
+        for (int position = 0; position < linearLayoutValues.getChildCount(); position++) {
+            View view = linearLayoutValues.getChildAt(position);
+
+            if(view != null) {
                 EditText editTextValue = (EditText) view.findViewById(R.id.value);
                 String editTextText = editTextValue.getText().toString();
                 Event.Category category = (Event.Category) view.getTag();
 
                 // Validation
                 Calendar now = Calendar.getInstance();
-                if(time.after(now)) {
+                if (time.after(now)) {
                     ViewHelper.showToastError(this, getString(R.string.validator_value_infuture));
                     inputIsValid = false;
                 }
 
-                if(!Validator.containsNumber(editTextText)) {
+                if (!Validator.containsNumber(editTextText)) {
                     editTextValue.setError(getString(R.string.validator_value_empty));
                     inputIsValid = false;
                 }
-                else if(!Validator.validateEventValue(this, category, preferenceHelper.formatCustomToDefaultUnit(category, Float.parseFloat(editTextText)))) {
+                else if (!Validator.validateEventValue(this,
+                        category, preferenceHelper.formatCustomToDefaultUnit(category,
+                                Float.parseFloat(editTextText)))) {
                     editTextValue.setError(getString(R.string.validator_value_unrealistic));
                     inputIsValid = false;
                 }
-                else
+                else {
                     editTextValue.setError(null);
+                }
 
-                if(inputIsValid) {
+                if (inputIsValid) {
                     Event event = new Event();
                     float value = preferenceHelper.formatCustomToDefaultUnit(category, Float.parseFloat(editTextText));
                     event.setValue(value);
@@ -211,25 +208,25 @@ public class NewEventActivity extends ActionBarActivity {
                     events.add(event);
                 }
             }
+        }
 
-            if(inputIsValid) {
-                dataSource.open();
-                Bundle extras = getIntent().getExtras();
-                if (extras != null) {
-                    long id = extras.getLong(EXTRA_ID);
-                    if (id != 0L) {
-                        events.get(0).setId(id);
-                        dataSource.updateEvent(events.get(0));
-                    }
-                    else
-                        dataSource.insertEvents(events);
+        if(inputIsValid) {
+            dataSource.open();
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                long id = extras.getLong(EXTRA_ID);
+                if (id != 0L) {
+                    events.get(0).setId(id);
+                    dataSource.updateEvent(events.get(0));
                 }
-                else {
+                else
                     dataSource.insertEvents(events);
-                }
-                dataSource.close();
-                finish();
             }
+            else {
+                dataSource.insertEvents(events);
+            }
+            dataSource.close();
+            finish();
         }
     }
 

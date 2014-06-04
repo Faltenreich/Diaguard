@@ -1,8 +1,10 @@
 package com.android.diaguard.preferences;
 
-import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.os.Bundle;
 import android.preference.DialogPreference;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
@@ -12,6 +14,7 @@ import android.widget.EditText;
 import com.android.diaguard.R;
 import com.android.diaguard.helpers.Helper;
 import com.android.diaguard.helpers.PreferenceHelper;
+import com.android.diaguard.helpers.Validator;
 
 /**
  * Created by Filip on 04.11.13.
@@ -20,7 +23,7 @@ public class FactorPreference extends DialogPreference {
 
     public final static String FACTOR = "factor_";
 
-    Activity activity;
+    Context context;
     PreferenceHelper preferenceHelper;
     SharedPreferences sharedPreferences;
 
@@ -33,10 +36,10 @@ public class FactorPreference extends DialogPreference {
         super(context, attrs);
         setDialogLayoutResource(R.layout.preference_factor);
 
-        activity = (Activity) context;
+        this.context = context;
 
-        preferenceHelper = new PreferenceHelper(activity);
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        preferenceHelper = new PreferenceHelper(this.context);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.context);
     }
 
     @Override
@@ -74,11 +77,43 @@ public class FactorPreference extends DialogPreference {
     }
 
     @Override
+    protected void showDialog(Bundle state) {
+        super.showDialog(state);
+
+        final AlertDialog alertDialog = (AlertDialog)getDialog();
+        if(alertDialog == null || alertDialog.getButton(AlertDialog.BUTTON_POSITIVE) == null)
+            throw new Resources.NotFoundException();
+
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                boolean isValid = true;
+
+                if(!Validator.validateEditTextFactor(context, morning, true))
+                    isValid = false;
+                if(!Validator.validateEditTextFactor(context, noon, true))
+                    isValid = false;
+                if(!Validator.validateEditTextFactor(context, evening, true))
+                    isValid = false;
+                if(!Validator.validateEditTextFactor(context, night, true))
+                    isValid = false;
+
+                if(isValid)
+                {
+                    alertDialog.dismiss();
+                    onDialogClosed(true);
+                }
+            }
+        });
+    }
+
+    @Override
     protected void onDialogClosed(boolean positiveResult) {
         super.onDialogClosed(positiveResult);
 
         if (positiveResult) {
-
             SharedPreferences.Editor editor = sharedPreferences.edit();
 
             if(morning.length() == 0)

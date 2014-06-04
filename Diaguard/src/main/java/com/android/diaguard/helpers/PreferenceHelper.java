@@ -1,8 +1,8 @@
 package com.android.diaguard.helpers;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.preference.PreferenceManager;
 
 import com.android.diaguard.MainActivity;
@@ -22,12 +22,17 @@ import java.util.List;
 /**
  * Created by Filip on 04.11.13.
  */
+
+/**
+ * Parameters are of Default Value
+ * Return Values are of Custom Value
+ */
 public class PreferenceHelper {
 
     private Context context;
     private SharedPreferences sharedPreferences;
 
-    public PreferenceHelper(Activity context) {
+    public PreferenceHelper(Context context) {
         this.context = context;
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
@@ -42,6 +47,21 @@ public class PreferenceHelper {
             case 2: return MainActivity.FragmentType.Log;
             default: return MainActivity.FragmentType.Home;
         }
+    }
+
+    public boolean validateEventValue(Event.Category category, float value) {
+        int resourceIdExtrema = context.getResources().getIdentifier(category.name().toLowerCase() +
+                "_extrema", "array", context.getPackageName());
+
+        if(resourceIdExtrema == 0)
+            throw new Resources.NotFoundException("Resource \"category_extrema\" not found: IntArray with event value extrema");
+
+        int[] extrema = context.getResources().getIntArray(resourceIdExtrema);
+
+        if(extrema.length != 2)
+            throw new IllegalStateException("IntArray with event value extrema has to contain two values");
+
+        return value > extrema[0] && value < extrema[1];
     }
 
     // DATES
@@ -90,7 +110,7 @@ public class PreferenceHelper {
         return Float.parseFloat(sharedPreferences.getString("correction_value", "40"));
     }
 
-    // TODO: Locale
+    // TODO: Localization
     public DecimalFormat getDecimalFormat(Event.Category category) {
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
         symbols.setDecimalSeparator('.');
@@ -152,11 +172,13 @@ public class PreferenceHelper {
         else {
             String sharedPref = sharedPreferences.
                     getString("unit_" + category.name().toLowerCase(), "1");
-            String acronym = acronyms[Arrays.asList(getUnitsValues(category)).indexOf(sharedPref)];
-            if(acronym == null)
+            int indexOfAcronym = Arrays.asList(getUnitsValues(category)).indexOf(sharedPref);
+            if(indexOfAcronym < acronyms.length) {
+                return acronyms[indexOfAcronym];
+            }
+            else {
                 return getUnitName(category);
-            else
-                return acronym;
+            }
         }
     }
 

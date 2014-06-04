@@ -120,10 +120,6 @@
     <string name="week">Woche</string>
     <string name="weeks">Wochen</string>
     <string name="yesterday">Gestern</string>
-    <string name="last_24hours">Letzte 24 Stunden</string>
-    <string name="last_7days">Letzte 7 Tage</string>
-    <string name="last_14days">Letzte 14 Tage</string>
-    <string name="last_30days">Letzte 30 Tage</string>
 
     <string-array name="weekdays">
         <item>Sonntag</item>
@@ -146,30 +142,11 @@
         <item>Nachts</item>
     </string-array>
 
-    <string name="early">Früh</string>
-    <string name="daytime">Tagsüber</string>
-    <string name="late">Spät</string>
-
-    <!-- ACTIONS -->
-    <string-array name="actions">
-        <item>Bearbeiten</item>
-        <item>Löschen</item>
-    </string-array>
+    <string name="last_24hours">Letzte 24 Stunden</string>
+    <string name="last_7days">Letzte 7 Tage</string>
+    <string name="last_30days">Letzte 30 Tage</string>
 
     <string name="dateformat_default">DD.MM.YYYY</string>
-
-    <string-array name="textsizes">
-        <item>Klein</item>
-        <item>Normal</item>
-        <item>Groß</item>
-    </string-array>
-
-    <!-- SETUP -->
-    <string name="setup_def_start">Dieses Setup soll Ihnen dabei helfen, Diaguard an Ihre Ansprüche anzupassen.\n\nFalls Sie diesen Schritt überspringen möchten, klicken Sie auf Überspringen, um eine eher allgemeine Erfahrung zu erhalten.</string>
-    <string name="setup_def_type">Bitte geben Sie ihren Diabetestyp an.\nBei keiner Angabe wird jedwede Funktionalität aktiv.</string>
-    <string name="type1">Typ 1</string>
-    <string name="type2">Typ 2</string>
-    <string name="gestational">Gestationsdiabetes</string>
 
     <!-- CATEGORIES -->
     <string-array name="categories">
@@ -180,15 +157,6 @@
         <item>HbA1c</item>
         <item>Gewicht</item>
         <item>Puls</item>
-    </string-array>
-    <string-array name="categories_info">
-        <item>gemessen</item>
-        <item>verabreicht</item>
-        <item>gegessen</item>
-        <item>trainiert</item>
-        <item>gemessen</item>
-        <item>gemessen</item>
-        <item>gemessen</item>
     </string-array>
 
     <string-array name="bolus_units">
@@ -237,27 +205,8 @@
         <item>spm</item>
     </string-array>
 
-    <!-- FILTERS -->
-    <string-array name="filters">
-        <item>Tag</item>
-        <item>Woche</item>
-        <item>Monat</item>
-        <item>Jahr</item>
-    </string-array>
-
-    <!-- KEYWORDS -->
-    <string-array name="keywords">
-        <item>Nach dem Aufstehen</item>
-        <item>Vor dem Frühstück</item>
-        <item>Nach dem Frühstück</item>
-        <item>Vor dem Mittagessen</item>
-        <item>Nach dem Mittagessen</item>
-        <item>Vor dem Abendbrot</item>
-        <item>Nach dem Abendbrot</item>
-        <item>Vor dem Schlafengehen</item>
-    </string-array>
-
     <!-- VALIDATORS -->
+    <string name="validator_value_number">Nur Zahlen sind erlaubt</string>
     <string name="validator_value_infuture">Ereignis darf nicht in der Zukunft liegen</string>
     <string name="validator_value_empty">Bitte geben Sie einen Wert an</string>
     <string name="validator_value_none">Mindestens ein Item muss gewählt werden</string>

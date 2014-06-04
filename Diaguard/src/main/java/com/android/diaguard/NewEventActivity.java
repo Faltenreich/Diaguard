@@ -77,8 +77,8 @@ public class NewEventActivity extends ActionBarActivity {
 
         MenuItem deleteEvent = menu.findItem(R.id.action_delete);
         if(deleteEvent != null) {
-            Bundle extras = getIntent().getExtras();
             deleteEvent.setVisible(false);
+            Bundle extras = getIntent().getExtras();
             if (extras != null && extras.getLong(EXTRA_ID) != 0L)
                 deleteEvent.setVisible(true);
         }
@@ -113,39 +113,25 @@ public class NewEventActivity extends ActionBarActivity {
 
     private void checkIntents() {
         Bundle extras = getIntent().getExtras();
-
         if (extras != null) {
             if (extras.getLong(EXTRA_ID) != 0L) {
-                setTitle(getString(R.string.editevent));
+                findViewById(R.id.layout_newvalue).setVisibility(View.GONE);
 
                 dataSource.open();
                 Event event = dataSource.getEventById(extras.getLong("ID"));
                 dataSource.close();
 
                 time = event.getDate();
-
                 float value = preferenceHelper.
                         formatDefaultToCustomUnit(event.getCategory(), event.getValue());
+                editTextNotes.setText(event.getNotes());
                 addValue(event.getCategory(), preferenceHelper.getDecimalFormat(
                         event.getCategory()).format(value), false, false);
-
-                editTextNotes.setText(event.getNotes());
-
-                findViewById(R.id.layout_newvalue).setVisibility(View.GONE);
             }
 
             else if(extras.getSerializable(EXTRA_DATE) != null) {
                 time = (Calendar) extras.getSerializable(EXTRA_DATE);
-                addValue(Event.Category.BloodSugar, null, false, true);
             }
-
-            else {
-                findViewById(R.id.layout_newvalue).setVisibility(View.VISIBLE);
-                addValue(Event.Category.BloodSugar, null, false, true);
-            }
-        }
-        else {
-            addValue(Event.Category.BloodSugar, null, false, true);
         }
     }
 
@@ -158,7 +144,6 @@ public class NewEventActivity extends ActionBarActivity {
     }
 
     private void submit() {
-
         // Check whether there are values to submit
         if(linearLayoutValues.getChildCount() == 0) {
             ViewHelper.showToastError(this, getString(R.string.validator_value_none));
@@ -188,7 +173,7 @@ public class NewEventActivity extends ActionBarActivity {
                     editTextValue.setError(getString(R.string.validator_value_empty));
                     inputIsValid = false;
                 }
-                else if (!Validator.validateEventValue(this,
+                else if (!preferenceHelper.validateEventValue(
                         category, preferenceHelper.formatCustomToDefaultUnit(category,
                                 Float.parseFloat(editTextText)))) {
                     editTextValue.setError(getString(R.string.validator_value_unrealistic));
@@ -213,14 +198,9 @@ public class NewEventActivity extends ActionBarActivity {
         if(inputIsValid) {
             dataSource.open();
             Bundle extras = getIntent().getExtras();
-            if (extras != null) {
-                long id = extras.getLong(EXTRA_ID);
-                if (id != 0L) {
-                    events.get(0).setId(id);
-                    dataSource.updateEvent(events.get(0));
-                }
-                else
-                    dataSource.insertEvents(events);
+            if (extras != null && extras.getLong(EXTRA_ID) != 0L) {
+                events.get(0).setId(extras.getLong(EXTRA_ID));
+                dataSource.updateEvent(events.get(0));
             }
             else {
                 dataSource.insertEvents(events);
@@ -289,12 +269,15 @@ public class NewEventActivity extends ActionBarActivity {
 
         // Removable
         ImageView imageDelete = (ImageView) view.findViewById(R.id.delete);
-        imageDelete.setOnClickListener(new View.OnClickListener() {
+        if(removable)
+            imageDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 removeValue(category);
             }
         });
+        else
+            imageDelete.setVisibility(View.GONE);
 
         // Animation
         if(animate) {

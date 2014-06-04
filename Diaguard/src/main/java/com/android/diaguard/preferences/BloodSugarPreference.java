@@ -1,8 +1,10 @@
 package com.android.diaguard.preferences;
 
-import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
@@ -20,8 +22,9 @@ import com.android.diaguard.helpers.Validator;
  */
 public class BloodSugarPreference extends EditTextPreference {
 
-    Activity activity;
+    Context context;
     SharedPreferences sharedPreferences;
+    PreferenceHelper preferenceHelper;
 
     EditText editTextValue;
     TextView textViewUnit;
@@ -30,17 +33,19 @@ public class BloodSugarPreference extends EditTextPreference {
         super(context, attrs);
         setDialogLayoutResource(R.layout.preference_bloodsugar);
 
-        activity = (Activity) context;
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        this.context = context;
+        this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.context);
+        this.preferenceHelper = new PreferenceHelper(context);
     }
 
     @Override
     public void onBindDialogView(View view) {
         super.onBindDialogView(view);
 
-        PreferenceHelper preferenceHelper = new PreferenceHelper(activity);
-
         editTextValue = (EditText) view.findViewById(R.id.value);
+        if(editTextValue == null || editTextValue.getText() == null)
+            throw new Resources.NotFoundException();
+
         float value = Float.parseFloat(sharedPreferences.getString(getKey(), ""));
         value = preferenceHelper.formatDefaultToCustomUnit(Event.Category.BloodSugar, value);
         editTextValue.setText(preferenceHelper.getDecimalFormat(Event.Category.BloodSugar).format(value));
@@ -51,20 +56,43 @@ public class BloodSugarPreference extends EditTextPreference {
     }
 
     @Override
+    protected void showDialog(Bundle state) {
+        super.showDialog(state);
+
+        final AlertDialog alertDialog = (AlertDialog)getDialog();
+        if(alertDialog == null || alertDialog.getButton(AlertDialog.BUTTON_POSITIVE) == null)
+            throw new Resources.NotFoundException();
+
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if(Validator.validateEditTextEvent(context, editTextValue, Event.Category.BloodSugar))
+                {
+                    alertDialog.dismiss();
+                    onDialogClosed(true);
+                }
+            }
+        });
+    }
+
+    @Override
     protected void onDialogClosed(boolean positiveResult) {
         super.onDialogClosed(positiveResult);
 
         if (positiveResult) {
-            PreferenceHelper preferenceHelper = new PreferenceHelper(activity);
+            if(editTextValue == null || editTextValue.getText() == null)
+                throw new Resources.NotFoundException();
 
             float value = Float.valueOf(editTextValue.getText().toString());
-            if(Validator.validateEventValue(activity, Event.Category.BloodSugar,
-                    preferenceHelper.formatCustomToDefaultUnit(Event.Category.BloodSugar, value))) {
-                SharedPreferences.Editor editor = getEditor();
-                value = preferenceHelper.formatCustomToDefaultUnit(Event.Category.BloodSugar, value);
-                editor.putString(getKey(), Float.toString(value));
-                editor.commit();
-            }
+            SharedPreferences.Editor editor = getEditor();
+            if(editor == null)
+                throw new Resources.NotFoundException();
+
+            value = preferenceHelper.formatCustomToDefaultUnit(Event.Category.BloodSugar, value);
+            editor.putString(getKey(), Float.toString(value));
+            editor.commit();
         }
     }
 }

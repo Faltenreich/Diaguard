@@ -1,7 +1,6 @@
 package com.android.diaguard.helpers;
 
 import android.content.Context;
-import android.view.Gravity;
 import android.widget.Toast;
 
 /**
@@ -10,9 +9,7 @@ import android.widget.Toast;
 public class ViewHelper {
 
     public static void showToastError(Context context, String text) {
-        Toast toast = Toast.makeText(context, text, Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();
+        Toast.makeText(context, text, Toast.LENGTH_LONG).show();
     }
 
     public static void showToastMessage(Context context, String text) {

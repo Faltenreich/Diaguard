@@ -2,6 +2,7 @@ package com.android.diaguard;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
@@ -89,27 +90,31 @@ public class CalculatorActivity extends ActionBarActivity {
         textViewUnitCorrection.setText(unitAcronym);
         textViewUnitMeal.setText(preferenceHelper.getUnitAcronym(Event.Category.Meal));
 
+        // Target
         float targetValue = preferenceHelper.formatDefaultToCustomUnit(
-                Event.Category.BloodSugar, preferenceHelper.getTargetValue());
-        editTextTargetValue.setHint(preferenceHelper.
-                getDecimalFormat(Event.Category.BloodSugar).format(targetValue));
+                Event.Category.BloodSugar,
+                preferenceHelper.getTargetValue());
+        editTextTargetValue.setHint(
+                preferenceHelper.getDecimalFormat(Event.Category.BloodSugar).format(targetValue));
 
+        // Correction
         float correctionValue = preferenceHelper.formatDefaultToCustomUnit(
                 Event.Category.BloodSugar,
                 preferenceHelper.getCorrectionValue());
-        editTextCorrection.setHint(preferenceHelper.
-                getDecimalFormat(Event.Category.BloodSugar).format(correctionValue));
+        editTextCorrection.setHint(
+                preferenceHelper.getDecimalFormat(Event.Category.BloodSugar).format(correctionValue));
 
+        // Factor
         spinnerFactors.setSelection(preferenceHelper.getCurrentDaytime().ordinal());
         spinnerFactors.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 PreferenceHelper.Daytime daytime = PreferenceHelper.Daytime.values()[position];
                 float factor = preferenceHelper.getFactorValue(daytime);
-                if(factor == 0)
-                    editTextFactor.setHint("");
-                else
+                if(factor != 0)
                     editTextFactor.setHint(Helper.getDecimalFormat().format(factor));
+                else
+                    editTextFactor.setHint("");
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
@@ -120,43 +125,47 @@ public class CalculatorActivity extends ActionBarActivity {
     private boolean validate() {
         boolean isValid = true;
 
-        String bloodSugar = editTextBloodSugar.getText().toString();
-        if(bloodSugar.length() == 0) {
-            editTextBloodSugar.setError(getString(R.string.validator_value_empty));
+        // Blood Sugar
+        if(!Validator.validateEditTextEvent(this, editTextBloodSugar, Event.Category.BloodSugar))
             isValid = false;
-        }
-        else {
-            if(!Validator.containsNumber(bloodSugar)) {
-                editTextBloodSugar.setError(getString(R.string.validator_value_empty));
-                isValid = false;
-            }
-            else if(!Validator.validateEventValue(this, Event.Category.BloodSugar,
-                    preferenceHelper.formatCustomToDefaultUnit(Event.Category.BloodSugar,
-                            Float.parseFloat(bloodSugar)))) {
-                editTextBloodSugar.setError(getString(R.string.validator_value_unrealistic));
-                isValid = false;
-            }
-            else
-                editTextBloodSugar.setError(null);
+
+        if(!Validator.validateEditTextEvent(this, editTextTargetValue, Event.Category.BloodSugar))
+            isValid = false;
+
+        if(!Validator.validateEditTextEvent(this, editTextCorrection, Event.Category.BloodSugar))
+            isValid = false;
+
+        // Meal
+        Editable editableMeal = editTextMeal.getText();
+        if(editableMeal == null) {
+            throw new Resources.NotFoundException();
         }
 
-        if(editTextMeal.length() > 0) {
-            if(!Validator.containsNumber(editTextFactor.getText().toString()) &&
-                !Validator.containsNumber(editTextFactor.getHint().toString())) {
-                editTextFactor.setError(getString(R.string.validator_value_empty));
+        String valueMeal = editableMeal.toString();
+        if(valueMeal.length() > 0) {
+
+            if (!Validator.validateEventValue(this, editTextMeal, Event.Category.Meal, valueMeal)) {
                 isValid = false;
             }
-            else
+
+            // Factor
+            Editable editableFactor = editTextFactor.getText();
+            if(editableFactor == null) {
+                throw new Resources.NotFoundException();
+            }
+
+            if (!Validator.validateEditTextFactor(this, editTextFactor, false)) {
+                isValid = false;
+            }
+            else {
                 editTextFactor.setError(null);
+            }
         }
-        else
-            editTextFactor.setError(null);
 
         return isValid;
     }
 
     private float calculateBolus(float currentBloodSugar, float targetBloodSugar, float meal, float correction, float factor) {
-
         float corrector = (currentBloodSugar - targetBloodSugar) / correction;
         float injector = (meal * factor) / 10;
 
@@ -164,51 +173,52 @@ public class CalculatorActivity extends ActionBarActivity {
     }
 
     private void submit() {
-        if(validate()) {
-            // Blood Sugar
-            final float currentBloodSugar = preferenceHelper.formatCustomToDefaultUnit(Event.Category.BloodSugar, Float.parseFloat(editTextBloodSugar.getText().toString()));
+        // Blood Sugar
+        final float currentBloodSugar =
+                preferenceHelper.formatCustomToDefaultUnit(Event.Category.BloodSugar,
+                        Float.parseFloat(editTextBloodSugar.getText().toString()));
 
-            String targetValueString = editTextTargetValue.getText().toString();
-            float targetBloodSugar;
-            if(!Validator.containsNumber(targetValueString))
-                targetBloodSugar = preferenceHelper.formatDefaultToCustomUnit(
-                        Event.Category.BloodSugar, preferenceHelper.getTargetValue());
-            else
-                targetBloodSugar = Float.parseFloat(targetValueString);
-            targetBloodSugar = preferenceHelper.formatCustomToDefaultUnit(Event.Category.BloodSugar, targetBloodSugar);
+        String targetValueString = editTextTargetValue.getText().toString();
+        float targetBloodSugar;
+        if(!Validator.containsNumber(targetValueString))
+            targetBloodSugar = preferenceHelper.formatDefaultToCustomUnit(
+                    Event.Category.BloodSugar, preferenceHelper.getTargetValue());
+        else
+            targetBloodSugar = Float.parseFloat(targetValueString);
+        targetBloodSugar = preferenceHelper.formatCustomToDefaultUnit(Event.Category.BloodSugar, targetBloodSugar);
 
-            Editable editableText = editTextCorrection.getText();
-            CharSequence charSequenceHint = editTextCorrection.getHint();
-            float correction;
-            if(editableText != null && Validator.containsNumber(editableText.toString())) {
-                String correctionText = editableText.toString();
-                correction = Float.parseFloat(correctionText);
-            }
-            else if(charSequenceHint != null && Validator.containsNumber(charSequenceHint.toString())) {
-                String correctionHint = charSequenceHint.toString();
-                correction = Float.parseFloat(correctionHint);
-            }
-            else
-                return;
-
-            // Meal
-            String mealString = editTextMeal.getText().toString();
-            final float meal;
-            if(Validator.containsNumber(mealString))
-                meal = preferenceHelper.formatCustomToDefaultUnit(Event.Category.Meal, Float.parseFloat(mealString));
-            else
-                meal = 0;
-
-            float factor = 0;
-            if(meal > 0) {
-                if(Validator.containsNumber(editTextFactor.getText().toString()))
-                    factor = Float.parseFloat(editTextFactor.getText().toString());
-                else
-                    factor = Float.parseFloat(editTextFactor.getHint().toString());
-            }
-
-            showResult(currentBloodSugar, targetBloodSugar, meal, correction, factor);
+        Editable editableText = editTextCorrection.getText();
+        CharSequence charSequenceHint = editTextCorrection.getHint();
+        float correction;
+        if(editableText != null && Validator.containsNumber(editableText.toString())) {
+            String correctionText = editableText.toString();
+            correction = Float.parseFloat(correctionText);
         }
+        else if(charSequenceHint != null && Validator.containsNumber(charSequenceHint.toString())) {
+            String correctionHint = charSequenceHint.toString();
+            correction = Float.parseFloat(correctionHint);
+        }
+        else
+            return;
+        correction = preferenceHelper.formatCustomToDefaultUnit(Event.Category.BloodSugar, correction);
+
+        // Meal
+        String mealString = editTextMeal.getText().toString();
+        final float meal;
+        if(Validator.containsNumber(mealString))
+            meal = preferenceHelper.formatCustomToDefaultUnit(Event.Category.Meal, Float.parseFloat(mealString));
+        else
+            meal = 0;
+
+        float factor = 0;
+        if(meal > 0) {
+            if(Validator.containsNumber(editTextFactor.getText().toString()))
+                factor = Float.parseFloat(editTextFactor.getText().toString());
+            else
+                factor = Float.parseFloat(editTextFactor.getHint().toString());
+        }
+
+        showResult(currentBloodSugar, targetBloodSugar, meal, correction, factor);
     }
 
     private void showResult(float currentBloodSugar, float targetBloodSugar, float meal, float correction, float factor) {
@@ -238,7 +248,7 @@ public class CalculatorActivity extends ActionBarActivity {
         }
 
         TextView textViewValue = (TextView) viewPopup.findViewById(R.id.textViewResult);
-        textViewValue.setText(Helper.getRationalFormat().format(bolus));
+        textViewValue.setText(Helper.getDecimalFormat().format(bolus));
 
         TextView textViewUnit = (TextView) viewPopup.findViewById(R.id.textViewUnit);
         textViewUnit.setText(preferenceHelper.getUnitAcronym(Event.Category.Bolus));
@@ -246,7 +256,7 @@ public class CalculatorActivity extends ActionBarActivity {
         final CheckBox checkBoxStoreValues = (CheckBox) viewPopup.findViewById(R.id.checkBoxStoreValues);
 
         // Custom TitleBar
-        View view=inflater.inflate(R.layout.alertdialog_title_bolus, null);
+        View view = inflater.inflate(R.layout.alertdialog_title_bolus, null);
         TextView textViewTitle = (TextView) view.findViewById(R.id.title);
         textViewTitle.setText(getString(R.string.bolus));
 
@@ -311,7 +321,8 @@ public class CalculatorActivity extends ActionBarActivity {
                 finish();
                 return true;
             case R.id.action_done:
-                submit();
+                if(validate())
+                    submit();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

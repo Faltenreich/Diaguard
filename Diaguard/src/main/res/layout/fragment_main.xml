@@ -205,7 +205,7 @@
                 <LinearLayout
                     style="@style/Box">
 
-                    <TextView android:id="@+id/textview_avg_day"
+                    <TextView android:id="@+id/textview_avg_month"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/BoxText"
@@ -215,7 +215,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/BoxTextDesc"
-                        android:text="@string/last_24hours"/>
+                        android:text="@string/last_30days"/>
 
                 </LinearLayout>
 
@@ -239,7 +239,7 @@
                 <LinearLayout
                     style="@style/Box">
 
-                    <TextView android:id="@+id/textview_avg_month"
+                    <TextView android:id="@+id/textview_avg_day"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/BoxText"
@@ -249,7 +249,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/BoxTextDesc"
-                        android:text="@string/last_30days"/>
+                        android:text="@string/last_24hours"/>
 
                 </LinearLayout>
 

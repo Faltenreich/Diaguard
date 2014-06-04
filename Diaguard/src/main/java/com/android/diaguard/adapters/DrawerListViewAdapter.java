@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.diaguard.R;
+import com.android.diaguard.helpers.PreferenceHelper;
 
 /**
  * Created by Filip on 16.03.14.
@@ -21,11 +22,14 @@ public class DrawerListViewAdapter extends BaseAdapter {
     private int[] icons;
     public int fragmentCount;
 
+    PreferenceHelper preferenceHelper;
+
     public DrawerListViewAdapter(Context context, String[] titles, int[] icons, int fragmentCount) {
         this.context = context;
         this.titles = titles;
         this.icons = icons;
         this.fragmentCount = fragmentCount;
+        this.preferenceHelper = new PreferenceHelper(context);
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -43,7 +47,7 @@ public class DrawerListViewAdapter extends BaseAdapter {
 
         TextView txtTitle = (TextView) itemView.findViewById(R.id.title);
         txtTitle.setText(titles[position]);
-        if(position == 0)
+        if(position == preferenceHelper.getStartFragment().ordinal())
             txtTitle.setTypeface(null, Typeface.BOLD);
 
         return itemView;

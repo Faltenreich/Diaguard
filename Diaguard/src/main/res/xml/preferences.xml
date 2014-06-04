@@ -44,6 +44,7 @@
         android:key="preference_therapy"
         android:title="@string/therapy">
 
+        <!--
         <PreferenceCategory
             android:title="@string/general">
 
@@ -52,6 +53,7 @@
                 android:title="@string/categories"/>
 
         </PreferenceCategory>
+        -->
 
         <PreferenceCategory
             android:title="@string/units">

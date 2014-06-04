@@ -100,7 +100,7 @@
     <string name="units">Units</string>
     <string name="value">Value</string>
     <string name="weight">Weight</string>
-    <string name="zero">0x</string>
+    <string name="zero">0</string>
 
     <string-array name="startscreens">
         <item>Home</item>
@@ -138,10 +138,6 @@
     <string name="week">Week</string>
     <string name="weeks">Weeks</string>
     <string name="yesterday">Yesterday</string>
-    <string name="last_24hours">Last 24 hours</string>
-    <string name="last_7days">Last 7 days</string>
-    <string name="last_14days">Last 14 days</string>
-    <string name="last_30days">Last 30 days</string>
 
     <string-array name="weekdays">
         <item>Sunday</item>
@@ -157,11 +153,6 @@
     <string name="noon">Noon</string>
     <string name="evening">Evening</string>
     <string name="night">Night</string>
-
-    <string name="early">Early</string>
-    <string name="daytime">Daytime</string>
-    <string name="late">Late</string>
-
     <string-array name="factor_names">
         <item>Morning</item>
         <item>Noon</item>
@@ -169,33 +160,15 @@
         <item>Night</item>
     </string-array>
 
-    <!-- ACTIONS -->
-    <string-array name="actions">
-        <item>Edit</item>
-        <item>Delete</item>
-    </string-array>
+    <string name="last_24hours">Last 24 hours</string>
+    <string name="last_7days">Last 7 days</string>
+    <string name="last_30days">Last 30 days</string>
 
     <string name="dateformat_default">YYYY-MM-DD</string>
-
     <string-array name="dateformat">
         <item>DD.MM.YYYY</item>
         <item>YYYY-MM-DD</item>
     </string-array>
-
-    <string name="textsizes_default">Normal</string>
-
-    <string-array name="textsizes">
-        <item>Small</item>
-        <item>Normal</item>
-        <item>Big</item>
-    </string-array>
-
-    <!-- SETUP -->
-    <string name="setup_def_start">This setup will help you to adjust Diaguard to your needs.\n\nIf you want to skip this wizard, press Skip to get a more general experience.</string>
-    <string name="setup_def_type">Please choose your diabetes type.\nChoose Undefined for a more general experience.</string>
-    <string name="type1">Type 1</string>
-    <string name="type2">Type 2</string>
-    <string name="gestational">Gestational</string>
 
     <!-- EXPORT -->
     <string-array name="formats">
@@ -212,15 +185,6 @@
         <item>Weight</item>
         <item>Pulse</item>
     </string-array>
-    <string-array name="categories_info">
-        <item>measured</item>
-        <item>applied</item>
-        <item>eaten</item>
-        <item>exercised</item>
-        <item>measured</item>
-        <item>measured</item>
-        <item>measured</item>
-    </string-array>
 
     <string-array name="bloodsugar_units">
         <item>mg/dL</item>
@@ -230,10 +194,9 @@
         <item>1</item>
         <item>0.0555</item>
     </string-array>
-
     <integer-array name="bloodsugar_extrema">
         <item name="minimum">10</item>
-        <item name="maximum">700</item>
+        <item name="maximum">1000</item>
     </integer-array>
 
     <string-array name="bolus_units">
@@ -245,7 +208,6 @@
     <string-array name="bolus_units_values">
         <item>1</item>
     </string-array>
-
     <integer-array name="bolus_extrema">
         <item name="minimum">0</item>
         <item name="maximum">100</item>
@@ -266,7 +228,6 @@
         <item>0.1</item>
         <item>0.0833</item>
     </string-array>
-
     <integer-array name="meal_extrema">
         <item name="minimum">1</item>
         <item name="maximum">1000</item>
@@ -281,7 +242,6 @@
     <string-array name="activity_units_values">
         <item>1</item>
     </string-array>
-
     <integer-array name="activity_extrema">
         <item name="minimum">1</item>
         <item name="maximum">1000</item>
@@ -298,7 +258,6 @@
         <item>1</item>
         <item>0.00001</item>
     </string-array>
-
     <integer-array name="hba1c_extrema">
         <item name="minimum">1</item>
         <item name="maximum">25</item>
@@ -316,22 +275,9 @@
         <item>1</item>
         <item>0.45359237</item>
     </string-array>
-
     <integer-array name="weight_extrema">
-        <item name="minimum">10</item>
-        <item name="maximum">400</item>
-    </integer-array>
-
-    <string-array name="bloodpressure_units">
-        <item>mm Hg</item>
-    </string-array>
-    <string-array name="bloodpressure_units_values">
-        <item>1</item>
-    </string-array>
-
-    <integer-array name="bloodpressure_extrema">
-        <item name="minimum">40</item>
-        <item name="maximum">300</item>
+        <item name="minimum">20</item>
+        <item name="maximum">500</item>
     </integer-array>
 
     <string-array name="pulse_units">
@@ -343,21 +289,13 @@
     <string-array name="pulse_units_values">
         <item>1</item>
     </string-array>
-
     <integer-array name="pulse_extrema">
         <item name="minimum">10</item>
         <item name="maximum">200</item>
     </integer-array>
 
-    <!-- FILTERS -->
-    <string-array name="filters">
-        <item>Day</item>
-        <item>Week</item>
-        <item>Month</item>
-        <item>Year</item>
-    </string-array>
-
     <!-- VALIDATORS -->
+    <string name="validator_value_number">Only numbers are allowed</string>
     <string name="validator_value_infuture">Event cannot take place in the future</string>
     <string name="validator_value_empty">Please enter a value</string>
     <string name="validator_value_none">At least one item must be checked</string>

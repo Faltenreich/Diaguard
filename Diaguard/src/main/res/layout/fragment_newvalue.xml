@@ -32,7 +32,7 @@
             android:layout_alignParentRight="true"
             android:padding="16dp"
             android:background="@drawable/button_transparent_dk"
-            android:contentDescription="@string/deletevalue"/>
+            android:contentDescription="@string/delete_value"/>
 
     </RelativeLayout>
 

@@ -282,8 +282,7 @@ public class NewEventActivity extends ActionBarActivity {
         // Animation
         if(animate) {
             Animation animationSlideInLeft =
-                    AnimationUtils.loadAnimation(NewEventActivity.this,
-                            android.R.anim.slide_in_left);
+                    AnimationUtils.loadAnimation(NewEventActivity.this, android.R.anim.slide_in_left);
             animationSlideInLeft.setDuration(300);
             view.startAnimation(animationSlideInLeft);
         }

@@ -11,8 +11,7 @@
 
         <TextView
             android:layout_weight="1"
-            android:text="@string/morning"
-            style="@style/Label"/>
+            android:text="@string/morning"/>
 
         <EditText android:id="@+id/morning"
             android:layout_weight="2"
@@ -25,8 +24,7 @@
 
         <TextView
             android:layout_weight="1"
-            android:text="@string/noon"
-            style="@style/Label"/>
+            android:text="@string/noon"/>
 
         <EditText android:id="@+id/noon"
             android:layout_weight="2"
@@ -39,8 +37,7 @@
 
         <TextView
             android:layout_weight="1"
-            android:text="@string/evening"
-            style="@style/Label"/>
+            android:text="@string/evening"/>
 
         <EditText android:id="@+id/evening"
             android:layout_weight="2"
@@ -53,8 +50,7 @@
 
         <TextView
             android:layout_weight="1"
-            android:text="@string/night"
-            style="@style/Label"/>
+            android:text="@string/night"/>
 
         <EditText android:id="@+id/night"
             android:layout_weight="2"

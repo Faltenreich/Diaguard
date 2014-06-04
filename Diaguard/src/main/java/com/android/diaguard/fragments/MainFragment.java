@@ -93,7 +93,6 @@ public class MainFragment extends Fragment {
             updateDashboard();
         }
         else {
-            textViewLatestValue.setTextSize(34);
             textViewAverageMonth.setText(Helper.PLACEHOLDER);
             textViewAverageWeek.setText(Helper.PLACEHOLDER);
             textViewAverageDay.setText(Helper.PLACEHOLDER);

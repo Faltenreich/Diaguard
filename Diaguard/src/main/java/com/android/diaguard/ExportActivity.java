@@ -432,7 +432,7 @@ public class ExportActivity extends ActionBarActivity {
             Rectangle rect = writer.getBoxSize("Header");
 
             Calendar today = Calendar.getInstance();
-            String stamp = getString(R.string.app_stamp) + " " +
+            String stamp = getString(R.string.export_stamp) + " " +
                     preferenceHelper.getDateFormat().format(today.getTime());
             Chunk chunk = new Chunk(stamp,
                     FontFactory.getFont(FontFactory.HELVETICA, 9, BaseColor.GRAY));
@@ -440,7 +440,7 @@ public class ExportActivity extends ActionBarActivity {
                     Element.ALIGN_LEFT, new Phrase(chunk),
                     rect.getLeft(), rect.getBottom() - 18, 0);
 
-            chunk = new Chunk(getString(R.string.app_website),
+            chunk = new Chunk(getString(R.string.app_facebook),
                     FontFactory.getFont(FontFactory.HELVETICA, 9, BaseColor.GRAY));
             ColumnText.showTextAligned(writer.getDirectContent(),
                     Element.ALIGN_RIGHT, new Phrase(chunk),

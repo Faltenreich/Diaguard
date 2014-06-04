@@ -111,7 +111,7 @@ public class BackupPreference extends DialogPreference {
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setTitle(R.string.backupchoose)
+        builder.setTitle(R.string.backup_title)
                 .setItems(csvArrayDates, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
 

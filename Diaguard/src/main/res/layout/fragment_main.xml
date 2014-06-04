@@ -51,7 +51,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/BoxText"
-                        android:text="@string/firstvisit"
+                        android:text="@string/first_visit"
                         android:textSize="60sp"/>
 
                     <TextView android:id="@+id/textview_latest_unit"
@@ -86,7 +86,7 @@
                     <TextView android:id="@+id/textview_latest_ago"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/firstvisit_desc"/>
+                        android:text="@string/first_visit_desc"/>
 
                 </LinearLayout>
 
@@ -132,7 +132,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/BoxText"
-                        android:text="@string/zero"/>
+                        android:text="0"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -149,7 +149,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/BoxText"
-                        android:text="@string/zero"/>
+                        android:text="0"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -167,7 +167,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/BoxText"
-                        android:text="@string/zero"/>
+                        android:text="0"/>
 
                     <TextView
                         android:layout_width="wrap_content"

@@ -3,60 +3,44 @@
 
     <!-- GENERAL -->
     <string name="app_name">Diaguard</string>
-    <string name="app_stamp">Bericht generiert am</string>
-    <string name="about">Über</string>
     <string name="activity">Aktivität</string>
     <string name="add_value">Wert hinzufügen</string>
     <string name="add_value_desc">Kategorien wählen</string>
-    <string name="all">Alle</string>
     <string name="application">Anwendung</string>
     <string name="average">Durchschnitt</string>
     <string name="back">Zurück</string>
-    <string name="background">Hintergrund</string>
     <string name="backup">Sicherung</string>
-    <string name="backupchoose">Sicherung wählen</string>
-    <string name="bloodpressure">Blutdruck</string>
+    <string name="backup_title">Sicherung wählen</string>
     <string name="bloodsugar">Blutzucker</string>
-    <string name="bloodsugar_average">Durchschnitt:</string>
-    <string name="bloodsugar_current">Aktueller Blutzucker</string>
-    <string name="bloodsugar_last">Zuletzt:</string>
     <string name="bloodsugar_latest">Letzter Blutzucker</string>
     <string name="bolus_no1">Es wird empfohlen, keinen Bolus zu verabreichen.</string>
     <string name="bolus_no2">Stattdessen sollten schnelle Kohlenhydrate konsumiert werden, um tiefere Blutzuckerlevel zu vermeiden.</string>
-    <string name="calculate">Berechnen</string>
     <string name="calculator">Bolusrechner</string>
-    <string name="calendar">Kalender</string>
     <string name="cancel">Abbrechen</string>
     <string name="category">Kategorie</string>
-    <string name="categories">Kategorien</string>
     <string name="cleanup">Aufräumen</string>
     <string name="cleanup_desc">Dies wird alle Einträge vor dem gewählten Datum dauerhaft löschen.</string>
     <string name="correction">Korrekturwert</string>
     <string name="data">Daten</string>
-    <string name="deleteevent">Ereignis löschen</string>
-    <string name="deleteevent_desc">Wert aus Tagebuch entfernen</string>
-    <string name="deletevalue">Wert löschen</string>
-    <string name="development">Entwicklung</string>
+    <string name="delete_event">Ereignis löschen</string>
+    <string name="delete_event_desc">Wert aus Tagebuch entfernen</string>
+    <string name="delete_value">Wert löschen</string>
     <string name="drawer_close">Navigator schließen</string>
     <string name="drawer_open">Navigator öffnen</string>
-    <string name="editevent">Eintrag bearbeiten</string>
     <string name="event">Ereignis</string>
-    <string name="export_day">Exportiere Tag</string>
-    <string name="export_progress">PDF wird erstellt</string>
     <string name="export_finished">PDF wurde abgelegt unter</string>
+    <string name="export_progress">PDF wird erstellt</string>
+    <string name="export_stamp">Bericht generiert am</string>
     <string name="factor">KE-Faktor</string>
     <string name="factors">KE-Faktoren</string>
     <string name="filter">Filter</string>
-    <string name="finish">Fertig</string>
-    <string name="firstvisit">Neu hier?</string>
-    <string name="firstvisit_desc">Ersten Wert eintragen</string>
+    <string name="first_visit">Neu hier?</string>
+    <string name="first_visit_desc">Ersten Wert eintragen</string>
     <string name="general">Allgemein</string>
     <string name="hba1c">HbA1c</string>
     <string name="home">Übersicht</string>
-    <string name="hyper">Hyper-\nglykämie</string>
-    <string name="hypo">Hypo-\nglykämie</string>
-    <string name="keyword">Stichwort</string>
-    <string name="keywords">Stichwörter</string>
+    <string name="hyper">Überzucker</string>
+    <string name="hypo">Unterzucker</string>
     <string name="latest">Vor [value] [unit]</string>
     <string name="latest_moments">Vor kurzem</string>
     <string name="listview_empty">Keine Einträge vorhanden</string>
@@ -65,30 +49,15 @@
     <string name="measured">Mal gemessen</string>
     <string name="newevent">Tagebucheintrag</string>
     <string name="newevent_desc">Messwerte hinzufügen</string>
-    <string name="next">Weiter</string>
-    <string name="none">Keine</string>
     <string name="note">Notiz</string>
-    <string name="notes">Notizen</string>
     <string name="ok">OK</string>
     <string name="pulse">Puls</string>
     <string name="recently">Kürzlich</string>
     <string name="settings">Einstellungen</string>
-    <string name="setup">Einrichten</string>
     <string name="startscreen">Startbildschirm</string>
-    <string name="statistics">Statistiken</string>
-    <string name="statistics_day">Letzte 24 Stunden</string>
-    <string name="statistics_week">Letzte 7 Tage</string>
-    <string name="statistics_weeks">Letzte 14 Tage</string>
-    <string name="statistics_month">Letzten Monat</string>
     <string name="store_values">Werte eintragen</string>
-    <string name="textsize">Schriftgröße</string>
     <string name="therapy">Therapie</string>
-    <string name="time">Zeit</string>
     <string name="timeline">Tagebuch</string>
-    <string name="tip">Tipp</string>
-    <string name="undefined">Keine Angabe</string>
-    <string name="units">Einheiten</string>
-    <string name="value">Wert</string>
     <string name="weight">Gewicht</string>
 
     <string-array name="startscreens">
@@ -98,28 +67,20 @@
     </string-array>
 
     <!-- DATE -->
-    <string name="before">vor</string>
     <string name="calendarweek">Kalenderwoche</string>
-    <string name="current">Aktuell</string>
-    <string name="date">Datum</string>
     <string name="dateend">Enddatum</string>
     <string name="dateformat">Zeitformat</string>
-    <string name="dateofbirth">Geburtsdatum</string>
     <string name="datestart">Startdatum</string>
-    <string name="day">Tag</string>
-    <string name="days">Tagen</string>
+    <string name="minute">Minute</string>
+    <string name="minutes">Minuten</string>
     <string name="hour">Stunde</string>
     <string name="hours">Stunden</string>
-    <string name="minutes">Minuten</string>
-    <string name="month">Monat</string>
-    <string name="months">Monaten</string>
-    <string name="notyet">Noch nie</string>
-    <string name="now">Jetzt</string>
-    <string name="today">Heute</string>
-    <string name="tomorrow">Morgen</string>
+    <string name="day">Tag</string>
+    <string name="days">Tage</string>
     <string name="week">Woche</string>
     <string name="weeks">Wochen</string>
-    <string name="yesterday">Gestern</string>
+    <string name="month">Monat</string>
+    <string name="months">Monate</string>
 
     <string-array name="weekdays">
         <item>Sonntag</item>
@@ -243,8 +204,7 @@
     </string-array>
     <string name="pref_data_backup_import">Sicherung wird eingespielt</string>
 
-    <string name="pref_data_export_message">
-        Jeder Export wird lokal auf Ihrer Speicherkarte abgelegt und kann zusätzlich via E-Mail versendet werden.</string>
+    <string name="pref_data_export_message">Jeder Export wird lokal auf Ihrer Speicherkarte abgelegt und kann zusätzlich via E-Mail versendet werden.</string>
     <string name="pref_data_export_finished">Daten werden auf SD Karte exportiert</string>
     <string name="pref_data_export_mail_message">Meine Daten im Anhang gesendet via Diaguard</string>
 

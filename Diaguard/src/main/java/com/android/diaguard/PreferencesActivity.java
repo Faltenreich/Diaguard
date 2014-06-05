@@ -13,7 +13,6 @@ public class PreferencesActivity extends PreferenceActivity {
 
     @Override
     public void onBuildHeaders(List<Header> target) {
-        super.onBuildHeaders(target);
         loadHeadersFromResource(R.xml.headers, target);
     }
 

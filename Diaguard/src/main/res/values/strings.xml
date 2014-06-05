@@ -21,7 +21,7 @@
     <string name="cancel">Cancel</string>
     <string name="category">Category</string>
     <string name="cleanup">Clean Up</string>
-    <string name="cleanup_desc">This will permanently delete all data before the chosen date.</string>
+    <string name="cleanup_desc">This will permanently delete all data on and before the chosen date.</string>
     <string name="correction">Correction value</string>
     <string name="data">Data</string>
     <string name="delete_event">Delete event</string>
@@ -129,6 +129,7 @@
     <!-- EXPORT -->
     <string-array name="formats">
         <item>PDF</item>
+        <item>CSV</item>
     </string-array>
 
     <!-- CATEGORIES -->
@@ -263,7 +264,7 @@
 
     <!-- ERRORS -->
     <string name="error_no_mail">No app found to send E-Mail</string>
-    <string name="error_no_pdf">No app found to open PDF</string>
+    <string name="error_no_app">No app found to open file</string>
 
     <!-- SETTINGS -->
     <string name="pref_therapy_targets">Target values</string>

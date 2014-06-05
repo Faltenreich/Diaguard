@@ -15,8 +15,6 @@ import java.util.Calendar;
  */
 public class Helper {
 
-    public static final String PATH_STORAGE = Environment.getExternalStorageDirectory() + "/Diaguard";
-    public static final String MIME_PDF = "application/pdf";
     public static final String PLACEHOLDER = "-";
 
     public static DecimalFormat getDecimalFormat() {

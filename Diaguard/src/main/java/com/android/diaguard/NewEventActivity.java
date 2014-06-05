@@ -26,7 +26,7 @@ import com.android.diaguard.database.Event;
 import com.android.diaguard.fragments.DatePickerFragment;
 import com.android.diaguard.fragments.TimePickerFragment;
 import com.android.diaguard.helpers.PreferenceHelper;
-import com.android.diaguard.helpers.SwipeDismissTouchListener;
+import com.android.diaguard.adapters.SwipeDismissTouchListener;
 import com.android.diaguard.helpers.Validator;
 import com.android.diaguard.helpers.ViewHelper;
 

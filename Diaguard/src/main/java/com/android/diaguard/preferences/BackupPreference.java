@@ -4,30 +4,22 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.AsyncTask;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.util.Log;
 
 import com.android.diaguard.R;
 import com.android.diaguard.database.DatabaseDataSource;
-import com.android.diaguard.database.Event;
-import com.android.diaguard.helpers.Helper;
+import com.android.diaguard.helpers.FileHelper;
 import com.android.diaguard.helpers.PreferenceHelper;
 import com.android.diaguard.helpers.ViewHelper;
 
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
-import au.com.bytecode.opencsv.CSVReader;
-import au.com.bytecode.opencsv.CSVWriter;
 
 /**
  * Created by Filip on 04.11.13.
@@ -63,7 +55,7 @@ public class BackupPreference extends DialogPreference {
                             case ACTION_CREATEBACKUP:
                                 createBackup();
                                 SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-                                String path = Helper.PATH_STORAGE + "/backup" +
+                                String path = FileHelper.PATH_STORAGE + "/backup" +
                                         format.format(Calendar.getInstance().getTime()) + ".csv";
                                 ViewHelper.showToastMessage(activity,
                                         activity.getResources().getString(R.string.pref_data_backup_finished) + ": " + path);
@@ -83,8 +75,7 @@ public class BackupPreference extends DialogPreference {
     }
 
     private void showBackups() {
-
-        File path = new File(Helper.PATH_STORAGE);
+        File path = new File(FileHelper.PATH_STORAGE);
         File[] files = path.listFiles();
         List<String> csvFiles = new ArrayList<String>();
         for (File file : files) {
@@ -114,9 +105,8 @@ public class BackupPreference extends DialogPreference {
         builder.setTitle(R.string.backup_title)
                 .setItems(csvArrayDates, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-
-                        CSVImportTask csvImportTask = new CSVImportTask();
-                        csvImportTask.execute(csvArray[which]);
+                        FileHelper fileHelper = new FileHelper(getContext());
+                        fileHelper.importCSV(csvArray[which]);
 
                         ViewHelper.showToastMessage(activity,
                                 activity.getResources().getString(R.string.pref_data_backup_import));
@@ -128,99 +118,7 @@ public class BackupPreference extends DialogPreference {
     }
 
     private void createBackup() {
-        CSVExportTask csvExport = new CSVExportTask();
-        csvExport.execute();
-    }
-
-    private class CSVExportTask extends AsyncTask<Void, Void, List<Event>> {
-
-        @Override
-        protected List<Event> doInBackground(Void... params) {
-
-            dataSource.open();
-            List<Event> events = dataSource.getEvents();
-            dataSource.close();
-
-            return events;
-        }
-
-        @Override
-        protected void onPostExecute(List<Event> events) {
-
-            File directory = new File(Helper.PATH_STORAGE);
-
-            if (directory != null)
-                directory.mkdirs();
-
-            SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-            File file = new File(directory + "/backup" +
-                    format.format(Calendar.getInstance().getTime()) + ".csv");
-
-            try {
-                FileWriter fileWriter = new FileWriter(file);
-                CSVWriter writer = new CSVWriter(fileWriter);
-
-                for(Event event : events) {
-                    String[] array = {
-                            Float.toString(event.getValue()),
-                            Helper.getDateDatabaseFormat().format(event.getDate().getTime()),
-                            event.getNotes(),
-                            event.getCategory().name() };
-                    writer.writeNext(array);
-                }
-
-                writer.close();
-            }
-            catch (IOException ex) {
-                Log.e("DiaguardError", ex.getMessage());
-            }
-        }
-
-        @Override
-        protected void onPreExecute() {}
-
-        @Override
-        protected void onProgressUpdate(Void... values) {}
-    }
-
-
-    private class CSVImportTask extends AsyncTask<String, Void, Void> {
-
-        @Override
-        protected Void doInBackground(String... params) {
-
-            try {
-                String filePath = Helper.PATH_STORAGE + "/" + params[0];
-                CSVReader reader = new CSVReader(new FileReader(filePath));
-
-                Event event = new Event();
-                String[] nextLine;
-                dataSource.open();
-                while((nextLine = reader.readNext()) != null) {
-
-                    event.setValue(Float.parseFloat(nextLine[0]));
-                    event.setDate(nextLine[1]);
-                    event.setNotes(nextLine[2]);
-                    event.setCategory(Event.Category.valueOf(nextLine[3]));
-                    dataSource.insertEvent(event);
-                }
-                dataSource.close();
-                reader.close();
-            }
-            catch (IOException ex) {
-                Log.e("DiaguardError", ex.getMessage());
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {}
-
-        @Override
-        protected void onPreExecute() {}
-
-        @Override
-        protected void onProgressUpdate(Void... values) {}
+        FileHelper fileHelper = new FileHelper(getContext());
+        fileHelper.exportCSV();
     }
 }

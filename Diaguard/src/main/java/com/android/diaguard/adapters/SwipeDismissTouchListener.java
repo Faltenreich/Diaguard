@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.android.diaguard.helpers;
+package com.android.diaguard.adapters;
 
 import android.view.MotionEvent;
 import android.view.VelocityTracker;

@@ -89,10 +89,12 @@ public class MainFragment extends Fragment {
         time = Calendar.getInstance();
 
         if(dataSource.countEvents(Event.Category.BloodSugar) > 0) {
+            textViewLatestValue.setTextSize(60);
             updateLatest();
             updateDashboard();
         }
         else {
+            textViewLatestValue.setTextSize(40);
             textViewAverageMonth.setText(Helper.PLACEHOLDER);
             textViewAverageWeek.setText(Helper.PLACEHOLDER);
             textViewAverageDay.setText(Helper.PLACEHOLDER);

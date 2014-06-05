@@ -19,7 +19,7 @@
     <string name="cancel">Abbrechen</string>
     <string name="category">Kategorie</string>
     <string name="cleanup">Aufräumen</string>
-    <string name="cleanup_desc">Dies wird alle Einträge vor dem gewählten Datum dauerhaft löschen.</string>
+    <string name="cleanup_desc">Dies wird alle Einträge am und vor dem gewählten Datum dauerhaft löschen.</string>
     <string name="correction">Korrekturwert</string>
     <string name="data">Daten</string>
     <string name="delete_event">Ereignis löschen</string>
@@ -58,6 +58,8 @@
     <string name="store_values">Werte eintragen</string>
     <string name="therapy">Therapie</string>
     <string name="timeline">Tagebuch</string>
+    <string name="today">Heute</string>
+    <string name="units">Einheiten</string>
     <string name="weight">Gewicht</string>
 
     <string-array name="startscreens">
@@ -179,7 +181,7 @@
 
     <!-- ERRORS -->
     <string name="error_no_mail">Keine App zum Senden von E-Mails gefunden</string>
-    <string name="error_no_pdf">Keine App zum Öffnen von PDFs gefunden</string>
+    <string name="error_no_app">Keine App zum Öffnen von PDFs gefunden</string>
 
     <!-- SETTINGS -->
     <string name="pref_therapy_targets">Zielwerte</string>

@@ -55,7 +55,8 @@
         <activity
             android:name=".PreferencesActivity"
             android:label="@string/settings"
-            android:parentActivityName="com.android.diaguard.MainActivity">
+            android:parentActivityName="com.android.diaguard.MainActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.android.diaguard.MainActivity" />

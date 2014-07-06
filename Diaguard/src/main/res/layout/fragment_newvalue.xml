@@ -14,8 +14,6 @@
         <ImageView android:id="@+id/image"
             android:layout_width="64dp"
             android:layout_height="match_parent"
-            android:background="@drawable/background_round_green"
-            android:padding="@dimen/padding_end"
             android:contentDescription="@string/category"/>
 
         <EditText android:id="@+id/value"

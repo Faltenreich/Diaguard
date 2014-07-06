@@ -58,7 +58,6 @@ public class ExportActivity extends ActionBarActivity {
     }
 
     public void initialize() {
-
         dataSource = new DatabaseDataSource(this);
         preferenceHelper = new PreferenceHelper(this);
 
@@ -109,9 +108,6 @@ public class ExportActivity extends ActionBarActivity {
                 createdFile = fileHelper.exportCSV();
                 mimeType = FileHelper.MIME_CSV;
             }
-
-            if(createdFile == null || mimeType == null)
-                throw new IllegalArgumentException("File and MimeType cannot be null");
 
             if(checkBoxMail.isChecked())
                 sendAttachment(createdFile);

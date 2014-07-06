@@ -17,7 +17,6 @@ import java.util.List;
  * Created by Filip on 20.10.13.
  */
 public class DatabaseDataSource {
-
     public static final String DB_FORMAT_DATE = "yyyy-MM-dd";
     public static final String DB_FORMAT_DATE_AND_TIME = "yyyy-MM-dd HH:mm:ss";
     public static final String DB_FORMAT_TIME = "HH:mm";
@@ -361,20 +360,21 @@ public class DatabaseDataSource {
     }
 
     public float[][] getAverageDataTable(Calendar date, Event.Category[] categories, int columns) {
-
         float[][] values = new float[categories.length][columns];
         List<Event> events = getEventsOfDay(date, categories);
 
         int counter = 1;
         for(Event event : events) {
-
             int category = Arrays.asList(categories).indexOf(event.getCategory());
             int hour = event.getDate().get(Calendar.HOUR_OF_DAY) / 2;
             float oldValue = values[category][hour];
             float newValue;
 
             // Sum of everything but Blood Sugar (average)
-            if(event.getCategory() == Event.Category.BloodSugar) {
+            if(event.getCategory() == Event.Category.BloodSugar ||
+                    event.getCategory() == Event.Category.HbA1c ||
+                    event.getCategory() == Event.Category.Weight ||
+                    event.getCategory() == Event.Category.Pulse) {
                 if(oldValue > 0) {
                     // Calculate Average per hour
                     newValue = ((oldValue * counter) + (event.getValue())) / (counter + 1);

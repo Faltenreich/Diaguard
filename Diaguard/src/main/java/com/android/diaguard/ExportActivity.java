@@ -44,7 +44,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Filip on 30.11.13.
@@ -174,7 +173,7 @@ public class ExportActivity extends ActionBarActivity {
     // LISTENERS
 
     public void onClickShowStartDatePicker (View view) {
-        new DatePickerFragment(dateStart) {
+        DatePickerFragment fragment = new DatePickerFragment() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 dateStart.set(Calendar.YEAR, year);
@@ -182,11 +181,15 @@ public class ExportActivity extends ActionBarActivity {
                 dateStart.set(Calendar.DAY_OF_MONTH, day);
                 buttonDateStart.setText(dateFormat.format(dateStart.getTime()));
             }
-        }.show(getSupportFragmentManager(), "StartDatePicker");
+        };
+        Bundle bundle = new Bundle(1);
+        bundle.putSerializable(DatePickerFragment.DATE, dateStart);
+        fragment.setArguments(bundle);
+        fragment.show(getSupportFragmentManager(), "StartDatePicker");
     }
 
     public void onClickShowEndDatePicker (View view) {
-        new DatePickerFragment(dateEnd) {
+        DatePickerFragment fragment = new DatePickerFragment() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 dateEnd.set(Calendar.YEAR, year);
@@ -194,7 +197,11 @@ public class ExportActivity extends ActionBarActivity {
                 dateEnd.set(Calendar.DAY_OF_MONTH, day);
                 buttonDateEnd.setText(dateFormat.format(dateEnd.getTime()));
             }
-        }.show(getSupportFragmentManager(), "EndDatePicker");
+        };
+        Bundle bundle = new Bundle(1);
+        bundle.putSerializable(DatePickerFragment.DATE, dateEnd);
+        fragment.setArguments(bundle);
+        fragment.show(getSupportFragmentManager(), "EndDatePicker");
     }
 
     @Override

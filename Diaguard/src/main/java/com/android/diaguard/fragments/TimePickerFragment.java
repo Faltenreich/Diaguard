@@ -14,20 +14,20 @@ import java.util.Calendar;
  */
 public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
 
-    private Calendar now;
-
-    public TimePickerFragment(Calendar presetTime) {
-        this.now = presetTime;
-    }
+    public static final String TIME = "Time";
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Calendar calendar = (Calendar)getArguments().getSerializable(TIME);
 
-        if(now == null)
-            now = Calendar.getInstance();
+        if(calendar == null)
+            calendar = Calendar.getInstance();
 
-        int hourOfDay = now.get(Calendar.HOUR_OF_DAY);
-        int minute = now.get(Calendar.MINUTE);
+        if(calendar == null)
+            calendar = Calendar.getInstance();
+
+        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
 
         return new TimePickerDialog(getActivity(), this, hourOfDay, minute,
                 DateFormat.is24HourFormat(getActivity()));

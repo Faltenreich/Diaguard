@@ -238,7 +238,7 @@ public class LogFragment extends Fragment {
     }
 
     public void showDatePicker () {
-        DialogFragment newFragment = new DatePickerFragment(time) {
+        DialogFragment fragment = new DatePickerFragment() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 time.set(Calendar.YEAR, year);
@@ -247,7 +247,10 @@ public class LogFragment extends Fragment {
                 updateListView();
             }
         };
-        newFragment.show(getActivity().getSupportFragmentManager(), "DatePicker");
+        Bundle bundle = new Bundle(1);
+        bundle.putSerializable(DatePickerFragment.DATE, time);
+        fragment.setArguments(bundle);
+        fragment.show(getActivity().getSupportFragmentManager(), "DatePicker");
     }
 
     public void openFilters() {

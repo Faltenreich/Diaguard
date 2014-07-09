@@ -1,13 +1,9 @@
 package com.android.diaguard.helpers;
 
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.util.Log;
 
 import com.android.diaguard.R;
 import com.android.diaguard.database.DatabaseDataSource;
@@ -134,7 +130,7 @@ public class FileHelper {
                 writer.close();
             }
             catch (IOException ex) {
-                Log.e("DiaguardError", ex.getMessage());
+                //Log.e("DiaguardError", ex.getMessage());
             }
 
             return file;
@@ -174,7 +170,7 @@ public class FileHelper {
                 dataSource.close();
                 reader.close();
             } catch (IOException ex) {
-                Log.e("DiaguardError", ex.getMessage());
+                //Log.e("DiaguardError", ex.getMessage());
             }
 
             return null;
@@ -349,7 +345,7 @@ public class FileHelper {
                 document.close();
             }
             catch (Exception ex) {
-                Log.e("DiaguardError", ex.getMessage());
+                //Log.e("DiaguardError", ex.getMessage());
             }
 
             return file;

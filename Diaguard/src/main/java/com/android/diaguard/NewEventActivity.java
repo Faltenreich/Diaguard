@@ -324,7 +324,7 @@ public class NewEventActivity extends ActionBarActivity {
     // LISTENERS
 
     public void onClickShowDatePicker (View view) {
-        DialogFragment newFragment = new DatePickerFragment(time) {
+        DialogFragment fragment = new DatePickerFragment() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 time.set(Calendar.YEAR, year);
@@ -333,11 +333,14 @@ public class NewEventActivity extends ActionBarActivity {
                 setDate();
             }
         };
-        newFragment.show(getSupportFragmentManager(), "DatePicker");
+        Bundle bundle = new Bundle(1);
+        bundle.putSerializable(DatePickerFragment.DATE, time);
+        fragment.setArguments(bundle);
+        fragment.show(getSupportFragmentManager(), "DatePicker");
     }
 
     public void onClickShowTimePicker (View view) {
-        DialogFragment newFragment = new TimePickerFragment(time) {
+        DialogFragment fragment = new TimePickerFragment() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 time.set(Calendar.HOUR_OF_DAY, hourOfDay);
@@ -345,7 +348,10 @@ public class NewEventActivity extends ActionBarActivity {
                 setTime();
             }
         };
-        newFragment.show(getSupportFragmentManager(), "TimePicker");
+        Bundle bundle = new Bundle(1);
+        bundle.putSerializable(TimePickerFragment.TIME, time);
+        fragment.setArguments(bundle);
+        fragment.show(getSupportFragmentManager(), "TimePicker");
     }
 
     public void onClickAddValue (View view) {

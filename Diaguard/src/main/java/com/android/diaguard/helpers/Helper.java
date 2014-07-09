@@ -1,7 +1,6 @@
 package com.android.diaguard.helpers;
 
 import android.content.Context;
-import android.os.Environment;
 
 import com.android.diaguard.R;
 

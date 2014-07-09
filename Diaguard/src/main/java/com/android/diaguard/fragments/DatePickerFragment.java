@@ -13,26 +13,22 @@ import java.util.Calendar;
  */
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
-    private Calendar today;
-
-    public DatePickerFragment(Calendar presetTime) {
-        this.today = presetTime;
-    }
+    public static final String DATE = "Date";
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Calendar calendar = (Calendar)getArguments().getSerializable(DATE);
 
-        if(today == null)
-            today = Calendar.getInstance();
+        if(calendar == null)
+            calendar = Calendar.getInstance();
 
-        int year = today.get(Calendar.YEAR);
-        int month = today.get(Calendar.MONTH);
-        int day = today.get(Calendar.DAY_OF_MONTH);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
 
         return new DatePickerDialog(getActivity(), this, year, month, day);
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
-
     }
 }

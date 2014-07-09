@@ -325,6 +325,7 @@ public class ExportActivity extends ActionBarActivity {
                                 String valueString = preferenceHelper.
                                         getDecimalFormat(category).format(value);
 
+                                paragraph = new Paragraph(valueString, fontBasis);
                                 if(category == Event.Category.BloodSugar) {
                                     if (values[categoryPosition][hour] <
                                             preferenceHelper.getLimitHypoglycemia())
@@ -332,8 +333,6 @@ public class ExportActivity extends ActionBarActivity {
                                     else if (values[categoryPosition][hour] >
                                             preferenceHelper.getLimitHyperglycemia())
                                         paragraph = new Paragraph(valueString, fontRed);
-                                    else
-                                        paragraph = new Paragraph(valueString, fontBasis);
                                 }
                             }
 

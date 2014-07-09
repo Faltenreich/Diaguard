@@ -78,11 +78,9 @@
     <string name="hour">Stunde</string>
     <string name="hours">Stunden</string>
     <string name="day">Tag</string>
-    <string name="days">Tage</string>
+    <string name="days">Tagen</string>
     <string name="week">Woche</string>
     <string name="weeks">Wochen</string>
-    <string name="month">Monat</string>
-    <string name="months">Monate</string>
 
     <string-array name="weekdays">
         <item>Sonntag</item>

@@ -4,8 +4,8 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light">
         <item name="actionBarStyle">@style/ActionBarTheme</item>
         <item name="android:actionBarStyle">@style/ActionBarTheme</item>
-        <item name="homeAsUpIndicator">@drawable/ic_action_previous</item>
-        <item name="android:homeAsUpIndicator">@drawable/ic_action_previous</item>
+        <item name="homeAsUpIndicator">@drawable/ic_up</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_up</item>
     </style>
 
     <style name="ActionBarTheme" parent="@style/Widget.AppCompat.ActionBar">

@@ -1,7 +1,10 @@
 package com.android.diaguard.helpers;
 
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
@@ -96,6 +99,7 @@ public class FileHelper {
         catch(ExecutionException ex) {
             ex.printStackTrace();
         }
+
         return createdFile;
     }
 

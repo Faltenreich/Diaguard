@@ -38,21 +38,21 @@
     <PreferenceCategory
         android:title="@string/pref_therapy_targets">
 
-        <com.android.diaguard.preferences.BloodSugarPreference
+        <com.faltenreich.diaguard.preferences.BloodSugarPreference
             android:key="target"
             android:title="@string/pref_therapy_targets_target"
             android:dialogTitle="@string/pref_therapy_targets_target"
             android:defaultValue="120"
             android:inputType="number"/>
 
-        <com.android.diaguard.preferences.BloodSugarPreference
+        <com.faltenreich.diaguard.preferences.BloodSugarPreference
             android:key="correction_value"
             android:title="@string/correction"
             android:dialogTitle="@string/correction"
             android:defaultValue="40"
             android:inputType="number"/>
 
-        <com.android.diaguard.preferences.FactorPreference
+        <com.faltenreich.diaguard.preferences.FactorPreference
             android:key="factors"
             android:title="@string/factors"/>
 
@@ -66,14 +66,14 @@
             android:title="@string/pref_therapy_targets_highlight"
             android:defaultValue="true"/>
 
-        <com.android.diaguard.preferences.BloodSugarPreference
+        <com.faltenreich.diaguard.preferences.BloodSugarPreference
             android:key="hyperclycemia"
             android:title="@string/pref_therapy_targets_hyperclycemia"
             android:dialogTitle="@string/pref_therapy_targets_hyperclycemia"
             android:defaultValue="180"
             android:inputType="number"/>
 
-        <com.android.diaguard.preferences.BloodSugarPreference
+        <com.faltenreich.diaguard.preferences.BloodSugarPreference
             android:key="hypoclycemia"
             android:title="@string/pref_therapy_targets_hypoclycemia"
             android:dialogTitle="@string/pref_therapy_targets_hypoclycemia"

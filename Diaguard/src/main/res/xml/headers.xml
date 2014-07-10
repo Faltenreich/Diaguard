@@ -3,11 +3,11 @@
 <preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
 
     <header
-        android:fragment="com.android.diaguard.PreferencesActivity$PreferenceFragmentApplication"
+        android:fragment="com.faltenreich.diaguard.PreferencesActivity$PreferenceFragmentApplication"
         android:title="@string/application"/>
 
     <header
-        android:fragment="com.android.diaguard.PreferencesActivity$PreferenceFragmentTherapy"
+        android:fragment="com.faltenreich.diaguard.PreferencesActivity$PreferenceFragmentTherapy"
         android:title="@string/therapy"/>
 
 </preference-headers>

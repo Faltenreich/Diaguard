@@ -24,11 +24,11 @@
     <PreferenceCategory
         android:title="@string/data">
 
-        <com.android.diaguard.preferences.CleanUpPreference
+        <com.faltenreich.diaguard.preferences.CleanUpPreference
             android:key="cleanup"
             android:title="@string/cleanup"/>
 
-        <com.android.diaguard.preferences.BackupPreference
+        <com.faltenreich.diaguard.preferences.BackupPreference
             android:key="backup"
             android:title="@string/backup"/>
 

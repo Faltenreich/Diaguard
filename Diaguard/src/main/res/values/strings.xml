@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
 
     <!-- GENERAL -->
     <string name="app_name">Diaguard</string>
@@ -170,6 +172,7 @@
         <item name="maximum">100</item>
     </integer-array>
 
+    <string name="meal_units_default">Carbohydrates</string>
     <string-array name="meal_units">
         <item>Carbohydrates</item>
         <item>Carbohydrate Units</item>
@@ -190,6 +193,7 @@
         <item name="maximum">1000</item>
     </integer-array>
 
+    <string name="activity_units_default">Minutes</string>
     <string-array name="activity_units">
         <item>Minutes</item>
     </string-array>
@@ -204,6 +208,7 @@
         <item name="maximum">1000</item>
     </integer-array>
 
+    <string name="hba1c_units_default">Percent</string>
     <string-array name="hba1c_units">
         <item>Percent</item>
         <item>mmol/mol</item>
@@ -220,6 +225,7 @@
         <item name="maximum">25</item>
     </integer-array>
 
+    <string name="weight_units_default">Pound</string>
     <string-array name="weight_units">
         <item>Kilogram</item>
         <item>Pound</item>
@@ -237,6 +243,7 @@
         <item name="maximum">500</item>
     </integer-array>
 
+    <string name="pulse_units_default">Beats per Minutes</string>
     <string-array name="pulse_units">
         <item>Beats per Minutes</item>
     </string-array>

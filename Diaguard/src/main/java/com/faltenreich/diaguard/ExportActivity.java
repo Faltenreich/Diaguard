@@ -143,7 +143,7 @@ public class ExportActivity extends ActionBarActivity {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
         intent.setType(FileHelper.MIME_MAIL);
-
+ 
         // Diaguard Export: DateStart - DateEnd
         SimpleDateFormat format = preferenceHelper.getDateFormat();
         String subject = getString(R.string.app_name) + " " + getString(R.string.export) + ": " +

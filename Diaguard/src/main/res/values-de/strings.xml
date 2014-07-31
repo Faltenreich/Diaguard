@@ -183,6 +183,7 @@
     <!-- ERRORS -->
     <string name="error_no_mail">Keine App zum Senden von E-Mails gefunden</string>
     <string name="error_no_app">Keine App zum Öffnen von PDFs gefunden</string>
+    <string name="error_sd_card">Speicherkarte nicht verfügbar</string>
 
     <!-- SETTINGS -->
     <string name="pref_therapy_targets">Zielwerte</string>

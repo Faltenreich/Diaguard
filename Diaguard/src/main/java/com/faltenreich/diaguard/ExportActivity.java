@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -235,7 +236,14 @@ public class ExportActivity extends ActionBarActivity {
         @Override
         protected File doInBackground(Calendar... params) {
 
+            if(!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
+                return null;
+
             File directory = new File(FileHelper.PATH_STORAGE);
+
+            if(!directory.exists())
+                directory.mkdirs();
+
             File file = new File(directory + "/export" + new SimpleDateFormat("yyyyMMddHHmmss").
                     format(Calendar.getInstance().getTime()) + ".pdf");
 
@@ -383,6 +391,11 @@ public class ExportActivity extends ActionBarActivity {
         protected void onPostExecute(File file) {
             progressDialog.dismiss();
             super.onPostExecute(file);
+
+            if(file == null) {
+                ViewHelper.showToastError(ExportActivity.this, getString(R.string.error_sd_card));
+                return;
+            }
 
             if(checkBoxMail.isChecked())
                 sendAttachment(file);

@@ -272,6 +272,7 @@
     <!-- ERRORS -->
     <string name="error_no_mail">No app found to send E-Mail</string>
     <string name="error_no_app">No app found to open file</string>
+    <string name="error_sd_card">SD card not available</string>
 
     <!-- SETTINGS -->
     <string name="pref_therapy_targets">Target values</string>

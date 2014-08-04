@@ -66,8 +66,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void initialize() {
-        PreferenceManager.setDefaultValues(this, R.xml.preferences_application, false);
-        PreferenceManager.setDefaultValues(this, R.xml.preferences_therapy, false);
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         initializeDrawer();
         PreferenceHelper preferenceHelper = new PreferenceHelper(this);
         replaceFragment(preferenceHelper.getStartFragment());

@@ -20,6 +20,7 @@
     <string name="calculator">Bolusrechner</string>
     <string name="cancel">Abbrechen</string>
     <string name="category">Kategorie</string>
+    <string name="categories_active">Aktive Kategorien</string>
     <string name="cleanup">Aufräumen</string>
     <string name="cleanup_desc">Dies wird alle Einträge am und vor dem gewählten Datum dauerhaft löschen.</string>
     <string name="correction">Korrekturwert</string>
@@ -55,6 +56,7 @@
     <string name="ok">OK</string>
     <string name="pulse">Puls</string>
     <string name="recently">Kürzlich</string>
+    <string name="remove">Entfernen</string>
     <string name="settings">Einstellungen</string>
     <string name="startscreen">Startbildschirm</string>
     <string name="store_values">Werte eintragen</string>
@@ -63,6 +65,7 @@
     <string name="today">Heute</string>
     <string name="units">Einheiten</string>
     <string name="weight">Gewicht</string>
+    <string name="view">Betrachten</string>
 
     <string-array name="startscreens">
         <item>Übersicht</item>

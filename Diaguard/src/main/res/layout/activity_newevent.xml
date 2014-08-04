@@ -2,102 +2,69 @@
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/gray">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <LinearLayout android:id="@+id/content_static"
-            android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
-            android:orientation="vertical"
-            style="@style/Padding"
-            android:background="@android:color/white">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button android:id="@+id/button_date"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:onClick="onClickShowDatePicker"
-                    style="@style/SpinnerButtonStyle"
-                    android:gravity="center"/>
-
-                <Button android:id="@+id/button_time"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:onClick="onClickShowTimePicker"
-                    style="@style/SpinnerButtonStyle"
-                    android:gravity="center"/>
-
-            </LinearLayout>
-
-            <EditText android:id="@+id/edittext_notes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/note"
-                android:inputType="textMultiLine|textCapSentences"
-                android:maxLines="2"
-                android:layout_marginTop="@dimen/padding"/>
-
-        </LinearLayout>
-
-        <View style="@style/Shadow"/>
+        android:orientation="vertical"
+        style="@style/Padding">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            style="@style/Padding">
+            android:orientation="horizontal">
 
-            <LinearLayout android:id="@+id/content_dynamic"
-                android:layout_width="match_parent"
+            <Button android:id="@+id/button_date"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"/>
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:onClick="onClickShowDatePicker"
+                style="@style/SpinnerButtonStyle"
+                android:gravity="center"/>
 
-            <!-- New event -->
-            <RelativeLayout android:id="@+id/layout_newvalue"
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:clickable="true"
-                android:onClick="onClickAddValue"
-                android:background="@drawable/button_green_round">
+            <Button android:id="@+id/button_time"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:onClick="onClickShowTimePicker"
+                style="@style/SpinnerButtonStyle"
+                android:gravity="center"/>
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_centerVertical="true"
-                        style="@style/Padding">
+        </LinearLayout>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/add_value"
-                            android:textSize="@dimen/text_medium"
-                            android:textColor="@android:color/white"
-                            android:singleLine="true"/>
+        <ImageView android:id="@+id/button_camera"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:src="@drawable/camera"
+            android:onClick="onClickCamera"
+            android:layout_marginTop="@dimen/margin_between"
+            android:contentDescription="Take a photo"
+            android:visibility="gone"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/add_value_desc"
-                            android:layout_gravity="left"
-                            style="@style/BoxTextDesc"
-                            android:textColor="@color/gray"
-                            android:singleLine="true"/>
+        <LinearLayout android:id="@+id/content_dynamic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/margin_between"/>
 
-                    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-                </RelativeLayout>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/note"/>
+
+            <EditText android:id="@+id/edittext_notes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:inputType="textMultiLine|textCapSentences"/>
 
         </LinearLayout>
 

@@ -24,13 +24,6 @@ public class PreferencesActivity extends PreferenceActivity {
                     .commit();
     }
 
-    /*
-    @Override
-    public void onBuildHeaders(List<Header> target) {
-        loadHeadersFromResource(R.xml.headers, target);
-    }
-    */
-
     @Override
     protected  boolean isValidFragment(String fragmentName) {
         // Needed to prevent RuntimeException on API >19
@@ -42,22 +35,6 @@ public class PreferencesActivity extends PreferenceActivity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences);
-        }
-    }
-
-    public static class PreferenceFragmentApplication extends PreferenceFragment {
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.preferences_application);
-        }
-    }
-
-    public static class PreferenceFragmentTherapy extends PreferenceFragment {
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.preferences_therapy);
         }
     }
 }

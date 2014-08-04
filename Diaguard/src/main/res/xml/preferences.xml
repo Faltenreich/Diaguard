@@ -9,6 +9,12 @@
         <PreferenceCategory
             android:title="@string/general">
 
+            <com.faltenreich.diaguard.preferences.CategoryPreference
+                android:key="categories"
+                android:title="@string/categories_active"
+                android:entries="@array/categories"
+                android:entryValues="@array/categories"/>
+
             <ListPreference
                 android:key="dateformat"
                 android:title="@string/dateformat"

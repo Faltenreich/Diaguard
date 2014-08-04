@@ -2,39 +2,44 @@ package com.faltenreich.diaguard;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.Event;
 import com.faltenreich.diaguard.fragments.DatePickerFragment;
 import com.faltenreich.diaguard.fragments.TimePickerFragment;
+import com.faltenreich.diaguard.helpers.FileHelper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
-import com.faltenreich.diaguard.adapters.SwipeDismissTouchListener;
 import com.faltenreich.diaguard.helpers.Validator;
 import com.faltenreich.diaguard.helpers.ViewHelper;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Filip on 19.10.13.
@@ -43,18 +48,23 @@ public class NewEventActivity extends ActionBarActivity {
 
     public static final String EXTRA_ID = "ID";
     public static final String EXTRA_DATE = "Date";
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int REQUEST_TAKE_PHOTO = 1;
+
+    String currentPhotoPath;
 
     DatabaseDataSource dataSource;
     PreferenceHelper preferenceHelper;
 
     Calendar time;
-    LinkedHashMap<Event.Category, Boolean> selectedCategoriesMap;
     boolean inputWasMade;
+    Bitmap imageTemp;
 
     LinearLayout linearLayoutValues;
     EditText editTextNotes;
     Button buttonDate;
     Button buttonTime;
+    ImageView imageViewCamera;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,36 +82,34 @@ public class NewEventActivity extends ActionBarActivity {
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.item, menu);
+    }
 
-        MenuItem deleteEvent = menu.findItem(R.id.action_delete);
-        if(deleteEvent != null) {
-            deleteEvent.setVisible(false);
-            Bundle extras = getIntent().getExtras();
-            if (extras != null && extras.getLong(EXTRA_ID) != 0L)
-                deleteEvent.setVisible(true);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            imageTemp = (Bitmap) extras.get("data");
+            imageViewCamera.setImageBitmap(imageTemp);
+            imageViewCamera.setScaleType(ImageView.ScaleType.CENTER_CROP);
         }
-
-        return true;
     }
 
     public void initialize() {
         dataSource = new DatabaseDataSource(this);
         preferenceHelper = new PreferenceHelper(this);
-
         time = Calendar.getInstance();
         inputWasMade = false;
-
-        selectedCategoriesMap = new LinkedHashMap<Event.Category, Boolean>();
-        for (Event.Category category : preferenceHelper.getActiveCategories()) {
-            selectedCategoriesMap.put(category, false);
-        }
 
         getComponents();
         checkIntents();
         setDate();
         setTime();
+        setCategories();
     }
 
     public void getComponents() {
@@ -109,14 +117,13 @@ public class NewEventActivity extends ActionBarActivity {
         editTextNotes = (EditText) findViewById(R.id.edittext_notes);
         buttonDate = (Button) findViewById(R.id.button_date);
         buttonTime = (Button) findViewById(R.id.button_time);
+        imageViewCamera = (ImageView) findViewById(R.id.button_camera);
     }
 
     private void checkIntents() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             if (extras.getLong(EXTRA_ID) != 0L) {
-                findViewById(R.id.layout_newvalue).setVisibility(View.GONE);
-
                 dataSource.open();
                 Event event = dataSource.getEventById(extras.getLong("ID"));
                 dataSource.close();
@@ -126,9 +133,8 @@ public class NewEventActivity extends ActionBarActivity {
                         formatDefaultToCustomUnit(event.getCategory(), event.getValue());
                 editTextNotes.setText(event.getNotes());
                 addValue(event.getCategory(), preferenceHelper.getDecimalFormat(
-                        event.getCategory()).format(value), false, false);
+                        event.getCategory()).format(value));
             }
-
             else if(extras.getSerializable(EXTRA_DATE) != null) {
                 time = (Calendar) extras.getSerializable(EXTRA_DATE);
             }
@@ -143,56 +149,62 @@ public class NewEventActivity extends ActionBarActivity {
         buttonTime.setText(preferenceHelper.getTimeFormat().format(time.getTime()));
     }
 
-    private void submit() {
-        // Check whether there are values to submit
-        if(linearLayoutValues.getChildCount() == 0) {
-            ViewHelper.showToastError(this, getString(R.string.validator_value_none));
-            return;
+    private void setCategories() {
+        Event.Category[] activeCategories = preferenceHelper.getActiveCategories();
+        for(int categoryPosition = activeCategories.length - 1; categoryPosition >= 0; categoryPosition--) {
+            addValue(activeCategories[categoryPosition], null);
         }
+    }
 
+    private void submit() {
         List<Event> events = new ArrayList<Event>();
         boolean inputIsValid = true;
 
-        // Iterate through all generated views
+        // Validate date
+        Calendar now = Calendar.getInstance();
+        if (time.after(now)) {
+            ViewHelper.showToastError(this, getString(R.string.validator_value_infuture));
+            inputIsValid = false;
+        }
+
+        // Iterate through all views and validate
         for (int position = 0; position < linearLayoutValues.getChildCount(); position++) {
             View view = linearLayoutValues.getChildAt(position);
-
             if(view != null) {
                 EditText editTextValue = (EditText) view.findViewById(R.id.value);
                 String editTextText = editTextValue.getText().toString();
-                Event.Category category = (Event.Category) view.getTag();
 
-                // Validation
-                Calendar now = Calendar.getInstance();
-                if (time.after(now)) {
-                    ViewHelper.showToastError(this, getString(R.string.validator_value_infuture));
-                    inputIsValid = false;
-                }
+                if(editTextText.length() > 0) {
+                    Event.Category category = (Event.Category) view.getTag();
 
-                if (!Validator.containsNumber(editTextText)) {
-                    editTextValue.setError(getString(R.string.validator_value_empty));
-                    inputIsValid = false;
-                }
-                else if (!preferenceHelper.validateEventValue(
-                        category, preferenceHelper.formatCustomToDefaultUnit(category,
-                                Float.parseFloat(editTextText)))) {
-                    editTextValue.setError(getString(R.string.validator_value_unrealistic));
-                    inputIsValid = false;
-                }
-                else {
-                    editTextValue.setError(null);
-                }
-
-                if (inputIsValid) {
-                    Event event = new Event();
-                    float value = preferenceHelper.formatCustomToDefaultUnit(category, Float.parseFloat(editTextText));
-                    event.setValue(value);
-                    event.setDate(time);
-                    event.setNotes(editTextNotes.getText().toString());
-                    event.setCategory(category);
-                    events.add(event);
+                    if (!Validator.containsNumber(editTextText)) {
+                        editTextValue.setError(getString(R.string.validator_value_empty));
+                        inputIsValid = false;
+                    }
+                    else if (!preferenceHelper.validateEventValue(
+                            category, preferenceHelper.formatCustomToDefaultUnit(category,
+                                    Float.parseFloat(editTextText)))) {
+                        editTextValue.setError(getString(R.string.validator_value_unrealistic));
+                        inputIsValid = false;
+                    }
+                    else {
+                        editTextValue.setError(null);
+                        Event event = new Event();
+                        float value = preferenceHelper.formatCustomToDefaultUnit(category, Float.parseFloat(editTextText));
+                        event.setValue(value);
+                        event.setDate(time);
+                        event.setNotes(editTextNotes.getText().toString());
+                        event.setCategory(category);
+                        events.add(event);
+                    }
                 }
             }
+        }
+
+        // Check whether there are values to submit
+        if(events.size() == 0) {
+            ViewHelper.showToastError(this, getString(R.string.validator_value_none));
+            inputIsValid = false;
         }
 
         if(inputIsValid) {
@@ -210,45 +222,27 @@ public class NewEventActivity extends ActionBarActivity {
         }
     }
 
-    private void addValue(final Event.Category category, String value, boolean animate, boolean removable) {
-        selectedCategoriesMap.put(category, true);
-
+    private void addValue(final Event.Category category, String value) {
         // Add view
         LayoutInflater inflater = getLayoutInflater();
         final View view = inflater.inflate(R.layout.fragment_newvalue, linearLayoutValues, false);
         view.setTag(category);
 
-        // Swipe to dismiss
-        if(removable) {
-            view.setOnTouchListener(new SwipeDismissTouchListener(view, null,
-                    new SwipeDismissTouchListener.OnDismissCallback() {
-                        @Override
-                        public void onDismiss(View view1, Object token) {
-                            removeValue(category);
-                        }
-                    }
-            ));
-            // Must be overwritten for SwipeToDismiss to work properly (WTF?)
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                }
-            });
-        }
+        // Category name
+        TextView textViewCategory = (TextView) view.findViewById(R.id.category);
+        textViewCategory.setText(preferenceHelper.getCategoryName(category));
 
-        // Category image
-        ImageView image = (ImageView) view.findViewById(R.id.image);
-        String name = category.name().toLowerCase();
-        int resourceId = getResources().getIdentifier(name,
-                "drawable", getPackageName());
-        image.setImageResource(resourceId);
+        // Status image
+        final View viewStatus = view.findViewById(R.id.status);
 
         // Value
-        EditText editTextValue = (EditText) view.findViewById(R.id.value);
+        final EditText editTextValue = (EditText) view.findViewById(R.id.value);
         editTextValue.setHint(preferenceHelper.getUnitAcronym(category));
         if(value != null) {
             editTextValue.setText(value);
         }
+        if(category == Event.Category.BloodSugar)
+            editTextValue.requestFocus();
 
         // OnChangeListener
         TextWatcher textChangedListener = new TextWatcher() {
@@ -263,48 +257,24 @@ public class NewEventActivity extends ActionBarActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+
+                if(editTextValue.getText().length() == 0) {
+                    viewStatus.setBackgroundColor(getResources().getColor(R.color.gray));
+                }
+                else {
+                    if(!preferenceHelper.validateEventValue(
+                            category, preferenceHelper.formatCustomToDefaultUnit(category,
+                                    Float.parseFloat(editTextValue.getText().toString())))) {
+                        viewStatus.setBackgroundColor(getResources().getColor(R.color.red));
+                    }
+                    else
+                        viewStatus.setBackgroundColor(getResources().getColor(R.color.green));
+                }
             }
         };
         editTextValue.addTextChangedListener(textChangedListener);
 
-        // Removable
-        ImageView imageDelete = (ImageView) view.findViewById(R.id.delete);
-        if(removable)
-            imageDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                removeValue(category);
-            }
-        });
-        else
-            imageDelete.setVisibility(View.GONE);
-
-        // Animation
-        if(animate) {
-            Animation animationSlideInLeft =
-                    AnimationUtils.loadAnimation(NewEventActivity.this, android.R.anim.slide_in_left);
-            animationSlideInLeft.setDuration(300);
-            view.startAnimation(animationSlideInLeft);
-        }
-
         linearLayoutValues.addView(view, 0);
-    }
-
-    private void removeValue(Event.Category category) {
-        selectedCategoriesMap.put(category, false);
-
-        for(int position = 0; position < linearLayoutValues.getChildCount(); position++) {
-            View view = linearLayoutValues.getChildAt(position);
-
-            if(view != null && view.getTag() != null && view.getTag() instanceof Event.Category) {
-                Event.Category childCategory = (Event.Category) view.getTag();
-                if(category == childCategory) {
-                    linearLayoutValues.removeViewAt(position);
-                    if(linearLayoutValues.getChildCount() == 0)
-                        inputWasMade = false;
-                }
-            }
-        }
     }
 
     private void deleteEvent() {
@@ -317,6 +287,41 @@ public class NewEventActivity extends ActionBarActivity {
                 dataSource.deleteEvent(event);
                 dataSource.close();
                 finish();
+            }
+        }
+    }
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String imageFileName = "test";
+        File storageDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        currentPhotoPath = "file:" + image.getAbsolutePath();
+        return image;
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                        Uri.fromFile(photoFile));
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             }
         }
     }
@@ -354,48 +359,23 @@ public class NewEventActivity extends ActionBarActivity {
         fragment.show(getSupportFragmentManager(), "TimePicker");
     }
 
-    public void onClickAddValue (View view) {
-        String[] categoryNames = new String[selectedCategoriesMap.size()];
-        final boolean[] selectedCategories = new boolean[selectedCategoriesMap.size()];
-
-        int position = 0;
-        for (Map.Entry entry : selectedCategoriesMap.entrySet()) {
-            categoryNames[position] = preferenceHelper.getCategoryName((Event.Category)entry.getKey());
-            selectedCategories[position] = (Boolean)entry.getValue();
-            position++;
+    public void onClickCamera(View view) {
+        // Check if an image has already been shot
+        if(imageTemp == null) {
+            // Open camera app
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            Uri uri = Uri.parse(FileHelper.PATH_STORAGE + "/image");
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+            }
         }
-
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(NewEventActivity.this);
-        dialogBuilder.setMultiChoiceItems(categoryNames, selectedCategories,
-                new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                })
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        List<Boolean> selectedCategoriesList = new ArrayList<Boolean>(selectedCategoriesMap.values());
-
-                        for (int position = selectedCategories.length - 1; position >= 0; position--) {
-                            boolean categoryWasSelectedBefore = selectedCategoriesList.get(position);
-
-                            // Add new value
-                            if (selectedCategories[position] && !categoryWasSelectedBefore)
-                                addValue(Event.Category.values()[position], null, true, true);
-
-                            // Remove old value
-                            else if (!selectedCategories[position] && categoryWasSelectedBefore)
-                                removeValue(Event.Category.values()[position]);
-                        }
-                    }
-                });
-        AlertDialog dialog = dialogBuilder.create();
-        dialog.show();
+        else {
+            // Open context menu
+            registerForContextMenu(imageViewCamera);
+            openContextMenu(imageViewCamera);
+            unregisterForContextMenu(imageViewCamera);
+        }
     }
 
     @Override
@@ -432,6 +412,25 @@ public class NewEventActivity extends ActionBarActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.view:
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.setDataAndType(Uri.parse("file://" + "/sdcard/test.jpg"), "image/*");
+                startActivity(intent);
+                return true;
+            case R.id.remove:
+                imageViewCamera.setImageDrawable(getResources().getDrawable(R.drawable.camera));
+                imageViewCamera.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                imageTemp = null;
+                return true;
+            default:
+                return super.onContextItemSelected(item);
         }
     }
 }

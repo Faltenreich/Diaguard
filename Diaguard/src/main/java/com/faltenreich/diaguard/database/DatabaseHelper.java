@@ -12,6 +12,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Metadata
     private static final String DATABASE_NAME = "diaguard.db";
     private static final int DATABASE_VERSION = 17;
+    private static final int DATABASE_VERSION_1_0 = 17;
 
     // Primary key: Underscore for CursorAdapter to work
     public static final String ID = "_id";
@@ -35,8 +36,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqliteDatabase, int oldVersion, int newVersion) {
-        // Alter to avoid dropping user data
-        // if (newVersion != oldVersion)
-        // sqliteDatabase.execSQL("DROP TABLE IF EXISTS " + EVENTS);
+        // if (oldVersion == DATABASE_VERSION_1_0)
     }
 }

@@ -107,7 +107,7 @@ public class ExportActivity extends ActionBarActivity {
         boolean isValid = true;
 
         if(dateStart.after(dateEnd)) {
-            ViewHelper.showToastError(this, getString(R.string.validator_value_enddate));
+            ViewHelper.showAlert(this, getString(R.string.validator_value_enddate));
             isValid = false;
         }
 
@@ -155,7 +155,7 @@ public class ExportActivity extends ActionBarActivity {
         try {
             startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            ViewHelper.showToastError(this, getString(R.string.error_no_mail));
+            ViewHelper.showAlert(this, getString(R.string.error_no_mail));
             Log.e("Send Mail", e.getMessage());
         }
     }
@@ -166,7 +166,7 @@ public class ExportActivity extends ActionBarActivity {
         try {
             startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            ViewHelper.showToastError(this, getString(R.string.error_no_app));
+            ViewHelper.showAlert(this, getString(R.string.error_no_app));
             Log.e("Open " + mimeType, e.getMessage());
         }
     }
@@ -393,7 +393,7 @@ public class ExportActivity extends ActionBarActivity {
             super.onPostExecute(file);
 
             if(file == null) {
-                ViewHelper.showToastError(ExportActivity.this, getString(R.string.error_sd_card));
+                ViewHelper.showAlert(ExportActivity.this, getString(R.string.error_sd_card));
                 return;
             }
 

@@ -58,7 +58,6 @@ public class Helper {
     }
 
     public static String getTextAgo(Context context, int differenceInMinutes) {
-
         if(differenceInMinutes < 2) {
             return context.getString(R.string.latest_moments);
         }

@@ -7,7 +7,7 @@
     android:gravity="center_vertical"
     android:paddingBottom="@dimen/margin_between">
 
-    <TextView android:id="@+id/category"
+    <View
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"/>
@@ -17,18 +17,11 @@
         android:layout_height="wrap_content"
         android:layout_weight="2">
 
-        <View android:id="@+id/status"
-            android:layout_width="12dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/padding"
-            android:background="@color/gray"/>
-
-        <EditText android:id="@+id/value"
+        <AutoCompleteTextView android:id="@+id/food"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:gravity="center_horizontal"
-            android:layout_marginLeft="@dimen/margin_between"/>
+            android:hint="@string/description"
+            android:completionThreshold="1"/>
 
     </LinearLayout>
 

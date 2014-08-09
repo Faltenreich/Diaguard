@@ -53,19 +53,17 @@ public class CategoryPreference extends DialogPreference {
         super.onDialogClosed(positiveResult);
 
         if (positiveResult) {
-
             SparseBooleanArray checkedItems = listView.getCheckedItemPositions();
 
             if(checkedItems != null && checkedItems.indexOfValue(true) != -1) {
-
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 for (int item = 0; item < checkedItems.size(); item++)
                     editor.putBoolean(Event.Category.values()[item].name() + ACTIVE, checkedItems.valueAt(item));
-                editor.commit();
+                editor.apply();
             }
             else {
-                ViewHelper.showToastError(getContext(), getContext().getString(R.string.validator_value_none));
+                ViewHelper.showAlert((Activity) getContext(), getContext().getString(R.string.validator_value_none));
                 // TODO: Keep Dialog open
             }
         }

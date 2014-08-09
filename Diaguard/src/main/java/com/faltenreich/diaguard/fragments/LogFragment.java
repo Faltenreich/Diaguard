@@ -282,7 +282,7 @@ public class LogFragment extends Fragment {
     public void startNewEventActivity() {
         Intent intent = new Intent (getActivity(), NewEventActivity.class);
         intent.putExtra(NewEventActivity.EXTRA_DATE, time);
-        startActivity(intent);
+        getActivity().startActivityForResult(intent, MainActivity.REQUEST_EVENT_CREATED);
     }
 
     @Override

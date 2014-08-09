@@ -58,16 +58,15 @@ public class DatabaseDataSource {
         values.put(DatabaseHelper.NOTES, event.getNotes());
         values.put(DatabaseHelper.CATEGORY, event.getCategory().toString());
 
-        return db.insertOrThrow(DatabaseHelper.EVENTS,
-                null,
-                values);
+        return db.insertOrThrow(DatabaseHelper.EVENTS, null, values);
     }
 
-    public int insertEvents(List<Event> events) {
-        for(Event event: events)
-            insertEvent(event);
-
-        return events.size();
+    public long[] insertEvents(List<Event> events) {
+        long[] ids = new long[events.size()];
+        for(int position = 0; position < events.size(); position++) {
+            ids[position] = insertEvent(events.get(position));
+        }
+        return ids;
     }
 
     public long updateEvent(Event event) {
@@ -391,6 +390,41 @@ public class DatabaseDataSource {
             values[category][hour] = newValue;
         }
         return values;
+    }
+
+    // endregion
+
+    // region Food
+
+    public long insertFood(Food food) {
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.CARBOHYDRATES, food.getCarbohydrates());
+        values.put(DatabaseHelper.NAME, food.getName());
+        values.put(DatabaseHelper.DATE,
+                Helper.getDateDatabaseFormat().format(food.getDate().getTime()));
+        values.put(DatabaseHelper.EVENT_ID, food.getEventId());
+        return db.insertOrThrow(DatabaseHelper.FOOD, null, values);
+    }
+
+    public List<Food> getFood() {
+        String query = "SELECT * FROM " + DatabaseHelper.FOOD + " ORDER BY " + DatabaseHelper.DATE;
+        Cursor cursor = db.rawQuery(query, null);
+
+        List<Food> foodList = new ArrayList<Food>();
+        if (cursor.moveToFirst()) {
+            while(!cursor.isAfterLast()) {
+                Food food = new Food();
+                food.setId(Integer.parseInt(cursor.getString(0)));
+                food.setCarbohydrates(Float.parseFloat(cursor.getString(1)));
+                food.setName(cursor.getString(2));
+                food.setDate(cursor.getString(3));
+                food.setEventId(Integer.parseInt(cursor.getString(4)));
+                foodList.add(food);
+
+                cursor.moveToNext();
+            }
+        }
+        return foodList;
     }
 
     // endregion

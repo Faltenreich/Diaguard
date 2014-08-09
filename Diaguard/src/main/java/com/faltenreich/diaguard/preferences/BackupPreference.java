@@ -57,7 +57,7 @@ public class BackupPreference extends DialogPreference {
                                 SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
                                 String path = FileHelper.PATH_STORAGE + "/backup" +
                                         format.format(Calendar.getInstance().getTime()) + ".csv";
-                                ViewHelper.showToastMessage(activity,
+                                ViewHelper.showInfo(activity,
                                         activity.getResources().getString(R.string.pref_data_backup_finished) + ": " + path);
                                 break;
                             case ACTION_RESTOREBACKUP:
@@ -108,7 +108,7 @@ public class BackupPreference extends DialogPreference {
                         FileHelper fileHelper = new FileHelper(getContext());
                         fileHelper.importCSV(csvArray[which]);
 
-                        ViewHelper.showToastMessage(activity,
+                        ViewHelper.showInfo(activity,
                                 activity.getResources().getString(R.string.pref_data_backup_import));
                     }
                 }); 

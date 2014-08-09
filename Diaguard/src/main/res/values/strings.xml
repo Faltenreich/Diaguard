@@ -30,9 +30,11 @@
     <string name="delete_event">Delete event</string>
     <string name="delete_event_desc">Remove event from timeline</string>
     <string name="delete_value">Delete value</string>
+    <string name="description">Description</string>
     <string name="drawer_close">Close Navigator</string>
     <string name="drawer_open">Open Navigator</string>
     <string name="event">Event</string>
+    <string name="events">Events</string>
     <string name="export">Export</string>
     <string name="export_finished">PDF has been stored at</string>
     <string name="export_progress">PDF is being created</string>
@@ -55,6 +57,7 @@
     <string name="mail">E-Mail</string>
     <string name="meal">Meal</string>
     <string name="measured">Times measured</string>
+    <string name="name">Name</string>
     <string name="newevent">Diary entry</string>
     <string name="newevent_desc">Add measurements</string>
     <string name="note">Note</string>
@@ -265,7 +268,7 @@
     <string name="validator_value_number">Only numbers are allowed</string>
     <string name="validator_value_infuture">Event cannot take place in the future</string>
     <string name="validator_value_empty">Please enter a value</string>
-    <string name="validator_value_none">At least one item must be checked</string>
+    <string name="validator_value_none">Entry contains no events</string>
     <string name="validator_value_unrealistic">Unrealistic value</string>
     <string name="validator_value_enddate">End date must be after start date</string>
 

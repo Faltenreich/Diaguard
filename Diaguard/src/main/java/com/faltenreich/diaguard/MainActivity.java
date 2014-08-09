@@ -23,11 +23,17 @@ import com.faltenreich.diaguard.fragments.LogFragment;
 import com.faltenreich.diaguard.fragments.MainFragment;
 import com.faltenreich.diaguard.fragments.TimelineFragment;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
+import com.faltenreich.diaguard.helpers.ViewHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+
 public class MainActivity extends ActionBarActivity {
+
+    public static final int REQUEST_EVENT_CREATED = 1;
+    public static final String EVENT_CREATED = "EVENT_CREATED";
 
     public enum FragmentType {
         Home,
@@ -48,6 +54,27 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().setTitle(getString(R.string.app_name));
         initialize();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Crouton.cancelAllCroutons();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == REQUEST_EVENT_CREATED) {
+            if (data.hasExtra(EVENT_CREATED)) {
+                int eventsCreated = data.getExtras().getInt(EVENT_CREATED);
+                if(eventsCreated > 0) {
+                    if(eventsCreated == 1)
+                        ViewHelper.showConfirmation(this, "+" + eventsCreated + " " + getString(R.string.event));
+                    else
+                        ViewHelper.showConfirmation(this, "+" + eventsCreated + " " + getString(R.string.events));
+                }
+            }
+        }
     }
 
     @Override

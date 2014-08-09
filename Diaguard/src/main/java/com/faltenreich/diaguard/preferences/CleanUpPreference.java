@@ -43,7 +43,7 @@ public class CleanUpPreference extends DialogPreference {
         int count = dataSource.deleteEventsBefore(date);
         dataSource.close();
 
-        ViewHelper.showToastMessage(activity, count + " " +
+        ViewHelper.showInfo(activity, count + " " +
                 activity.getResources().getString(R.string.pref_data_cleanup_return));
     }
 

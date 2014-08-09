@@ -28,9 +28,11 @@
     <string name="delete_event">Ereignis löschen</string>
     <string name="delete_event_desc">Wert aus Tagebuch entfernen</string>
     <string name="delete_value">Wert löschen</string>
+    <string name="description">Beschreibung</string>
     <string name="drawer_close">Navigator schließen</string>
     <string name="drawer_open">Navigator öffnen</string>
     <string name="event">Ereignis</string>
+    <string name="events">Ereignisse</string>
     <string name="export_finished">PDF wurde abgelegt unter</string>
     <string name="export_progress">PDF wird erstellt</string>
     <string name="export_stamp">Bericht generiert am</string>
@@ -176,7 +178,7 @@
     <string name="validator_value_number">Nur Zahlen sind erlaubt</string>
     <string name="validator_value_infuture">Ereignis darf nicht in der Zukunft liegen</string>
     <string name="validator_value_empty">Bitte geben Sie einen Wert an</string>
-    <string name="validator_value_none">Mindestens ein Item muss gewählt werden</string>
+    <string name="validator_value_none">Eintrag enthält keine Ereignisse</string>
     <string name="validator_value_unrealistic">Unrealistischer Wert</string>
     <string name="validator_value_enddate">Enddatum muss vor Startdatum liegen</string>
 

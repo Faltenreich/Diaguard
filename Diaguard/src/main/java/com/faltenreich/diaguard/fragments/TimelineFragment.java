@@ -172,18 +172,18 @@ public class TimelineFragment extends Fragment {
         setChartData();
         initializeChart();
 
+        /*
         chartHelperChart.chartView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SeriesSelection seriesSelection = chartHelperChart.chartView.getCurrentSeriesAndPoint();
                 if (seriesSelection != null) {
                     double value = seriesSelection.getValue();
-                    ViewHelper.showToastMessage(getActivity(),
-                            preferenceHelper.getDecimalFormat(Event.Category.BloodSugar).format(value) +
-                            " " + preferenceHelper.getUnitAcronym(Event.Category.BloodSugar));
+                    // TODO: Open NewEventActivity
                 }
             }
         });
+        */
     }
 
     private void renderChart() {
@@ -406,7 +406,7 @@ public class TimelineFragment extends Fragment {
     public void startNewEventActivity() {
         Intent intent = new Intent (getActivity(), NewEventActivity.class);
         intent.putExtra("Date", time);
-        startActivity(intent);
+        getActivity().startActivityForResult(intent, MainActivity.REQUEST_EVENT_CREATED);
     }
 
     //endregion

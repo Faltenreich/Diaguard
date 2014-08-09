@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,6 +19,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -27,7 +32,9 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.faltenreich.diaguard.database.DatabaseDataSource;
+import com.faltenreich.diaguard.database.DatabaseHelper;
 import com.faltenreich.diaguard.database.Event;
+import com.faltenreich.diaguard.database.Food;
 import com.faltenreich.diaguard.fragments.DatePickerFragment;
 import com.faltenreich.diaguard.fragments.TimePickerFragment;
 import com.faltenreich.diaguard.helpers.FileHelper;
@@ -40,6 +47,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 /**
  * Created by Filip on 19.10.13.
@@ -59,6 +68,7 @@ public class NewEventActivity extends ActionBarActivity {
     Calendar time;
     boolean inputWasMade;
     Bitmap imageTemp;
+    boolean mealInfoIsVisible;
 
     LinearLayout linearLayoutValues;
     EditText editTextNotes;
@@ -72,6 +82,12 @@ public class NewEventActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(getString(R.string.newevent));
         initialize();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Crouton.cancelAllCroutons();
     }
 
     @Override
@@ -150,52 +166,81 @@ public class NewEventActivity extends ActionBarActivity {
     }
 
     private void setCategories() {
-        Event.Category[] activeCategories = preferenceHelper.getActiveCategories();
-        for(int categoryPosition = activeCategories.length - 1; categoryPosition >= 0; categoryPosition--) {
-            addValue(activeCategories[categoryPosition], null);
+        for(Event.Category category : preferenceHelper.getActiveCategories()) {
+            addValue(category, null);
         }
     }
 
     private void submit() {
         List<Event> events = new ArrayList<Event>();
+        Food food = null;
         boolean inputIsValid = true;
 
         // Validate date
         Calendar now = Calendar.getInstance();
         if (time.after(now)) {
-            ViewHelper.showToastError(this, getString(R.string.validator_value_infuture));
-            inputIsValid = false;
+            ViewHelper.showAlert(this, getString(R.string.validator_value_infuture));
+            return;
         }
 
         // Iterate through all views and validate
         for (int position = 0; position < linearLayoutValues.getChildCount(); position++) {
             View view = linearLayoutValues.getChildAt(position);
-            if(view != null) {
-                EditText editTextValue = (EditText) view.findViewById(R.id.value);
-                String editTextText = editTextValue.getText().toString();
 
-                if(editTextText.length() > 0) {
-                    Event.Category category = (Event.Category) view.getTag();
+            if(view != null && view.getTag() != null) {
 
-                    if (!Validator.containsNumber(editTextText)) {
-                        editTextValue.setError(getString(R.string.validator_value_empty));
-                        inputIsValid = false;
+                if(view.getTag() instanceof Event.Category) {
+                    EditText editTextValue = (EditText) view.findViewById(R.id.value);
+                    String editTextText = editTextValue.getText().toString();
+
+                    if(editTextText.length() > 0) {
+                        Event.Category category = (Event.Category) view.getTag();
+
+                        if (!Validator.containsNumber(editTextText)) {
+                            editTextValue.setError(getString(R.string.validator_value_empty));
+                            inputIsValid = false;
+                        }
+                        else if (!preferenceHelper.validateEventValue(
+                                category, preferenceHelper.formatCustomToDefaultUnit(category,
+                                        Float.parseFloat(editTextText)))) {
+                            editTextValue.setError(getString(R.string.validator_value_unrealistic));
+                            inputIsValid = false;
+                        }
+                        else {
+                            editTextValue.setError(null);
+                            Event event = new Event();
+                            float value = preferenceHelper.formatCustomToDefaultUnit(category, Float.parseFloat(editTextText));
+                            event.setValue(value);
+                            event.setDate(time);
+                            event.setNotes(editTextNotes.getText().toString());
+                            event.setCategory(category);
+                            events.add(event);
+                        }
                     }
-                    else if (!preferenceHelper.validateEventValue(
-                            category, preferenceHelper.formatCustomToDefaultUnit(category,
-                                    Float.parseFloat(editTextText)))) {
-                        editTextValue.setError(getString(R.string.validator_value_unrealistic));
-                        inputIsValid = false;
-                    }
-                    else {
-                        editTextValue.setError(null);
-                        Event event = new Event();
-                        float value = preferenceHelper.formatCustomToDefaultUnit(category, Float.parseFloat(editTextText));
-                        event.setValue(value);
-                        event.setDate(time);
-                        event.setNotes(editTextNotes.getText().toString());
-                        event.setCategory(category);
-                        events.add(event);
+                }
+
+                else if(view.getTag() instanceof String) {
+                    String tag = (String)view.getTag();
+                    if(tag.equals(DatabaseHelper.FOOD)) {
+                        AutoCompleteTextView editTextFood = (AutoCompleteTextView) view.findViewById(R.id.food);
+
+                        // Check if a Meal has been entered and get its values
+                        boolean mealIsAvailable = false;
+                        int eventPosition = 0;
+                        while(!mealIsAvailable && eventPosition < events.size()) {
+                            if(events.get(eventPosition).getCategory() == Event.Category.Meal)
+                                mealIsAvailable = true;
+                            eventPosition++;
+                        }
+
+                        if(mealIsAvailable) {
+                            food = new Food();
+                            // TODO handle position better
+                            food.setCarbohydrates(events.get(eventPosition-1).getValue());
+                            food.setName(editTextFood.getText().toString());
+                            food.setDate(time);
+                            // eventId is set later
+                        }
                     }
                 }
             }
@@ -203,28 +248,47 @@ public class NewEventActivity extends ActionBarActivity {
 
         // Check whether there are values to submit
         if(events.size() == 0) {
-            ViewHelper.showToastError(this, getString(R.string.validator_value_none));
+            ViewHelper.showAlert(this, getString(R.string.validator_value_none));
             inputIsValid = false;
         }
 
         if(inputIsValid) {
+            long[] ids;
+
             dataSource.open();
             Bundle extras = getIntent().getExtras();
             if (extras != null && extras.getLong(EXTRA_ID) != 0L) {
                 events.get(0).setId(extras.getLong(EXTRA_ID));
-                dataSource.updateEvent(events.get(0));
+                ids = new long[1];
+                ids[0] = dataSource.updateEvent(events.get(0));
             }
             else {
-                dataSource.insertEvents(events);
+                ids = dataSource.insertEvents(events);
             }
+
+            if(food != null) {
+                for(int eventPosition = 0; eventPosition < events.size(); eventPosition++) {
+                    if(events.get(eventPosition).getCategory() == Event.Category.Meal) {
+                        food.setEventId(ids[eventPosition]);
+                        dataSource.insertFood(food);
+                    }
+                }
+            }
+
             dataSource.close();
+
+            // Tell MainActivity that Events have been created
+            Intent intent = new Intent();
+            intent.putExtra(MainActivity.EVENT_CREATED, events.size());
+            setResult(Activity.RESULT_OK, intent);
+
             finish();
         }
     }
 
     private void addValue(final Event.Category category, String value) {
         // Add view
-        LayoutInflater inflater = getLayoutInflater();
+        final LayoutInflater inflater = getLayoutInflater();
         final View view = inflater.inflate(R.layout.fragment_newvalue, linearLayoutValues, false);
         view.setTag(category);
 
@@ -269,12 +333,34 @@ public class NewEventActivity extends ActionBarActivity {
                     }
                     else
                         viewStatus.setBackgroundColor(getResources().getColor(R.color.green));
+
+                    // Show an additional View for food information
+                    if(category == Event.Category.Meal && !mealInfoIsVisible) {
+                        View viewMealInfo = inflater.inflate(R.layout.fragment_meal_info, linearLayoutValues, false);
+                        viewMealInfo.setTag(DatabaseHelper.FOOD);
+                        linearLayoutValues.addView(viewMealInfo, 3);
+
+                        // AutoComplete
+                        dataSource.open();
+                        List<Food> foodList = dataSource.getFood();
+                        dataSource.close();
+                        String[] foodNames = new String[foodList.size()];
+                        for(int foodPosition = 0; foodPosition < foodList.size(); foodPosition++) {
+                            foodNames[foodPosition] = foodList.get(foodPosition).getName();
+                        }
+                        AutoCompleteTextView editTextFood = (AutoCompleteTextView)viewMealInfo.findViewById(R.id.food);
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(NewEventActivity.this, android.R.layout.simple_dropdown_item_1line, foodNames);
+                        editTextFood.setAdapter(adapter);
+
+                        ViewHelper.expand(viewMealInfo);
+                        mealInfoIsVisible = true;
+                    }
                 }
             }
         };
         editTextValue.addTextChangedListener(textChangedListener);
 
-        linearLayoutValues.addView(view, 0);
+        linearLayoutValues.addView(view, linearLayoutValues.getChildCount());
     }
 
     private void deleteEvent() {

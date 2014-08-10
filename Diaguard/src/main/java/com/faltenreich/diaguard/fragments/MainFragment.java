@@ -88,6 +88,7 @@ public class MainFragment extends Fragment {
 
         time = Calendar.getInstance();
 
+        /*
         if(dataSource.countEvents(Event.Category.BloodSugar) > 0) {
             textViewLatestValue.setTextSize(60);
             updateLatest();
@@ -99,6 +100,7 @@ public class MainFragment extends Fragment {
             textViewAverageWeek.setText(Helper.PLACEHOLDER);
             textViewAverageDay.setText(Helper.PLACEHOLDER);
         }
+        */
 
         dataSource.close();
     }

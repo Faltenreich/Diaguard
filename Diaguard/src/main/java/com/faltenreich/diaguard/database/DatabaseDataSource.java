@@ -48,7 +48,71 @@ public class DatabaseDataSource {
 
     // endregion
 
-    //region Events
+    // region Entry
+
+    public long insertEntry(Entry entry) {
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.DATE,
+                Helper.getDateDatabaseFormat().format(entry.getDate().getTime()));
+        values.put(DatabaseHelper.NOTE, entry.getNote());
+        return db.insertOrThrow(DatabaseHelper.ENTRY, null, values);
+    }
+
+    public List<Entry> getEntries() {
+        String query = "SELECT * FROM " + DatabaseHelper.ENTRY + " ORDER BY " + DatabaseHelper.DATE;
+        Cursor cursor = db.rawQuery(query, null);
+
+        List<Entry> entries = new ArrayList<Entry>();
+        if (cursor.moveToFirst()) {
+            while(!cursor.isAfterLast()) {
+                Entry entry = new Entry();
+                entry.setId(Integer.parseInt(cursor.getString(0)));
+                entry.setDate(cursor.getString(1));
+                entry.setNote(cursor.getString(2));
+                entries.add(entry);
+
+                cursor.moveToNext();
+            }
+        }
+        return entries;
+    }
+
+    // endregion
+
+    // region Measurement
+
+    public long insertMeasurement(Measurement measurement) {
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.VALUE, measurement.getValue());
+        values.put(DatabaseHelper.CATEGORY, measurement.getCategory().toString());
+        values.put(DatabaseHelper.ENTRY_ID, measurement.getEntryId());
+        return db.insertOrThrow(DatabaseHelper.ENTRY, null, values);
+    }
+
+    public List<Measurement> getMeasurementsOfEntry(Entry entry) {
+        String query = "SELECT * FROM " + DatabaseHelper.MEASUREMENT + " WHERE " +
+        DatabaseHelper.ENTRY_ID + " = " + entry.getId() + " ";
+        Cursor cursor = db.rawQuery(query, null);
+
+        List<Measurement> measurements = new ArrayList<Measurement>();
+        if (cursor.moveToFirst()) {
+            while(!cursor.isAfterLast()) {
+                Measurement measurement = new Measurement();
+                measurement.setId(Integer.parseInt(cursor.getString(0)));
+                measurement.setValue(Float.parseFloat(cursor.getString(1)));
+                measurement.setCategory(Measurement.Category.valueOf(cursor.getString(2)));
+                measurement.setEntryId(Integer.parseInt(cursor.getString(3)));
+                measurements.add(measurement);
+
+                cursor.moveToNext();
+            }
+        }
+        return measurements;
+    }
+
+    // endregion
+
+    // region Events
 
     public long insertEvent(Event event) {
         ContentValues values = new ContentValues();
@@ -402,7 +466,7 @@ public class DatabaseDataSource {
         values.put(DatabaseHelper.NAME, food.getName());
         values.put(DatabaseHelper.DATE,
                 Helper.getDateDatabaseFormat().format(food.getDate().getTime()));
-        values.put(DatabaseHelper.EVENT_ID, food.getEventId());
+        values.put(DatabaseHelper.ENTRY_ID, food.getEventId());
         return db.insertOrThrow(DatabaseHelper.FOOD, null, values);
     }
 

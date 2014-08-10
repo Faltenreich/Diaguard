@@ -33,6 +33,7 @@ import android.widget.TimePicker;
 
 import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.DatabaseHelper;
+import com.faltenreich.diaguard.database.Entry;
 import com.faltenreich.diaguard.database.Event;
 import com.faltenreich.diaguard.database.Food;
 import com.faltenreich.diaguard.fragments.DatePickerFragment;
@@ -253,9 +254,16 @@ public class NewEventActivity extends ActionBarActivity {
         }
 
         if(inputIsValid) {
-            long[] ids;
-
             dataSource.open();
+
+            // Entry
+            Entry entry = new Entry();
+            entry.setDate(time);
+            entry.setNote(editTextNotes.getText().toString());
+            long entryId = dataSource.insertEntry(entry);
+
+            // Events
+            long[] ids;
             Bundle extras = getIntent().getExtras();
             if (extras != null && extras.getLong(EXTRA_ID) != 0L) {
                 events.get(0).setId(extras.getLong(EXTRA_ID));
@@ -266,6 +274,7 @@ public class NewEventActivity extends ActionBarActivity {
                 ids = dataSource.insertEvents(events);
             }
 
+            // Food
             if(food != null) {
                 for(int eventPosition = 0; eventPosition < events.size(); eventPosition++) {
                     if(events.get(eventPosition).getCategory() == Event.Category.Meal) {

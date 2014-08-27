@@ -2,18 +2,24 @@ package com.faltenreich.diaguard.helpers;
 
 import android.content.Context;
 
+import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
+
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 /**
  * Created by Filip on 10.12.13.
  */
 public class Helper {
-
+    public static final String DB_FORMAT_DATE_DB = "yyyy-MM-dd HH:mm:ss";
+    public static final String DB_FORMAT_TIME = "HH:mm";
     public static final String PLACEHOLDER = "-";
 
     public static DecimalFormat getDecimalFormat() {
@@ -28,33 +34,35 @@ public class Helper {
         return new DecimalFormat("#");
     }
 
-    public static SimpleDateFormat getDateDatabaseFormat() {
-        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static String getTimePattern() {
+        return DB_FORMAT_TIME;
     }
 
-    public static float formatCalendarToHourMinutes(Calendar time) {
-        int hour = time.get(Calendar.HOUR_OF_DAY);
-        int minute = time.get(Calendar.MINUTE);
+    private static String getDatePattern() {
+        Format dateFormat = android.text.format.DateFormat.getDateFormat(DiaguardApplication.getContext().getApplicationContext());
+        return ((SimpleDateFormat)dateFormat).toLocalizedPattern();
+    }
+
+    public static DateTimeFormatter getDateDatabaseFormat() {
+        return DateTimeFormat.forPattern(DB_FORMAT_DATE_DB);
+    }
+
+    public static DateTimeFormatter getDateFormat() {
+        return DateTimeFormat.forPattern(getDatePattern());
+    }
+
+    public static DateTimeFormatter getTimeFormat() {
+        return DateTimeFormat.forPattern(getTimePattern());
+    }
+
+    public static float formatCalendarToHourMinutes(DateTime time) {
+        int hour = time.getHourOfDay();
+        int minute = time.getMinuteOfHour();
         return hour + ((float)minute / 60.0f);
     }
 
     public static float getDPI(Context context, float pixels) {
         return pixels * (context.getResources().getDisplayMetrics().densityDpi / 160);
-    }
-
-    public static int getDifferenceInDays(Calendar dateStart, Calendar dateEnd) {
-        long diffMilliseconds = dateEnd.getTimeInMillis() - dateStart.getTimeInMillis();
-        return (int)(diffMilliseconds / (24 * 60 * 60 * 1000));
-    }
-
-    public static int getDifferenceInHours(Calendar dateStart, Calendar dateEnd) {
-        long diffMilliseconds = dateEnd.getTimeInMillis() - dateStart.getTimeInMillis();
-        return (int)(diffMilliseconds / (60 * 60 * 1000));
-    }
-
-    public static int getDifferenceInMinutes(Calendar dateStart, Calendar dateEnd) {
-        long diffMilliseconds = dateEnd.getTimeInMillis() - dateStart.getTimeInMillis();
-        return (int)(diffMilliseconds / (60 * 1000));
     }
 
     public static String getTextAgo(Context context, int differenceInMinutes) {
@@ -77,5 +85,15 @@ public class Helper {
         }
 
         return  textAgo.replace("[value]", Integer.toString(differenceInMinutes));
+    }
+
+    public static String toStringDelimited(String[] array, char delimiter) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String string : array) {
+            stringBuilder.append(string);
+            stringBuilder.append(delimiter);
+        }
+        stringBuilder.deleteCharAt(stringBuilder.length()-1);
+        return stringBuilder.toString();
     }
 }

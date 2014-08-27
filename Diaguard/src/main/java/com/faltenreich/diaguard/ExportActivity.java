@@ -19,10 +19,9 @@ import android.widget.DatePicker;
 import android.widget.Spinner;
 
 import com.faltenreich.diaguard.database.DatabaseDataSource;
-import com.faltenreich.diaguard.database.Event;
+import com.faltenreich.diaguard.database.Measurement;
 import com.faltenreich.diaguard.fragments.DatePickerFragment;
 import com.faltenreich.diaguard.helpers.FileHelper;
-import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.faltenreich.diaguard.helpers.ViewHelper;
 import com.itextpdf.text.BaseColor;
@@ -41,10 +40,15 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
+import org.joda.time.Days;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 /**
  * Created by Filip on 30.11.13.
@@ -54,9 +58,9 @@ public class ExportActivity extends ActionBarActivity {
     private DatabaseDataSource dataSource;
     private PreferenceHelper preferenceHelper;
 
-    private Calendar dateStart;
-    private Calendar dateEnd;
-    SimpleDateFormat dateFormat;
+    private DateTime dateStart;
+    private DateTime dateEnd;
+    DateTimeFormatter dateFormat;
 
     Spinner spinnerFormat;
     private Button buttonDateStart;
@@ -82,9 +86,8 @@ public class ExportActivity extends ActionBarActivity {
         dataSource = new DatabaseDataSource(this);
         preferenceHelper = new PreferenceHelper(this);
 
-        dateEnd = Calendar.getInstance();
-        dateStart = Calendar.getInstance();
-        dateStart.set(Calendar.DAY_OF_MONTH, 1);
+        dateEnd = new DateTime();
+        dateStart = new DateTime().withDayOfMonth(1);
         dateFormat = preferenceHelper.getDateFormat();
 
         getComponents();
@@ -99,14 +102,14 @@ public class ExportActivity extends ActionBarActivity {
     }
 
     public void initializeGUI() {
-        buttonDateStart.setText(dateFormat.format(dateStart.getTime()));
-        buttonDateEnd.setText(dateFormat.format(dateEnd.getTime()));
+        buttonDateStart.setText(dateFormat.print(dateStart));
+        buttonDateEnd.setText(dateFormat.print(dateEnd));
     }
 
     private boolean validate() {
         boolean isValid = true;
 
-        if(dateStart.after(dateEnd)) {
+        if(dateStart.isAfter(dateEnd)) {
             ViewHelper.showAlert(this, getString(R.string.validator_value_enddate));
             isValid = false;
         }
@@ -145,9 +148,9 @@ public class ExportActivity extends ActionBarActivity {
         intent.setType(FileHelper.MIME_MAIL);
 
         // Diaguard Export: DateStart - DateEnd
-        SimpleDateFormat format = preferenceHelper.getDateFormat();
+        DateTimeFormatter format = preferenceHelper.getDateFormat();
         String subject = getString(R.string.app_name) + " " + getString(R.string.export) + ": " +
-                format.format(dateStart.getTime()) + " - " + format.format(dateEnd.getTime());
+                format.print(dateStart) + " - " + format.print(dateEnd);
         intent.putExtra(Intent.EXTRA_SUBJECT, subject);
         intent.putExtra(Intent.EXTRA_TEXT,
                 getString(R.string.pref_data_export_mail_message));
@@ -177,10 +180,10 @@ public class ExportActivity extends ActionBarActivity {
         DatePickerFragment fragment = new DatePickerFragment() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
-                dateStart.set(Calendar.YEAR, year);
-                dateStart.set(Calendar.MONTH, month);
-                dateStart.set(Calendar.DAY_OF_MONTH, day);
-                buttonDateStart.setText(dateFormat.format(dateStart.getTime()));
+                dateStart.withYear(year);
+                dateStart.withMonthOfYear(month);
+                dateStart.withDayOfMonth(day);
+                buttonDateStart.setText(dateFormat.print(dateStart));
             }
         };
         Bundle bundle = new Bundle(1);
@@ -193,10 +196,10 @@ public class ExportActivity extends ActionBarActivity {
         DatePickerFragment fragment = new DatePickerFragment() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
-                dateEnd.set(Calendar.YEAR, year);
-                dateEnd.set(Calendar.MONTH, month);
-                dateEnd.set(Calendar.DAY_OF_MONTH, day);
-                buttonDateEnd.setText(dateFormat.format(dateEnd.getTime()));
+                dateStart.withYear(year);
+                dateStart.withMonthOfYear(month);
+                dateStart.withDayOfMonth(day);
+                buttonDateEnd.setText(dateFormat.print(dateEnd));
             }
         };
         Bundle bundle = new Bundle(1);
@@ -219,22 +222,22 @@ public class ExportActivity extends ActionBarActivity {
         }
     }
 
-    private class PDFExportTask extends AsyncTask<Calendar, String, File> {
+    private class PDFExportTask extends AsyncTask<DateTime, String, File> {
         ProgressDialog progressDialog;
         private final int TEXT_SIZE = 9;
 
-        Event.Category[] selectedCategories =
-                new Event.Category[] {
-                        Event.Category.BloodSugar,
-                        Event.Category.Bolus,
-                        Event.Category.Meal,
-                        Event.Category.Activity};
+        Measurement.Category[] selectedCategories =
+                new Measurement.Category[] {
+                        Measurement.Category.BloodSugar,
+                        Measurement.Category.Bolus,
+                        Measurement.Category.Meal,
+                        Measurement.Category.Activity};
 
-        Calendar dateStart;
-        Calendar dateEnd;
+        DateTime dateStart;
+        DateTime dateEnd;
 
         @Override
-        protected File doInBackground(Calendar... params) {
+        protected File doInBackground(DateTime... params) {
 
             if(!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
                 return null;
@@ -244,8 +247,8 @@ public class ExportActivity extends ActionBarActivity {
             if(!directory.exists())
                 directory.mkdirs();
 
-            File file = new File(directory + "/export" + new SimpleDateFormat("yyyyMMddHHmmss").
-                    format(Calendar.getInstance().getTime()) + ".pdf");
+            File file = new File(directory + "/export" + DateTimeFormat.forPattern("yyyyMMddHHmmss").
+                    print(new DateTime()) + ".pdf");
 
             dateStart = params[0];
             dateEnd = params[1];
@@ -268,16 +271,14 @@ public class ExportActivity extends ActionBarActivity {
                 document.open();
                 iTextGMetaData(document);
 
-                final Calendar dateIteration = Calendar.getInstance();
-                dateIteration.setTime(dateStart.getTime());
+                DateTime dateIteration = dateStart;
 
                 // One day after last chosen day
-                Calendar dateAfter = Calendar.getInstance();
-                dateAfter.setTime(dateEnd.getTime());
-                dateAfter.set(Calendar.DAY_OF_MONTH, dateAfter.get(Calendar.DAY_OF_MONTH) + 1);
+                DateTime dateAfter = dateEnd;
+                dateAfter.withDayOfMonth(dateAfter.dayOfMonth().get() + 1);
 
                 // Total number of days to export
-                int totalDays = Helper.getDifferenceInDays(dateStart, dateEnd) + 1;
+                int totalDays = Days.daysBetween(dateStart, dateEnd).getDays();
 
                 String[] weekDays = getResources().getStringArray(R.array.weekdays);
 
@@ -286,10 +287,10 @@ public class ExportActivity extends ActionBarActivity {
 
                 // Day by day
                 int currentDay = 1;
-                while(dateIteration.before(dateAfter)) {
+                while(dateIteration.isBefore(dateAfter)) {
 
                     // title bar for new week
-                    if(currentDay > 1 && dateIteration.get(Calendar.DAY_OF_WEEK) == 2) {
+                    if(currentDay > 1 && dateIteration.getDayOfWeek() == 2) {
                         document.newPage();
                         document.add(getWeekBar(dateIteration));
                         document.add(Chunk.NEWLINE);
@@ -302,8 +303,8 @@ public class ExportActivity extends ActionBarActivity {
                     PdfPCell cell;
 
                     // Header
-                    cell = new PdfPCell(new Phrase(weekDays[dateIteration.get(Calendar.DAY_OF_WEEK)-1].substring(0, 2) + " " +
-                            new SimpleDateFormat("dd.MM.").format(dateIteration.getTime()),
+                    cell = new PdfPCell(new Phrase(weekDays[dateIteration.getDayOfWeek()-1].substring(0, 2) + " " +
+                            new SimpleDateFormat("dd.MM.").format(dateIteration),
                             new Font(fontBold)));
                     cell.setBorder(0);
                     cell.setBorder(Rectangle.BOTTOM);
@@ -318,12 +319,14 @@ public class ExportActivity extends ActionBarActivity {
 
                     // Content
                     dataSource.open();
-                    float[][] values = dataSource.getAverageDataTable(dateIteration, selectedCategories, 12);
+                    // TODO
+                    float[][] values; // = dataSource.getAverageDataTable(dateIteration, selectedCategories, 12);
+                    values = new float[0][0];
                     dataSource.close();
 
                     // Insert values into table
                     for(int categoryPosition = 0; categoryPosition < selectedCategories.length; categoryPosition++) {
-                        Event.Category category = selectedCategories[categoryPosition];
+                        Measurement.Category category = selectedCategories[categoryPosition];
 
                         cell = new PdfPCell(new Paragraph(preferenceHelper.getCategoryName(category), fontGray));
                         cell.setBorder(0);
@@ -341,7 +344,7 @@ public class ExportActivity extends ActionBarActivity {
                                         getDecimalFormat(category).format(value);
 
                                 paragraph = new Paragraph(valueString, fontBasis);
-                                if(category == Event.Category.BloodSugar) {
+                                if(category == Measurement.Category.BloodSugar) {
                                     if (values[categoryPosition][hour] <
                                             preferenceHelper.getLimitHypoglycemia())
                                         paragraph = new Paragraph(valueString, fontBlue);
@@ -374,7 +377,7 @@ public class ExportActivity extends ActionBarActivity {
                     publishProgress(getString(R.string.day) + " " + currentDay + "/" + totalDays);
 
                     // Next day
-                    dateIteration.set(Calendar.DAY_OF_MONTH, dateIteration.get(Calendar.DAY_OF_MONTH) + 1);
+                    dateIteration.withDayOfMonth(dateIteration.dayOfMonth().get() + 1);
                     currentDay++;
                 }
 
@@ -420,29 +423,29 @@ public class ExportActivity extends ActionBarActivity {
         private void iTextGMetaData(Document document) {
             String subject = getResources().getString(R.string.app_name) + " " +
                     getResources().getString(R.string.export) + ": " +
-                    preferenceHelper.getDateFormat().format(dateStart.getTime()) + " - " +
-                    preferenceHelper.getDateFormat().format(dateEnd.getTime());
+                    preferenceHelper.getDateFormat().print(dateStart) + " - " +
+                    preferenceHelper.getDateFormat().print(dateEnd);
             document.addTitle(subject);
             document.addAuthor(getResources().getString(R.string.app_name));
             document.addCreator(getResources().getString(R.string.app_name));
         }
 
-        private Paragraph getWeekBar(Calendar weekStart) {
+        private Paragraph getWeekBar(DateTime weekStart) {
 
             Paragraph paragraph = new Paragraph();
 
             // Week
-            Chunk chunk = new Chunk(getString(R.string.calendarweek) + " " + weekStart.get(Calendar.WEEK_OF_YEAR));
+            Chunk chunk = new Chunk(getString(R.string.calendarweek) + " " + weekStart.getWeekyear());
             chunk.setFont(FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD));
             paragraph.add(chunk);
 
-            Calendar weekEnd = Calendar.getInstance();
-            weekEnd.setTime(weekStart.getTime());
-            weekEnd.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+            DateTime weekEnd = new DateTime();
+            weekEnd = weekStart;
+            weekEnd.withDayOfWeek(DateTimeConstants.SUNDAY);
 
             // Dates
-            chunk = new Chunk("\n" + preferenceHelper.getDateFormat().format(weekStart.getTime()) + " - " +
-                    preferenceHelper.getDateFormat().format(weekEnd.getTime()));
+            chunk = new Chunk("\n" + preferenceHelper.getDateFormat().print(weekStart) + " - " +
+                    preferenceHelper.getDateFormat().print(weekEnd));
             chunk.setFont(FontFactory.getFont(FontFactory.HELVETICA, 9));
             paragraph.add(chunk);
 
@@ -468,9 +471,9 @@ public class ExportActivity extends ActionBarActivity {
         public void onEndPage(PdfWriter writer, Document document) {
             Rectangle rect = writer.getBoxSize("Header");
 
-            Calendar today = Calendar.getInstance();
+            DateTime today = new DateTime();
             String stamp = getString(R.string.export_stamp) + " " +
-                    preferenceHelper.getDateFormat().format(today.getTime());
+                    preferenceHelper.getDateFormat().print(today);
             Chunk chunk = new Chunk(stamp,
                     FontFactory.getFont(FontFactory.HELVETICA, 9, BaseColor.GRAY));
             ColumnText.showTextAligned(writer.getDirectContent(),

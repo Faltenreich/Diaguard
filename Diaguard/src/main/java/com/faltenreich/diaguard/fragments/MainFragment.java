@@ -1,31 +1,26 @@
 package com.faltenreich.diaguard.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.faltenreich.diaguard.MainActivity;
-import com.faltenreich.diaguard.NewEventActivity;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
-import com.faltenreich.diaguard.database.Event;
+import com.faltenreich.diaguard.database.DatabaseHelper;
+import com.faltenreich.diaguard.database.Measurement;
 import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 
-import java.util.Calendar;
+import org.joda.time.DateTime;
 
 public class MainFragment extends Fragment {
 
     DatabaseDataSource dataSource;
     PreferenceHelper preferenceHelper;
-    Calendar time;
+    DateTime time;
 
     TextView textViewLatestValue;
     TextView textViewLatestUnit;
@@ -55,13 +50,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity)getActivity()).getSupportActionBar().setTitle(getString(R.string.app_name));
         updateContent();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.add, menu);
     }
 
     private void getComponents() {
@@ -86,13 +75,21 @@ public class MainFragment extends Fragment {
 
         preferenceHelper = new PreferenceHelper(getActivity());
 
-        time = Calendar.getInstance();
+        time = new DateTime();
 
-        /*
-        if(dataSource.countEvents(Event.Category.BloodSugar) > 0) {
+        int countBloodSugarMeasurements = dataSource.count(
+                DatabaseHelper.MEASUREMENT,
+                null,
+                DatabaseHelper.CATEGORY,
+                Measurement.Category.BloodSugar.toString());
+
+        if(countBloodSugarMeasurements > 0) {
             textViewLatestValue.setTextSize(60);
-            updateLatest();
-            updateDashboard();
+            dataSource.open();
+            dataSource.getJoin(null, null, null, null, null, null, null, null, null);
+            dataSource.close();
+            //updateLatest();
+            //updateDashboard();
         }
         else {
             textViewLatestValue.setTextSize(40);
@@ -100,19 +97,19 @@ public class MainFragment extends Fragment {
             textViewAverageWeek.setText(Helper.PLACEHOLDER);
             textViewAverageDay.setText(Helper.PLACEHOLDER);
         }
-        */
 
         dataSource.close();
     }
 
+    /*
     private void updateLatest() {
         Event latestEvent = dataSource.getLatestEvent(Event.Category.BloodSugar);
 
         // Value
         float value = preferenceHelper.
-                formatDefaultToCustomUnit(Event.Category.BloodSugar, latestEvent.getValue());
+                formatDefaultToCustomUnit(Measurement.Category.BloodSugar, latestEvent.getValue());
         textViewLatestValue.setText(preferenceHelper.
-                getDecimalFormat(Event.Category.BloodSugar).format(value));
+                getDecimalFormat(Measurement.Category.BloodSugar).format(value));
 
         // Highlighting
         if(preferenceHelper.limitsAreHighlighted()) {
@@ -161,25 +158,25 @@ public class MainFragment extends Fragment {
 
     private void updateAverage() {
         float avgMonth = preferenceHelper.
-                formatDefaultToCustomUnit(Event.Category.BloodSugar,
+                formatDefaultToCustomUnit(Measurement.Category.BloodSugar,
                         dataSource.getBloodSugarAverage(30));
         float avgWeek = preferenceHelper.
-                formatDefaultToCustomUnit(Event.Category.BloodSugar,
+                formatDefaultToCustomUnit(Measurement.Category.BloodSugar,
                         dataSource.getBloodSugarAverage(7));
         float avgDay = preferenceHelper.
-                formatDefaultToCustomUnit(Event.Category.BloodSugar,
+                formatDefaultToCustomUnit(Measurement.Category.BloodSugar,
                         dataSource.getBloodSugarAverage(1));
 
         String avgMonthString = preferenceHelper.
-                getDecimalFormat(Event.Category.BloodSugar).format(avgMonth);
+                getDecimalFormat(Measurement.Category.BloodSugar).format(avgMonth);
         if(avgMonth <= 0)
             avgMonthString = Helper.PLACEHOLDER;
         String avgWeekString = preferenceHelper.
-                getDecimalFormat(Event.Category.BloodSugar).format(avgWeek);
+                getDecimalFormat(Measurement.Category.BloodSugar).format(avgWeek);
         if(avgWeek <= 0)
             avgWeekString = Helper.PLACEHOLDER;
         String avgDayString = preferenceHelper.
-                getDecimalFormat(Event.Category.BloodSugar).format(avgDay);
+                getDecimalFormat(Measurement.Category.BloodSugar).format(avgDay);
         if(avgDay <= 0)
             avgDayString = Helper.PLACEHOLDER;
 
@@ -187,15 +184,5 @@ public class MainFragment extends Fragment {
         textViewAverageWeek.setText(avgWeekString);
         textViewAverageDay.setText(avgDayString);
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_newevent:
-                getActivity().startActivityForResult(new Intent(getActivity(), NewEventActivity.class), MainActivity.REQUEST_EVENT_CREATED);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+    */
 }

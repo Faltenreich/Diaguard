@@ -1,22 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v4.widget.DrawerLayout
+<android.support.v4.view.ViewPager
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/drawer_layout"
+    android:id="@+id/viewpager"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <FrameLayout android:id="@+id/frame_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-    <ListView android:id="@+id/drawer_navigation"
-        android:layout_width="240dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"
-        android:background="@android:color/white"/>
-
-</android.support.v4.widget.DrawerLayout>
+    android:layout_height="match_parent" />

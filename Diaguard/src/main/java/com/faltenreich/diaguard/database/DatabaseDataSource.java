@@ -2,23 +2,22 @@ package com.faltenreich.diaguard.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.faltenreich.diaguard.helpers.Helper;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 /**
  * Created by Filip on 20.10.13.
  */
 public class DatabaseDataSource {
-    public static final String DB_FORMAT_DATE = "yyyy-MM-dd";
+
     public static final String DB_FORMAT_DATE_AND_TIME = "yyyy-MM-dd HH:mm:ss";
+    public static final String DB_FORMAT_DATE = "yyyy-MM-dd";
     public static final String DB_FORMAT_TIME = "HH:mm";
 
     public static final String FIRST_SECOND_OF_DAY = "00:00:00";
@@ -30,8 +29,6 @@ public class DatabaseDataSource {
     public DatabaseDataSource(Context context) {
         dbHelper = new DatabaseHelper(context);
     }
-
-    //region Database
 
     public void open() {
         db = dbHelper.getWritableDatabase();
@@ -46,246 +43,180 @@ public class DatabaseDataSource {
                 dbHelper.getWritableDatabase().isOpen();
     }
 
-    // endregion
+    // region Helper
 
-    // region Entry
+    private ContentValues getContentValues(Model model) {
+        ContentValues values = null;
 
-    public long insertEntry(Entry entry) {
+        if(model.getClass() == Entry.class)
+            values = getContentValuesEntry((Entry)model);
+        else if(model.getClass() == Measurement.class)
+            values = getContentValuesMeasurement((Measurement)model);
+        else if(model.getClass() == Food.class)
+            values = getContentValuesFood((Food)model);
+
+        if(values == null)
+            throw new IllegalArgumentException("getContentValues() missing for model '" +
+                    model.getClass().getName() + "'");
+
+        return values;
+    }
+
+    private ContentValues getContentValuesEntry(Entry entry) {
         ContentValues values = new ContentValues();
-        values.put(DatabaseHelper.DATE,
-                Helper.getDateDatabaseFormat().format(entry.getDate().getTime()));
+        values.put(DatabaseHelper.DATE, Helper.getDateDatabaseFormat().print(entry.getDate()));
         values.put(DatabaseHelper.NOTE, entry.getNote());
-        return db.insertOrThrow(DatabaseHelper.ENTRY, null, values);
+        return values;
     }
 
-    public List<Entry> getEntries() {
-        String query = "SELECT * FROM " + DatabaseHelper.ENTRY + " ORDER BY " + DatabaseHelper.DATE;
-        Cursor cursor = db.rawQuery(query, null);
-
-        List<Entry> entries = new ArrayList<Entry>();
-        if (cursor.moveToFirst()) {
-            while(!cursor.isAfterLast()) {
-                Entry entry = new Entry();
-                entry.setId(Integer.parseInt(cursor.getString(0)));
-                entry.setDate(cursor.getString(1));
-                entry.setNote(cursor.getString(2));
-                entries.add(entry);
-
-                cursor.moveToNext();
-            }
-        }
-        return entries;
-    }
-
-    // endregion
-
-    // region Measurement
-
-    public long insertMeasurement(Measurement measurement) {
+    private ContentValues getContentValuesMeasurement(Measurement measurement) {
         ContentValues values = new ContentValues();
         values.put(DatabaseHelper.VALUE, measurement.getValue());
         values.put(DatabaseHelper.CATEGORY, measurement.getCategory().toString());
         values.put(DatabaseHelper.ENTRY_ID, measurement.getEntryId());
-        return db.insertOrThrow(DatabaseHelper.ENTRY, null, values);
+        return values;
     }
 
-    public List<Measurement> getMeasurementsOfEntry(Entry entry) {
-        String query = "SELECT * FROM " + DatabaseHelper.MEASUREMENT + " WHERE " +
-        DatabaseHelper.ENTRY_ID + " = " + entry.getId() + " ";
-        Cursor cursor = db.rawQuery(query, null);
+    private ContentValues getContentValuesFood(Food food) {
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.CARBOHYDRATES, food.getCarbohydrates());
+        values.put(DatabaseHelper.NAME, food.getName());
+        values.put(DatabaseHelper.DATE, Helper.getDateDatabaseFormat().print(food.getDate()));
+        values.put(DatabaseHelper.ENTRY_ID, food.getEventId());
+        return values;
+    }
 
-        List<Measurement> measurements = new ArrayList<Measurement>();
-        if (cursor.moveToFirst()) {
-            while(!cursor.isAfterLast()) {
-                Measurement measurement = new Measurement();
-                measurement.setId(Integer.parseInt(cursor.getString(0)));
-                measurement.setValue(Float.parseFloat(cursor.getString(1)));
-                measurement.setCategory(Measurement.Category.valueOf(cursor.getString(2)));
-                measurement.setEntryId(Integer.parseInt(cursor.getString(3)));
-                measurements.add(measurement);
 
-                cursor.moveToNext();
-            }
-        }
-        return measurements;
+    public Entry getEntry(Cursor cursor) {
+        Entry entry = new Entry();
+        entry.setId(Integer.parseInt(cursor.getString(0)));
+        entry.setDate(cursor.getString(1));
+        entry.setNote(cursor.getString(2));
+        return entry;
+    }
+
+    public Measurement getMeasurement(Cursor cursor) {
+        Measurement measurement = new Measurement();
+        measurement.setId(Integer.parseInt(cursor.getString(0)));
+        measurement.setValue(Float.parseFloat(cursor.getString(1)));
+        measurement.setCategory(Measurement.Category.valueOf(cursor.getString(2)));
+        measurement.setEntryId(Integer.parseInt(cursor.getString(3)));
+        return measurement;
+    }
+
+    public Food getFood(Cursor cursor) {
+        Food food = new Food();
+        food.setId(Integer.parseInt(cursor.getString(0)));
+        food.setCarbohydrates(Float.parseFloat(cursor.getString(1)));
+        food.setName(cursor.getString(2));
+        food.setDate(cursor.getString(3));
+        food.setEventId(Integer.parseInt(cursor.getString(4)));
+        return food;
     }
 
     // endregion
 
-    // region Events
+    // region Read
 
-    public long insertEvent(Event event) {
-        ContentValues values = new ContentValues();
-        values.put(DatabaseHelper.VALUE, event.getValue());
-        values.put(DatabaseHelper.DATE,
-                Helper.getDateDatabaseFormat().format(event.getDate().getTime()));
-        values.put(DatabaseHelper.NOTES, event.getNotes());
-        values.put(DatabaseHelper.CATEGORY, event.getCategory().toString());
+    public Model get(String table, long id) {
+        String where = DatabaseHelper.ID + "=?";
+        Cursor cursor = db.query(table, null, where, new String[] { String.valueOf(id) },
+                null, null, null, null);
+        cursor.moveToFirst();
 
-        return db.insertOrThrow(DatabaseHelper.EVENTS, null, values);
+        if(table.equals(DatabaseHelper.ENTRY))
+            return getEntry(cursor);
+        else if(table.equals(DatabaseHelper.MEASUREMENT))
+            return getMeasurement(cursor);
+        else if(table.equals(DatabaseHelper.FOOD))
+            return getFood(cursor);
+        else
+            throw new Resources.NotFoundException();
     }
 
-    public long[] insertEvents(List<Event> events) {
-        long[] ids = new long[events.size()];
-        for(int position = 0; position < events.size(); position++) {
-            ids[position] = insertEvent(events.get(position));
-        }
-        return ids;
-    }
+    public List<Model> get(String table, String[] columns, String selection, String[] selectionArgs,
+                           String groupBy, String having, String orderBy, String limit) {
+        Cursor cursor = db.query(table, columns, selection, selectionArgs, groupBy, having, orderBy, limit);
 
-    public long updateEvent(Event event) {
-        ContentValues values = new ContentValues();
-        values.put(DatabaseHelper.VALUE, event.getValue());
-        values.put(DatabaseHelper.DATE, Helper.getDateDatabaseFormat().
-                format(event.getDate().getTime()));
-        values.put(DatabaseHelper.NOTES, event.getNotes());
-        values.put(DatabaseHelper.CATEGORY, event.getCategory().toString());
-
-        return db.update(DatabaseHelper.EVENTS,
-                values,
-                DatabaseHelper.ID + " = " + event.getId(),
-                null);
-    }
-
-    public int deleteEvent(Event event) {
-        return db.delete(DatabaseHelper.EVENTS,
-                DatabaseHelper.ID + " = " + event.getId(),
-                null);
-    }
-
-    public int deleteEventById(Long id) {
-        return db.delete(DatabaseHelper.EVENTS,
-                DatabaseHelper.ID + " = " + id,
-                null);
-    }
-
-    public int deleteEventsBefore(Calendar calendar) {
-        SimpleDateFormat format = new SimpleDateFormat(DB_FORMAT_DATE);
-        String date = format.format(calendar.getTime());
-
-        return db.delete(DatabaseHelper.EVENTS,
-                DatabaseHelper.DATE + " <= Datetime('" + date + " " + LAST_SECOND_OF_DAY + "')",
-                null);
-    }
-
-    public int countEvents() {
-        String query = "SELECT * FROM " + DatabaseHelper.EVENTS;
-        Cursor cursor = db.rawQuery(query, null);
-        int count = cursor.getCount();
-        cursor.close();
-
-        return count;
-    }
-
-    public int countEvents(Event.Category category) {
-        String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " WHERE " +
-                DatabaseHelper.CATEGORY + " = '" + category.name() + "' ";
-        Cursor cursor = db.rawQuery(query, null);
-        int count = cursor.getCount();
-        cursor.close();
-
-        return count;
-    }
-
-    public int countEvents(Event.Category category, Calendar day) {
-        SimpleDateFormat format = new SimpleDateFormat(DB_FORMAT_DATE);
-        String date = format.format(day.getTime());
-
-        String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " WHERE " +
-                DatabaseHelper.DATE + " >= Datetime('" + date + " " + FIRST_SECOND_OF_DAY + "') AND " +
-                DatabaseHelper.DATE + " <= Datetime('" + date + " " + LAST_SECOND_OF_DAY + "') AND " +
-                DatabaseHelper.CATEGORY + " = '" + category.name() + "' ";
-        Cursor cursor = db.rawQuery(query, null);
-        int count = cursor.getCount();
-        cursor.close();
-
-        return count;
-    }
-
-    public int countEventsBefore(Calendar calendar) {
-        SimpleDateFormat format = new SimpleDateFormat(DB_FORMAT_DATE);
-        String date = format.format(calendar.getTime());
-
-        String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " WHERE " +
-                DatabaseHelper.DATE + " <= Datetime('" + date + " " + LAST_SECOND_OF_DAY + "')";
-        Cursor cursor = db.rawQuery(query, null);
-        int count = cursor.getCount();
-        cursor.close();
-
-        return count;
-    }
-
-    public int countEventsAboveValue(Event.Category category, Calendar day, float limit) {
-        SimpleDateFormat format = new SimpleDateFormat(DB_FORMAT_DATE);
-        String date = format.format(day.getTime());
-
-        String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " WHERE " +
-                DatabaseHelper.VALUE + " > " + limit + " AND " +
-                DatabaseHelper.DATE + " >= Datetime('" + date + " " + FIRST_SECOND_OF_DAY + "') AND " +
-                DatabaseHelper.DATE + " <= Datetime('" + date + " " + LAST_SECOND_OF_DAY + "') AND " +
-                DatabaseHelper.CATEGORY + " = '" + category.name() + "' ";
-        Cursor cursor = db.rawQuery(query, null);
-        int count = cursor.getCount();
-        cursor.close();
-
-        return count;
-    }
-
-    public int countEventsBelowValue(Event.Category category, Calendar day, float limit) {
-        SimpleDateFormat format = new SimpleDateFormat(DB_FORMAT_DATE);
-        String date = format.format(day.getTime());
-
-        String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " WHERE " +
-                DatabaseHelper.VALUE + " < " + limit + " AND " +
-                DatabaseHelper.DATE + " >= Datetime('" + date + " " + FIRST_SECOND_OF_DAY + "') AND " +
-                DatabaseHelper.DATE + " <= Datetime('" + date + " " + LAST_SECOND_OF_DAY + "') AND " +
-                DatabaseHelper.CATEGORY + " = '" + category.name() + "' ";
-        Cursor cursor = db.rawQuery(query, null);
-        int count = cursor.getCount();
-        cursor.close();
-
-        return count;
-    }
-
-    public Event getEventById(long id) {
-        String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " WHERE " +
-                DatabaseHelper.ID + " = " + id;
-        Cursor cursor = db.rawQuery(query, null);
-
-        Event event = new Event();
-
-        if (cursor.moveToFirst()) {
-            event.setId(Integer.parseInt(cursor.getString(0)));
-            event.setValue(Float.parseFloat(cursor.getString(1)));
-            event.setDate(cursor.getString(2));
-            event.setNotes(cursor.getString(3));
-            event.setCategory(Event.Category.valueOf(cursor.getString(4)));
-        }
-        return event;
-    }
-
-    public List<Event> getEvents() {
-        String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " ORDER BY " + DatabaseHelper.DATE;
-        Cursor cursor = db.rawQuery(query, null);
-
-        List<Event> events = new ArrayList<Event>();
+        List<Model> objects = new ArrayList<Model>();
         if (cursor.moveToFirst()) {
             while(!cursor.isAfterLast()) {
-                Event event = new Event();
-                event.setId(Integer.parseInt(cursor.getString(0)));
-                event.setValue(Float.parseFloat(cursor.getString(1)));
-                event.setDate(cursor.getString(2));
-                event.setNotes(cursor.getString(3));
-                event.setCategory(Event.Category.valueOf(cursor.getString(4)));
-                events.add(event);
+                if(table.equals(DatabaseHelper.ENTRY))
+                    objects.add(getEntry(cursor));
+                else if(table.equals(DatabaseHelper.MEASUREMENT))
+                    objects.add(getMeasurement(cursor));
+                else if(table.equals(DatabaseHelper.FOOD))
+                    objects.add(getFood(cursor));
+                cursor.moveToNext();
+            }
+        }
+        return objects;
+    }
+
+    public List<Model> getJoin(String tableOne, String tableTwo, String[] columns, String selection, String[] selectionArgs,
+                           String groupBy, String having, String orderBy, String limit) {
+        //String query = String.format("SELECT %s FROM %s INNER JOIN %s ON %s.%s = %s.%s ORDER BY entry.date LIMIT 1",
+        //        Helper.toStringDelimited(columns, ','), tableOne, tableTwo, tableOne, DatabaseHelper.ID, tableTwo, DatabaseHelper.ID);
+        String query = "SELECT * FROM entry INNER JOIN measurement ON measurement.entryId = entry._id ORDER BY entry.date LIMIT 1";
+        Cursor cursor = db.rawQuery(query, null);
+
+        List<Model> objects = new ArrayList<Model>();
+        if (cursor.moveToFirst()) {
+            while(!cursor.isAfterLast()) {
+
 
                 cursor.moveToNext();
             }
         }
-        return events;
+        return objects;
     }
 
-    public Event getLatestEvent(Event.Category category) {
+    public int count(String table, String[] columns, String selection, String selectionArg) {
+        String query = "SELECT COUNT(*) FROM " + table + " WHERE " + selection + " = '" + selectionArg + "';";
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        return count;
+    }
+
+    // endregion
+
+    // region Write
+
+    public long insert(Model model){
+        return db.insertOrThrow(model.getTableName(), null, getContentValues(model));
+    }
+
+    public long[] insert(List<? extends Model> models){
+        long[] ids = new long[models.size()];
+        for(int position = 0; position < models.size(); position++) {
+            Model model = models.get(position);
+            ids[position] = db.insertOrThrow(model.getTableName(), null, getContentValues(model));
+        }
+        return ids;
+    }
+
+    public long update(Model model) {
+        return db.update(model.getTableName(), getContentValues(model),
+                DatabaseHelper.ID + " = " + model.getId(), null);
+    }
+
+    public int delete(Model model) {
+        return db.delete(model.getTableName(),
+                DatabaseHelper.ID + "=?",
+                new String[]{Long.toString(model.getId())});
+    }
+
+    public int delete(Model model, String selection, String[] selectionArgs) {
+        return db.delete(model.getTableName(), selection + "=?", selectionArgs);
+    }
+
+    // endregion
+
+    /*
+
+    public Measurement getLatestMeasurement(Measurement.Category category) {
         String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " WHERE " +
                 DatabaseHelper.CATEGORY + " = '" + category.name() + "' " +
                 "ORDER BY " + DatabaseHelper.DATE + " DESC LIMIT 1;";
@@ -412,7 +343,7 @@ public class DatabaseDataSource {
         String query = "SELECT AVG(" + DatabaseHelper.VALUE + ") FROM " + DatabaseHelper.EVENTS + " WHERE " +
                 DatabaseHelper.DATE + " >= Datetime('" + format.format(dateBefore.getTime()) + "') AND " +
                 DatabaseHelper.DATE + " <= Datetime('" + format.format(now.getTime()) + "') AND " +
-                DatabaseHelper.CATEGORY + " = '" + Event.Category.BloodSugar.toString() + "' ";
+                DatabaseHelper.CATEGORY + " = '" + Measurement.Category.BloodSugar.toString() + "' ";
         Cursor cursor = db.rawQuery(query, null);
 
         float average = 0;
@@ -422,7 +353,8 @@ public class DatabaseDataSource {
         return average;
     }
 
-    public float[][] getAverageDataTable(Calendar date, Event.Category[] categories, int columns) {
+
+    public float[][] getAverageDataTable(Calendar date, Measurement.Category[] categories, int columns) {
         float[][] values = new float[categories.length][columns];
         List<Event> events = getEventsOfDay(date, categories);
 
@@ -455,41 +387,5 @@ public class DatabaseDataSource {
         }
         return values;
     }
-
-    // endregion
-
-    // region Food
-
-    public long insertFood(Food food) {
-        ContentValues values = new ContentValues();
-        values.put(DatabaseHelper.CARBOHYDRATES, food.getCarbohydrates());
-        values.put(DatabaseHelper.NAME, food.getName());
-        values.put(DatabaseHelper.DATE,
-                Helper.getDateDatabaseFormat().format(food.getDate().getTime()));
-        values.put(DatabaseHelper.ENTRY_ID, food.getEventId());
-        return db.insertOrThrow(DatabaseHelper.FOOD, null, values);
-    }
-
-    public List<Food> getFood() {
-        String query = "SELECT * FROM " + DatabaseHelper.FOOD + " ORDER BY " + DatabaseHelper.DATE;
-        Cursor cursor = db.rawQuery(query, null);
-
-        List<Food> foodList = new ArrayList<Food>();
-        if (cursor.moveToFirst()) {
-            while(!cursor.isAfterLast()) {
-                Food food = new Food();
-                food.setId(Integer.parseInt(cursor.getString(0)));
-                food.setCarbohydrates(Float.parseFloat(cursor.getString(1)));
-                food.setName(cursor.getString(2));
-                food.setDate(cursor.getString(3));
-                food.setEventId(Integer.parseInt(cursor.getString(4)));
-                foodList.add(food);
-
-                cursor.moveToNext();
-            }
-        }
-        return foodList;
-    }
-
-    // endregion
+    */
 }

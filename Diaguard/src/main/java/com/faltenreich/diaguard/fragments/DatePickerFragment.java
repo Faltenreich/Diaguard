@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.widget.DatePicker;
 
-import java.util.Calendar;
+import org.joda.time.DateTime;
 
 /**
  * Created by Filip on 23.10.13.
@@ -17,14 +17,14 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Calendar calendar = (Calendar)getArguments().getSerializable(DATE);
+        DateTime date = (DateTime)getArguments().getSerializable(DATE);
 
-        if(calendar == null)
-            calendar = Calendar.getInstance();
+        if(date == null)
+            date = new DateTime();
 
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int year = date.getYear();
+        int month = date.getMonthOfYear();
+        int day = date.getDayOfMonth();
 
         return new DatePickerDialog(getActivity(), this, year, month, day);
     }

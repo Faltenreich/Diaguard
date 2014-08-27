@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.database.Event;
+import com.faltenreich.diaguard.database.Measurement;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 
 import java.util.ArrayList;
@@ -32,19 +32,19 @@ public class ListViewAdapterLog extends BaseAdapter {
     }
 
     Context context;
-    public List<Event> events;
+    public List<Measurement> events;
     PreferenceHelper preferenceHelper;
     HashMap<String, Integer> imageResources;
 
     public ListViewAdapterLog(Context context){
         this.context = context;
-        this.events = new ArrayList<Event>();
+        this.events = new ArrayList<Measurement>();
 
         preferenceHelper = new PreferenceHelper((Activity)context);
 
         // Pre-load image resources
         imageResources = new HashMap<String, Integer>();
-        for(Event.Category category : Event.Category.values()) {
+        for(Measurement.Category category : Measurement.Category.values()) {
             String name = category.name().toLowerCase();
             int resourceId = context.getResources().getIdentifier(name,
                     "drawable", context.getPackageName());
@@ -56,7 +56,7 @@ public class ListViewAdapterLog extends BaseAdapter {
         return events.size();
     }
 
-    public Event getItem(int position) {
+    public Measurement getItem(int position) {
         return events.get(position);
     }
 
@@ -85,11 +85,11 @@ public class ListViewAdapterLog extends BaseAdapter {
         else
             holder = (ViewHolder) convertView.getTag();
 
-        Event event = getItem(position);
+        Measurement event = getItem(position);
 
         holder.image.setImageResource(imageResources.get(event.getCategory().name().toLowerCase()));
 
-        holder.time.setText(preferenceHelper.getTimeFormat().format(event.getDate().getTime()));
+        //holder.time.setText(preferenceHelper.getTimeFormat().format(event.getDate().getTime()));
 
         holder.unit.setText(preferenceHelper.getUnitAcronym(event.getCategory()));
 
@@ -99,15 +99,15 @@ public class ListViewAdapterLog extends BaseAdapter {
 
         // Highlighting
         holder.value.setTextColor(Color.BLACK);
-        if(event.getCategory() == Event.Category.BloodSugar && preferenceHelper.limitsAreHighlighted()) {
+        if(event.getCategory() == Measurement.Category.BloodSugar && preferenceHelper.limitsAreHighlighted()) {
             if(event.getValue() > preferenceHelper.getLimitHyperglycemia())
                 holder.value.setTextColor(context.getResources().getColor(R.color.red));
             else if(event.getValue() < preferenceHelper.getLimitHypoglycemia())
                 holder.value.setTextColor(context.getResources().getColor(R.color.blue));
         }
 
-        if(event.getNotes().length() > 0)
-            holder.noteInfo.setVisibility(View.VISIBLE);
+        //if(event.getNotes().length() > 0)
+           // holder.noteInfo.setVisibility(View.VISIBLE);
 
         return convertView;
     }

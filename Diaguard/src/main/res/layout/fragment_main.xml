@@ -1,7 +1,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/gray">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,26 +13,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/background_round_white"
             android:layout_marginBottom="@dimen/margin_between"
             android:layout_marginTop="@dimen/margin_between">
-
-            <LinearLayout
-                style="@style/BoxLabelBackground"
-                android:background="@drawable/background_round_top_gray_lt">
-
-                <ImageView
-                    android:layout_width="@dimen/size_image"
-                    android:layout_height="@dimen/size_image"
-                    android:src="@drawable/bloodsugar"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/bloodsugar_latest"
-                    style="@style/BoxLabel"/>
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -100,12 +81,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/background_round_white"
             android:layout_marginBottom="@dimen/margin_between">
 
             <LinearLayout
-                style="@style/BoxLabelBackground"
-                android:background="@drawable/background_round_top_gray_lt">
+                style="@style/BoxLabelBackground">
 
                 <ImageView
                     android:layout_width="@dimen/size_image"

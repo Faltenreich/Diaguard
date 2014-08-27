@@ -6,7 +6,7 @@ import android.text.Editable;
 import android.widget.EditText;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.database.Event;
+import com.faltenreich.diaguard.database.Measurement;
 
 /**
  * Created by Filip on 05.11.13.
@@ -17,7 +17,7 @@ public class Validator {
         return input.matches(".*\\d.*");
     }
 
-    public static boolean validateEditTextEvent(Context context, EditText editText, Event.Category category) {
+    public static boolean validateEditTextEvent(Context context, EditText editText, Measurement.Category category) {
         Editable editable = editText.getText();
 
         if(editable == null) {
@@ -44,7 +44,7 @@ public class Validator {
         }
     }
 
-    public static boolean validateEventValue(Context context, EditText editText, Event.Category category, String value) {
+    public static boolean validateEventValue(Context context, EditText editText, Measurement.Category category, String value) {
         PreferenceHelper preferenceHelper = new PreferenceHelper(context);
 
         if (!containsNumber(value)) {

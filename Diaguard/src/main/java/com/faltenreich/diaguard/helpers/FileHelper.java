@@ -4,10 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.util.Log;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
-import com.faltenreich.diaguard.database.Event;
+import com.faltenreich.diaguard.database.Measurement;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -24,18 +25,19 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
+import org.joda.time.Days;
+import org.joda.time.format.DateTimeFormat;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import au.com.bytecode.opencsv.CSVReader;
-import au.com.bytecode.opencsv.CSVWriter;
 
 /**
  * Created by Filip on 05.06.2014.
@@ -81,7 +83,7 @@ public class FileHelper {
         csvImportTask.execute(fileName);
     }
 
-    public File exportPDF(Calendar dateStart, Calendar dateEnd) {
+    public File exportPDF(DateTime dateStart, DateTime dateEnd) {
         PDFExportTask pdfExportTask = new PDFExportTask();
         pdfExportTask.execute(dateStart, dateEnd);
 
@@ -103,12 +105,13 @@ public class FileHelper {
 
         @Override
         protected File doInBackground(Void... params) {
+            File directory = new File(PATH_STORAGE);
 
+            /*
             dataSource.open();
             List<Event> events = dataSource.getEvents();
             dataSource.close();
 
-            File directory = new File(PATH_STORAGE);
 
             SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
             File file = new File(directory + "/backup" +
@@ -132,8 +135,8 @@ public class FileHelper {
             catch (IOException ex) {
                 //Log.e("DiaguardError", ex.getMessage());
             }
-
-            return file;
+*/
+            return directory;
         }
 
         @Override
@@ -156,6 +159,7 @@ public class FileHelper {
                 String filePath = PATH_STORAGE + "/" + params[0];
                 CSVReader reader = new CSVReader(new FileReader(filePath), DELIMITER);
 
+                /*
                 Event event = new Event();
                 String[] nextLine;
                 dataSource.open();
@@ -168,6 +172,7 @@ public class FileHelper {
                     dataSource.insertEvent(event);
                 }
                 dataSource.close();
+                */
                 reader.close();
             } catch (IOException ex) {
                 //Log.e("DiaguardError", ex.getMessage());
@@ -189,26 +194,33 @@ public class FileHelper {
         }
     }
 
-    private class PDFExportTask extends AsyncTask<Calendar, String, File> {
+    private class PDFExportTask extends AsyncTask<DateTime, String, File> {
         ProgressDialog progressDialog;
         private final int TEXT_SIZE = 9;
 
-        Event.Category[] selectedCategories =
-                new Event.Category[] {
-                        Event.Category.BloodSugar,
-                        Event.Category.Bolus,
-                        Event.Category.Meal,
-                        Event.Category.Activity};
+        Measurement.Category[] selectedCategories =
+                new Measurement.Category[] {
+                        Measurement.Category.BloodSugar,
+                        Measurement.Category.Bolus,
+                        Measurement.Category.Meal,
+                        Measurement.Category.Activity};
 
-        Calendar dateStart;
-        Calendar dateEnd;
+        DateTime dateStart;
+        DateTime dateEnd;
 
         @Override
-        protected File doInBackground(Calendar... params) {
+        protected File doInBackground(DateTime... params) {
 
-            File directory = new File(PATH_STORAGE);
-            File file = new File(directory + "/export" + new SimpleDateFormat("yyyyMMddHHmmss").
-                    format(Calendar.getInstance().getTime()) + ".pdf");
+            if(!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
+                return null;
+
+            File directory = new File(FileHelper.PATH_STORAGE);
+
+            if(!directory.exists())
+                directory.mkdirs();
+
+            File file = new File(directory + "/export" + DateTimeFormat.forPattern("yyyyMMddHHmmss").
+                    print(new DateTime()) + ".pdf");
 
             dateStart = params[0];
             dateEnd = params[1];
@@ -231,16 +243,14 @@ public class FileHelper {
                 document.open();
                 iTextGMetaData(document);
 
-                final Calendar dateIteration = Calendar.getInstance();
-                dateIteration.setTime(dateStart.getTime());
+                DateTime dateIteration = dateStart;
 
                 // One day after last chosen day
-                Calendar dateAfter = Calendar.getInstance();
-                dateAfter.setTime(dateEnd.getTime());
-                dateAfter.set(Calendar.DAY_OF_MONTH, dateAfter.get(Calendar.DAY_OF_MONTH) + 1);
+                DateTime dateAfter = dateEnd;
+                dateAfter.withDayOfMonth(dateAfter.dayOfMonth().get() + 1);
 
                 // Total number of days to export
-                int totalDays = Helper.getDifferenceInDays(dateStart, dateEnd) + 1;
+                int totalDays = Days.daysBetween(dateStart, dateEnd).getDays();
 
                 String[] weekDays = context.getResources().getStringArray(R.array.weekdays);
 
@@ -249,10 +259,10 @@ public class FileHelper {
 
                 // Day by day
                 int currentDay = 1;
-                while(dateIteration.before(dateAfter)) {
+                while(dateIteration.isBefore(dateAfter)) {
 
                     // title bar for new week
-                    if(currentDay > 1 && dateIteration.get(Calendar.DAY_OF_WEEK) == 2) {
+                    if(currentDay > 1 && dateIteration.getDayOfWeek() == 2) {
                         document.newPage();
                         document.add(getWeekBar(dateIteration));
                         document.add(Chunk.NEWLINE);
@@ -265,8 +275,8 @@ public class FileHelper {
                     PdfPCell cell;
 
                     // Header
-                    cell = new PdfPCell(new Phrase(weekDays[dateIteration.get(Calendar.DAY_OF_WEEK)-1].substring(0, 2) + " " +
-                            new SimpleDateFormat("dd.MM.").format(dateIteration.getTime()),
+                    cell = new PdfPCell(new Phrase(weekDays[dateIteration.getDayOfWeek()-1].substring(0, 2) + " " +
+                            new SimpleDateFormat("dd.MM.").format(dateIteration),
                             new Font(fontBold)));
                     cell.setBorder(0);
                     cell.setBorder(Rectangle.BOTTOM);
@@ -281,12 +291,14 @@ public class FileHelper {
 
                     // Content
                     dataSource.open();
-                    float[][] values = dataSource.getAverageDataTable(dateIteration, selectedCategories, 12);
+                    // TODO
+                    float[][] values; // = dataSource.getAverageDataTable(dateIteration, selectedCategories, 12);
+                    values = new float[0][0];
                     dataSource.close();
 
                     // Insert values into table
                     for(int categoryPosition = 0; categoryPosition < selectedCategories.length; categoryPosition++) {
-                        Event.Category category = selectedCategories[categoryPosition];
+                        Measurement.Category category = selectedCategories[categoryPosition];
 
                         cell = new PdfPCell(new Paragraph(preferenceHelper.getCategoryName(category), fontGray));
                         cell.setBorder(0);
@@ -303,15 +315,14 @@ public class FileHelper {
                                 String valueString = preferenceHelper.
                                         getDecimalFormat(category).format(value);
 
-                                if(category == Event.Category.BloodSugar) {
+                                paragraph = new Paragraph(valueString, fontBasis);
+                                if(category == Measurement.Category.BloodSugar) {
                                     if (values[categoryPosition][hour] <
                                             preferenceHelper.getLimitHypoglycemia())
                                         paragraph = new Paragraph(valueString, fontBlue);
                                     else if (values[categoryPosition][hour] >
                                             preferenceHelper.getLimitHyperglycemia())
                                         paragraph = new Paragraph(valueString, fontRed);
-                                    else
-                                        paragraph = new Paragraph(valueString, fontBasis);
                                 }
                             }
 
@@ -338,14 +349,14 @@ public class FileHelper {
                     publishProgress(context.getString(R.string.day) + " " + currentDay + "/" + totalDays);
 
                     // Next day
-                    dateIteration.set(Calendar.DAY_OF_MONTH, dateIteration.get(Calendar.DAY_OF_MONTH) + 1);
+                    dateIteration.withDayOfMonth(dateIteration.dayOfMonth().get() + 1);
                     currentDay++;
                 }
 
                 document.close();
             }
             catch (Exception ex) {
-                //Log.e("DiaguardError", ex.getMessage());
+                Log.e("DiaguardError", ex.getMessage());
             }
 
             return file;
@@ -372,31 +383,31 @@ public class FileHelper {
         }
 
         private void iTextGMetaData(Document document) {
-            String subject = context.getResources().getString(R.string.app_name) + " " +
-                    context.getResources().getString(R.string.export) + ": " +
-                    preferenceHelper.getDateFormat().format(dateStart.getTime()) + " - " +
-                    preferenceHelper.getDateFormat().format(dateEnd.getTime());
+            String subject = context.getString(R.string.app_name) + " " +
+                    context.getString(R.string.export) + ": " +
+                    preferenceHelper.getDateFormat().print(dateStart) + " - " +
+                    preferenceHelper.getDateFormat().print(dateEnd);
             document.addTitle(subject);
-            document.addAuthor(context.getResources().getString(R.string.app_name));
-            document.addCreator(context.getResources().getString(R.string.app_name));
+            document.addAuthor(context.getString(R.string.app_name));
+            document.addCreator(context.getString(R.string.app_name));
         }
 
-        private Paragraph getWeekBar(Calendar weekStart) {
+        private Paragraph getWeekBar(DateTime weekStart) {
 
             Paragraph paragraph = new Paragraph();
 
             // Week
-            Chunk chunk = new Chunk(context.getString(R.string.calendarweek) + " " + weekStart.get(Calendar.WEEK_OF_YEAR));
+            Chunk chunk = new Chunk(context.getString(R.string.calendarweek) + " " + weekStart.getWeekyear());
             chunk.setFont(FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD));
             paragraph.add(chunk);
 
-            Calendar weekEnd = Calendar.getInstance();
-            weekEnd.setTime(weekStart.getTime());
-            weekEnd.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+            DateTime weekEnd = new DateTime();
+            weekEnd = weekStart;
+            weekEnd.withDayOfWeek(DateTimeConstants.SUNDAY);
 
             // Dates
-            chunk = new Chunk("\n" + preferenceHelper.getDateFormat().format(weekStart.getTime()) + " - " +
-                    preferenceHelper.getDateFormat().format(weekEnd.getTime()));
+            chunk = new Chunk("\n" + preferenceHelper.getDateFormat().print(weekStart) + " - " +
+                    preferenceHelper.getDateFormat().print(weekEnd));
             chunk.setFont(FontFactory.getFont(FontFactory.HELVETICA, 9));
             paragraph.add(chunk);
 
@@ -422,9 +433,9 @@ public class FileHelper {
         public void onEndPage(PdfWriter writer, Document document) {
             Rectangle rect = writer.getBoxSize("Header");
 
-            Calendar today = Calendar.getInstance();
+            DateTime today = new DateTime();
             String stamp = context.getString(R.string.export_stamp) + " " +
-                    preferenceHelper.getDateFormat().format(today.getTime());
+                    preferenceHelper.getDateFormat().print(today);
             Chunk chunk = new Chunk(stamp,
                     FontFactory.getFont(FontFactory.HELVETICA, 9, BaseColor.GRAY));
             ColumnText.showTextAligned(writer.getDirectContent(),

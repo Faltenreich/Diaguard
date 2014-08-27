@@ -12,9 +12,8 @@ import android.widget.DatePicker;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
-import com.faltenreich.diaguard.helpers.ViewHelper;
 
-import java.util.Calendar;
+import org.joda.time.DateTime;
 
 /**
  * Created by Filip on 04.11.13.
@@ -37,14 +36,16 @@ public class CleanUpPreference extends DialogPreference {
         preferenceHelper = new PreferenceHelper(activity);
     }
 
-    private void cleanUp(Calendar date) {
+    private void cleanUp(DateTime date) {
 
+        /*
         dataSource.open();
         int count = dataSource.deleteEventsBefore(date);
         dataSource.close();
 
         ViewHelper.showInfo(activity, count + " " +
                 activity.getResources().getString(R.string.pref_data_cleanup_return));
+        */
     }
 
     @Override
@@ -59,17 +60,21 @@ public class CleanUpPreference extends DialogPreference {
 
         if(positiveResult) {
 
-            final Calendar date = Calendar.getInstance();
-            date.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
+            final DateTime date = new DateTime();
+            date.withYear(datePicker.getYear());
+            date.withMonthOfYear(datePicker.getMonth());
+            date.withDayOfMonth(datePicker.getDayOfMonth());
 
+            /*
             dataSource.open();
             int count = dataSource.countEventsBefore(date);
             dataSource.close();
+            */
 
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
             dialogBuilder
                     .setTitle(activity.getResources().getString(R.string.pref_data_cleanup_confirm_title))
-                    .setMessage(count + " " + activity.getResources().getString(R.string.pref_data_cleanup_confirm_message))
+                    .setMessage(/*count + */" " + activity.getResources().getString(R.string.pref_data_cleanup_confirm_message))
                     .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.cancel();

@@ -1,28 +1,21 @@
 package com.faltenreich.diaguard;
 
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.DrawerLayout;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
 
-import com.faltenreich.diaguard.adapters.DrawerListViewAdapter;
 import com.faltenreich.diaguard.fragments.LogFragment;
 import com.faltenreich.diaguard.fragments.MainFragment;
 import com.faltenreich.diaguard.fragments.TimelineFragment;
-import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.faltenreich.diaguard.helpers.ViewHelper;
 
 import java.util.ArrayList;
@@ -35,25 +28,21 @@ public class MainActivity extends ActionBarActivity {
     public static final int REQUEST_EVENT_CREATED = 1;
     public static final String EVENT_CREATED = "EVENT_CREATED";
 
-    public enum FragmentType {
-        Home,
-        Timeline,
-        Log,
-        Calculator,
-        Export,
-        Settings
-    }
-
-    private DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle drawerToggle;
-    private ListView drawerList;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().setTitle(getString(R.string.app_name));
-        initialize();
+        // TODO: Put in DiaguardApplication.java (needs Activity?)
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
+        initializeGUI();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
     }
 
     @Override
@@ -77,163 +66,87 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        // Animate Toggle
-        if(drawerToggle != null)
-            drawerToggle.syncState();
-    }
+    private void initializeGUI() {
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()));
+        viewPager.setOnPageChangeListener(
+            new ViewPager.SimpleOnPageChangeListener() {
+                @Override
+                public void onPageSelected(int position) {
+                    getSupportActionBar().setSelectedNavigationItem(position);
+                }
+            }
+        );
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        if(drawerToggle != null)
-            drawerToggle.onConfigurationChanged(newConfig);
-    }
-
-    private void initialize() {
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-        initializeDrawer();
-        PreferenceHelper preferenceHelper = new PreferenceHelper(this);
-        replaceFragment(preferenceHelper.getStartFragment());
-    }
-
-    private void initializeDrawer() {
-        List<String> menuItems = new ArrayList<String>();
-        menuItems.add(getString(R.string.home));
-        menuItems.add(getString(R.string.timeline));
-        menuItems.add(getString(R.string.log));
-        //menuItems.add(getString(R.string.statistics));
-        menuItems.add(getString(R.string.calculator));
-        menuItems.add(getString(R.string.export));
-        menuItems.add(getString(R.string.settings));
-
-        int[] menuImages = new int[3];
-        menuImages[0] = R.drawable.calculator;
-        menuImages[1] = R.drawable.export;
-        menuImages[2] = R.drawable.settings;
-
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerList = (ListView) findViewById(R.id.drawer_navigation);
-        DrawerListViewAdapter adapter = new DrawerListViewAdapter(this,
-                menuItems.toArray(new String[menuItems.size()]), menuImages, 3);
-        drawerList.setAdapter(adapter);
-        drawerList.setOnItemClickListener(new ListView.OnItemClickListener() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        ActionBar.TabListener tabListener = new ActionBar.TabListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                replaceFragment(FragmentType.values()[position]);
-                drawerLayout.closeDrawer(drawerList);
+            public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+                viewPager.setCurrentItem(tab.getPosition());
             }
-        });
-
-        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer,
-                R.string.drawer_open, R.string.drawer_close) {
-
-            public void onDrawerClosed(View view) {
-                if(Build.VERSION.SDK_INT < 11)
-                    supportInvalidateOptionsMenu();
-                else
-                    invalidateOptionsMenu();
+            @Override
+            public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
             }
-
-            public void onDrawerOpened(View drawerView) {
-                if(Build.VERSION.SDK_INT < 11)
-                    supportInvalidateOptionsMenu();
-                else
-                    invalidateOptionsMenu();
+            @Override
+            public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
             }
         };
-        drawerLayout.setDrawerListener(drawerToggle);
-
-        /*
-        // Hint for the Navigation Drawer
-        drawerLayout.openDrawer(drawerList);
-        new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    drawerLayout.closeDrawer(drawerList);
-                }
-        }, 1300);
-        */
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-    }
-
-    /**
-     * Open a new Fragment
-     * @param fragmentType Enum to detect the specific Fragment to open
-     */
-    public void replaceFragment(FragmentType fragmentType) {
-
-        // Highlighting
-        if(drawerList != null && drawerList.getChildCount() > 0 &&
-                fragmentType.ordinal() < ((DrawerListViewAdapter)drawerList.getAdapter()).fragmentCount) {
-
-            // De-highlight every item
-            for (int i = 0; i < drawerList.getChildCount(); i++) {
-                View v = drawerList.getChildAt(i);
-                if(v != null) {
-                    TextView textViewListItem = (TextView) v.findViewById(R.id.title);
-                    if (textViewListItem != null)
-                        textViewListItem.setTypeface(null, Typeface.NORMAL);
-                }
-            }
-
-            // Highlight selected item
-            TextView selectedChild = (TextView) drawerList.getChildAt(fragmentType.ordinal()).
-                    findViewById(R.id.title);
-            if (selectedChild != null)
-                selectedChild.setTypeface(null, Typeface.BOLD);
+        for (int position = 0; position < viewPager.getAdapter().getCount(); position++) {
+            actionBar.addTab(actionBar.newTab()
+                    .setText(viewPager.getAdapter().getPageTitle(position))
+                    .setTabListener(tabListener));
         }
-
-        // Do nothing if the user wants to reopen the current visible Fragment
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment = fragmentManager.findFragmentByTag(fragmentType.toString());
-        if(fragment != null && fragment.isVisible())
-            return;
-
-        switch (fragmentType) {
-            case Home:
-                fragment = new MainFragment();
-                break;
-            case Timeline:
-                fragment = new TimelineFragment();
-                break;
-            case Log:
-                fragment = new LogFragment();
-                break;
-            case Calculator:
-                startActivity(new Intent(this, CalculatorActivity.class));
-                return;
-            case Export:
-                startActivity(new Intent(this, ExportActivity.class));
-                return;
-            case Settings:
-                startActivity(new Intent(this, PreferencesActivity.class));
-                return;
-            default:
-                return;
-        }
-
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.frame_content, fragment, fragmentType.toString());
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        transaction.commit();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                if (drawerLayout.isDrawerOpen(drawerList))
-                    drawerLayout.closeDrawer(drawerList);
-                else
-                    drawerLayout.openDrawer(drawerList);
+            case R.id.action_calculator:
+                startActivity(new Intent(this, CalculatorActivity.class));
+                return true;
+            case R.id.action_settings:
+                startActivity(new Intent(this, PreferencesActivity.class));
+                return true;
+            case R.id.action_newevent:
+                startActivityForResult(new Intent(this, NewEventActivity.class), MainActivity.REQUEST_EVENT_CREATED);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private class FragmentPagerAdapter extends FragmentStatePagerAdapter {
+        List<Fragment> fragments;
+        int[] fragmentNameIds;
+
+        public FragmentPagerAdapter(FragmentManager fm) {
+            super(fm);
+            fragments = new ArrayList<Fragment>();
+            fragments.add(new MainFragment());
+            fragments.add(new TimelineFragment());
+            fragments.add(new LogFragment());
+
+            // TODO: Skip manual setting
+            fragmentNameIds = new int[fragments.size()];
+            fragmentNameIds[0] = R.string.home;
+            fragmentNameIds[1] = R.string.timeline;
+            fragmentNameIds[2] = R.string.log;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return fragments.size();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return getString(fragmentNameIds[position]);
         }
     }
 }

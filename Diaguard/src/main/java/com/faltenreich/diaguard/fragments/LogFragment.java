@@ -9,8 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,15 +20,13 @@ import android.widget.ListView;
 import com.faltenreich.diaguard.MainActivity;
 import com.faltenreich.diaguard.NewEventActivity;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapters.ListViewAdapterLog;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
-import com.faltenreich.diaguard.database.Event;
+import com.faltenreich.diaguard.database.Entry;
+import com.faltenreich.diaguard.database.Measurement;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormatter;
 
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass.
@@ -44,7 +40,7 @@ public class LogFragment extends Fragment {
     DatabaseDataSource dataSource;
     PreferenceHelper preferenceHelper;
 
-    Calendar time;
+    DateTime time;
     boolean[] checkedCategories;
 
     ListView listViewEvents;
@@ -65,7 +61,6 @@ public class LogFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity)getActivity()).getSupportActionBar().setTitle(getString(R.string.log));
         updateListView();
     }
 
@@ -75,19 +70,14 @@ public class LogFragment extends Fragment {
         updateListView();
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.report, menu);
-    }
-
     public void initialize() {
 
         dataSource = new DatabaseDataSource(getActivity());
         preferenceHelper = new PreferenceHelper(getActivity());
 
-        time = Calendar.getInstance();
+        time = new DateTime();
 
-        Event.Category[] categories = Event.Category.values();
+        Measurement.Category[] categories = Measurement.Category.values();
         checkedCategories = new boolean[categories.length];
         for(int item = 0; item < categories.length; item++) {
             checkedCategories[item] = preferenceHelper.isCategoryActive(categories[item]);
@@ -125,8 +115,9 @@ public class LogFragment extends Fragment {
 
         listViewEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final Event event = (Event) listViewEvents.getAdapter().getItem(position);
-                editEvent(event);
+                // TODO
+                //final Measurement measurement = (Measurement) listViewEvents.getAdapter().getItem(position);
+                //editEntry(measurement);
                 /*
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle(preferenceHelper.getCategoryName(event.getCategory()))
@@ -134,7 +125,7 @@ public class LogFragment extends Fragment {
                             public void onClick(DialogInterface dialog, int which) {
                                 switch (which) {
                                     case ACTION_EDIT:
-                                        editEvent(event);
+                                        editEntry(event);
                                         break;
                                     case ACTION_DELETE:
                                         deleteEvent(event);
@@ -189,18 +180,20 @@ public class LogFragment extends Fragment {
         */
     }
 
-    private void editEvent(Event event) {
+    private void editEntry(Entry entry) {
         Intent intent = new Intent(getActivity(), NewEventActivity.class);
-        intent.putExtra(NewEventActivity.EXTRA_ID, event.getId());
+        intent.putExtra(NewEventActivity.EXTRA_ID, entry.getId());
         startActivity(intent);
     }
 
     private void updateListView() {
 
-        SimpleDateFormat format = preferenceHelper.getDateFormat();
-        String weekDay = getResources().getStringArray(R.array.weekdays)[time.get(Calendar.DAY_OF_WEEK)-1];
-        ((Button)getView().findViewById(R.id.button_date)).setText(weekDay.substring(0,2) + "., " + format.format(time.getTime()));
+        DateTimeFormatter format = preferenceHelper.getDateFormat();
+        String weekDay = getResources().getStringArray(R.array.weekdays)[time.getDayOfWeek()];
+        ((Button)getView().findViewById(R.id.button_date)).setText(weekDay.substring(0,2) + "., " + format.print(time));
 
+        // TODO
+        /*
         dataSource.open();
         List<Event> eventsOfDay = dataSource.getEventsOfDay(time);
         dataSource.close();
@@ -219,21 +212,21 @@ public class LogFragment extends Fragment {
                 getActivity(),
                 Calendar.getInstance(),
                 preferenceHelper.getActiveCategories());
-        */
         listViewEvents.setAdapter(adapter);
 
         listViewEvents.setEmptyView(getView().findViewById(R.id.listViewEventsEmpty));
+        */
     }
 
     // LISTENERS
 
-    public void previousDay () {
-        time.set(Calendar.DAY_OF_MONTH, time.get(Calendar.DAY_OF_MONTH) - 1);
+    public void previousDay() {
+        time.withDayOfMonth(time.getDayOfMonth() - 1);
         updateListView();
     }
 
-    public void nextDay () {
-        time.set(Calendar.DAY_OF_MONTH, time.get(Calendar.DAY_OF_MONTH) + 1);
+    public void nextDay() {
+        time.withDayOfMonth(time.getDayOfMonth() + 1);
         updateListView();
     }
 
@@ -241,9 +234,9 @@ public class LogFragment extends Fragment {
         DialogFragment fragment = new DatePickerFragment() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
-                time.set(Calendar.YEAR, year);
-                time.set(Calendar.MONTH, month);
-                time.set(Calendar.DAY_OF_MONTH, day);
+                time.withYear(year);
+                time.withMonthOfYear(month);
+                time.withDayOfMonth(day);
                 updateListView();
             }
         };

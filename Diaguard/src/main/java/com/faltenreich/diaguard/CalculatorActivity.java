@@ -18,12 +18,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.database.DatabaseDataSource;
-import com.faltenreich.diaguard.database.Event;
+import com.faltenreich.diaguard.database.Entry;
+import com.faltenreich.diaguard.database.Measurement;
 import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.faltenreich.diaguard.helpers.Validator;
 
-import java.util.Calendar;
+import org.joda.time.DateTime;
 
 /**
  * Created by Filip on 15.11.13.
@@ -84,25 +85,25 @@ public class CalculatorActivity extends ActionBarActivity {
     }
 
     public void initializeGUI() {
-        String unitAcronym = preferenceHelper.getUnitAcronym(Event.Category.BloodSugar);
+        String unitAcronym = preferenceHelper.getUnitAcronym(Measurement.Category.BloodSugar);
         textViewUnitBloodSugar.setText(unitAcronym);
         textViewUnitTargetValue.setText(unitAcronym);
         textViewUnitCorrection.setText(unitAcronym);
-        textViewUnitMeal.setText(preferenceHelper.getUnitAcronym(Event.Category.Meal));
+        textViewUnitMeal.setText(preferenceHelper.getUnitAcronym(Measurement.Category.Meal));
 
         // Target
         float targetValue = preferenceHelper.formatDefaultToCustomUnit(
-                Event.Category.BloodSugar,
+                Measurement.Category.BloodSugar,
                 preferenceHelper.getTargetValue());
         editTextTargetValue.setHint(
-                preferenceHelper.getDecimalFormat(Event.Category.BloodSugar).format(targetValue));
+                preferenceHelper.getDecimalFormat(Measurement.Category.BloodSugar).format(targetValue));
 
         // Correction
         float correctionValue = preferenceHelper.formatDefaultToCustomUnit(
-                Event.Category.BloodSugar,
+                Measurement.Category.BloodSugar,
                 preferenceHelper.getCorrectionValue());
-        editTextCorrection.setHint(
-                preferenceHelper.getDecimalFormat(Event.Category.BloodSugar).format(correctionValue));
+                editTextCorrection.setHint(preferenceHelper.
+                        getDecimalFormat(Measurement.Category.BloodSugar).format(correctionValue));
 
         // Factor
         spinnerFactors.setSelection(preferenceHelper.getCurrentDaytime().ordinal());
@@ -126,13 +127,13 @@ public class CalculatorActivity extends ActionBarActivity {
         boolean isValid = true;
 
         // Blood Sugar
-        if(!Validator.validateEditTextEvent(this, editTextBloodSugar, Event.Category.BloodSugar))
+        if(!Validator.validateEditTextEvent(this, editTextBloodSugar, Measurement.Category.BloodSugar))
             isValid = false;
 
-        if(!Validator.validateEditTextEvent(this, editTextTargetValue, Event.Category.BloodSugar))
+        if(!Validator.validateEditTextEvent(this, editTextTargetValue, Measurement.Category.BloodSugar))
             isValid = false;
 
-        if(!Validator.validateEditTextEvent(this, editTextCorrection, Event.Category.BloodSugar))
+        if(!Validator.validateEditTextEvent(this, editTextCorrection, Measurement.Category.BloodSugar))
             isValid = false;
 
         // Meal
@@ -144,7 +145,7 @@ public class CalculatorActivity extends ActionBarActivity {
         String valueMeal = editableMeal.toString();
         if(valueMeal.length() > 0) {
 
-            if (!Validator.validateEventValue(this, editTextMeal, Event.Category.Meal, valueMeal)) {
+            if (!Validator.validateEventValue(this, editTextMeal, Measurement.Category.Meal, valueMeal)) {
                 isValid = false;
             }
 
@@ -175,17 +176,17 @@ public class CalculatorActivity extends ActionBarActivity {
     private void submit() {
         // Blood Sugar
         final float currentBloodSugar =
-                preferenceHelper.formatCustomToDefaultUnit(Event.Category.BloodSugar,
+                preferenceHelper.formatCustomToDefaultUnit(Measurement.Category.BloodSugar,
                         Float.parseFloat(editTextBloodSugar.getText().toString()));
 
         String targetValueString = editTextTargetValue.getText().toString();
         float targetBloodSugar;
         if(!Validator.containsNumber(targetValueString))
             targetBloodSugar = preferenceHelper.formatDefaultToCustomUnit(
-                    Event.Category.BloodSugar, preferenceHelper.getTargetValue());
+                    Measurement.Category.BloodSugar, preferenceHelper.getTargetValue());
         else
             targetBloodSugar = Float.parseFloat(targetValueString);
-        targetBloodSugar = preferenceHelper.formatCustomToDefaultUnit(Event.Category.BloodSugar, targetBloodSugar);
+        targetBloodSugar = preferenceHelper.formatCustomToDefaultUnit(Measurement.Category.BloodSugar, targetBloodSugar);
 
         Editable editableText = editTextCorrection.getText();
         CharSequence charSequenceHint = editTextCorrection.getHint();
@@ -200,13 +201,13 @@ public class CalculatorActivity extends ActionBarActivity {
         }
         else
             return;
-        correction = preferenceHelper.formatCustomToDefaultUnit(Event.Category.BloodSugar, correction);
+        correction = preferenceHelper.formatCustomToDefaultUnit(Measurement.Category.BloodSugar, correction);
 
         // Meal
         String mealString = editTextMeal.getText().toString();
         final float meal;
         if(Validator.containsNumber(mealString))
-            meal = preferenceHelper.formatCustomToDefaultUnit(Event.Category.Meal, Float.parseFloat(mealString));
+            meal = preferenceHelper.formatCustomToDefaultUnit(Measurement.Category.Meal, Float.parseFloat(mealString));
         else
             meal = 0;
 
@@ -251,7 +252,7 @@ public class CalculatorActivity extends ActionBarActivity {
         textViewValue.setText(Helper.getDecimalFormat().format(bolus));
 
         TextView textViewUnit = (TextView) viewPopup.findViewById(R.id.textViewUnit);
-        textViewUnit.setText(preferenceHelper.getUnitAcronym(Event.Category.Bolus));
+        textViewUnit.setText(preferenceHelper.getUnitAcronym(Measurement.Category.Bolus));
 
         final CheckBox checkBoxStoreValues = (CheckBox) viewPopup.findViewById(R.id.checkBoxStoreValues);
 
@@ -284,31 +285,30 @@ public class CalculatorActivity extends ActionBarActivity {
     private void storeValues(float currentBloodSugar, float meal, float bolus) {
         dataSource.open();
 
-        Calendar now = Calendar.getInstance();
+        Entry entry = new Entry();
+        entry.setDate(new DateTime());
+        long entryId = dataSource.insert(entry);
 
-        Event event = new Event();
-        event.setValue(currentBloodSugar);
-        event.setDate(now);
-        event.setNotes("");
-        event.setCategory(Event.Category.BloodSugar);
-        dataSource.insertEvent(event);
+        Measurement measurement = new Measurement();
+        measurement.setValue(currentBloodSugar);
+        measurement.setCategory(Measurement.Category.BloodSugar);
+        measurement.setEntryId(entryId);
+        dataSource.insert(measurement);
 
         if(meal > 0) {
-            event = new Event();
-            event.setValue(meal);
-            event.setDate(now);
-            event.setNotes("");
-            event.setCategory(Event.Category.Meal);
-            dataSource.insertEvent(event);
+            measurement = new Measurement();
+            measurement.setValue(meal);
+            measurement.setCategory(Measurement.Category.Meal);
+            measurement.setEntryId(entryId);
+            dataSource.insert(measurement);
         }
 
         if(bolus > 0) {
-            event = new Event();
-            event.setValue(bolus);
-            event.setDate(now);
-            event.setNotes("");
-            event.setCategory(Event.Category.Bolus);
-            dataSource.insertEvent(event);
+            measurement = new Measurement();
+            measurement.setValue(bolus);
+            measurement.setCategory(Measurement.Category.Bolus);
+            measurement.setEntryId(entryId);
+            dataSource.insert(measurement);
         }
 
         dataSource.close();

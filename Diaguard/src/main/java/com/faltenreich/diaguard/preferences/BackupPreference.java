@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
@@ -14,11 +13,11 @@ import com.faltenreich.diaguard.helpers.FileHelper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.faltenreich.diaguard.helpers.ViewHelper;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+
 import java.io.File;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -54,9 +53,8 @@ public class BackupPreference extends DialogPreference {
                         switch (which) {
                             case ACTION_CREATEBACKUP:
                                 createBackup();
-                                SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
                                 String path = FileHelper.PATH_STORAGE + "/backup" +
-                                        format.format(Calendar.getInstance().getTime()) + ".csv";
+                                        DateTimeFormat.forPattern("yyyyMMddHHmmss").print(new DateTime()) + ".csv";
                                 ViewHelper.showInfo(activity,
                                         activity.getResources().getString(R.string.pref_data_backup_finished) + ": " + path);
                                 break;
@@ -86,19 +84,11 @@ public class BackupPreference extends DialogPreference {
         }
 
         final String[] csvArray = csvFiles.toArray(new String[csvFiles.size()]);
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-
         final String[] csvArrayDates = new String[csvArray.length];
         for(int position = 0; position < csvArray.length; position++) {
             String dateString = csvArray[position].substring(6, csvArray[position].lastIndexOf("."));
-            try {
-                Calendar date = Calendar.getInstance();
-                date.setTime(format.parse(dateString));
-                csvArrayDates[position] = preferenceHelper.getDateAndTimeFormat().format(date.getTime());
-            }
-            catch (ParseException ex) {
-                Log.e("BackupPreference", ex.getMessage());
-            }
+            DateTime date = DateTimeFormat.forPattern("yyyyMMddHHmmss").parseDateTime(dateString);
+            csvArrayDates[position] = preferenceHelper.getDateAndTimeFormat().print(date);
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);

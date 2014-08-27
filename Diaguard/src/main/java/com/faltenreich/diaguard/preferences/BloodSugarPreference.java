@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.database.Event;
+import com.faltenreich.diaguard.database.Measurement;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.faltenreich.diaguard.helpers.Validator;
 
@@ -47,12 +47,12 @@ public class BloodSugarPreference extends EditTextPreference {
             throw new Resources.NotFoundException();
 
         float value = Float.parseFloat(sharedPreferences.getString(getKey(), ""));
-        value = preferenceHelper.formatDefaultToCustomUnit(Event.Category.BloodSugar, value);
-        editTextValue.setText(preferenceHelper.getDecimalFormat(Event.Category.BloodSugar).format(value));
+        value = preferenceHelper.formatDefaultToCustomUnit(Measurement.Category.BloodSugar, value);
+        editTextValue.setText(preferenceHelper.getDecimalFormat(Measurement.Category.BloodSugar).format(value));
         editTextValue.setSelection(editTextValue.getText().length());
 
         textViewUnit = (TextView) view.findViewById(R.id.unit);
-        textViewUnit.setText(preferenceHelper.getUnitName(Event.Category.BloodSugar));
+        textViewUnit.setText(preferenceHelper.getUnitName(Measurement.Category.BloodSugar));
     }
 
     @Override
@@ -68,7 +68,7 @@ public class BloodSugarPreference extends EditTextPreference {
             @Override
             public void onClick(View v)
             {
-                if(Validator.validateEditTextEvent(context, editTextValue, Event.Category.BloodSugar))
+                if(Validator.validateEditTextEvent(context, editTextValue, Measurement.Category.BloodSugar))
                 {
                     alertDialog.dismiss();
                     onDialogClosed(true);
@@ -90,7 +90,7 @@ public class BloodSugarPreference extends EditTextPreference {
             if(editor == null)
                 throw new Resources.NotFoundException();
 
-            value = preferenceHelper.formatCustomToDefaultUnit(Event.Category.BloodSugar, value);
+            value = preferenceHelper.formatCustomToDefaultUnit(Measurement.Category.BloodSugar, value);
             editor.putString(getKey(), Float.toString(value));
             editor.commit();
         }

@@ -6,7 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.database.Event;
+import com.faltenreich.diaguard.database.Measurement;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
@@ -91,7 +91,7 @@ public class ChartHelper {
 
         renderer.setYLabels(8);
         float minimum = new PreferenceHelper(activity).
-                formatDefaultToCustomUnit(Event.Category.BloodSugar,
+                formatDefaultToCustomUnit(Measurement.Category.BloodSugar,
                         activity.getResources().getIntArray(R.array.bloodsugar_extrema)[0]);
         renderer.setYAxisMin(minimum);
     }

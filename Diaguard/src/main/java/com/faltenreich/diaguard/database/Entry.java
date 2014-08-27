@@ -2,42 +2,25 @@ package com.faltenreich.diaguard.database;
 
 import com.faltenreich.diaguard.helpers.Helper;
 
-import java.text.ParseException;
-import java.util.Calendar;
+import org.joda.time.DateTime;
 
 /**
  * Created by Filip on 09.08.2014.
  */
-public class Entry {
-
-    private long id;
-    private Calendar date;
+public class Entry extends Model {
+    private DateTime date;
     private String note;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public Calendar getDate() {
+    public DateTime getDate() {
         return date;
     }
 
-    public void setDate(Calendar date) {
+    public void setDate(DateTime date) {
         this.date = date;
     }
 
     public void setDate(String dateString) {
-        try{
-            this.date = Calendar.getInstance();
-            this.date.setTime(Helper.getDateDatabaseFormat().parse(dateString));
-        }
-        catch (ParseException ex) {
-            ex.printStackTrace();
-        }
+        this.date = new DateTime(Helper.getDateDatabaseFormat().parseDateTime(dateString));
     }
 
     public String getNote() {
@@ -46,5 +29,10 @@ public class Entry {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    @Override
+    public String getTableName() {
+        return DatabaseHelper.ENTRY;
     }
 }

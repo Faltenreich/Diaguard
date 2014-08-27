@@ -7,7 +7,7 @@ import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
 import android.widget.TimePicker;
 
-import java.util.Calendar;
+import org.joda.time.DateTime;
 
 /**
  * Created by Filip on 23.10.13.
@@ -18,16 +18,13 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Calendar calendar = (Calendar)getArguments().getSerializable(TIME);
+        DateTime time = (DateTime)getArguments().getSerializable(TIME);
 
-        if(calendar == null)
-            calendar = Calendar.getInstance();
+        if(time == null)
+            time = new DateTime();
 
-        if(calendar == null)
-            calendar = Calendar.getInstance();
-
-        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
-        int minute = calendar.get(Calendar.MINUTE);
+        int hourOfDay = time.getHourOfDay();
+        int minute = time.getMinuteOfHour();
 
         return new TimePickerDialog(getActivity(), this, hourOfDay, minute,
                 DateFormat.is24HourFormat(getActivity()));

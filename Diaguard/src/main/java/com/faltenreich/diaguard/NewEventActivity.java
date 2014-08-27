@@ -19,8 +19,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -34,8 +32,9 @@ import android.widget.TimePicker;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.DatabaseHelper;
 import com.faltenreich.diaguard.database.Entry;
-import com.faltenreich.diaguard.database.Event;
 import com.faltenreich.diaguard.database.Food;
+import com.faltenreich.diaguard.database.Measurement;
+import com.faltenreich.diaguard.database.Model;
 import com.faltenreich.diaguard.fragments.DatePickerFragment;
 import com.faltenreich.diaguard.fragments.TimePickerFragment;
 import com.faltenreich.diaguard.helpers.FileHelper;
@@ -43,10 +42,11 @@ import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.faltenreich.diaguard.helpers.Validator;
 import com.faltenreich.diaguard.helpers.ViewHelper;
 
+import org.joda.time.DateTime;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -66,7 +66,7 @@ public class NewEventActivity extends ActionBarActivity {
     DatabaseDataSource dataSource;
     PreferenceHelper preferenceHelper;
 
-    Calendar time;
+    DateTime time;
     boolean inputWasMade;
     Bitmap imageTemp;
     boolean mealInfoIsVisible;
@@ -119,7 +119,7 @@ public class NewEventActivity extends ActionBarActivity {
     public void initialize() {
         dataSource = new DatabaseDataSource(this);
         preferenceHelper = new PreferenceHelper(this);
-        time = Calendar.getInstance();
+        time = new DateTime();
         inputWasMade = false;
 
         getComponents();
@@ -142,60 +142,60 @@ public class NewEventActivity extends ActionBarActivity {
         if (extras != null) {
             if (extras.getLong(EXTRA_ID) != 0L) {
                 dataSource.open();
-                Event event = dataSource.getEventById(extras.getLong("ID"));
+                Measurement measurement = (Measurement)dataSource.get(DatabaseHelper.MEASUREMENT, extras.getLong("ID"));
+                Entry entry = (Entry)dataSource.get(DatabaseHelper.ENTRY, measurement.getEntryId());
                 dataSource.close();
 
-                time = event.getDate();
+                time = entry.getDate();
                 float value = preferenceHelper.
-                        formatDefaultToCustomUnit(event.getCategory(), event.getValue());
-                editTextNotes.setText(event.getNotes());
-                addValue(event.getCategory(), preferenceHelper.getDecimalFormat(
-                        event.getCategory()).format(value));
+                        formatDefaultToCustomUnit(measurement.getCategory(), measurement.getValue());
+                editTextNotes.setText(entry.getNote());
+                addValue(measurement.getCategory(), preferenceHelper.getDecimalFormat(
+                        measurement.getCategory()).format(value));
             }
             else if(extras.getSerializable(EXTRA_DATE) != null) {
-                time = (Calendar) extras.getSerializable(EXTRA_DATE);
+                time = (DateTime) extras.getSerializable(EXTRA_DATE);
             }
         }
     }
 
     private void setDate() {
-        buttonDate.setText(preferenceHelper.getDateFormat().format(time.getTime()));
+        buttonDate.setText(preferenceHelper.getDateFormat().print(time));
     }
 
     private void setTime() {
-        buttonTime.setText(preferenceHelper.getTimeFormat().format(time.getTime()));
+        buttonTime.setText(preferenceHelper.getTimeFormat().print(time));
     }
 
     private void setCategories() {
-        for(Event.Category category : preferenceHelper.getActiveCategories()) {
+        for(Measurement.Category category : preferenceHelper.getActiveCategories()) {
             addValue(category, null);
         }
     }
 
     private void submit() {
-        List<Event> events = new ArrayList<Event>();
+
         Food food = null;
         boolean inputIsValid = true;
 
         // Validate date
-        Calendar now = Calendar.getInstance();
-        if (time.after(now)) {
+        DateTime now = new DateTime();
+        if (time.isAfter(now)) {
             ViewHelper.showAlert(this, getString(R.string.validator_value_infuture));
             return;
         }
 
+        List<Measurement> measurements = new ArrayList<Measurement>();
         // Iterate through all views and validate
         for (int position = 0; position < linearLayoutValues.getChildCount(); position++) {
             View view = linearLayoutValues.getChildAt(position);
-
             if(view != null && view.getTag() != null) {
-
-                if(view.getTag() instanceof Event.Category) {
+                if(view.getTag() instanceof Measurement.Category) {
                     EditText editTextValue = (EditText) view.findViewById(R.id.value);
                     String editTextText = editTextValue.getText().toString();
 
                     if(editTextText.length() > 0) {
-                        Event.Category category = (Event.Category) view.getTag();
+                        Measurement.Category category = (Measurement.Category) view.getTag();
 
                         if (!Validator.containsNumber(editTextText)) {
                             editTextValue.setError(getString(R.string.validator_value_empty));
@@ -209,13 +209,11 @@ public class NewEventActivity extends ActionBarActivity {
                         }
                         else {
                             editTextValue.setError(null);
-                            Event event = new Event();
+                            Measurement measurement = new Measurement();
                             float value = preferenceHelper.formatCustomToDefaultUnit(category, Float.parseFloat(editTextText));
-                            event.setValue(value);
-                            event.setDate(time);
-                            event.setNotes(editTextNotes.getText().toString());
-                            event.setCategory(category);
-                            events.add(event);
+                            measurement.setValue(value);
+                            measurement.setCategory(category);
+                            measurements.add(measurement);
                         }
                     }
                 }
@@ -228,8 +226,8 @@ public class NewEventActivity extends ActionBarActivity {
                         // Check if a Meal has been entered and get its values
                         boolean mealIsAvailable = false;
                         int eventPosition = 0;
-                        while(!mealIsAvailable && eventPosition < events.size()) {
-                            if(events.get(eventPosition).getCategory() == Event.Category.Meal)
+                        while(!mealIsAvailable && eventPosition < measurements.size()) {
+                            if(measurements.get(eventPosition).getCategory() == Measurement.Category.Meal)
                                 mealIsAvailable = true;
                             eventPosition++;
                         }
@@ -237,7 +235,7 @@ public class NewEventActivity extends ActionBarActivity {
                         if(mealIsAvailable) {
                             food = new Food();
                             // TODO handle position better
-                            food.setCarbohydrates(events.get(eventPosition-1).getValue());
+                            food.setCarbohydrates(measurements.get(eventPosition-1).getValue());
                             food.setName(editTextFood.getText().toString());
                             food.setDate(time);
                             // eventId is set later
@@ -248,7 +246,7 @@ public class NewEventActivity extends ActionBarActivity {
         }
 
         // Check whether there are values to submit
-        if(events.size() == 0) {
+        if(measurements.size() == 0) {
             ViewHelper.showAlert(this, getString(R.string.validator_value_none));
             inputIsValid = false;
         }
@@ -260,26 +258,28 @@ public class NewEventActivity extends ActionBarActivity {
             Entry entry = new Entry();
             entry.setDate(time);
             entry.setNote(editTextNotes.getText().toString());
-            long entryId = dataSource.insertEntry(entry);
+            long entryId = dataSource.insert(entry);
 
             // Events
             long[] ids;
             Bundle extras = getIntent().getExtras();
+            // Update existing
             if (extras != null && extras.getLong(EXTRA_ID) != 0L) {
-                events.get(0).setId(extras.getLong(EXTRA_ID));
+                measurements.get(0).setId(extras.getLong(EXTRA_ID));
                 ids = new long[1];
-                ids[0] = dataSource.updateEvent(events.get(0));
+                ids[0] = dataSource.update(measurements.get(0));
             }
+            // Insert new
             else {
-                ids = dataSource.insertEvents(events);
+                ids = dataSource.insert(measurements);
             }
 
             // Food
             if(food != null) {
-                for(int eventPosition = 0; eventPosition < events.size(); eventPosition++) {
-                    if(events.get(eventPosition).getCategory() == Event.Category.Meal) {
-                        food.setEventId(ids[eventPosition]);
-                        dataSource.insertFood(food);
+                for(int position = 0; position < measurements.size(); position++) {
+                    if(measurements.get(position).getCategory() == Measurement.Category.Meal) {
+                        food.setEventId(ids[position]);
+                        dataSource.insert(food);
                     }
                 }
             }
@@ -288,14 +288,14 @@ public class NewEventActivity extends ActionBarActivity {
 
             // Tell MainActivity that Events have been created
             Intent intent = new Intent();
-            intent.putExtra(MainActivity.EVENT_CREATED, events.size());
+            intent.putExtra(MainActivity.EVENT_CREATED, measurements.size());
             setResult(Activity.RESULT_OK, intent);
 
             finish();
         }
     }
 
-    private void addValue(final Event.Category category, String value) {
+    private void addValue(final Measurement.Category category, String value) {
         // Add view
         final LayoutInflater inflater = getLayoutInflater();
         final View view = inflater.inflate(R.layout.fragment_newvalue, linearLayoutValues, false);
@@ -314,7 +314,7 @@ public class NewEventActivity extends ActionBarActivity {
         if(value != null) {
             editTextValue.setText(value);
         }
-        if(category == Event.Category.BloodSugar)
+        if(category == Measurement.Category.BloodSugar)
             editTextValue.requestFocus();
 
         // OnChangeListener
@@ -344,18 +344,19 @@ public class NewEventActivity extends ActionBarActivity {
                         viewStatus.setBackgroundColor(getResources().getColor(R.color.green));
 
                     // Show an additional View for food information
-                    if(category == Event.Category.Meal && !mealInfoIsVisible) {
+                    if(category == Measurement.Category.Meal && !mealInfoIsVisible) {
                         View viewMealInfo = inflater.inflate(R.layout.fragment_meal_info, linearLayoutValues, false);
                         viewMealInfo.setTag(DatabaseHelper.FOOD);
                         linearLayoutValues.addView(viewMealInfo, 3);
 
                         // AutoComplete
                         dataSource.open();
-                        List<Food> foodList = dataSource.getFood();
+                        List<Model> foodList = dataSource.get(DatabaseHelper.FOOD, null, null, null, null, null, null, null);
                         dataSource.close();
                         String[] foodNames = new String[foodList.size()];
                         for(int foodPosition = 0; foodPosition < foodList.size(); foodPosition++) {
-                            foodNames[foodPosition] = foodList.get(foodPosition).getName();
+                            Food food = (Food)foodList.get(foodPosition);
+                            foodNames[foodPosition] = food.getName();
                         }
                         AutoCompleteTextView editTextFood = (AutoCompleteTextView)viewMealInfo.findViewById(R.id.food);
                         ArrayAdapter<String> adapter = new ArrayAdapter<String>(NewEventActivity.this, android.R.layout.simple_dropdown_item_1line, foodNames);
@@ -378,8 +379,8 @@ public class NewEventActivity extends ActionBarActivity {
             long id = extras.getLong("ID");
             if (id != 0L) {
                 dataSource.open();
-                Event event = dataSource.getEventById(id);
-                dataSource.deleteEvent(event);
+                //Event event = dataSource.getEventById(id);
+                //dataSource.deleteEvent(event);
                 dataSource.close();
                 finish();
             }
@@ -427,9 +428,9 @@ public class NewEventActivity extends ActionBarActivity {
         DialogFragment fragment = new DatePickerFragment() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
-                time.set(Calendar.YEAR, year);
-                time.set(Calendar.MONTH, month);
-                time.set(Calendar.DAY_OF_MONTH, day);
+                time.withYear(year);
+                time.withMonthOfYear(month);
+                time.withDayOfMonth(day);
                 setDate();
             }
         };
@@ -443,8 +444,8 @@ public class NewEventActivity extends ActionBarActivity {
         DialogFragment fragment = new TimePickerFragment() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                time.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                time.set(Calendar.MINUTE, minute);
+                time.withHourOfDay(hourOfDay);
+                time.withMinuteOfHour(minute);
                 setTime();
             }
         };

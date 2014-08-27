@@ -1,16 +1,10 @@
 package com.faltenreich.diaguard.database;
 
-import com.faltenreich.diaguard.helpers.Helper;
-
-import java.text.ParseException;
-import java.util.Calendar;
-
 /**
  * Created by Filip on 20.10.13.
  */
-public class Measurement {
+public class Measurement extends Model {
 
-    private long id;
     private float value;
     private Category category;
     private long entryId;
@@ -23,12 +17,6 @@ public class Measurement {
         HbA1c,
         Weight,
         Pulse
-    }
-
-    public long getId() { return id; }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public float getValue() {
@@ -49,5 +37,10 @@ public class Measurement {
 
     public void setEntryId(long entryId) {
         this.entryId = entryId;
+    }
+
+    @Override
+    public String getTableName() {
+        return DatabaseHelper.MEASUREMENT;
     }
 }

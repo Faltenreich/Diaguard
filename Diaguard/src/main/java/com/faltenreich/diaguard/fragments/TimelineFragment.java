@@ -8,12 +8,9 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,19 +19,16 @@ import com.faltenreich.diaguard.MainActivity;
 import com.faltenreich.diaguard.NewEventActivity;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
-import com.faltenreich.diaguard.database.Event;
+import com.faltenreich.diaguard.database.Measurement;
 import com.faltenreich.diaguard.helpers.ChartHelper;
 import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
-import com.faltenreich.diaguard.helpers.ViewHelper;
 
-import org.achartengine.model.SeriesSelection;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYSeriesRenderer;
+import org.joda.time.DateTime;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -47,11 +41,11 @@ public class TimelineFragment extends Fragment {
     private final String HYPOGLYCEMIA = "Hypoglycemia";
     private final String BACKGROUND = "Background";
 
-    DatabaseDataSource dataSource;
-    PreferenceHelper preferenceHelper;
-    ChartHelper chartHelperChart;
-    ChartHelper chartHelperTable;
-    Calendar time;
+    private DatabaseDataSource dataSource;
+    private PreferenceHelper preferenceHelper;
+    private ChartHelper chartHelperChart;
+    private ChartHelper chartHelperTable;
+    private DateTime time;
 
     boolean[] activeCategories;
     int activeCategoryCount;
@@ -75,7 +69,6 @@ public class TimelineFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity)getActivity()).getSupportActionBar().setTitle(getString(R.string.timeline));
         updateContent();
     }
 
@@ -85,24 +78,19 @@ public class TimelineFragment extends Fragment {
         updateContent();
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.add, menu);
-    }
-
     public void initialize() {
         dataSource = new DatabaseDataSource(getActivity());
         preferenceHelper = new PreferenceHelper(getActivity());
-        time = Calendar.getInstance();
+        time = new DateTime();
 
         // Check all active Categories but Blood Sugar (always active in Timeline)
-        Event.Category[] categories = Event.Category.values();
+        Measurement.Category[] categories = Measurement.Category.values();
         activeCategories = new boolean[categories.length];
         for(int item = 0; item < categories.length; item++)
             activeCategories[item] = preferenceHelper.isCategoryActive(categories[item]);
 
-        chartHelperChart = new ChartHelper(getActivity(), ChartHelper.ChartType.ScatterChart);
-        chartHelperTable = new ChartHelper(getActivity(), ChartHelper.ChartType.LineChart);
+        //chartHelperChart = new ChartHelper(getActivity(), ChartHelper.ChartType.ScatterChart);
+        //chartHelperTable = new ChartHelper(getActivity(), ChartHelper.ChartType.LineChart);
 
         getComponents();
         initializeGUI();
@@ -145,7 +133,7 @@ public class TimelineFragment extends Fragment {
     }
 
     private void updateContent() {
-
+        /*
         SimpleDateFormat format = preferenceHelper.getDateFormat();
         String weekDay = getResources().getStringArray(R.array.weekdays)[time.get(Calendar.DAY_OF_WEEK)-1];
         ((Button)getView().findViewById(R.id.button_date)).setText(weekDay.substring(0,2) + "., " + format.format(time.getTime()));
@@ -159,6 +147,7 @@ public class TimelineFragment extends Fragment {
         }
         else
             getView().findViewById(R.id.table).setVisibility(View.GONE);
+            */
     }
 
     //region Chart
@@ -203,7 +192,7 @@ public class TimelineFragment extends Fragment {
         chartHelperChart.renderer.setShowGrid(true);
         chartHelperChart.renderer.setShowGridY(true);
         chartHelperChart.renderer.setYAxisMax(
-                preferenceHelper.formatDefaultToCustomUnit(Event.Category.BloodSugar, 280));
+                preferenceHelper.formatDefaultToCustomUnit(Measurement.Category.BloodSugar, 280));
     }
 
     private void setChartData() {
@@ -218,11 +207,15 @@ public class TimelineFragment extends Fragment {
             chartHelperChart.seriesDataset.addSeries(seriesBloodSugarHypo);
         }
 
+
+        /*
         dataSource.open();
-        List<Event> bloodSugar = dataSource.getEventsOfDay(time, Event.Category.BloodSugar);
+        HashMap<Entry, List<Measurement>> data = new HashMap<Entry, List<Measurement>>();
+
+        List<Measurement> measurements = dataSource.getEventsOfDay(time, Measurement.Category.BloodSugar);
         dataSource.close();
 
-        for(Event event : bloodSugar) {
+        for(Measurement measurement : measurements) {
             float x_value = Helper.formatCalendarToHourMinutes(event.getDate());
 
             float y_value = preferenceHelper.
@@ -247,6 +240,7 @@ public class TimelineFragment extends Fragment {
                 seriesBloodSugar.add(x_value, y_value);
             }
         }
+        */
     }
 
     private void initializeChart() {
@@ -295,8 +289,8 @@ public class TimelineFragment extends Fragment {
         int activeCategoryPosition = 0;
         for(int item = 0; item < activeCategories.length; item++) {
 
-            if(activeCategories[item] && item != Event.Category.BloodSugar.ordinal()) {
-                Event.Category category = Event.Category.values()[item];
+            if(activeCategories[item] && item != Measurement.Category.BloodSugar.ordinal()) {
+                Measurement.Category category = Measurement.Category.values()[item];
 
                 // Category image
                 ImageView image = new ImageView(getActivity());
@@ -337,18 +331,19 @@ public class TimelineFragment extends Fragment {
             series.add(24 + ChartHelper.CHART_OFFSET_RIGHT, row);
         }
 
-        List<Event.Category> checkedCategoriesList = new ArrayList<Event.Category>();
+        List<Measurement.Category> checkedCategoriesList = new ArrayList<Measurement.Category>();
         for(int position = 0; position < activeCategories.length; position++) {
-            if(activeCategories[position] && position != Event.Category.BloodSugar.ordinal())
-                checkedCategoriesList.add(Event.Category.values()[position]);
+            if(activeCategories[position] && position != Measurement.Category.BloodSugar.ordinal())
+                checkedCategoriesList.add(Measurement.Category.values()[position]);
         }
+        /*
         dataSource.open();
         float[][] values = dataSource.getAverageDataTable(time,
-                checkedCategoriesList.toArray(new Event.Category[checkedCategoriesList.size()]), 12);
+                checkedCategoriesList.toArray(new Measurement.Category[checkedCategoriesList.size()]), 12);
         dataSource.close();
 
         for(int categoryPosition = 0; categoryPosition < checkedCategoriesList.size(); categoryPosition++) {
-            Event.Category category = checkedCategoriesList.get(categoryPosition);
+            Measurement.Category category = checkedCategoriesList.get(categoryPosition);
             XYSeries series = new XYSeries(category.name());
             chartHelperTable.seriesDataset.addSeries(series);
             for(int hour = 0; hour < 12; hour++) {
@@ -356,7 +351,7 @@ public class TimelineFragment extends Fragment {
                 if(value > 0) {
                     float x_value = (hour * 2) + 1;
                     float y_value = activeCategoryCount - 1 - categoryPosition + 0.3f;
-                    String valueString = preferenceHelper.getDecimalFormat(Event.Category.BloodSugar).
+                    String valueString = preferenceHelper.getDecimalFormat(Measurement.Category.BloodSugar).
                             format(preferenceHelper.formatDefaultToCustomUnit(category, value));
 
                     series.add(x_value, y_value);
@@ -364,6 +359,7 @@ public class TimelineFragment extends Fragment {
                 }
             }
         }
+        */
     }
 
     private void initializeTable() {
@@ -378,12 +374,12 @@ public class TimelineFragment extends Fragment {
     //region Listeners
 
     public void previousDay() {
-        time.set(Calendar.DAY_OF_MONTH, time.get(Calendar.DAY_OF_MONTH) - 1);
+        time.withDayOfMonth(time.getDayOfMonth() - 1);
         updateContent();
     }
 
     public void nextDay() {
-        time.set(Calendar.DAY_OF_MONTH, time.get(Calendar.DAY_OF_MONTH) + 1);
+        time.withDayOfMonth(time.getDayOfMonth() + 1);
         updateContent();
     }
 
@@ -391,9 +387,9 @@ public class TimelineFragment extends Fragment {
         DialogFragment fragment = new DatePickerFragment() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
-                time.set(Calendar.YEAR, year);
-                time.set(Calendar.MONTH, month);
-                time.set(Calendar.DAY_OF_MONTH, day);
+                time.withYear(year);
+                time.withMonthOfYear(month);
+                time.withDayOfMonth(day);
                 updateContent();
             }
         };

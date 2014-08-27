@@ -5,18 +5,19 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
 
-import com.faltenreich.diaguard.MainActivity;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.database.Event;
+import com.faltenreich.diaguard.database.Measurement;
 import com.faltenreich.diaguard.preferences.CategoryPreference;
 import com.faltenreich.diaguard.preferences.FactorPreference;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -39,17 +40,7 @@ public class PreferenceHelper {
 
     // GENERAL
 
-    public MainActivity.FragmentType getStartFragment() {
-        int startFragment = Integer.parseInt(sharedPreferences.getString("start_fragment", "0"));
-        switch(startFragment) {
-            case 0: return MainActivity.FragmentType.Home;
-            case 1: return MainActivity.FragmentType.Timeline;
-            case 2: return MainActivity.FragmentType.Log;
-            default: return MainActivity.FragmentType.Home;
-        }
-    }
-
-    public boolean validateEventValue(Event.Category category, float value) {
+    public boolean validateEventValue(Measurement.Category category, float value) {
         int resourceIdExtrema = context.getResources().getIdentifier(category.name().toLowerCase() +
                 "_extrema", "array", context.getPackageName());
 
@@ -66,11 +57,11 @@ public class PreferenceHelper {
 
     // DATES
 
-    public SimpleDateFormat getDateAndTimeFormat() {
-        return new SimpleDateFormat(getDateFormat().toPattern() + " " + getTimeFormat().toPattern());
+    public DateTimeFormatter getDateAndTimeFormat() {
+        return DateTimeFormat.forPattern(getDateFormat().toString() + " " + getTimeFormat().toString());
     }
 
-    public SimpleDateFormat getDateFormat() {
+    public DateTimeFormatter getDateFormat() {
         String dateString = sharedPreferences.getString("dateformat",
                 context.getResources().getString(R.string.dateformat_default));
 
@@ -78,11 +69,11 @@ public class PreferenceHelper {
         dateString = dateString.replace("mm", "MM");
         dateString = dateString.replace("DD", "dd");
 
-        return new SimpleDateFormat(dateString);
+        return DateTimeFormat.forPattern(dateString);
     }
 
-    public SimpleDateFormat getTimeFormat() {
-        return new SimpleDateFormat("HH:mm");
+    public DateTimeFormatter getTimeFormat() {
+        return DateTimeFormat.forPattern("HH:mm");
     }
 
     // BLOOD SUGAR
@@ -111,7 +102,7 @@ public class PreferenceHelper {
     }
 
     // TODO: Localization
-    public DecimalFormat getDecimalFormat(Event.Category category) {
+    public DecimalFormat getDecimalFormat(Measurement.Category category) {
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
         symbols.setDecimalSeparator('.');
 
@@ -134,28 +125,28 @@ public class PreferenceHelper {
 
     // CATEGORIES
 
-    public String getCategoryName(Event.Category category) {
-        int position = Event.Category.valueOf(category.name()).ordinal();
+    public String getCategoryName(Measurement.Category category) {
+        int position = Measurement.Category.valueOf(category.name()).ordinal();
         String[] categories = context.getResources().getStringArray(R.array.categories);
         return categories[position];
     }
 
     // UNITS
 
-    public String[] getUnitsNames(Event.Category category) {
+    public String[] getUnitsNames(Measurement.Category category) {
         String categoryName = category.name().toLowerCase();
         int resourceIdUnits = context.getResources().getIdentifier(categoryName +
                 "_units", "array", context.getPackageName());
         return context.getResources().getStringArray(resourceIdUnits);
     }
 
-    public String getUnitName(Event.Category category) {
+    public String getUnitName(Measurement.Category category) {
         String sharedPref = sharedPreferences.
                 getString("unit_" + category.name().toLowerCase(), "1");
         return getUnitsNames(category)[Arrays.asList(getUnitsValues(category)).indexOf(sharedPref)];
     }
 
-    public String[] getUnitsAcronyms(Event.Category category) {
+    public String[] getUnitsAcronyms(Measurement.Category category) {
         String categoryName = category.name().toLowerCase();
         int resourceIdUnits = context.getResources().getIdentifier(categoryName +
                 "_units_acronyms", "array", context.getPackageName());
@@ -165,7 +156,7 @@ public class PreferenceHelper {
             return context.getResources().getStringArray(resourceIdUnits);
     }
 
-    public String getUnitAcronym(Event.Category category) {
+    public String getUnitAcronym(Measurement.Category category) {
         String[] acronyms = getUnitsAcronyms(category);
         if(acronyms == null)
             return getUnitName(category);
@@ -182,25 +173,25 @@ public class PreferenceHelper {
         }
     }
 
-    public String[] getUnitsValues(Event.Category category) {
+    public String[] getUnitsValues(Measurement.Category category) {
         String categoryName = category.name().toLowerCase();
         int resourceIdUnits = context.getResources().getIdentifier(categoryName +
                 "_units_values", "array", context.getPackageName());
         return context.getResources().getStringArray(resourceIdUnits);
     }
 
-    public float getUnitValue(Event.Category category) {
+    public float getUnitValue(Measurement.Category category) {
         String sharedPref = sharedPreferences.
                 getString("unit_" + category.name().toLowerCase(), "1");
         String value = getUnitsValues(category)[Arrays.asList(getUnitsValues(category)).indexOf(sharedPref)];
         return Float.valueOf(value);
     }
 
-    public float formatCustomToDefaultUnit(Event.Category category, float value) {
+    public float formatCustomToDefaultUnit(Measurement.Category category, float value) {
         return value / getUnitValue(category);
     }
 
-    public float formatDefaultToCustomUnit(Event.Category category, float value) {
+    public float formatDefaultToCustomUnit(Measurement.Category category, float value) {
         return value * getUnitValue(category);
     }
 
@@ -214,8 +205,8 @@ public class PreferenceHelper {
     }
 
     public Daytime getCurrentDaytime() {
-        Calendar now = Calendar.getInstance();
-        int hour = now.get(Calendar.HOUR_OF_DAY);
+        DateTime now = new DateTime();
+        int hour = now.getHourOfDay();
 
         if(hour >= 4 && hour < 10)
             return Daytime.Morning;
@@ -233,17 +224,17 @@ public class PreferenceHelper {
 
     // CATEGORIES
 
-    public boolean isCategoryActive(Event.Category category) {
+    public boolean isCategoryActive(Measurement.Category category) {
         return sharedPreferences.getBoolean(category.name() + CategoryPreference.ACTIVE, true);
     }
 
-    public Event.Category[] getActiveCategories() {
-        List<Event.Category> activeCategories = new ArrayList<Event.Category>();
+    public Measurement.Category[] getActiveCategories() {
+        List<Measurement.Category> activeCategories = new ArrayList<Measurement.Category>();
 
-        for(int item = 0; item < Event.Category.values().length; item++)
-            if(isCategoryActive(Event.Category.values()[item]))
-                activeCategories.add(Event.Category.values()[item]);
+        for(int item = 0; item < Measurement.Category.values().length; item++)
+            if(isCategoryActive(Measurement.Category.values()[item]))
+                activeCategories.add(Measurement.Category.values()[item]);
 
-        return activeCategories.toArray(new Event.Category[activeCategories.size()]);
+        return activeCategories.toArray(new Measurement.Category[activeCategories.size()]);
     }
 }

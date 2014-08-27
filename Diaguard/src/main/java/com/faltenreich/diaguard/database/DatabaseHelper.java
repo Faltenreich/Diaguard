@@ -6,11 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.faltenreich.diaguard.helpers.Helper;
-
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by Filip on 20.10.13.
  */
@@ -91,7 +86,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 VALUE + " REAL NOT NULL, " +
                 CATEGORY + " TEXT NOT NULL, " +
                 ENTRY_ID + " INTEGER NOT NULL, " +
-                "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + " (" + ID + "));");
+                "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + " (" + ID + ") ON UPDATE CASCADE);");
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " +
                 FOOD + " (" +
                 ID + " INTEGER PRIMARY KEY, " +
@@ -102,8 +97,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ID + " INTEGER PRIMARY KEY, " +
                 MEASUREMENT_ID + " INTEGER, " +
                 FOOD_ID + " INTEGER, " +
-                "FOREIGN KEY(" + MEASUREMENT_ID + ") REFERENCES " + MEASUREMENT + " (" + ID + "), " +
-                "FOREIGN KEY(" + FOOD_ID + ") REFERENCES " + FOOD + " (" + ID + "));");
+                "FOREIGN KEY(" + MEASUREMENT_ID + ") REFERENCES " + MEASUREMENT + " (" + ID + ") ON UPDATE CASCADE, " +
+                "FOREIGN KEY(" + FOOD_ID + ") REFERENCES " + FOOD + " (" + ID + ") ON UPDATE CASCADE);");
     }
 
     @Override

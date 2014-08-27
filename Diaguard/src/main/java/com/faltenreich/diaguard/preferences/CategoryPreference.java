@@ -12,7 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.database.Event;
+import com.faltenreich.diaguard.database.Measurement;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.faltenreich.diaguard.helpers.ViewHelper;
 
@@ -44,8 +44,8 @@ public class CategoryPreference extends DialogPreference {
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         listView.setAdapter(adapter);
 
-        for(int item = 0; item < Event.Category.values().length; item++)
-            listView.setItemChecked(item, preferenceHelper.isCategoryActive(Event.Category.values()[item]));
+        for(int item = 0; item < Measurement.Category.values().length; item++)
+            listView.setItemChecked(item, preferenceHelper.isCategoryActive(Measurement.Category.values()[item]));
     }
 
     @Override
@@ -59,7 +59,7 @@ public class CategoryPreference extends DialogPreference {
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 for (int item = 0; item < checkedItems.size(); item++)
-                    editor.putBoolean(Event.Category.values()[item].name() + ACTIVE, checkedItems.valueAt(item));
+                    editor.putBoolean(Measurement.Category.values()[item].name() + ACTIVE, checkedItems.valueAt(item));
                 editor.apply();
             }
             else {

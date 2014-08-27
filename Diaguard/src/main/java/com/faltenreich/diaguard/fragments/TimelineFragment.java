@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,6 +20,7 @@ import com.faltenreich.diaguard.MainActivity;
 import com.faltenreich.diaguard.NewEventActivity;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
+import com.faltenreich.diaguard.database.Entry;
 import com.faltenreich.diaguard.database.Measurement;
 import com.faltenreich.diaguard.helpers.ChartHelper;
 import com.faltenreich.diaguard.helpers.Helper;
@@ -27,6 +29,7 @@ import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYSeriesRenderer;
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,8 +92,8 @@ public class TimelineFragment extends Fragment {
         for(int item = 0; item < categories.length; item++)
             activeCategories[item] = preferenceHelper.isCategoryActive(categories[item]);
 
-        //chartHelperChart = new ChartHelper(getActivity(), ChartHelper.ChartType.ScatterChart);
-        //chartHelperTable = new ChartHelper(getActivity(), ChartHelper.ChartType.LineChart);
+        chartHelperChart = new ChartHelper(getActivity(), ChartHelper.ChartType.ScatterChart);
+        chartHelperTable = new ChartHelper(getActivity(), ChartHelper.ChartType.LineChart);
 
         getComponents();
         initializeGUI();
@@ -133,10 +136,9 @@ public class TimelineFragment extends Fragment {
     }
 
     private void updateContent() {
-        /*
-        SimpleDateFormat format = preferenceHelper.getDateFormat();
-        String weekDay = getResources().getStringArray(R.array.weekdays)[time.get(Calendar.DAY_OF_WEEK)-1];
-        ((Button)getView().findViewById(R.id.button_date)).setText(weekDay.substring(0,2) + "., " + format.format(time.getTime()));
+        DateTimeFormatter format = preferenceHelper.getDateFormat();
+        String weekDay = getResources().getStringArray(R.array.weekdays)[time.dayOfWeek().get()-1];
+        ((Button)getView().findViewById(R.id.button_date)).setText(weekDay.substring(0,2) + "., " + format.print(time));
 
         updateChart();
 
@@ -147,7 +149,6 @@ public class TimelineFragment extends Fragment {
         }
         else
             getView().findViewById(R.id.table).setVisibility(View.GONE);
-            */
     }
 
     //region Chart
@@ -207,31 +208,28 @@ public class TimelineFragment extends Fragment {
             chartHelperChart.seriesDataset.addSeries(seriesBloodSugarHypo);
         }
 
-
-        /*
         dataSource.open();
-        HashMap<Entry, List<Measurement>> data = new HashMap<Entry, List<Measurement>>();
-
-        List<Measurement> measurements = dataSource.getEventsOfDay(time, Measurement.Category.BloodSugar);
+        List<Entry> entries = dataSource.getEntriesOfDay(time, Measurement.Category.BloodSugar);
         dataSource.close();
 
-        for(Measurement measurement : measurements) {
-            float x_value = Helper.formatCalendarToHourMinutes(event.getDate());
+        for(Entry entry : entries) {
+            Measurement measurement = entry.getMeasurements().get(0);
+            float x_value = Helper.formatCalendarToHourMinutes(entry.getDate());
 
             float y_value = preferenceHelper.
-                    formatDefaultToCustomUnit(Event.Category.BloodSugar, event.getValue());
+                    formatDefaultToCustomUnit(Measurement.Category.BloodSugar, measurement.getValue());
 
             // Adjust y axis
             if(y_value > chartHelperChart.renderer.getYAxisMax()) {
                 chartHelperChart.renderer.setYAxisMax(preferenceHelper.
-                        formatDefaultToCustomUnit(Event.Category.BloodSugar, event.getValue() + 30));
+                        formatDefaultToCustomUnit(Measurement.Category.BloodSugar, measurement.getValue() + 30));
             }
 
             // Add value
             if(preferenceHelper.limitsAreHighlighted()) {
-                if(event.getValue() > preferenceHelper.getLimitHyperglycemia())
+                if(measurement.getValue() > preferenceHelper.getLimitHyperglycemia())
                     seriesBloodSugarHyper.add(x_value, y_value);
-                else if(event.getValue() < preferenceHelper.getLimitHypoglycemia())
+                else if(measurement.getValue() < preferenceHelper.getLimitHypoglycemia())
                     seriesBloodSugarHypo.add(x_value, y_value);
                 else
                     seriesBloodSugar.add(x_value, y_value);
@@ -240,7 +238,6 @@ public class TimelineFragment extends Fragment {
                 seriesBloodSugar.add(x_value, y_value);
             }
         }
-        */
     }
 
     private void initializeChart() {
@@ -288,7 +285,6 @@ public class TimelineFragment extends Fragment {
         // Table
         int activeCategoryPosition = 0;
         for(int item = 0; item < activeCategories.length; item++) {
-
             if(activeCategories[item] && item != Measurement.Category.BloodSugar.ordinal()) {
                 Measurement.Category category = Measurement.Category.values()[item];
 
@@ -336,10 +332,10 @@ public class TimelineFragment extends Fragment {
             if(activeCategories[position] && position != Measurement.Category.BloodSugar.ordinal())
                 checkedCategoriesList.add(Measurement.Category.values()[position]);
         }
-        /*
+
         dataSource.open();
-        float[][] values = dataSource.getAverageDataTable(time,
-                checkedCategoriesList.toArray(new Measurement.Category[checkedCategoriesList.size()]), 12);
+        //float[][] values = dataSource.getAverageDataTable(time,
+        //        checkedCategoriesList.toArray(new Measurement.Category[checkedCategoriesList.size()]), 12);
         dataSource.close();
 
         for(int categoryPosition = 0; categoryPosition < checkedCategoriesList.size(); categoryPosition++) {
@@ -347,6 +343,7 @@ public class TimelineFragment extends Fragment {
             XYSeries series = new XYSeries(category.name());
             chartHelperTable.seriesDataset.addSeries(series);
             for(int hour = 0; hour < 12; hour++) {
+                /*
                 float value = values[categoryPosition][hour];
                 if(value > 0) {
                     float x_value = (hour * 2) + 1;
@@ -357,9 +354,9 @@ public class TimelineFragment extends Fragment {
                     series.add(x_value, y_value);
                     series.addAnnotation(valueString, x_value, y_value);
                 }
+                */
             }
         }
-        */
     }
 
     private void initializeTable() {
@@ -374,12 +371,12 @@ public class TimelineFragment extends Fragment {
     //region Listeners
 
     public void previousDay() {
-        time.withDayOfMonth(time.getDayOfMonth() - 1);
+        time = time.withDayOfMonth(time.getDayOfMonth() - 1);
         updateContent();
     }
 
     public void nextDay() {
-        time.withDayOfMonth(time.getDayOfMonth() + 1);
+        time = time.withDayOfMonth(time.getDayOfMonth() + 1);
         updateContent();
     }
 
@@ -387,9 +384,7 @@ public class TimelineFragment extends Fragment {
         DialogFragment fragment = new DatePickerFragment() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
-                time.withYear(year);
-                time.withMonthOfYear(month);
-                time.withDayOfMonth(day);
+                time = time.withYear(year).withMonthOfYear(month).withDayOfMonth(day);
                 updateContent();
             }
         };

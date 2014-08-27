@@ -246,8 +246,7 @@ public class FileHelper {
                 DateTime dateIteration = dateStart;
 
                 // One day after last chosen day
-                DateTime dateAfter = dateEnd;
-                dateAfter.withDayOfMonth(dateAfter.dayOfMonth().get() + 1);
+                DateTime dateAfter = dateEnd.plusDays(1);
 
                 // Total number of days to export
                 int totalDays = Days.daysBetween(dateStart, dateEnd).getDays();
@@ -349,7 +348,7 @@ public class FileHelper {
                     publishProgress(context.getString(R.string.day) + " " + currentDay + "/" + totalDays);
 
                     // Next day
-                    dateIteration.withDayOfMonth(dateIteration.dayOfMonth().get() + 1);
+                    dateIteration = dateIteration.plusDays(1);
                     currentDay++;
                 }
 
@@ -402,8 +401,7 @@ public class FileHelper {
             paragraph.add(chunk);
 
             DateTime weekEnd = new DateTime();
-            weekEnd = weekStart;
-            weekEnd.withDayOfWeek(DateTimeConstants.SUNDAY);
+            weekEnd = weekStart.withDayOfWeek(DateTimeConstants.SUNDAY);
 
             // Dates
             chunk = new Chunk("\n" + preferenceHelper.getDateFormat().print(weekStart) + " - " +

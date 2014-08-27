@@ -47,7 +47,7 @@
         </activity>
 
         <activity
-            android:name=".PreferencesActivity"
+            android:name=".PreferenceActivity"
             android:label="@string/settings">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

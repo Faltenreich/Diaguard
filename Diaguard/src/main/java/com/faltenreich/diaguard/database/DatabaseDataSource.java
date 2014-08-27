@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.faltenreich.diaguard.helpers.Helper;
 
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,6 +97,22 @@ public class DatabaseDataSource {
         return entry;
     }
 
+    public Entry getEntryWithMeasurement(Cursor cursor) {
+        Entry entry = new Entry();
+        entry.setId(Integer.parseInt(cursor.getString(0)));
+        entry.setDate(cursor.getString(1));
+        entry.setNote(cursor.getString(2));
+
+        Measurement measurement = new Measurement();
+        measurement.setId(Integer.parseInt(cursor.getString(3)));
+        measurement.setValue(Float.parseFloat(cursor.getString(4)));
+        measurement.setCategory(Measurement.Category.valueOf(cursor.getString(5)));
+        measurement.setEntryId(Integer.parseInt(cursor.getString(6)));
+        entry.getMeasurements().add(measurement);
+
+        return entry;
+    }
+
     public Measurement getMeasurement(Cursor cursor) {
         Measurement measurement = new Measurement();
         measurement.setId(Integer.parseInt(cursor.getString(0)));
@@ -153,25 +171,43 @@ public class DatabaseDataSource {
         return objects;
     }
 
-    public List<Model> getJoin(String tableOne, String tableTwo, String[] columns, String selection, String[] selectionArgs,
-                           String groupBy, String having, String orderBy, String limit) {
-        //String query = String.format("SELECT %s FROM %s INNER JOIN %s ON %s.%s = %s.%s ORDER BY entry.date LIMIT 1",
-        //        Helper.toStringDelimited(columns, ','), tableOne, tableTwo, tableOne, DatabaseHelper.ID, tableTwo, DatabaseHelper.ID);
-        String query = "SELECT * FROM entry INNER JOIN measurement ON measurement.entryId = entry._id ORDER BY entry.date LIMIT 1";
+    public Entry getLatestBloodSugar() {
+        String query = String.format("SELECT * FROM %2$s INNER JOIN %5$s ON %5$s.%3$s = %2$s.%1$s ORDER BY %2$s.%4$s DESC LIMIT 1",
+                DatabaseHelper.ID, DatabaseHelper.ENTRY, DatabaseHelper.ENTRY_ID, DatabaseHelper.DATE, DatabaseHelper.MEASUREMENT);
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        Entry entry = getEntryWithMeasurement(cursor);
+        cursor.close();
+        return entry;
+    }
+
+    public List<Entry> getEntriesOfDay(DateTime day, Measurement.Category category) {
+        String startOfDay = Helper.getDateDatabaseFormat().print(day.withTimeAtStartOfDay());
+        String endOfDay = Helper.getDateDatabaseFormat().print(day.withTime(23, 59, 59, 999));
+        String query = "SELECT * FROM " + DatabaseHelper.ENTRY +
+                        " INNER JOIN " + DatabaseHelper.MEASUREMENT +
+                        " ON " + DatabaseHelper.MEASUREMENT + "." + DatabaseHelper.ENTRY_ID +
+                        " = " + DatabaseHelper.ENTRY + "." + DatabaseHelper.ID +
+                        " AND " + DatabaseHelper.ENTRY + "." + DatabaseHelper.DATE +
+                        " >= Datetime('" + startOfDay + "') " +
+                        " AND " + DatabaseHelper.ENTRY + "." + DatabaseHelper.DATE +
+                        " <= Datetime('" + endOfDay + "') " +
+                        " AND " + DatabaseHelper.MEASUREMENT + "." + DatabaseHelper.CATEGORY +
+                        " = '" + category + "';";
         Cursor cursor = db.rawQuery(query, null);
 
-        List<Model> objects = new ArrayList<Model>();
+        List<Entry> entries = new ArrayList<Entry>();
         if (cursor.moveToFirst()) {
             while(!cursor.isAfterLast()) {
-
-
+                entries.add(getEntryWithMeasurement(cursor));
                 cursor.moveToNext();
             }
         }
-        return objects;
+        cursor.close();
+        return entries;
     }
 
-    public int count(String table, String[] columns, String selection, String selectionArg) {
+    public int count(String table, String selection, String selectionArg) {
         String query = "SELECT COUNT(*) FROM " + table + " WHERE " + selection + " = '" + selectionArg + "';";
         Cursor cursor = db.rawQuery(query, null);
         cursor.moveToFirst();

@@ -182,7 +182,7 @@ public class LogFragment extends Fragment {
 
     private void editEntry(Entry entry) {
         Intent intent = new Intent(getActivity(), NewEventActivity.class);
-        intent.putExtra(NewEventActivity.EXTRA_ID, entry.getId());
+        intent.putExtra(NewEventActivity.EXTRA_ENTRY, entry.getId());
         startActivity(intent);
     }
 
@@ -221,12 +221,12 @@ public class LogFragment extends Fragment {
     // LISTENERS
 
     public void previousDay() {
-        time.withDayOfMonth(time.getDayOfMonth() - 1);
+        time = time.withDayOfMonth(time.getDayOfMonth() - 1);
         updateListView();
     }
 
     public void nextDay() {
-        time.withDayOfMonth(time.getDayOfMonth() + 1);
+        time = time.withDayOfMonth(time.getDayOfMonth() + 1);
         updateListView();
     }
 
@@ -234,9 +234,7 @@ public class LogFragment extends Fragment {
         DialogFragment fragment = new DatePickerFragment() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
-                time.withYear(year);
-                time.withMonthOfYear(month);
-                time.withDayOfMonth(day);
+                time = time.withYear(year).withMonthOfYear(month).withDayOfMonth(day);
                 updateListView();
             }
         };

@@ -57,13 +57,11 @@ public class CleanUpPreference extends DialogPreference {
 
     @Override
     protected void onDialogClosed(boolean positiveResult) {
-
         if(positiveResult) {
-
-            final DateTime date = new DateTime();
-            date.withYear(datePicker.getYear());
-            date.withMonthOfYear(datePicker.getMonth());
-            date.withDayOfMonth(datePicker.getDayOfMonth());
+            final DateTime date = new DateTime()
+                    .withYear(datePicker.getYear())
+                    .withMonthOfYear(datePicker.getMonth())
+                    .withDayOfMonth(datePicker.getDayOfMonth());
 
             /*
             dataSource.open();

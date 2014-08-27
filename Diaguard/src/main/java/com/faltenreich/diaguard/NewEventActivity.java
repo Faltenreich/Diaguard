@@ -4,19 +4,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -37,15 +31,13 @@ import com.faltenreich.diaguard.database.Measurement;
 import com.faltenreich.diaguard.database.Model;
 import com.faltenreich.diaguard.fragments.DatePickerFragment;
 import com.faltenreich.diaguard.fragments.TimePickerFragment;
-import com.faltenreich.diaguard.helpers.FileHelper;
+import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.faltenreich.diaguard.helpers.Validator;
 import com.faltenreich.diaguard.helpers.ViewHelper;
 
 import org.joda.time.DateTime;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +48,8 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
  */
 public class NewEventActivity extends ActionBarActivity {
 
-    public static final String EXTRA_ID = "ID";
+    public static final String EXTRA_ENTRY = "Entry";
+    public static final String EXTRA_MEASUREMENT = "Measurement";
     public static final String EXTRA_DATE = "Date";
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_TAKE_PHOTO = 1;
@@ -68,7 +61,6 @@ public class NewEventActivity extends ActionBarActivity {
 
     DateTime time;
     boolean inputWasMade;
-    Bitmap imageTemp;
     boolean mealInfoIsVisible;
 
     LinearLayout linearLayoutValues;
@@ -93,27 +85,8 @@ public class NewEventActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.formular, menu);
+        getMenuInflater().inflate(R.menu.formular, menu);
         return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v,
-                                    ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.item, menu);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            imageTemp = (Bitmap) extras.get("data");
-            imageViewCamera.setImageBitmap(imageTemp);
-            imageViewCamera.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        }
     }
 
     public void initialize() {
@@ -140,18 +113,31 @@ public class NewEventActivity extends ActionBarActivity {
     private void checkIntents() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            if (extras.getLong(EXTRA_ID) != 0L) {
+            // Get entry and all of its measurements
+            if(extras.getLong(EXTRA_ENTRY) != 0L || extras.getLong(EXTRA_MEASUREMENT) != 0L) {
                 dataSource.open();
-                Measurement measurement = (Measurement)dataSource.get(DatabaseHelper.MEASUREMENT, extras.getLong("ID"));
-                Entry entry = (Entry)dataSource.get(DatabaseHelper.ENTRY, measurement.getEntryId());
+                Entry entry;
+                if(extras.getLong(EXTRA_ENTRY) != 0L) {
+                    entry = (Entry) dataSource.get(DatabaseHelper.ENTRY, extras.getLong(EXTRA_ENTRY));
+                }
+                else {
+                    Measurement measurement = (Measurement)dataSource.get(DatabaseHelper.MEASUREMENT, extras.getLong("ID"));
+                    entry = (Entry)dataSource.get(DatabaseHelper.ENTRY, measurement.getEntryId());
+                }
+                List<Model> measurements = dataSource.get(DatabaseHelper.MEASUREMENT, null,
+                        DatabaseHelper.ENTRY_ID + "=?", new String[]{Long.toString(entry.getId())},
+                        null, null, null, null);
                 dataSource.close();
 
                 time = entry.getDate();
-                float value = preferenceHelper.
-                        formatDefaultToCustomUnit(measurement.getCategory(), measurement.getValue());
                 editTextNotes.setText(entry.getNote());
-                addValue(measurement.getCategory(), preferenceHelper.getDecimalFormat(
-                        measurement.getCategory()).format(value));
+
+                for(Model model : measurements) {
+                    Measurement measurement = (Measurement) model;
+                    entry.getMeasurements().add(measurement);
+                    addValue(measurement.getCategory(), preferenceHelper.getDecimalFormat(
+                            measurement.getCategory()).format(measurement.getValue()));
+                }
             }
             else if(extras.getSerializable(EXTRA_DATE) != null) {
                 time = (DateTime) extras.getSerializable(EXTRA_DATE);
@@ -164,17 +150,15 @@ public class NewEventActivity extends ActionBarActivity {
     }
 
     private void setTime() {
-        buttonTime.setText(preferenceHelper.getTimeFormat().print(time));
+        buttonTime.setText(Helper.getTimeFormat().print(time));
     }
 
     private void setCategories() {
-        for(Measurement.Category category : preferenceHelper.getActiveCategories()) {
+        for(Measurement.Category category : preferenceHelper.getActiveCategories())
             addValue(category, null);
-        }
     }
 
     private void submit() {
-
         Food food = null;
         boolean inputIsValid = true;
 
@@ -257,15 +241,21 @@ public class NewEventActivity extends ActionBarActivity {
             // Entry
             Entry entry = new Entry();
             entry.setDate(time);
-            entry.setNote(editTextNotes.getText().toString());
+            if(editTextNotes.length() > 0)
+                entry.setNote(editTextNotes.getText().toString());
             long entryId = dataSource.insert(entry);
+            // Connect measurements with entry
+            for(Measurement measurement : measurements)
+                measurement.setEntryId(entryId);
 
             // Events
             long[] ids;
+            /*
+            TODO
             Bundle extras = getIntent().getExtras();
             // Update existing
-            if (extras != null && extras.getLong(EXTRA_ID) != 0L) {
-                measurements.get(0).setId(extras.getLong(EXTRA_ID));
+            if (extras != null && extras.getLong(EXTRA_ENTRY) != 0L) {
+                measurements.get(0).setId(extras.getLong(EXTRA_ENTRY));
                 ids = new long[1];
                 ids[0] = dataSource.update(measurements.get(0));
             }
@@ -273,6 +263,9 @@ public class NewEventActivity extends ActionBarActivity {
             else {
                 ids = dataSource.insert(measurements);
             }
+            */
+
+            ids = dataSource.insert(measurements);
 
             // Food
             if(food != null) {
@@ -387,50 +380,13 @@ public class NewEventActivity extends ActionBarActivity {
         }
     }
 
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String imageFileName = "test";
-        File storageDir = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-
-        currentPhotoPath = "file:" + image.getAbsolutePath();
-        return image;
-    }
-
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-                // Error occurred while creating the File
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-                        Uri.fromFile(photoFile));
-                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-            }
-        }
-    }
-
     // LISTENERS
 
     public void onClickShowDatePicker (View view) {
         DialogFragment fragment = new DatePickerFragment() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
-                time.withYear(year);
-                time.withMonthOfYear(month);
-                time.withDayOfMonth(day);
+                time = time.withYear(year).withMonthOfYear(month).withDayOfMonth(day);
                 setDate();
             }
         };
@@ -444,8 +400,7 @@ public class NewEventActivity extends ActionBarActivity {
         DialogFragment fragment = new TimePickerFragment() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                time.withHourOfDay(hourOfDay);
-                time.withMinuteOfHour(minute);
+                time = time.withHourOfDay(hourOfDay).withMinuteOfHour(minute);
                 setTime();
             }
         };
@@ -453,25 +408,6 @@ public class NewEventActivity extends ActionBarActivity {
         bundle.putSerializable(TimePickerFragment.TIME, time);
         fragment.setArguments(bundle);
         fragment.show(getSupportFragmentManager(), "TimePicker");
-    }
-
-    public void onClickCamera(View view) {
-        // Check if an image has already been shot
-        if(imageTemp == null) {
-            // Open camera app
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            Uri uri = Uri.parse(FileHelper.PATH_STORAGE + "/image");
-            if (intent.resolveActivity(getPackageManager()) != null) {
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-                startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
-            }
-        }
-        else {
-            // Open context menu
-            registerForContextMenu(imageViewCamera);
-            openContextMenu(imageViewCamera);
-            unregisterForContextMenu(imageViewCamera);
-        }
     }
 
     @Override
@@ -508,25 +444,6 @@ public class NewEventActivity extends ActionBarActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.view:
-                Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_VIEW);
-                intent.setDataAndType(Uri.parse("file://" + "/sdcard/test.jpg"), "image/*");
-                startActivity(intent);
-                return true;
-            case R.id.remove:
-                imageViewCamera.setImageDrawable(getResources().getDrawable(R.drawable.camera));
-                imageViewCamera.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                imageTemp = null;
-                return true;
-            default:
-                return super.onContextItemSelected(item);
         }
     }
 }

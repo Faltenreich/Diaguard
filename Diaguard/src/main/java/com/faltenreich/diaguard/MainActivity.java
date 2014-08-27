@@ -106,7 +106,7 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(new Intent(this, CalculatorActivity.class));
                 return true;
             case R.id.action_settings:
-                startActivity(new Intent(this, PreferencesActivity.class));
+                startActivity(new Intent(this, PreferenceActivity.class));
                 return true;
             case R.id.action_newevent:
                 startActivityForResult(new Intent(this, NewEventActivity.class), MainActivity.REQUEST_EVENT_CREATED);

@@ -57,10 +57,6 @@ public class PreferenceHelper {
 
     // DATES
 
-    public DateTimeFormatter getDateAndTimeFormat() {
-        return DateTimeFormat.forPattern(getDateFormat().toString() + " " + getTimeFormat().toString());
-    }
-
     public DateTimeFormatter getDateFormat() {
         String dateString = sharedPreferences.getString("dateformat",
                 context.getResources().getString(R.string.dateformat_default));
@@ -70,10 +66,6 @@ public class PreferenceHelper {
         dateString = dateString.replace("DD", "dd");
 
         return DateTimeFormat.forPattern(dateString);
-    }
-
-    public DateTimeFormatter getTimeFormat() {
-        return DateTimeFormat.forPattern("HH:mm");
     }
 
     // BLOOD SUGAR

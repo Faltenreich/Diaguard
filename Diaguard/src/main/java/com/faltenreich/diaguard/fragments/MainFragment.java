@@ -10,11 +10,13 @@ import android.widget.TextView;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.DatabaseHelper;
+import com.faltenreich.diaguard.database.Entry;
 import com.faltenreich.diaguard.database.Measurement;
 import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 
 import org.joda.time.DateTime;
+import org.joda.time.Minutes;
 
 public class MainFragment extends Fragment {
 
@@ -79,16 +81,12 @@ public class MainFragment extends Fragment {
 
         int countBloodSugarMeasurements = dataSource.count(
                 DatabaseHelper.MEASUREMENT,
-                null,
                 DatabaseHelper.CATEGORY,
                 Measurement.Category.BloodSugar.toString());
 
         if(countBloodSugarMeasurements > 0) {
             textViewLatestValue.setTextSize(60);
-            dataSource.open();
-            dataSource.getJoin(null, null, null, null, null, null, null, null, null);
-            dataSource.close();
-            //updateLatest();
+            updateLatest();
             //updateDashboard();
         }
         else {
@@ -101,32 +99,32 @@ public class MainFragment extends Fragment {
         dataSource.close();
     }
 
-    /*
     private void updateLatest() {
-        Event latestEvent = dataSource.getLatestEvent(Event.Category.BloodSugar);
+        Entry entry = dataSource.getLatestBloodSugar();
+        Measurement latestBloodSugar = entry.getMeasurements().get(0);
 
         // Value
         float value = preferenceHelper.
-                formatDefaultToCustomUnit(Measurement.Category.BloodSugar, latestEvent.getValue());
+                formatDefaultToCustomUnit(Measurement.Category.BloodSugar, latestBloodSugar.getValue());
         textViewLatestValue.setText(preferenceHelper.
                 getDecimalFormat(Measurement.Category.BloodSugar).format(value));
 
         // Highlighting
         if(preferenceHelper.limitsAreHighlighted()) {
-            if(latestEvent.getValue() > preferenceHelper.getLimitHyperglycemia())
+            if(latestBloodSugar.getValue() > preferenceHelper.getLimitHyperglycemia())
                 textViewLatestValue.setTextColor(getResources().getColor(R.color.red));
-            else if(latestEvent.getValue() < preferenceHelper.getLimitHypoglycemia())
+            else if(latestBloodSugar.getValue() < preferenceHelper.getLimitHypoglycemia())
                 textViewLatestValue.setTextColor(getResources().getColor(R.color.blue));
         }
 
         // Unit
-        textViewLatestUnit.setText(preferenceHelper.getUnitAcronym(Event.Category.BloodSugar));
+        textViewLatestUnit.setText(preferenceHelper.getUnitAcronym(Measurement.Category.BloodSugar));
 
         // Time
         textViewLatestTime.setText(preferenceHelper.
-                getDateAndTimeFormat().format(latestEvent.getDate().getTime()) + " | ");
-        int differenceInMinutes =
-                Helper.getDifferenceInMinutes(latestEvent.getDate(), Calendar.getInstance());
+                getDateFormat().print(entry.getDate()) + " " +
+                Helper.getTimeFormat().print(entry.getDate()) + " | ");
+        int differenceInMinutes = Minutes.minutesBetween(entry.getDate(), new DateTime()).getMinutes();
 
         // Highlight if last measurement is more than eight hours ago
         textViewLatestAgo.setTextColor(getResources().getColor(R.color.green));
@@ -136,6 +134,7 @@ public class MainFragment extends Fragment {
         textViewLatestAgo.setText(Helper.getTextAgo(getActivity(), differenceInMinutes));
     }
 
+    /*
     private void updateDashboard() {
         updateToday();
         updateAverage();

@@ -2,7 +2,8 @@ package com.faltenreich.diaguard;
 
 import android.app.Application;
 import android.content.Context;
-import android.preference.PreferenceManager;
+
+import net.danlew.android.joda.JodaTimeAndroid;
 
 /**
  * Created by Filip on 26.08.2014.
@@ -19,6 +20,6 @@ public class DiaguardApplication extends Application {
 
         // Initialize global values
         context = getApplicationContext();
-        //JodaTimeAndroid.init(this);
+        JodaTimeAndroid.init(this);
     }
 }

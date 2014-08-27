@@ -87,7 +87,7 @@ public class ExportActivity extends ActionBarActivity {
         preferenceHelper = new PreferenceHelper(this);
 
         dateEnd = new DateTime();
-        dateStart = new DateTime().withDayOfMonth(1);
+        dateStart = dateEnd.withDayOfMonth(1);
         dateFormat = preferenceHelper.getDateFormat();
 
         getComponents();
@@ -180,9 +180,7 @@ public class ExportActivity extends ActionBarActivity {
         DatePickerFragment fragment = new DatePickerFragment() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
-                dateStart.withYear(year);
-                dateStart.withMonthOfYear(month);
-                dateStart.withDayOfMonth(day);
+                dateStart = dateStart.withYear(year).withMonthOfYear(month).withDayOfMonth(day);
                 buttonDateStart.setText(dateFormat.print(dateStart));
             }
         };
@@ -196,9 +194,7 @@ public class ExportActivity extends ActionBarActivity {
         DatePickerFragment fragment = new DatePickerFragment() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
-                dateStart.withYear(year);
-                dateStart.withMonthOfYear(month);
-                dateStart.withDayOfMonth(day);
+                dateStart = dateStart.withYear(year).withMonthOfYear(month).withDayOfMonth(day);
                 buttonDateEnd.setText(dateFormat.print(dateEnd));
             }
         };
@@ -274,8 +270,7 @@ public class ExportActivity extends ActionBarActivity {
                 DateTime dateIteration = dateStart;
 
                 // One day after last chosen day
-                DateTime dateAfter = dateEnd;
-                dateAfter.withDayOfMonth(dateAfter.dayOfMonth().get() + 1);
+                DateTime dateAfter = dateEnd.withDayOfMonth(dateEnd.dayOfMonth().get() + 1);
 
                 // Total number of days to export
                 int totalDays = Days.daysBetween(dateStart, dateEnd).getDays();
@@ -377,7 +372,7 @@ public class ExportActivity extends ActionBarActivity {
                     publishProgress(getString(R.string.day) + " " + currentDay + "/" + totalDays);
 
                     // Next day
-                    dateIteration.withDayOfMonth(dateIteration.dayOfMonth().get() + 1);
+                    dateIteration = dateIteration.withDayOfMonth(dateIteration.dayOfMonth().get() + 1);
                     currentDay++;
                 }
 
@@ -439,9 +434,7 @@ public class ExportActivity extends ActionBarActivity {
             chunk.setFont(FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD));
             paragraph.add(chunk);
 
-            DateTime weekEnd = new DateTime();
-            weekEnd = weekStart;
-            weekEnd.withDayOfWeek(DateTimeConstants.SUNDAY);
+            DateTime weekEnd = weekStart.withDayOfWeek(DateTimeConstants.SUNDAY);
 
             // Dates
             chunk = new Chunk("\n" + preferenceHelper.getDateFormat().print(weekStart) + " - " +

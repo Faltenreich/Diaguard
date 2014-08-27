@@ -2,26 +2,24 @@ package com.faltenreich.diaguard;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
-import android.preference.PreferenceFragment;
+import android.view.MenuItem;
 
 /**
  * Created by Filip on 26.10.13.
  */
-public class PreferencesActivity extends PreferenceActivity {
+public class PreferenceActivity extends android.preference.PreferenceActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setTitle(getString(R.string.settings));
-
-        if(Build.VERSION.SDK_INT < 11)
+        if (Build.VERSION.SDK_INT < 11)
             addPreferencesFromResource(R.xml.preferences);
-        else
+        else {
+            getActionBar().setDisplayHomeAsUpEnabled(true);
             getFragmentManager().beginTransaction()
-                    .replace(android.R.id.content, new PreferenceFragmentMain())
+                    .replace(android.R.id.content, new PreferenceFragment())
                     .commit();
+        }
     }
 
     @Override
@@ -30,7 +28,17 @@ public class PreferencesActivity extends PreferenceActivity {
         return true;
     }
 
-    public static class PreferenceFragmentMain extends PreferenceFragment {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                finish();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public static class PreferenceFragment extends android.preference.PreferenceFragment {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);

@@ -10,6 +10,7 @@ import android.util.AttributeSet;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.helpers.FileHelper;
+import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.faltenreich.diaguard.helpers.ViewHelper;
 
@@ -88,7 +89,8 @@ public class BackupPreference extends DialogPreference {
         for(int position = 0; position < csvArray.length; position++) {
             String dateString = csvArray[position].substring(6, csvArray[position].lastIndexOf("."));
             DateTime date = DateTimeFormat.forPattern("yyyyMMddHHmmss").parseDateTime(dateString);
-            csvArrayDates[position] = preferenceHelper.getDateAndTimeFormat().print(date);
+            csvArrayDates[position] = preferenceHelper.getDateFormat().print(date) + " " +
+                    Helper.getTimeFormat().print(date);
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);

@@ -271,7 +271,7 @@ public class NewEventActivity extends ActionBarActivity {
             if(food != null) {
                 for(int position = 0; position < measurements.size(); position++) {
                     if(measurements.get(position).getCategory() == Measurement.Category.Meal) {
-                        food.setEventId(ids[position]);
+                        food.setMeasurementId(ids[position]);
                         dataSource.insert(food);
                     }
                 }

@@ -36,7 +36,7 @@ import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
  * A {@link android.view.View.OnTouchListener} that makes any {@link View} dismissable when the
  * user swipes (drags her finger) horizontally across the view.
  *
- * <p><em>For {@link android.widget.ListView} list items that don't manage their own touch events
+ * <p><em>For {@link android.widget.ListView} list items that don't manage their own touch entries
  * (i.e. you're using
  * {@link android.widget.ListView#setOnItemClickListener(android.widget.AdapterView.OnItemClickListener)}
  * or an equivalent listener on {@link android.app.ListActivity} or

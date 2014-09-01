@@ -12,7 +12,7 @@ public class Food extends Model {
     private float carbohydrates;
     private String name;
     private DateTime date;
-    private long eventId;
+    private long measurementId;
 
     public float getCarbohydrates() {
         return carbohydrates;
@@ -42,12 +42,12 @@ public class Food extends Model {
         this.date = Helper.getDateDatabaseFormat().parseDateTime(dateString);
     }
 
-    public long getEventId() {
-        return eventId;
+    public long getMeasurementId() {
+        return measurementId;
     }
 
-    public void setEventId(long eventId) {
-        this.eventId = eventId;
+    public void setMeasurementId(long measurementId) {
+        this.measurementId = measurementId;
     }
 
     @Override

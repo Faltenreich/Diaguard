@@ -109,7 +109,7 @@ public class FileHelper {
 
             /*
             dataSource.open();
-            List<Event> events = dataSource.getEvents();
+            List<Event> entries = dataSource.getEvents();
             dataSource.close();
 
 
@@ -121,7 +121,7 @@ public class FileHelper {
                 FileWriter fileWriter = new FileWriter(file);
                 CSVWriter writer = new CSVWriter(fileWriter, DELIMITER);
 
-                for(Event event : events) {
+                for(Event event : entries) {
                     String[] array = {
                             Float.toString(event.getValue()),
                             Helper.getDateDatabaseFormat().format(event.getDate().getTime()),

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="itextg-5.4.4">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Diaguard/libs/itextg-5.4.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

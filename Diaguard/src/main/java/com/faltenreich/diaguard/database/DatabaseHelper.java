@@ -43,7 +43,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FOOD_ID = "foodId";
 
     // DEPRECATED
-    public static final String EVENTS = "events";
+    public static final String EVENTS = "entries";
     public static final String NOTES = "notes";
 
     public DatabaseHelper(Context context) {

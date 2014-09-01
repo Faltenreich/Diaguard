@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -20,13 +19,18 @@ import android.widget.ListView;
 import com.faltenreich.diaguard.MainActivity;
 import com.faltenreich.diaguard.NewEventActivity;
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.adapters.ListViewAdapterLog;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
+import com.faltenreich.diaguard.database.DatabaseHelper;
 import com.faltenreich.diaguard.database.Entry;
 import com.faltenreich.diaguard.database.Measurement;
+import com.faltenreich.diaguard.database.Model;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
+
+import java.util.List;
 
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass.
@@ -61,20 +65,20 @@ public class LogFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        initializeGUI();
         updateListView();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+        initializeGUI();
         updateListView();
     }
 
     public void initialize() {
-
         dataSource = new DatabaseDataSource(getActivity());
         preferenceHelper = new PreferenceHelper(getActivity());
-
         time = new DateTime();
 
         Measurement.Category[] categories = Measurement.Category.values();
@@ -82,10 +86,7 @@ public class LogFragment extends Fragment {
         for(int item = 0; item < categories.length; item++) {
             checkedCategories[item] = preferenceHelper.isCategoryActive(categories[item]);
         }
-
         getComponents();
-        initializeGUI();
-        updateListView();
     }
 
     public void getComponents() {
@@ -192,30 +193,33 @@ public class LogFragment extends Fragment {
         String weekDay = getResources().getStringArray(R.array.weekdays)[time.getDayOfWeek()-1];
         ((Button)getView().findViewById(R.id.button_date)).setText(weekDay.substring(0,2) + "., " + format.print(time));
 
-        // TODO
-        /*
         dataSource.open();
-        List<Event> eventsOfDay = dataSource.getEventsOfDay(time);
+        List<Entry> entriesOfDay = dataSource.getEntriesOfDay(time);
+        for(Entry entry : entriesOfDay) {
+            // TODO: Limit depending on space and order by category
+            List<Model> measurements = dataSource.get(DatabaseHelper.MEASUREMENT, null,
+                    DatabaseHelper.ENTRY_ID + "=?", new String[]{Long.toString(entry.getId())},
+                    null, null, null, null);
+            for(Model model : measurements)
+                entry.getMeasurements().add((Measurement)model);
+        }
         dataSource.close();
 
+        /*
+        // TODO
         List<Event> visibleEventsOfDay = new ArrayList<Event>();
-        for(Event event : eventsOfDay) {
+        for(Event event : entriesOfDay) {
             int category = Event.Category.valueOf(event.getCategory().name()).ordinal();
             if(checkedCategories[category])
                 visibleEventsOfDay.add(event);
         }
+        */
 
         ListViewAdapterLog adapter = new ListViewAdapterLog(getActivity());
-        adapter.events.addAll(visibleEventsOfDay);
-        /*
-        EndlessListViewAdapter adapter = new EndlessListViewAdapter(
-                getActivity(),
-                Calendar.getInstance(),
-                preferenceHelper.getActiveCategories());
+        adapter.entries.addAll(entriesOfDay);
         listViewEvents.setAdapter(adapter);
 
         listViewEvents.setEmptyView(getView().findViewById(R.id.listViewEventsEmpty));
-        */
     }
 
     // LISTENERS
@@ -231,7 +235,7 @@ public class LogFragment extends Fragment {
     }
 
     public void showDatePicker () {
-        DialogFragment fragment = new DatePickerFragment() {
+        DatePickerFragment fragment = new DatePickerFragment() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 time = time.withYear(year).withMonthOfYear(month+1).withDayOfMonth(day);

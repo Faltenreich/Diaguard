@@ -86,30 +86,30 @@ public class DatabaseDataSource {
         values.put(DatabaseHelper.CARBOHYDRATES, food.getCarbohydrates());
         values.put(DatabaseHelper.NAME, food.getName());
         values.put(DatabaseHelper.DATE, Helper.getDateDatabaseFormat().print(food.getDate()));
-        values.put(DatabaseHelper.ENTRY_ID, food.getEventId());
+        values.put(DatabaseHelper.ENTRY_ID, food.getMeasurementId());
         return values;
     }
 
 
     public Entry getEntry(Cursor cursor) {
         Entry entry = new Entry();
-        entry.setId(Integer.parseInt(cursor.getString(0)));
-        entry.setDate(cursor.getString(1));
-        entry.setNote(cursor.getString(2));
+        entry.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ID))));
+        entry.setDate(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.DATE)));
+        entry.setNote(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.NOTE)));
         return entry;
     }
 
     public Entry getEntryWithMeasurement(Cursor cursor) {
         Entry entry = new Entry();
-        entry.setId(Integer.parseInt(cursor.getString(0)));
-        entry.setDate(cursor.getString(1));
-        entry.setNote(cursor.getString(2));
+        entry.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ID))));
+        entry.setDate(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.DATE)));
+        entry.setNote(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.NOTE)));
 
         Measurement measurement = new Measurement();
-        measurement.setId(Integer.parseInt(cursor.getString(3)));
-        measurement.setValue(Float.parseFloat(cursor.getString(4)));
-        measurement.setCategory(Measurement.Category.valueOf(cursor.getString(5)));
-        measurement.setEntryId(Integer.parseInt(cursor.getString(6)));
+        measurement.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ID))));
+        measurement.setValue(Float.parseFloat(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.VALUE))));
+        measurement.setCategory(Measurement.Category.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.CATEGORY))));
+        measurement.setEntryId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ENTRY_ID))));
         entry.getMeasurements().add(measurement);
 
         return entry;
@@ -117,20 +117,20 @@ public class DatabaseDataSource {
 
     public Measurement getMeasurement(Cursor cursor) {
         Measurement measurement = new Measurement();
-        measurement.setId(Integer.parseInt(cursor.getString(0)));
-        measurement.setValue(Float.parseFloat(cursor.getString(1)));
-        measurement.setCategory(Measurement.Category.valueOf(cursor.getString(2)));
-        measurement.setEntryId(Integer.parseInt(cursor.getString(3)));
+        measurement.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ID))));
+        measurement.setValue(Float.parseFloat(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.VALUE))));
+        measurement.setCategory(Measurement.Category.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.CATEGORY))));
+        measurement.setEntryId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ENTRY_ID))));
         return measurement;
     }
 
     public Food getFood(Cursor cursor) {
         Food food = new Food();
-        food.setId(Integer.parseInt(cursor.getString(0)));
-        food.setCarbohydrates(Float.parseFloat(cursor.getString(1)));
-        food.setName(cursor.getString(2));
-        food.setDate(cursor.getString(3));
-        food.setEventId(Integer.parseInt(cursor.getString(4)));
+        food.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ID))));
+        food.setCarbohydrates(Float.parseFloat(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.CARBOHYDRATES))));
+        food.setName(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.NAME)));
+        food.setDate(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.DATE)));
+        food.setMeasurementId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.MEASUREMENT_ID))));
         return food;
     }
 
@@ -181,6 +181,26 @@ public class DatabaseDataSource {
         Entry entry = getEntryWithMeasurement(cursor);
         cursor.close();
         return entry;
+    }
+
+    public List<Entry> getEntriesOfDay(DateTime day) {
+        String startOfDay = Helper.getDateDatabaseFormat().print(day.withTimeAtStartOfDay());
+        String endOfDay = Helper.getDateDatabaseFormat().print(day.withTime(23, 59, 59, 999));
+        String query = "SELECT * FROM " + DatabaseHelper.ENTRY +
+                " WHERE " + DatabaseHelper.DATE + " >= Datetime('" + startOfDay + "') " +
+                " AND " + DatabaseHelper.DATE + " <= Datetime('" + endOfDay + "');";
+        Cursor cursor = db.rawQuery(query, null);
+
+        List<Entry> entries = new ArrayList<Entry>();
+        if (cursor.moveToFirst()) {
+            while(!cursor.isAfterLast()) {
+                entries.add(getEntry(cursor));
+                cursor.moveToNext();
+            }
+        }
+
+        cursor.close();
+        return entries;
     }
 
     public List<Entry> getEntriesOfDay(DateTime day, Measurement.Category category) {

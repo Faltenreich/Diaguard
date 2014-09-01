@@ -90,13 +90,13 @@
     <string name="weeks">Wochen</string>
 
     <string-array name="weekdays">
-        <item>Sonntag</item>
         <item>Montag</item>
         <item>Dienstag</item>
         <item>Mittwoch</item>
         <item>Donnerstag</item>
         <item>Freitag</item>
         <item>Samstag</item>
+        <item>Sonntag</item>
     </string-array>
 
     <string name="morning">Morgens</string>

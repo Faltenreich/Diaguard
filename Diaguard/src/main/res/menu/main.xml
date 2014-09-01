@@ -8,6 +8,11 @@
         android:title="@string/calculator"
         diaguard:showAsAction="ifRoom"/>
 
+    <item android:id="@+id/action_export"
+        android:icon="@drawable/export"
+        android:title="@string/export"
+        diaguard:showAsAction="ifRoom"/>
+
     <item android:id="@+id/action_settings"
         android:icon="@drawable/ic_action_settings"
         android:title="@string/settings"

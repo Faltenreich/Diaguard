@@ -104,13 +104,13 @@
     <string name="months">Months</string>
 
     <string-array name="weekdays">
-        <item>Sunday</item>
         <item>Monday</item>
         <item>Tuesday</item>
         <item>Wednesday</item>
         <item>Thursday</item>
         <item>Friday</item>
         <item>Saturday</item>
+        <item>Sunday</item>
     </string-array>
 
     <string name="morning">Morning</string>

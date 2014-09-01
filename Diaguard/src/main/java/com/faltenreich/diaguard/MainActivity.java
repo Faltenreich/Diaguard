@@ -105,6 +105,9 @@ public class MainActivity extends ActionBarActivity {
             case R.id.action_calculator:
                 startActivity(new Intent(this, CalculatorActivity.class));
                 return true;
+            case R.id.action_export:
+                startActivity(new Intent(this, ExportActivity.class));
+                return true;
             case R.id.action_settings:
                 startActivity(new Intent(this, PreferenceActivity.class));
                 return true;

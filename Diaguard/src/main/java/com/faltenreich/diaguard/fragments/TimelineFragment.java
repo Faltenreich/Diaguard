@@ -78,6 +78,7 @@ public class TimelineFragment extends Fragment {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+        // TODO: Save current date to savedInstanceState
         updateContent();
     }
 
@@ -334,8 +335,8 @@ public class TimelineFragment extends Fragment {
         }
 
         dataSource.open();
-        //float[][] values = dataSource.getAverageDataTable(time,
-        //        checkedCategoriesList.toArray(new Measurement.Category[checkedCategoriesList.size()]), 12);
+        float[][] values = dataSource.getAverageDataTable(time,
+                checkedCategoriesList.toArray(new Measurement.Category[checkedCategoriesList.size()]), 12);
         dataSource.close();
 
         for(int categoryPosition = 0; categoryPosition < checkedCategoriesList.size(); categoryPosition++) {
@@ -343,7 +344,6 @@ public class TimelineFragment extends Fragment {
             XYSeries series = new XYSeries(category.name());
             chartHelperTable.seriesDataset.addSeries(series);
             for(int hour = 0; hour < 12; hour++) {
-                /*
                 float value = values[categoryPosition][hour];
                 if(value > 0) {
                     float x_value = (hour * 2) + 1;
@@ -354,7 +354,6 @@ public class TimelineFragment extends Fragment {
                     series.add(x_value, y_value);
                     series.addAnnotation(valueString, x_value, y_value);
                 }
-                */
             }
         }
     }
@@ -371,12 +370,12 @@ public class TimelineFragment extends Fragment {
     //region Listeners
 
     public void previousDay() {
-        time = time.withDayOfMonth(time.getDayOfMonth() - 1);
+        time = time.minusDays(1);
         updateContent();
     }
 
     public void nextDay() {
-        time = time.withDayOfMonth(time.getDayOfMonth() + 1);
+        time = time.plusDays(1);
         updateContent();
     }
 
@@ -384,7 +383,7 @@ public class TimelineFragment extends Fragment {
         DialogFragment fragment = new DatePickerFragment() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
-                time = time.withYear(year).withMonthOfYear(month).withDayOfMonth(day);
+                time = time.withYear(year).withMonthOfYear(month+1).withDayOfMonth(day);
                 updateContent();
             }
         };

@@ -87,7 +87,7 @@ public class MainFragment extends Fragment {
         if(countBloodSugarMeasurements > 0) {
             textViewLatestValue.setTextSize(60);
             updateLatest();
-            //updateDashboard();
+            updateDashboard();
         }
         else {
             textViewLatestValue.setTextSize(40);
@@ -134,24 +134,23 @@ public class MainFragment extends Fragment {
         textViewLatestAgo.setText(Helper.getTextAgo(getActivity(), differenceInMinutes));
     }
 
-    /*
     private void updateDashboard() {
         updateToday();
         updateAverage();
     }
 
     private void updateToday() {
-        int measurements = dataSource.countEvents(Event.Category.BloodSugar, time);
+        int measurements = dataSource.countMeasurements(time, Measurement.Category.BloodSugar);
         textViewMeasurements.setText(Integer.toString(measurements));
 
-        int countHypers = dataSource.countEventsAboveValue(Event.Category.BloodSugar,
-                time,
-                preferenceHelper.getLimitHyperglycemia());
+        int countHypers = dataSource.countMeasurements(time,
+                Measurement.Category.BloodSugar,
+                preferenceHelper.getLimitHyperglycemia(), true);
         textViewHyperglycemia.setText(Integer.toString(countHypers));
 
-        int countHypos = dataSource.countEventsBelowValue(Event.Category.BloodSugar,
-                time,
-                preferenceHelper.getLimitHypoglycemia());
+        int countHypos = dataSource.countMeasurements(time,
+                Measurement.Category.BloodSugar,
+                preferenceHelper.getLimitHypoglycemia(), false);
         textViewHypoglycemia.setText(Integer.toString(countHypos));
     }
 
@@ -183,5 +182,4 @@ public class MainFragment extends Fragment {
         textViewAverageWeek.setText(avgWeekString);
         textViewAverageDay.setText(avgDayString);
     }
-    */
 }

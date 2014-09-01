@@ -9,8 +9,10 @@ import android.database.sqlite.SQLiteDatabase;
 import com.faltenreich.diaguard.helpers.Helper;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -207,8 +209,104 @@ public class DatabaseDataSource {
         return entries;
     }
 
+    public float getBloodSugarAverage(int rangeInDays) {
+        DateTimeFormatter format = Helper.getDateDatabaseFormat();
+        DateTime now = new DateTime();
+        String query = "SELECT AVG(" + DatabaseHelper.VALUE + ") FROM " + DatabaseHelper.MEASUREMENT +
+                " INNER JOIN " + DatabaseHelper.ENTRY +
+                " ON " + DatabaseHelper.MEASUREMENT + "." + DatabaseHelper.ENTRY_ID +
+                " = " + DatabaseHelper.ENTRY + "." + DatabaseHelper.ID +
+                " AND " + DatabaseHelper.ENTRY + "." + DatabaseHelper.DATE +
+                " >= Datetime('" + format.print(now.minusDays(rangeInDays).withTimeAtStartOfDay()) + "')" +
+                " AND " + DatabaseHelper.ENTRY + "." + DatabaseHelper.DATE +
+                " <= Datetime('" + format.print(now.withTime(23, 59, 59, 999)) + "')" +
+                " AND " + DatabaseHelper.MEASUREMENT + "." + DatabaseHelper.CATEGORY +
+                " = '" + Measurement.Category.BloodSugar.toString() + "';";
+        Cursor cursor = db.rawQuery(query, null);
+
+        float average = 0;
+        if(cursor.moveToFirst())
+            average = cursor.getFloat(0);
+
+        return average;
+    }
+
+    public float[][] getAverageDataTable(DateTime day, Measurement.Category[] categories, int columns) {
+        float[][] values = new float[categories.length][columns];
+        int counter = 1;
+        for(Measurement.Category category : categories) {
+            List<Entry> entriesOfDay = getEntriesOfDay(day, category);
+            int row = Arrays.asList(categories).indexOf(category);
+
+            for(Entry entry : entriesOfDay) {
+                Measurement measurement = entry.getMeasurements().get(0);
+                int hour = entry.getDate().getHourOfDay() / 2;
+                float oldValue = values[row][hour];
+                float newValue;
+
+                // Sum of everything but Blood Sugar (average)
+                if (measurement.getCategory() == Measurement.Category.BloodSugar ||
+                        measurement.getCategory() == Measurement.Category.HbA1c ||
+                        measurement.getCategory() == Measurement.Category.Weight ||
+                        measurement.getCategory() == Measurement.Category.Pulse) {
+                    if (oldValue > 0) {
+                        // Calculate Average per hour
+                        newValue = ((oldValue * counter) + (measurement.getValue())) / (counter + 1);
+                        counter++;
+                    } else {
+                        newValue = measurement.getValue();
+                        counter = 1;
+                    }
+                } else
+                    newValue = oldValue + measurement.getValue();
+
+                values[row][hour] = newValue;
+            }
+        }
+        return values;
+    }
+
     public int count(String table, String selection, String selectionArg) {
         String query = "SELECT COUNT(*) FROM " + table + " WHERE " + selection + " = '" + selectionArg + "';";
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        return count;
+    }
+
+    public int countMeasurements(DateTime day, Measurement.Category category) {
+        String query = "SELECT COUNT(*) FROM " + DatabaseHelper.ENTRY +
+                " INNER JOIN " + DatabaseHelper.MEASUREMENT +
+                " ON " + DatabaseHelper.MEASUREMENT + "." + DatabaseHelper.ENTRY_ID +
+                " = " + DatabaseHelper.ENTRY + "." + DatabaseHelper.ID +
+                " AND " + DatabaseHelper.ENTRY + "." + DatabaseHelper.DATE +
+                " >= Datetime('" + day.withTimeAtStartOfDay() + "')" +
+                " AND " + DatabaseHelper.ENTRY + "." + DatabaseHelper.DATE +
+                " <= Datetime('" + day.withTime(23, 59, 59, 999) + "')" +
+                " AND " + DatabaseHelper.MEASUREMENT + "." + DatabaseHelper.CATEGORY +
+                " = '" + category + "';";
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        return count;
+    }
+
+    public int countMeasurements(DateTime day, Measurement.Category category, float limit, boolean countHigherValues) {
+        String comparisonSymbol = countHigherValues ? " >= " : " <= ";
+        String query = "SELECT COUNT(*) FROM " + DatabaseHelper.ENTRY +
+                " INNER JOIN " + DatabaseHelper.MEASUREMENT +
+                " ON " + DatabaseHelper.MEASUREMENT + "." + DatabaseHelper.ENTRY_ID +
+                " = " + DatabaseHelper.ENTRY + "." + DatabaseHelper.ID +
+                " AND " + DatabaseHelper.ENTRY + "." + DatabaseHelper.DATE +
+                " >= Datetime('" + day.withTimeAtStartOfDay() + "')" +
+                " AND " + DatabaseHelper.ENTRY + "." + DatabaseHelper.DATE +
+                " <= Datetime('" + day.withTime(23, 59, 59, 999) + "')" +
+                " AND " + DatabaseHelper.MEASUREMENT + "." + DatabaseHelper.CATEGORY +
+                " = '" + category + "' " +
+                " AND " + DatabaseHelper.MEASUREMENT + "." + DatabaseHelper.VALUE +
+                comparisonSymbol + limit + ";";
         Cursor cursor = db.rawQuery(query, null);
         cursor.moveToFirst();
         int count = cursor.getInt(0);
@@ -249,179 +347,4 @@ public class DatabaseDataSource {
     }
 
     // endregion
-
-    /*
-
-    public Measurement getLatestMeasurement(Measurement.Category category) {
-        String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " WHERE " +
-                DatabaseHelper.CATEGORY + " = '" + category.name() + "' " +
-                "ORDER BY " + DatabaseHelper.DATE + " DESC LIMIT 1;";
-        Cursor cursor = db.rawQuery(query, null);
-
-        if (cursor.moveToLast()) {
-            Event event = new Event();
-            event.setId(Integer.parseInt(cursor.getString(0)));
-            event.setValue(Float.parseFloat(cursor.getString(1)));
-            event.setDate(cursor.getString(2));
-            event.setNotes(cursor.getString(3));
-            event.setCategory(Event.Category.valueOf(cursor.getString(4)));
-            return event;
-        }
-        else
-            return null;
-    }
-
-    public List<Event> getEventsOfDay(Calendar date) {
-        String dateString = new SimpleDateFormat(DB_FORMAT_DATE).format(date.getTime());
-
-        String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " WHERE " +
-                DatabaseHelper.DATE + " >= Datetime('" + dateString + " " + FIRST_SECOND_OF_DAY + "') AND " +
-                DatabaseHelper.DATE + " <= Datetime('" + dateString + " " + LAST_SECOND_OF_DAY + "') " +
-                "ORDER BY " + DatabaseHelper.DATE + ";";
-        Cursor cursor = db.rawQuery(query, null);
-
-        List<Event> events = new ArrayList<Event>();
-
-        if (cursor.moveToFirst()) {
-            while(!cursor.isAfterLast()) {
-
-                Event event = new Event();
-                event.setId(Integer.parseInt(cursor.getString(0)));
-                event.setValue(Float.parseFloat(cursor.getString(1)));
-                event.setDate(cursor.getString(2));
-                event.setNotes(cursor.getString(3));
-                event.setCategory(Event.Category.valueOf(cursor.getString(4)));
-
-                events.add(event);
-
-                cursor.moveToNext();
-            }
-        }
-        return events;
-    }
-
-    public List<Event> getEventsOfDay(Calendar date, Event.Category category) {
-
-        String dateString = new SimpleDateFormat(DB_FORMAT_DATE).format(date.getTime());
-
-        String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " WHERE " +
-                DatabaseHelper.DATE + " >= Datetime('" + dateString + " " + FIRST_SECOND_OF_DAY + "') AND " +
-                DatabaseHelper.DATE + " <= Datetime('" + dateString + " " + LAST_SECOND_OF_DAY + "') AND " +
-                DatabaseHelper.CATEGORY + " = '" + category.name() + "' " +
-                " ORDER BY " + DatabaseHelper.DATE;
-        Cursor cursor = db.rawQuery(query, null);
-
-        List<Event> events = new ArrayList<Event>();
-
-        if (cursor.moveToFirst()) {
-
-            while(!cursor.isAfterLast()) {
-
-                Event event = new Event();
-                event.setId(Integer.parseInt(cursor.getString(0)));
-                event.setValue(Float.parseFloat(cursor.getString(1)));
-                event.setDate(cursor.getString(2));
-                event.setNotes(cursor.getString(3));
-                event.setCategory(Event.Category.valueOf(cursor.getString(4)));
-
-                events.add(event);
-
-                cursor.moveToNext();
-            }
-        }
-        return events;
-    }
-
-    public List<Event> getEventsOfDay(Calendar date, Event.Category[] categories) {
-
-        String dateString = new SimpleDateFormat(DB_FORMAT_DATE).format(date.getTime());
-
-        String whereCategory = "";
-        for(Event.Category category : categories) {
-            whereCategory = whereCategory + ",'" + category.name() + "'";
-        }
-        whereCategory = whereCategory.substring(1);
-
-        String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " WHERE " +
-                DatabaseHelper.DATE + " >= Datetime('" + dateString + " " + FIRST_SECOND_OF_DAY + "') AND " +
-                DatabaseHelper.DATE + " <= Datetime('" + dateString + " " + LAST_SECOND_OF_DAY + "') AND " +
-                DatabaseHelper.CATEGORY + " in (" + whereCategory + ") " +
-                " ORDER BY " + DatabaseHelper.DATE;
-        Cursor cursor = db.rawQuery(query, null);
-
-        List<Event> events = new ArrayList<Event>();
-
-        if (cursor.moveToFirst()) {
-
-            while(!cursor.isAfterLast()) {
-
-                Event event = new Event();
-                event.setId(Integer.parseInt(cursor.getString(0)));
-                event.setValue(Float.parseFloat(cursor.getString(1)));
-                event.setDate(cursor.getString(2));
-                event.setNotes(cursor.getString(3));
-                event.setCategory(Event.Category.valueOf(cursor.getString(4)));
-
-                events.add(event);
-
-                cursor.moveToNext();
-            }
-        }
-        return events;
-    }
-
-    public float getBloodSugarAverage(int rangeInDays) {
-        SimpleDateFormat format = new SimpleDateFormat(DB_FORMAT_DATE_AND_TIME);
-        Calendar now = Calendar.getInstance();
-        Calendar dateBefore = Calendar.getInstance();
-        dateBefore.set(Calendar.HOUR_OF_DAY, now.get(Calendar.HOUR_OF_DAY) - (rangeInDays * 24));
-
-        String query = "SELECT AVG(" + DatabaseHelper.VALUE + ") FROM " + DatabaseHelper.EVENTS + " WHERE " +
-                DatabaseHelper.DATE + " >= Datetime('" + format.format(dateBefore.getTime()) + "') AND " +
-                DatabaseHelper.DATE + " <= Datetime('" + format.format(now.getTime()) + "') AND " +
-                DatabaseHelper.CATEGORY + " = '" + Measurement.Category.BloodSugar.toString() + "' ";
-        Cursor cursor = db.rawQuery(query, null);
-
-        float average = 0;
-        if(cursor.moveToFirst())
-            average = cursor.getFloat(0);
-
-        return average;
-    }
-
-
-    public float[][] getAverageDataTable(Calendar date, Measurement.Category[] categories, int columns) {
-        float[][] values = new float[categories.length][columns];
-        List<Event> events = getEventsOfDay(date, categories);
-
-        int counter = 1;
-        for(Event event : events) {
-            int category = Arrays.asList(categories).indexOf(event.getCategory());
-            int hour = event.getDate().get(Calendar.HOUR_OF_DAY) / 2;
-            float oldValue = values[category][hour];
-            float newValue;
-
-            // Sum of everything but Blood Sugar (average)
-            if(event.getCategory() == Event.Category.BloodSugar ||
-                    event.getCategory() == Event.Category.HbA1c ||
-                    event.getCategory() == Event.Category.Weight ||
-                    event.getCategory() == Event.Category.Pulse) {
-                if(oldValue > 0) {
-                    // Calculate Average per hour
-                    newValue = ((oldValue * counter) + (event.getValue())) / (counter + 1);
-                    counter++;
-                }
-                else {
-                    newValue = event.getValue();
-                    counter = 1;
-                }
-            }
-            else
-                newValue = oldValue + event.getValue();
-
-            values[category][hour] = newValue;
-        }
-        return values;
-    }
-    */
 }

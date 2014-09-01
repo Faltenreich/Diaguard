@@ -189,7 +189,7 @@ public class LogFragment extends Fragment {
     private void updateListView() {
 
         DateTimeFormatter format = preferenceHelper.getDateFormat();
-        String weekDay = getResources().getStringArray(R.array.weekdays)[time.getDayOfWeek()];
+        String weekDay = getResources().getStringArray(R.array.weekdays)[time.getDayOfWeek()-1];
         ((Button)getView().findViewById(R.id.button_date)).setText(weekDay.substring(0,2) + "., " + format.print(time));
 
         // TODO
@@ -221,12 +221,12 @@ public class LogFragment extends Fragment {
     // LISTENERS
 
     public void previousDay() {
-        time = time.withDayOfMonth(time.getDayOfMonth() - 1);
+        time = time.minusDays(1);
         updateListView();
     }
 
     public void nextDay() {
-        time = time.withDayOfMonth(time.getDayOfMonth() + 1);
+        time = time.plusDays(1);
         updateListView();
     }
 
@@ -234,7 +234,7 @@ public class LogFragment extends Fragment {
         DialogFragment fragment = new DatePickerFragment() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
-                time = time.withYear(year).withMonthOfYear(month).withDayOfMonth(day);
+                time = time.withYear(year).withMonthOfYear(month+1).withDayOfMonth(day);
                 updateListView();
             }
         };

@@ -178,7 +178,7 @@ public class FileHelper {
         @Override
         protected Void doInBackground(String... params) {
             try {
-                String filePath = PATH_EXTERNAL + "/" + params[0];
+                String filePath = getExternalStorage().getAbsolutePath() + File.separator + params[0];
                 CSVReader reader = new CSVReader(new FileReader(filePath), DELIMITER);
 
                 dataSource.open();
@@ -208,7 +208,7 @@ public class FileHelper {
 
                 // Database version > 17
                 else {
-                    int databaseVersion = Integer.getInteger(nextLine[1]);
+                    int databaseVersion = Integer.parseInt(nextLine[1]);
 
                     // Migrate from old database version
                     if(databaseVersion < dataSource.getVersion()) {

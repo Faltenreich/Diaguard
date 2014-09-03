@@ -47,7 +47,6 @@ public class BackupPreference extends DialogPreference {
 
     @Override
     protected void onPrepareDialogBuilder(android.app.AlertDialog.Builder builder) {
-
         builder.setTitle(activity.getResources().getString(R.string.backup))
                 .setItems(R.array.backup_actions, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -74,7 +73,7 @@ public class BackupPreference extends DialogPreference {
     }
 
     private void showBackups() {
-        File path = new File(FileHelper.PATH_EXTERNAL);
+        File path = FileHelper.getExternalStorage();
         File[] files = path.listFiles();
         List<String> csvFiles = new ArrayList<String>();
         for (File file : files) {

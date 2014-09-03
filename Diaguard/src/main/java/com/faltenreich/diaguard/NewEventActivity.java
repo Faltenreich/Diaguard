@@ -386,7 +386,7 @@ public class NewEventActivity extends ActionBarActivity {
         DialogFragment fragment = new DatePickerFragment() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
-                time = time.withYear(year).withMonthOfYear(month).withDayOfMonth(day);
+                time = time.withYear(year).withMonthOfYear(month+1).withDayOfMonth(day);
                 setDate();
             }
         };

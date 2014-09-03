@@ -111,17 +111,12 @@ public class LogFragment extends ListFragment {
 
         getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO
-                Entry entry = (Entry) getListAdapter().getItem(position);
-                editEntry(entry);
+                Entry entry = (Entry) getListView().getAdapter().getItem(position);
+                Intent intent = new Intent(getActivity(), NewEventActivity.class);
+                intent.putExtra(NewEventActivity.EXTRA_ENTRY, entry.getId());
+                startActivity(intent);
             }
         });
-    }
-
-    private void editEntry(Entry entry) {
-        Intent intent = new Intent(getActivity(), NewEventActivity.class);
-        intent.putExtra(NewEventActivity.EXTRA_ENTRY, entry.getId());
-        startActivity(intent);
     }
 
     private void updateListView() {

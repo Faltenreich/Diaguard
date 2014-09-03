@@ -29,7 +29,6 @@ public class DatabaseDataSource {
     public void open() {
         db = dbHelper.getWritableDatabase();
         // To enable ON CASCADE
-        // Enable foreign key constraints
         if (!db.isReadOnly()) {
             db.execSQL("PRAGMA foreign_keys = ON;");
         }

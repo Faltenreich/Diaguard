@@ -53,7 +53,6 @@ public class FileHelper {
     }
 
     public static File getExternalStorage() {
-
         if(!isExternalStorageWritable())
             return null;
 

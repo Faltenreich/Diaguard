@@ -51,13 +51,11 @@ public class NewEventActivity extends ActionBarActivity {
     public static final String EXTRA_ENTRY = "Entry";
     public static final String EXTRA_MEASUREMENT = "Measurement";
     public static final String EXTRA_DATE = "Date";
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-    static final int REQUEST_TAKE_PHOTO = 1;
-
-    String currentPhotoPath;
 
     DatabaseDataSource dataSource;
     PreferenceHelper preferenceHelper;
+
+    Entry entry;
 
     DateTime time;
     boolean inputWasMade;
@@ -96,10 +94,10 @@ public class NewEventActivity extends ActionBarActivity {
         inputWasMade = false;
 
         getComponents();
-        checkIntents();
         setDate();
         setTime();
         setCategories();
+        checkIntents();
     }
 
     public void getComponents() {
@@ -113,10 +111,11 @@ public class NewEventActivity extends ActionBarActivity {
     private void checkIntents() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            // Get entry and all of its measurements
+
             if(extras.getLong(EXTRA_ENTRY) != 0L || extras.getLong(EXTRA_MEASUREMENT) != 0L) {
                 dataSource.open();
-                Entry entry;
+
+                // Get entry
                 if(extras.getLong(EXTRA_ENTRY) != 0L) {
                     entry = (Entry) dataSource.get(DatabaseHelper.ENTRY, extras.getLong(EXTRA_ENTRY));
                 }
@@ -124,8 +123,10 @@ public class NewEventActivity extends ActionBarActivity {
                     Measurement measurement = (Measurement)dataSource.get(DatabaseHelper.MEASUREMENT, extras.getLong("ID"));
                     entry = (Entry)dataSource.get(DatabaseHelper.ENTRY, measurement.getEntryId());
                 }
+
+                // and all of its measurements
                 List<Model> measurements = dataSource.get(DatabaseHelper.MEASUREMENT, null,
-                        DatabaseHelper.ENTRY_ID + "=?", new String[]{Long.toString(entry.getId())},
+                        DatabaseHelper.ENTRY_ID + "=?", new String[]{ Long.toString(entry.getId()) },
                         null, null, null, null);
                 dataSource.close();
 
@@ -135,8 +136,15 @@ public class NewEventActivity extends ActionBarActivity {
                 for(Model model : measurements) {
                     Measurement measurement = (Measurement) model;
                     entry.getMeasurements().add(measurement);
-                    addValue(measurement.getCategory(), preferenceHelper.getDecimalFormat(
-                            measurement.getCategory()).format(measurement.getValue()));
+                    for(int position = 0; position < linearLayoutValues.getChildCount(); position++) {
+                        View view = linearLayoutValues.getChildAt(position);
+                        Measurement.Category category = (Measurement.Category)view.getTag();
+                        if(category == measurement.getCategory()) {
+                            EditText editTextValue = (EditText) view.findViewById(R.id.value);
+                            float customValue = preferenceHelper.formatDefaultToCustomUnit(category, measurement.getValue());
+                            editTextValue.setText(Helper.getDecimalFormat().format(customValue));
+                        }
+                    }
                 }
             }
             else if(extras.getSerializable(EXTRA_DATE) != null) {
@@ -155,7 +163,7 @@ public class NewEventActivity extends ActionBarActivity {
 
     private void setCategories() {
         for(Measurement.Category category : preferenceHelper.getActiveCategories())
-            addValue(category, null);
+            addValue(category);
     }
 
     private void submit() {
@@ -238,19 +246,53 @@ public class NewEventActivity extends ActionBarActivity {
         if(inputIsValid) {
             dataSource.open();
 
-            // Entry
-            Entry entry = new Entry();
-            entry.setDate(time);
-            if(editTextNotes.length() > 0)
-                entry.setNote(editTextNotes.getText().toString());
-            long entryId = dataSource.insert(entry);
+            // Update existing entry
+            if(entry != null) {
+
+                entry.setDate(time);
+                if(editTextNotes.length() > 0)
+                    entry.setNote(editTextNotes.getText().toString());
+
+                for(Measurement measurement : measurements) {
+                    // Step through old measurements and compare
+                    boolean updatedExistingMeasurement = false;
+                    for(Measurement oldMeasurement : entry.getMeasurements()) {
+                        // Update existing measurement
+                        if (measurement.getCategory() == oldMeasurement.getCategory()) {
+                            oldMeasurement.setValue(measurement.getValue());
+                            dataSource.update(oldMeasurement);
+                            updatedExistingMeasurement = true;
+                        }
+                    }
+                    // TODO
+                    // Insert new measurement
+
+                    // Delete removed measurement
+                }
+            }
+
+            // Insert new entry
+            else {
+
+                entry = new Entry();
+                entry.setDate(time);
+                if(editTextNotes.length() > 0)
+                    entry.setNote(editTextNotes.getText().toString());
+                long entryId = dataSource.insert(entry);
+
+                // Connect measurements with entry
+                for(Measurement measurement : measurements)
+                    measurement.setEntryId(entryId);
+
+            }
+
+            /*
             // Connect measurements with entry
             for(Measurement measurement : measurements)
                 measurement.setEntryId(entryId);
 
             // Events
             long[] ids;
-            /*
             TODO
             Bundle extras = getIntent().getExtras();
             // Update existing
@@ -263,7 +305,6 @@ public class NewEventActivity extends ActionBarActivity {
             else {
                 ids = dataSource.insert(measurements);
             }
-            */
 
             ids = dataSource.insert(measurements);
 
@@ -277,6 +318,7 @@ public class NewEventActivity extends ActionBarActivity {
                 }
             }
 
+            */
             dataSource.close();
 
             // Tell MainActivity that Events have been created
@@ -288,7 +330,7 @@ public class NewEventActivity extends ActionBarActivity {
         }
     }
 
-    private void addValue(final Measurement.Category category, String value) {
+    private void addValue(final Measurement.Category category) {
         // Add view
         final LayoutInflater inflater = getLayoutInflater();
         final View view = inflater.inflate(R.layout.fragment_newvalue, linearLayoutValues, false);
@@ -304,9 +346,6 @@ public class NewEventActivity extends ActionBarActivity {
         // Value
         final EditText editTextValue = (EditText) view.findViewById(R.id.value);
         editTextValue.setHint(preferenceHelper.getUnitAcronym(category));
-        if(value != null) {
-            editTextValue.setText(value);
-        }
         if(category == Measurement.Category.BloodSugar)
             editTextValue.requestFocus();
 

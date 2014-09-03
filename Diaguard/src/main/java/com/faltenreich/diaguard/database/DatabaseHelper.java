@@ -11,6 +11,11 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
+    /**
+     * AUTOINCREMENT for PK is needed for ON CASCADE to work
+     * FOREIGN KEY constraints are enabled on every db.open() in DatabaseDataSource
+     */
+
     // Metadata
     private static final String DATABASE_NAME = "diaguard.db";
     private static final int DATABASE_VERSION = 18;
@@ -63,15 +68,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 DATE + " TEXT NOT NULL, " +
                 NOTES + " TEXT, " +
                 CATEGORY + " TEXT NOT NULL);");
-    }
-
-    private void insertTestDataVersion17(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("INSERT INTO " + EVENTS + " (" +
-                 VALUE + "," + DATE + "," + NOTES + "," + CATEGORY +
-                ") VALUES (133.0,'2014-08-09 21:31:23','TestNote','BloodSugar');");
-        sqLiteDatabase.execSQL("INSERT INTO " + EVENTS + " (" +
-                VALUE + "," + DATE + "," + NOTES + "," + CATEGORY +
-                ") VALUES (5,'2014-06-09 21:31:23','Notenoteyos','Meal');");
     }
 
     private void onCreateVersion18(SQLiteDatabase sqLiteDatabase) {

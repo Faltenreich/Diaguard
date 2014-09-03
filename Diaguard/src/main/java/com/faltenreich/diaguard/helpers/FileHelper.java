@@ -215,24 +215,22 @@ public class FileHelper {
                         // For future releases
                     }
 
-                    else {
-                        long parentId = -1;
-                        while ((nextLine = reader.readNext()) != null) {
-                            String key = nextLine[0];
-                            if (key.equals(DatabaseHelper.ENTRY)) {
-                                Entry entry = new Entry();
-                                entry.setDate(nextLine[1]);
-                                entry.setNote(nextLine[2]);
-                                parentId = dataSource.insert(entry);
-                            }
-                            else if(key.equals(DatabaseHelper.MEASUREMENT) && parentId != -1) {
-                                // Measurement
-                                Measurement measurement = new Measurement();
-                                measurement.setValue(Float.parseFloat(nextLine[1]));
-                                measurement.setCategory(Measurement.Category.valueOf(nextLine[2]));
-                                measurement.setEntryId(parentId);
-                                dataSource.insert(measurement);
-                            }
+                    long parentId = -1;
+                    while ((nextLine = reader.readNext()) != null) {
+                        String key = nextLine[0];
+                        if (key.equals(DatabaseHelper.ENTRY)) {
+                            Entry entry = new Entry();
+                            entry.setDate(nextLine[1]);
+                            entry.setNote(nextLine[2]);
+                            parentId = dataSource.insert(entry);
+                        }
+                        else if(key.equals(DatabaseHelper.MEASUREMENT) && parentId != -1) {
+                            // Measurement
+                            Measurement measurement = new Measurement();
+                            measurement.setValue(Float.parseFloat(nextLine[1]));
+                            measurement.setCategory(Measurement.Category.valueOf(nextLine[2]));
+                            measurement.setEntryId(parentId);
+                            dataSource.insert(measurement);
                         }
                     }
                 }

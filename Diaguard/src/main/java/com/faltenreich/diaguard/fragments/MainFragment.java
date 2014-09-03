@@ -115,6 +115,8 @@ public class MainFragment extends Fragment {
                 textViewLatestValue.setTextColor(getResources().getColor(R.color.red));
             else if(latestBloodSugar.getValue() < preferenceHelper.getLimitHypoglycemia())
                 textViewLatestValue.setTextColor(getResources().getColor(R.color.blue));
+            else
+                textViewLatestValue.setTextColor(getResources().getColor(R.color.green));
         }
 
         // Unit

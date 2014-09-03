@@ -33,6 +33,8 @@
     <string name="description">Description</string>
     <string name="drawer_close">Close Navigator</string>
     <string name="drawer_open">Open Navigator</string>
+    <string name="entry">Entry</string>
+    <string name="entry_edit">Edit entry</string>
     <string name="event">Event</string>
     <string name="events">Events</string>
     <string name="export">Export</string>

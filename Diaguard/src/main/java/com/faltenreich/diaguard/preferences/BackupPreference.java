@@ -54,7 +54,7 @@ public class BackupPreference extends DialogPreference {
                         switch (which) {
                             case ACTION_CREATEBACKUP:
                                 createBackup();
-                                String path = FileHelper.PATH_STORAGE + "/backup" +
+                                String path = FileHelper.PATH_EXTERNAL + "/backup" +
                                         DateTimeFormat.forPattern("yyyyMMddHHmmss").print(new DateTime()) + ".csv";
                                 ViewHelper.showInfo(activity,
                                         activity.getResources().getString(R.string.pref_data_backup_finished) + ": " + path);
@@ -74,7 +74,7 @@ public class BackupPreference extends DialogPreference {
     }
 
     private void showBackups() {
-        File path = new File(FileHelper.PATH_STORAGE);
+        File path = new File(FileHelper.PATH_EXTERNAL);
         File[] files = path.listFiles();
         List<String> csvFiles = new ArrayList<String>();
         for (File file : files) {

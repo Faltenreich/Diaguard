@@ -14,7 +14,7 @@
 
     </LinearLayout>
 
-    <ListView android:id="@+id/listViewEvents"
+    <ListView android:id="@id/android:list"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:cacheColorHint="#fff"

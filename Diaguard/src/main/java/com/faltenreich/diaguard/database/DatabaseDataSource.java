@@ -47,6 +47,10 @@ public class DatabaseDataSource {
                 dbHelper.getWritableDatabase().isOpen();
     }
 
+    public int getVersion() {
+        return db.getVersion();
+    }
+
     // region Helper
 
     private ContentValues getContentValues(Model model) {
@@ -152,6 +156,24 @@ public class DatabaseDataSource {
             return getFood(cursor);
         else
             throw new Resources.NotFoundException();
+    }
+
+    public List<Model> get(String table) {
+        Cursor cursor = db.query(table, null, null, null, null, null, null, null);
+
+        List<Model> objects = new ArrayList<Model>();
+        if (cursor.moveToFirst()) {
+            while(!cursor.isAfterLast()) {
+                if(table.equals(DatabaseHelper.ENTRY))
+                    objects.add(getEntry(cursor));
+                else if(table.equals(DatabaseHelper.MEASUREMENT))
+                    objects.add(getMeasurement(cursor));
+                else if(table.equals(DatabaseHelper.FOOD))
+                    objects.add(getFood(cursor));
+                cursor.moveToNext();
+            }
+        }
+        return objects;
     }
 
     public List<Model> get(String table, String[] columns, String selection, String[] selectionArgs,

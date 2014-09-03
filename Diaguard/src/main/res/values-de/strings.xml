@@ -31,6 +31,8 @@
     <string name="description">Beschreibung</string>
     <string name="drawer_close">Navigator schließen</string>
     <string name="drawer_open">Navigator öffnen</string>
+    <string name="entry">Eintrag</string>
+    <string name="entry_edit">Eintrag bearbeiten</string>
     <string name="event">Ereignis</string>
     <string name="events">Ereignisse</string>
     <string name="export_finished">PDF wurde abgelegt unter</string>

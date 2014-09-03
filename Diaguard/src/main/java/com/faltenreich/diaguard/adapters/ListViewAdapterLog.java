@@ -83,8 +83,9 @@ public class ListViewAdapterLog extends BaseAdapter {
 
             convertView.setTag(holder);
         }
-        else
+        else {
             holder = (ViewHolderRow) convertView.getTag();
+        }
 
         Entry entry = getItem(position);
 

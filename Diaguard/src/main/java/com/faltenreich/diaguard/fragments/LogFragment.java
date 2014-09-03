@@ -1,12 +1,11 @@
 package com.faltenreich.diaguard.fragments;
 
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,7 +35,9 @@ import java.util.List;
  * A simple {@link android.support.v4.app.Fragment} subclass.
  *
  */
-public class LogFragment extends Fragment {
+public class LogFragment extends ListFragment {
+
+    private int activatedPosition = ListView.INVALID_POSITION;
 
     private final int ACTION_EDIT = 0;
     private final int ACTION_DELETE = 1;
@@ -46,8 +47,6 @@ public class LogFragment extends Fragment {
 
     DateTime time;
     boolean[] checkedCategories;
-
-    ListView listViewEvents;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -86,21 +85,10 @@ public class LogFragment extends Fragment {
         for(int item = 0; item < categories.length; item++) {
             checkedCategories[item] = preferenceHelper.isCategoryActive(categories[item]);
         }
-        getComponents();
-    }
-
-    public void getComponents() {
-        listViewEvents = (ListView) getView().findViewById(R.id.listViewEvents);
     }
 
     public void initializeGUI() {
 
-        getView().findViewById(R.id.button_date).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePicker();
-            }
-        });
         getView().findViewById(R.id.button_previous).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,71 +102,20 @@ public class LogFragment extends Fragment {
             }
         });
 
-        listViewEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        getView().findViewById(R.id.button_date).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePicker();
+            }
+        });
+
+        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // TODO
-                //final Measurement measurement = (Measurement) listViewEvents.getAdapter().getItem(position);
-                //editEntry(measurement);
-                /*
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle(preferenceHelper.getCategoryName(event.getCategory()))
-                        .setItems(R.array.actions, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                switch (which) {
-                                    case ACTION_EDIT:
-                                        editEntry(event);
-                                        break;
-                                    case ACTION_DELETE:
-                                        deleteEvent(event);
-                                        updateListView();
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            }
-                        });
-                AlertDialog dialog = builder.create();
-                dialog.setCanceledOnTouchOutside(true);
-                dialog.show();
-                */
+                Entry entry = (Entry) getListAdapter().getItem(position);
+                editEntry(entry);
             }
         });
-
-        /*
-        listViewEvents.setOnScrollListener(new EndlessScrollListener() {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount) {
-                // Triggered only when new data needs to be appended to the list
-                // Add whatever code is needed to append new items to your AdapterView
-                int i = 0;
-            }
-        });
-        listViewEvents.setOnScrollListener(new AbsListView.OnScrollListener() {
-
-            int currentFirstVisibleItem;
-            int currentVisibleItemCount;
-            int currentScrollState;
-
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                this.currentScrollState = scrollState;
-                this.isScrollCompleted();
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                this.currentFirstVisibleItem = firstVisibleItem;
-                this.currentVisibleItemCount = visibleItemCount;
-            }
-
-            private void isScrollCompleted() {
-                if (this.currentVisibleItemCount > 0 && this.currentScrollState == SCROLL_STATE_IDLE) {
-                    ((EndlessListViewAdapter)listViewEvents.getAdapter()).isScrollingDown = true;
-                    ((EndlessListViewAdapter)listViewEvents.getAdapter()).isScrollingUp = true;
-                }
-            }
-        });
-        */
     }
 
     private void editEntry(Entry entry) {
@@ -217,9 +154,9 @@ public class LogFragment extends Fragment {
 
         ListViewAdapterLog adapter = new ListViewAdapterLog(getActivity());
         adapter.entries.addAll(entriesOfDay);
-        listViewEvents.setAdapter(adapter);
+        getListView().setAdapter(adapter);
 
-        listViewEvents.setEmptyView(getView().findViewById(R.id.listViewEventsEmpty));
+        getListView().setEmptyView(getView().findViewById(R.id.listViewEventsEmpty));
     }
 
     // LISTENERS

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -48,7 +47,6 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
 
 /**
  * Created by Filip on 30.11.13.
@@ -180,7 +178,7 @@ public class ExportActivity extends ActionBarActivity {
         DatePickerFragment fragment = new DatePickerFragment() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
-                dateStart = dateStart.withYear(year).withMonthOfYear(month).withDayOfMonth(day);
+                dateStart = dateStart.withYear(year).withMonthOfYear(month+1).withDayOfMonth(day);
                 buttonDateStart.setText(dateFormat.print(dateStart));
             }
         };
@@ -194,7 +192,7 @@ public class ExportActivity extends ActionBarActivity {
         DatePickerFragment fragment = new DatePickerFragment() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
-                dateStart = dateStart.withYear(year).withMonthOfYear(month).withDayOfMonth(day);
+                dateEnd = dateEnd.withYear(year).withMonthOfYear(month+1).withDayOfMonth(day);
                 buttonDateEnd.setText(dateFormat.print(dateEnd));
             }
         };
@@ -235,15 +233,11 @@ public class ExportActivity extends ActionBarActivity {
         @Override
         protected File doInBackground(DateTime... params) {
 
-            if(!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
+            File directory = FileHelper.getExternalStorage();
+            if(directory == null)
                 return null;
 
-            File directory = new File(FileHelper.PATH_STORAGE);
-
-            if(!directory.exists())
-                directory.mkdirs();
-
-            File file = new File(directory + "/export" + DateTimeFormat.forPattern("yyyyMMddHHmmss").
+            File file = new File(directory.getAbsolutePath() + "/export" + DateTimeFormat.forPattern("yyyyMMddHHmmss").
                     print(new DateTime()) + ".pdf");
 
             dateStart = params[0];
@@ -270,7 +264,7 @@ public class ExportActivity extends ActionBarActivity {
                 DateTime dateIteration = dateStart;
 
                 // One day after last chosen day
-                DateTime dateAfter = dateEnd.withDayOfMonth(dateEnd.dayOfMonth().get() + 1);
+                DateTime dateAfter = dateEnd.plusDays(1);
 
                 // Total number of days to export
                 int totalDays = Days.daysBetween(dateStart, dateEnd).getDays();
@@ -285,7 +279,7 @@ public class ExportActivity extends ActionBarActivity {
                 while(dateIteration.isBefore(dateAfter)) {
 
                     // title bar for new week
-                    if(currentDay > 1 && dateIteration.getDayOfWeek() == 2) {
+                    if(currentDay > 1 && dateIteration.getDayOfWeek() == 1) {
                         document.newPage();
                         document.add(getWeekBar(dateIteration));
                         document.add(Chunk.NEWLINE);
@@ -298,8 +292,9 @@ public class ExportActivity extends ActionBarActivity {
                     PdfPCell cell;
 
                     // Header
-                    cell = new PdfPCell(new Phrase(weekDays[dateIteration.getDayOfWeek()-1].substring(0, 2) + " " +
-                            new SimpleDateFormat("dd.MM.").format(dateIteration),
+                    String weekDay = weekDays[dateIteration.getDayOfWeek()-1];
+                    cell = new PdfPCell(new Phrase(weekDay.substring(0, 2) + " " +
+                            DateTimeFormat.forPattern("dd.MM.").print(dateIteration),
                             new Font(fontBold)));
                     cell.setBorder(0);
                     cell.setBorder(Rectangle.BOTTOM);
@@ -315,8 +310,7 @@ public class ExportActivity extends ActionBarActivity {
                     // Content
                     dataSource.open();
                     // TODO
-                    float[][] values; // = dataSource.getAverageDataTable(dateIteration, selectedCategories, 12);
-                    values = new float[0][0];
+                    float[][] values = dataSource.getAverageDataTable(dateIteration, selectedCategories, 12);
                     dataSource.close();
 
                     // Insert values into table
@@ -372,7 +366,7 @@ public class ExportActivity extends ActionBarActivity {
                     publishProgress(getString(R.string.day) + " " + currentDay + "/" + totalDays);
 
                     // Next day
-                    dateIteration = dateIteration.withDayOfMonth(dateIteration.dayOfMonth().get() + 1);
+                    dateIteration = dateIteration.plusDays(1);
                     currentDay++;
                 }
 
@@ -426,11 +420,10 @@ public class ExportActivity extends ActionBarActivity {
         }
 
         private Paragraph getWeekBar(DateTime weekStart) {
-
             Paragraph paragraph = new Paragraph();
 
             // Week
-            Chunk chunk = new Chunk(getString(R.string.calendarweek) + " " + weekStart.getWeekyear());
+            Chunk chunk = new Chunk(getString(R.string.calendarweek) + " " + weekStart.getWeekOfWeekyear());
             chunk.setFont(FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD));
             paragraph.add(chunk);
 

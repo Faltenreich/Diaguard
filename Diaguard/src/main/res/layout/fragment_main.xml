@@ -5,8 +5,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        style="@style/Padding">
+        android:orientation="vertical">
 
         <!-- Latest Blood Sugar -->
         <LinearLayout android:id="@+id/layout_latest"
@@ -14,14 +13,15 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginBottom="@dimen/margin_between"
-            android:layout_marginTop="@dimen/margin_between">
+            style="@style/Padding">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:paddingBottom="11dp">
+                android:paddingBottom="11dp"
+                style="@style/Padding">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -47,17 +47,14 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/gray_dk"
-                    android:layout_marginTop="@dimen/margin_between"
-                    android:layout_marginBottom="@dimen/margin_between"
-                    android:layout_marginLeft="@dimen/padding_end"
-                    android:layout_marginRight="@dimen/padding_end"/>
+                    android:layout_height="2dp"
+                    android:background="@color/green_lt"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    style="@style/Padding">
 
                     <TextView android:id="@+id/textview_latest_time"
                         android:layout_width="match_parent"
@@ -76,12 +73,18 @@
 
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="@color/green_lt"/>
+
         <!-- Dashboard -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginBottom="@dimen/margin_between">
+            android:layout_marginBottom="@dimen/margin_between"
+            style="@style/Padding">
 
             <LinearLayout
                 style="@style/BoxLabelBackground">
@@ -158,6 +161,11 @@
                 </LinearLayout>
 
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/green_lt"/>
 
             <LinearLayout
                 style="@style/BoxLabelBackground">

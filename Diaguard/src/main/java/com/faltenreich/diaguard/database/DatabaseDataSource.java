@@ -19,14 +19,6 @@ import java.util.List;
  * Created by Filip on 20.10.13.
  */
 public class DatabaseDataSource {
-
-    public static final String DB_FORMAT_DATE_AND_TIME = "yyyy-MM-dd HH:mm:ss";
-    public static final String DB_FORMAT_DATE = "yyyy-MM-dd";
-    public static final String DB_FORMAT_TIME = "HH:mm";
-
-    public static final String FIRST_SECOND_OF_DAY = "00:00:00";
-    public static final String LAST_SECOND_OF_DAY = "23:59:59";
-
     private SQLiteDatabase db;
     private DatabaseHelper dbHelper;
 
@@ -36,6 +28,11 @@ public class DatabaseDataSource {
 
     public void open() {
         db = dbHelper.getWritableDatabase();
+        // To enable ON CASCADE
+        // Enable foreign key constraints
+        if (!db.isReadOnly()) {
+            db.execSQL("PRAGMA foreign_keys = ON;");
+        }
     }
 
     public void close() {
@@ -335,6 +332,20 @@ public class DatabaseDataSource {
         return count;
     }
 
+    public int countMeasurementsBefore(DateTime lastDay) {
+        String query = "SELECT COUNT(*) FROM " + DatabaseHelper.ENTRY +
+                " INNER JOIN " + DatabaseHelper.MEASUREMENT +
+                " ON " + DatabaseHelper.MEASUREMENT + "." + DatabaseHelper.ENTRY_ID +
+                " = " + DatabaseHelper.ENTRY + "." + DatabaseHelper.ID +
+                " AND " + DatabaseHelper.ENTRY + "." + DatabaseHelper.DATE +
+                " <= Datetime('" + lastDay.withTime(23, 59, 59, 999) + "');";
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        return count;
+    }
+
     public int countMeasurements(DateTime day, Measurement.Category category, float limit, boolean countHigherValues) {
         String comparisonSymbol = countHigherValues ? " >= " : " <= ";
         String query = "SELECT COUNT(*) FROM " + DatabaseHelper.ENTRY +
@@ -384,8 +395,8 @@ public class DatabaseDataSource {
                 new String[]{Long.toString(model.getId())});
     }
 
-    public int delete(Model model, String selection, String[] selectionArgs) {
-        return db.delete(model.getTableName(), selection + "=?", selectionArgs);
+    public int delete(String table, String selection, String[] selectionArgs) {
+        return db.delete(table, selection, selectionArgs);
     }
 
     // endregion

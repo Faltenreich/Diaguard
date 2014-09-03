@@ -81,7 +81,7 @@ public class MainFragment extends Fragment {
 
         int countBloodSugarMeasurements = dataSource.count(
                 DatabaseHelper.MEASUREMENT,
-                DatabaseHelper.CATEGORY,
+                DatabaseHelper.CATEGORY + "=?",
                 Measurement.Category.BloodSugar.toString());
 
         if(countBloodSugarMeasurements > 0) {

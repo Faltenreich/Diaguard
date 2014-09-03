@@ -11,7 +11,10 @@ import android.widget.DatePicker;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
+import com.faltenreich.diaguard.database.DatabaseHelper;
+import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
+import com.faltenreich.diaguard.helpers.ViewHelper;
 
 import org.joda.time.DateTime;
 
@@ -37,15 +40,14 @@ public class CleanUpPreference extends DialogPreference {
     }
 
     private void cleanUp(DateTime date) {
-
-        /*
         dataSource.open();
-        int count = dataSource.deleteEventsBefore(date);
+        String dateString = Helper.getDateDatabaseFormat().print(date.withTime(23, 59, 59, 999));
+        int count = dataSource.delete(DatabaseHelper.ENTRY,
+                DatabaseHelper.DATE + "<=DateTime(?)", new String[]{ dateString });
         dataSource.close();
 
         ViewHelper.showInfo(activity, count + " " +
                 activity.getResources().getString(R.string.pref_data_cleanup_return));
-        */
     }
 
     @Override
@@ -60,19 +62,21 @@ public class CleanUpPreference extends DialogPreference {
         if(positiveResult) {
             final DateTime date = new DateTime()
                     .withYear(datePicker.getYear())
-                    .withMonthOfYear(datePicker.getMonth())
+                    .withMonthOfYear(datePicker.getMonth()+1)
                     .withDayOfMonth(datePicker.getDayOfMonth());
 
-            /*
             dataSource.open();
-            int count = dataSource.countEventsBefore(date);
+            int count = dataSource.countMeasurementsBefore(date);
             dataSource.close();
-            */
+
+            if(count <= 0)
+                return;
 
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
             dialogBuilder
                     .setTitle(activity.getResources().getString(R.string.pref_data_cleanup_confirm_title))
-                    .setMessage(/*count + */" " + activity.getResources().getString(R.string.pref_data_cleanup_confirm_message))
+                    .setMessage(count + " " +
+                            activity.getString(R.string.pref_data_cleanup_confirm_message))
                     .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.cancel();

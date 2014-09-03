@@ -191,6 +191,7 @@
     <string name="error_no_mail">Keine App zum Senden von E-Mails gefunden</string>
     <string name="error_no_app">Keine App zum Öffnen von PDFs gefunden</string>
     <string name="error_sd_card">Speicherkarte nicht verfügbar</string>
+    <string name="error_no_backups">Keine Sicherungen gefunden</string>
 
     <!-- SETTINGS -->
     <string name="pref_therapy_targets">Zielwerte</string>
@@ -203,7 +204,7 @@
 
     <string name="pref_data_cleanup_confirm_title">Ereignisse löschen?</string>
     <string name="pref_data_cleanup_confirm_message">Einträge wären betroffen</string>
-    <string name="pref_data_cleanup_return">Ereignisse wurden gelöscht</string>
+    <string name="pref_data_cleanup_return">Einträge wurden gelöscht</string>
 
     <string name="pref_data_backup_message">Stellen Sie Daten mithilfe einer lokalen Sicherung wieder her.
         Entscheiden Sie, ob die Sicherung in eine bestehende Datenbank eingepflegt oder ob diese komplett neu aufgesetzt werden soll.</string>

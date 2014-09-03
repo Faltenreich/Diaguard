@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="android.joda-2.4.0">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/Diaguard/build/intermediates/exploded-aar/net.danlew/android.joda/2.4.0/res" />
+      <root url="jar://$PROJECT_DIR$/Diaguard/build/intermediates/exploded-aar/net.danlew/android.joda/2.4.0/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

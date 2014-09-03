@@ -281,6 +281,7 @@
     <string name="error_no_mail">No app found to send E-Mail</string>
     <string name="error_no_app">No app found to open file</string>
     <string name="error_sd_card">SD card not available</string>
+    <string name="error_no_backups">No backups found</string>
 
     <!-- SETTINGS -->
     <string name="pref_therapy_targets">Target values</string>
@@ -294,7 +295,7 @@
     <string name="pref_therapy_targets_hypoclycemia_default">60.0</string>
     <string name="pref_data_cleanup_confirm_title">Delete Events?</string>
     <string name="pref_data_cleanup_confirm_message">events would be affected</string>
-    <string name="pref_data_cleanup_return">events have been deleted</string>
+    <string name="pref_data_cleanup_return">entries have been deleted</string>
     <string name="pref_data_backup_message">Restore old data with a local backup file.
         Decide whether you want to keep existing data or create a completely new database.</string>
     <string name="pref_data_backup_finished">Backup will be created</string>

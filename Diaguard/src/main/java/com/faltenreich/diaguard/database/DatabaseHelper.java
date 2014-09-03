@@ -77,28 +77,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private void onCreateVersion18(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " +
                 ENTRY + " (" +
-                ID + " INTEGER PRIMARY KEY, " +
+                ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 DATE + " TEXT NOT NULL, " +
                 NOTE + " TEXT);");
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " +
                 MEASUREMENT + " (" +
-                ID + " INTEGER PRIMARY KEY, " +
+                ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 VALUE + " REAL NOT NULL, " +
                 CATEGORY + " TEXT NOT NULL, " +
                 ENTRY_ID + " INTEGER NOT NULL, " +
-                "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + " (" + ID + ") ON UPDATE CASCADE);");
+                "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + " (" + ID + ") ON DELETE CASCADE);");
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " +
                 FOOD + " (" +
-                ID + " INTEGER PRIMARY KEY, " +
+                ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 CARBOHYDRATES + " REAL NOT NULL, " +
                 NAME + " TEXT NOT NULL);");
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " +
                 FOOD_EATEN + " (" +
-                ID + " INTEGER PRIMARY KEY, " +
+                ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 MEASUREMENT_ID + " INTEGER, " +
                 FOOD_ID + " INTEGER, " +
                 "FOREIGN KEY(" + MEASUREMENT_ID + ") REFERENCES " + MEASUREMENT + " (" + ID + ") ON UPDATE CASCADE, " +
-                "FOREIGN KEY(" + FOOD_ID + ") REFERENCES " + FOOD + " (" + ID + ") ON UPDATE CASCADE);");
+                "FOREIGN KEY(" + FOOD_ID + ") REFERENCES " + FOOD + " (" + ID + ") ON DELETE CASCADE);");
     }
 
     @Override

@@ -83,6 +83,12 @@ public class BackupPreference extends DialogPreference {
                 csvFiles.add(fileName);
         }
 
+        if(csvFiles.size() <= 0) {
+            Activity preferenceActivity = (Activity)getContext();
+            ViewHelper.showAlert(preferenceActivity, preferenceActivity.getString(R.string.error_no_backups));
+            return;
+        }
+
         final String[] csvArray = csvFiles.toArray(new String[csvFiles.size()]);
         final String[] csvArrayDates = new String[csvArray.length];
         for(int position = 0; position < csvArray.length; position++) {

@@ -33,8 +33,6 @@ public class ExportActivity extends ActionBarActivity implements IFileListener {
 
     private PreferenceHelper preferenceHelper;
 
-    private String mimeType;
-
     private DateTime dateStart;
     private DateTime dateEnd;
     private DateTimeFormatter dateFormat;
@@ -96,14 +94,10 @@ public class ExportActivity extends ActionBarActivity implements IFileListener {
     private void export() {
         if(validate()) {
             FileHelper fileHelper = new FileHelper(this);
-
             if(spinnerFormat.getSelectedItemPosition() == 0) {
-                mimeType = FileHelper.MIME_PDF;
                 fileHelper.exportPDF(this, dateStart, dateEnd);
             }
-
             else if(spinnerFormat.getSelectedItemPosition() == 1) {
-                mimeType = FileHelper.MIME_CSV;
                 fileHelper.exportCSV(this);
             }
         }
@@ -111,7 +105,7 @@ public class ExportActivity extends ActionBarActivity implements IFileListener {
 
     @Override
     // Callback method from IFileListener
-    public void handleFile(File file) {
+    public void handleFile(File file, String mimeType) {
         if(file == null) {
             ViewHelper.showAlert(this, getString(R.string.error_sd_card));
         }

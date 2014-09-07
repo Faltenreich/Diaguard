@@ -181,7 +181,7 @@ public class FileHelper {
         protected void onPostExecute(File file) {
             super.onPostExecute(file);
             if(listener != null)
-                listener.handleFile(file);
+                listener.handleFile(file, MIME_CSV);
         }
 
         @Override
@@ -331,7 +331,7 @@ public class FileHelper {
                 DateTime dateAfter = dateEnd.plusDays(1);
 
                 // Total number of days to export
-                int totalDays = Days.daysBetween(dateStart, dateEnd).getDays();
+                int totalDays = Days.daysBetween(dateStart, dateEnd).getDays() + 1;
 
                 String[] weekDays = context.getResources().getStringArray(R.array.weekdays);
 
@@ -462,7 +462,7 @@ public class FileHelper {
             progressDialog.dismiss();
             super.onPostExecute(file);
             if(listener != null)
-                listener.handleFile(file);
+                listener.handleFile(file, MIME_PDF);
         }
 
         private void iTextGMetaData(Document document) {

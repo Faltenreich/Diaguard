@@ -31,8 +31,9 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".EntryActivity"
-            android:label="@string/entry">
+            android:name=".EntryDetailActivity"
+            android:label="@string/entry"
+            android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />

@@ -1,13 +1,15 @@
-package com.faltenreich.diaguard;
+package com.faltenreich.diaguard.fragments;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.DatabaseHelper;
 import com.faltenreich.diaguard.database.Entry;
@@ -19,10 +21,9 @@ import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import java.util.HashMap;
 import java.util.List;
 
+public class EntryDetailFragment extends Fragment {
 
-public class EntryActivity extends ActionBarActivity {
-
-    public static final String EXTRA_ENTRY_ID = "entryId";
+    public static final String ENTRY_ID = "entryId";
 
     private DatabaseDataSource dataSource;
     private PreferenceHelper preferenceHelper;
@@ -33,56 +34,56 @@ public class EntryActivity extends ActionBarActivity {
     private TextView textViewNote;
     private LinearLayout layoutMeasurements;
 
+    public static EntryDetailFragment newInstance(long entryId) {
+        EntryDetailFragment fragment = new EntryDetailFragment();
+        Bundle args = new Bundle();
+        args.putLong(ENTRY_ID, entryId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public EntryDetailFragment() {
+        // Required empty public constructor
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_entry);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            // Get entry and all of its measurements
-            if(extras.getLong(EXTRA_ENTRY_ID) != 0L) {
-                dataSource = new DatabaseDataSource(this);
-                preferenceHelper = new PreferenceHelper(this);
-
-                dataSource.open();
-                entry = (Entry)dataSource.get(DatabaseHelper.ENTRY, extras.getLong(EXTRA_ENTRY_ID));
-
-                if(entry == null) {
-                    dataSource.close();
-                    finish();
-                }
-
-                getComponents();
-                initialize();
-                dataSource.close();
-            }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_entry_detail, container, false);
+        setHasOptionsMenu(true);
+        if (getArguments() != null && getArguments().getLong(ENTRY_ID) > 0) {
+            long entryId = getArguments().getLong(ENTRY_ID);
+            dataSource = new DatabaseDataSource(getActivity());
+            preferenceHelper = new PreferenceHelper(getActivity());
+            dataSource.open();
+            entry = (Entry)dataSource.get(DatabaseHelper.ENTRY, entryId);
+            // TODO
+            getComponents(view);
+            initializeGUI();
+            dataSource.close();
         }
-        else
-            finish();
+        return view;
     }
 
-    private void getComponents() {
-        textViewDate = (TextView)findViewById(R.id.textview_date);
-        textViewTime = (TextView)findViewById(R.id.textview_time);
-        textViewNote = (TextView)findViewById(R.id.textview_note);
-        layoutMeasurements = (LinearLayout)findViewById(R.id.layout_measurements);
+    private void getComponents(View parentView) {
+        textViewDate = (TextView)parentView.findViewById(R.id.textview_date);
+        textViewTime = (TextView)parentView.findViewById(R.id.textview_time);
+        textViewNote = (TextView)parentView.findViewById(R.id.textview_note);
+        layoutMeasurements = (LinearLayout)parentView.findViewById(R.id.layout_measurements);
     }
 
-    private void initialize() {
+    private void initializeGUI() {
         textViewDate.setText(Helper.getDateFormat().print(entry.getDate()));
         textViewTime.setText(Helper.getTimeFormat().print(entry.getDate()));
         if(entry.getNote() != null && entry.getNote().length() > 0)
             textViewNote.setText(entry.getNote());
 
-        LayoutInflater inflater = getLayoutInflater();
+        LayoutInflater inflater = getLayoutInflater(getArguments());
         // Pre-load image resources
         HashMap<String, Integer> imageResources = new HashMap<String, Integer>();
         for(Measurement.Category category : Measurement.Category.values()) {
             String name = category.name().toLowerCase();
             int resourceId = getResources().getIdentifier(name,
-                    "drawable", getPackageName());
+                    "drawable", getActivity().getPackageName());
             imageResources.put(name, resourceId);
         }
 

@@ -13,6 +13,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.faltenreich.diaguard.fragments.EntryDetailFragment;
+import com.faltenreich.diaguard.fragments.EntryListFragment;
 import com.faltenreich.diaguard.fragments.LogFragment;
 import com.faltenreich.diaguard.fragments.MainFragment;
 import com.faltenreich.diaguard.fragments.TimelineFragment;
@@ -23,7 +25,7 @@ import java.util.List;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements EntryListFragment.CallbackList {
 
     public static final int REQUEST_EVENT_CREATED = 1;
     public static final String ENTRY_CREATED = "ENTRY_CREATED";
@@ -154,6 +156,29 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             return getString(fragmentNameIds[position]);
+        }
+    }
+
+    /**
+     * Callback from MessageListFragment to respond to a selected ListItem
+     */
+    @Override
+    public void onItemSelected(long id) {
+        if (ViewHelper.isLargeScreen(this)) {
+            // Tablet
+            Bundle arguments = new Bundle();
+            arguments.putLong(EntryDetailFragment.ENTRY_ID, id);
+            EntryDetailFragment fragment = new EntryDetailFragment();
+            fragment.setArguments(arguments);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.entry_detail, fragment)
+                    .commit();
+        }
+        else {
+            // Phone
+            Intent intent = new Intent(this, EntryDetailActivity.class);
+            intent.putExtra(EntryDetailFragment.ENTRY_ID, id);
+            startActivity(intent);
         }
     }
 }

@@ -1,0 +1,29 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".LogFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:baselineAligned="false">
+
+    <fragment android:name="com.faltenreich.diaguard.fragments.EntryListFragment"
+        android:id="@+id/message_list"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        tools:layout="@layout/fragment_entry_list" />
+
+    <!-- Custom View instead of showDivider to support API<11 -->
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="?android:attr/listDivider"/>
+
+    <FrameLayout
+        android:id="@+id/entry_detail"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"/>
+
+</LinearLayout>

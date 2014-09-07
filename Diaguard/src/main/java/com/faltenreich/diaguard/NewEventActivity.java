@@ -248,32 +248,37 @@ public class NewEventActivity extends ActionBarActivity {
 
             // Update existing entry
             if(entry != null) {
-
                 entry.setDate(time);
-                if(editTextNotes.length() > 0)
-                    entry.setNote(editTextNotes.getText().toString());
+                entry.setNote(editTextNotes.getText().toString());
+                dataSource.update(entry);
 
+                // Step through measurements and compare
+                List<Measurement> measurementsToDelete = new ArrayList<Measurement>(entry.getMeasurements());
                 for(Measurement measurement : measurements) {
-                    // Step through old measurements and compare
+                    // Case 1: Measurement is new and old --> Update
                     boolean updatedExistingMeasurement = false;
                     for(Measurement oldMeasurement : entry.getMeasurements()) {
-                        // Update existing measurement
                         if (measurement.getCategory() == oldMeasurement.getCategory()) {
                             oldMeasurement.setValue(measurement.getValue());
-                            dataSource.update(oldMeasurement);
                             updatedExistingMeasurement = true;
+                            measurementsToDelete.remove(oldMeasurement);
+                            dataSource.update(oldMeasurement);
                         }
                     }
-                    // TODO
-                    // Insert new measurement
-
-                    // Delete removed measurement
+                    // Case 2: Measurement is new but not old --> Insert
+                    if(!updatedExistingMeasurement) {
+                        measurement.setEntryId(entry.getId());
+                        dataSource.insert(measurement);
+                    }
+                }
+                // Case 3: Measurement is old but not new --> Delete
+                for(Measurement measurement : measurementsToDelete) {
+                    dataSource.delete(measurement);
                 }
             }
 
             // Insert new entry
             else {
-
                 entry = new Entry();
                 entry.setDate(time);
                 if(editTextNotes.length() > 0)
@@ -281,44 +286,11 @@ public class NewEventActivity extends ActionBarActivity {
                 long entryId = dataSource.insert(entry);
 
                 // Connect measurements with entry
-                for(Measurement measurement : measurements)
+                for(Measurement measurement : measurements) {
                     measurement.setEntryId(entryId);
-
-            }
-
-            /*
-            // Connect measurements with entry
-            for(Measurement measurement : measurements)
-                measurement.setEntryId(entryId);
-
-            // Events
-            long[] ids;
-            TODO
-            Bundle extras = getIntent().getExtras();
-            // Update existing
-            if (extras != null && extras.getLong(EXTRA_ENTRY) != 0L) {
-                measurements.get(0).setId(extras.getLong(EXTRA_ENTRY));
-                ids = new long[1];
-                ids[0] = dataSource.update(measurements.get(0));
-            }
-            // Insert new
-            else {
-                ids = dataSource.insert(measurements);
-            }
-
-            ids = dataSource.insert(measurements);
-
-            // Food
-            if(food != null) {
-                for(int position = 0; position < measurements.size(); position++) {
-                    if(measurements.get(position).getCategory() == Measurement.Category.Meal) {
-                        food.setMeasurementId(ids[position]);
-                        dataSource.insert(food);
-                    }
+                    dataSource.insert(measurement);
                 }
             }
-
-            */
             dataSource.close();
 
             // Tell MainActivity that Events have been created

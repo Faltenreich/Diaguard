@@ -5,6 +5,9 @@
 
     <!-- GENERAL -->
     <string name="app_name">Diaguard</string>
+    <string name="app_facebook">facebook.com/diaguard</string>
+    <string name="app_version">1.1</string>
+
     <string name="activity">Aktivität</string>
     <string name="add_value">Wert hinzufügen</string>
     <string name="add_value_desc">Kategorien wählen</string>
@@ -29,10 +32,12 @@
     <string name="delete_event_desc">Wert aus Tagebuch entfernen</string>
     <string name="delete_value">Wert löschen</string>
     <string name="description">Beschreibung</string>
+    <string name="development">Development</string>
     <string name="drawer_close">Navigator schließen</string>
     <string name="drawer_open">Navigator öffnen</string>
     <string name="entry">Eintrag</string>
     <string name="entry_edit">Eintrag bearbeiten</string>
+    <string name="entry_deleted">Eintrag gelöscht</string>
     <string name="event">Ereignis</string>
     <string name="events">Ereignisse</string>
     <string name="export_finished">PDF wurde abgelegt unter</string>
@@ -50,6 +55,7 @@
     <string name="hypo">Unterzucker</string>
     <string name="latest">Vor [value] [unit]</string>
     <string name="latest_moments">Vor kurzem</string>
+    <string name="licenses">Lizenzen</string>
     <string name="listview_empty">Keine Einträge vorhanden</string>
     <string name="log">Protokoll</string>
     <string name="meal">Mahlzeit</string>
@@ -69,6 +75,7 @@
     <string name="today">Heute</string>
     <string name="units">Einheiten</string>
     <string name="weight">Gewicht</string>
+    <string name="version">Version</string>
     <string name="view">Betrachten</string>
 
     <string-array name="startscreens">

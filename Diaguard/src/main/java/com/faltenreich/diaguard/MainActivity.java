@@ -26,7 +26,8 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 public class MainActivity extends ActionBarActivity {
 
     public static final int REQUEST_EVENT_CREATED = 1;
-    public static final String EVENT_CREATED = "EVENT_CREATED";
+    public static final String ENTRY_CREATED = "ENTRY_CREATED";
+    public static final String ENTRY_DELETED = "ENTRY_DELETED";
 
     private ViewPager viewPager;
 
@@ -54,14 +55,17 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == REQUEST_EVENT_CREATED) {
-            if (data.hasExtra(EVENT_CREATED)) {
-                int eventsCreated = data.getExtras().getInt(EVENT_CREATED);
+            if (data.hasExtra(ENTRY_CREATED)) {
+                int eventsCreated = data.getExtras().getInt(ENTRY_CREATED);
                 if(eventsCreated > 0) {
                     if(eventsCreated == 1)
                         ViewHelper.showConfirmation(this, "+" + eventsCreated + " " + getString(R.string.event));
                     else
                         ViewHelper.showConfirmation(this, "+" + eventsCreated + " " + getString(R.string.events));
                 }
+            }
+            else if (data.hasExtra(ENTRY_DELETED) && data.getExtras().getBoolean(ENTRY_DELETED)) {
+                ViewHelper.showConfirmation(this, getString(R.string.delete_event));
             }
         }
     }

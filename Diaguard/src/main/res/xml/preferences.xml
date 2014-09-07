@@ -113,4 +113,16 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="@string/development">
+
+        <Preference
+            android:title="@string/licenses"/>
+
+        <Preference
+            android:title="@string/version"
+            android:summary="@string/app_version"/>
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

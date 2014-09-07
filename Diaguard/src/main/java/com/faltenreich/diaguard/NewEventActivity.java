@@ -1,8 +1,6 @@
 package com.faltenreich.diaguard;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -13,8 +11,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -26,7 +22,6 @@ import android.widget.TimePicker;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.DatabaseHelper;
 import com.faltenreich.diaguard.database.Entry;
-import com.faltenreich.diaguard.database.Food;
 import com.faltenreich.diaguard.database.Measurement;
 import com.faltenreich.diaguard.database.Model;
 import com.faltenreich.diaguard.fragments.DatePickerFragment;
@@ -58,8 +53,6 @@ public class NewEventActivity extends ActionBarActivity {
     Entry entry;
 
     DateTime time;
-    boolean inputWasMade;
-    boolean mealInfoIsVisible;
 
     LinearLayout linearLayoutValues;
     EditText editTextNotes;
@@ -87,11 +80,17 @@ public class NewEventActivity extends ActionBarActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // Show delete button only if an entry is available = editing mode
+        menu.findItem(R.id.action_delete).setVisible(entry != null);
+        return true;
+    }
+
     public void initialize() {
         dataSource = new DatabaseDataSource(this);
         preferenceHelper = new PreferenceHelper(this);
         time = new DateTime();
-        inputWasMade = false;
 
         getComponents();
         setDate();
@@ -111,7 +110,6 @@ public class NewEventActivity extends ActionBarActivity {
     private void checkIntents() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-
             if(extras.getLong(EXTRA_ENTRY) != 0L || extras.getLong(EXTRA_MEASUREMENT) != 0L) {
                 dataSource.open();
 
@@ -167,7 +165,6 @@ public class NewEventActivity extends ActionBarActivity {
     }
 
     private void submit() {
-        Food food = null;
         boolean inputIsValid = true;
 
         // Validate date
@@ -209,37 +206,14 @@ public class NewEventActivity extends ActionBarActivity {
                         }
                     }
                 }
-
-                else if(view.getTag() instanceof String) {
-                    String tag = (String)view.getTag();
-                    if(tag.equals(DatabaseHelper.FOOD)) {
-                        AutoCompleteTextView editTextFood = (AutoCompleteTextView) view.findViewById(R.id.food);
-
-                        // Check if a Meal has been entered and get its values
-                        boolean mealIsAvailable = false;
-                        int eventPosition = 0;
-                        while(!mealIsAvailable && eventPosition < measurements.size()) {
-                            if(measurements.get(eventPosition).getCategory() == Measurement.Category.Meal)
-                                mealIsAvailable = true;
-                            eventPosition++;
-                        }
-
-                        if(mealIsAvailable) {
-                            food = new Food();
-                            // TODO handle position better
-                            food.setCarbohydrates(measurements.get(eventPosition-1).getValue());
-                            food.setName(editTextFood.getText().toString());
-                            food.setDate(time);
-                            // eventId is set later
-                        }
-                    }
-                }
             }
         }
 
         // Check whether there are values to submit
         if(measurements.size() == 0) {
-            ViewHelper.showAlert(this, getString(R.string.validator_value_none));
+            // Show alert only if everything else was valid to reduce clutter
+            if(inputIsValid)
+                ViewHelper.showAlert(this, getString(R.string.validator_value_none));
             inputIsValid = false;
         }
 
@@ -295,7 +269,7 @@ public class NewEventActivity extends ActionBarActivity {
 
             // Tell MainActivity that Events have been created
             Intent intent = new Intent();
-            intent.putExtra(MainActivity.EVENT_CREATED, measurements.size());
+            intent.putExtra(MainActivity.ENTRY_CREATED, measurements.size());
             setResult(Activity.RESULT_OK, intent);
 
             finish();
@@ -329,12 +303,10 @@ public class NewEventActivity extends ActionBarActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                inputWasMade = true;
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
                 if(editTextValue.getText().length() == 0) {
                     viewStatus.setBackgroundColor(getResources().getColor(R.color.gray));
                 }
@@ -347,6 +319,7 @@ public class NewEventActivity extends ActionBarActivity {
                     else
                         viewStatus.setBackgroundColor(getResources().getColor(R.color.green));
 
+                    /*
                     // Show an additional View for food information
                     if(category == Measurement.Category.Meal && !mealInfoIsVisible) {
                         View viewMealInfo = inflater.inflate(R.layout.fragment_meal_info, linearLayoutValues, false);
@@ -369,6 +342,7 @@ public class NewEventActivity extends ActionBarActivity {
                         ViewHelper.expand(viewMealInfo);
                         mealInfoIsVisible = true;
                     }
+                    */
                 }
             }
         };
@@ -378,16 +352,17 @@ public class NewEventActivity extends ActionBarActivity {
     }
 
     private void deleteEvent() {
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            long id = extras.getLong("ID");
-            if (id != 0L) {
-                dataSource.open();
-                //Event event = dataSource.getEventById(id);
-                //dataSource.deleteEvent(event);
-                dataSource.close();
-                finish();
-            }
+        if (entry != null) {
+            dataSource.open();
+            dataSource.delete(entry);
+            dataSource.close();
+
+            // Tell MainActivity that entry has been deleted
+            Intent intent = new Intent();
+            intent.putExtra(MainActivity.ENTRY_DELETED, true);
+            setResult(Activity.RESULT_OK, intent);
+
+            finish();
         }
     }
 
@@ -419,26 +394,6 @@ public class NewEventActivity extends ActionBarActivity {
         bundle.putSerializable(TimePickerFragment.TIME, time);
         fragment.setArguments(bundle);
         fragment.show(getSupportFragmentManager(), "TimePicker");
-    }
-
-    @Override
-    public void onBackPressed() {
-        if(inputWasMade) {
-            new AlertDialog.Builder(this)
-                    .setTitle(getString(R.string.confirmation_exit))
-                    .setMessage(getString(R.string.confirmation_exit_desc))
-                    .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                        }
-
-                    })
-                    .setNegativeButton(getString(R.string.cancel), null)
-                    .show();
-        }
-        else
-            finish();
     }
 
     @Override

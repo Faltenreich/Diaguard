@@ -192,8 +192,14 @@ public class DatabaseDataSource {
     }
 
     public Entry getLatestBloodSugar() {
-        String query = String.format("SELECT * FROM %2$s INNER JOIN %5$s ON %5$s.%3$s = %2$s.%1$s ORDER BY %2$s.%4$s DESC LIMIT 1",
-                DatabaseHelper.ID, DatabaseHelper.ENTRY, DatabaseHelper.ENTRY_ID, DatabaseHelper.DATE, DatabaseHelper.MEASUREMENT);
+        String query = "SELECT * FROM " + DatabaseHelper.ENTRY +
+                        " INNER JOIN " + DatabaseHelper.MEASUREMENT +
+                        " ON " + DatabaseHelper.MEASUREMENT + "." + DatabaseHelper.ENTRY_ID +
+                        " = " + DatabaseHelper.ENTRY + "." + DatabaseHelper.ID +
+                        " AND " + DatabaseHelper.MEASUREMENT + "." + DatabaseHelper.CATEGORY +
+                        " = '" + Measurement.Category.BloodSugar + "'" +
+                        " ORDER BY " + DatabaseHelper.ENTRY + "." + DatabaseHelper.DATE +
+                        " DESC LIMIT 1";
         Cursor cursor = db.rawQuery(query, null);
         cursor.moveToFirst();
         Entry entry = getEntryWithMeasurement(cursor);

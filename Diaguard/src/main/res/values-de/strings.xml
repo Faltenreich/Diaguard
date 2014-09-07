@@ -32,7 +32,7 @@
     <string name="delete_event_desc">Wert aus Tagebuch entfernen</string>
     <string name="delete_value">Wert löschen</string>
     <string name="description">Beschreibung</string>
-    <string name="development">Development</string>
+    <string name="development">Entwicklung</string>
     <string name="drawer_close">Navigator schließen</string>
     <string name="drawer_open">Navigator öffnen</string>
     <string name="entry">Eintrag</string>
@@ -196,9 +196,9 @@
 
     <!-- ERRORS -->
     <string name="error_no_mail">Keine App zum Senden von E-Mails gefunden</string>
-    <string name="error_no_app">Keine App zum Öffnen von PDFs gefunden</string>
+    <string name="error_no_app">Keine App zum Öffnen der Datei gefunden</string>
     <string name="error_sd_card">Speicherkarte nicht verfügbar</string>
-    <string name="error_no_backups">Keine Sicherungen gefunden</string>
+    <string name="error_no_backups">Keine Sicherungen gefunden unter</string>
 
     <!-- SETTINGS -->
     <string name="pref_therapy_targets">Zielwerte</string>

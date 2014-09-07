@@ -3,24 +3,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:title="@string/general">
-
-        <com.faltenreich.diaguard.preferences.CategoryPreference
-            android:key="categories"
-            android:title="@string/categories_active"
-            android:entries="@array/categories"
-            android:entryValues="@array/categories"/>
-
-        <ListPreference
-            android:key="dateformat"
-            android:title="@string/dateformat"
-            android:entries="@array/dateformat"
-            android:entryValues="@array/dateformat"
-            android:defaultValue="@string/dateformat_default"/>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
         android:title="@string/data">
 
         <com.faltenreich.diaguard.preferences.CleanUpPreference
@@ -110,6 +92,24 @@
             android:dialogTitle="@string/pref_therapy_targets_hypoclycemia"
             android:defaultValue="60"
             android:inputType="number"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/general">
+
+        <com.faltenreich.diaguard.preferences.CategoryPreference
+            android:key="categories"
+            android:title="@string/categories_active"
+            android:entries="@array/categories"
+            android:entryValues="@array/categories"/>
+
+        <ListPreference
+            android:key="dateformat"
+            android:title="@string/dateformat"
+            android:entries="@array/dateformat"
+            android:entryValues="@array/dateformat"
+            android:defaultValue="@string/dateformat_default"/>
 
     </PreferenceCategory>
 

@@ -80,12 +80,14 @@ public class BackupPreference extends DialogPreference {
             String fileName = file.getName();
             String extension = fileName.substring(fileName.lastIndexOf(".")+1).toLowerCase();
             if(extension.equals("csv"))
-                csvFiles.add(fileName);
+                csvFiles.add(0, fileName);
         }
 
         if(csvFiles.size() <= 0) {
             Activity preferenceActivity = (Activity)getContext();
-            ViewHelper.showAlert(preferenceActivity, preferenceActivity.getString(R.string.error_no_backups));
+            ViewHelper.showAlert(preferenceActivity,
+                    preferenceActivity.getString(R.string.error_no_backups) + " " +
+                            FileHelper.PATH_EXTERNAL + FileHelper.PATH_STORAGE);
             return;
         }
 
@@ -116,6 +118,6 @@ public class BackupPreference extends DialogPreference {
 
     private void createBackup() {
         FileHelper fileHelper = new FileHelper(getContext());
-        fileHelper.exportCSV();
+        fileHelper.exportCSV(null);
     }
 }

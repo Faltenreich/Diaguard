@@ -17,6 +17,7 @@ import com.faltenreich.diaguard.MainActivity;
 import com.faltenreich.diaguard.NewEventActivity;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapters.ListEntry;
+import com.faltenreich.diaguard.adapters.ListItem;
 import com.faltenreich.diaguard.adapters.LogEndlessAdapter;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.Measurement;
@@ -142,8 +143,11 @@ public class EntryListFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView listView, View view, int position, long id) {
         super.onListItemClick(listView, view, position, id);
-        ListEntry listEntry = (ListEntry)getListView().getAdapter().getItem(position);
-        callbackList.onItemSelected(listEntry.getEntry().getId());
+        ListItem listItem = (ListItem)getListView().getAdapter().getItem(position);
+        if(!listItem.isSection()) {
+            ListEntry listEntry = (ListEntry) getListView().getAdapter().getItem(position);
+            callbackList.onItemSelected(listEntry.getEntry().getId());
+        }
     }
 
     private void updateListView() {

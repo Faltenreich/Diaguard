@@ -310,6 +310,15 @@ public class DatabaseDataSource {
         return values;
     }
 
+    public int count(String table) {
+        String query = "SELECT COUNT(*) FROM " + table + ";";
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        return count;
+    }
+
     public int count(String table, String selection, String selectionArg) {
         String query = "SELECT COUNT(*) FROM " + table + " WHERE " + selection + " = '" + selectionArg + "';";
         Cursor cursor = db.rawQuery(query, null);

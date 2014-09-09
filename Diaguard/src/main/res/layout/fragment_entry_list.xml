@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ListView android:id="@id/android:list"
+    <com.faltenreich.diaguard.adapters.PinnedSectionListView
+        android:id="@id/android:list"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:cacheColorHint="#fff"

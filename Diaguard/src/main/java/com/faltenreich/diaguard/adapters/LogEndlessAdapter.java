@@ -47,7 +47,7 @@ public class LogEndlessAdapter extends EndlessAdapter implements PinnedSectionLi
         this.listItems = new ArrayList<ListItem>();
 
         dataSource.open();
-        totalItems = dataSource.count(DatabaseHelper.ENTRY, null, null);
+        totalItems = dataSource.count(DatabaseHelper.ENTRY);
         dataSource.close();
 
         // Create a rotate animation.

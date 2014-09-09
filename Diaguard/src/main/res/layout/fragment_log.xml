@@ -5,4 +5,5 @@
     android:name="com.faltenreich.diaguard.fragments.EntryListFragment"
     android:id="@+id/entry_list"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+    android:layout_height="match_parent"
+    tools:layout="@layout/fragment_entry_list" />

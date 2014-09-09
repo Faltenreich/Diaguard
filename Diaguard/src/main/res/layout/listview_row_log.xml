@@ -3,7 +3,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/height_element"
-    style="@style/Padding">
+    android:paddingLeft="@dimen/padding_end"
+    android:paddingStart="@dimen/padding_end"
+    android:paddingRight="@dimen/padding_end"
+    android:paddingEnd="@dimen/padding_end">
 
     <ImageView android:id="@+id/image_arrow"
         android:layout_width="@dimen/size_image"

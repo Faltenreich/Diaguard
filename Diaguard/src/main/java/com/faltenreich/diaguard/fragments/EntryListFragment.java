@@ -11,25 +11,18 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.ListView;
 
 import com.faltenreich.diaguard.MainActivity;
 import com.faltenreich.diaguard.NewEventActivity;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapters.ListViewAdapterLog;
+import com.faltenreich.diaguard.adapters.ListEntry;
+import com.faltenreich.diaguard.adapters.LogEndlessAdapter;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
-import com.faltenreich.diaguard.database.DatabaseHelper;
-import com.faltenreich.diaguard.database.Entry;
 import com.faltenreich.diaguard.database.Measurement;
-import com.faltenreich.diaguard.database.Model;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormatter;
-
-import java.util.List;
 
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass.
@@ -125,14 +118,12 @@ public class EntryListFragment extends ListFragment {
     @Override
     public void onResume() {
         super.onResume();
-        initializeGUI();
         updateListView();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        initializeGUI();
         updateListView();
     }
 
@@ -148,95 +139,17 @@ public class EntryListFragment extends ListFragment {
         }
     }
 
-    public void initializeGUI() {
-
-        getView().findViewById(R.id.button_previous).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                previousDay();
-            }
-        });
-        getView().findViewById(R.id.button_next).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nextDay();
-            }
-        });
-
-        getView().findViewById(R.id.button_date).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePicker();
-            }
-        });
-    }
-
     @Override
     public void onListItemClick(ListView listView, View view, int position, long id) {
         super.onListItemClick(listView, view, position, id);
-        Entry selectedEntry = (Entry)getListView().getAdapter().getItem(position);
-        callbackList.onItemSelected(selectedEntry.getId());
+        ListEntry listEntry = (ListEntry)getListView().getAdapter().getItem(position);
+        callbackList.onItemSelected(listEntry.getEntry().getId());
     }
 
     private void updateListView() {
-
-        DateTimeFormatter format = preferenceHelper.getDateFormat();
-        String weekDay = getResources().getStringArray(R.array.weekdays)[time.getDayOfWeek()-1];
-        ((Button)getView().findViewById(R.id.button_date)).setText(weekDay.substring(0,2) + "., " + format.print(time));
-
-        dataSource.open();
-        List<Entry> entriesOfDay = dataSource.getEntriesOfDay(time);
-        for(Entry entry : entriesOfDay) {
-            // TODO: Limit depending on space and order by category
-            List<Model> measurements = dataSource.get(DatabaseHelper.MEASUREMENT, null,
-                    DatabaseHelper.ENTRY_ID + "=?", new String[]{Long.toString(entry.getId())},
-                    null, null, null, null);
-            for(Model model : measurements)
-                entry.getMeasurements().add((Measurement)model);
-        }
-        dataSource.close();
-
-        /*
-        // TODO
-        List<Event> visibleEventsOfDay = new ArrayList<Event>();
-        for(Event event : entriesOfDay) {
-            int category = Event.Category.valueOf(event.getCategory().name()).ordinal();
-            if(checkedCategories[category])
-                visibleEventsOfDay.add(event);
-        }
-        */
-
-        ListViewAdapterLog adapter = new ListViewAdapterLog(getActivity());
-        adapter.entries.addAll(entriesOfDay);
+        LogEndlessAdapter adapter = new LogEndlessAdapter(getActivity());
         getListView().setAdapter(adapter);
-
         getListView().setEmptyView(getView().findViewById(R.id.listViewEventsEmpty));
-    }
-
-    // LISTENERS
-
-    public void previousDay() {
-        time = time.minusDays(1);
-        updateListView();
-    }
-
-    public void nextDay() {
-        time = time.plusDays(1);
-        updateListView();
-    }
-
-    public void showDatePicker () {
-        DatePickerFragment fragment = new DatePickerFragment() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int day) {
-                time = time.withYear(year).withMonthOfYear(month+1).withDayOfMonth(day);
-                updateListView();
-            }
-        };
-        Bundle bundle = new Bundle(1);
-        bundle.putSerializable(DatePickerFragment.DATE, time);
-        fragment.setArguments(bundle);
-        fragment.show(getActivity().getSupportFragmentManager(), "DatePicker");
     }
 
     public void openFilters() {

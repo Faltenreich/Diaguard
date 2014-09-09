@@ -169,7 +169,7 @@ public class FileHelper {
                 writer.close();
             }
             catch (IOException ex) {
-                //Log.e("DiaguardError", ex.getMessage());
+                //Log.e("DiaguardError", ex.getEntry());
             }
 
             dataSource.close();
@@ -257,7 +257,7 @@ public class FileHelper {
                 reader.close();
 
             } catch (IOException ex) {
-                //Log.e("DiaguardError", ex.getMessage());
+                //Log.e("DiaguardError", ex.getEntry());
             }
 
             return null;

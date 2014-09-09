@@ -23,6 +23,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // For compatibility purposes
     private static final int DATABASE_VERSION_1_0 = 17;
 
+    public static final String DESCENDING = " DESC";
+    public static final String ASCENDING = " ASC";
+
     // Primary key: Underscore for CursorAdapter to work
     public static final String ID = "_id";
 

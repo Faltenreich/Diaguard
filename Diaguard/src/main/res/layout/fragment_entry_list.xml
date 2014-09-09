@@ -5,21 +5,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout android:id="@+id/toolbar"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
-
-        <include layout="@layout/fragment_toolbar_date"/>
-
-    </LinearLayout>
-
     <ListView android:id="@id/android:list"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:cacheColorHint="#fff"
         android:choiceMode="singleChoice"
-        android:layout_above="@id/toolbar"
         android:layout_alignParentTop="true"/>
 
     <TextView

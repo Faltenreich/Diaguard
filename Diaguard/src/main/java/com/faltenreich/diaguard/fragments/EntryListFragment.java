@@ -94,9 +94,6 @@ public class EntryListFragment extends ListFragment {
         activatedPosition = position;
     }
 
-    private final int ACTION_EDIT = 0;
-    private final int ACTION_DELETE = 1;
-
     DatabaseDataSource dataSource;
     PreferenceHelper preferenceHelper;
 
@@ -114,6 +111,16 @@ public class EntryListFragment extends ListFragment {
     public void onActivityCreated (Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initialize();
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        // Restore the previously serialized activated item position.
+        if (savedInstanceState != null
+                && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
+            setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
+        }
     }
 
     @Override

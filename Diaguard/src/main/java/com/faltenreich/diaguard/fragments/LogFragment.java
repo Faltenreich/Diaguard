@@ -28,6 +28,15 @@ public class LogFragment extends Fragment {
             /* map is already there, just return view as it is */
         }
         setHasOptionsMenu(true);
+
+        if (view.findViewById(R.id.entry_detail) != null) {
+            // In two-pane mode, list items should be given the
+            // 'activated' state when touched.
+            ((EntryListFragment) getActivity().getSupportFragmentManager()
+                    .findFragmentById(R.id.entry_list))
+                    .setActivateOnItemClick(true);
+        }
+
         return view;
     }
 }

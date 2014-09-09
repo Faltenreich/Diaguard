@@ -6,7 +6,8 @@
     android:paddingLeft="@dimen/padding_end"
     android:paddingStart="@dimen/padding_end"
     android:paddingRight="@dimen/padding_end"
-    android:paddingEnd="@dimen/padding_end">
+    android:paddingEnd="@dimen/padding_end"
+    android:background="@drawable/background_indicator">
 
     <ImageView android:id="@+id/image_arrow"
         android:layout_width="@dimen/size_image"

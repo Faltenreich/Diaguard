@@ -346,12 +346,9 @@ public class DatabaseDataSource {
         return count;
     }
 
-    public int countMeasurementsBefore(DateTime lastDay) {
+    public int countEntriesBefore(DateTime lastDay) {
         String query = "SELECT COUNT(*) FROM " + DatabaseHelper.ENTRY +
-                " INNER JOIN " + DatabaseHelper.MEASUREMENT +
-                " ON " + DatabaseHelper.MEASUREMENT + "." + DatabaseHelper.ENTRY_ID +
-                " = " + DatabaseHelper.ENTRY + "." + DatabaseHelper.ID +
-                " AND " + DatabaseHelper.ENTRY + "." + DatabaseHelper.DATE +
+                " WHERE " + DatabaseHelper.DATE +
                 " <= Datetime('" + lastDay.withTime(23, 59, 59, 999) + "');";
         Cursor cursor = db.rawQuery(query, null);
         cursor.moveToFirst();

@@ -110,6 +110,7 @@ public class LogBaseAdapter extends BaseAdapter {
 
                 viewHolderEntry.time.setText(Helper.getTimeFormat().print(entry.getDate()));
 
+                viewHolderEntry.values.removeAllViews();
                 for(Measurement measurement : entry.getMeasurements()) {
                     ImageView imageViewImage = new ImageView(context);
                     imageViewImage.setImageResource(imageResources.get(measurement.getCategory().name().toLowerCase()));

@@ -299,9 +299,11 @@
     <string name="pref_therapy_targets_hyperclycemia_default">180.0</string>
     <string name="pref_therapy_targets_hypoclycemia">Limit for hypoclycemia</string>
     <string name="pref_therapy_targets_hypoclycemia_default">60.0</string>
-    <string name="pref_data_cleanup_confirm_title">Delete Events?</string>
-    <string name="pref_data_cleanup_confirm_message">events would be affected</string>
+
+    <string name="pref_data_cleanup_confirm_title">Delete entries?</string>
+    <string name="pref_data_cleanup_confirm_message">entries would be affected</string>
     <string name="pref_data_cleanup_return">entries have been deleted</string>
+
     <string name="pref_data_backup_message">Restore old data with a local backup file.
         Decide whether you want to keep existing data or create a completely new database.</string>
     <string name="pref_data_backup_finished">Backup will be created</string>

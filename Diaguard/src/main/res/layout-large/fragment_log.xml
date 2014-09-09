@@ -8,7 +8,7 @@
     android:baselineAligned="false">
 
     <fragment android:name="com.faltenreich.diaguard.fragments.EntryListFragment"
-        android:id="@+id/message_list"
+        android:id="@+id/entry_list"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="2"

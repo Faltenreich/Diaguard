@@ -209,7 +209,7 @@
     <string name="pref_therapy_targets_hyperclycemia">Grenze für Überzuckerung</string>
     <string name="pref_therapy_targets_hypoclycemia">Grenze für Unterzuckerung</string>
 
-    <string name="pref_data_cleanup_confirm_title">Ereignisse löschen?</string>
+    <string name="pref_data_cleanup_confirm_title">Einträge löschen?</string>
     <string name="pref_data_cleanup_confirm_message">Einträge wären betroffen</string>
     <string name="pref_data_cleanup_return">Einträge wurden gelöscht</string>
 

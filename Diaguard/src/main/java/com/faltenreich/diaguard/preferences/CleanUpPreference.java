@@ -66,7 +66,7 @@ public class CleanUpPreference extends DialogPreference {
                     .withDayOfMonth(datePicker.getDayOfMonth());
 
             dataSource.open();
-            int count = dataSource.countMeasurementsBefore(date);
+            int count = dataSource.countEntriesBefore(date);
             dataSource.close();
 
             if(count <= 0)

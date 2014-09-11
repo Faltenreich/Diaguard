@@ -17,8 +17,7 @@
         android:layout_marginRight="@dimen/padding_end"
         android:layout_marginEnd="@dimen/padding_end"
         android:singleLine="true"
-        android:textColor="@android:color/white"
-        android:textStyle="bold"/>
+        android:textColor="@android:color/white"/>
 
     <View
         android:layout_width="match_parent"

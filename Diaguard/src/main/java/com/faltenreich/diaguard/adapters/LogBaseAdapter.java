@@ -68,11 +68,11 @@ public class LogBaseAdapter extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolderEntry viewHolderEntry;
-        ViewHolderSection viewHolderSection;
 
         ListItem listItem = listItems.get(position);
         if(listItem != null) {
+            ViewHolderEntry viewHolderEntry;
+            ViewHolderSection viewHolderSection;
             if (listItem.isSection()) {
                 if (convertView == null || !(convertView.getTag() instanceof ViewHolderSection)) {
                     LayoutInflater inflate = (LayoutInflater) context.

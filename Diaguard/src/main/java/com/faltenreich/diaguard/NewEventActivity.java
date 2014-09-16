@@ -64,7 +64,7 @@ public class NewEventActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newevent);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle(getString(R.string.newevent));
+        setTitle(getString(R.string.entry_new));
         initialize();
     }
 

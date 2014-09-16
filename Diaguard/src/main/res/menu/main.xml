@@ -3,14 +3,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:diaguard="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/action_calculator"
-        android:icon="@drawable/ic_action_calculator"
-        android:title="@string/calculator"
-        diaguard:showAsAction="ifRoom"/>
-
-    <item android:id="@+id/action_export"
-        android:icon="@drawable/export"
-        android:title="@string/export"
+    <item android:id="@+id/action_newevent"
+        android:icon="@drawable/ic_action_new"
+        android:title="@string/entry_new"
         diaguard:showAsAction="ifRoom"/>
 
     <item android:id="@+id/action_settings"
@@ -18,9 +13,14 @@
         android:title="@string/settings"
         diaguard:showAsAction="ifRoom"/>
 
-    <item android:id="@+id/action_newevent"
-        android:icon="@drawable/ic_action_new"
-        android:title="@string/newevent"
+    <item android:id="@+id/action_export"
+        android:icon="@drawable/export"
+        android:title="@string/export"
+        diaguard:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/action_calculator"
+        android:icon="@drawable/ic_action_calculator"
+        android:title="@string/calculator"
         diaguard:showAsAction="ifRoom"/>
 
 </menu>

@@ -24,7 +24,7 @@
         </activity>
         <activity
             android:name=".NewEventActivity"
-            android:label="@string/newevent"
+            android:label="@string/entry_new"
             android:windowSoftInputMode="adjustResize|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

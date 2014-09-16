@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.fragments;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -8,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -16,8 +14,6 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.faltenreich.diaguard.MainActivity;
-import com.faltenreich.diaguard.NewEventActivity;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.Entry;
@@ -391,24 +387,5 @@ public class TimelineFragment extends Fragment {
         bundle.putSerializable(DatePickerFragment.DATE, time);
         fragment.setArguments(bundle);
         fragment.show(getActivity().getSupportFragmentManager(), "DatePicker");
-    }
-
-    public void startNewEventActivity() {
-        Intent intent = new Intent (getActivity(), NewEventActivity.class);
-        intent.putExtra("Date", time);
-        getActivity().startActivityForResult(intent, MainActivity.REQUEST_EVENT_CREATED);
-    }
-
-    //endregion
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_newevent:
-                startNewEventActivity();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 }

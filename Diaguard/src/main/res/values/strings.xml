@@ -39,6 +39,7 @@
     <string name="entry">Entry</string>
     <string name="entry_edit">Edit entry</string>
     <string name="entry_deleted">Entry deleted</string>
+    <string name="entry_new">New entry</string>
     <string name="event">Event</string>
     <string name="events">Events</string>
     <string name="export">Export</string>
@@ -54,8 +55,8 @@
     <string name="general">General</string>
     <string name="hba1c">HbA1c</string>
     <string name="home">Home</string>
-    <string name="hyper">Hyper-\nglycemia</string>
-    <string name="hypo">Hypo-\nglycemia</string>
+    <string name="hyper">Hyperglycemia</string>
+    <string name="hypo">Hypoglycemia</string>
     <string name="latest">[value] [unit] ago</string>
     <string name="latest_moments">Moments ago</string>
     <string name="licenses">Licenses</string>
@@ -63,9 +64,8 @@
     <string name="log">Log</string>
     <string name="mail">E-Mail</string>
     <string name="meal">Meal</string>
-    <string name="measured">Times measured</string>
+    <string name="measurements">Measurements</string>
     <string name="name">Name</string>
-    <string name="newevent">Diary entry</string>
     <string name="newevent_desc">Add measurements</string>
     <string name="note">Note</string>
     <string name="ok">OK</string>

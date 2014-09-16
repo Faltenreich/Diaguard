@@ -51,8 +51,9 @@
     </style>
 
     <style name="BoxLabel">
-        <item name="android:textColor">@color/green</item>
-        <item name="android:layout_marginLeft">@dimen/padding</item>
+        <item name="android:textColor">@color/green_lt</item>
+        <item name="android:layout_marginLeft">@dimen/padding_end</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="BoxLabelBackground" parent="Padding">
@@ -63,7 +64,7 @@
     </style>
 
     <style name="BoxText">
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@color/green_lt</item>
         <item name="android:textSize">40sp</item>
     </style>
 
@@ -75,6 +76,9 @@
     <style name="BoxImage">
         <item name="android:layout_width">@dimen/size_image_big</item>
         <item name="android:layout_height">@dimen/size_image_big</item>
+    </style>
+
+    <style name="BoxRow" parent="Padding">
     </style>
 
     <style name="Image">
@@ -156,9 +160,9 @@
     </style>
 
     <style name="SeparatorRow">
-        <item name="android:background">@color/green</item>
+        <item name="android:background">@color/green_lt</item>
         <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">5dp</item>
+        <item name="android:layout_height">2dp</item>
     </style>
 
     <style name="Row">

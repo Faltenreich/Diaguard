@@ -1,20 +1,14 @@
 package com.faltenreich.diaguard.fragments;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.faltenreich.diaguard.MainActivity;
-import com.faltenreich.diaguard.NewEventActivity;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapters.ListEntry;
 import com.faltenreich.diaguard.adapters.ListItem;
@@ -161,51 +155,5 @@ public class EntryListFragment extends ListFragment {
         LogEndlessAdapter adapter = new LogEndlessAdapter(getActivity());
         getListView().setAdapter(adapter);
         getListView().setEmptyView(getView().findViewById(R.id.listViewEventsEmpty));
-    }
-
-    public void openFilters() {
-
-        final boolean[] checkedCategoriesTemporary = checkedCategories.clone();
-
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
-        dialogBuilder.setMultiChoiceItems(R.array.categories, checkedCategories,
-                new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        checkedCategories = checkedCategoriesTemporary.clone();
-                        dialog.cancel();
-                    }
-                })
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        updateListView();
-                    }
-                });
-        AlertDialog dialog = dialogBuilder.create();
-        dialog.show();
-    }
-
-    public void startNewEventActivity() {
-        Intent intent = new Intent (getActivity(), NewEventActivity.class);
-        intent.putExtra(NewEventActivity.EXTRA_DATE, time);
-        getActivity().startActivityForResult(intent, MainActivity.REQUEST_EVENT_CREATED);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_filter:
-                openFilters();
-                return true;
-            case R.id.action_newevent:
-                startNewEventActivity();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 }

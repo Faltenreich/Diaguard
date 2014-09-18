@@ -120,8 +120,8 @@
     </string-array>
 
     <string name="last_24hours">Letzte 24 Stunden</string>
-    <string name="last_7days">Letzte 7 Tage</string>
-    <string name="last_30days">Letzte 30 Tage</string>
+    <string name="last_7days">Letzte Woche</string>
+    <string name="last_30days">Letzter Monat</string>
 
     <string name="dateformat_default">DD.MM.YYYY</string>
 

@@ -71,7 +71,6 @@ public class MainFragment extends Fragment {
     }
 
     private void updateContent() {
-
         dataSource = new DatabaseDataSource(getActivity());
         dataSource.open();
 

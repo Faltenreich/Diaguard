@@ -1,6 +1,8 @@
 package com.faltenreich.diaguard;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -352,16 +354,30 @@ public class NewEventActivity extends ActionBarActivity {
 
     private void deleteEvent() {
         if (entry != null) {
-            dataSource.open();
-            dataSource.delete(entry);
-            dataSource.close();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.entry_delete);
+            builder.setMessage(R.string.entry_delete_desc);
+            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dataSource.open();
+                    dataSource.delete(entry);
+                    dataSource.close();
 
-            // Tell MainActivity that entry has been deleted
-            Intent intent = new Intent();
-            intent.putExtra(MainActivity.ENTRY_DELETED, true);
-            setResult(Activity.RESULT_OK, intent);
+                    // Tell MainActivity that entry has been deleted
+                    Intent intent = new Intent();
+                    intent.putExtra(MainActivity.ENTRY_DELETED, true);
+                    setResult(Activity.RESULT_OK, intent);
 
-            finish();
+                    finish();
+                }
+            });
+            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // User cancelled the dialog
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
         }
     }
 

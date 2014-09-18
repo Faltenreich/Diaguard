@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -58,7 +57,6 @@ public class NewEventActivity extends ActionBarActivity {
     EditText editTextNotes;
     Button buttonDate;
     Button buttonTime;
-    ImageView imageViewCamera;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,10 +91,10 @@ public class NewEventActivity extends ActionBarActivity {
         time = new DateTime();
 
         getComponents();
-        setDate();
-        setTime();
         setCategories();
         checkIntents();
+        setDate();
+        setTime();
     }
 
     public void getComponents() {
@@ -104,13 +102,14 @@ public class NewEventActivity extends ActionBarActivity {
         editTextNotes = (EditText) findViewById(R.id.edittext_notes);
         buttonDate = (Button) findViewById(R.id.button_date);
         buttonTime = (Button) findViewById(R.id.button_time);
-        imageViewCamera = (ImageView) findViewById(R.id.button_camera);
     }
 
     private void checkIntents() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             if(extras.getLong(EXTRA_ENTRY) != 0L || extras.getLong(EXTRA_MEASUREMENT) != 0L) {
+                setTitle(getString(R.string.entry_edit));
+
                 dataSource.open();
 
                 // Get entry

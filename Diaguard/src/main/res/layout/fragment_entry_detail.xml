@@ -1,43 +1,25 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="32dp"></LinearLayout>
-
-    <LinearLayout android:id="@+id/actions"
-        android:layout_width="match_parent"
+    <TextView android:id="@+id/textview_time"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="end"
-        android:layout_alignParentBottom="true">
-
-        <ImageButton android:id="@+id/button_delete"
-            android:layout_width="@dimen/abc_action_bar_default_height"
-            android:layout_height="@dimen/size_image"
-            android:src="@drawable/delete"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/delete_event"
-            android:layout_marginStart="@dimen/margin_between"
-            android:layout_marginLeft="@dimen/margin_between"/>
-
-        <ImageButton android:id="@+id/button_edit"
-            android:layout_width="@dimen/abc_action_bar_default_height"
-            android:layout_height="@dimen/size_image"
-            android:src="@drawable/edit"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/entry_edit"
-            android:layout_marginStart="@dimen/margin_between"
-            android:layout_marginLeft="@dimen/margin_between"/>
-
-        </LinearLayout>
+        android:layout_width="match_parent"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:gravity="center_vertical"
+        android:background="@color/green_lt"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"/>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/actions"
-        android:layout_marginBottom="@dimen/margin_between"
         style="@style/Padding">
 
         <LinearLayout
@@ -45,35 +27,47 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView android:id="@+id/textview_date"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"/>
-
-                <TextView android:id="@+id/textview_time"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"/>
-
-            </LinearLayout>
-
             <LinearLayout android:id="@+id/layout_measurements"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="@dimen/margin_between"/>
+                android:layout_marginBottom="@dimen/margin_between"/>
 
             <TextView android:id="@+id/textview_note"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_dk"
+                android:layout_marginBottom="@dimen/margin_between"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:layout_marginTop="@dimen/margin_between">
+
+                <ImageButton android:id="@+id/button_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_action_delete"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/entry_delete"
+                    android:layout_marginStart="@dimen/padding_end"
+                    android:layout_marginLeft="@dimen/padding_end"/>
+
+                <ImageButton android:id="@+id/button_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_action_edit"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/entry_edit"
+                    android:layout_marginStart="@dimen/padding_end"
+                    android:layout_marginLeft="@dimen/padding_end"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
     </ScrollView>
 
-</RelativeLayout>
+</LinearLayout>

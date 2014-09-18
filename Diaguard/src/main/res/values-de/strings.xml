@@ -28,8 +28,6 @@
     <string name="cleanup_desc">Dies wird alle Einträge am und vor dem gewählten Datum dauerhaft löschen.</string>
     <string name="correction">Korrekturwert</string>
     <string name="data">Daten</string>
-    <string name="delete_event">Ereignis löschen</string>
-    <string name="delete_event_desc">Wert aus Tagebuch entfernen</string>
     <string name="delete_value">Wert löschen</string>
     <string name="description">Beschreibung</string>
     <string name="development">Entwicklung</string>
@@ -37,6 +35,8 @@
     <string name="drawer_open">Navigator öffnen</string>
     <string name="entry">Eintrag</string>
     <string name="entry_edit">Eintrag bearbeiten</string>
+    <string name="entry_delete">Eintrag löschen</string>
+    <string name="entry_delete_desc">Der Eintrag und seine Messungen werden entfernt</string>
     <string name="entry_deleted">Eintrag gelöscht</string>
     <string name="entry_new">Neuer Eintrag</string>
     <string name="event">Ereignis</string>
@@ -56,7 +56,7 @@
     <string name="hypo">Unterzucker</string>
     <string name="latest">Vor [value] [unit]</string>
     <string name="latest_moments">Vor kurzem</string>
-    <string name="licenses">Lizenzen</string>
+    <string name="licenses">Open-Source-Lizenzen</string>
     <string name="listview_empty">Keine Einträge vorhanden</string>
     <string name="log">Protokoll</string>
     <string name="meal">Mahlzeit</string>

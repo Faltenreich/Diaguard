@@ -67,7 +67,7 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
                 }
             }
             else if (data.hasExtra(ENTRY_DELETED) && data.getExtras().getBoolean(ENTRY_DELETED)) {
-                ViewHelper.showConfirmation(this, getString(R.string.delete_event));
+                ViewHelper.showConfirmation(this, getString(R.string.entry_delete));
             }
         }
     }

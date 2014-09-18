@@ -14,7 +14,7 @@
         diaguard:showAsAction="ifRoom"/>
 
     <item android:id="@+id/action_export"
-        android:icon="@drawable/export"
+        android:icon="@drawable/ic_action_export"
         android:title="@string/export"
         diaguard:showAsAction="ifRoom"/>
 

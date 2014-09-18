@@ -1,14 +1,20 @@
 package com.faltenreich.diaguard.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.faltenreich.diaguard.EntryDetailActivity;
+import com.faltenreich.diaguard.NewEventActivity;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.DatabaseHelper;
@@ -29,10 +35,11 @@ public class EntryDetailFragment extends Fragment {
     private PreferenceHelper preferenceHelper;
     private Entry entry;
 
-    private TextView textViewDate;
     private TextView textViewTime;
     private TextView textViewNote;
     private LinearLayout layoutMeasurements;
+    private ImageButton buttonEdit;
+    private ImageButton buttonDelete;
 
     public static EntryDetailFragment newInstance(long entryId) {
         EntryDetailFragment fragment = new EntryDetailFragment();
@@ -56,24 +63,76 @@ public class EntryDetailFragment extends Fragment {
             preferenceHelper = new PreferenceHelper(getActivity());
             dataSource.open();
             entry = (Entry)dataSource.get(DatabaseHelper.ENTRY, entryId);
-            // TODO
+            dataSource.close();
+
             getComponents(view);
             initializeGUI();
-            dataSource.close();
         }
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initialize();
+    }
+
     private void getComponents(View parentView) {
-        textViewDate = (TextView)parentView.findViewById(R.id.textview_date);
         textViewTime = (TextView)parentView.findViewById(R.id.textview_time);
         textViewNote = (TextView)parentView.findViewById(R.id.textview_note);
         layoutMeasurements = (LinearLayout)parentView.findViewById(R.id.layout_measurements);
+        buttonEdit = (ImageButton)parentView.findViewById(R.id.button_edit);
+        buttonDelete = (ImageButton)parentView.findViewById(R.id.button_delete);
     }
 
     private void initializeGUI() {
-        textViewDate.setText(Helper.getDateFormat().print(entry.getDate()));
-        textViewTime.setText(Helper.getTimeFormat().print(entry.getDate()));
+        buttonEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), NewEventActivity.class);
+                intent.putExtra(NewEventActivity.EXTRA_ENTRY, entry.getId());
+                startActivity(intent);
+            }
+        });
+        buttonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle(R.string.entry_delete);
+                builder.setMessage(R.string.entry_delete_desc);
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dataSource.open();
+                        int deletedItems = dataSource.delete(entry);
+                        dataSource.close();
+                        if(deletedItems > 0) {
+                            // Phone
+                            if(getActivity() instanceof EntryDetailActivity) {
+                                getActivity().finish();
+                            }
+                            // Tablet
+                            else {
+                                getActivity().getSupportFragmentManager().beginTransaction().
+                                        remove(EntryDetailFragment.this).commit();
+                            }
+                        }
+                    }
+                });
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+    }
+
+    private void initialize() {
+        String time = Helper.getDateFormat().print(entry.getDate()) + " " +
+                Helper.getTimeFormat().print(entry.getDate());
+        textViewTime.setText(time);
         if(entry.getNote() != null && entry.getNote().length() > 0)
             textViewNote.setText(entry.getNote());
 
@@ -87,10 +146,13 @@ public class EntryDetailFragment extends Fragment {
             imageResources.put(name, resourceId);
         }
 
+        dataSource.open();
         List<Model> models = dataSource.get(DatabaseHelper.MEASUREMENT, null,
                 DatabaseHelper.ENTRY_ID + "=?", new String[]{Long.toString(entry.getId())},
                 null, null, null, null);
+        dataSource.close();
 
+        layoutMeasurements.removeAllViews();
         for(Model model : models) {
             Measurement measurement = (Measurement)model;
 
@@ -115,6 +177,9 @@ public class EntryDetailFragment extends Fragment {
                 else if(measurement.getValue() < preferenceHelper.getLimitHypoglycemia())
                     textViewValue.setTextColor(getResources().getColor(R.color.blue));
             }
+
+            TextView textViewUnit = (TextView) view.findViewById(R.id.unit);
+            textViewUnit.setText(preferenceHelper.getUnitAcronym(measurement.getCategory()));
 
             layoutMeasurements.addView(view, layoutMeasurements.getChildCount());
         }

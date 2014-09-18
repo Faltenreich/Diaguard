@@ -116,7 +116,7 @@
     <PreferenceCategory
         android:title="@string/development">
 
-        <Preference
+        <com.faltenreich.diaguard.preferences.LicensePreference
             android:title="@string/licenses"/>
 
         <Preference

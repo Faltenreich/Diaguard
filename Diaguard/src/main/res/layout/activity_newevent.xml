@@ -33,15 +33,6 @@
 
         </LinearLayout>
 
-        <ImageView android:id="@+id/button_camera"
-            android:layout_width="match_parent"
-            android:layout_height="110dp"
-            android:src="@drawable/camera"
-            android:onClick="onClickCamera"
-            android:layout_marginTop="@dimen/margin_between"
-            android:contentDescription="Take a photo"
-            android:visibility="gone"/>
-
         <LinearLayout android:id="@+id/content_dynamic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

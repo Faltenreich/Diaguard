@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
             android:gravity="center_horizontal"
+            android:layout_marginStart="@dimen/margin_between"
             android:layout_marginLeft="@dimen/margin_between"/>
 
     </LinearLayout>

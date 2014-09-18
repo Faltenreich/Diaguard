@@ -36,20 +36,6 @@
         <item name="android:paddingBottom">@dimen/activity_vertical_margin</item>
     </style>
 
-    <style name="Box" parent="Padding">
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:orientation">vertical</item>
-        <item name="android:background">@color/green_lt</item>
-    </style>
-
-    <style name="BoxShadow" parent="Padding">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">3dp</item>
-        <item name="android:background">@android:color/darker_gray</item>
-    </style>
-
     <style name="BoxLabel">
         <item name="android:textColor">@color/green_lt</item>
         <item name="android:layout_marginLeft">@dimen/padding_end</item>
@@ -68,16 +54,6 @@
         <item name="android:textSize">40sp</item>
     </style>
 
-    <style name="BoxTextDesc">
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">@dimen/text_micro</item>
-    </style>
-
-    <style name="BoxImage">
-        <item name="android:layout_width">@dimen/size_image_big</item>
-        <item name="android:layout_height">@dimen/size_image_big</item>
-    </style>
-
     <style name="BoxRow" parent="Padding">
     </style>
 
@@ -93,47 +69,13 @@
         <item name="android:gravity">center_vertical</item>
     </style>
 
-    <style name="LabelWithGreenBackground" parent="Padding">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/height_element</item>
-        <item name="android:background">@color/green_lt</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:gravity">center_vertical</item>
-    </style>
-
     <style name="TableRow">
         <item name="android:layout_marginBottom">@dimen/margin_between</item>
-    </style>
-
-    <style name="AverageBloodSugar">
-        <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:textSize">@dimen/text_large</item>
-    </style>
-
-    <style name="AverageBloodSugarDesc">
-        <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:textColor">@android:color/darker_gray</item>
-        <item name="android:textSize">@dimen/text_small</item>
     </style>
 
     <style name="ActionButton">
         <item name="android:background">@drawable/button_transparent_lt</item>
         <item name="android:textColor">@android:color/white</item>
-    </style>
-
-    <style name="Title">
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">26sp</item>
-        <item name="android:layout_marginLeft">10dp</item>
-        <item name="android:layout_centerVertical">true</item>
-    </style>
-
-    <style name="ImageButton">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:adjustViewBounds">true</item>
-        <item name="android:layout_margin">10dp</item>
     </style>
 
     <style name="SpinnerButtonStyle" parent="android:Widget.Holo.Light.Spinner">
@@ -144,20 +86,6 @@
         <item name="android:textSize">16sp</item>
         <item name="android:layout_height">@dimen/height_element</item>
     </style>
-    
-    <style name="TextViewMainLabel">
-        <item name="android:textSize">22sp</item>
-        <item name="android:layout_marginLeft">20dp</item>
-        <item name="android:gravity">center_vertical</item>
-    </style>
-
-    <style name="TextViewRow">
-        <item name="android:textSize">20sp</item>
-        <item name="android:layout_marginLeft">20dp</item>
-        <item name="android:layout_marginRight">20dp</item>
-        <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:layout_centerVertical">true</item>
-    </style>
 
     <style name="SeparatorRow">
         <item name="android:background">@color/green_lt</item>
@@ -167,33 +95,6 @@
 
     <style name="Row">
         <item name="android:paddingBottom">5dp</item>
-    </style>
-
-    <style name="MenuItem">
-        <item name="android:textSize">@dimen/text_large</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="Shadow">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">3dp</item>
-        <item name="android:background">@color/gray_dk</item>
-    </style>
-
-    <style name="BackgroundRound">
-    </style>
-
-    <style name="BackgroundRoundWhite" parent="BackgroundRound">
-        <item name="android:background">@drawable/background_round_white</item>
-    </style>
-
-    <style name="BackgroundRoundGreen" parent="BackgroundRound">
-        <item name="android:background">@drawable/background_round_green</item>
-    </style>
-
-    <style name="BackgroundRoundGreenLt" parent="BackgroundRound">
-        <item name="android:background">@drawable/background_round_green_lt</item>
     </style>
 
     <style name="LicenseLabel">

@@ -74,7 +74,6 @@ public class TimelineFragment extends Fragment {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        // TODO: Save current date to savedInstanceState
         updateContent();
     }
 

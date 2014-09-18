@@ -373,7 +373,6 @@ public class FileHelper {
 
                     // Content
                     dataSource.open();
-                    // TODO
                     float[][] values = dataSource.getAverageDataTable(dateIteration, selectedCategories, 12);
                     dataSource.close();
 

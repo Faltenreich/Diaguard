@@ -6,7 +6,6 @@
     <color name="semitransparent_light">#99ffffff</color>
     <color name="semitransparent_transparent">#11ffffff</color>
     <color name="semitransparent_dark">#11000000</color>
-    <color name="semitransparent_green">#BB457e61</color>
 
     <color name="green_highlight">#ff96cfba</color>
     <color name="green_lt">#ff6d947f</color>

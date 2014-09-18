@@ -83,7 +83,6 @@
     <orderEntry type="library" exported="" name="itextg-5.4.4" level="project" />
     <orderEntry type="library" exported="" name="endless-1.2.3" level="project" />
     <orderEntry type="library" exported="" name="android.joda-2.4.0" level="project" />
-    <orderEntry type="library" exported="" name="nineoldandroids-2.4.0" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-20.0.0" level="project" />
     <orderEntry type="library" exported="" name="achartengine-1.2.0" level="project" />
     <orderEntry type="library" exported="" name="opencsv-2.3" level="project" />

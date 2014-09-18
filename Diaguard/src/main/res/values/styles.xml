@@ -6,6 +6,8 @@
         <item name="android:actionBarStyle">@style/ActionBarTheme</item>
         <item name="homeAsUpIndicator">@drawable/ic_up</item>
         <item name="android:homeAsUpIndicator">@drawable/ic_up</item>
+        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle</item>
+        <item name="actionBarTabStyle">@style/ActionBarTabStyle</item>
     </style>
 
     <style name="ActionBarTheme" parent="@style/Widget.AppCompat.ActionBar">
@@ -17,6 +19,12 @@
         <item name="android:titleTextStyle">@style/ActionBarTitleText</item>
         <item name="subtitleTextStyle">@style/ActionBarSubtitleText</item>
         <item name="android:subtitleTextStyle">@style/ActionBarSubtitleText</item>
+    </style>
+
+    <style name="ActionBarTabStyle"
+        parent="@style/Widget.AppCompat.ActionBar.TabView">
+        <item name="android:background">@drawable/tab_indicator</item>
+        <item name="background">@drawable/tab_indicator</item>
     </style>
 
     <style name="ActionBarTitleText"

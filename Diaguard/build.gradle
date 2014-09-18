@@ -26,7 +26,6 @@ android {
 dependencies {
     compile 'com.android.support:appcompat-v7:20+'
     compile 'com.android.support:support-v4:20+'
-    compile files('libs/nineoldandroids-2.4.0.jar')
     compile 'net.danlew:android.joda:2.4.0'
     compile('de.keyboardsurfer.android.widget:crouton:1.8.4@aar') {
         exclude group: 'com.google.android', module: 'support-v4'

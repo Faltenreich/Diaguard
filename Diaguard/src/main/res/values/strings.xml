@@ -5,9 +5,13 @@
 
     <!-- GENERAL -->
     <string name="app_name">Diaguard</string>
-    <string name="app_facebook">facebook.com/diaguard</string>
+    <string name="app_facebook">facebook.com/diaguard.de</string>
+    <string name="app_facebook_url">http://www.facebook.com/diaguard.de</string>
+    <string name="app_homepage">http://www.diaguard.wordpress.com</string>
+    <string name="app_mail">mailto:diaguard.de@gmail.com</string>
     <string name="app_version">1.1</string>
 
+    <string name="about">About</string>
     <string name="activity">Activity</string>
     <string name="add_value">Add value</string>
     <string name="add_value_desc">Choose categories</string>
@@ -27,6 +31,7 @@
     <string name="categories_active">Active Categories</string>
     <string name="cleanup">Clean Up</string>
     <string name="cleanup_desc">This will permanently delete all data on and before the chosen date.</string>
+    <string name="contact">Contact</string>
     <string name="correction">Correction value</string>
     <string name="data">Data</string>
     <string name="delete_value">Delete value</string>
@@ -46,6 +51,7 @@
     <string name="export_finished">PDF has been stored at</string>
     <string name="export_progress">PDF is being created</string>
     <string name="export_stamp">Report generated on</string>
+    <string name="facebook">Facebook</string>
     <string name="factor">Factor</string>
     <string name="factors">Factors</string>
     <string name="filter">Filter</string>
@@ -55,6 +61,7 @@
     <string name="general">General</string>
     <string name="hba1c">HbA1c</string>
     <string name="home">Home</string>
+    <string name="homepage">Website</string>
     <string name="hyper">Hyperglycemia</string>
     <string name="hypo">Hypoglycemia</string>
     <string name="latest">[value] [unit] ago</string>

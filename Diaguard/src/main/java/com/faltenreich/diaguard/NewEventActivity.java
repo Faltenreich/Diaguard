@@ -37,8 +37,6 @@ import org.joda.time.DateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-
 /**
  * Created by Filip on 19.10.13.
  */
@@ -66,12 +64,6 @@ public class NewEventActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(getString(R.string.entry_new));
         initialize();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Crouton.cancelAllCroutons();
     }
 
     @Override

@@ -43,15 +43,15 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+    protected void onDestroy () {
+        super.onDestroy();
+        Crouton.cancelAllCroutons();
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Crouton.cancelAllCroutons();
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
     }
 
     @Override

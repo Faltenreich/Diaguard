@@ -114,6 +114,32 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="@string/about">
+
+        <Preference
+            android:title="@string/homepage">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/app_homepage"/>
+        </Preference>
+
+        <Preference
+            android:title="@string/facebook">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/app_facebook_url"/>
+        </Preference>
+
+        <Preference
+            android:title="@string/contact">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/app_mail"/>
+        </Preference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/development">
 
         <com.faltenreich.diaguard.preferences.LicensePreference

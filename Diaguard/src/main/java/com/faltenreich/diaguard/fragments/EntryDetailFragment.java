@@ -1,9 +1,14 @@
 package com.faltenreich.diaguard.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -20,6 +25,7 @@ import com.faltenreich.diaguard.database.Measurement;
 import com.faltenreich.diaguard.database.Model;
 import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
+import com.faltenreich.diaguard.helpers.ViewHelper;
 
 import java.util.HashMap;
 import java.util.List;
@@ -68,6 +74,13 @@ public class EntryDetailFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        if(!ViewHelper.isLargeScreen(getActivity()))
+            inflater.inflate(R.menu.edit, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         initialize();
@@ -81,14 +94,47 @@ public class EntryDetailFragment extends Fragment {
     }
 
     private void initializeGUI() {
-        buttonEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), NewEventActivity.class);
-                intent.putExtra(NewEventActivity.EXTRA_ENTRY, entry.getId());
-                startActivity(intent);
-            }
-        });
+        if(ViewHelper.isLargeScreen(getActivity())) {
+            buttonEdit.setVisibility(View.VISIBLE);
+            buttonEdit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    editEntry();
+                }
+            });
+        }
+        else {
+            buttonEdit.setVisibility(View.GONE);
+        }
+    }
+
+    private void editEntry() {
+        Intent intent = new Intent(getActivity(), NewEventActivity.class);
+        intent.putExtra(NewEventActivity.EXTRA_ENTRY, entry.getId());
+        startActivity(intent);
+    }
+
+    private void deleteEvent() {
+        if (entry != null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle(R.string.entry_delete);
+            builder.setMessage(R.string.entry_delete_desc);
+            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dataSource.open();
+                    dataSource.delete(entry);
+                    dataSource.close();
+                    getActivity().finish();
+                }
+            });
+            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // User cancelled the dialog
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
     }
 
     private void initialize() {
@@ -144,6 +190,20 @@ public class EntryDetailFragment extends Fragment {
             textViewUnit.setText(preferenceHelper.getUnitAcronym(measurement.getCategory()));
 
             layoutMeasurements.addView(view, layoutMeasurements.getChildCount());
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_delete:
+                deleteEvent();
+                return true;
+            case R.id.action_edit:
+                editEntry();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

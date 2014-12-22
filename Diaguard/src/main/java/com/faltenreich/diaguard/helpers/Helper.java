@@ -1,8 +1,16 @@
 package com.faltenreich.diaguard.helpers;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.media.MediaPlayer;
+import android.os.Vibrator;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 
 import com.faltenreich.diaguard.DiaguardApplication;
+import com.faltenreich.diaguard.NewEventActivity;
 import com.faltenreich.diaguard.R;
 
 import org.joda.time.DateTime;
@@ -95,5 +103,49 @@ public class Helper {
         }
         stringBuilder.deleteCharAt(stringBuilder.length()-1);
         return stringBuilder.toString();
+    }
+
+    public static void vibrate(Context context, int timeInMilliseconds) {
+        Vibrator vibrator = (Vibrator) context.getSystemService(context.VIBRATOR_SERVICE);
+        vibrator.vibrate(timeInMilliseconds);
+    }
+
+    public static void playSound(Context context, int resourceId) {
+        try {
+            MediaPlayer mediaPlayer = MediaPlayer.create(context.getApplicationContext(), resourceId);
+            if(mediaPlayer != null) {
+                mediaPlayer.setLooping(false);
+                mediaPlayer.start();
+            }
+        }
+        catch (IllegalArgumentException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IllegalStateException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public static void notify(Context context, int resourceId) {
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(context)
+                        .setSmallIcon(R.drawable.ic_launcher)
+                        .setContentTitle(context.getString(R.string.app_name))
+                        .setContentText(context.getString(resourceId));
+        Intent resultIntent = new Intent(context, NewEventActivity.class);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addParentStack(NewEventActivity.class);
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        mBuilder.setContentIntent(resultPendingIntent);
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        // TODO: Set ID for every alarm?
+        mNotificationManager.notify(0, mBuilder.build());
     }
 }

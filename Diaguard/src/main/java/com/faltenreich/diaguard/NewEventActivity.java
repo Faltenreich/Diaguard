@@ -1,7 +1,10 @@
 package com.faltenreich.diaguard;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,10 +16,13 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -27,6 +33,7 @@ import com.faltenreich.diaguard.database.Measurement;
 import com.faltenreich.diaguard.database.Model;
 import com.faltenreich.diaguard.fragments.DatePickerFragment;
 import com.faltenreich.diaguard.fragments.TimePickerFragment;
+import com.faltenreich.diaguard.helpers.AlarmManagerBroadcastReceiver;
 import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.faltenreich.diaguard.helpers.Validator;
@@ -46,17 +53,19 @@ public class NewEventActivity extends ActionBarActivity {
     public static final String EXTRA_MEASUREMENT = "Measurement";
     public static final String EXTRA_DATE = "Date";
 
-    DatabaseDataSource dataSource;
-    PreferenceHelper preferenceHelper;
+    private DatabaseDataSource dataSource;
+    private PreferenceHelper preferenceHelper;
 
-    Entry entry;
+    private Entry entry;
+    private int alarmIntervalInMinutes;
 
-    DateTime time;
+    private DateTime time;
 
-    LinearLayout linearLayoutValues;
-    EditText editTextNotes;
-    Button buttonDate;
-    Button buttonTime;
+    private LinearLayout linearLayoutValues;
+    private EditText editTextNotes;
+    private Button buttonDate;
+    private Button buttonTime;
+    private Spinner spinnerAlarm;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +98,21 @@ public class NewEventActivity extends ActionBarActivity {
         checkIntents();
         setDate();
         setTime();
+
+        alarmIntervalInMinutes = 0;
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.alarm_intervals, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerAlarm.setAdapter(adapter);
+        spinnerAlarm.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                alarmIntervalInMinutes = getResources().getIntArray(R.array.alarm_intervals_values)[position];
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 
     public void getComponents() {
@@ -96,6 +120,7 @@ public class NewEventActivity extends ActionBarActivity {
         editTextNotes = (EditText) findViewById(R.id.edittext_notes);
         buttonDate = (Button) findViewById(R.id.button_date);
         buttonTime = (Button) findViewById(R.id.button_time);
+        spinnerAlarm = (Spinner) findViewById(R.id.spinner_alarm);
     }
 
     private void checkIntents() {
@@ -260,6 +285,8 @@ public class NewEventActivity extends ActionBarActivity {
             }
             dataSource.close();
 
+            setAlarm(alarmIntervalInMinutes);
+
             // Tell MainActivity that Events have been created
             Intent intent = new Intent();
             intent.putExtra(MainActivity.ENTRY_CREATED, measurements.size());
@@ -373,13 +400,20 @@ public class NewEventActivity extends ActionBarActivity {
         }
     }
 
+    private void setAlarm(int intervalInMinutes) {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlarmManagerBroadcastReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, 1000 * /*60 **/ intervalInMinutes, pendingIntent);
+    }
+
     // LISTENERS
 
     public void onClickShowDatePicker (View view) {
         DialogFragment fragment = new DatePickerFragment() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
-                time = time.withYear(year).withMonthOfYear(month+1).withDayOfMonth(day);
+                time = time.withYear(year).withMonthOfYear(month + 1).withDayOfMonth(day);
                 setDate();
             }
         };

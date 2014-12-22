@@ -12,6 +12,8 @@
     <string name="activity">Aktivität</string>
     <string name="add_value">Wert hinzufügen</string>
     <string name="add_value_desc">Kategorien wählen</string>
+    <string name="alarm">Erinnerung</string>
+    <string name="alarm_desc">Blutzucker messen</string>
     <string name="application">Anwendung</string>
     <string name="average">Durchschnitt</string>
     <string name="back">Zurück</string>
@@ -70,6 +72,7 @@
     <string name="recently">Kürzlich</string>
     <string name="remove">Entfernen</string>
     <string name="settings">Einstellungen</string>
+    <string name="sound">Töne</string>
     <string name="startscreen">Startbildschirm</string>
     <string name="store_values">Werte eintragen</string>
     <string name="therapy">Therapie</string>
@@ -78,6 +81,7 @@
     <string name="units">Einheiten</string>
     <string name="weight">Gewicht</string>
     <string name="version">Version</string>
+    <string name="vibration">Vibration</string>
     <string name="view">Betrachten</string>
 
     <string-array name="startscreens">
@@ -119,6 +123,15 @@
         <item>Mittags</item>
         <item>Abends</item>
         <item>Nachts</item>
+    </string-array>
+
+    <string-array name="alarm_intervals">
+        <item>Keine</item>
+        <item>In 30 Minuten</item>
+        <item>In 1 Stunde</item>
+        <item>In 2 Stunden</item>
+        <item>In 4 Stunden</item>
+        <item>In 8 Stunden</item>
     </string-array>
 
     <string name="last_24hours">Letzte 24 Stunden</string>

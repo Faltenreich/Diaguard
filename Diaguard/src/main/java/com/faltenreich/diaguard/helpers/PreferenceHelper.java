@@ -40,6 +40,14 @@ public class PreferenceHelper {
 
     // GENERAL
 
+    public boolean isSoundAllowed() {
+        return sharedPreferences.getBoolean("sound", true);
+    }
+
+    public boolean isVibrationAllowed() {
+        return sharedPreferences.getBoolean("vibration", true);
+    }
+
     public boolean validateEventValue(Measurement.Category category, float value) {
         int resourceIdExtrema = context.getResources().getIdentifier(category.name().toLowerCase() +
                 "_extrema", "array", context.getPackageName());

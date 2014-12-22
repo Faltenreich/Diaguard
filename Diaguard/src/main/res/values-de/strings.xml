@@ -4,10 +4,6 @@
     tools:ignore="MissingTranslation">
 
     <!-- GENERAL -->
-    <string name="app_name">Diaguard</string>
-    <string name="app_facebook">facebook.com/diaguard</string>
-    <string name="app_version">1.1</string>
-
     <string name="about">Über</string>
     <string name="activity">Aktivität</string>
     <string name="add_value">Wert hinzufügen</string>

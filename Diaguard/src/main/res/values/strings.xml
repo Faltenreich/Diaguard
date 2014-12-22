@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingTranslation">
 
-    <!-- GENERAL -->
     <string name="app_name">Diaguard</string>
     <string name="app_facebook">facebook.com/diaguard.de</string>
     <string name="app_facebook_url">http://www.facebook.com/diaguard.de</string>
     <string name="app_homepage">http://www.diaguard.wordpress.com</string>
     <string name="app_mail">mailto:diaguard.de@gmail.com</string>
-    <string name="app_version">1.1</string>
+    <string name="app_version">1.2</string>
 
+    <!-- GENERAL -->
     <string name="about">About</string>
     <string name="activity">Activity</string>
     <string name="add_value">Add value</string>

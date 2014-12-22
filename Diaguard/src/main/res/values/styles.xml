@@ -12,13 +12,11 @@
 
     <style name="ActionBarTheme" parent="@style/Widget.AppCompat.ActionBar">
         <item name="background">@color/green</item>
-        <item name="android:background">@color/green</item>
         <item name="icon">@drawable/ic_home</item>
-        <item name="android:icon">@drawable/ic_home</item>
         <item name="titleTextStyle">@style/ActionBarTitleText</item>
-        <item name="android:titleTextStyle">@style/ActionBarTitleText</item>
         <item name="subtitleTextStyle">@style/ActionBarSubtitleText</item>
-        <item name="android:subtitleTextStyle">@style/ActionBarSubtitleText</item>
+        <item name="android:colorPrimary">@color/green</item>
+        <item name="android:colorPrimaryDark">@color/green_highlight</item>
     </style>
 
     <style name="ActionBarTabStyle"

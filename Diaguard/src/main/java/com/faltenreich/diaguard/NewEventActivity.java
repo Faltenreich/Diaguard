@@ -285,7 +285,9 @@ public class NewEventActivity extends ActionBarActivity {
             }
             dataSource.close();
 
-            setAlarm(alarmIntervalInMinutes);
+            if(alarmIntervalInMinutes > 0) {
+                setAlarm(alarmIntervalInMinutes);
+            }
 
             // Tell MainActivity that Events have been created
             Intent intent = new Intent();
@@ -404,7 +406,7 @@ public class NewEventActivity extends ActionBarActivity {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlarmManagerBroadcastReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, 1000 * /*60 **/ intervalInMinutes, pendingIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, 1000 * 60 * intervalInMinutes, pendingIntent);
     }
 
     // LISTENERS

@@ -10,8 +10,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -308,67 +307,18 @@ public class NewEventActivity extends ActionBarActivity {
         TextView textViewCategory = (TextView) view.findViewById(R.id.category);
         textViewCategory.setText(preferenceHelper.getCategoryName(category));
 
-        // Status image
-        final View viewStatus = view.findViewById(R.id.status);
+        // Category image
+        final ImageView imageViewCategory = (ImageView) view.findViewById(R.id.image);
+        int resourceId = getResources().getIdentifier(category.name().toLowerCase(),
+                "drawable", getPackageName());
+        imageViewCategory.setImageResource(resourceId);
 
         // Value
-        final EditText editTextValue = (EditText) view.findViewById(R.id.value);
+        EditText editTextValue = (EditText) view.findViewById(R.id.value);
         editTextValue.setHint(preferenceHelper.getUnitAcronym(category));
-        if(category == Measurement.Category.BloodSugar)
+        if(category == Measurement.Category.BloodSugar) {
             editTextValue.requestFocus();
-
-        // OnChangeListener
-        TextWatcher textChangedListener = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(editTextValue.getText().length() == 0) {
-                    viewStatus.setBackgroundColor(getResources().getColor(R.color.gray));
-                }
-                else {
-                    if(!preferenceHelper.validateEventValue(
-                            category, preferenceHelper.formatCustomToDefaultUnit(category,
-                                    Float.parseFloat(editTextValue.getText().toString())))) {
-                        viewStatus.setBackgroundColor(getResources().getColor(R.color.red));
-                    }
-                    else
-                        viewStatus.setBackgroundColor(getResources().getColor(R.color.green));
-
-                    /*
-                    // Show an additional View for food information
-                    if(category == Measurement.Category.Meal && !mealInfoIsVisible) {
-                        View viewMealInfo = inflater.inflate(R.layout.fragment_meal_info, linearLayoutValues, false);
-                        viewMealInfo.setTag(DatabaseHelper.FOOD);
-                        linearLayoutValues.addView(viewMealInfo, 3);
-
-                        // AutoComplete
-                        dataSource.open();
-                        List<Model> foodList = dataSource.get(DatabaseHelper.FOOD, null, null, null, null, null, null, null);
-                        dataSource.close();
-                        String[] foodNames = new String[foodList.size()];
-                        for(int foodPosition = 0; foodPosition < foodList.size(); foodPosition++) {
-                            Food food = (Food)foodList.get(foodPosition);
-                            foodNames[foodPosition] = food.getName();
-                        }
-                        AutoCompleteTextView editTextFood = (AutoCompleteTextView)viewMealInfo.findViewById(R.id.food);
-                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(NewEventActivity.this, android.R.layout.simple_dropdown_item_1line, foodNames);
-                        editTextFood.setAdapter(adapter);
-
-                        ViewHelper.expand(viewMealInfo);
-                        mealInfoIsVisible = true;
-                    }
-                    */
-                }
-            }
-        };
-        editTextValue.addTextChangedListener(textChangedListener);
+        }
 
         linearLayoutValues.addView(view, linearLayoutValues.getChildCount());
     }

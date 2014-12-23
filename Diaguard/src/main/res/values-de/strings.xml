@@ -122,7 +122,7 @@
     </string-array>
 
     <string-array name="alarm_intervals">
-        <item>Keine</item>
+        <item>Keine Erinnerung</item>
         <item>In 30 Minuten</item>
         <item>In 1 Stunde</item>
         <item>In 2 Stunden</item>

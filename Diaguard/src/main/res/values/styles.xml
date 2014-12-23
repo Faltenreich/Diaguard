@@ -3,10 +3,7 @@
     <!-- Every value twice to guarantee compatibility for API < 11 -->
     <style name="AppTheme" parent="Theme.AppCompat.Light">
         <item name="actionBarStyle">@style/ActionBarTheme</item>
-        <item name="android:actionBarStyle">@style/ActionBarTheme</item>
         <item name="homeAsUpIndicator">@drawable/ic_up</item>
-        <item name="android:homeAsUpIndicator">@drawable/ic_up</item>
-        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle</item>
         <item name="actionBarTabStyle">@style/ActionBarTabStyle</item>
     </style>
 
@@ -17,6 +14,7 @@
         <item name="subtitleTextStyle">@style/ActionBarSubtitleText</item>
         <item name="android:colorPrimary">@color/green</item>
         <item name="android:colorPrimaryDark">@color/green_highlight</item>
+        <item name="android:elevation">0dp</item>
     </style>
 
     <style name="ActionBarTabStyle"

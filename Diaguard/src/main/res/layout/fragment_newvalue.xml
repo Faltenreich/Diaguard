@@ -7,30 +7,26 @@
     android:gravity="center_vertical"
     android:paddingBottom="@dimen/margin_between">
 
+    <ImageView android:id="@+id/image"
+        android:layout_width="@dimen/height_element"
+        android:layout_height="@dimen/height_element"
+        android:layout_marginRight="@dimen/padding_end"
+        android:layout_marginEnd="@dimen/padding_end"
+        android:src="@drawable/bloodsugar"
+        android:contentDescription="@string/note"/>
+
     <TextView android:id="@+id/category"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:layout_marginRight="@dimen/margin_between"
+        android:layout_marginEnd="@dimen/margin_between"/>
 
-    <LinearLayout
+    <EditText android:id="@+id/value"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2">
-
-        <View android:id="@+id/status"
-            android:layout_width="12dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/padding"
-            android:background="@color/gray"/>
-
-        <EditText android:id="@+id/value"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:gravity="center_horizontal"
-            android:layout_marginStart="@dimen/margin_between"
-            android:layout_marginLeft="@dimen/margin_between"/>
-
-    </LinearLayout>
+        android:layout_weight="2"
+        android:inputType="numberDecimal"
+        android:gravity="center_horizontal"/>
 
 </LinearLayout>

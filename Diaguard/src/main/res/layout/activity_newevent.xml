@@ -15,10 +15,20 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+            <ImageView
+                android:layout_width="@dimen/height_element"
+                android:layout_height="@dimen/height_element"
+                android:layout_marginRight="@dimen/margin_between"
+                android:layout_marginEnd="@dimen/margin_between"
+                android:src="@drawable/ic_time"
+                android:contentDescription="@string/note"/>
+
             <Button android:id="@+id/button_date"
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight="3"
+                android:layout_marginRight="@dimen/margin_between"
+                android:layout_marginEnd="@dimen/margin_between"
                 android:onClick="onClickShowDatePicker"
                 style="@style/SpinnerButtonStyle"
                 android:gravity="center"/>
@@ -26,7 +36,7 @@
             <Button android:id="@+id/button_time"
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:onClick="onClickShowTimePicker"
                 style="@style/SpinnerButtonStyle"
                 android:gravity="center"/>
@@ -37,24 +47,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="@dimen/margin_between"/>
+            android:layout_marginTop="@dimen/padding_end"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/margin_between">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/alarm"/>
+            <ImageView
+                android:layout_width="@dimen/height_element"
+                android:layout_height="@dimen/height_element"
+                android:layout_marginRight="@dimen/margin_between"
+                android:layout_marginEnd="@dimen/margin_between"
+                android:src="@drawable/ic_alarm"
+                android:contentDescription="@string/alarm"/>
 
             <Spinner android:id="@+id/spinner_alarm"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"/>
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_element"
+                style="@style/SpinnerButtonStyle"/>
 
         </LinearLayout>
 
@@ -65,16 +78,18 @@
             android:gravity="center_vertical"
             android:layout_marginTop="@dimen/margin_between">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/note"/>
+            <ImageView
+                android:layout_width="@dimen/height_element"
+                android:layout_height="@dimen/height_element"
+                android:layout_marginRight="@dimen/margin_between"
+                android:layout_marginEnd="@dimen/margin_between"
+                android:src="@drawable/ic_note"
+                android:contentDescription="@string/note"/>
 
             <EditText android:id="@+id/edittext_notes"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:hint="@string/note"
                 android:inputType="textMultiLine|textCapSentences"/>
 
         </LinearLayout>

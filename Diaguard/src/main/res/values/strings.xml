@@ -148,7 +148,7 @@
     <string name="last_30days">Last month</string>
 
     <string-array name="alarm_intervals">
-        <item>None</item>
+        <item>No reminder</item>
         <item>In 30 minutes</item>
         <item>In 1 hour</item>
         <item>In 2 hours</item>

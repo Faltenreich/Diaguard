@@ -25,6 +25,7 @@ android {
 
 dependencies {
     compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'com.android.support:cardview-v7:21.0.3'
     compile 'com.android.support:support-v4:21.0.3'
     compile 'net.danlew:android.joda:2.4.0'
     compile('de.keyboardsurfer.android.widget:crouton:1.8.4@aar') {

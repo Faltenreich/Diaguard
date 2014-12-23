@@ -19,7 +19,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -307,12 +306,6 @@ public class NewEventActivity extends ActionBarActivity {
         TextView textViewCategory = (TextView) view.findViewById(R.id.category);
         textViewCategory.setText(preferenceHelper.getCategoryName(category));
 
-        // Category image
-        final ImageView imageViewCategory = (ImageView) view.findViewById(R.id.image);
-        int resourceId = getResources().getIdentifier(category.name().toLowerCase(),
-                "drawable", getPackageName());
-        imageViewCategory.setImageResource(resourceId);
-
         // Value
         EditText editTextValue = (EditText) view.findViewById(R.id.value);
         editTextValue.setHint(preferenceHelper.getUnitAcronym(category));
@@ -356,7 +349,9 @@ public class NewEventActivity extends ActionBarActivity {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlarmManagerBroadcastReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, 1000 * 60 * intervalInMinutes, pendingIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP,
+                System.currentTimeMillis() + 1000 * 60 * intervalInMinutes,
+                pendingIntent);
     }
 
     // LISTENERS

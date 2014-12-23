@@ -43,12 +43,6 @@
 
         </LinearLayout>
 
-        <LinearLayout android:id="@+id/content_dynamic"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="@dimen/padding_end"/>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -93,6 +87,29 @@
                 android:inputType="textMultiLine|textCapSentences"/>
 
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="top"
+            android:layout_marginTop="@dimen/margin_between">
+
+            <ImageView
+                android:layout_width="@dimen/height_element"
+                android:layout_height="@dimen/height_element"
+                android:layout_marginRight="@dimen/margin_between"
+                android:layout_marginEnd="@dimen/margin_between"
+                android:src="@drawable/ic_value"
+                android:contentDescription="@string/add_value"/>
+
+            <LinearLayout android:id="@+id/content_dynamic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="4dp"/>
+
+            </LinearLayout>
 
     </LinearLayout>
 

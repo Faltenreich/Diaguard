@@ -42,6 +42,7 @@
     <string name="drawer_close">Close Navigator</string>
     <string name="drawer_open">Open Navigator</string>
     <string name="entry">Entry</string>
+    <string name="entry_added">Entry added</string>
     <string name="entry_edit">Edit entry</string>
     <string name="entry_delete">Delete entry</string>
     <string name="entry_delete_desc">Remove entry and its measurements from timeline</string>
@@ -89,6 +90,7 @@
     <string name="therapy">Therapy</string>
     <string name="timeline">Timeline</string>
     <string name="today">Today</string>
+    <string name="undo">Undo</string>
     <string name="units">Units</string>
     <string name="weight">Weight</string>
     <string name="version">Version</string>

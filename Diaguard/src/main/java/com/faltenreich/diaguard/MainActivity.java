@@ -28,6 +28,7 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 public class MainActivity extends ActionBarActivity implements EntryListFragment.CallbackList {
 
     public static final int REQUEST_EVENT_CREATED = 1;
+    public static final String ENTRY = "ENTRY";
     public static final String ENTRY_CREATED = "ENTRY_CREATED";
     public static final String ENTRY_DELETED = "ENTRY_DELETED";
 
@@ -60,14 +61,12 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
             if (data.hasExtra(ENTRY_CREATED)) {
                 int eventsCreated = data.getExtras().getInt(ENTRY_CREATED);
                 if(eventsCreated > 0) {
-                    if(eventsCreated == 1)
-                        ViewHelper.showConfirmation(this, "+" + eventsCreated + " " + getString(R.string.event));
-                    else
-                        ViewHelper.showConfirmation(this, "+" + eventsCreated + " " + getString(R.string.events));
+                    ViewHelper.showSnackbar(this, getString(R.string.entry_added));
                 }
             }
             else if (data.hasExtra(ENTRY_DELETED) && data.getExtras().getBoolean(ENTRY_DELETED)) {
-                ViewHelper.showConfirmation(this, getString(R.string.entry_delete));
+                // TODO: Undo functionality
+                ViewHelper.showSnackbar(this, getString(R.string.entry_deleted));
             }
         }
     }

@@ -8,6 +8,13 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
+import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.database.DatabaseDataSource;
+import com.faltenreich.diaguard.database.Model;
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
+import com.nispok.snackbar.listeners.ActionClickListener;
+
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
@@ -32,6 +39,27 @@ public class ViewHelper {
 
     public static void showConfirmation(Activity activity, String text) {
         Crouton.makeText(activity, text, Style.CONFIRM).show();
+    }
+
+    public static void showSnackbar(Activity activity, String text) {
+        SnackbarManager.show(Snackbar.with(activity).text(text));
+    }
+
+    public static void showUndoSnackbar(final Activity activity, String text, final Model objectToRestore) {
+        SnackbarManager.show(
+                Snackbar.with(activity)
+                        .text(text)
+                        .actionLabel(activity.getString(R.string.undo))
+                        .actionListener(new ActionClickListener() {
+                            @Override
+                            public void onActionClicked(Snackbar snackbar) {
+                                DatabaseDataSource dataSource = new DatabaseDataSource(activity);
+                                dataSource.open();
+                                dataSource.insert(objectToRestore);
+                                dataSource.close();
+                            }
+                        }),
+                activity);
     }
 
     public static void expand(final View v) {

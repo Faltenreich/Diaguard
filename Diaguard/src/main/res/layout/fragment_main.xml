@@ -9,63 +9,55 @@
         android:orientation="vertical">
 
         <!-- Latest Blood Sugar -->
-        <android.support.v7.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            card_view:cardCornerRadius="4dp"
-            card_view:cardElevation="6dp">
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingBottom="11dp">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:paddingBottom="11dp">
+                android:orientation="horizontal"
+                android:gravity="bottom">
 
-                <LinearLayout
+                <TextView android:id="@+id/textview_latest_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="bottom">
+                    style="@style/BoxText"
+                    android:text="@string/first_visit"
+                    android:textSize="60sp"/>
 
-                    <TextView android:id="@+id/textview_latest_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/BoxText"
-                        android:text="@string/first_visit"
-                        android:textSize="60sp"/>
-
-                    <TextView android:id="@+id/textview_latest_unit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_between"
-                        android:layout_marginStart="@dimen/margin_between"
-                        android:lines="1"
-                        android:textColor="@color/gray_dk"/>
-
-                </LinearLayout>
-
-                <LinearLayout
+                <TextView android:id="@+id/textview_latest_unit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView android:id="@+id/textview_latest_time"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:textColor="@color/gray_dk"/>
-
-                    <TextView android:id="@+id/textview_latest_ago"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/first_visit_desc"/>
-
-                </LinearLayout>
+                    android:layout_marginLeft="@dimen/margin_between"
+                    android:layout_marginStart="@dimen/margin_between"
+                    android:lines="1"
+                    android:textColor="@color/gray_dk"/>
 
             </LinearLayout>
 
-        </android.support.v7.widget.CardView>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView android:id="@+id/textview_latest_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/gray_dk"/>
+
+                <TextView android:id="@+id/textview_latest_ago"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/first_visit_desc"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <!-- Today -->
         <android.support.v7.widget.CardView

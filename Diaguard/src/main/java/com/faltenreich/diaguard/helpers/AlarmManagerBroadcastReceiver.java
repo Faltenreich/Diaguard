@@ -22,7 +22,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
         PreferenceHelper preferenceHelper = new PreferenceHelper(context);
         if(preferenceHelper.isSoundAllowed()) {
-            Helper.playSound(context, R.raw.fireflies);
+            Helper.playSound(context, R.raw.reminder);
         }
         if(preferenceHelper.isVibrationAllowed()) {
             Helper.vibrate(context, 1000);

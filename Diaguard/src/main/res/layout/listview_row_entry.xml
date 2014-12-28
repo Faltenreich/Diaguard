@@ -1,47 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="@dimen/height_element"
+    android:layout_width="match_parent"
     android:paddingLeft="@dimen/padding_end"
     android:paddingStart="@dimen/padding_end"
     android:paddingRight="@dimen/padding_end"
     android:paddingEnd="@dimen/padding_end"
-    android:background="@drawable/background_indicator">
+    android:background="@drawable/background_indicator"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:layout_centerVertical="true">
 
-    <ImageView android:id="@+id/image_arrow"
-        android:layout_width="@dimen/size_image"
-        android:layout_height="@dimen/size_image"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:src="@drawable/ic_arrow_right"
-        android:contentDescription="@null"/>
-
-    <LinearLayout
-        android:layout_height="fill_parent"
-        android:layout_width="fill_parent"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@id/image_arrow"
-        android:layout_toStartOf="@id/image_arrow"
+    <TextView android:id="@+id/time"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
         android:layout_marginRight="@dimen/margin_between"
-        android:layout_marginEnd="@dimen/margin_between">
+        android:layout_marginEnd="@dimen/margin_between"
+        android:textColor="@color/green"/>
 
-        <TextView android:id="@+id/time"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_marginRight="@dimen/margin_between"
-            android:layout_marginEnd="@dimen/margin_between"
-            android:textColor="@color/green"/>
+    <LinearLayout android:id="@+id/values"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"/>
 
-        <LinearLayout android:id="@+id/values"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"/>
-
-    </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>

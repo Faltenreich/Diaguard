@@ -13,11 +13,8 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapters.ListEntry;
 import com.faltenreich.diaguard.adapters.ListItem;
 import com.faltenreich.diaguard.adapters.LogEndlessAdapter;
-import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.Measurement;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
-
-import org.joda.time.DateTime;
 
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass.
@@ -88,16 +85,14 @@ public class EntryListFragment extends ListFragment {
         activatedPosition = position;
     }
 
-    DatabaseDataSource dataSource;
-    PreferenceHelper preferenceHelper;
-
-    DateTime time;
-    boolean[] checkedCategories;
+    private PreferenceHelper preferenceHelper;
+    private boolean[] checkedCategories;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_entry_list, container, false);
         setHasOptionsMenu(true);
+        getComponents(view);
         return view;
     }
 
@@ -129,10 +124,11 @@ public class EntryListFragment extends ListFragment {
         updateListView();
     }
 
+    private void getComponents(View parentView) {
+    }
+
     public void initialize() {
-        dataSource = new DatabaseDataSource(getActivity());
         preferenceHelper = new PreferenceHelper(getActivity());
-        time = new DateTime();
 
         Measurement.Category[] categories = Measurement.Category.values();
         checkedCategories = new boolean[categories.length];
@@ -155,5 +151,9 @@ public class EntryListFragment extends ListFragment {
         LogEndlessAdapter adapter = new LogEndlessAdapter(getActivity());
         getListView().setAdapter(adapter);
         getListView().setEmptyView(getView().findViewById(R.id.listViewEventsEmpty));
+        /*
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(new RecyclerViewAdapter(getActivity()));
+        */
     }
 }

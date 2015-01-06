@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -84,6 +85,18 @@ public class CalculatorActivity extends ActionBarActivity {
     }
 
     public void initializeGUI() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar != null){
+            toolbar.setTitle(getString(R.string.calculator));
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+            setSupportActionBar(toolbar);
+        }
+
         String unitAcronym = preferenceHelper.getUnitAcronym(Measurement.Category.BloodSugar);
         textViewUnitBloodSugar.setText(unitAcronym);
         textViewUnitTargetValue.setText(unitAcronym);

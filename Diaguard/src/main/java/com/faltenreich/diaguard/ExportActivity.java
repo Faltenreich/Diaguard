@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -45,7 +46,6 @@ public class ExportActivity extends ActionBarActivity implements IFileListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_export);
-        setTitle(getString(R.string.export));
         initialize();
     }
 
@@ -75,6 +75,18 @@ public class ExportActivity extends ActionBarActivity implements IFileListener {
     }
 
     public void initializeGUI() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar != null){
+            toolbar.setTitle(getString(R.string.export));
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+            setSupportActionBar(toolbar);
+        }
+
         buttonDateStart.setText(dateFormat.print(dateStart));
         buttonDateEnd.setText(dateFormat.print(dateEnd));
     }

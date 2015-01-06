@@ -1,116 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <include layout="@layout/toolbar"/>
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        style="@style/Padding">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            style="@style/Padding">
 
-            <ImageView
-                android:layout_width="@dimen/height_element"
-                android:layout_height="@dimen/height_element"
-                android:layout_marginRight="@dimen/margin_between"
-                android:layout_marginEnd="@dimen/margin_between"
-                android:src="@drawable/ic_time"
-                android:contentDescription="@string/note"/>
-
-            <Button android:id="@+id/button_date"
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_weight="3"
-                android:layout_marginRight="@dimen/margin_between"
-                android:layout_marginEnd="@dimen/margin_between"
-                android:onClick="onClickShowDatePicker"
-                style="@style/SpinnerButtonStyle"
-                android:gravity="center"/>
-
-            <Button android:id="@+id/button_time"
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:onClick="onClickShowTimePicker"
-                style="@style/SpinnerButtonStyle"
-                android:gravity="center"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="@dimen/margin_between">
-
-            <ImageView
-                android:layout_width="@dimen/height_element"
-                android:layout_height="@dimen/height_element"
-                android:layout_marginRight="@dimen/margin_between"
-                android:layout_marginEnd="@dimen/margin_between"
-                android:src="@drawable/ic_alarm"
-                android:contentDescription="@string/alarm"/>
-
-            <Spinner android:id="@+id/spinner_alarm"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/height_element"
-                style="@style/SpinnerButtonStyle"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="@dimen/margin_between">
-
-            <ImageView
-                android:layout_width="@dimen/height_element"
-                android:layout_height="@dimen/height_element"
-                android:layout_marginRight="@dimen/margin_between"
-                android:layout_marginEnd="@dimen/margin_between"
-                android:src="@drawable/ic_note"
-                android:contentDescription="@string/note"/>
-
-            <EditText android:id="@+id/edittext_notes"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/note"
-                android:inputType="textMultiLine|textCapSentences"/>
+                android:orientation="horizontal">
 
-        </LinearLayout>
+                <ImageView
+                    android:layout_width="@dimen/height_element"
+                    android:layout_height="@dimen/height_element"
+                    android:layout_marginRight="@dimen/margin_between"
+                    android:layout_marginEnd="@dimen/margin_between"
+                    android:src="@drawable/ic_time"
+                    android:contentDescription="@string/note"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="top"
-            android:layout_marginTop="@dimen/margin_between">
+                <Button android:id="@+id/button_date"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_marginRight="@dimen/margin_between"
+                    android:layout_marginEnd="@dimen/margin_between"
+                    android:onClick="onClickShowDatePicker"
+                    style="@style/SpinnerButtonStyle"
+                    android:gravity="center"/>
 
-            <ImageView
-                android:layout_width="@dimen/height_element"
-                android:layout_height="@dimen/height_element"
-                android:layout_marginRight="@dimen/margin_between"
-                android:layout_marginEnd="@dimen/margin_between"
-                android:src="@drawable/ic_value"
-                android:contentDescription="@string/add_value"/>
-
-            <LinearLayout android:id="@+id/content_dynamic"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="4dp"/>
+                <Button android:id="@+id/button_time"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:onClick="onClickShowTimePicker"
+                    style="@style/SpinnerButtonStyle"
+                    android:gravity="center"/>
 
             </LinearLayout>
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="@dimen/margin_between">
 
-</ScrollView>
+                <ImageView
+                    android:layout_width="@dimen/height_element"
+                    android:layout_height="@dimen/height_element"
+                    android:layout_marginRight="@dimen/margin_between"
+                    android:layout_marginEnd="@dimen/margin_between"
+                    android:src="@drawable/ic_alarm"
+                    android:contentDescription="@string/alarm"/>
+
+                <Spinner android:id="@+id/spinner_alarm"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_element"
+                    style="@style/SpinnerButtonStyle"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="@dimen/margin_between">
+
+                <ImageView
+                    android:layout_width="@dimen/height_element"
+                    android:layout_height="@dimen/height_element"
+                    android:layout_marginRight="@dimen/margin_between"
+                    android:layout_marginEnd="@dimen/margin_between"
+                    android:src="@drawable/ic_note"
+                    android:contentDescription="@string/note"/>
+
+                <EditText android:id="@+id/edittext_notes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/note"
+                    android:inputType="textMultiLine|textCapSentences"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="top"
+                android:layout_marginTop="@dimen/margin_between">
+
+                <ImageView
+                    android:layout_width="@dimen/height_element"
+                    android:layout_height="@dimen/height_element"
+                    android:layout_marginRight="@dimen/margin_between"
+                    android:layout_marginEnd="@dimen/margin_between"
+                    android:src="@drawable/ic_value"
+                    android:contentDescription="@string/add_value"/>
+
+                <LinearLayout android:id="@+id/content_dynamic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="4dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

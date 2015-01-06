@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -87,14 +88,16 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
         }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
         drawerToggle.syncState();
 
         String[] menuItems = new String[] {
                 getString(R.string.home),
                 getString(R.string.timeline),
                 getString(R.string.log),
-                getString(R.string.export),
                 getString(R.string.calculator),
+                getString(R.string.export),
                 getString(R.string.settings) };
         int[] menuImages = new int[] {
                 R.drawable.home,
@@ -112,6 +115,11 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
 
         // Initialize
         replaceFragment(FragmentType.Home);
+    }
+
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        drawerToggle.syncState();
     }
 
     /**
@@ -226,6 +234,14 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                if(!drawerLayout.isDrawerOpen(Gravity.START)) {
+                    drawerLayout.openDrawer(Gravity.START);
+                }
+                else {
+                    drawerLayout.closeDrawer(Gravity.START);
+                }
+                return true;
             case R.id.action_newevent:
                 startActivityForResult(new Intent(this, NewEventActivity.class), MainActivity.REQUEST_EVENT_CREATED);
                 return true;

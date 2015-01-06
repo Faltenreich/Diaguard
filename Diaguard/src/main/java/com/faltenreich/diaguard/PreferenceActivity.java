@@ -24,13 +24,18 @@ public class PreferenceActivity extends android.preference.PreferenceActivity {
                 R.layout.activity_settings,
                 new LinearLayout(this),
                 false);
+
         Toolbar toolbar = (Toolbar) contentView.findViewById(R.id.toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        if(toolbar != null) {
+            toolbar.setTitle(getString(R.string.settings));
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+        }
+
         getWindow().setContentView(contentView);
     }
 

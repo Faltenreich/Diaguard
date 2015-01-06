@@ -71,6 +71,8 @@
 
     <style name="TableRow">
         <item name="android:layout_marginBottom">@dimen/margin_between</item>
+        <item name="android:minHeight">@dimen/height_element</item>
+        <item name="android:gravity">center_vertical</item>
     </style>
 
     <style name="ActionButton">

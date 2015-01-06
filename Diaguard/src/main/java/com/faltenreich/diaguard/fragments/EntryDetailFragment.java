@@ -23,7 +23,6 @@ import com.faltenreich.diaguard.database.DatabaseHelper;
 import com.faltenreich.diaguard.database.Entry;
 import com.faltenreich.diaguard.database.Measurement;
 import com.faltenreich.diaguard.database.Model;
-import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.faltenreich.diaguard.helpers.ViewHelper;
 
@@ -38,7 +37,6 @@ public class EntryDetailFragment extends Fragment {
     private PreferenceHelper preferenceHelper;
     private Entry entry;
 
-    private TextView textViewTime;
     private TextView textViewNote;
     private LinearLayout layoutMeasurements;
     private ImageButton buttonEdit;
@@ -87,7 +85,6 @@ public class EntryDetailFragment extends Fragment {
     }
 
     private void getComponents(View parentView) {
-        textViewTime = (TextView)parentView.findViewById(R.id.textview_time);
         textViewNote = (TextView)parentView.findViewById(R.id.textview_note);
         layoutMeasurements = (LinearLayout)parentView.findViewById(R.id.layout_measurements);
         buttonEdit = (ImageButton)parentView.findViewById(R.id.button_edit);
@@ -138,12 +135,6 @@ public class EntryDetailFragment extends Fragment {
     }
 
     private void initialize() {
-        String time = Helper.getDateFormat().print(entry.getDate()) + " " +
-                Helper.getTimeFormat().print(entry.getDate());
-        textViewTime.setText(time);
-        if(entry.getNote() != null && entry.getNote().length() > 0)
-            textViewNote.setText(entry.getNote());
-
         LayoutInflater inflater = getLayoutInflater(getArguments());
         // Pre-load image resources
         HashMap<String, Integer> imageResources = new HashMap<String, Integer>();
@@ -190,6 +181,10 @@ public class EntryDetailFragment extends Fragment {
             textViewUnit.setText(preferenceHelper.getUnitAcronym(measurement.getCategory()));
 
             layoutMeasurements.addView(view, layoutMeasurements.getChildCount());
+        }
+
+        if(entry.getNote() != null && entry.getNote().length() > 0) {
+            textViewNote.setText(entry.getNote());
         }
     }
 

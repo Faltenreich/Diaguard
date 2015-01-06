@@ -11,7 +11,9 @@
         android:layout_width="match_parent"
         android:cacheColorHint="#fff"
         android:choiceMode="singleChoice"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentTop="true"
+        android:divider="@color/gray"
+        android:dividerHeight="1dp"/>
 
     <TextView
         android:id="@+id/listViewEventsEmpty"

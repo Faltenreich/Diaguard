@@ -13,19 +13,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="@string/license_support"
-            style="@style/LicenseLabel"/>
-
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:text="@string/license_support_desc"
-            style="@style/LicenseDescription"/>
-
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/license_joda"
+            android:text="@string/license_support_v4"
             style="@style/LicenseLabel"/>
 
         <TextView
@@ -37,7 +25,19 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="@string/license_crouton"
+            android:text="@string/license_support_v7"
+            style="@style/LicenseLabel"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="@string/license_apache"
+            style="@style/LicenseDescription"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/license_joda"
             style="@style/LicenseLabel"/>
 
         <TextView
@@ -56,6 +56,18 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:text="@string/license_apache"
+            style="@style/LicenseDescription"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/license_snackbar"
+            style="@style/LicenseLabel"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="@string/license_mit"
             style="@style/LicenseDescription"/>
 
         <TextView

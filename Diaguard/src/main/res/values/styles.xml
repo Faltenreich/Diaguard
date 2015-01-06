@@ -109,13 +109,11 @@
 
     <style name="LicenseLabel">
         <item name="android:textStyle">bold</item>
-        <item name="android:layout_marginBottom">@dimen/margin_between</item>
+        <item name="android:layout_marginBottom">@dimen/padding_end</item>
     </style>
 
     <style name="LicenseDescription">
-        <item name="android:background">@color/gray</item>
-        <item name="android:padding">@dimen/padding_end</item>
-        <item name="android:layout_marginBottom">@dimen/margin_between</item>
+        <item name="android:layout_marginBottom">@dimen/padding_end</item>
     </style>
 
 

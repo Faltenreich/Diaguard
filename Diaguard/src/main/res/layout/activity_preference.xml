@@ -10,7 +10,6 @@
     <ListView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@android:id/list"
-        style="@style/Padding"/>
+        android:id="@android:id/list"/>
 
 </LinearLayout>

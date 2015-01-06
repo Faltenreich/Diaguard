@@ -2,6 +2,7 @@ package com.faltenreich.diaguard;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -191,7 +192,12 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
                 startActivity(new Intent(this, ExportActivity.class));
                 return;
             case Settings:
-                startActivity(new Intent(this, PreferenceActivity.class));
+                if(Build.VERSION.SDK_INT >= 11) {
+                    startActivity(new Intent(this, PreferenceActivity.class));
+                }
+                else {
+                    startActivity(new Intent(this, PreferenceDeprecatedActivity.class));
+                }
                 return;
             default:
                 return;

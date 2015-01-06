@@ -63,9 +63,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-
         <activity
             android:name=".PreferenceActivity"
+            android:label="@string/settings"
+            android:configChanges="orientation|screenSize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".PreferenceDeprecatedActivity"
             android:label="@string/settings"
             android:configChanges="orientation|screenSize">
             <meta-data

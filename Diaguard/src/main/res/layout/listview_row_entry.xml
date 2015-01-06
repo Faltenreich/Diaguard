@@ -15,8 +15,8 @@
     <TextView android:id="@+id/time"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:layout_marginRight="@dimen/margin_between"
-        android:layout_marginEnd="@dimen/margin_between"
+        android:layout_marginRight="@dimen/padding_end"
+        android:layout_marginEnd="@dimen/padding_end"
         android:textColor="@color/green"/>
 
     <LinearLayout android:id="@+id/values"

@@ -30,7 +30,7 @@ public class LogEndlessAdapter extends EndlessAdapter implements PinnedSectionLi
     private static final int VIEW_TYPE_ENTRY = 1;
 
     DatabaseDataSource dataSource;
-    private List<ListItem> listItems;
+    private List<ListItem> itemCache;
     private DateTime currentDay;
 
     int currentVisibleItemCount = 0;
@@ -44,7 +44,7 @@ public class LogEndlessAdapter extends EndlessAdapter implements PinnedSectionLi
         super(new LogBaseAdapter(context));
 
         this.dataSource = new DatabaseDataSource(context);
-        this.listItems = new ArrayList<ListItem>();
+        this.itemCache = new ArrayList<ListItem>();
 
         dataSource.open();
         totalItems = dataSource.count(DatabaseHelper.ENTRY);
@@ -57,7 +57,6 @@ public class LogEndlessAdapter extends EndlessAdapter implements PinnedSectionLi
         rotate.setDuration(600);
         rotate.setRepeatMode(Animation.RESTART);
         rotate.setRepeatCount(Animation.INFINITE);
-
     }
 
     @Override
@@ -92,24 +91,24 @@ public class LogEndlessAdapter extends EndlessAdapter implements PinnedSectionLi
 
     @Override
     protected boolean cacheInBackground() throws Exception {
-        listItems = new ArrayList<ListItem>();
+        itemCache = new ArrayList<ListItem>();
         // Fetch next set of messages
         List<Entry> entries = fetchData();
         for(Entry entry : entries) {
             // Add section header before the first entry
             if (currentVisibleItemCount == 0 && entry == entries.get(0)) {
                 ListSection listSection = new ListSection(Helper.getDateFormat().print(entry.getDate()));
-                this.listItems.add(listSection);
+                this.itemCache.add(listSection);
                 currentDay = entry.getDate();
             }
             // Add section header for a new day
             else if(!entry.getDate().withTimeAtStartOfDay().isEqual(currentDay.withTimeAtStartOfDay())) {
                 ListSection listSection = new ListSection(Helper.getDateFormat().print(entry.getDate()));
-                listItems.add(listSection);
+                itemCache.add(listSection);
                 currentDay = entry.getDate();
             }
             ListEntry listEntry = new ListEntry(entry);
-            listItems.add(listEntry);
+            itemCache.add(listEntry);
         }
         currentVisibleItemCount += entries.size();
 
@@ -119,12 +118,13 @@ public class LogEndlessAdapter extends EndlessAdapter implements PinnedSectionLi
 
     @Override
     protected void appendCachedData() {
-        ((LogBaseAdapter)getWrappedAdapter()).listItems.addAll(listItems);
+        ((LogBaseAdapter)getWrappedAdapter()).items.addAll(itemCache);
     }
 
     void startProgressAnimation() {
-        if (pendingView != null)
+        if (pendingView != null) {
             pendingView.startAnimation(rotate);
+        }
     }
 
     @Override
@@ -142,12 +142,12 @@ public class LogEndlessAdapter extends EndlessAdapter implements PinnedSectionLi
         LogBaseAdapter messageBaseAdapter = (LogBaseAdapter) getWrappedAdapter();
 
         if(messageBaseAdapter == null ||
-                messageBaseAdapter.listItems == null ||
-                messageBaseAdapter.listItems.size() <= 0 ||
-                position >= messageBaseAdapter.listItems.size())
+                messageBaseAdapter.items == null ||
+                messageBaseAdapter.items.size() <= 0 ||
+                position >= messageBaseAdapter.items.size())
             return VIEW_TYPE_ENTRY;
 
-        ListItem listItem = messageBaseAdapter.listItems.get(position);
+        ListItem listItem = messageBaseAdapter.items.get(position);
 
         if (listItem.isSection())
             return VIEW_TYPE_SECTION;

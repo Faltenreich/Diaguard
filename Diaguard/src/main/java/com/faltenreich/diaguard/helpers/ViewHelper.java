@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.helpers;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -14,9 +15,6 @@ import com.faltenreich.diaguard.database.Model;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.listeners.ActionClickListener;
-
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
 
 /**
  * Created by Filip on 10.12.13.
@@ -30,15 +28,10 @@ public class ViewHelper {
     }
 
     public static void showAlert(Activity activity, String text) {
-        Crouton.makeText(activity, text, Style.ALERT).show();
-    }
-
-    public static void showInfo(Activity activity, String text) {
-        Crouton.makeText(activity, text, Style.INFO).show();
-    }
-
-    public static void showConfirmation(Activity activity, String text) {
-        Crouton.makeText(activity, text, Style.CONFIRM).show();
+        SnackbarManager.show(Snackbar.with(activity)
+                .text(text)
+                .color(activity.getResources().getColor(R.color.red))
+                .textColor(Color.WHITE));
     }
 
     public static void showSnackbar(Activity activity, String text) {

@@ -28,8 +28,6 @@ import com.faltenreich.diaguard.fragments.MainFragment;
 import com.faltenreich.diaguard.fragments.TimelineFragment;
 import com.faltenreich.diaguard.helpers.ViewHelper;
 
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-
 public class MainActivity extends ActionBarActivity implements EntryListFragment.CallbackList {
 
     public static final int REQUEST_EVENT_CREATED = 1;
@@ -207,12 +205,6 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
         transaction.replace(R.id.container, fragment, fragmentType.toString());
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         transaction.commit();
-    }
-
-    @Override
-    protected void onDestroy () {
-        super.onDestroy();
-        Crouton.cancelAllCroutons();
     }
 
     @Override

@@ -14,14 +14,66 @@ import com.faltenreich.diaguard.adapters.ListEntry;
 import com.faltenreich.diaguard.adapters.ListItem;
 import com.faltenreich.diaguard.adapters.LogEndlessAdapter;
 import com.faltenreich.diaguard.adapters.PinnedSectionListView;
-import com.faltenreich.diaguard.database.Measurement;
-import com.faltenreich.diaguard.helpers.PreferenceHelper;
+import com.faltenreich.diaguard.database.DatabaseDataSource;
+import com.faltenreich.diaguard.database.Entry;
 
-/**
- * A simple {@link android.support.v4.app.Fragment} subclass.
- *
- */
 public class EntryListFragment extends ListFragment {
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_entry_list, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        // Restore the previously serialized activated item position
+        if (savedInstanceState != null && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
+            setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initializeListView();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        initializeListView();
+    }
+
+    @Override
+    public void onListItemClick(ListView listView, View view, int position, long id) {
+        super.onListItemClick(listView, view, position, id);
+        ListItem listItem = (ListItem)getListView().getAdapter().getItem(position);
+        if(!listItem.isSection()) {
+            ListEntry listEntry = (ListEntry) getListView().getAdapter().getItem(position);
+            callbackList.onItemSelected(listEntry.getEntry().getId());
+        }
+    }
+
+    private void initializeListView() {
+        LogEndlessAdapter adapter = new LogEndlessAdapter(getActivity());
+        getListView().setAdapter(adapter);
+        getListView().setEmptyView(getView().findViewById(R.id.listViewEventsEmpty));
+        ((PinnedSectionListView)getListView()).setShadowVisible(false);
+    }
+
+    private void updateListView() {
+        DatabaseDataSource dataSource = new DatabaseDataSource(getActivity());
+        dataSource.open();
+        for(int position = 0; position < getListAdapter().getCount(); position++) {
+            // TODO: Wrong This is only the Wrapped adapter!
+            ListItem listItem = (ListItem) getListAdapter().getItem(position);
+            if(listItem instanceof ListEntry) {
+                Entry entry = ((ListEntry) listItem).getEntry();
+            }
+        }
+        dataSource.close();
+    }
 
     // region Callbacks
 
@@ -86,62 +138,5 @@ public class EntryListFragment extends ListFragment {
         activatedPosition = position;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_entry_list, container, false);
-    }
-
-    @Override
-    public void onActivityCreated (Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        initialize();
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        // Restore the previously serialized activated item position.
-        if (savedInstanceState != null
-                && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
-            setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateListView();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        updateListView();
-    }
-
-    public void initialize() {
-        PreferenceHelper preferenceHelper = new PreferenceHelper(getActivity());
-        Measurement.Category[] categories = Measurement.Category.values();
-        boolean[] checkedCategories = new boolean[categories.length];
-        for(int item = 0; item < categories.length; item++) {
-            checkedCategories[item] = preferenceHelper.isCategoryActive(categories[item]);
-        }
-    }
-
-    @Override
-    public void onListItemClick(ListView listView, View view, int position, long id) {
-        super.onListItemClick(listView, view, position, id);
-        ListItem listItem = (ListItem)getListView().getAdapter().getItem(position);
-        if(!listItem.isSection()) {
-            ListEntry listEntry = (ListEntry) getListView().getAdapter().getItem(position);
-            callbackList.onItemSelected(listEntry.getEntry().getId());
-        }
-    }
-
-    private void updateListView() {
-        LogEndlessAdapter adapter = new LogEndlessAdapter(getActivity());
-        getListView().setAdapter(adapter);
-        getListView().setEmptyView(getView().findViewById(R.id.listViewEventsEmpty));
-        ((PinnedSectionListView)getListView()).setShadowVisible(false);
-    }
+    // endregion
 }

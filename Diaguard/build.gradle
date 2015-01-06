@@ -30,9 +30,6 @@ dependencies {
 
     compile 'net.danlew:android.joda:2.4.0'
     compile 'com.nispok:snackbar:2.7.3'
-    compile('de.keyboardsurfer.android.widget:crouton:1.8.4@aar') {
-        exclude group: 'com.google.android', module: 'support-v4'
-    }
     compile 'com.commonsware.cwac:endless:1.2.3'
 
     compile files('libs/achartengine-1.2.0.jar')

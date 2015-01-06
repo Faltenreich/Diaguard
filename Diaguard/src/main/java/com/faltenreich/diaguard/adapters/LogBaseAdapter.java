@@ -36,14 +36,14 @@ public class LogBaseAdapter extends BaseAdapter {
     private Context context;
     private PreferenceHelper preferenceHelper;
 
-    public List<ListItem> listItems;
+    public List<ListItem> items;
     private HashMap<String, Integer> imageResources;
 
     public LogBaseAdapter(Context context){
         this.context = context;
         this.preferenceHelper = new PreferenceHelper(context);
 
-        this.listItems = new ArrayList<ListItem>();
+        this.items = new ArrayList<ListItem>();
 
         // Pre-load image resources
         imageResources = new HashMap<String, Integer>();
@@ -56,11 +56,11 @@ public class LogBaseAdapter extends BaseAdapter {
     }
 
     public int getCount() {
-        return listItems.size();
+        return items.size();
     }
 
     public ListItem getItem(int position) {
-        return listItems.get(position);
+        return items.get(position);
     }
 
     public long getItemId(int position) {
@@ -69,7 +69,7 @@ public class LogBaseAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ListItem listItem = listItems.get(position);
+        ListItem listItem = items.get(position);
         if(listItem != null) {
             ViewHolderEntry viewHolderEntry;
             ViewHolderSection viewHolderSection;

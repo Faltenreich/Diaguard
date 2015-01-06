@@ -46,7 +46,7 @@ public class CleanUpPreference extends DialogPreference {
                 DatabaseHelper.DATE + "<=DateTime(?)", new String[]{ dateString });
         dataSource.close();
 
-        ViewHelper.showInfo(activity, count + " " +
+        ViewHelper.showSnackbar(activity, count + " " +
                 activity.getResources().getString(R.string.pref_data_cleanup_return));
     }
 

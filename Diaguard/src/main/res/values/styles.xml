@@ -1,36 +1,32 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light">
-        <item name="actionBarStyle">@style/ActionBarTheme</item>
-        <item name="homeAsUpIndicator">@drawable/ic_up</item>
-        <item name="actionBarTabStyle">@style/ActionBarTabStyle</item>
+        <item name="windowActionBar">false</item>
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/green_highlight</item>
         <item name="colorAccent">@color/green</item>
         <item name="elevation">0dp</item>
+        <item name="drawerArrowStyle">@style/NavigationDrawerArrowStyle</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowAllowEnterTransitionOverlap">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap">true</item>
+        <item name="android:windowSharedElementEnterTransition">@android:transition/move</item>
+        <item name="android:windowSharedElementExitTransition">@android:transition/move</item>
     </style>
 
-    <style name="ActionBarTheme" parent="@style/Widget.AppCompat.ActionBar">
-        <item name="background">@color/green</item>
-        <item name="icon">@drawable/ic_home</item>
-        <item name="titleTextStyle">@style/ActionBarTitleText</item>
-        <item name="subtitleTextStyle">@style/ActionBarSubtitleText</item>
+    <style name="NavigationDrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@android:color/white</item>
     </style>
 
-    <style name="ActionBarTabStyle"
-        parent="@style/Widget.AppCompat.ActionBar.TabView">
-        <item name="android:background">@drawable/tab_indicator</item>
-        <item name="background">@drawable/tab_indicator</item>
-    </style>
-
-    <style name="ActionBarTitleText"
-        parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textColor">@android:color/white</item>
-    </style>
-
-    <style name="ActionBarSubtitleText"
-        parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle">
-        <item name="android:textColor">@android:color/white</item>
+    <style name="NavigationDrawer">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">@dimen/navigation_drawer_width</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="android:choiceMode">singleChoice</item>
+        <item name="android:divider">@android:color/transparent</item>
+        <item name="android:dividerHeight">0dp</item>
+        <item name="android:layout_gravity">start</item>
     </style>
     
     <style name="Padding">

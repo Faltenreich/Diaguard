@@ -1,27 +1,30 @@
 package com.faltenreich.diaguard;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
+import com.faltenreich.diaguard.adapters.DrawerListViewAdapter;
 import com.faltenreich.diaguard.fragments.EntryDetailFragment;
 import com.faltenreich.diaguard.fragments.EntryListFragment;
 import com.faltenreich.diaguard.fragments.LogFragment;
 import com.faltenreich.diaguard.fragments.MainFragment;
 import com.faltenreich.diaguard.fragments.TimelineFragment;
 import com.faltenreich.diaguard.helpers.ViewHelper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
@@ -32,27 +35,170 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
     public static final String ENTRY_CREATED = "ENTRY_CREATED";
     public static final String ENTRY_DELETED = "ENTRY_DELETED";
 
-    private ViewPager viewPager;
+    public enum FragmentType {
+        Home,
+        Timeline,
+        Log,
+        Calculator,
+        Export,
+        Settings
+    }
+
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle drawerToggle;
+    private ListView drawerList;
+    private android.support.v7.widget.Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         // TODO: Put in DiaguardApplication.java (needs Activity?)
         PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
-        initializeGUI();
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerList = (ListView) findViewById(R.id.drawer);
+        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+
+        drawerToggle = new ActionBarDrawerToggle(
+                this,
+                drawerLayout,
+                toolbar,
+                R.string.open,
+                R.string.close) {
+            public void onDrawerClosed(View view)
+            {
+                super.onDrawerClosed(view);
+                invalidateOptionsMenu();
+                syncState();
+            }
+            public void onDrawerOpened(View drawerView)
+            {
+                super.onDrawerOpened(drawerView);
+                invalidateOptionsMenu();
+                syncState();
+            }
+        };
+        drawerLayout.setDrawerListener(drawerToggle);
+
+        if (toolbar != null){
+            setSupportActionBar(toolbar);
+        }
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        drawerToggle.syncState();
+
+        String[] menuItems = new String[] {
+                getString(R.string.home),
+                getString(R.string.timeline),
+                getString(R.string.log),
+                getString(R.string.export),
+                getString(R.string.calculator),
+                getString(R.string.settings) };
+        int[] menuImages = new int[] {
+                R.drawable.home,
+                R.drawable.timeline,
+                R.drawable.log };
+        DrawerListViewAdapter adapter = new DrawerListViewAdapter(this, menuItems, menuImages);
+        drawerList.setAdapter(adapter);
+        drawerList.setOnItemClickListener(new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                replaceFragment(FragmentType.values()[position]);
+                drawerLayout.closeDrawer(drawerList);
+            }
+        });
+
+        // Initialize
+        replaceFragment(FragmentType.Home);
+    }
+
+    /**
+     * Open a new Fragment
+     * @param fragmentType Enum to detect the specific Fragment to open
+     */
+    public void replaceFragment(FragmentType fragmentType) {
+        int fragmentCount = ((DrawerListViewAdapter)drawerList.getAdapter()).fragmentCount;
+
+        // Highlighting
+        if(drawerList != null && drawerList.getChildCount() > 0 && fragmentType.ordinal() < fragmentCount) {
+
+            // De-highlight every item
+            for (int fragmentTypePosition = 0; fragmentTypePosition < fragmentCount; fragmentTypePosition++) {
+                View v = drawerList.getChildAt(fragmentTypePosition);
+                if(v != null) {
+                    TextView textViewListItem = (TextView) v.findViewById(R.id.title);
+                    if (textViewListItem != null) {
+                        textViewListItem.setTypeface(null, Typeface.NORMAL);
+                        textViewListItem.setTextColor(getResources().getColor(android.R.color.black));
+                    }
+                    ImageView imageView = (ImageView) v.findViewById(R.id.icon);
+                    int resourceId = getResources().getIdentifier(
+                            FragmentType.values()[fragmentTypePosition].name().toLowerCase(),
+                            "drawable", getPackageName());
+                    if(resourceId > 0) {
+                        imageView.setImageDrawable(getResources().getDrawable(resourceId));
+                    }
+                }
+            }
+
+            // Highlight selected item
+            View view = drawerList.getChildAt(fragmentType.ordinal());
+            TextView selectedChild = (TextView) view.findViewById(R.id.title);
+            if (selectedChild != null) {
+                selectedChild.setTypeface(null, Typeface.BOLD);
+                selectedChild.setTextColor(getResources().getColor(R.color.green));
+            }
+            ImageView imageView = (ImageView) view.findViewById(R.id.icon);
+            if(imageView != null) {
+                int resourceId = getResources().getIdentifier(fragmentType.name().toLowerCase() +
+                        "_active", "drawable", getPackageName());
+                if(resourceId > 0) {
+                    imageView.setImageDrawable(getResources().getDrawable(resourceId));
+                }
+            }
+        }
+
+        // Do nothing if the user wants to reopen the current visible Fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = fragmentManager.findFragmentByTag(fragmentType.toString());
+        if(fragment != null && fragment.isVisible())
+            return;
+
+        switch (fragmentType) {
+            case Home:
+                fragment = new MainFragment();
+                break;
+            case Timeline:
+                fragment = new TimelineFragment();
+                break;
+            case Log:
+                fragment = new LogFragment();
+                break;
+            case Calculator:
+                startActivity(new Intent(this, CalculatorActivity.class));
+                return;
+            case Export:
+                startActivity(new Intent(this, ExportActivity.class));
+                return;
+            case Settings:
+                startActivity(new Intent(this, PreferenceActivity.class));
+                return;
+            default:
+                return;
+        }
+
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.container, fragment, fragmentType.toString());
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        transaction.commit();
     }
 
     @Override
     protected void onDestroy () {
         super.onDestroy();
         Crouton.cancelAllCroutons();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
     }
 
     @Override
@@ -71,90 +217,20 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
         }
     }
 
-    private void initializeGUI() {
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()));
-        viewPager.setOnPageChangeListener(
-            new ViewPager.SimpleOnPageChangeListener() {
-                @Override
-                public void onPageSelected(int position) {
-                    getSupportActionBar().setSelectedNavigationItem(position);
-                }
-            }
-        );
-
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        ActionBar.TabListener tabListener = new ActionBar.TabListener() {
-            @Override
-            public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
-            @Override
-            public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-            }
-            @Override
-            public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-            }
-        };
-        for (int position = 0; position < viewPager.getAdapter().getCount(); position++) {
-            actionBar.addTab(actionBar.newTab()
-                    .setText(viewPager.getAdapter().getPageTitle(position))
-                    .setTabListener(tabListener));
-        }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_calculator:
-                startActivity(new Intent(this, CalculatorActivity.class));
-                return true;
-            case R.id.action_export:
-                startActivity(new Intent(this, ExportActivity.class));
-                return true;
-            case R.id.action_settings:
-                startActivity(new Intent(this, PreferenceActivity.class));
-                return true;
             case R.id.action_newevent:
                 startActivityForResult(new Intent(this, NewEventActivity.class), MainActivity.REQUEST_EVENT_CREATED);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private class FragmentPagerAdapter extends FragmentStatePagerAdapter {
-        List<Fragment> fragments;
-        int[] fragmentNameIds;
-
-        public FragmentPagerAdapter(FragmentManager fm) {
-            super(fm);
-            fragments = new ArrayList<Fragment>();
-            fragments.add(new MainFragment());
-            fragments.add(new TimelineFragment());
-            fragments.add(new LogFragment());
-
-            // TODO: Skip manual setting
-            fragmentNameIds = new int[fragments.size()];
-            fragmentNameIds[0] = R.string.home;
-            fragmentNameIds[1] = R.string.timeline;
-            fragmentNameIds[2] = R.string.log;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return fragments.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return fragments.size();
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return getString(fragmentNameIds[position]);
         }
     }
 

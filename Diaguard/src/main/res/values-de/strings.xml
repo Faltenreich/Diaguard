@@ -25,6 +25,7 @@
     <string name="categories_active">Aktive Kategorien</string>
     <string name="cleanup">Aufräumen</string>
     <string name="cleanup_desc">Dies wird alle Einträge am und vor dem gewählten Datum dauerhaft löschen.</string>
+    <string name="close">Schließen</string>
     <string name="contact">Kontakt</string>
     <string name="correction">Korrekturwert</string>
     <string name="data">Daten</string>
@@ -65,6 +66,7 @@
     <string name="newevent_desc">Messwerte hinzufügen</string>
     <string name="note">Notiz</string>
     <string name="ok">OK</string>
+    <string name="open">Öffnen</string>
     <string name="pulse">Puls</string>
     <string name="recently">Kürzlich</string>
     <string name="remove">Entfernen</string>

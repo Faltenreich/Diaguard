@@ -51,7 +51,6 @@ public class CalculatorActivity extends ActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calculator);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(getString(R.string.calculator));
         initialize();
     }

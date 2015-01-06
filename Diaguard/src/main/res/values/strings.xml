@@ -33,6 +33,7 @@
     <string name="categories_active">Active Categories</string>
     <string name="cleanup">Clean Up</string>
     <string name="cleanup_desc">This will permanently delete all data on and before the chosen date.</string>
+    <string name="close">Close</string>
     <string name="contact">Contact</string>
     <string name="correction">Correction value</string>
     <string name="data">Data</string>
@@ -79,6 +80,7 @@
     <string name="newevent_desc">Add measurements</string>
     <string name="note">Note</string>
     <string name="ok">OK</string>
+    <string name="open">Open</string>
     <string name="placeholder">-</string>
     <string name="pulse">Pulse</string>
     <string name="recently">Recently</string>

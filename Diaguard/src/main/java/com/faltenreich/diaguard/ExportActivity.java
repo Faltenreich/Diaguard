@@ -45,7 +45,6 @@ public class ExportActivity extends ActionBarActivity implements IFileListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_export);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(getString(R.string.export));
         initialize();
     }

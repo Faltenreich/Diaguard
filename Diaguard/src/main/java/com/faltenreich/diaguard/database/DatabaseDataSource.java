@@ -201,8 +201,10 @@ public class DatabaseDataSource {
                         " ORDER BY " + DatabaseHelper.ENTRY + "." + DatabaseHelper.DATE +
                         " DESC LIMIT 1";
         Cursor cursor = db.rawQuery(query, null);
-        cursor.moveToFirst();
-        Entry entry = getEntryWithMeasurement(cursor);
+        Entry entry = null;
+        if(cursor.moveToFirst()) {
+            entry = getEntryWithMeasurement(cursor);
+        }
         cursor.close();
         return entry;
     }

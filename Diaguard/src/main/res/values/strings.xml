@@ -14,12 +14,14 @@
     <string name="app_version">1.2</string>
 
     <!-- GENERAL -->
+
     <string name="about">About</string>
     <string name="activity">Activity</string>
     <string name="add_value">Add value</string>
     <string name="add_value_desc">Choose categories</string>
-    <string name="alarm">Reminder</string>
-    <string name="alarm_desc">Check your blood sugar</string>
+    <string name="alarm">Measure blood sugar</string>
+    <string name="alarm_desc">%s since the last measurement</string>
+    <string name="alarm_desc_first">Thought about yet?</string>
     <string name="application">Application</string>
     <string name="average">Average</string>
     <string name="back">Back</string>
@@ -114,6 +116,7 @@
     </string-array>
 
     <!-- DATE -->
+
     <string name="calendarweek">Calendar week</string>
     <string name="dateend">End date</string>
     <string name="dateformat">Date Format</string>
@@ -178,12 +181,14 @@
     </string-array>
 
     <!-- EXPORT -->
+
     <string-array name="formats">
         <item>PDF</item>
         <item>CSV</item>
     </string-array>
 
     <!-- CATEGORIES -->
+
     <string-array name="categories">
         <item>Blood Sugar</item>
         <item>Bolus</item>
@@ -308,6 +313,7 @@
     </integer-array>
 
     <!-- VALIDATORS -->
+
     <string name="validator_value_number">Only numbers are allowed</string>
     <string name="validator_value_infuture">Event cannot take place in the future</string>
     <string name="validator_value_empty">Please enter a value</string>
@@ -319,12 +325,14 @@
     <string name="confirmation_exit_desc">This will discard all entered data</string>
 
     <!-- ERRORS -->
+
     <string name="error_no_mail">No app found to send E-Mail</string>
     <string name="error_no_app">No app found to open file</string>
     <string name="error_sd_card">SD card not available</string>
     <string name="error_no_backups">No backups found at</string>
 
     <!-- SETTINGS -->
+
     <string name="pref_therapy_targets">Target values</string>
     <string name="pref_therapy_targets_target">Target value</string>
     <string name="pref_therapy_targets_target_default">120.0</string>
@@ -341,18 +349,20 @@
 
     <string name="pref_data_backup_message">Restore old data with a local backup file.
         Decide whether you want to keep existing data or create a completely new database.</string>
-    <string name="pref_data_backup_finished">Backup will be created</string>
+    <string name="pref_data_backup_finished">Backup will be created &#8230;</string>
     <string name="pref_data_backup_clearexisting">Clear existing data?</string>
     <string-array name="backup_actions">
         <item>Create backup</item>
         <item>Restore backup</item>
     </string-array>
-    <string name="pref_data_backup_import">Backup is being restored</string>
+    <string name="pref_data_backup_import">Backup is being restored &#8230;</string>
 
     <string name="pref_data_export_message">Every export will be stored locally on your SD card and can be sent via E-Mail, too.</string>
     <string name="pref_data_export_finished">Data will be stored on SD card</string>
     <string name="pref_data_export_mail_message">My data as attachment sent from Diaguard</string>
 
+    <!-- LICENSING
+     -->
     <string name="license_apache">
         Licensed under the Apache License, Version 2.0 (the "License");
         you may not use this file except in compliance with the License.

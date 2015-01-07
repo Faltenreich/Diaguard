@@ -8,8 +8,9 @@
     <string name="activity">Aktivität</string>
     <string name="add_value">Wert hinzufügen</string>
     <string name="add_value_desc">Kategorien wählen</string>
-    <string name="alarm">Erinnerung</string>
-    <string name="alarm_desc">Blutzucker messen</string>
+    <string name="alarm">Blutzucker messen</string>
+    <string name="alarm_desc">%s seit der letzten Messung</string>
+    <string name="alarm_desc_first">Schon dran gedacht?</string>
     <string name="application">Anwendung</string>
     <string name="average">Durchschnitt</string>
     <string name="back">Zurück</string>
@@ -230,13 +231,13 @@
 
     <string name="pref_data_backup_message">Stellen Sie Daten mithilfe einer lokalen Sicherung wieder her.
         Entscheiden Sie, ob die Sicherung in eine bestehende Datenbank eingepflegt oder ob diese komplett neu aufgesetzt werden soll.</string>
-    <string name="pref_data_backup_finished">Sicherung wird angelegt</string>
+    <string name="pref_data_backup_finished">Sicherung wird angelegt &#8230;</string>
     <string name="pref_data_backup_clearexisting">Bestehende Daten löschen?</string>
     <string-array name="backup_actions">
         <item>Sicherung anlegen</item>
         <item>Sicherung wiederherstellen</item>
     </string-array>
-    <string name="pref_data_backup_import">Sicherung wird eingespielt</string>
+    <string name="pref_data_backup_import">Sicherung wird eingespielt &#8230;</string>
 
     <string name="pref_data_export_message">Jeder Export wird lokal auf Ihrer Speicherkarte abgelegt und kann zusätzlich via E-Mail versendet werden.</string>
     <string name="pref_data_export_finished">Daten werden auf SD Karte exportiert</string>

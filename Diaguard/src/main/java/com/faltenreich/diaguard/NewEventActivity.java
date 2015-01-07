@@ -1,10 +1,7 @@
 package com.faltenreich.diaguard;
 
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,7 +29,6 @@ import com.faltenreich.diaguard.database.Measurement;
 import com.faltenreich.diaguard.database.Model;
 import com.faltenreich.diaguard.fragments.DatePickerFragment;
 import com.faltenreich.diaguard.fragments.TimePickerFragment;
-import com.faltenreich.diaguard.helpers.AlarmManagerBroadcastReceiver;
 import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.faltenreich.diaguard.helpers.Validator;
@@ -295,7 +291,7 @@ public class NewEventActivity extends ActionBarActivity {
             dataSource.close();
 
             if(alarmIntervalInMinutes > 0) {
-                setAlarm(alarmIntervalInMinutes);
+                Helper.setAlarm(this, alarmIntervalInMinutes);
             }
 
             // Tell MainActivity that Events have been created
@@ -354,15 +350,6 @@ public class NewEventActivity extends ActionBarActivity {
             AlertDialog dialog = builder.create();
             dialog.show();
         }
-    }
-
-    private void setAlarm(int intervalInMinutes) {
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlarmManagerBroadcastReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-        alarmManager.set(AlarmManager.RTC_WAKEUP,
-                System.currentTimeMillis() + 1000 * 60 * intervalInMinutes,
-                pendingIntent);
     }
 
     // LISTENERS

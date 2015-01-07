@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.helpers;
 
+import android.app.AlarmManager;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -105,8 +107,24 @@ public class Helper {
         return stringBuilder.toString();
     }
 
+    public static void setAlarm(Context context, int intervalInMinutes) {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, AlarmManagerBroadcastReceiver.ALARM_ID, intent, 0);
+        alarmManager.set(AlarmManager.RTC_WAKEUP,
+                System.currentTimeMillis() + 1000 * 60 * intervalInMinutes,
+                pendingIntent);
+    }
+
+    public static void stopAlarm(Context context) {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, AlarmManagerBroadcastReceiver.ALARM_ID, intent, 0);
+        alarmManager.cancel(pendingIntent);
+    }
+
     public static void vibrate(Context context, int timeInMilliseconds) {
-        Vibrator vibrator = (Vibrator) context.getSystemService(context.VIBRATOR_SERVICE);
+        Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         vibrator.vibrate(timeInMilliseconds);
     }
 
@@ -122,30 +140,29 @@ public class Helper {
         {
             e.printStackTrace();
         }
-        catch (IllegalStateException e)
-        {
-            e.printStackTrace();
-        }
     }
 
-    public static void notify(Context context, int resourceId) {
-        NotificationCompat.Builder mBuilder =
+    public static void notify(Context context, String message) {
+        NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.ic_launcher)
-                        .setContentTitle(context.getString(R.string.app_name))
-                        .setContentText(context.getString(resourceId));
+                        .setContentTitle(context.getString(R.string.alarm))
+                        .setContentText(message);
         Intent resultIntent = new Intent(context, NewEventActivity.class);
 
+        // Put target activity on back stack on top of its parent to guarantee correct back navigation
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addParentStack(NewEventActivity.class);
         stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-        mBuilder.setContentIntent(resultPendingIntent);
+        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(pendingIntent);
 
-        NotificationManager mNotificationManager =
+        // Notification will dismiss when be clicked on
+        Notification notification = builder.build();
+        notification.flags = Notification.DEFAULT_LIGHTS | Notification.FLAG_AUTO_CANCEL;
+
+        NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        // TODO: Set ID for every alarm?
-        mNotificationManager.notify(0, mBuilder.build());
+        notificationManager.notify(AlarmManagerBroadcastReceiver.ALARM_ID, notification);
     }
 }

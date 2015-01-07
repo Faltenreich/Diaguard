@@ -6,146 +6,244 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        style="@style/Padding">
 
         <!-- Latest Blood Sugar -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            style="@style/Padding">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="bottom">
-
-                <TextView android:id="@+id/textview_latest_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/BoxText"
-                    android:text="@string/first_visit"
-                    android:textSize="60sp"/>
-
-                <TextView android:id="@+id/textview_latest_unit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_between"
-                    android:layout_marginStart="@dimen/margin_between"
-                    android:lines="1"
-                    android:textColor="@color/gray_dk"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView android:id="@+id/textview_latest_time"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:textColor="@color/gray_dk"/>
-
-                <TextView android:id="@+id/textview_latest_ago"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/first_visit_desc"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <!-- Today -->
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            card_view:cardCornerRadius="4dp"
-            card_view:cardElevation="4dp">
+            card_view:cardElevation="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:gravity="center"
                 style="@style/Padding">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/today"
-                    android:textColor="@color/green"
-                    android:textStyle="bold"/>
+                    android:orientation="horizontal">
 
-                <TableLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    <TextView android:id="@+id/textview_latest_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/BoxText"
+                        android:text="@string/first_visit"
+                        android:textSize="60sp"/>
 
-                    <TableRow style="@style/BoxRow">
+                    <TextView android:id="@+id/textview_latest_unit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_between"
+                        android:layout_marginStart="@dimen/margin_between"
+                        android:lines="1"
+                        android:textColor="@color/gray_dk"/>
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/measurements"/>
+                </LinearLayout>
 
-                        <TextView android:id="@+id/textview_measurements"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="end"
-                            android:text="0"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/margin_between">
 
-                    </TableRow>
+                    <TextView android:id="@+id/textview_latest_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:textColor="@color/gray_dk"/>
 
-                    <TableRow style="@style/BoxRow">
+                    <TextView android:id="@+id/textview_latest_ago"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/first_visit_desc"/>
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/hyper"/>
-
-                        <TextView android:id="@+id/textview_hyperglycemia"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="end"
-                            android:text="0"/>
-
-                    </TableRow>
-
-                    <TableRow style="@style/BoxRow">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/hypo"/>
-
-                        <TextView android:id="@+id/textview_hypoglycemia"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="end"
-                            android:text="0"/>
-
-                    </TableRow>
-
-                </TableLayout>
+                </LinearLayout>
 
             </LinearLayout>
 
         </android.support.v7.widget.CardView>
 
-        <!-- Averages -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Today -->
+            <android.support.v7.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                card_view:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    style="@style/Padding">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/today"
+                        android:textColor="@color/green"
+                        android:textStyle="bold"
+                        style="@style/BoxRow"/>
+
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TableRow style="@style/BoxRow">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="3"
+                                android:text="@string/measurements"/>
+
+                            <TextView android:id="@+id/textview_measurements"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:text="0"/>
+
+                        </TableRow>
+
+                        <TableRow style="@style/BoxRow">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="3"
+                                android:text="@string/hyper"/>
+
+                            <TextView android:id="@+id/textview_hyperglycemia"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:text="0"/>
+
+                        </TableRow>
+
+                        <TableRow style="@style/BoxRow">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="3"
+                                android:text="@string/hypo"/>
+
+                            <TextView android:id="@+id/textview_hypoglycemia"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:text="0"/>
+
+                        </TableRow>
+
+                    </TableLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <!-- Averages -->
+            <android.support.v7.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                card_view:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    style="@style/Padding">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/average"
+                        android:textColor="@color/green"
+                        android:textStyle="bold"
+                        style="@style/BoxRow"/>
+
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TableRow style="@style/BoxRow">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="3"
+                                android:text="@string/last_24hours"/>
+
+                            <TextView android:id="@+id/textview_avg_day"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:text="@string/placeholder"/>
+
+                        </TableRow>
+
+                        <TableRow style="@style/BoxRow">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="3"
+                                android:text="@string/last_7days"/>
+
+                            <TextView android:id="@+id/textview_avg_week"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:text="@string/placeholder"/>
+
+                        </TableRow>
+
+                        <TableRow style="@style/BoxRow">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="3"
+                                android:text="@string/last_30days"/>
+
+                            <TextView android:id="@+id/textview_avg_month"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:text="@string/placeholder"/>
+
+                        </TableRow>
+
+                    </TableLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+        <!-- Trend -->
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            card_view:cardCornerRadius="4dp"
-            card_view:cardElevation="4dp">
+            card_view:cardElevation="2dp"
+            android:layout_marginTop="@dimen/margin_between">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -154,68 +252,17 @@
                 style="@style/Padding">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/average"
-                    android:textColor="@color/green"
-                    android:textStyle="bold"/>
-
-                <TableLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:text="@string/trend"
+                    android:textColor="@color/green"
+                    android:textStyle="bold"
+                    style="@style/BoxRow"/>
 
-                    <TableRow style="@style/BoxRow">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/last_30days"/>
-
-                        <TextView android:id="@+id/textview_avg_month"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="end"
-                            android:text="@string/placeholder"/>
-
-                    </TableRow>
-
-                    <TableRow style="@style/BoxRow">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/last_7days"/>
-
-                        <TextView android:id="@+id/textview_avg_week"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="end"
-                            android:text="@string/placeholder"/>
-
-                    </TableRow>
-
-                    <TableRow style="@style/BoxRow">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/last_24hours"/>
-
-                        <TextView android:id="@+id/textview_avg_day"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="end"
-                            android:text="@string/placeholder"/>
-
-                    </TableRow>
-
-                </TableLayout>
+                <LinearLayout android:id="@+id/chart"
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 

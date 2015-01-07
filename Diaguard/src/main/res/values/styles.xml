@@ -3,7 +3,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light">
         <item name="windowActionBar">false</item>
         <item name="colorPrimary">@color/green</item>
-        <item name="colorPrimaryDark">@color/green_lt</item>
+        <item name="colorPrimaryDark">@color/green_dk</item>
         <item name="colorAccent">@color/green</item>
         <item name="elevation">4dp</item>
         <item name="drawerArrowStyle">@style/NavigationDrawerArrowStyle</item>
@@ -54,7 +54,9 @@
         <item name="android:textSize">40sp</item>
     </style>
 
-    <style name="BoxRow" parent="Padding">
+    <style name="BoxRow">
+        <item name="android:layout_marginTop">@dimen/activity_vertical_margin</item>
+        <item name="android:layout_marginBottom">@dimen/activity_vertical_margin</item>
     </style>
 
     <style name="Image">
@@ -116,5 +118,8 @@
         <item name="android:layout_marginBottom">@dimen/padding_end</item>
     </style>
 
+    <style name="Card">
+
+    </style>
 
 </resources>

@@ -55,10 +55,8 @@
     <string name="general">Allgemein</string>
     <string name="hba1c">HbA1c</string>
     <string name="home">Übersicht</string>
-    <string name="hyper">Überzucker</string>
-    <string name="hypo">Unterzucker</string>
     <string name="latest">Vor [value] [unit]</string>
-    <string name="latest_moments">Vor kurzem</string>
+    <string name="latest_moments">Gerade eben</string>
     <string name="licenses">Open-Source-Lizenzen</string>
     <string name="listview_empty">Keine Einträge vorhanden</string>
     <string name="log">Protokoll</string>
@@ -135,9 +133,9 @@
         <item>In 8 Stunden</item>
     </string-array>
 
-    <string name="last_24hours">Letzte 24 Stunden</string>
-    <string name="last_7days">Letzte Woche</string>
-    <string name="last_30days">Letzter Monat</string>
+    <string name="last_24hours">Tag</string>
+    <string name="last_7days">Woche</string>
+    <string name="last_30days">Monat</string>
 
     <string name="dateformat_default">DD.MM.YYYY</string>
 

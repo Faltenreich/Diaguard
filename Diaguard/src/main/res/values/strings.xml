@@ -71,8 +71,8 @@
     <string name="hba1c">HbA1c</string>
     <string name="home">Home</string>
     <string name="homepage">Website</string>
-    <string name="hyper">Hyperglycemia</string>
-    <string name="hypo">Hypoglycemia</string>
+    <string name="hyper">Hyper</string>
+    <string name="hypo">Hypo</string>
     <string name="latest">[value] [unit] ago</string>
     <string name="latest_moments">Moments ago</string>
     <string name="licenses">Open-Source-Licenses</string>
@@ -80,7 +80,7 @@
     <string name="log">Log</string>
     <string name="mail">E-Mail</string>
     <string name="meal">Meal</string>
-    <string name="measurements">Measurements</string>
+    <string name="measurements">Measured</string>
     <string name="name">Name</string>
     <string name="newevent_desc">Add measurements</string>
     <string name="note">Note</string>
@@ -97,6 +97,7 @@
     <string name="therapy">Therapy</string>
     <string name="timeline">Timeline</string>
     <string name="today">Today</string>
+    <string name="trend">Trend</string>
     <string name="undo">Undo</string>
     <string name="units">Units</string>
     <string name="weight">Weight</string>
@@ -153,9 +154,9 @@
         <item>Night</item>
     </string-array>
 
-    <string name="last_24hours">Last 24 hours</string>
-    <string name="last_7days">Last week</string>
-    <string name="last_30days">Last month</string>
+    <string name="last_24hours">Day</string>
+    <string name="last_7days">Week</string>
+    <string name="last_30days">Month</string>
 
     <string-array name="alarm_intervals">
         <item>No reminder</item>

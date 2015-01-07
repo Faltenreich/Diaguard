@@ -1,11 +1,19 @@
 package com.faltenreich.diaguard;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.ListPreference;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import com.faltenreich.diaguard.preferences.BloodSugarPreference;
+
+import java.util.Map;
 
 /**
  * Created by Filip on 26.10.13.
@@ -42,6 +50,32 @@ public class PreferenceActivity extends ActionBarActivity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences);
+
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            sharedPreferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+                @Override
+                public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                    setSummary(key);
+                }
+            });
+
+            // Initialize summaries where making sense
+            for(Map.Entry<String, ?> entry : sharedPreferences.getAll().entrySet()) {
+                setSummary(entry.getKey());
+            }
+
+        }
+
+        private void setSummary(String key) {
+            Preference preference = findPreference(key);
+            if (preference instanceof ListPreference) {
+                ListPreference listPreference = (ListPreference) preference;
+                preference.setSummary(listPreference.getEntry());
+            }
+            else if(preference instanceof BloodSugarPreference) {
+                BloodSugarPreference bloodSugarPreference = (BloodSugarPreference) preference;
+                // TODO: preference.setSummary(bloodSugarPreference.getValue());
+            }
         }
     }
 }

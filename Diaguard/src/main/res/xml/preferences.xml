@@ -127,21 +127,24 @@
         android:title="@string/about">
 
         <Preference
-            android:title="@string/homepage">
+            android:title="@string/homepage"
+            android:summary="@string/app_homepage_short">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/app_homepage"/>
         </Preference>
 
         <Preference
-            android:title="@string/facebook">
+            android:title="@string/facebook"
+            android:summary="@string/app_facebook_url_short">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/app_facebook_url"/>
         </Preference>
 
         <Preference
-            android:title="@string/contact">
+            android:title="@string/contact"
+            android:summary="@string/app_mail_short">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/app_mail"/>

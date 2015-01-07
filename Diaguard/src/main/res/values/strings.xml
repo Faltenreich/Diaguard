@@ -6,8 +6,11 @@
     <string name="app_name">Diaguard</string>
     <string name="app_facebook">facebook.com/diaguard.de</string>
     <string name="app_facebook_url">http://www.facebook.com/diaguard.de</string>
+    <string name="app_facebook_url_short">facebook.com/diaguard.de</string>
     <string name="app_homepage">http://www.diaguard.wordpress.com</string>
+    <string name="app_homepage_short">diaguard.wordpress.com</string>
     <string name="app_mail">mailto:diaguard.de@gmail.com</string>
+    <string name="app_mail_short">diaguard.de@gmail.com</string>
     <string name="app_version">1.2</string>
 
     <!-- GENERAL -->

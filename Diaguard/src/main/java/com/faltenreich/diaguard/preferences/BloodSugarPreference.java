@@ -22,12 +22,11 @@ import com.faltenreich.diaguard.helpers.Validator;
  */
 public class BloodSugarPreference extends EditTextPreference {
 
-    Context context;
-    SharedPreferences sharedPreferences;
-    PreferenceHelper preferenceHelper;
+    private Context context;
+    private SharedPreferences sharedPreferences;
+    private PreferenceHelper preferenceHelper;
 
-    EditText editTextValue;
-    TextView textViewUnit;
+    private EditText editTextValue;
 
     public BloodSugarPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -51,7 +50,7 @@ public class BloodSugarPreference extends EditTextPreference {
         editTextValue.setText(preferenceHelper.getDecimalFormat(Measurement.Category.BloodSugar).format(value));
         editTextValue.setSelection(editTextValue.getText().length());
 
-        textViewUnit = (TextView) view.findViewById(R.id.unit);
+        TextView textViewUnit = (TextView) view.findViewById(R.id.unit);
         textViewUnit.setText(preferenceHelper.getUnitName(Measurement.Category.BloodSugar));
     }
 

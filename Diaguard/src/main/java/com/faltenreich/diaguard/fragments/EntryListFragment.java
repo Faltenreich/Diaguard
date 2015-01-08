@@ -23,6 +23,7 @@ import com.faltenreich.diaguard.adapters.PinnedSectionListView;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.Entry;
 import com.faltenreich.diaguard.helpers.Helper;
+import com.faltenreich.diaguard.helpers.ViewHelper;
 
 public class EntryListFragment extends ListFragment {
 
@@ -96,6 +97,7 @@ public class EntryListFragment extends ListFragment {
                                             LogBaseAdapter logBaseAdapter = ((LogBaseAdapter)((LogEndlessAdapter) getListView().getAdapter()).getAdapter());
                                             logBaseAdapter.items.remove(position);
                                             logBaseAdapter.notifyDataSetChanged();
+                                            ViewHelper.showSnackbar(getActivity(), getString(R.string.entry_deleted));
                                             break;
                                     }
                                 }
@@ -105,10 +107,6 @@ public class EntryListFragment extends ListFragment {
                 return true;
             }
         });
-    }
-
-    private void removeEntry(Entry entry) {
-
     }
 
     private void updateListView() {

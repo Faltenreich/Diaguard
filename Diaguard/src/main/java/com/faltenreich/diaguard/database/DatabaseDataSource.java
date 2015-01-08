@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.database;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -139,19 +138,23 @@ public class DatabaseDataSource {
     // region Read
 
     public Model get(String table, long id) {
-        String where = DatabaseHelper.ID + "=?";
-        Cursor cursor = db.query(table, null, where, new String[] { String.valueOf(id) },
+        Cursor cursor = db.query(table, null,
+                DatabaseHelper.ID + "=?",
+                new String[] { String.valueOf(id) },
                 null, null, null, null);
-        cursor.moveToFirst();
-
-        if(table.equals(DatabaseHelper.ENTRY))
-            return getEntry(cursor);
-        else if(table.equals(DatabaseHelper.MEASUREMENT))
-            return getMeasurement(cursor);
-        else if(table.equals(DatabaseHelper.FOOD))
-            return getFood(cursor);
-        else
-            throw new Resources.NotFoundException();
+        if(cursor.moveToFirst()) {
+            switch (table) {
+                case DatabaseHelper.ENTRY:
+                    return getEntry(cursor);
+                case DatabaseHelper.MEASUREMENT:
+                    return getMeasurement(cursor);
+                case DatabaseHelper.FOOD:
+                    return getFood(cursor);
+                default:
+                    return null;
+            }
+        }
+        else return null;
     }
 
     public List<Model> get(String table) {

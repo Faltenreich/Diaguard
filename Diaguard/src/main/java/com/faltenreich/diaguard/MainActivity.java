@@ -31,7 +31,6 @@ import com.faltenreich.diaguard.helpers.ViewHelper;
 public class MainActivity extends ActionBarActivity implements EntryListFragment.CallbackList {
 
     public static final int REQUEST_EVENT_CREATED = 1;
-    public static final String ENTRY = "ENTRY";
     public static final String ENTRY_CREATED = "ENTRY_CREATED";
     public static final String ENTRY_DELETED = "ENTRY_DELETED";
 
@@ -268,7 +267,7 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
             // Phone
             Intent intent = new Intent(this, EntryDetailActivity.class);
             intent.putExtra(EntryDetailFragment.ENTRY_ID, id);
-            startActivity(intent);
+            startActivityForResult(intent, MainActivity.REQUEST_EVENT_CREATED);
         }
     }
 }

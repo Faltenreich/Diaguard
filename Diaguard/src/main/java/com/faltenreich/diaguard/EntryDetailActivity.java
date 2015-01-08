@@ -14,6 +14,8 @@ import com.faltenreich.diaguard.helpers.Helper;
 
 public class EntryDetailActivity extends ActionBarActivity {
 
+    Entry entry;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,11 +34,11 @@ public class EntryDetailActivity extends ActionBarActivity {
         if (toolbar != null){
             DatabaseDataSource dataSource = new DatabaseDataSource(this);
             dataSource.open();
-            Entry entry = (Entry) dataSource.get(DatabaseHelper.ENTRY, id);
+            entry = (Entry) dataSource.get(DatabaseHelper.ENTRY, id);
             dataSource.close();
             toolbar.setTitle(
                     Helper.getDateFormat().print(entry.getDate()) + " " +
-                    Helper.getTimeFormat().print(entry.getDate()));
+                            Helper.getTimeFormat().print(entry.getDate()));
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

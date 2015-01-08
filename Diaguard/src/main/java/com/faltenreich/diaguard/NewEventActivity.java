@@ -1,8 +1,6 @@
 package com.faltenreich.diaguard;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -72,13 +70,6 @@ public class NewEventActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.formular, menu);
         return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        // Show delete button only if an entry is available = editing mode
-        menu.findItem(R.id.action_delete).setVisible(entry != null);
-        return true;
     }
 
     public void initialize() {
@@ -323,35 +314,6 @@ public class NewEventActivity extends ActionBarActivity {
         linearLayoutValues.addView(view, linearLayoutValues.getChildCount());
     }
 
-    private void deleteEvent() {
-        if (entry != null) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(R.string.entry_delete);
-            builder.setMessage(R.string.entry_delete_desc);
-            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    dataSource.open();
-                    dataSource.delete(entry);
-                    dataSource.close();
-
-                    // Tell MainActivity that entry has been deleted
-                    Intent intent = new Intent();
-                    intent.putExtra(MainActivity.ENTRY_DELETED, true);
-                    setResult(Activity.RESULT_OK, intent);
-
-                    finish();
-                }
-            });
-            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    // User cancelled the dialog
-                }
-            });
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        }
-    }
-
     // LISTENERS
 
     public void onClickShowDatePicker (View view) {
@@ -387,9 +349,6 @@ public class NewEventActivity extends ActionBarActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
-                return true;
-            case R.id.action_delete:
-                deleteEvent();
                 return true;
             case R.id.action_done:
                 submit();

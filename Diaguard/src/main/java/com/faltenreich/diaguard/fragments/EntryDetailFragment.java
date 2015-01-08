@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.faltenreich.diaguard.MainActivity;
 import com.faltenreich.diaguard.NewEventActivity;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
@@ -121,6 +123,9 @@ public class EntryDetailFragment extends Fragment {
                     dataSource.open();
                     dataSource.delete(entry);
                     dataSource.close();
+                    Intent intent = new Intent();
+                    intent.putExtra(MainActivity.ENTRY_DELETED, true);
+                    getActivity().setResult(Activity.RESULT_OK, intent);
                     getActivity().finish();
                 }
             });

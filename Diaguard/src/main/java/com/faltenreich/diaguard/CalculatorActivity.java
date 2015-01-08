@@ -33,21 +33,21 @@ import org.joda.time.DateTime;
 
 public class CalculatorActivity extends ActionBarActivity {
 
-    DatabaseDataSource dataSource;
-    PreferenceHelper preferenceHelper;
+    private DatabaseDataSource dataSource;
+    private PreferenceHelper preferenceHelper;
 
-    EditText editTextBloodSugar;
-    EditText editTextTargetValue;
-    EditText editTextMeal;
-    EditText editTextCorrection;
-    EditText editTextFactor;
+    private EditText editTextBloodSugar;
+    private EditText editTextTargetValue;
+    private EditText editTextMeal;
+    private EditText editTextCorrection;
+    private EditText editTextFactor;
 
-    TextView textViewUnitBloodSugar;
-    TextView textViewUnitTargetValue;
-    TextView textViewUnitCorrection;
-    TextView textViewUnitMeal;
+    private TextView textViewUnitBloodSugar;
+    private TextView textViewUnitTargetValue;
+    private TextView textViewUnitCorrection;
+    private TextView textViewUnitMeal;
 
-    Spinner spinnerFactors;
+    private Spinner spinnerFactors;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

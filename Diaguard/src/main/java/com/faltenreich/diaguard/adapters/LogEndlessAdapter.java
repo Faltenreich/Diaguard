@@ -4,8 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
+import android.widget.Adapter;
 
 import com.commonsware.cwac.endless.EndlessAdapter;
 import com.faltenreich.diaguard.R;
@@ -29,16 +28,13 @@ public class LogEndlessAdapter extends EndlessAdapter implements PinnedSectionLi
     private static final int VIEW_TYPE_SECTION = 0;
     private static final int VIEW_TYPE_ENTRY = 1;
 
-    DatabaseDataSource dataSource;
+    private DatabaseDataSource dataSource;
     private List<ListItem> itemCache;
     private DateTime currentDay;
 
     int currentVisibleItemCount = 0;
     int itemsToLoad = 30;
     int totalItems;
-
-    private RotateAnimation rotate = null;
-    private View pendingView = null;
 
     public LogEndlessAdapter(Context context) {
         super(new LogBaseAdapter(context));
@@ -49,22 +45,11 @@ public class LogEndlessAdapter extends EndlessAdapter implements PinnedSectionLi
         dataSource.open();
         totalItems = dataSource.count(DatabaseHelper.ENTRY);
         dataSource.close();
-
-        // Create a rotate animation.
-        rotate = new RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF,
-                0.5f, Animation.RELATIVE_TO_SELF,
-                0.5f);
-        rotate.setDuration(600);
-        rotate.setRepeatMode(Animation.RESTART);
-        rotate.setRepeatCount(Animation.INFINITE);
     }
 
     @Override
     protected View getPendingView(ViewGroup parent) {
-        View row = LayoutInflater.from(parent.getContext()).inflate(R.layout.pending_view, parent, false);
-        pendingView = row.findViewById(R.id.pending_view);
-        startProgressAnimation();
-        return row;
+        return LayoutInflater.from(parent.getContext()).inflate(R.layout.pending_view, parent, false);
     }
 
     private List<Entry> fetchData() {
@@ -121,12 +106,6 @@ public class LogEndlessAdapter extends EndlessAdapter implements PinnedSectionLi
         ((LogBaseAdapter)getWrappedAdapter()).items.addAll(itemCache);
     }
 
-    void startProgressAnimation() {
-        if (pendingView != null) {
-            pendingView.startAnimation(rotate);
-        }
-    }
-
     @Override
     public boolean isItemViewTypePinned(int viewType) {
         return viewType == VIEW_TYPE_SECTION;
@@ -153,5 +132,9 @@ public class LogEndlessAdapter extends EndlessAdapter implements PinnedSectionLi
             return VIEW_TYPE_SECTION;
         else
             return VIEW_TYPE_ENTRY;
+    }
+
+    public Adapter getAdapter() {
+        return getWrappedAdapter();
     }
 }

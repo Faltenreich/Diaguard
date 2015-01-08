@@ -1,21 +1,28 @@
 package com.faltenreich.diaguard.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.faltenreich.diaguard.NewEventActivity;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapters.ListEntry;
 import com.faltenreich.diaguard.adapters.ListItem;
+import com.faltenreich.diaguard.adapters.LogBaseAdapter;
 import com.faltenreich.diaguard.adapters.LogEndlessAdapter;
 import com.faltenreich.diaguard.adapters.PinnedSectionListView;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.Entry;
+import com.faltenreich.diaguard.helpers.Helper;
 
 public class EntryListFragment extends ListFragment {
 
@@ -50,7 +57,7 @@ public class EntryListFragment extends ListFragment {
         super.onListItemClick(listView, view, position, id);
         ListItem listItem = (ListItem)getListView().getAdapter().getItem(position);
         if(!listItem.isSection()) {
-            ListEntry listEntry = (ListEntry) getListView().getAdapter().getItem(position);
+            ListEntry listEntry = (ListEntry) listItem;
             callbackList.onItemSelected(listEntry.getEntry().getId());
         }
     }
@@ -60,13 +67,55 @@ public class EntryListFragment extends ListFragment {
         getListView().setAdapter(adapter);
         getListView().setEmptyView(getView().findViewById(R.id.listViewEventsEmpty));
         ((PinnedSectionListView)getListView()).setShadowVisible(false);
+
+        getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            public boolean onItemLongClick(AdapterView<?> parent, View v, final int position, long id) {
+                ListItem listItem = (ListItem)getListView().getAdapter().getItem(position);
+                if(!listItem.isSection()) {
+                    final Entry entry = ((ListEntry) listItem).getEntry();
+                    String[] actions = new String[]{
+                            getString(R.string.entry_edit),
+                            getString(R.string.entry_delete) };
+                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+                    dialogBuilder
+                            .setTitle(Helper.getDateFormat().print(entry.getDate()) + " " +
+                                    Helper.getTimeFormat().print(entry.getDate()))
+                            .setItems(actions, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    switch (which) {
+                                        case 0:
+                                            Intent intent = new Intent(getActivity(), NewEventActivity.class);
+                                            intent.putExtra(NewEventActivity.EXTRA_ENTRY, entry.getId());
+                                            startActivity(intent);
+                                            break;
+                                        case 1:
+                                            DatabaseDataSource dataSource = new DatabaseDataSource(getActivity());
+                                            dataSource.open();
+                                            dataSource.delete(entry);
+                                            dataSource.close();
+                                            LogBaseAdapter logBaseAdapter = ((LogBaseAdapter)((LogEndlessAdapter) getListView().getAdapter()).getAdapter());
+                                            logBaseAdapter.items.remove(position);
+                                            logBaseAdapter.notifyDataSetChanged();
+                                            break;
+                                    }
+                                }
+                            });
+                    dialogBuilder.create().show();
+                }
+                return true;
+            }
+        });
+    }
+
+    private void removeEntry(Entry entry) {
+
     }
 
     private void updateListView() {
         DatabaseDataSource dataSource = new DatabaseDataSource(getActivity());
         dataSource.open();
         for(int position = 0; position < getListAdapter().getCount(); position++) {
-            // TODO: Wrong This is only the Wrapped adapter!
+            // TODO: This is only the Wrapped adapter!
             ListItem listItem = (ListItem) getListAdapter().getItem(position);
             if(listItem instanceof ListEntry) {
                 Entry entry = ((ListEntry) listItem).getEntry();

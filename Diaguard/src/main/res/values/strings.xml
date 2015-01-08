@@ -42,6 +42,8 @@
     <string name="contact">Contact</string>
     <string name="correction">Correction value</string>
     <string name="data">Data</string>
+    <string name="day_next">Next day</string>
+    <string name="day_previous">Previous day</string>
     <string name="delete_value">Delete value</string>
     <string name="description">Description</string>
     <string name="development">Development</string>

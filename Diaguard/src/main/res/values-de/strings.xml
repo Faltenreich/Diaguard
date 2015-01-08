@@ -30,6 +30,8 @@
     <string name="contact">Kontakt</string>
     <string name="correction">Korrekturwert</string>
     <string name="data">Daten</string>
+    <string name="day_next">Nächster Tag</string>
+    <string name="day_previous">Vorheriger Tag</string>
     <string name="delete_value">Wert löschen</string>
     <string name="description">Beschreibung</string>
     <string name="development">Entwicklung</string>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
@@ -8,27 +8,26 @@
 
     <ImageView android:id="@+id/button_previous"
         android:layout_height="match_parent"
-        android:layout_width="@dimen/height_element"
-        android:padding="@dimen/margin_between"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:padding="12dp"
         android:src="@drawable/ic_action_previous"
-        style="@style/ActionButton"
-        android:layout_marginLeft="32dp"/>
+        android:contentDescription="@string/day_previous"
+        style="@style/ActionButton"/>
 
     <Button android:id="@+id/button_date"
         android:layout_height="match_parent"
-        android:layout_width="wrap_content"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        style="@style/ActionButton"
-        android:layout_centerHorizontal="true"/>
+        android:layout_width="0dp"
+        android:layout_weight="3"
+        style="@style/ActionButton"/>
 
     <ImageView android:id="@+id/button_next"
         android:layout_height="match_parent"
-        android:layout_width="@dimen/height_element"
-        android:padding="@dimen/margin_between"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:padding="12dp"
         android:src="@drawable/ic_action_next"
-        style="@style/ActionButton"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="32dp"/>
+        android:contentDescription="@string/day_next"
+        style="@style/ActionButton"/>
 
-</RelativeLayout>
+</LinearLayout>

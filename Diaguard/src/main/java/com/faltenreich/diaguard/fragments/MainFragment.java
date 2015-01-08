@@ -209,9 +209,11 @@ public class MainFragment extends Fragment {
         chartHelper.renderer.addSeriesRenderer(seriesRenderer);
         chartHelper.renderer.setShowAxes(false);
         chartHelper.renderer.setMarginsColor(Color.argb(0x00, 0xff, 0x00, 0x00));
-        chartHelper.renderer.setYLabelsPadding(0);
         chartHelper.renderer.setYAxisMax(0);
+        chartHelper.renderer.setYLabelsColor(0, Color.argb(0x00, 0xff, 0x00, 0x00));
         chartHelper.renderer.setXLabels(0);
+        chartHelper.renderer.setXAxisMin(-0.5);
+        chartHelper.renderer.setXAxisMax(6.5);
 
         XYSeries seriesBloodSugar = new XYSeries("Trend");
         chartHelper.seriesDataset.addSeries(seriesBloodSugar);

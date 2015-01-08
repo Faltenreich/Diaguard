@@ -14,6 +14,7 @@
     <dimen name="padding">4dp</dimen>
     <dimen name="padding_end">16dp</dimen>
     <dimen name="margin_between">8dp</dimen>
+    <dimen name="margin_between_big">22dp</dimen>
     <dimen name="height_element">48dp</dimen>
     <dimen name="size_image">32dp</dimen>
     <dimen name="size_image_big">64dp</dimen>

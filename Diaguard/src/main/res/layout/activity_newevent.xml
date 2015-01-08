@@ -20,13 +20,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="@dimen/height_element"
-                    android:layout_height="@dimen/height_element"
-                    android:layout_marginRight="@dimen/padding_end"
-                    android:layout_marginEnd="@dimen/padding_end"
+                    android:layout_width="@dimen/size_image"
+                    android:layout_height="@dimen/size_image"
+                    android:padding="@dimen/padding"
+                    android:layout_marginRight="@dimen/margin_between_big"
+                    android:layout_marginEnd="@dimen/margin_between_big"
                     android:src="@drawable/ic_time"
                     android:contentDescription="@string/note"/>
 
@@ -54,32 +56,11 @@
                 android:layout_marginTop="@dimen/margin_between">
 
                 <ImageView
-                    android:layout_width="@dimen/height_element"
-                    android:layout_height="@dimen/height_element"
-                    android:layout_marginRight="@dimen/padding_end"
-                    android:layout_marginEnd="@dimen/padding_end"
-                    android:src="@drawable/ic_alarm"
-                    android:contentDescription="@string/alarm"/>
-
-                <Spinner android:id="@+id/spinner_alarm"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_element"
-                    style="?android:attr/spinnerStyle"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginTop="@dimen/margin_between">
-
-                <ImageView
-                    android:layout_width="@dimen/height_element"
-                    android:layout_height="@dimen/height_element"
-                    android:layout_marginRight="@dimen/padding_end"
-                    android:layout_marginEnd="@dimen/padding_end"
+                    android:layout_width="@dimen/size_image"
+                    android:layout_height="@dimen/size_image"
+                    android:padding="@dimen/padding"
+                    android:layout_marginRight="@dimen/margin_between_big"
+                    android:layout_marginEnd="@dimen/margin_between_big"
                     android:src="@drawable/ic_note"
                     android:contentDescription="@string/note"/>
 
@@ -95,22 +76,45 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="@dimen/margin_between">
+
+                <ImageView
+                    android:layout_width="@dimen/size_image"
+                    android:layout_height="@dimen/size_image"
+                    android:padding="@dimen/padding"
+                    android:layout_marginRight="@dimen/margin_between_big"
+                    android:layout_marginEnd="@dimen/margin_between_big"
+                    android:src="@drawable/ic_alarm"
+                    android:contentDescription="@string/alarm"/>
+
+                <Spinner android:id="@+id/spinner_alarm"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_element"
+                    style="?android:attr/spinnerStyle"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:gravity="top"
                 android:layout_marginTop="@dimen/margin_between">
 
                 <ImageView
-                    android:layout_width="@dimen/height_element"
-                    android:layout_height="@dimen/height_element"
-                    android:layout_marginRight="@dimen/padding_end"
-                    android:layout_marginEnd="@dimen/padding_end"
-                    android:src="@drawable/ic_value"
+                    android:layout_width="@dimen/size_image"
+                    android:layout_height="@dimen/size_image"
+                    android:padding="@dimen/padding"
+                    android:layout_marginRight="@dimen/margin_between_big"
+                    android:layout_marginEnd="@dimen/margin_between_big"
+                    android:src="@drawable/ic_edit"
                     android:contentDescription="@string/add_value"/>
 
                 <LinearLayout android:id="@+id/content_dynamic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="4dp"/>
+                    android:orientation="vertical"/>
 
             </LinearLayout>
 

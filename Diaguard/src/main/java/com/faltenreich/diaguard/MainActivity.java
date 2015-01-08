@@ -99,9 +99,9 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
                 getString(R.string.export),
                 getString(R.string.settings) };
         int[] menuImages = new int[] {
-                R.drawable.home,
-                R.drawable.timeline,
-                R.drawable.log };
+                R.drawable.ic_home,
+                R.drawable.ic_timeline,
+                R.drawable.ic_log };
         DrawerListViewAdapter adapter = new DrawerListViewAdapter(this, menuItems, menuImages);
         drawerList.setAdapter(adapter);
         drawerList.setOnItemClickListener(new ListView.OnItemClickListener() {
@@ -141,7 +141,7 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
                         textViewListItem.setTextColor(getResources().getColor(android.R.color.black));
                     }
                     ImageView imageView = (ImageView) v.findViewById(R.id.icon);
-                    int resourceId = getResources().getIdentifier(
+                    int resourceId = getResources().getIdentifier("ic_" +
                             FragmentType.values()[fragmentTypePosition].name().toLowerCase(),
                             "drawable", getPackageName());
                     if(resourceId > 0) {
@@ -159,7 +159,8 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
             }
             ImageView imageView = (ImageView) view.findViewById(R.id.icon);
             if(imageView != null) {
-                int resourceId = getResources().getIdentifier(fragmentType.name().toLowerCase() +
+                int resourceId = getResources().getIdentifier("ic_" +
+                        fragmentType.name().toLowerCase() +
                         "_active", "drawable", getPackageName());
                 if(resourceId > 0) {
                     imageView.setImageDrawable(getResources().getDrawable(resourceId));

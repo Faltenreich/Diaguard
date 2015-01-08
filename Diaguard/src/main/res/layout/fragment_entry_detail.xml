@@ -30,7 +30,7 @@
             <ImageButton android:id="@+id/button_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/edit"
+                android:src="@drawable/ic_edit"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/entry_edit"
                 android:layout_marginStart="@dimen/padding_end"

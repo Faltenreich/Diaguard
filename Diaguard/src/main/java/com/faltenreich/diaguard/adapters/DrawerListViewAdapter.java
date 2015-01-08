@@ -52,7 +52,7 @@ public class DrawerListViewAdapter extends BaseAdapter {
             txtTitle.setTypeface(null, Typeface.BOLD);
             txtTitle.setTextColor(context.getResources().getColor(R.color.green));
             ((ImageView) itemView.findViewById(R.id.icon)).
-                    setImageDrawable(context.getResources().getDrawable(R.drawable.home_active));
+                    setImageDrawable(context.getResources().getDrawable(R.drawable.ic_home_active));
         }
 
         return itemView;

@@ -30,7 +30,6 @@ public class MainFragment extends Fragment {
     private PreferenceHelper preferenceHelper;
     private DateTime today;
 
-    private ChartHelper chartHelper;
     private LinearLayout layoutChart;
 
     private TextView textViewLatestValue;
@@ -198,27 +197,31 @@ public class MainFragment extends Fragment {
     }
 
     private void updateChart() {
-        chartHelper = new ChartHelper(getActivity(), ChartHelper.ChartType.LineChart, ChartHelper.Interval.Week);
+        ChartHelper chartHelper = new ChartHelper(getActivity(), ChartHelper.ChartType.LineChart, ChartHelper.Interval.Week);
         chartHelper.renderer.removeAllRenderers();
         chartHelper.seriesDataset.clear();
         chartHelper.render();
 
         XYSeriesRenderer seriesRenderer = ChartHelper.getSeriesRendererForBloodSugar(getActivity());
         seriesRenderer.setColor(getResources().getColor(R.color.green_lt));
-        seriesRenderer.setPointStyle(PointStyle.POINT);
+        seriesRenderer.setFillPoints(true);
         chartHelper.renderer.addSeriesRenderer(seriesRenderer);
+        chartHelper.renderer.setPointSize(Helper.getDPI(getActivity(), 3));
         chartHelper.renderer.setShowAxes(false);
         chartHelper.renderer.setMarginsColor(Color.argb(0x00, 0xff, 0x00, 0x00));
-        chartHelper.renderer.setYAxisMax(0);
-        chartHelper.renderer.setYLabelsColor(0, Color.argb(0x00, 0xff, 0x00, 0x00));
         chartHelper.renderer.setXLabels(0);
         chartHelper.renderer.setXAxisMin(-0.5);
         chartHelper.renderer.setXAxisMax(6.5);
+        chartHelper.renderer.setYLabelsColor(0, Color.argb(0x00, 0xff, 0x00, 0x00));
 
         XYSeries seriesBloodSugar = new XYSeries("Trend");
         chartHelper.seriesDataset.addSeries(seriesBloodSugar);
 
+        float highestValue = preferenceHelper.
+                formatDefaultToCustomUnit(Measurement.Category.BloodSugar,
+                        preferenceHelper.getLimitHyperglycemia());
         // Set labels
+        int count = 0;
         final int daysOfWeek = 7;
         for(int pastDayFromNow = 0; pastDayFromNow < daysOfWeek; pastDayFromNow++) {
             DateTime day = today.minusDays(pastDayFromNow);
@@ -237,14 +240,30 @@ public class MainFragment extends Fragment {
                         formatDefaultToCustomUnit(Measurement.Category.BloodSugar, averageOfDay);
 
                 // Adjust y axis
-                if(y_value > chartHelper.renderer.getYAxisMax()) {
-                    chartHelper.renderer.setYAxisMax(y_value + preferenceHelper.
-                            formatDefaultToCustomUnit(Measurement.Category.BloodSugar, 30));
+                if(y_value > highestValue) {
+                    highestValue = y_value;
                 }
 
                 seriesBloodSugar.add(x_value, y_value);
+                count++;
             }
         }
+        chartHelper.renderer.setYAxisMax(highestValue +
+                preferenceHelper.formatDefaultToCustomUnit(Measurement.Category.BloodSugar, 30));
+        if(count >= 2) {
+            seriesRenderer.setPointStyle(PointStyle.POINT);
+        }
+
+        // Orientation lines
+        chartHelper.renderer.setGridColor(getResources().getColor(R.color.green_lt));
+        chartHelper.renderer.setShowCustomTextGridY(true);
+        chartHelper.renderer.setShowGridX(true);
+        chartHelper.renderer.setYLabels(0);
+        float targetValue = preferenceHelper.
+                formatDefaultToCustomUnit(Measurement.Category.BloodSugar,
+                        preferenceHelper.getTargetValue());
+        chartHelper.renderer.addYTextLabel(targetValue, "1");
+        chartHelper.renderer.setYAxisMin(0);
 
         chartHelper.initialize();
         layoutChart.removeAllViews();

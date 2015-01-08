@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!-- PLACEHOLDER VIEW -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:visibility="gone">
-
-    <ImageView android:id="@+id/pending_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="center"
-        android:src="@drawable/pending"
-        android:contentDescription="@null"/>
-
-</LinearLayout>
+    android:layout_height="wrap_content"
+    android:visibility="gone"/>

@@ -29,18 +29,26 @@ public class ChartHelper {
         ScatterChart
     }
 
-    Activity activity;
-    ChartType chartType;
+    public enum Interval {
+        Day,
+        Week,
+        Year
+    }
+
+    private Activity activity;
+    private ChartType chartType;
+    private Interval interval;
 
     public XYMultipleSeriesDataset seriesDataset;
     public XYMultipleSeriesRenderer renderer;
     public GraphicalView chartView;
 
-    public ChartHelper(Activity activity, ChartType chartType) {
+    public ChartHelper(Activity activity, ChartType chartType, Interval interval) {
         this.seriesDataset = new XYMultipleSeriesDataset();
         this.renderer = new XYMultipleSeriesRenderer();
         this.activity = activity;
         this.chartType = chartType;
+        this.interval = interval;
     }
 
     public void initialize() {
@@ -82,12 +90,25 @@ public class ChartHelper {
         renderer.setYLabelsAlign(Paint.Align.LEFT);
         renderer.setYLabelsPadding(Helper.getDPI(activity, -10));
 
-        // Time
-        renderer.setXAxisMin(0 - CHART_OFFSET_LEFT);
-        renderer.setXAxisMax(24 + CHART_OFFSET_RIGHT);
+        // Time axis
         renderer.setXLabels(0);
-        for(int hour = 0; hour <= 24; hour = hour + 2)
+        int max = 0;
+        switch (this.interval) {
+            case Day:
+                max = 24;
+                break;
+            case Week:
+                max = 7;
+                break;
+            case Year:
+                max = 12;
+                break;
+        }
+        renderer.setXAxisMin(0 - CHART_OFFSET_LEFT);
+        renderer.setXAxisMax(max + CHART_OFFSET_RIGHT);
+        for(int hour = 0; hour <= max; hour = hour + 2) {
             renderer.addXTextLabel(hour, Integer.toString(hour));
+        }
 
         renderer.setYLabels(8);
         float minimum = new PreferenceHelper(activity).

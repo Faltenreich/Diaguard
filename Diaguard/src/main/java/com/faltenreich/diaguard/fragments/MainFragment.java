@@ -1,10 +1,12 @@
 package com.faltenreich.diaguard.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
@@ -12,30 +14,37 @@ import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.DatabaseHelper;
 import com.faltenreich.diaguard.database.Entry;
 import com.faltenreich.diaguard.database.Measurement;
+import com.faltenreich.diaguard.helpers.ChartHelper;
 import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 
+import org.achartengine.chart.PointStyle;
+import org.achartengine.model.XYSeries;
+import org.achartengine.renderer.XYSeriesRenderer;
 import org.joda.time.DateTime;
 import org.joda.time.Minutes;
 
 public class MainFragment extends Fragment {
 
-    DatabaseDataSource dataSource;
-    PreferenceHelper preferenceHelper;
-    DateTime time;
+    private DatabaseDataSource dataSource;
+    private PreferenceHelper preferenceHelper;
+    private DateTime today;
 
-    TextView textViewLatestValue;
-    TextView textViewLatestUnit;
-    TextView textViewLatestTime;
-    TextView textViewLatestAgo;
+    private ChartHelper chartHelper;
+    private LinearLayout layoutChart;
 
-    TextView textViewMeasurements;
-    TextView textViewHyperglycemia;
-    TextView textViewHypoglycemia;
+    private TextView textViewLatestValue;
+    private TextView textViewLatestUnit;
+    private TextView textViewLatestTime;
+    private TextView textViewLatestAgo;
 
-    TextView textViewAverageMonth;
-    TextView textViewAverageWeek;
-    TextView textViewAverageDay;
+    private TextView textViewMeasurements;
+    private TextView textViewHyperglycemia;
+    private TextView textViewHypoglycemia;
+
+    private TextView textViewAverageMonth;
+    private TextView textViewAverageWeek;
+    private TextView textViewAverageDay;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,6 +65,8 @@ public class MainFragment extends Fragment {
     }
 
     private void getComponents() {
+        layoutChart = (LinearLayout) getView().findViewById(R.id.chart);
+
         textViewLatestValue = (TextView) getView().findViewById(R.id.textview_latest_value);
         textViewLatestUnit = (TextView) getView().findViewById(R.id.textview_latest_unit);
         textViewLatestTime = (TextView) getView().findViewById(R.id.textview_latest_time);
@@ -71,12 +82,12 @@ public class MainFragment extends Fragment {
     }
 
     private void updateContent() {
+        today = DateTime.now();
+
         dataSource = new DatabaseDataSource(getActivity());
         dataSource.open();
 
         preferenceHelper = new PreferenceHelper(getActivity());
-
-        time = new DateTime();
 
         int countBloodSugarMeasurements = dataSource.count(
                 DatabaseHelper.MEASUREMENT,
@@ -94,6 +105,8 @@ public class MainFragment extends Fragment {
             textViewAverageWeek.setText(Helper.PLACEHOLDER);
             textViewAverageDay.setText(Helper.PLACEHOLDER);
         }
+
+        updateChart();
 
         dataSource.close();
     }
@@ -141,15 +154,15 @@ public class MainFragment extends Fragment {
     }
 
     private void updateToday() {
-        int measurements = dataSource.countMeasurements(time, Measurement.Category.BloodSugar);
+        int measurements = dataSource.countMeasurements(today, Measurement.Category.BloodSugar);
         textViewMeasurements.setText(Integer.toString(measurements));
 
-        int countHypers = dataSource.countMeasurements(time,
+        int countHypers = dataSource.countMeasurements(today,
                 Measurement.Category.BloodSugar,
                 preferenceHelper.getLimitHyperglycemia(), true);
         textViewHyperglycemia.setText(Integer.toString(countHypers));
 
-        int countHypos = dataSource.countMeasurements(time,
+        int countHypos = dataSource.countMeasurements(today,
                 Measurement.Category.BloodSugar,
                 preferenceHelper.getLimitHypoglycemia(), false);
         textViewHypoglycemia.setText(Integer.toString(countHypos));
@@ -182,5 +195,58 @@ public class MainFragment extends Fragment {
         textViewAverageMonth.setText(avgMonthString);
         textViewAverageWeek.setText(avgWeekString);
         textViewAverageDay.setText(avgDayString);
+    }
+
+    private void updateChart() {
+        chartHelper = new ChartHelper(getActivity(), ChartHelper.ChartType.LineChart, ChartHelper.Interval.Week);
+        chartHelper.renderer.removeAllRenderers();
+        chartHelper.seriesDataset.clear();
+        chartHelper.render();
+
+        XYSeriesRenderer seriesRenderer = ChartHelper.getSeriesRendererForBloodSugar(getActivity());
+        seriesRenderer.setColor(getResources().getColor(R.color.green_lt));
+        seriesRenderer.setPointStyle(PointStyle.POINT);
+        chartHelper.renderer.addSeriesRenderer(seriesRenderer);
+        chartHelper.renderer.setShowAxes(false);
+        chartHelper.renderer.setMarginsColor(Color.argb(0x00, 0xff, 0x00, 0x00));
+        chartHelper.renderer.setYLabelsPadding(0);
+        chartHelper.renderer.setYAxisMax(0);
+        chartHelper.renderer.setXLabels(0);
+
+        XYSeries seriesBloodSugar = new XYSeries("Trend");
+        chartHelper.seriesDataset.addSeries(seriesBloodSugar);
+
+        // Set labels
+        final int daysOfWeek = 7;
+        for(int pastDayFromNow = 0; pastDayFromNow < daysOfWeek; pastDayFromNow++) {
+            DateTime day = today.minusDays(pastDayFromNow);
+            int x_value = daysOfWeek - pastDayFromNow - 1;
+
+            // Set label
+            String weekDay = pastDayFromNow == 0 ?
+                    getString(R.string.today) :
+                    getResources().getStringArray(R.array.weekdays_short)[day.dayOfWeek().get() - 1];
+            chartHelper.renderer.addXTextLabel(x_value, weekDay);
+
+            // Insert average
+            float averageOfDay = dataSource.getBloodSugarAverageOfDay(day);
+            if(averageOfDay > 0) {
+                float y_value = preferenceHelper.
+                        formatDefaultToCustomUnit(Measurement.Category.BloodSugar, averageOfDay);
+
+                // Adjust y axis
+                if(y_value > chartHelper.renderer.getYAxisMax()) {
+                    chartHelper.renderer.setYAxisMax(y_value + preferenceHelper.
+                            formatDefaultToCustomUnit(Measurement.Category.BloodSugar, 30));
+                }
+
+                seriesBloodSugar.add(x_value, y_value);
+            }
+        }
+
+        chartHelper.initialize();
+        layoutChart.removeAllViews();
+        layoutChart.addView(chartHelper.chartView);
+        chartHelper.chartView.repaint();
     }
 }

@@ -88,8 +88,8 @@ public class TimelineFragment extends Fragment {
         for(int item = 0; item < categories.length; item++)
             activeCategories[item] = preferenceHelper.isCategoryActive(categories[item]);
 
-        chartHelperChart = new ChartHelper(getActivity(), ChartHelper.ChartType.ScatterChart);
-        chartHelperTable = new ChartHelper(getActivity(), ChartHelper.ChartType.LineChart);
+        chartHelperChart = new ChartHelper(getActivity(), ChartHelper.ChartType.ScatterChart, ChartHelper.Interval.Day);
+        chartHelperTable = new ChartHelper(getActivity(), ChartHelper.ChartType.LineChart, ChartHelper.Interval.Day);
 
         getComponents();
         initializeGUI();

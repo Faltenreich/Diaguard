@@ -142,6 +142,15 @@
         <item>Saturday</item>
         <item>Sunday</item>
     </string-array>
+    <string-array name="weekdays_short">
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>
+        <item>Sun</item>
+    </string-array>
 
     <string name="morning">Morning</string>
     <string name="noon">Noon</string>

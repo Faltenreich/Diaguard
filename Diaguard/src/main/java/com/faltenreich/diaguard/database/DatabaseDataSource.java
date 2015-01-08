@@ -277,6 +277,27 @@ public class DatabaseDataSource {
         return average;
     }
 
+    public float getBloodSugarAverageOfDay(DateTime day) {
+        DateTimeFormatter format = Helper.getDateDatabaseFormat();
+        String query = "SELECT AVG(" + DatabaseHelper.VALUE + ") FROM " + DatabaseHelper.MEASUREMENT +
+                " INNER JOIN " + DatabaseHelper.ENTRY +
+                " ON " + DatabaseHelper.MEASUREMENT + "." + DatabaseHelper.ENTRY_ID +
+                " = " + DatabaseHelper.ENTRY + "." + DatabaseHelper.ID +
+                " AND " + DatabaseHelper.ENTRY + "." + DatabaseHelper.DATE +
+                " >= Datetime('" + format.print(day.withTimeAtStartOfDay()) + "')" +
+                " AND " + DatabaseHelper.ENTRY + "." + DatabaseHelper.DATE +
+                " <= Datetime('" + format.print(day.withTime(23, 59, 59, 999)) + "')" +
+                " AND " + DatabaseHelper.MEASUREMENT + "." + DatabaseHelper.CATEGORY +
+                " = '" + Measurement.Category.BloodSugar.toString() + "';";
+        Cursor cursor = db.rawQuery(query, null);
+
+        float average = 0;
+        if(cursor.moveToFirst())
+            average = cursor.getFloat(0);
+
+        return average;
+    }
+
     public float[][] getAverageDataTable(DateTime day, Measurement.Category[] categories, int columns) {
         float[][] values = new float[categories.length][columns];
         int counter = 1;

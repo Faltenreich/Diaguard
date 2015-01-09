@@ -107,38 +107,6 @@ public class EntryDetailFragment extends Fragment {
         }
     }
 
-    private void editEntry() {
-        Intent intent = new Intent(getActivity(), NewEventActivity.class);
-        intent.putExtra(NewEventActivity.EXTRA_ENTRY, entry.getId());
-        startActivity(intent);
-    }
-
-    private void deleteEvent() {
-        if (entry != null) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle(R.string.entry_delete);
-            builder.setMessage(R.string.entry_delete_desc);
-            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    dataSource.open();
-                    dataSource.delete(entry);
-                    dataSource.close();
-                    Intent intent = new Intent();
-                    intent.putExtra(MainActivity.ENTRY_DELETED, true);
-                    getActivity().setResult(Activity.RESULT_OK, intent);
-                    getActivity().finish();
-                }
-            });
-            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    // User cancelled the dialog
-                }
-            });
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        }
-    }
-
     private void initialize() {
         LayoutInflater inflater = getLayoutInflater(getArguments());
         // Pre-load image resources
@@ -190,6 +158,38 @@ public class EntryDetailFragment extends Fragment {
 
         if(entry.getNote() != null && entry.getNote().length() > 0) {
             textViewNote.setText(entry.getNote());
+        }
+    }
+
+    private void editEntry() {
+        Intent intent = new Intent(getActivity(), NewEventActivity.class);
+        intent.putExtra(NewEventActivity.EXTRA_ENTRY, entry.getId());
+        startActivity(intent);
+    }
+
+    private void deleteEvent() {
+        if (entry != null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle(R.string.entry_delete);
+            builder.setMessage(R.string.entry_delete_desc);
+            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dataSource.open();
+                    dataSource.delete(entry);
+                    dataSource.close();
+                    Intent intent = new Intent();
+                    intent.putExtra(MainActivity.ENTRY_DELETED, true);
+                    getActivity().setResult(Activity.RESULT_OK, intent);
+                    getActivity().finish();
+                }
+            });
+            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // User cancelled the dialog
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
         }
     }
 

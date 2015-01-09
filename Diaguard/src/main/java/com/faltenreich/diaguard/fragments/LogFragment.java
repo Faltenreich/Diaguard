@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.InflateException;
 import android.view.LayoutInflater;
@@ -34,10 +33,11 @@ public class LogFragment extends Fragment {
         if (view.findViewById(R.id.entry_detail) != null) {
             // In two-pane mode, list items should be given the
             // 'activated' state when touched.
-            FragmentActivity activity = getActivity();
             FragmentManager fragmentManager = getChildFragmentManager();
             EntryListFragment fragment = (EntryListFragment) fragmentManager.findFragmentById(R.id.entry_list);
-            fragment.setActivateOnItemClick(true);
+            if(fragment != null) {
+                fragment.setActivateOnItemClick(true);
+            }
         }
 
         return view;

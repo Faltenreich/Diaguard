@@ -14,7 +14,7 @@ import com.faltenreich.diaguard.helpers.Helper;
 
 public class EntryDetailActivity extends ActionBarActivity {
 
-    Entry entry;
+    private Entry entry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +30,25 @@ public class EntryDetailActivity extends ActionBarActivity {
                 .add(R.id.entry_detail, fragment)
                 .commit();
 
+        DatabaseDataSource dataSource = new DatabaseDataSource(this);
+        dataSource.open();
+        entry = (Entry) dataSource.get(DatabaseHelper.ENTRY, id);
+        dataSource.close();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Update entry
+        DatabaseDataSource dataSource = new DatabaseDataSource(this);
+        dataSource.open();
+        entry = (Entry) dataSource.get(DatabaseHelper.ENTRY, this.entry.getId());
+        dataSource.close();
+
+        // Display date and time of entry in ActionBar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (toolbar != null){
-            DatabaseDataSource dataSource = new DatabaseDataSource(this);
-            dataSource.open();
-            entry = (Entry) dataSource.get(DatabaseHelper.ENTRY, id);
-            dataSource.close();
+        if (entry != null && toolbar != null){
             toolbar.setTitle(
                     Helper.getDateFormat().print(entry.getDate()) + " " +
                             Helper.getTimeFormat().print(entry.getDate()));

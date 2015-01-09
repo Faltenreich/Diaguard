@@ -331,7 +331,7 @@
     <string name="validator_value_empty">Please enter a value</string>
     <string name="validator_value_none">Entry contains no events</string>
     <string name="validator_value_unrealistic">Unrealistic value</string>
-    <string name="validator_value_enddate">End date must be after start date</string>
+    <string name="validator_value_enddate">Start date must be before end date</string>
 
     <string name="confirmation_exit">Discard changes?</string>
     <string name="confirmation_exit_desc">This will discard all entered data</string>

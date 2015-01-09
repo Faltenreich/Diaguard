@@ -6,7 +6,11 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,6 +25,7 @@ import com.faltenreich.diaguard.database.Measurement;
 import com.faltenreich.diaguard.helpers.ChartHelper;
 import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
+import com.faltenreich.diaguard.helpers.ViewHelper;
 
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYSeriesRenderer;
@@ -46,16 +51,24 @@ public class TimelineFragment extends Fragment {
     private ChartHelper chartHelperTable;
     private DateTime time;
 
-    boolean[] activeCategories;
-    int activeCategoryCount;
+    private boolean[] activeCategories;
+    private int activeCategoryCount;
 
-    LinearLayout layoutChart;
-    LinearLayout layoutTableValues;
-    LinearLayout layoutTableLabels;
+    private Toolbar toolbar;
+
+    private LinearLayout layoutChart;
+    private LinearLayout layoutTableValues;
+    private LinearLayout layoutTableLabels;
+    private LinearLayout layoutDate;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_timeline, container, false);
     }
 
@@ -68,16 +81,47 @@ public class TimelineFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        onCreateOptionsMenu(toolbar.getMenu(), getActivity().getMenuInflater());
         updateContent();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+        onCreateOptionsMenu(toolbar.getMenu(), getActivity().getMenuInflater());
         updateContent();
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        if(toolbar != null) {
+            toolbar.getMenu().clear();
+            // Integrate date bar into Toolbar in Landscape to make room for the charts
+            if(ViewHelper.isLandscape(getActivity())) {
+                inflater.inflate(R.menu.timeline, menu);
+            }
+            else {
+                inflater.inflate(R.menu.main, menu);
+            }
+            super.onCreateOptionsMenu(menu, inflater);
+        }
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        DateTimeFormatter format = preferenceHelper.getDateFormat();
+        String weekDay = getResources().getStringArray(R.array.weekdays)[time.dayOfWeek().get()-1];
+        String dateButtonText = weekDay.substring(0,2) + "., " + format.print(time);
+
+        MenuItem menuItemDate = toolbar.getMenu().findItem(R.id.action_date);
+        if(menuItemDate != null) {
+            menuItemDate.setTitle(dateButtonText);
+        }
+    }
+
     public void initialize() {
+        toolbar = (android.support.v7.widget.Toolbar) getActivity().findViewById(R.id.toolbar);
+
         dataSource = new DatabaseDataSource(getActivity());
         preferenceHelper = new PreferenceHelper(getActivity());
         time = new DateTime();
@@ -93,13 +137,13 @@ public class TimelineFragment extends Fragment {
 
         getComponents();
         initializeGUI();
-        updateContent();
     }
 
     public void getComponents() {
         layoutChart = (LinearLayout) getView().findViewById(R.id.chart);
         layoutTableValues = (LinearLayout) getView().findViewById(R.id.table_values);
         layoutTableLabels = (LinearLayout) getView().findViewById(R.id.table_labels);
+        layoutDate = (LinearLayout) getView().findViewById(R.id.layout_date);
     }
 
     public void initializeGUI() {
@@ -134,7 +178,24 @@ public class TimelineFragment extends Fragment {
     private void updateContent() {
         DateTimeFormatter format = preferenceHelper.getDateFormat();
         String weekDay = getResources().getStringArray(R.array.weekdays)[time.dayOfWeek().get()-1];
-        ((Button)getView().findViewById(R.id.button_date)).setText(weekDay.substring(0,2) + "., " + format.print(time));
+        String dateButtonText = weekDay.substring(0,2) + "., " + format.print(time);
+
+        // Show date bar in the Toolbar in Landscape to make room for the charts
+        if(ViewHelper.isLandscape(getActivity())) {
+            layoutDate.setVisibility(View.GONE);
+            MenuItem menuItemDate = toolbar.getMenu().findItem(R.id.action_date);
+            if(menuItemDate != null) {
+                menuItemDate.setTitle(dateButtonText);
+            }
+        }
+        // Show date bar on the bottom in Portrait
+        else {
+            layoutDate.setVisibility(View.VISIBLE);
+            Button buttonDate = (Button) layoutDate.findViewById(R.id.button_date);
+            if(buttonDate != null) {
+                buttonDate.setText(dateButtonText);
+            }
+        }
 
         updateChart();
 
@@ -386,5 +447,21 @@ public class TimelineFragment extends Fragment {
         bundle.putSerializable(DatePickerFragment.DATE, time);
         fragment.setArguments(bundle);
         fragment.show(getActivity().getSupportFragmentManager(), "DatePicker");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_back:
+                previousDay();
+                break;
+            case R.id.action_forward:
+                nextDay();
+                break;
+            case R.id.action_date:
+                showDatePicker();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

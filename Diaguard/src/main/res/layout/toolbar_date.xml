@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:layout_width="0dp"
         android:layout_weight="2"
-        android:padding="14dp"
+        android:padding="12dp"
         android:src="@drawable/ic_action_back"
         android:contentDescription="@string/day_previous"
         style="@style/ActionButton"/>
@@ -19,13 +19,14 @@
         android:layout_height="match_parent"
         android:layout_width="0dp"
         android:layout_weight="3"
+        android:contentDescription="@string/date_select"
         style="@style/ActionButton"/>
 
     <ImageView android:id="@+id/button_next"
         android:layout_height="match_parent"
         android:layout_width="0dp"
         android:layout_weight="2"
-        android:padding="14dp"
+        android:padding="12dp"
         android:src="@drawable/ic_action_forward"
         android:contentDescription="@string/day_next"
         style="@style/ActionButton"/>

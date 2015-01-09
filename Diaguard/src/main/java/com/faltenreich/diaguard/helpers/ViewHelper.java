@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -25,6 +26,18 @@ public class ViewHelper {
         return (context.getResources().getConfiguration().screenLayout &
                 Configuration.SCREENLAYOUT_SIZE_MASK) >=
                 Configuration.SCREENLAYOUT_SIZE_LARGE;
+    }
+
+    // TODO: Replace with when only API >= 13 is supported
+    /*
+        Point size = new Point();
+        activity.getWindowManager().getDefaultDisplay().getSize(size);
+        int width = size.x;
+        int height = size.y;
+     */
+    public static boolean isLandscape(Activity activity) {
+        Display display = activity.getWindowManager().getDefaultDisplay();
+        return display.getWidth() > display.getHeight();
     }
 
     public static void showAlert(Activity activity, String text) {

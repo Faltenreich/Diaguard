@@ -5,19 +5,20 @@
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
-    <LinearLayout android:id="@+id/toolbar"
+    <LinearLayout android:id="@+id/layout_date"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
 
-        <include layout="@layout/fragment_toolbar_date"/>
+        <include android:id="@+id/toolbar_date"
+            layout="@layout/toolbar_date"/>
 
     </LinearLayout>
 
     <RelativeLayout android:id="@+id/layoutMain"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@id/toolbar">
+        android:layout_above="@id/layout_date">
 
         <LinearLayout android:id="@+id/scrollview_table"
             android:layout_width="fill_parent"

@@ -30,6 +30,7 @@
     <string name="contact">Kontakt</string>
     <string name="correction">Korrekturwert</string>
     <string name="data">Daten</string>
+    <string name="date_select">Datum auswählen</string>
     <string name="day_next">Nächster Tag</string>
     <string name="day_previous">Vorheriger Tag</string>
     <string name="delete_value">Wert löschen</string>

@@ -243,9 +243,8 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
             case R.id.action_newevent:
                 startActivityForResult(new Intent(this, NewEventActivity.class), MainActivity.REQUEST_EVENT_CREATED);
                 return true;
-            default:
-                return super.onOptionsItemSelected(item);
         }
+        return false;
     }
 
     /**

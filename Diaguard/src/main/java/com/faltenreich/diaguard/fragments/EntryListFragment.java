@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +26,11 @@ import com.faltenreich.diaguard.database.Entry;
 import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.ViewHelper;
 
+import java.util.List;
+
 public class EntryListFragment extends ListFragment {
+
+    protected LogEndlessAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,7 +69,7 @@ public class EntryListFragment extends ListFragment {
     }
 
     private void initializeListView() {
-        LogEndlessAdapter adapter = new LogEndlessAdapter(getActivity());
+        adapter = new LogEndlessAdapter(getActivity());
         getListView().setAdapter(adapter);
         getListView().setEmptyView(getView().findViewById(R.id.listViewEventsEmpty));
         ((PinnedSectionListView)getListView()).setShadowVisible(false);
@@ -85,19 +90,10 @@ public class EntryListFragment extends ListFragment {
                                 public void onClick(DialogInterface dialog, int which) {
                                     switch (which) {
                                         case 0:
-                                            Intent intent = new Intent(getActivity(), NewEventActivity.class);
-                                            intent.putExtra(NewEventActivity.EXTRA_ENTRY, entry.getId());
-                                            startActivity(intent);
+                                            editEntry(entry);
                                             break;
                                         case 1:
-                                            DatabaseDataSource dataSource = new DatabaseDataSource(getActivity());
-                                            dataSource.open();
-                                            dataSource.delete(entry);
-                                            dataSource.close();
-                                            LogBaseAdapter logBaseAdapter = ((LogBaseAdapter)((LogEndlessAdapter) getListView().getAdapter()).getAdapter());
-                                            logBaseAdapter.items.remove(position);
-                                            logBaseAdapter.notifyDataSetChanged();
-                                            ViewHelper.showSnackbar(getActivity(), getString(R.string.entry_deleted));
+                                            deleteEntry(entry);
                                             break;
                                     }
                                 }
@@ -107,6 +103,40 @@ public class EntryListFragment extends ListFragment {
                 return true;
             }
         });
+    }
+
+    private void editEntry(Entry entry) {
+        Intent intent = new Intent(getActivity(), NewEventActivity.class);
+        intent.putExtra(NewEventActivity.EXTRA_ENTRY, entry.getId());
+        startActivity(intent);
+    }
+
+    protected void deleteEntry(Entry entry) {
+        LogBaseAdapter logBaseAdapter = ((LogBaseAdapter)((LogEndlessAdapter) getListView().getAdapter()).getAdapter());
+        int positionInAdapter = logBaseAdapter.getItemPosition(entry);
+        // Remove from database
+        DatabaseDataSource dataSource = new DatabaseDataSource(getActivity());
+        dataSource.open();
+        dataSource.delete(entry);
+        dataSource.close();
+        // Remove from ListView
+        if(positionInAdapter >= 0) {
+            logBaseAdapter.items.remove(positionInAdapter);
+            logBaseAdapter.notifyDataSetChanged();
+        }
+        // Close detail view
+        if(ViewHelper.isLargeScreen(getActivity())) {
+            List<Fragment> fragments = getActivity().getSupportFragmentManager().getFragments();
+            for (Fragment childFragment : fragments) {
+                if (childFragment instanceof EntryDetailFragment) {
+                    EntryDetailFragment entryDetailFragment = (EntryDetailFragment) childFragment;
+                    if(entryDetailFragment.entry.getId() == entry.getId()) {
+                        getActivity().getSupportFragmentManager().beginTransaction().remove(entryDetailFragment).commit();
+                    }
+                }
+            }
+        }
+        ViewHelper.showSnackbar(getActivity(), getString(R.string.entry_deleted));
     }
 
     private void updateListView() {

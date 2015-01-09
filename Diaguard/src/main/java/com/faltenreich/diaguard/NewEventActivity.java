@@ -123,7 +123,11 @@ public class NewEventActivity extends ActionBarActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             if(extras.getLong(EXTRA_ENTRY) != 0L || extras.getLong(EXTRA_MEASUREMENT) != 0L) {
-                setTitle(getString(R.string.entry_edit));
+
+                Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+                if (toolbar != null) {
+                    toolbar.setTitle(getString(R.string.entry_edit));
+                }
 
                 dataSource.open();
 

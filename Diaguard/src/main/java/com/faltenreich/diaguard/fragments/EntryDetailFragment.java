@@ -12,7 +12,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,6 +24,7 @@ import com.faltenreich.diaguard.database.DatabaseHelper;
 import com.faltenreich.diaguard.database.Entry;
 import com.faltenreich.diaguard.database.Measurement;
 import com.faltenreich.diaguard.database.Model;
+import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.faltenreich.diaguard.helpers.ViewHelper;
 
@@ -35,13 +35,22 @@ public class EntryDetailFragment extends Fragment {
 
     public static final String ENTRY_ID = "entryId";
 
+    private final Fragment fragment = this;
+    public Entry entry;
+
     private DatabaseDataSource dataSource;
     private PreferenceHelper preferenceHelper;
-    private Entry entry;
 
     private TextView textViewNote;
     private LinearLayout layoutMeasurements;
-    private ImageButton buttonEdit;
+
+    private HashMap<String, Integer> imageResources;
+
+    // Large only
+    private ViewGroup layoutLarge;
+    private TextView textViewDate;
+    private ImageView buttonEdit;
+    private ImageView buttonDelete;
 
     public static EntryDetailFragment newInstance(long entryId) {
         EntryDetailFragment fragment = new EntryDetailFragment();
@@ -87,30 +96,41 @@ public class EntryDetailFragment extends Fragment {
     }
 
     private void getComponents(View parentView) {
-        textViewNote = (TextView)parentView.findViewById(R.id.textview_note);
-        layoutMeasurements = (LinearLayout)parentView.findViewById(R.id.layout_measurements);
-        buttonEdit = (ImageButton)parentView.findViewById(R.id.button_edit);
+        textViewNote = (TextView) parentView.findViewById(R.id.textview_note);
+        layoutMeasurements = (LinearLayout) parentView.findViewById(R.id.layout_measurements);
+        layoutLarge = (ViewGroup) parentView.findViewById(R.id.layout_large);
+        textViewDate = (TextView) parentView.findViewById(R.id.textview_date);
+        buttonEdit = (ImageView) parentView.findViewById(R.id.button_edit);
+        buttonDelete = (ImageView) parentView.findViewById(R.id.button_delete);
     }
 
     private void initializeGUI() {
         if(ViewHelper.isLargeScreen(getActivity())) {
-            buttonEdit.setVisibility(View.VISIBLE);
+            layoutLarge.setVisibility(View.VISIBLE);
+            textViewDate.setText(Helper.getDateFormat().print(entry.getDate()) + " " +
+                    Helper.getTimeFormat().print(entry.getDate()));
             buttonEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     editEntry();
                 }
             });
+            buttonDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    deleteEntry();
+                }
+            });
         }
         else {
-            buttonEdit.setVisibility(View.GONE);
+            layoutLarge.setVisibility(View.GONE);
         }
     }
 
     private void initialize() {
         LayoutInflater inflater = getLayoutInflater(getArguments());
         // Pre-load image resources
-        HashMap<String, Integer> imageResources = new HashMap<String, Integer>();
+        imageResources = new HashMap<String, Integer>();
         for(Measurement.Category category : Measurement.Category.values()) {
             String name = category.name().toLowerCase();
             int resourceId = getResources().getIdentifier(name,
@@ -126,39 +146,41 @@ public class EntryDetailFragment extends Fragment {
 
         layoutMeasurements.removeAllViews();
         for(Model model : models) {
-            Measurement measurement = (Measurement)model;
-
-            View view = inflater.inflate(R.layout.fragment_measurement, layoutMeasurements, false);
-            view.setTag(measurement.getCategory());
-
-            ImageView imageViewCategory = (ImageView) view.findViewById(R.id.image);
-            imageViewCategory.setImageResource(imageResources.get(measurement.getCategory().name().toLowerCase()));
-
-            TextView textViewCategory = (TextView) view.findViewById(R.id.category);
-            textViewCategory.setText(preferenceHelper.getCategoryName(measurement.getCategory()));
-
-            TextView textViewValue = (TextView) view.findViewById(R.id.value);
-            float value = preferenceHelper.formatDefaultToCustomUnit(
-                    measurement.getCategory(), measurement.getValue());
-            textViewValue.setText(preferenceHelper.getDecimalFormat(measurement.getCategory()).format(value));
-
-            // Highlight extrema
-            if(measurement.getCategory() == Measurement.Category.BloodSugar && preferenceHelper.limitsAreHighlighted()) {
-                if(measurement.getValue() > preferenceHelper.getLimitHyperglycemia())
-                    textViewValue.setTextColor(getResources().getColor(R.color.red));
-                else if(measurement.getValue() < preferenceHelper.getLimitHypoglycemia())
-                    textViewValue.setTextColor(getResources().getColor(R.color.blue));
-            }
-
-            TextView textViewUnit = (TextView) view.findViewById(R.id.unit);
-            textViewUnit.setText(preferenceHelper.getUnitAcronym(measurement.getCategory()));
-
-            layoutMeasurements.addView(view, layoutMeasurements.getChildCount());
+            addMeasurement((Measurement) model);
         }
 
         if(entry.getNote() != null && entry.getNote().length() > 0) {
             textViewNote.setText(entry.getNote());
         }
+    }
+
+    private void addMeasurement(Measurement measurement) {
+        View view = getLayoutInflater(getArguments()).inflate(R.layout.fragment_measurement, layoutMeasurements, false);
+        view.setTag(measurement.getCategory());
+
+        ImageView imageViewCategory = (ImageView) view.findViewById(R.id.image);
+        imageViewCategory.setImageResource(imageResources.get(measurement.getCategory().name().toLowerCase()));
+
+        TextView textViewCategory = (TextView) view.findViewById(R.id.category);
+        textViewCategory.setText(preferenceHelper.getCategoryName(measurement.getCategory()));
+
+        TextView textViewValue = (TextView) view.findViewById(R.id.value);
+        float value = preferenceHelper.formatDefaultToCustomUnit(
+                measurement.getCategory(), measurement.getValue());
+        textViewValue.setText(preferenceHelper.getDecimalFormat(measurement.getCategory()).format(value));
+
+        // Highlight extrema
+        if(measurement.getCategory() == Measurement.Category.BloodSugar && preferenceHelper.limitsAreHighlighted()) {
+            if(measurement.getValue() > preferenceHelper.getLimitHyperglycemia())
+                textViewValue.setTextColor(getResources().getColor(R.color.red));
+            else if(measurement.getValue() < preferenceHelper.getLimitHypoglycemia())
+                textViewValue.setTextColor(getResources().getColor(R.color.blue));
+        }
+
+        TextView textViewUnit = (TextView) view.findViewById(R.id.unit);
+        textViewUnit.setText(preferenceHelper.getUnitAcronym(measurement.getCategory()));
+
+        layoutMeasurements.addView(view, layoutMeasurements.getChildCount());
     }
 
     private void editEntry() {
@@ -167,20 +189,37 @@ public class EntryDetailFragment extends Fragment {
         startActivity(intent);
     }
 
-    private void deleteEvent() {
+    private void deleteEntry() {
         if (entry != null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle(R.string.entry_delete);
             builder.setMessage(R.string.entry_delete_desc);
             builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    dataSource.open();
-                    dataSource.delete(entry);
-                    dataSource.close();
-                    Intent intent = new Intent();
-                    intent.putExtra(MainActivity.ENTRY_DELETED, true);
-                    getActivity().setResult(Activity.RESULT_OK, intent);
-                    getActivity().finish();
+                    // Let list view handle this
+                    if(ViewHelper.isLargeScreen(getActivity())) {
+                        getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                        List<Fragment> fragments =  getActivity().getSupportFragmentManager().getFragments();
+                        for(Fragment childFragment : fragments) {
+                            if(childFragment instanceof LogFragment) {
+                                EntryListFragment entryListFragment = (EntryListFragment)
+                                        childFragment.getChildFragmentManager().findFragmentById(R.id.entry_list);
+                                if(entryListFragment != null) {
+                                    entryListFragment.deleteEntry(entry);
+                                }
+                            }
+                        }
+                    }
+                    // Handle by itself because there is no corresponding list view
+                    else {
+                        dataSource.open();
+                        dataSource.delete(entry);
+                        dataSource.close();
+                        Intent intent = new Intent();
+                        intent.putExtra(MainActivity.ENTRY_DELETED, true);
+                        getActivity().setResult(Activity.RESULT_OK, intent);
+                        getActivity().finish();
+                    }
                 }
             });
             builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -197,7 +236,7 @@ public class EntryDetailFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_delete:
-                deleteEvent();
+                deleteEntry();
                 return true;
             case R.id.action_edit:
                 editEntry();

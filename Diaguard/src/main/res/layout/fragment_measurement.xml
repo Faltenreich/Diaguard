@@ -23,7 +23,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="end"/>
+        android:gravity="end"
+        android:textSize="@dimen/text_medium"/>
 
     <TextView android:id="@+id/unit"
         android:layout_width="0dp"

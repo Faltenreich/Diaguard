@@ -67,6 +67,19 @@ public class LogBaseAdapter extends BaseAdapter {
         return position;
     }
 
+    public int getItemPosition(Entry entry) {
+        for(int position = 0; position < items.size(); position++) {
+            ListItem listItem = items.get(position);
+            if(!listItem.isSection()) {
+                ListEntry listEntry = (ListEntry) listItem;
+                if(listEntry.getEntry().getId() == entry.getId()) {
+                    return position;
+                }
+            }
+        }
+        return -1;
+    }
+
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ListItem listItem = items.get(position);

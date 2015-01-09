@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.PreferenceManager;
@@ -52,6 +54,10 @@ public class BloodSugarPreference extends EditTextPreference {
 
         TextView textViewUnit = (TextView) view.findViewById(R.id.unit);
         textViewUnit.setText(preferenceHelper.getUnitName(Measurement.Category.BloodSugar));
+
+        if(Build.VERSION.SDK_INT <= 10) {
+            view.setBackgroundColor(Color.WHITE);
+        }
     }
 
     @Override

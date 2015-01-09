@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.DialogPreference;
 import android.preference.PreferenceManager;
@@ -73,6 +75,10 @@ public class FactorPreference extends DialogPreference {
             night.setText(Helper.getDecimalFormat().format(
                     sharedPreferences.getFloat(FACTOR + PreferenceHelper.Daytime.Night, 1)));
             night.setSelection(night.length());
+        }
+
+        if(Build.VERSION.SDK_INT <= 10) {
+            view.setBackgroundColor(Color.WHITE);
         }
     }
 

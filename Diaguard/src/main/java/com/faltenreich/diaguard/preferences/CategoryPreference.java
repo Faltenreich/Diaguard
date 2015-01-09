@@ -3,6 +3,8 @@ package com.faltenreich.diaguard.preferences;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Build;
 import android.preference.DialogPreference;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
@@ -43,6 +45,10 @@ public class CategoryPreference extends DialogPreference {
                 activity.getResources().getTextArray(R.array.categories));
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         listView.setAdapter(adapter);
+
+        if(Build.VERSION.SDK_INT <= 10) {
+            listView.setBackgroundColor(Color.WHITE);
+        }
 
         for(int item = 0; item < Measurement.Category.values().length; item++)
             listView.setItemChecked(item, preferenceHelper.isCategoryActive(Measurement.Category.values()[item]));

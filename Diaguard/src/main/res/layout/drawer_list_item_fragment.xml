@@ -3,7 +3,8 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/padding_end"
-    android:gravity="center_vertical">
+    android:gravity="center_vertical"
+    android:background="@drawable/background_drawer">
 
     <ImageView android:id="@+id/icon"
         android:layout_width="@dimen/size_image"

@@ -5,6 +5,13 @@
     <PreferenceCategory
         android:title="@string/general">
 
+        <ListPreference
+            android:key="startscreen"
+            android:title="@string/startscreen"
+            android:entries="@array/startscreens"
+            android:entryValues="@array/startscreens_values"
+            android:defaultValue="0"/>
+
         <CheckBoxPreference
             android:key="sound"
             android:title="@string/sound"

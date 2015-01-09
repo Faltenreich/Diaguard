@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -16,9 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.faltenreich.diaguard.adapters.DrawerListViewAdapter;
 import com.faltenreich.diaguard.fragments.EntryDetailFragment;
@@ -26,6 +23,7 @@ import com.faltenreich.diaguard.fragments.EntryListFragment;
 import com.faltenreich.diaguard.fragments.LogFragment;
 import com.faltenreich.diaguard.fragments.MainFragment;
 import com.faltenreich.diaguard.fragments.TimelineFragment;
+import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.faltenreich.diaguard.helpers.ViewHelper;
 
 public class MainActivity extends ActionBarActivity implements EntryListFragment.CallbackList {
@@ -43,6 +41,8 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
         Settings
     }
 
+    PreferenceHelper preferenceHelper;
+
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private ListView drawerList;
@@ -56,9 +56,23 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
         // TODO: Put in DiaguardApplication.java (needs Activity?)
         PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
 
+        getComponents();
+        initialize();
+    }
+
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        drawerToggle.syncState();
+    }
+
+    private void getComponents() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerList = (ListView) findViewById(R.id.drawer);
         toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+    }
+
+    private void initialize() {
+        preferenceHelper = new PreferenceHelper(this);
 
         drawerToggle = new ActionBarDrawerToggle(
                 this,
@@ -90,18 +104,7 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
         getSupportActionBar().setHomeButtonEnabled(true);
         drawerToggle.syncState();
 
-        String[] menuItems = new String[] {
-                getString(R.string.home),
-                getString(R.string.timeline),
-                getString(R.string.log),
-                getString(R.string.calculator),
-                getString(R.string.export),
-                getString(R.string.settings) };
-        int[] menuImages = new int[] {
-                R.drawable.ic_home,
-                R.drawable.ic_timeline,
-                R.drawable.ic_log };
-        DrawerListViewAdapter adapter = new DrawerListViewAdapter(this, menuItems, menuImages);
+        DrawerListViewAdapter adapter = new DrawerListViewAdapter(this);
         drawerList.setAdapter(adapter);
         drawerList.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
@@ -110,14 +113,11 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
                 drawerLayout.closeDrawer(drawerList);
             }
         });
+        drawerList.setSelector(R.drawable.background_drawer);
 
-        // Initialize
-        replaceFragment(FragmentType.Home);
-    }
-
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        drawerToggle.syncState();
+        // TODO: Better initialization
+        drawerList.performItemClick(null, preferenceHelper.getStartScreen().ordinal(), 0);
+        //replaceFragment(preferenceHelper.getStartScreen());
     }
 
     /**
@@ -125,53 +125,13 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
      * @param fragmentType Enum to detect the specific Fragment to open
      */
     public void replaceFragment(FragmentType fragmentType) {
-        int fragmentCount = ((DrawerListViewAdapter)drawerList.getAdapter()).fragmentCount;
-
-        // Highlighting
-        if(drawerList != null && drawerList.getChildCount() > 0 && fragmentType.ordinal() < fragmentCount) {
-
-            // De-highlight every item
-            for (int fragmentTypePosition = 0; fragmentTypePosition < fragmentCount; fragmentTypePosition++) {
-                View v = drawerList.getChildAt(fragmentTypePosition);
-                if(v != null) {
-                    TextView textViewListItem = (TextView) v.findViewById(R.id.title);
-                    if (textViewListItem != null) {
-                        textViewListItem.setTypeface(null, Typeface.NORMAL);
-                        textViewListItem.setTextColor(getResources().getColor(android.R.color.black));
-                    }
-                    ImageView imageView = (ImageView) v.findViewById(R.id.icon);
-                    int resourceId = getResources().getIdentifier("ic_" +
-                            FragmentType.values()[fragmentTypePosition].name().toLowerCase(),
-                            "drawable", getPackageName());
-                    if(resourceId > 0) {
-                        imageView.setImageDrawable(getResources().getDrawable(resourceId));
-                    }
-                }
-            }
-
-            // Highlight selected item
-            View view = drawerList.getChildAt(fragmentType.ordinal());
-            TextView selectedChild = (TextView) view.findViewById(R.id.title);
-            if (selectedChild != null) {
-                selectedChild.setTypeface(null, Typeface.BOLD);
-                selectedChild.setTextColor(getResources().getColor(R.color.green));
-            }
-            ImageView imageView = (ImageView) view.findViewById(R.id.icon);
-            if(imageView != null) {
-                int resourceId = getResources().getIdentifier("ic_" +
-                        fragmentType.name().toLowerCase() +
-                        "_active", "drawable", getPackageName());
-                if(resourceId > 0) {
-                    imageView.setImageDrawable(getResources().getDrawable(resourceId));
-                }
-            }
-        }
 
         // Do nothing if the user wants to reopen the current visible Fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentByTag(fragmentType.toString());
-        if(fragment != null && fragment.isVisible())
+        if(fragment != null && fragment.isVisible()) {
             return;
+        }
 
         switch (fragmentType) {
             case Home:

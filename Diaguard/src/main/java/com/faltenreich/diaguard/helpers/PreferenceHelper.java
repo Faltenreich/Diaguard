@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
 
+import com.faltenreich.diaguard.MainActivity;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.Measurement;
 import com.faltenreich.diaguard.preferences.CategoryPreference;
@@ -39,6 +40,11 @@ public class PreferenceHelper {
     }
 
     // GENERAL
+
+    public MainActivity.FragmentType getStartScreen() {
+        String startScreen = sharedPreferences.getString("startscreen", "0");
+        return MainActivity.FragmentType.values()[Integer.parseInt(startScreen)];
+    }
 
     public boolean isSoundAllowed() {
         return sharedPreferences.getBoolean("sound", true);

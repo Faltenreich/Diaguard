@@ -30,9 +30,9 @@ public class DrawerListViewAdapter extends BaseAdapter {
                 context.getString(R.string.export),
                 context.getString(R.string.settings) };
         this.iconIds = new int[] {
-                R.drawable.ic_home,
-                R.drawable.ic_timeline,
-                R.drawable.ic_log
+                R.drawable.drawable_dawer_home,
+                R.drawable.drawable_dawer_timeline,
+                R.drawable.drawable_dawer_log
         };
         this.fragmentCount = iconIds.length;
     }

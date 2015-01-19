@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,7 +46,7 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
-    private ListView drawerList;
+    private ListView drawer;
     private android.support.v7.widget.Toolbar toolbar;
 
     @Override
@@ -67,8 +68,8 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
 
     private void getComponents() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerList = (ListView) findViewById(R.id.drawer);
-        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+        drawer = (ListView) findViewById(R.id.drawer);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
     }
 
     private void initialize() {
@@ -104,67 +105,59 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
         getSupportActionBar().setHomeButtonEnabled(true);
         drawerToggle.syncState();
 
-        DrawerListViewAdapter adapter = new DrawerListViewAdapter(this);
-        drawerList.setAdapter(adapter);
-        drawerList.setOnItemClickListener(new ListView.OnItemClickListener() {
+        final DrawerListViewAdapter adapter = new DrawerListViewAdapter(this);
+        drawer.setAdapter(adapter);
+        drawer.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 replaceFragment(FragmentType.values()[position]);
-                drawerLayout.closeDrawer(drawerList);
+                drawerLayout.closeDrawer(drawer);
             }
         });
-        drawerList.setSelector(R.drawable.background_drawer);
+        drawer.setSelector(R.drawable.background_drawer);
 
         // TODO: Better initialization
-        drawerList.performItemClick(null, preferenceHelper.getStartScreen().ordinal(), 0);
-        //replaceFragment(preferenceHelper.getStartScreen());
+        // replaceFragment(preferenceHelper.getStartScreen());
+        drawer.performItemClick(null, preferenceHelper.getStartScreen().ordinal(), 0);
     }
 
-    /**
-     * Open a new Fragment
-     * @param fragmentType Enum to detect the specific Fragment to open
-     */
     public void replaceFragment(FragmentType fragmentType) {
-
-        // Do nothing if the user wants to reopen the current visible Fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentByTag(fragmentType.toString());
-        if(fragment != null && fragment.isVisible()) {
-            return;
-        }
+        if(fragment == null || !fragment.isVisible()) {
+            switch (fragmentType) {
+                case Home:
+                    fragment = new MainFragment();
+                    break;
+                case Timeline:
+                    fragment = new TimelineFragment();
+                    break;
+                case Log:
+                    fragment = new LogFragment();
+                    break;
+                case Calculator:
+                    startActivity(new Intent(this, CalculatorActivity.class));
+                    return;
+                case Export:
+                    startActivity(new Intent(this, ExportActivity.class));
+                    return;
+                case Settings:
+                    if(Build.VERSION.SDK_INT >= 11) {
+                        startActivity(new Intent(this, PreferenceActivity.class));
+                    }
+                    else {
+                        startActivity(new Intent(this, PreferenceDeprecatedActivity.class));
+                    }
+                    return;
+                default:
+                    return;
+            }
 
-        switch (fragmentType) {
-            case Home:
-                fragment = new MainFragment();
-                break;
-            case Timeline:
-                fragment = new TimelineFragment();
-                break;
-            case Log:
-                fragment = new LogFragment();
-                break;
-            case Calculator:
-                startActivity(new Intent(this, CalculatorActivity.class));
-                return;
-            case Export:
-                startActivity(new Intent(this, ExportActivity.class));
-                return;
-            case Settings:
-                if(Build.VERSION.SDK_INT >= 11) {
-                    startActivity(new Intent(this, PreferenceActivity.class));
-                }
-                else {
-                    startActivity(new Intent(this, PreferenceDeprecatedActivity.class));
-                }
-                return;
-            default:
-                return;
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.container, fragment, fragmentType.toString());
+            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            transaction.commit();
         }
-
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.container, fragment, fragmentType.toString());
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        transaction.commit();
     }
 
     @Override
@@ -213,7 +206,6 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
     @Override
     public void onItemSelected(long id) {
         if (ViewHelper.isLargeScreen(this)) {
-            // Tablet
             Bundle arguments = new Bundle();
             arguments.putLong(EntryDetailFragment.ENTRY_ID, id);
             EntryDetailFragment fragment = new EntryDetailFragment();
@@ -223,7 +215,6 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
                     .commit();
         }
         else {
-            // Phone
             Intent intent = new Intent(this, EntryDetailActivity.class);
             intent.putExtra(EntryDetailFragment.ENTRY_ID, id);
             startActivityForResult(intent, MainActivity.REQUEST_EVENT_CREATED);

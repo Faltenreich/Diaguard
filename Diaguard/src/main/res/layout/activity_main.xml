@@ -19,8 +19,7 @@
             android:layout_height="match_parent" />
 
         <!-- Navigation drawer -->
-        <ListView
-            android:id="@+id/drawer"
+        <ListView android:id="@+id/drawer"
             style="@style/NavigationDrawer"/>
 
     </android.support.v4.widget.DrawerLayout>

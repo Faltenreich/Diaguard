@@ -105,13 +105,13 @@ public class EntryListFragment extends ListFragment {
         });
     }
 
-    private void editEntry(Entry entry) {
+    public void editEntry(Entry entry) {
         Intent intent = new Intent(getActivity(), NewEventActivity.class);
         intent.putExtra(NewEventActivity.EXTRA_ENTRY, entry.getId());
         startActivity(intent);
     }
 
-    protected void deleteEntry(Entry entry) {
+    public void deleteEntry(Entry entry) {
         LogBaseAdapter logBaseAdapter = ((LogBaseAdapter)((LogEndlessAdapter) getListView().getAdapter()).getAdapter());
         int positionInAdapter = logBaseAdapter.getItemPosition(entry);
         // Remove from database

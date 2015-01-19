@@ -84,15 +84,18 @@ public class EntryDetailFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if(!ViewHelper.isLargeScreen(getActivity()))
+        if(!ViewHelper.isLargeScreen(getActivity())) {
             inflater.inflate(R.menu.edit, menu);
+        }
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        initialize();
+        if(entry != null) {
+            initialize();
+        }
     }
 
     private void getComponents(View parentView) {
@@ -128,7 +131,6 @@ public class EntryDetailFragment extends Fragment {
     }
 
     private void initialize() {
-        LayoutInflater inflater = getLayoutInflater(getArguments());
         // Pre-load image resources
         imageResources = new HashMap<String, Integer>();
         for(Measurement.Category category : Measurement.Category.values()) {
@@ -140,7 +142,7 @@ public class EntryDetailFragment extends Fragment {
 
         dataSource.open();
         List<Model> models = dataSource.get(DatabaseHelper.MEASUREMENT, null,
-                DatabaseHelper.ENTRY_ID + "=?", new String[]{Long.toString(entry.getId())},
+                DatabaseHelper.ENTRY_ID + "=?", new String[]{ Long.toString(entry.getId()) },
                 null, null, null, null);
         dataSource.close();
 
@@ -183,13 +185,15 @@ public class EntryDetailFragment extends Fragment {
         layoutMeasurements.addView(view, layoutMeasurements.getChildCount());
     }
 
-    private void editEntry() {
-        Intent intent = new Intent(getActivity(), NewEventActivity.class);
-        intent.putExtra(NewEventActivity.EXTRA_ENTRY, entry.getId());
-        startActivity(intent);
+    public void editEntry() {
+        if (entry != null) {
+            Intent intent = new Intent(getActivity(), NewEventActivity.class);
+            intent.putExtra(NewEventActivity.EXTRA_ENTRY, entry.getId());
+            startActivity(intent);
+        }
     }
 
-    private void deleteEntry() {
+    public void deleteEntry() {
         if (entry != null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle(R.string.entry_delete);

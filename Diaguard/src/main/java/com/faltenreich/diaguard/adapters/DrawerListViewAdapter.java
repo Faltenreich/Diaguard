@@ -18,7 +18,7 @@ public class DrawerListViewAdapter extends BaseAdapter {
     private Context context;
     private String[] titles;
     private int[] iconIds;
-    public int fragmentCount;
+    private int fragmentCount;
 
     public DrawerListViewAdapter(Context context) {
         this.context = context;
@@ -69,5 +69,9 @@ public class DrawerListViewAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         return position;
+    }
+
+    public int getFragmentCount() {
+        return fragmentCount;
     }
 }

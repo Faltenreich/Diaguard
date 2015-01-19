@@ -4,9 +4,8 @@
     tools:ignore="MissingTranslation">
 
     <string name="app_name">Diaguard</string>
-    <string name="app_facebook">facebook.com/diaguard.de</string>
-    <string name="app_facebook_url">http://www.facebook.com/diaguard.de</string>
-    <string name="app_facebook_url_short">facebook.com/diaguard.de</string>
+    <string name="app_facebook">http://www.facebook.com/diaguard.de</string>
+    <string name="app_facebook_short">facebook.com/diaguard.de</string>
     <string name="app_homepage">http://www.diaguard.wordpress.com</string>
     <string name="app_homepage_short">diaguard.wordpress.com</string>
     <string name="app_mail">mailto:diaguard.de@gmail.com</string>
@@ -370,7 +369,7 @@
     </string-array>
     <string name="pref_data_backup_import">Backup is being restored &#8230;</string>
 
-    <string name="pref_data_export_message">Every export will be stored locally on your SD card and can be sent via E-Mail, too.</string>
+    <string name="pref_data_export_info">Every export will be stored locally on the SD card and can be sent via E-Mail, too.</string>
     <string name="pref_data_export_finished">Data will be stored on SD card</string>
     <string name="pref_data_export_mail_message">My data as attachment sent from Diaguard</string>
 

@@ -249,7 +249,7 @@
     </string-array>
     <string name="pref_data_backup_import">Sicherung wird eingespielt &#8230;</string>
 
-    <string name="pref_data_export_message">Jeder Export wird lokal auf Ihrer Speicherkarte abgelegt und kann zusätzlich via E-Mail versendet werden.</string>
+    <string name="pref_data_export_info">Jeder Export wird lokal auf der Speicherkarte abgelegt und kann zusätzlich via E-Mail versendet werden.</string>
     <string name="pref_data_export_finished">Daten werden auf SD Karte exportiert</string>
     <string name="pref_data_export_mail_message">Meine Daten im Anhang gesendet via Diaguard</string>
 

@@ -143,10 +143,10 @@
 
         <Preference
             android:title="@string/facebook"
-            android:summary="@string/app_facebook_url_short">
+            android:summary="@string/app_facebook_short">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="@string/app_facebook_url"/>
+                android:data="@string/app_facebook"/>
         </Preference>
 
         <Preference

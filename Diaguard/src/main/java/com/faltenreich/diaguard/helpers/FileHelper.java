@@ -47,6 +47,7 @@ import au.com.bytecode.opencsv.CSVWriter;
  * Created by Filip on 05.06.2014.
  */
 public class FileHelper {
+
     public static final String PATH_EXTERNAL = Environment.getExternalStorageDirectory().getAbsolutePath();
     public static final String PATH_EXTERNAL_PARENT = Environment.getExternalStorageDirectory().getParent();
     public static final String PATH_STORAGE =  File.separator  + "Diaguard";
@@ -58,9 +59,9 @@ public class FileHelper {
     public static final String MIME_PDF = "application/pdf";
     public static final String MIME_CSV = "text/csv";
 
-    Context context;
-    DatabaseDataSource dataSource;
-    PreferenceHelper preferenceHelper;
+    private Context context;
+    private DatabaseDataSource dataSource;
+    private PreferenceHelper preferenceHelper;
 
     public FileHelper(Context context) {
         this.context = context;
@@ -72,20 +73,32 @@ public class FileHelper {
         return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
     }
 
+    public static String getExternalStorageDirectory() {
+        String path = null;
+
+        if(new File(FileHelper.PATH_EXTERNAL).exists()) {
+            path = PATH_EXTERNAL;
+        }
+        else if(new File(FileHelper.PATH_EXTERNAL_PARENT).exists()) {
+            path = PATH_EXTERNAL_PARENT;
+        }
+
+        if(path == null) {
+            return null;
+        }
+
+        return path + PATH_STORAGE;
+    }
+
     public static File getExternalStorage() {
         if(!isExternalStorageWritable())
             return null;
 
-        String path = null;
+        String path = getExternalStorageDirectory();
 
-        if(new File(FileHelper.PATH_EXTERNAL).exists())
-            path = PATH_EXTERNAL;
-
-        else if(new File(FileHelper.PATH_EXTERNAL_PARENT).exists())
-            path = PATH_EXTERNAL_PARENT;
-
-        if(path == null)
+        if(path == null) {
             return null;
+        }
 
         File file = new File(path + PATH_STORAGE);
         boolean fileCouldBeCreated = true;
@@ -492,6 +505,12 @@ public class FileHelper {
 
             return paragraph;
         }
+
+        private Paragraph getInformationPage() {
+            Paragraph paragraph = new Paragraph();
+
+            return paragraph;
+        }
     }
 
     class HeaderFooter extends PdfPageEventHelper {
@@ -521,7 +540,7 @@ public class FileHelper {
                     Element.ALIGN_LEFT, new Phrase(chunk),
                     rect.getLeft(), rect.getBottom() - 18, 0);
 
-            chunk = new Chunk(context.getString(R.string.app_facebook),
+            chunk = new Chunk(context.getString(R.string.app_homepage_short),
                     FontFactory.getFont(FontFactory.HELVETICA, 9, BaseColor.GRAY));
             ColumnText.showTextAligned(writer.getDirectContent(),
                     Element.ALIGN_RIGHT, new Phrase(chunk),

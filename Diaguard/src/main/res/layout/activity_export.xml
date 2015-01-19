@@ -17,11 +17,11 @@
             android:orientation="vertical"
             style="@style/Padding">
 
-            <TextView
+            <TextView android:id="@+id/textview_export_info"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/pref_data_export_message"
-                android:layout_marginBottom="@dimen/margin_between"/>
+                android:layout_marginBottom="@dimen/margin_between"
+                android:text="@string/pref_data_export_info"/>
 
             <TableLayout
                 android:layout_width="fill_parent"

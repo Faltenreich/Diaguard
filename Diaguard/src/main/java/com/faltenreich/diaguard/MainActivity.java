@@ -33,7 +33,7 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
     public static final String ENTRY_CREATED = "ENTRY_CREATED";
     public static final String ENTRY_DELETED = "ENTRY_DELETED";
 
-    public enum FragmentType {
+    public enum DrawerItem {
         Home,
         Timeline,
         Log,
@@ -42,7 +42,8 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
         Settings
     }
 
-    PreferenceHelper preferenceHelper;
+    private PreferenceHelper preferenceHelper;
+    private DrawerItem currentFragment;
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
@@ -110,7 +111,15 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
         drawer.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                replaceFragment(FragmentType.values()[position]);
+                // Prevent selection of non-fragment-list-items
+                if(position >= adapter.getFragmentCount()) {
+                    drawer.setItemChecked(currentFragment.ordinal(), true);
+                    drawer.setItemChecked(position, false);
+                }
+                else {
+                    currentFragment = DrawerItem.values()[position];
+                }
+                replaceFragment(DrawerItem.values()[position]);
                 drawerLayout.closeDrawer(drawer);
             }
         });
@@ -118,14 +127,16 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
 
         // TODO: Better initialization
         // replaceFragment(preferenceHelper.getStartScreen());
-        drawer.performItemClick(null, preferenceHelper.getStartScreen().ordinal(), 0);
+        DrawerItem startFragment = preferenceHelper.getStartScreen();
+        currentFragment = startFragment;
+        drawer.performItemClick(null, startFragment.ordinal(), 0);
     }
 
-    public void replaceFragment(FragmentType fragmentType) {
+    public void replaceFragment(DrawerItem drawerItem) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment = fragmentManager.findFragmentByTag(fragmentType.toString());
+        Fragment fragment = fragmentManager.findFragmentByTag(drawerItem.toString());
         if(fragment == null || !fragment.isVisible()) {
-            switch (fragmentType) {
+            switch (drawerItem) {
                 case Home:
                     fragment = new MainFragment();
                     break;
@@ -154,7 +165,7 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
             }
 
             FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.replace(R.id.container, fragment, fragmentType.toString());
+            transaction.replace(R.id.container, fragment, drawerItem.toString());
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             transaction.commit();
         }

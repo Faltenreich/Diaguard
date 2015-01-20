@@ -41,9 +41,9 @@ public class PreferenceHelper {
 
     // GENERAL
 
-    public MainActivity.FragmentType getStartScreen() {
+    public MainActivity.DrawerItem getStartScreen() {
         String startScreen = sharedPreferences.getString("startscreen", "0");
-        return MainActivity.FragmentType.values()[Integer.parseInt(startScreen)];
+        return MainActivity.DrawerItem.values()[Integer.parseInt(startScreen)];
     }
 
     public boolean isSoundAllowed() {

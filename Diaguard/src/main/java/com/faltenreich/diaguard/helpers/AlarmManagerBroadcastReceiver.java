@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.helpers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.PowerManager;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
@@ -24,11 +23,6 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-        PowerManager.WakeLock wakeLock = powerManager.newWakeLock(
-                PowerManager.PARTIAL_WAKE_LOCK,
-                context.getResources().getString(R.string.app_name));
-        wakeLock.acquire();
 
         // Get date of latest blood sugar measurement
         DatabaseDataSource dataSource = new DatabaseDataSource(context);
@@ -56,12 +50,10 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
         PreferenceHelper preferenceHelper = new PreferenceHelper(context);
         if(preferenceHelper.isSoundAllowed()) {
-            Helper.playSound(context, R.raw.reminder);
+            Helper.playSound(context);
         }
         if(preferenceHelper.isVibrationAllowed()) {
             Helper.vibrate(context, 1000 * VIBRATION_TIME_IN_SECONDS);
         }
-
-        wakeLock.release();
     }
 }

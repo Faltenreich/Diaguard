@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.media.RingtoneManager;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
@@ -112,7 +113,7 @@ public class Helper {
         Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, AlarmManagerBroadcastReceiver.ALARM_ID, intent, 0);
         alarmManager.set(AlarmManager.RTC_WAKEUP,
-                System.currentTimeMillis() + 1000 * 60 * intervalInMinutes,
+                System.currentTimeMillis() + 1000 /** 60 * intervalInMinutes*/,
                 pendingIntent);
     }
 
@@ -128,9 +129,11 @@ public class Helper {
         vibrator.vibrate(timeInMilliseconds);
     }
 
-    public static void playSound(Context context, int resourceId) {
+    public static void playSound(Context context) {
         try {
-            MediaPlayer mediaPlayer = MediaPlayer.create(context.getApplicationContext(), resourceId);
+            MediaPlayer mediaPlayer = MediaPlayer.create(
+                    context.getApplicationContext(),
+                    RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
             if(mediaPlayer != null) {
                 mediaPlayer.setLooping(false);
                 mediaPlayer.start();
@@ -145,9 +148,11 @@ public class Helper {
     public static void notify(Context context, String message) {
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.ic_launcher)
+                        .setSmallIcon(R.drawable.ic_notification)
                         .setContentTitle(context.getString(R.string.alarm))
-                        .setContentText(message);
+                        .setContentText(message)
+                        .setTicker(context.getString(R.string.alarm))
+                        .setWhen(1000);
         Intent resultIntent = new Intent(context, NewEventActivity.class);
 
         // Put target activity on back stack on top of its parent to guarantee correct back navigation
@@ -159,7 +164,7 @@ public class Helper {
 
         // Notification will dismiss when be clicked on
         Notification notification = builder.build();
-        notification.flags = Notification.DEFAULT_LIGHTS | Notification.FLAG_AUTO_CANCEL;
+        notification.flags = Notification.DEFAULT_LIGHTS | Notification.FLAG_AUTO_CANCEL | Notification.FLAG_ONLY_ALERT_ONCE;
 
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

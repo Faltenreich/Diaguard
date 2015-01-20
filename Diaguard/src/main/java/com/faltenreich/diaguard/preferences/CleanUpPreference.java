@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.os.Build;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.view.View;
@@ -53,6 +55,10 @@ public class CleanUpPreference extends DialogPreference {
     @Override
     public void onBindDialogView(View view) {
         super.onBindDialogView(view);
+
+        if(Build.VERSION.SDK_INT <= 10) {
+            view.setBackgroundColor(Color.WHITE);
+        }
 
         datePicker = (DatePicker) view.findViewById(R.id.datepicker);
     }

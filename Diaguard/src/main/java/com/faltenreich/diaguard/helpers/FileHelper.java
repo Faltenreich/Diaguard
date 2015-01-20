@@ -100,7 +100,7 @@ public class FileHelper {
             return null;
         }
 
-        File file = new File(path + PATH_STORAGE);
+        File file = new File(path);
         boolean fileCouldBeCreated = true;
 
         if(!file.exists())

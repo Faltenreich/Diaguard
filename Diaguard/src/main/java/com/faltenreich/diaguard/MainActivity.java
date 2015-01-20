@@ -106,7 +106,18 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
         getSupportActionBar().setHomeButtonEnabled(true);
         drawerToggle.syncState();
 
-        final DrawerListViewAdapter adapter = new DrawerListViewAdapter(this);
+        final DrawerListViewAdapter adapter = new DrawerListViewAdapter(this,
+                new String[] {
+                    getString(R.string.home),
+                    getString(R.string.timeline),
+                    getString(R.string.log),
+                    getString(R.string.calculator),
+                    getString(R.string.export),
+                    getString(R.string.settings) },
+                new int[] {
+                    R.drawable.drawable_dawer_home,
+                    R.drawable.drawable_dawer_timeline,
+                    R.drawable.drawable_dawer_log });
         drawer.setAdapter(adapter);
         drawer.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
@@ -125,8 +136,7 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
         });
         drawer.setSelector(R.drawable.background_drawer);
 
-        // TODO: Better initialization
-        // replaceFragment(preferenceHelper.getStartScreen());
+        // TODO: Initialization without performItemClick()
         DrawerItem startFragment = preferenceHelper.getStartScreen();
         currentFragment = startFragment;
         drawer.performItemClick(null, startFragment.ordinal(), 0);

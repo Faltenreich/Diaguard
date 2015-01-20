@@ -20,20 +20,10 @@ public class DrawerListViewAdapter extends BaseAdapter {
     private int[] iconIds;
     private int fragmentCount;
 
-    public DrawerListViewAdapter(Context context) {
+    public DrawerListViewAdapter(Context context, String[] titles, int[] iconIds) {
         this.context = context;
-        this.titles = new String[] {
-                context.getString(R.string.home),
-                context.getString(R.string.timeline),
-                context.getString(R.string.log),
-                context.getString(R.string.calculator),
-                context.getString(R.string.export),
-                context.getString(R.string.settings) };
-        this.iconIds = new int[] {
-                R.drawable.drawable_dawer_home,
-                R.drawable.drawable_dawer_timeline,
-                R.drawable.drawable_dawer_log
-        };
+        this.titles = titles;
+        this.iconIds = iconIds;
         this.fragmentCount = iconIds.length;
     }
 

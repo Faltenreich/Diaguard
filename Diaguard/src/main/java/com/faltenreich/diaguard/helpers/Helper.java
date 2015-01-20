@@ -113,7 +113,7 @@ public class Helper {
         Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, AlarmManagerBroadcastReceiver.ALARM_ID, intent, 0);
         alarmManager.set(AlarmManager.RTC_WAKEUP,
-                System.currentTimeMillis() + 1000 /** 60 * intervalInMinutes*/,
+                System.currentTimeMillis() + 1000 * 60 * intervalInMinutes,
                 pendingIntent);
     }
 
@@ -145,13 +145,13 @@ public class Helper {
         }
     }
 
-    public static void notify(Context context, String message) {
+    public static void notify(Context context, String title, String message) {
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.ic_notification)
-                        .setContentTitle(context.getString(R.string.alarm))
+                        .setContentTitle(title)
                         .setContentText(message)
-                        .setTicker(context.getString(R.string.alarm))
+                        .setTicker(title)
                         .setWhen(1000);
         Intent resultIntent = new Intent(context, NewEventActivity.class);
 

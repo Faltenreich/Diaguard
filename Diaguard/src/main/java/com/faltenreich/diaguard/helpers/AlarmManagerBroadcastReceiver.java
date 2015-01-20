@@ -46,7 +46,7 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
                                 context.getString(R.string.hours));
             }
         }
-        Helper.notify(context, message);
+        Helper.notify(context, context.getString(R.string.alarm), message);
 
         PreferenceHelper preferenceHelper = new PreferenceHelper(context);
         if(preferenceHelper.isSoundAllowed()) {

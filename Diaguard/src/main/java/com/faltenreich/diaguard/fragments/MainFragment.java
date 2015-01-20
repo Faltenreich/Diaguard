@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.fragments;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.faltenreich.diaguard.MainActivity;
+import com.faltenreich.diaguard.NewEventActivity;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.DatabaseHelper;
@@ -30,6 +33,7 @@ public class MainFragment extends Fragment {
     private PreferenceHelper preferenceHelper;
     private DateTime today;
 
+    private ViewGroup layoutLatest;
     private LinearLayout layoutChart;
 
     private TextView textViewLatestValue;
@@ -64,6 +68,7 @@ public class MainFragment extends Fragment {
     }
 
     private void getComponents() {
+        layoutLatest = (ViewGroup) getView().findViewById(R.id.layout_latest);
         layoutChart = (LinearLayout) getView().findViewById(R.id.chart);
 
         textViewLatestValue = (TextView) getView().findViewById(R.id.textview_latest_value);
@@ -94,11 +99,19 @@ public class MainFragment extends Fragment {
                 Measurement.Category.BloodSugar.toString());
 
         if(countBloodSugarMeasurements > 0) {
+            Entry entry = dataSource.getLatestBloodSugar();
+            layoutLatest.setOnClickListener(null);
             textViewLatestValue.setTextSize(60);
-            updateLatest();
+            updateLatest(entry);
             updateDashboard();
         }
         else {
+            layoutLatest.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivityForResult(new Intent(getActivity(), NewEventActivity.class), MainActivity.REQUEST_EVENT_CREATED);
+                }
+            });
             textViewLatestValue.setTextSize(40);
             textViewAverageMonth.setText(Helper.PLACEHOLDER);
             textViewAverageWeek.setText(Helper.PLACEHOLDER);
@@ -110,8 +123,7 @@ public class MainFragment extends Fragment {
         dataSource.close();
     }
 
-    private void updateLatest() {
-        Entry entry = dataSource.getLatestBloodSugar();
+    private void updateLatest(Entry entry) {
         Measurement latestBloodSugar = entry.getMeasurements().get(0);
 
         // Value

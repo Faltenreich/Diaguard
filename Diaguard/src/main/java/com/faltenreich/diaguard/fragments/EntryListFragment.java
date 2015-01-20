@@ -18,6 +18,7 @@ import com.faltenreich.diaguard.NewEventActivity;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapters.ListEntry;
 import com.faltenreich.diaguard.adapters.ListItem;
+import com.faltenreich.diaguard.adapters.ListSection;
 import com.faltenreich.diaguard.adapters.LogBaseAdapter;
 import com.faltenreich.diaguard.adapters.LogEndlessAdapter;
 import com.faltenreich.diaguard.adapters.PinnedSectionListView;
@@ -122,6 +123,13 @@ public class EntryListFragment extends ListFragment {
         // Remove from ListView
         if(positionInAdapter >= 0) {
             logBaseAdapter.items.remove(positionInAdapter);
+            // Remove section if entry was the last item of this section
+            if(logBaseAdapter.items.get(positionInAdapter - 1) instanceof ListSection) {
+                if(logBaseAdapter.items.size() <= positionInAdapter ||
+                        !(logBaseAdapter.items.get(positionInAdapter) instanceof ListEntry)) {
+                    logBaseAdapter.items.remove(positionInAdapter - 1);
+                }
+            }
             logBaseAdapter.notifyDataSetChanged();
         }
         // Close detail view

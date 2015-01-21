@@ -15,8 +15,8 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
 
-        <receiver android:name='com.faltenreich.diaguard.helpers.AlarmManagerBroadcastReceiver'>
-        </receiver>
+        <receiver
+            android:name='com.faltenreich.diaguard.helpers.AlarmManagerBroadcastReceiver'/>
 
         <activity
             android:name=".MainActivity"

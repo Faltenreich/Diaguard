@@ -117,7 +117,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    // TODO: Group by Events with the same date
     private void upgradeToVersion18(SQLiteDatabase sqliteDatabase) {
         String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " ORDER BY " + DatabaseHelper.DATE;
         Cursor cursor = sqliteDatabase.rawQuery(query, null);

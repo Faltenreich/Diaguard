@@ -255,6 +255,7 @@ public class CalculatorActivity extends ActionBarActivity {
                 textViewInfo.setText(textViewInfo.getText().toString() + " " +
                         getString(R.string.bolus_no2));
         }
+
         else {
             viewPopup.findViewById(R.id.result).setVisibility(View.VISIBLE);
             textViewInfo.setVisibility(View.GONE);

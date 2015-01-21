@@ -187,7 +187,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:entries="@array/factor_names"
-                        android:layout_marginLeft="10dp"/>
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"/>
 
                 </LinearLayout>
 

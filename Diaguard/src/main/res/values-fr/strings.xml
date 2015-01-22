@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+
+    <!-- GENERAL -->
+    <string name="about">Sur</string>
+    <string name="add_value">Ajouter de la valeur</string>
+    <string name="alarm">Mesure de la glycémie</string>
+    <string name="alarm_desc">%s depuis la dernière mesure</string>
+    <string name="alarm_desc_first">Déjà pensé?</string>
+    <string name="average">Moyenne</string>
+    <string name="back">Arrière</string>
+    <string name="backup">Fusible</string>
+    <string name="backup_title">Sélectionnez sauvegarde</string>
+    <string name="bloodsugar">Glycémie</string>
+    <string name="bolus_no1">Il est recommandé d'administrer pas bolus.</string>
+    <string name="bolus_no2">Au lieu de glucides rapides devraient être consommés afin d'éviter niveau de sucre dans le sang inférieure.</string>
+    <string name="calculator">Calculateur de bolus</string>
+    <string name="cancel">Avorter</string>
+    <string name="categories_active">aActives Catégories</string>
+    <string name="cleanup">Nettoyer</string>
+    <string name="cleanup_desc">Cette opération va supprimer toutes les entrées sur et au-dessus la date sélectionnée de façon permanente.</string>
+    <string name="contact">Contact</string>
+    <string name="correction">Valeur de correction</string>
+    <string name="data">Données</string>
+    <string name="date_select">DChoisissez une date</string>
+    <string name="day_next">Suivant jour</string>
+    <string name="day_previous">Jour précédent</string>
+    <string name="development">Développement</string>
+    <string name="drawer_close">Fermer Navigator</string>
+    <string name="drawer_open">Ouvrir Navigator</string>
+    <string name="entry">Entrée</string>
+    <string name="entry_added">Ajout d'une entrée</string>
+    <string name="entry_edit">Modifiez l'entrée</string>
+    <string name="entry_delete">Supprimer l'entrée</string>
+    <string name="entry_delete_desc">L'entrée et ses mesures sont éliminés</string>
+    <string name="entry_deleted">Entrée supprimée</string>
+    <string name="entry_new">Nouvelle entrée</string>
+    <string name="export_progress">PDF est créé</string>
+    <string name="export_stamp">Rapport généré sur</string>
+    <string name="factor">Facteur de glucides unitaire</string>
+    <string name="factors">Facteur de glucides unitaire</string>
+    <string name="first_visit">Nouveau ici?</string>
+    <string name="first_visit_desc">Ajouter la première valeur</string>
+    <string name="general">Généralement</string>
+    <string name="hba1c">HbA1c</string>
+    <string name="home">Enquête</string>
+    <string name="latest">Il ya [value] [unit]</string>
+    <string name="latest_moments">Juste maintenant</string>
+    <string name="licenses">Licences Open-Source</string>
+    <string name="listview_empty">Pas d'entrées à imprimer</string>
+    <string name="log">Protocole</string>
+    <string name="meal">Repas</string>
+    <string name="measurements">Mesures</string>
+    <string name="note">Remarque</string>
+    <string name="ok">OK</string>
+    <string name="settings">Paramètres</string>
+    <string name="sound">Tones</string>
+    <string name="startscreen">Écran d'accueil</string>
+    <string name="store_values">Entrez les valeurs</string>
+    <string name="timeline">Journal</string>
+    <string name="today">Aujourd'hui</string>
+    <string name="undo">Annuler</string>
+    <string name="units">Unités</string>
+    <string name="weight">Poids</string>
+    <string name="version">Version</string>
+    <string name="vibration">Vibration</string>
+
+    <string-array name="startscreens">
+        <item>Enquête</item>
+        <item>Journal</item>
+        <item>Protocole</item>
+    </string-array>
+
+    <!-- DATE -->
+    <string name="calendarweek">Semaine</string>
+    <string name="dateend">Date de fin</string>
+    <string name="dateformat">Format de l'heure</string>
+    <string name="datestart">Date de début</string>
+    <string name="minute">Minute</string>
+    <string name="minutes">Minutes</string>
+    <string name="hour">Heure</string>
+    <string name="hours">Heures</string>
+    <string name="day">Jour</string>
+    <string name="days">Jours</string>
+    <string name="week">Semaine</string>
+    <string name="weeks">Semaines</string>
+
+    <string-array name="weekdays">
+        <item>Lundi</item>
+        <item>Mardi</item>
+        <item>Mercredi</item>
+        <item>Jeudi</item>
+        <item>Vendredi</item>
+        <item>Samedi</item>
+        <item>Dimanche</item>
+    </string-array>
+    <string-array name="weekdays_short">
+        <item>Lu</item>
+        <item>Ma</item>
+        <item>Me</item>
+        <item>Je</item>
+        <item>Ve</item>
+        <item>Sa</item>
+        <item>Di</item>
+    </string-array>
+
+    <string name="morning">Le matin</string>
+    <string name="noon">Le midi</string>
+    <string name="evening">Le soir</string>
+    <string name="night">La nuit</string>
+    <string-array name="factor_names">
+        <item>Le matin</item>
+        <item>Le midi</item>
+        <item>Le soir</item>
+        <item>La nuit</item>
+    </string-array>
+
+    <string-array name="alarm_intervals">
+        <item>Pas de rappel</item>
+        <item>En 30 minutes</item>
+        <item>En 1 heure</item>
+        <item>En 2 heures</item>
+        <item>En 4 heures</item>
+        <item>En 8 heures</item>
+    </string-array>
+
+    <string name="dateformat_default">DD.MM.YYYY</string>
+
+    <!-- CATEGORIES -->
+    <string-array name="categories">
+        <item>Glycémie</item>
+        <item>Bolus</item>
+        <item>Repas</item>
+        <item>Activité</item>
+        <item>HbA1c</item>
+        <item>Poids</item>
+        <item>Impulsion</item>
+    </string-array>
+
+    <string-array name="bolus_units">
+        <item>Unités d'insuline</item>
+    </string-array>
+    <string-array name="bolus_units_acronyms">
+        <item>IU</item>
+    </string-array>
+
+    <string name="meal_units_default">Kohlenhydrate</string>
+    <string-array name="meal_units">
+        <item>Glucides</item>
+        <item>Unités de glucides</item>
+        <item>Unités de pain</item>
+    </string-array>
+    <string-array name="meal_units_acronyms">
+        <item>Gluc</item>
+        <item>GU</item>
+        <item>PU</item>
+    </string-array>
+
+    <string name="hba1c_units_default">mmol/mol</string>
+    <string-array name="hba1c_units">
+        <item>Pour cent</item>
+        <item>mmol/mol</item>
+    </string-array>
+
+    <string name="weight_units_default">Kilogramme</string>
+    <string-array name="weight_units">
+        <item>Kilogramme</item>
+        <item>Livre</item>
+    </string-array>
+
+    <string name="pulse_units_default">Battements par minute</string>
+    <string-array name="pulse_units">
+        <item>Battements par minute</item>
+    </string-array>
+    <string-array name="pulse_units_acronyms">
+        <item>bpm</item>
+    </string-array>
+
+    <!-- VALIDATORS -->
+    <string name="validator_value_number">Seuls les chiffres sont autorisés</string>
+    <string name="validator_value_infuture">Événement ne peut pas être dans l'avenir</string>
+    <string name="validator_value_empty">Se il vous plaît entrer une valeur</string>
+    <string name="validator_value_none">Entrée contient pas d'événements</string>
+    <string name="validator_value_unrealistic">Valeur irréaliste</string>
+    <string name="validator_value_enddate">La date de début ne est pas avant la fin</string>
+
+    <!-- ERRORS -->
+    <string name="error_no_mail">Aucune de l'application d'envoyer des e-mails</string>
+    <string name="error_no_app">Aucune de l'application pour ouvrir le fichier</string>
+    <string name="error_sd_card">La carte mémoire ne est disponible</string>
+    <string name="error_no_backups">Aucune sauvegarde trouvés sous</string>
+
+    <!-- SETTINGS -->
+    <string name="pref_therapy_targets">Les valeurs cibles</string>
+    <string name="pref_therapy_targets_target">Valeur cible</string>
+
+    <string name="pref_therapy_limits">Limites</string>
+    <string name="pref_therapy_targets_highlight">Mettez en surbrillance les zones frontalières?</string>
+    <string name="pref_therapy_targets_hyperclycemia">Limite d'hyperglycémie</string>
+    <string name="pref_therapy_targets_hypoclycemia">Limite d'hypoglycémie</string>
+
+    <string name="pref_data_cleanup_confirm_title">Supprimer des entrées?</string>
+    <string name="pref_data_cleanup_confirm_message">entrées seraient touchés</string>
+    <string name="pref_data_cleanup_return">entrées ont été supprimés</string>
+
+    <string name="pref_data_backup_finished">Sauvegarde est créé &#8230;</string>
+    <string-array name="backup_actions">
+        <item>Créer sauvegarde</item>
+        <item>Restaurer sauvegarde</item>
+    </string-array>
+    <string name="pref_data_backup_import">Sauvegarde est charger &#8230;</string>
+
+    <string name="pref_data_export_info">Chaque exportation est stockée localement sur la carte mémoire et peut également être envoyé par E-mail.</string>
+    <string name="pref_data_export_mail_message">Mes données envoyées par la poste via Diaguard</string>
+
+</resources>

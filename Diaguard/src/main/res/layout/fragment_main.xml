@@ -191,7 +191,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="3"
-                                android:text="@string/last_24hours"/>
+                                android:text="@string/day"/>
 
                             <TextView android:id="@+id/textview_avg_day"
                                 android:layout_width="0dp"
@@ -208,7 +208,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="3"
-                                android:text="@string/last_7days"/>
+                                android:text="@string/week"/>
 
                             <TextView android:id="@+id/textview_avg_week"
                                 android:layout_width="0dp"
@@ -225,7 +225,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="3"
-                                android:text="@string/last_30days"/>
+                                android:text="@string/month"/>
 
                             <TextView android:id="@+id/textview_avg_month"
                                 android:layout_width="0dp"

@@ -10,24 +10,21 @@
     <string name="app_homepage_short">diaguard.wordpress.com</string>
     <string name="app_mail">mailto:diaguard.de@gmail.com</string>
     <string name="app_mail_short">diaguard.de@gmail.com</string>
-    <string name="app_version">1.2</string>
+    <string name="app_version">1.2.1</string>
 
     <!-- GENERAL -->
 
     <string name="about">About</string>
     <string name="activity">Activity</string>
     <string name="add_value">Add value</string>
-    <string name="add_value_desc">Choose categories</string>
     <string name="alarm">Measure blood sugar</string>
     <string name="alarm_desc">%s since the last measurement</string>
     <string name="alarm_desc_first">Thought about yet?</string>
-    <string name="application">Application</string>
     <string name="average">Average</string>
     <string name="back">Back</string>
     <string name="backup">Backup</string>
     <string name="backup_title">Choose backup</string>
     <string name="bloodsugar">Blood Sugar</string>
-    <string name="bloodsugar_latest">Latest Blood Sugar</string>
     <string name="bolus">Bolus</string>
     <string name="bolus_no1">It is recommended not to inject a bolus.</string>
     <string name="bolus_no2">Instead some carbohydrate-heavy products should be consumed to prevent lower blood sugar level.</string>
@@ -44,8 +41,6 @@
     <string name="date_select">Select date</string>
     <string name="day_next">Next day</string>
     <string name="day_previous">Previous day</string>
-    <string name="delete_value">Delete value</string>
-    <string name="description">Description</string>
     <string name="development">Development</string>
     <string name="drawer_close">Close Navigator</string>
     <string name="drawer_open">Open Navigator</string>
@@ -56,16 +51,12 @@
     <string name="entry_delete_desc">Remove entry and its measurements from timeline</string>
     <string name="entry_deleted">Entry deleted</string>
     <string name="entry_new">New entry</string>
-    <string name="event">Event</string>
-    <string name="events">Events</string>
     <string name="export">Export</string>
-    <string name="export_finished">PDF has been stored at</string>
     <string name="export_progress">PDF is being created</string>
     <string name="export_stamp">Report generated on</string>
     <string name="facebook">Facebook</string>
     <string name="factor">Factor</string>
     <string name="factors">Factors</string>
-    <string name="filter">Filter</string>
     <string name="first_visit">First visit?</string>
     <string name="first_visit_desc">Enter your first value</string>
     <string name="format">Format</string>
@@ -83,20 +74,13 @@
     <string name="mail">E-Mail</string>
     <string name="meal">Meal</string>
     <string name="measurements">Measured</string>
-    <string name="name">Name</string>
-    <string name="newevent_desc">Add measurements</string>
     <string name="note">Note</string>
     <string name="ok">OK</string>
-    <string name="open">Open</string>
     <string name="placeholder">-</string>
-    <string name="pulse">Pulse</string>
-    <string name="recently">Recently</string>
-    <string name="remove">Remove</string>
     <string name="settings">Settings</string>
     <string name="sound">Sound</string>
     <string name="startscreen">Start screen</string>
     <string name="store_values">Store values</string>
-    <string name="therapy">Therapy</string>
     <string name="timeline">Timeline</string>
     <string name="today">Today</string>
     <string name="trend">Trend</string>
@@ -105,7 +89,6 @@
     <string name="weight">Weight</string>
     <string name="version">Version</string>
     <string name="vibration">Vibration</string>
-    <string name="view">View</string>
 
     <string-array name="startscreens">
         <item>Home</item>
@@ -164,10 +147,6 @@
         <item>Evening</item>
         <item>Night</item>
     </string-array>
-
-    <string name="last_24hours">Day</string>
-    <string name="last_7days">Week</string>
-    <string name="last_30days">Month</string>
 
     <string-array name="alarm_intervals">
         <item>No reminder</item>
@@ -333,9 +312,6 @@
     <string name="validator_value_unrealistic">Unrealistic value</string>
     <string name="validator_value_enddate">Start date must be before end date</string>
 
-    <string name="confirmation_exit">Discard changes?</string>
-    <string name="confirmation_exit_desc">This will discard all entered data</string>
-
     <!-- ERRORS -->
 
     <string name="error_no_mail">No app found to send E-Mail</string>
@@ -359,10 +335,7 @@
     <string name="pref_data_cleanup_confirm_message">entries would be affected</string>
     <string name="pref_data_cleanup_return">entries have been deleted</string>
 
-    <string name="pref_data_backup_message">Restore old data with a local backup file.
-        Decide whether you want to keep existing data or create a completely new database.</string>
     <string name="pref_data_backup_finished">Backup will be created &#8230;</string>
-    <string name="pref_data_backup_clearexisting">Clear existing data?</string>
     <string-array name="backup_actions">
         <item>Create backup</item>
         <item>Restore backup</item>
@@ -370,7 +343,6 @@
     <string name="pref_data_backup_import">Backup is being restored &#8230;</string>
 
     <string name="pref_data_export_info">Every export will be stored locally on the SD card and can be sent via E-Mail, too.</string>
-    <string name="pref_data_export_finished">Data will be stored on SD card</string>
     <string name="pref_data_export_mail_message">My data as attachment sent from Diaguard</string>
 
     <!-- LICENSING

@@ -80,8 +80,8 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
                 this,
                 drawerLayout,
                 toolbar,
-                R.string.open,
-                R.string.close) {
+                R.string.drawer_open,
+                R.string.drawer_close) {
             public void onDrawerClosed(View view)
             {
                 super.onDrawerClosed(view);

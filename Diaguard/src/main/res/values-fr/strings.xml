@@ -14,8 +14,8 @@
     <string name="backup">Fusible</string>
     <string name="backup_title">Sélectionnez sauvegarde</string>
     <string name="bloodsugar">Glycémie</string>
-    <string name="bolus_no1">Il est recommandé d'administrer pas bolus.</string>
-    <string name="bolus_no2">Au lieu de glucides rapides devraient être consommés afin d'éviter niveau de sucre dans le sang inférieure.</string>
+    <string name="bolus_no1">Il est recommandé d\'administrer pas bolus.</string>
+    <string name="bolus_no2">Au lieu de glucides rapides devraient être consommés afin d\'éviter niveau de sucre dans le sang inférieure.</string>
     <string name="calculator">Calculateur de bolus</string>
     <string name="cancel">Avorter</string>
     <string name="categories_active">aActives Catégories</string>
@@ -31,16 +31,25 @@
     <string name="drawer_close">Fermer Navigator</string>
     <string name="drawer_open">Ouvrir Navigator</string>
     <string name="entry">Entrée</string>
-    <string name="entry_added">Ajout d'une entrée</string>
-    <string name="entry_edit">Modifiez l'entrée</string>
-    <string name="entry_delete">Supprimer l'entrée</string>
-    <string name="entry_delete_desc">L'entrée et ses mesures sont éliminés</string>
+    <string name="entry_added">Ajout d\'une entrée</string>
+    <string name="entry_edit">Modifiez l\'entrée</string>
+    <string name="entry_delete">Supprimer l\'entrée</string>
+    <string name="entry_delete_desc">L\'entrée et ses mesures sont éliminés</string>
     <string name="entry_deleted">Entrée supprimée</string>
     <string name="entry_new">Nouvelle entrée</string>
     <string name="export_progress">PDF est créé</string>
     <string name="export_stamp">Rapport généré sur</string>
     <string name="factor">Facteur de glucides unitaire</string>
     <string name="factors">Facteur de glucides unitaire</string>
+    <string name="faq">Informations générales</string>
+    <string name="faq_dev">Développeur</string>
+    <string name="faq_dev_desc">Philipp Fahlteich,\nB. Sc. de l\'informatique, Diabétiques de type 1</string>
+    <string name="faq_financing">Financement</string>
+    <string name="faq_financing_desc">Actuellement, il n\'y a pas de soutien financier des organisations commerciales ou non-commerciales qui contribuent au financement, services ou des matériaux pour l\'application. L\'application est entièrement financé par le développeur.</string>
+    <string name="faq_advertisement">Politique publicitaire</string>
+    <string name="faq_advertisement_desc">Diaguard est et reste entièrement sans publicité.</string>
+    <string name="faq_health">Gonflement</string>
+    <string name="faq_health_desc">Toutes les informations de santé basé sur les recommandations acceptées de diabétologues allemands.</string>
     <string name="first_visit">Nouveau ici?</string>
     <string name="first_visit_desc">Ajouter la première valeur</string>
     <string name="general">Généralement</string>
@@ -49,18 +58,25 @@
     <string name="latest">Il ya [value] [unit]</string>
     <string name="latest_moments">Juste maintenant</string>
     <string name="licenses">Licences Open-Source</string>
-    <string name="listview_empty">Pas d'entrées à imprimer</string>
+    <string name="listview_empty">Pas d\'entrées à imprimer</string>
     <string name="log">Protocole</string>
     <string name="meal">Repas</string>
     <string name="measurements">Mesures</string>
     <string name="note">Remarque</string>
     <string name="ok">OK</string>
+    <string name="privacy">Politique de confidentialité</string>
+    <string name="privacy_principle">Principle</string>
+    <string name="privacy_principle_desc">Nous prenons la confidentialité de vos données personnelles très au sérieux et traitons les informations personnelles que vous nous fournissez via un formulaire de contact ou nous envoyer un courriel en toute confidentialité et en conformité avec la législation sur la protection des données et la politique de confidentialité.</string>
+    <string name="privacy_data">Collecte de données</string>
+    <string name="privacy_data_desc">Nous ne collectons et traitons des données personnelles.</string>
+    <string name="privacy_third">ÜTransmission de données</string>
+    <string name="privacy_third_desc">Nous ne soumettons pas de données personnelles à des tiers.</string>
     <string name="settings">Paramètres</string>
     <string name="sound">Tones</string>
-    <string name="startscreen">Écran d'accueil</string>
+    <string name="startscreen">Écran d\'accueil</string>
     <string name="store_values">Entrez les valeurs</string>
     <string name="timeline">Journal</string>
-    <string name="today">Aujourd'hui</string>
+    <string name="today">Aujourd\'hui</string>
     <string name="undo">Annuler</string>
     <string name="units">Unités</string>
     <string name="weight">Poids</string>
@@ -76,7 +92,7 @@
     <!-- DATE -->
     <string name="calendarweek">Semaine</string>
     <string name="dateend">Date de fin</string>
-    <string name="dateformat">Format de l'heure</string>
+    <string name="dateformat">Format de l\'heure</string>
     <string name="datestart">Date de début</string>
     <string name="minute">Minute</string>
     <string name="minutes">Minutes</string>
@@ -140,7 +156,7 @@
     </string-array>
 
     <string-array name="bolus_units">
-        <item>Unités d'insuline</item>
+        <item>Unités d\'insuline</item>
     </string-array>
     <string-array name="bolus_units_acronyms">
         <item>IU</item>
@@ -180,15 +196,15 @@
 
     <!-- VALIDATORS -->
     <string name="validator_value_number">Seuls les chiffres sont autorisés</string>
-    <string name="validator_value_infuture">Événement ne peut pas être dans l'avenir</string>
+    <string name="validator_value_infuture">Événement ne peut pas être dans l\'avenir</string>
     <string name="validator_value_empty">Se il vous plaît entrer une valeur</string>
-    <string name="validator_value_none">Entrée contient pas d'événements</string>
+    <string name="validator_value_none">Entrée contient pas d\'événements</string>
     <string name="validator_value_unrealistic">Valeur irréaliste</string>
     <string name="validator_value_enddate">La date de début ne est pas avant la fin</string>
 
     <!-- ERRORS -->
-    <string name="error_no_mail">Aucune de l'application d'envoyer des e-mails</string>
-    <string name="error_no_app">Aucune de l'application pour ouvrir le fichier</string>
+    <string name="error_no_mail">Aucune de l\'application d\'envoyer des e-mails</string>
+    <string name="error_no_app">Aucune de l\'application pour ouvrir le fichier</string>
     <string name="error_sd_card">La carte mémoire ne est disponible</string>
     <string name="error_no_backups">Aucune sauvegarde trouvés sous</string>
 
@@ -198,8 +214,8 @@
 
     <string name="pref_therapy_limits">Limites</string>
     <string name="pref_therapy_targets_highlight">Mettez en surbrillance les zones frontalières?</string>
-    <string name="pref_therapy_targets_hyperclycemia">Limite d'hyperglycémie</string>
-    <string name="pref_therapy_targets_hypoclycemia">Limite d'hypoglycémie</string>
+    <string name="pref_therapy_targets_hyperclycemia">Limite d\'hyperglycémie</string>
+    <string name="pref_therapy_targets_hypoclycemia">Limite d\'hypoglycémie</string>
 
     <string name="pref_data_cleanup_confirm_title">Supprimer des entrées?</string>
     <string name="pref_data_cleanup_confirm_message">entrées seraient touchés</string>

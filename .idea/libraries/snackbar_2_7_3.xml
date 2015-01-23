@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="snackbar-2.7.3">
+    <ANNOTATIONS>
+      <root url="jar://$PROJECT_DIR$/Diaguard/build/intermediates/exploded-aar/com.nispok/snackbar/2.7.3/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Diaguard/build/intermediates/exploded-aar/com.nispok/snackbar/2.7.3/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/Diaguard/build/intermediates/exploded-aar/com.nispok/snackbar/2.7.3/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

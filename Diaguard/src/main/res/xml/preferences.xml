@@ -131,7 +131,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/about">
+        android:title="@string/contact">
 
         <Preference
             android:title="@string/homepage"
@@ -150,7 +150,7 @@
         </Preference>
 
         <Preference
-            android:title="@string/contact"
+            android:title="@string/mail"
             android:summary="@string/app_mail_short">
             <intent
                 android:action="android.intent.action.VIEW"
@@ -160,7 +160,13 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/development">
+        android:title="@string/about">
+
+        <com.faltenreich.diaguard.preferences.AboutPreference
+            android:title="@string/faq"/>
+
+        <com.faltenreich.diaguard.preferences.PrivacyPreference
+            android:title="@string/privacy"/>
 
         <com.faltenreich.diaguard.preferences.LicensePreference
             android:title="@string/licenses"/>

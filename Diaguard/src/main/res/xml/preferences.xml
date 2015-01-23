@@ -163,10 +163,7 @@
         android:title="@string/about">
 
         <com.faltenreich.diaguard.preferences.AboutPreference
-            android:title="@string/faq"/>
-
-        <com.faltenreich.diaguard.preferences.PrivacyPreference
-            android:title="@string/privacy"/>
+            android:title="@string/impress"/>
 
         <com.faltenreich.diaguard.preferences.LicensePreference
             android:title="@string/licenses"/>

@@ -13,49 +13,61 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="@string/faq_dev"
+            android:text="@string/about_dev"
             style="@style/LicenseLabel"/>
 
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="@string/faq_dev_desc"
+            android:text="@string/about_dev_desc"
             style="@style/LicenseDescription"/>
 
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="@string/faq_financing"
+            android:text="@string/about_financing"
             style="@style/LicenseLabel"/>
 
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="@string/faq_financing_desc"
+            android:text="@string/about_financing_desc"
             style="@style/LicenseDescription"/>
 
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="@string/faq_advertisement"
+            android:text="@string/about_advertisement"
             style="@style/LicenseLabel"/>
 
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="@string/faq_advertisement_desc"
+            android:text="@string/about_advertisement_desc"
             style="@style/LicenseDescription"/>
 
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="@string/faq_health"
+            android:text="@string/about_health"
             style="@style/LicenseLabel"/>
 
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="@string/faq_health_desc"
+            android:text="@string/about_health_desc"
+            style="@style/LicenseDescription"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/about_privacy"
+            style="@style/LicenseLabel"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/about_privacy_desc"
             style="@style/LicenseDescription"/>
 
     </LinearLayout>

@@ -49,7 +49,7 @@
     <string name="about_health">Quellen</string>
     <string name="about_health_desc">Alle gesundheitlichen Angaben basieren auf anerkannten Empfehlungen deutscher Diabetologen.</string>
     <string name="about_privacy">Datenschutz</string>
-    <string name="about_privacy_desc">Wir nehmen den Schutz Ihrer persönlichen Daten sehr ernst und behandeln personenbezogenen Daten, die Sie uns über ein Kontaktformular oder per email vermitteln, vertraulich und entsprechend der gesetzlichen Datenschutzvorschriften sowie dieser Datenschutzerklärung.\n\nWir erheben und verarbeiten keine personenbezogene Daten.\nWir übermitteln keine personenbezogene Daten an Dritte.</string>
+    <string name="about_privacy_desc">Wir nehmen den Schutz Ihrer persönlichen Daten sehr ernst und behandeln personenbezogenen Daten, die Sie uns über ein Kontaktformular oder per email vermitteln, vertraulich und entsprechend der gesetzlichen Datenschutzvorschriften sowie dieser Datenschutzerklärung.\n\nWir erheben und verarbeiten keine personenbezogenen Daten oder übermitteln diese an Dritte.</string>
     <string name="first_visit">Neu hier?</string>
     <string name="first_visit_desc">Ersten Wert eintragen</string>
     <string name="general">Allgemein</string>

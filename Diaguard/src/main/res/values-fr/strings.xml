@@ -49,7 +49,7 @@
     <string name="about_health">Gonflement</string>
     <string name="about_health_desc">Toutes les informations de santé basé sur les recommandations acceptées de diabétologues allemands.</string>
     <string name="about_privacy">Politique de confidentialité</string>
-    <string name="about_privacy_desc">Nous prenons la confidentialité de vos données personnelles très au sérieux et traitons les informations personnelles que vous nous fournissez via un formulaire de contact ou nous envoyer un courriel en toute confidentialité et en conformité avec la législation sur la protection des données et la politique de confidentialité.\n\nNous ne collectons et traitons des données personnelles.\nNous ne soumettons pas de données personnelles à des tiers.</string>
+    <string name="about_privacy_desc">Nous prenons la confidentialité de vos données personnelles très au sérieux et traitons les informations personnelles que vous nous fournissez via un formulaire de contact ou nous envoyer un courriel en toute confidentialité et en conformité avec la législation sur la protection des données et la politique de confidentialité.\n\nNous ne collectons et traitons des données personnelles ou de les soumettre à des tiers..</string>
     <string name="first_visit">Nouveau ici?</string>
     <string name="first_visit_desc">Ajouter la première valeur</string>
     <string name="general">Généralement</string>

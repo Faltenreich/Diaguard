@@ -246,6 +246,11 @@ public class TimelineFragment extends Fragment {
             chartHelperChart.renderer.addSeriesRenderer(seriesRendererHypo);
         }
 
+        // Show less labels on small screens in landscape to prevent cluttering
+        if(!ViewHelper.isLargeScreen(getActivity()) && ViewHelper.isLandscape(getActivity())) {
+            chartHelperChart.renderer.setYLabels(3);
+        }
+
         chartHelperChart.renderer.setLabelsTextSize(Helper.getDPI(getActivity(), 14));
         chartHelperChart.renderer.setShowGrid(true);
         chartHelperChart.renderer.setShowGridY(true);

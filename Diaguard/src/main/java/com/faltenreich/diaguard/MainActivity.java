@@ -96,15 +96,14 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
             }
         };
         drawerLayout.setDrawerListener(drawerToggle);
+        drawerToggle.syncState();
 
         if (toolbar != null){
             setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
         }
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        drawerToggle.syncState();
 
         final DrawerListViewAdapter adapter = new DrawerListViewAdapter(this,
                 new String[] {
@@ -131,7 +130,7 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
                     currentFragment = DrawerItem.values()[position];
                 }
                 replaceFragment(DrawerItem.values()[position]);
-                drawerLayout.closeDrawer(drawer);
+                drawerLayout.closeDrawer(Gravity.START);
             }
         });
         drawer.setSelector(R.drawable.background_drawer);

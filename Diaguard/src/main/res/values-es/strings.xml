@@ -3,4 +3,200 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingTranslation">
 
+    <!-- GENERAL -->
+    <string name="about">Sobre Nosotros</string>
+    <string name="add_value">Agregar Valores</string>
+    <string name="alarm">Analizar la Glucosa en la Sangre</string>
+    <string name="alarm_desc">% desde el último análisis </string>
+    <string name="alarm_desc_first">Schon dran gedacht?</string> //Ich brauche die beschreibung von diesem Funktion, damit ich das Übersätzen kann.
+    <string name="average">Promedio</string>
+    <string name="back">Volver</string>
+    <string name="backup">Copia de Seguridad</string>
+    <string name="backup_title">Seleccionar Copia de Seguridad</string>
+    <string name="bloodsugar">Glucosa en Sangre</string>
+    <string name="bolus_no1">No se recomienda administrar Bolus.</string>
+    <string name="bolus_no2">Usted debería consumir Carbohidratos, para así evitar un menor nivel de azúcar en la sangre.</string> //Ok, das ist ein bisschen komisch für mich, weil es normalweise ist, dass die Kohlenhydrate nachher Zucker ist. Vielleicht wolltest du etwas anderes sagen. Oder wolltest du sagen „Stattdessen sollten leichte Kohlendydrate…“
+    <string name="calculator">Calcular Bolus</string> //oder einfach (Calcular)
+    <string name="cancel">Cancelar</string>
+    <string name="categories_active">Categorías Activas</string>
+    <string name="cleanup">Limpiar</string>                             //oder (Borrar)
+    <string name="cleanup_desc"> Esto eliminará todas las entradas en la Fecha y sobre la Fecha seleccionada de forma permanente.</string>
+    <string name="contact">Contacto</string>
+    <string name="correction">Corregir Valor</string>
+    <string name="data">Datos</string>
+    <string name="date_select">Seleccionar Datos</string>
+    <string name="day_next">Día Siguiente</string>
+    <string name="day_previous">Día Anterior</string>
+    <string name="development">Desarrollo</string>
+    <string name="drawer_close">Cerrar Navegador</string>
+    <string name="drawer_open">Abrir Navegador</string>
+    <string name="entry">Entrada</string> //Was willst du damit sagen?, Eintrag zum was?...z.B.: Login?, wenn es so wäre dann ist es „Ingresar“. Lass es mir wissen, dann mussen wir das Wort ändern, wo es genutzt ist.
+    <string name="entry_added">Ha Agregado una Entrada</string>
+    <string name="entry_edit">Editar Entrada</string>
+    <string name="entry_delete">Eliminar Entrada</string>
+    <string name="entry_delete_desc">La Entrada y sus Medidas serán eliminadas.</string>
+    <string name="entry_deleted">Entrada Eliminada</string>
+    <string name="entry_new">Nueva Entrada</string>
+    <string name="export_progress">PDF será creado</string>
+    <string name="export_stamp">Informe generado en</string>
+    <string name="factor">Factor KE</string>                    // KE?
+    <string name="factors">Factores KE</string>
+    <string name="first_visit">Eres Nuevo?</string>
+    <string name="first_visit_desc">Ingresar los Primeros Valores</string>
+    <string name="general">General</string>
+    <string name="hba1c">HbA1c</string>
+    <string name="home">Inicio</string>
+    <string name="latest">Antes [value] [unit]</string>
+    <string name="latest_moments">Actual</string> //Was willst du damit sagen?. Die Übersetzung kommt darauf an, an was du sagen willst.
+    <string name="licenses">Licencia Libre</string>
+    <string name="listview_empty">No hay Entradas para mostrar</string>
+    <string name="log">Protocolo</string>
+    <string name="meal">Alimento</string>
+    <string name="measurements">Mediciones</string>
+    <string name="note">Nota</string>
+    <string name="ok">OK</string>
+    <string name="settings">Configuración</string>
+    <string name="sound">Sonido</string>
+    <string name="startscreen">Pantalla de Inicio</string>
+    <string name="store_values">Ingresar Valores</string>
+    <string name="timeline">Diario</string>
+    <string name="today">Hoy</string>
+    <string name="undo">Deshacer</string>
+    <string name="units">Unidades</string>
+    <string name="weight">Peso</string>
+    <string name="version">Versión</string>
+    <string name="vibration">Vibración</string>
+
+    <string-array name="startscreens">
+        <item>Resumen</item>
+        <item>Diario</item>
+        <item>Protocolo</item>
+    </string-array>
+
+    <!-- DATE -->
+    <string name="calendarweek">Calendario Semanal</string>
+    <string name="dateend">Fecha Final</string>
+    <string name="dateformat">Formato de Hora</string>
+    <string name="datestart">Fecha Inicial</string>
+    <string name="minute">Minuto</string>
+    <string name="minutes">Minutos</string>
+    <string name="hour">Hora</string>
+    <string name="hours">Horas</string>
+    <string name="day">Día</string>
+    <string name="days">Días</string>
+    <string name="week">Semana</string>
+    <string name="weeks">Semanas</string>
+
+    <string-array name="weekdays">
+        <item>Lunes</item>
+        <item>Martes</item>
+        <item>Miércoles</item>
+        <item>Jueves</item>
+        <item>Viernes</item>
+        <item>Sábado</item>
+        <item>Domingo</item>
+    </string-array>
+
+    <string-array name="weekdays_short">
+        <item>Lu</item>
+        <item>Ma</item>
+        <item>Mi</item>
+        <item>Ju</item>
+        <item>Vi</item>
+        <item>Sa</item>
+        <item>Do</item>
+    </string-array>
+
+    <string name="morning">Mañana</string>
+    <string name="noon"> Mediodía </string>
+    <string name="evening">Tarde</string>
+    <string name="night">Noche</string>
+
+    <string-array name="factor_names">
+        <item>Mañana </item>
+        <item>Mediodía</item>
+        <item>Tarde</item>
+        <item>Noche</item>
+    </string-array>
+
+    <string-array name="alarm_intervals">
+        <item>No Recordar</item>
+        <item>En 30 Minutos</item>
+        <item>En 1 Hora</item>
+        <item>En 2 Horas</item>
+        <item>En 4 Horas</item>
+        <item>En 8 Horas</item>
+    </string-array>
+
+    <!-- CATEGORIES -->
+    <string-array name="categories">
+        <item>Glicemia</item>
+        <item>Bolus</item>
+        <item>Alimento</item>
+        <item>Actividad</item>
+        <item>HbA1c</item>
+        <item>Peso</item>
+        <item>Pulso</item>
+    </string-array>
+
+    <string-array name="bolus_units">
+        <item>Unidades de Insulina</item>
+    </string-array>
+
+    <string-array name="meal_units">
+        <item>Carbohidrato</item>
+        <item>Unidades de Carbohidratos</item>
+        <item>Unidades de pan</item> //Das ist die Übersetzung aber willst du es sagen, die units von Brot dass es gibt?.
+    </string-array>
+
+    <string-array name="hba1c_units">
+        <item>Porcentaje</item>
+        <item>mmol/mol</item>
+    </string-array>
+
+    <string-array name="weight_units">
+        <item>Kilogramos</item>
+        <item>Libras</item>
+    </string-array>
+
+    <string-array name="pulse_units">
+        <item> Latidos por minuto </item>
+    </string-array>
+
+    <!-- VALIDATORS -->
+    <string name="validator_value_number"> Se permiten solamente números </string>
+    <string name="validator_value_infuture">Evento no debe ser en el futuro</string>
+    <string name="validator_value_empty">Por favor, especifique un valor</string>
+    <string name="validator_value_none">Entrada no contiene eventos</string>
+    <string name="validator_value_unrealistic">Valor Irreal </string>
+    <string name="validator_value_enddate">Fecha de inicio debe ser antes de la fecha de finalización</string>
+
+    <!-- ERRORS -->
+    <string name="error_no_mail">Ninguna aplicación para enviar mensajes de correo electrónico encontrada </string>
+    <string name="error_no_app"> Ninguna aplicación para abrir el archivo encontrada</string>
+    <string name="error_sd_card">Tarjeta de memoria no disponible</string>
+    <string name="error_no_backups">Ningúna Copia de Seguridad encontrada sobre</string>
+
+    <!-- SETTINGS -->
+    <string name="pref_therapy_targets">Valores Objetivos</string>
+    <string name="pref_therapy_targets_target">Valor Objetivo</string>
+    <string name="pref_therapy_limits">Valor Limitado</string>
+    <string name="pref_therapy_targets_highlight"> Destacan las zonas fronterizas?</string>
+    <string name="pref_therapy_targets_hyperclycemia">Límite para hiperglucemia</string>
+    <string name="pref_therapy_targets_hypoclycemia">Límite de hipoglucemia</string>
+    <string name="pref_data_cleanup_confirm_title">Eliminar Entrada?</string>
+    <string name="pref_data_cleanup_confirm_message">Las entradas se verían afectadas</string>
+    <string name="pref_data_cleanup_return">Las entradas se han eliminado</string>
+
+    <string name="pref_data_backup_finished"> Se creará la copia de seguridad  &#8230;</string>
+
+    <string-array name="backup_actions">
+        <item>Crear una copia de seguridad </item>
+        <item>Restaurar copia de seguridad</item>
+    </string-array>
+
+    <string name="pref_data_backup_import"> La copia de seguridad se registrará  &#8230;</string>
+    <string name="pref_data_export_info"> Cada exportación se almacena localmente en la tarjeta de memoria y también se pueden enviar por correo electrónico.</string>
+    <string name="pref_data_export_mail_message">Mis datos adjuntos serán enviados a través de Diaguard.</string>
+
 </resources>

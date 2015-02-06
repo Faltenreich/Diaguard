@@ -14,11 +14,13 @@
     <string name="backup">Fusible</string>
     <string name="backup_title">Sélectionnez sauvegarde</string>
     <string name="bloodsugar">Glycémie</string>
+    <string name="bolus">Bol</string>
     <string name="bolus_no1">Il est recommandé d\'administrer pas bolus.</string>
     <string name="bolus_no2">Au lieu de glucides rapides devraient être consommés afin d\'éviter niveau de sucre dans le sang inférieure.</string>
     <string name="calculator">Calculateur de bolus</string>
     <string name="cancel">Avorter</string>
     <string name="categories_active">Actives Catégories</string>
+    <string name="category">Catégorie</string>
     <string name="cleanup">Nettoyer</string>
     <string name="cleanup_desc">Cette opération va supprimer toutes les entrées sur et au-dessus la date sélectionnée de façon permanente.</string>
     <string name="contact">Contact</string>
@@ -36,6 +38,7 @@
     <string name="entry_delete_desc">L\'entrée et ses mesures sont éliminés</string>
     <string name="entry_deleted">Entrée supprimée</string>
     <string name="entry_new">Nouvelle entrée</string>
+    <string name="export">Exportation</string>
     <string name="export_progress">PDF est créé</string>
     <string name="export_stamp">Rapport généré sur</string>
     <string name="factor">Facteur de glucides unitaire</string>
@@ -55,12 +58,16 @@
     <string name="general">Généralement</string>
     <string name="hba1c">HbA1c</string>
     <string name="home">Enquête</string>
+    <string name="homepage">Site web</string>
+    <string name="hyper">Hyper</string>
+    <string name="hypo">Hypo</string>
     <string name="impress">Empreinte</string>
     <string name="latest">Il ya [value] [unit]</string>
     <string name="latest_moments">Juste maintenant</string>
     <string name="licenses">Licences Open-Source</string>
     <string name="listview_empty">Pas d\'entrées à imprimer</string>
     <string name="log">Protocole</string>
+    <string name="mail">E-Mail</string>
     <string name="meal">Repas</string>
     <string name="measurements">Mesures</string>
     <string name="note">Remarque</string>
@@ -71,6 +78,7 @@
     <string name="store_values">Entrez les valeurs</string>
     <string name="timeline">Journal</string>
     <string name="today">Aujourd\'hui</string>
+    <string name="trend">Tendance</string>
     <string name="undo">Annuler</string>
     <string name="units">Unités</string>
     <string name="weight">Poids</string>
@@ -96,6 +104,8 @@
     <string name="days">Jours</string>
     <string name="week">Semaine</string>
     <string name="weeks">Semaines</string>
+    <string name="month">Mois</string>
+    <string name="months">Mois</string>
 
     <string-array name="weekdays">
         <item>Lundi</item>
@@ -152,11 +162,7 @@
     <string-array name="bolus_units">
         <item>Unités d\'insuline</item>
     </string-array>
-    <string-array name="bolus_units_acronyms">
-        <item>IU</item>
-    </string-array>
 
-    <string name="meal_units_default">Kohlenhydrate</string>
     <string-array name="meal_units">
         <item>Glucides</item>
         <item>Unités de glucides</item>
@@ -183,9 +189,6 @@
     <string name="pulse_units_default">Battements par minute</string>
     <string-array name="pulse_units">
         <item>Battements par minute</item>
-    </string-array>
-    <string-array name="pulse_units_acronyms">
-        <item>bpm</item>
     </string-array>
 
     <!-- VALIDATORS -->
@@ -214,6 +217,8 @@
     <string name="pref_data_cleanup_confirm_title">Supprimer des entrées?</string>
     <string name="pref_data_cleanup_confirm_message">entrées seraient touchés</string>
     <string name="pref_data_cleanup_return">entrées ont été supprimés</string>
+    <string name="pref_data_export_info">Chaque exportation est stockée localement sur la carte mémoire et peut également être envoyé par E-mail.</string>
+    <string name="pref_data_export_mail_message">Mes données envoyées par la poste via Diaguard</string>
 
     <string name="pref_data_backup_finished">Sauvegarde est créé &#8230;</string>
     <string-array name="backup_actions">
@@ -221,8 +226,5 @@
         <item>Restaurer sauvegarde</item>
     </string-array>
     <string name="pref_data_backup_import">Sauvegarde est charger &#8230;</string>
-
-    <string name="pref_data_export_info">Chaque exportation est stockée localement sur la carte mémoire et peut également être envoyé par E-mail.</string>
-    <string name="pref_data_export_mail_message">Mes données envoyées par la poste via Diaguard</string>
 
 </resources>

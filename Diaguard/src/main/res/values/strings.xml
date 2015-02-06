@@ -15,7 +15,6 @@
     <!-- GENERAL -->
 
     <string name="about">About</string>
-    <string name="activity">Activity</string>
     <string name="add_value">Add value</string>
     <string name="alarm">Measure blood sugar</string>
     <string name="alarm_desc">%s since the last measurement</string>
@@ -34,7 +33,6 @@
     <string name="categories_active">Active Categories</string>
     <string name="cleanup">Clean Up</string>
     <string name="cleanup_desc">This will permanently delete all data on and before the chosen date.</string>
-    <string name="close">Close</string>
     <string name="contact">Contact</string>
     <string name="correction">Correction value</string>
     <string name="data">Data</string>

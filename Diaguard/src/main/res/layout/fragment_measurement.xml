@@ -17,7 +17,7 @@
         android:layout_weight="1"
         android:layout_marginLeft="@dimen/padding_end"
         android:layout_marginStart="@dimen/padding_end"
-        android:textColor="@color/gray_dk"/>
+        android:textColor="@color/gray_dark"/>
 
     <TextView android:id="@+id/value"
         android:layout_width="0dp"
@@ -33,6 +33,6 @@
         android:layout_marginLeft="@dimen/padding_end"
         android:layout_marginStart="@dimen/padding_end"
         android:gravity="start"
-        android:textColor="@color/gray_dk"/>
+        android:textColor="@color/gray_dark"/>
 
 </LinearLayout>

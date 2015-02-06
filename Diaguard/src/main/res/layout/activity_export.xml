@@ -14,74 +14,76 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            style="@style/Padding">
+            android:orientation="vertical">
 
-            <TextView android:id="@+id/textview_export_info"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_between"
-                android:text="@string/pref_data_export_info"/>
+            <LinearLayout style="@style/LayoutRow">
 
-            <TableLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_between">
+                <TextView style="@style/LayoutRowLabel"
+                    android:text="@string/datestart"/>
 
-                <TableRow style="@style/TableRow">
-
-                    <TextView
-                        android:layout_weight="1"
-                        android:text="@string/datestart"
-                        style="@style/Label"/>
+                <LinearLayout style="@style/LayoutRowText"
+                    android:orientation="horizontal">
 
                     <Button android:id="@+id/button_datestart"
-                        android:layout_weight="2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
                         android:onClick="onClickShowStartDatePicker"
-                        style="@style/SpinnerButtonStyle"/>
+                        style="?android:attr/borderlessButtonStyle"/>
 
-                </TableRow>
+                </LinearLayout>
 
-                <TableRow style="@style/TableRow">
+            </LinearLayout>
 
-                    <TextView
-                        android:layout_weight="1"
-                        android:text="@string/dateend"
-                        style="@style/Label"/>
+            <View style="@style/LayoutRowSeparator"/>
+
+            <LinearLayout style="@style/LayoutRow">
+
+                <TextView style="@style/LayoutRowLabel"
+                    android:text="@string/dateend"/>
+
+                <LinearLayout style="@style/LayoutRowText"
+                    android:orientation="horizontal">
 
                     <Button android:id="@+id/button_dateend"
-                        android:layout_weight="2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
                         android:onClick="onClickShowEndDatePicker"
-                        style="@style/SpinnerButtonStyle"/>
+                        style="?android:attr/borderlessButtonStyle"/>
 
-                </TableRow>
+                </LinearLayout>
 
-                <TableRow style="@style/TableRow">
+            </LinearLayout>
 
-                    <TextView
-                        android:layout_weight="1"
-                        android:text="@string/format"
-                        style="@style/Label"/>
+            <View style="@style/LayoutRowSeparator"/>
 
-                    <Spinner android:id="@+id/spinner_format"
-                        android:layout_weight="2"
-                        android:entries="@array/formats"/>
+            <LinearLayout style="@style/LayoutRow">
 
-                </TableRow>
+                <TextView style="@style/LayoutRowLabel"
+                    android:text="@string/format"/>
 
-                <TableRow style="@style/TableRow">
+                <Spinner android:id="@+id/spinner_format"
+                    style="@style/LayoutRowText"
+                    android:entries="@array/formats"/>
 
-                    <TextView
-                        android:layout_weight="1"
-                        android:text="@string/mail"
-                        style="@style/Label"/>
+            </LinearLayout>
+
+            <View style="@style/LayoutRowSeparator"/>
+
+            <LinearLayout style="@style/LayoutRow">
+
+                <TextView style="@style/LayoutRowLabel"
+                    android:text="@string/mail"/>
+
+                <LinearLayout style="@style/LayoutRowText"
+                    android:orientation="horizontal">
 
                     <CheckBox android:id="@+id/checkbox_mail"
-                        android:layout_weight="2"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"/>
 
-                </TableRow>
+                </LinearLayout>
 
-            </TableLayout>
+            </LinearLayout>
 
         </LinearLayout>
 

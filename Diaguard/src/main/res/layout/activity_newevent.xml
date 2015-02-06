@@ -14,106 +14,83 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            style="@style/Padding">
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+            <LinearLayout style="@style/LayoutRow">
 
-                <ImageView
-                    android:layout_width="@dimen/size_image"
-                    android:layout_height="@dimen/size_image"
-                    android:padding="@dimen/padding"
-                    android:layout_marginRight="@dimen/margin_between_big"
-                    android:layout_marginEnd="@dimen/margin_between_big"
+                <ImageView style="@style/LayoutRowImage"
                     android:src="@drawable/ic_time"
                     android:contentDescription="@string/note"/>
 
-                <Button android:id="@+id/button_date"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_marginRight="@dimen/margin_between"
-                    android:layout_marginEnd="@dimen/margin_between"
-                    android:onClick="onClickShowDatePicker"
-                    style="?android:attr/borderlessButtonStyle"/>
+                <LinearLayout style="@style/LayoutRowItem"
+                    android:orientation="horizontal">
 
-                <Button android:id="@+id/button_time"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:onClick="onClickShowTimePicker"
-                    style="?android:attr/borderlessButtonStyle"/>
+                    <Button android:id="@+id/button_date"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_marginRight="@dimen/margin_between"
+                        android:layout_marginEnd="@dimen/margin_between"
+                        android:onClick="onClickShowDatePicker"
+                        style="?android:attr/borderlessButtonStyle"/>
+
+                    <Button android:id="@+id/button_time"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:onClick="onClickShowTimePicker"
+                        style="?android:attr/borderlessButtonStyle"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginTop="@dimen/margin_between">
+            <View style="@style/LayoutRowSeparator"/>
 
-                <ImageView
-                    android:layout_width="@dimen/size_image"
-                    android:layout_height="@dimen/size_image"
-                    android:padding="@dimen/padding"
-                    android:layout_marginRight="@dimen/margin_between_big"
-                    android:layout_marginEnd="@dimen/margin_between_big"
+            <LinearLayout style="@style/LayoutRow">
+
+                <ImageView style="@style/LayoutRowImage"
                     android:src="@drawable/ic_note"
                     android:contentDescription="@string/note"/>
 
                 <EditText android:id="@+id/edittext_notes"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/LayoutRowItem"
                     android:hint="@string/note"
-                    android:inputType="textMultiLine|textCapSentences"/>
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:background="@android:color/transparent"
+                    android:paddingStart="@dimen/padding"
+                    android:paddingLeft="@dimen/padding"/>
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginTop="@dimen/margin_between">
+            <View style="@style/LayoutRowSeparator"/>
 
-                <ImageView
-                    android:layout_width="@dimen/size_image"
-                    android:layout_height="@dimen/size_image"
-                    android:padding="@dimen/padding"
-                    android:layout_marginRight="@dimen/margin_between_big"
-                    android:layout_marginEnd="@dimen/margin_between_big"
+            <LinearLayout style="@style/LayoutRow">
+
+                <ImageView style="@style/LayoutRowImage"
                     android:src="@drawable/ic_alarm"
                     android:contentDescription="@string/alarm"/>
 
                 <Spinner android:id="@+id/spinner_alarm"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_element"
-                    style="?android:attr/spinnerStyle"/>
+                    style="@style/LayoutRowItem"/>
 
             </LinearLayout>
+
+            <View style="@style/LayoutRowSeparator"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="top"
-                android:layout_marginTop="@dimen/margin_between">
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingStart="@dimen/activity_horizontal_margin"
+                android:gravity="top">
 
-                <ImageView
-                    android:layout_width="@dimen/size_image"
-                    android:layout_height="@dimen/size_image"
-                    android:padding="@dimen/padding"
-                    android:layout_marginRight="@dimen/margin_between_big"
-                    android:layout_marginEnd="@dimen/margin_between_big"
+                <ImageView style="@style/LayoutRowImage"
                     android:src="@drawable/ic_edit"
-                    android:contentDescription="@string/add_value"/>
+                    android:contentDescription="@string/add_value"
+                    android:layout_marginTop="@dimen/margin_between"/>
 
                 <LinearLayout android:id="@+id/content_dynamic"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/LayoutRowItem"
                     android:orientation="vertical"/>
 
             </LinearLayout>

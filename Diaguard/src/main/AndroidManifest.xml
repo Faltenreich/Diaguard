@@ -48,7 +48,7 @@
         <activity
             android:name=".CalculatorActivity"
             android:label="@string/calculator"
-            android:windowSoftInputMode="adjustResize"
+            android:windowSoftInputMode="adjustResize|stateHidden"
             android:configChanges="orientation|screenSize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

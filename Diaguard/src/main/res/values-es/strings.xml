@@ -29,7 +29,6 @@
     <string name="date_select">Seleccionar datos</string>
     <string name="day_next">Día siguiente</string>
     <string name="day_previous">Día anterior</string>
-    <string name="development">Desarrollo</string>
     <string name="drawer_close">Cerrar navegador</string>
     <string name="drawer_open">Abrir navegador</string>
     <string name="entry">Entrada</string> //Was willst du damit sagen?, Eintrag zum was?...z.B.: Login?, wenn es so wäre dann ist es „Ingresar“. Lass es mir wissen, dann mussen wir das Wort ändern, wo es genutzt ist.
@@ -153,6 +152,7 @@
         <item>Pulso</item>
     </string-array>
 
+    <string name="bolus_units_default">Unidades de Insulina</string>
     <string-array name="bolus_units">
         <item>Unidades de Insulina</item>
     </string-array>
@@ -162,6 +162,11 @@
         <item>Carbohidrato</item>
         <item>Unidades de Carbohidratos</item>
         <item>Unidades de pan</item> //Das ist die Übersetzung aber willst du es sagen, die units von Brot dass es gibt?.
+    </string-array>
+
+    <string name="activity_units_default">Minutos</string>
+    <string-array name="activity_units">
+        <item>Minutos</item>
     </string-array>
 
     <string name="hba1c_units_default">Porcentaje</string>

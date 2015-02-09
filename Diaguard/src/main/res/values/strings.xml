@@ -54,16 +54,6 @@
     <string name="facebook">Facebook</string>
     <string name="factor">Factor</string>
     <string name="factors">Factors</string>
-    <string name="about_dev">Developer</string>
-    <string name="about_dev_desc">Philipp Fahlteich,\nB. Sc. of Informatics, Type-1-Diabetic</string>
-    <string name="about_financing">Financing</string>
-    <string name="about_financing_desc">At the moment there is no financial support of commercial or non-commercial organisations which support the app with funds, services or materials. The app is financed only by the developer.</string>
-    <string name="about_advertisement">Advertising policy</string>
-    <string name="about_advertisement_desc">The app is and will not be advertised in any way.</string>
-    <string name="about_health">Sources</string>
-    <string name="abouthealth_desc">All medical data are based on approved recommendations from several diabetologists.</string>
-    <string name="about_privacy">Privacy</string>
-    <string name="about_privacy_desc">We take the privacy of your personal data very seriously and treat personal information that you provide to us via a contact form or email us confidentially and in accordance with the data protection legislation and this Privacy Policy.\n\nWe do not collect and process any personal data or submit these to third parties.</string>
     <string name="first_visit">First visit?</string>
     <string name="first_visit_desc">Enter your first value</string>
     <string name="format">Format</string>
@@ -198,6 +188,7 @@
         <item>Pulse</item>
     </string-array>
 
+    <string name="bloodsugar_units_default">mmol/L</string>
     <string-array name="bloodsugar_units">
         <item>mg/dL</item>
         <item>mmol/L</item>
@@ -211,6 +202,7 @@
         <item name="maximum">1000</item>
     </integer-array>
 
+    <string name="bolus_units_default">Insulin Units</string>
     <string-array name="bolus_units">
         <item>Insulin Units</item>
     </string-array>
@@ -353,8 +345,19 @@
     <string name="pref_data_export_info">Every export will be stored locally on the SD card and can be sent via E-Mail, too.</string>
     <string name="pref_data_export_mail_message">My data as attachment sent from Diaguard</string>
 
-    <!-- LICENSING
-     -->
+    <!-- ABOUT -->
+    <string name="about_dev">Developer</string>
+    <string name="about_dev_desc">Philipp Fahlteich,\nB. Sc. of Informatics, Type-1-Diabetic</string>
+    <string name="about_financing">Financing</string>
+    <string name="about_financing_desc">At the moment there is no financial support of commercial or non-commercial organisations which support the app with funds, services or materials. The app is financed only by the developer.</string>
+    <string name="about_advertisement">Advertising policy</string>
+    <string name="about_advertisement_desc">The app is and will not be advertised in any way.</string>
+    <string name="about_health">Sources</string>
+    <string name="abouthealth_desc">All medical data are based on approved recommendations from several diabetologists.</string>
+    <string name="about_privacy">Privacy</string>
+    <string name="about_privacy_desc">We take the privacy of your personal data very seriously and treat personal information that you provide to us via a contact form or email us confidentially and in accordance with the data protection legislation and this Privacy Policy.\n\nWe do not collect and process any personal data or submit these to third parties.</string>
+
+    <!-- LICENSING -->
     <string name="license_apache">
         Licensed under the Apache License, Version 2.0 (the "License");
         you may not use this file except in compliance with the License.

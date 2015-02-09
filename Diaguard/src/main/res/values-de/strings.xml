@@ -43,19 +43,9 @@
     <string name="export_stamp">Bericht generiert am</string>
     <string name="factor">KE-Faktor</string>
     <string name="factors">KE-Faktoren</string>
-    <string name="format">Format</string>
-    <string name="about_dev">Entwickler</string>
-    <string name="about_dev_desc">Philipp Fahlteich,\nB. Sc. der Informatik, Typ-1-Diabetiker</string>
-    <string name="about_financing">Finanzierung</string>
-    <string name="about_financing_desc">Derzeit gibt es keine finanzielle Unterstützung von kommerziellen oder nicht-kommerziellen Organisationen, die mit finanziellen Mitteln, Dienstleistungen oder Materialien zur App beigetragen haben. Die App wird ausschließlich durch den Entwickler finanziert.</string>
-    <string name="about_advertisement">Werbepolitik</string>
-    <string name="about_advertisement_desc">Diaguard ist und bleibt komplett werbefrei.</string>
-    <string name="about_health">Quellen</string>
-    <string name="about_health_desc">Alle gesundheitlichen Angaben basieren auf anerkannten Empfehlungen deutscher Diabetologen.</string>
-    <string name="about_privacy">Datenschutz</string>
-    <string name="about_privacy_desc">Wir nehmen den Schutz Ihrer persönlichen Daten sehr ernst und behandeln personenbezogenen Daten, die Sie uns über ein Kontaktformular oder per email vermitteln, vertraulich und entsprechend der gesetzlichen Datenschutzvorschriften sowie dieser Datenschutzerklärung.\n\nWir erheben und verarbeiten keine personenbezogenen Daten oder übermitteln diese an Dritte.</string>
     <string name="first_visit">Neu hier?</string>
     <string name="first_visit_desc">Ersten Wert eintragen</string>
+    <string name="format">Format</string>
     <string name="general">Allgemein</string>
     <string name="hba1c">HbA1c</string>
     <string name="home">Übersicht</string>
@@ -160,6 +150,7 @@
         <item>Puls</item>
     </string-array>
 
+    <string name="bolus_units_default">Insulineinheiten</string>
     <string-array name="bolus_units">
         <item>Insulineinheiten</item>
     </string-array>
@@ -180,6 +171,11 @@
         <item>KH</item>
         <item>KE</item>
         <item>BE</item>
+    </string-array>
+
+    <string name="activity_units_default">Minuten</string>
+    <string-array name="activity_units">
+        <item>Minuten</item>
     </string-array>
 
     <string name="hba1c_units_default">Prozent</string>
@@ -237,5 +233,17 @@
         <item>Sicherung wiederherstellen</item>
     </string-array>
     <string name="pref_data_backup_import">Sicherung wird eingespielt &#8230;</string>
+
+    <!-- ABOUT -->
+    <string name="about_dev">Entwickler</string>
+    <string name="about_dev_desc">Philipp Fahlteich,\nB. Sc. der Informatik, Typ-1-Diabetiker</string>
+    <string name="about_financing">Finanzierung</string>
+    <string name="about_financing_desc">Derzeit gibt es keine finanzielle Unterstützung von kommerziellen oder nicht-kommerziellen Organisationen, die mit finanziellen Mitteln, Dienstleistungen oder Materialien zur App beigetragen haben. Die App wird ausschließlich durch den Entwickler finanziert.</string>
+    <string name="about_advertisement">Werbepolitik</string>
+    <string name="about_advertisement_desc">Diaguard ist und bleibt komplett werbefrei.</string>
+    <string name="about_health">Quellen</string>
+    <string name="about_health_desc">Alle gesundheitlichen Angaben basieren auf anerkannten Empfehlungen deutscher Diabetologen.</string>
+    <string name="about_privacy">Datenschutz</string>
+    <string name="about_privacy_desc">Wir nehmen den Schutz Ihrer persönlichen Daten sehr ernst und behandeln personenbezogenen Daten, die Sie uns über ein Kontaktformular oder per email vermitteln, vertraulich und entsprechend der gesetzlichen Datenschutzvorschriften sowie dieser Datenschutzerklärung.\n\nWir erheben und verarbeiten keine personenbezogenen Daten oder übermitteln diese an Dritte.</string>
 
 </resources>

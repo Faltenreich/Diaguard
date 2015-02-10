@@ -8,7 +8,7 @@
     <string name="add_value">Agregar valor</string>
     <string name="alarm">Medida de glucosa en sangre</string>
     <string name="alarm_desc">% desde el último análisis</string>
-    <string name="alarm_desc_first">Ya pensado en ello?</string> //Ich brauche die beschreibung von diesem Funktion, damit ich das Übersätzen kann.
+    <string name="alarm_desc_first">Ha pensado en ello?</string>
     <string name="average">Promedio</string>
     <string name="back">Volver</string>
     <string name="backup">Copia de seguridad</string>
@@ -16,12 +16,12 @@
     <string name="bloodsugar">Glicemia</string>
     <string name="bolus">Bolo</string>
     <string name="bolus_no1">No se recomienda administrar bolo.</string>
-    <string name="bolus_no2">Usted debería consumir carbohidratos, para así evitar un menor nivel de azúcar en la sangre.</string> //Ok, das ist ein bisschen komisch für mich, weil es normalweise ist, dass die Kohlenhydrate nachher Zucker ist. Vielleicht wolltest du etwas anderes sagen. Oder wolltest du sagen „Stattdessen sollten leichte Kohlendydrate…“
+    <string name="bolus_no2">Usted debería consumir carbohidratos, para así evitar un menor nivel de azúcar en la sangre.</string>
     <string name="calculator">Calcular bolo</string>
     <string name="category">Categoría</string>
     <string name="cancel">Cancelar</string>
     <string name="categories_active">Categorías activas</string>
-    <string name="cleanup">Limpiar</string>                             //oder (Borrar)
+    <string name="cleanup">Limpiar</string>
     <string name="cleanup_desc">Esto eliminará todas las entradas en la fecha y sobre la fecha seleccionada de forma permanente.</string>
     <string name="contact">Contacto</string>
     <string name="correction">Corregir valor</string>
@@ -31,7 +31,7 @@
     <string name="day_previous">Día anterior</string>
     <string name="drawer_close">Cerrar navegador</string>
     <string name="drawer_open">Abrir navegador</string>
-    <string name="entry">Entrada</string> //Was willst du damit sagen?, Eintrag zum was?...z.B.: Login?, wenn es so wäre dann ist es „Ingresar“. Lass es mir wissen, dann mussen wir das Wort ändern, wo es genutzt ist.
+    <string name="entry">Entrada</string>
     <string name="entry_added">Ha agregado una entrada</string>
     <string name="entry_edit">Editar entrada</string>
     <string name="entry_delete">Eliminar entrada</string>
@@ -41,7 +41,7 @@
     <string name="export">Exportación</string>
     <string name="export_progress">PDF será creado</string>
     <string name="export_stamp">Informe generado en</string>
-    <string name="factor">Factor</string>                    // KE?
+    <string name="factor">Factor</string>
     <string name="factors">Factores</string>
     <string name="first_visit">Eres nuevo?</string>
     <string name="first_visit_desc">Ingresar los primeros valores</string>
@@ -54,7 +54,7 @@
     <string name="hypo">Hipo</string>
     <string name="impress">Pie de imprenta</string>
     <string name="latest">Antes [value] [unit]</string>
-    <string name="latest_moments">En este momento</string> //Was willst du damit sagen?. Die Übersetzung kommt darauf an, an was du sagen willst.
+    <string name="latest_moments">En este momento</string>
     <string name="licenses">Licencia Libre</string>
     <string name="listview_empty">No hay entradas para mostrar</string>
     <string name="log">Protocolo</string>
@@ -161,7 +161,7 @@
     <string-array name="meal_units">
         <item>Carbohidrato</item>
         <item>Unidades de Carbohidratos</item>
-        <item>Unidades de pan</item> //Das ist die Übersetzung aber willst du es sagen, die units von Brot dass es gibt?.
+        <item>Unidades de pan</item>
     </string-array>
 
     <string name="activity_units_default">Minutos</string>
@@ -225,12 +225,12 @@
     <string name="about_dev">Revelador</string>
     <string name="about_dev_desc">Philipp Fahlteich,\nB. Sc. de la Informática, Tipo-1 diabéticos</string>
     <string name="about_financing">Financiación</string>
-    <string name="about_financing_desc"></string>
+    <string name="about_financing_desc">Hasta el momento no existe ningún apoyo financiero por parte de organizaciones comerciales o no comerciales, que hayan contribuido con fondos, servicios o materiales para la aplicación. La aplicación está financiada en su totalidad por el desarrollador.</string>
     <string name="about_advertisement">Política de publicidad</string>
-    <string name="about_advertisement_desc"></string>
+    <string name="about_advertisement_desc">Diaguard es y seguirá siendo completamente libre de publicidad.</string>
     <string name="about_health">Fuentes</string>
-    <string name="about_health_desc"></string>
+    <string name="about_health_desc">Toda la información de la salud, se basa en las recomendaciones de Diabetólogos Alemanes reconocidos.</string>
     <string name="about_privacy">Protección de datos</string>
-    <string name="about_privacy_desc"></string>
+    <string name="about_privacy_desc">Nos tomamos la privacidad de sus datos muy en serio, por ello, ningún dato personal será procesado ó reenviado a terceros.</string>
 
 </resources>

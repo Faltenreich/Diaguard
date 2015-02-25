@@ -353,7 +353,7 @@
     <string name="about_advertisement">Advertising policy</string>
     <string name="about_advertisement_desc">The app is and will not be advertised in any way.</string>
     <string name="about_health">Sources</string>
-    <string name="abouthealth_desc">All medical data are based on approved recommendations from several diabetologists.</string>
+    <string name="about_health_desc">All medical data are based on approved recommendations from several diabetologists.</string>
     <string name="about_privacy">Privacy</string>
     <string name="about_privacy_desc">We take the privacy of your personal data very seriously and treat personal information that you provide to us via a contact form or email us confidentially and in accordance with the data protection legislation and this Privacy Policy.\n\nWe do not collect and process any personal data or submit these to third parties.</string>
 

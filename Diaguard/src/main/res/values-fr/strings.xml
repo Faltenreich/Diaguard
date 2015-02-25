@@ -8,21 +8,21 @@
     <string name="add_value">Ajouter de la valeur</string>
     <string name="alarm">Mesure de la glycémie</string>
     <string name="alarm_desc">%s depuis la dernière mesure</string>
-    <string name="alarm_desc_first">Déjà pensé?</string>
+    <string name="alarm_desc_first">Y avez-vous déjà pensé?</string>
     <string name="average">Moyenne</string>
     <string name="back">Arrière</string>
     <string name="backup">Fusible</string>
     <string name="backup_title">Sélectionnez sauvegarde</string>
     <string name="bloodsugar">Glycémie</string>
     <string name="bolus">Bol</string>
-    <string name="bolus_no1">Il est recommandé d\'administrer pas bolus.</string>
-    <string name="bolus_no2">Au lieu de glucides rapides devraient être consommés afin d\'éviter niveau de sucre dans le sang inférieure.</string>
+    <string name="bolus_no1">L\'administration d\'un bolus est déconseillée.</string>
+    <string name="bolus_no2">Cependant, il est recommandé de consommer des hydrates de carbone rapides, afin d\'éviter des niveaux de glycémie trop bas.</string>
     <string name="calculator">Calculateur de bolus</string>
     <string name="cancel">Avorter</string>
     <string name="categories_active">Actives Catégories</string>
     <string name="category">Catégorie</string>
     <string name="cleanup">Nettoyer</string>
-    <string name="cleanup_desc">Cette opération va supprimer toutes les entrées sur et au-dessus la date sélectionnée de façon permanente.</string>
+    <string name="cleanup_desc">Ceci va effacer toutes les entrées effectuées à la date sélectionnée et auparavant.</string>
     <string name="contact">Contact</string>
     <string name="correction">Valeur de correction</string>
     <string name="data">Données</string>
@@ -35,7 +35,7 @@
     <string name="entry_added">Ajout d\'une entrée</string>
     <string name="entry_edit">Modifiez l\'entrée</string>
     <string name="entry_delete">Supprimer l\'entrée</string>
-    <string name="entry_delete_desc">L\'entrée et ses mesures sont éliminés</string>
+    <string name="entry_delete_desc">Cette entrée et toutes mésures y contenues seront supprimées</string>
     <string name="entry_deleted">Entrée supprimée</string>
     <string name="entry_new">Nouvelle entrée</string>
     <string name="export">Exportation</string>
@@ -54,7 +54,7 @@
     <string name="hypo">Hypo</string>
     <string name="impress">Empreinte</string>
     <string name="latest">Il ya [value] [unit]</string>
-    <string name="latest_moments">Juste maintenant</string>
+    <string name="latest_moments">A l\'instant</string>
     <string name="licenses">Licences Open-Source</string>
     <string name="listview_empty">Pas d\'entrées à imprimer</string>
     <string name="log">Protocole</string>
@@ -190,18 +190,18 @@
     </string-array>
 
     <!-- VALIDATORS -->
-    <string name="validator_value_number">Seuls les chiffres sont autorisés</string>
-    <string name="validator_value_infuture">Événement ne peut pas être dans l\'avenir</string>
-    <string name="validator_value_empty">Se il vous plaît entrer une valeur</string>
-    <string name="validator_value_none">Entrée contient pas d\'événements</string>
-    <string name="validator_value_unrealistic">Valeur irréaliste</string>
-    <string name="validator_value_enddate">La date de début ne est pas avant la fin</string>
+    <string name="validator_value_number">Veuillez n\'entrer que des chiffres s.v.p.</string>
+    <string name="validator_value_infuture">La saisie d\'événements futurs n\'est pas possible</string>
+    <string name="validator_value_empty">Véuillez saisir une valeur s.v.p.</string>
+    <string name="validator_value_none">Votre saisie ne contient pas d\'événements</string>
+    <string name="validator_value_unrealistic">Cette valeur n\'est pas réaliste</string>
+    <string name="validator_value_enddate">La date de début doit précéder la date finale</string>
 
     <!-- ERRORS -->
-    <string name="error_no_mail">Aucune de l\'application d\'envoyer des e-mails</string>
-    <string name="error_no_app">Aucune de l\'application pour ouvrir le fichier</string>
-    <string name="error_sd_card">La carte mémoire ne est disponible</string>
-    <string name="error_no_backups">Aucune sauvegarde trouvés sous</string>
+    <string name="error_no_mail">Aucune application pour envoyer des mails n\'a été trouvée</string>
+    <string name="error_no_app">Aucune application à ouvrir ce fichier n\'a été trouvée</string>
+    <string name="error_sd_card">Carte mémoire pas disponible</string>
+    <string name="error_no_backups">Aucune sauvegarde n\'a été trouvée sous</string>
 
     <!-- SETTINGS -->
     <string name="pref_therapy_targets">Les valeurs cibles</string>
@@ -215,8 +215,8 @@
     <string name="pref_data_cleanup_confirm_title">Supprimer des entrées?</string>
     <string name="pref_data_cleanup_confirm_message">entrées seraient touchés</string>
     <string name="pref_data_cleanup_return">entrées ont été supprimés</string>
-    <string name="pref_data_export_info">Chaque exportation est stockée localement sur la carte mémoire et peut également être envoyé par E-mail.</string>
-    <string name="pref_data_export_mail_message">Mes données envoyées par la poste via Diaguard</string>
+    <string name="pref_data_export_info">Chaque exportation est enrégistrée localement sur la carte mémoire. En plus, elle peut être envoyée par mail.</string>
+    <string name="pref_data_export_mail_message">Mes données attachées ont été envoyées par Diaguard</string>
 
     <string name="pref_data_backup_finished">Sauvegarde est créé &#8230;</string>
     <string-array name="backup_actions">
@@ -229,12 +229,12 @@
     <string name="about_dev">Développeur</string>
     <string name="about_dev_desc">Philipp Fahlteich,\nB. Sc. de l\'informatique, Diabétiques de type 1</string>
     <string name="about_financing">Financement</string>
-    <string name="about_financing_desc"></string>
+    <string name="about_financing_desc">A présent, il n\'y a pas de support financier de la part d\'organisations soit commercielles ou non-commercielles. Cette application est financée uniquement par son développeur.</string>
     <string name="about_advertisement">Politique publicitaire</string>
-    <string name="about_advertisement_desc"></string>
+    <string name="about_advertisement_desc">Diaguard est, et restera, complètement libre de publicité.</string>
     <string name="about_health">Gonflement</string>
-    <string name="about_health_desc"></string>
+    <string name="about_health_desc">Toutes indications sanitaires sont basées sur des conseils de diabètologues allemands reconnus.</string>
     <string name="about_privacy">Politique de confidentialité</string>
-    <string name="about_privacy_desc"></string>
+    <string name="about_privacy_desc">Nous prenons très au sérieux la protection de vous données personnelles. Nous n\'allons pas les traiter de n\'importe quelle manière ni les transmettre à des tièrs.</string>
 
 </resources>

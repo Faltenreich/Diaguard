@@ -11,7 +11,7 @@
     <string name="alarm_desc_first">Y avez-vous déjà pensé?</string>
     <string name="average">Moyenne</string>
     <string name="back">Arrière</string>
-    <string name="backup">Fusible</string>
+    <string name="backup">Sauvegarde</string>
     <string name="backup_title">Sélectionnez sauvegarde</string>
     <string name="bloodsugar">Glycémie</string>
     <string name="bolus">Bol</string>
@@ -19,7 +19,7 @@
     <string name="bolus_no2">Cependant, il est recommandé de consommer des hydrates de carbone rapides, afin d\'éviter des niveaux de glycémie trop bas.</string>
     <string name="calculator">Calculateur de bolus</string>
     <string name="cancel">Avorter</string>
-    <string name="categories_active">Actives Catégories</string>
+    <string name="categories_active">Catégories actives</string>
     <string name="category">Catégorie</string>
     <string name="cleanup">Nettoyer</string>
     <string name="cleanup_desc">Ceci va effacer toutes les entrées effectuées à la date sélectionnée et auparavant.</string>
@@ -41,14 +41,14 @@
     <string name="export">Exportation</string>
     <string name="export_progress">PDF est créé</string>
     <string name="export_stamp">Rapport généré sur</string>
-    <string name="factor">Facteur de glucides unitaire</string>
-    <string name="factors">Facteur de glucides unitaire</string>
+    <string name="factor">Facteur unitaire de glucides</string>
+    <string name="factors">Facteurs unitaire de glucides</string>
     <string name="first_visit">Nouveau ici?</string>
     <string name="first_visit_desc">Ajouter la première valeur</string>
     <string name="format">Format</string>
     <string name="general">Généralement</string>
     <string name="hba1c">HbA1c</string>
-    <string name="home">Enquête</string>
+    <string name="home">Sommaire</string>
     <string name="homepage">Site web</string>
     <string name="hyper">Hyper</string>
     <string name="hypo">Hypo</string>
@@ -63,9 +63,9 @@
     <string name="measurements">Mesures</string>
     <string name="note">Remarque</string>
     <string name="ok">OK</string>
-    <string name="settings">Paramètres</string>
+    <string name="settings">Généraux</string>
     <string name="sound">Tones</string>
-    <string name="startscreen">Écran d\'accueil</string>
+    <string name="startscreen">Page d\'accueil</string>
     <string name="store_values">Entrez les valeurs</string>
     <string name="timeline">Journal</string>
     <string name="today">Aujourd\'hui</string>
@@ -77,7 +77,7 @@
     <string name="vibration">Vibration</string>
 
     <string-array name="startscreens">
-        <item>Enquête</item>
+        <item>Sommaire</item>
         <item>Journal</item>
         <item>Protocole</item>
     </string-array>
@@ -85,7 +85,7 @@
     <!-- DATE -->
     <string name="calendarweek">Semaine</string>
     <string name="dateend">Date de fin</string>
-    <string name="dateformat">Format de l\'heure</string>
+    <string name="dateformat">Format de date</string>
     <string name="datestart">Date de début</string>
     <string name="minute">Minute</string>
     <string name="minutes">Minutes</string>
@@ -178,9 +178,9 @@
         <item>mmol/mol</item>
     </string-array>
 
-    <string name="weight_units_default">Kilogramme</string>
+    <string name="weight_units_default">Kilogrammes</string>
     <string-array name="weight_units">
-        <item>Kilogramme</item>
+        <item>Kilogrammes</item>
         <item>Livre</item>
     </string-array>
 
@@ -229,12 +229,12 @@
     <string name="about_dev">Développeur</string>
     <string name="about_dev_desc">Philipp Fahlteich,\nB. Sc. de l\'informatique, Diabétiques de type 1</string>
     <string name="about_financing">Financement</string>
-    <string name="about_financing_desc">A présent, il n\'y a pas de support financier de la part d\'organisations soit commercielles ou non-commercielles. Cette application est financée uniquement par son développeur.</string>
+    <string name="about_financing_desc">Il n\'y a pas de support financier de la part d\'organisations soit commercielles ou non-commercielles. Cette application est financée uniquement par son développeur.</string>
     <string name="about_advertisement">Politique publicitaire</string>
     <string name="about_advertisement_desc">Diaguard est, et restera, complètement libre de publicité.</string>
-    <string name="about_health">Gonflement</string>
+    <string name="about_health">Sources</string>
     <string name="about_health_desc">Toutes indications sanitaires sont basées sur des conseils de diabètologues allemands reconnus.</string>
-    <string name="about_privacy">Politique de confidentialité</string>
+    <string name="about_privacy">Confidentialité</string>
     <string name="about_privacy_desc">Nous prenons très au sérieux la protection de vous données personnelles. Nous n\'allons pas les traiter de n\'importe quelle manière ni les transmettre à des tièrs.</string>
 
 </resources>

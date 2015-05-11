@@ -1,9 +1,5 @@
 package com.faltenreich.diaguard.database;
 
-import com.faltenreich.diaguard.helpers.Helper;
-
-import org.joda.time.DateTime;
-
 /**
  * Created by Filip on 09.08.14.
  */
@@ -11,8 +7,7 @@ public class Food extends Model {
 
     private float carbohydrates;
     private String name;
-    private DateTime date;
-    private long measurementId;
+    private String image;
 
     public float getCarbohydrates() {
         return carbohydrates;
@@ -30,24 +25,12 @@ public class Food extends Model {
         this.name = name;
     }
 
-    public DateTime getDate() {
-        return date;
+    public String getImage() {
+        return image;
     }
 
-    public void setDate(DateTime date) {
-        this.date = date;
-    }
-
-    public void setDate(String dateString) {
-        this.date = Helper.getDateDatabaseFormat().parseDateTime(dateString);
-    }
-
-    public long getMeasurementId() {
-        return measurementId;
-    }
-
-    public void setMeasurementId(long measurementId) {
-        this.measurementId = measurementId;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     @Override

@@ -18,7 +18,7 @@ android {
     buildToolsVersion '21.1.2'
 
     defaultConfig {
-        minSdkVersion 9
+        minSdkVersion 14
         targetSdkVersion 21
     }
 }
@@ -30,6 +30,7 @@ dependencies {
 
     compile 'net.danlew:android.joda:2.4.0'
     compile 'com.nispok:snackbar:2.7.3'
+    compile 'com.github.clans:fab:1.5.0'
 
     compile files('libs/achartengine-1.2.0.jar')
     compile files('libs/opencsv-2.3.jar')

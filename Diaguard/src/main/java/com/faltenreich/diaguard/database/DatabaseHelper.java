@@ -18,10 +18,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Metadata
     private static final String DATABASE_NAME = "diaguard.db";
-    private static final int DATABASE_VERSION = 18;
-
-    // For compatibility purposes
+    private static final int DATABASE_VERSION = 19;
     private static final int DATABASE_VERSION_1_0 = 17;
+    private static final int DATABASE_VERSION_1_1 = 18;
+    private static final int DATABASE_VERSION_1_3 = 19;
 
     public static final String DESCENDING = " DESC";
     public static final String ASCENDING = " ASC";
@@ -33,26 +33,62 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String ENTRY = "entry";
     public static final String DATE = "date";
     public static final String NOTE = "note";
+    public static final String IS_VISIBLE = "is_visible";
+    public static final String CREATED_AT = "created_at";
+    public static final String UPDATED_AT = "updated_at";
 
-    // Measurement
-    public static final String MEASUREMENT = "measurement";
     public static final String VALUE = "value";
-    public static final String CATEGORY = "category";
     public static final String ENTRY_ID = "entryId";
 
     // Food
     public static final String FOOD = "food";
     public static final String CARBOHYDRATES = "carbohydrates";
+    public static final String IMAGE = "image";
     public static final String NAME = "name";
 
-    // Measurement_Food
-    public static final String FOOD_EATEN = "food_eaten";
-    public static final String MEASUREMENT_ID = "measurementId";
-    public static final String FOOD_ID = "foodId";
+    // Blood Sugar
+    public static final String BLOODSUGAR = "bloodsugar";
+    public static final String MGDL = "mgdl";
+
+    // Bolus
+    public static final String BOLUS = "bolus";
+    public static final String MILLILITER = "milliliter";
+    public static final String ATC_CODE = "atc_code";
+    public static final String IS_CORRECTION = "is_correction";
+
+    // Meal
+    public static final String MEAL = "meal";
+    public static final String FOOD_ID = "food_id";
+
+    // Activity
+    public static final String ACTIVITY = "activity";
+    public static final String MINUTES = "minutes";
+    public static final String TYPE = "type";
+
+    // HbA1c
+    public static final String HBA1C = "hba1c";
+    public static final String PERCENT = "percent";
+
+    // Weight
+    public static final String WEIGHT = "weight";
+    public static final String KILOGRAM = "kilogram";
+
+    // Pulse
+    public static final String PULSE = "pulse";
+    public static final String FREQUENCY = "frequency";
+
+    // Pressure
+    public static final String PRESSURE = "pressure";
+    public static final String SYSTOLIC = "systolic";
+    public static final String DIASTOLIC = "diastolic";
 
     // DEPRECATED
     public static final String EVENTS = "events";
     public static final String NOTES = "notes";
+    public static final String MEASUREMENT = "measurement";
+    public static final String CATEGORY = "category";
+    public static final String FOOD_EATEN = "food_eaten";
+    public static final String MEASUREMENT_ID = "measurementId";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -60,7 +96,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        onCreateVersion18(sqLiteDatabase);
+        onCreateVersion19(sqLiteDatabase);
     }
 
     private void onCreateVersion17(SQLiteDatabase sqLiteDatabase) {
@@ -100,6 +136,115 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY(" + FOOD_ID + ") REFERENCES " + FOOD + " (" + ID + ") ON DELETE CASCADE);");
     }
 
+    private void onCreateVersion19(SQLiteDatabase sqLiteDatabase) {
+
+        // DEPRECATED
+
+        sqLiteDatabase.execSQL("DROP TABLE IF  EXISTS " + MEASUREMENT + ";");
+        sqLiteDatabase.execSQL("DROP TABLE IF  EXISTS " + FOOD + ";");
+        sqLiteDatabase.execSQL("DROP TABLE IF  EXISTS " + FOOD_EATEN + ";");
+
+        // GENERAL
+
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " +
+                ENTRY + " (" +
+                ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                CREATED_AT + " TEXT, " +
+                UPDATED_AT + " TEXT, " +
+                DATE + " TEXT NOT NULL, " +
+                NOTE + " TEXT, " +
+                IS_VISIBLE + " INT DEFAULT 1);");
+
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " +
+                FOOD + " (" +
+                ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                CREATED_AT + " TEXT, " +
+                UPDATED_AT + " TEXT, " +
+                CARBOHYDRATES + " REAL NOT NULL, " +
+                NAME + " TEXT NOT NULL, " +
+                IMAGE + " TEXT);");
+
+        // ENTRIES
+
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " +
+                BLOODSUGAR + " (" +
+                ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                CREATED_AT + " TEXT, " +
+                UPDATED_AT + " TEXT, " +
+                MGDL + " REAL NOT NULL, " +
+                ENTRY_ID + " INTEGER NOT NULL, " +
+                "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + " (" + ID + ") ON DELETE CASCADE);");
+
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " +
+                BOLUS + " (" +
+                ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                CREATED_AT + " TEXT, " +
+                UPDATED_AT + " TEXT, " +
+                MILLILITER + " REAL NOT NULL, " +
+                ATC_CODE + " INTEGER NOT NULL, " +
+                IS_CORRECTION + " INTEGER DEFAULT 0, " +
+                ENTRY_ID + " INTEGER NOT NULL, " +
+                "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + " (" + ID + ") ON DELETE CASCADE);");
+
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " +
+                MEAL + " (" +
+                ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                CREATED_AT + " TEXT, " +
+                UPDATED_AT + " TEXT, " +
+                CARBOHYDRATES + " INTEGER NOT NULL, " +
+                FOOD_ID + " INTEGER, " +
+                "FOREIGN KEY(" + FOOD_ID + ") REFERENCES " + FOOD + " (" + ID + ") ON DELETE CASCADE," +
+                ENTRY_ID + " INTEGER NOT NULL, " +
+                "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + " (" + ID + ") ON DELETE CASCADE);");
+
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " +
+                ACTIVITY + " (" +
+                ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                CREATED_AT + " TEXT, " +
+                UPDATED_AT + " TEXT, " +
+                MINUTES + " INTEGER NOT NULL, " +
+                TYPE + " INTEGER NOT NULL, " +
+                ENTRY_ID + " INTEGER NOT NULL, " +
+                "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + " (" + ID + ") ON DELETE CASCADE);");
+
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " +
+                HBA1C + " (" +
+                ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                CREATED_AT + " TEXT, " +
+                UPDATED_AT + " TEXT, " +
+                PERCENT + " REAL NOT NULL, " +
+                ENTRY_ID + " INTEGER NOT NULL, " +
+                "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + " (" + ID + ") ON DELETE CASCADE);");
+
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " +
+                WEIGHT + " (" +
+                ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                CREATED_AT + " TEXT, " +
+                UPDATED_AT + " TEXT, " +
+                KILOGRAM + " REAL NOT NULL, " +
+                ENTRY_ID + " INTEGER NOT NULL, " +
+                "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + " (" + ID + ") ON DELETE CASCADE);");
+
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " +
+                PULSE + " (" +
+                ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                CREATED_AT + " TEXT, " +
+                UPDATED_AT + " TEXT, " +
+                FREQUENCY + " REAL NOT NULL, " +
+                ENTRY_ID + " INTEGER NOT NULL, " +
+                "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + " (" + ID + ") ON DELETE CASCADE);");
+
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " +
+                PRESSURE + " (" +
+                ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                CREATED_AT + " TEXT, " +
+                UPDATED_AT + " TEXT, " +
+                SYSTOLIC + " REAL NOT NULL, " +
+                DIASTOLIC + " REAL NOT NULL, " +
+                ENTRY_ID + " INTEGER NOT NULL, " +
+                "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + " (" + ID + ") ON DELETE CASCADE);");
+    }
+
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         if(oldVersion < newVersion) {
@@ -107,9 +252,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             int upgradeFromVersion = oldVersion;
             while (upgradeFromVersion < newVersion) {
                 switch (upgradeFromVersion) {
-                    // Add Food, Entry and replace Event with Measurement
                     case DATABASE_VERSION_1_0:
                         upgradeToVersion18(sqLiteDatabase);
+                        break;
+                    case DATABASE_VERSION_1_1:
+                        upgradeToVersion19(sqLiteDatabase);
                         break;
                 }
                 upgradeFromVersion++;
@@ -120,7 +267,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private void upgradeToVersion18(SQLiteDatabase sqliteDatabase) {
         String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " ORDER BY " + DatabaseHelper.DATE;
         Cursor cursor = sqliteDatabase.rawQuery(query, null);
-
         if (cursor.moveToFirst()) {
             while(!cursor.isAfterLast()) {
                 // Entry
@@ -140,5 +286,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
         }
         sqliteDatabase.execSQL("DROP TABLE IF EXISTS " + EVENTS + ";");
+    }
+
+    private void upgradeToVersion19(SQLiteDatabase sqliteDatabase) {
+        // TODO
     }
 }

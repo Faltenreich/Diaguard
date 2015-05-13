@@ -31,6 +31,8 @@ import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.faltenreich.diaguard.helpers.Validator;
 import com.faltenreich.diaguard.helpers.ViewHelper;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 
 import org.joda.time.DateTime;
 
@@ -54,6 +56,7 @@ public class NewEventActivity extends ActionBarActivity {
 
     private DateTime time;
 
+    private FloatingActionMenu floatingActionMenu;
     private LinearLayout linearLayoutValues;
     private EditText editTextNotes;
     private Button buttonDate;
@@ -94,6 +97,7 @@ public class NewEventActivity extends ActionBarActivity {
         checkIntents();
         setDate();
         setTime();
+        setFloatingActionMenu();
 
         alarmIntervalInMinutes = 0;
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -112,6 +116,7 @@ public class NewEventActivity extends ActionBarActivity {
     }
 
     public void getComponents() {
+        floatingActionMenu = (FloatingActionMenu) findViewById(R.id.fab_menu);
         linearLayoutValues = (LinearLayout) findViewById(R.id.content_dynamic);
         editTextNotes = (EditText) findViewById(R.id.edittext_notes);
         buttonDate = (Button) findViewById(R.id.button_date);
@@ -166,6 +171,19 @@ public class NewEventActivity extends ActionBarActivity {
             else if(extras.getSerializable(EXTRA_DATE) != null) {
                 time = (DateTime) extras.getSerializable(EXTRA_DATE);
             }
+        }
+    }
+
+    private void setFloatingActionMenu() {
+        for(Measurement.Category category : Measurement.Category.values()) {
+            FloatingActionButton floatingActionButton = new FloatingActionButton(this);
+            floatingActionButton.setButtonSize(FloatingActionButton.SIZE_MINI);
+            floatingActionButton.setColorNormal(getResources().getColor(R.color.green));
+            floatingActionButton.setColorPressed(getResources().getColor(R.color.green_lt));
+            floatingActionButton.setColorRipple(getResources().getColor(R.color.green_dk));
+            floatingActionButton.setLabelText(preferenceHelper.getCategoryName(category));
+            floatingActionButton.setImageResource(preferenceHelper.getCategoryImageResourceId(category));
+            floatingActionMenu.addMenuButton(floatingActionButton);
         }
     }
 

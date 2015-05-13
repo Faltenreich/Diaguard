@@ -355,9 +355,7 @@ public class TimelineFragment extends Fragment {
 
                 // Category image
                 ImageView image = new ImageView(getActivity());
-                int resourceId = getResources().getIdentifier(category.name().toLowerCase(),
-                        "drawable", getActivity().getPackageName());
-                image.setImageResource(resourceId);
+                image.setImageResource(preferenceHelper.getCategoryImageResourceId(category));
                 int imageSize = (int) Helper.getDPI(getActivity(), 32);
                 image.setLayoutParams(new LinearLayout.LayoutParams(imageSize, imageSize, 1.0f));
                 int imagePadding = (int) Helper.getDPI(getActivity(), 4);

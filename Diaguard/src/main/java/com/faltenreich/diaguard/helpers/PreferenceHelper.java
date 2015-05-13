@@ -137,6 +137,11 @@ public class PreferenceHelper {
         return categories[position];
     }
 
+    public int getCategoryImageResourceId(Measurement.Category category) {
+        return context.getResources().getIdentifier(category.name().toLowerCase(),
+                "drawable", context.getPackageName());
+    }
+
     // UNITS
 
     public String[] getUnitsNames(Measurement.Category category) {

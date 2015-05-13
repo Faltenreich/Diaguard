@@ -93,10 +93,7 @@ public class MainFragment extends Fragment {
 
         preferenceHelper = new PreferenceHelper(getActivity());
 
-        int countBloodSugarMeasurements = dataSource.count(
-                DatabaseHelper.MEASUREMENT,
-                DatabaseHelper.CATEGORY,
-                Measurement.Category.BloodSugar.toString());
+        int countBloodSugarMeasurements = dataSource.count(DatabaseHelper.BLOODSUGAR);
 
         if(countBloodSugarMeasurements > 0) {
             Entry entry = dataSource.getLatestBloodSugar();
@@ -118,12 +115,14 @@ public class MainFragment extends Fragment {
             textViewAverageDay.setText(Helper.PLACEHOLDER);
         }
 
-        updateChart();
+        // TODO updateChart();
 
         dataSource.close();
     }
 
     private void updateLatest(Entry entry) {
+        // TODO
+        /*
         Measurement latestBloodSugar = entry.getMeasurements().get(0);
 
         // Value
@@ -141,6 +140,7 @@ public class MainFragment extends Fragment {
             else
                 textViewLatestValue.setTextColor(getResources().getColor(R.color.green));
         }
+        */
 
         // Unit
         textViewLatestUnit.setText(preferenceHelper.getUnitAcronym(Measurement.Category.BloodSugar));

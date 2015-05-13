@@ -274,6 +274,8 @@ public class TimelineFragment extends Fragment {
         List<Entry> entries = dataSource.getEntriesOfDay(time, Measurement.Category.BloodSugar);
         dataSource.close();
 
+        // TODO
+        /*
         for(Entry entry : entries) {
             Measurement measurement = entry.getMeasurements().get(0);
             float x_value = Helper.formatCalendarToHourMinutes(entry.getDate());
@@ -300,6 +302,7 @@ public class TimelineFragment extends Fragment {
                 seriesBloodSugar.add(x_value, y_value);
             }
         }
+        */
     }
 
     private void initializeChart() {

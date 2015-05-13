@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.database;
 
+import com.faltenreich.diaguard.helpers.Helper;
+
 import org.joda.time.DateTime;
 
 /**
@@ -27,12 +29,20 @@ public abstract class Model {
         this.createdAt = createdAt;
     }
 
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = new DateTime(Helper.getDateDatabaseFormat().parseDateTime(createdAt));
+    }
+
     public DateTime getUpdatedAt() {
         return updatedAt;
     }
 
     public void setUpdatedAt(DateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = new DateTime(Helper.getDateDatabaseFormat().parseDateTime(updatedAt));
     }
 
     public abstract String getTableName();

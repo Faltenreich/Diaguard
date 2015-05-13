@@ -5,6 +5,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.faltenreich.diaguard.database.measurements.Activity;
+import com.faltenreich.diaguard.database.measurements.BloodSugar;
+import com.faltenreich.diaguard.database.measurements.Bolus;
+import com.faltenreich.diaguard.database.measurements.HbA1c;
+import com.faltenreich.diaguard.database.measurements.Meal;
+import com.faltenreich.diaguard.database.measurements.Pressure;
+import com.faltenreich.diaguard.database.measurements.Pulse;
+import com.faltenreich.diaguard.database.measurements.Weight;
 import com.faltenreich.diaguard.helpers.Helper;
 
 import org.joda.time.DateTime;
@@ -51,86 +59,277 @@ public class DatabaseDataSource {
     private ContentValues getContentValues(Model model) {
         ContentValues values = null;
 
-        if(model.getClass() == Entry.class)
-            values = getContentValuesEntry((Entry)model);
-        else if(model.getClass() == Measurement.class)
-            values = getContentValuesMeasurement((Measurement)model);
-        else if(model.getClass() == Food.class)
-            values = getContentValuesFood((Food)model);
+        if(model.getClass() == Entry.class) {
+            values = getContentValuesEntry((Entry) model);
+        }
+        else if(model.getClass() == Food.class) {
+            values = getContentValuesFood((Food) model);
+        }
+        else if(model.getClass() == BloodSugar.class) {
+            values = getContentValuesBloodSugar((BloodSugar) model);
+        }
+        else if(model.getClass() == Bolus.class) {
+            values = getContentValuesBolus((Bolus) model);
+        }
+        else if(model.getClass() == Meal.class) {
+            values = getContentValuesMeal((Meal) model);
+        }
+        else if(model.getClass() == Activity.class) {
+            values = getContentValuesActivity((Activity) model);
+        }
+        else if(model.getClass() == HbA1c.class) {
+            values = getContentValuesHbA1c((HbA1c) model);
+        }
+        else if(model.getClass() == Weight.class) {
+            values = getContentValuesWeight((Weight) model);
+        }
+        else if(model.getClass() == Pulse.class) {
+            values = getContentValuesPulse((Pulse) model);
+        }
+        else if(model.getClass() == Pressure.class) {
+            values = getContentValuesPressure((Pressure) model);
+        }
 
-        if(values == null)
+        if(values == null) {
             throw new IllegalArgumentException("getContentValues() missing for model '" +
                     model.getClass().getName() + "'");
+        }
 
         return values;
     }
 
     private ContentValues getContentValuesEntry(Entry entry) {
         ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.CREATED_AT, Helper.getDateDatabaseFormat().print(entry.getCreatedAt()));
+        values.put(DatabaseHelper.UPDATED_AT, Helper.getDateDatabaseFormat().print(entry.getUpdatedAt()));
         values.put(DatabaseHelper.DATE, Helper.getDateDatabaseFormat().print(entry.getDate()));
         values.put(DatabaseHelper.NOTE, entry.getNote());
-        return values;
-    }
-
-    private ContentValues getContentValuesMeasurement(Measurement measurement) {
-        ContentValues values = new ContentValues();
-        values.put(DatabaseHelper.VALUE, measurement.getValue());
-        values.put(DatabaseHelper.CATEGORY, measurement.getCategory().toString());
-        values.put(DatabaseHelper.ENTRY_ID, measurement.getEntryId());
+        values.put(DatabaseHelper.IS_VISIBLE, entry.isVisible() ? 1 : 0);
         return values;
     }
 
     private ContentValues getContentValuesFood(Food food) {
         ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.CREATED_AT, Helper.getDateDatabaseFormat().print(food.getCreatedAt()));
+        values.put(DatabaseHelper.UPDATED_AT, Helper.getDateDatabaseFormat().print(food.getUpdatedAt()));
         values.put(DatabaseHelper.CARBOHYDRATES, food.getCarbohydrates());
         values.put(DatabaseHelper.NAME, food.getName());
-        values.put(DatabaseHelper.DATE, Helper.getDateDatabaseFormat().print(food.getDate()));
-        values.put(DatabaseHelper.ENTRY_ID, food.getMeasurementId());
+        values.put(DatabaseHelper.IMAGE, food.getImage());
         return values;
     }
 
+    private ContentValues getContentValuesBloodSugar(BloodSugar bloodSugar) {
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.CREATED_AT, Helper.getDateDatabaseFormat().print(bloodSugar.getCreatedAt()));
+        values.put(DatabaseHelper.UPDATED_AT, Helper.getDateDatabaseFormat().print(bloodSugar.getUpdatedAt()));
+        values.put(DatabaseHelper.MGDL, bloodSugar.getMgDl());
+        values.put(DatabaseHelper.ENTRY_ID, bloodSugar.getEntryId());
+        return values;
+    }
+
+    private ContentValues getContentValuesBolus(Bolus bolus) {
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.CREATED_AT, Helper.getDateDatabaseFormat().print(bolus.getCreatedAt()));
+        values.put(DatabaseHelper.UPDATED_AT, Helper.getDateDatabaseFormat().print(bolus.getUpdatedAt()));
+        values.put(DatabaseHelper.MILLILITER, bolus.getMilliliter());
+        values.put(DatabaseHelper.ATC_CODE, bolus.getAtcCode());
+        values.put(DatabaseHelper.IS_CORRECTION, bolus.isCorrection() ? 1 : 0);
+        values.put(DatabaseHelper.ENTRY_ID, bolus.getEntryId());
+        return values;
+    }
+
+    private ContentValues getContentValuesMeal(Meal meal) {
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.CREATED_AT, Helper.getDateDatabaseFormat().print(meal.getCreatedAt()));
+        values.put(DatabaseHelper.UPDATED_AT, Helper.getDateDatabaseFormat().print(meal.getUpdatedAt()));
+        values.put(DatabaseHelper.CARBOHYDRATES, meal.getCarbohydrates());
+        values.put(DatabaseHelper.FOOD_ID, meal.getFoodId());
+        values.put(DatabaseHelper.ENTRY_ID, meal.getEntryId());
+        return values;
+    }
+
+    private ContentValues getContentValuesActivity(Activity activity) {
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.CREATED_AT, Helper.getDateDatabaseFormat().print(activity.getCreatedAt()));
+        values.put(DatabaseHelper.UPDATED_AT, Helper.getDateDatabaseFormat().print(activity.getUpdatedAt()));
+        values.put(DatabaseHelper.MINUTES, activity.getMinutes());
+        values.put(DatabaseHelper.TYPE, activity.getType());
+        values.put(DatabaseHelper.ENTRY_ID, activity.getEntryId());
+        return values;
+    }
+
+    private ContentValues getContentValuesHbA1c(HbA1c hbA1c) {
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.CREATED_AT, Helper.getDateDatabaseFormat().print(hbA1c.getCreatedAt()));
+        values.put(DatabaseHelper.UPDATED_AT, Helper.getDateDatabaseFormat().print(hbA1c.getUpdatedAt()));
+        values.put(DatabaseHelper.PERCENT, hbA1c.getPercent());
+        values.put(DatabaseHelper.ENTRY_ID, hbA1c.getEntryId());
+        return values;
+    }
+
+    private ContentValues getContentValuesWeight(Weight weight) {
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.CREATED_AT, Helper.getDateDatabaseFormat().print(weight.getCreatedAt()));
+        values.put(DatabaseHelper.UPDATED_AT, Helper.getDateDatabaseFormat().print(weight.getUpdatedAt()));
+        values.put(DatabaseHelper.KILOGRAM, weight.getKilogram());
+        values.put(DatabaseHelper.ENTRY_ID, weight.getEntryId());
+        return values;
+    }
+
+    private ContentValues getContentValuesPulse(Pulse pulse) {
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.CREATED_AT, Helper.getDateDatabaseFormat().print(pulse.getCreatedAt()));
+        values.put(DatabaseHelper.UPDATED_AT, Helper.getDateDatabaseFormat().print(pulse.getUpdatedAt()));
+        values.put(DatabaseHelper.FREQUENCY, pulse.getFrequency());
+        values.put(DatabaseHelper.ENTRY_ID, pulse.getEntryId());
+        return values;
+    }
+
+    private ContentValues getContentValuesPressure(Pressure pressure) {
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.CREATED_AT, Helper.getDateDatabaseFormat().print(pressure.getCreatedAt()));
+        values.put(DatabaseHelper.UPDATED_AT, Helper.getDateDatabaseFormat().print(pressure.getUpdatedAt()));
+        values.put(DatabaseHelper.SYSTOLIC, pressure.getSystolic());
+        values.put(DatabaseHelper.DIASTOLIC, pressure.getDiastolic());
+        values.put(DatabaseHelper.ENTRY_ID, pressure.getEntryId());
+        return values;
+    }
+
+    public Model get(String tableName, Cursor cursor) {
+        if(cursor.moveToFirst()) {
+            switch (tableName) {
+                case DatabaseHelper.ENTRY:
+                    return getEntry(cursor);
+                case DatabaseHelper.FOOD:
+                    return getFood(cursor);
+                case DatabaseHelper.BLOODSUGAR:
+                    return getBloodSugar(cursor);
+                case DatabaseHelper.BOLUS:
+                    return getBolus(cursor);
+                case DatabaseHelper.MEAL:
+                    return getMeal(cursor);
+                case DatabaseHelper.ACTIVITY:
+                    return getActivity(cursor);
+                case DatabaseHelper.HBA1C:
+                    return getHbA1c(cursor);
+                case DatabaseHelper.WEIGHT:
+                    return getWeight(cursor);
+                case DatabaseHelper.PULSE:
+                    return getPulse(cursor);
+                case DatabaseHelper.PRESSURE:
+                    return getPressure(cursor);
+                default:
+                    return null;
+            }
+        }
+        else return null;
+    }
 
     public Entry getEntry(Cursor cursor) {
         Entry entry = new Entry();
         entry.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ID))));
+        entry.setCreatedAt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.CREATED_AT)));
+        entry.setUpdatedAt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.UPDATED_AT)));
         entry.setDate(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.DATE)));
         entry.setNote(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.NOTE)));
+        entry.setIsVisible(cursor.getString(cursor.getColumnIndex(DatabaseHelper.IS_VISIBLE)).equals("1"));
         return entry;
-    }
-
-    public Entry getEntryWithMeasurement(Cursor cursor) {
-        Entry entry = new Entry();
-        entry.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ID))));
-        entry.setDate(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.DATE)));
-        entry.setNote(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.NOTE)));
-
-        Measurement measurement = new Measurement();
-        measurement.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ID))));
-        measurement.setValue(Float.parseFloat(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.VALUE))));
-        measurement.setCategory(Measurement.Category.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.CATEGORY))));
-        measurement.setEntryId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ENTRY_ID))));
-        entry.getMeasurements().add(measurement);
-
-        return entry;
-    }
-
-    public Measurement getMeasurement(Cursor cursor) {
-        Measurement measurement = new Measurement();
-        measurement.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ID))));
-        measurement.setValue(Float.parseFloat(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.VALUE))));
-        measurement.setCategory(Measurement.Category.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.CATEGORY))));
-        measurement.setEntryId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ENTRY_ID))));
-        return measurement;
     }
 
     public Food getFood(Cursor cursor) {
         Food food = new Food();
         food.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ID))));
+        food.setCreatedAt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.CREATED_AT)));
+        food.setUpdatedAt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.UPDATED_AT)));
         food.setCarbohydrates(Float.parseFloat(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.CARBOHYDRATES))));
         food.setName(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.NAME)));
-        food.setDate(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.DATE)));
-        food.setMeasurementId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.MEASUREMENT_ID))));
+        food.setImage(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.IMAGE)));
         return food;
+    }
+
+    public BloodSugar getBloodSugar(Cursor cursor) {
+        BloodSugar bloodSugar = new BloodSugar();
+        bloodSugar.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ID))));
+        bloodSugar.setCreatedAt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.CREATED_AT)));
+        bloodSugar.setUpdatedAt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.UPDATED_AT)));
+        bloodSugar.setMgDl(Long.parseLong(cursor.getString(cursor.getColumnIndex(DatabaseHelper.MGDL))));
+        bloodSugar.setEntryId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ENTRY_ID))));
+        return bloodSugar;
+    }
+
+    public Bolus getBolus(Cursor cursor) {
+        Bolus bolus = new Bolus();
+        bolus.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ID))));
+        bolus.setCreatedAt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.CREATED_AT)));
+        bolus.setUpdatedAt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.UPDATED_AT)));
+        bolus.setMilliliter(Long.parseLong(cursor.getString(cursor.getColumnIndex(DatabaseHelper.MILLILITER))));
+        bolus.setAtcCode(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ATC_CODE))));
+        bolus.setIsCorrection(cursor.getString(cursor.getColumnIndex(DatabaseHelper.IS_CORRECTION)).equals("1"));
+        bolus.setEntryId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ENTRY_ID))));
+        return bolus;
+    }
+
+    public Meal getMeal(Cursor cursor) {
+        Meal meal = new Meal();
+        meal.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ID))));
+        meal.setCreatedAt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.CREATED_AT)));
+        meal.setUpdatedAt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.UPDATED_AT)));
+        meal.setCarbohydrates(Long.parseLong(cursor.getString(cursor.getColumnIndex(DatabaseHelper.MILLILITER))));
+        meal.setFoodId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.FOOD_ID))));
+        meal.setEntryId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ENTRY_ID))));
+        return meal;
+    }
+
+    public Activity getActivity(Cursor cursor) {
+        Activity activity = new Activity();
+        activity.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ID))));
+        activity.setCreatedAt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.CREATED_AT)));
+        activity.setUpdatedAt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.UPDATED_AT)));
+        activity.setMinutes(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.MINUTES))));
+        activity.setType(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.TYPE))));
+        activity.setEntryId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ENTRY_ID))));
+        return activity;
+    }
+
+    public HbA1c getHbA1c(Cursor cursor) {
+        HbA1c hbA1c = new HbA1c();
+        hbA1c.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ID))));
+        hbA1c.setCreatedAt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.CREATED_AT)));
+        hbA1c.setUpdatedAt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.UPDATED_AT)));
+        hbA1c.setPercent(Long.parseLong(cursor.getString(cursor.getColumnIndex(DatabaseHelper.HBA1C))));
+        hbA1c.setEntryId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ENTRY_ID))));
+        return hbA1c;
+    }
+
+    public Weight getWeight(Cursor cursor) {
+        Weight weight = new Weight();
+        weight.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ID))));
+        weight.setCreatedAt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.CREATED_AT)));
+        weight.setUpdatedAt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.UPDATED_AT)));
+        weight.setKilogram(Long.parseLong(cursor.getString(cursor.getColumnIndex(DatabaseHelper.KILOGRAM))));
+        weight.setEntryId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ENTRY_ID))));
+        return weight;
+    }
+
+    public Pulse getPulse(Cursor cursor) {
+        Pulse pulse = new Pulse();
+        pulse.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ID))));
+        pulse.setCreatedAt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.CREATED_AT)));
+        pulse.setUpdatedAt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.UPDATED_AT)));
+        pulse.setFrequency(Long.parseLong(cursor.getString(cursor.getColumnIndex(DatabaseHelper.FREQUENCY))));
+        pulse.setEntryId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ENTRY_ID))));
+        return pulse;
+    }
+
+    public Pressure getPressure(Cursor cursor) {
+        Pressure pressure = new Pressure();
+        pressure.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ID))));
+        pressure.setCreatedAt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.CREATED_AT)));
+        pressure.setUpdatedAt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.UPDATED_AT)));
+        pressure.setSystolic(Long.parseLong(cursor.getString(cursor.getColumnIndex(DatabaseHelper.SYSTOLIC))));
+        pressure.setDiastolic(Long.parseLong(cursor.getString(cursor.getColumnIndex(DatabaseHelper.DIASTOLIC))));
+        pressure.setEntryId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ENTRY_ID))));
+        return pressure;
     }
 
     // endregion
@@ -142,33 +341,15 @@ public class DatabaseDataSource {
                 DatabaseHelper.ID + "=?",
                 new String[] { String.valueOf(id) },
                 null, null, null, null);
-        if(cursor.moveToFirst()) {
-            switch (table) {
-                case DatabaseHelper.ENTRY:
-                    return getEntry(cursor);
-                case DatabaseHelper.MEASUREMENT:
-                    return getMeasurement(cursor);
-                case DatabaseHelper.FOOD:
-                    return getFood(cursor);
-                default:
-                    return null;
-            }
-        }
-        else return null;
+        return get(table, cursor);
     }
 
     public List<Model> get(String table) {
         Cursor cursor = db.query(table, null, null, null, null, null, null, null);
-
         List<Model> objects = new ArrayList<Model>();
         if (cursor.moveToFirst()) {
             while(!cursor.isAfterLast()) {
-                if(table.equals(DatabaseHelper.ENTRY))
-                    objects.add(getEntry(cursor));
-                else if(table.equals(DatabaseHelper.MEASUREMENT))
-                    objects.add(getMeasurement(cursor));
-                else if(table.equals(DatabaseHelper.FOOD))
-                    objects.add(getFood(cursor));
+                objects.add(get(table, cursor));
                 cursor.moveToNext();
             }
         }
@@ -178,16 +359,10 @@ public class DatabaseDataSource {
     public List<Model> get(String table, String[] columns, String selection, String[] selectionArgs,
                            String groupBy, String having, String orderBy, String limit) {
         Cursor cursor = db.query(table, columns, selection, selectionArgs, groupBy, having, orderBy, limit);
-
         List<Model> objects = new ArrayList<Model>();
         if (cursor.moveToFirst()) {
             while(!cursor.isAfterLast()) {
-                if(table.equals(DatabaseHelper.ENTRY))
-                    objects.add(getEntry(cursor));
-                else if(table.equals(DatabaseHelper.MEASUREMENT))
-                    objects.add(getMeasurement(cursor));
-                else if(table.equals(DatabaseHelper.FOOD))
-                    objects.add(getFood(cursor));
+                objects.add(get(table, cursor));
                 cursor.moveToNext();
             }
         }
@@ -206,7 +381,8 @@ public class DatabaseDataSource {
         Cursor cursor = db.rawQuery(query, null);
         Entry entry = null;
         if(cursor.moveToFirst()) {
-            entry = getEntryWithMeasurement(cursor);
+            entry = getEntry(cursor);
+            entry.getMeasurements().add(getBloodSugar(cursor));
         }
         cursor.close();
         return entry;
@@ -250,7 +426,9 @@ public class DatabaseDataSource {
         List<Entry> entries = new ArrayList<Entry>();
         if (cursor.moveToFirst()) {
             while(!cursor.isAfterLast()) {
-                entries.add(getEntryWithMeasurement(cursor));
+                Entry entry = getEntry(cursor);
+                // TODO entry.getMeasurements().add(get(cursor));
+                entries.add(entry);
                 cursor.moveToNext();
             }
         }
@@ -309,6 +487,8 @@ public class DatabaseDataSource {
             int row = Arrays.asList(categories).indexOf(category);
 
             for(Entry entry : entriesOfDay) {
+                // TODO
+                /*
                 Measurement measurement = entry.getMeasurements().get(0);
                 int hour = entry.getDate().getHourOfDay() / 2;
                 float oldValue = values[row][hour];
@@ -331,6 +511,7 @@ public class DatabaseDataSource {
                     newValue = oldValue + measurement.getValue();
 
                 values[row][hour] = newValue;
+                */
             }
         }
         return values;

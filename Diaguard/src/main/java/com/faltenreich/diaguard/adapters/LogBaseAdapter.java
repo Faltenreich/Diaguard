@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -124,6 +123,8 @@ public class LogBaseAdapter extends BaseAdapter {
                 viewHolderEntry.time.setText(Helper.getTimeFormat().print(entry.getDate()));
 
                 viewHolderEntry.values.removeAllViews();
+                // TODO
+                /*
                 for(Measurement measurement : entry.getMeasurements()) {
                     ImageView imageViewImage = new ImageView(context);
                     imageViewImage.setImageResource(imageResources.get(measurement.getCategory().name().toLowerCase()));
@@ -143,6 +144,7 @@ public class LogBaseAdapter extends BaseAdapter {
                     }
                     viewHolderEntry.values.addView(textViewValue);
                 }
+                */
             }
         }
 

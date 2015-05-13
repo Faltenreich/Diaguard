@@ -151,7 +151,7 @@ public class NewEventActivity extends ActionBarActivity {
 
                 for(Model model : measurements) {
                     Measurement measurement = (Measurement) model;
-                    entry.getMeasurements().add(measurement);
+                    // TODO entry.getMeasurements().add(measurement);
                     for(int position = 0; position < linearLayoutValues.getChildCount(); position++) {
                         View view = linearLayoutValues.getChildAt(position);
                         Measurement.Category category = (Measurement.Category)view.getTag();
@@ -244,6 +244,8 @@ public class NewEventActivity extends ActionBarActivity {
                 entry.setNote(editTextNotes.getText().toString());
                 dataSource.update(entry);
 
+                // TODO
+                /*
                 // Step through measurements and compare
                 List<Measurement> measurementsToDelete = new ArrayList<Measurement>(entry.getMeasurements());
                 for(Measurement measurement : measurements) {
@@ -267,6 +269,7 @@ public class NewEventActivity extends ActionBarActivity {
                 for(Measurement measurement : measurementsToDelete) {
                     dataSource.delete(measurement);
                 }
+                    */
             }
 
             // Insert new entry

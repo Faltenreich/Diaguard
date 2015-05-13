@@ -7,14 +7,14 @@ import com.faltenreich.diaguard.database.DatabaseHelper;
  */
 public class Meal extends Measurement {
 
-    private int carbohydrates;
+    private long carbohydrates;
     private int foodId;
 
-    public int getCarbohydrates() {
+    public long getCarbohydrates() {
         return carbohydrates;
     }
 
-    public void setCarbohydrates(int carbohydrates) {
+    public void setCarbohydrates(long carbohydrates) {
         this.carbohydrates = carbohydrates;
     }
 

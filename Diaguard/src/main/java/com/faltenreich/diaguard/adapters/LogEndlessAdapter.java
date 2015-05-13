@@ -10,7 +10,6 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.DatabaseHelper;
 import com.faltenreich.diaguard.database.Entry;
-import com.faltenreich.diaguard.database.Measurement;
 import com.faltenreich.diaguard.database.Model;
 import com.faltenreich.diaguard.helpers.Helper;
 
@@ -64,8 +63,9 @@ public class LogEndlessAdapter extends EndlessAdapter implements PinnedSectionLi
             List<Model> measurementModels = dataSource.get(DatabaseHelper.MEASUREMENT, null,
                     DatabaseHelper.ENTRY_ID + "=?", new String[]{Long.toString(entry.getId())},
                     null, null, null, null);
-            for(Model measurementModel : measurementModels)
-                entry.getMeasurements().add((Measurement)measurementModel);
+            for(Model measurementModel : measurementModels) {
+                // TODO entry.getMeasurements().add((Measurement) measurementModel);
+            }
             entries.add(entry);
         }
         dataSource.close();

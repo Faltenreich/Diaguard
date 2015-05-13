@@ -28,23 +28,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Primary key: Underscore for CursorAdapter to work
     public static final String ID = "_id";
+    public static final String CREATED_AT = "created_at";
+    public static final String UPDATED_AT = "updated_at";
 
     // Entry
     public static final String ENTRY = "entry";
     public static final String DATE = "date";
     public static final String NOTE = "note";
     public static final String IS_VISIBLE = "is_visible";
-    public static final String CREATED_AT = "created_at";
-    public static final String UPDATED_AT = "updated_at";
 
     public static final String VALUE = "value";
-    public static final String ENTRY_ID = "entryId";
+    public static final String ENTRY_ID = "entry_id";
 
     // Food
     public static final String FOOD = "food";
     public static final String CARBOHYDRATES = "carbohydrates";
-    public static final String IMAGE = "image";
     public static final String NAME = "name";
+    public static final String IMAGE = "image";
 
     // Blood Sugar
     public static final String BLOODSUGAR = "bloodsugar";
@@ -89,6 +89,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String CATEGORY = "category";
     public static final String FOOD_EATEN = "food_eaten";
     public static final String MEASUREMENT_ID = "measurementId";
+    public static final String ENTRY_ID_OLD = "entryId";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -173,7 +174,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 UPDATED_AT + " TEXT, " +
                 MGDL + " REAL NOT NULL, " +
                 ENTRY_ID + " INTEGER NOT NULL, " +
-                "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + " (" + ID + ") ON DELETE CASCADE);");
+                "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + "(" + ID + ") ON DELETE CASCADE);");
 
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " +
                 BOLUS + " (" +
@@ -184,18 +185,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ATC_CODE + " INTEGER NOT NULL, " +
                 IS_CORRECTION + " INTEGER DEFAULT 0, " +
                 ENTRY_ID + " INTEGER NOT NULL, " +
-                "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + " (" + ID + ") ON DELETE CASCADE);");
+                "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + "(" + ID + ") ON DELETE CASCADE);");
 
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " +
                 MEAL + " (" +
                 ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 CREATED_AT + " TEXT, " +
                 UPDATED_AT + " TEXT, " +
-                CARBOHYDRATES + " INTEGER NOT NULL, " +
+                CARBOHYDRATES + " REAL NOT NULL, " +
                 FOOD_ID + " INTEGER, " +
-                "FOREIGN KEY(" + FOOD_ID + ") REFERENCES " + FOOD + " (" + ID + ") ON DELETE CASCADE," +
                 ENTRY_ID + " INTEGER NOT NULL, " +
-                "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + " (" + ID + ") ON DELETE CASCADE);");
+                "FOREIGN KEY(" + FOOD_ID + ") REFERENCES " + FOOD + "(" + ID + ") ON DELETE CASCADE, " +
+                "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + "(" + ID + ") ON DELETE CASCADE);");
 
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " +
                 ACTIVITY + " (" +
@@ -205,7 +206,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 MINUTES + " INTEGER NOT NULL, " +
                 TYPE + " INTEGER NOT NULL, " +
                 ENTRY_ID + " INTEGER NOT NULL, " +
-                "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + " (" + ID + ") ON DELETE CASCADE);");
+                "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + "(" + ID + ") ON DELETE CASCADE);");
 
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " +
                 HBA1C + " (" +
@@ -214,7 +215,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 UPDATED_AT + " TEXT, " +
                 PERCENT + " REAL NOT NULL, " +
                 ENTRY_ID + " INTEGER NOT NULL, " +
-                "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + " (" + ID + ") ON DELETE CASCADE);");
+                "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + "(" + ID + ") ON DELETE CASCADE);");
 
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " +
                 WEIGHT + " (" +
@@ -223,7 +224,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 UPDATED_AT + " TEXT, " +
                 KILOGRAM + " REAL NOT NULL, " +
                 ENTRY_ID + " INTEGER NOT NULL, " +
-                "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + " (" + ID + ") ON DELETE CASCADE);");
+                "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + "(" + ID + ") ON DELETE CASCADE);");
 
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " +
                 PULSE + " (" +
@@ -232,7 +233,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 UPDATED_AT + " TEXT, " +
                 FREQUENCY + " REAL NOT NULL, " +
                 ENTRY_ID + " INTEGER NOT NULL, " +
-                "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + " (" + ID + ") ON DELETE CASCADE);");
+                "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + "(" + ID + ") ON DELETE CASCADE);");
 
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " +
                 PRESSURE + " (" +
@@ -242,7 +243,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 SYSTOLIC + " REAL NOT NULL, " +
                 DIASTOLIC + " REAL NOT NULL, " +
                 ENTRY_ID + " INTEGER NOT NULL, " +
-                "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + " (" + ID + ") ON DELETE CASCADE);");
+                "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + "(" + ID + ") ON DELETE CASCADE);");
     }
 
     @Override

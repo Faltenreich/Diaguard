@@ -15,6 +15,7 @@
     <!-- GENERAL -->
 
     <string name="about">About</string>
+    <string name="all">All</string>
     <string name="add_value">Add value</string>
     <string name="alarm">Measure blood sugar</string>
     <string name="alarm_desc">%s since the last measurement</string>

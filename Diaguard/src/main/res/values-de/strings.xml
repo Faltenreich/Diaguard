@@ -5,6 +5,7 @@
 
     <!-- GENERAL -->
     <string name="about">Über</string>
+    <string name="all">Alle</string>
     <string name="add_value">Wert hinzufügen</string>
     <string name="alarm">Blutzucker messen</string>
     <string name="alarm_desc">%s seit der letzten Messung</string>

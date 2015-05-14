@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -57,7 +58,7 @@ public class NewEventActivity extends ActionBarActivity {
     private DateTime time;
 
     private FloatingActionMenu floatingActionMenu;
-    private LinearLayout linearLayoutValues;
+    private LinearLayout layoutValues;
     private EditText editTextNotes;
     private Button buttonDate;
     private Button buttonTime;
@@ -117,7 +118,7 @@ public class NewEventActivity extends ActionBarActivity {
 
     public void getComponents() {
         floatingActionMenu = (FloatingActionMenu) findViewById(R.id.fab_menu);
-        linearLayoutValues = (LinearLayout) findViewById(R.id.content_dynamic);
+        layoutValues = (LinearLayout) findViewById(R.id.layout_measurements);
         editTextNotes = (EditText) findViewById(R.id.edittext_notes);
         buttonDate = (Button) findViewById(R.id.button_date);
         buttonTime = (Button) findViewById(R.id.button_time);
@@ -157,8 +158,8 @@ public class NewEventActivity extends ActionBarActivity {
                 for(Model model : measurements) {
                     Measurement measurement = (Measurement) model;
                     // TODO entry.getMeasurements().add(measurement);
-                    for(int position = 0; position < linearLayoutValues.getChildCount(); position++) {
-                        View view = linearLayoutValues.getChildAt(position);
+                    for(int position = 0; position < layoutValues.getChildCount(); position++) {
+                        View view = layoutValues.getChildAt(position);
                         Measurement.Category category = (Measurement.Category)view.getTag();
                         if(category == measurement.getCategory()) {
                             EditText editTextValue = (EditText) view.findViewById(R.id.value);
@@ -175,16 +176,42 @@ public class NewEventActivity extends ActionBarActivity {
     }
 
     private void setFloatingActionMenu() {
-        for(Measurement.Category category : Measurement.Category.values()) {
-            FloatingActionButton floatingActionButton = new FloatingActionButton(this);
-            floatingActionButton.setButtonSize(FloatingActionButton.SIZE_MINI);
-            floatingActionButton.setColorNormal(getResources().getColor(R.color.green));
-            floatingActionButton.setColorPressed(getResources().getColor(R.color.green_lt));
-            floatingActionButton.setColorRipple(getResources().getColor(R.color.green_dk));
-            floatingActionButton.setLabelText(preferenceHelper.getCategoryName(category));
-            floatingActionButton.setImageResource(preferenceHelper.getCategoryImageResourceId(category));
-            floatingActionMenu.addMenuButton(floatingActionButton);
+        Measurement.Category[] mostUsedCategories = new Measurement.Category[] {
+                Measurement.Category.BloodSugar,
+                Measurement.Category.Bolus,
+                Measurement.Category.Meal
+        };
+        for(Measurement.Category category : mostUsedCategories) {
+            addFloatingActionButton(preferenceHelper.getCategoryName(category),
+                    getResources().getIdentifier(category.name().toLowerCase() + "_white", "drawable", getPackageName()),
+                    R.color.green, R.color.green_lt, R.color.green_dk);
         }
+        addFloatingActionButton(getString(R.string.all), R.drawable.ic_other,
+                android.R.color.white, R.color.gray_light, R.color.gray_light);
+        // Hide menu on click outside
+        floatingActionMenu.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
+                    if (floatingActionMenu.isOpened()) {
+                        floatingActionMenu.close(true);
+                    }
+                }
+                return true;
+            }
+        });
+    }
+
+    private void addFloatingActionButton(String text, int imageResourceId,
+                                         int colorNormalResId, int colorPressedResId, int colorRippleResId) {
+        FloatingActionButton floatingActionButton = new FloatingActionButton(this);
+        floatingActionButton.setButtonSize(FloatingActionButton.SIZE_MINI);
+        floatingActionButton.setLabelText(text);
+        floatingActionButton.setImageResource(imageResourceId);
+        floatingActionButton.setColorNormalResId(colorNormalResId);
+        floatingActionButton.setColorPressedResId(colorPressedResId);
+        floatingActionButton.setColorRippleResId(colorRippleResId);
+        floatingActionMenu.addMenuButton(floatingActionButton);
     }
 
     private void setDate() {
@@ -212,8 +239,8 @@ public class NewEventActivity extends ActionBarActivity {
 
         List<Measurement> measurements = new ArrayList<Measurement>();
         // Iterate through all views and validate
-        for (int position = 0; position < linearLayoutValues.getChildCount(); position++) {
-            View view = linearLayoutValues.getChildAt(position);
+        for (int position = 0; position < layoutValues.getChildCount(); position++) {
+            View view = layoutValues.getChildAt(position);
             if(view != null && view.getTag() != null) {
                 if(view.getTag() instanceof Measurement.Category) {
                     EditText editTextValue = (EditText) view.findViewById(R.id.value);
@@ -322,7 +349,7 @@ public class NewEventActivity extends ActionBarActivity {
     private void addValue(final Measurement.Category category) {
         // Add view
         final LayoutInflater inflater = getLayoutInflater();
-        final View view = inflater.inflate(R.layout.fragment_newvalue, linearLayoutValues, false);
+        final View view = inflater.inflate(R.layout.fragment_newvalue, layoutValues, false);
         view.setTag(category);
 
         // Category name
@@ -336,7 +363,7 @@ public class NewEventActivity extends ActionBarActivity {
             editTextValue.requestFocus();
         }
 
-        linearLayoutValues.addView(view, linearLayoutValues.getChildCount());
+        layoutValues.addView(view, layoutValues.getChildCount());
     }
 
     // LISTENERS

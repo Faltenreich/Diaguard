@@ -94,26 +94,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:paddingStart="@dimen/activity_horizontal_margin"
-                    android:gravity="top"
-                    android:visibility="gone">
-
-                    <ImageView style="@style/LayoutRowImage"
-                        android:src="@drawable/ic_edit"
-                        android:contentDescription="@string/add_value"
-                        android:layout_marginTop="@dimen/margin_between"/>
-
-                    <LinearLayout android:id="@+id/content_dynamic"
-                        style="@style/LayoutRowItem"
-                        android:orientation="vertical"/>
-
-                </LinearLayout>
-
             </LinearLayout>
 
         </ScrollView>
@@ -122,13 +102,18 @@
 
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/fab_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/padding_end"
+        android:padding="@dimen/padding_end"
+        fab:menu_labels_textColor="@color/gray_dark"
+        fab:menu_labels_colorNormal="@android:color/white"
+        fab:menu_labels_colorPressed="@color/gray_light"
+        fab:menu_labels_colorRipple="@android:color/darker_gray"
         fab:menu_colorNormal="@color/green"
         fab:menu_colorPressed="@color/green_lt"
         fab:menu_colorRipple="@color/green_dk"
+        fab:menu_backgroundColor="@color/transparent_light"
         fab:menu_labels_showAnimation="@anim/fab_scale_up"
         fab:menu_labels_hideAnimation="@anim/fab_scale_down"
         fab:menu_animationDelayPerItem="25"/>

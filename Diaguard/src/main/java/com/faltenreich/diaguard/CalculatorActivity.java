@@ -245,7 +245,7 @@ public class CalculatorActivity extends ActionBarActivity {
         LayoutInflater inflater = getLayoutInflater();
         View viewPopup = inflater.inflate(R.layout.popup_result, null);
 
-        // Handle negative bolus
+        // Handle negative insulin
         TextView textViewInfo = (TextView) viewPopup.findViewById(R.id.textViewInfo);
         if(bolus <= 0) {
             viewPopup.findViewById(R.id.result).setVisibility(View.GONE);
@@ -265,14 +265,14 @@ public class CalculatorActivity extends ActionBarActivity {
         textViewValue.setText(Helper.getDecimalFormat().format(bolus));
 
         TextView textViewUnit = (TextView) viewPopup.findViewById(R.id.textViewUnit);
-        textViewUnit.setText(preferenceHelper.getUnitAcronym(Measurement.Category.Bolus));
+        textViewUnit.setText(preferenceHelper.getUnitAcronym(Measurement.Category.Insulin));
 
         final CheckBox checkBoxStoreValues = (CheckBox) viewPopup.findViewById(R.id.checkBoxStoreValues);
 
         // Custom TitleBar
         View view = inflater.inflate(R.layout.alertdialog_title_bolus, null);
         TextView textViewTitle = (TextView) view.findViewById(R.id.title);
-        textViewTitle.setText(getString(R.string.bolus));
+        textViewTitle.setText(getString(R.string.insulin));
 
         dialogBuilder.setView(viewPopup)
                 .setCustomTitle(view)
@@ -319,7 +319,7 @@ public class CalculatorActivity extends ActionBarActivity {
         if(bolus > 0) {
             measurement = new Measurement();
             measurement.setValue(bolus);
-            measurement.setCategory(Measurement.Category.Bolus);
+            measurement.setCategory(Measurement.Category.Insulin);
             measurement.setEntryId(entryId);
             dataSource.insert(measurement);
         }

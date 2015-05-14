@@ -11,7 +11,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -220,20 +222,20 @@ public class NewEventActivity extends ActionBarActivity {
         });
         fab.addMenuButton(fabAll);
 
-        // TODO: Hide menu on click outside
-        /*
+        // Close FAB on click outside
         fab.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
-                    if (fab.isOpened()) {
+                if (fab.isOpened()) {
+                    if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
                         fab.close(true);
                     }
+                    return true;
+                } else {
+                    return false;
                 }
-                return true;
             }
         });
-        */
     }
 
     private FloatingActionButton getFloatingActionButton(String text, int imageResourceId, int colorResId) {
@@ -254,7 +256,7 @@ public class NewEventActivity extends ActionBarActivity {
     }
 
     private void showDialogCategories() {
-        Measurement.Category[] activeCategories = preferenceHelper.getActiveCategories();
+        final Measurement.Category[] activeCategories = preferenceHelper.getActiveCategories();
         String[] categoryNames = new String[activeCategories.length];
         for(int position = 0; position < activeCategories.length; position++) {
             categoryNames[position] = preferenceHelper.getCategoryName(activeCategories[position]);
@@ -263,8 +265,7 @@ public class NewEventActivity extends ActionBarActivity {
         builder.setTitle(R.string.categories)
                 .setItems(categoryNames, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        // The 'which' argument contains the index position
-                        // of the selected item
+                        addViewForMeasurement(activeCategories[which]);
                     }
                 });
         AlertDialog dialog = builder.create();
@@ -401,23 +402,16 @@ public class NewEventActivity extends ActionBarActivity {
     private void addViewForMeasurement(final Measurement.Category category) {
         // Add view
         final LayoutInflater inflater = getLayoutInflater();
-        final View view = inflater.inflate(R.layout.fragment_newvalue, layoutValues, false);
+        final View view = inflater.inflate(R.layout.cardview_entry, layoutValues, false);
         view.setTag(category);
 
         // Category image
         ImageView imageViewCategory = (ImageView) view.findViewById(R.id.image_category);
-        imageViewCategory.setImageResource(preferenceHelper.getCategoryImageResourceId(category));
+        imageViewCategory.setImageResource(preferenceHelper.getCategoryImageWhiteResourceId(category));
 
         // Category name
         TextView textViewCategory = (TextView) view.findViewById(R.id.category);
         textViewCategory.setText(preferenceHelper.getCategoryName(category));
-
-        // Value
-        EditText editTextValue = (EditText) view.findViewById(R.id.value);
-        editTextValue.setHint(preferenceHelper.getUnitAcronym(category));
-        if(category == Measurement.Category.BloodSugar) {
-            editTextValue.requestFocus();
-        }
 
         // Delete button
         View buttonDelete = view.findViewById(R.id.button_delete);
@@ -427,6 +421,31 @@ public class NewEventActivity extends ActionBarActivity {
                 layoutValues.removeView(view);
             }
         });
+
+        // Measurement
+        ViewGroup layoutMeasurement = (ViewGroup) view.findViewById(R.id.layout_content);
+        View viewContent;
+        switch(category) {
+            case Insulin:
+                viewContent = inflater.inflate(R.layout.cardview_entry_insulin, layoutValues, false);
+                EditText editTextBolus = (EditText) viewContent.findViewById(R.id.value_bolus);
+                editTextBolus.setHint(preferenceHelper.getUnitAcronym(category));
+                editTextBolus.requestFocus();
+                EditText editTextCorrection = (EditText) viewContent.findViewById(R.id.value_correction);
+                editTextCorrection.setHint(preferenceHelper.getUnitAcronym(category));
+                EditText editTextBasal = (EditText) viewContent.findViewById(R.id.value_basal);
+                editTextBasal.setHint(preferenceHelper.getUnitAcronym(category));
+                break;
+            default:
+                viewContent = inflater.inflate(R.layout.cardview_entry_generic, layoutValues, false);
+                EditText editTextValue = (EditText) viewContent.findViewById(R.id.value);
+                editTextValue.setHint(preferenceHelper.getUnitAcronym(category));
+                editTextValue.requestFocus();
+                break;
+        }
+        layoutMeasurement.addView(viewContent);
+
+        // Value
 
         layoutValues.addView(view, 0);
 
@@ -439,7 +458,6 @@ public class NewEventActivity extends ActionBarActivity {
                     public boolean canDismiss(Object token) {
                         return true;
                     }
-
                     @Override
                     public void onDismiss(View view, Object token) {
                         layoutValues.removeView(view);

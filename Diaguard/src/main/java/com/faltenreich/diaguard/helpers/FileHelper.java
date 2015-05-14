@@ -298,7 +298,7 @@ public class FileHelper {
         Measurement.Category[] selectedCategories =
                 new Measurement.Category[] {
                         Measurement.Category.BloodSugar,
-                        Measurement.Category.Bolus,
+                        Measurement.Category.Insulin,
                         Measurement.Category.Meal,
                         Measurement.Category.Activity};
 

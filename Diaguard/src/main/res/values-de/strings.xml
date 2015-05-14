@@ -55,6 +55,7 @@
     <string name="hyper">Hyper</string>
     <string name="hypo">Hypo</string>
     <string name="impress">Impressum</string>
+    <string name="insulin">Insulin</string>
     <string name="latest">Vor [value] [unit]</string>
     <string name="latest_moments">Gerade eben</string>
     <string name="licenses">Open-Source-Lizenzen</string>
@@ -144,15 +145,16 @@
     <!-- CATEGORIES -->
     <string-array name="categories">
         <item>Blutzucker</item>
-        <item>Bolus</item>
+        <item>Insulin</item>
         <item>Mahlzeit</item>
         <item>Aktivität</item>
         <item>HbA1c</item>
         <item>Gewicht</item>
         <item>Puls</item>
+        <item>Blutdruck</item>
     </string-array>
 
-    <string name="bolus_units_default">Insulineinheiten</string>
+    <string name="insulin_units_default">Insulineinheiten</string>
     <string-array name="bolus_units">
         <item>Insulineinheiten</item>
     </string-array>

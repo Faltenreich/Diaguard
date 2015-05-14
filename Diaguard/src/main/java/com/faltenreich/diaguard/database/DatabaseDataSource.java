@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.faltenreich.diaguard.database.measurements.Activity;
 import com.faltenreich.diaguard.database.measurements.BloodSugar;
-import com.faltenreich.diaguard.database.measurements.Bolus;
+import com.faltenreich.diaguard.database.measurements.Insulin;
 import com.faltenreich.diaguard.database.measurements.HbA1c;
 import com.faltenreich.diaguard.database.measurements.Meal;
 import com.faltenreich.diaguard.database.measurements.Pressure;
@@ -68,8 +68,8 @@ public class DatabaseDataSource {
         else if(model.getClass() == BloodSugar.class) {
             values = getContentValuesBloodSugar((BloodSugar) model);
         }
-        else if(model.getClass() == Bolus.class) {
-            values = getContentValuesBolus((Bolus) model);
+        else if(model.getClass() == Insulin.class) {
+            values = getContentValuesBolus((Insulin) model);
         }
         else if(model.getClass() == Meal.class) {
             values = getContentValuesMeal((Meal) model);
@@ -127,14 +127,14 @@ public class DatabaseDataSource {
         return values;
     }
 
-    private ContentValues getContentValuesBolus(Bolus bolus) {
+    private ContentValues getContentValuesBolus(Insulin insulin) {
         ContentValues values = new ContentValues();
-        values.put(DatabaseHelper.CREATED_AT, Helper.getDateDatabaseFormat().print(bolus.getCreatedAt()));
-        values.put(DatabaseHelper.UPDATED_AT, Helper.getDateDatabaseFormat().print(bolus.getUpdatedAt()));
-        values.put(DatabaseHelper.MILLILITER, bolus.getMilliliter());
-        values.put(DatabaseHelper.ATC_CODE, bolus.getAtcCode());
-        values.put(DatabaseHelper.IS_CORRECTION, bolus.isCorrection() ? 1 : 0);
-        values.put(DatabaseHelper.ENTRY_ID, bolus.getEntryId());
+        values.put(DatabaseHelper.CREATED_AT, Helper.getDateDatabaseFormat().print(insulin.getCreatedAt()));
+        values.put(DatabaseHelper.UPDATED_AT, Helper.getDateDatabaseFormat().print(insulin.getUpdatedAt()));
+        values.put(DatabaseHelper.BOLUS, insulin.getBolus());
+        values.put(DatabaseHelper.CORRECTION, insulin.getCorrection());
+        values.put(DatabaseHelper.BASAL, insulin.getBasal());
+        values.put(DatabaseHelper.ENTRY_ID, insulin.getEntryId());
         return values;
     }
 
@@ -204,7 +204,7 @@ public class DatabaseDataSource {
                     return getFood(cursor);
                 case DatabaseHelper.BLOODSUGAR:
                     return getBloodSugar(cursor);
-                case DatabaseHelper.BOLUS:
+                case DatabaseHelper.INSULIN:
                     return getBolus(cursor);
                 case DatabaseHelper.MEAL:
                     return getMeal(cursor);
@@ -257,16 +257,16 @@ public class DatabaseDataSource {
         return bloodSugar;
     }
 
-    public Bolus getBolus(Cursor cursor) {
-        Bolus bolus = new Bolus();
-        bolus.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ID))));
-        bolus.setCreatedAt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.CREATED_AT)));
-        bolus.setUpdatedAt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.UPDATED_AT)));
-        bolus.setMilliliter(Long.parseLong(cursor.getString(cursor.getColumnIndex(DatabaseHelper.MILLILITER))));
-        bolus.setAtcCode(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ATC_CODE))));
-        bolus.setIsCorrection(cursor.getString(cursor.getColumnIndex(DatabaseHelper.IS_CORRECTION)).equals("1"));
-        bolus.setEntryId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ENTRY_ID))));
-        return bolus;
+    public Insulin getBolus(Cursor cursor) {
+        Insulin insulin = new Insulin();
+        insulin.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ID))));
+        insulin.setCreatedAt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.CREATED_AT)));
+        insulin.setUpdatedAt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.UPDATED_AT)));
+        insulin.setBolus(Long.parseLong(cursor.getString(cursor.getColumnIndex(DatabaseHelper.BOLUS))));
+        insulin.setCorrection(Long.parseLong(cursor.getString(cursor.getColumnIndex(DatabaseHelper.CORRECTION))));
+        insulin.setBasal(Long.parseLong(cursor.getString(cursor.getColumnIndex(DatabaseHelper.BASAL))));
+        insulin.setEntryId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ENTRY_ID))));
+        return insulin;
     }
 
     public Meal getMeal(Cursor cursor) {
@@ -274,7 +274,7 @@ public class DatabaseDataSource {
         meal.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ID))));
         meal.setCreatedAt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.CREATED_AT)));
         meal.setUpdatedAt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.UPDATED_AT)));
-        meal.setCarbohydrates(Long.parseLong(cursor.getString(cursor.getColumnIndex(DatabaseHelper.MILLILITER))));
+        meal.setCarbohydrates(Long.parseLong(cursor.getString(cursor.getColumnIndex(DatabaseHelper.BOLUS))));
         meal.setFoodId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.FOOD_ID))));
         meal.setEntryId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ENTRY_ID))));
         return meal;

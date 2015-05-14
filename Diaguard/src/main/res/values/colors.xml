@@ -23,10 +23,10 @@
     <color name="blue">#ff6d82cb</color>
 
     <!-- Categories -->
-    <color name="bloodsugar">#ffb85545</color>
-    <color name="bolus">@color/green</color>
+    <color name="bloodsugar">@color/green</color>
+    <color name="insulin">#ff0b3c8d</color>
     <color name="meal">#ff9d8418</color>
-    <color name="activity">#ff0b3c8d</color>
+    <color name="activity">#ff04a09a</color>
     <color name="hba1c">#ff000000</color>
     <color name="weight">#ffb34e1b</color>
     <color name="pulse">#ff670d78</color>

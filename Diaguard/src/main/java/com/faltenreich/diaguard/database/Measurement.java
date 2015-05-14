@@ -11,12 +11,13 @@ public class Measurement extends Model {
 
     public enum Category {
         BloodSugar,
-        Bolus,
+        Insulin,
         Meal,
         Activity,
         HbA1c,
         Weight,
-        Pulse
+        Pulse,
+        Pressure
     }
 
     public float getValue() {

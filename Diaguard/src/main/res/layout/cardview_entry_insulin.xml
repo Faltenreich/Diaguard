@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout style="@style/LayoutRow">
+
+        <TextView
+            android:text="@string/bolus"
+            style="@style/LayoutRowLabel"/>
+
+        <EditText
+            android:id="@+id/value_bolus"
+            android:inputType="numberDecimal"
+            android:background="@android:color/transparent"
+            style="@style/LayoutRowText"/>
+
+    </LinearLayout>
+
+    <View style="@style/LayoutRowSeparator"/>
+
+    <LinearLayout style="@style/LayoutRow">
+
+        <TextView
+            android:text="@string/correction"
+            style="@style/LayoutRowLabel"/>
+
+        <EditText
+            android:id="@+id/value_correction"
+            android:inputType="numberDecimal"
+            android:background="@android:color/transparent"
+            style="@style/LayoutRowText"/>
+
+    </LinearLayout>
+
+    <View style="@style/LayoutRowSeparator"/>
+
+    <LinearLayout style="@style/LayoutRow">
+
+        <TextView
+            android:text="@string/basal"
+            style="@style/LayoutRowLabel"/>
+
+        <EditText
+            android:id="@+id/value_basal"
+            android:inputType="numberDecimal"
+            android:background="@android:color/transparent"
+            style="@style/LayoutRowText"/>
+
+    </LinearLayout>
+
+</LinearLayout>

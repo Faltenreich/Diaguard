@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/LayoutRow">
+
+    <EditText
+        android:id="@+id/value_systolic"
+        android:inputType="numberDecimal"
+        android:background="@android:color/transparent"
+        android:hint="@string/pressure_systolic"
+        style="@style/LayoutRowText"/>
+
+    <EditText
+        android:id="@+id/value_diastolic"
+        android:inputType="numberDecimal"
+        android:background="@android:color/transparent"
+        android:hint="@string/pressure_diastolic"
+        style="@style/LayoutRowText"/>
+
+</LinearLayout>

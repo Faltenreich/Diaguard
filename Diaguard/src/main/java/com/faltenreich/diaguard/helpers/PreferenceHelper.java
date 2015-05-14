@@ -114,7 +114,7 @@ public class PreferenceHelper {
 
         String formatString = "#0";
         switch (category) {
-            case Bolus:
+            case Insulin:
             case HbA1c:
             case Weight:
                 formatString = "#0.#";
@@ -133,12 +133,18 @@ public class PreferenceHelper {
 
     public String getCategoryName(Measurement.Category category) {
         int position = Measurement.Category.valueOf(category.name()).ordinal();
+        // TODO: Get resourceId by key
         String[] categories = context.getResources().getStringArray(R.array.categories);
         return categories[position];
     }
 
     public int getCategoryImageResourceId(Measurement.Category category) {
         return context.getResources().getIdentifier(category.name().toLowerCase(),
+                "drawable", context.getPackageName());
+    }
+
+    public int getCategoryImageWhiteResourceId(Measurement.Category category) {
+        return context.getResources().getIdentifier(category.name().toLowerCase() + "_white",
                 "drawable", context.getPackageName());
     }
 

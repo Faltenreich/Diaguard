@@ -24,6 +24,7 @@
     <string name="back">Back</string>
     <string name="backup">Backup</string>
     <string name="backup_title">Choose backup</string>
+    <string name="basal">Basal</string>
     <string name="bloodsugar">Blood Sugar</string>
     <string name="bolus">Bolus</string>
     <string name="bolus_no1">It is recommended not to inject a bolus.</string>
@@ -66,6 +67,7 @@
     <string name="hyper">Hyper</string>
     <string name="hypo">Hypo</string>
     <string name="impress">Impress</string>
+    <string name="insulin">Insulin</string>
     <string name="latest">[value] [unit] ago</string>
     <string name="latest_moments">Moments ago</string>
     <string name="licenses">Open-Source-Licenses</string>
@@ -77,6 +79,9 @@
     <string name="note">Note</string>
     <string name="ok">OK</string>
     <string name="placeholder">-</string>
+    <string name="pressure">Blood Pressure</string>
+    <string name="pressure_diastolic">DIA</string>
+    <string name="pressure_systolic">SYS</string>
     <string name="settings">Settings</string>
     <string name="sound">Sound</string>
     <string name="startscreen">Start screen</string>
@@ -182,12 +187,13 @@
 
     <string-array name="categories">
         <item>Blood Sugar</item>
-        <item>Bolus</item>
+        <item>Insulin</item>
         <item>Meal</item>
         <item>Activity</item>
         <item>HbA1c</item>
         <item>Weight</item>
         <item>Pulse</item>
+        <item>Blood Pressure</item>
     </string-array>
 
     <string name="bloodsugar_units_default">mmol/L</string>
@@ -204,17 +210,17 @@
         <item name="maximum">1000</item>
     </integer-array>
 
-    <string name="bolus_units_default">Insulin Units</string>
-    <string-array name="bolus_units">
+    <string name="insulin_units_default">Insulin Units</string>
+    <string-array name="insulin_units">
         <item>Insulin Units</item>
     </string-array>
-    <string-array name="bolus_units_acronyms">
+    <string-array name="insulin_units_acronyms">
         <item>IU</item>
     </string-array>
-    <string-array name="bolus_units_values">
+    <string-array name="insulin_units_values">
         <item>1</item>
     </string-array>
-    <integer-array name="bolus_extrema">
+    <integer-array name="insulin_extrema">
         <item name="minimum">0</item>
         <item name="maximum">100</item>
     </integer-array>
@@ -303,6 +309,21 @@
     <integer-array name="pulse_extrema">
         <item name="minimum">10</item>
         <item name="maximum">200</item>
+    </integer-array>
+
+    <string name="pressure_units_default">Beats per Minutes</string>
+    <string-array name="pressure_units">
+        <item>Millimeters of Mercury </item>
+    </string-array>
+    <string-array name="pressure_units_acronyms">
+        <item>mmHg</item>
+    </string-array>
+    <string-array name="pressure_units_values">
+        <item>1</item>
+    </string-array>
+    <integer-array name="pressure_extrema">
+        <item name="minimum">50</item>
+        <item name="maximum">300</item>
     </integer-array>
 
     <!-- VALIDATORS -->

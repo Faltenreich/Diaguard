@@ -50,11 +50,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String BLOODSUGAR = "bloodsugar";
     public static final String MGDL = "mgdl";
 
-    // Bolus
-    public static final String BOLUS = "bolus";
-    public static final String MILLILITER = "milliliter";
-    public static final String ATC_CODE = "atc_code";
-    public static final String IS_CORRECTION = "is_correction";
+    // Insulin
+    public static final String INSULIN = "insulin";
+    public static final String BOLUS = "insulin";
+    public static final String CORRECTION = "correction";
+    public static final String BASAL = "basal";
 
     // Meal
     public static final String MEAL = "meal";
@@ -177,13 +177,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + "(" + ID + ") ON DELETE CASCADE);");
 
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " +
-                BOLUS + " (" +
+                INSULIN + " (" +
                 ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 CREATED_AT + " TEXT, " +
                 UPDATED_AT + " TEXT, " +
-                MILLILITER + " REAL NOT NULL, " +
-                ATC_CODE + " INTEGER NOT NULL, " +
-                IS_CORRECTION + " INTEGER DEFAULT 0, " +
+                BOLUS + " REAL, " +
+                CORRECTION + " REAL, " +
+                BASAL + " REAL, " +
                 ENTRY_ID + " INTEGER NOT NULL, " +
                 "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + "(" + ID + ") ON DELETE CASCADE);");
 

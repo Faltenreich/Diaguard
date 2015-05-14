@@ -20,6 +20,7 @@
     <string name="calculator">Calcular bolo</string>
     <string name="category">Categoría</string>
     <string name="cancel">Cancelar</string>
+    <string name="categories">Categorías</string>
     <string name="categories_active">Categorías activas</string>
     <string name="cleanup">Limpiar</string>
     <string name="cleanup_desc">Esto eliminará todas las entradas en la fecha y sobre la fecha seleccionada de forma permanente.</string>

@@ -1,6 +1,8 @@
 package com.faltenreich.diaguard;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -9,13 +11,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -57,12 +59,15 @@ public class NewEventActivity extends ActionBarActivity {
 
     private DateTime time;
 
-    private FloatingActionMenu floatingActionMenu;
+    private FloatingActionMenu fab;
     private LinearLayout layoutValues;
     private EditText editTextNotes;
     private Button buttonDate;
     private Button buttonTime;
     private Spinner spinnerAlarm;
+
+    private Measurement.Category[] activeCategories;
+    private boolean[] visibleCategories;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +85,9 @@ public class NewEventActivity extends ActionBarActivity {
         dataSource = new DatabaseDataSource(this);
         preferenceHelper = new PreferenceHelper(this);
         time = new DateTime();
+        activeCategories = preferenceHelper.getActiveCategories();
+        // Every category is first not visible
+        visibleCategories = new boolean[activeCategories.length];
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null){
@@ -94,7 +102,6 @@ public class NewEventActivity extends ActionBarActivity {
         }
 
         getComponents();
-        setCategories();
         checkIntents();
         setDate();
         setTime();
@@ -117,7 +124,7 @@ public class NewEventActivity extends ActionBarActivity {
     }
 
     public void getComponents() {
-        floatingActionMenu = (FloatingActionMenu) findViewById(R.id.fab_menu);
+        fab = (FloatingActionMenu) findViewById(R.id.fab_menu);
         layoutValues = (LinearLayout) findViewById(R.id.layout_measurements);
         editTextNotes = (EditText) findViewById(R.id.edittext_notes);
         buttonDate = (Button) findViewById(R.id.button_date);
@@ -176,42 +183,91 @@ public class NewEventActivity extends ActionBarActivity {
     }
 
     private void setFloatingActionMenu() {
-        Measurement.Category[] mostUsedCategories = new Measurement.Category[] {
-                Measurement.Category.BloodSugar,
-                Measurement.Category.Bolus,
-                Measurement.Category.Meal
-        };
-        for(Measurement.Category category : mostUsedCategories) {
-            addFloatingActionButton(preferenceHelper.getCategoryName(category),
-                    getResources().getIdentifier(category.name().toLowerCase() + "_white", "drawable", getPackageName()),
-                    R.color.green, R.color.green_lt, R.color.green_dk);
+        // Show maximal three categories as fab
+        int numberOfVisibleButtons = 0;
+        for(int position = 0; position < visibleCategories.length; position++) {
+            if(!visibleCategories[position]) {
+                final Measurement.Category category = activeCategories[position];
+                final FloatingActionButton fabCategory = getFloatingActionButton(preferenceHelper.getCategoryName(category),
+                        getResources().getIdentifier(category.name().toLowerCase() + "_white", "drawable", getPackageName()),
+                        preferenceHelper.getCategoryColorResourceId(category));
+                fabCategory.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        fab.close(true);
+                        addViewForMeasurement(category);
+                    }
+                });
+                fab.addMenuButton(fabCategory);
+            }
+            numberOfVisibleButtons++;
+            // Show at most three buttons
+            if(numberOfVisibleButtons == 3) {
+                break;
+            }
         }
-        addFloatingActionButton(getString(R.string.all), R.drawable.ic_other,
-                android.R.color.white, R.color.gray_light, R.color.gray_light);
-        // Hide menu on click outside
-        floatingActionMenu.setOnTouchListener(new View.OnTouchListener() {
+
+        // FAB for all categories
+        FloatingActionButton fabAll = getFloatingActionButton(getString(R.string.all),
+                R.drawable.ic_other, android.R.color.white);
+        fabAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fab.close(true);
+                showDialogCategories();
+            }
+        });
+        fab.addMenuButton(fabAll);
+
+        // TODO: Hide menu on click outside
+        /*
+        fab.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
-                    if (floatingActionMenu.isOpened()) {
-                        floatingActionMenu.close(true);
+                    if (fab.isOpened()) {
+                        fab.close(true);
                     }
                 }
                 return true;
             }
         });
+        */
     }
 
-    private void addFloatingActionButton(String text, int imageResourceId,
-                                         int colorNormalResId, int colorPressedResId, int colorRippleResId) {
+    private FloatingActionButton getFloatingActionButton(String text, int imageResourceId, int colorResId) {
         FloatingActionButton floatingActionButton = new FloatingActionButton(this);
         floatingActionButton.setButtonSize(FloatingActionButton.SIZE_MINI);
         floatingActionButton.setLabelText(text);
         floatingActionButton.setImageResource(imageResourceId);
-        floatingActionButton.setColorNormalResId(colorNormalResId);
-        floatingActionButton.setColorPressedResId(colorPressedResId);
-        floatingActionButton.setColorRippleResId(colorRippleResId);
-        floatingActionMenu.addMenuButton(floatingActionButton);
+        floatingActionButton.setColorNormalResId(colorResId);
+        floatingActionButton.setColorPressedResId(R.color.gray_light);
+        floatingActionButton.setColorRippleResId(R.color.gray_light);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        return floatingActionButton;
+    }
+
+    private void showDialogCategories() {
+        Measurement.Category[] activeCategories = preferenceHelper.getActiveCategories();
+        String[] categoryNames = new String[activeCategories.length];
+        for(int position = 0; position < activeCategories.length; position++) {
+            categoryNames[position] = preferenceHelper.getCategoryName(activeCategories[position]);
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.categories)
+                .setItems(categoryNames, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // The 'which' argument contains the index position
+                        // of the selected item
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void setDate() {
@@ -220,11 +276,6 @@ public class NewEventActivity extends ActionBarActivity {
 
     private void setTime() {
         buttonTime.setText(Helper.getTimeFormat().print(time));
-    }
-
-    private void setCategories() {
-        for(Measurement.Category category : preferenceHelper.getActiveCategories())
-            addValue(category);
     }
 
     private void submit() {
@@ -346,11 +397,15 @@ public class NewEventActivity extends ActionBarActivity {
         }
     }
 
-    private void addValue(final Measurement.Category category) {
+    private void addViewForMeasurement(final Measurement.Category category) {
         // Add view
         final LayoutInflater inflater = getLayoutInflater();
         final View view = inflater.inflate(R.layout.fragment_newvalue, layoutValues, false);
         view.setTag(category);
+
+        // Category image
+        ImageView imageViewCategory = (ImageView) view.findViewById(R.id.image_category);
+        imageViewCategory.setImageResource(preferenceHelper.getCategoryImageResourceId(category));
 
         // Category name
         TextView textViewCategory = (TextView) view.findViewById(R.id.category);
@@ -363,7 +418,17 @@ public class NewEventActivity extends ActionBarActivity {
             editTextValue.requestFocus();
         }
 
-        layoutValues.addView(view, layoutValues.getChildCount());
+        // Delete button
+        View buttonDelete = view.findViewById(R.id.button_delete);
+        buttonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layoutValues.removeView(view);
+            }
+        });
+
+        layoutValues.addView(view, 0);
+        visibleCategories[category.ordinal()] = true;
     }
 
     // LISTENERS

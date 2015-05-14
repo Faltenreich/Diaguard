@@ -142,6 +142,11 @@ public class PreferenceHelper {
                 "drawable", context.getPackageName());
     }
 
+    public int getCategoryColorResourceId(Measurement.Category category) {
+        return context.getResources().getIdentifier(category.name().toLowerCase(),
+                "color", context.getPackageName());
+    }
+
     // UNITS
 
     public String[] getUnitsNames(Measurement.Category category) {

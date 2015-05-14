@@ -92,7 +92,9 @@
                 <LinearLayout android:id="@+id/layout_measurements"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"/>
+                    android:orientation="vertical"
+                    style="@style/Padding"
+                    android:layout_marginBottom="30dp"/>
 
             </LinearLayout>
 
@@ -108,8 +110,8 @@
         android:padding="@dimen/padding_end"
         fab:menu_labels_textColor="@color/gray_dark"
         fab:menu_labels_colorNormal="@android:color/white"
-        fab:menu_labels_colorPressed="@color/gray_light"
-        fab:menu_labels_colorRipple="@android:color/darker_gray"
+        fab:menu_labels_colorPressed="@android:color/white"
+        fab:menu_labels_colorRipple="@android:color/white"
         fab:menu_colorNormal="@color/green"
         fab:menu_colorPressed="@color/green_lt"
         fab:menu_colorRipple="@color/green_dk"

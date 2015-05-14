@@ -1,29 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    card_view:cardCornerRadius="4dp"
+    card_view:cardElevation="2dp"
+    card_view:cardUseCompatPadding="true">
 
-    <LinearLayout style="@style/LayoutRow"
-        android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <TextView android:id="@+id/category"
-            android:layout_width="0dp"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginRight="@dimen/margin_between"
-            android:layout_marginEnd="@dimen/margin_between"/>
+            android:orientation="horizontal"
+            style="@style/Padding">
 
-        <EditText android:id="@+id/value"
-            android:layout_width="0dp"
+            <ImageView android:id="@+id/image_category"
+                android:layout_width="@dimen/size_image"
+                android:layout_height="@dimen/size_image"
+                android:layout_centerVertical="true"/>
+
+            <TextView android:id="@+id/category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/margin_between"
+                android:layout_marginEnd="@dimen/margin_between"
+                android:layout_toRightOf="@id/image_category"
+                android:layout_toEndOf="@id/image_category"
+                android:layout_marginLeft="@dimen/margin_between"
+                android:layout_marginStart="@dimen/margin_between"
+                android:layout_centerVertical="true"
+                android:textSize="@dimen/text_medium"/>
+
+            <ImageView android:id="@+id/button_delete"
+                android:layout_width="@dimen/size_image"
+                android:layout_height="@dimen/size_image"
+                android:src="@drawable/ic_delete"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"/>
+
+        </RelativeLayout>
+
+        <View style="@style/LayoutRowSeparator"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:inputType="numberDecimal"
-            android:background="@android:color/transparent"/>
+            android:orientation="horizontal"
+            style="@style/Padding">
+
+            <EditText android:id="@+id/value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:background="@android:color/transparent"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <View style="@style/LayoutRowSeparator"/>
-
-</LinearLayout>
+</android.support.v7.widget.CardView>

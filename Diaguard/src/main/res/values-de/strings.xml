@@ -20,6 +20,7 @@
     <string name="bolus_no2">Stattdessen sollten schnelle Kohlenhydrate konsumiert werden, um tiefere Blutzuckerlevel zu vermeiden.</string>
     <string name="calculator">Bolusrechner</string>
     <string name="cancel">Abbrechen</string>
+    <string name="categories">Kategorien</string>
     <string name="categories_active">Aktive Kategorien</string>
     <string name="category">Kategorie</string>
     <string name="cleanup">Aufräumen</string>

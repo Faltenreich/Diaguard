@@ -31,6 +31,7 @@
     <string name="calculator">Calculator</string>
     <string name="cancel">Cancel</string>
     <string name="category">Category</string>
+    <string name="categories">Categories</string>
     <string name="categories_active">Active Categories</string>
     <string name="cleanup">Clean Up</string>
     <string name="cleanup_desc">This will permanently delete all data on and before the chosen date.</string>

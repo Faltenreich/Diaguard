@@ -23,6 +23,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.faltenreich.diaguard.adapters.SwipeDismissTouchListener;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.DatabaseHelper;
 import com.faltenreich.diaguard.database.Entry;
@@ -428,6 +429,23 @@ public class NewEventActivity extends ActionBarActivity {
         });
 
         layoutValues.addView(view, 0);
+
+        // Swipe to dismiss
+        view.setOnTouchListener(new SwipeDismissTouchListener(
+                view,
+                null,
+                new SwipeDismissTouchListener.DismissCallbacks() {
+                    @Override
+                    public boolean canDismiss(Object token) {
+                        return true;
+                    }
+
+                    @Override
+                    public void onDismiss(View view, Object token) {
+                        layoutValues.removeView(view);
+                    }
+                }));
+
         visibleCategories[category.ordinal()] = true;
     }
 

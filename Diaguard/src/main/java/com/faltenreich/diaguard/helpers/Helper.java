@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.os.Vibrator;
@@ -96,6 +97,20 @@ public class Helper {
         }
 
         return  textAgo.replace("[value]", Integer.toString(differenceInMinutes));
+    }
+
+    public static int colorBrighten(int color) {
+        int r = Color.red(color);
+        int g = Color.green(color);
+        int b = Color.blue(color);
+        return Color.rgb((int) (r * 1.4), (int) (g * 1.4), (int) (b * 1.4));
+    }
+
+    public static int colorDarken(int color) {
+        int r = Color.red(color);
+        int g = Color.green(color);
+        int b = Color.blue(color);
+        return Color.rgb((int)(r*.85), (int)(g*.85), (int)(b*.85));
     }
 
     public static String toStringDelimited(String[] array, char delimiter) {

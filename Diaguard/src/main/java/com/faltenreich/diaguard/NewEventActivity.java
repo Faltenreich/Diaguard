@@ -43,6 +43,7 @@ import com.github.clans.fab.FloatingActionMenu;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -69,8 +70,7 @@ public class NewEventActivity extends ActionBarActivity {
     private Button buttonTime;
     private Spinner spinnerAlarm;
 
-    private Measurement.Category[] activeCategories;
-    private boolean[] visibleCategories;
+    private LinkedHashMap<Measurement.Category, Boolean> categories;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,9 +88,12 @@ public class NewEventActivity extends ActionBarActivity {
         dataSource = new DatabaseDataSource(this);
         preferenceHelper = new PreferenceHelper(this);
         time = new DateTime();
-        activeCategories = preferenceHelper.getActiveCategories();
-        // Every category is first not visible
-        visibleCategories = new boolean[activeCategories.length];
+
+        categories = new LinkedHashMap<>();
+        Measurement.Category[] activeCategories = preferenceHelper.getActiveCategories();
+        for(int position = 0; position < activeCategories.length; position++) {
+            categories.put(activeCategories[position], false);
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null){
@@ -188,9 +191,8 @@ public class NewEventActivity extends ActionBarActivity {
     private void setFloatingActionMenu() {
         // Show maximal three categories as fab
         int numberOfVisibleButtons = 0;
-        for(int position = 0; position < visibleCategories.length; position++) {
-            if(!visibleCategories[position]) {
-                final Measurement.Category category = activeCategories[position];
+        for(final Measurement.Category category : categories.keySet()) {
+            if(!categories.get(category)) {
                 final FloatingActionButton fabCategory = getFloatingActionButton(preferenceHelper.getCategoryName(category),
                         getResources().getIdentifier(category.name().toLowerCase() + "_white", "drawable", getPackageName()),
                         preferenceHelper.getCategoryColorResourceId(category));
@@ -198,7 +200,7 @@ public class NewEventActivity extends ActionBarActivity {
                     @Override
                     public void onClick(View v) {
                         fab.close(true);
-                        addViewForMeasurement(category);
+                        addViewForCategory(category);
                     }
                 });
                 fab.addMenuButton(fabCategory);
@@ -244,14 +246,8 @@ public class NewEventActivity extends ActionBarActivity {
         floatingActionButton.setLabelText(text);
         floatingActionButton.setImageResource(imageResourceId);
         floatingActionButton.setColorNormalResId(colorResId);
-        floatingActionButton.setColorPressedResId(R.color.gray_light);
-        floatingActionButton.setColorRippleResId(R.color.gray_light);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        floatingActionButton.setColorPressed(Helper.colorDarken(getResources().getColor(colorResId)));
+        floatingActionButton.setColorRipple(Helper.colorDarken(getResources().getColor(colorResId)));
         return floatingActionButton;
     }
 
@@ -261,11 +257,48 @@ public class NewEventActivity extends ActionBarActivity {
         for(int position = 0; position < activeCategories.length; position++) {
             categoryNames[position] = preferenceHelper.getCategoryName(activeCategories[position]);
         }
+
+        // Store old values
+        final Boolean[] visibleCategories = categories.values().toArray(new Boolean[categories.size()]);
+        // TODO: Avoid parsing to array of primitives
+        boolean[] visibleCategoriesAsPrimitiveArray = new boolean[visibleCategories.length];
+        for(int position = 0; position < visibleCategories.length; position++) {
+            visibleCategoriesAsPrimitiveArray[position] = visibleCategories[position];
+        }
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.categories)
-                .setItems(categoryNames, new DialogInterface.OnClickListener() {
+                .setMultiChoiceItems(
+                        categoryNames,
+                        visibleCategoriesAsPrimitiveArray,
+                        new DialogInterface.OnMultiChoiceClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                                visibleCategories[which] = isChecked;
+                            }
+                        }
+                )
+                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        addViewForMeasurement(activeCategories[which]);
+                        int position = 0;
+                        for (Measurement.Category category : categories.keySet()) {
+                            // Value was false and is now true -> Add new measurement
+                            if (!categories.get(category) && visibleCategories[position]) {
+                                addViewForCategory(activeCategories[position]);
+                            }
+                            // Value was true and is now false -> Remove old measurement
+                            else if (categories.get(category) && !visibleCategories[position]) {
+                                removeViewForCategory(activeCategories[position]);
+                            }
+                            position++;
+                        }
+                    }
+                })
+                .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
                     }
                 });
         AlertDialog dialog = builder.create();
@@ -399,7 +432,14 @@ public class NewEventActivity extends ActionBarActivity {
         }
     }
 
-    private void addViewForMeasurement(final Measurement.Category category) {
+    private void addViewForCategory(final Measurement.Category category) {
+        // Check whether category is already active
+        if(categories.get(category) || viewForCategoryIsVisible(category)) {
+            return;
+        }
+
+        categories.put(category, true);
+
         // Add view
         final LayoutInflater inflater = getLayoutInflater();
         final View view = inflater.inflate(R.layout.cardview_entry, layoutValues, false);
@@ -460,12 +500,39 @@ public class NewEventActivity extends ActionBarActivity {
                     }
                     @Override
                     public void onDismiss(View view, Object token) {
-                        layoutValues.removeView(view);
+                        removeViewForCategory(category);
                     }
                 }));
 
-        visibleCategories[category.ordinal()] = true;
+        categories.put(category, true);
     }
+
+    private void removeViewForCategory(Measurement.Category category) {
+        // Check whether category is not yet active
+        if(!categories.get(category) && !viewForCategoryIsVisible(category)) {
+            return;
+        }
+
+        categories.put(category, false);
+
+        for(int position = 0; position < layoutValues.getChildCount(); position++) {
+            View childView = layoutValues.getChildAt(position);
+            if(childView.getTag() == category) {
+                layoutValues.removeView(childView);
+            }
+        }
+    }
+
+    private boolean viewForCategoryIsVisible(Measurement.Category category) {
+        for(int position = 0; position < layoutValues.getChildCount(); position++) {
+            View childView = layoutValues.getChildAt(position);
+            if(childView.getTag() == category) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     // LISTENERS
 

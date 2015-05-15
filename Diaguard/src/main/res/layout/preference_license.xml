@@ -106,6 +106,18 @@
             android:text="@string/license_agpl"
             style="@style/LicenseDescription"/>
 
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/license_swipetodismiss"
+            style="@style/LicenseLabel"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="@string/license_apache"
+            style="@style/LicenseDescription"/>
+
     </LinearLayout>
 
 </ScrollView>

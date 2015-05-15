@@ -426,5 +426,6 @@
     <string name="license_achartengine">achartengine</string>
     <string name="license_opencsv">opencsv</string>
     <string name="license_itextg">itextg</string>
+    <string name="license_swipetodismiss">romannurik/Android-SwipeToDismiss</string>
 
 </resources>

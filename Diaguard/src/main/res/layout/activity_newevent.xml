@@ -94,7 +94,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
-                    android:layout_marginBottom="30dp"/>
+                    android:layout_marginBottom="30dp"
+                    android:animateLayoutChanges="true"/>
 
             </LinearLayout>
 

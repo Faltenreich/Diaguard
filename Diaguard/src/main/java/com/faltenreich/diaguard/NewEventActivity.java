@@ -91,8 +91,8 @@ public class NewEventActivity extends ActionBarActivity {
 
         categories = new LinkedHashMap<>();
         Measurement.Category[] activeCategories = preferenceHelper.getActiveCategories();
-        for(int position = 0; position < activeCategories.length; position++) {
-            categories.put(activeCategories[position], false);
+        for(Measurement.Category category : activeCategories) {
+            categories.put(category, false);
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -313,6 +313,109 @@ public class NewEventActivity extends ActionBarActivity {
         buttonTime.setText(Helper.getTimeFormat().print(time));
     }
 
+    private void addViewForCategory(final Measurement.Category category) {
+        // Return if category is already active
+        if(categories.get(category) || viewForCategoryIsVisible(category)) {
+            return;
+        }
+
+        categories.put(category, true);
+
+        // Add view
+        final LayoutInflater inflater = getLayoutInflater();
+        final View view = inflater.inflate(R.layout.cardview_entry, layoutValues, false);
+        view.setTag(category);
+
+        // Category image
+        ImageView imageViewCategory = (ImageView) view.findViewById(R.id.image_category);
+        imageViewCategory.setImageResource(preferenceHelper.getCategoryImageWhiteResourceId(category));
+
+        // Category name
+        TextView textViewCategory = (TextView) view.findViewById(R.id.category);
+        textViewCategory.setText(preferenceHelper.getCategoryName(category));
+
+        // Delete button
+        View buttonDelete = view.findViewById(R.id.button_delete);
+        buttonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeViewForCategory(category);
+            }
+        });
+
+        // Measurement
+        ViewGroup layoutMeasurement = (ViewGroup) view.findViewById(R.id.layout_content);
+        View viewContent;
+        switch(category) {
+            case Insulin:
+                viewContent = inflater.inflate(R.layout.cardview_entry_insulin, layoutValues, false);
+                EditText editTextBolus = (EditText) viewContent.findViewById(R.id.value_bolus);
+                editTextBolus.setHint(preferenceHelper.getUnitAcronym(category));
+                editTextBolus.requestFocus();
+                EditText editTextCorrection = (EditText) viewContent.findViewById(R.id.value_correction);
+                editTextCorrection.setHint(preferenceHelper.getUnitAcronym(category));
+                EditText editTextBasal = (EditText) viewContent.findViewById(R.id.value_basal);
+                editTextBasal.setHint(preferenceHelper.getUnitAcronym(category));
+                break;
+            case Pressure:
+                viewContent = inflater.inflate(R.layout.cardview_entry_pressure, layoutValues, false);
+                EditText editTextSystolic = (EditText) viewContent.findViewById(R.id.value_systolic);
+                editTextSystolic.requestFocus();
+                break;
+            default:
+                viewContent = inflater.inflate(R.layout.cardview_entry_generic, layoutValues, false);
+                EditText editTextValue = (EditText) viewContent.findViewById(R.id.value);
+                editTextValue.setHint(preferenceHelper.getUnitAcronym(category));
+                editTextValue.requestFocus();
+                break;
+        }
+        layoutMeasurement.addView(viewContent);
+
+        // Swipe to dismiss
+        view.setOnTouchListener(new SwipeDismissTouchListener(
+                view,
+                null,
+                new SwipeDismissTouchListener.DismissCallbacks() {
+                    @Override
+                    public boolean canDismiss(Object token) {
+                        return true;
+                    }
+                    @Override
+                    public void onDismiss(View view, Object token) {
+                        removeViewForCategory(category);
+                    }
+                }));
+
+        categories.put(category, true);
+        layoutValues.addView(view, 0);
+    }
+
+    private void removeViewForCategory(Measurement.Category category) {
+        // Return if category is not yet active
+        if(!categories.get(category) && !viewForCategoryIsVisible(category)) {
+            return;
+        }
+
+        categories.put(category, false);
+
+        for(int position = 0; position < layoutValues.getChildCount(); position++) {
+            View childView = layoutValues.getChildAt(position);
+            if(childView.getTag() == category) {
+                layoutValues.removeView(childView);
+            }
+        }
+    }
+
+    private boolean viewForCategoryIsVisible(Measurement.Category category) {
+        for(int position = 0; position < layoutValues.getChildCount(); position++) {
+            View childView = layoutValues.getChildAt(position);
+            if(childView.getTag() == category) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void submit() {
         boolean inputIsValid = true;
 
@@ -430,107 +533,6 @@ public class NewEventActivity extends ActionBarActivity {
 
             finish();
         }
-    }
-
-    private void addViewForCategory(final Measurement.Category category) {
-        // Check whether category is already active
-        if(categories.get(category) || viewForCategoryIsVisible(category)) {
-            return;
-        }
-
-        categories.put(category, true);
-
-        // Add view
-        final LayoutInflater inflater = getLayoutInflater();
-        final View view = inflater.inflate(R.layout.cardview_entry, layoutValues, false);
-        view.setTag(category);
-
-        // Category image
-        ImageView imageViewCategory = (ImageView) view.findViewById(R.id.image_category);
-        imageViewCategory.setImageResource(preferenceHelper.getCategoryImageWhiteResourceId(category));
-
-        // Category name
-        TextView textViewCategory = (TextView) view.findViewById(R.id.category);
-        textViewCategory.setText(preferenceHelper.getCategoryName(category));
-
-        // Delete button
-        View buttonDelete = view.findViewById(R.id.button_delete);
-        buttonDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                layoutValues.removeView(view);
-            }
-        });
-
-        // Measurement
-        ViewGroup layoutMeasurement = (ViewGroup) view.findViewById(R.id.layout_content);
-        View viewContent;
-        switch(category) {
-            case Insulin:
-                viewContent = inflater.inflate(R.layout.cardview_entry_insulin, layoutValues, false);
-                EditText editTextBolus = (EditText) viewContent.findViewById(R.id.value_bolus);
-                editTextBolus.setHint(preferenceHelper.getUnitAcronym(category));
-                editTextBolus.requestFocus();
-                EditText editTextCorrection = (EditText) viewContent.findViewById(R.id.value_correction);
-                editTextCorrection.setHint(preferenceHelper.getUnitAcronym(category));
-                EditText editTextBasal = (EditText) viewContent.findViewById(R.id.value_basal);
-                editTextBasal.setHint(preferenceHelper.getUnitAcronym(category));
-                break;
-            default:
-                viewContent = inflater.inflate(R.layout.cardview_entry_generic, layoutValues, false);
-                EditText editTextValue = (EditText) viewContent.findViewById(R.id.value);
-                editTextValue.setHint(preferenceHelper.getUnitAcronym(category));
-                editTextValue.requestFocus();
-                break;
-        }
-        layoutMeasurement.addView(viewContent);
-
-        // Value
-
-        layoutValues.addView(view, 0);
-
-        // Swipe to dismiss
-        view.setOnTouchListener(new SwipeDismissTouchListener(
-                view,
-                null,
-                new SwipeDismissTouchListener.DismissCallbacks() {
-                    @Override
-                    public boolean canDismiss(Object token) {
-                        return true;
-                    }
-                    @Override
-                    public void onDismiss(View view, Object token) {
-                        removeViewForCategory(category);
-                    }
-                }));
-
-        categories.put(category, true);
-    }
-
-    private void removeViewForCategory(Measurement.Category category) {
-        // Check whether category is not yet active
-        if(!categories.get(category) && !viewForCategoryIsVisible(category)) {
-            return;
-        }
-
-        categories.put(category, false);
-
-        for(int position = 0; position < layoutValues.getChildCount(); position++) {
-            View childView = layoutValues.getChildAt(position);
-            if(childView.getTag() == category) {
-                layoutValues.removeView(childView);
-            }
-        }
-    }
-
-    private boolean viewForCategoryIsVisible(Measurement.Category category) {
-        for(int position = 0; position < layoutValues.getChildCount(); position++) {
-            View childView = layoutValues.getChildAt(position);
-            if(childView.getTag() == category) {
-                return true;
-            }
-        }
-        return false;
     }
 
 

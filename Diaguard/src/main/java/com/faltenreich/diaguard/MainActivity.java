@@ -12,7 +12,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,6 +25,7 @@ import com.faltenreich.diaguard.fragments.MainFragment;
 import com.faltenreich.diaguard.fragments.TimelineFragment;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.faltenreich.diaguard.helpers.ViewHelper;
+import com.github.clans.fab.FloatingActionButton;
 
 public class MainActivity extends ActionBarActivity implements EntryListFragment.CallbackList {
 
@@ -49,6 +49,7 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
     private ActionBarDrawerToggle drawerToggle;
     private ListView drawer;
     private android.support.v7.widget.Toolbar toolbar;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,7 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
     }
 
     private void getComponents() {
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer = (ListView) findViewById(R.id.drawer);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -75,6 +77,13 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
 
     private void initialize() {
         preferenceHelper = new PreferenceHelper(this);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(MainActivity.this, NewEventActivity.class), MainActivity.REQUEST_EVENT_CREATED);
+            }
+        });
 
         drawerToggle = new ActionBarDrawerToggle(
                 this,
@@ -197,12 +206,6 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -212,9 +215,6 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
                 else {
                     drawerLayout.closeDrawer(Gravity.START);
                 }
-                return true;
-            case R.id.action_newevent:
-                startActivityForResult(new Intent(this, NewEventActivity.class), MainActivity.REQUEST_EVENT_CREATED);
                 return true;
         }
         return false;

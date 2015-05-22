@@ -58,7 +58,7 @@
     <string name="latest">Antes [value] [unit]</string>
     <string name="latest_moments">En este momento</string>
     <string name="licenses">Licencia Libre</string>
-    <string name="listview_empty">No hay entradas para mostrar</string>
+    <string name="no_data">No hay entradas para mostrar</string>
     <string name="log">Protocolo</string>
     <string name="mail">E-Mail</string>
     <string name="meal">Alimento</string>

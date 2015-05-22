@@ -36,6 +36,11 @@ public class Insulin extends Measurement {
     }
 
     @Override
+    public float getValue() {
+        return this.bolus;
+    }
+
+    @Override
     public void setValue(float value) {
         this.bolus = value;
     }

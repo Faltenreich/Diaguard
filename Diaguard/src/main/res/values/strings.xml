@@ -73,7 +73,7 @@
     <string name="latest">[value] [unit] ago</string>
     <string name="latest_moments">Moments ago</string>
     <string name="licenses">Open-Source-Licenses</string>
-    <string name="listview_empty">No data available</string>
+    <string name="no_data">No data available</string>
     <string name="log">Log</string>
     <string name="mail">E-Mail</string>
     <string name="meal">Meal</string>
@@ -428,5 +428,8 @@
     <string name="license_opencsv">opencsv</string>
     <string name="license_itextg">itextg</string>
     <string name="license_swipetodismiss">romannurik/Android-SwipeToDismiss</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

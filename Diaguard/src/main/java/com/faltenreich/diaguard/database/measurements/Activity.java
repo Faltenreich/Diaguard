@@ -27,6 +27,11 @@ public class Activity extends Measurement {
     }
 
     @Override
+    public float getValue() {
+        return this.minutes;
+    }
+
+    @Override
     public void setValue(float value) {
         this.minutes = (int) value;
     }

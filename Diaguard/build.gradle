@@ -11,6 +11,7 @@ apply plugin: 'android'
 repositories {
     mavenCentral()
     maven { url 'https://repo.commonsware.com.s3.amazonaws.com' }
+    maven { url "https://jitpack.io" }
 }
 
 android {
@@ -31,6 +32,7 @@ dependencies {
     compile 'net.danlew:android.joda:2.4.0'
     compile 'com.nispok:snackbar:2.7.3'
     compile 'com.github.clans:fab:1.5.0'
+    compile 'com.github.PhilJay:MPAndroidChart:v2.1.0'
 
     compile files('libs/achartengine-1.2.0.jar')
     compile files('libs/opencsv-2.3.jar')

@@ -27,6 +27,11 @@ public class Pressure extends Measurement {
     }
 
     @Override
+    public float getValue() {
+        return this.systolic;
+    }
+
+    @Override
     public void setValue(float value) {
         this.systolic = value;
     }

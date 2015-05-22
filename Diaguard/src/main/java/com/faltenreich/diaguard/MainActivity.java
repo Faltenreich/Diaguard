@@ -19,11 +19,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.faltenreich.diaguard.adapters.DrawerListViewAdapter;
+import com.faltenreich.diaguard.fragments.ChartFragment;
 import com.faltenreich.diaguard.fragments.EntryDetailFragment;
 import com.faltenreich.diaguard.fragments.EntryListFragment;
 import com.faltenreich.diaguard.fragments.LogFragment;
 import com.faltenreich.diaguard.fragments.MainFragment;
-import com.faltenreich.diaguard.fragments.TimelineFragment;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.faltenreich.diaguard.helpers.ViewHelper;
 
@@ -150,7 +150,7 @@ public class MainActivity extends ActionBarActivity implements EntryListFragment
                     fragment = new MainFragment();
                     break;
                 case Timeline:
-                    fragment = new TimelineFragment();
+                    fragment = new ChartFragment();
                     break;
                 case Log:
                     fragment = new LogFragment();

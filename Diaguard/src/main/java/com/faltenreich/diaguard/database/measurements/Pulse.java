@@ -18,6 +18,11 @@ public class Pulse extends Measurement {
     }
 
     @Override
+    public float getValue() {
+        return this.frequency;
+    }
+
+    @Override
     public void setValue(float value) {
         this.frequency = value;
     }

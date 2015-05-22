@@ -24,9 +24,11 @@ public abstract class Measurement extends Model {
         return entryId;
     }
 
-    public abstract void setValue(float value);
-
     public void setEntryId(long entryId) {
         this.entryId = entryId;
     }
+
+    public abstract float getValue();
+
+    public abstract void setValue(float value);
 }

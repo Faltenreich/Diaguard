@@ -347,7 +347,7 @@ public class DatabaseDataSource {
 
     public List<Model> get(String table) {
         Cursor cursor = db.query(table, null, null, null, null, null, null, null);
-        List<Model> objects = new ArrayList<Model>();
+        List<Model> objects = new ArrayList<>();
         if (cursor.moveToFirst()) {
             while(!cursor.isAfterLast()) {
                 objects.add(get(table, cursor));
@@ -360,7 +360,7 @@ public class DatabaseDataSource {
     public List<Model> get(String table, String[] columns, String selection, String[] selectionArgs,
                            String groupBy, String having, String orderBy, String limit) {
         Cursor cursor = db.query(table, columns, selection, selectionArgs, groupBy, having, orderBy, limit);
-        List<Model> objects = new ArrayList<Model>();
+        List<Model> objects = new ArrayList<>();
         if (cursor.moveToFirst()) {
             while(!cursor.isAfterLast()) {
                 objects.add(get(table, cursor));
@@ -387,6 +387,40 @@ public class DatabaseDataSource {
         return entry;
     }
 
+    public List<Entry> getEntriesOfMonth(DateTime dateTime, String[] foreignTableNames) {
+        DateTimeFormatter format = Helper.getDateDatabaseFormat();
+        DateTime startOfMonth = dateTime.dayOfMonth().withMinimumValue().withTimeAtStartOfDay();
+        DateTime endOfMonth = dateTime.dayOfMonth().withMaximumValue().withTime(23, 59, 59, 999);
+
+        String query = "SELECT * FROM " + DatabaseHelper.ENTRY +
+                " WHERE " + DatabaseHelper.DATE +
+                " >= Datetime('" + format.print(startOfMonth) + "') " +
+                " AND " + DatabaseHelper.DATE +
+                " <= Datetime('" + format.print(endOfMonth) + "');";
+        Cursor cursor = db.rawQuery(query, null);
+
+        List<Entry> entries = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            while(!cursor.isAfterLast()) {
+                Entry entry = getEntry(cursor);
+                for(String tableName : foreignTableNames) {
+                    List<Model> models = get(tableName, null,
+                            DatabaseHelper.ENTRY_ID + "=?",
+                            new String[]{ Long.toString(entry.getId()) },
+                            null, null, null, null);
+                    for(Model model : models) {
+                        entry.getMeasurements().add((Measurement) model);
+                    }
+                }
+                entries.add(entry);
+                cursor.moveToNext();
+            }
+        }
+
+        cursor.close();
+        return entries;
+    }
+
     public List<Entry> getEntriesOfDay(DateTime day) {
         String startOfDay = Helper.getDateDatabaseFormat().print(day.withTimeAtStartOfDay());
         String endOfDay = Helper.getDateDatabaseFormat().print(day.withTime(23, 59, 59, 999));
@@ -395,7 +429,7 @@ public class DatabaseDataSource {
                 " AND " + DatabaseHelper.DATE + " <= Datetime('" + endOfDay + "');";
         Cursor cursor = db.rawQuery(query, null);
 
-        List<Entry> entries = new ArrayList<Entry>();
+        List<Entry> entries = new ArrayList<>();
         if (cursor.moveToFirst()) {
             while(!cursor.isAfterLast()) {
                 entries.add(getEntry(cursor));
@@ -435,6 +469,22 @@ public class DatabaseDataSource {
         return entries;
     }
 
+    public List<Entry> getEntriesOfDay(DateTime day, String[] foreignTableNames) {
+        List<Entry> entriesOfDay = getEntriesOfDay(day);
+        for(Entry entry : entriesOfDay) {
+            for(String tableName : foreignTableNames) {
+                List<Model> models = get(tableName, null,
+                        DatabaseHelper.ENTRY_ID + "=?",
+                        new String[]{ Long.toString(entry.getId()) },
+                        null, null, null, null);
+                for(Model model : models) {
+                    entry.getMeasurements().add((Measurement) model);
+                }
+            }
+        }
+        return entriesOfDay;
+    }
+
     public float getBloodSugarAverage(int rangeInDays) {
         DateTimeFormatter format = Helper.getDateDatabaseFormat();
         DateTime now = new DateTime();
@@ -468,8 +518,11 @@ public class DatabaseDataSource {
         Cursor cursor = db.rawQuery(query, null);
 
         float average = 0;
-        if(cursor.moveToFirst())
+        if(cursor.moveToFirst()) {
             average = cursor.getFloat(0);
+        }
+
+        cursor.close();
 
         return average;
     }

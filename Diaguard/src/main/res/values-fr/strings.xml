@@ -58,7 +58,7 @@
     <string name="latest">Il ya [value] [unit]</string>
     <string name="latest_moments">A l\'instant</string>
     <string name="licenses">Licences Open-Source</string>
-    <string name="listview_empty">Pas d\'entrées à imprimer</string>
+    <string name="no_data">Pas d\'entrées à imprimer</string>
     <string name="log">Protocole</string>
     <string name="mail">E-Mail</string>
     <string name="meal">Repas</string>

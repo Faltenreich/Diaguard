@@ -18,6 +18,11 @@ public class BloodSugar extends Measurement {
     }
 
     @Override
+    public float getValue() {
+        return this.mgDl;
+    }
+
+    @Override
     public void setValue(float value) {
         this.mgDl = value;
     }

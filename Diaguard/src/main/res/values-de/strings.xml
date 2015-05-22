@@ -61,7 +61,7 @@
     <string name="latest">Vor [value] [unit]</string>
     <string name="latest_moments">Gerade eben</string>
     <string name="licenses">Open-Source-Lizenzen</string>
-    <string name="listview_empty">Keine Einträge vorhanden</string>
+    <string name="no_data">Keine Einträge vorhanden</string>
     <string name="log">Protokoll</string>
     <string name="mail">E-Mail</string>
     <string name="meal">Mahlzeit</string>

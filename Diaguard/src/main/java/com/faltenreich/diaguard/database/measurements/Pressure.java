@@ -7,23 +7,28 @@ import com.faltenreich.diaguard.database.DatabaseHelper;
  */
 public class Pressure extends Measurement {
 
-    private long systolic;
-    private long diastolic;
+    private float systolic;
+    private float diastolic;
 
-    public long getSystolic() {
+    public float getSystolic() {
         return systolic;
     }
 
-    public void setSystolic(long systolic) {
+    public void setSystolic(float systolic) {
         this.systolic = systolic;
     }
 
-    public long getDiastolic() {
+    public float getDiastolic() {
         return diastolic;
     }
 
-    public void setDiastolic(long diastolic) {
+    public void setDiastolic(float diastolic) {
         this.diastolic = diastolic;
+    }
+
+    @Override
+    public void setValue(float value) {
+        this.systolic = value;
     }
 
     @Override

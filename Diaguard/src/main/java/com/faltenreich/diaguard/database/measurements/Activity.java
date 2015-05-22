@@ -27,6 +27,11 @@ public class Activity extends Measurement {
     }
 
     @Override
+    public void setValue(float value) {
+        this.minutes = (int) value;
+    }
+
+    @Override
     public String getTableName() {
         return DatabaseHelper.ACTIVITY;
     }

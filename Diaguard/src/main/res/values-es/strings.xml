@@ -25,7 +25,7 @@
     <string name="cleanup">Limpiar</string>
     <string name="cleanup_desc">Esto eliminará todas las entradas en la fecha y sobre la fecha seleccionada de forma permanente.</string>
     <string name="contact">Contacto</string>
-    <string name="correction">Corregir valor</string>
+    <string name="correction_value">Corregir valor</string>
     <string name="data">Datos</string>
     <string name="date_select">Seleccionar datos</string>
     <string name="day_next">Día siguiente</string>

@@ -7,32 +7,37 @@ import com.faltenreich.diaguard.database.DatabaseHelper;
  */
 public class Insulin extends Measurement {
 
-    private long bolus;
-    private long correction;
-    private long basal;
+    private float bolus;
+    private float correction;
+    private float basal;
 
-    public long getBolus() {
+    public float getBolus() {
         return bolus;
     }
 
-    public void setBolus(long bolus) {
+    public void setBolus(float bolus) {
         this.bolus = bolus;
     }
 
-    public long getCorrection() {
+    public float getCorrection() {
         return correction;
     }
 
-    public void setCorrection(long correction) {
+    public void setCorrection(float correction) {
         this.correction = correction;
     }
 
-    public long getBasal() {
+    public float getBasal() {
         return basal;
     }
 
-    public void setBasal(long basal) {
+    public void setBasal(float basal) {
         this.basal = basal;
+    }
+
+    @Override
+    public void setValue(float value) {
+        this.bolus = value;
     }
 
     @Override

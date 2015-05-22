@@ -52,7 +52,7 @@
         <LinearLayout style="@style/LayoutRow">
 
             <TextView style="@style/LayoutRowLabel"
-                android:text="@string/correction"/>
+                android:text="@string/correction_value"/>
 
             <LinearLayout style="@style/LayoutRowText"
                 android:orientation="horizontal">

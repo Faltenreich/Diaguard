@@ -13,6 +13,7 @@ import com.faltenreich.diaguard.database.measurements.Meal;
 import com.faltenreich.diaguard.database.measurements.Pressure;
 import com.faltenreich.diaguard.database.measurements.Pulse;
 import com.faltenreich.diaguard.database.measurements.Weight;
+import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.faltenreich.diaguard.helpers.Helper;
 
 import org.joda.time.DateTime;
@@ -371,11 +372,9 @@ public class DatabaseDataSource {
 
     public Entry getLatestBloodSugar() {
         String query = "SELECT * FROM " + DatabaseHelper.ENTRY +
-                        " INNER JOIN " + DatabaseHelper.MEASUREMENT +
-                        " ON " + DatabaseHelper.MEASUREMENT + "." + DatabaseHelper.ENTRY_ID +
+                        " INNER JOIN " + DatabaseHelper.BLOODSUGAR +
+                        " ON " + DatabaseHelper.BLOODSUGAR + "." + DatabaseHelper.ENTRY_ID +
                         " = " + DatabaseHelper.ENTRY + "." + DatabaseHelper.ID +
-                        " AND " + DatabaseHelper.MEASUREMENT + "." + DatabaseHelper.CATEGORY +
-                        " = '" + Measurement.Category.BloodSugar + "'" +
                         " ORDER BY " + DatabaseHelper.ENTRY + "." + DatabaseHelper.DATE +
                         " DESC LIMIT 1";
         Cursor cursor = db.rawQuery(query, null);
@@ -439,16 +438,14 @@ public class DatabaseDataSource {
     public float getBloodSugarAverage(int rangeInDays) {
         DateTimeFormatter format = Helper.getDateDatabaseFormat();
         DateTime now = new DateTime();
-        String query = "SELECT AVG(" + DatabaseHelper.VALUE + ") FROM " + DatabaseHelper.MEASUREMENT +
+        String query = "SELECT AVG(" + DatabaseHelper.MGDL + ") FROM " + DatabaseHelper.BLOODSUGAR +
                 " INNER JOIN " + DatabaseHelper.ENTRY +
-                " ON " + DatabaseHelper.MEASUREMENT + "." + DatabaseHelper.ENTRY_ID +
+                " ON " + DatabaseHelper.BLOODSUGAR + "." + DatabaseHelper.ENTRY_ID +
                 " = " + DatabaseHelper.ENTRY + "." + DatabaseHelper.ID +
                 " AND " + DatabaseHelper.ENTRY + "." + DatabaseHelper.DATE +
                 " >= Datetime('" + format.print(now.minusDays(rangeInDays).withTimeAtStartOfDay()) + "')" +
                 " AND " + DatabaseHelper.ENTRY + "." + DatabaseHelper.DATE +
-                " <= Datetime('" + format.print(now.withTime(23, 59, 59, 999)) + "')" +
-                " AND " + DatabaseHelper.MEASUREMENT + "." + DatabaseHelper.CATEGORY +
-                " = '" + Measurement.Category.BloodSugar.toString() + "';";
+                " <= Datetime('" + format.print(now.withTime(23, 59, 59, 999)) + "');";
         Cursor cursor = db.rawQuery(query, null);
 
         float average = 0;
@@ -460,16 +457,14 @@ public class DatabaseDataSource {
 
     public float getBloodSugarAverageOfDay(DateTime day) {
         DateTimeFormatter format = Helper.getDateDatabaseFormat();
-        String query = "SELECT AVG(" + DatabaseHelper.VALUE + ") FROM " + DatabaseHelper.MEASUREMENT +
+        String query = "SELECT AVG(" + DatabaseHelper.MGDL + ") FROM " + DatabaseHelper.BLOODSUGAR +
                 " INNER JOIN " + DatabaseHelper.ENTRY +
-                " ON " + DatabaseHelper.MEASUREMENT + "." + DatabaseHelper.ENTRY_ID +
+                " ON " + DatabaseHelper.BLOODSUGAR + "." + DatabaseHelper.ENTRY_ID +
                 " = " + DatabaseHelper.ENTRY + "." + DatabaseHelper.ID +
                 " AND " + DatabaseHelper.ENTRY + "." + DatabaseHelper.DATE +
                 " >= Datetime('" + format.print(day.withTimeAtStartOfDay()) + "')" +
                 " AND " + DatabaseHelper.ENTRY + "." + DatabaseHelper.DATE +
-                " <= Datetime('" + format.print(day.withTime(23, 59, 59, 999)) + "')" +
-                " AND " + DatabaseHelper.MEASUREMENT + "." + DatabaseHelper.CATEGORY +
-                " = '" + Measurement.Category.BloodSugar.toString() + "';";
+                " <= Datetime('" + format.print(day.withTime(23, 59, 59, 999)) + "');";
         Cursor cursor = db.rawQuery(query, null);
 
         float average = 0;
@@ -535,17 +530,15 @@ public class DatabaseDataSource {
         return count;
     }
 
-    public int countMeasurements(DateTime day, Measurement.Category category) {
+    public int countBloodSugar(DateTime day, String table) {
         String query = "SELECT COUNT(*) FROM " + DatabaseHelper.ENTRY +
-                " INNER JOIN " + DatabaseHelper.MEASUREMENT +
-                " ON " + DatabaseHelper.MEASUREMENT + "." + DatabaseHelper.ENTRY_ID +
+                " INNER JOIN " + table +
+                " ON " + table + "." + DatabaseHelper.ENTRY_ID +
                 " = " + DatabaseHelper.ENTRY + "." + DatabaseHelper.ID +
                 " AND " + DatabaseHelper.ENTRY + "." + DatabaseHelper.DATE +
                 " >= Datetime('" + day.withTimeAtStartOfDay() + "')" +
                 " AND " + DatabaseHelper.ENTRY + "." + DatabaseHelper.DATE +
-                " <= Datetime('" + day.withTime(23, 59, 59, 999) + "')" +
-                " AND " + DatabaseHelper.MEASUREMENT + "." + DatabaseHelper.CATEGORY +
-                " = '" + category + "';";
+                " <= Datetime('" + day.withTime(23, 59, 59, 999) + "');";
         Cursor cursor = db.rawQuery(query, null);
         cursor.moveToFirst();
         int count = cursor.getInt(0);
@@ -564,19 +557,17 @@ public class DatabaseDataSource {
         return count;
     }
 
-    public int countMeasurements(DateTime day, Measurement.Category category, float limit, boolean countHigherValues) {
+    public int countBloodSugar(DateTime day, float limit, boolean countHigherValues) {
         String comparisonSymbol = countHigherValues ? " >= " : " <= ";
         String query = "SELECT COUNT(*) FROM " + DatabaseHelper.ENTRY +
-                " INNER JOIN " + DatabaseHelper.MEASUREMENT +
-                " ON " + DatabaseHelper.MEASUREMENT + "." + DatabaseHelper.ENTRY_ID +
+                " INNER JOIN " + DatabaseHelper.BLOODSUGAR +
+                " ON " + DatabaseHelper.BLOODSUGAR + "." + DatabaseHelper.ENTRY_ID +
                 " = " + DatabaseHelper.ENTRY + "." + DatabaseHelper.ID +
                 " AND " + DatabaseHelper.ENTRY + "." + DatabaseHelper.DATE +
                 " >= Datetime('" + day.withTimeAtStartOfDay() + "')" +
                 " AND " + DatabaseHelper.ENTRY + "." + DatabaseHelper.DATE +
                 " <= Datetime('" + day.withTime(23, 59, 59, 999) + "')" +
-                " AND " + DatabaseHelper.MEASUREMENT + "." + DatabaseHelper.CATEGORY +
-                " = '" + category + "' " +
-                " AND " + DatabaseHelper.MEASUREMENT + "." + DatabaseHelper.VALUE +
+                " AND " + DatabaseHelper.BLOODSUGAR + "." + DatabaseHelper.MGDL +
                 comparisonSymbol + limit + ";";
         Cursor cursor = db.rawQuery(query, null);
         cursor.moveToFirst();
@@ -590,19 +581,13 @@ public class DatabaseDataSource {
     // region Write
 
     public long insert(Model model){
+        model.setCreatedAt(DateTime.now());
+        model.setUpdatedAt(model.getCreatedAt());
         return db.insertOrThrow(model.getTableName(), null, getContentValues(model));
     }
 
-    public long[] insert(List<? extends Model> models){
-        long[] ids = new long[models.size()];
-        for(int position = 0; position < models.size(); position++) {
-            Model model = models.get(position);
-            ids[position] = db.insertOrThrow(model.getTableName(), null, getContentValues(model));
-        }
-        return ids;
-    }
-
     public long update(Model model) {
+        model.setUpdatedAt(DateTime.now());
         return db.update(model.getTableName(), getContentValues(model),
                 DatabaseHelper.ID + " = " + model.getId(), null);
     }

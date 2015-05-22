@@ -7,7 +7,7 @@ import android.preference.PreferenceManager;
 
 import com.faltenreich.diaguard.MainActivity;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.database.Measurement;
+import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.faltenreich.diaguard.preferences.CategoryPreference;
 import com.faltenreich.diaguard.preferences.FactorPreference;
 

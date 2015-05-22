@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="ltwhite">#eee</color>
-
     <color name="semitransparent_light">#99ffffff</color>
     <color name="semitransparent_transparent">#11ffffff</color>
     <color name="semitransparent_dark">#11000000</color>
 
-    <color name="green_highlight">#33478063</color>
-    <color name="green_lt">#ff6d947f</color>
-    <color name="green">#ff478063</color>
-    <color name="green_dk">#ff396950</color>
-
     <color name="light">#fff3f3f3</color>
     <color name="transparent_light">#ccf3f3f3</color>
     <color name="gray">#ffd4d4d4</color>
-    <color name="gray_dark">#ff8c8c8c</color>
     <color name="gray_light">#ffd8d8d8</color>
+    <color name="gray_dark">#ff8c8c8c</color>
+
+    <color name="green">#ff478063</color>
+    <color name="green_light">#ff6d947f</color>
+    <color name="green_dark">#ff41785a</color>
+    <color name="green_darker">#ff396950</color>
+    <color name="green_highlight">#33478063</color>
 
     <color name="red">#ffdd6050</color>
+    <color name="red_light">#ffe96353</color>
+    <color name="red_dark">#ffc95a4a</color>
 
     <color name="blue">#ff6d82cb</color>
 

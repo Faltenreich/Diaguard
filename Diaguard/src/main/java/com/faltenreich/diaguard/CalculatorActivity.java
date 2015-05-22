@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.Entry;
-import com.faltenreich.diaguard.database.Measurement;
+import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.faltenreich.diaguard.helpers.Validator;
@@ -301,6 +301,8 @@ public class CalculatorActivity extends ActionBarActivity {
         Entry entry = new Entry();
         entry.setDate(new DateTime());
         long entryId = dataSource.insert(entry);
+        //TODO
+        /*
 
         Measurement measurement = new Measurement();
         measurement.setValue(currentBloodSugar);
@@ -323,6 +325,7 @@ public class CalculatorActivity extends ActionBarActivity {
             measurement.setEntryId(entryId);
             dataSource.insert(measurement);
         }
+        */
 
         dataSource.close();
     }

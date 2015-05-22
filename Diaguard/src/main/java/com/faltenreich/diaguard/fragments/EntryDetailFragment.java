@@ -22,7 +22,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.DatabaseHelper;
 import com.faltenreich.diaguard.database.Entry;
-import com.faltenreich.diaguard.database.Measurement;
+import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.faltenreich.diaguard.database.Model;
 import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
@@ -158,6 +158,8 @@ public class EntryDetailFragment extends Fragment {
     }
 
     private void addMeasurement(Measurement measurement) {
+        // TODO
+        /*
         View view = getLayoutInflater(getArguments()).inflate(R.layout.fragment_measurement, layoutMeasurements, false);
         view.setTag(measurement.getCategory());
 
@@ -184,6 +186,7 @@ public class EntryDetailFragment extends Fragment {
         textViewUnit.setText(preferenceHelper.getUnitAcronym(measurement.getCategory()));
 
         layoutMeasurements.addView(view, layoutMeasurements.getChildCount());
+        */
     }
 
     public void editEntry() {

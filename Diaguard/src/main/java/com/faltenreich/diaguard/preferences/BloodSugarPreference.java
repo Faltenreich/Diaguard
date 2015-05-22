@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.database.Measurement;
+import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.faltenreich.diaguard.helpers.Validator;
 

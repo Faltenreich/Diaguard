@@ -6,7 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.database.Measurement;
+import com.faltenreich.diaguard.database.measurements.Measurement;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;

@@ -7,13 +7,26 @@ import com.faltenreich.diaguard.database.Model;
  */
 public abstract class Measurement extends Model {
 
-    private int entryId;
+    public enum Category {
+        BloodSugar,
+        Insulin,
+        Meal,
+        Activity,
+        HbA1c,
+        Weight,
+        Pulse,
+        Pressure
+    }
 
-    public int getEntryId() {
+    private long entryId;
+
+    public long getEntryId() {
         return entryId;
     }
 
-    public void setEntryId(int entryId) {
+    public abstract void setValue(float value);
+
+    public void setEntryId(long entryId) {
         this.entryId = entryId;
     }
 }

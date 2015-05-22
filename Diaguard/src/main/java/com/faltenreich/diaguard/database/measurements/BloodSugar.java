@@ -7,14 +7,19 @@ import com.faltenreich.diaguard.database.DatabaseHelper;
  */
 public class BloodSugar extends Measurement {
 
-    private long mgDl;
+    private float mgDl;
 
-    public long getMgDl() {
+    public float getMgDl() {
         return mgDl;
     }
 
-    public void setMgDl(long mgDl) {
+    public void setMgDl(float mgDl) {
         this.mgDl = mgDl;
+    }
+
+    @Override
+    public void setValue(float value) {
+        this.mgDl = value;
     }
 
     @Override

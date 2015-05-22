@@ -21,7 +21,7 @@ import android.widget.LinearLayout;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.Entry;
-import com.faltenreich.diaguard.database.Measurement;
+import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.faltenreich.diaguard.helpers.ChartHelper;
 import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;

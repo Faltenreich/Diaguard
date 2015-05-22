@@ -3,7 +3,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light">
         <item name="windowActionBar">false</item>
         <item name="colorPrimary">@color/green</item>
-        <item name="colorPrimaryDark">@color/green_dk</item>
+        <item name="colorPrimaryDark">@color/green_darker</item>
         <item name="colorAccent">@color/green</item>
         <item name="elevation">4dp</item>
         <item name="drawerArrowStyle">@style/NavigationDrawerArrowStyle</item>
@@ -39,7 +39,7 @@
     </style>
 
     <style name="BoxText">
-        <item name="android:textColor">@color/green_lt</item>
+        <item name="android:textColor">@color/green_light</item>
         <item name="android:textSize">40sp</item>
     </style>
 

@@ -16,7 +16,8 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.DatabaseHelper;
 import com.faltenreich.diaguard.database.Entry;
-import com.faltenreich.diaguard.database.Measurement;
+import com.faltenreich.diaguard.database.measurements.BloodSugar;
+import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.faltenreich.diaguard.helpers.ChartHelper;
 import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
@@ -115,32 +116,29 @@ public class MainFragment extends Fragment {
             textViewAverageDay.setText(Helper.PLACEHOLDER);
         }
 
-        // TODO updateChart();
+        updateChart();
 
         dataSource.close();
     }
 
     private void updateLatest(Entry entry) {
-        // TODO
-        /*
-        Measurement latestBloodSugar = entry.getMeasurements().get(0);
+        BloodSugar latestBloodSugar = (BloodSugar) entry.getMeasurements().get(0);
 
         // Value
         float value = preferenceHelper.
-                formatDefaultToCustomUnit(Measurement.Category.BloodSugar, latestBloodSugar.getValue());
+                formatDefaultToCustomUnit(Measurement.Category.BloodSugar, latestBloodSugar.getMgDl());
         textViewLatestValue.setText(preferenceHelper.
                 getDecimalFormat(Measurement.Category.BloodSugar).format(value));
 
         // Highlighting
         if(preferenceHelper.limitsAreHighlighted()) {
-            if(latestBloodSugar.getValue() > preferenceHelper.getLimitHyperglycemia())
+            if(latestBloodSugar.getMgDl() > preferenceHelper.getLimitHyperglycemia())
                 textViewLatestValue.setTextColor(getResources().getColor(R.color.red));
-            else if(latestBloodSugar.getValue() < preferenceHelper.getLimitHypoglycemia())
+            else if(latestBloodSugar.getMgDl() < preferenceHelper.getLimitHypoglycemia())
                 textViewLatestValue.setTextColor(getResources().getColor(R.color.blue));
             else
                 textViewLatestValue.setTextColor(getResources().getColor(R.color.green));
         }
-        */
 
         // Unit
         textViewLatestUnit.setText(preferenceHelper.getUnitAcronym(Measurement.Category.BloodSugar));
@@ -165,16 +163,14 @@ public class MainFragment extends Fragment {
     }
 
     private void updateToday() {
-        int measurements = dataSource.countMeasurements(today, Measurement.Category.BloodSugar);
+        int measurements = dataSource.countBloodSugar(today, DatabaseHelper.BLOODSUGAR);
         textViewMeasurements.setText(Integer.toString(measurements));
 
-        int countHypers = dataSource.countMeasurements(today,
-                Measurement.Category.BloodSugar,
+        int countHypers = dataSource.countBloodSugar(today,
                 preferenceHelper.getLimitHyperglycemia(), true);
         textViewHyperglycemia.setText(Integer.toString(countHypers));
 
-        int countHypos = dataSource.countMeasurements(today,
-                Measurement.Category.BloodSugar,
+        int countHypos = dataSource.countBloodSugar(today,
                 preferenceHelper.getLimitHypoglycemia(), false);
         textViewHypoglycemia.setText(Integer.toString(countHypos));
     }
@@ -215,7 +211,7 @@ public class MainFragment extends Fragment {
         chartHelper.render();
 
         XYSeriesRenderer seriesRenderer = ChartHelper.getSeriesRendererForBloodSugar(getActivity());
-        seriesRenderer.setColor(getResources().getColor(R.color.green_lt));
+        seriesRenderer.setColor(getResources().getColor(R.color.green_light));
         seriesRenderer.setFillPoints(true);
         chartHelper.renderer.addSeriesRenderer(seriesRenderer);
         chartHelper.renderer.setPointSize(Helper.getDPI(getActivity(), 3));
@@ -267,7 +263,7 @@ public class MainFragment extends Fragment {
         }
 
         // Orientation lines
-        chartHelper.renderer.setGridColor(getResources().getColor(R.color.green_lt));
+        chartHelper.renderer.setGridColor(getResources().getColor(R.color.green_light));
         chartHelper.renderer.setShowCustomTextGridY(true);
         chartHelper.renderer.setShowGridX(true);
         chartHelper.renderer.setYLabels(0);

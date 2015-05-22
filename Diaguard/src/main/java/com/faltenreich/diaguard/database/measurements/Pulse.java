@@ -7,14 +7,19 @@ import com.faltenreich.diaguard.database.DatabaseHelper;
  */
 public class Pulse extends Measurement {
 
-    private long frequency;
+    private float frequency;
 
-    public long getFrequency() {
+    public float getFrequency() {
         return frequency;
     }
 
-    public void setFrequency(long frequency) {
+    public void setFrequency(float frequency) {
         this.frequency = frequency;
+    }
+
+    @Override
+    public void setValue(float value) {
+        this.frequency = value;
     }
 
     @Override

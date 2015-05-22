@@ -26,11 +26,13 @@
     <string name="cleanup">Aufräumen</string>
     <string name="cleanup_desc">Dies wird alle Einträge am und vor dem gewählten Datum dauerhaft löschen.</string>
     <string name="contact">Kontakt</string>
-    <string name="correction">Korrekturwert</string>
+    <string name="correction">Korrektur</string>
+    <string name="correction_value">Korrekturwert</string>
     <string name="data">Daten</string>
     <string name="date_select">Datum auswählen</string>
     <string name="day_next">Nächster Tag</string>
     <string name="day_previous">Vorheriger Tag</string>
+    <string name="diastolic">Diastolisch</string>
     <string name="drawer_close">Navigator schließen</string>
     <string name="drawer_open">Navigator öffnen</string>
     <string name="entry">Eintrag</string>
@@ -70,6 +72,7 @@
     <string name="sound">Töne</string>
     <string name="startscreen">Startbildschirm</string>
     <string name="store_values">Werte eintragen</string>
+    <string name="systolic">Systolisch</string>
     <string name="timeline">Tagebuch</string>
     <string name="today">Heute</string>
     <string name="trend">Trend</string>

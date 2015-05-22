@@ -29,7 +29,10 @@ import com.faltenreich.diaguard.adapters.SwipeDismissTouchListener;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.DatabaseHelper;
 import com.faltenreich.diaguard.database.Entry;
-import com.faltenreich.diaguard.database.Measurement;
+import com.faltenreich.diaguard.database.measurements.BloodSugar;
+import com.faltenreich.diaguard.database.measurements.Insulin;
+import com.faltenreich.diaguard.database.measurements.Meal;
+import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.faltenreich.diaguard.database.Model;
 import com.faltenreich.diaguard.fragments.DatePickerFragment;
 import com.faltenreich.diaguard.fragments.TimePickerFragment;
@@ -174,11 +177,13 @@ public class NewEventActivity extends ActionBarActivity {
                     for(int position = 0; position < layoutValues.getChildCount(); position++) {
                         View view = layoutValues.getChildAt(position);
                         Measurement.Category category = (Measurement.Category)view.getTag();
+                        /*
                         if(category == measurement.getCategory()) {
                             EditText editTextValue = (EditText) view.findViewById(R.id.value);
                             float customValue = preferenceHelper.formatDefaultToCustomUnit(category, measurement.getValue());
                             editTextValue.setText(Helper.getDecimalFormat().format(customValue));
                         }
+                        */
                     }
                 }
             }
@@ -347,6 +352,7 @@ public class NewEventActivity extends ActionBarActivity {
         ViewGroup layoutMeasurement = (ViewGroup) view.findViewById(R.id.layout_content);
         View viewContent;
         switch(category) {
+            // TODO: Get rid of switch-case by making it more generic
             case Insulin:
                 viewContent = inflater.inflate(R.layout.cardview_entry_insulin, layoutValues, false);
                 EditText editTextBolus = (EditText) viewContent.findViewById(R.id.value_bolus);
@@ -360,7 +366,10 @@ public class NewEventActivity extends ActionBarActivity {
             case Pressure:
                 viewContent = inflater.inflate(R.layout.cardview_entry_pressure, layoutValues, false);
                 EditText editTextSystolic = (EditText) viewContent.findViewById(R.id.value_systolic);
+                editTextSystolic.setHint(preferenceHelper.getUnitAcronym(category));
                 editTextSystolic.requestFocus();
+                EditText editTextDiastolic = (EditText) viewContent.findViewById(R.id.value_diastolic);
+                editTextDiastolic.setHint(preferenceHelper.getUnitAcronym(category));
                 break;
             default:
                 viewContent = inflater.inflate(R.layout.cardview_entry_generic, layoutValues, false);
@@ -426,36 +435,41 @@ public class NewEventActivity extends ActionBarActivity {
             return;
         }
 
-        List<Measurement> measurements = new ArrayList<Measurement>();
+        List<Measurement> measurements = new ArrayList<>();
         // Iterate through all views and validate
         for (int position = 0; position < layoutValues.getChildCount(); position++) {
             View view = layoutValues.getChildAt(position);
             if(view != null && view.getTag() != null) {
                 if(view.getTag() instanceof Measurement.Category) {
+                    Measurement.Category category = (Measurement.Category) view.getTag();
                     EditText editTextValue = (EditText) view.findViewById(R.id.value);
-                    String editTextText = editTextValue.getText().toString();
-
-                    if(editTextText.length() > 0) {
-                        Measurement.Category category = (Measurement.Category) view.getTag();
-
-                        if (!Validator.containsNumber(editTextText)) {
-                            editTextValue.setError(getString(R.string.validator_value_empty));
-                            inputIsValid = false;
+                    if(validateValue(category, editTextValue)) {
+                        editTextValue.setError(null);
+                        float value = preferenceHelper.formatCustomToDefaultUnit(
+                                category,
+                                Float.parseFloat(editTextValue.getText().toString()));
+                        Measurement measurement = null;
+                        switch (category) {
+                            case BloodSugar:
+                                measurement = new BloodSugar();
+                                break;
+                            case Insulin:
+                                measurement = new Insulin();
+                                break;
+                            case Meal:
+                                measurement = new Meal();
+                                break;
+                            // TODO: Other cases
+                            default:
+                                inputIsValid = false;
+                                // TODO: Throw Exception
+                                break;
                         }
-                        else if (!preferenceHelper.validateEventValue(
-                                category, preferenceHelper.formatCustomToDefaultUnit(category,
-                                        Float.parseFloat(editTextText)))) {
-                            editTextValue.setError(getString(R.string.validator_value_unrealistic));
-                            inputIsValid = false;
-                        }
-                        else {
-                            editTextValue.setError(null);
-                            Measurement measurement = new Measurement();
-                            float value = preferenceHelper.formatCustomToDefaultUnit(category, Float.parseFloat(editTextText));
-                            measurement.setValue(value);
-                            measurement.setCategory(category);
-                            measurements.add(measurement);
-                        }
+                        measurement.setValue(value);
+                        measurements.add(measurement);
+                    }
+                    else {
+                        inputIsValid = false;
                     }
                 }
             }
@@ -533,6 +547,21 @@ public class NewEventActivity extends ActionBarActivity {
 
             finish();
         }
+    }
+
+    private boolean validateValue(Measurement.Category category, EditText editText) {
+        String value = editText.getText().toString();
+        if (value.length() == 0 || !Validator.containsNumber(value)) {
+            editText.setError(getString(R.string.validator_value_empty));
+            return false;
+        }
+        else if (!preferenceHelper.validateEventValue(
+                category, preferenceHelper.formatCustomToDefaultUnit(category,
+                        Float.parseFloat(value)))) {
+            editText.setError(getString(R.string.validator_value_unrealistic));
+            return false;
+        }
+        return true;
     }
 
 

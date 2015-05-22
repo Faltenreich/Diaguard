@@ -13,30 +13,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!-- Main layout -->
         <FrameLayout
+            android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <!-- Main layout -->
-            <FrameLayout
-                android:id="@+id/container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_margin="@dimen/padding_end"
-                android:src="@drawable/fab_add"
-                fab:fab_colorNormal="@color/green"
-                fab:fab_colorPressed="@color/green_lt"
-                fab:fab_colorRipple="@color/green_dk"
-                fab:fab_showAnimation="@anim/fab_scale_up"
-                fab:fab_hideAnimation="@anim/fab_scale_down"/>
-
-        </FrameLayout>
+            android:layout_height="match_parent"/>
 
         <!-- Navigation drawer -->
         <ListView android:id="@+id/drawer"

@@ -50,7 +50,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_above="@id/scrollview_table"
-            android:background="@color/green_lt"
+            android:background="@color/green_light"
             android:layout_marginBottom="4dp"/>
 
     </RelativeLayout>

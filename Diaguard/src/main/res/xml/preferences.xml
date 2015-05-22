@@ -95,8 +95,8 @@
 
         <com.faltenreich.diaguard.preferences.BloodSugarPreference
             android:key="correction_value"
-            android:title="@string/correction"
-            android:dialogTitle="@string/correction"
+            android:title="@string/correction_value"
+            android:dialogTitle="@string/correction_value"
             android:defaultValue="40"
             android:inputType="number"/>
 

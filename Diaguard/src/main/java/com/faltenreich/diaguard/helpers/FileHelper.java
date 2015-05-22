@@ -10,7 +10,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.DatabaseHelper;
 import com.faltenreich.diaguard.database.Entry;
-import com.faltenreich.diaguard.database.Measurement;
+import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.faltenreich.diaguard.database.Model;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
@@ -169,6 +169,8 @@ public class FileHelper {
                             new String[]{Long.toString(entry.getId())},
                             null, null, null, null);
                     for(Model measurementModel : measurements) {
+                        // TODO
+                        /*
                         Measurement measurement = (Measurement)measurementModel;
                         String[] measurementValues = {
                                 DatabaseHelper.MEASUREMENT,
@@ -176,6 +178,7 @@ public class FileHelper {
                                 measurement.getCategory().name()
                         };
                         writer.writeNext(measurementValues);
+                        */
                     }
                 }
 
@@ -227,11 +230,14 @@ public class FileHelper {
                         long entryId = dataSource.insert(entry);
 
                         // Measurement
+                        // TODO
+                        /*
                         Measurement measurement = new Measurement();
                         measurement.setValue(Float.parseFloat(nextLine[0]));
                         measurement.setCategory(Measurement.Category.valueOf(nextLine[3]));
                         measurement.setEntryId(entryId);
                         dataSource.insert(measurement);
+                        */
 
                         nextLine = reader.readNext();
                     }
@@ -257,11 +263,14 @@ public class FileHelper {
                         }
                         else if(key.equals(DatabaseHelper.MEASUREMENT) && parentId != -1) {
                             // Measurement
+                            // TODO
+                            /*
                             Measurement measurement = new Measurement();
                             measurement.setValue(Float.parseFloat(nextLine[1]));
                             measurement.setCategory(Measurement.Category.valueOf(nextLine[2]));
                             measurement.setEntryId(parentId);
                             dataSource.insert(measurement);
+                            */
                         }
                     }
                 }

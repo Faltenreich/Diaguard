@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             style="@style/Padding"
-            android:background="@color/green_lt">
+            android:background="@color/green_light">
 
             <ImageView android:id="@+id/image_category"
                 android:layout_width="@dimen/size_image"

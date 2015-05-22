@@ -7,14 +7,19 @@ import com.faltenreich.diaguard.database.DatabaseHelper;
  */
 public class HbA1c extends Measurement {
 
-    private long percent;
+    private float percent;
 
-    public long getPercent() {
+    public float getPercent() {
         return percent;
     }
 
-    public void setPercent(long percent) {
+    public void setPercent(float percent) {
         this.percent = percent;
+    }
+
+    @Override
+    public void setValue(float value) {
+        this.percent = value;
     }
 
     @Override

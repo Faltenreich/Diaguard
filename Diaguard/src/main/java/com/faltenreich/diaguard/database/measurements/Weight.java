@@ -7,14 +7,19 @@ import com.faltenreich.diaguard.database.DatabaseHelper;
  */
 public class Weight extends Measurement {
 
-    private long kilogram;
+    private float kilogram;
 
-    public long getKilogram() {
+    public float getKilogram() {
         return kilogram;
     }
 
-    public void setKilogram(long kilogram) {
+    public void setKilogram(float kilogram) {
         this.kilogram = kilogram;
+    }
+
+    @Override
+    public void setValue(float value) {
+        this.kilogram = value;
     }
 
     @Override

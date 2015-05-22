@@ -36,6 +36,10 @@ import java.util.List;
  */
 public class ChartFragment extends Fragment {
 
+    private static final int TEXT_SIZE = 4;
+    private static final int LINE_WIDTH = 1;
+    private static final int SCATTER_SHAPE_SIZE = 5;
+
     private PreferenceHelper preferenceHelper;
     private DatabaseDataSource dataSource;
 
@@ -85,6 +89,7 @@ public class ChartFragment extends Fragment {
     private void initializeGUI() {
         setChartDefaultStyle(viewport);
         viewport.getAxisLeft().setEnabled(false);
+        viewport.getXAxis().setDrawGridLines(false);
 
         setChartDefaultStyle(chart);
     }
@@ -100,11 +105,12 @@ public class ChartFragment extends Fragment {
         chartBase.getLegend().setEnabled(false);
         chartBase.setDescription(null);
         chartBase.setNoDataText(getString(R.string.no_data));
+        chartBase.getXAxis().setTextSize(Helper.getDPI(getActivity(), TEXT_SIZE));
+        chartBase.getAxisLeft().setTextSize(Helper.getDPI(getActivity(), TEXT_SIZE));
 
         // Axes
         chartBase.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         chartBase.getXAxis().setDrawAxisLine(false);
-        chartBase.getXAxis().setDrawGridLines(false);
         chartBase.getAxisLeft().setDrawAxisLine(false);
         chartBase.getAxisLeft().setAxisLineColor(getResources().getColor(android.R.color.darker_gray));
         chartBase.getAxisLeft().setGridColor(getResources().getColor(android.R.color.darker_gray));
@@ -142,7 +148,7 @@ public class ChartFragment extends Fragment {
         lineDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
         lineDataSet.setDrawCircles(false);
         lineDataSet.setColor(getResources().getColor(android.R.color.darker_gray));
-        lineDataSet.setLineWidth(Helper.getDPI(getActivity(), 1f));
+        lineDataSet.setLineWidth(Helper.getDPI(getActivity(), LINE_WIDTH));
         lineDataSet.setDrawCubic(true);
         lineDataSet.setDrawValues(false);
 
@@ -161,10 +167,12 @@ public class ChartFragment extends Fragment {
             day.isBefore(currentDateTime.dayOfMonth().withMaximumValue());
             day = day.plusDays(1)) {
 
+            String weekDay = getResources().getStringArray(R.array.weekdays_short)[day.dayOfWeek().get() - 1];
+
             // Create minute-precise grid for x-axis
             for(int hour = 0; hour < 24; hour++) {
                 for(int minute = 0; minute < 60; minute++) {
-                    xLabels.add(day.getDayOfMonth() + "." + day.getMonthOfYear() + " " + hour + ":" + minute);
+                    xLabels.add(weekDay + ", " + day.getDayOfMonth() + "." + day.getMonthOfYear());
                 }
             }
 
@@ -188,7 +196,7 @@ public class ChartFragment extends Fragment {
 
         ScatterDataSet scatterDataSet = new ScatterDataSet(entries, DatabaseHelper.BLOODSUGAR);
         scatterDataSet.setScatterShape(ScatterChart.ScatterShape.CIRCLE);
-        scatterDataSet.setScatterShapeSize(Helper.getDPI(getActivity(), 5));
+        scatterDataSet.setScatterShapeSize(Helper.getDPI(getActivity(), SCATTER_SHAPE_SIZE));
         scatterDataSet.setColor(getResources().getColor(R.color.green));
         scatterDataSet.setDrawValues(false);
 
@@ -198,6 +206,7 @@ public class ChartFragment extends Fragment {
         chart.setData(new ScatterData(xLabels, dataSets));
         chart.setVisibleXRange(24 * 60);
         chart.moveViewToX(24 * 60 * (currentDateTime.getDayOfMonth() - 1));
+        chart.getXAxis().setLabelsToSkip(24 * 60 - 1);
 
         if(preferenceHelper.limitsAreHighlighted()) {
             YAxis leftAxis = chart.getAxisLeft();

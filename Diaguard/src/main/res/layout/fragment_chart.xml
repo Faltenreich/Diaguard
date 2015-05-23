@@ -1,26 +1,46 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <com.github.mikephil.charting.charts.ScatterChart
-        android:id="@+id/chart"
+    <LinearLayout android:id="@+id/layout_date"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <include android:id="@+id/toolbar_date"
+            layout="@layout/toolbar_date"/>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_above="@id/layout_date">
 
-    <View style="@style/LayoutRowSeparator"/>
+        <com.github.mikephil.charting.charts.ScatterChart
+            android:id="@+id/chart"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"/>
 
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/viewport"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"/>
+        <View style="@style/LayoutRowSeparator"
+            android:visibility="gone"/>
 
-</LinearLayout>
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/viewport"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

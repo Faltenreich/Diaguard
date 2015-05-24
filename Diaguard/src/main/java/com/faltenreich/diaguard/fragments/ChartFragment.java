@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.fragments;
 
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.DatePicker;
 
@@ -49,7 +51,7 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
     private static final int TEXT_SIZE = 4;
     private static final int LINE_WIDTH = 1;
     private static final int SCATTER_SHAPE_SIZE = 5;
-    private static final int MOVING_SPEED = 2;
+    private static final int FACTOR_MOVING_SPEED = 2;
 
     private PreferenceHelper preferenceHelper;
     private DatabaseDataSource dataSource;
@@ -61,15 +63,16 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
     private View buttonNext;
 
     private DateTime currentDateTime;
+    private ArrayList<String> xLabels;
+
+    private boolean isCurrentlyScrolling;
 
     public ChartFragment() {
         // Required empty public constructor
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_chart, container, false);
     }
 
@@ -77,12 +80,6 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
     public void onActivityCreated (Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initialize();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        initializeChart();
     }
 
     private void initialize() {
@@ -93,6 +90,7 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
 
         getComponents();
         initializeGUI();
+        initializeChart();
     }
 
     private void getComponents() {
@@ -127,7 +125,7 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
         // Text
         chartBase.getLegend().setEnabled(false);
         chartBase.setDescription(null);
-        chartBase.setNoDataText(getString(R.string.no_data));
+        chartBase.setNoDataText("");
         chartBase.getXAxis().setTextSize(Helper.getDPI(getActivity(), TEXT_SIZE));
         chartBase.getAxisLeft().setTextSize(Helper.getDPI(getActivity(), TEXT_SIZE));
 
@@ -140,13 +138,9 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
         chartBase.getAxisRight().setEnabled(false);
     }
 
-    private DateTime getCurrentDateTime() {
-        return this.currentDateTime;
-    }
-
     // Add a few hours to show target day in UI not until user has scrolled halfway to it
     private DateTime getCurrentDateTimeForUI() {
-        return this.currentDateTime.plusHours(12);
+        return this.currentDateTime.plusHours(14);
     }
 
     private void updateDateTime() {
@@ -161,19 +155,19 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
         updateLabels();
     }
 
-    public void previousDay() {
+    private void previousDay() {
         currentDateTime = currentDateTime.minusDays(1);
         updateLabels();
         moveViewportToCurrentDateTime();
     }
 
-    public void nextDay() {
+    private void nextDay() {
         currentDateTime = currentDateTime.plusDays(1);
         updateLabels();
         moveViewportToCurrentDateTime();
     }
 
-    public void showDatePicker() {
+    private void showDatePicker() {
         DialogFragment fragment = new DatePickerFragment() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
@@ -191,28 +185,60 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
     //region Chart
 
     private void initializeChart() {
-        dataSource.open();
-        updateChartData();
-        dataSource.close();
+        // Create minute-precise grid for x-axis
+        xLabels = new ArrayList<>();
+        for(DateTime day = currentDateTime.dayOfMonth().withMinimumValue();
+            day.isBefore(currentDateTime.dayOfMonth().withMaximumValue().plusDays(1));
+            day = day.plusDays(1)) {
+            String weekDay = getResources().getStringArray(R.array.weekdays_short)[day.dayOfWeek().get() - 1];
+            for (int hour = 0; hour < 24; hour++) {
+                for (int minute = 0; minute < 60; minute++) {
+                    xLabels.add(weekDay + ", " + day.getDayOfMonth() + "." + day.getMonthOfYear());
+                }
+            }
+        }
 
+        if (preferenceHelper.limitsAreHighlighted()) {
+            YAxis leftAxis = chart.getAxisLeft();
+
+            LimitLine hyperglycemia = new LimitLine(preferenceHelper.getLimitHyperglycemia(), getString(R.string.hyper));
+            hyperglycemia.setLineColor(getResources().getColor(R.color.red));
+            hyperglycemia.setLabel(null);
+            leftAxis.addLimitLine(hyperglycemia);
+
+            LimitLine hypoglycemia = new LimitLine(preferenceHelper.getLimitHypoglycemia(), getString(R.string.hypo));
+            hypoglycemia.setLineColor(getResources().getColor(R.color.blue));
+            hypoglycemia.setLabel(null);
+            leftAxis.addLimitLine(hypoglycemia);
+        }
+        updateChartData();
         updateLabels();
     }
 
     private void updateLabels() {
-        DateTimeFormatter format = preferenceHelper.getDateFormat();
-        String weekDay = getResources().getStringArray(R.array.weekdays)[getCurrentDateTimeForUI().dayOfWeek().get()-1];
-        String dateButtonText = weekDay.substring(0,2) + "., " + format.print(getCurrentDateTimeForUI());
-        buttonDate.setText(dateButtonText);
+        if(isAdded()) {
+            DateTimeFormatter format = preferenceHelper.getDateFormat();
+            String weekDay = getResources().getStringArray(R.array.weekdays)[getCurrentDateTimeForUI().dayOfWeek().get() - 1];
+            String dateButtonText = weekDay.substring(0, 2) + "., " + format.print(getCurrentDateTimeForUI());
+            buttonDate.setText(dateButtonText);
+        }
     }
 
     private void moveViewportToCurrentDateTime(){
+        // TODO: Stop current scrolling
+        if(isCurrentlyScrolling) {
+            return;
+        }
         final Handler handler = new Handler();
         final Runnable runnable = new Runnable() {
             public void run() {
+                isCurrentlyScrolling = true;
+
                 int lowestVisibleXIndex = chart.getLowestVisibleXIndex();
                 // Target is start of day
                 final int xPositionTarget = ((getCurrentDateTimeForUI().getDayOfMonth() - 1) * 24 * 60);
                 final int distanceInMinutes = xPositionTarget - lowestVisibleXIndex;
+                final int movingSpeed = (distanceInMinutes / 60) * FACTOR_MOVING_SPEED;
 
                 // Do until target is reached
                 int currentXPosition = lowestVisibleXIndex;
@@ -220,7 +246,7 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
                         currentXPosition < xPositionTarget :
                         currentXPosition > xPositionTarget) {
 
-                    currentXPosition += (distanceInMinutes / 60) * MOVING_SPEED;
+                    currentXPosition += movingSpeed;
 
                     // Wait some time
                     try {
@@ -234,8 +260,12 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
                     final int currentFinalXPosition = currentXPosition;
                     handler.post(new Runnable() {
                         public void run() {
-                            chart.moveViewToX(currentFinalXPosition);
-                            chart.invalidate();
+                            if(isAdded()) {
+                                chart.moveViewToX(currentFinalXPosition);
+                                chart.invalidate();
+
+                                isCurrentlyScrolling = false;
+                            }
                         }
                     });
                 }
@@ -245,69 +275,7 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
     }
 
     private void updateChartData() {
-        ArrayList<String> xLabels = new ArrayList<>();
-        ArrayList<com.github.mikephil.charting.data.Entry> entries = new ArrayList<>();
-
-        for(DateTime day = currentDateTime.dayOfMonth().withMinimumValue();
-            day.isBefore(currentDateTime.dayOfMonth().withMaximumValue().plusDays(1));
-            day = day.plusDays(1)) {
-
-            String weekDay = getResources().getStringArray(R.array.weekdays_short)[day.dayOfWeek().get() - 1];
-
-            // Create minute-precise grid for x-axis
-            for(int hour = 0; hour < 24; hour++) {
-                for(int minute = 0; minute < 60; minute++) {
-                    xLabels.add(weekDay + ", " + day.getDayOfMonth() + "." + day.getMonthOfYear());
-                }
-            }
-
-            List<Entry> entriesOfDay = dataSource.getEntriesOfDay(day);
-            for(Entry entry : entriesOfDay) {
-                // TODO: Generic method call
-                List<Model> models = dataSource.get(DatabaseHelper.BLOODSUGAR, null,
-                        DatabaseHelper.ENTRY_ID + "=?",
-                        new String[]{ Long.toString(entry.getId()) },
-                        null, null, null, null);
-                for(Model model : models) {
-                    Measurement measurement = (Measurement) model;
-                    float value = preferenceHelper.formatDefaultToCustomUnit(Measurement.Category.BloodSugar, measurement.getValue());
-                    int minutesOfMonth = (entry.getDate().getDayOfMonth() - 1) * 24 * 60;
-                    int minutesOfHour = entry.getDate().getHourOfDay() * 60;
-                    int minutes = entry.getDate().getMinuteOfHour();
-                    entries.add(new com.github.mikephil.charting.data.Entry(value, minutesOfMonth + minutesOfHour + minutes));
-                }
-            }
-        }
-
-        ScatterDataSet scatterDataSet = new ScatterDataSet(entries, DatabaseHelper.BLOODSUGAR);
-        scatterDataSet.setScatterShape(ScatterChart.ScatterShape.CIRCLE);
-        scatterDataSet.setScatterShapeSize(Helper.getDPI(getActivity(), SCATTER_SHAPE_SIZE));
-        scatterDataSet.setColor(getResources().getColor(R.color.green));
-        scatterDataSet.setDrawValues(false);
-
-        ArrayList<ScatterDataSet> dataSets = new ArrayList<>();
-        dataSets.add(scatterDataSet);
-
-        chart.setData(new ScatterData(xLabels, dataSets));
-        chart.setVisibleXRange(24 * 60);
-        chart.moveViewToX(24 * 60 * (currentDateTime.getDayOfMonth() - 1));
-        chart.getXAxis().setLabelsToSkip(24 * 60);
-
-        if(preferenceHelper.limitsAreHighlighted()) {
-            YAxis leftAxis = chart.getAxisLeft();
-
-            LimitLine hyperglycemia = new LimitLine(preferenceHelper.getLimitHyperglycemia(), getString(R.string.hyper));
-            hyperglycemia.setLineColor(getResources().getColor(R.color.red));
-            hyperglycemia.setLabel(null);
-            leftAxis.addLimitLine(hyperglycemia);
-
-            LimitLine hypoglycemia = new LimitLine(preferenceHelper.getLimitHypoglycemia(), getString(R.string.hypo));
-            hypoglycemia.setLineColor(getResources().getColor(R.color.blue));
-            hypoglycemia.setLabel(null);
-            leftAxis.addLimitLine(hypoglycemia);
-        }
-
-        chart.invalidate();
+        new FetchDataTask().execute();
     }
 
     //endregion
@@ -385,8 +353,6 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
 
     @Override
     public void onChartFling(MotionEvent me1, MotionEvent me2, float velocityX, float velocityY) {
-        // TODO: Necessary?
-        // updateDateTime();
     }
 
     @Override
@@ -408,7 +374,78 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
 
     @Override
     public void onNothingSelected() {
+        // TODO: Dismiss MarkerView
     }
 
     //endregion
+
+    private class FetchDataTask extends AsyncTask<Void, Void, ScatterData> {
+
+        protected ScatterData doInBackground(Void... params) {
+            ArrayList<com.github.mikephil.charting.data.Entry> entries = new ArrayList<>();
+
+            dataSource.open();
+
+            for(DateTime day = currentDateTime.dayOfMonth().withMinimumValue();
+                day.isBefore(currentDateTime.dayOfMonth().withMaximumValue().plusDays(1));
+                day = day.plusDays(1)) {
+
+                List<Entry> entriesOfDay = dataSource.getEntriesOfDay(day);
+                for(Entry entry : entriesOfDay) {
+                    // TODO: Generic method call
+                    List<Model> models = dataSource.get(DatabaseHelper.BLOODSUGAR, null,
+                            DatabaseHelper.ENTRY_ID + "=?",
+                            new String[]{ Long.toString(entry.getId()) },
+                            null, null, null, null);
+                    for(Model model : models) {
+                        Measurement measurement = (Measurement) model;
+                        float value = preferenceHelper.formatDefaultToCustomUnit(Measurement.Category.BloodSugar, measurement.getValue());
+                        int minutesOfMonth = (entry.getDate().getDayOfMonth() - 1) * 24 * 60;
+                        int minutesOfHour = entry.getDate().getHourOfDay() * 60;
+                        int minutes = entry.getDate().getMinuteOfHour();
+                        entries.add(new com.github.mikephil.charting.data.Entry(value, minutesOfMonth + minutesOfHour + minutes));
+                    }
+                }
+            }
+
+            dataSource.close();
+
+            ScatterDataSet scatterDataSet = new ScatterDataSet(entries, DatabaseHelper.BLOODSUGAR);
+            scatterDataSet.setScatterShape(ScatterChart.ScatterShape.CIRCLE);
+            scatterDataSet.setScatterShapeSize(Helper.getDPI(getActivity(), SCATTER_SHAPE_SIZE));
+            scatterDataSet.setColor(getResources().getColor(R.color.green));
+            scatterDataSet.setDrawValues(false);
+
+            ArrayList<ScatterDataSet> dataSets = new ArrayList<>();
+            dataSets.add(scatterDataSet);
+
+            return new ScatterData(xLabels, dataSets);
+        }
+
+        protected void onProgressUpdate(Void... progress) {
+        }
+
+        protected void onPostExecute(ScatterData data) {
+            if(isAdded()) {
+                // TODO: Fade in on setup
+                if(chart.getAlpha() == 0) {
+                    AlphaAnimation animationFadeIn = new AlphaAnimation(0.0f, 1.0f);
+                    animationFadeIn.setDuration(100);
+                    animationFadeIn.setFillAfter(true);
+                    chart.startAnimation(animationFadeIn);
+                }
+
+                chart.setData(data);
+
+                chart.setVisibleXRange(24 * 60);
+                chart.setVisibleYRange(
+                        preferenceHelper.formatDefaultToCustomUnit(Measurement.Category.BloodSugar, 300),
+                        YAxis.AxisDependency.LEFT);
+                chart.moveViewToX(24 * 60 * (currentDateTime.getDayOfMonth() - 1));
+                chart.getXAxis().setLabelsToSkip(24 * 60);
+
+                chart.invalidate();
+            }
+        }
+    }
 }

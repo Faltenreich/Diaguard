@@ -4,6 +4,8 @@ import android.content.Context;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.database.measurements.Measurement;
+import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.data.Entry;
 
@@ -12,16 +14,18 @@ import com.github.mikephil.charting.data.Entry;
  */
 public class ChartMarkerView extends MarkerView {
 
-    TextView textViewValue;
+    private PreferenceHelper preferenceHelper;
+    private TextView textViewValue;
 
     public ChartMarkerView (Context context) {
         super(context, R.layout.popup_chart);
+        preferenceHelper = new PreferenceHelper(context);
         textViewValue = (TextView) findViewById(R.id.textview_value);
     }
 
     @Override
     public void refreshContent(Entry e, int dataSetIndex) {
-        textViewValue.setText((int) e.getVal() + " mg/dL");
+        textViewValue.setText((int) e.getVal() + " " + preferenceHelper.getUnitAcronym(Measurement.Category.BloodSugar));
     }
 
     @Override

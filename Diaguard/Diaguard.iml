@@ -93,17 +93,18 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 22 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="snackbar-2.10.9" level="project" />
-    <orderEntry type="library" exported="" name="appcompat-v7-22.1.1" level="project" />
     <orderEntry type="library" exported="" name="fab-1.5.0" level="project" />
-    <orderEntry type="library" exported="" name="android.joda-2.7.2" level="project" />
+    <orderEntry type="library" exported="" name="support-annotations-22.1.1" level="project" />
+    <orderEntry type="library" exported="" name="commons-lang3-3.3.2" level="project" />
+    <orderEntry type="library" exported="" name="appcompat-v7-22.1.1" level="project" />
+    <orderEntry type="library" exported="" name="snackbar-2.10.9" level="project" />
     <orderEntry type="library" exported="" name="itextg-5.4.4" level="project" />
+    <orderEntry type="library" exported="" name="android.joda-2.7.2" level="project" />
     <orderEntry type="library" exported="" name="achartengine-1.2.0" level="project" />
-    <orderEntry type="library" exported="" name="opencsv-2.3" level="project" />
     <orderEntry type="library" exported="" name="MPAndroidChart-v2.1.0" level="project" />
     <orderEntry type="library" exported="" name="joda-time-2.7-no-tzdb" level="project" />
+    <orderEntry type="library" exported="" name="opencsv-3.3" level="project" />
     <orderEntry type="library" exported="" name="support-v4-22.1.1" level="project" />
-    <orderEntry type="library" exported="" name="support-annotations-22.1.1" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-22.0.0" level="project" />
     <orderEntry type="library" exported="" name="cardview-v7-22.1.1" level="project" />
   </component>

@@ -22,6 +22,15 @@ android {
         minSdkVersion 14
         targetSdkVersion 22
     }
+
+    packagingOptions {
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/LICENSE'
+    }
 }
 
 dependencies {
@@ -34,8 +43,8 @@ dependencies {
     compile 'com.nispok:snackbar:2.10.9'
     compile 'com.github.clans:fab:1.5.0'
     compile 'com.github.PhilJay:MPAndroidChart:v2.1.0'
+    compile 'com.opencsv:opencsv:3.3'
 
     compile files('libs/achartengine-1.2.0.jar')
-    compile files('libs/opencsv-2.3.jar')
     compile files('libs/itextg-5.4.4.jar')
 }

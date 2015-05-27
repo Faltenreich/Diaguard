@@ -10,9 +10,9 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ProgressBar;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
@@ -38,6 +38,7 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.Highlight;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
@@ -56,6 +57,7 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
     private PreferenceHelper preferenceHelper;
     private DatabaseDataSource dataSource;
 
+    private ProgressBar progressBar;
     private LineChart viewport;
     private ScatterChart chart;
     private Button buttonDate;
@@ -63,7 +65,6 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
     private View buttonNext;
 
     private DateTime currentDateTime;
-    private ArrayList<String> xLabels;
 
     private boolean isCurrentlyScrolling;
 
@@ -94,6 +95,7 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
     }
 
     private void getComponents() {
+        progressBar = (ProgressBar) getView().findViewById(R.id.progressbar);
         viewport = (LineChart) getView().findViewById(R.id.viewport);
         chart = (ScatterChart) getView().findViewById(R.id.chart);
         buttonDate = (Button) getView().findViewById(R.id.button_date);
@@ -145,9 +147,9 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
 
     private void updateDateTime() {
         final int xMinimumVisibleValue = chart.getLowestVisibleXIndex();
-        final int dayOfMonth = xMinimumVisibleValue / 60 / 24;
-        final int hourOfDay = (xMinimumVisibleValue - (dayOfMonth * 60 * 24)) / 60;
-        final int minuteOfHour = xMinimumVisibleValue - (dayOfMonth * 60 * 24) - (hourOfDay * 60);
+        final int dayOfMonth = xMinimumVisibleValue / DateTimeConstants.MINUTES_PER_DAY;
+        final int hourOfDay = (xMinimumVisibleValue - (dayOfMonth * DateTimeConstants.MINUTES_PER_DAY)) / DateTimeConstants.MINUTES_PER_HOUR;
+        final int minuteOfHour = xMinimumVisibleValue - (dayOfMonth * DateTimeConstants.MINUTES_PER_DAY) - (hourOfDay * DateTimeConstants.MINUTES_PER_HOUR);
         currentDateTime = currentDateTime
                 .withDayOfMonth(dayOfMonth + 1)
                 .withHourOfDay(hourOfDay)
@@ -185,19 +187,6 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
     //region Chart
 
     private void initializeChart() {
-        // Create minute-precise grid for x-axis
-        xLabels = new ArrayList<>();
-        for(DateTime day = currentDateTime.dayOfMonth().withMinimumValue();
-            day.isBefore(currentDateTime.dayOfMonth().withMaximumValue().plusDays(1));
-            day = day.plusDays(1)) {
-            String weekDay = getResources().getStringArray(R.array.weekdays_short)[day.dayOfWeek().get() - 1];
-            for (int hour = 0; hour < 24; hour++) {
-                for (int minute = 0; minute < 60; minute++) {
-                    xLabels.add(weekDay + ", " + day.getDayOfMonth() + "." + day.getMonthOfYear());
-                }
-            }
-        }
-
         if (preferenceHelper.limitsAreHighlighted()) {
             YAxis leftAxis = chart.getAxisLeft();
 
@@ -236,9 +225,9 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
 
                 int lowestVisibleXIndex = chart.getLowestVisibleXIndex();
                 // Target is start of day
-                final int xPositionTarget = ((getCurrentDateTimeForUI().getDayOfMonth() - 1) * 24 * 60);
+                final int xPositionTarget = ((getCurrentDateTimeForUI().getDayOfMonth() - 1) * DateTimeConstants.MINUTES_PER_DAY);
                 final int distanceInMinutes = xPositionTarget - lowestVisibleXIndex;
-                final int movingSpeed = (distanceInMinutes / 60) * FACTOR_MOVING_SPEED;
+                final int movingSpeed = (distanceInMinutes / DateTimeConstants.MINUTES_PER_HOUR) * FACTOR_MOVING_SPEED;
 
                 // Do until target is reached
                 int currentXPosition = lowestVisibleXIndex;
@@ -381,7 +370,48 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
 
     private class FetchDataTask extends AsyncTask<Void, Void, ScatterData> {
 
+        @Override
+        protected void onPreExecute(){
+            chart.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
         protected ScatterData doInBackground(Void... params) {
+
+            // Set x-axis labels minute-precisely from first to last day of month
+            ArrayList<String> xLabels = new ArrayList<>();
+            String[] weekDays = getResources().getStringArray(R.array.weekdays);
+
+            DateTime dateTime = currentDateTime.dayOfMonth()
+                    .withMinimumValue()
+                    .withTime(0, 0, 0, 0);
+            DateTime end = currentDateTime.dayOfMonth()
+                    .withMaximumValue()
+                    .withTime(DateTimeConstants.HOURS_PER_DAY - 1,
+                            DateTimeConstants.MINUTES_PER_HOUR - 1,
+                            DateTimeConstants.SECONDS_PER_MINUTE - 1,
+                            DateTimeConstants.MILLIS_PER_SECOND - 1);
+
+            while(dateTime.isBefore(end)) {
+                // Full hour
+                if(dateTime.getMinuteOfHour() == 0) {
+                    if(dateTime.getHourOfDay() == 0) {
+                        String weekDay = weekDays[dateTime.dayOfWeek().get()-1].substring(0,2);
+                        xLabels.add(/* TODO:
+                         dateTime.getHourOfDay() + "\n" + */
+                                weekDay + ", " + dateTime.getDayOfMonth() + "." + dateTime.getMonthOfYear());
+                    }
+                    else {
+                        xLabels.add(Integer.toString(dateTime.getHourOfDay()));
+                    }
+                }
+                else {
+                    xLabels.add("TEST");
+                }
+
+                dateTime = dateTime.plusMinutes(1);
+            }
+
             ArrayList<com.github.mikephil.charting.data.Entry> entries = new ArrayList<>();
 
             dataSource.open();
@@ -400,8 +430,8 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
                     for(Model model : models) {
                         Measurement measurement = (Measurement) model;
                         float value = preferenceHelper.formatDefaultToCustomUnit(Measurement.Category.BloodSugar, measurement.getValue());
-                        int minutesOfMonth = (entry.getDate().getDayOfMonth() - 1) * 24 * 60;
-                        int minutesOfHour = entry.getDate().getHourOfDay() * 60;
+                        int minutesOfMonth = (entry.getDate().getDayOfMonth() - 1) * DateTimeConstants.MINUTES_PER_DAY;
+                        int minutesOfHour = entry.getDate().getHourOfDay() * DateTimeConstants.MINUTES_PER_HOUR;
                         int minutes = entry.getDate().getMinuteOfHour();
                         entries.add(new com.github.mikephil.charting.data.Entry(value, minutesOfMonth + minutesOfHour + minutes));
                     }
@@ -427,24 +457,19 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
 
         protected void onPostExecute(ScatterData data) {
             if(isAdded()) {
-                // TODO: Fade in on setup
-                if(chart.getAlpha() == 0) {
-                    AlphaAnimation animationFadeIn = new AlphaAnimation(0.0f, 1.0f);
-                    animationFadeIn.setDuration(100);
-                    animationFadeIn.setFillAfter(true);
-                    chart.startAnimation(animationFadeIn);
-                }
-
                 chart.setData(data);
 
-                chart.setVisibleXRange(24 * 60);
+                chart.setVisibleXRange(DateTimeConstants.MINUTES_PER_DAY);
                 chart.setVisibleYRange(
                         preferenceHelper.formatDefaultToCustomUnit(Measurement.Category.BloodSugar, 300),
                         YAxis.AxisDependency.LEFT);
-                chart.moveViewToX(24 * 60 * (currentDateTime.getDayOfMonth() - 1));
-                chart.getXAxis().setLabelsToSkip(24 * 60);
+                chart.getXAxis().setLabelsToSkip((DateTimeConstants.MINUTES_PER_HOUR * 4) - 1);
+                chart.moveViewToX(DateTimeConstants.MINUTES_PER_DAY * (currentDateTime.getDayOfMonth() - 1));
 
                 chart.invalidate();
+
+                progressBar.setVisibility(View.GONE);
+                chart.setVisibility(View.VISIBLE);
             }
         }
     }

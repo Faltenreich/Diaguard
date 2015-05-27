@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.view.LayoutInflater;
@@ -31,7 +30,7 @@ import org.joda.time.DateTime;
  * Created by Filip on 15.11.13.
  */
 
-public class CalculatorActivity extends ActionBarActivity {
+public class CalculatorActivity extends BaseActivity {
 
     private DatabaseDataSource dataSource;
     private PreferenceHelper preferenceHelper;

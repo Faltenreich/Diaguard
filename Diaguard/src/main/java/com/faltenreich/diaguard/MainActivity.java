@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -27,7 +26,7 @@ import com.faltenreich.diaguard.fragments.MainFragment;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.faltenreich.diaguard.helpers.ViewHelper;
 
-public class MainActivity extends ActionBarActivity implements EntryListFragment.CallbackList {
+public class MainActivity extends BaseActivity implements EntryListFragment.CallbackList {
 
     public static final int REQUEST_EVENT_CREATED = 1;
     public static final String ENTRY_CREATED = "ENTRY_CREATED";

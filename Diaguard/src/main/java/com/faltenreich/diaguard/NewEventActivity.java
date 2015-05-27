@@ -52,7 +52,7 @@ import java.util.List;
 /**
  * Created by Filip on 19.10.13.
  */
-public class NewEventActivity extends ActionBarActivity {
+public class NewEventActivity extends BaseActivity {
 
     public static final String EXTRA_ENTRY = "Entry";
     public static final String EXTRA_MEASUREMENT = "Measurement";

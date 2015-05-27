@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="snackbar-2.10.9">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/Diaguard/build/intermediates/exploded-aar/com.nispok/snackbar/2.10.9/res" />
+      <root url="jar://$PROJECT_DIR$/Diaguard/build/intermediates/exploded-aar/com.nispok/snackbar/2.10.9/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -30,7 +30,7 @@ import java.io.File;
 /**
  * Created by Filip on 30.11.13.
  */
-public class ExportActivity extends ActionBarActivity implements IFileListener {
+public class ExportActivity extends BaseActivity implements IFileListener {
 
     private PreferenceHelper preferenceHelper;
 

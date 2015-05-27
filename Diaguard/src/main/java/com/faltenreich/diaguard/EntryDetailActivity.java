@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
@@ -12,7 +11,7 @@ import com.faltenreich.diaguard.fragments.EntryDetailFragment;
 import com.faltenreich.diaguard.helpers.Helper;
 
 
-public class EntryDetailActivity extends ActionBarActivity {
+public class EntryDetailActivity extends BaseActivity {
 
     private DatabaseDataSource dataSource;
 

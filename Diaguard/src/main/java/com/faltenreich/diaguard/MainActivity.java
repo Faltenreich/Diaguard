@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -161,12 +160,7 @@ public class MainActivity extends BaseActivity implements EntryListFragment.Call
                     startActivity(new Intent(this, ExportActivity.class));
                     return;
                 case Settings:
-                    if(Build.VERSION.SDK_INT >= 11) {
-                        startActivity(new Intent(this, PreferenceActivity.class));
-                    }
-                    else {
-                        startActivity(new Intent(this, PreferenceDeprecatedActivity.class));
-                    }
+                    startActivity(new Intent(this, PreferenceActivity.class));
                     return;
                 default:
                     return;

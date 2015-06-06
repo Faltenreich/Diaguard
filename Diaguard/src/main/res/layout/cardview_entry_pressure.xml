@@ -12,7 +12,7 @@
             style="@style/LayoutRowLabel"/>
 
         <EditText
-            android:id="@+id/value"
+            android:id="@+id/edittext_value"
             android:inputType="numberDecimal"
             android:background="@android:color/transparent"
             style="@style/LayoutRowText"/>
@@ -28,7 +28,7 @@
             style="@style/LayoutRowLabel"/>
 
         <EditText
-            android:id="@+id/value_diastolic"
+            android:id="@+id/edittext_diastolic"
             android:inputType="numberDecimal"
             android:background="@android:color/transparent"
             style="@style/LayoutRowText"/>

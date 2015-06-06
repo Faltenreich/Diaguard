@@ -8,7 +8,7 @@
     <LinearLayout style="@style/LayoutRow">
 
         <EditText
-            android:id="@+id/value"
+            android:id="@+id/edittext_value"
             android:inputType="numberDecimal"
             android:background="@android:color/transparent"
             style="@style/LayoutRowText"/>
@@ -21,7 +21,7 @@
 
         <AutoCompleteTextView
             android:id="@+id/food"
-            android:inputType="numberDecimal"
+            android:inputType="textAutoComplete"
             android:background="@android:color/transparent"
             style="@style/LayoutRowText"
             android:hint="@string/food_desc"/>

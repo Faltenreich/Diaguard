@@ -12,7 +12,7 @@
             style="@style/LayoutRowLabel"/>
 
         <EditText
-            android:id="@+id/value"
+            android:id="@+id/edittext_bolus"
             android:inputType="numberDecimal"
             android:background="@android:color/transparent"
             style="@style/LayoutRowText"/>
@@ -28,7 +28,7 @@
             style="@style/LayoutRowLabel"/>
 
         <EditText
-            android:id="@+id/value_correction"
+            android:id="@+id/edittext_correction"
             android:inputType="numberDecimal"
             android:background="@android:color/transparent"
             style="@style/LayoutRowText"/>
@@ -44,7 +44,7 @@
             style="@style/LayoutRowLabel"/>
 
         <EditText
-            android:id="@+id/value_basal"
+            android:id="@+id/edittext_basal"
             android:inputType="numberDecimal"
             android:background="@android:color/transparent"
             style="@style/LayoutRowText"/>

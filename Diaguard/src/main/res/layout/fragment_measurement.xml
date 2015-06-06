@@ -19,7 +19,7 @@
         android:layout_marginStart="@dimen/padding_end"
         android:textColor="@color/gray_dark"/>
 
-    <TextView android:id="@+id/value"
+    <TextView android:id="@+id/edittext_value"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"

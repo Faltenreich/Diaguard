@@ -143,7 +143,9 @@ public class DatabaseDataSource {
         values.put(DatabaseHelper.CREATED_AT, Helper.getDateDatabaseFormat().print(meal.getCreatedAt()));
         values.put(DatabaseHelper.UPDATED_AT, Helper.getDateDatabaseFormat().print(meal.getUpdatedAt()));
         values.put(DatabaseHelper.CARBOHYDRATES, meal.getCarbohydrates());
-        values.put(DatabaseHelper.FOOD_ID, meal.getFoodId());
+        if(meal.getFoodId() > 0) {
+            values.put(DatabaseHelper.FOOD_ID, meal.getFoodId());
+        }
         values.put(DatabaseHelper.ENTRY_ID, meal.getEntryId());
         return values;
     }

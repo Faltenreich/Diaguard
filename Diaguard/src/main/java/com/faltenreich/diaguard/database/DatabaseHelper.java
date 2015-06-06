@@ -42,7 +42,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Food
     public static final String FOOD = "food";
-    public static final String CARBOHYDRATES = "carbohydrates_per_100g";
+    public static final String CARBOHYDRATES = "carbohydrates";
     public static final String NAME = "name";
     public static final String IMAGE = "image";
 

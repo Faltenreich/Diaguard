@@ -358,31 +358,31 @@ public class NewEventActivity extends BaseActivity {
             // TODO: Get rid of switch-case by making it more generic
             case Insulin:
                 viewContent = inflater.inflate(R.layout.cardview_entry_insulin, layoutValues, false);
-                EditText editTextBolus = (EditText) viewContent.findViewById(R.id.value);
+                EditText editTextBolus = (EditText) viewContent.findViewById(R.id.edittext_bolus);
                 editTextBolus.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
                 editTextBolus.requestFocus();
-                EditText editTextCorrection = (EditText) viewContent.findViewById(R.id.value_correction);
+                EditText editTextCorrection = (EditText) viewContent.findViewById(R.id.edittext_correction);
                 editTextCorrection.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
-                EditText editTextBasal = (EditText) viewContent.findViewById(R.id.value_basal);
+                EditText editTextBasal = (EditText) viewContent.findViewById(R.id.edittext_basal);
                 editTextBasal.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
                 break;
             case Meal:
                 viewContent = inflater.inflate(R.layout.cardview_entry_meal, layoutValues, false);
-                EditText editTextMeal = (EditText) viewContent.findViewById(R.id.value);
+                EditText editTextMeal = (EditText) viewContent.findViewById(R.id.edittext_value);
                 editTextMeal.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
                 editTextMeal.requestFocus();
                 break;
             case Pressure:
                 viewContent = inflater.inflate(R.layout.cardview_entry_pressure, layoutValues, false);
-                EditText editTextSystolic = (EditText) viewContent.findViewById(R.id.value);
+                EditText editTextSystolic = (EditText) viewContent.findViewById(R.id.edittext_value);
                 editTextSystolic.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
                 editTextSystolic.requestFocus();
-                EditText editTextDiastolic = (EditText) viewContent.findViewById(R.id.value_diastolic);
+                EditText editTextDiastolic = (EditText) viewContent.findViewById(R.id.edittext_diastolic);
                 editTextDiastolic.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
                 break;
             default:
                 viewContent = inflater.inflate(R.layout.cardview_entry_generic, layoutValues, false);
-                EditText editTextValue = (EditText) viewContent.findViewById(R.id.value);
+                EditText editTextValue = (EditText) viewContent.findViewById(R.id.edittext_value);
                 editTextValue.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
                 editTextValue.requestFocus();
                 break;
@@ -438,7 +438,7 @@ public class NewEventActivity extends BaseActivity {
         boolean inputIsValid = true;
 
         // Validate date
-        DateTime now = new DateTime();
+        DateTime now = DateTime.now();
         if (time.isAfter(now)) {
             ViewHelper.showAlert(this, getString(R.string.validator_value_infuture));
             return;
@@ -506,19 +506,25 @@ public class NewEventActivity extends BaseActivity {
             // Insert new entry
             else {
                 entry = new Entry();
+                entry.setCreatedAt(now);
+                entry.setUpdatedAt(now);
                 entry.setDate(time);
-                if(editTextNotes.length() > 0)
+                if(editTextNotes.length() > 0) {
                     entry.setNote(editTextNotes.getText().toString());
+                }
                 long entryId = dataSource.insert(entry);
 
                 // Connect measurements with entry
                 for(Measurement measurement : measurements) {
+                    measurement.setCreatedAt(now);
+                    measurement.setUpdatedAt(now);
                     measurement.setEntryId(entryId);
                     dataSource.insert(measurement);
                 }
             }
             dataSource.close();
 
+            // Optional: Set alarm
             if(alarmIntervalInMinutes > 0) {
                 Helper.setAlarm(this, alarmIntervalInMinutes);
             }
@@ -533,81 +539,199 @@ public class NewEventActivity extends BaseActivity {
     }
 
     private Measurement getMeasurementFromView(View view) {
+        Measurement measurement = null;
+
         if(view != null && view.getTag() != null) {
             if(view.getTag() instanceof Measurement.Category) {
                 Measurement.Category category = (Measurement.Category) view.getTag();
-                EditText editTextValue = (EditText) view.findViewById(R.id.value);
-                if(validateValue(category, editTextValue)) {
-                    editTextValue.setError(null);
-                    float value = PreferenceHelper.getInstance().formatCustomToDefaultUnit(
-                            category,
-                            Float.parseFloat(editTextValue.getText().toString()));
-                    switch (category) {
-                        case BloodSugar:
-                            BloodSugar bloodSugar = new BloodSugar();
-                            bloodSugar.setMgDl(value);
-                            return bloodSugar;
-                        case Insulin:
-                            Insulin insulin = new Insulin();
-                            insulin.setBolus(value);
-                            return insulin;
-                        case Meal:
-                            Meal meal = new Meal();
-                            meal.setCarbohydrates(value);
-                            String foodName = ((EditText) view.findViewById(R.id.food)).getText().toString();
-                            if(foodName.length() > 0) {
-                                Food food = new Food();
-                                food.setName(foodName);
-                                ImageView imageViewFood = (ImageView) view.findViewById(R.id.image);
-                                // TODO: Check for image, convert to Base64 and add to Food
-                            }
-                            return meal;
-                        case Activity:
-                            com.faltenreich.diaguard.database.measurements.Activity activity =
-                                    new com.faltenreich.diaguard.database.measurements.Activity();
-                            activity.setMinutes((int) value);
-                            return activity;
-                        case HbA1c:
-                            HbA1c hbA1c = new HbA1c();
-                            hbA1c.setPercent(value);
-                            return hbA1c;
-                        case Weight:
-                            Weight weight = new Weight();
-                            weight.setKilogram(value);
-                            return weight;
-                        case Pulse:
-                            Pulse pulse = new Pulse();
-                            pulse.setFrequency(value);
-                            return pulse;
-                        case Pressure:
-                            Pressure pressure = new Pressure();
-                            pressure.setSystolic(value);
-                            return pressure;
-                        default:
-                            // TODO: Throw Exception
-                            break;
-                    }
+                switch (category) {
+                    case Insulin:
+                        measurement = getInsulinFromView(view);
+                        break;
+                    case Meal:
+                        measurement = getMealFromView(view);
+                        break;
+                    case Activity:
+                        measurement = getActivityFromView(view);
+                        break;
+                    case Pressure:
+                        measurement = getPressureFromView(view);
+                        break;
+                    default:
+                        measurement = getGenericFromView(category, view);
+                        break;
                 }
             }
         }
-        return null;
+        return measurement;
     }
 
-    private boolean validateValue(Measurement.Category category, EditText editText) {
-        String value = editText.getText().toString();
-        if (value.length() == 0 || !Validator.containsNumber(value)) {
+    private Measurement getGenericFromView(Measurement.Category category, View view) {
+        Measurement measurement = null;
+
+        EditText editText = (EditText) view.findViewById(R.id.edittext_value);
+        editText.setError(null);
+        if (validateEditText(editText)) {
+            float value = PreferenceHelper.getInstance().formatCustomToDefaultUnit(
+                    category,
+                    Float.parseFloat(editText.getText().toString()));
+            if(validateValue(category, value)) {
+                switch (category) {
+                    case BloodSugar:
+                        BloodSugar bloodSugar = new BloodSugar();
+                        bloodSugar.setMgDl(value);
+                        measurement = bloodSugar;
+                        break;
+                    case Meal:
+                        Meal meal = new Meal();
+                        meal.setCarbohydrates(value);
+                        measurement = meal;
+                        break;
+                    case HbA1c:
+                        HbA1c hbA1c = new HbA1c();
+                        hbA1c.setPercent(value);
+                        measurement = hbA1c;
+                        break;
+                    case Weight:
+                        Weight weight = new Weight();
+                        weight.setKilogram(value);
+                        measurement = weight;
+                        break;
+                    case Pulse:
+                        Pulse pulse = new Pulse();
+                        pulse.setFrequency(value);
+                        measurement = pulse;
+                        break;
+                    case Pressure:
+                        Pressure pressure = new Pressure();
+                        pressure.setSystolic(value);
+                        measurement = pressure;
+                    default:
+                        // TODO: Throw Exception
+                        break;
+                }
+            }
+            else {
+                editText.setError(getString(R.string.validator_value_unrealistic));
+            }
+        }
+        else {
             editText.setError(getString(R.string.validator_value_empty));
-            return false;
         }
-        else if (!PreferenceHelper.getInstance().validateEventValue(
-                category, PreferenceHelper.getInstance().formatCustomToDefaultUnit(category,
-                        Float.parseFloat(value)))) {
-            editText.setError(getString(R.string.validator_value_unrealistic));
-            return false;
-        }
-        return true;
+
+        return measurement;
     }
 
+    private Insulin getInsulinFromView(View view) {
+        Insulin insulin = new Insulin();
+
+        EditText editTextBolus = (EditText) view.findViewById(R.id.edittext_bolus);
+        editTextBolus.setError(null);
+        if(validateEditText(editTextBolus)) {
+            float bolus = PreferenceHelper.getInstance().formatCustomToDefaultUnit(
+                    Measurement.Category.Insulin,
+                    Float.parseFloat(editTextBolus.getText().toString()));
+            if(validateValue(Measurement.Category.Insulin, bolus)) {
+                insulin.setBolus(bolus);
+            }
+            else {
+                editTextBolus.setError(getString(R.string.validator_value_unrealistic));
+            }
+        }
+
+        EditText editTextCorrection = (EditText) view.findViewById(R.id.edittext_correction);
+        editTextCorrection.setError(null);
+        if(validateEditText(editTextCorrection)) {
+            float correction = PreferenceHelper.getInstance().formatCustomToDefaultUnit(
+                    Measurement.Category.Insulin,
+                    Float.parseFloat(editTextCorrection.getText().toString()));
+            if(validateValue(Measurement.Category.Insulin, correction)) {
+                insulin.setCorrection(correction);
+            }
+            else {
+                editTextCorrection.setError(getString(R.string.validator_value_unrealistic));
+            }
+        }
+
+        EditText editTextBasal = (EditText) view.findViewById(R.id.edittext_basal);
+        editTextBasal.setError(null);
+        if(validateEditText(editTextBasal)) {
+            float basal = PreferenceHelper.getInstance().formatCustomToDefaultUnit(
+                    Measurement.Category.Insulin,
+                    Float.parseFloat(editTextBasal.getText().toString()));
+            if(validateValue(Measurement.Category.Insulin, basal)) {
+                insulin.setBasal(basal);
+            }
+            else {
+                editTextBasal.setError(getString(R.string.validator_value_unrealistic));
+            }
+        }
+
+        if(insulin.getBolus() == 0 && insulin.getCorrection() == 0 && insulin.getBasal() == 0) {
+            editTextBolus.setError(getString(R.string.validator_value_empty));
+            return null;
+        }
+        else {
+            return insulin;
+        }
+    }
+
+    private Meal getMealFromView(View view) {
+        Meal meal = (Meal) getGenericFromView(Measurement.Category.Meal, view);
+
+        String foodName = ((EditText) view.findViewById(R.id.food)).getText().toString();
+        if(foodName.length() > 0) {
+            Food food = new Food();
+            food.setName(foodName);
+            ImageView imageViewFood = (ImageView) view.findViewById(R.id.image);
+            // TODO: Check for image, convert to Base64 and add to Food
+        }
+
+        return meal;
+    }
+
+    private com.faltenreich.diaguard.database.measurements.Activity getActivityFromView(View view) {
+        com.faltenreich.diaguard.database.measurements.Activity activity =
+                (com.faltenreich.diaguard.database.measurements.Activity)
+                        getGenericFromView(Measurement.Category.Activity, view);
+
+        // TODO: Type
+
+        return activity;
+    }
+
+    private Pressure getPressureFromView(View view) {
+        Pressure pressure = (Pressure) getGenericFromView(Measurement.Category.Pressure, view);
+
+        EditText editTextDiastolic = (EditText) view.findViewById(R.id.edittext_diastolic);
+        editTextDiastolic.setError(null);
+        if(validateEditText(editTextDiastolic)) {
+            float diastolic = PreferenceHelper.getInstance().formatCustomToDefaultUnit(
+                    Measurement.Category.Pressure,
+                    Float.parseFloat(editTextDiastolic.getText().toString()));
+            if(validateValue(Measurement.Category.Pressure, diastolic)) {
+                pressure.setDiastolic(diastolic);
+                return pressure;
+            }
+            else {
+                editTextDiastolic.setError(getString(R.string.validator_value_unrealistic));
+                return null;
+            }
+        }
+        else {
+            editTextDiastolic.setError(getString(R.string.validator_value_empty));
+            return null;
+        }
+    }
+
+    private boolean validateEditText(EditText editText) {
+        String value = editText.getText().toString();
+        return value.length() >= 0 && Validator.containsNumber(value);
+    }
+
+    private boolean validateValue(Measurement.Category category, Float value) {
+        return PreferenceHelper.getInstance().validateEventValue(category, PreferenceHelper.getInstance().formatCustomToDefaultUnit(category, value));
+    }
 
     // LISTENERS
 

@@ -15,6 +15,7 @@
     <!-- GENERAL -->
 
     <string name="about">About</string>
+    <string name="amount">Amount</string>
     <string name="all">All</string>
     <string name="add_value">Add value</string>
     <string name="alarm">Measure blood sugar</string>
@@ -61,6 +62,7 @@
     <string name="factors">Factors</string>
     <string name="first_visit">First visit?</string>
     <string name="first_visit_desc">Enter your first value</string>
+    <string name="food_desc">What did you eat?</string>
     <string name="format">Format</string>
     <string name="general">General</string>
     <string name="hba1c">HbA1c</string>
@@ -80,6 +82,7 @@
     <string name="measurements">Measured</string>
     <string name="note">Note</string>
     <string name="ok">OK</string>
+    <string name="photo_desc">Add photo &#8230;</string>
     <string name="placeholder">-</string>
     <string name="pressure">Blood Pressure</string>
     <string name="settings">Settings</string>

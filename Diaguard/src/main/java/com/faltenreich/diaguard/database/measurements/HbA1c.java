@@ -18,16 +18,6 @@ public class HbA1c extends Measurement {
     }
 
     @Override
-    public float getValue() {
-        return this.percent;
-    }
-
-    @Override
-    public void setValue(float value) {
-        this.percent = value;
-    }
-
-    @Override
     public String getTableName() {
         return DatabaseHelper.HBA1C;
     }

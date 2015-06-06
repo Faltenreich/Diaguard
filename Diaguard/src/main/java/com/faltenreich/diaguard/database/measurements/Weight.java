@@ -18,16 +18,6 @@ public class Weight extends Measurement {
     }
 
     @Override
-    public float getValue() {
-        return this.kilogram;
-    }
-
-    @Override
-    public void setValue(float value) {
-        this.kilogram = value;
-    }
-
-    @Override
     public String getTableName() {
         return DatabaseHelper.WEIGHT;
     }

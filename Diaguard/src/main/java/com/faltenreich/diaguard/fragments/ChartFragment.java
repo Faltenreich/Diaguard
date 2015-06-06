@@ -19,6 +19,7 @@ import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.DatabaseHelper;
 import com.faltenreich.diaguard.database.Entry;
 import com.faltenreich.diaguard.database.Model;
+import com.faltenreich.diaguard.database.measurements.BloodSugar;
 import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
@@ -65,8 +66,7 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
     private View buttonNext;
 
     private DateTime currentDateTime;
-
-    private boolean isCurrentlyScrolling;
+    private Measurement.Category[] activeCategories;
 
     public ChartFragment() {
         // Required empty public constructor
@@ -88,6 +88,7 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
         dataSource = new DatabaseDataSource(getActivity());
 
         currentDateTime = DateTime.now().withHourOfDay(0).withMinuteOfHour(0);
+        activeCategories = preferenceHelper.getActiveCategories();
 
         getComponents();
         initializeGUI();
@@ -134,8 +135,8 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
         // Axes
         chartBase.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         chartBase.getXAxis().setDrawAxisLine(false);
+        chartBase.getXAxis().setGridColor(getResources().getColor(android.R.color.darker_gray));
         chartBase.getAxisLeft().setDrawAxisLine(false);
-        chartBase.getAxisLeft().setAxisLineColor(getResources().getColor(android.R.color.darker_gray));
         chartBase.getAxisLeft().setGridColor(getResources().getColor(android.R.color.darker_gray));
         chartBase.getAxisRight().setEnabled(false);
     }
@@ -187,7 +188,7 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
     //region Chart
 
     private void initializeChart() {
-        if (preferenceHelper.limitsAreHighlighted()) {
+        if (false /*preferenceHelper.limitsAreHighlighted()*/) {
             YAxis leftAxis = chart.getAxisLeft();
 
             LimitLine hyperglycemia = new LimitLine(preferenceHelper.getLimitHyperglycemia(), getString(R.string.hyper));
@@ -215,14 +216,10 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
 
     private void moveViewportToCurrentDateTime(){
         // TODO: Stop current scrolling
-        if(isCurrentlyScrolling) {
-            return;
-        }
+
         final Handler handler = new Handler();
         final Runnable runnable = new Runnable() {
             public void run() {
-                isCurrentlyScrolling = true;
-
                 int lowestVisibleXIndex = chart.getLowestVisibleXIndex();
                 // Target is start of day
                 final int xPositionTarget = ((getCurrentDateTimeForUI().getDayOfMonth() - 1) * DateTimeConstants.MINUTES_PER_DAY);
@@ -252,8 +249,6 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
                             if(isAdded()) {
                                 chart.moveViewToX(currentFinalXPosition);
                                 chart.invalidate();
-
-                                isCurrentlyScrolling = false;
                             }
                         }
                     });
@@ -397,8 +392,7 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
                 if(dateTime.getMinuteOfHour() == 0) {
                     if(dateTime.getHourOfDay() == 0) {
                         String weekDay = weekDays[dateTime.dayOfWeek().get()-1].substring(0,2);
-                        xLabels.add(/* TODO:
-                         dateTime.getHourOfDay() + "\n" + */
+                        xLabels.add(dateTime.getHourOfDay() + "\n" +
                                 weekDay + ", " + dateTime.getDayOfMonth() + "." + dateTime.getMonthOfYear());
                     }
                     else {
@@ -412,9 +406,14 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
                 dateTime = dateTime.plusMinutes(1);
             }
 
+            // Get entries for time interval
+            dataSource.open();
+            List<Entry> entriesOfMonth = dataSource.getEntries(
+                    currentDateTime.dayOfMonth().withMinimumValue(),
+                    currentDateTime.dayOfMonth().withMaximumValue().plusDays(1));
+
             ArrayList<com.github.mikephil.charting.data.Entry> entries = new ArrayList<>();
 
-            dataSource.open();
 
             for(DateTime day = currentDateTime.dayOfMonth().withMinimumValue();
                 day.isBefore(currentDateTime.dayOfMonth().withMaximumValue().plusDays(1));
@@ -428,8 +427,8 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
                             new String[]{ Long.toString(entry.getId()) },
                             null, null, null, null);
                     for(Model model : models) {
-                        Measurement measurement = (Measurement) model;
-                        float value = preferenceHelper.formatDefaultToCustomUnit(Measurement.Category.BloodSugar, measurement.getValue());
+                        BloodSugar bloodSugar = (BloodSugar) model;
+                        float value = preferenceHelper.formatDefaultToCustomUnit(Measurement.Category.BloodSugar, bloodSugar.getMgDl());
                         int minutesOfMonth = (entry.getDate().getDayOfMonth() - 1) * DateTimeConstants.MINUTES_PER_DAY;
                         int minutesOfHour = entry.getDate().getHourOfDay() * DateTimeConstants.MINUTES_PER_HOUR;
                         int minutes = entry.getDate().getMinuteOfHour();
@@ -440,14 +439,15 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
 
             dataSource.close();
 
-            ScatterDataSet scatterDataSet = new ScatterDataSet(entries, DatabaseHelper.BLOODSUGAR);
-            scatterDataSet.setScatterShape(ScatterChart.ScatterShape.CIRCLE);
-            scatterDataSet.setScatterShapeSize(Helper.getDPI(getActivity(), SCATTER_SHAPE_SIZE));
-            scatterDataSet.setColor(getResources().getColor(R.color.green));
-            scatterDataSet.setDrawValues(false);
-
             ArrayList<ScatterDataSet> dataSets = new ArrayList<>();
-            dataSets.add(scatterDataSet);
+            for(Measurement.Category category : activeCategories) {
+                ScatterDataSet dataSet = new ScatterDataSet(entries, DatabaseHelper.BLOODSUGAR);
+                dataSet.setScatterShape(ScatterChart.ScatterShape.CIRCLE);
+                dataSet.setScatterShapeSize(Helper.getDPI(getActivity(), SCATTER_SHAPE_SIZE));
+                dataSet.setColor(getResources().getColor(R.color.green));
+                dataSet.setDrawValues(false);
+                dataSets.add(dataSet);
+            }
 
             return new ScatterData(xLabels, dataSets);
         }

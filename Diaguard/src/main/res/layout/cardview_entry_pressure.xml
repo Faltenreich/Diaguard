@@ -12,7 +12,7 @@
             style="@style/LayoutRowLabel"/>
 
         <EditText
-            android:id="@+id/value_systolic"
+            android:id="@+id/value"
             android:inputType="numberDecimal"
             android:background="@android:color/transparent"
             style="@style/LayoutRowText"/>

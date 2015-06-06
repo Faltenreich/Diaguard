@@ -113,7 +113,6 @@ public class DatabaseDataSource {
         ContentValues values = new ContentValues();
         values.put(DatabaseHelper.CREATED_AT, Helper.getDateDatabaseFormat().print(food.getCreatedAt()));
         values.put(DatabaseHelper.UPDATED_AT, Helper.getDateDatabaseFormat().print(food.getUpdatedAt()));
-        values.put(DatabaseHelper.CARBOHYDRATES, food.getCarbohydrates());
         values.put(DatabaseHelper.NAME, food.getName());
         values.put(DatabaseHelper.IMAGE, food.getImage());
         return values;
@@ -242,7 +241,6 @@ public class DatabaseDataSource {
         food.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.ID))));
         food.setCreatedAt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.CREATED_AT)));
         food.setUpdatedAt(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.UPDATED_AT)));
-        food.setCarbohydrates(Float.parseFloat(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.CARBOHYDRATES))));
         food.setName(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.NAME)));
         food.setImage(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.IMAGE)));
         return food;
@@ -483,6 +481,26 @@ public class DatabaseDataSource {
             }
         }
         return entriesOfDay;
+    }
+
+    public List<Entry> getEntries(DateTime startDate, DateTime endDate) {
+        String query = "SELECT * FROM " + DatabaseHelper.ENTRY +
+                " WHERE " + DatabaseHelper.DATE + " >= Datetime('" +
+                Helper.getDateDatabaseFormat().print(startDate.withTimeAtStartOfDay()) + "') " +
+                " AND " + DatabaseHelper.DATE + " <= Datetime('" +
+                Helper.getDateDatabaseFormat().print(endDate.withTime(23, 59, 59, 999)) + "');";
+        Cursor cursor = db.rawQuery(query, null);
+
+        List<Entry> entries = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            while(!cursor.isAfterLast()) {
+                entries.add(getEntry(cursor));
+                cursor.moveToNext();
+            }
+        }
+
+        cursor.close();
+        return entries;
     }
 
     public float getBloodSugarAverage(int rangeInDays) {

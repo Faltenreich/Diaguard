@@ -42,7 +42,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Food
     public static final String FOOD = "food";
-    public static final String CARBOHYDRATES = "carbohydrates";
+    public static final String CARBOHYDRATES = "carbohydrates_per_100g";
     public static final String NAME = "name";
     public static final String IMAGE = "image";
 
@@ -87,9 +87,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String NOTES = "notes";
     public static final String MEASUREMENT = "measurement";
     public static final String CATEGORY = "category";
-    public static final String FOOD_EATEN = "food_eaten";
     public static final String MEASUREMENT_ID = "measurementId";
-    public static final String ENTRY_ID_OLD = "entryId";
+    public static final String FOOD_EATEN = "food_eaten";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -161,18 +160,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 CREATED_AT + " TEXT, " +
                 UPDATED_AT + " TEXT, " +
-                CARBOHYDRATES + " REAL NOT NULL, " +
                 NAME + " TEXT NOT NULL, " +
                 IMAGE + " TEXT);");
 
-        // ENTRIES
+        // MEASUREMENTS
 
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " +
                 BLOODSUGAR + " (" +
                 ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 CREATED_AT + " TEXT, " +
                 UPDATED_AT + " TEXT, " +
-                MGDL + " REAL NOT NULL, " +
+                MGDL + " REAL NOT NULL," +
                 ENTRY_ID + " INTEGER NOT NULL, " +
                 "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + "(" + ID + ") ON DELETE CASCADE);");
 

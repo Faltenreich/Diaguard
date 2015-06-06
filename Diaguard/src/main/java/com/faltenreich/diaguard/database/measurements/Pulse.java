@@ -18,16 +18,6 @@ public class Pulse extends Measurement {
     }
 
     @Override
-    public float getValue() {
-        return this.frequency;
-    }
-
-    @Override
-    public void setValue(float value) {
-        this.frequency = value;
-    }
-
-    @Override
     public String getTableName() {
         return DatabaseHelper.PULSE;
     }

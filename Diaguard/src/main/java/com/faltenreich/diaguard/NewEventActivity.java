@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,11 +28,15 @@ import com.faltenreich.diaguard.adapters.SwipeDismissTouchListener;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.DatabaseHelper;
 import com.faltenreich.diaguard.database.Entry;
+import com.faltenreich.diaguard.database.Model;
 import com.faltenreich.diaguard.database.measurements.BloodSugar;
+import com.faltenreich.diaguard.database.measurements.HbA1c;
 import com.faltenreich.diaguard.database.measurements.Insulin;
 import com.faltenreich.diaguard.database.measurements.Meal;
 import com.faltenreich.diaguard.database.measurements.Measurement;
-import com.faltenreich.diaguard.database.Model;
+import com.faltenreich.diaguard.database.measurements.Pressure;
+import com.faltenreich.diaguard.database.measurements.Pulse;
+import com.faltenreich.diaguard.database.measurements.Weight;
 import com.faltenreich.diaguard.fragments.DatePickerFragment;
 import com.faltenreich.diaguard.fragments.TimePickerFragment;
 import com.faltenreich.diaguard.helpers.Helper;
@@ -194,7 +197,7 @@ public class NewEventActivity extends BaseActivity {
     }
 
     private void setFloatingActionMenu() {
-        // Show maximal three categories as fab
+        // Show categories as FAB
         int numberOfVisibleButtons = 0;
         for(final Measurement.Category category : categories.keySet()) {
             if(!categories.get(category)) {
@@ -211,6 +214,7 @@ public class NewEventActivity extends BaseActivity {
                 fab.addMenuButton(fabCategory);
             }
             numberOfVisibleButtons++;
+
             // Show at most three buttons
             if(numberOfVisibleButtons == 3) {
                 break;
@@ -355,7 +359,7 @@ public class NewEventActivity extends BaseActivity {
             // TODO: Get rid of switch-case by making it more generic
             case Insulin:
                 viewContent = inflater.inflate(R.layout.cardview_entry_insulin, layoutValues, false);
-                EditText editTextBolus = (EditText) viewContent.findViewById(R.id.value_bolus);
+                EditText editTextBolus = (EditText) viewContent.findViewById(R.id.value);
                 editTextBolus.setHint(preferenceHelper.getUnitAcronym(category));
                 editTextBolus.requestFocus();
                 EditText editTextCorrection = (EditText) viewContent.findViewById(R.id.value_correction);
@@ -363,9 +367,15 @@ public class NewEventActivity extends BaseActivity {
                 EditText editTextBasal = (EditText) viewContent.findViewById(R.id.value_basal);
                 editTextBasal.setHint(preferenceHelper.getUnitAcronym(category));
                 break;
+            case Meal:
+                viewContent = inflater.inflate(R.layout.cardview_entry_meal, layoutValues, false);
+                EditText editTextMeal = (EditText) viewContent.findViewById(R.id.value);
+                editTextMeal.setHint(preferenceHelper.getUnitAcronym(category));
+                editTextMeal.requestFocus();
+                break;
             case Pressure:
                 viewContent = inflater.inflate(R.layout.cardview_entry_pressure, layoutValues, false);
-                EditText editTextSystolic = (EditText) viewContent.findViewById(R.id.value_systolic);
+                EditText editTextSystolic = (EditText) viewContent.findViewById(R.id.value);
                 editTextSystolic.setHint(preferenceHelper.getUnitAcronym(category));
                 editTextSystolic.requestFocus();
                 EditText editTextDiastolic = (EditText) viewContent.findViewById(R.id.value_diastolic);
@@ -448,25 +458,53 @@ public class NewEventActivity extends BaseActivity {
                         float value = preferenceHelper.formatCustomToDefaultUnit(
                                 category,
                                 Float.parseFloat(editTextValue.getText().toString()));
-                        Measurement measurement = null;
                         switch (category) {
                             case BloodSugar:
-                                measurement = new BloodSugar();
+                                BloodSugar bloodSugar = new BloodSugar();
+                                bloodSugar.setMgDl(value);
+                                measurements.add(bloodSugar);
                                 break;
                             case Insulin:
-                                measurement = new Insulin();
+                                Insulin insulin = new Insulin();
+                                insulin.setBolus(value);
+                                measurements.add(insulin);
                                 break;
                             case Meal:
-                                measurement = new Meal();
+                                Meal meal = new Meal();
+                                meal.setCarbohydrates(value);
+                                measurements.add(meal);
                                 break;
-                            // TODO: Other cases
+                            case Activity:
+                                com.faltenreich.diaguard.database.measurements.Activity activity =
+                                        new com.faltenreich.diaguard.database.measurements.Activity();
+                                activity.setMinutes((int) value);
+                                measurements.add(activity);
+                                break;
+                            case HbA1c:
+                                HbA1c hbA1c = new HbA1c();
+                                hbA1c.setPercent(value);
+                                measurements.add(hbA1c);
+                                break;
+                            case Weight:
+                                Weight weight = new Weight();
+                                weight.setKilogram(value);
+                                measurements.add(weight);
+                                break;
+                            case Pulse:
+                                Pulse pulse = new Pulse();
+                                pulse.setFrequency(value);
+                                measurements.add(pulse);
+                                break;
+                            case Pressure:
+                                Pressure pressure = new Pressure();
+                                pressure.setSystolic(value);
+                                measurements.add(pressure);
+                                break;
                             default:
                                 inputIsValid = false;
                                 // TODO: Throw Exception
                                 break;
                         }
-                        measurement.setValue(value);
-                        measurements.add(measurement);
                     }
                     else {
                         inputIsValid = false;

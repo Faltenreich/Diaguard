@@ -27,16 +27,6 @@ public class Meal extends Measurement {
     }
 
     @Override
-    public float getValue() {
-        return this.carbohydrates;
-    }
-
-    @Override
-    public void setValue(float value) {
-        this.carbohydrates = value;
-    }
-
-    @Override
     public String getTableName() {
         return DatabaseHelper.MEAL;
     }

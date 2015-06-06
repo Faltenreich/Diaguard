@@ -5,17 +5,8 @@ package com.faltenreich.diaguard.database;
  */
 public class Food extends Model {
 
-    private float carbohydrates;
     private String name;
     private String image;
-
-    public float getCarbohydrates() {
-        return carbohydrates;
-    }
-
-    public void setCarbohydrates(float carbohydrates) {
-        this.carbohydrates = carbohydrates;
-    }
 
     public String getName() {
         return name;

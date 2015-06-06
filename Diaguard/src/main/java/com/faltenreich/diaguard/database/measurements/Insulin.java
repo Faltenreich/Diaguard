@@ -5,6 +5,7 @@ import com.faltenreich.diaguard.database.DatabaseHelper;
 /**
  * Created by Filip on 11.05.2015.
  */
+
 public class Insulin extends Measurement {
 
     private float bolus;

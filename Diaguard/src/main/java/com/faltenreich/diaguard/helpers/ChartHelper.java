@@ -111,7 +111,7 @@ public class ChartHelper {
         }
 
         renderer.setYLabels(8);
-        float minimum = new PreferenceHelper(activity).
+        float minimum = PreferenceHelper.getInstance().
                 formatDefaultToCustomUnit(Measurement.Category.BloodSugar,
                         activity.getResources().getIntArray(R.array.bloodsugar_extrema)[0]);
         renderer.setYAxisMin(minimum);

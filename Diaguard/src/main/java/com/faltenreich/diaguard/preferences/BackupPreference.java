@@ -30,7 +30,6 @@ public class BackupPreference extends DialogPreference {
     private final int ACTION_RESTOREBACKUP = 1;
 
     DatabaseDataSource dataSource;
-    PreferenceHelper preferenceHelper;
     Activity activity;
 
     public BackupPreference(Context context, AttributeSet attrs) {
@@ -38,7 +37,6 @@ public class BackupPreference extends DialogPreference {
         activity = (Activity) context;
 
         dataSource = new DatabaseDataSource(activity);
-        preferenceHelper = new PreferenceHelper(activity);
 
         // Hide standard buttons
         setPositiveButtonText(null);
@@ -96,7 +94,7 @@ public class BackupPreference extends DialogPreference {
         for(int position = 0; position < csvArray.length; position++) {
             String dateString = csvArray[position].substring(6, csvArray[position].lastIndexOf("."));
             DateTime date = DateTimeFormat.forPattern("yyyyMMddHHmmss").parseDateTime(dateString);
-            csvArrayDates[position] = preferenceHelper.getDateFormat().print(date) + " " +
+            csvArrayDates[position] = PreferenceHelper.getInstance().getDateFormat().print(date) + " " +
                     Helper.getTimeFormat().print(date);
         }
 

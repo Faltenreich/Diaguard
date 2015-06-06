@@ -14,18 +14,16 @@ import com.github.mikephil.charting.data.Entry;
  */
 public class ChartMarkerView extends MarkerView {
 
-    private PreferenceHelper preferenceHelper;
     private TextView textViewValue;
 
     public ChartMarkerView (Context context) {
         super(context, R.layout.popup_chart);
-        preferenceHelper = new PreferenceHelper(context);
         textViewValue = (TextView) findViewById(R.id.textview_value);
     }
 
     @Override
     public void refreshContent(Entry e, int dataSetIndex) {
-        textViewValue.setText((int) e.getVal() + " " + preferenceHelper.getUnitAcronym(Measurement.Category.BloodSugar));
+        textViewValue.setText((int) e.getVal() + " " + PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BloodSugar));
     }
 
     @Override

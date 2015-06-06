@@ -15,7 +15,6 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.DatabaseHelper;
 import com.faltenreich.diaguard.helpers.Helper;
-import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.faltenreich.diaguard.helpers.ViewHelper;
 
 import org.joda.time.DateTime;
@@ -26,7 +25,6 @@ import org.joda.time.DateTime;
 public class CleanUpPreference extends DialogPreference {
 
     DatabaseDataSource dataSource;
-    PreferenceHelper preferenceHelper;
     Activity activity;
 
     DatePicker datePicker;
@@ -38,7 +36,6 @@ public class CleanUpPreference extends DialogPreference {
         setDialogLayoutResource(R.layout.preference_cleanup);
 
         dataSource = new DatabaseDataSource(activity);
-        preferenceHelper = new PreferenceHelper(activity);
     }
 
     private void cleanUp(DateTime date) {

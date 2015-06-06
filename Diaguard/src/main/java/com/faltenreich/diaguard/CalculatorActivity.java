@@ -33,7 +33,6 @@ import org.joda.time.DateTime;
 public class CalculatorActivity extends BaseActivity {
 
     private DatabaseDataSource dataSource;
-    private PreferenceHelper preferenceHelper;
 
     private EditText editTextBloodSugar;
     private EditText editTextTargetValue;
@@ -64,7 +63,6 @@ public class CalculatorActivity extends BaseActivity {
 
     public void initialize() {
         dataSource = new DatabaseDataSource(this);
-        preferenceHelper = new PreferenceHelper(this);
 
         getComponents();
         initializeGUI();
@@ -96,33 +94,33 @@ public class CalculatorActivity extends BaseActivity {
             setSupportActionBar(toolbar);
         }
 
-        String unitAcronym = preferenceHelper.getUnitAcronym(Measurement.Category.BloodSugar);
+        String unitAcronym = PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BloodSugar);
         textViewUnitBloodSugar.setText(unitAcronym);
         textViewUnitTargetValue.setText(unitAcronym);
         textViewUnitCorrection.setText(unitAcronym);
-        textViewUnitMeal.setText(preferenceHelper.getUnitAcronym(Measurement.Category.Meal));
+        textViewUnitMeal.setText(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.Meal));
 
         // Target
-        float targetValue = preferenceHelper.formatDefaultToCustomUnit(
+        float targetValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(
                 Measurement.Category.BloodSugar,
-                preferenceHelper.getTargetValue());
+                PreferenceHelper.getInstance().getTargetValue());
         editTextTargetValue.setHint(
-                preferenceHelper.getDecimalFormat(Measurement.Category.BloodSugar).format(targetValue));
+                PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BloodSugar).format(targetValue));
 
         // Correction
-        float correctionValue = preferenceHelper.formatDefaultToCustomUnit(
+        float correctionValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(
                 Measurement.Category.BloodSugar,
-                preferenceHelper.getCorrectionValue());
-                editTextCorrection.setHint(preferenceHelper.
+                PreferenceHelper.getInstance().getCorrectionValue());
+                editTextCorrection.setHint(PreferenceHelper.getInstance().
                         getDecimalFormat(Measurement.Category.BloodSugar).format(correctionValue));
 
         // Factor
-        spinnerFactors.setSelection(preferenceHelper.getCurrentDaytime().ordinal());
+        spinnerFactors.setSelection(PreferenceHelper.getInstance().getCurrentDaytime().ordinal());
         spinnerFactors.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 PreferenceHelper.Daytime daytime = PreferenceHelper.Daytime.values()[position];
-                float factor = preferenceHelper.getFactorValue(daytime);
+                float factor = PreferenceHelper.getInstance().getFactorValue(daytime);
                 if(factor != 0)
                     editTextFactor.setHint(Helper.getDecimalFormat().format(factor));
                 else
@@ -187,17 +185,17 @@ public class CalculatorActivity extends BaseActivity {
     private void submit() {
         // Blood Sugar
         final float currentBloodSugar =
-                preferenceHelper.formatCustomToDefaultUnit(Measurement.Category.BloodSugar,
+                PreferenceHelper.getInstance().formatCustomToDefaultUnit(Measurement.Category.BloodSugar,
                         Float.parseFloat(editTextBloodSugar.getText().toString()));
 
         String targetValueString = editTextTargetValue.getText().toString();
         float targetBloodSugar;
         if(!Validator.containsNumber(targetValueString))
-            targetBloodSugar = preferenceHelper.formatDefaultToCustomUnit(
-                    Measurement.Category.BloodSugar, preferenceHelper.getTargetValue());
+            targetBloodSugar = PreferenceHelper.getInstance().formatDefaultToCustomUnit(
+                    Measurement.Category.BloodSugar, PreferenceHelper.getInstance().getTargetValue());
         else
             targetBloodSugar = Float.parseFloat(targetValueString);
-        targetBloodSugar = preferenceHelper.formatCustomToDefaultUnit(Measurement.Category.BloodSugar, targetBloodSugar);
+        targetBloodSugar = PreferenceHelper.getInstance().formatCustomToDefaultUnit(Measurement.Category.BloodSugar, targetBloodSugar);
 
         Editable editableText = editTextCorrection.getText();
         CharSequence charSequenceHint = editTextCorrection.getHint();
@@ -212,13 +210,13 @@ public class CalculatorActivity extends BaseActivity {
         }
         else
             return;
-        correction = preferenceHelper.formatCustomToDefaultUnit(Measurement.Category.BloodSugar, correction);
+        correction = PreferenceHelper.getInstance().formatCustomToDefaultUnit(Measurement.Category.BloodSugar, correction);
 
         // Meal
         String mealString = editTextMeal.getText().toString();
         final float meal;
         if(Validator.containsNumber(mealString))
-            meal = preferenceHelper.formatCustomToDefaultUnit(Measurement.Category.Meal, Float.parseFloat(mealString));
+            meal = PreferenceHelper.getInstance().formatCustomToDefaultUnit(Measurement.Category.Meal, Float.parseFloat(mealString));
         else
             meal = 0;
 
@@ -264,7 +262,7 @@ public class CalculatorActivity extends BaseActivity {
         textViewValue.setText(Helper.getDecimalFormat().format(bolus));
 
         TextView textViewUnit = (TextView) viewPopup.findViewById(R.id.textViewUnit);
-        textViewUnit.setText(preferenceHelper.getUnitAcronym(Measurement.Category.Insulin));
+        textViewUnit.setText(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.Insulin));
 
         final CheckBox checkBoxStoreValues = (CheckBox) viewPopup.findViewById(R.id.checkBoxStoreValues);
 

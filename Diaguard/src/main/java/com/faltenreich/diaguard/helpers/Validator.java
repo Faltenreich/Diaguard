@@ -45,17 +45,15 @@ public class Validator {
     }
 
     public static boolean validateEventValue(Context context, EditText editText, Measurement.Category category, String value) {
-        PreferenceHelper preferenceHelper = new PreferenceHelper(context);
-
         if (!containsNumber(value)) {
             editText.setError(context.getString(R.string.validator_value_number));
             return false;
         }
 
         float parsedValue = Float.parseFloat(value);
-        float defaultValue = preferenceHelper.formatCustomToDefaultUnit(category, parsedValue);
+        float defaultValue = PreferenceHelper.getInstance().formatCustomToDefaultUnit(category, parsedValue);
 
-        if (!preferenceHelper.validateEventValue(category, defaultValue)) {
+        if (!PreferenceHelper.getInstance().validateEventValue(category, defaultValue)) {
             editText.setError(context.getString(R.string.validator_value_unrealistic));
             return false;
         }

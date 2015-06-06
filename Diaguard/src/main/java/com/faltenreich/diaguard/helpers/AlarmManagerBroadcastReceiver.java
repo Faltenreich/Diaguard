@@ -48,11 +48,10 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
         }
         Helper.notify(context, context.getString(R.string.alarm), message);
 
-        PreferenceHelper preferenceHelper = new PreferenceHelper(context);
-        if(preferenceHelper.isSoundAllowed()) {
+        if(PreferenceHelper.getInstance().isSoundAllowed()) {
             Helper.playSound(context);
         }
-        if(preferenceHelper.isVibrationAllowed()) {
+        if(PreferenceHelper.getInstance().isVibrationAllowed()) {
             Helper.vibrate(context, 1000 * VIBRATION_TIME_IN_SECONDS);
         }
     }

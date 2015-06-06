@@ -1,10 +1,10 @@
 package com.faltenreich.diaguard.helpers;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
 
+import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.MainActivity;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.measurements.Measurement;
@@ -31,12 +31,15 @@ import java.util.List;
  */
 public class PreferenceHelper {
 
-    private Context context;
-    private SharedPreferences sharedPreferences;
+    private static PreferenceHelper instance;
+    private static SharedPreferences sharedPreferences;
 
-    public PreferenceHelper(Context context) {
-        this.context = context;
-        this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+    public static PreferenceHelper getInstance() {
+        if(PreferenceHelper.instance == null) {
+            PreferenceHelper.instance = new PreferenceHelper();
+            PreferenceHelper.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(DiaguardApplication.getContext());
+        }
+        return PreferenceHelper.instance;
     }
 
     // GENERAL
@@ -55,13 +58,13 @@ public class PreferenceHelper {
     }
 
     public boolean validateEventValue(Measurement.Category category, float value) {
-        int resourceIdExtrema = context.getResources().getIdentifier(category.name().toLowerCase() +
-                "_extrema", "array", context.getPackageName());
+        int resourceIdExtrema = DiaguardApplication.getContext().getResources().getIdentifier(category.name().toLowerCase() +
+                "_extrema", "array", DiaguardApplication.getContext().getPackageName());
 
         if(resourceIdExtrema == 0)
             throw new Resources.NotFoundException("Resource \"category_extrema\" not found: IntArray with event value extrema");
 
-        int[] extrema = context.getResources().getIntArray(resourceIdExtrema);
+        int[] extrema = DiaguardApplication.getContext().getResources().getIntArray(resourceIdExtrema);
 
         if(extrema.length != 2)
             throw new IllegalStateException("IntArray with event value extrema has to contain two values");
@@ -73,7 +76,7 @@ public class PreferenceHelper {
 
     public DateTimeFormatter getDateFormat() {
         String dateString = sharedPreferences.getString("dateformat",
-                context.getResources().getString(R.string.dateformat_default));
+                DiaguardApplication.getContext().getResources().getString(R.string.dateformat_default));
 
         dateString = dateString.replace("YYYY", "yyyy");
         dateString = dateString.replace("mm", "MM");
@@ -86,7 +89,7 @@ public class PreferenceHelper {
 
     public float getTargetValue() {
         return Float.valueOf(sharedPreferences.getString("target",
-                context.getString(R.string.pref_therapy_targets_target_default)));
+                DiaguardApplication.getContext().getString(R.string.pref_therapy_targets_target_default)));
     }
 
     public boolean limitsAreHighlighted() {
@@ -95,12 +98,12 @@ public class PreferenceHelper {
 
     public float getLimitHyperglycemia() {
         return Float.valueOf(sharedPreferences.getString("hyperclycemia",
-                context.getString(R.string.pref_therapy_targets_hyperclycemia_default)));
+                DiaguardApplication.getContext().getString(R.string.pref_therapy_targets_hyperclycemia_default)));
     }
 
     public float getLimitHypoglycemia() {
         return Float.valueOf(sharedPreferences.getString("hypoclycemia",
-                context.getString(R.string.pref_therapy_targets_hypoclycemia_default)));
+                DiaguardApplication.getContext().getString(R.string.pref_therapy_targets_hypoclycemia_default)));
     }
 
     public float getCorrectionValue() {
@@ -134,32 +137,32 @@ public class PreferenceHelper {
     public String getCategoryName(Measurement.Category category) {
         int position = Measurement.Category.valueOf(category.name()).ordinal();
         // TODO: Get resourceId by key
-        String[] categories = context.getResources().getStringArray(R.array.categories);
+        String[] categories = DiaguardApplication.getContext().getResources().getStringArray(R.array.categories);
         return categories[position];
     }
 
     public int getCategoryImageResourceId(Measurement.Category category) {
-        return context.getResources().getIdentifier(category.name().toLowerCase(),
-                "drawable", context.getPackageName());
+        return DiaguardApplication.getContext().getResources().getIdentifier(category.name().toLowerCase(),
+                "drawable", DiaguardApplication.getContext().getPackageName());
     }
 
     public int getCategoryImageWhiteResourceId(Measurement.Category category) {
-        return context.getResources().getIdentifier(category.name().toLowerCase() + "_white",
-                "drawable", context.getPackageName());
+        return DiaguardApplication.getContext().getResources().getIdentifier(category.name().toLowerCase() + "_white",
+                "drawable", DiaguardApplication.getContext().getPackageName());
     }
 
     public int getCategoryColorResourceId(Measurement.Category category) {
-        return context.getResources().getIdentifier(category.name().toLowerCase(),
-                "color", context.getPackageName());
+        return DiaguardApplication.getContext().getResources().getIdentifier(category.name().toLowerCase(),
+                "color", DiaguardApplication.getContext().getPackageName());
     }
 
     // UNITS
 
     public String[] getUnitsNames(Measurement.Category category) {
         String categoryName = category.name().toLowerCase();
-        int resourceIdUnits = context.getResources().getIdentifier(categoryName +
-                "_units", "array", context.getPackageName());
-        return context.getResources().getStringArray(resourceIdUnits);
+        int resourceIdUnits = DiaguardApplication.getContext().getResources().getIdentifier(categoryName +
+                "_units", "array", DiaguardApplication.getContext().getPackageName());
+        return DiaguardApplication.getContext().getResources().getStringArray(resourceIdUnits);
     }
 
     public String getUnitName(Measurement.Category category) {
@@ -170,12 +173,12 @@ public class PreferenceHelper {
 
     public String[] getUnitsAcronyms(Measurement.Category category) {
         String categoryName = category.name().toLowerCase();
-        int resourceIdUnits = context.getResources().getIdentifier(categoryName +
-                "_units_acronyms", "array", context.getPackageName());
+        int resourceIdUnits = DiaguardApplication.getContext().getResources().getIdentifier(categoryName +
+                "_units_acronyms", "array", DiaguardApplication.getContext().getPackageName());
         if(resourceIdUnits == 0)
             return null;
         else
-            return context.getResources().getStringArray(resourceIdUnits);
+            return DiaguardApplication.getContext().getResources().getStringArray(resourceIdUnits);
     }
 
     public String getUnitAcronym(Measurement.Category category) {
@@ -197,9 +200,9 @@ public class PreferenceHelper {
 
     public String[] getUnitsValues(Measurement.Category category) {
         String categoryName = category.name().toLowerCase();
-        int resourceIdUnits = context.getResources().getIdentifier(categoryName +
-                "_units_values", "array", context.getPackageName());
-        return context.getResources().getStringArray(resourceIdUnits);
+        int resourceIdUnits = DiaguardApplication.getContext().getResources().getIdentifier(categoryName +
+                "_units_values", "array", DiaguardApplication.getContext().getPackageName());
+        return DiaguardApplication.getContext().getResources().getStringArray(resourceIdUnits);
     }
 
     public float getUnitValue(Measurement.Category category) {

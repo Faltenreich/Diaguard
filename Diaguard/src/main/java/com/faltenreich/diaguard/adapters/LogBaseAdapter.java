@@ -12,7 +12,6 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.Entry;
 import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.faltenreich.diaguard.helpers.Helper;
-import com.faltenreich.diaguard.helpers.PreferenceHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,19 +32,17 @@ public class LogBaseAdapter extends BaseAdapter {
     }
 
     private Context context;
-    private PreferenceHelper preferenceHelper;
 
     public List<ListItem> items;
     private HashMap<String, Integer> imageResources;
 
     public LogBaseAdapter(Context context){
         this.context = context;
-        this.preferenceHelper = new PreferenceHelper(context);
 
-        this.items = new ArrayList<ListItem>();
+        this.items = new ArrayList<>();
 
         // Pre-load image resources
-        imageResources = new HashMap<String, Integer>();
+        imageResources = new HashMap<>();
         for(Measurement.Category category : Measurement.Category.values()) {
             String name = category.name().toLowerCase();
             int resourceId = context.getResources().getIdentifier(name,

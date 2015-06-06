@@ -4,7 +4,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -32,8 +31,6 @@ import java.io.File;
  */
 public class ExportActivity extends BaseActivity implements IFileListener {
 
-    private PreferenceHelper preferenceHelper;
-
     private DateTime dateStart;
     private DateTime dateEnd;
     private DateTimeFormatter dateFormat;
@@ -57,11 +54,9 @@ public class ExportActivity extends BaseActivity implements IFileListener {
     }
 
     public void initialize() {
-        preferenceHelper = new PreferenceHelper(this);
-
         dateEnd = new DateTime();
         dateStart = dateEnd.withDayOfMonth(1);
-        dateFormat = preferenceHelper.getDateFormat();
+        dateFormat = PreferenceHelper.getInstance().getDateFormat();
 
         getComponents();
         initializeGUI();
@@ -146,7 +141,7 @@ public class ExportActivity extends BaseActivity implements IFileListener {
         intent.setType(FileHelper.MIME_MAIL);
 
         // Diaguard Export: DateStart - DateEnd
-        DateTimeFormatter format = preferenceHelper.getDateFormat();
+        DateTimeFormatter format = PreferenceHelper.getInstance().getDateFormat();
         String subject = getString(R.string.app_name) + " " + getString(R.string.export) + ": " +
                 format.print(dateStart) + " - " + format.print(dateEnd);
         intent.putExtra(Intent.EXTRA_SUBJECT, subject);

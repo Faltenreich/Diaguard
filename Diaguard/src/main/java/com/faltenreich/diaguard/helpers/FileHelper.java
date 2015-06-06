@@ -60,12 +60,10 @@ public class FileHelper {
 
     private Context context;
     private DatabaseDataSource dataSource;
-    private PreferenceHelper preferenceHelper;
 
     public FileHelper(Context context) {
         this.context = context;
         this.dataSource = new DatabaseDataSource(context);
-        this.preferenceHelper = new PreferenceHelper(context);
     }
 
     private static boolean isExternalStorageWritable() {
@@ -401,28 +399,28 @@ public class FileHelper {
                     for(int categoryPosition = 0; categoryPosition < selectedCategories.length; categoryPosition++) {
                         Measurement.Category category = selectedCategories[categoryPosition];
 
-                        cell = new PdfPCell(new Paragraph(preferenceHelper.getCategoryName(category), fontGray));
+                        cell = new PdfPCell(new Paragraph(PreferenceHelper.getInstance().getCategoryName(category), fontGray));
                         cell.setBorder(0);
                         if(categoryPosition == selectedCategories.length-1)
                             cell.setBorder(Rectangle.BOTTOM);
                         table.addCell(cell);
 
                         for(int hour = 0; hour < 12; hour++) {
-                            float value = preferenceHelper.formatDefaultToCustomUnit(category,
+                            float value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category,
                                     values[categoryPosition][hour]);
 
                             Paragraph paragraph = new Paragraph();
                             if(value > 0) {
-                                String valueString = preferenceHelper.
+                                String valueString = PreferenceHelper.getInstance().
                                         getDecimalFormat(category).format(value);
 
                                 paragraph = new Paragraph(valueString, fontBasis);
                                 if(category == Measurement.Category.BloodSugar) {
                                     if (values[categoryPosition][hour] <
-                                            preferenceHelper.getLimitHypoglycemia())
+                                            PreferenceHelper.getInstance().getLimitHypoglycemia())
                                         paragraph = new Paragraph(valueString, fontBlue);
                                     else if (values[categoryPosition][hour] >
-                                            preferenceHelper.getLimitHyperglycemia())
+                                            PreferenceHelper.getInstance().getLimitHyperglycemia())
                                         paragraph = new Paragraph(valueString, fontRed);
                                 }
                             }
@@ -488,8 +486,8 @@ public class FileHelper {
         private void iTextGMetaData(Document document) {
             String subject = context.getString(R.string.app_name) + " " +
                     context.getString(R.string.export) + ": " +
-                    preferenceHelper.getDateFormat().print(dateStart) + " - " +
-                    preferenceHelper.getDateFormat().print(dateEnd);
+                    PreferenceHelper.getInstance().getDateFormat().print(dateStart) + " - " +
+                    PreferenceHelper.getInstance().getDateFormat().print(dateEnd);
             document.addTitle(subject);
             document.addAuthor(context.getString(R.string.app_name));
             document.addCreator(context.getString(R.string.app_name));
@@ -506,8 +504,8 @@ public class FileHelper {
             DateTime weekEnd = weekStart.withDayOfWeek(DateTimeConstants.SUNDAY);
 
             // Dates
-            chunk = new Chunk("\n" + preferenceHelper.getDateFormat().print(weekStart) + " - " +
-                    preferenceHelper.getDateFormat().print(weekEnd));
+            chunk = new Chunk("\n" + PreferenceHelper.getInstance().getDateFormat().print(weekStart) + " - " +
+                    PreferenceHelper.getInstance().getDateFormat().print(weekEnd));
             chunk.setFont(FontFactory.getFont(FontFactory.HELVETICA, 9));
             paragraph.add(chunk);
 
@@ -541,7 +539,7 @@ public class FileHelper {
 
             DateTime today = new DateTime();
             String stamp = context.getString(R.string.export_stamp) + " " +
-                    preferenceHelper.getDateFormat().print(today);
+                    PreferenceHelper.getInstance().getDateFormat().print(today);
             Chunk chunk = new Chunk(stamp,
                     FontFactory.getFont(FontFactory.HELVETICA, 9, BaseColor.GRAY));
             ColumnText.showTextAligned(writer.getDirectContent(),

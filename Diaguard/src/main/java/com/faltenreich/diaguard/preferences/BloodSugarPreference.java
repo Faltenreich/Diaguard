@@ -26,7 +26,6 @@ public class BloodSugarPreference extends EditTextPreference {
 
     private Context context;
     private SharedPreferences sharedPreferences;
-    private PreferenceHelper preferenceHelper;
 
     private EditText editTextValue;
 
@@ -36,7 +35,6 @@ public class BloodSugarPreference extends EditTextPreference {
 
         this.context = context;
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.context);
-        this.preferenceHelper = new PreferenceHelper(context);
     }
 
     @Override
@@ -48,12 +46,12 @@ public class BloodSugarPreference extends EditTextPreference {
             throw new Resources.NotFoundException();
 
         float value = Float.parseFloat(sharedPreferences.getString(getKey(), ""));
-        value = preferenceHelper.formatDefaultToCustomUnit(Measurement.Category.BloodSugar, value);
-        editTextValue.setText(preferenceHelper.getDecimalFormat(Measurement.Category.BloodSugar).format(value));
+        value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BloodSugar, value);
+        editTextValue.setText(PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BloodSugar).format(value));
         editTextValue.setSelection(editTextValue.getText().length());
 
         TextView textViewUnit = (TextView) view.findViewById(R.id.unit);
-        textViewUnit.setText(preferenceHelper.getUnitName(Measurement.Category.BloodSugar));
+        textViewUnit.setText(PreferenceHelper.getInstance().getUnitName(Measurement.Category.BloodSugar));
 
         if(Build.VERSION.SDK_INT <= 10) {
             view.setBackgroundColor(Color.WHITE);
@@ -95,7 +93,7 @@ public class BloodSugarPreference extends EditTextPreference {
             if(editor == null)
                 throw new Resources.NotFoundException();
 
-            value = preferenceHelper.formatCustomToDefaultUnit(Measurement.Category.BloodSugar, value);
+            value = PreferenceHelper.getInstance().formatCustomToDefaultUnit(Measurement.Category.BloodSugar, value);
             editor.putString(getKey(), Float.toString(value));
             editor.commit();
         }

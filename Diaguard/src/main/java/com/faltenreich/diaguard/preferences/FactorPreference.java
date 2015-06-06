@@ -26,7 +26,6 @@ public class FactorPreference extends DialogPreference {
     public final static String FACTOR = "factor_";
 
     Context context;
-    PreferenceHelper preferenceHelper;
     SharedPreferences sharedPreferences;
 
     private EditText morning;
@@ -40,7 +39,6 @@ public class FactorPreference extends DialogPreference {
 
         this.context = context;
 
-        preferenceHelper = new PreferenceHelper(this.context);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.context);
     }
 

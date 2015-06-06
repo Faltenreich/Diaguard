@@ -55,7 +55,6 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
     private static final int SCATTER_SHAPE_SIZE = 5;
     private static final int FACTOR_MOVING_SPEED = 2;
 
-    private PreferenceHelper preferenceHelper;
     private DatabaseDataSource dataSource;
 
     private ProgressBar progressBar;
@@ -84,11 +83,10 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
     }
 
     private void initialize() {
-        preferenceHelper = new PreferenceHelper(getActivity());
         dataSource = new DatabaseDataSource(getActivity());
 
         currentDateTime = DateTime.now().withHourOfDay(0).withMinuteOfHour(0);
-        activeCategories = preferenceHelper.getActiveCategories();
+        activeCategories = PreferenceHelper.getInstance().getActiveCategories();
 
         getComponents();
         initializeGUI();
@@ -191,12 +189,12 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
         if (false /*preferenceHelper.limitsAreHighlighted()*/) {
             YAxis leftAxis = chart.getAxisLeft();
 
-            LimitLine hyperglycemia = new LimitLine(preferenceHelper.getLimitHyperglycemia(), getString(R.string.hyper));
+            LimitLine hyperglycemia = new LimitLine(PreferenceHelper.getInstance().getLimitHyperglycemia(), getString(R.string.hyper));
             hyperglycemia.setLineColor(getResources().getColor(R.color.red));
             hyperglycemia.setLabel(null);
             leftAxis.addLimitLine(hyperglycemia);
 
-            LimitLine hypoglycemia = new LimitLine(preferenceHelper.getLimitHypoglycemia(), getString(R.string.hypo));
+            LimitLine hypoglycemia = new LimitLine(PreferenceHelper.getInstance().getLimitHypoglycemia(), getString(R.string.hypo));
             hypoglycemia.setLineColor(getResources().getColor(R.color.blue));
             hypoglycemia.setLabel(null);
             leftAxis.addLimitLine(hypoglycemia);
@@ -207,7 +205,7 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
 
     private void updateLabels() {
         if(isAdded()) {
-            DateTimeFormatter format = preferenceHelper.getDateFormat();
+            DateTimeFormatter format = PreferenceHelper.getInstance().getDateFormat();
             String weekDay = getResources().getStringArray(R.array.weekdays)[getCurrentDateTimeForUI().dayOfWeek().get() - 1];
             String dateButtonText = weekDay.substring(0, 2) + "., " + format.print(getCurrentDateTimeForUI());
             buttonDate.setText(dateButtonText);
@@ -278,7 +276,7 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
 
             float averageOfDay = dataSource.getBloodSugarAverageOfDay(day);
             if(averageOfDay > 0) {
-                averageOfDay = preferenceHelper.formatDefaultToCustomUnit(Measurement.Category.BloodSugar, averageOfDay);
+                averageOfDay = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BloodSugar, averageOfDay);
                 entries.add(new com.github.mikephil.charting.data.Entry(averageOfDay, day.getDayOfMonth()));
             }
 
@@ -428,7 +426,7 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
                             null, null, null, null);
                     for(Model model : models) {
                         BloodSugar bloodSugar = (BloodSugar) model;
-                        float value = preferenceHelper.formatDefaultToCustomUnit(Measurement.Category.BloodSugar, bloodSugar.getMgDl());
+                        float value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BloodSugar, bloodSugar.getMgDl());
                         int minutesOfMonth = (entry.getDate().getDayOfMonth() - 1) * DateTimeConstants.MINUTES_PER_DAY;
                         int minutesOfHour = entry.getDate().getHourOfDay() * DateTimeConstants.MINUTES_PER_HOUR;
                         int minutes = entry.getDate().getMinuteOfHour();
@@ -461,7 +459,7 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
 
                 chart.setVisibleXRange(DateTimeConstants.MINUTES_PER_DAY);
                 chart.setVisibleYRange(
-                        preferenceHelper.formatDefaultToCustomUnit(Measurement.Category.BloodSugar, 300),
+                        PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BloodSugar, 300),
                         YAxis.AxisDependency.LEFT);
                 chart.getXAxis().setLabelsToSkip((DateTimeConstants.MINUTES_PER_HOUR * 4) - 1);
                 chart.moveViewToX(DateTimeConstants.MINUTES_PER_DAY * (currentDateTime.getDayOfMonth() - 1));

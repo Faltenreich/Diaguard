@@ -37,7 +37,6 @@ public class CategoryPreference extends DialogPreference {
         super.onBindDialogView(view);
 
         Activity activity = (Activity) getContext();
-        PreferenceHelper preferenceHelper = new PreferenceHelper(activity);
         listView = (ListView) view.findViewById(R.id.listview);
 
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(activity,
@@ -51,7 +50,7 @@ public class CategoryPreference extends DialogPreference {
         }
 
         for(int item = 0; item < Measurement.Category.values().length; item++)
-            listView.setItemChecked(item, preferenceHelper.isCategoryActive(Measurement.Category.values()[item]));
+            listView.setItemChecked(item, PreferenceHelper.getInstance().isCategoryActive(Measurement.Category.values()[item]));
     }
 
     @Override

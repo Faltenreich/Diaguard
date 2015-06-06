@@ -28,6 +28,7 @@ import com.faltenreich.diaguard.adapters.SwipeDismissTouchListener;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.DatabaseHelper;
 import com.faltenreich.diaguard.database.Entry;
+import com.faltenreich.diaguard.database.Food;
 import com.faltenreich.diaguard.database.Model;
 import com.faltenreich.diaguard.database.measurements.BloodSugar;
 import com.faltenreich.diaguard.database.measurements.HbA1c;
@@ -62,7 +63,6 @@ public class NewEventActivity extends BaseActivity {
     public static final String EXTRA_DATE = "Date";
 
     private DatabaseDataSource dataSource;
-    private PreferenceHelper preferenceHelper;
 
     private Entry entry;
     private int alarmIntervalInMinutes;
@@ -92,11 +92,10 @@ public class NewEventActivity extends BaseActivity {
 
     public void initialize() {
         dataSource = new DatabaseDataSource(this);
-        preferenceHelper = new PreferenceHelper(this);
         time = new DateTime();
 
         categories = new LinkedHashMap<>();
-        Measurement.Category[] activeCategories = preferenceHelper.getActiveCategories();
+        Measurement.Category[] activeCategories = PreferenceHelper.getInstance().getActiveCategories();
         for(Measurement.Category category : activeCategories) {
             categories.put(category, false);
         }
@@ -201,9 +200,9 @@ public class NewEventActivity extends BaseActivity {
         int numberOfVisibleButtons = 0;
         for(final Measurement.Category category : categories.keySet()) {
             if(!categories.get(category)) {
-                final FloatingActionButton fabCategory = getFloatingActionButton(preferenceHelper.getCategoryName(category),
+                final FloatingActionButton fabCategory = getFloatingActionButton(PreferenceHelper.getInstance().getCategoryName(category),
                         getResources().getIdentifier(category.name().toLowerCase() + "_white", "drawable", getPackageName()),
-                        preferenceHelper.getCategoryColorResourceId(category));
+                        PreferenceHelper.getInstance().getCategoryColorResourceId(category));
                 fabCategory.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -261,10 +260,10 @@ public class NewEventActivity extends BaseActivity {
     }
 
     private void showDialogCategories() {
-        final Measurement.Category[] activeCategories = preferenceHelper.getActiveCategories();
+        final Measurement.Category[] activeCategories = PreferenceHelper.getInstance().getActiveCategories();
         String[] categoryNames = new String[activeCategories.length];
         for(int position = 0; position < activeCategories.length; position++) {
-            categoryNames[position] = preferenceHelper.getCategoryName(activeCategories[position]);
+            categoryNames[position] = PreferenceHelper.getInstance().getCategoryName(activeCategories[position]);
         }
 
         // Store old values
@@ -315,7 +314,7 @@ public class NewEventActivity extends BaseActivity {
     }
 
     private void setDate() {
-        buttonDate.setText(preferenceHelper.getDateFormat().print(time));
+        buttonDate.setText(PreferenceHelper.getInstance().getDateFormat().print(time));
     }
 
     private void setTime() {
@@ -337,11 +336,11 @@ public class NewEventActivity extends BaseActivity {
 
         // Category image
         ImageView imageViewCategory = (ImageView) view.findViewById(R.id.image_category);
-        imageViewCategory.setImageResource(preferenceHelper.getCategoryImageWhiteResourceId(category));
+        imageViewCategory.setImageResource(PreferenceHelper.getInstance().getCategoryImageWhiteResourceId(category));
 
         // Category name
         TextView textViewCategory = (TextView) view.findViewById(R.id.category);
-        textViewCategory.setText(preferenceHelper.getCategoryName(category));
+        textViewCategory.setText(PreferenceHelper.getInstance().getCategoryName(category));
 
         // Delete button
         View buttonDelete = view.findViewById(R.id.button_delete);
@@ -360,31 +359,31 @@ public class NewEventActivity extends BaseActivity {
             case Insulin:
                 viewContent = inflater.inflate(R.layout.cardview_entry_insulin, layoutValues, false);
                 EditText editTextBolus = (EditText) viewContent.findViewById(R.id.value);
-                editTextBolus.setHint(preferenceHelper.getUnitAcronym(category));
+                editTextBolus.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
                 editTextBolus.requestFocus();
                 EditText editTextCorrection = (EditText) viewContent.findViewById(R.id.value_correction);
-                editTextCorrection.setHint(preferenceHelper.getUnitAcronym(category));
+                editTextCorrection.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
                 EditText editTextBasal = (EditText) viewContent.findViewById(R.id.value_basal);
-                editTextBasal.setHint(preferenceHelper.getUnitAcronym(category));
+                editTextBasal.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
                 break;
             case Meal:
                 viewContent = inflater.inflate(R.layout.cardview_entry_meal, layoutValues, false);
                 EditText editTextMeal = (EditText) viewContent.findViewById(R.id.value);
-                editTextMeal.setHint(preferenceHelper.getUnitAcronym(category));
+                editTextMeal.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
                 editTextMeal.requestFocus();
                 break;
             case Pressure:
                 viewContent = inflater.inflate(R.layout.cardview_entry_pressure, layoutValues, false);
                 EditText editTextSystolic = (EditText) viewContent.findViewById(R.id.value);
-                editTextSystolic.setHint(preferenceHelper.getUnitAcronym(category));
+                editTextSystolic.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
                 editTextSystolic.requestFocus();
                 EditText editTextDiastolic = (EditText) viewContent.findViewById(R.id.value_diastolic);
-                editTextDiastolic.setHint(preferenceHelper.getUnitAcronym(category));
+                editTextDiastolic.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
                 break;
             default:
                 viewContent = inflater.inflate(R.layout.cardview_entry_generic, layoutValues, false);
                 EditText editTextValue = (EditText) viewContent.findViewById(R.id.value);
-                editTextValue.setHint(preferenceHelper.getUnitAcronym(category));
+                editTextValue.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
                 editTextValue.requestFocus();
                 break;
         }
@@ -445,71 +444,17 @@ public class NewEventActivity extends BaseActivity {
             return;
         }
 
+        Food food;
+
         List<Measurement> measurements = new ArrayList<>();
         // Iterate through all views and validate
         for (int position = 0; position < layoutValues.getChildCount(); position++) {
-            View view = layoutValues.getChildAt(position);
-            if(view != null && view.getTag() != null) {
-                if(view.getTag() instanceof Measurement.Category) {
-                    Measurement.Category category = (Measurement.Category) view.getTag();
-                    EditText editTextValue = (EditText) view.findViewById(R.id.value);
-                    if(validateValue(category, editTextValue)) {
-                        editTextValue.setError(null);
-                        float value = preferenceHelper.formatCustomToDefaultUnit(
-                                category,
-                                Float.parseFloat(editTextValue.getText().toString()));
-                        switch (category) {
-                            case BloodSugar:
-                                BloodSugar bloodSugar = new BloodSugar();
-                                bloodSugar.setMgDl(value);
-                                measurements.add(bloodSugar);
-                                break;
-                            case Insulin:
-                                Insulin insulin = new Insulin();
-                                insulin.setBolus(value);
-                                measurements.add(insulin);
-                                break;
-                            case Meal:
-                                Meal meal = new Meal();
-                                meal.setCarbohydrates(value);
-                                measurements.add(meal);
-                                break;
-                            case Activity:
-                                com.faltenreich.diaguard.database.measurements.Activity activity =
-                                        new com.faltenreich.diaguard.database.measurements.Activity();
-                                activity.setMinutes((int) value);
-                                measurements.add(activity);
-                                break;
-                            case HbA1c:
-                                HbA1c hbA1c = new HbA1c();
-                                hbA1c.setPercent(value);
-                                measurements.add(hbA1c);
-                                break;
-                            case Weight:
-                                Weight weight = new Weight();
-                                weight.setKilogram(value);
-                                measurements.add(weight);
-                                break;
-                            case Pulse:
-                                Pulse pulse = new Pulse();
-                                pulse.setFrequency(value);
-                                measurements.add(pulse);
-                                break;
-                            case Pressure:
-                                Pressure pressure = new Pressure();
-                                pressure.setSystolic(value);
-                                measurements.add(pressure);
-                                break;
-                            default:
-                                inputIsValid = false;
-                                // TODO: Throw Exception
-                                break;
-                        }
-                    }
-                    else {
-                        inputIsValid = false;
-                    }
-                }
+            Measurement measurement = getMeasurementFromView(layoutValues.getChildAt(position));
+            if(measurement != null) {
+                measurements.add(measurement);
+            }
+            else {
+                inputIsValid = false;
             }
         }
 
@@ -587,14 +532,75 @@ public class NewEventActivity extends BaseActivity {
         }
     }
 
+    private Measurement getMeasurementFromView(View view) {
+        if(view != null && view.getTag() != null) {
+            if(view.getTag() instanceof Measurement.Category) {
+                Measurement.Category category = (Measurement.Category) view.getTag();
+                EditText editTextValue = (EditText) view.findViewById(R.id.value);
+                if(validateValue(category, editTextValue)) {
+                    editTextValue.setError(null);
+                    float value = PreferenceHelper.getInstance().formatCustomToDefaultUnit(
+                            category,
+                            Float.parseFloat(editTextValue.getText().toString()));
+                    switch (category) {
+                        case BloodSugar:
+                            BloodSugar bloodSugar = new BloodSugar();
+                            bloodSugar.setMgDl(value);
+                            return bloodSugar;
+                        case Insulin:
+                            Insulin insulin = new Insulin();
+                            insulin.setBolus(value);
+                            return insulin;
+                        case Meal:
+                            Meal meal = new Meal();
+                            meal.setCarbohydrates(value);
+                            String foodName = ((EditText) view.findViewById(R.id.food)).getText().toString();
+                            if(foodName.length() > 0) {
+                                Food food = new Food();
+                                food.setName(foodName);
+                                ImageView imageViewFood = (ImageView) view.findViewById(R.id.image);
+                                // TODO: Check for image, convert to Base64 and add to Food
+                            }
+                            return meal;
+                        case Activity:
+                            com.faltenreich.diaguard.database.measurements.Activity activity =
+                                    new com.faltenreich.diaguard.database.measurements.Activity();
+                            activity.setMinutes((int) value);
+                            return activity;
+                        case HbA1c:
+                            HbA1c hbA1c = new HbA1c();
+                            hbA1c.setPercent(value);
+                            return hbA1c;
+                        case Weight:
+                            Weight weight = new Weight();
+                            weight.setKilogram(value);
+                            return weight;
+                        case Pulse:
+                            Pulse pulse = new Pulse();
+                            pulse.setFrequency(value);
+                            return pulse;
+                        case Pressure:
+                            Pressure pressure = new Pressure();
+                            pressure.setSystolic(value);
+                            return pressure;
+                        default:
+                            // TODO: Throw Exception
+                            break;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
     private boolean validateValue(Measurement.Category category, EditText editText) {
         String value = editText.getText().toString();
         if (value.length() == 0 || !Validator.containsNumber(value)) {
             editText.setError(getString(R.string.validator_value_empty));
             return false;
         }
-        else if (!preferenceHelper.validateEventValue(
-                category, preferenceHelper.formatCustomToDefaultUnit(category,
+        else if (!PreferenceHelper.getInstance().validateEventValue(
+                category, PreferenceHelper.getInstance().formatCustomToDefaultUnit(category,
                         Float.parseFloat(value)))) {
             editText.setError(getString(R.string.validator_value_unrealistic));
             return false;

@@ -22,10 +22,9 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.DatabaseHelper;
 import com.faltenreich.diaguard.database.Entry;
-import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.faltenreich.diaguard.database.Model;
+import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.faltenreich.diaguard.helpers.Helper;
-import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.faltenreich.diaguard.helpers.ViewHelper;
 
 import java.util.HashMap;
@@ -39,7 +38,6 @@ public class EntryDetailFragment extends Fragment {
     public Entry entry;
 
     private DatabaseDataSource dataSource;
-    private PreferenceHelper preferenceHelper;
 
     private TextView textViewNote;
     private LinearLayout layoutMeasurements;
@@ -71,7 +69,6 @@ public class EntryDetailFragment extends Fragment {
         if (getArguments() != null && getArguments().getLong(ENTRY_ID) > 0) {
             long entryId = getArguments().getLong(ENTRY_ID);
             dataSource = new DatabaseDataSource(getActivity());
-            preferenceHelper = new PreferenceHelper(getActivity());
             dataSource.open();
             entry = (Entry)dataSource.get(DatabaseHelper.ENTRY, entryId);
             dataSource.close();

@@ -31,7 +31,6 @@ import org.joda.time.Minutes;
 public class MainFragment extends Fragment {
 
     private DatabaseDataSource dataSource;
-    private PreferenceHelper preferenceHelper;
     private DateTime today;
 
     private ViewGroup layoutLatest;
@@ -92,8 +91,6 @@ public class MainFragment extends Fragment {
         dataSource = new DatabaseDataSource(getActivity());
         dataSource.open();
 
-        preferenceHelper = new PreferenceHelper(getActivity());
-
         int countBloodSugarMeasurements = dataSource.count(DatabaseHelper.BLOODSUGAR);
 
         if(countBloodSugarMeasurements > 0) {
@@ -125,26 +122,26 @@ public class MainFragment extends Fragment {
         BloodSugar latestBloodSugar = (BloodSugar) entry.getMeasurements().get(0);
 
         // Value
-        float value = preferenceHelper.
+        float value = PreferenceHelper.getInstance().
                 formatDefaultToCustomUnit(Measurement.Category.BloodSugar, latestBloodSugar.getMgDl());
-        textViewLatestValue.setText(preferenceHelper.
+        textViewLatestValue.setText(PreferenceHelper.getInstance().
                 getDecimalFormat(Measurement.Category.BloodSugar).format(value));
 
         // Highlighting
-        if(preferenceHelper.limitsAreHighlighted()) {
-            if(latestBloodSugar.getMgDl() > preferenceHelper.getLimitHyperglycemia())
+        if(PreferenceHelper.getInstance().limitsAreHighlighted()) {
+            if(latestBloodSugar.getMgDl() > PreferenceHelper.getInstance().getLimitHyperglycemia())
                 textViewLatestValue.setTextColor(getResources().getColor(R.color.red));
-            else if(latestBloodSugar.getMgDl() < preferenceHelper.getLimitHypoglycemia())
+            else if(latestBloodSugar.getMgDl() < PreferenceHelper.getInstance().getLimitHypoglycemia())
                 textViewLatestValue.setTextColor(getResources().getColor(R.color.blue));
             else
                 textViewLatestValue.setTextColor(getResources().getColor(R.color.green));
         }
 
         // Unit
-        textViewLatestUnit.setText(preferenceHelper.getUnitAcronym(Measurement.Category.BloodSugar));
+        textViewLatestUnit.setText(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BloodSugar));
 
         // Time
-        textViewLatestTime.setText(preferenceHelper.
+        textViewLatestTime.setText(PreferenceHelper.getInstance().
                 getDateFormat().print(entry.getDate()) + " " +
                 Helper.getTimeFormat().print(entry.getDate()) + " | ");
         int differenceInMinutes = Minutes.minutesBetween(entry.getDate(), new DateTime()).getMinutes();
@@ -167,34 +164,34 @@ public class MainFragment extends Fragment {
         textViewMeasurements.setText(Integer.toString(measurements));
 
         int countHypers = dataSource.countBloodSugar(today,
-                preferenceHelper.getLimitHyperglycemia(), true);
+                PreferenceHelper.getInstance().getLimitHyperglycemia(), true);
         textViewHyperglycemia.setText(Integer.toString(countHypers));
 
         int countHypos = dataSource.countBloodSugar(today,
-                preferenceHelper.getLimitHypoglycemia(), false);
+                PreferenceHelper.getInstance().getLimitHypoglycemia(), false);
         textViewHypoglycemia.setText(Integer.toString(countHypos));
     }
 
     private void updateAverage() {
-        float avgMonth = preferenceHelper.
+        float avgMonth = PreferenceHelper.getInstance().
                 formatDefaultToCustomUnit(Measurement.Category.BloodSugar,
                         dataSource.getBloodSugarAverage(30));
-        float avgWeek = preferenceHelper.
+        float avgWeek = PreferenceHelper.getInstance().
                 formatDefaultToCustomUnit(Measurement.Category.BloodSugar,
                         dataSource.getBloodSugarAverage(7));
-        float avgDay = preferenceHelper.
+        float avgDay = PreferenceHelper.getInstance().
                 formatDefaultToCustomUnit(Measurement.Category.BloodSugar,
                         dataSource.getBloodSugarAverage(1));
 
-        String avgMonthString = preferenceHelper.
+        String avgMonthString = PreferenceHelper.getInstance().
                 getDecimalFormat(Measurement.Category.BloodSugar).format(avgMonth);
         if(avgMonth <= 0)
             avgMonthString = Helper.PLACEHOLDER;
-        String avgWeekString = preferenceHelper.
+        String avgWeekString = PreferenceHelper.getInstance().
                 getDecimalFormat(Measurement.Category.BloodSugar).format(avgWeek);
         if(avgWeek <= 0)
             avgWeekString = Helper.PLACEHOLDER;
-        String avgDayString = preferenceHelper.
+        String avgDayString = PreferenceHelper.getInstance().
                 getDecimalFormat(Measurement.Category.BloodSugar).format(avgDay);
         if(avgDay <= 0)
             avgDayString = Helper.PLACEHOLDER;
@@ -225,9 +222,9 @@ public class MainFragment extends Fragment {
         XYSeries seriesBloodSugar = new XYSeries("Trend");
         chartHelper.seriesDataset.addSeries(seriesBloodSugar);
 
-        float highestValue = preferenceHelper.
+        float highestValue = PreferenceHelper.getInstance().
                 formatDefaultToCustomUnit(Measurement.Category.BloodSugar,
-                        preferenceHelper.getLimitHyperglycemia());
+                        PreferenceHelper.getInstance().getLimitHyperglycemia());
         // Set labels
         int count = 0;
         final int daysOfWeek = 7;
@@ -244,7 +241,7 @@ public class MainFragment extends Fragment {
             // Insert average
             float averageOfDay = dataSource.getBloodSugarAverageOfDay(day);
             if(averageOfDay > 0) {
-                float y_value = preferenceHelper.
+                float y_value = PreferenceHelper.getInstance().
                         formatDefaultToCustomUnit(Measurement.Category.BloodSugar, averageOfDay);
 
                 // Adjust y axis
@@ -257,7 +254,7 @@ public class MainFragment extends Fragment {
             }
         }
         chartHelper.renderer.setYAxisMax(highestValue +
-                preferenceHelper.formatDefaultToCustomUnit(Measurement.Category.BloodSugar, 30));
+                PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BloodSugar, 30));
         if(count >= 2) {
             seriesRenderer.setPointStyle(PointStyle.POINT);
         }
@@ -267,9 +264,9 @@ public class MainFragment extends Fragment {
         chartHelper.renderer.setShowCustomTextGridY(true);
         chartHelper.renderer.setShowGridX(true);
         chartHelper.renderer.setYLabels(0);
-        float targetValue = preferenceHelper.
+        float targetValue = PreferenceHelper.getInstance().
                 formatDefaultToCustomUnit(Measurement.Category.BloodSugar,
-                        preferenceHelper.getTargetValue());
+                        PreferenceHelper.getInstance().getTargetValue());
         chartHelper.renderer.addYTextLabel(targetValue, "1");
         chartHelper.renderer.setYAxisMin(0);
 

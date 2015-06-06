@@ -40,7 +40,6 @@ public class MainActivity extends BaseActivity implements EntryListFragment.Call
         Settings
     }
 
-    private PreferenceHelper preferenceHelper;
     private DrawerItem currentFragment;
 
     private DrawerLayout drawerLayout;
@@ -72,8 +71,6 @@ public class MainActivity extends BaseActivity implements EntryListFragment.Call
     }
 
     private void initialize() {
-        preferenceHelper = new PreferenceHelper(this);
-
         drawerToggle = new ActionBarDrawerToggle(
                 this,
                 drawerLayout,
@@ -134,7 +131,7 @@ public class MainActivity extends BaseActivity implements EntryListFragment.Call
         drawer.setSelector(R.drawable.background_drawer);
 
         // TODO: Initialization without performItemClick()
-        DrawerItem startFragment = preferenceHelper.getStartScreen();
+        DrawerItem startFragment = PreferenceHelper.getInstance().getStartScreen();
         currentFragment = startFragment;
         drawer.performItemClick(null, startFragment.ordinal(), 0);
     }

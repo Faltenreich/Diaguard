@@ -289,8 +289,9 @@ public class NewEventActivity extends BaseActivity {
                 .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        int position = 0;
-                        for (Measurement.Category category : categories.keySet()) {
+                        Measurement.Category[] categoriesArray = categories.keySet().toArray(new Measurement.Category[categories.size()]);
+                        for (int position = categoriesArray.length - 1; position >= 0; position--) {
+                            Measurement.Category category = categoriesArray[position];
                             // Value was false and is now true -> Add new measurement
                             if (!categories.get(category) && visibleCategories[position]) {
                                 addViewForCategory(activeCategories[position]);
@@ -299,7 +300,6 @@ public class NewEventActivity extends BaseActivity {
                             else if (categories.get(category) && !visibleCategories[position]) {
                                 removeViewForCategory(activeCategories[position]);
                             }
-                            position++;
                         }
                     }
                 })
@@ -334,7 +334,7 @@ public class NewEventActivity extends BaseActivity {
         final View view = inflater.inflate(R.layout.cardview_entry, layoutValues, false);
         view.setTag(category);
 
-        // Showcase
+        // Showcase images and colors
         ImageView imageViewShowcase = (ImageView) view.findViewById(R.id.image_showcase);
         imageViewShowcase.setImageResource(PreferenceHelper.getInstance().getShowcaseImageResourceId(category));
         View layerShowcase = view.findViewById(R.id.layer_showcase);

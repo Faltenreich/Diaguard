@@ -200,8 +200,9 @@ public class NewEventActivity extends BaseActivity {
         int numberOfVisibleButtons = 0;
         for(final Measurement.Category category : categories.keySet()) {
             if(!categories.get(category)) {
-                final FloatingActionButton fabCategory = getFloatingActionButton(PreferenceHelper.getInstance().getCategoryName(category),
-                        getResources().getIdentifier(category.name().toLowerCase() + "_white", "drawable", getPackageName()),
+                final FloatingActionButton fabCategory = getFloatingActionButton(
+                        PreferenceHelper.getInstance().getCategoryName(category),
+                        PreferenceHelper.getInstance().getCategoryImageResourceId(category),
                         PreferenceHelper.getInstance().getCategoryColorResourceId(category));
                 fabCategory.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -254,8 +255,9 @@ public class NewEventActivity extends BaseActivity {
         floatingActionButton.setLabelText(text);
         floatingActionButton.setImageResource(imageResourceId);
         floatingActionButton.setColorNormalResId(colorResId);
-        floatingActionButton.setColorPressed(Helper.colorDarken(getResources().getColor(colorResId)));
-        floatingActionButton.setColorRipple(Helper.colorDarken(getResources().getColor(colorResId)));
+        int colorDarken = Helper.colorDarken(getResources().getColor(colorResId));
+        floatingActionButton.setColorPressed(colorDarken);
+        floatingActionButton.setColorRipple(colorDarken);
         return floatingActionButton;
     }
 
@@ -342,7 +344,7 @@ public class NewEventActivity extends BaseActivity {
 
         // Category image
         ImageView imageViewCategory = (ImageView) view.findViewById(R.id.image_category);
-        imageViewCategory.setImageResource(PreferenceHelper.getInstance().getCategoryImageWhiteResourceId(category));
+        imageViewCategory.setImageResource(PreferenceHelper.getInstance().getCategoryImageResourceId(category));
 
         // Category name
         TextView textViewCategory = (TextView) view.findViewById(R.id.category);

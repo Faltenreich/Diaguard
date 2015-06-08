@@ -41,18 +41,17 @@
                 <ImageView android:id="@+id/image_category"
                     android:layout_width="@dimen/size_image"
                     android:layout_height="@dimen/size_image"
-                    android:layout_centerVertical="true" />
+                    android:layout_centerVertical="true"/>
 
                 <TextView android:id="@+id/category"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/margin_between"
-
                     android:layout_marginEnd="@dimen/margin_between"
                     android:layout_toRightOf="@id/image_category"
                     android:layout_toEndOf="@id/image_category"
-                    android:layout_marginLeft="@dimen/margin_between"
-                    android:layout_marginStart="@dimen/margin_between"
+                    android:layout_marginLeft="@dimen/padding_end"
+                    android:layout_marginStart="@dimen/padding_end"
                     android:layout_centerVertical="true"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_medium"/>

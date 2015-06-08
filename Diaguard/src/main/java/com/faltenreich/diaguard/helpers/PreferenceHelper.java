@@ -142,12 +142,7 @@ public class PreferenceHelper {
     }
 
     public int getCategoryImageResourceId(Measurement.Category category) {
-        return DiaguardApplication.getContext().getResources().getIdentifier(category.name().toLowerCase(),
-                "drawable", DiaguardApplication.getContext().getPackageName());
-    }
-
-    public int getCategoryImageWhiteResourceId(Measurement.Category category) {
-        return DiaguardApplication.getContext().getResources().getIdentifier(category.name().toLowerCase() + "_white",
+        return DiaguardApplication.getContext().getResources().getIdentifier("ic_category_" + category.name().toLowerCase(),
                 "drawable", DiaguardApplication.getContext().getPackageName());
     }
 

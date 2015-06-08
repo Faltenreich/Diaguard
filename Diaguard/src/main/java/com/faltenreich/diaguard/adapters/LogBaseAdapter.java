@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -120,28 +121,28 @@ public class LogBaseAdapter extends BaseAdapter {
                 viewHolderEntry.time.setText(Helper.getTimeFormat().print(entry.getDate()));
 
                 viewHolderEntry.values.removeAllViews();
-                // TODO
-                /*
+
                 for(Measurement measurement : entry.getMeasurements()) {
                     ImageView imageViewImage = new ImageView(context);
-                    imageViewImage.setImageResource(imageResources.get(measurement.getCategory().name().toLowerCase()));
+                    imageViewImage.setImageResource(imageResources.get(measurement.getMeasurementType().name().toLowerCase()));
                     viewHolderEntry.values.addView(imageViewImage);
 
+                    /*
                     TextView textViewValue = new TextView(context);
-                    float value = preferenceHelper.formatDefaultToCustomUnit(
-                            measurement.getCategory(), measurement.getValue());
-                    textViewValue.setText(preferenceHelper.getDecimalFormat(measurement.getCategory()).format(value));
+                    float value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(
+                            measurement.getMeasurementType(), measurement.getValue());
+                    textViewValue.setText(PreferenceHelper.getInstance().getDecimalFormat(measurement.getMeasurementType()).format(value));
 
                     // Highlight extrema
-                    if(measurement.getCategory() == Measurement.Category.BloodSugar && preferenceHelper.limitsAreHighlighted()) {
-                        if(measurement.getValue() > preferenceHelper.getLimitHyperglycemia())
+                    if(measurement.getMeasurementType() == Measurement.Category.BloodSugar && PreferenceHelper.getInstance(.limitsAreHighlighted()) {
+                        if(measurement.getValue() > PreferenceHelper.getInstance().getLimitHyperglycemia())
                             textViewValue.setTextColor(context.getResources().getColor(R.color.red));
-                        else if(measurement.getValue() < preferenceHelper.getLimitHypoglycemia())
+                        else if(measurement.getValue() < PreferenceHelper.getInstance() .getLimitHypoglycemia())
                             textViewValue.setTextColor(context.getResources().getColor(R.color.blue));
                     }
                     viewHolderEntry.values.addView(textViewValue);
+                    */
                 }
-                */
             }
         }
 

@@ -40,4 +40,8 @@ public class Insulin extends Measurement {
     public String getTableName() {
         return DatabaseHelper.INSULIN;
     }
+
+    public Category getMeasurementType() {
+        return Category.Insulin;
+    }
 }

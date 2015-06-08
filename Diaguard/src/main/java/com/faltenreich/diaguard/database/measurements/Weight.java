@@ -21,4 +21,8 @@ public class Weight extends Measurement {
     public String getTableName() {
         return DatabaseHelper.WEIGHT;
     }
+
+    public Category getMeasurementType() {
+        return Category.Weight;
+    }
 }

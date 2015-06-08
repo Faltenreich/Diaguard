@@ -21,4 +21,8 @@ public class Pulse extends Measurement {
     public String getTableName() {
         return DatabaseHelper.PULSE;
     }
+
+    public Category getMeasurementType() {
+        return Category.Pulse;
+    }
 }

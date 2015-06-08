@@ -27,4 +27,6 @@ public abstract class Measurement extends Model {
     public void setEntryId(long entryId) {
         this.entryId = entryId;
     }
+
+    public abstract Category getMeasurementType();
 }

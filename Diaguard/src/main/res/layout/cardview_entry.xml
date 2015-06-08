@@ -20,36 +20,52 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            style="@style/Padding"
-            android:background="@color/green_light">
+            android:layout_height="@dimen/height_element">
 
-            <ImageView android:id="@+id/image_category"
-                android:layout_width="@dimen/size_image"
-                android:layout_height="@dimen/size_image"
-                android:layout_centerVertical="true" />
-
-            <TextView android:id="@+id/category"
-                android:layout_width="wrap_content"
+            <ImageView android:id="@+id/image_showcase"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/margin_between"
-                android:layout_marginEnd="@dimen/margin_between"
-                android:layout_toRightOf="@id/image_category"
-                android:layout_toEndOf="@id/image_category"
-                android:layout_marginLeft="@dimen/margin_between"
-                android:layout_marginStart="@dimen/margin_between"
-                android:layout_centerVertical="true"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_medium"/>
+                android:scaleType="centerCrop"/>
 
-            <ImageView android:id="@+id/button_delete"
-                android:layout_width="@dimen/size_image"
-                android:layout_height="@dimen/size_image"
-                android:src="@drawable/ic_action_delete"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"/>
+            <View android:id="@+id/layer_showcase"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alpha=".5"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                style="@style/Padding">
+
+                <ImageView android:id="@+id/image_category"
+                    android:layout_width="@dimen/size_image"
+                    android:layout_height="@dimen/size_image"
+                    android:layout_centerVertical="true" />
+
+                <TextView android:id="@+id/category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/margin_between"
+
+                    android:layout_marginEnd="@dimen/margin_between"
+                    android:layout_toRightOf="@id/image_category"
+                    android:layout_toEndOf="@id/image_category"
+                    android:layout_marginLeft="@dimen/margin_between"
+                    android:layout_marginStart="@dimen/margin_between"
+                    android:layout_centerVertical="true"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_medium"/>
+
+                <ImageView android:id="@+id/button_delete"
+                    android:layout_width="@dimen/size_image"
+                    android:layout_height="@dimen/size_image"
+                    android:src="@drawable/ic_action_delete"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"/>
+
+            </RelativeLayout>
 
         </RelativeLayout>
 

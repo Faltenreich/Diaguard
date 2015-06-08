@@ -11,6 +11,7 @@ import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.DatabaseHelper;
 import com.faltenreich.diaguard.database.Entry;
 import com.faltenreich.diaguard.database.Model;
+import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.faltenreich.diaguard.helpers.Helper;
 
 import org.joda.time.DateTime;
@@ -38,7 +39,7 @@ public class LogEndlessAdapter extends EndlessAdapter implements PinnedSectionLi
         super(new LogBaseAdapter(context));
 
         this.dataSource = new DatabaseDataSource(context);
-        this.itemCache = new ArrayList<ListItem>();
+        this.itemCache = new ArrayList<>();
 
         dataSource.open();
         totalItems = dataSource.count(DatabaseHelper.ENTRY);
@@ -64,7 +65,7 @@ public class LogEndlessAdapter extends EndlessAdapter implements PinnedSectionLi
                     DatabaseHelper.ENTRY_ID + "=?", new String[]{Long.toString(entry.getId())},
                     null, null, null, null);
             for(Model measurementModel : measurementModels) {
-                // TODO entry.getMeasurements().add((Measurement) measurementModel);
+                entry.getMeasurements().add((Measurement) measurementModel);
             }
             entries.add(entry);
         }

@@ -21,4 +21,8 @@ public class HbA1c extends Measurement {
     public String getTableName() {
         return DatabaseHelper.HBA1C;
     }
+
+    public Category getMeasurementType() {
+        return Category.HbA1c;
+    }
 }

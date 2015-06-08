@@ -30,4 +30,8 @@ public class Meal extends Measurement {
     public String getTableName() {
         return DatabaseHelper.MEAL;
     }
+
+    public Category getMeasurementType() {
+        return Category.Meal;
+    }
 }

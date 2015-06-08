@@ -30,4 +30,8 @@ public class Activity extends Measurement {
     public String getTableName() {
         return DatabaseHelper.ACTIVITY;
     }
+
+    public Category getMeasurementType() {
+        return Category.Activity;
+    }
 }

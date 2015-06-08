@@ -151,6 +151,11 @@ public class PreferenceHelper {
                 "drawable", DiaguardApplication.getContext().getPackageName());
     }
 
+    public int getShowcaseImageResourceId(Measurement.Category category) {
+        return DiaguardApplication.getContext().getResources().getIdentifier("ic_showcase_" + category.name().toLowerCase(),
+                "drawable", DiaguardApplication.getContext().getPackageName());
+    }
+
     public int getCategoryColorResourceId(Measurement.Category category) {
         return DiaguardApplication.getContext().getResources().getIdentifier(category.name().toLowerCase(),
                 "color", DiaguardApplication.getContext().getPackageName());

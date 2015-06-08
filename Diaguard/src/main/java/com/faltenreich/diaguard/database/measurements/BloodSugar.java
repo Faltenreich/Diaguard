@@ -21,4 +21,8 @@ public class BloodSugar extends Measurement {
     public String getTableName() {
         return DatabaseHelper.BLOODSUGAR;
     }
+
+    public Category getMeasurementType() {
+        return Category.BloodSugar;
+    }
 }

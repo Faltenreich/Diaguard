@@ -30,4 +30,8 @@ public class Pressure extends Measurement {
     public String getTableName() {
         return DatabaseHelper.PRESSURE;
     }
+
+    public Category getMeasurementType() {
+        return Category.Pressure;
+    }
 }

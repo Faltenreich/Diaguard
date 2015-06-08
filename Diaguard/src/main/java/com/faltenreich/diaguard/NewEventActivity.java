@@ -334,6 +334,12 @@ public class NewEventActivity extends BaseActivity {
         final View view = inflater.inflate(R.layout.cardview_entry, layoutValues, false);
         view.setTag(category);
 
+        // Showcase
+        ImageView imageViewShowcase = (ImageView) view.findViewById(R.id.image_showcase);
+        imageViewShowcase.setImageResource(PreferenceHelper.getInstance().getShowcaseImageResourceId(category));
+        View layerShowcase = view.findViewById(R.id.layer_showcase);
+        layerShowcase.setBackgroundColor(getResources().getColor(PreferenceHelper.getInstance().getCategoryColorResourceId(category)));
+
         // Category image
         ImageView imageViewCategory = (ImageView) view.findViewById(R.id.image_category);
         imageViewCategory.setImageResource(PreferenceHelper.getInstance().getCategoryImageWhiteResourceId(category));

@@ -19,7 +19,6 @@ import com.faltenreich.diaguard.fragments.DatePickerFragment;
 import com.faltenreich.diaguard.helpers.FileHelper;
 import com.faltenreich.diaguard.helpers.IFileListener;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
-import com.faltenreich.diaguard.helpers.ViewHelper;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
@@ -90,7 +89,7 @@ public class ExportActivity extends BaseActivity implements IFileListener {
         boolean isValid = true;
 
         if(dateStart.isAfter(dateEnd)) {
-            ViewHelper.showAlert(this, getString(R.string.validator_value_enddate));
+            // TODO ViewHelper.showAlert(this, getString(R.string.validator_value_enddate));
             isValid = false;
         }
 
@@ -113,7 +112,7 @@ public class ExportActivity extends BaseActivity implements IFileListener {
     // Callback method from IFileListener
     public void handleFile(File file, String mimeType) {
         if(file == null) {
-            ViewHelper.showAlert(this, getString(R.string.error_sd_card));
+            // TODO ViewHelper.showAlert(this, getString(R.string.error_sd_card));
         }
         else {
             if (checkBoxMail.isChecked()) {
@@ -130,7 +129,7 @@ public class ExportActivity extends BaseActivity implements IFileListener {
         try {
             startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            ViewHelper.showAlert(this, getString(R.string.error_no_app));
+            // TODO ViewHelper.showAlert(this, getString(R.string.error_no_app));
             Log.e("Open " + mimeType, e.getMessage());
         }
     }
@@ -151,7 +150,7 @@ public class ExportActivity extends BaseActivity implements IFileListener {
         try {
             startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            ViewHelper.showAlert(this, getString(R.string.error_no_mail));
+            // TODO ViewHelper.showAlert(this, getString(R.string.error_no_mail));
             Log.e("Send Mail", e.getMessage());
         }
     }

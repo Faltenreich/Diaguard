@@ -12,7 +12,6 @@ import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.helpers.FileHelper;
 import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
-import com.faltenreich.diaguard.helpers.ViewHelper;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -53,8 +52,7 @@ public class BackupPreference extends DialogPreference {
                                 createBackup();
                                 String path = FileHelper.PATH_EXTERNAL + "/backup" +
                                         DateTimeFormat.forPattern("yyyyMMddHHmmss").print(new DateTime()) + ".csv";
-                                ViewHelper.showSnackbar(activity, activity.getResources().
-                                        getString(R.string.pref_data_backup_finished) + ": " + path);
+                                // TODO ViewHelper.showSnackbar(activity, activity.getResources().getString(R.string.pref_data_backup_finished) + ": " + path);
                                 break;
                             case ACTION_RESTOREBACKUP:
                                 dialog.dismiss();
@@ -83,9 +81,7 @@ public class BackupPreference extends DialogPreference {
 
         if(csvFiles.size() <= 0) {
             Activity preferenceActivity = (Activity)getContext();
-            ViewHelper.showAlert(preferenceActivity,
-                    preferenceActivity.getString(R.string.error_no_backups) + " " +
-                            FileHelper.PATH_EXTERNAL + FileHelper.PATH_STORAGE);
+            // TODO ViewHelper.showAlert(preferenceActivity, preferenceActivity.getString(R.string.error_no_backups) + " " + FileHelper.PATH_EXTERNAL + FileHelper.PATH_STORAGE);
             return;
         }
 
@@ -105,8 +101,7 @@ public class BackupPreference extends DialogPreference {
                         FileHelper fileHelper = new FileHelper(getContext());
                         fileHelper.importCSV(csvArray[which]);
 
-                        ViewHelper.showSnackbar(activity,
-                                activity.getResources().getString(R.string.pref_data_backup_import));
+                        // TODO ViewHelper.showSnackbar(activity, activity.getResources().getString(R.string.pref_data_backup_import));
                     }
                 }); 
         AlertDialog dialog = builder.create();

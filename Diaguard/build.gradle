@@ -34,16 +34,13 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:22.1.1'
-    compile 'com.android.support:cardview-v7:22.1.1'
-    compile 'com.android.support:support-v4:22.1.1'
+    compile 'com.android.support:design:22.2.0'
+    compile 'com.android.support:cardview-v7:22.0.0'
 
-
+    compile 'com.opencsv:opencsv:3.3'
     compile 'net.danlew:android.joda:2.7.2'
-    compile 'com.nispok:snackbar:2.10.9'
     compile 'com.github.clans:fab:1.5.0'
     compile 'com.github.PhilJay:MPAndroidChart:v2.1.0'
-    compile 'com.opencsv:opencsv:3.3'
 
     compile files('libs/achartengine-1.2.0.jar')
     compile files('libs/itextg-5.4.4.jar')

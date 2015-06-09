@@ -43,7 +43,6 @@ import com.faltenreich.diaguard.fragments.TimePickerFragment;
 import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.faltenreich.diaguard.helpers.Validator;
-import com.faltenreich.diaguard.helpers.ViewHelper;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
@@ -448,7 +447,7 @@ public class NewEventActivity extends BaseActivity {
         // Validate date
         DateTime now = DateTime.now();
         if (time.isAfter(now)) {
-            ViewHelper.showAlert(this, getString(R.string.validator_value_infuture));
+            // TODO ViewHelper.showAlert(this, getString(R.string.validator_value_infuture));
             return;
         }
 
@@ -470,7 +469,7 @@ public class NewEventActivity extends BaseActivity {
         if(measurements.size() == 0) {
             // Show alert only if everything else was valid to reduce clutter
             if(inputIsValid)
-                ViewHelper.showAlert(this, getString(R.string.validator_value_none));
+                // TODO ViewHelper.showAlert(this, getString(R.string.validator_value_none));
             inputIsValid = false;
         }
 

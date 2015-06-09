@@ -144,7 +144,7 @@ public class EntryListFragment extends ListFragment {
                 }
             }
         }
-        ViewHelper.showSnackbar(getActivity(), getString(R.string.entry_deleted));
+        // TODO ViewHelper.showSnackbar(getActivity(), getString(R.string.entry_deleted));
     }
 
     private void updateListView() {

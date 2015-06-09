@@ -15,7 +15,6 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.DatabaseHelper;
 import com.faltenreich.diaguard.helpers.Helper;
-import com.faltenreich.diaguard.helpers.ViewHelper;
 
 import org.joda.time.DateTime;
 
@@ -45,8 +44,7 @@ public class CleanUpPreference extends DialogPreference {
                 DatabaseHelper.DATE + "<=DateTime(?)", new String[]{ dateString });
         dataSource.close();
 
-        ViewHelper.showSnackbar(activity, count + " " +
-                activity.getResources().getString(R.string.pref_data_cleanup_return));
+        // TODO ViewHelper.showSnackbar(activity, count + " " + activity.getResources().getString(R.string.pref_data_cleanup_return));
     }
 
     @Override

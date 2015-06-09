@@ -176,12 +176,12 @@ public class MainActivity extends BaseActivity implements EntryListFragment.Call
             if (data.hasExtra(ENTRY_CREATED)) {
                 int eventsCreated = data.getExtras().getInt(ENTRY_CREATED);
                 if(eventsCreated > 0) {
-                    ViewHelper.showSnackbar(this, getString(R.string.entry_added));
+                    // TODO ViewHelper.showSnackbar(this, getString(R.string.entry_added));
                 }
             }
             else if (data.hasExtra(ENTRY_DELETED) && data.getExtras().getBoolean(ENTRY_DELETED)) {
                 // TODO: Undo functionality
-                ViewHelper.showSnackbar(this, getString(R.string.entry_deleted));
+                // TODO ViewHelper.showSnackbar(this, getString(R.string.entry_deleted));
             }
         }
     }

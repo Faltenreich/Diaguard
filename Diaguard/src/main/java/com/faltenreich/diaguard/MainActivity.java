@@ -3,20 +3,17 @@ package com.faltenreich.diaguard;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
-import com.faltenreich.diaguard.adapters.DrawerListViewAdapter;
 import com.faltenreich.diaguard.fragments.ChartFragment;
 import com.faltenreich.diaguard.fragments.EntryDetailFragment;
 import com.faltenreich.diaguard.fragments.EntryListFragment;
@@ -31,20 +28,9 @@ public class MainActivity extends BaseActivity implements EntryListFragment.Call
     public static final String ENTRY_CREATED = "ENTRY_CREATED";
     public static final String ENTRY_DELETED = "ENTRY_DELETED";
 
-    public enum DrawerItem {
-        Home,
-        Timeline,
-        Log,
-        Calculator,
-        Export,
-        Settings
-    }
-
-    private DrawerItem currentFragment;
-
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
-    private ListView drawer;
+    private NavigationView drawer;
     private android.support.v7.widget.Toolbar toolbar;
 
     @Override
@@ -66,7 +52,7 @@ public class MainActivity extends BaseActivity implements EntryListFragment.Call
 
     private void getComponents() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer = (ListView) findViewById(R.id.drawer);
+        drawer = (NavigationView) findViewById(R.id.navigation);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
     }
 
@@ -100,74 +86,65 @@ public class MainActivity extends BaseActivity implements EntryListFragment.Call
             getSupportActionBar().setHomeButtonEnabled(true);
         }
 
-        final DrawerListViewAdapter adapter = new DrawerListViewAdapter(this,
-                new String[] {
-                    getString(R.string.home),
-                    getString(R.string.timeline),
-                    getString(R.string.log),
-                    getString(R.string.calculator),
-                    getString(R.string.export),
-                    getString(R.string.settings) },
-                new int[] {
-                    R.drawable.drawable_dawer_home,
-                    R.drawable.drawable_dawer_timeline,
-                    R.drawable.drawable_dawer_log });
-        drawer.setAdapter(adapter);
-        drawer.setOnItemClickListener(new ListView.OnItemClickListener() {
+        drawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Prevent selection of non-fragment-list-items
-                if(position >= adapter.getFragmentCount()) {
-                    drawer.setItemChecked(currentFragment.ordinal(), true);
-                    drawer.setItemChecked(position, false);
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                drawerLayout.closeDrawers();
+                switch (menuItem.getItemId()) {
+                    case R.id.nav_home:
+                        menuItem.setChecked(true);
+                        replaceFragment(new MainFragment());
+                        break;
+                    case R.id.nav_timeline:
+                        menuItem.setChecked(true);
+                        replaceFragment(new ChartFragment());
+                        break;
+                    case R.id.nav_log:
+                        menuItem.setChecked(true);
+                        replaceFragment(new LogFragment());
+                        break;
+                    case R.id.nav_calculator:
+                        startActivity(new Intent(MainActivity.this, CalculatorActivity.class));
+                        break;
+                    case R.id.nav_export:
+                        startActivity(new Intent(MainActivity.this, ExportActivity.class));
+                        break;
+                    case R.id.nav_settings:
+                        startActivity(new Intent(MainActivity.this, PreferenceActivity.class));
+                        break;
+                    default:
+                        menuItem.setChecked(true);
+                        replaceFragment(new MainFragment());
+                        break;
                 }
-                else {
-                    currentFragment = DrawerItem.values()[position];
-                }
-                replaceFragment(DrawerItem.values()[position]);
-                drawerLayout.closeDrawer(Gravity.START);
+                return true;
             }
         });
-        drawer.setSelector(R.drawable.background_drawer);
 
-        // TODO: Initialization without performItemClick()
-        DrawerItem startFragment = PreferenceHelper.getInstance().getStartScreen();
-        currentFragment = startFragment;
-        drawer.performItemClick(null, startFragment.ordinal(), 0);
+        // Setup start fragment
+        int startScreen = PreferenceHelper.getInstance().getStartScreen();
+        drawer.getMenu().getItem(startScreen).setChecked(true);
+        switch (startScreen) {
+            case 0:
+                replaceFragment(new MainFragment());
+                break;
+            case 1:
+                replaceFragment(new ChartFragment());
+                break;
+            case 2:
+                replaceFragment(new LogFragment());
+                break;
+            default:
+                replaceFragment(new MainFragment());
+                break;
+        }
     }
 
-    public void replaceFragment(DrawerItem drawerItem) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment = fragmentManager.findFragmentByTag(drawerItem.toString());
-        if(fragment == null || !fragment.isVisible()) {
-            switch (drawerItem) {
-                case Home:
-                    fragment = new MainFragment();
-                    break;
-                case Timeline:
-                    fragment = new ChartFragment();
-                    break;
-                case Log:
-                    fragment = new LogFragment();
-                    break;
-                case Calculator:
-                    startActivity(new Intent(this, CalculatorActivity.class));
-                    return;
-                case Export:
-                    startActivity(new Intent(this, ExportActivity.class));
-                    return;
-                case Settings:
-                    startActivity(new Intent(this, PreferenceActivity.class));
-                    return;
-                default:
-                    return;
-            }
-
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.replace(R.id.container, fragment, drawerItem.toString());
-            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            transaction.commit();
-        }
+    private void replaceFragment(Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, fragment, fragment.toString());
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        transaction.commit();
     }
 
     @Override
@@ -197,11 +174,11 @@ public class MainActivity extends BaseActivity implements EntryListFragment.Call
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if(!drawerLayout.isDrawerOpen(Gravity.START)) {
-                    drawerLayout.openDrawer(Gravity.START);
+                if(!drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.openDrawer(GravityCompat.START);
                 }
                 else {
-                    drawerLayout.closeDrawer(Gravity.START);
+                    drawerLayout.closeDrawer(GravityCompat.START);
                 }
                 return true;
             case R.id.action_newevent:

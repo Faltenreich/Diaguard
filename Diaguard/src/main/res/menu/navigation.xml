@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="single">
+
+    <group
+        android:id="@+id/fragments"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_home"
@@ -15,7 +18,9 @@
             android:title="@string/log" />
     </group>
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/activities"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_calculator"
             android:title="@string/calculator" />
@@ -26,4 +31,5 @@
             android:id="@+id/nav_settings"
             android:title="@string/settings" />
     </group>
+
 </menu>

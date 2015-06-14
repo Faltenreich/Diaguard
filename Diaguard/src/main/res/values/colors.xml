@@ -11,10 +11,10 @@
     <color name="gray_light">#ffd8d8d8</color>
     <color name="gray_dark">#ff8c8c8c</color>
 
-    <color name="green">#ff478063</color>
-    <color name="green_light">#ff6d947f</color>
-    <color name="green_dark">#ff41785a</color>
-    <color name="green_darker">#ff396950</color>
+    <color name="green">#478063</color>
+    <color name="green_light">#6d947f</color>
+    <color name="green_dark">#41785a</color>
+    <color name="green_darker">#396950</color>
     <color name="green_highlight">#33478063</color>
 
     <color name="red">#ffdd6050</color>

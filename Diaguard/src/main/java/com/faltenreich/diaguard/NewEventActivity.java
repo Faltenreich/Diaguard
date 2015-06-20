@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -43,6 +44,7 @@ import com.faltenreich.diaguard.fragments.TimePickerFragment;
 import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.faltenreich.diaguard.helpers.Validator;
+import com.faltenreich.diaguard.helpers.ViewHelper;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
@@ -68,6 +70,7 @@ public class NewEventActivity extends BaseActivity {
 
     private DateTime time;
 
+    private CoordinatorLayout coordinatorLayout;
     private FloatingActionMenu fab;
     private LinearLayout layoutValues;
     private EditText editTextNotes;
@@ -134,6 +137,7 @@ public class NewEventActivity extends BaseActivity {
     }
 
     public void getComponents() {
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator);
         fab = (FloatingActionMenu) findViewById(R.id.fab_menu);
         layoutValues = (LinearLayout) findViewById(R.id.layout_measurements);
         editTextNotes = (EditText) findViewById(R.id.edittext_notes);
@@ -447,7 +451,7 @@ public class NewEventActivity extends BaseActivity {
         // Validate date
         DateTime now = DateTime.now();
         if (time.isAfter(now)) {
-            // TODO ViewHelper.showAlert(this, getString(R.string.validator_value_infuture));
+            ViewHelper.showSnackbar(coordinatorLayout, getString(R.string.validator_value_infuture));
             return;
         }
 
@@ -469,7 +473,7 @@ public class NewEventActivity extends BaseActivity {
         if(measurements.size() == 0) {
             // Show alert only if everything else was valid to reduce clutter
             if(inputIsValid)
-                // TODO ViewHelper.showAlert(this, getString(R.string.validator_value_none));
+                ViewHelper.showSnackbar(coordinatorLayout, getString(R.string.validator_value_none));
             inputIsValid = false;
         }
 

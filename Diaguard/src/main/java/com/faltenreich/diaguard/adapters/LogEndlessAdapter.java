@@ -58,10 +58,10 @@ public class LogEndlessAdapter extends EndlessAdapter implements PinnedSectionLi
         List<Model> models = dataSource.get(DatabaseHelper.ENTRY, null, null, null,
                 null, null, DatabaseHelper.DATE + DatabaseHelper.DESCENDING, limits);
 
-        List <Entry> entries = new ArrayList<Entry>();
+        List <Entry> entries = new ArrayList<>();
         for(Model model : models) {
             Entry entry = (Entry)model;
-            List<Model> measurementModels = dataSource.get(DatabaseHelper.MEASUREMENT, null,
+            List<Model> measurementModels = dataSource.get(DatabaseHelper.BLOODSUGAR, null,
                     DatabaseHelper.ENTRY_ID + "=?", new String[]{Long.toString(entry.getId())},
                     null, null, null, null);
             for(Model measurementModel : measurementModels) {
@@ -76,7 +76,7 @@ public class LogEndlessAdapter extends EndlessAdapter implements PinnedSectionLi
 
     @Override
     protected boolean cacheInBackground() throws Exception {
-        itemCache = new ArrayList<ListItem>();
+        itemCache = new ArrayList<>();
         // Fetch next set of messages
         List<Entry> entries = fetchData();
         for(Entry entry : entries) {

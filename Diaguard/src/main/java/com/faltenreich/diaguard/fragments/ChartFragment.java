@@ -335,6 +335,7 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
 
     @Override
     public void onChartFling(MotionEvent me1, MotionEvent me2, float velocityX, float velocityY) {
+
     }
 
     @Override

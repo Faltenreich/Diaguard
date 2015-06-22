@@ -257,7 +257,7 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
     }
 
     private void updateChartData() {
-        new FetchDataTask().execute();
+        new UpdateChartTask().execute();
     }
 
     //endregion
@@ -335,7 +335,6 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
 
     @Override
     public void onChartFling(MotionEvent me1, MotionEvent me2, float velocityX, float velocityY) {
-
     }
 
     @Override
@@ -345,6 +344,7 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
     @Override
     public void onChartTranslate(MotionEvent me, float dX, float dY) {
         updateDateTime();
+        updateChartData();
     }
 
     // OnChartValueSelectedListener
@@ -361,6 +361,96 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
     }
 
     //endregion
+
+    private class UpdateChartTask extends AsyncTask<Void, Void, ScatterData> {
+
+        protected ScatterData doInBackground(Void... params) {
+
+            // Set x-axis labels minute-precisely from previous to next day
+            ArrayList<String> xLabels = new ArrayList<>();
+            String[] weekDays = getResources().getStringArray(R.array.weekdays);
+
+            DateTime previousDay = currentDateTime
+                    .minusDays(1)
+                    .withTime(0, 0, 0, 0);
+            DateTime nextDay = currentDateTime
+                    .plusDays(1)
+                    .withTime(DateTimeConstants.HOURS_PER_DAY - 1,
+                            DateTimeConstants.MINUTES_PER_HOUR - 1,
+                            DateTimeConstants.SECONDS_PER_MINUTE - 1,
+                            DateTimeConstants.MILLIS_PER_SECOND - 1);
+
+            while(previousDay.isBefore(nextDay)) {
+                // Full hour
+                if(previousDay.getMinuteOfHour() == 0) {
+                    if(previousDay.getHourOfDay() == 0) {
+                        String weekDay = weekDays[previousDay.dayOfWeek().get()-1].substring(0,2);
+                        xLabels.add(previousDay.getHourOfDay() + "\n" +
+                                weekDay + ", " + previousDay.getDayOfMonth() + "." + previousDay.getMonthOfYear());
+                    }
+                    else {
+                        xLabels.add(Integer.toString(previousDay.getHourOfDay()));
+                    }
+                }
+                else {
+                    xLabels.add("");
+                }
+                previousDay = previousDay.plusMinutes(1);
+            }
+
+            // Get entries for time interval
+            dataSource.open();
+            List<Entry> entriesOfInterval = dataSource.getEntries(previousDay, nextDay);
+            dataSource.close();
+
+            ArrayList<com.github.mikephil.charting.data.Entry> entries = new ArrayList<>();
+            for(Entry entry : entriesOfInterval) {
+                // TODO: Generic method call
+                List<Model> models = dataSource.get(DatabaseHelper.BLOODSUGAR, null,
+                        DatabaseHelper.ENTRY_ID + "=?",
+                        new String[]{ Long.toString(entry.getId()) },
+                        null, null, null, null);
+                for(Model model : models) {
+                    BloodSugar bloodSugar = (BloodSugar) model;
+                    float value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BloodSugar, bloodSugar.getMgDl());
+                    int minutesOfMonth = (entry.getDate().getDayOfMonth() - 1) * DateTimeConstants.MINUTES_PER_DAY;
+                    int minutesOfHour = entry.getDate().getHourOfDay() * DateTimeConstants.MINUTES_PER_HOUR;
+                    int minutes = entry.getDate().getMinuteOfHour();
+                    entries.add(new com.github.mikephil.charting.data.Entry(value, minutesOfMonth + minutesOfHour + minutes));
+                }
+            }
+
+            ArrayList<ScatterDataSet> dataSets = new ArrayList<>();
+            for(Measurement.Category category : activeCategories) {
+                ScatterDataSet dataSet = new ScatterDataSet(entries, DatabaseHelper.BLOODSUGAR);
+                dataSet.setScatterShape(ScatterChart.ScatterShape.CIRCLE);
+                dataSet.setScatterShapeSize(Helper.getDPI(getActivity(), SCATTER_SHAPE_SIZE));
+                dataSet.setColor(getResources().getColor(R.color.green));
+                dataSet.setDrawValues(false);
+                dataSets.add(dataSet);
+            }
+
+            return new ScatterData(xLabels, dataSets);
+        }
+
+        protected void onProgressUpdate(Void... progress) {
+        }
+
+        protected void onPostExecute(ScatterData data) {
+            if(isAdded()) {
+                chart.setData(data);
+
+                chart.setVisibleXRange(DateTimeConstants.MINUTES_PER_DAY);
+                chart.setVisibleYRange(
+                        PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BloodSugar, 300),
+                        YAxis.AxisDependency.LEFT);
+                chart.getXAxis().setLabelsToSkip((DateTimeConstants.MINUTES_PER_HOUR * 4) - 1);
+                //chart.moveViewToX(DateTimeConstants.MINUTES_PER_DAY * (currentDateTime.getDayOfMonth() - 1));
+
+                chart.invalidate();
+            }
+        }
+    }
 
     private class FetchDataTask extends AsyncTask<Void, Void, ScatterData> {
 

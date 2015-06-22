@@ -4,7 +4,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/green</item>
-        <item name="colorPrimaryDark">@color/green_darker</item>
+        <item name="colorPrimaryDark">@color/green</item>
         <item name="colorAccent">@color/green</item>
         <item name="elevation">4dp</item>
         <item name="drawerArrowStyle">@style/NavigationDrawerArrowStyle</item>
@@ -13,6 +13,9 @@
         <item name="android:windowAllowReturnTransitionOverlap">true</item>
         <item name="android:windowSharedElementEnterTransition">@android:transition/move</item>
         <item name="android:windowSharedElementExitTransition">@android:transition/move</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowContentOverlay">@null</item>
     </style>
 
     <style name="NavigationDrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">

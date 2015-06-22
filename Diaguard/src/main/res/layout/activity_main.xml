@@ -6,23 +6,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar"/>
-
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- Main layout -->
-        <FrameLayout
-            android:id="@+id/container"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/toolbar"/>
+
+            <!-- Main layout -->
+            <FrameLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
 
         <!-- Navigation drawer -->
         <android.support.design.widget.NavigationView
             android:id="@+id/navigation"
             app:menu="@menu/navigation"
+            app:headerLayout="@layout/navigation_header"
             style="@style/NavigationDrawer" />
 
     </android.support.v4.widget.DrawerLayout>

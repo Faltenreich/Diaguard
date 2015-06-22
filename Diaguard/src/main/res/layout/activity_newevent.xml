@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.design.widget.CoordinatorLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
@@ -71,8 +71,8 @@
                             android:hint="@string/note"
                             android:inputType="textMultiLine|textCapSentences"
                             android:background="@android:color/transparent"
-                            android:paddingLeft="@dimen/padding"
-                            android:paddingStart="@dimen/padding"/>
+                            android:paddingStart="@dimen/padding"
+                            android:paddingLeft="@dimen/padding"/>
 
                     </LinearLayout>
 
@@ -112,6 +112,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/padding_end"
+        android:layout_gravity="bottom|end"
         fab:menu_labels_textColor="@color/gray_dark"
         fab:menu_labels_colorNormal="@android:color/white"
         fab:menu_labels_colorPressed="@android:color/white"
@@ -122,8 +123,6 @@
         fab:menu_backgroundColor="@color/transparent_light"
         fab:menu_labels_showAnimation="@anim/fab_scale_up"
         fab:menu_labels_hideAnimation="@anim/fab_scale_down"
-        fab:menu_animationDelayPerItem="25"
-        app:layout_anchor="@id/content"
-        app:layout_anchorGravity="bottom|right|end"/>
+        fab:menu_animationDelayPerItem="25"/>
 
-</android.support.design.widget.CoordinatorLayout>
+</FrameLayout>

@@ -79,13 +79,6 @@ public class MainActivity extends BaseActivity implements EntryListFragment.Call
         drawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
-        if (toolbar != null){
-            setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setHomeButtonEnabled(true);
-        }
-
         drawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {

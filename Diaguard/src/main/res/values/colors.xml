@@ -25,12 +25,12 @@
 
     <!-- Categories -->
     <color name="bloodsugar">@color/green</color>
-    <color name="insulin">#ff0b3c8d</color>
-    <color name="meal">#ff9d8418</color>
-    <color name="activity">#ff04a09a</color>
-    <color name="hba1c">#ff000000</color>
-    <color name="weight">#ffb34e1b</color>
-    <color name="pulse">#ff670d78</color>
-    <color name="pressure">#ff6e9d3d</color>
+    <color name="insulin">#43528d</color>
+    <color name="meal">#9d923e</color>
+    <color name="activity">#4bb8b8</color>
+    <color name="hba1c">#cac4c8</color>
+    <color name="weight">#a0414f</color>
+    <color name="pulse">#9d5796</color>
+    <color name="pressure">#b1741f</color>
 
 </resources>

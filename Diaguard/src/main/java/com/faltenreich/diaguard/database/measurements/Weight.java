@@ -1,12 +1,17 @@
 package com.faltenreich.diaguard.database.measurements;
 
-import com.faltenreich.diaguard.database.DatabaseHelper;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
 /**
  * Created by Filip on 11.05.2015.
  */
+@DatabaseTable
 public class Weight extends Measurement {
 
+    public static final String KILOGRAM = "kilogram";
+
+    @DatabaseField
     private float kilogram;
 
     public float getKilogram() {
@@ -15,11 +20,6 @@ public class Weight extends Measurement {
 
     public void setKilogram(float kilogram) {
         this.kilogram = kilogram;
-    }
-
-    @Override
-    public String getTableName() {
-        return DatabaseHelper.WEIGHT;
     }
 
     public Category getMeasurementType() {

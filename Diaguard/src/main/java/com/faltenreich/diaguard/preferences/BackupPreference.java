@@ -8,7 +8,6 @@ import android.preference.DialogPreference;
 import android.util.AttributeSet;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.helpers.FileHelper;
 import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
@@ -28,14 +27,11 @@ public class BackupPreference extends DialogPreference {
     private final int ACTION_CREATEBACKUP = 0;
     private final int ACTION_RESTOREBACKUP = 1;
 
-    DatabaseDataSource dataSource;
     Activity activity;
 
     public BackupPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
         activity = (Activity) context;
-
-        dataSource = new DatabaseDataSource(activity);
 
         // Hide standard buttons
         setPositiveButtonText(null);

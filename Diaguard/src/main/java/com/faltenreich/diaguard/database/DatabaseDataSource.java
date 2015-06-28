@@ -123,7 +123,7 @@ public class DatabaseDataSource {
         values.put(DatabaseHelper.CREATED_AT, Helper.getDateDatabaseFormat().print(bloodSugar.getCreatedAt()));
         values.put(DatabaseHelper.UPDATED_AT, Helper.getDateDatabaseFormat().print(bloodSugar.getUpdatedAt()));
         values.put(DatabaseHelper.MGDL, bloodSugar.getMgDl());
-        values.put(DatabaseHelper.ENTRY_ID, bloodSugar.getEntryId());
+        values.put(DatabaseHelper.ENTRY_ID, bloodSugar .getEntryId());
         return values;
     }
 

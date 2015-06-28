@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.fragments;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,24 +13,27 @@ import android.widget.TextView;
 import com.faltenreich.diaguard.MainActivity;
 import com.faltenreich.diaguard.NewEventActivity;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.database.DatabaseDataSource;
-import com.faltenreich.diaguard.database.DatabaseHelper;
+import com.faltenreich.diaguard.database.DatabaseFacade;
 import com.faltenreich.diaguard.database.Entry;
 import com.faltenreich.diaguard.database.measurements.BloodSugar;
 import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.faltenreich.diaguard.helpers.ChartHelper;
 import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.Where;
 
 import org.achartengine.chart.PointStyle;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYSeriesRenderer;
 import org.joda.time.DateTime;
+import org.joda.time.Interval;
 import org.joda.time.Minutes;
 
-public class MainFragment extends Fragment {
+import java.sql.SQLException;
 
-    private DatabaseDataSource dataSource;
+public class MainFragment extends BaseFragment {
+
     private DateTime today;
 
     private ViewGroup layoutLatest;
@@ -88,38 +91,40 @@ public class MainFragment extends Fragment {
     private void updateContent() {
         today = DateTime.now();
 
-        dataSource = new DatabaseDataSource(getActivity());
-        dataSource.open();
+        try {
+            long countBloodSugarMeasurements = DatabaseFacade.getInstance().getDao(BloodSugar.class).countOf();
 
-        int countBloodSugarMeasurements = dataSource.count(DatabaseHelper.BLOODSUGAR);
-
-        if(countBloodSugarMeasurements > 0) {
-            Entry entry = dataSource.getLatestBloodSugar();
-            layoutLatest.setOnClickListener(null);
-            textViewLatestValue.setTextSize(60);
-            updateLatest(entry);
-            updateDashboard();
-        }
-        else {
-            layoutLatest.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivityForResult(new Intent(getActivity(), NewEventActivity.class), MainActivity.REQUEST_EVENT_CREATED);
-                }
-            });
-            textViewLatestValue.setTextSize(40);
-            textViewAverageMonth.setText(Helper.PLACEHOLDER);
-            textViewAverageWeek.setText(Helper.PLACEHOLDER);
-            textViewAverageDay.setText(Helper.PLACEHOLDER);
+            if(countBloodSugarMeasurements > 0) {
+                layoutLatest.setOnClickListener(null);
+                textViewLatestValue.setTextSize(60);
+                updateLatest();
+                updateDashboard();
+            }
+            else {
+                layoutLatest.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivityForResult(new Intent(getActivity(), NewEventActivity.class), MainActivity.REQUEST_EVENT_CREATED);
+                    }
+                });
+                textViewLatestValue.setTextSize(40);
+                textViewAverageMonth.setText(Helper.PLACEHOLDER);
+                textViewAverageWeek.setText(Helper.PLACEHOLDER);
+                textViewAverageDay.setText(Helper.PLACEHOLDER);
+            }
+        } catch (SQLException exception) {
+            Log.e("MainFragment", exception.getMessage());
         }
 
         updateChart();
-
-        dataSource.close();
     }
 
-    private void updateLatest(Entry entry) {
-        BloodSugar latestBloodSugar = (BloodSugar) entry.getMeasurements().get(0);
+    private void updateLatest() throws SQLException{
+        // TODO: SELECT * FROM join-statement instead of two queries
+        QueryBuilder joinQb = DatabaseFacade.getInstance().join(Entry.class, BloodSugar.class).orderBy(Entry.DATE, false).limit(1L);
+        Entry entry = (Entry) joinQb.query().get(0);
+        Where where = DatabaseFacade.getInstance().getDao(BloodSugar.class).queryBuilder().where().eq(BloodSugar.ENTRY_ID, entry.getId());
+        BloodSugar latestBloodSugar = (BloodSugar) where.query().get(0);
 
         // Value
         float value = PreferenceHelper.getInstance().
@@ -160,45 +165,62 @@ public class MainFragment extends Fragment {
     }
 
     private void updateToday() {
-        int measurements = dataSource.countBloodSugar(today, DatabaseHelper.BLOODSUGAR);
-        textViewMeasurements.setText(Integer.toString(measurements));
+        try {
+            QueryBuilder jointQuery = DatabaseFacade.getInstance().join(Entry.class, BloodSugar.class);
 
-        int countHypers = dataSource.countBloodSugar(today,
-                PreferenceHelper.getInstance().getLimitHyperglycemia(), true);
-        textViewHyperglycemia.setText(Integer.toString(countHypers));
+            Where whereToday = jointQuery.where().gt(Entry.DATE, DateTime.now().withTimeAtStartOfDay());
+            String query = jointQuery.prepareStatementString();
+            long countBloodSugar = whereToday.countOf();
+            textViewMeasurements.setText(Long.toString(countBloodSugar));
 
-        int countHypos = dataSource.countBloodSugar(today,
-                PreferenceHelper.getInstance().getLimitHypoglycemia(), false);
-        textViewHypoglycemia.setText(Integer.toString(countHypos));
+            // TODO: Combine whereToday with gt()
+            Where whereHyper = DatabaseFacade.getInstance().getDao(BloodSugar.class).queryBuilder().where().gt(BloodSugar.MGDL, PreferenceHelper.getInstance().getLimitHyperglycemia());
+            long countHypers = whereHyper.countOf();
+            textViewHyperglycemia.setText(Long.toString(countHypers));
+
+            // TODO: Combine whereToday with lt()
+            Where whereHyo = DatabaseFacade.getInstance().getDao(BloodSugar.class).queryBuilder().where().lt(BloodSugar.MGDL, PreferenceHelper.getInstance().getLimitHypoglycemia());
+            long countHypos = whereHyo.countOf();
+            textViewHypoglycemia.setText(Long.toString(countHypos));
+        } catch (SQLException exception) {
+            Log.e("MainFragment", exception.getMessage());
+        }
     }
 
     private void updateAverage() {
-        float avgMonth = PreferenceHelper.getInstance().
-                formatDefaultToCustomUnit(Measurement.Category.BloodSugar,
-                        dataSource.getBloodSugarAverage(30));
-        float avgWeek = PreferenceHelper.getInstance().
-                formatDefaultToCustomUnit(Measurement.Category.BloodSugar,
-                        dataSource.getBloodSugarAverage(7));
-        float avgDay = PreferenceHelper.getInstance().
-                formatDefaultToCustomUnit(Measurement.Category.BloodSugar,
-                        dataSource.getBloodSugarAverage(1));
+        try {
+            DateTime now = DateTime.now();
+            Interval intervalDay = new Interval(new DateTime(now.minusDays(1)), now);
+            Interval intervalWeek = new Interval(new DateTime(now.minusWeeks(1)), now);
+            Interval intervalMonth = new Interval(new DateTime(now.minusMonths(1)), now);
+            
+            long avgDay = DatabaseFacade.getInstance().avg(BloodSugar.class, BloodSugar.MGDL, intervalDay);
+            long avgWeek = DatabaseFacade.getInstance().avg(BloodSugar.class, BloodSugar.MGDL, intervalWeek);
+            long avgMonth = DatabaseFacade.getInstance().avg(BloodSugar.class, BloodSugar.MGDL, intervalMonth);
 
-        String avgMonthString = PreferenceHelper.getInstance().
-                getDecimalFormat(Measurement.Category.BloodSugar).format(avgMonth);
-        if(avgMonth <= 0)
-            avgMonthString = Helper.PLACEHOLDER;
-        String avgWeekString = PreferenceHelper.getInstance().
-                getDecimalFormat(Measurement.Category.BloodSugar).format(avgWeek);
-        if(avgWeek <= 0)
-            avgWeekString = Helper.PLACEHOLDER;
-        String avgDayString = PreferenceHelper.getInstance().
-                getDecimalFormat(Measurement.Category.BloodSugar).format(avgDay);
-        if(avgDay <= 0)
-            avgDayString = Helper.PLACEHOLDER;
+            if (avgDay > 0) {
+                float avgDayCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BloodSugar, avgDay);
+                textViewAverageDay.setText(PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BloodSugar).format(avgDayCustom));
+            } else {
+                textViewAverageDay.setText(Helper.PLACEHOLDER);
+            }
 
-        textViewAverageMonth.setText(avgMonthString);
-        textViewAverageWeek.setText(avgWeekString);
-        textViewAverageDay.setText(avgDayString);
+            if (avgWeek > 0) {
+                float avgDayWeek = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BloodSugar, avgWeek);
+                textViewAverageWeek.setText(PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BloodSugar).format(avgDayWeek));
+            } else {
+                textViewAverageWeek.setText(Helper.PLACEHOLDER);
+            }
+
+            if (avgMonth > 0) {
+                float avgDayMonth = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BloodSugar, avgMonth);
+                textViewAverageMonth.setText(PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BloodSugar).format(avgDayMonth));
+            } else {
+                textViewAverageMonth.setText(Helper.PLACEHOLDER);
+            }
+        } catch (SQLException exception) {
+            Log.e("MainFragment", exception.getMessage());
+        }
     }
 
     private void updateChart() {
@@ -239,6 +261,7 @@ public class MainFragment extends Fragment {
             chartHelper.renderer.addXTextLabel(x_value, weekDay);
 
             // Insert average
+            /*
             float averageOfDay = dataSource.getBloodSugarAverageOfDay(day);
             if(averageOfDay > 0) {
                 float y_value = PreferenceHelper.getInstance().
@@ -252,6 +275,7 @@ public class MainFragment extends Fragment {
                 seriesBloodSugar.add(x_value, y_value);
                 count++;
             }
+            */
         }
         chartHelper.renderer.setYAxisMax(highestValue +
                 PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BloodSugar, 30));

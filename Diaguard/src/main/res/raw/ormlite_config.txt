@@ -1,0 +1,299 @@
+#
+# generated on 2015/06/27 03:51:15
+#
+# --table-start--
+dataClass=com.faltenreich.diaguard.database.Entry
+tableName=entry
+# --table-fields-start--
+# --field-start--
+fieldName=date
+dataPersister=DATE_TIME
+# --field-end--
+# --field-start--
+fieldName=note
+dataPersister=STRING
+# --field-end--
+# --field-start--
+fieldName=isVisible
+dataPersister=BOOLEAN
+# --field-end--
+# --field-start--
+fieldName=measurements
+foreignCollection=true
+# --field-end--
+# --field-start--
+fieldName=id
+generatedId=true
+columnDefinition=INTEGER PRIMARY KEY AUTOINCREMENT
+# --field-end--
+# --field-start--
+fieldName=createdAt
+dataPersister=DATE_TIME
+# --field-end--
+# --field-start--
+fieldName=updatedAt
+dataPersister=DATE_TIME
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.faltenreich.diaguard.database.Food
+tableName=food
+# --table-fields-start--
+# --field-start--
+fieldName=name
+dataPersister=STRING
+# --field-end--
+# --field-start--
+fieldName=image
+dataPersister=STRING
+# --field-end--
+# --field-start--
+fieldName=id
+generatedId=true
+columnDefinition=INTEGER PRIMARY KEY AUTOINCREMENT
+# --field-end--
+# --field-start--
+fieldName=createdAt
+dataPersister=DATE_TIME
+# --field-end--
+# --field-start--
+fieldName=updatedAt
+dataPersister=DATE_TIME
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.faltenreich.diaguard.database.measurements.BloodSugar
+tableName=bloodsugar
+# --table-fields-start--
+# --field-start--
+fieldName=mgDl
+# --field-end--
+# --field-start--
+fieldName=entry
+foreign=true
+# --field-end--
+# --field-start--
+fieldName=id
+generatedId=true
+columnDefinition=INTEGER PRIMARY KEY AUTOINCREMENT
+# --field-end--
+# --field-start--
+fieldName=createdAt
+dataPersister=DATE_TIME
+# --field-end--
+# --field-start--
+fieldName=updatedAt
+dataPersister=DATE_TIME
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.faltenreich.diaguard.database.measurements.Insulin
+tableName=insulin
+# --table-fields-start--
+# --field-start--
+fieldName=bolus
+# --field-end--
+# --field-start--
+fieldName=correction
+# --field-end--
+# --field-start--
+fieldName=basal
+# --field-end--
+# --field-start--
+fieldName=entry
+foreign=true
+# --field-end--
+# --field-start--
+fieldName=id
+generatedId=true
+columnDefinition=INTEGER PRIMARY KEY AUTOINCREMENT
+# --field-end--
+# --field-start--
+fieldName=createdAt
+dataPersister=DATE_TIME
+# --field-end--
+# --field-start--
+fieldName=updatedAt
+dataPersister=DATE_TIME
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.faltenreich.diaguard.database.measurements.Meal
+tableName=meal
+# --table-fields-start--
+# --field-start--
+fieldName=carbohydrates
+# --field-end--
+# --field-start--
+fieldName=foodId
+# --field-end--
+# --field-start--
+fieldName=entry
+foreign=true
+# --field-end--
+# --field-start--
+fieldName=id
+generatedId=true
+columnDefinition=INTEGER PRIMARY KEY AUTOINCREMENT
+# --field-end--
+# --field-start--
+fieldName=createdAt
+dataPersister=DATE_TIME
+# --field-end--
+# --field-start--
+fieldName=updatedAt
+dataPersister=DATE_TIME
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.faltenreich.diaguard.database.measurements.Activity
+tableName=activity
+# --table-fields-start--
+# --field-start--
+fieldName=minutes
+# --field-end--
+# --field-start--
+fieldName=type
+dataPersister=ENUM_INTEGER
+# --field-end--
+# --field-start--
+fieldName=entry
+foreign=true
+# --field-end--
+# --field-start--
+fieldName=id
+generatedId=true
+columnDefinition=INTEGER PRIMARY KEY AUTOINCREMENT
+# --field-end--
+# --field-start--
+fieldName=createdAt
+dataPersister=DATE_TIME
+# --field-end--
+# --field-start--
+fieldName=updatedAt
+dataPersister=DATE_TIME
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.faltenreich.diaguard.database.measurements.HbA1c
+tableName=hba1c
+# --table-fields-start--
+# --field-start--
+fieldName=percent
+# --field-end--
+# --field-start--
+fieldName=entry
+foreign=true
+# --field-end--
+# --field-start--
+fieldName=id
+generatedId=true
+columnDefinition=INTEGER PRIMARY KEY AUTOINCREMENT
+# --field-end--
+# --field-start--
+fieldName=createdAt
+dataPersister=DATE_TIME
+# --field-end--
+# --field-start--
+fieldName=updatedAt
+dataPersister=DATE_TIME
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.faltenreich.diaguard.database.measurements.Weight
+tableName=weight
+# --table-fields-start--
+# --field-start--
+fieldName=kilogram
+# --field-end--
+# --field-start--
+fieldName=entry
+foreign=true
+# --field-end--
+# --field-start--
+fieldName=id
+generatedId=true
+columnDefinition=INTEGER PRIMARY KEY AUTOINCREMENT
+# --field-end--
+# --field-start--
+fieldName=createdAt
+dataPersister=DATE_TIME
+# --field-end--
+# --field-start--
+fieldName=updatedAt
+dataPersister=DATE_TIME
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.faltenreich.diaguard.database.measurements.Pulse
+tableName=pulse
+# --table-fields-start--
+# --field-start--
+fieldName=frequency
+# --field-end--
+# --field-start--
+fieldName=entry
+foreign=true
+# --field-end--
+# --field-start--
+fieldName=id
+generatedId=true
+columnDefinition=INTEGER PRIMARY KEY AUTOINCREMENT
+# --field-end--
+# --field-start--
+fieldName=createdAt
+dataPersister=DATE_TIME
+# --field-end--
+# --field-start--
+fieldName=updatedAt
+dataPersister=DATE_TIME
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.faltenreich.diaguard.database.measurements.Pressure
+tableName=pressure
+# --table-fields-start--
+# --field-start--
+fieldName=systolic
+# --field-end--
+# --field-start--
+fieldName=diastolic
+# --field-end--
+# --field-start--
+fieldName=entry
+foreign=true
+# --field-end--
+# --field-start--
+fieldName=id
+generatedId=true
+columnDefinition=INTEGER PRIMARY KEY AUTOINCREMENT
+# --field-end--
+# --field-start--
+fieldName=createdAt
+dataPersister=DATE_TIME
+# --field-end--
+# --field-start--
+fieldName=updatedAt
+dataPersister=DATE_TIME
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################

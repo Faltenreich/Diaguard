@@ -17,7 +17,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.Entry;
 import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.faltenreich.diaguard.helpers.Helper;
@@ -31,8 +30,6 @@ import org.joda.time.DateTime;
  */
 
 public class CalculatorActivity extends BaseActivity {
-
-    private DatabaseDataSource dataSource;
 
     private EditText editTextBloodSugar;
     private EditText editTextTargetValue;
@@ -62,8 +59,6 @@ public class CalculatorActivity extends BaseActivity {
     }
 
     public void initialize() {
-        dataSource = new DatabaseDataSource(this);
-
         getComponents();
         initializeGUI();
     }
@@ -293,25 +288,24 @@ public class CalculatorActivity extends BaseActivity {
     }
 
     private void storeValues(float currentBloodSugar, float meal, float bolus) {
-        dataSource.open();
 
         Entry entry = new Entry();
         entry.setDate(new DateTime());
-        long entryId = dataSource.insert(entry);
         //TODO
         /*
+        long entryId = dataSource.insert(entry);
 
         Measurement measurement = new Measurement();
         measurement.setValue(currentBloodSugar);
         measurement.setCategory(Measurement.Category.BloodSugar);
-        measurement.setEntryId(entryId);
+        measurement.setEntry(entryId);
         dataSource.insert(measurement);
 
         if(meal > 0) {
             measurement = new Measurement();
             measurement.setValue(meal);
             measurement.setCategory(Measurement.Category.Meal);
-            measurement.setEntryId(entryId);
+            measurement.setEntry(entryId);
             dataSource.insert(measurement);
         }
 
@@ -319,12 +313,10 @@ public class CalculatorActivity extends BaseActivity {
             measurement = new Measurement();
             measurement.setValue(bolus);
             measurement.setCategory(Measurement.Category.Insulin);
-            measurement.setEntryId(entryId);
+            measurement.setEntry(entryId);
             dataSource.insert(measurement);
         }
         */
-
-        dataSource.close();
     }
 
     @Override

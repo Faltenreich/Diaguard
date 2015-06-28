@@ -7,10 +7,6 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.database.DatabaseDataSource;
-import com.faltenreich.diaguard.database.DatabaseHelper;
-import com.faltenreich.diaguard.database.Entry;
-import com.faltenreich.diaguard.database.Model;
 import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
@@ -40,7 +36,6 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by Filip on 05.06.2014.
@@ -59,11 +54,9 @@ public class FileHelper {
     public static final String MIME_CSV = "text/csv";
 
     private Context context;
-    private DatabaseDataSource dataSource;
 
     public FileHelper(Context context) {
         this.context = context;
-        this.dataSource = new DatabaseDataSource(context);
     }
 
     private static boolean isExternalStorageWritable() {
@@ -140,12 +133,12 @@ public class FileHelper {
             File file = new File(directory.getAbsolutePath() + "/backup" + DateTimeFormat.forPattern("yyyyMMddHHmmss").
                     print(new DateTime()) + ".csv");
 
-            dataSource.open();
-
             try {
                 FileWriter fileWriter = new FileWriter(file);
                 CSVWriter writer = new CSVWriter(fileWriter, DELIMITER);
 
+                // TODO
+                        /*
                 // Meta information to detect the database schema in future iterations
                 String[] meta = new String[]{
                         KEY_META,
@@ -166,8 +159,6 @@ public class FileHelper {
                             new String[]{Long.toString(entry.getId())},
                             null, null, null, null);
                     for(Model measurementModel : measurements) {
-                        // TODO
-                        /*
                         Measurement measurement = (Measurement)measurementModel;
                         String[] measurementValues = {
                                 DatabaseHelper.MEASUREMENT,
@@ -175,17 +166,15 @@ public class FileHelper {
                                 measurement.getCategory().name()
                         };
                         writer.writeNext(measurementValues);
-                        */
                     }
                 }
+                        */
 
                 writer.close();
             }
             catch (IOException ex) {
                 //Log.e("DiaguardError", ex.getEntry());
             }
-
-            dataSource.close();
 
             return file;
         }
@@ -212,11 +201,11 @@ public class FileHelper {
                 String filePath = getExternalStorage().getAbsolutePath() + File.separator + params[0];
                 CSVReader reader = new CSVReader(new FileReader(filePath), DELIMITER);
 
-                dataSource.open();
-
                 // Read first line and check database version
                 String[] nextLine = reader.readNext();
 
+                // TODO
+                        /*
                 if(!nextLine[0].equals(KEY_META)) {
                     // First database version without meta information (17)
                     while (nextLine != null) {
@@ -227,14 +216,11 @@ public class FileHelper {
                         long entryId = dataSource.insert(entry);
 
                         // Measurement
-                        // TODO
-                        /*
                         Measurement measurement = new Measurement();
                         measurement.setValue(Float.parseFloat(nextLine[0]));
                         measurement.setCategory(Measurement.Category.valueOf(nextLine[3]));
-                        measurement.setEntryId(entryId);
+                        measurement.setEntry(entryId);
                         dataSource.insert(measurement);
-                        */
 
                         nextLine = reader.readNext();
                     }
@@ -265,14 +251,13 @@ public class FileHelper {
                             Measurement measurement = new Measurement();
                             measurement.setValue(Float.parseFloat(nextLine[1]));
                             measurement.setCategory(Measurement.Category.valueOf(nextLine[2]));
-                            measurement.setEntryId(parentId);
+                            measurement.setEntry(parentId);
                             dataSource.insert(measurement);
-                            */
                         }
                     }
                 }
+                */
 
-                dataSource.close();
                 reader.close();
 
             } catch (IOException ex) {
@@ -391,9 +376,8 @@ public class FileHelper {
                     }
 
                     // Content
-                    dataSource.open();
+                    /*TODO
                     float[][] values = dataSource.getAverageDataTable(dateIteration, selectedCategories, 12);
-                    dataSource.close();
 
                     // Insert values into table
                     for(int categoryPosition = 0; categoryPosition < selectedCategories.length; categoryPosition++) {
@@ -433,6 +417,7 @@ public class FileHelper {
                             table.addCell(cell);
                         }
                     }
+                        */
 
                     // Alternating row background
                     boolean b = true;

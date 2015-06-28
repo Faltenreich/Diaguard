@@ -1,9 +1,7 @@
 package com.faltenreich.diaguard.preferences;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Build;
 import android.preference.DialogPreference;
@@ -12,8 +10,6 @@ import android.view.View;
 import android.widget.DatePicker;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.database.DatabaseDataSource;
-import com.faltenreich.diaguard.database.DatabaseHelper;
 import com.faltenreich.diaguard.helpers.Helper;
 
 import org.joda.time.DateTime;
@@ -23,7 +19,6 @@ import org.joda.time.DateTime;
  */
 public class CleanUpPreference extends DialogPreference {
 
-    DatabaseDataSource dataSource;
     Activity activity;
 
     DatePicker datePicker;
@@ -33,16 +28,11 @@ public class CleanUpPreference extends DialogPreference {
         activity = (Activity) context;
 
         setDialogLayoutResource(R.layout.preference_cleanup);
-
-        dataSource = new DatabaseDataSource(activity);
     }
 
     private void cleanUp(DateTime date) {
-        dataSource.open();
         String dateString = Helper.getDateDatabaseFormat().print(date.withTime(23, 59, 59, 999));
-        int count = dataSource.delete(DatabaseHelper.ENTRY,
-                DatabaseHelper.DATE + "<=DateTime(?)", new String[]{ dateString });
-        dataSource.close();
+        //int count = dataSource.delete(DatabaseHelper.ENTRY, DatabaseHelper.DATE + "<=DateTime(?)", new String[]{ dateString });
 
         // TODO ViewHelper.showSnackbar(activity, count + " " + activity.getResources().getString(R.string.pref_data_cleanup_return));
     }
@@ -66,9 +56,8 @@ public class CleanUpPreference extends DialogPreference {
                     .withMonthOfYear(datePicker.getMonth()+1)
                     .withDayOfMonth(datePicker.getDayOfMonth());
 
-            dataSource.open();
+            /*
             int count = dataSource.countEntriesBefore(date);
-            dataSource.close();
 
             if(count <= 0)
                 return;
@@ -92,6 +81,7 @@ public class CleanUpPreference extends DialogPreference {
             AlertDialog dialog = dialogBuilder.create();
             dialog.setCanceledOnTouchOutside(true);
             dialog.show();
+            */
         }
     }
 }

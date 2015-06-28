@@ -1,12 +1,17 @@
 package com.faltenreich.diaguard.database.measurements;
 
-import com.faltenreich.diaguard.database.DatabaseHelper;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
 /**
  * Created by Filip on 11.05.2015.
  */
+@DatabaseTable
 public class Pulse extends Measurement {
 
+    public static final String FREQUENCY = "frequency";
+
+    @DatabaseField
     private float frequency;
 
     public float getFrequency() {
@@ -15,11 +20,6 @@ public class Pulse extends Measurement {
 
     public void setFrequency(float frequency) {
         this.frequency = frequency;
-    }
-
-    @Override
-    public String getTableName() {
-        return DatabaseHelper.PULSE;
     }
 
     public Category getMeasurementType() {

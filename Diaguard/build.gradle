@@ -22,6 +22,13 @@ android {
         minSdkVersion 14
         targetSdkVersion 22
     }
+    sourceSets {
+        main {
+            java {
+                exclude '**/DatabaseDataSource.java'
+            }
+        }
+    }
 
     packagingOptions {
         exclude 'META-INF/notice.txt'
@@ -35,11 +42,13 @@ android {
 
 dependencies {
     compile 'com.android.support:design:22.2.0'
-    compile 'com.android.support:cardview-v7:22.0.0'
+    compile 'com.android.support:cardview-v7:22.2.0'
 
+    compile 'com.j256.ormlite:ormlite-core:4.48'
+    compile 'com.j256.ormlite:ormlite-android:4.48'
     compile 'com.opencsv:opencsv:3.3'
     compile 'net.danlew:android.joda:2.7.2'
-    compile 'com.github.clans:fab:1.5.0'
+    compile 'com.github.clans:fab:1.5.3'
     compile 'com.github.PhilJay:MPAndroidChart:v2.1.0'
 
     compile files('libs/achartengine-1.2.0.jar')

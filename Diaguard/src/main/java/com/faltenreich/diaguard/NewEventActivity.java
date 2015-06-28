@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,11 +26,9 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.faltenreich.diaguard.adapters.SwipeDismissTouchListener;
-import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.DatabaseHelper;
 import com.faltenreich.diaguard.database.Entry;
 import com.faltenreich.diaguard.database.Food;
-import com.faltenreich.diaguard.database.Model;
 import com.faltenreich.diaguard.database.measurements.BloodSugar;
 import com.faltenreich.diaguard.database.measurements.HbA1c;
 import com.faltenreich.diaguard.database.measurements.Insulin;
@@ -46,9 +45,12 @@ import com.faltenreich.diaguard.helpers.Validator;
 import com.faltenreich.diaguard.helpers.ViewHelper;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
 
 import org.joda.time.DateTime;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -61,8 +63,6 @@ public class NewEventActivity extends BaseActivity {
     public static final String EXTRA_ENTRY = "Entry";
     public static final String EXTRA_MEASUREMENT = "Measurement";
     public static final String EXTRA_DATE = "Date";
-
-    private DatabaseDataSource dataSource;
 
     private Entry entry;
     private int alarmIntervalInMinutes;
@@ -92,17 +92,16 @@ public class NewEventActivity extends BaseActivity {
     }
 
     public void initialize() {
-        dataSource = new DatabaseDataSource(this);
         time = new DateTime();
 
         categories = new LinkedHashMap<>();
         Measurement.Category[] activeCategories = PreferenceHelper.getInstance().getActiveCategories();
-        for(Measurement.Category category : activeCategories) {
+        for (Measurement.Category category : activeCategories) {
             categories.put(category, false);
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (toolbar != null){
+        if (toolbar != null) {
             toolbar.setTitle(getString(R.string.entry_new));
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
@@ -129,6 +128,7 @@ public class NewEventActivity extends BaseActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 alarmIntervalInMinutes = getResources().getIntArray(R.array.alarm_intervals_values)[position];
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -148,50 +148,45 @@ public class NewEventActivity extends BaseActivity {
     private void checkIntents() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            if(extras.getLong(EXTRA_ENTRY) != 0L || extras.getLong(EXTRA_MEASUREMENT) != 0L) {
+            if (extras.getLong(EXTRA_ENTRY) != 0L || extras.getLong(EXTRA_MEASUREMENT) != 0L) {
 
                 Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
                 if (toolbar != null) {
                     toolbar.setTitle(getString(R.string.entry_edit));
                 }
 
-                dataSource.open();
-
+                /*
                 // Get entry
-                if(extras.getLong(EXTRA_ENTRY) != 0L) {
+                if (extras.getLong(EXTRA_ENTRY) != 0L) {
                     entry = (Entry) dataSource.get(DatabaseHelper.ENTRY, extras.getLong(EXTRA_ENTRY));
-                }
-                else {
-                    Measurement measurement = (Measurement)dataSource.get(DatabaseHelper.MEASUREMENT, extras.getLong("ID"));
-                    entry = (Entry)dataSource.get(DatabaseHelper.ENTRY, measurement.getEntryId());
+                } else {
+                    Measurement measurement = (Measurement) dataSource.get(DatabaseHelper.MEASUREMENT, extras.getLong("ID"));
+                    entry = (Entry) dataSource.get(DatabaseHelper.ENTRY, measurement.getEntry());
                 }
 
                 // and all of its measurements
                 List<Model> measurements = dataSource.get(DatabaseHelper.MEASUREMENT, null,
-                        DatabaseHelper.ENTRY_ID + "=?", new String[]{ Long.toString(entry.getId()) },
+                        DatabaseHelper.ENTRY_ID + "=?", new String[]{Long.toString(entry.getId())},
                         null, null, null, null);
-                dataSource.close();
 
                 time = entry.getDate();
                 editTextNotes.setText(entry.getNote());
 
-                for(Model model : measurements) {
+                for (Model model : measurements) {
                     Measurement measurement = (Measurement) model;
                     // TODO entry.getMeasurements().add(measurement);
-                    for(int position = 0; position < layoutValues.getChildCount(); position++) {
+                    for (int position = 0; position < layoutValues.getChildCount(); position++) {
                         View view = layoutValues.getChildAt(position);
-                        Measurement.Category category = (Measurement.Category)view.getTag();
-                        /*
+                        Measurement.Category category = (Measurement.Category) view.getTag();
                         if(category == measurement.getCategory()) {
                             EditText editTextValue = (EditText) view.findViewById(R.id.value);
                             float customValue = preferenceHelper.formatDefaultToCustomUnit(category, measurement.getValue());
                             editTextValue.setText(Helper.getDecimalFormat().format(customValue));
                         }
-                        */
                     }
                 }
-            }
-            else if(extras.getSerializable(EXTRA_DATE) != null) {
+                        */
+            } else if (extras.getSerializable(EXTRA_DATE) != null) {
                 time = (DateTime) extras.getSerializable(EXTRA_DATE);
             }
         }
@@ -200,8 +195,8 @@ public class NewEventActivity extends BaseActivity {
     private void setFloatingActionMenu() {
         // Show categories as FAB
         int numberOfVisibleButtons = 0;
-        for(final Measurement.Category category : categories.keySet()) {
-            if(!categories.get(category)) {
+        for (final Measurement.Category category : categories.keySet()) {
+            if (!categories.get(category)) {
                 final FloatingActionButton fabCategory = getFloatingActionButton(
                         PreferenceHelper.getInstance().getCategoryName(category),
                         PreferenceHelper.getInstance().getCategoryImageResourceId(category),
@@ -214,11 +209,11 @@ public class NewEventActivity extends BaseActivity {
                     }
                 });
                 fab.addMenuButton(fabCategory);
+                numberOfVisibleButtons++;
             }
-            numberOfVisibleButtons++;
 
             // Show at most three buttons
-            if(numberOfVisibleButtons == 3) {
+            if (numberOfVisibleButtons == 3) {
                 break;
             }
         }
@@ -266,7 +261,7 @@ public class NewEventActivity extends BaseActivity {
     private void showDialogCategories() {
         final Measurement.Category[] activeCategories = PreferenceHelper.getInstance().getActiveCategories();
         String[] categoryNames = new String[activeCategories.length];
-        for(int position = 0; position < activeCategories.length; position++) {
+        for (int position = 0; position < activeCategories.length; position++) {
             categoryNames[position] = PreferenceHelper.getInstance().getCategoryName(activeCategories[position]);
         }
 
@@ -274,7 +269,7 @@ public class NewEventActivity extends BaseActivity {
         final Boolean[] visibleCategories = categories.values().toArray(new Boolean[categories.size()]);
         // TODO: Avoid parsing to array of primitives
         boolean[] visibleCategoriesAsPrimitiveArray = new boolean[visibleCategories.length];
-        for(int position = 0; position < visibleCategories.length; position++) {
+        for (int position = 0; position < visibleCategories.length; position++) {
             visibleCategoriesAsPrimitiveArray[position] = visibleCategories[position];
         }
 
@@ -327,7 +322,7 @@ public class NewEventActivity extends BaseActivity {
 
     private void addViewForCategory(final Measurement.Category category) {
         // Return if category is already active
-        if(categories.get(category) || viewForCategoryIsVisible(category)) {
+        if (categories.get(category) || viewForCategoryIsVisible(category)) {
             return;
         }
 
@@ -364,7 +359,7 @@ public class NewEventActivity extends BaseActivity {
         // Measurement
         ViewGroup layoutMeasurement = (ViewGroup) view.findViewById(R.id.layout_content);
         View viewContent;
-        switch(category) {
+        switch (category) {
             // TODO: Get rid of switch-case by making it more generic
             case Insulin:
                 viewContent = inflater.inflate(R.layout.cardview_entry_insulin, layoutValues, false);
@@ -408,6 +403,7 @@ public class NewEventActivity extends BaseActivity {
                     public boolean canDismiss(Object token) {
                         return true;
                     }
+
                     @Override
                     public void onDismiss(View view, Object token) {
                         removeViewForCategory(category);
@@ -416,28 +412,30 @@ public class NewEventActivity extends BaseActivity {
 
         categories.put(category, true);
         layoutValues.addView(view, 0);
+
+        // TODO: Refresh FAB to prevent showing already visible categories
     }
 
     private void removeViewForCategory(Measurement.Category category) {
         // Return if category is not yet active
-        if(!categories.get(category) && !viewForCategoryIsVisible(category)) {
+        if (!categories.get(category) && !viewForCategoryIsVisible(category)) {
             return;
         }
 
         categories.put(category, false);
 
-        for(int position = 0; position < layoutValues.getChildCount(); position++) {
+        for (int position = 0; position < layoutValues.getChildCount(); position++) {
             View childView = layoutValues.getChildAt(position);
-            if(childView.getTag() == category) {
+            if (childView.getTag() == category) {
                 layoutValues.removeView(childView);
             }
         }
     }
 
     private boolean viewForCategoryIsVisible(Measurement.Category category) {
-        for(int position = 0; position < layoutValues.getChildCount(); position++) {
+        for (int position = 0; position < layoutValues.getChildCount(); position++) {
             View childView = layoutValues.getChildAt(position);
-            if(childView.getTag() == category) {
+            if (childView.getTag() == category) {
                 return true;
             }
         }
@@ -460,32 +458,94 @@ public class NewEventActivity extends BaseActivity {
         // Iterate through all views and validate
         for (int position = 0; position < layoutValues.getChildCount(); position++) {
             Measurement measurement = getMeasurementFromView(layoutValues.getChildAt(position));
-            if(measurement != null) {
+            if (measurement != null) {
                 measurements.add(measurement);
-            }
-            else {
+            } else {
                 inputIsValid = false;
             }
         }
 
         // Check whether there are values to submit
-        if(measurements.size() == 0) {
+        if (measurements.size() == 0) {
             // Show alert only if everything else was valid to reduce clutter
-            if(inputIsValid)
+            if (inputIsValid)
                 ViewHelper.showSnackbar(rootLayout, getString(R.string.validator_value_none));
             inputIsValid = false;
         }
 
-        if(inputIsValid) {
-            dataSource.open();
+        if (inputIsValid) {
+            DatabaseHelper databaseHelper = OpenHelperManager.getHelper(this, DatabaseHelper.class);
+            try {
+                // Insert new entry
+                if (entry == null) {
+                    entry = new Entry();
+                    entry.setCreatedAt(now);
+                    entry.setUpdatedAt(now);
+                    entry.setDate(time);
+                    entry.setNote(editTextNotes.length() > 0 ? editTextNotes.getText().toString() : null);
+                    Dao<Entry, Long> entryDao = databaseHelper.getDao(Entry.class);
+                    entryDao.create(entry);
 
-            // Update existing entry
-            if(entry != null) {
-                entry.setDate(time);
-                entry.setNote(editTextNotes.getText().toString());
-                dataSource.update(entry);
+                    // Connect measurements with entry
+                    for (Measurement measurement : measurements) {
+                        measurement.setCreatedAt(now);
+                        measurement.setUpdatedAt(now);
+                        measurement.setEntry(entry);
+                        // TODO: Generic Dao handling
+                        if (measurement instanceof BloodSugar) {
+                            Dao<BloodSugar, Long> dao = databaseHelper.getDao(BloodSugar.class);
+                            BloodSugar bloodSugar = (BloodSugar) measurement;
+                            dao.create(bloodSugar);
+                        }
+                        else if (measurement instanceof Insulin) {
+                            Dao<Insulin, Long> dao = databaseHelper.getDao(Insulin.class);
+                            Insulin insulin = (Insulin) measurement;
+                            // TODO: Other values
+                            dao.create(insulin);
+                        }
+                        else if (measurement instanceof Meal) {
+                            Dao<Meal, Long> dao = databaseHelper.getDao(Meal.class);
+                            Meal meal = (Meal) measurement;
+                            // TODO: Other values
+                            dao.create(meal);
+                        }
+                        else if (measurement instanceof com.faltenreich.diaguard.database.measurements.Activity) {
+                            Dao<com.faltenreich.diaguard.database.measurements.Activity, Long> dao = databaseHelper.getDao(com.faltenreich.diaguard.database.measurements.Activity.class);
+                            com.faltenreich.diaguard.database.measurements.Activity activity = (com.faltenreich.diaguard.database.measurements.Activity) measurement;
+                            // TODO: Other values
+                            dao.create(activity);
+                        }
+                        else if (measurement instanceof HbA1c) {
+                            Dao<HbA1c, Long> dao = databaseHelper.getDao(HbA1c.class);
+                            HbA1c hbA1c = (HbA1c) measurement;
+                            dao.create(hbA1c);
+                        }
+                        else if (measurement instanceof Weight) {
+                            Dao<Weight, Long> dao = databaseHelper.getDao(Weight.class);
+                            Weight weight = (Weight) measurement;
+                            dao.create(weight);
+                        }
+                        else if (measurement instanceof Pulse) {
+                            Dao<Pulse, Long> dao = databaseHelper.getDao(Pulse.class);
+                            Pulse pulse = (Pulse) measurement;
+                            dao.create(pulse);
+                        }
+                        else if (measurement instanceof Pressure) {
+                            Dao<Pressure, Long> dao = databaseHelper.getDao(Pressure.class);
+                            Pressure pressure = (Pressure) measurement;
+                            // TODO: Other values
+                            dao.create(pressure);
+                        }
+                    }
+                }
 
-                // TODO
+                // Update existing entry
+                else {
+                    entry.setDate(time);
+                    entry.setNote(editTextNotes.getText().toString());
+                    //dataSource.update(entry);
+
+                    // TODO
                 /*
                 // Step through measurements and compare
                 List<Measurement> measurementsToDelete = new ArrayList<Measurement>(entry.getMeasurements());
@@ -502,40 +562,22 @@ public class NewEventActivity extends BaseActivity {
                     }
                     // Case 2: Measurement is new but not old --> Insert
                     if(!updatedExistingMeasurement) {
-                        measurement.setEntryId(entry.getId());
+                        measurement.setEntry(entry.getId());
                         dataSource.insert(measurement);
                     }
                 }
                 // Case 3: Measurement is old but not new --> Delete
                 for(Measurement measurement : measurementsToDelete) {
                     dataSource.delete(measurement);
+                */
                 }
-                    */
-            }
 
-            // Insert new entry
-            else {
-                entry = new Entry();
-                entry.setCreatedAt(now);
-                entry.setUpdatedAt(now);
-                entry.setDate(time);
-                if(editTextNotes.length() > 0) {
-                    entry.setNote(editTextNotes.getText().toString());
-                }
-                long entryId = dataSource.insert(entry);
-
-                // Connect measurements with entry
-                for(Measurement measurement : measurements) {
-                    measurement.setCreatedAt(now);
-                    measurement.setUpdatedAt(now);
-                    measurement.setEntryId(entryId);
-                    dataSource.insert(measurement);
-                }
+            } catch (SQLException exception) {
+                Log.d("OrmLite failed", exception.getMessage());
             }
-            dataSource.close();
 
             // Optional: Set alarm
-            if(alarmIntervalInMinutes > 0) {
+            if (alarmIntervalInMinutes > 0) {
                 Helper.setAlarm(this, alarmIntervalInMinutes);
             }
 
@@ -551,8 +593,8 @@ public class NewEventActivity extends BaseActivity {
     private Measurement getMeasurementFromView(View view) {
         Measurement measurement = null;
 
-        if(view != null && view.getTag() != null) {
-            if(view.getTag() instanceof Measurement.Category) {
+        if (view != null && view.getTag() != null) {
+            if (view.getTag() instanceof Measurement.Category) {
                 Measurement.Category category = (Measurement.Category) view.getTag();
                 switch (category) {
                     case Insulin:
@@ -585,7 +627,7 @@ public class NewEventActivity extends BaseActivity {
             float value = PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                     category,
                     Float.parseFloat(editText.getText().toString()));
-            if(validateValue(category, value)) {
+            if (validateValue(category, value)) {
                 switch (category) {
                     case BloodSugar:
                         BloodSugar bloodSugar = new BloodSugar();
@@ -620,12 +662,10 @@ public class NewEventActivity extends BaseActivity {
                         // TODO: Throw Exception
                         break;
                 }
-            }
-            else {
+            } else {
                 editText.setError(getString(R.string.validator_value_unrealistic));
             }
-        }
-        else {
+        } else {
             editText.setError(getString(R.string.validator_value_empty));
         }
 
@@ -637,51 +677,47 @@ public class NewEventActivity extends BaseActivity {
 
         EditText editTextBolus = (EditText) view.findViewById(R.id.edittext_bolus);
         editTextBolus.setError(null);
-        if(validateEditText(editTextBolus)) {
+        if (validateEditText(editTextBolus)) {
             float bolus = PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                     Measurement.Category.Insulin,
                     Float.parseFloat(editTextBolus.getText().toString()));
-            if(validateValue(Measurement.Category.Insulin, bolus)) {
+            if (validateValue(Measurement.Category.Insulin, bolus)) {
                 insulin.setBolus(bolus);
-            }
-            else {
+            } else {
                 editTextBolus.setError(getString(R.string.validator_value_unrealistic));
             }
         }
 
         EditText editTextCorrection = (EditText) view.findViewById(R.id.edittext_correction);
         editTextCorrection.setError(null);
-        if(validateEditText(editTextCorrection)) {
+        if (validateEditText(editTextCorrection)) {
             float correction = PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                     Measurement.Category.Insulin,
                     Float.parseFloat(editTextCorrection.getText().toString()));
-            if(validateValue(Measurement.Category.Insulin, correction)) {
+            if (validateValue(Measurement.Category.Insulin, correction)) {
                 insulin.setCorrection(correction);
-            }
-            else {
+            } else {
                 editTextCorrection.setError(getString(R.string.validator_value_unrealistic));
             }
         }
 
         EditText editTextBasal = (EditText) view.findViewById(R.id.edittext_basal);
         editTextBasal.setError(null);
-        if(validateEditText(editTextBasal)) {
+        if (validateEditText(editTextBasal)) {
             float basal = PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                     Measurement.Category.Insulin,
                     Float.parseFloat(editTextBasal.getText().toString()));
-            if(validateValue(Measurement.Category.Insulin, basal)) {
+            if (validateValue(Measurement.Category.Insulin, basal)) {
                 insulin.setBasal(basal);
-            }
-            else {
+            } else {
                 editTextBasal.setError(getString(R.string.validator_value_unrealistic));
             }
         }
 
-        if(insulin.getBolus() == 0 && insulin.getCorrection() == 0 && insulin.getBasal() == 0) {
+        if (insulin.getBolus() == 0 && insulin.getCorrection() == 0 && insulin.getBasal() == 0) {
             editTextBolus.setError(getString(R.string.validator_value_empty));
             return null;
-        }
-        else {
+        } else {
             return insulin;
         }
     }
@@ -690,7 +726,7 @@ public class NewEventActivity extends BaseActivity {
         Meal meal = (Meal) getGenericFromView(Measurement.Category.Meal, view);
 
         String foodName = ((EditText) view.findViewById(R.id.food)).getText().toString();
-        if(foodName.length() > 0) {
+        if (foodName.length() > 0) {
             Food food = new Food();
             food.setName(foodName);
             ImageView imageViewFood = (ImageView) view.findViewById(R.id.image);
@@ -715,20 +751,18 @@ public class NewEventActivity extends BaseActivity {
 
         EditText editTextDiastolic = (EditText) view.findViewById(R.id.edittext_diastolic);
         editTextDiastolic.setError(null);
-        if(validateEditText(editTextDiastolic)) {
+        if (validateEditText(editTextDiastolic)) {
             float diastolic = PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                     Measurement.Category.Pressure,
                     Float.parseFloat(editTextDiastolic.getText().toString()));
-            if(validateValue(Measurement.Category.Pressure, diastolic)) {
+            if (validateValue(Measurement.Category.Pressure, diastolic)) {
                 pressure.setDiastolic(diastolic);
                 return pressure;
-            }
-            else {
+            } else {
                 editTextDiastolic.setError(getString(R.string.validator_value_unrealistic));
                 return null;
             }
-        }
-        else {
+        } else {
             editTextDiastolic.setError(getString(R.string.validator_value_empty));
             return null;
         }
@@ -745,7 +779,7 @@ public class NewEventActivity extends BaseActivity {
 
     // LISTENERS
 
-    public void onClickShowDatePicker (View view) {
+    public void onClickShowDatePicker(View view) {
         DialogFragment fragment = new DatePickerFragment() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
@@ -759,7 +793,7 @@ public class NewEventActivity extends BaseActivity {
         fragment.show(getSupportFragmentManager(), "DatePicker");
     }
 
-    public void onClickShowTimePicker (View view) {
+    public void onClickShowTimePicker(View view) {
         DialogFragment fragment = new TimePickerFragment() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {

@@ -22,7 +22,6 @@ import com.faltenreich.diaguard.adapters.ListSection;
 import com.faltenreich.diaguard.adapters.LogBaseAdapter;
 import com.faltenreich.diaguard.adapters.LogEndlessAdapter;
 import com.faltenreich.diaguard.adapters.PinnedSectionListView;
-import com.faltenreich.diaguard.database.DatabaseDataSource;
 import com.faltenreich.diaguard.database.Entry;
 import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.ViewHelper;
@@ -116,10 +115,7 @@ public class EntryListFragment extends ListFragment {
         LogBaseAdapter logBaseAdapter = ((LogBaseAdapter)((LogEndlessAdapter) getListView().getAdapter()).getAdapter());
         int positionInAdapter = logBaseAdapter.getItemPosition(entry);
         // Remove from database
-        DatabaseDataSource dataSource = new DatabaseDataSource(getActivity());
-        dataSource.open();
-        dataSource.delete(entry);
-        dataSource.close();
+        //dataSource.delete(entry);
         // Remove from ListView
         if(positionInAdapter >= 0) {
             logBaseAdapter.items.remove(positionInAdapter);
@@ -148,8 +144,6 @@ public class EntryListFragment extends ListFragment {
     }
 
     private void updateListView() {
-        DatabaseDataSource dataSource = new DatabaseDataSource(getActivity());
-        dataSource.open();
         for(int position = 0; position < getListAdapter().getCount(); position++) {
             // TODO: This is only the Wrapped adapter!
             ListItem listItem = (ListItem) getListAdapter().getItem(position);
@@ -157,7 +151,6 @@ public class EntryListFragment extends ListFragment {
                 Entry entry = ((ListEntry) listItem).getEntry();
             }
         }
-        dataSource.close();
     }
 
     // region Callbacks

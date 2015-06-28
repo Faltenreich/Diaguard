@@ -1,11 +1,21 @@
 package com.faltenreich.diaguard.database;
 
+import com.j256.ormlite.field.DataType;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 /**
  * Created by Filip on 09.08.14.
  */
+@DatabaseTable
 public class Food extends Model {
 
+    public static final String NAME = "name";
+
+    @DatabaseField(dataType = DataType.STRING)
     private String name;
+
+    @DatabaseField(dataType = DataType.STRING)
     private String image;
 
     public String getName() {
@@ -22,10 +32,5 @@ public class Food extends Model {
 
     public void setImage(String image) {
         this.image = image;
-    }
-
-    @Override
-    public String getTableName() {
-        return DatabaseHelper.FOOD;
     }
 }

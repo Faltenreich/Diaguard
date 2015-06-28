@@ -1,21 +1,36 @@
 package com.faltenreich.diaguard.database;
 
-import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.database.measurements.Measurement;
+import com.faltenreich.diaguard.helpers.Helper;
+import com.j256.ormlite.dao.ForeignCollection;
+import com.j256.ormlite.field.DataType;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
+import com.j256.ormlite.table.DatabaseTable;
 
 import org.joda.time.DateTime;
-
-import java.util.ArrayList;
 
 /**
  * Created by Filip on 09.08.2014.
  */
+@DatabaseTable
 public class Entry extends Model {
 
+    public static final String DATE = "date";
+    public static final String NOTE = "note";
+    public static final String IS_VISIBLE = "isvisible";
+
+    @DatabaseField(dataType = DataType.DATE_TIME)
     private DateTime date;
+
+    @DatabaseField(dataType = DataType.STRING)
     private String note;
+
+    @DatabaseField(dataType = DataType.BOOLEAN)
     private boolean isVisible;
-    private ArrayList<Measurement> measurements;
+
+    @ForeignCollectionField
+    private ForeignCollection<Measurement> measurements;
 
     public DateTime getDate() {
         return date;
@@ -45,15 +60,11 @@ public class Entry extends Model {
         this.isVisible = isVisible;
     }
 
-    public ArrayList<Measurement> getMeasurements() {
-        if(measurements == null) {
-            measurements = new ArrayList<>();
-        }
+    public ForeignCollection<Measurement> getMeasurements() {
         return measurements;
     }
 
-    @Override
-    public String getTableName() {
-        return DatabaseHelper.ENTRY;
+    public void setMeasurements(ForeignCollection<Measurement> measurements) {
+        this.measurements = measurements;
     }
 }

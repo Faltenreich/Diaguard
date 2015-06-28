@@ -7,11 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Adapter;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.database.DatabaseDataSource;
-import com.faltenreich.diaguard.database.DatabaseHelper;
 import com.faltenreich.diaguard.database.Entry;
-import com.faltenreich.diaguard.database.Model;
-import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.faltenreich.diaguard.helpers.Helper;
 
 import org.joda.time.DateTime;
@@ -27,7 +23,6 @@ public class LogEndlessAdapter extends EndlessAdapter implements PinnedSectionLi
     private static final int VIEW_TYPE_SECTION = 0;
     private static final int VIEW_TYPE_ENTRY = 1;
 
-    private DatabaseDataSource dataSource;
     private List<ListItem> itemCache;
     private DateTime currentDay;
 
@@ -38,12 +33,9 @@ public class LogEndlessAdapter extends EndlessAdapter implements PinnedSectionLi
     public LogEndlessAdapter(Context context) {
         super(new LogBaseAdapter(context));
 
-        this.dataSource = new DatabaseDataSource(context);
         this.itemCache = new ArrayList<>();
 
-        dataSource.open();
-        totalItems = dataSource.count(DatabaseHelper.ENTRY);
-        dataSource.close();
+        //totalItems = dataSource.count(DatabaseHelper.ENTRY);
     }
 
     @Override
@@ -52,13 +44,14 @@ public class LogEndlessAdapter extends EndlessAdapter implements PinnedSectionLi
     }
 
     private List<Entry> fetchData() {
-        dataSource.open();
         String limits = String.format("%d,%d", currentVisibleItemCount, itemsToLoad);
         // Group by AND order by breaks query
+        /*
         List<Model> models = dataSource.get(DatabaseHelper.ENTRY, null, null, null,
                 null, null, DatabaseHelper.DATE + DatabaseHelper.DESCENDING, limits);
-
+        */
         List <Entry> entries = new ArrayList<>();
+        /*
         for(Model model : models) {
             Entry entry = (Entry)model;
             List<Model> measurementModels = dataSource.get(DatabaseHelper.BLOODSUGAR, null,
@@ -69,7 +62,7 @@ public class LogEndlessAdapter extends EndlessAdapter implements PinnedSectionLi
             }
             entries.add(entry);
         }
-        dataSource.close();
+        */
 
         return entries;
     }

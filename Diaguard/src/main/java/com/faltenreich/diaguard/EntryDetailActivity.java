@@ -4,16 +4,12 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.faltenreich.diaguard.database.DatabaseDataSource;
-import com.faltenreich.diaguard.database.DatabaseHelper;
 import com.faltenreich.diaguard.database.Entry;
 import com.faltenreich.diaguard.fragments.EntryDetailFragment;
 import com.faltenreich.diaguard.helpers.Helper;
 
 
 public class EntryDetailActivity extends BaseActivity {
-
-    private DatabaseDataSource dataSource;
 
     private Entry entry;
     private Toolbar toolbar;
@@ -32,10 +28,7 @@ public class EntryDetailActivity extends BaseActivity {
                 .add(R.id.entry_detail, fragment)
                 .commit();
 
-        dataSource = new DatabaseDataSource(this);
-        dataSource.open();
-        entry = (Entry) dataSource.get(DatabaseHelper.ENTRY, id);
-        dataSource.close();
+        //entry = (Entry) dataSource.get(DatabaseHelper.ENTRY, id);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (entry != null && toolbar != null){
@@ -54,9 +47,7 @@ public class EntryDetailActivity extends BaseActivity {
         super.onResume();
 
         // Update entry
-        dataSource.open();
-        entry = (Entry) dataSource.get(DatabaseHelper.ENTRY, this.entry.getId());
-        dataSource.close();
+        //entry = (Entry) dataSource.get(DatabaseHelper.ENTRY, this.entry.getId());
 
         // Display date and time of entry in ActionBar
         if (entry != null && toolbar != null){

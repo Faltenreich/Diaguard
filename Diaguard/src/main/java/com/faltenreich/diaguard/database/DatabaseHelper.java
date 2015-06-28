@@ -4,24 +4,88 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import com.faltenreich.diaguard.database.measurements.Activity;
+import com.faltenreich.diaguard.database.measurements.BloodSugar;
+import com.faltenreich.diaguard.database.measurements.HbA1c;
+import com.faltenreich.diaguard.database.measurements.Insulin;
+import com.faltenreich.diaguard.database.measurements.Meal;
+import com.faltenreich.diaguard.database.measurements.Pressure;
+import com.faltenreich.diaguard.database.measurements.Pulse;
+import com.faltenreich.diaguard.database.measurements.Weight;
+import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
+import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.TableUtils;
+
+import java.sql.SQLException;
 
 /**
  * Created by Filip on 20.10.13.
  */
-public class DatabaseHelper extends SQLiteOpenHelper {
-
-    /**
-     * AUTOINCREMENT for PK is needed for ON CASCADE to work
-     * FOREIGN KEY constraints are enabled on every db.open() in DatabaseDataSource
-     */
+public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     // Metadata
     private static final String DATABASE_NAME = "diaguard.db";
-    private static final int DATABASE_VERSION = 19;
+
     private static final int DATABASE_VERSION_1_0 = 17;
     private static final int DATABASE_VERSION_1_1 = 18;
     private static final int DATABASE_VERSION_1_3 = 19;
+    private static final int DATABASE_VERSION_CURRENT = DATABASE_VERSION_1_3;
+
+    public static final Class[] tables = new Class[] {
+            Entry.class,
+            Food.class,
+            BloodSugar.class,
+            Insulin.class,
+            Meal.class,
+            Activity.class,
+            HbA1c.class,
+            Weight.class,
+            Pulse.class,
+            Pressure.class
+    };
+
+    public DatabaseHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION_CURRENT);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource) {
+        for (Class tableClass : tables) {
+            try {
+                TableUtils.createTable(connectionSource, tableClass);
+            }
+            catch (SQLException exception) {
+                Log.e(DatabaseHelper.class.getName(), "Couldn't create table " + tableClass.getSimpleName(), exception);
+            }
+        }
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource, int oldVersion, int newVersion) {
+        if(oldVersion < newVersion) {
+            onCreate(sqLiteDatabase);
+            int upgradeFromVersion = oldVersion;
+            while (upgradeFromVersion < newVersion) {
+                switch (upgradeFromVersion) {
+                    case DATABASE_VERSION_1_0:
+                        upgradeToVersion18(sqLiteDatabase);
+                        break;
+                    case DATABASE_VERSION_1_1:
+                        upgradeToVersion19(sqLiteDatabase);
+                        break;
+                }
+                upgradeFromVersion++;
+            }
+        }
+    }
+
+    private void upgradeToVersion19(SQLiteDatabase sqliteDatabase) {
+        // TODO
+    }
+
+    // region Deprecated
 
     public static final String DESCENDING = " DESC";
     public static final String ASCENDING = " ASC";
@@ -82,22 +146,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String SYSTOLIC = "systolic";
     public static final String DIASTOLIC = "diastolic";
 
-    // DEPRECATED
+    // Deprecated
     public static final String EVENTS = "events";
     public static final String NOTES = "notes";
     public static final String MEASUREMENT = "measurement";
     public static final String CATEGORY = "category";
     public static final String MEASUREMENT_ID = "measurementId";
     public static final String FOOD_EATEN = "food_eaten";
-
-    public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    }
-
-    @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        onCreateVersion19(sqLiteDatabase);
-    }
 
     private void onCreateVersion17(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " +
@@ -136,7 +191,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY(" + FOOD_ID + ") REFERENCES " + FOOD + " (" + ID + ") ON DELETE CASCADE);");
     }
 
-    private void onCreateVersion19(SQLiteDatabase sqLiteDatabase) {
+    private void onCreateVersion19Deprecated(SQLiteDatabase sqLiteDatabase) {
 
         // DEPRECATED
 
@@ -244,25 +299,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY(" + ENTRY_ID + ") REFERENCES " + ENTRY + "(" + ID + ") ON DELETE CASCADE);");
     }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
-        if(oldVersion < newVersion) {
-            onCreate(sqLiteDatabase);
-            int upgradeFromVersion = oldVersion;
-            while (upgradeFromVersion < newVersion) {
-                switch (upgradeFromVersion) {
-                    case DATABASE_VERSION_1_0:
-                        upgradeToVersion18(sqLiteDatabase);
-                        break;
-                    case DATABASE_VERSION_1_1:
-                        upgradeToVersion19(sqLiteDatabase);
-                        break;
-                }
-                upgradeFromVersion++;
-            }
-        }
-    }
-
     private void upgradeToVersion18(SQLiteDatabase sqliteDatabase) {
         String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " ORDER BY " + DatabaseHelper.DATE;
         Cursor cursor = sqliteDatabase.rawQuery(query, null);
@@ -287,7 +323,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqliteDatabase.execSQL("DROP TABLE IF EXISTS " + EVENTS + ";");
     }
 
-    private void upgradeToVersion19(SQLiteDatabase sqliteDatabase) {
-        // TODO
-    }
+    // endregion
 }

@@ -19,10 +19,7 @@ import android.widget.TextView;
 import com.faltenreich.diaguard.MainActivity;
 import com.faltenreich.diaguard.NewEventActivity;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.database.DatabaseDataSource;
-import com.faltenreich.diaguard.database.DatabaseHelper;
 import com.faltenreich.diaguard.database.Entry;
-import com.faltenreich.diaguard.database.Model;
 import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.ViewHelper;
@@ -36,8 +33,6 @@ public class EntryDetailFragment extends Fragment {
 
     private final Fragment fragment = this;
     public Entry entry;
-
-    private DatabaseDataSource dataSource;
 
     private TextView textViewNote;
     private LinearLayout layoutMeasurements;
@@ -68,10 +63,7 @@ public class EntryDetailFragment extends Fragment {
         setHasOptionsMenu(true);
         if (getArguments() != null && getArguments().getLong(ENTRY_ID) > 0) {
             long entryId = getArguments().getLong(ENTRY_ID);
-            dataSource = new DatabaseDataSource(getActivity());
-            dataSource.open();
-            entry = (Entry)dataSource.get(DatabaseHelper.ENTRY, entryId);
-            dataSource.close();
+            //entry = (Entry)dataSource.get(DatabaseHelper.ENTRY, entryId);
 
             getComponents(view);
             initializeGUI();
@@ -138,11 +130,10 @@ public class EntryDetailFragment extends Fragment {
             imageResources.put(name, resourceId);
         }
 
-        dataSource.open();
+        /*
         List<Model> models = dataSource.get(DatabaseHelper.MEASUREMENT, null,
                 DatabaseHelper.ENTRY_ID + "=?", new String[]{ Long.toString(entry.getId()) },
                 null, null, null, null);
-        dataSource.close();
 
         layoutMeasurements.removeAllViews();
         for(Model model : models) {
@@ -152,6 +143,7 @@ public class EntryDetailFragment extends Fragment {
         if(entry.getNote() != null && entry.getNote().length() > 0) {
             textViewNote.setText(entry.getNote());
         }
+        */
     }
 
     private void addMeasurement(Measurement measurement) {
@@ -217,9 +209,7 @@ public class EntryDetailFragment extends Fragment {
                     }
                     // Handle by itself because there is no corresponding list view
                     else {
-                        dataSource.open();
-                        dataSource.delete(entry);
-                        dataSource.close();
+                        //dataSource.delete(entry);
                         Intent intent = new Intent();
                         intent.putExtra(MainActivity.ENTRY_DELETED, true);
                         getActivity().setResult(Activity.RESULT_OK, intent);

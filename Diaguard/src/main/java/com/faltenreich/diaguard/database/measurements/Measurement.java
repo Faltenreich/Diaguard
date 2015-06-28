@@ -1,11 +1,15 @@
 package com.faltenreich.diaguard.database.measurements;
 
+import com.faltenreich.diaguard.database.Entry;
 import com.faltenreich.diaguard.database.Model;
+import com.j256.ormlite.field.DatabaseField;
 
 /**
  * Created by Filip on 11.05.2015.
  */
 public abstract class Measurement extends Model {
+
+    public static final String ENTRY_ID = "entry_id";
 
     public enum Category {
         BloodSugar,
@@ -18,14 +22,15 @@ public abstract class Measurement extends Model {
         Pressure
     }
 
-    private long entryId;
+    @DatabaseField(foreign = true)
+    private Entry entry;
 
-    public long getEntryId() {
-        return entryId;
+    public Entry getEntry() {
+        return entry;
     }
 
-    public void setEntryId(long entryId) {
-        this.entryId = entryId;
+    public void setEntry(Entry entry) {
+        this.entry = entry;
     }
 
     public abstract Category getMeasurementType();

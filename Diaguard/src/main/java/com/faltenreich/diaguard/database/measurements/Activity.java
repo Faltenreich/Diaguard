@@ -1,14 +1,26 @@
 package com.faltenreich.diaguard.database.measurements;
 
-import com.faltenreich.diaguard.database.DatabaseHelper;
+import com.j256.ormlite.field.DataType;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
 /**
  * Created by Filip on 11.05.2015.
  */
+@DatabaseTable
 public class Activity extends Measurement {
 
+    public static final String MINUTES = "minutes";
+
+    public enum Type {
+        // TODO
+    }
+
+    @DatabaseField
     private int minutes;
-    private int type;
+
+    @DatabaseField(dataType = DataType.ENUM_INTEGER)
+    private Type type;
 
     public int getMinutes() {
         return minutes;
@@ -18,17 +30,12 @@ public class Activity extends Measurement {
         this.minutes = minutes;
     }
 
-    public int getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(Type type) {
         this.type = type;
-    }
-
-    @Override
-    public String getTableName() {
-        return DatabaseHelper.ACTIVITY;
     }
 
     public Category getMeasurementType() {

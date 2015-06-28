@@ -1,12 +1,17 @@
 package com.faltenreich.diaguard.database.measurements;
 
-import com.faltenreich.diaguard.database.DatabaseHelper;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
 /**
  * Created by Filip on 11.05.2015.
  */
+@DatabaseTable
 public class HbA1c extends Measurement {
 
+    public static final String PERCENT = "percent";
+
+    @DatabaseField
     private float percent;
 
     public float getPercent() {
@@ -15,11 +20,6 @@ public class HbA1c extends Measurement {
 
     public void setPercent(float percent) {
         this.percent = percent;
-    }
-
-    @Override
-    public String getTableName() {
-        return DatabaseHelper.HBA1C;
     }
 
     public Category getMeasurementType() {

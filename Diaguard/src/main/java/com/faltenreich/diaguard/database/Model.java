@@ -1,6 +1,8 @@
 package com.faltenreich.diaguard.database;
 
 import com.faltenreich.diaguard.helpers.Helper;
+import com.j256.ormlite.field.DataType;
+import com.j256.ormlite.field.DatabaseField;
 
 import org.joda.time.DateTime;
 
@@ -9,8 +11,17 @@ import org.joda.time.DateTime;
  */
 public abstract class Model {
 
+    public static final String ID = "id";
+    public static final String CREATED_AT = "createdat";
+    public static final String UPDATED_AT = "updatedat";
+
+    @DatabaseField(generatedId = true, columnDefinition = "INTEGER PRIMARY KEY AUTOINCREMENT")
     private long id;
+
+    @DatabaseField(dataType = DataType.DATE_TIME)
     private DateTime createdAt;
+
+    @DatabaseField(dataType = DataType.DATE_TIME)
     private DateTime updatedAt;
 
     public long getId() {
@@ -44,6 +55,4 @@ public abstract class Model {
     public void setUpdatedAt(String updatedAt) {
         this.updatedAt = new DateTime(Helper.getDateDatabaseFormat().parseDateTime(updatedAt));
     }
-
-    public abstract String getTableName();
 }

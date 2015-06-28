@@ -15,11 +15,6 @@ import android.widget.DatePicker;
 import android.widget.ProgressBar;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.database.DatabaseDataSource;
-import com.faltenreich.diaguard.database.DatabaseHelper;
-import com.faltenreich.diaguard.database.Entry;
-import com.faltenreich.diaguard.database.Model;
-import com.faltenreich.diaguard.database.measurements.BloodSugar;
 import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
@@ -43,7 +38,6 @@ import org.joda.time.DateTimeConstants;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,8 +48,6 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
     private static final int LINE_WIDTH = 1;
     private static final int SCATTER_SHAPE_SIZE = 5;
     private static final int FACTOR_MOVING_SPEED = 2;
-
-    private DatabaseDataSource dataSource;
 
     private ProgressBar progressBar;
     private LineChart viewport;
@@ -83,8 +75,6 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
     }
 
     private void initialize() {
-        dataSource = new DatabaseDataSource(getActivity());
-
         currentDateTime = DateTime.now().withHourOfDay(0).withMinuteOfHour(0);
         activeCategories = PreferenceHelper.getInstance().getActiveCategories();
 
@@ -274,11 +264,13 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
             day.isBefore(currentDateTime.dayOfMonth().withMaximumValue());
             day = day.plusDays(1)) {
 
+            /*
             float averageOfDay = dataSource.getBloodSugarAverageOfDay(day);
             if(averageOfDay > 0) {
                 averageOfDay = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BloodSugar, averageOfDay);
                 entries.add(new com.github.mikephil.charting.data.Entry(averageOfDay, day.getDayOfMonth()));
             }
+            */
 
             xLabels.add(day.getDayOfMonth() + ".");
         }
@@ -399,9 +391,8 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
             }
 
             // Get entries for time interval
-            dataSource.open();
+            /*
             List<Entry> entriesOfInterval = dataSource.getEntries(previousDay, nextDay);
-            dataSource.close();
 
             ArrayList<com.github.mikephil.charting.data.Entry> entries = new ArrayList<>();
             for(Entry entry : entriesOfInterval) {
@@ -419,8 +410,10 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
                     entries.add(new com.github.mikephil.charting.data.Entry(value, minutesOfMonth + minutesOfHour + minutes));
                 }
             }
+            */
 
             ArrayList<ScatterDataSet> dataSets = new ArrayList<>();
+            /*
             for(Measurement.Category category : activeCategories) {
                 ScatterDataSet dataSet = new ScatterDataSet(entries, DatabaseHelper.BLOODSUGAR);
                 dataSet.setScatterShape(ScatterChart.ScatterShape.CIRCLE);
@@ -429,6 +422,7 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
                 dataSet.setDrawValues(false);
                 dataSets.add(dataSet);
             }
+            */
 
             return new ScatterData(xLabels, dataSets);
         }
@@ -496,7 +490,7 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
             }
 
             // Get entries for time interval
-            dataSource.open();
+            /*
             List<Entry> entriesOfMonth = dataSource.getEntries(
                     currentDateTime.dayOfMonth().withMinimumValue(),
                     currentDateTime.dayOfMonth().withMaximumValue().plusDays(1));
@@ -525,10 +519,10 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
                     }
                 }
             }
-
-            dataSource.close();
+            */
 
             ArrayList<ScatterDataSet> dataSets = new ArrayList<>();
+            /*
             for(Measurement.Category category : activeCategories) {
                 ScatterDataSet dataSet = new ScatterDataSet(entries, DatabaseHelper.BLOODSUGAR);
                 dataSet.setScatterShape(ScatterChart.ScatterShape.CIRCLE);
@@ -537,6 +531,7 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
                 dataSet.setDrawValues(false);
                 dataSets.add(dataSet);
             }
+            */
 
             return new ScatterData(xLabels, dataSets);
         }

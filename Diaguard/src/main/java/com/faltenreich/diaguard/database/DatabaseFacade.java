@@ -54,6 +54,21 @@ public class DatabaseFacade {
         return qbOne.join(qbTwo);
     }
 
+    public <T extends Model, D extends Measurement> QueryBuilder<T, ?> fullJoin(Class<T> clazzOne, Class<D> classTwo) throws SQLException {
+        String classNameOne = DatabaseTableConfig.extractTableName(clazzOne);
+        String classNameTwo = DatabaseTableConfig.extractTableName(classTwo);
+        Dao<T, ?> dao = getDao(clazzOne);
+        String query = "SELECT * FROM " + classNameOne +
+                " INNER JOIN " + classNameTwo +
+                " ON " + classNameTwo + "." + Measurement.ENTRY_ID +
+                " = " + classNameOne + "." + Model.ID + ";";
+        GenericRawResults<String[]> rawResults = dao.queryRaw(query);
+        for (String[] result : rawResults.getResults()) {
+            // TODO: Map both models
+        }
+        return null;
+    }
+
     public <T extends Measurement> long avg(Class<T> clazz, String avgColumn, Interval interval) throws SQLException {
         String classNameEntry = DatabaseTableConfig.extractTableName(Entry.class);
         String classNameMeasurement = DatabaseTableConfig.extractTableName(clazz);

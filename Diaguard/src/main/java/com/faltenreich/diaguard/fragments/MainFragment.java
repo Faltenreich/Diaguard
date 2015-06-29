@@ -31,6 +31,7 @@ import org.joda.time.Interval;
 import org.joda.time.Minutes;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class MainFragment extends BaseFragment {
 
@@ -166,22 +167,26 @@ public class MainFragment extends BaseFragment {
 
     private void updateToday() {
         try {
-            QueryBuilder jointQuery = DatabaseFacade.getInstance().join(Entry.class, BloodSugar.class);
+            QueryBuilder<Entry, ?> jointQuery = DatabaseFacade.getInstance().join(Entry.class, BloodSugar.class);
+            Where<Entry, ?> whereToday = jointQuery.where().gt(Entry.DATE, DateTime.now().withTimeAtStartOfDay());
+            List<Entry> entriesWithBloodSugar = whereToday.query();
+            textViewMeasurements.setText(Long.toString(entriesWithBloodSugar.size()));
 
-            Where whereToday = jointQuery.where().gt(Entry.DATE, DateTime.now().withTimeAtStartOfDay());
-            String query = jointQuery.prepareStatementString();
-            long countBloodSugar = whereToday.countOf();
-            textViewMeasurements.setText(Long.toString(countBloodSugar));
-
-            // TODO: Combine whereToday with gt()
-            Where whereHyper = DatabaseFacade.getInstance().getDao(BloodSugar.class).queryBuilder().where().gt(BloodSugar.MGDL, PreferenceHelper.getInstance().getLimitHyperglycemia());
-            long countHypers = whereHyper.countOf();
-            textViewHyperglycemia.setText(Long.toString(countHypers));
-
-            // TODO: Combine whereToday with lt()
-            Where whereHyo = DatabaseFacade.getInstance().getDao(BloodSugar.class).queryBuilder().where().lt(BloodSugar.MGDL, PreferenceHelper.getInstance().getLimitHypoglycemia());
-            long countHypos = whereHyo.countOf();
-            textViewHypoglycemia.setText(Long.toString(countHypos));
+            int countHypers = 0;
+            int countHypos = 0;
+            for (Entry entry : entriesWithBloodSugar) {
+                List<BloodSugar> bloodSugarList = DatabaseFacade.getInstance().getDao(BloodSugar.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).query();
+                for (BloodSugar bloodSugar : bloodSugarList) {
+                    float mgDl = bloodSugar.getMgDl();
+                    if (mgDl > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
+                        countHypers++;
+                    } else if (mgDl < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
+                        countHypos++;
+                    }
+                }
+            }
+            textViewHyperglycemia.setText(countHypers > 0 ? Long.toString(countHypers) : Helper.PLACEHOLDER);
+            textViewHypoglycemia.setText(countHypos > 0 ? Long.toString(countHypos) : Helper.PLACEHOLDER);
         } catch (SQLException exception) {
             Log.e("MainFragment", exception.getMessage());
         }
@@ -193,7 +198,7 @@ public class MainFragment extends BaseFragment {
             Interval intervalDay = new Interval(new DateTime(now.minusDays(1)), now);
             Interval intervalWeek = new Interval(new DateTime(now.minusWeeks(1)), now);
             Interval intervalMonth = new Interval(new DateTime(now.minusMonths(1)), now);
-            
+
             long avgDay = DatabaseFacade.getInstance().avg(BloodSugar.class, BloodSugar.MGDL, intervalDay);
             long avgWeek = DatabaseFacade.getInstance().avg(BloodSugar.class, BloodSugar.MGDL, intervalWeek);
             long avgMonth = DatabaseFacade.getInstance().avg(BloodSugar.class, BloodSugar.MGDL, intervalMonth);

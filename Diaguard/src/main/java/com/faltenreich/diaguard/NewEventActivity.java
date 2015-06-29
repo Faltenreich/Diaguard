@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -39,6 +41,7 @@ import com.faltenreich.diaguard.database.measurements.Pulse;
 import com.faltenreich.diaguard.database.measurements.Weight;
 import com.faltenreich.diaguard.fragments.DatePickerFragment;
 import com.faltenreich.diaguard.fragments.TimePickerFragment;
+import com.faltenreich.diaguard.helpers.FileHelper;
 import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.faltenreich.diaguard.helpers.Validator;
@@ -49,7 +52,9 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -59,6 +64,9 @@ import java.util.List;
  * Created by Filip on 19.10.13.
  */
 public class NewEventActivity extends BaseActivity {
+
+    private static final int ACTION_REQUEST_GALLERY = 98;
+    private static final int ACTION_REQUEST_CAMERA = 99;
 
     public static final String EXTRA_ENTRY = "Entry";
     public static final String EXTRA_MEASUREMENT = "Measurement";
@@ -376,6 +384,13 @@ public class NewEventActivity extends BaseActivity {
                 EditText editTextMeal = (EditText) viewContent.findViewById(R.id.edittext_value);
                 editTextMeal.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
                 editTextMeal.requestFocus();
+                Button buttonImage = (Button) viewContent.findViewById(R.id.button_photo);
+                buttonImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onClickShowImageDialog();
+                    }
+                });
                 break;
             case Pressure:
                 viewContent = inflater.inflate(R.layout.cardview_entry_pressure, layoutValues, false);
@@ -805,6 +820,42 @@ public class NewEventActivity extends BaseActivity {
         bundle.putSerializable(TimePickerFragment.TIME, time);
         fragment.setArguments(bundle);
         fragment.show(getSupportFragmentManager(), "TimePicker");
+    }
+
+    public void onClickShowImageDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(NewEventActivity.this);
+        builder.setTitle(R.string.photo_desc);
+        builder.setItems(R.array.photo_dialog,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                                intent.setType("image/*");
+                                Intent chooser = Intent.createChooser(intent, "Choose a Picture");
+                                startActivityForResult(chooser, ACTION_REQUEST_GALLERY);
+                                break;
+                            case 1:
+
+                                File directory = FileHelper.getExternalStorage();
+                                if(directory == null) {
+                                    return;
+                                }
+                                File file = new File(directory.getAbsolutePath() +
+                                        "/photo" + DateTimeFormat.forPattern("yyyyMMddHHmmss").
+                                        print(new DateTime()) + ".jpg");
+
+                                Intent getCameraImage = new Intent("android.media.action.IMAGE_CAPTURE");
+                                getCameraImage.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+                                startActivityForResult(getCameraImage, ACTION_REQUEST_CAMERA);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
+        builder.show();
     }
 
     @Override

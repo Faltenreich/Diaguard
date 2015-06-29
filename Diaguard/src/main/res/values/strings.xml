@@ -83,6 +83,10 @@
     <string name="note">Note</string>
     <string name="ok">OK</string>
     <string name="photo_desc">Add photo &#8230;</string>
+    <string-array name="photo_dialog">
+        <item>Gallery</item>
+        <item>Camera</item>
+    </string-array>
     <string name="placeholder">-</string>
     <string name="pressure">Blood Pressure</string>
     <string name="settings">Settings</string>

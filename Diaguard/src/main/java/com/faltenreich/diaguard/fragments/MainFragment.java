@@ -195,11 +195,10 @@ public class MainFragment extends BaseFragment {
     private void updateAverage() {
         try {
             DateTime now = DateTime.now();
-            Interval intervalDay = new Interval(new DateTime(now.minusDays(1)), now);
             Interval intervalWeek = new Interval(new DateTime(now.minusWeeks(1)), now);
             Interval intervalMonth = new Interval(new DateTime(now.minusMonths(1)), now);
 
-            long avgDay = DatabaseFacade.getInstance().avg(BloodSugar.class, BloodSugar.MGDL, intervalDay);
+            long avgDay = DatabaseFacade.getInstance().avg(BloodSugar.class, BloodSugar.MGDL, now);
             long avgWeek = DatabaseFacade.getInstance().avg(BloodSugar.class, BloodSugar.MGDL, intervalWeek);
             long avgMonth = DatabaseFacade.getInstance().avg(BloodSugar.class, BloodSugar.MGDL, intervalMonth);
 
@@ -266,21 +265,21 @@ public class MainFragment extends BaseFragment {
             chartHelper.renderer.addXTextLabel(x_value, weekDay);
 
             // Insert average
-            /*
-            float averageOfDay = dataSource.getBloodSugarAverageOfDay(day);
-            if(averageOfDay > 0) {
-                float y_value = PreferenceHelper.getInstance().
-                        formatDefaultToCustomUnit(Measurement.Category.BloodSugar, averageOfDay);
-
-                // Adjust y axis
-                if(y_value > highestValue) {
-                    highestValue = y_value;
+            try {
+                long averageOfDay = DatabaseFacade.getInstance().avg(BloodSugar.class, BloodSugar.MGDL, day);
+                if(averageOfDay > 0) {
+                    float y_value = PreferenceHelper.getInstance().
+                            formatDefaultToCustomUnit(Measurement.Category.BloodSugar, averageOfDay);
+                    // Adjust y axis
+                    if(y_value > highestValue) {
+                        highestValue = y_value;
+                    }
+                    seriesBloodSugar.add(x_value, y_value);
+                    count++;
                 }
-
-                seriesBloodSugar.add(x_value, y_value);
-                count++;
+            } catch (SQLException exception) {
+                Log.e("avg(DateTime)", exception.getMessage());
             }
-            */
         }
         chartHelper.renderer.setYAxisMax(highestValue +
                 PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BloodSugar, 30));

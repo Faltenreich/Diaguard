@@ -69,6 +69,10 @@ public class DatabaseFacade {
         return null;
     }
 
+    public <T extends Measurement> long avg(Class<T> clazz, String avgColumn, DateTime dateTime) throws SQLException {
+        return avg(clazz, avgColumn, new Interval(dateTime, dateTime));
+    }
+
     public <T extends Measurement> long avg(Class<T> clazz, String avgColumn, Interval interval) throws SQLException {
         String classNameEntry = DatabaseTableConfig.extractTableName(Entry.class);
         String classNameMeasurement = DatabaseTableConfig.extractTableName(clazz);
@@ -79,8 +83,9 @@ public class DatabaseFacade {
                 DateTimeConstants.MINUTES_PER_HOUR - 1,
                 DateTimeConstants.SECONDS_PER_MINUTE - 1,
                 DateTimeConstants.MILLIS_PER_SECOND - 1);
-        String query =
-                "SELECT AVG(" + avgColumn + ") FROM " + classNameMeasurement +
+        // FIXME: > DateTime() returns unexpected rows
+        String query = "SELECT AVG(" + avgColumn + ")" +
+                " FROM " + classNameMeasurement +
                 " INNER JOIN " + classNameEntry +
                 " ON " + classNameMeasurement + "." + Measurement.ENTRY_ID +
                 " = " + classNameEntry + "." + Model.ID +

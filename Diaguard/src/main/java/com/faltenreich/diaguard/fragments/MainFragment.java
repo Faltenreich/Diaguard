@@ -198,9 +198,9 @@ public class MainFragment extends BaseFragment {
             Interval intervalWeek = new Interval(new DateTime(now.minusWeeks(1)), now);
             Interval intervalMonth = new Interval(new DateTime(now.minusMonths(1)), now);
 
-            long avgDay = DatabaseFacade.getInstance().avg(BloodSugar.class, BloodSugar.MGDL, now);
-            long avgWeek = DatabaseFacade.getInstance().avg(BloodSugar.class, BloodSugar.MGDL, intervalWeek);
-            long avgMonth = DatabaseFacade.getInstance().avg(BloodSugar.class, BloodSugar.MGDL, intervalMonth);
+            float avgDay = DatabaseFacade.getInstance().avg(BloodSugar.class, BloodSugar.MGDL, now);
+            float avgWeek = DatabaseFacade.getInstance().avg(BloodSugar.class, BloodSugar.MGDL, intervalWeek);
+            float avgMonth = DatabaseFacade.getInstance().avg(BloodSugar.class, BloodSugar.MGDL, intervalMonth);
 
             if (avgDay > 0) {
                 float avgDayCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BloodSugar, avgDay);
@@ -266,7 +266,7 @@ public class MainFragment extends BaseFragment {
 
             // Insert average
             try {
-                long averageOfDay = DatabaseFacade.getInstance().avg(BloodSugar.class, BloodSugar.MGDL, day);
+                float averageOfDay = DatabaseFacade.getInstance().avg(BloodSugar.class, BloodSugar.MGDL, day);
                 if(averageOfDay > 0) {
                     float y_value = PreferenceHelper.getInstance().
                             formatDefaultToCustomUnit(Measurement.Category.BloodSugar, averageOfDay);

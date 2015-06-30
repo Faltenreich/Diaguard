@@ -1,5 +1,5 @@
 #
-# generated on 2015/06/27 03:51:15
+# generated on 2015/06/30 11:00:04
 #
 # --table-start--
 dataClass=com.faltenreich.diaguard.database.Entry
@@ -7,15 +7,12 @@ tableName=entry
 # --table-fields-start--
 # --field-start--
 fieldName=date
-dataPersister=DATE_TIME
 # --field-end--
 # --field-start--
 fieldName=note
-dataPersister=STRING
 # --field-end--
 # --field-start--
 fieldName=isVisible
-dataPersister=BOOLEAN
 # --field-end--
 # --field-start--
 fieldName=measurements
@@ -24,15 +21,12 @@ foreignCollection=true
 # --field-start--
 fieldName=id
 generatedId=true
-columnDefinition=INTEGER PRIMARY KEY AUTOINCREMENT
 # --field-end--
 # --field-start--
 fieldName=createdAt
-dataPersister=DATE_TIME
 # --field-end--
 # --field-start--
 fieldName=updatedAt
-dataPersister=DATE_TIME
 # --field-end--
 # --table-fields-end--
 # --table-end--
@@ -52,15 +46,12 @@ dataPersister=STRING
 # --field-start--
 fieldName=id
 generatedId=true
-columnDefinition=INTEGER PRIMARY KEY AUTOINCREMENT
 # --field-end--
 # --field-start--
 fieldName=createdAt
-dataPersister=DATE_TIME
 # --field-end--
 # --field-start--
 fieldName=updatedAt
-dataPersister=DATE_TIME
 # --field-end--
 # --table-fields-end--
 # --table-end--
@@ -79,15 +70,12 @@ foreign=true
 # --field-start--
 fieldName=id
 generatedId=true
-columnDefinition=INTEGER PRIMARY KEY AUTOINCREMENT
 # --field-end--
 # --field-start--
 fieldName=createdAt
-dataPersister=DATE_TIME
 # --field-end--
 # --field-start--
 fieldName=updatedAt
-dataPersister=DATE_TIME
 # --field-end--
 # --table-fields-end--
 # --table-end--
@@ -112,15 +100,12 @@ foreign=true
 # --field-start--
 fieldName=id
 generatedId=true
-columnDefinition=INTEGER PRIMARY KEY AUTOINCREMENT
 # --field-end--
 # --field-start--
 fieldName=createdAt
-dataPersister=DATE_TIME
 # --field-end--
 # --field-start--
 fieldName=updatedAt
-dataPersister=DATE_TIME
 # --field-end--
 # --table-fields-end--
 # --table-end--
@@ -142,15 +127,12 @@ foreign=true
 # --field-start--
 fieldName=id
 generatedId=true
-columnDefinition=INTEGER PRIMARY KEY AUTOINCREMENT
 # --field-end--
 # --field-start--
 fieldName=createdAt
-dataPersister=DATE_TIME
 # --field-end--
 # --field-start--
 fieldName=updatedAt
-dataPersister=DATE_TIME
 # --field-end--
 # --table-fields-end--
 # --table-end--
@@ -173,15 +155,12 @@ foreign=true
 # --field-start--
 fieldName=id
 generatedId=true
-columnDefinition=INTEGER PRIMARY KEY AUTOINCREMENT
 # --field-end--
 # --field-start--
 fieldName=createdAt
-dataPersister=DATE_TIME
 # --field-end--
 # --field-start--
 fieldName=updatedAt
-dataPersister=DATE_TIME
 # --field-end--
 # --table-fields-end--
 # --table-end--
@@ -200,15 +179,12 @@ foreign=true
 # --field-start--
 fieldName=id
 generatedId=true
-columnDefinition=INTEGER PRIMARY KEY AUTOINCREMENT
 # --field-end--
 # --field-start--
 fieldName=createdAt
-dataPersister=DATE_TIME
 # --field-end--
 # --field-start--
 fieldName=updatedAt
-dataPersister=DATE_TIME
 # --field-end--
 # --table-fields-end--
 # --table-end--
@@ -227,15 +203,12 @@ foreign=true
 # --field-start--
 fieldName=id
 generatedId=true
-columnDefinition=INTEGER PRIMARY KEY AUTOINCREMENT
 # --field-end--
 # --field-start--
 fieldName=createdAt
-dataPersister=DATE_TIME
 # --field-end--
 # --field-start--
 fieldName=updatedAt
-dataPersister=DATE_TIME
 # --field-end--
 # --table-fields-end--
 # --table-end--
@@ -254,15 +227,12 @@ foreign=true
 # --field-start--
 fieldName=id
 generatedId=true
-columnDefinition=INTEGER PRIMARY KEY AUTOINCREMENT
 # --field-end--
 # --field-start--
 fieldName=createdAt
-dataPersister=DATE_TIME
 # --field-end--
 # --field-start--
 fieldName=updatedAt
-dataPersister=DATE_TIME
 # --field-end--
 # --table-fields-end--
 # --table-end--
@@ -284,15 +254,12 @@ foreign=true
 # --field-start--
 fieldName=id
 generatedId=true
-columnDefinition=INTEGER PRIMARY KEY AUTOINCREMENT
 # --field-end--
 # --field-start--
 fieldName=createdAt
-dataPersister=DATE_TIME
 # --field-end--
 # --field-start--
 fieldName=updatedAt
-dataPersister=DATE_TIME
 # --field-end--
 # --table-fields-end--
 # --table-end--

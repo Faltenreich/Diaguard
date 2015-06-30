@@ -30,7 +30,7 @@ import java.text.SimpleDateFormat;
  * Created by Filip on 10.12.13.
  */
 public class Helper {
-    public static final String DB_FORMAT_DATE_DB = "yyyy-MM-dd HH:mm:ss";
+
     public static final String DB_FORMAT_TIME = "HH:mm";
     public static final String PLACEHOLDER = "-";
 
@@ -53,10 +53,6 @@ public class Helper {
     private static String getDatePattern() {
         Format dateFormat = android.text.format.DateFormat.getDateFormat(DiaguardApplication.getContext().getApplicationContext());
         return ((SimpleDateFormat)dateFormat).toLocalizedPattern();
-    }
-
-    public static DateTimeFormatter getDateDatabaseFormat() {
-        return DateTimeFormat.forPattern(DB_FORMAT_DATE_DB);
     }
 
     public static DateTimeFormatter getDateFormat() {

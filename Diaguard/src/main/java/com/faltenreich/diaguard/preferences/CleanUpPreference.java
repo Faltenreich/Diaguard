@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.DatePicker;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.helpers.Helper;
 
 import org.joda.time.DateTime;
 
@@ -31,9 +30,7 @@ public class CleanUpPreference extends DialogPreference {
     }
 
     private void cleanUp(DateTime date) {
-        String dateString = Helper.getDateDatabaseFormat().print(date.withTime(23, 59, 59, 999));
         //int count = dataSource.delete(DatabaseHelper.ENTRY, DatabaseHelper.DATE + "<=DateTime(?)", new String[]{ dateString });
-
         // TODO ViewHelper.showSnackbar(activity, count + " " + activity.getResources().getString(R.string.pref_data_cleanup_return));
     }
 

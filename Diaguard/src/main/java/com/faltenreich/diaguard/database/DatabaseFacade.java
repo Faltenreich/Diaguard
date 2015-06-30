@@ -5,7 +5,6 @@ import android.util.Log;
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.database.measurements.BloodSugar;
 import com.faltenreich.diaguard.database.measurements.Measurement;
-import com.faltenreich.diaguard.helpers.Helper;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.GenericRawResults;
@@ -15,7 +14,6 @@ import com.j256.ormlite.table.DatabaseTableConfig;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.Interval;
-import org.joda.time.format.DateTimeFormatter;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -69,20 +67,20 @@ public class DatabaseFacade {
         return null;
     }
 
-    public <T extends Measurement> long avg(Class<T> clazz, String avgColumn, DateTime dateTime) throws SQLException {
+    public <T extends Measurement> float avg(Class<T> clazz, String avgColumn, DateTime dateTime) throws SQLException {
         return avg(clazz, avgColumn, new Interval(dateTime, dateTime));
     }
 
-    public <T extends Measurement> long avg(Class<T> clazz, String avgColumn, Interval interval) throws SQLException {
+    public <T extends Measurement> float avg(Class<T> clazz, String avgColumn, Interval interval) throws SQLException {
         String classNameEntry = DatabaseTableConfig.extractTableName(Entry.class);
         String classNameMeasurement = DatabaseTableConfig.extractTableName(clazz);
-        DateTimeFormatter format = Helper.getDateDatabaseFormat();
-        DateTime intervalStart = interval.getStart().withTimeAtStartOfDay();
-        DateTime intervalEnd = interval.getEnd().withTime(
+        long intervalStart = interval.getStart().withTimeAtStartOfDay().getMillis();
+        long intervalEnd = interval.getEnd().withTime(
                 DateTimeConstants.HOURS_PER_DAY - 1,
                 DateTimeConstants.MINUTES_PER_HOUR - 1,
                 DateTimeConstants.SECONDS_PER_MINUTE - 1,
-                DateTimeConstants.MILLIS_PER_SECOND - 1);
+                DateTimeConstants.MILLIS_PER_SECOND - 1)
+                .getMillis();
         // FIXME: > DateTime() returns unexpected rows
         String query = "SELECT AVG(" + avgColumn + ")" +
                 " FROM " + classNameMeasurement +
@@ -90,14 +88,20 @@ public class DatabaseFacade {
                 " ON " + classNameMeasurement + "." + Measurement.ENTRY_ID +
                 " = " + classNameEntry + "." + Model.ID +
                 " AND " + classNameEntry + "." + Entry.DATE +
-                " >= Datetime('" + format.print(intervalStart) + "')" +
+                " >= " + intervalStart +
                 " AND " + classNameEntry + "." + Entry.DATE +
-                " <= Datetime('" + format.print(intervalEnd) + "');";
+                " <= " + intervalEnd + ";";
         GenericRawResults<String[]> rawResults = getDao(clazz).queryRaw(query);
         List<String[]> results = rawResults.getResults();
         String[] resultArray = results.get(0);
         String result = resultArray[0];
-        return result != null ? Long.parseLong(result) : 0;
+        try {
+            return Float.parseFloat(result);
+        } catch (NumberFormatException exception) {
+            return 0;
+        } catch (NullPointerException exception) {
+            return 0;
+        }
     }
 
     @SuppressWarnings("unchecked")

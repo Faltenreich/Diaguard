@@ -1,17 +1,20 @@
 package com.faltenreich.diaguard.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.database.DatabaseFacade;
 import com.faltenreich.diaguard.database.Entry;
 import com.faltenreich.diaguard.helpers.Helper;
 
 import org.joda.time.DateTime;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,27 +47,13 @@ public class LogEndlessAdapter extends EndlessAdapter implements PinnedSectionLi
     }
 
     private List<Entry> fetchData() {
-        String limits = String.format("%d,%d", currentVisibleItemCount, itemsToLoad);
-        // Group by AND order by breaks query
-        /*
-        List<Model> models = dataSource.get(DatabaseHelper.ENTRY, null, null, null,
-                null, null, DatabaseHelper.DATE + DatabaseHelper.DESCENDING, limits);
-        */
-        List <Entry> entries = new ArrayList<>();
-        /*
-        for(Model model : models) {
-            Entry entry = (Entry)model;
-            List<Model> measurementModels = dataSource.get(DatabaseHelper.BLOODSUGAR, null,
-                    DatabaseHelper.ENTRY_ID + "=?", new String[]{Long.toString(entry.getId())},
-                    null, null, null, null);
-            for(Model measurementModel : measurementModels) {
-                entry.getMeasurements().add((Measurement) measurementModel);
-            }
-            entries.add(entry);
+        // Group by
+        try {
+            return DatabaseFacade.getInstance().getAll(Entry.class, currentVisibleItemCount, itemsToLoad, Entry.DATE, false);
+        } catch (SQLException exception) {
+            Log.e("MainFragment", exception.getMessage());
+            return null;
         }
-        */
-
-        return entries;
     }
 
     @Override
@@ -119,7 +108,7 @@ public class LogEndlessAdapter extends EndlessAdapter implements PinnedSectionLi
                 position >= messageBaseAdapter.items.size())
             return VIEW_TYPE_ENTRY;
 
-        ListItem listItem = messageBaseAdapter.items.get(position);
+        ListItem listItem = (ListItem) messageBaseAdapter.items.get(position);
 
         if (listItem.isSection())
             return VIEW_TYPE_SECTION;

@@ -69,8 +69,8 @@ public class Helper {
         return hour + ((float)minute / 60.0f);
     }
 
-    public static float getDPI(Context context, float pixels) {
-        return pixels * (context.getResources().getDisplayMetrics().densityDpi / 160);
+    public static float getDPI(float pixels) {
+        return pixels * (DiaguardApplication.getContext().getResources().getDisplayMetrics().densityDpi / 160);
     }
 
     public static String getTextAgo(Context context, int differenceInMinutes) {

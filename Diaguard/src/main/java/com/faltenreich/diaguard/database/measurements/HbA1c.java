@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.database.measurements;
 
+import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -7,7 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * Created by Filip on 11.05.2015.
  */
 @DatabaseTable
-public class HbA1c extends Measurement {
+public class HbA1c extends Measurement implements ICustomizable {
 
     public static final String PERCENT = "percent";
 
@@ -24,5 +25,10 @@ public class HbA1c extends Measurement {
 
     public Category getMeasurementType() {
         return Category.HbA1c;
+    }
+
+    @Override
+    public float getValueForUser() {
+        return PreferenceHelper.getInstance().formatDefaultToCustomUnit(Category.HbA1c, percent);
     }
 }

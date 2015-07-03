@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.database.measurements;
 
+import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -7,7 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * Created by Filip on 11.05.2015.
  */
 @DatabaseTable
-public class Meal extends Measurement {
+public class Meal extends Measurement implements ICustomizable {
 
     public static final String CARBOHYDRATES = "carbohydrates";
     public static final String FOOD_ID = "food_id";
@@ -36,5 +37,10 @@ public class Meal extends Measurement {
 
     public Category getMeasurementType() {
         return Category.Meal;
+    }
+
+    @Override
+    public float getValueForUser() {
+        return PreferenceHelper.getInstance().formatDefaultToCustomUnit(Category.Meal, carbohydrates);
     }
 }

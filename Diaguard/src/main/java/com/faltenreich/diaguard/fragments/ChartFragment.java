@@ -16,14 +16,13 @@ import android.widget.ProgressBar;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.measurements.Measurement;
+import com.faltenreich.diaguard.helpers.ChartHelper;
 import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
-import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.ScatterChart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.MarkerView;
-import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -97,36 +96,13 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
         buttonPrevious.setOnClickListener(this);
         buttonNext.setOnClickListener(this);
 
-        setChartDefaultStyle(viewport);
+        ChartHelper.setChartDefaultStyle(viewport);
         viewport.getAxisLeft().setEnabled(false);
         viewport.getXAxis().setDrawGridLines(false);
 
-        setChartDefaultStyle(chart);
+        ChartHelper.setChartDefaultStyle(chart);
         chart.setOnChartValueSelectedListener(this);
         chart.setOnChartGestureListener(this);
-    }
-
-    private void setChartDefaultStyle(BarLineChartBase chartBase) {
-        // General
-        chartBase.setDrawGridBackground(false);
-        chartBase.setHighlightEnabled(false);
-        chartBase.setDoubleTapToZoomEnabled(false);
-        chartBase.setScaleEnabled(false);
-
-        // Text
-        chartBase.getLegend().setEnabled(false);
-        chartBase.setDescription(null);
-        chartBase.setNoDataText("");
-        chartBase.getXAxis().setTextSize(Helper.getDPI(getActivity(), TEXT_SIZE));
-        chartBase.getAxisLeft().setTextSize(Helper.getDPI(getActivity(), TEXT_SIZE));
-
-        // Axes
-        chartBase.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-        chartBase.getXAxis().setDrawAxisLine(false);
-        chartBase.getXAxis().setGridColor(getResources().getColor(android.R.color.darker_gray));
-        chartBase.getAxisLeft().setDrawAxisLine(false);
-        chartBase.getAxisLeft().setGridColor(getResources().getColor(android.R.color.darker_gray));
-        chartBase.getAxisRight().setEnabled(false);
     }
 
     // Add a few hours to show target day in UI not until user has scrolled halfway to it
@@ -279,7 +255,7 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
         lineDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
         lineDataSet.setDrawCircles(false);
         lineDataSet.setColor(getResources().getColor(android.R.color.darker_gray));
-        lineDataSet.setLineWidth(Helper.getDPI(getActivity(), LINE_WIDTH));
+        lineDataSet.setLineWidth(Helper.getDPI(LINE_WIDTH));
         lineDataSet.setDrawCubic(true);
         lineDataSet.setDrawValues(false);
 
@@ -410,6 +386,14 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
                     entries.add(new com.github.mikephil.charting.data.Entry(value, minutesOfMonth + minutesOfHour + minutes));
                 }
             }
+
+            // Workaround to set visible area
+            if (entries.size() > 0) {
+                List<Entry> entriesMaximum = new ArrayList<>();
+                entriesMaximum.add(new com.github.mikephil.charting.data.Entry(highestValue, 9));
+                dataSets.add(new LineDataSet(entriesMaximum, "Maximum"));
+            }
+
             */
 
             ArrayList<ScatterDataSet> dataSets = new ArrayList<>();

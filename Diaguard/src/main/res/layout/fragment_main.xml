@@ -11,14 +11,17 @@
 
         <!-- Latest Blood Sugar -->
         <android.support.v7.widget.CardView
+            android:id="@+id/layout_latest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             card_view:cardCornerRadius="4dp"
             card_view:cardElevation="2dp"
             card_view:cardUseCompatPadding="true"
-            android:layout_marginBottom="2dp">
+            android:layout_marginBottom="2dp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground">
 
-            <LinearLayout android:id="@+id/layout_latest"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -270,9 +273,11 @@
                     android:text="@string/trend"
                     android:textColor="@color/green"
                     android:textStyle="bold"
+                    android:layout_marginBottom="0dp"
                     style="@style/BoxRow"/>
 
-                <LinearLayout android:id="@+id/chart"
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/chart"
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="100dp"/>

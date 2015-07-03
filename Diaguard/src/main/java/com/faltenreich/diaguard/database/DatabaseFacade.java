@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.database;
 import android.util.Log;
 
 import com.faltenreich.diaguard.DiaguardApplication;
-import com.faltenreich.diaguard.database.measurements.BloodSugar;
 import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
@@ -45,26 +44,16 @@ public class DatabaseFacade {
             return null;
         }
     }
+    
+    public <T extends Model> List<T> getAll(Class<T> clazz, long offset, long limit,
+                                            String orderColumn, boolean ascending) throws SQLException {
+        return getDao(clazz).queryBuilder().offset(offset).limit(limit).orderBy(orderColumn, ascending).query();
+    }
 
     public <T extends Model, D extends Model> QueryBuilder<T, ?> join(Class<T> clazzOne, Class<D> classTwo) throws SQLException {
         QueryBuilder<T, ?> qbOne = getDao(clazzOne).queryBuilder();
         QueryBuilder<D, ?> qbTwo = getDao(classTwo).queryBuilder();
         return qbOne.join(qbTwo);
-    }
-
-    public <T extends Model, D extends Measurement> QueryBuilder<T, ?> fullJoin(Class<T> clazzOne, Class<D> classTwo) throws SQLException {
-        String classNameOne = DatabaseTableConfig.extractTableName(clazzOne);
-        String classNameTwo = DatabaseTableConfig.extractTableName(classTwo);
-        Dao<T, ?> dao = getDao(clazzOne);
-        String query = "SELECT * FROM " + classNameOne +
-                " INNER JOIN " + classNameTwo +
-                " ON " + classNameTwo + "." + Measurement.ENTRY_ID +
-                " = " + classNameOne + "." + Model.ID + ";";
-        GenericRawResults<String[]> rawResults = dao.queryRaw(query);
-        for (String[] result : rawResults.getResults()) {
-            // TODO: Map both models
-        }
-        return null;
     }
 
     public <T extends Measurement> float avg(Class<T> clazz, String avgColumn, DateTime dateTime) throws SQLException {
@@ -102,11 +91,5 @@ public class DatabaseFacade {
         } catch (NullPointerException exception) {
             return 0;
         }
-    }
-
-    @SuppressWarnings("unchecked")
-    public <T extends Measurement> T getEntryWithMeasurement(Class<T> clazz) throws SQLException {
-        QueryBuilder joinQb = join(Entry.class, BloodSugar.class).orderBy(Entry.DATE, false).limit(1L);
-        return (T) joinQb.query().get(0);
     }
 }

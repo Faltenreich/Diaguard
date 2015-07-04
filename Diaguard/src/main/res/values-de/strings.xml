@@ -60,6 +60,7 @@
     <string name="hypo">Hypo</string>
     <string name="impress">Impressum</string>
     <string name="insulin">Insulin</string>
+    <string name="interval">Intervall</string>
     <string name="latest">Vor [value] [unit]</string>
     <string name="latest_moments">Gerade eben</string>
     <string name="licenses">Open-Source-Lizenzen</string>
@@ -70,10 +71,12 @@
     <string name="measurements">Messungen</string>
     <string name="note">Notiz</string>
     <string name="ok">OK</string>
+    <string name="overview">Übersicht</string>
     <string name="photo_desc">Foto hinzufügen &#8230;</string>
     <string name="settings">Einstellungen</string>
     <string name="sound">Töne</string>
     <string name="startscreen">Startbildschirm</string>
+    <string name="statistics">Statistik</string>
     <string name="store_values">Werte eintragen</string>
     <string name="systolic">Systolisch</string>
     <string name="timeline">Tagebuch</string>

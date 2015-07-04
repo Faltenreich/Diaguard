@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ProgressBar;
 
+import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.faltenreich.diaguard.helpers.ChartHelper;
@@ -41,7 +42,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ChartFragment extends Fragment implements View.OnClickListener, OnChartValueSelectedListener, OnChartGestureListener {
+public class ChartFragment extends BaseFragment implements View.OnClickListener, OnChartValueSelectedListener, OnChartGestureListener {
 
     private static final int TEXT_SIZE = 4;
     private static final int LINE_WIDTH = 1;
@@ -71,6 +72,11 @@ public class ChartFragment extends Fragment implements View.OnClickListener, OnC
     public void onActivityCreated (Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initialize();
+    }
+
+    @Override
+    public String getTitle() {
+        return DiaguardApplication.getContext().getString(R.string.timeline);
     }
 
     private void initialize() {

@@ -22,6 +22,9 @@
         android:id="@+id/activities"
         android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_statistics"
+            android:title="@string/statistics" />
+        <item
             android:id="@+id/nav_calculator"
             android:title="@string/calculator" />
         <item

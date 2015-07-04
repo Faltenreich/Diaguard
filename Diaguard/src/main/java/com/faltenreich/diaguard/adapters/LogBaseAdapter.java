@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +11,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.database.DatabaseFacade;
 import com.faltenreich.diaguard.database.Entry;
 import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.faltenreich.diaguard.helpers.Helper;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +24,7 @@ import java.util.List;
 /**
  * Created by Filip on 04.11.13.
  */
-public class LogBaseAdapter extends BaseAdapter {
+public class LogBaseAdapter <T extends Measurement> extends BaseAdapter {
 
     private static class ViewHolderSection {
         TextView date;
@@ -122,7 +125,14 @@ public class LogBaseAdapter extends BaseAdapter {
 
                 viewHolderEntry.values.removeAllViews();
 
-                for(Measurement measurement : entry.getMeasurements()) {
+                List<Measurement> measurements = new ArrayList<>();
+                try {
+                    measurements = DatabaseFacade.getInstance().getMeasurements(entry);
+                } catch (SQLException exception) {
+                    Log.e("getMeasurements()", exception.getMessage());
+                }
+
+                for(Measurement measurement : measurements) {
                     ImageView imageViewImage = new ImageView(context);
                     imageViewImage.setImageResource(imageResources.get(measurement.getMeasurementType().name().toLowerCase()));
                     viewHolderEntry.values.addView(imageViewImage);

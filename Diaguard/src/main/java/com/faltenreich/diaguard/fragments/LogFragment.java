@@ -1,16 +1,16 @@
 package com.faltenreich.diaguard.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 
-public class LogFragment extends Fragment {
+public class LogFragment extends BaseFragment {
 
     private static View view;
 
@@ -41,5 +41,10 @@ public class LogFragment extends Fragment {
         }
 
         return view;
+    }
+
+    @Override
+    public String getTitle() {
+        return DiaguardApplication.getContext().getString(R.string.log);
     }
 }

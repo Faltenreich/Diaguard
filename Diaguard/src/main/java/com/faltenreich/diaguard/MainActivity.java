@@ -96,6 +96,9 @@ public class MainActivity extends BaseActivity implements EntryListFragment.Call
                         menuItem.setChecked(true);
                         replaceFragment(new LogFragment());
                         break;
+                    case R.id.nav_statistics:
+                        startActivity(new Intent(MainActivity.this, StatisticsActivity.class));
+                        break;
                     case R.id.nav_calculator:
                         startActivity(new Intent(MainActivity.this, CalculatorActivity.class));
                         break;
@@ -163,7 +166,6 @@ public class MainActivity extends BaseActivity implements EntryListFragment.Call
     }
 
     @Override
-
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:

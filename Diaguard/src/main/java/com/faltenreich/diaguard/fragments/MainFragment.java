@@ -10,9 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.MainActivity;
 import com.faltenreich.diaguard.NewEventActivity;
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.StatisticsActivity;
 import com.faltenreich.diaguard.database.DatabaseFacade;
 import com.faltenreich.diaguard.database.DatabaseHelper;
 import com.faltenreich.diaguard.database.Entry;
@@ -40,9 +42,10 @@ import java.util.List;
 
 public class MainFragment extends BaseFragment {
 
-    private DateTime time;
-
     private ViewGroup layoutLatest;
+    private ViewGroup layoutToday;
+    private ViewGroup layoutAverage;
+    private ViewGroup layoutTrend;
     private LineChart chart;
 
     private TextView textViewLatestValue;
@@ -77,8 +80,16 @@ public class MainFragment extends BaseFragment {
         updateContent();
     }
 
+    @Override
+    public String getTitle() {
+        return DiaguardApplication.getContext().getString(R.string.home);
+    }
+
     private void getComponents() {
         layoutLatest = (ViewGroup) getView().findViewById(R.id.layout_latest);
+        layoutToday = (ViewGroup) getView().findViewById(R.id.layout_today);
+        layoutAverage = (ViewGroup) getView().findViewById(R.id.layout_average);
+        layoutTrend = (ViewGroup) getView().findViewById(R.id.layout_trend);
         chart = (LineChart) getView().findViewById(R.id.chart);
 
         textViewLatestValue = (TextView) getView().findViewById(R.id.textview_latest_value);
@@ -96,12 +107,34 @@ public class MainFragment extends BaseFragment {
     }
 
     private void initialize() {
+        layoutToday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), StatisticsActivity.class);
+                intent.putExtra(StatisticsActivity.EXTRA_TAB, 0);
+                startActivity(intent);
+            }
+        });
+        layoutAverage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), StatisticsActivity.class);
+                intent.putExtra(StatisticsActivity.EXTRA_TAB, 0);
+                startActivity(intent);
+            }
+        });
+        layoutTrend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), StatisticsActivity.class);
+                intent.putExtra(StatisticsActivity.EXTRA_TAB, 1);
+                startActivity(intent);
+            }
+        });
         initializeChart();
     }
 
     private void updateContent() {
-        time = DateTime.now();
-
         updateLatest();
         updateDashboard();
         updateChart();
@@ -251,6 +284,7 @@ public class MainFragment extends BaseFragment {
 
     private void initializeChart() {
         ChartHelper.setChartDefaultStyle(chart);
+        chart.setTouchEnabled(false);
         chart.getAxisLeft().setDrawAxisLine(false);
         chart.getAxisLeft().setDrawGridLines(false);
         chart.getAxisLeft().setDrawLabels(false);

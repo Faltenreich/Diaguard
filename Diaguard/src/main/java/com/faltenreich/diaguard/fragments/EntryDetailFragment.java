@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.MainActivity;
 import com.faltenreich.diaguard.NewEventActivity;
 import com.faltenreich.diaguard.R;
@@ -27,7 +28,7 @@ import com.faltenreich.diaguard.helpers.ViewHelper;
 import java.util.HashMap;
 import java.util.List;
 
-public class EntryDetailFragment extends Fragment {
+public class EntryDetailFragment extends BaseFragment {
 
     public static final String ENTRY_ID = "entryId";
 
@@ -86,6 +87,11 @@ public class EntryDetailFragment extends Fragment {
         if(entry != null) {
             initialize();
         }
+    }
+
+    @Override
+    public String getTitle() {
+        return DiaguardApplication.getContext().getString(R.string.entry);
     }
 
     private void getComponents(View parentView) {

@@ -72,6 +72,7 @@
     <string name="hypo">Hypo</string>
     <string name="impress">Impress</string>
     <string name="insulin">Insulin</string>
+    <string name="interval">Interval</string>
     <string name="latest">[value] [unit] ago</string>
     <string name="latest_moments">Moments ago</string>
     <string name="licenses">Open-Source-Licenses</string>
@@ -82,6 +83,7 @@
     <string name="measurements">Measured</string>
     <string name="note">Note</string>
     <string name="ok">OK</string>
+    <string name="overview">Overview</string>
     <string name="photo_desc">Add photo &#8230;</string>
     <string-array name="photo_dialog">
         <item>Gallery</item>
@@ -92,6 +94,7 @@
     <string name="settings">Settings</string>
     <string name="sound">Sound</string>
     <string name="startscreen">Start screen</string>
+    <string name="statistics">Statistics</string>
     <string name="store_values">Store values</string>
     <string name="systolic">Systolic</string>
     <string name="timeline">Timeline</string>
@@ -438,5 +441,14 @@
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_statistics">StatisticsActivity</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="hello_world">Hello world!</string>
+
+    <string name="action_settings">Settings</string>
 
 </resources>

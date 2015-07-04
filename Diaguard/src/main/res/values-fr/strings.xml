@@ -65,9 +65,11 @@
     <string name="measurements">Mesures</string>
     <string name="note">Remarque</string>
     <string name="ok">OK</string>
+    <string name="overview">Aperçu</string>
     <string name="settings">Généraux</string>
     <string name="sound">Tones</string>
     <string name="startscreen">Page d\'accueil</string>
+    <string name="statistics">Statistiques</string>
     <string name="store_values">Entrez les valeurs</string>
     <string name="timeline">Journal</string>
     <string name="today">Aujourd\'hui</string>

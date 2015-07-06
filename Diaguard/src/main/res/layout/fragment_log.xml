@@ -2,7 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".LogFragment"
-    android:name="com.faltenreich.diaguard.fragments.EntryListFragment"
+    android:name="com.faltenreich.diaguard.fragments.LogMasterFragment"
     android:id="@+id/entry_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"

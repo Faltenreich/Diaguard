@@ -16,12 +16,12 @@ import android.widget.ProgressBar;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.adapters.EndlessChart;
 import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.faltenreich.diaguard.helpers.ChartHelper;
 import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.charts.ScatterChart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.components.YAxis;
@@ -51,7 +51,7 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
 
     private ProgressBar progressBar;
     private LineChart viewport;
-    private ScatterChart chart;
+    private EndlessChart chart;
     private Button buttonDate;
     private View buttonPrevious;
     private View buttonNext;
@@ -91,7 +91,7 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
     private void getComponents() {
         progressBar = (ProgressBar) getView().findViewById(R.id.progressbar);
         viewport = (LineChart) getView().findViewById(R.id.viewport);
-        chart = (ScatterChart) getView().findViewById(R.id.chart);
+        chart = (EndlessChart) getView().findViewById(R.id.chart);
         buttonDate = (Button) getView().findViewById(R.id.button_date);
         buttonPrevious = getView().findViewById(R.id.button_previous);
         buttonNext = getView().findViewById(R.id.button_next);
@@ -108,7 +108,7 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
 
         ChartHelper.setChartDefaultStyle(chart);
         chart.setOnChartValueSelectedListener(this);
-        chart.setOnChartGestureListener(this);
+        //chart.setOnChartGestureListener(this);
     }
 
     // Add a few hours to show target day in UI not until user has scrolled halfway to it
@@ -229,7 +229,7 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
     }
 
     private void updateChartData() {
-        new UpdateChartTask().execute();
+        //new UpdateChartTask().execute();
     }
 
     //endregion

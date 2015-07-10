@@ -26,8 +26,6 @@ import java.util.List;
  */
 public class LogAdapter extends BaseAdapter<Measurement, RecyclerView.ViewHolder> {
 
-    private static final int PAGE_SIZE = 20;
-
     private enum ViewType {
         SECTION,
         ENTRY,
@@ -35,50 +33,52 @@ public class LogAdapter extends BaseAdapter<Measurement, RecyclerView.ViewHolder
     }
 
     private Context context;
-    private DateTime currentDay;
+
+    private DateTime maxVisibleDate;
+    private DateTime minVisibleDate;
 
     public LogAdapter(Context context) {
         this.context = context;
         this.items = new ArrayList<>();
 
-        this.currentDay = DateTime.now();
-        appendNextPage();
+        DateTime now = DateTime.now();
+        minVisibleDate = now.withDayOfMonth(1);
+        maxVisibleDate = minVisibleDate;
+        appendNextMonth();
     }
 
     public void appendRows(EndlessScrollListener.Direction direction) {
         if (direction == EndlessScrollListener.Direction.DOWN) {
-            appendNextPage();
+            appendPreviousMonth();
         } else {
-            appendPreviousPage();
+            appendNextMonth();
         }
     }
 
-    private void appendNextPage() {
-        DateTime targetDate = currentDay.minusDays(PAGE_SIZE);
-        while ((currentDay = currentDay.minusDays(1)).isAfter(targetDate.minusDays(1))) {
-            items.add(new RecyclerEntry(currentDay, fetchData()));
-            notifyItemInserted(items.size() - 1);
-            if (currentDay.dayOfMonth().get() == 1) {
-                items.add(new RecyclerSection(currentDay.minusDays(1)));
-                notifyItemInserted(items.size() - 1);
-            }
-        }
-    }
-
-    private void appendPreviousPage() {
-        DateTime targetDate = currentDay.plusDays(PAGE_SIZE);
-        while ((currentDay = currentDay.plusDays(1)).isBefore(targetDate.plusDays(1))) {
-            if (currentDay.dayOfMonth().get() == 1) {
-                items.add(0, new RecyclerSection(currentDay));
-                notifyItemInserted(0);
-            }
-            items.add(0, new RecyclerEntry(currentDay, fetchData()));
+    private void appendNextMonth() {
+        DateTime targetDate = maxVisibleDate.plusMonths(1);
+        while (maxVisibleDate.isBefore(targetDate)) {
+            items.add(0, new RecyclerEntry(maxVisibleDate, fetchData(maxVisibleDate)));
             notifyItemInserted(0);
+            maxVisibleDate = maxVisibleDate.plusDays(1);
+        }
+        items.add(0, new RecyclerSection(maxVisibleDate.minusMonths(1)));
+        notifyItemInserted(0);
+    }
+
+    private void appendPreviousMonth() {
+        DateTime targetDate = minVisibleDate.minusMonths(1);
+        items.add(new RecyclerSection(targetDate));
+        notifyItemInserted(items.size() - 1);
+        while (minVisibleDate.isAfter(targetDate)) {
+            minVisibleDate = minVisibleDate.minusDays(1);
+            items.add(new RecyclerEntry(minVisibleDate, fetchData(minVisibleDate)));
+            notifyItemInserted(items.size() - 1);
         }
     }
 
-    private List<Entry> fetchData() {
-        List<Entry> entriesOfDay = DatabaseFacade.getInstance().getEntriesOfDay(currentDay);
+    private List<Entry> fetchData(DateTime day) {
+        List<Entry> entriesOfDay = DatabaseFacade.getInstance().getEntriesOfDay(day);
         return entriesOfDay;
     }
 
@@ -213,10 +213,10 @@ public class LogAdapter extends BaseAdapter<Measurement, RecyclerView.ViewHolder
         }
     }
 
-    private class FetchDataTask extends AsyncTask<Void, Void, List<Entry>> {
+    private class FetchDataTask extends AsyncTask<DateTime, Void, List<Entry>> {
 
-        protected List<Entry> doInBackground(Void... params) {
-            List<Entry> entriesOfDay = DatabaseFacade.getInstance().getEntriesOfDay(currentDay);
+        protected List<Entry> doInBackground(DateTime... params) {
+            List<Entry> entriesOfDay = DatabaseFacade.getInstance().getEntriesOfDay(params[0]);
             // TODO: Fetch measurements, too
             return entriesOfDay;
         }

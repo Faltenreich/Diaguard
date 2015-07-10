@@ -124,6 +124,8 @@ public class LogAdapter extends BaseAdapter<Measurement, RecyclerView.ViewHolder
 
     private void bindDay(ViewHolderEntry vh, RecyclerEntry recyclerEntry) {
         vh.day.setText(recyclerEntry.getDay().toString("dd"));
+        vh.weekDay.setText(recyclerEntry.getDay().dayOfWeek().getAsShortText());
+
         if (recyclerEntry.hasEntries()) {
             vh.entries.setVisibility(View.VISIBLE);
             vh.emptyView.setVisibility(View.GONE);
@@ -170,11 +172,13 @@ public class LogAdapter extends BaseAdapter<Measurement, RecyclerView.ViewHolder
 
     private static class ViewHolderEntry extends RecyclerView.ViewHolder {
         TextView day;
+        TextView weekDay;
         ViewGroup entries;
         TextView emptyView;
         public ViewHolderEntry(View view) {
             super(view);
             this.day = (TextView) view.findViewById(R.id.day);
+            this.weekDay = (TextView) view.findViewById(R.id.weekday);
             this.entries = (ViewGroup) view.findViewById(R.id.entries);
             this.emptyView = (TextView) view.findViewById(R.id.empty_view);
         }

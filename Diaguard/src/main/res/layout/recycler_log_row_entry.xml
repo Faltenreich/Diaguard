@@ -6,26 +6,44 @@
     android:layout_height="match_parent"
     style="@style/Padding">
 
-    <TextView
-        android:id="@+id/day"
-        android:layout_width="40dp"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/text_large"
+        android:layout_weight="1"
+        android:orientation="vertical"
         android:layout_marginRight="@dimen/margin_between"
-        android:layout_marginEnd="@dimen/margin_between"/>
+        android:layout_marginEnd="@dimen/margin_between">
+
+        <TextView
+            android:id="@+id/day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_large"
+            android:textColor="@color/gray_dark"/>
+
+        <TextView
+            android:id="@+id/weekday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray_dark"/>
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/empty_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="6"
         android:text="@string/no_data"
         android:textColor="@android:color/darker_gray"
+        android:gravity="center_vertical"
         android:visibility="gone"/>
 
     <LinearLayout
         android:id="@+id/entries"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="6"
         android:orientation="vertical"/>
 
 </LinearLayout>

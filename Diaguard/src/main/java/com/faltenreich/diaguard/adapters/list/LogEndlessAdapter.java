@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.adapters;
+package com.faltenreich.diaguard.adapters.list;
 
 import android.content.Context;
 import android.util.Log;
@@ -31,14 +31,10 @@ public class LogEndlessAdapter extends EndlessAdapter implements PinnedSectionLi
 
     int currentVisibleItemCount = 0;
     int itemsToLoad = 30;
-    int totalItems;
 
     public LogEndlessAdapter(Context context) {
         super(new LogBaseAdapter(context));
-
         this.itemCache = new ArrayList<>();
-
-        //totalItems = dataSource.count(DatabaseHelper.ENTRY);
     }
 
     @Override
@@ -47,7 +43,6 @@ public class LogEndlessAdapter extends EndlessAdapter implements PinnedSectionLi
     }
 
     private List<Entry> fetchData() {
-        // Group by
         try {
             return DatabaseFacade.getInstance().getAll(Entry.class, currentVisibleItemCount, itemsToLoad, Entry.DATE, false);
         } catch (SQLException exception) {
@@ -58,6 +53,9 @@ public class LogEndlessAdapter extends EndlessAdapter implements PinnedSectionLi
 
     @Override
     protected boolean cacheInBackground() throws Exception {
+
+
+
         itemCache = new ArrayList<>();
         // Fetch next set of messages
         List<Entry> entries = fetchData();
@@ -80,7 +78,7 @@ public class LogEndlessAdapter extends EndlessAdapter implements PinnedSectionLi
         currentVisibleItemCount += entries.size();
 
         // Are there more results?
-        return currentVisibleItemCount < totalItems;
+        return true;
     }
 
     @Override

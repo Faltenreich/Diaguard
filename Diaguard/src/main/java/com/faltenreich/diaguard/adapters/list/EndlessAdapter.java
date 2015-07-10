@@ -13,7 +13,7 @@
   limitations under the License.
  */
 
-package com.faltenreich.diaguard.adapters;
+package com.faltenreich.diaguard.adapters.list;
 
 import android.annotation.TargetApi;
 import android.content.Context;

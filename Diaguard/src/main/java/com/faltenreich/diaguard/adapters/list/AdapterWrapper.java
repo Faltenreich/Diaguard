@@ -13,7 +13,7 @@
   limitations under the License.
 */    
 
-package com.faltenreich.diaguard.adapters;
+package com.faltenreich.diaguard.adapters.list;
 
 import android.database.DataSetObserver;
 import android.view.View;

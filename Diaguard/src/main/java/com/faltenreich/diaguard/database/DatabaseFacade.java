@@ -59,6 +59,24 @@ public class DatabaseFacade {
         return getDao(clazz).queryBuilder().offset(offset).limit(limit).orderBy(orderColumn, ascending).query();
     }
 
+    public List<Entry> getEntriesOfDay(DateTime day) {
+        return getEntriesBetween(day, day);
+    }
+
+    public List<Entry> getEntriesBetween(DateTime start, DateTime end) {
+        try {
+            start = start.withTimeAtStartOfDay();
+            end = end.withTime(DateTimeConstants.HOURS_PER_DAY - 1,
+                    DateTimeConstants.MINUTES_PER_HOUR - 1,
+                    DateTimeConstants.SECONDS_PER_MINUTE - 1,
+                    DateTimeConstants.MILLIS_PER_SECOND - 1);
+            return getDao(Entry.class).queryBuilder().where().gt(Entry.DATE, start).and().lt(Entry.DATE, end).query();
+        } catch (SQLException exception) {
+            Log.e("Couldn't get Dao", exception.getMessage());
+            return null;
+        }
+    }
+
     @SuppressWarnings("unchecked")
     public List<Measurement> getMeasurements(Entry entry) throws SQLException {
         Class[] classes = new Class[] {

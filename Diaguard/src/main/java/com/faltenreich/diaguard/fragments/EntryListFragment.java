@@ -16,12 +16,12 @@ import android.widget.ListView;
 
 import com.faltenreich.diaguard.NewEventActivity;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapters.ListEntry;
-import com.faltenreich.diaguard.adapters.ListItem;
-import com.faltenreich.diaguard.adapters.ListSection;
-import com.faltenreich.diaguard.adapters.LogBaseAdapter;
-import com.faltenreich.diaguard.adapters.LogEndlessAdapter;
-import com.faltenreich.diaguard.adapters.PinnedSectionListView;
+import com.faltenreich.diaguard.adapters.list.ListEntry;
+import com.faltenreich.diaguard.adapters.list.ListItem;
+import com.faltenreich.diaguard.adapters.list.ListSection;
+import com.faltenreich.diaguard.adapters.list.LogBaseAdapter;
+import com.faltenreich.diaguard.adapters.list.LogEndlessAdapter;
+import com.faltenreich.diaguard.adapters.list.PinnedSectionListView;
 import com.faltenreich.diaguard.database.Entry;
 import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.ViewHelper;

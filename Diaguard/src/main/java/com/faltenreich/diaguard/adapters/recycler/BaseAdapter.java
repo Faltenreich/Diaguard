@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.adapters;
+package com.faltenreich.diaguard.adapters.recycler;
 
 import android.support.v7.widget.RecyclerView;
 
@@ -12,49 +12,43 @@ import java.util.List;
  */
 public abstract class BaseAdapter<T extends Model, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
 
-    private enum ViewType {
-        SECTION,
-        ENTRY
-    }
-
-    protected List<ListItem> items;
+    protected List<RecyclerItem> items;
 
     public BaseAdapter() {
         this.items = new ArrayList<>();
     }
 
-    public void addItem(ListItem item) {
+    public void addItem(RecyclerItem item) {
         this.items.add(item);
-        notifyDataSetChanged();
     }
 
-    public void addItems(List<ListItem> items) {
+    public void addItem(int position, RecyclerItem item) {
+        this.items.add(position, item);
+    }
+
+    public void addItems(List<RecyclerItem> items) {
         this.items.addAll(items);
+    }
+
+    public void addItems(int position, List<RecyclerItem> items) {
+        this.items.addAll(position, items);
         notifyDataSetChanged();
     }
 
-    public void removeItem(ListItem item) {
+    public void removeItem(RecyclerItem item) {
         this.items.remove(item);
-        notifyDataSetChanged();
     }
 
     public void removeItem(int position) {
         this.items.remove(position);
-        notifyDataSetChanged();
     }
 
     public void clear() {
         this.items.clear();
-        notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
         return items.size();
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return items.get(position) instanceof ListSection ? ViewType.SECTION.ordinal() : ViewType.ENTRY.ordinal();
     }
 }

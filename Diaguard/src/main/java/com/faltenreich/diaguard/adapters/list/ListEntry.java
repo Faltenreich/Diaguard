@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.adapters;
+package com.faltenreich.diaguard.adapters.list;
 
 import com.faltenreich.diaguard.database.Entry;
 

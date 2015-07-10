@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapters.LogAdapter;
+import com.faltenreich.diaguard.adapters.recycler.LogAdapter;
 
 import org.joda.time.DateTime;
 
@@ -25,7 +25,7 @@ public class LogMasterFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_entry_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_log_master, container, false);
         setHasOptionsMenu(true);
         getComponents(view);
         return view;
@@ -46,7 +46,7 @@ public class LogMasterFragment extends BaseFragment {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerAdapter = new LogAdapter(getActivity());
+        recyclerAdapter = new LogAdapter(getActivity(), recyclerView);
         recyclerView.setAdapter(recyclerAdapter);
     }
 

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.adapters;
+package com.faltenreich.diaguard.adapters.recycler;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +7,11 @@ import android.support.v7.widget.RecyclerView;
  * Created by Filip on 05.07.2015.
  */
 public abstract class EndlessScrollListener extends RecyclerView.OnScrollListener {
+
+    public enum Direction {
+        UP,
+        DOWN
+    }
 
     // The minimum amount of items to have below your current scroll position before loading more
     private static final int VISIBLE_THRESHOLD = 5;
@@ -20,8 +25,6 @@ public abstract class EndlessScrollListener extends RecyclerView.OnScrollListene
     private int firstVisibleItem;
     private int visibleItemCount;
     private int totalItemCount;
-
-    private int currentPage;
 
     private LinearLayoutManager layoutManager;
 
@@ -42,9 +45,9 @@ public abstract class EndlessScrollListener extends RecyclerView.OnScrollListene
             loading = false;
         }
 
-        if (!loading && hasToLoadMore(dy)) {
-            onLoadMore(currentPage, isScrollingDown(dy));
-            currentPage++;
+        Direction direction = getDirection(dy);
+        if (!loading && hasToLoadMore(direction)) {
+            onLoadMore(direction);
             loading = true;
         }
     }
@@ -53,15 +56,20 @@ public abstract class EndlessScrollListener extends RecyclerView.OnScrollListene
         return totalItemCount > previousTotal;
     }
 
-    private boolean hasToLoadMore(int dy) {
-        return isScrollingDown(dy) ?
-                (totalItemCount - visibleItemCount) <= (firstVisibleItem + VISIBLE_THRESHOLD) :
-                firstVisibleItem <= VISIBLE_THRESHOLD;
+    private boolean hasToLoadMore(Direction direction) {
+        switch (direction) {
+            case DOWN:
+                return (totalItemCount - visibleItemCount) <= (firstVisibleItem + VISIBLE_THRESHOLD);
+            case UP:
+                return firstVisibleItem <= VISIBLE_THRESHOLD;
+            default:
+                return false;
+        }
     }
 
-    private boolean isScrollingDown(int dy) {
-        return dy > 0;
+    private Direction getDirection(int dy) {
+        return dy > 0 ? Direction.DOWN : Direction.UP;
     }
 
-    public abstract void onLoadMore(int page, boolean isScrollingDown);
+    public abstract void onLoadMore(Direction direction);
 }

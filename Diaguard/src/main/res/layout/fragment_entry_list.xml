@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.faltenreich.diaguard.adapters.PinnedSectionListView
+    <com.faltenreich.diaguard.adapters.list.PinnedSectionListView
         android:id="@id/android:list"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"

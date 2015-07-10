@@ -45,6 +45,8 @@ public class LogAdapter extends BaseAdapter<Measurement, RecyclerView.ViewHolder
         minVisibleDate = now.withDayOfMonth(1);
         maxVisibleDate = minVisibleDate;
         appendNextMonth();
+
+        // TODO: What if current dayOfMonth < VISIBLE_THRESHOLD?
     }
 
     public void appendRows(EndlessScrollListener.Direction direction) {
@@ -137,6 +139,13 @@ public class LogAdapter extends BaseAdapter<Measurement, RecyclerView.ViewHolder
     private void bindDay(ViewHolderRowEntry vh, RecyclerEntry recyclerEntry) {
         vh.day.setText(recyclerEntry.getDay().toString("dd"));
         vh.weekDay.setText(recyclerEntry.getDay().dayOfWeek().getAsShortText());
+
+        // Highlight current day
+        if (recyclerEntry.getDay().withTimeAtStartOfDay().isEqual(DateTime.now().withTimeAtStartOfDay())) {
+            int highlightColor = context.getResources().getColor(R.color.green);
+            vh.day.setTextColor(highlightColor);
+            vh.weekDay.setTextColor(highlightColor);
+        }
 
         if (recyclerEntry.hasEntries()) {
             vh.entries.setVisibility(View.VISIBLE);

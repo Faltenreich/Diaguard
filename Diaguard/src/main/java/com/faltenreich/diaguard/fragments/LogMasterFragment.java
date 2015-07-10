@@ -12,6 +12,8 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapters.recycler.EndlessScrollListener;
 import com.faltenreich.diaguard.adapters.recycler.LogAdapter;
 
+import org.joda.time.DateTime;
+
 /**
  * Created by Filip on 05.07.2015.
  */
@@ -49,6 +51,11 @@ public class LogMasterFragment extends BaseFragment {
                 recyclerAdapter.appendRows(direction);
             }
         });
+        scrollToDay(DateTime.now());
+    }
+
+    private void scrollToDay(DateTime day) {
+        recyclerView.scrollToPosition(day.dayOfMonth().getMaximumValue() - day.dayOfMonth().get() + 1);
     }
 
     @Override

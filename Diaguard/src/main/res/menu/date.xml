@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:diaguard="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/action_newevent"
-        android:icon="@drawable/ic_action_new"
-        android:title="@string/entry_new"
-        android:orderInCategory="100"
+    <item android:id="@+id/action_today"
+        android:icon="@drawable/ic_action_today"
+        android:title="@string/today"
         diaguard:showAsAction="ifRoom"/>
 
 </menu>

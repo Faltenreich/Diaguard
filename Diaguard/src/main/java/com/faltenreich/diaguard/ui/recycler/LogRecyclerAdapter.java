@@ -37,12 +37,11 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
     private DateTime maxVisibleDate;
     private DateTime minVisibleDate;
 
-    public LogRecyclerAdapter(Context context) {
+    public LogRecyclerAdapter(Context context, DateTime firstVisibleDay) {
         this.context = context;
         this.items = new ArrayList<>();
 
-        DateTime now = DateTime.now();
-        minVisibleDate = now.withDayOfMonth(1);
+        minVisibleDate = firstVisibleDay.withDayOfMonth(1);
         maxVisibleDate = minVisibleDate;
         appendNextMonth();
 

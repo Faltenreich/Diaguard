@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="parallaxeverywhere-1.0.4">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Diaguard/build/intermediates/exploded-aar/com.fmsirvent/parallaxeverywhere/1.0.4/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/Diaguard/build/intermediates/exploded-aar/com.fmsirvent/parallaxeverywhere/1.0.4/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

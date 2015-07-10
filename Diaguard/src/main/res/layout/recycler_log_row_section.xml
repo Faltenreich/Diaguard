@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:background="@color/green_light"
-    android:gravity="bottom"
-    style="@style/Padding">
+    android:layout_height="120dp">
+
+    <com.fmsirvent.ParallaxEverywhere.PEWImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:scaleType="centerCrop"
+        android:src="@drawable/header"/>
 
     <TextView
         android:id="@+id/month"
@@ -14,6 +18,7 @@
         android:layout_height="wrap_content"
         android:textColor="@android:color/white"
         android:textSize="@dimen/text_large"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        style="@style/Padding"/>
 
-</LinearLayout>
+</FrameLayout>

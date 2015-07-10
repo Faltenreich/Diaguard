@@ -34,6 +34,8 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="6"
+        android:layout_marginLeft="6dp"
+        android:layout_marginStart="6dp"
         android:text="@string/no_data"
         android:textColor="@android:color/darker_gray"
         android:gravity="center_vertical"

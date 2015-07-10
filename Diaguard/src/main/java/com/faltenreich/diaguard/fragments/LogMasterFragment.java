@@ -9,9 +9,8 @@ import android.view.ViewGroup;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.adapters.recycler.EndlessScrollListener;
 import com.faltenreich.diaguard.adapters.recycler.LogAdapter;
-
-import org.joda.time.DateTime;
 
 /**
  * Created by Filip on 05.07.2015.
@@ -20,8 +19,6 @@ public class LogMasterFragment extends BaseFragment {
 
     private RecyclerView recyclerView;
     private LogAdapter recyclerAdapter;
-
-    private DateTime currentDateTime;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,19 +39,16 @@ public class LogMasterFragment extends BaseFragment {
     }
 
     private void initialize() {
-        currentDateTime = DateTime.now();
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerAdapter = new LogAdapter(getActivity(), recyclerView);
+        recyclerAdapter = new LogAdapter(getActivity());
         recyclerView.setAdapter(recyclerAdapter);
-    }
-
-    private void appendRows(boolean isScrollingDown) {
-
-    }
-
-    private void fetchData(boolean isLoadingNext) {
+        recyclerView.addOnScrollListener(new EndlessScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(Direction direction) {
+                recyclerAdapter.appendRows(direction);
+            }
+        });
     }
 
     @Override

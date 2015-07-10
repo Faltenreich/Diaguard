@@ -14,7 +14,7 @@ public abstract class EndlessScrollListener extends RecyclerView.OnScrollListene
     }
 
     // The minimum amount of items to have below your current scroll position before loading more
-    private static final int VISIBLE_THRESHOLD = 5;
+    public static final int VISIBLE_THRESHOLD = 5;
 
     // The total number of items in the dataset after the last load
     private int previousTotal = 0;
@@ -35,6 +35,10 @@ public abstract class EndlessScrollListener extends RecyclerView.OnScrollListene
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);
+
+        if (dx == 0 && dy == 0) {
+            return;
+        }
 
         visibleItemCount = recyclerView.getChildCount();
         totalItemCount = layoutManager.getItemCount();

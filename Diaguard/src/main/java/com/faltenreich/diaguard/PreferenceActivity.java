@@ -32,8 +32,10 @@ public class PreferenceActivity extends BaseActivity {
         super.onPostCreate(savedInstanceState);
 
         LinearLayout root = (LinearLayout)findViewById(android.R.id.list).getParent().getParent().getParent();
-        Toolbar toolbar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.toolbar, root, false);
-        root.addView(toolbar, 0);
+        View view = LayoutInflater.from(this).inflate(R.layout.toolbar, root, false);
+        root.addView(view, 0);
+
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.settings));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

@@ -108,8 +108,8 @@
     <orderEntry type="library" exported="" name="achartengine-1.2.0" level="project" />
     <orderEntry type="library" exported="" name="MPAndroidChart-v2.1.0" level="project" />
     <orderEntry type="library" exported="" name="support-v4-22.2.0" level="project" />
-    <orderEntry type="library" exported="" name="opencsv-3.3" level="project" />
     <orderEntry type="library" exported="" name="joda-time-2.7-no-tzdb" level="project" />
+    <orderEntry type="library" exported="" name="opencsv-3.3" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-22.2.0" level="project" />
   </component>
 </module>

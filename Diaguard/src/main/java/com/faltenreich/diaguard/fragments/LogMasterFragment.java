@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapters.EndlessScrollListener;
 import com.faltenreich.diaguard.adapters.LogAdapter;
 
 import org.joda.time.DateTime;
@@ -26,7 +25,7 @@ public class LogMasterFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_log_master, container, false);
+        View view = inflater.inflate(R.layout.fragment_entry_list, container, false);
         setHasOptionsMenu(true);
         getComponents(view);
         return view;
@@ -49,12 +48,6 @@ public class LogMasterFragment extends BaseFragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerAdapter = new LogAdapter(getActivity());
         recyclerView.setAdapter(recyclerAdapter);
-        recyclerView.addOnScrollListener(new EndlessScrollListener(linearLayoutManager) {
-            @Override
-            public void onLoadMore(boolean isScrollingDown) {
-                fetchData(isScrollingDown);
-            }
-        });
     }
 
     private void appendRows(boolean isScrollingDown) {

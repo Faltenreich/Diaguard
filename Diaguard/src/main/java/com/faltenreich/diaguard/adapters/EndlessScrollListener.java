@@ -21,6 +21,8 @@ public abstract class EndlessScrollListener extends RecyclerView.OnScrollListene
     private int visibleItemCount;
     private int totalItemCount;
 
+    private int currentPage;
+
     private LinearLayoutManager layoutManager;
 
     public EndlessScrollListener(LinearLayoutManager layoutManager) {
@@ -41,7 +43,8 @@ public abstract class EndlessScrollListener extends RecyclerView.OnScrollListene
         }
 
         if (!loading && hasToLoadMore(dy)) {
-            onLoadMore(isScrollingDown(dy));
+            onLoadMore(currentPage, isScrollingDown(dy));
+            currentPage++;
             loading = true;
         }
     }
@@ -60,5 +63,5 @@ public abstract class EndlessScrollListener extends RecyclerView.OnScrollListene
         return dy > 0;
     }
 
-    public abstract void onLoadMore(boolean isScrollingDown);
+    public abstract void onLoadMore(int page, boolean isScrollingDown);
 }

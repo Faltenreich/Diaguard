@@ -132,6 +132,11 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
     }
 
     private void bindMonth(ViewHolderRowSection vh, RecyclerSection recyclerSection) {
+        int maximum = Measurement.Category.values().length - 1;
+        int position = recyclerSection.getDateTime().monthOfYear().get() % maximum;
+        Measurement.Category category = Measurement.Category.values()[position];
+        int color = context.getResources().getColor(PreferenceHelper.getInstance().getCategoryColorResourceId(category));
+        vh.layer.setBackgroundColor(color);
         vh.month.setText(recyclerSection.getDateTime().toString("MMMM YYYY"));
     }
 
@@ -185,9 +190,11 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
     }
 
     private static class ViewHolderRowSection extends RecyclerView.ViewHolder {
+        View layer;
         TextView month;
         public ViewHolderRowSection(View view) {
             super(view);
+            this.layer = view.findViewById(R.id.layer);
             this.month = (TextView) view.findViewById(R.id.month);
         }
     }
@@ -209,16 +216,6 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
     private static class ViewHolderRowEmpty extends RecyclerView.ViewHolder {
         public ViewHolderRowEmpty(View view) {
             super(view);
-        }
-    }
-
-    private static class ViewHolderEntry extends RecyclerView.ViewHolder {
-        TextView time;
-        ViewGroup measurements;
-        public ViewHolderEntry(View view) {
-            super(view);
-            this.time = (TextView) view.findViewById(R.id.time);
-            this.measurements = (ViewGroup) view.findViewById(R.id.measurements);
         }
     }
 

@@ -15,14 +15,11 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.faltenreich.diaguard.fragments.ChartFragment;
-import com.faltenreich.diaguard.fragments.EntryDetailFragment;
-import com.faltenreich.diaguard.fragments.EntryListFragment;
 import com.faltenreich.diaguard.fragments.LogFragment;
 import com.faltenreich.diaguard.fragments.MainFragment;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
-import com.faltenreich.diaguard.helpers.ViewHelper;
 
-public class MainActivity extends BaseActivity implements EntryListFragment.CallbackList {
+public class MainActivity extends BaseActivity {
 
     public static final int REQUEST_EVENT_CREATED = 1;
     public static final String ENTRY_CREATED = "ENTRY_CREATED";
@@ -181,26 +178,5 @@ public class MainActivity extends BaseActivity implements EntryListFragment.Call
                 return true;
         }
         return false;
-    }
-
-    /**
-     * Callback from MessageListFragment to respond to a selected ListItem
-     */
-    @Override
-    public void onItemSelected(long id) {
-        if (ViewHelper.isLargeScreen(this)) {
-            Bundle arguments = new Bundle();
-            arguments.putLong(EntryDetailFragment.ENTRY_ID, id);
-            EntryDetailFragment fragment = new EntryDetailFragment();
-            fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.entry_detail, fragment)
-                    .commit();
-        }
-        else {
-            Intent intent = new Intent(this, EntryDetailActivity.class);
-            intent.putExtra(EntryDetailFragment.ENTRY_ID, id);
-            startActivityForResult(intent, MainActivity.REQUEST_EVENT_CREATED);
-        }
     }
 }

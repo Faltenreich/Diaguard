@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.faltenreich.diaguard.adapters;
+package com.faltenreich.diaguard.ui;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

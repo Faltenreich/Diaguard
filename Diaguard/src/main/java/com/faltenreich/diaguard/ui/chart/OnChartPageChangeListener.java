@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.adapters;
+package com.faltenreich.diaguard.ui.chart;
 
 /**
  * Created by Filip on 07.07.2015.

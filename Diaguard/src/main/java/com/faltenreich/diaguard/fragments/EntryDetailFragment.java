@@ -205,11 +205,7 @@ public class EntryDetailFragment extends BaseFragment {
                         List<Fragment> fragments =  getActivity().getSupportFragmentManager().getFragments();
                         for(Fragment childFragment : fragments) {
                             if(childFragment instanceof LogFragment) {
-                                EntryListFragment entryListFragment = (EntryListFragment)
-                                        childFragment.getChildFragmentManager().findFragmentById(R.id.entry_list);
-                                if(entryListFragment != null) {
-                                    entryListFragment.deleteEntry(entry);
-                                }
+
                             }
                         }
                     }

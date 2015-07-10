@@ -16,7 +16,7 @@ import android.widget.ProgressBar;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapters.EndlessChart;
+import com.faltenreich.diaguard.ui.chart.EndlessChart;
 import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.faltenreich.diaguard.helpers.ChartHelper;
 import com.faltenreich.diaguard.helpers.Helper;

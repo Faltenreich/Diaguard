@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.adapters.recycler;
+package com.faltenreich.diaguard.ui.recycler;
 
 import org.joda.time.DateTime;
 

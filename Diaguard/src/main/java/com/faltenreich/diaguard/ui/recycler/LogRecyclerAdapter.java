@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.adapters.recycler;
+package com.faltenreich.diaguard.ui.recycler;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * Created by Filip on 04.11.13.
  */
-public class LogAdapter extends BaseAdapter<Measurement, RecyclerView.ViewHolder> {
+public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.ViewHolder> {
 
     private enum ViewType {
         SECTION,
@@ -37,7 +37,7 @@ public class LogAdapter extends BaseAdapter<Measurement, RecyclerView.ViewHolder
     private DateTime maxVisibleDate;
     private DateTime minVisibleDate;
 
-    public LogAdapter(Context context) {
+    public LogRecyclerAdapter(Context context) {
         this.context = context;
         this.items = new ArrayList<>();
 
@@ -141,11 +141,12 @@ public class LogAdapter extends BaseAdapter<Measurement, RecyclerView.ViewHolder
         vh.weekDay.setText(recyclerEntry.getDay().dayOfWeek().getAsShortText());
 
         // Highlight current day
-        if (recyclerEntry.getDay().withTimeAtStartOfDay().isEqual(DateTime.now().withTimeAtStartOfDay())) {
-            int highlightColor = context.getResources().getColor(R.color.green);
-            vh.day.setTextColor(highlightColor);
-            vh.weekDay.setTextColor(highlightColor);
-        }
+        boolean isToday = recyclerEntry.getDay().withTimeAtStartOfDay().isEqual(DateTime.now().withTimeAtStartOfDay());
+        int textColor =  isToday ?
+                context.getResources().getColor(R.color.green) :
+                context.getResources().getColor(R.color.gray_dark);
+        vh.day.setTextColor(textColor);
+        vh.weekDay.setTextColor(textColor);
 
         if (recyclerEntry.hasEntries()) {
             vh.entries.setVisibility(View.VISIBLE);

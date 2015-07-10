@@ -27,7 +27,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.faltenreich.diaguard.adapters.SwipeDismissTouchListener;
+import com.faltenreich.diaguard.ui.SwipeDismissTouchListener;
 import com.faltenreich.diaguard.database.DatabaseHelper;
 import com.faltenreich.diaguard.database.Entry;
 import com.faltenreich.diaguard.database.Food;

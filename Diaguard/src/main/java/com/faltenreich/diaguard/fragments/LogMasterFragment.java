@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapters.recycler.EndlessScrollListener;
-import com.faltenreich.diaguard.adapters.recycler.LogAdapter;
+import com.faltenreich.diaguard.ui.recycler.EndlessScrollListener;
+import com.faltenreich.diaguard.ui.recycler.LogRecyclerAdapter;
 
 import org.joda.time.DateTime;
 
@@ -20,7 +20,7 @@ import org.joda.time.DateTime;
 public class LogMasterFragment extends BaseFragment {
 
     private RecyclerView recyclerView;
-    private LogAdapter recyclerAdapter;
+    private LogRecyclerAdapter recyclerAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class LogMasterFragment extends BaseFragment {
     private void initialize() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerAdapter = new LogAdapter(getActivity());
+        recyclerAdapter = new LogRecyclerAdapter(getActivity());
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.addOnScrollListener(new EndlessScrollListener(linearLayoutManager) {
             @Override

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.adapters;
+package com.faltenreich.diaguard.ui.chart;
 
 import android.content.Context;
 import android.os.AsyncTask;

@@ -7,7 +7,7 @@
     android:orientation="horizontal"
     android:baselineAligned="false">
 
-    <fragment android:name="com.faltenreich.diaguard.fragments.EntryListFragment"
+    <fragment android:name="com.faltenreich.diaguard.fragments.LogMasterFragment"
         android:id="@+id/entry_list"
         android:layout_width="0dp"
         android:layout_height="match_parent"

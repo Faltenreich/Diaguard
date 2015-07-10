@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.adapters.recycler;
+package com.faltenreich.diaguard.ui.recycler;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;

@@ -34,9 +34,9 @@ public class LogFragment extends BaseFragment {
             // In two-pane mode, list items should be given the
             // 'activated' state when touched.
             FragmentManager fragmentManager = getChildFragmentManager();
-            EntryListFragment fragment = (EntryListFragment) fragmentManager.findFragmentById(R.id.entry_list);
+            LogMasterFragment fragment = (LogMasterFragment) fragmentManager.findFragmentById(R.id.entry_list);
             if(fragment != null) {
-                fragment.setActivateOnItemClick(true);
+                // TODO: fragment.setActivateOnItemClick(true);
             }
         }
 

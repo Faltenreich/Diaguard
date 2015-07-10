@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.adapters.recycler;
+package com.faltenreich.diaguard.ui.recycler;
 
 /**
  * Created by Filip on 10.07.2015.

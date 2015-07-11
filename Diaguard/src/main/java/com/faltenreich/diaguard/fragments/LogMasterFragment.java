@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.fragments;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -57,17 +58,31 @@ public class LogMasterFragment extends BaseFragment {
 
     private void initialize() {
         goToDay(DateTime.now());
+
+        // FIXME
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        final View actionView = toolbar.findViewById(R.id.action);
+        actionView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                action(actionView);
+            }
+        });
     }
 
     private void goToDay(DateTime day) {
         firstVisibleDay = day;
 
         linearLayoutManager = new LinearLayoutManager(getActivity());
-        linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerAdapter = new LogRecyclerAdapter(getActivity(), day);
         recyclerView.setAdapter(recyclerAdapter);
-        recyclerView.scrollToPosition(day.dayOfMonth().get());
+        int firstVisiblePosition = day.dayOfMonth().get();
+        if (firstVisiblePosition == 1) {
+            // Workaround to support showing header instead of first day
+            firstVisiblePosition = day.dayOfMonth().getMaximumValue() + firstVisiblePosition - 1;
+        }
+        recyclerView.scrollToPosition(firstVisiblePosition);
         getActionView().setText(day.toString("MMMM"));
 
         // Endless scroll

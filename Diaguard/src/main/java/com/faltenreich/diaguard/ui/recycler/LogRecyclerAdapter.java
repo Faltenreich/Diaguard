@@ -166,11 +166,17 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        // TODO
                     }
                 });
+
+                View background = view.findViewById(R.id.background);
+                int backgroundColor = context.getResources().getColor(R.color.green);
+                background.setBackgroundColor(backgroundColor);
+
                 TextView time = (TextView) view.findViewById(R.id.time);
                 time.setText(entry.getDate().toString("HH:mm"));
+
                 ViewGroup layoutEntries = (ViewGroup) view.findViewById(R.id.measurements);
                 try {
                     List<Measurement> measurements = DatabaseFacade.getInstance().getMeasurements(entry);
@@ -179,6 +185,14 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
                             BloodSugar bloodSugar = (BloodSugar) measurement;
                             TextView textView = new TextView(context);
                             textView.setText(bloodSugar.getMgDl() + " " + PreferenceHelper.getInstance().getUnitName(Measurement.Category.BloodSugar));
+                            if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
+                                if (bloodSugar.getMgDl() > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
+                                    backgroundColor = context.getResources().getColor(R.color.red);
+                                } else if (bloodSugar.getMgDl() < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
+                                    backgroundColor = context.getResources().getColor(R.color.blue);
+                                }
+                                background.setBackgroundColor(backgroundColor);
+                            }
                             layoutEntries.addView(textView);
                         }
                     }

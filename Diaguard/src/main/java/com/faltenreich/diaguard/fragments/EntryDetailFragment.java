@@ -26,7 +26,6 @@ import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.ViewHelper;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class EntryDetailFragment extends BaseFragment {
 
@@ -207,24 +206,11 @@ public class EntryDetailFragment extends BaseFragment {
             builder.setMessage(R.string.entry_delete_desc);
             builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    // Let list view handle this
-                    if(ViewHelper.isLargeScreen(getActivity())) {
-                        getActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-                        List<Fragment> fragments =  getActivity().getSupportFragmentManager().getFragments();
-                        for(Fragment childFragment : fragments) {
-                            if(childFragment instanceof LogFragment) {
-
-                            }
-                        }
-                    }
-                    // Handle by itself because there is no corresponding list view
-                    else {
-                        //dataSource.delete(entry);
-                        Intent intent = new Intent();
-                        intent.putExtra(MainActivity.ENTRY_DELETED, true);
-                        getActivity().setResult(Activity.RESULT_OK, intent);
-                        getActivity().finish();
-                    }
+                    //dataSource.delete(entry);
+                    Intent intent = new Intent();
+                    intent.putExtra(MainActivity.ENTRY_DELETED, true);
+                    getActivity().setResult(Activity.RESULT_OK, intent);
+                    getActivity().finish();
                 }
             });
             builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

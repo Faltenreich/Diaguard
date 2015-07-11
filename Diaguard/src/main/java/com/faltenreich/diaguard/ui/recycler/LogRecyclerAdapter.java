@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.ui.recycler;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.faltenreich.diaguard.EntryDetailActivity;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.DatabaseFacade;
 import com.faltenreich.diaguard.database.Entry;
@@ -169,12 +171,14 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
             vh.entries.setVisibility(View.VISIBLE);
             vh.emptyView.setVisibility(View.GONE);
 
-            for (Entry entry : recyclerEntry.getEntries()) {
+            for (final Entry entry : recyclerEntry.getEntries()) {
                 View viewEntry = inflate.inflate(R.layout.recycler_log_entry, vh.entries, false);
                 viewEntry.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        // TODO
+                        Intent intent = new Intent(context, EntryDetailActivity.class);
+                        intent.putExtra(EntryDetailActivity.EXTRA_ENTRY, entry.getId());
+                        context.startActivity(intent);
                     }
                 });
 

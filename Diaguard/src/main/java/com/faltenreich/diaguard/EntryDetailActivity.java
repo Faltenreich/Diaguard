@@ -11,6 +11,8 @@ import com.faltenreich.diaguard.helpers.Helper;
 
 public class EntryDetailActivity extends BaseActivity {
 
+    public static final String EXTRA_ENTRY = "com.faltenreich.diaguard.EntryDetailActivity.ENTRY";
+
     private Entry entry;
     private Toolbar toolbar;
 

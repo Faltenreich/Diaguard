@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.fragments;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.widget.DatePicker;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.helpers.ViewHelper;
 import com.faltenreich.diaguard.ui.recycler.EndlessScrollListener;
 import com.faltenreich.diaguard.ui.recycler.LogRecyclerAdapter;
 import com.faltenreich.diaguard.ui.recycler.RecyclerItem;
@@ -44,6 +46,11 @@ public class LogMasterFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         // TODO: notifyItemInserted() instead of reloading all onResume()
         initialize();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        updateMonthForUi();
     }
 
     @Override
@@ -83,7 +90,7 @@ public class LogMasterFragment extends BaseFragment {
             firstVisiblePosition = day.dayOfMonth().getMaximumValue() + firstVisiblePosition - 1;
         }
         recyclerView.scrollToPosition(firstVisiblePosition);
-        getActionView().setText(day.toString("MMMM"));
+        updateMonthForUi();
 
         // Endless scroll
         recyclerView.addOnScrollListener(new EndlessScrollListener(linearLayoutManager) {
@@ -101,20 +108,29 @@ public class LogMasterFragment extends BaseFragment {
 
                 RecyclerItem item = recyclerAdapter.items.get(linearLayoutManager.findFirstVisibleItemPosition());
                 firstVisibleDay = item.getDateTime();
-
-                updateMonthForUi(dy < 0);
+                // Update month in Toolbar when section is being crossed
+                boolean isScrollingUp = dy < 0;
+                boolean isCrossingMonth = isScrollingUp ?
+                        firstVisibleDay.dayOfMonth().get() == firstVisibleDay.dayOfMonth().getMaximumValue() :
+                        firstVisibleDay.dayOfMonth().get() == firstVisibleDay.dayOfMonth().getMinimumValue();
+                if (isCrossingMonth) {
+                    updateMonthForUi();
+                }
             }
         });
     }
 
-    private void updateMonthForUi(boolean isScrollingUp) {
-        // Update month in Toolbar when section is being crossed
-        boolean isCrossingMonth = isScrollingUp ?
-                firstVisibleDay.dayOfMonth().get() == firstVisibleDay.dayOfMonth().getMaximumValue() :
-                firstVisibleDay.dayOfMonth().get() == firstVisibleDay.dayOfMonth().getMinimumValue();
-        if (isCrossingMonth) {
-            getActionView().setText(firstVisibleDay.toString("MMMM"));
+    private void updateMonthForUi() {
+        boolean isCurrentYear = firstVisibleDay.year().get() == DateTime.now().year().get();
+        String format = "MMMM";
+        if (!isCurrentYear) {
+            if (ViewHelper.isLandscape(getActivity()) || ViewHelper.isLargeScreen(getActivity())) {
+                format = "MMMM YYYY";
+            } else {
+                format = "MMM YYYY";
+            }
         }
+        getActionView().setText(firstVisibleDay.toString(format));
     }
 
     public void showDatePicker () {

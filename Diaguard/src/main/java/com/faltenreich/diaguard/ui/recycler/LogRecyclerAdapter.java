@@ -50,32 +50,35 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
 
     public void appendRows(EndlessScrollListener.Direction direction) {
         if (direction == EndlessScrollListener.Direction.DOWN) {
-            appendPreviousMonth();
-        } else {
             appendNextMonth();
+        } else {
+            appendPreviousMonth();
         }
     }
 
     private void appendNextMonth() {
+        // Header
+        items.add(new RecyclerSection(maxVisibleDate));
+        notifyItemInserted(items.size() - 1);
+
         DateTime targetDate = maxVisibleDate.plusMonths(1);
         while (maxVisibleDate.isBefore(targetDate)) {
-            items.add(0, new RecyclerEntry(maxVisibleDate, fetchData(maxVisibleDate)));
-            notifyItemInserted(0);
+            items.add(new RecyclerEntry(maxVisibleDate, fetchData(maxVisibleDate)));
+            notifyItemInserted(items.size() - 1);
             maxVisibleDate = maxVisibleDate.plusDays(1);
         }
-        items.add(0, new RecyclerSection(maxVisibleDate.minusMonths(1)));
-        notifyItemInserted(0);
     }
 
     private void appendPreviousMonth() {
         DateTime targetDate = minVisibleDate.minusMonths(1);
-        items.add(new RecyclerSection(targetDate));
-        notifyItemInserted(items.size() - 1);
         while (minVisibleDate.isAfter(targetDate)) {
             minVisibleDate = minVisibleDate.minusDays(1);
-            items.add(new RecyclerEntry(minVisibleDate, fetchData(minVisibleDate)));
-            notifyItemInserted(items.size() - 1);
+            items.add(0, new RecyclerEntry(minVisibleDate, fetchData(minVisibleDate)));
+            notifyItemInserted(0);
         }
+        // Header
+        items.add(0, new RecyclerSection(minVisibleDate));
+        notifyItemInserted(0);
     }
 
     private List<Entry> fetchData(DateTime day) {

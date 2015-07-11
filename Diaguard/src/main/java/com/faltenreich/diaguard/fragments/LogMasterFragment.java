@@ -62,10 +62,11 @@ public class LogMasterFragment extends BaseFragment {
 
     private void goToDay(DateTime day) {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerAdapter = new LogRecyclerAdapter(getActivity(), day);
         recyclerView.setAdapter(recyclerAdapter);
-        recyclerView.scrollToPosition(day.dayOfMonth().getMaximumValue() - day.dayOfMonth().get() + 1);
+        recyclerView.scrollToPosition(day.dayOfMonth().get());
         recyclerView.addOnScrollListener(new EndlessScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(Direction direction) {

@@ -32,7 +32,6 @@ public abstract class BaseAdapter<T extends Model, VH extends RecyclerView.ViewH
 
     public void addItems(int position, List<RecyclerItem> items) {
         this.items.addAll(position, items);
-        notifyDataSetChanged();
     }
 
     public void removeItem(RecyclerItem item) {

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.faltenreich.diaguard.helpers.ViewHelper;
 import com.faltenreich.diaguard.preferences.BloodSugarPreference;
 
 import java.util.Map;
@@ -36,6 +37,7 @@ public class PreferenceActivity extends BaseActivity {
         root.addView(view, 0);
 
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        toolbar.setPadding(0, ViewHelper.getStatusBarHeight(this), 0, 0);
         toolbar.setTitle(getString(R.string.settings));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

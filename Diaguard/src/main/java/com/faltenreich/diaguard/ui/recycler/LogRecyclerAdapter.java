@@ -200,7 +200,7 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
             }
         } else {
             vh.entries.setVisibility(View.GONE);
-            vh.emptyView.setVisibility(recyclerEntry.getDateTime().isAfterNow() ? View.GONE : View.VISIBLE);
+            vh.emptyView.setVisibility(View.VISIBLE);
         }
 
         // Add indicator behind last entry

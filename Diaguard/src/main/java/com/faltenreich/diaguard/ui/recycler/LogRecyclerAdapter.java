@@ -28,8 +28,7 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
 
     private enum ViewType {
         SECTION,
-        ENTRY,
-        EMPTY
+        ENTRY
     }
 
     private Context context;
@@ -89,7 +88,7 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
     @Override
     public int getItemViewType(int position) {
         if (items.size() == 0) {
-            return ViewType.EMPTY.ordinal();
+            return ViewType.ENTRY.ordinal();
         } else {
             RecyclerItem item = items.get(position);
             if (item instanceof RecyclerSection) {
@@ -107,10 +106,8 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
         switch (viewType) {
             case SECTION:
                 return new ViewHolderRowSection(LayoutInflater.from(context).inflate(R.layout.recycler_log_row_section, parent, false));
-            case ENTRY:
-                return new ViewHolderRowEntry(LayoutInflater.from(context).inflate(R.layout.recycler_log_row_entry, parent, false));
             default:
-                return new ViewHolderRowEmpty(LayoutInflater.from(context).inflate(R.layout.listview_row_entry, parent, false));
+                return new ViewHolderRowEntry(LayoutInflater.from(context).inflate(R.layout.recycler_log_row_entry, parent, false));
         }
     }
 
@@ -203,7 +200,7 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
             }
         } else {
             vh.entries.setVisibility(View.GONE);
-            vh.emptyView.setVisibility(View.VISIBLE);
+            vh.emptyView.setVisibility(recyclerEntry.getDateTime().isAfterNow() ? View.GONE : View.VISIBLE);
         }
 
         // Add indicator behind last entry

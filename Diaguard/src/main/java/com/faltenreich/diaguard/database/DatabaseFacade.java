@@ -70,7 +70,7 @@ public class DatabaseFacade {
                     DateTimeConstants.MINUTES_PER_HOUR - 1,
                     DateTimeConstants.SECONDS_PER_MINUTE - 1,
                     DateTimeConstants.MILLIS_PER_SECOND - 1);
-            return getDao(Entry.class).queryBuilder().where().gt(Entry.DATE, start).and().lt(Entry.DATE, end).query();
+            return getDao(Entry.class).queryBuilder().orderBy(Entry.DATE, true).where().gt(Entry.DATE, start).and().lt(Entry.DATE, end).query();
         } catch (SQLException exception) {
             Log.e("Couldn't get Dao", exception.getMessage());
             return null;

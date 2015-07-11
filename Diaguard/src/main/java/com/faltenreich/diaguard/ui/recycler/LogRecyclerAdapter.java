@@ -144,6 +144,8 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
     }
 
     private void bindDay(ViewHolderRowEntry vh, RecyclerEntry recyclerEntry) {
+        LayoutInflater inflate = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
         vh.day.setText(recyclerEntry.getDateTime().toString("dd"));
         vh.weekDay.setText(recyclerEntry.getDateTime().dayOfWeek().getAsShortText());
 
@@ -159,7 +161,6 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
             vh.entries.setVisibility(View.VISIBLE);
             vh.emptyView.setVisibility(View.GONE);
 
-            LayoutInflater inflate = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             for (Entry entry : recyclerEntry.getEntries()) {
                 View view = inflate.inflate(R.layout.recycler_log_entry, vh.entries, false);
                 view.setOnClickListener(new View.OnClickListener() {
@@ -189,6 +190,12 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
         } else {
             vh.entries.setVisibility(View.GONE);
             vh.emptyView.setVisibility(View.VISIBLE);
+        }
+
+        // Add indicator behind last entry
+        if (isToday) {
+            View indicator = inflate.inflate(R.layout.recycler_log_indicator, vh.entries, false);
+            vh.entries.addView(indicator);
         }
     }
 

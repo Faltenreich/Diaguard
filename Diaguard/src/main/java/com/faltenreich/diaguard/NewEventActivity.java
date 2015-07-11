@@ -77,7 +77,6 @@ public class NewEventActivity extends BaseActivity {
 
     private DateTime time;
 
-    private ViewGroup rootLayout;
     private FloatingActionMenu fab;
     private LinearLayout layoutValues;
     private EditText editTextNotes;
@@ -144,7 +143,6 @@ public class NewEventActivity extends BaseActivity {
     }
 
     public void getComponents() {
-        rootLayout = (ViewGroup) findViewById(R.id.coordinator);
         fab = (FloatingActionMenu) findViewById(R.id.fab_menu);
         layoutValues = (LinearLayout) findViewById(R.id.layout_measurements);
         editTextNotes = (EditText) findViewById(R.id.edittext_notes);
@@ -463,7 +461,7 @@ public class NewEventActivity extends BaseActivity {
         // Validate date
         DateTime now = DateTime.now();
         if (time.isAfter(now)) {
-            ViewHelper.showSnackbar(rootLayout, getString(R.string.validator_value_infuture));
+            ViewHelper.showSnackbar(findViewById(android.R.id.content), getString(R.string.validator_value_infuture));
             return;
         }
 
@@ -484,7 +482,7 @@ public class NewEventActivity extends BaseActivity {
         if (measurements.size() == 0) {
             // Show alert only if everything else was valid to reduce clutter
             if (inputIsValid)
-                ViewHelper.showSnackbar(rootLayout, getString(R.string.validator_value_none));
+                ViewHelper.showSnackbar(findViewById(android.R.id.content), getString(R.string.validator_value_none));
             inputIsValid = false;
         }
 

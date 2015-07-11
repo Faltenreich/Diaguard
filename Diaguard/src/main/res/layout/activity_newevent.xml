@@ -1,133 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/coordinator"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/content"
+    <include layout="@layout/toolbar"/>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <include layout="@layout/toolbar"/>
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="match_parent">
 
-                <android.support.v7.widget.CardView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    card_view:cardElevation="4dp">
+                    android:orientation="vertical">
 
-                    <LinearLayout
+                    <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:background="@android:color/white">
+                        card_view:cardElevation="4dp">
 
-                        <LinearLayout style="@style/LayoutRow">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:background="@android:color/white">
 
-                            <ImageView style="@style/LayoutRowImage"
-                                android:src="@drawable/ic_time"
-                                android:contentDescription="@string/note"/>
+                            <LinearLayout style="@style/LayoutRow">
 
-                            <LinearLayout style="@style/LayoutRowItem"
-                                android:orientation="horizontal">
+                                <ImageView style="@style/LayoutRowImage"
+                                    android:src="@drawable/ic_time"
+                                    android:contentDescription="@string/note"/>
 
-                                <Button android:id="@+id/button_date"
-                                    android:layout_height="wrap_content"
-                                    android:layout_width="wrap_content"
-                                    android:layout_marginRight="@dimen/margin_between"
-                                    android:layout_marginEnd="@dimen/margin_between"
-                                    android:onClick="onClickShowDatePicker"
-                                    style="?android:attr/borderlessButtonStyle"/>
+                                <LinearLayout style="@style/LayoutRowItem"
+                                    android:orientation="horizontal">
 
-                                <Button android:id="@+id/button_time"
-                                    android:layout_height="wrap_content"
-                                    android:layout_width="wrap_content"
-                                    android:onClick="onClickShowTimePicker"
-                                    style="?android:attr/borderlessButtonStyle"/>
+                                    <Button android:id="@+id/button_date"
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="wrap_content"
+                                        android:layout_marginRight="@dimen/margin_between"
+                                        android:layout_marginEnd="@dimen/margin_between"
+                                        android:onClick="onClickShowDatePicker"
+                                        style="?android:attr/borderlessButtonStyle"/>
+
+                                    <Button android:id="@+id/button_time"
+                                        android:layout_height="wrap_content"
+                                        android:layout_width="wrap_content"
+                                        android:onClick="onClickShowTimePicker"
+                                        style="?android:attr/borderlessButtonStyle"/>
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <View style="@style/LayoutRowSeparator"/>
+
+                            <LinearLayout style="@style/LayoutRow">
+
+                                <ImageView style="@style/LayoutRowImage"
+                                    android:src="@drawable/ic_note"
+                                    android:contentDescription="@string/note"/>
+
+                                <EditText android:id="@+id/edittext_notes"
+                                    style="@style/LayoutRowItem"
+                                    android:hint="@string/note"
+                                    android:inputType="textMultiLine|textCapSentences"
+                                    android:background="@android:color/transparent"
+                                    android:paddingLeft="@dimen/padding"
+                                    android:paddingStart="@dimen/padding"/>
+
+                            </LinearLayout>
+
+                            <View style="@style/LayoutRowSeparator"/>
+
+                            <LinearLayout style="@style/LayoutRow">
+
+                                <ImageView style="@style/LayoutRowImage"
+                                    android:src="@drawable/ic_alarm"
+                                    android:contentDescription="@string/alarm"/>
+
+                                <Spinner android:id="@+id/spinner_alarm"
+                                    style="@style/LayoutRowItem"/>
 
                             </LinearLayout>
 
                         </LinearLayout>
 
-                        <View style="@style/LayoutRowSeparator"/>
+                    </android.support.v7.widget.CardView>
 
-                        <LinearLayout style="@style/LayoutRow">
+                    <LinearLayout android:id="@+id/layout_measurements"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:layout_marginBottom="30dp"
+                        android:animateLayoutChanges="true"/>
 
-                            <ImageView style="@style/LayoutRowImage"
-                                android:src="@drawable/ic_note"
-                                android:contentDescription="@string/note"/>
+                </LinearLayout>
 
-                            <EditText android:id="@+id/edittext_notes"
-                                style="@style/LayoutRowItem"
-                                android:hint="@string/note"
-                                android:inputType="textMultiLine|textCapSentences"
-                                android:background="@android:color/transparent"
-                                android:paddingStart="@dimen/padding"
-                                android:paddingLeft="@dimen/padding"/>
+            </ScrollView>
 
-                        </LinearLayout>
+            <com.github.clans.fab.FloatingActionMenu
+                android:id="@+id/fab_menu"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/padding_end"
+                android:layout_gravity="bottom|end"
+                fab:menu_labels_textColor="@color/gray_dark"
+                fab:menu_labels_colorNormal="@android:color/white"
+                fab:menu_labels_colorPressed="@android:color/white"
+                fab:menu_labels_colorRipple="@android:color/white"
+                fab:menu_colorNormal="@color/green"
+                fab:menu_colorPressed="@color/green_dark"
+                fab:menu_colorRipple="@color/green_darker"
+                fab:menu_backgroundColor="@color/transparent_light"
+                fab:menu_labels_showAnimation="@anim/fab_scale_up"
+                fab:menu_labels_hideAnimation="@anim/fab_scale_down"
+                fab:menu_animationDelayPerItem="25"
+                app:layout_behavior="com.faltenreich.diaguard.ui.behavior.Behavior"/>
 
-                        <View style="@style/LayoutRowSeparator"/>
+        </android.support.design.widget.CoordinatorLayout>
 
-                        <LinearLayout style="@style/LayoutRow">
-
-                            <ImageView style="@style/LayoutRowImage"
-                                android:src="@drawable/ic_alarm"
-                                android:contentDescription="@string/alarm"/>
-
-                            <Spinner android:id="@+id/spinner_alarm"
-                                style="@style/LayoutRowItem"/>
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                </android.support.v7.widget.CardView>
-
-                <LinearLayout android:id="@+id/layout_measurements"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="@dimen/activity_vertical_margin"
-                    android:layout_marginBottom="30dp"
-                    android:animateLayoutChanges="true"/>
-
-            </LinearLayout>
-
-        </ScrollView>
-
-    </LinearLayout>
-
-    <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/fab_menu"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="@dimen/padding_end"
-        android:layout_gravity="bottom|end"
-        fab:menu_labels_textColor="@color/gray_dark"
-        fab:menu_labels_colorNormal="@android:color/white"
-        fab:menu_labels_colorPressed="@android:color/white"
-        fab:menu_labels_colorRipple="@android:color/white"
-        fab:menu_colorNormal="@color/green"
-        fab:menu_colorPressed="@color/green_dark"
-        fab:menu_colorRipple="@color/green_darker"
-        fab:menu_backgroundColor="@color/transparent_light"
-        fab:menu_labels_showAnimation="@anim/fab_scale_up"
-        fab:menu_labels_hideAnimation="@anim/fab_scale_down"
-        fab:menu_animationDelayPerItem="25"/>
-
-</FrameLayout>
+</LinearLayout>

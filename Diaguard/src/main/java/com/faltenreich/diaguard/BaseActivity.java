@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.faltenreich.diaguard.database.DatabaseHelper;
-import com.faltenreich.diaguard.helpers.ViewHelper;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 /**
@@ -21,14 +20,11 @@ public class BaseActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setHomeButtonEnabled(true);
-
-            // Set the padding to match the Status Bar height
-            toolbar.setPadding(0, ViewHelper.getStatusBarHeight(this), 0, 0);
-
-            // TODO: Set the padding of NavigationView header to match the Status Bar height
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                getSupportActionBar().setDisplayShowHomeEnabled(true);
+                getSupportActionBar().setHomeButtonEnabled(true);
+            }
         }
     }
 

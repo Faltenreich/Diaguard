@@ -30,7 +30,7 @@
             android:name=".NewEventActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/entry_new"
-            android:windowSoftInputMode="adjustResize|stateHidden" >
+            android:windowSoftInputMode="stateHidden|adjustResize" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />

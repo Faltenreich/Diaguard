@@ -1,6 +1,9 @@
 package com.faltenreich.diaguard.fragments;
 
+import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.drawable.LayerDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +19,7 @@ import android.widget.DatePicker;
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.helpers.ViewHelper;
+import com.faltenreich.diaguard.ui.recycler.DayOfMonthDrawable;
 import com.faltenreich.diaguard.ui.recycler.EndlessScrollListener;
 import com.faltenreich.diaguard.ui.recycler.LogRecyclerAdapter;
 import com.faltenreich.diaguard.ui.recycler.RecyclerItem;
@@ -57,6 +61,17 @@ public class LogMasterFragment extends BaseFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.date, menu);
+
+        MenuItem menuItem = menu.findItem(R.id.action_today);
+         if (menuItem != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                LayerDrawable icon = (LayerDrawable) menuItem.getIcon();
+                setTodayIcon(icon, getActivity());
+            } else {
+                menuItem.setIcon(R.drawable.ic_action_today);
+            }
+        }
+
     }
 
     private void getComponents(View view) {
@@ -131,6 +146,13 @@ public class LogMasterFragment extends BaseFragment {
             }
         }
         getActionView().setText(firstVisibleDay.toString(format));
+    }
+
+    private void setTodayIcon(LayerDrawable icon, Context context) {
+        DayOfMonthDrawable today = new DayOfMonthDrawable(context);
+        today.setDayOfMonth(DateTime.now().dayOfMonth().get());
+        icon.mutate();
+        icon.setDrawableByLayerId(R.id.today_icon_day, today);
     }
 
     public void showDatePicker () {

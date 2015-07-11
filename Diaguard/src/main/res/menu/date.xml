@@ -3,7 +3,7 @@
     xmlns:diaguard="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/action_today"
-        android:icon="@drawable/ic_action_today"
+        android:icon="@drawable/today_icon"
         android:title="@string/today"
         diaguard:showAsAction="ifRoom"/>
 

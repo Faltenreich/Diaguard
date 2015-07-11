@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.database.measurements;
 
+import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -48,5 +49,18 @@ public class Insulin extends Measurement {
 
     public Category getMeasurementType() {
         return Category.Insulin;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        if (getBolus() > 0) {
+            stringBuilder.append(PreferenceHelper.getInstance().getMeasurementForUi(getMeasurementType(), bolus));
+        } else if (getCorrection() > 0) {
+            stringBuilder.append(" + " + PreferenceHelper.getInstance().getMeasurementForUi(getMeasurementType(), correction));
+        } else if (getBasal() > 0) {
+            stringBuilder.append(" (" + PreferenceHelper.getInstance().getMeasurementForUi(getMeasurementType(), basal) + ")");
+        }
+        return stringBuilder.toString().trim();
     }
 }

@@ -8,7 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * Created by Filip on 11.05.2015.
  */
 @DatabaseTable
-public class Meal extends Measurement implements ICustomizable {
+public class Meal extends Measurement {
 
     public static final String CARBOHYDRATES = "carbohydrates";
     public static final String FOOD_ID = "food_id";
@@ -40,7 +40,7 @@ public class Meal extends Measurement implements ICustomizable {
     }
 
     @Override
-    public float getValueForUser() {
-        return PreferenceHelper.getInstance().formatDefaultToCustomUnit(Category.Meal, carbohydrates);
+    public String toString() {
+        return PreferenceHelper.getInstance().getMeasurementForUi(getMeasurementType(), carbohydrates);
     }
 }

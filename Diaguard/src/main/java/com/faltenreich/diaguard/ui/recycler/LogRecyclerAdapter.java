@@ -1,11 +1,14 @@
 package com.faltenreich.diaguard.ui.recycler;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
@@ -167,44 +170,51 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
             vh.emptyView.setVisibility(View.GONE);
 
             for (Entry entry : recyclerEntry.getEntries()) {
-                View view = inflate.inflate(R.layout.recycler_log_entry, vh.entries, false);
-                view.setOnClickListener(new View.OnClickListener() {
+                View viewEntry = inflate.inflate(R.layout.recycler_log_entry, vh.entries, false);
+                viewEntry.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         // TODO
                     }
                 });
 
-                View background = view.findViewById(R.id.background);
-                int backgroundColor = context.getResources().getColor(R.color.green);
-                background.setBackgroundColor(backgroundColor);
-
-                TextView time = (TextView) view.findViewById(R.id.time);
+                TextView time = (TextView) viewEntry.findViewById(R.id.time);
                 time.setText(entry.getDate().toString("HH:mm"));
 
-                ViewGroup layoutEntries = (ViewGroup) view.findViewById(R.id.measurements);
+                ViewGroup layoutEntries = (ViewGroup) viewEntry.findViewById(R.id.measurements);
                 try {
                     List<Measurement> measurements = DatabaseFacade.getInstance().getMeasurements(entry);
                     for (Measurement measurement : measurements) {
-                        if (measurement instanceof BloodSugar) {
-                            BloodSugar bloodSugar = (BloodSugar) measurement;
-                            TextView textView = new TextView(context);
-                            textView.setText(bloodSugar.getMgDl() + " " + PreferenceHelper.getInstance().getUnitName(Measurement.Category.BloodSugar));
-                            if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
-                                if (bloodSugar.getMgDl() > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
-                                    backgroundColor = context.getResources().getColor(R.color.red);
-                                } else if (bloodSugar.getMgDl() < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
-                                    backgroundColor = context.getResources().getColor(R.color.blue);
+                        Measurement.Category category = measurement.getMeasurementType();
+                        View viewMeasurement = inflate.inflate(R.layout.recycler_log_measurement, vh.entries, false);
+                        ImageView categoryImage = (ImageView) viewMeasurement.findViewById(R.id.image);
+                        int imageResourceId = PreferenceHelper.getInstance().getCategoryImageResourceId(category);
+                        categoryImage.setImageDrawable(context.getResources().getDrawable(imageResourceId));
+                        categoryImage.setColorFilter(context.getResources().getColor(R.color.gray_dark), PorterDuff.Mode.SRC_ATOP.SRC_ATOP);
+                        TextView value = (TextView) viewMeasurement.findViewById(R.id.value);
+
+                        switch (category) {
+                            case BloodSugar:
+                                BloodSugar bloodSugar = (BloodSugar) measurement;
+                                if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
+                                    int backgroundColor = context.getResources().getColor(R.color.green);
+                                    if (bloodSugar.getMgDl() > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
+                                        backgroundColor = context.getResources().getColor(R.color.red);
+                                    } else if (bloodSugar.getMgDl() < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
+                                        backgroundColor = context.getResources().getColor(R.color.blue);
+                                    }
+                                    categoryImage.setColorFilter(backgroundColor, PorterDuff.Mode.SRC_ATOP.SRC_ATOP);
                                 }
-                                background.setBackgroundColor(backgroundColor);
-                            }
-                            layoutEntries.addView(textView);
+                            default:
+                                value.setText(measurement.toString() + " " + PreferenceHelper.getInstance().getUnitAcronym(category));
                         }
+
+                        layoutEntries.addView(viewMeasurement);
                     }
                 } catch (SQLException exception) {
-
+                    Log.e("LogRecyclerAdapter", exception.getMessage());
                 }
-                vh.entries.addView(view);
+                vh.entries.addView(viewEntry);
             }
         } else {
             vh.entries.setVisibility(View.GONE);
@@ -239,12 +249,6 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
             this.weekDay = (TextView) view.findViewById(R.id.weekday);
             this.entries = (ViewGroup) view.findViewById(R.id.entries);
             this.emptyView = (TextView) view.findViewById(R.id.empty_view);
-        }
-    }
-
-    private static class ViewHolderRowEmpty extends RecyclerView.ViewHolder {
-        public ViewHolderRowEmpty(View view) {
-            super(view);
         }
     }
 

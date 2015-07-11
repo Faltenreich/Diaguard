@@ -219,6 +219,10 @@ public class PreferenceHelper {
         return value * getUnitValue(category);
     }
 
+    public String getMeasurementForUi(Measurement.Category category, float defaultValue) {
+        return getDecimalFormat(category).format(formatDefaultToCustomUnit(category, defaultValue));
+    }
+
     // FACTORS
 
     public enum Daytime {

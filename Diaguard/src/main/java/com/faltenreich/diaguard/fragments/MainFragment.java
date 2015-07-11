@@ -162,9 +162,7 @@ public class MainFragment extends BaseFragment {
                 BloodSugar bloodSugar = where.query().get(0);
 
                 // Value
-                textViewLatestValue.setText(PreferenceHelper.getInstance()
-                        .getDecimalFormat(Measurement.Category.BloodSugar)
-                        .format(bloodSugar.getValueForUser()));
+                textViewLatestValue.setText(bloodSugar.toString());
 
                 // Highlighting
                 if(PreferenceHelper.getInstance().limitsAreHighlighted()) {

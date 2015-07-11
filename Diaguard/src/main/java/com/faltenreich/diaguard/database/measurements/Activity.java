@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.database.measurements;
 
+import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -40,5 +41,10 @@ public class Activity extends Measurement {
 
     public Category getMeasurementType() {
         return Category.Activity;
+    }
+
+    @Override
+    public String toString() {
+        return PreferenceHelper.getInstance().getMeasurementForUi(getMeasurementType(), minutes);
     }
 }

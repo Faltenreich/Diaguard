@@ -8,7 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * Created by Filip on 09.08.2014.
  */
 @DatabaseTable
-public class BloodSugar extends Measurement implements ICustomizable {
+public class BloodSugar extends Measurement {
 
     public static final String MGDL = "mgDl";
 
@@ -28,7 +28,7 @@ public class BloodSugar extends Measurement implements ICustomizable {
     }
 
     @Override
-    public float getValueForUser() {
-        return PreferenceHelper.getInstance().formatDefaultToCustomUnit(Category.BloodSugar, mgDl);
+    public String toString() {
+        return PreferenceHelper.getInstance().getMeasurementForUi(getMeasurementType(), mgDl);
     }
 }

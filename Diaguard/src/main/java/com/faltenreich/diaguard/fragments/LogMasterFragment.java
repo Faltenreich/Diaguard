@@ -40,8 +40,8 @@ public class LogMasterFragment extends BaseFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         // TODO: notifyItemInserted() instead of reloading all onResume()
         initialize();
     }

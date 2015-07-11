@@ -1,5 +1,8 @@
 package com.faltenreich.diaguard.database.measurements;
 
+import com.faltenreich.diaguard.DiaguardApplication;
+import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -36,5 +39,12 @@ public class Pressure extends Measurement {
 
     public Category getMeasurementType() {
         return Category.Pressure;
+    }
+
+    @Override
+    public String toString() {
+        return PreferenceHelper.getInstance().getMeasurementForUi(getMeasurementType(), systolic) + " " +
+                DiaguardApplication.getContext().getString(R.string.to) + " " +
+                PreferenceHelper.getInstance().getMeasurementForUi(getMeasurementType(), diastolic);
     }
 }

@@ -8,7 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * Created by Filip on 11.05.2015.
  */
 @DatabaseTable
-public class Weight extends Measurement implements ICustomizable {
+public class Weight extends Measurement {
 
     public static final String KILOGRAM = "kilogram";
 
@@ -28,7 +28,7 @@ public class Weight extends Measurement implements ICustomizable {
     }
 
     @Override
-    public float getValueForUser() {
-        return PreferenceHelper.getInstance().formatDefaultToCustomUnit(Category.Weight, kilogram);
+    public String toString() {
+        return PreferenceHelper.getInstance().getMeasurementForUi(getMeasurementType(), kilogram);
     }
 }

@@ -8,7 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * Created by Filip on 11.05.2015.
  */
 @DatabaseTable
-public class HbA1c extends Measurement implements ICustomizable {
+public class HbA1c extends Measurement {
 
     public static final String PERCENT = "percent";
 
@@ -28,7 +28,7 @@ public class HbA1c extends Measurement implements ICustomizable {
     }
 
     @Override
-    public float getValueForUser() {
-        return PreferenceHelper.getInstance().formatDefaultToCustomUnit(Category.HbA1c, percent);
+    public String toString() {
+        return PreferenceHelper.getInstance().getMeasurementForUi(getMeasurementType(), percent);
     }
 }

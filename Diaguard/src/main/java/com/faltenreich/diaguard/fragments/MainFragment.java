@@ -87,6 +87,14 @@ public class MainFragment extends BaseFragment {
         return DiaguardApplication.getContext().getString(R.string.home);
     }
 
+    @Override
+    public boolean hasAction() {
+        return false;
+    }
+
+    @Override
+    public void action(View view) {}
+
     private void getComponents() {
         layoutLatest = (ViewGroup) getView().findViewById(R.id.layout_latest);
         layoutToday = (ViewGroup) getView().findViewById(R.id.layout_today);

@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import com.faltenreich.diaguard.BaseActivity;
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.ui.chart.ChartMarkerView;
 import com.faltenreich.diaguard.ui.chart.EndlessChart;
 import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.faltenreich.diaguard.helpers.ChartHelper;
@@ -95,6 +96,14 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
     public String getTitle() {
         return DiaguardApplication.getContext().getString(R.string.timeline);
     }
+
+    @Override
+    public boolean hasAction() {
+        return true;
+    }
+
+    @Override
+    public void action(View view) {}
 
     private void initialize() {
         currentDateTime = DateTime.now().withHourOfDay(0).withMinuteOfHour(0);
@@ -342,7 +351,7 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
 
     @Override
     public void onValueSelected(com.github.mikephil.charting.data.Entry e, int dataSetIndex, Highlight h) {
-        MarkerView markerView = new ChartMarkerView (getActivity());
+        MarkerView markerView = new ChartMarkerView(getActivity());
         chart.setMarkerView(markerView);
     }
 

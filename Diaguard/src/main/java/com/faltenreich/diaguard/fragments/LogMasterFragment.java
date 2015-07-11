@@ -9,12 +9,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 
-import com.faltenreich.diaguard.BaseActivity;
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.ui.recycler.EndlessScrollListener;
 import com.faltenreich.diaguard.ui.recycler.LogRecyclerAdapter;
+import com.faltenreich.diaguard.ui.recycler.RecyclerItem;
 
 import org.joda.time.DateTime;
 
@@ -23,8 +24,11 @@ import org.joda.time.DateTime;
  */
 public class LogMasterFragment extends BaseFragment {
 
+    private LinearLayoutManager linearLayoutManager;
     private RecyclerView recyclerView;
     private LogRecyclerAdapter recyclerAdapter;
+
+    private DateTime firstVisibleDay;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,15 +39,9 @@ public class LogMasterFragment extends BaseFragment {
     }
 
     @Override
-    public void onActivityCreated (Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated (View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         initialize();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        ((BaseActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     @Override
@@ -61,18 +59,59 @@ public class LogMasterFragment extends BaseFragment {
     }
 
     private void goToDay(DateTime day) {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        firstVisibleDay = day;
+
+        linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerAdapter = new LogRecyclerAdapter(getActivity(), day);
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.scrollToPosition(day.dayOfMonth().get());
+        getActionView().setText(day.toString("MMMM"));
+
+        // Endless scroll
         recyclerView.addOnScrollListener(new EndlessScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(Direction direction) {
                 recyclerAdapter.appendRows(direction);
             }
         });
+
+        // Fragment updates
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                RecyclerItem item = recyclerAdapter.items.get(linearLayoutManager.findFirstVisibleItemPosition());
+                firstVisibleDay = item.getDateTime();
+
+                updateMonthForUi(dy < 0);
+            }
+        });
+    }
+
+    private void updateMonthForUi(boolean isScrollingUp) {
+        // Update month in Toolbar when section is being crossed
+        boolean isCrossingMonth = isScrollingUp ?
+                firstVisibleDay.dayOfMonth().get() == firstVisibleDay.dayOfMonth().getMaximumValue() :
+                firstVisibleDay.dayOfMonth().get() == firstVisibleDay.dayOfMonth().getMinimumValue();
+        if (isCrossingMonth) {
+            getActionView().setText(firstVisibleDay.toString("MMMM"));
+        }
+    }
+
+    public void showDatePicker () {
+        DatePickerFragment fragment = new DatePickerFragment() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int day) {
+                goToDay(DateTime.now().withYear(year).withMonthOfYear(month + 1).withDayOfMonth(day));
+            }
+        };
+        Bundle bundle = new Bundle(1);
+        bundle.putSerializable(DatePickerFragment.DATE, firstVisibleDay);
+        fragment.setArguments(bundle);
+        fragment.show(getActivity().getSupportFragmentManager(), "DatePicker");
     }
 
     @Override
@@ -88,5 +127,15 @@ public class LogMasterFragment extends BaseFragment {
     @Override
     public String getTitle() {
         return DiaguardApplication.getContext().getString(R.string.log);
+    }
+
+    @Override
+    public boolean hasAction() {
+        return true;
+    }
+
+    @Override
+    public void action(View view) {
+        showDatePicker();
     }
 }

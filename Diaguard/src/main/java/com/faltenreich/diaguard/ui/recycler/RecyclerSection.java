@@ -7,13 +7,7 @@ import org.joda.time.DateTime;
  */
 public class RecyclerSection extends RecyclerItem {
 
-    private DateTime dateTime;
-
-    public RecyclerSection(DateTime dateTime) {
-        this.dateTime = dateTime;
-    }
-
-    public DateTime getDateTime() {
-        return dateTime;
+    public RecyclerSection(DateTime month) {
+        super(month);
     }
 }

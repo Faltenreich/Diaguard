@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.fragments;
+package com.faltenreich.diaguard.ui.chart;
 
 import android.content.Context;
 import android.widget.TextView;

@@ -12,7 +12,7 @@ import java.util.List;
  */
 public abstract class BaseAdapter<T extends Model, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
 
-    protected List<RecyclerItem> items;
+    public List<RecyclerItem> items;
 
     public BaseAdapter() {
         this.items = new ArrayList<>();

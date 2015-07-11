@@ -100,4 +100,12 @@ public class TrendFragment extends BaseFragment {
     public String getTitle() {
         return DiaguardApplication.getContext().getString(R.string.trend);
     }
+
+    @Override
+    public boolean hasAction() {
+        return false;
+    }
+
+    @Override
+    public void action(View view) {}
 }

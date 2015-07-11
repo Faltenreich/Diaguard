@@ -144,11 +144,11 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
     }
 
     private void bindDay(ViewHolderRowEntry vh, RecyclerEntry recyclerEntry) {
-        vh.day.setText(recyclerEntry.getDay().toString("dd"));
-        vh.weekDay.setText(recyclerEntry.getDay().dayOfWeek().getAsShortText());
+        vh.day.setText(recyclerEntry.getDateTime().toString("dd"));
+        vh.weekDay.setText(recyclerEntry.getDateTime().dayOfWeek().getAsShortText());
 
         // Highlight current day
-        boolean isToday = recyclerEntry.getDay().withTimeAtStartOfDay().isEqual(DateTime.now().withTimeAtStartOfDay());
+        boolean isToday = recyclerEntry.getDateTime().withTimeAtStartOfDay().isEqual(DateTime.now().withTimeAtStartOfDay());
         int textColor =  isToday ?
                 context.getResources().getColor(R.color.green) :
                 context.getResources().getColor(R.color.gray_dark);

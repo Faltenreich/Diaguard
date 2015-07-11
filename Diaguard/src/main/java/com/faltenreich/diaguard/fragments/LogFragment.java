@@ -47,4 +47,12 @@ public class LogFragment extends BaseFragment {
     public String getTitle() {
         return DiaguardApplication.getContext().getString(R.string.log);
     }
+
+    @Override
+    public boolean hasAction() {
+        return false;
+    }
+
+    @Override
+    public void action(View view) {}
 }

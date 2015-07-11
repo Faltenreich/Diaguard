@@ -94,6 +94,14 @@ public class EntryDetailFragment extends BaseFragment {
         return DiaguardApplication.getContext().getString(R.string.entry);
     }
 
+    @Override
+    public boolean hasAction() {
+        return false;
+    }
+
+    @Override
+    public void action(View view) {}
+
     private void getComponents(View parentView) {
         textViewNote = (TextView) parentView.findViewById(R.id.textview_note);
         layoutMeasurements = (LinearLayout) parentView.findViewById(R.id.layout_measurements);

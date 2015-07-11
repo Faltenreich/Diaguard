@@ -30,4 +30,12 @@ public class OverviewFragment extends BaseFragment {
     public String getTitle() {
         return DiaguardApplication.getContext().getString(R.string.overview);
     }
+
+    @Override
+    public boolean hasAction() {
+        return false;
+    }
+
+    @Override
+    public void action(View view) {}
 }

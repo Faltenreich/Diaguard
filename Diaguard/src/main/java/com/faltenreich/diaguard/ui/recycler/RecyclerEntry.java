@@ -11,24 +11,15 @@ import java.util.List;
  */
 public class RecyclerEntry extends RecyclerItem {
 
-    private DateTime day;
     private List<Entry> entries;
 
     public RecyclerEntry(DateTime day, List<Entry> entries) {
-        this.day = day;
+        super(day);
         this.entries = entries;
-    }
-
-    public RecyclerEntry(DateTime day) {
-        this.day = day;
     }
 
     public boolean hasEntries() {
         return this.entries != null && this.entries.size() > 0;
-    }
-
-    public DateTime getDay() {
-        return day;
     }
 
     public List<Entry> getEntries() {

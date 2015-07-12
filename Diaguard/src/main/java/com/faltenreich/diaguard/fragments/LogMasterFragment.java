@@ -42,14 +42,14 @@ public class LogMasterFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_log_master, container, false);
         setHasOptionsMenu(true);
         getComponents(view);
+        initialize();
         return view;
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        // TODO: notifyItemInserted() instead of reloading all onResume()
-        initialize();
+    public void onResume() {
+        super.onResume();
+        goToDay(firstVisibleDay);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class LogMasterFragment extends BaseFragment {
     }
 
     private void initialize() {
-        goToDay(DateTime.now());
+        firstVisibleDay = DateTime.now();
 
         // FIXME
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);

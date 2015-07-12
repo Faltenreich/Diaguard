@@ -787,7 +787,7 @@ public class NewEventActivity extends BaseActivity {
     }
 
     private boolean validateValue(Measurement.Category category, Float value) {
-        return PreferenceHelper.getInstance().validateEventValue(category, PreferenceHelper.getInstance().formatCustomToDefaultUnit(category, value));
+        return PreferenceHelper.getInstance().validateEventValue(category, value);
     }
 
     // LISTENERS

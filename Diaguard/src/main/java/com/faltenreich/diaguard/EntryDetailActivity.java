@@ -11,8 +11,6 @@ import com.faltenreich.diaguard.helpers.Helper;
 
 public class EntryDetailActivity extends BaseActivity {
 
-    public static final String EXTRA_ENTRY = "com.faltenreich.diaguard.EntryDetailActivity.ENTRY";
-
     private Entry entry;
     private Toolbar toolbar;
 
@@ -22,8 +20,8 @@ public class EntryDetailActivity extends BaseActivity {
         setContentView(R.layout.activity_entry_detail);
 
         Bundle arguments = new Bundle();
-        long id = getIntent().getLongExtra(EntryDetailFragment.ENTRY_ID, 0);
-        arguments.putLong(EntryDetailFragment.ENTRY_ID, id);
+        long id = getIntent().getLongExtra(EntryDetailFragment.EXTRA_ENTRY, 0);
+        arguments.putLong(EntryDetailFragment.EXTRA_ENTRY, id);
         EntryDetailFragment fragment = new EntryDetailFragment();
         fragment.setArguments(arguments);
         getSupportFragmentManager().beginTransaction()

@@ -4,8 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,18 +21,22 @@ import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.MainActivity;
 import com.faltenreich.diaguard.NewEventActivity;
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.database.DatabaseFacade;
 import com.faltenreich.diaguard.database.Entry;
+import com.faltenreich.diaguard.database.measurements.BloodSugar;
 import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.faltenreich.diaguard.helpers.Helper;
+import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.faltenreich.diaguard.helpers.ViewHelper;
 
+import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 
 public class EntryDetailFragment extends BaseFragment {
 
-    public static final String ENTRY_ID = "entryId";
+    public static final String EXTRA_ENTRY = "com.faltenreich.diaguard.EntryDetailActivity.ENTRY";
 
-    private final Fragment fragment = this;
     public Entry entry;
 
     private TextView textViewNote;
@@ -48,7 +53,7 @@ public class EntryDetailFragment extends BaseFragment {
     public static EntryDetailFragment newInstance(long entryId) {
         EntryDetailFragment fragment = new EntryDetailFragment();
         Bundle args = new Bundle();
-        args.putLong(ENTRY_ID, entryId);
+        args.putLong(EXTRA_ENTRY, entryId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -61,9 +66,13 @@ public class EntryDetailFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_entry_detail, container, false);
         setHasOptionsMenu(true);
-        if (getArguments() != null && getArguments().getLong(ENTRY_ID) > 0) {
-            long entryId = getArguments().getLong(ENTRY_ID);
-            //entry = (Entry)dataSource.get(DatabaseHelper.ENTRY, entryId);
+        if (getArguments() != null && getArguments().getLong(EXTRA_ENTRY) > 0) {
+            long entryId = getArguments().getLong(EXTRA_ENTRY);
+            try {
+                entry = DatabaseFacade.getInstance().getDao(Entry.class).queryForId(entryId);
+            } catch (SQLException exception) {
+                Log.e("EntryDetailFragment", exception.getMessage());
+            }
 
             getComponents(view);
             initializeGUI();
@@ -135,60 +144,65 @@ public class EntryDetailFragment extends BaseFragment {
 
     private void initialize() {
         // Pre-load image resources
-        imageResources = new HashMap<String, Integer>();
+        imageResources = new HashMap<>();
         for(Measurement.Category category : Measurement.Category.values()) {
-            String name = category.name().toLowerCase();
-            int resourceId = getResources().getIdentifier(name,
-                    "drawable", getActivity().getPackageName());
-            imageResources.put(name, resourceId);
+            imageResources.put(category.name(), PreferenceHelper.getInstance().getCategoryImageResourceId(category));
         }
 
-        /*
-        List<Model> models = dataSource.get(DatabaseHelper.MEASUREMENT, null,
-                DatabaseHelper.ENTRY_ID + "=?", new String[]{ Long.toString(entry.getId()) },
-                null, null, null, null);
-
         layoutMeasurements.removeAllViews();
-        for(Model model : models) {
-            addMeasurement((Measurement) model);
+        try {
+            List<Measurement> measurements = DatabaseFacade.getInstance().getMeasurements(entry);
+            for(Measurement measurement : measurements) {
+                addMeasurement(measurement);
+            }
+        } catch (SQLException exception) {
+            Log.e("EntryDetailFragment", exception.getMessage());
         }
 
         if(entry.getNote() != null && entry.getNote().length() > 0) {
             textViewNote.setText(entry.getNote());
         }
-        */
     }
 
     private void addMeasurement(Measurement measurement) {
-        // TODO
-        /*
+        Measurement.Category category = measurement.getMeasurementType();
         View view = getLayoutInflater(getArguments()).inflate(R.layout.fragment_measurement, layoutMeasurements, false);
-        view.setTag(measurement.getCategory());
+        view.setTag(category);
 
         ImageView imageViewCategory = (ImageView) view.findViewById(R.id.image);
-        imageViewCategory.setImageResource(imageResources.get(measurement.getCategory().name().toLowerCase()));
+        imageViewCategory.setImageResource(imageResources.get(category.name()));
+        int backgroundColor = getResources().getColor(R.color.gray_dark);
+        if (category == Measurement.Category.BloodSugar) {
+            BloodSugar bloodSugar = (BloodSugar) measurement;
+            if (bloodSugar.getMgDl() > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
+                backgroundColor = getResources().getColor(R.color.red);
+            } else if (bloodSugar.getMgDl() < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
+                backgroundColor = getResources().getColor(R.color.blue);
+            } else {
+                backgroundColor = getResources().getColor(R.color.green);
+            }
+        }
+        imageViewCategory.setColorFilter(backgroundColor, PorterDuff.Mode.SRC_ATOP.SRC_ATOP);
 
         TextView textViewCategory = (TextView) view.findViewById(R.id.category);
-        textViewCategory.setText(preferenceHelper.getCategoryName(measurement.getCategory()));
+        textViewCategory.setText(PreferenceHelper.getInstance().getCategoryName(category));
 
         TextView textViewValue = (TextView) view.findViewById(R.id.value);
-        float value = preferenceHelper.formatDefaultToCustomUnit(
-                measurement.getCategory(), measurement.getValue());
-        textViewValue.setText(preferenceHelper.getDecimalFormat(measurement.getCategory()).format(value));
+        textViewValue.setText(measurement.toString());
 
         // Highlight extrema
-        if(measurement.getCategory() == Measurement.Category.BloodSugar && preferenceHelper.limitsAreHighlighted()) {
-            if(measurement.getValue() > preferenceHelper.getLimitHyperglycemia())
+        if(category == Measurement.Category.BloodSugar && PreferenceHelper.getInstance().limitsAreHighlighted()) {
+            BloodSugar bloodSugar = (BloodSugar) measurement;
+            if(bloodSugar.getMgDl() > PreferenceHelper.getInstance().getLimitHyperglycemia())
                 textViewValue.setTextColor(getResources().getColor(R.color.red));
-            else if(measurement.getValue() < preferenceHelper.getLimitHypoglycemia())
+            else if(bloodSugar.getMgDl() < PreferenceHelper.getInstance().getLimitHypoglycemia())
                 textViewValue.setTextColor(getResources().getColor(R.color.blue));
         }
 
         TextView textViewUnit = (TextView) view.findViewById(R.id.unit);
-        textViewUnit.setText(preferenceHelper.getUnitAcronym(measurement.getCategory()));
+        textViewUnit.setText(PreferenceHelper.getInstance().getUnitAcronym(category));
 
         layoutMeasurements.addView(view, layoutMeasurements.getChildCount());
-        */
     }
 
     public void editEntry() {

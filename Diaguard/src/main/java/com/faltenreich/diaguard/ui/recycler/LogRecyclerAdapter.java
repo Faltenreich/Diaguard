@@ -18,6 +18,7 @@ import com.faltenreich.diaguard.database.DatabaseFacade;
 import com.faltenreich.diaguard.database.Entry;
 import com.faltenreich.diaguard.database.measurements.BloodSugar;
 import com.faltenreich.diaguard.database.measurements.Measurement;
+import com.faltenreich.diaguard.fragments.EntryDetailFragment;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 
 import org.joda.time.DateTime;
@@ -177,7 +178,7 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(context, EntryDetailActivity.class);
-                        intent.putExtra(EntryDetailActivity.EXTRA_ENTRY, entry.getId());
+                        intent.putExtra(EntryDetailFragment.EXTRA_ENTRY, entry.getId());
                         context.startActivity(intent);
                     }
                 });

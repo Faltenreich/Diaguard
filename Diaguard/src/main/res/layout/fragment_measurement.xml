@@ -8,8 +8,7 @@
 
     <ImageView android:id="@+id/image"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@null"/>
+        android:layout_height="wrap_content"/>
 
     <TextView android:id="@+id/category"
         android:layout_width="0dp"
@@ -19,7 +18,7 @@
         android:layout_marginStart="@dimen/padding_end"
         android:textColor="@color/gray_dark"/>
 
-    <TextView android:id="@+id/edittext_value"
+    <TextView android:id="@+id/value"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"

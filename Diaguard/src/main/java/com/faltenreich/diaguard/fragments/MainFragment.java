@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.faltenreich.diaguard.BaseActivity;
 import com.faltenreich.diaguard.DiaguardApplication;
+import com.faltenreich.diaguard.EntryDetailActivity;
 import com.faltenreich.diaguard.MainActivity;
 import com.faltenreich.diaguard.NewEventActivity;
 import com.faltenreich.diaguard.R;
@@ -195,9 +196,9 @@ public class MainFragment extends BaseFragment {
                 layoutLatest.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), NewEventActivity.class);
-                        intent.putExtra(EntryDetailFragment.ENTRY_ID, entry.getId());
-                        startActivityForResult(intent, MainActivity.REQUEST_EVENT_CREATED);
+                        Intent intent = new Intent(getActivity(), EntryDetailActivity.class);
+                        intent.putExtra(EntryDetailFragment.EXTRA_ENTRY, entry.getId());
+                        startActivity(intent);
                     }
                 });
             } else {

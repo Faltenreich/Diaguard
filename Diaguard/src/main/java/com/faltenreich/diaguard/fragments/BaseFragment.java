@@ -35,7 +35,7 @@ public abstract class BaseFragment extends Fragment {
         if (toolbar != null && getActivity() instanceof BaseActivity) {
             actionView = (TextView) toolbar.findViewById(R.id.action);
             ActionBar actionBar = ((BaseActivity) getActivity()).getSupportActionBar();
-            if (actionBar != null) {
+            if (actionBar != null && actionView != null) {
                 if (hasAction()) {
                     actionBar.setDisplayShowTitleEnabled(false);
                     actionView.setVisibility(View.VISIBLE);

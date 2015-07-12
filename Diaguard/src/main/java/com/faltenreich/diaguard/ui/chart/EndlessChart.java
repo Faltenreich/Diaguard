@@ -28,7 +28,6 @@ public class EndlessChart extends ScatterChart implements OnChartGestureListener
     private final int X_TOTAL = X_PER_PAGE * PAGE_COUNT;
 
     private OnChartPageChangeListener chartPageChangeListener;
-    private String[] weekDays = getResources().getStringArray(R.array.weekdays);
 
     private DateTime currentDateTime;
     private boolean isLoadingPage;
@@ -124,6 +123,7 @@ public class EndlessChart extends ScatterChart implements OnChartGestureListener
 
     private class UpdateChartTask extends AsyncTask<EndlessChart, Void, ScatterData> {
 
+        private String[] weekDays = getResources().getStringArray(R.array.weekdays);
         private EndlessChart chart;
 
         protected ScatterData doInBackground(EndlessChart... params) {

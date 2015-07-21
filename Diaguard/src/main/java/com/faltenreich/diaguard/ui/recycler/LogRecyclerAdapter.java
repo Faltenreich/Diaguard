@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.ui.recycler;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
-import android.os.AsyncTask;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -102,8 +101,16 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
     }
 
     private List<Entry> fetchData(DateTime day) {
-        List<Entry> entriesOfDay = DatabaseFacade.getInstance().getEntriesOfDay(day);
-        return entriesOfDay;
+        try {
+            List<Entry> entriesOfDay = DatabaseFacade.getInstance().getEntriesOfDay(day);
+            for (Entry entry : entriesOfDay) {
+                entry.setMeasurementCache(DatabaseFacade.getInstance().getMeasurements(entry));
+            }
+            return entriesOfDay;
+        } catch (SQLException exception) {
+            Log.e("LogRecyclerAdapter", exception.getMessage());
+            return null;
+        }
     }
 
     @Override
@@ -197,37 +204,32 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
                 }
 
                 ViewGroup layoutEntries = (ViewGroup) viewEntry.findViewById(R.id.measurements);
-                try {
-                    List<Measurement> measurements = DatabaseFacade.getInstance().getMeasurements(entry);
-                    for (Measurement measurement : measurements) {
-                        Measurement.Category category = measurement.getMeasurementType();
-                        View viewMeasurement = inflate.inflate(R.layout.recycler_log_measurement, vh.entries, false);
-                        ImageView categoryImage = (ImageView) viewMeasurement.findViewById(R.id.image);
-                        int imageResourceId = PreferenceHelper.getInstance().getCategoryImageResourceId(category);
-                        categoryImage.setImageDrawable(context.getResources().getDrawable(imageResourceId));
-                        categoryImage.setColorFilter(context.getResources().getColor(R.color.gray_dark), PorterDuff.Mode.SRC_ATOP.SRC_ATOP);
-                        TextView value = (TextView) viewMeasurement.findViewById(R.id.value);
+                for (Measurement measurement : entry.getMeasurementCache()) {
+                    Measurement.Category category = measurement.getMeasurementType();
+                    View viewMeasurement = inflate.inflate(R.layout.recycler_log_measurement, vh.entries, false);
+                    ImageView categoryImage = (ImageView) viewMeasurement.findViewById(R.id.image);
+                    int imageResourceId = PreferenceHelper.getInstance().getCategoryImageResourceId(category);
+                    categoryImage.setImageDrawable(context.getResources().getDrawable(imageResourceId));
+                    categoryImage.setColorFilter(context.getResources().getColor(R.color.gray_dark), PorterDuff.Mode.SRC_ATOP.SRC_ATOP);
+                    TextView value = (TextView) viewMeasurement.findViewById(R.id.value);
 
-                        switch (category) {
-                            case BloodSugar:
-                                BloodSugar bloodSugar = (BloodSugar) measurement;
-                                if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
-                                    int backgroundColor = context.getResources().getColor(R.color.green);
-                                    if (bloodSugar.getMgDl() > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
-                                        backgroundColor = context.getResources().getColor(R.color.red);
-                                    } else if (bloodSugar.getMgDl() < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
-                                        backgroundColor = context.getResources().getColor(R.color.blue);
-                                    }
-                                    categoryImage.setColorFilter(backgroundColor, PorterDuff.Mode.SRC_ATOP.SRC_ATOP);
+                    switch (category) {
+                        case BloodSugar:
+                            BloodSugar bloodSugar = (BloodSugar) measurement;
+                            if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
+                                int backgroundColor = context.getResources().getColor(R.color.green);
+                                if (bloodSugar.getMgDl() > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
+                                    backgroundColor = context.getResources().getColor(R.color.red);
+                                } else if (bloodSugar.getMgDl() < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
+                                    backgroundColor = context.getResources().getColor(R.color.blue);
                                 }
-                            default:
-                                value.setText(measurement.toString() + " " + PreferenceHelper.getInstance().getUnitAcronym(category));
-                        }
-
-                        layoutEntries.addView(viewMeasurement);
+                                categoryImage.setColorFilter(backgroundColor, PorterDuff.Mode.SRC_ATOP.SRC_ATOP);
+                            }
+                        default:
+                            value.setText(measurement.toString() + " " + PreferenceHelper.getInstance().getUnitAcronym(category));
                     }
-                } catch (SQLException exception) {
-                    Log.e("LogRecyclerAdapter", exception.getMessage());
+
+                    layoutEntries.addView(viewMeasurement);
                 }
 
                 vh.entries.addView(viewEntry);
@@ -305,20 +307,6 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
             this.day = (TextView) view.findViewById(R.id.day);
             this.weekDay = (TextView) view.findViewById(R.id.weekday);
             this.entries = (ViewGroup) view.findViewById(R.id.entries);
-        }
-    }
-
-    private class FetchDataTask extends AsyncTask<DateTime, Void, List<Entry>> {
-
-        protected List<Entry> doInBackground(DateTime... params) {
-            List<Entry> entriesOfDay = DatabaseFacade.getInstance().getEntriesOfDay(params[0]);
-            // TODO: Fetch measurements, too
-
-            return entriesOfDay;
-        }
-
-        protected void onPostExecute(List<Entry> data) {
-            // TODO: Set data
         }
     }
 }

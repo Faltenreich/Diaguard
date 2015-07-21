@@ -8,6 +8,8 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import org.joda.time.DateTime;
 
+import java.util.List;
+
 /**
  * Created by Filip on 09.08.2014.
  */
@@ -29,6 +31,8 @@ public class Entry extends Model {
 
     @ForeignCollectionField
     private ForeignCollection<Measurement> measurements;
+
+    private List<Measurement> measurementCache;
 
     public DateTime getDate() {
         return date;
@@ -60,5 +64,13 @@ public class Entry extends Model {
 
     public void setMeasurements(ForeignCollection<Measurement> measurements) {
         this.measurements = measurements;
+    }
+
+    public List<Measurement> getMeasurementCache() {
+        return measurementCache;
+    }
+
+    public void setMeasurementCache(List<Measurement> measurementCache) {
+        this.measurementCache = measurementCache;
     }
 }

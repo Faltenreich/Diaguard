@@ -4,6 +4,7 @@ import com.faltenreich.diaguard.database.Entry;
 
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,6 +17,11 @@ public class RecyclerEntry extends RecyclerItem {
     public RecyclerEntry(DateTime day, List<Entry> entries) {
         super(day);
         this.entries = entries;
+    }
+
+    public RecyclerEntry(DateTime day) {
+        super(day);
+        this.entries = new ArrayList<>();
     }
 
     public boolean hasEntries() {

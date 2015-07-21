@@ -152,24 +152,9 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
     }
 
     private void bindMonth(ViewHolderRowSection vh, RecyclerSection recyclerSection) {
-        vh.month.setText(recyclerSection.getDateTime().toString("MMMM YYYY"));
-        int monthOfYear = recyclerSection.getDateTime().monthOfYear().get();
-        int colorId = android.R.color.white;
-        if (monthOfYear == 12 || monthOfYear <= 2) {
-            colorId = android.R.color.black;
-        } else if (monthOfYear > 2 && monthOfYear <= 5) {
-            colorId = android.R.color.black;
-        }
-        vh.month.setTextColor(context.getResources().getColor(colorId));
         int resourceId = PreferenceHelper.getInstance().getSeasonResourceId(recyclerSection.getDateTime());
         Picasso.with(context).load(resourceId).into(vh.background);
-
-        // Layer color
-        int maximum = Measurement.Category.values().length - 1;
-        int position = recyclerSection.getDateTime().monthOfYear().get() % maximum;
-        Measurement.Category category = Measurement.Category.values()[position];
-        int color = context.getResources().getColor(PreferenceHelper.getInstance().getCategoryColorResourceId(category));
-        vh.layer.setBackgroundColor(color);
+        vh.month.setText(recyclerSection.getDateTime().toString("MMMM YYYY"));
     }
 
     private void bindDay(ViewHolderRowEntry vh, RecyclerEntry recyclerEntry) {
@@ -186,6 +171,7 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
         vh.day.setTextColor(textColor);
         vh.weekDay.setTextColor(textColor);
 
+        // TODO: Threading
         if (recyclerEntry.hasEntries()) {
             for (final Entry entry : recyclerEntry.getEntries()) {
                 View viewEntry = inflate.inflate(R.layout.recycler_log_entry, vh.entries, false);
@@ -276,12 +262,10 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
 
     private static class ViewHolderRowSection extends RecyclerView.ViewHolder {
         ImageView background;
-        View layer;
         TextView month;
         public ViewHolderRowSection(View view) {
             super(view);
             this.background = (ImageView) view.findViewById(R.id.background);
-            this.layer = view.findViewById(R.id.layer);
             this.month = (TextView) view.findViewById(R.id.month);
         }
     }

@@ -188,6 +188,14 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
                 TextView time = (TextView) viewEntry.findViewById(R.id.time);
                 time.setText(entry.getDate().toString("HH:mm"));
 
+                TextView viewNote = (TextView) viewEntry.findViewById(R.id.note);
+                if (entry.getNote() != null && entry.getNote().length() > 0) {
+                    viewNote.setVisibility(View.VISIBLE);
+                    viewNote.setText(entry.getNote());
+                } else {
+                    viewNote.setVisibility(View.GONE);
+                }
+
                 ViewGroup layoutEntries = (ViewGroup) viewEntry.findViewById(R.id.measurements);
                 try {
                     List<Measurement> measurements = DatabaseFacade.getInstance().getMeasurements(entry);
@@ -221,6 +229,7 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
                 } catch (SQLException exception) {
                     Log.e("LogRecyclerAdapter", exception.getMessage());
                 }
+
                 vh.entries.addView(viewEntry);
             }
         } else {

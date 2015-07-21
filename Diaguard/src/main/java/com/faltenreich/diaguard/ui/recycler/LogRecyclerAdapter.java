@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.EntryDetailActivity;
+import com.faltenreich.diaguard.NewEventActivity;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.DatabaseFacade;
 import com.faltenreich.diaguard.database.Entry;
@@ -157,7 +158,7 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
         vh.month.setText(recyclerSection.getDateTime().toString("MMMM YYYY"));
     }
 
-    private void bindDay(ViewHolderRowEntry vh, RecyclerEntry recyclerEntry) {
+    private void bindDay(ViewHolderRowEntry vh, final RecyclerEntry recyclerEntry) {
         LayoutInflater inflate = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         vh.day.setText(recyclerEntry.getDateTime().toString("dd"));
@@ -224,7 +225,16 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
             }
         } else {
             if (!isToday) {
-                vh.entries.addView(inflate.inflate(R.layout.recycler_log_empty, vh.entries, false));
+                View view = inflate.inflate(R.layout.recycler_log_empty, vh.entries, false);
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(context, NewEventActivity.class);
+                        intent.putExtra(NewEventActivity.EXTRA_DATE, recyclerEntry.getDateTime());
+                        context.startActivity(intent);
+                    }
+                });
+                vh.entries.addView(view);
             }
         }
 
@@ -232,6 +242,13 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
         if (isToday) {
             View view = inflate.inflate(R.layout.recycler_log_indicator, vh.entries, false);
             TextView timePassed = (TextView) view.findViewById(R.id.time_passed);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    context.startActivity(new Intent(context, NewEventActivity.class));
+                }
+            });
 
             try {
                 QueryBuilder<Entry, ?> joinQb = DatabaseFacade.getInstance().join(Entry.class, BloodSugar.class).orderBy(Entry.DATE, false).limit(1L);

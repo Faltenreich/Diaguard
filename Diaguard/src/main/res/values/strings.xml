@@ -80,6 +80,7 @@
     <string name="log">Log</string>
     <string name="mail">E-Mail</string>
     <string name="meal">Meal</string>
+    <string name="measurement_latest">Latest</string>
     <string name="measurements">Measured</string>
     <string name="note">Note</string>
     <string name="ok">OK</string>

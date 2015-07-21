@@ -52,6 +52,7 @@ dependencies {
     compile 'com.github.clans:fab:1.5.3'
     compile 'com.github.PhilJay:MPAndroidChart:v2.1.0'
     compile 'com.fmsirvent:parallaxeverywhere:1.0.4'
+    compile 'com.squareup.picasso:picasso:2.5.2'
 
     compile files('libs/achartengine-1.2.0.jar')
     compile files('libs/itextg-5.4.4.jar')

@@ -4,6 +4,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:baselineAligned="false"
     style="@style/Padding">
 
     <LinearLayout
@@ -28,18 +29,6 @@
             android:textColor="@color/gray_dark"/>
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/empty_view"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="6"
-        android:layout_marginLeft="6dp"
-        android:layout_marginStart="6dp"
-        android:text="@string/no_data"
-        android:textColor="@android:color/darker_gray"
-        android:gravity="center_vertical"
-        android:visibility="gone"/>
 
     <LinearLayout
         android:id="@+id/entries"

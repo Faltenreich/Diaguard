@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,9 +20,14 @@ import com.faltenreich.diaguard.database.Entry;
 import com.faltenreich.diaguard.database.measurements.BloodSugar;
 import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.faltenreich.diaguard.fragments.EntryDetailFragment;
+import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.squareup.picasso.Picasso;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
+import org.joda.time.Minutes;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -146,12 +152,24 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
     }
 
     private void bindMonth(ViewHolderRowSection vh, RecyclerSection recyclerSection) {
+        vh.month.setText(recyclerSection.getDateTime().toString("MMMM YYYY"));
+        int monthOfYear = recyclerSection.getDateTime().monthOfYear().get();
+        int colorId = android.R.color.white;
+        if (monthOfYear == 12 || monthOfYear <= 2) {
+            colorId = android.R.color.black;
+        } else if (monthOfYear > 2 && monthOfYear <= 5) {
+            colorId = android.R.color.black;
+        }
+        vh.month.setTextColor(context.getResources().getColor(colorId));
+        int resourceId = PreferenceHelper.getInstance().getSeasonResourceId(recyclerSection.getDateTime());
+        Picasso.with(context).load(resourceId).into(vh.background);
+
+        // Layer color
         int maximum = Measurement.Category.values().length - 1;
         int position = recyclerSection.getDateTime().monthOfYear().get() % maximum;
         Measurement.Category category = Measurement.Category.values()[position];
         int color = context.getResources().getColor(PreferenceHelper.getInstance().getCategoryColorResourceId(category));
         vh.layer.setBackgroundColor(color);
-        vh.month.setText(recyclerSection.getDateTime().toString("MMMM YYYY"));
     }
 
     private void bindDay(ViewHolderRowEntry vh, RecyclerEntry recyclerEntry) {
@@ -169,9 +187,6 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
         vh.weekDay.setTextColor(textColor);
 
         if (recyclerEntry.hasEntries()) {
-            vh.entries.setVisibility(View.VISIBLE);
-            vh.emptyView.setVisibility(View.GONE);
-
             for (final Entry entry : recyclerEntry.getEntries()) {
                 View viewEntry = inflate.inflate(R.layout.recycler_log_entry, vh.entries, false);
                 viewEntry.setOnClickListener(new View.OnClickListener() {
@@ -222,22 +237,50 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
                 vh.entries.addView(viewEntry);
             }
         } else {
-            vh.entries.setVisibility(View.GONE);
-            vh.emptyView.setVisibility(View.VISIBLE);
+            if (!isToday) {
+                vh.entries.addView(inflate.inflate(R.layout.recycler_log_empty, vh.entries, false));
+            }
         }
 
         // Add indicator behind last entry
         if (isToday) {
-            View indicator = inflate.inflate(R.layout.recycler_log_indicator, vh.entries, false);
-            vh.entries.addView(indicator);
+            View view = inflate.inflate(R.layout.recycler_log_indicator, vh.entries, false);
+            TextView timePassed = (TextView) view.findViewById(R.id.time_passed);
+
+            try {
+                QueryBuilder<Entry, ?> joinQb = DatabaseFacade.getInstance().join(Entry.class, BloodSugar.class).orderBy(Entry.DATE, false).limit(1L);
+                Entry entry = joinQb.queryForFirst();
+                if (entry != null) {
+                    // Time
+                    int differenceInMinutes = Minutes.minutesBetween(entry.getDate(), new DateTime()).getMinutes();
+
+                    // Highlight if last measurement is more than eight hours ago
+                    CardView cardView = (CardView) view;
+                    if(differenceInMinutes > DateTimeConstants.MINUTES_PER_HOUR * 8) {
+                        cardView.setCardBackgroundColor(context.getResources().getColor(R.color.red));
+                    } else {
+                        cardView.setCardBackgroundColor(context.getResources().getColor(R.color.green));
+                    }
+
+                    timePassed.setText(Helper.getTextAgo(context, differenceInMinutes));
+                } else {
+                    timePassed.setText(context.getString(R.string.no_data));
+                }
+            } catch (SQLException exception) {
+                Log.e("LogRecyclerAdapter", exception.getMessage());
+            }
+
+            vh.entries.addView(view);
         }
     }
 
     private static class ViewHolderRowSection extends RecyclerView.ViewHolder {
+        ImageView background;
         View layer;
         TextView month;
         public ViewHolderRowSection(View view) {
             super(view);
+            this.background = (ImageView) view.findViewById(R.id.background);
             this.layer = view.findViewById(R.id.layer);
             this.month = (TextView) view.findViewById(R.id.month);
         }
@@ -247,13 +290,11 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
         TextView day;
         TextView weekDay;
         ViewGroup entries;
-        TextView emptyView;
         public ViewHolderRowEntry(View view) {
             super(view);
             this.day = (TextView) view.findViewById(R.id.day);
             this.weekDay = (TextView) view.findViewById(R.id.weekday);
             this.entries = (ViewGroup) view.findViewById(R.id.entries);
-            this.emptyView = (TextView) view.findViewById(R.id.empty_view);
         }
     }
 
@@ -262,6 +303,7 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
         protected List<Entry> doInBackground(DateTime... params) {
             List<Entry> entriesOfDay = DatabaseFacade.getInstance().getEntriesOfDay(params[0]);
             // TODO: Fetch measurements, too
+
             return entriesOfDay;
         }
 

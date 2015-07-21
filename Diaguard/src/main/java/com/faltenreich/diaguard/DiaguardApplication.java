@@ -18,7 +18,6 @@ public class DiaguardApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        // Initialize global values
         context = getApplicationContext();
         JodaTimeAndroid.init(this);
     }

@@ -68,6 +68,7 @@
     <string name="log">Protokoll</string>
     <string name="mail">E-Mail</string>
     <string name="meal">Mahlzeit</string>
+    <string name="measurement_latest">Zuletzt</string>
     <string name="measurements">Messungen</string>
     <string name="note">Notiz</string>
     <string name="ok">OK</string>

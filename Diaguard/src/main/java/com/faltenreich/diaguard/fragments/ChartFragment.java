@@ -19,12 +19,12 @@ import android.widget.ProgressBar;
 import com.faltenreich.diaguard.BaseActivity;
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.ui.chart.ChartMarkerView;
-import com.faltenreich.diaguard.ui.chart.EndlessChart;
 import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.faltenreich.diaguard.helpers.ChartHelper;
 import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
+import com.faltenreich.diaguard.ui.chart.ChartMarkerView;
+import com.faltenreich.diaguard.ui.chart.EndlessChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.MarkerView;
@@ -33,9 +33,9 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.ScatterData;
 import com.github.mikephil.charting.data.ScatterDataSet;
+import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.Highlight;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -450,8 +450,8 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
             if(isAdded()) {
                 chart.setData(data);
 
-                chart.setVisibleXRange(DateTimeConstants.MINUTES_PER_DAY);
-                chart.setVisibleYRange(
+                chart.setVisibleXRangeMaximum(DateTimeConstants.MINUTES_PER_DAY);
+                chart.setVisibleYRangeMaximum(
                         PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BloodSugar, 300),
                         YAxis.AxisDependency.LEFT);
                 chart.getXAxis().setLabelsToSkip((DateTimeConstants.MINUTES_PER_HOUR * 4) - 1);
@@ -559,8 +559,8 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
             if(isAdded()) {
                 chart.setData(data);
 
-                chart.setVisibleXRange(DateTimeConstants.MINUTES_PER_DAY);
-                chart.setVisibleYRange(
+                chart.setVisibleXRangeMaximum(DateTimeConstants.MINUTES_PER_DAY);
+                chart.setVisibleYRangeMaximum(
                         PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BloodSugar, 300),
                         YAxis.AxisDependency.LEFT);
                 chart.getXAxis().setLabelsToSkip((DateTimeConstants.MINUTES_PER_HOUR * 4) - 1);

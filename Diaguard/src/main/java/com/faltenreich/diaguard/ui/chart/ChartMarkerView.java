@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.highlight.Highlight;
 
 /**
  * Created by Filip on 23.05.2015.
@@ -22,8 +23,8 @@ public class ChartMarkerView extends MarkerView {
     }
 
     @Override
-    public void refreshContent(Entry e, int dataSetIndex) {
-        textViewValue.setText((int) e.getVal() + " " + PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BloodSugar));
+    public void refreshContent(Entry entry, Highlight highlight) {
+        textViewValue.setText((int) entry.getVal() + " " + PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BloodSugar));
     }
 
     @Override

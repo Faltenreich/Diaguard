@@ -167,7 +167,7 @@ public class EndlessChart extends ScatterChart implements OnChartGestureListener
 
         protected void onPostExecute(ScatterData data) {
             chart.setData(data);
-            chart.setVisibleXRange(DateTimeConstants.MINUTES_PER_DAY);
+            chart.setVisibleXRangeMaximum(DateTimeConstants.MINUTES_PER_DAY);
             chart.getXAxis().setLabelsToSkip((DateTimeConstants.MINUTES_PER_HOUR * 4) - 1);
             chart.moveViewToX(X_PER_PAGE);
             chart.invalidate();

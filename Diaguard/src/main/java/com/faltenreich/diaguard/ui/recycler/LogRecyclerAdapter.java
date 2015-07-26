@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.ui.recycler;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,14 +19,10 @@ import com.faltenreich.diaguard.database.Entry;
 import com.faltenreich.diaguard.database.measurements.BloodSugar;
 import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.faltenreich.diaguard.fragments.EntryDetailFragment;
-import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
-import com.j256.ormlite.stmt.QueryBuilder;
 import com.squareup.picasso.Picasso;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeConstants;
-import org.joda.time.Minutes;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -252,38 +247,6 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
         // Add indicator behind last entry
         if (isToday) {
             View view = inflate.inflate(R.layout.recycler_log_indicator, vh.entries, false);
-            TextView timePassed = (TextView) view.findViewById(R.id.time_passed);
-
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    context.startActivity(new Intent(context, NewEventActivity.class));
-                }
-            });
-
-            try {
-                QueryBuilder<Entry, ?> joinQb = DatabaseFacade.getInstance().join(Entry.class, BloodSugar.class).orderBy(Entry.DATE, false).limit(1L);
-                Entry entry = joinQb.queryForFirst();
-                if (entry != null) {
-                    // Time
-                    int differenceInMinutes = Minutes.minutesBetween(entry.getDate(), new DateTime()).getMinutes();
-
-                    // Highlight if last measurement is more than eight hours ago
-                    CardView cardView = (CardView) view;
-                    if(differenceInMinutes > DateTimeConstants.MINUTES_PER_HOUR * 8) {
-                        cardView.setCardBackgroundColor(context.getResources().getColor(R.color.red));
-                    } else {
-                        cardView.setCardBackgroundColor(context.getResources().getColor(R.color.green));
-                    }
-
-                    timePassed.setText(Helper.getTextAgo(context, differenceInMinutes));
-                } else {
-                    timePassed.setText(context.getString(R.string.no_data));
-                }
-            } catch (SQLException exception) {
-                Log.e("LogRecyclerAdapter", exception.getMessage());
-            }
-
             vh.entries.addView(view);
         }
     }

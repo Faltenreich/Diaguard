@@ -230,18 +230,16 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
                 vh.entries.addView(viewEntry);
             }
         } else {
-            if (!isToday) {
-                View view = inflate.inflate(R.layout.recycler_log_empty, vh.entries, false);
-                view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(context, NewEventActivity.class);
-                        intent.putExtra(NewEventActivity.EXTRA_DATE, recyclerEntry.getDateTime());
-                        context.startActivity(intent);
-                    }
-                });
-                vh.entries.addView(view);
-            }
+            View view = inflate.inflate(R.layout.recycler_log_empty, vh.entries, false);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, NewEventActivity.class);
+                    intent.putExtra(NewEventActivity.EXTRA_DATE, recyclerEntry.getDateTime());
+                    context.startActivity(intent);
+                }
+            });
+            vh.entries.addView(view);
         }
 
         // Add indicator behind last entry

@@ -1,7 +1,10 @@
 package com.faltenreich.diaguard.fragments;
 
 
+import android.content.Context;
+import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
@@ -9,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +20,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ProgressBar;
 
-import com.faltenreich.diaguard.BaseActivity;
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.measurements.Measurement;
@@ -25,6 +28,7 @@ import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.faltenreich.diaguard.ui.chart.ChartMarkerView;
 import com.faltenreich.diaguard.ui.chart.EndlessChart;
+import com.faltenreich.diaguard.ui.recycler.DayOfMonthDrawable;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.MarkerView;
@@ -60,7 +64,7 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
     private View buttonPrevious;
     private View buttonNext;
 
-    private DateTime currentDateTime;
+    private DateTime currentDay;
     private Measurement.Category[] activeCategories;
 
     public ChartFragment() {
@@ -75,21 +79,25 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
     }
 
     @Override
-    public void onActivityCreated (Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated (View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         initialize();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        ((BaseActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.date, menu);
+
+        MenuItem menuItem = menu.findItem(R.id.action_today);
+        if (menuItem != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                LayerDrawable icon = (LayerDrawable) menuItem.getIcon();
+                setTodayIcon(icon, getActivity());
+            } else {
+                menuItem.setIcon(R.drawable.ic_action_today);
+            }
+        }
     }
 
     @Override
@@ -103,10 +111,19 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
     }
 
     @Override
-    public void action(View view) {}
+    public void action(View view) {
+        showDatePicker();
+    }
+
+    private void setTodayIcon(LayerDrawable icon, Context context) {
+        DayOfMonthDrawable today = new DayOfMonthDrawable(context);
+        today.setDayOfMonth(DateTime.now().dayOfMonth().get());
+        icon.mutate();
+        icon.setDrawableByLayerId(R.id.today_icon_day, today);
+    }
 
     private void initialize() {
-        currentDateTime = DateTime.now().withHourOfDay(0).withMinuteOfHour(0);
+        currentDay = DateTime.now().withHourOfDay(0).withMinuteOfHour(0);
         activeCategories = PreferenceHelper.getInstance().getActiveCategories();
 
         getComponents();
@@ -139,7 +156,7 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
 
     // Add a few hours to show target day in UI not until user has scrolled halfway to it
     private DateTime getCurrentDateTimeForUI() {
-        return this.currentDateTime.plusHours(14);
+        return this.currentDay.plusHours(14);
     }
 
     private void updateDateTime() {
@@ -147,7 +164,7 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
         final int dayOfMonth = xMinimumVisibleValue / DateTimeConstants.MINUTES_PER_DAY;
         final int hourOfDay = (xMinimumVisibleValue - (dayOfMonth * DateTimeConstants.MINUTES_PER_DAY)) / DateTimeConstants.MINUTES_PER_HOUR;
         final int minuteOfHour = xMinimumVisibleValue - (dayOfMonth * DateTimeConstants.MINUTES_PER_DAY) - (hourOfDay * DateTimeConstants.MINUTES_PER_HOUR);
-        currentDateTime = currentDateTime
+        currentDay = currentDay
                 .withDayOfMonth(dayOfMonth + 1)
                 .withHourOfDay(hourOfDay)
                 .withMinuteOfHour(minuteOfHour);
@@ -155,13 +172,13 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
     }
 
     private void previousDay() {
-        currentDateTime = currentDateTime.minusDays(1);
+        currentDay = currentDay.minusDays(1);
         updateLabels();
         moveViewportToCurrentDateTime();
     }
 
     private void nextDay() {
-        currentDateTime = currentDateTime.plusDays(1);
+        currentDay = currentDay.plusDays(1);
         updateLabels();
         moveViewportToCurrentDateTime();
     }
@@ -170,13 +187,13 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
         DialogFragment fragment = new DatePickerFragment() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
-                currentDateTime = currentDateTime.withYear(year).withMonthOfYear(month+1).withDayOfMonth(day);
+                currentDay = currentDay.withYear(year).withMonthOfYear(month+1).withDayOfMonth(day);
                 updateLabels();
                 moveViewportToCurrentDateTime();
             }
         };
         Bundle bundle = new Bundle(1);
-        bundle.putSerializable(DatePickerFragment.DATE, currentDateTime);
+        bundle.putSerializable(DatePickerFragment.DATE, currentDay);
         fragment.setArguments(bundle);
         fragment.show(getActivity().getSupportFragmentManager(), "DatePicker");
     }
@@ -212,7 +229,6 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
 
     private void moveViewportToCurrentDateTime(){
         // TODO: Stop current scrolling
-
         final Handler handler = new Handler();
         final Runnable runnable = new Runnable() {
             public void run() {
@@ -268,8 +284,8 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
         ArrayList<com.github.mikephil.charting.data.Entry> entries = new ArrayList<>();
 
         // Iterate through every day of the current selected month
-        for(DateTime day = currentDateTime.dayOfMonth().withMinimumValue();
-            day.isBefore(currentDateTime.dayOfMonth().withMaximumValue());
+        for(DateTime day = currentDay.dayOfMonth().withMinimumValue();
+            day.isBefore(currentDay.dayOfMonth().withMaximumValue());
             day = day.plusDays(1)) {
 
             /*
@@ -370,10 +386,10 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
             ArrayList<String> xLabels = new ArrayList<>();
             String[] weekDays = getResources().getStringArray(R.array.weekdays);
 
-            DateTime previousDay = currentDateTime
+            DateTime previousDay = currentDay
                     .minusDays(1)
                     .withTime(0, 0, 0, 0);
-            DateTime nextDay = currentDateTime
+            DateTime nextDay = currentDay
                     .plusDays(1)
                     .withTime(DateTimeConstants.HOURS_PER_DAY - 1,
                             DateTimeConstants.MINUTES_PER_HOUR - 1,
@@ -455,7 +471,7 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
                         PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BloodSugar, 300),
                         YAxis.AxisDependency.LEFT);
                 chart.getXAxis().setLabelsToSkip((DateTimeConstants.MINUTES_PER_HOUR * 4) - 1);
-                //chart.moveViewToX(DateTimeConstants.MINUTES_PER_DAY * (currentDateTime.getDayOfMonth() - 1));
+                //chart.moveViewToX(DateTimeConstants.MINUTES_PER_DAY * (currentDay.getDayOfMonth() - 1));
 
                 chart.invalidate();
             }
@@ -476,10 +492,10 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
             ArrayList<String> xLabels = new ArrayList<>();
             String[] weekDays = getResources().getStringArray(R.array.weekdays);
 
-            DateTime dateTime = currentDateTime.dayOfMonth()
+            DateTime dateTime = currentDay.dayOfMonth()
                     .withMinimumValue()
                     .withTime(0, 0, 0, 0);
-            DateTime end = currentDateTime.dayOfMonth()
+            DateTime end = currentDay.dayOfMonth()
                     .withMaximumValue()
                     .withTime(DateTimeConstants.HOURS_PER_DAY - 1,
                             DateTimeConstants.MINUTES_PER_HOUR - 1,
@@ -508,14 +524,14 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
             // Get entries for time interval
             /*
             List<Entry> entriesOfMonth = dataSource.getEntries(
-                    currentDateTime.dayOfMonth().withMinimumValue(),
-                    currentDateTime.dayOfMonth().withMaximumValue().plusDays(1));
+                    currentDay.dayOfMonth().withMinimumValue(),
+                    currentDay.dayOfMonth().withMaximumValue().plusDays(1));
 
             ArrayList<com.github.mikephil.charting.data.Entry> entries = new ArrayList<>();
 
 
-            for(DateTime day = currentDateTime.dayOfMonth().withMinimumValue();
-                day.isBefore(currentDateTime.dayOfMonth().withMaximumValue().plusDays(1));
+            for(DateTime day = currentDay.dayOfMonth().withMinimumValue();
+                day.isBefore(currentDay.dayOfMonth().withMaximumValue().plusDays(1));
                 day = day.plusDays(1)) {
 
                 List<Entry> entriesOfDay = dataSource.getEntriesOfDay(day);
@@ -564,7 +580,7 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
                         PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BloodSugar, 300),
                         YAxis.AxisDependency.LEFT);
                 chart.getXAxis().setLabelsToSkip((DateTimeConstants.MINUTES_PER_HOUR * 4) - 1);
-                chart.moveViewToX(DateTimeConstants.MINUTES_PER_DAY * (currentDateTime.getDayOfMonth() - 1));
+                chart.moveViewToX(DateTimeConstants.MINUTES_PER_DAY * (currentDay.getDayOfMonth() - 1));
 
                 chart.invalidate();
 

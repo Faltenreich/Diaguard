@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard;
 
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -14,8 +15,8 @@ public class BaseActivity extends AppCompatActivity {
     private DatabaseHelper databaseHelper = null;
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    public void onAttachFragment(Fragment fragment) {
+        super.onAttachFragment(fragment);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {

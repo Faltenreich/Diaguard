@@ -1,9 +1,7 @@
-<fragment
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.RecyclerView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".LogFragment"
-    android:name="com.faltenreich.diaguard.fragments.LogMasterFragment"
-    android:id="@+id/entry_list"
+    android:id="@+id/list"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:layout="@layout/fragment_entry_list" />
+    android:layout_height="match_parent"/>

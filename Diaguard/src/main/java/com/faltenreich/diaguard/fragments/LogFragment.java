@@ -29,7 +29,7 @@ import org.joda.time.DateTime;
 /**
  * Created by Filip on 05.07.2015.
  */
-public class LogMasterFragment extends BaseFragment {
+public class LogFragment extends BaseFragment {
 
     private LinearLayoutManager linearLayoutManager;
     private RecyclerView recyclerView;
@@ -39,7 +39,7 @@ public class LogMasterFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_log_master, container, false);
+        View view = inflater.inflate(R.layout.fragment_log, container, false);
         setHasOptionsMenu(true);
         getComponents(view);
         initialize();
@@ -71,7 +71,6 @@ public class LogMasterFragment extends BaseFragment {
                 menuItem.setIcon(R.drawable.ic_action_today);
             }
         }
-
     }
 
     private void getComponents(View view) {

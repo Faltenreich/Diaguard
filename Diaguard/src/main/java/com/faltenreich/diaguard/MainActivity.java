@@ -15,7 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.faltenreich.diaguard.fragments.ChartFragment;
-import com.faltenreich.diaguard.fragments.LogMasterFragment;
+import com.faltenreich.diaguard.fragments.LogFragment;
 import com.faltenreich.diaguard.fragments.MainFragment;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 
@@ -91,7 +91,7 @@ public class MainActivity extends BaseActivity {
                         break;
                     case R.id.nav_log:
                         menuItem.setChecked(true);
-                        replaceFragment(new LogMasterFragment());
+                        replaceFragment(new LogFragment());
                         break;
                     case R.id.nav_statistics:
                         startActivity(new Intent(MainActivity.this, StatisticsActivity.class));
@@ -125,7 +125,7 @@ public class MainActivity extends BaseActivity {
                 replaceFragment(new ChartFragment());
                 break;
             case 2:
-                replaceFragment(new LogMasterFragment());
+                replaceFragment(new LogFragment());
                 break;
             default:
                 replaceFragment(new MainFragment());

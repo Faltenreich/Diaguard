@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -47,7 +48,6 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
     private View buttonNext;
 
     private DateTime currentDay;
-    private Measurement.Category[] activeCategories;
 
     public ChartFragment() {
         // Required empty public constructor
@@ -63,6 +63,7 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
     @Override
     public void onViewCreated (View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        getComponents(view);
         initialize();
     }
 
@@ -111,18 +112,14 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
 
     private void initialize() {
         currentDay = DateTime.now().withHourOfDay(0).withMinuteOfHour(0);
-        activeCategories = PreferenceHelper.getInstance().getActiveCategories();
-
-        getComponents();
         initializeGUI();
-        initializeChart();
     }
 
-    private void getComponents() {
-        chart = (DayChart) getView().findViewById(R.id.chart);
-        buttonDate = (Button) getView().findViewById(R.id.button_date);
-        buttonPrevious = getView().findViewById(R.id.button_previous);
-        buttonNext = getView().findViewById(R.id.button_next);
+    private void getComponents(@NonNull View view) {
+        chart = (DayChart) view.findViewById(R.id.chart);
+        buttonDate = (Button) view.findViewById(R.id.button_date);
+        buttonPrevious = view.findViewById(R.id.button_previous);
+        buttonNext = view.findViewById(R.id.button_next);
     }
 
     private void initializeGUI() {
@@ -132,18 +129,6 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
 
         ChartHelper.setChartDefaultStyle(chart);
         chart.setOnChartValueSelectedListener(this);
-    }
-
-    private void updateDateTime() {
-        final int xMinimumVisibleValue = chart.getLowestVisibleXIndex();
-        final int dayOfMonth = xMinimumVisibleValue / DateTimeConstants.MINUTES_PER_DAY;
-        final int hourOfDay = (xMinimumVisibleValue - (dayOfMonth * DateTimeConstants.MINUTES_PER_DAY)) / DateTimeConstants.MINUTES_PER_HOUR;
-        final int minuteOfHour = xMinimumVisibleValue - (dayOfMonth * DateTimeConstants.MINUTES_PER_DAY) - (hourOfDay * DateTimeConstants.MINUTES_PER_HOUR);
-        currentDay = currentDay
-                .withDayOfMonth(dayOfMonth + 1)
-                .withHourOfDay(hourOfDay)
-                .withMinuteOfHour(minuteOfHour);
-        updateLabels();
     }
 
     private void previousDay() {
@@ -170,22 +155,8 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
         fragment.show(getActivity().getSupportFragmentManager(), "DatePicker");
     }
 
-    //region Chart
-
-    private void initializeChart() {
-        if (false /*preferenceHelper.limitsAreHighlighted()*/) {
-            YAxis leftAxis = chart.getAxisLeft();
-
-            LimitLine hyperglycemia = new LimitLine(PreferenceHelper.getInstance().getLimitHyperglycemia(), getString(R.string.hyper));
-            hyperglycemia.setLineColor(getResources().getColor(R.color.red));
-            hyperglycemia.setLabel(null);
-            leftAxis.addLimitLine(hyperglycemia);
-
-            LimitLine hypoglycemia = new LimitLine(PreferenceHelper.getInstance().getLimitHypoglycemia(), getString(R.string.hypo));
-            hypoglycemia.setLineColor(getResources().getColor(R.color.blue));
-            hypoglycemia.setLabel(null);
-            leftAxis.addLimitLine(hypoglycemia);
-        }
+    private void update() {
+        updateChart();
         updateLabels();
     }
 
@@ -199,7 +170,9 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
         }
     }
 
-    //endregion
+    private void updateChart() {
+        chart.setData(currentDay);
+    }
 
     //region Listeners
 

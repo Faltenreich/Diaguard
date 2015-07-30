@@ -5,11 +5,14 @@ import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.DatabaseFacade;
 import com.faltenreich.diaguard.database.measurements.BloodSugar;
 import com.faltenreich.diaguard.database.measurements.Measurement;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.github.mikephil.charting.charts.ScatterChart;
+import com.github.mikephil.charting.components.LimitLine;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.ScatterData;
 import com.github.mikephil.charting.data.ScatterDataSet;
@@ -59,32 +62,14 @@ public class DayChart extends ScatterChart {
 
     public void setData(DateTime day) {
         currentDay = day;
-        //new UpdateChartDataTask().execute();
+        new UpdateChartDataTask().execute();
     }
 
     private class InitChartTask extends AsyncTask<Void, Void, ScatterData> {
 
         protected ScatterData doInBackground(Void... params) {
-            // Set x-axis labels minute-precisely
-            ArrayList<String> xLabels = new ArrayList<>();
-            DateTime startTime = currentDay.withTime(0, 0, 0, 0);
-            DateTime endTime = startTime.plusDays(1);
-
-            while (startTime.isBefore(endTime)) {
-                // Full hour
-                if (startTime.getMinuteOfHour() == 0) {
-                    xLabels.add(Integer.toString(startTime.getHourOfDay()));
-                } else {
-                    xLabels.add("");
-                }
-                startTime = startTime.plusMinutes(1);
-            }
-
-            List<ScatterDataSet> dataSets = new ArrayList<>();
-            for(Measurement.Category category : PreferenceHelper.getInstance().getActiveCategories()) {
-                dataSets.add(new ScatterDataSet(new ArrayList<Entry>(), category.name()));
-            }
-
+            List<String> xLabels = getXLabels();
+            List<ScatterDataSet> dataSets = getEmptyDataSets();
             return new ScatterData(xLabels, dataSets);
         }
 
@@ -92,23 +77,63 @@ public class DayChart extends ScatterChart {
         }
 
         protected void onPostExecute(ScatterData data) {
+            if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
+                addLimitLines();
+            }
+
             setData(data);
+            setVisibleYRangeMaximum(300, YAxis.AxisDependency.LEFT);
             setVisibleXRangeMaximum(DateTimeConstants.MINUTES_PER_DAY);
             getXAxis().setLabelsToSkip((DateTimeConstants.MINUTES_PER_HOUR * LABELS_TO_SKIP) - 1);
             invalidate();
+
             setData(currentDay);
+        }
+
+        private List<String> getXLabels() {
+            ArrayList<String> xLabels = new ArrayList<>();
+            DateTime startTime = currentDay.withTime(0, 0, 0, 0);
+            DateTime endTime = startTime.plusDays(1);
+
+            while (startTime.isBefore(endTime)) {
+                // Add label for full hour
+                xLabels.add(startTime.getMinuteOfHour() == 0 ?
+                        Integer.toString(startTime.getHourOfDay()) :
+                        "");
+                startTime = startTime.plusMinutes(1);
+            }
+            return xLabels;
+        }
+
+        private List<ScatterDataSet> getEmptyDataSets() {
+            List<ScatterDataSet> dataSets = new ArrayList<>();
+            for(Measurement.Category category : PreferenceHelper.getInstance().getActiveCategories()) {
+                dataSets.add(new ScatterDataSet(new ArrayList<Entry>(), category.name()));
+            }
+            return dataSets;
+        }
+
+        private void addLimitLines() {
+            LimitLine hyperglycemia = new LimitLine(
+                    PreferenceHelper.getInstance().getLimitHyperglycemia(),
+                    getContext().getString(R.string.hyper));
+            hyperglycemia.setLineColor(getResources().getColor(R.color.red));
+            hyperglycemia.setLabel(null);
+            getAxisLeft().addLimitLine(hyperglycemia);
+
+            LimitLine hypoglycemia = new LimitLine(
+                    PreferenceHelper.getInstance().getLimitHypoglycemia(),
+                    getContext().getString(R.string.hypo));
+            hypoglycemia.setLineColor(getResources().getColor(R.color.blue));
+            hypoglycemia.setLabel(null);
+            getAxisLeft().addLimitLine(hypoglycemia);
         }
     }
 
-    private class UpdateChartDataTask extends AsyncTask<Void, Void, HashMap<Measurement.Category, ScatterDataSet>> {
+    private class UpdateChartDataTask extends AsyncTask<Void, Void, Void> {
 
-        protected HashMap<Measurement.Category, ScatterDataSet> doInBackground(Void... params) {
+        protected Void doInBackground(Void... params) {
             try {
-                HashMap<Measurement.Category, ScatterDataSet> dataSets = new HashMap<>();
-                for(Measurement.Category category : PreferenceHelper.getInstance().getActiveCategories()) {
-                    dataSets.put(category, new ScatterDataSet(new ArrayList<Entry>(), category.name()));
-                }
-
                 List<com.faltenreich.diaguard.database.Entry> entries = DatabaseFacade.getInstance().getEntriesOfDay(currentDay);
                 if (entries != null && entries.size() > 0) {
                     for (com.faltenreich.diaguard.database.Entry entry : entries) {
@@ -119,29 +144,22 @@ public class DayChart extends ScatterChart {
                                 float yValue = category == Measurement.Category.BloodSugar ?
                                         ((BloodSugar) measurement).getMgDl() :
                                         0;
-                                dataSets.get(category).addEntry(new Entry(yValue, xValue));
+                                getData().getDataSetByLabel(category.name(), true).addEntry(new Entry(yValue, xValue));
                             }
                         }
                     }
                 }
-                return dataSets;
             } catch (SQLException exception) {
                 Log.e(TAG, exception.getMessage());
-                return null;
             }
+            return null;
         }
 
         protected void onProgressUpdate(Void... progress) {
         }
 
-        protected void onPostExecute(HashMap<Measurement.Category, ScatterDataSet> dataSets) {
-            for (Map.Entry<Measurement.Category, ScatterDataSet> entry : dataSets.entrySet()) {
-                getData().getDataSetByLabel(entry.getKey().name(), true).clear();
-                ScatterDataSet scatterDataSet = entry.getValue();
-                if (scatterDataSet != null && scatterDataSet.getYVals().size() > 0) {
-                    getData().addDataSet(entry.getValue());
-                }
-            }
+        protected void onPostExecute(Void param) {
+            notifyDataSetChanged();
             invalidate();
         }
     }

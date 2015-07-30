@@ -88,6 +88,33 @@ public class DatabaseFacade {
         return getMeasurements(entry, classes);
     }
 
+    public Measurement getMeasurement(Entry entry, Measurement.Category category) throws SQLException {
+        switch (category) {
+            case BloodSugar:
+                return getDao(BloodSugar.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
+            case Insulin:
+                return getDao(Insulin.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
+            case Meal:
+                return getDao(Meal.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
+            case Activity:
+                return getDao(Activity.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
+            case HbA1c:
+                return getDao(HbA1c.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
+            case Weight:
+                return getDao(Weight.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
+            case Pulse:
+                return getDao(Pulse.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
+            case Pressure:
+                return getDao(Pressure.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
+            default:
+                return null;
+        }
+    }
+
+    public <T extends Measurement> Measurement getMeasurement(Entry entry, Class<T> clazz) throws SQLException {
+        return getDao(clazz).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
+    }
+
     public <T extends Measurement> List<Measurement> getMeasurements(Entry entry, Class<T>[] classes) throws SQLException {
         List<Measurement> measurements = new ArrayList<>();
         for (Class<T> clazz : classes) {
@@ -95,6 +122,14 @@ public class DatabaseFacade {
             if (measurement != null) {
                 measurements.add(measurement);
             }
+        }
+        return measurements;
+    }
+
+    public List<Measurement> getMeasurements(Entry entry, Measurement.Category[] categories) throws SQLException {
+        List<Measurement> measurements = new ArrayList<>();
+        for (Measurement.Category category : categories) {
+            measurements.add(getMeasurement(entry, category));
         }
         return measurements;
     }

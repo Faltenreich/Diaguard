@@ -12,7 +12,7 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
  */
 public class BaseActivity extends AppCompatActivity {
 
-    private DatabaseHelper databaseHelper = null;
+    private DatabaseHelper databaseHelper;
 
     @Override
     public void onAttachFragment(Fragment fragment) {

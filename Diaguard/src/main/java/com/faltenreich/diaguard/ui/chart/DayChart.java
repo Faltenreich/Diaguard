@@ -14,7 +14,6 @@ import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.github.mikephil.charting.charts.ScatterChart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.MarkerView;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.ScatterData;
 import com.github.mikephil.charting.data.ScatterDataSet;
@@ -26,9 +25,8 @@ import org.joda.time.DateTimeConstants;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Filip on 07.07.2015.
@@ -39,33 +37,31 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
 
     private static final int LABELS_TO_SKIP = 2;
 
-    private DateTime currentDay;
+    private DateTime day;
 
     public DayChart(Context context) {
         super(context);
+        this.day = DateTime.now();
+    }
+
+    public DayChart(Context context, DateTime day) {
+        super(context);
+        this.day = day;
     }
 
     public DayChart(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.day = DateTime.now();
     }
 
-    public DayChart(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-    }
-
-    @Override
-    protected void init() {
-        super.init();
-        if (!isInEditMode()) {
-            currentDay = DateTime.now();
-            ChartHelper.setChartDefaultStyle(this);
-            setOnChartValueSelectedListener(this);
-            new InitChartTask().execute();
-        }
+    public void setup() {
+        ChartHelper.setChartDefaultStyle(this);
+        setOnChartValueSelectedListener(this);
+        new InitChartTask().execute();
     }
 
     public void setData(DateTime day) {
-        currentDay = day;
+        this.day = day;
         new UpdateChartDataTask().execute();
     }
 
@@ -102,12 +98,12 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
             getXAxis().setLabelsToSkip((DateTimeConstants.MINUTES_PER_HOUR * LABELS_TO_SKIP) - 1);
             invalidate();
 
-            setData(currentDay);
+            setData(day);
         }
 
         private List<String> getXLabels() {
             ArrayList<String> xLabels = new ArrayList<>();
-            DateTime startTime = currentDay.withTime(0, 0, 0, 0);
+            DateTime startTime = day.withTime(0, 0, 0, 0);
             DateTime endTime = startTime.plusDays(1);
 
             while (startTime.isBefore(endTime)) {
@@ -149,7 +145,7 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
 
         protected Void doInBackground(Void... params) {
             try {
-                List<com.faltenreich.diaguard.database.Entry> entries = DatabaseFacade.getInstance().getEntriesOfDay(currentDay);
+                List<com.faltenreich.diaguard.database.Entry> entries = DatabaseFacade.getInstance().getEntriesOfDay(day);
                 if (entries != null && entries.size() > 0) {
                     for (com.faltenreich.diaguard.database.Entry entry : entries) {
                         for (Measurement.Category category : PreferenceHelper.getInstance().getActiveCategories()) {

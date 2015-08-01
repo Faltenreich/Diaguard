@@ -9,12 +9,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.DatePicker;
 
@@ -26,6 +28,7 @@ import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.faltenreich.diaguard.helpers.ViewHelper;
 import com.faltenreich.diaguard.ui.chart.ChartMarkerView;
 import com.faltenreich.diaguard.ui.chart.DayChart;
+import com.faltenreich.diaguard.ui.recycler.ChartPagerAdapter;
 import com.faltenreich.diaguard.ui.recycler.DayOfMonthDrawable;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.MarkerView;
@@ -42,7 +45,8 @@ import org.joda.time.format.DateTimeFormat;
  */
 public class ChartFragment extends BaseFragment {
 
-    private DayChart chart;
+    private ViewPager viewPager;
+    private ChartPagerAdapter pagerAdapter;
 
     private DateTime currentDay;
 
@@ -110,11 +114,29 @@ public class ChartFragment extends BaseFragment {
     }
 
     private void getComponents(@NonNull View view) {
-        chart = (DayChart) view.findViewById(R.id.chart);
+        viewPager = (ViewPager) view.findViewById(R.id.viewpager);
     }
 
     private void initialize() {
         currentDay = DateTime.now().withHourOfDay(0).withMinuteOfHour(0);
+
+        pagerAdapter = new ChartPagerAdapter();
+        viewPager.setAdapter(pagerAdapter);
+
+        DayChart chartYesterday = new DayChart(getActivity(), currentDay.minusDays(1));
+        pagerAdapter.addView(chartYesterday);
+        chartYesterday.setup();
+
+        DayChart chartToday = new DayChart(getActivity(), currentDay);
+        pagerAdapter.addView(chartToday);
+        chartToday.setup();
+
+        DayChart chartTomorrow = new DayChart(getActivity(), currentDay.plusDays(1));
+        pagerAdapter.addView(chartTomorrow);
+        chartTomorrow.setup();
+
+        pagerAdapter.notifyDataSetChanged();
+        viewPager.setCurrentItem(1);
     }
 
     private void previousDay() {
@@ -142,7 +164,6 @@ public class ChartFragment extends BaseFragment {
     }
 
     private void update() {
-        updateChart();
         updateLabels();
     }
 
@@ -152,14 +173,8 @@ public class ChartFragment extends BaseFragment {
             String weekDay = showShortText ?
                     currentDay.dayOfWeek().getAsShortText() :
                     currentDay.dayOfWeek().getAsText();
-            String date = showShortText ?
-                    DateTimeFormat.shortDate().print(currentDay) :
-                    DateTimeFormat.mediumDate().print(currentDay);
+            String date = DateTimeFormat.mediumDate().print(currentDay);
             getActionView().setText(String.format("%s, %s", weekDay, date));
         }
-    }
-
-    private void updateChart() {
-        chart.setData(currentDay);
     }
 }

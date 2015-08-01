@@ -98,12 +98,7 @@ public class LogFragment extends BaseFragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerAdapter = new LogRecyclerAdapter(getActivity(), day);
         recyclerView.setAdapter(recyclerAdapter);
-        int firstVisiblePosition = day.dayOfMonth().get();
-        if (firstVisiblePosition == 1) {
-            // Workaround to support showing header instead of first day
-            firstVisiblePosition = day.dayOfMonth().getMaximumValue() + firstVisiblePosition - 1;
-        }
-        recyclerView.scrollToPosition(firstVisiblePosition);
+        recyclerView.scrollToPosition(day.dayOfMonth().get());
         updateMonthForUi();
 
         // Endless scroll

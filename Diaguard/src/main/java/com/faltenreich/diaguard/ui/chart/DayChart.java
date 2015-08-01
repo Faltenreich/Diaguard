@@ -9,13 +9,17 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.DatabaseFacade;
 import com.faltenreich.diaguard.database.measurements.BloodSugar;
 import com.faltenreich.diaguard.database.measurements.Measurement;
+import com.faltenreich.diaguard.helpers.ChartHelper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.github.mikephil.charting.charts.ScatterChart;
 import com.github.mikephil.charting.components.LimitLine;
+import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.ScatterData;
 import com.github.mikephil.charting.data.ScatterDataSet;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -29,7 +33,7 @@ import java.util.Map;
 /**
  * Created by Filip on 07.07.2015.
  */
-public class DayChart extends ScatterChart {
+public class DayChart extends ScatterChart implements OnChartValueSelectedListener {
 
     private static final String TAG = DayChart.class.getSimpleName();
 
@@ -52,17 +56,29 @@ public class DayChart extends ScatterChart {
     @Override
     protected void init() {
         super.init();
-        currentDay = DateTime.now();
-        initChart();
-    }
-
-    private void initChart() {
-        new InitChartTask().execute();
+        if (!isInEditMode()) {
+            currentDay = DateTime.now();
+            ChartHelper.setChartDefaultStyle(this);
+            setOnChartValueSelectedListener(this);
+            new InitChartTask().execute();
+        }
     }
 
     public void setData(DateTime day) {
         currentDay = day;
         new UpdateChartDataTask().execute();
+    }
+
+    @Override
+    public void onValueSelected(com.github.mikephil.charting.data.Entry e, int dataSetIndex, Highlight h) {
+        MarkerView markerView = new ChartMarkerView(getContext());
+        // TODO
+        setMarkerView(markerView);
+    }
+
+    @Override
+    public void onNothingSelected() {
+        // TODO: Dismiss MarkerView
     }
 
     private class InitChartTask extends AsyncTask<Void, Void, ScatterData> {
@@ -82,7 +98,6 @@ public class DayChart extends ScatterChart {
             }
 
             setData(data);
-            setVisibleYRangeMaximum(300, YAxis.AxisDependency.LEFT);
             setVisibleXRangeMaximum(DateTimeConstants.MINUTES_PER_DAY);
             getXAxis().setLabelsToSkip((DateTimeConstants.MINUTES_PER_HOUR * LABELS_TO_SKIP) - 1);
             invalidate();
@@ -144,7 +159,7 @@ public class DayChart extends ScatterChart {
                                 float yValue = category == Measurement.Category.BloodSugar ?
                                         ((BloodSugar) measurement).getMgDl() :
                                         0;
-                                getData().getDataSetByLabel(category.name(), true).addEntry(new Entry(yValue, xValue));
+                                //getData().getDataSetByLabel(category.name(), true).addEntry(new Entry(yValue, xValue));
                             }
                         }
                     }

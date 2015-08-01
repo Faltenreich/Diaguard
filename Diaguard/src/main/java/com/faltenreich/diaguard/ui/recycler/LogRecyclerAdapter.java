@@ -52,13 +52,10 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
 
         appendNextMonth();
 
+        // Workaround to endless scrolling when after visible threshold
         if (firstVisibleDay.dayOfMonth().get() >= (firstVisibleDay.dayOfMonth().getMaximumValue() -
                 EndlessScrollListener.VISIBLE_THRESHOLD) - 1) {
-            // Workaround to support visible threshold
             appendNextMonth();
-        } else if (firstVisibleDay.dayOfMonth().get() == 1) {
-            // Workaround to support showing header instead of first day
-            appendPreviousMonth();
         }
     }
 

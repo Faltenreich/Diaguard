@@ -1,53 +1,13 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical">
 
-    <LinearLayout android:id="@+id/layout_date"
+    <com.faltenreich.diaguard.ui.chart.DayChart
+        android:id="@+id/chart"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_height="match_parent"/>
 
-        <include android:id="@+id/toolbar_date"
-            layout="@layout/toolbar_date"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_above="@id/layout_date">
-
-        <com.faltenreich.diaguard.ui.chart.DayChart
-            android:id="@+id/chart"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
-        <View style="@style/LayoutRowSeparator"
-            android:visibility="gone"/>
-
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/viewport"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:visibility="gone"/>
-
-    </LinearLayout>
-
-    <ProgressBar
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:id="@+id/progressbar"
-        android:indeterminateOnly="true"
-        android:visibility="gone"
-        android:layout_centerInParent="true"/>
-
-</RelativeLayout>
+</LinearLayout>

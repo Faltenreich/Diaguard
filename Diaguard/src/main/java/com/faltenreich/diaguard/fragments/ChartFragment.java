@@ -40,18 +40,11 @@ import org.joda.time.format.DateTimeFormat;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ChartFragment extends BaseFragment implements View.OnClickListener, OnChartValueSelectedListener {
+public class ChartFragment extends BaseFragment {
 
     private DayChart chart;
-    private Button buttonDate;
-    private View buttonPrevious;
-    private View buttonNext;
 
     private DateTime currentDay;
-
-    public ChartFragment() {
-        // Required empty public constructor
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,6 +58,12 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
         super.onViewCreated(view, savedInstanceState);
         getComponents(view);
         initialize();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        update();
     }
 
     @Override
@@ -110,35 +109,22 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
         icon.setDrawableByLayerId(R.id.today_icon_day, today);
     }
 
-    private void initialize() {
-        currentDay = DateTime.now().withHourOfDay(0).withMinuteOfHour(0);
-        initializeGUI();
-    }
-
     private void getComponents(@NonNull View view) {
         chart = (DayChart) view.findViewById(R.id.chart);
-        buttonDate = (Button) view.findViewById(R.id.button_date);
-        buttonPrevious = view.findViewById(R.id.button_previous);
-        buttonNext = view.findViewById(R.id.button_next);
     }
 
-    private void initializeGUI() {
-        buttonDate.setOnClickListener(this);
-        buttonPrevious.setOnClickListener(this);
-        buttonNext.setOnClickListener(this);
-
-        ChartHelper.setChartDefaultStyle(chart);
-        chart.setOnChartValueSelectedListener(this);
+    private void initialize() {
+        currentDay = DateTime.now().withHourOfDay(0).withMinuteOfHour(0);
     }
 
     private void previousDay() {
         currentDay = currentDay.minusDays(1);
-        updateLabels();
+        update();
     }
 
     private void nextDay() {
         currentDay = currentDay.plusDays(1);
-        updateLabels();
+        update();
     }
 
     private void showDatePicker() {
@@ -146,7 +132,7 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 currentDay = currentDay.withYear(year).withMonthOfYear(month+1).withDayOfMonth(day);
-                updateLabels();
+                update();
             }
         };
         Bundle bundle = new Bundle(1);
@@ -162,47 +148,18 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
 
     private void updateLabels() {
         if(isAdded()) {
-            String weekDay = ViewHelper.isLandscape(getActivity()) || ViewHelper.isLargeScreen(getActivity()) ?
-                    currentDay.dayOfWeek().getAsText() :
-                    currentDay.dayOfWeek().getAsShortText();
-            String fullDate = DateTimeFormat.mediumDate().print(currentDay);
-            getActionView().setText(String.format("%s, %s", weekDay, fullDate));
+            boolean showShortText = !ViewHelper.isLandscape(getActivity()) && !ViewHelper.isLargeScreen(getActivity());
+            String weekDay = showShortText ?
+                    currentDay.dayOfWeek().getAsShortText() :
+                    currentDay.dayOfWeek().getAsText();
+            String date = showShortText ?
+                    DateTimeFormat.shortDate().print(currentDay) :
+                    DateTimeFormat.mediumDate().print(currentDay);
+            getActionView().setText(String.format("%s, %s", weekDay, date));
         }
     }
 
     private void updateChart() {
         chart.setData(currentDay);
     }
-
-    //region Listeners
-
-    @Override
-    public void onClick(View v) {
-        switch(v.getId()) {
-            case R.id.button_date:
-                showDatePicker();
-                break;
-            case R.id.button_previous:
-                previousDay();
-                break;
-            case R.id.button_next:
-                nextDay();
-                break;
-            default:
-                break;
-        }
-    }
-
-    @Override
-    public void onValueSelected(com.github.mikephil.charting.data.Entry e, int dataSetIndex, Highlight h) {
-        MarkerView markerView = new ChartMarkerView(getActivity());
-        chart.setMarkerView(markerView);
-    }
-
-    @Override
-    public void onNothingSelected() {
-        // TODO: Dismiss MarkerView
-    }
-
-    //endregion
 }

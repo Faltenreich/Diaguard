@@ -16,37 +16,25 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.widget.Button;
 import android.widget.DatePicker;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.database.measurements.Measurement;
-import com.faltenreich.diaguard.helpers.ChartHelper;
-import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.faltenreich.diaguard.helpers.ViewHelper;
-import com.faltenreich.diaguard.ui.chart.ChartMarkerView;
-import com.faltenreich.diaguard.ui.chart.DayChart;
-import com.faltenreich.diaguard.ui.recycler.ChartPagerAdapter;
+import com.faltenreich.diaguard.ui.chart.ChartPagerAdapter;
+import com.faltenreich.diaguard.ui.chart.ChartViewPager;
+import com.faltenreich.diaguard.ui.chart.EndlessPagerAdapter;
 import com.faltenreich.diaguard.ui.recycler.DayOfMonthDrawable;
-import com.github.mikephil.charting.components.LimitLine;
-import com.github.mikephil.charting.components.MarkerView;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeConstants;
 import org.joda.time.format.DateTimeFormat;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ChartFragment extends BaseFragment {
+public class ChartFragment extends BaseFragment implements ChartViewPager.ChartViewPagerCallback {
 
-    private ViewPager viewPager;
-    private ChartPagerAdapter pagerAdapter;
+    private ChartViewPager viewPager;
 
     private DateTime currentDay;
 
@@ -114,47 +102,19 @@ public class ChartFragment extends BaseFragment {
     }
 
     private void getComponents(@NonNull View view) {
-        viewPager = (ViewPager) view.findViewById(R.id.viewpager);
+        viewPager = (ChartViewPager) view.findViewById(R.id.viewpager);
     }
 
     private void initialize() {
         currentDay = DateTime.now().withHourOfDay(0).withMinuteOfHour(0);
-
-        pagerAdapter = new ChartPagerAdapter();
-        viewPager.setAdapter(pagerAdapter);
-
-        DayChart chartYesterday = new DayChart(getActivity(), currentDay.minusDays(1));
-        pagerAdapter.addView(chartYesterday);
-        chartYesterday.setup();
-
-        DayChart chartToday = new DayChart(getActivity(), currentDay);
-        pagerAdapter.addView(chartToday);
-        chartToday.setup();
-
-        DayChart chartTomorrow = new DayChart(getActivity(), currentDay.plusDays(1));
-        pagerAdapter.addView(chartTomorrow);
-        chartTomorrow.setup();
-
-        pagerAdapter.notifyDataSetChanged();
-        viewPager.setCurrentItem(1);
-    }
-
-    private void previousDay() {
-        currentDay = currentDay.minusDays(1);
-        update();
-    }
-
-    private void nextDay() {
-        currentDay = currentDay.plusDays(1);
-        update();
+        viewPager.setup(this);
     }
 
     private void showDatePicker() {
         DialogFragment fragment = new DatePickerFragment() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
-                currentDay = currentDay.withYear(year).withMonthOfYear(month+1).withDayOfMonth(day);
-                update();
+                viewPager.setCurrentDate(DateTime.now().withYear(year).withMonthOfYear(month+1).withDayOfMonth(day));
             }
         };
         Bundle bundle = new Bundle(1);
@@ -176,5 +136,11 @@ public class ChartFragment extends BaseFragment {
             String date = DateTimeFormat.mediumDate().print(currentDay);
             getActionView().setText(String.format("%s, %s", weekDay, date));
         }
+    }
+
+    @Override
+    public void onDateSelected(DateTime day) {
+        currentDay = day;
+        updateLabels();
     }
 }

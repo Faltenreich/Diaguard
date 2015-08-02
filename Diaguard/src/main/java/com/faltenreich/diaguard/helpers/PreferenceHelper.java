@@ -56,14 +56,19 @@ public class PreferenceHelper {
         return sharedPreferences.getBoolean("vibration", true);
     }
 
-    public boolean validateEventValue(Measurement.Category category, float value) {
+    public int[] getExtrema(Measurement.Category category) {
         int resourceIdExtrema = DiaguardApplication.getContext().getResources().getIdentifier(category.name().toLowerCase() +
                 "_extrema", "array", DiaguardApplication.getContext().getPackageName());
 
-        if(resourceIdExtrema == 0)
+        if(resourceIdExtrema == 0) {
             throw new Resources.NotFoundException("Resource \"category_extrema\" not found: IntArray with event value extrema");
+        }
 
-        int[] extrema = DiaguardApplication.getContext().getResources().getIntArray(resourceIdExtrema);
+        return DiaguardApplication.getContext().getResources().getIntArray(resourceIdExtrema);
+    }
+
+    public boolean validateEventValue(Measurement.Category category, float value) {
+        int[] extrema = getExtrema(category);
 
         if(extrema.length != 2)
             throw new IllegalStateException("IntArray with event value extrema has to contain two values");

@@ -97,7 +97,6 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
             setData(data);
             setVisibleXRangeMaximum(DateTimeConstants.MINUTES_PER_DAY);
             getXAxis().setLabelsToSkip((DateTimeConstants.MINUTES_PER_HOUR * LABELS_TO_SKIP) - 1);
-            invalidate();
 
             setData(day);
         }
@@ -161,7 +160,7 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
                                 int xValue = entry.getDate().getHourOfDay() * entry.getDate().getMinuteOfHour();
                                 float yValue = category == Measurement.Category.BloodSugar ?
                                         ((BloodSugar) measurement).getMgDl() :
-                                        0;
+                                        500; // TODO: Handle non-Bloodsugar values
                                 getData().getDataSetByLabel(category.name(), true).addEntry(new Entry(yValue, xValue));
                             }
                         }

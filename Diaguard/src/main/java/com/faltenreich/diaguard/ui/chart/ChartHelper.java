@@ -22,7 +22,7 @@ public class ChartHelper {
 
     public static final float VIEW_PORT_OFFSET = Helper.getDPI(2);
     public static final float TEXT_SIZE = Helper.getDPI(5);
-    public static final float SCATTER_SIZE = Helper.getDPI(4);
+    public static final float SCATTER_SIZE = Helper.getDPI(5);
     public static final float CIRCLE_SIZE = Helper.getDPI(1.6f);
     public static final float LINE_WIDTH = 1f;
 
@@ -30,7 +30,7 @@ public class ChartHelper {
         // General
         chart.setDrawGridBackground(false);
         chart.setBackgroundColor(Color.TRANSPARENT);
-        chart.setHighlightEnabled(false);
+        chart.setHighlightEnabled(true);
         chart.setPinchZoom(false);
         chart.setScaleEnabled(false);
         chart.setExtraLeftOffset(VIEW_PORT_OFFSET);
@@ -52,7 +52,14 @@ public class ChartHelper {
         chart.getAxisLeft().setDrawAxisLine(false);
         chart.getAxisLeft().setGridColor(gridColor);
         chart.getAxisLeft().setDrawLimitLinesBehindData(true);
-        chart.getAxisLeft().setAxisMaxValue(PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BloodSugar, 275));
+
+        float minimum = PreferenceHelper.getInstance().getExtrema(Measurement.Category.BloodSugar)[0];
+        minimum = (int) PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BloodSugar, minimum - 10);
+        chart.getAxisLeft().setAxisMinValue(minimum);
+
+        float maximum = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BloodSugar, 275);
+        chart.getAxisLeft().setAxisMaxValue(maximum);
+
         chart.getAxisLeft().setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {

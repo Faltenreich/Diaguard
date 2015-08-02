@@ -9,11 +9,12 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.DatabaseFacade;
 import com.faltenreich.diaguard.database.measurements.BloodSugar;
 import com.faltenreich.diaguard.database.measurements.Measurement;
-import com.faltenreich.diaguard.helpers.ChartHelper;
+import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.github.mikephil.charting.charts.ScatterChart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.MarkerView;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.ScatterData;
 import com.github.mikephil.charting.data.ScatterDataSet;
@@ -25,7 +26,6 @@ import org.joda.time.DateTimeConstants;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -60,7 +60,8 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
         new InitChartTask().execute();
     }
 
-    public void setData(DateTime day) {
+    // TODO: Make public when providing EndlessChart
+    private void setData(DateTime day) {
         this.day = day;
         new UpdateChartDataTask().execute();
     }
@@ -119,7 +120,13 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
         private List<ScatterDataSet> getEmptyDataSets() {
             List<ScatterDataSet> dataSets = new ArrayList<>();
             for(Measurement.Category category : PreferenceHelper.getInstance().getActiveCategories()) {
-                dataSets.add(new ScatterDataSet(new ArrayList<Entry>(), category.name()));
+                ScatterDataSet dataSet = new ScatterDataSet(new ArrayList<Entry>(), category.name());
+                int dataSetColor = getResources().getColor(PreferenceHelper.getInstance().getCategoryColorResourceId(category));
+                dataSet.setColor(dataSetColor);
+                dataSet.setScatterShapeSize(ChartHelper.SCATTER_SIZE);
+                dataSet.setScatterShape(ScatterShape.CIRCLE);
+                dataSet.setDrawValues(false);
+                dataSets.add(dataSet);
             }
             return dataSets;
         }
@@ -155,7 +162,7 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
                                 float yValue = category == Measurement.Category.BloodSugar ?
                                         ((BloodSugar) measurement).getMgDl() :
                                         0;
-                                //getData().getDataSetByLabel(category.name(), true).addEntry(new Entry(yValue, xValue));
+                                getData().getDataSetByLabel(category.name(), true).addEntry(new Entry(yValue, xValue));
                             }
                         }
                     }

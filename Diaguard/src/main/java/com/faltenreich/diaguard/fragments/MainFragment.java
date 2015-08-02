@@ -22,7 +22,7 @@ import com.faltenreich.diaguard.database.DatabaseHelper;
 import com.faltenreich.diaguard.database.Entry;
 import com.faltenreich.diaguard.database.measurements.BloodSugar;
 import com.faltenreich.diaguard.database.measurements.Measurement;
-import com.faltenreich.diaguard.helpers.ChartHelper;
+import com.faltenreich.diaguard.ui.chart.ChartHelper;
 import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.github.mikephil.charting.charts.LineChart;
@@ -356,7 +356,7 @@ public class MainFragment extends BaseFragment {
             int dataSetColor = getResources().getColor(R.color.green_light);
             dataSet.setColor(dataSetColor);
             dataSet.setCircleColor(dataSetColor);
-            dataSet.setCircleSize(Helper.getDPI(ChartHelper.CIRCLE_SIZE));
+            dataSet.setCircleSize(ChartHelper.CIRCLE_SIZE);
             dataSet.setDrawValues(false);
             dataSet.setLineWidth(Helper.getDPI(ChartHelper.LINE_WIDTH));
             dataSets.add(dataSet);

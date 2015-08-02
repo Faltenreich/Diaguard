@@ -17,7 +17,7 @@ public class ChartPagerAdapter extends EndlessPagerAdapter {
     @Override
     public Object instantiateItem (ViewGroup container, int position)
     {
-        DayChart chart = new DayChart(context, DateTime.now().minusDays(position));
+        DayChart chart = new DayChart(context, DateTime.now().minusDays(Integer.MAX_VALUE - position - 1));
         container.addView(chart, 0);
         chart.setup();
         return chart;

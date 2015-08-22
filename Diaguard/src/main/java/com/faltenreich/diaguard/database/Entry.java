@@ -8,6 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -67,6 +68,9 @@ public class Entry extends Model {
     }
 
     public List<Measurement> getMeasurementCache() {
+        if (measurementCache == null) {
+            measurementCache = new ArrayList<>();
+        }
         return measurementCache;
     }
 

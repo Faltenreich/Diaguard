@@ -144,34 +144,40 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
         }
     }
 
-    private class UpdateChartDataTask extends AsyncTask<Void, Void, Void> {
+    private class UpdateChartDataTask extends AsyncTask<Void, Void, List<com.faltenreich.diaguard.database.Entry>> {
 
-        protected Void doInBackground(Void... params) {
+        protected List<com.faltenreich.diaguard.database.Entry> doInBackground(Void... params) {
+            try {
+                List<com.faltenreich.diaguard.database.Entry> entries = DatabaseFacade.getInstance().getEntriesOfDay(day);
+                if (entries != null && entries.size() > 0) {
+                    for (com.faltenreich.diaguard.database.Entry entry : entries) {
+                        for (Measurement.Category category : PreferenceHelper.getInstance().getActiveCategories()) {
+                            Measurement measurement = DatabaseFacade.getInstance().getMeasurement(entry, category);
+                            if (measurement != null) {
+                                entry.getMeasurementCache().add(measurement);
+                            }
+                        }
+                    }
+                }
+                return entries;
+            } catch (SQLException exception) {
+                Log.e(TAG, exception.getMessage());
+            }
             return null;
         }
 
         protected void onProgressUpdate(Void... progress) {
         }
 
-        protected void onPostExecute(Void param) {
-            try {
-                List<com.faltenreich.diaguard.database.Entry> entries = DatabaseFacade.getInstance().getEntriesOfDay(day);
-                if (entries != null && entries.size() > 0) {
-                    for (com.faltenreich.diaguard.database.Entry entry : entries) {
-                        for (Measurement.Category category : PreferenceHelper.getInstance().getActiveCategories()) {
-                            Measurement measurement = (DatabaseFacade.getInstance().getMeasurement(entry, category));
-                            if (measurement != null) {
-                                int xValue = entry.getDate().getHourOfDay() * entry.getDate().getMinuteOfHour();
-                                float yValue = category == Measurement.Category.BloodSugar ?
-                                        ((BloodSugar) measurement).getMgDl() :
-                                        500; // TODO: Handle non-Bloodsugar values
-                                getData().getDataSetByLabel(category.name(), true).addEntry(new Entry(yValue, xValue));
-                            }
-                        }
-                    }
+        protected void onPostExecute(List<com.faltenreich.diaguard.database.Entry> entries) {
+            for (com.faltenreich.diaguard.database.Entry entry : entries) {
+                for (Measurement measurement : entry.getMeasurementCache()) {
+                    Measurement.Category category = measurement.getMeasurementType();
+                    int xValue = entry.getDate().getHourOfDay() * entry.getDate().getMinuteOfHour();
+                    // TODO: Handle non-Bloodsugar values
+                    float yValue = category == Measurement.Category.BloodSugar ? ((BloodSugar) measurement).getMgDl() : 500;
+                    getData().getDataSetByLabel(category.name(), true).addEntry(new Entry(yValue, xValue));
                 }
-            } catch (SQLException exception) {
-                Log.e(TAG, exception.getMessage());
             }
             notifyDataSetChanged();
             invalidate();

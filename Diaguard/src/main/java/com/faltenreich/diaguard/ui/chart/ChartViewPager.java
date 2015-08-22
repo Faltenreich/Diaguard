@@ -1,20 +1,27 @@
 package com.faltenreich.diaguard.ui.chart;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.view.View;
 
 import org.joda.time.DateTime;
-import org.joda.time.Days;
 
 /**
  * Created by Faltenreich on 02.08.2015.
  */
 public class ChartViewPager extends ViewPager {
 
+    private enum Page {
+        LEFT,
+        MIDDLE,
+        RIGHT
+    }
+
     private ChartViewPagerCallback callback;
     private ChartPagerAdapter adapter;
+
+    private DateTime dateTime;
 
     public ChartViewPager(Context context) {
         super(context);
@@ -25,32 +32,63 @@ public class ChartViewPager extends ViewPager {
     }
 
     public void setup(ChartViewPagerCallback chartViewPagerCallback) {
-        this.callback = chartViewPagerCallback;
+        callback = chartViewPagerCallback;
         adapter = new ChartPagerAdapter(getContext());
+
         setAdapter(adapter);
         setOffscreenPageLimit(1);
-        setCurrentItem(adapter.getCount());
+        setDateTime(DateTime.now());
 
-        addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        addOnPageChangeListener(new OnPageChangeListener() {
+
+            int currentPage = 1;
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
 
             @Override
-            public void onPageSelected(int position) {
-                DateTime day = DateTime.now().minusDays(adapter.getCount() - position - 1);
-                callback.onDateSelected(day);
+            public void onPageScrollStateChanged(int state) {
+                if (state == ViewPager.SCROLL_STATE_IDLE) {
+                    switch (Page.values()[currentPage]) {
+                        case LEFT:
+                            setDateTime(dateTime.minusDays(1));
+                            break;
+                        case RIGHT:
+                            setDateTime(dateTime.plusDays(1));
+                            break;
+                    }
+                }
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
+            public void onPageSelected(int position) {
+                currentPage = position;
             }
         });
     }
 
-    public void setCurrentDate(DateTime day) {
-        int position = adapter.getCount() - Days.daysBetween(day, DateTime.now()).getDays() - 1;
-        setCurrentItem(position);
+    public void setDateTime(DateTime dateTime) {
+        this.dateTime = dateTime;
+        callback.onDateSelected(dateTime);
+        for (int position = 0; position < adapter.getCount(); position++) {
+            View childView = getChildAt(position);
+            if (childView instanceof DayChart) {
+                DayChart dayChart = (DayChart) childView;
+                switch (Page.values()[position]) {
+                    case LEFT:
+                        dayChart.setDateTime(dateTime.minusDays(1));
+                        break;
+                    case MIDDLE:
+                        dayChart.setDateTime(dateTime);
+                        break;
+                    case RIGHT:
+                        dayChart.setDateTime(dateTime.plusDays(1));
+                        break;
+                }
+            }
+        }
+        setCurrentItem(1, false);
     }
 
     public interface ChartViewPagerCallback {

@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,9 +20,7 @@ import android.widget.DatePicker;
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.helpers.ViewHelper;
-import com.faltenreich.diaguard.ui.chart.ChartPagerAdapter;
 import com.faltenreich.diaguard.ui.chart.ChartViewPager;
-import com.faltenreich.diaguard.ui.chart.EndlessPagerAdapter;
 import com.faltenreich.diaguard.ui.recycler.DayOfMonthDrawable;
 
 import org.joda.time.DateTime;
@@ -114,7 +111,7 @@ public class ChartFragment extends BaseFragment implements ChartViewPager.ChartV
         DialogFragment fragment = new DatePickerFragment() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
-                viewPager.setCurrentDate(DateTime.now().withYear(year).withMonthOfYear(month+1).withDayOfMonth(day));
+                viewPager.setDateTime(DateTime.now().withYear(year).withMonthOfYear(month + 1).withDayOfMonth(day));
             }
         };
         Bundle bundle = new Bundle(1);

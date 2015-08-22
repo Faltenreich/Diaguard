@@ -9,12 +9,10 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.DatabaseFacade;
 import com.faltenreich.diaguard.database.measurements.BloodSugar;
 import com.faltenreich.diaguard.database.measurements.Measurement;
-import com.faltenreich.diaguard.helpers.Helper;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 import com.github.mikephil.charting.charts.ScatterChart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.MarkerView;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.ScatterData;
 import com.github.mikephil.charting.data.ScatterDataSet;
@@ -60,8 +58,7 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
         new InitChartTask().execute();
     }
 
-    // TODO: Make public when providing EndlessChart
-    private void setData(DateTime day) {
+    public void setDateTime(DateTime day) {
         this.day = day;
         new UpdateChartDataTask().execute();
     }
@@ -98,7 +95,7 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
             setVisibleXRangeMaximum(DateTimeConstants.MINUTES_PER_DAY);
             getXAxis().setLabelsToSkip((DateTimeConstants.MINUTES_PER_HOUR * LABELS_TO_SKIP) - 1);
 
-            setData(day);
+            setDateTime(day);
         }
 
         private List<String> getXLabels() {
@@ -150,6 +147,13 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
     private class UpdateChartDataTask extends AsyncTask<Void, Void, Void> {
 
         protected Void doInBackground(Void... params) {
+            return null;
+        }
+
+        protected void onProgressUpdate(Void... progress) {
+        }
+
+        protected void onPostExecute(Void param) {
             try {
                 List<com.faltenreich.diaguard.database.Entry> entries = DatabaseFacade.getInstance().getEntriesOfDay(day);
                 if (entries != null && entries.size() > 0) {
@@ -169,13 +173,6 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
             } catch (SQLException exception) {
                 Log.e(TAG, exception.getMessage());
             }
-            return null;
-        }
-
-        protected void onProgressUpdate(Void... progress) {
-        }
-
-        protected void onPostExecute(Void param) {
             notifyDataSetChanged();
             invalidate();
         }

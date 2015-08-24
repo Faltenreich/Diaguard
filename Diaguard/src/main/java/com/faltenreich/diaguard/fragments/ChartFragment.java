@@ -33,7 +33,7 @@ public class ChartFragment extends BaseFragment implements ChartViewPager.ChartV
 
     private ChartViewPager viewPager;
 
-    private DateTime currentDay;
+    private DateTime dateTime;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -103,7 +103,7 @@ public class ChartFragment extends BaseFragment implements ChartViewPager.ChartV
     }
 
     private void initialize() {
-        currentDay = DateTime.now().withHourOfDay(0).withMinuteOfHour(0);
+        dateTime = DateTime.now().withHourOfDay(0).withMinuteOfHour(0);
         viewPager.setup(this);
     }
 
@@ -115,7 +115,7 @@ public class ChartFragment extends BaseFragment implements ChartViewPager.ChartV
             }
         };
         Bundle bundle = new Bundle(1);
-        bundle.putSerializable(DatePickerFragment.DATE, currentDay);
+        bundle.putSerializable(DatePickerFragment.DATE, dateTime);
         fragment.setArguments(bundle);
         fragment.show(getActivity().getSupportFragmentManager(), "DatePicker");
     }
@@ -128,16 +128,16 @@ public class ChartFragment extends BaseFragment implements ChartViewPager.ChartV
         if(isAdded()) {
             boolean showShortText = !ViewHelper.isLandscape(getActivity()) && !ViewHelper.isLargeScreen(getActivity());
             String weekDay = showShortText ?
-                    currentDay.dayOfWeek().getAsShortText() :
-                    currentDay.dayOfWeek().getAsText();
-            String date = DateTimeFormat.mediumDate().print(currentDay);
+                    dateTime.dayOfWeek().getAsShortText() :
+                    dateTime.dayOfWeek().getAsText();
+            String date = DateTimeFormat.mediumDate().print(dateTime);
             getActionView().setText(String.format("%s, %s", weekDay, date));
         }
     }
 
     @Override
     public void onDateSelected(DateTime day) {
-        currentDay = day;
+        dateTime = day;
         updateLabels();
     }
 }

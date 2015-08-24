@@ -40,13 +40,11 @@ public class ChartViewPager extends ViewPager {
         setDateTime(DateTime.now());
 
         addOnPageChangeListener(new OnPageChangeListener() {
-
-            int currentPage = 1;
+            int currentPage;
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
-
             @Override
             public void onPageScrollStateChanged(int state) {
                 if (state == ViewPager.SCROLL_STATE_IDLE) {
@@ -60,7 +58,6 @@ public class ChartViewPager extends ViewPager {
                     }
                 }
             }
-
             @Override
             public void onPageSelected(int position) {
                 currentPage = position;
@@ -71,6 +68,7 @@ public class ChartViewPager extends ViewPager {
     public void setDateTime(DateTime dateTime) {
         this.dateTime = dateTime;
         callback.onDateSelected(dateTime);
+
         for (int position = 0; position < adapter.getCount(); position++) {
             View childView = getChildAt(position);
             if (childView instanceof DayChart) {
@@ -88,7 +86,7 @@ public class ChartViewPager extends ViewPager {
                 }
             }
         }
-        setCurrentItem(1, false);
+        setCurrentItem(adapter.getCount() / 2, false);
     }
 
     public interface ChartViewPagerCallback {

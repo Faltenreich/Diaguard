@@ -140,12 +140,16 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
     private class UpdateChartDataTask extends AsyncTask<Void, Void, List<com.faltenreich.diaguard.database.Entry>> {
 
         protected void onPreExecute() {
-            // Remove old entries
-            for (Measurement.Category category : PreferenceHelper.getInstance().getActiveCategories()) {
-                getData().getDataSetByLabel(category.name(), true).clear();
+            try {
+                // Remove old entries
+                for (Measurement.Category category : PreferenceHelper.getInstance().getActiveCategories()) {
+                    getData().getDataSetByLabel(category.name(), true).clear();
+                }
+                notifyDataSetChanged();
+                invalidate();
+            } catch (Exception exception) {
+                Log.e(TAG, exception.getMessage());
             }
-            notifyDataSetChanged();
-            invalidate();
         }
 
         protected List<com.faltenreich.diaguard.database.Entry> doInBackground(Void... params) {
@@ -169,18 +173,22 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
         }
 
         protected void onPostExecute(List<com.faltenreich.diaguard.database.Entry> entries) {
-            // Add new entries
-            for (com.faltenreich.diaguard.database.Entry entry : entries) {
-                for (Measurement measurement : entry.getMeasurementCache()) {
-                    Measurement.Category category = measurement.getMeasurementType();
-                    int xValue = entry.getDate().getMinuteOfDay();
-                    // TODO: Handle non-Bloodsugar values
-                    float yValue = category == Measurement.Category.BloodSugar ? ((BloodSugar) measurement).getMgDl() : 500;
-                    getData().getDataSetByLabel(category.name(), true).addEntry(new Entry(yValue, xValue));
+            try {
+                // Add new entries
+                for (com.faltenreich.diaguard.database.Entry entry : entries) {
+                    for (Measurement measurement : entry.getMeasurementCache()) {
+                        Measurement.Category category = measurement.getMeasurementType();
+                        int xValue = entry.getDate().getMinuteOfDay();
+                        // TODO: Handle non-Bloodsugar values
+                        float yValue = category == Measurement.Category.BloodSugar ? ((BloodSugar) measurement).getMgDl() : 500;
+                        getData().getDataSetByLabel(category.name(), true).addEntry(new Entry(yValue, xValue));
+                    }
                 }
+                notifyDataSetChanged();
+                invalidate();
+            } catch (Exception exception) {
+                Log.e(TAG, exception.getMessage());
             }
-            notifyDataSetChanged();
-            invalidate();
         }
     }
 }

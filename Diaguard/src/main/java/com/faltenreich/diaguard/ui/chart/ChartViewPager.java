@@ -7,6 +7,8 @@ import android.view.View;
 
 import org.joda.time.DateTime;
 
+import java.util.Date;
+
 /**
  * Created by Faltenreich on 02.08.2015.
  */
@@ -37,7 +39,6 @@ public class ChartViewPager extends ViewPager {
 
         setAdapter(adapter);
         setOffscreenPageLimit(1);
-        setDateTime(DateTime.now());
 
         addOnPageChangeListener(new OnPageChangeListener() {
             int currentPage;
@@ -63,6 +64,8 @@ public class ChartViewPager extends ViewPager {
                 currentPage = position;
             }
         });
+
+        setDateTime(DateTime.now());
     }
 
     public void setDateTime(DateTime dateTime) {
@@ -86,7 +89,7 @@ public class ChartViewPager extends ViewPager {
                 }
             }
         }
-        setCurrentItem(adapter.getCount() / 2, false);
+        setCurrentItem(adapter.getMiddle(), false);
     }
 
     public interface ChartViewPagerCallback {

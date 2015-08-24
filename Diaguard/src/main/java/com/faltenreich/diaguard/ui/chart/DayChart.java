@@ -39,20 +39,15 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
 
     public DayChart(Context context) {
         super(context);
-        this.day = DateTime.now();
-    }
-
-    public DayChart(Context context, DateTime day) {
-        super(context);
-        this.day = day;
+        setup();
     }
 
     public DayChart(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.day = DateTime.now();
+        setup();
     }
 
-    public void setup() {
+    private void setup() {
         ChartHelper.setChartDefaultStyle(this);
         setOnChartValueSelectedListener(this);
         new InitChartTask().execute();
@@ -94,13 +89,11 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
             setData(data);
             setVisibleXRangeMaximum(DateTimeConstants.MINUTES_PER_DAY);
             getXAxis().setLabelsToSkip((DateTimeConstants.MINUTES_PER_HOUR * LABELS_TO_SKIP) - 1);
-
-            setDateTime(day);
         }
 
         private List<String> getXLabels() {
             ArrayList<String> xLabels = new ArrayList<>();
-            DateTime startTime = day.withTime(0, 0, 0, 0);
+            DateTime startTime = DateTime.now().withTimeAtStartOfDay();
             DateTime endTime = startTime.plusDays(1);
 
             while (startTime.isBefore(endTime)) {

@@ -20,7 +20,7 @@ public class ChartPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        DayChart chart = new DayChart(context);
+        DayChart chart = new DayChart(context, DateTime.now().minusDays(getMiddle()).plusDays(position));
         container.addView(chart);
         return chart;
     }

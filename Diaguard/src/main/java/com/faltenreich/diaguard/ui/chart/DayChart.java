@@ -39,11 +39,19 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
 
     public DayChart(Context context) {
         super(context);
+        this.day = DateTime.now();
         setup();
     }
 
     public DayChart(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.day = DateTime.now();
+        setup();
+    }
+
+    public DayChart(Context context, DateTime day) {
+        super(context);
+        this.day = day;
         setup();
     }
 
@@ -89,6 +97,8 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
             setData(data);
             setVisibleXRangeMaximum(DateTimeConstants.MINUTES_PER_DAY);
             getXAxis().setLabelsToSkip((DateTimeConstants.MINUTES_PER_HOUR * LABELS_TO_SKIP) - 1);
+
+            new UpdateChartDataTask().execute();
         }
 
         private List<String> getXLabels() {
@@ -139,19 +149,6 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
 
     private class UpdateChartDataTask extends AsyncTask<Void, Void, List<com.faltenreich.diaguard.database.Entry>> {
 
-        protected void onPreExecute() {
-            try {
-                // Remove old entries
-                for (Measurement.Category category : PreferenceHelper.getInstance().getActiveCategories()) {
-                    getData().getDataSetByLabel(category.name(), true).clear();
-                }
-                notifyDataSetChanged();
-                invalidate();
-            } catch (Exception exception) {
-                Log.e(TAG, exception.getMessage());
-            }
-        }
-
         protected List<com.faltenreich.diaguard.database.Entry> doInBackground(Void... params) {
             try {
                 List<com.faltenreich.diaguard.database.Entry> entries = DatabaseFacade.getInstance().getEntriesOfDay(day);
@@ -174,6 +171,10 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
 
         protected void onPostExecute(List<com.faltenreich.diaguard.database.Entry> entries) {
             try {
+                // Remove old entries
+                for (Measurement.Category category : PreferenceHelper.getInstance().getActiveCategories()) {
+                    getData().getDataSetByLabel(category.name(), true).clear();
+                }
                 // Add new entries
                 for (com.faltenreich.diaguard.database.Entry entry : entries) {
                     for (Measurement measurement : entry.getMeasurementCache()) {

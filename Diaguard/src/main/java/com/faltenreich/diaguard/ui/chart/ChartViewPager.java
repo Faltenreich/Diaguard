@@ -7,8 +7,6 @@ import android.view.View;
 
 import org.joda.time.DateTime;
 
-import java.util.Date;
-
 /**
  * Created by Faltenreich on 02.08.2015.
  */
@@ -36,42 +34,43 @@ public class ChartViewPager extends ViewPager {
     public void setup(ChartViewPagerCallback chartViewPagerCallback) {
         callback = chartViewPagerCallback;
         adapter = new ChartPagerAdapter(getContext());
-
         setAdapter(adapter);
-        setOffscreenPageLimit(1);
 
         addOnPageChangeListener(new OnPageChangeListener() {
-            int currentPage;
-
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
             @Override
             public void onPageScrollStateChanged(int state) {
                 if (state == ViewPager.SCROLL_STATE_IDLE) {
-                    switch (Page.values()[currentPage]) {
-                        case LEFT:
-                            setDateTime(dateTime.minusDays(1));
-                            break;
-                        case RIGHT:
-                            setDateTime(dateTime.plusDays(1));
-                            break;
-                    }
+                    updatePages();
+                    setCurrentItem(adapter.getMiddle(), false);
                 }
             }
             @Override
             public void onPageSelected(int position) {
-                currentPage = position;
+                switch (Page.values()[position]) {
+                    case LEFT:
+                        dateTime = dateTime.minusDays(1);
+                        break;
+                    case RIGHT:
+                        dateTime = dateTime.plusDays(1);
+                        break;
+                }
+                callback.onDateSelected(dateTime);
             }
         });
 
-        setDateTime(DateTime.now());
+        dateTime = DateTime.now();
+        setCurrentItem(adapter.getMiddle(), false);
     }
 
     public void setDateTime(DateTime dateTime) {
         this.dateTime = dateTime;
-        callback.onDateSelected(dateTime);
+        updatePages();
+    }
 
+    private void updatePages() {
         for (int position = 0; position < adapter.getCount(); position++) {
             View childView = getChildAt(position);
             if (childView instanceof DayChart) {
@@ -89,7 +88,6 @@ public class ChartViewPager extends ViewPager {
                 }
             }
         }
-        setCurrentItem(adapter.getMiddle(), false);
     }
 
     public interface ChartViewPagerCallback {

@@ -1,46 +1,50 @@
 package com.faltenreich.diaguard.ui.chart;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.faltenreich.diaguard.fragments.ChartDayFragment;
+
 import org.joda.time.DateTime;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Faltenreich on 01.08.2015.
  */
-public class ChartPagerAdapter extends PagerAdapter {
+public class ChartPagerAdapter extends FragmentPagerAdapter {
 
-    protected Context context;
+    private static final int ITEM_COUNT = 3;
 
-    public ChartPagerAdapter(Context context) {
-        this.context = context;
+    private ChartDayFragment[] fragments;
+
+    public ChartPagerAdapter(FragmentManager fragmentManager, DateTime dateTime) {
+        super(fragmentManager);
+
+        fragments = new ChartDayFragment[ITEM_COUNT];
+        fragments[0] = ChartDayFragment.createInstance(dateTime.minusDays(1));
+        fragments[1] = ChartDayFragment.createInstance(dateTime);
+        fragments[2] = ChartDayFragment.createInstance(dateTime.plusDays(1));
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        DayChart chart = new DayChart(context, DateTime.now().minusDays(getMiddle()).plusDays(position));
-        container.addView(chart);
-        return chart;
-    }
-
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView((View) object);
+    public Fragment getItem(int position) {
+        return fragments[position];
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return ITEM_COUNT;
     }
 
     public int getMiddle() {
         return getCount() / 2;
-    }
-
-    @Override
-    public boolean isViewFromObject(View view, Object object) {
-        return view == object;
     }
 }

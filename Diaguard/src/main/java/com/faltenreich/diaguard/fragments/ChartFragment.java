@@ -104,7 +104,7 @@ public class ChartFragment extends BaseFragment implements ChartViewPager.ChartV
 
     private void initialize() {
         dateTime = DateTime.now().withHourOfDay(0).withMinuteOfHour(0);
-        viewPager.setup(this);
+        viewPager.setup(getActivity().getSupportFragmentManager(), this);
     }
 
     private void showDatePicker() {

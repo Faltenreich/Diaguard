@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.ui.chart;
 
 import android.content.Context;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
@@ -31,9 +32,9 @@ public class ChartViewPager extends ViewPager {
         super(context, attrs);
     }
 
-    public void setup(ChartViewPagerCallback chartViewPagerCallback) {
+    public void setup(FragmentManager fragmentManager, ChartViewPagerCallback chartViewPagerCallback) {
         callback = chartViewPagerCallback;
-        adapter = new ChartPagerAdapter(getContext());
+        adapter = new ChartPagerAdapter(fragmentManager, DateTime.now());
         setAdapter(adapter);
 
         addOnPageChangeListener(new OnPageChangeListener() {
@@ -88,6 +89,7 @@ public class ChartViewPager extends ViewPager {
                 }
             }
         }
+        adapter.notifyDataSetChanged();
     }
 
     public interface ChartViewPagerCallback {

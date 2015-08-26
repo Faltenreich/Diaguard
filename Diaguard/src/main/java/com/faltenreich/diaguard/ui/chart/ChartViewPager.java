@@ -38,18 +38,29 @@ public class ChartViewPager extends ViewPager {
         setAdapter(adapter);
 
         addOnPageChangeListener(new OnPageChangeListener() {
+            private int currentPage;
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
             @Override
             public void onPageScrollStateChanged(int state) {
                 if (state == ViewPager.SCROLL_STATE_IDLE) {
-                    updatePages();
+                    switch (Page.values()[currentPage]) {
+                        case LEFT:
+                            adapter.swipeTo(true);
+                            break;
+                        case RIGHT:
+                            adapter.swipeTo(false);
+                            break;
+                    }
+                    adapter.notifyDataSetChanged();
                     setCurrentItem(adapter.getMiddle(), false);
                 }
             }
             @Override
             public void onPageSelected(int position) {
+                this.currentPage = position;
                 switch (Page.values()[position]) {
                     case LEFT:
                         dateTime = dateTime.minusDays(1);
@@ -67,29 +78,7 @@ public class ChartViewPager extends ViewPager {
     }
 
     public void setDateTime(DateTime dateTime) {
-        this.dateTime = dateTime;
-        updatePages();
-    }
-
-    private void updatePages() {
-        for (int position = 0; position < adapter.getCount(); position++) {
-            View childView = getChildAt(position);
-            if (childView instanceof DayChart) {
-                DayChart dayChart = (DayChart) childView;
-                switch (Page.values()[position]) {
-                    case LEFT:
-                        dayChart.setDateTime(dateTime.minusDays(1));
-                        break;
-                    case MIDDLE:
-                        dayChart.setDateTime(dateTime);
-                        break;
-                    case RIGHT:
-                        dayChart.setDateTime(dateTime.plusDays(1));
-                        break;
-                }
-            }
-        }
-        adapter.notifyDataSetChanged();
+        adapter.setDateTime(dateTime);
     }
 
     public interface ChartViewPagerCallback {

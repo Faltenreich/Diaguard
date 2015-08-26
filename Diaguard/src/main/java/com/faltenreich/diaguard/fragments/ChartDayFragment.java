@@ -47,24 +47,27 @@ public class ChartDayFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_chart_day, container, false);
-    }
-
-    @Override
-    public void onViewCreated (View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        getComponents(view);
-
+    public void onCreate (Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             dateTime = (DateTime) getArguments().getSerializable(EXTRA_DATE_TIME);
         }
+    }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_chart_day, container, false);
+        getComponents(view);
         dayChart.setDateTime(dateTime);
+        return view;
     }
 
     private void getComponents(@NonNull View view) {
         dayChart = (DayChart) view.findViewById(R.id.day_chart);
+    }
+
+    public DateTime getDateTime() {
+        return dayChart.getDateTime();
     }
 
     public void setDateTime(DateTime dateTime) {

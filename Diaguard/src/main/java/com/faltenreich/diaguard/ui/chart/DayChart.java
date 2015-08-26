@@ -35,23 +35,23 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
 
     private static final int LABELS_TO_SKIP = 2;
 
-    private DateTime day;
+    private DateTime dateTime;
 
     public DayChart(Context context) {
         super(context);
-        this.day = DateTime.now();
+        this.dateTime = DateTime.now();
         setup();
     }
 
     public DayChart(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.day = DateTime.now();
+        this.dateTime = DateTime.now();
         setup();
     }
 
-    public DayChart(Context context, DateTime day) {
+    public DayChart(Context context, DateTime dateTime) {
         super(context);
-        this.day = day;
+        this.dateTime = dateTime;
         setup();
     }
 
@@ -61,8 +61,12 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
         new InitChartTask().execute();
     }
 
+    public DateTime getDateTime() {
+        return dateTime;
+    }
+
     public void setDateTime(DateTime day) {
-        this.day = day;
+        this.dateTime = day;
         new UpdateChartDataTask().execute();
     }
 
@@ -151,7 +155,7 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
 
         protected List<com.faltenreich.diaguard.database.Entry> doInBackground(Void... params) {
             try {
-                List<com.faltenreich.diaguard.database.Entry> entries = DatabaseFacade.getInstance().getEntriesOfDay(day);
+                List<com.faltenreich.diaguard.database.Entry> entries = DatabaseFacade.getInstance().getEntriesOfDay(dateTime);
                 if (entries != null && entries.size() > 0) {
                     for (com.faltenreich.diaguard.database.Entry entry : entries) {
                         for (Measurement.Category category : PreferenceHelper.getInstance().getActiveCategories()) {

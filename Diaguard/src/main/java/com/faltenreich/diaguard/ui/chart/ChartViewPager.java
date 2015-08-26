@@ -6,6 +6,8 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.faltenreich.diaguard.fragments.ChartDayFragment;
+
 import org.joda.time.DateTime;
 
 /**
@@ -21,8 +23,6 @@ public class ChartViewPager extends ViewPager {
 
     private ChartViewPagerCallback callback;
     private ChartPagerAdapter adapter;
-
-    private DateTime dateTime;
 
     public ChartViewPager(Context context) {
         super(context);
@@ -61,19 +61,13 @@ public class ChartViewPager extends ViewPager {
             @Override
             public void onPageSelected(int position) {
                 this.currentPage = position;
-                switch (Page.values()[position]) {
-                    case LEFT:
-                        dateTime = dateTime.minusDays(1);
-                        break;
-                    case RIGHT:
-                        dateTime = dateTime.plusDays(1);
-                        break;
+                ChartDayFragment selectedFragment = (ChartDayFragment) adapter.getItem(position);
+                if (selectedFragment != null && selectedFragment.getDateTime() != null) {
+                    callback.onDateSelected(selectedFragment.getDateTime());
                 }
-                callback.onDateSelected(dateTime);
             }
         });
 
-        dateTime = DateTime.now();
         setCurrentItem(adapter.getMiddle(), false);
     }
 

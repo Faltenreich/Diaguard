@@ -23,6 +23,7 @@ import com.faltenreich.diaguard.helpers.ViewHelper;
 import com.faltenreich.diaguard.ui.chart.ChartViewPager;
 import com.faltenreich.diaguard.ui.chart.DayChart;
 import com.faltenreich.diaguard.ui.recycler.DayOfMonthDrawable;
+import com.j256.ormlite.support.DatabaseResults;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -67,7 +68,7 @@ public class ChartDayFragment extends Fragment {
     }
 
     public DateTime getDateTime() {
-        return dayChart.getDateTime();
+        return dayChart != null ? dayChart.getDateTime() : null;
     }
 
     public void setDateTime(DateTime dateTime) {

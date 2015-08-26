@@ -49,12 +49,6 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
         setup();
     }
 
-    public DayChart(Context context, DateTime dateTime) {
-        super(context);
-        this.dateTime = dateTime;
-        setup();
-    }
-
     private void setup() {
         ChartHelper.setChartDefaultStyle(this);
         setOnChartValueSelectedListener(this);

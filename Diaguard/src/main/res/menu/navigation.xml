@@ -19,8 +19,7 @@
     </group>
 
     <group
-        android:id="@+id/activities"
-        android:checkableBehavior="single">
+        android:id="@+id/activities">
         <item
             android:id="@+id/nav_statistics"
             android:title="@string/statistics" />

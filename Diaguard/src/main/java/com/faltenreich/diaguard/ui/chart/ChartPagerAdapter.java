@@ -1,20 +1,14 @@
 package com.faltenreich.diaguard.ui.chart;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.faltenreich.diaguard.fragments.ChartDayFragment;
 
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -28,8 +22,12 @@ public class ChartPagerAdapter extends FragmentPagerAdapter {
 
     public ChartPagerAdapter(FragmentManager fragmentManager, DateTime dateTime) {
         super(fragmentManager);
+
         fragments = new ArrayList<>();
-        setDateTime(dateTime);
+        for (int position = 0; position < ITEM_COUNT; position++) {
+            DateTime dateTimeOfFragment = dateTime.minusDays(getMiddle()).plusDays(position);
+            fragments.add(ChartDayFragment.createInstance(dateTimeOfFragment));
+        }
     }
 
     @Override
@@ -51,26 +49,28 @@ public class ChartPagerAdapter extends FragmentPagerAdapter {
         return getCount() / 2;
     }
 
-    public void setDateTime(DateTime dateTime) {
-        fragments.clear();
+    public void setDay(DateTime day) {
         for (int position = 0; position < ITEM_COUNT; position++) {
-            DateTime dateTimeOfFragment = dateTime.minusDays(getMiddle()).plusDays(position);
-            fragments.add(ChartDayFragment.createInstance(dateTimeOfFragment));
+            ChartDayFragment fragment = fragments.get(0);
+            DateTime dateTimeOfFragment = day.minusDays(getMiddle()).plusDays(position);
+            fragment.setDay(dateTimeOfFragment);
         }
         notifyDataSetChanged();
     }
 
-    public void swipeTo(boolean toLeft) {
-        if (toLeft) {
-            ChartDayFragment fragment = fragments.get(ITEM_COUNT - 1);
-            fragments.remove(fragment);
-            fragments.add(0, fragment);
-            fragment.setDateTime(fragment.getDateTime().minusDays(ITEM_COUNT));
-        } else {
-            ChartDayFragment fragment = fragments.get(0);
-            fragments.remove(fragment);
-            fragments.add(fragment);
-            fragment.setDateTime(fragment.getDateTime().plusDays(ITEM_COUNT));
-        }
+    public void nextDay() {
+        ChartDayFragment fragment = fragments.get(0);
+        fragments.remove(fragment);
+        fragments.add(fragment);
+        fragment.setDay(fragment.getDay().plusDays(ITEM_COUNT));
+        notifyDataSetChanged();
+    }
+
+    public void previousDay() {
+        ChartDayFragment fragment = fragments.get(ITEM_COUNT - 1);
+        fragments.remove(fragment);
+        fragments.add(0, fragment);
+        fragment.setDay(fragment.getDay().minusDays(ITEM_COUNT));
+        notifyDataSetChanged();
     }
 }

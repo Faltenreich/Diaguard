@@ -51,7 +51,7 @@ public class LogRecyclerView extends RecyclerView {
                 super.onScrolled(recyclerView, dx, dy);
 
                 RecyclerItem item = recyclerAdapter.items.get(linearLayoutManager.findFirstVisibleItemPosition());
-                DateTime dateTime = item.getDateTime();
+                DateTime dateTime = item.getDay();
 
                 // Update month in Toolbar when section is being crossed
                 boolean isScrollingUp = dy < 0;

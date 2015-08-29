@@ -7,6 +7,7 @@
 
     <color name="light">#fff3f3f3</color>
     <color name="transparent_light">#ccf3f3f3</color>
+    <color name="gray_lighter">#e5e5e5</color>
     <color name="gray_light">#ffd4d4d4</color>
     <color name="gray">#ababab</color>
     <color name="gray_dark">#ff8c8c8c</color>

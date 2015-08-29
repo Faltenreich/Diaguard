@@ -153,7 +153,7 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
 
     private void bindMonth(ViewHolderRowSection vh, RecyclerSection recyclerSection) {
         int resourceId = PreferenceHelper.getInstance().getSeasonResourceId(recyclerSection.getDateTime());
-        Picasso.with(context).load(resourceId).into(vh.background);
+        Picasso.with(context).load(resourceId).placeholder(R.color.gray_lighter).into(vh.background);
         vh.month.setText(recyclerSection.getDateTime().toString("MMMM YYYY"));
     }
 

@@ -33,7 +33,7 @@ public class ChartFragment extends BaseFragment implements ChartViewPager.ChartV
 
     private ChartViewPager viewPager;
 
-    private DateTime dateTime;
+    private DateTime day;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,7 +52,7 @@ public class ChartFragment extends BaseFragment implements ChartViewPager.ChartV
     @Override
     public void onResume() {
         super.onResume();
-        update();
+        updateLabels();
     }
 
     @Override
@@ -103,7 +103,7 @@ public class ChartFragment extends BaseFragment implements ChartViewPager.ChartV
     }
 
     private void initialize() {
-        dateTime = DateTime.now().withHourOfDay(0).withMinuteOfHour(0);
+        day = DateTime.now().withHourOfDay(0).withMinuteOfHour(0);
         viewPager.setup(getActivity().getSupportFragmentManager(), this);
     }
 
@@ -111,33 +111,31 @@ public class ChartFragment extends BaseFragment implements ChartViewPager.ChartV
         DialogFragment fragment = new DatePickerFragment() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
-                viewPager.setDateTime(DateTime.now().withYear(year).withMonthOfYear(month + 1).withDayOfMonth(day));
+                ChartFragment.this.day = DateTime.now().withYear(year).withMonthOfYear(month + 1).withDayOfMonth(day);
+                viewPager.setDay(ChartFragment.this.day);
+                updateLabels();
             }
         };
         Bundle bundle = new Bundle(1);
-        bundle.putSerializable(DatePickerFragment.DATE, dateTime);
+        bundle.putSerializable(DatePickerFragment.DATE, day);
         fragment.setArguments(bundle);
         fragment.show(getActivity().getSupportFragmentManager(), "DatePicker");
-    }
-
-    private void update() {
-        updateLabels();
     }
 
     private void updateLabels() {
         if(isAdded()) {
             boolean showShortText = !ViewHelper.isLandscape(getActivity()) && !ViewHelper.isLargeScreen(getActivity());
             String weekDay = showShortText ?
-                    dateTime.dayOfWeek().getAsShortText() :
-                    dateTime.dayOfWeek().getAsText();
-            String date = DateTimeFormat.mediumDate().print(dateTime);
+                    day.dayOfWeek().getAsShortText() :
+                    day.dayOfWeek().getAsText();
+            String date = DateTimeFormat.mediumDate().print(day);
             getActionView().setText(String.format("%s, %s", weekDay, date));
         }
     }
 
     @Override
-    public void onDateSelected(DateTime day) {
-        dateTime = day;
+    public void onDaySelected(DateTime day) {
+        this.day = day;
         updateLabels();
     }
 }

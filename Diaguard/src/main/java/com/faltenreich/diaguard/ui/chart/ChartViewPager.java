@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.view.View;
 
 import com.faltenreich.diaguard.fragments.ChartDayFragment;
 
@@ -15,13 +14,6 @@ import org.joda.time.DateTime;
  */
 public class ChartViewPager extends ViewPager {
 
-    private enum Page {
-        LEFT,
-        MIDDLE,
-        RIGHT
-    }
-
-    private ChartViewPagerCallback callback;
     private ChartPagerAdapter adapter;
 
     public ChartViewPager(Context context) {
@@ -32,50 +24,41 @@ public class ChartViewPager extends ViewPager {
         super(context, attrs);
     }
 
-    public void setup(FragmentManager fragmentManager, ChartViewPagerCallback chartViewPagerCallback) {
-        callback = chartViewPagerCallback;
+    public void setup(final FragmentManager fragmentManager, final ChartViewPagerCallback callback) {
         adapter = new ChartPagerAdapter(fragmentManager, DateTime.now());
         setAdapter(adapter);
+        setCurrentItem(adapter.getMiddle(), false);
 
         addOnPageChangeListener(new OnPageChangeListener() {
-            private int currentPage;
-
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
             @Override
             public void onPageScrollStateChanged(int state) {
                 if (state == ViewPager.SCROLL_STATE_IDLE) {
-                    switch (Page.values()[currentPage]) {
-                        case LEFT:
-                            adapter.swipeTo(true);
+                    switch (getCurrentItem()) {
+                        case 0:
+                            adapter.previousDay();
                             break;
-                        case RIGHT:
-                            adapter.swipeTo(false);
+                        case 2:
+                            adapter.nextDay();
                             break;
                     }
-                    adapter.notifyDataSetChanged();
                     setCurrentItem(adapter.getMiddle(), false);
                 }
             }
             @Override
             public void onPageSelected(int position) {
-                this.currentPage = position;
                 ChartDayFragment selectedFragment = (ChartDayFragment) adapter.getItem(position);
-                if (selectedFragment != null && selectedFragment.getDateTime() != null) {
-                    callback.onDateSelected(selectedFragment.getDateTime());
-                }
+                callback.onDaySelected(selectedFragment.getDay());
             }
         });
-
-        setCurrentItem(adapter.getMiddle(), false);
     }
 
-    public void setDateTime(DateTime dateTime) {
-        adapter.setDateTime(dateTime);
+    public void setDay(DateTime day) {
+        adapter.setDay(day);
     }
 
     public interface ChartViewPagerCallback {
-        void onDateSelected(DateTime day);
+        void onDaySelected(DateTime day);
     }
 }

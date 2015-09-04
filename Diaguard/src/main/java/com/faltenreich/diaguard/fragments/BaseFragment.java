@@ -2,6 +2,8 @@ package com.faltenreich.diaguard.fragments;
 
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -21,13 +23,27 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseFragment extends Fragment {
 
-    public abstract String getTitle();
+    private int layoutResourceId;
+    private String title;
 
-    protected abstract int getContentViewId();
+    private BaseFragment() {
+        // Forbidden
+    }
+
+    public BaseFragment(@LayoutRes int layoutResourceId) {
+        this();
+        this.layoutResourceId = layoutResourceId;
+    }
+
+    public BaseFragment(@LayoutRes int layoutResourceId, @StringRes int titleResourceId) {
+        this();
+        this.layoutResourceId = layoutResourceId;
+        this.title = getString(titleResourceId);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(getContentViewId(), container, false);
+        View view = inflater.inflate(layoutResourceId, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -54,6 +70,10 @@ public abstract class BaseFragment extends Fragment {
 
     public TextView getActionView() {
         return ((BaseActivity) getActivity()).getActionView();
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     interface ToolbarCallback {

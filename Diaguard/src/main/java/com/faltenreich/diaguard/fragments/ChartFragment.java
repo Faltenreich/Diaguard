@@ -38,9 +38,8 @@ public class ChartFragment extends BaseFragment implements ChartViewPager.ChartV
 
     private DateTime day;
 
-    @Override
-    protected int getContentViewId() {
-        return R.layout.fragment_chart;
+    public ChartFragment() {
+        super(R.layout.fragment_chart);
     }
 
     @Override

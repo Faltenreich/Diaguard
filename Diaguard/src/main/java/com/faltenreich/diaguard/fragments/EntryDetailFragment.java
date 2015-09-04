@@ -68,14 +68,13 @@ public class EntryDetailFragment extends BaseFragment {
         return fragment;
     }
 
-    @Override
-    protected int getContentViewId() {
-        return R.layout.fragment_entry_detail;
+    public EntryDetailFragment() {
+        super(R.layout.fragment_entry_detail);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_entry_detail, container, false);
+    public void onViewCreated (View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
         if (getArguments() != null && getArguments().getLong(EXTRA_ENTRY) > 0) {
             long entryId = getArguments().getLong(EXTRA_ENTRY);
@@ -86,7 +85,6 @@ public class EntryDetailFragment extends BaseFragment {
             }
             initializeGUI();
         }
-        return view;
     }
 
     @Override

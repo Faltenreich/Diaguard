@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard;
 
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -27,13 +28,13 @@ public abstract class BaseActivity extends AppCompatActivity {
     private int layoutResourceId;
     private DatabaseHelper databaseHelper;
 
-    public BaseActivity(int layoutResourceId) {
-        this();
-        this.layoutResourceId = layoutResourceId;
-    }
-
     private BaseActivity() {
         // Forbidden
+    }
+
+    public BaseActivity(@LayoutRes int layoutResourceId) {
+        this();
+        this.layoutResourceId = layoutResourceId;
     }
 
     @Override

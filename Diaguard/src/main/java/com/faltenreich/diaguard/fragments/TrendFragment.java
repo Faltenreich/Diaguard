@@ -26,9 +26,8 @@ public class TrendFragment extends BaseFragment {
 
     private Interval currentInterval;
 
-    @Override
-    protected int getContentViewId() {
-        return R.layout.fragment_trend;
+    public TrendFragment() {
+        super(R.layout.fragment_trend, R.string.overview);
     }
 
     @Override
@@ -84,10 +83,5 @@ public class TrendFragment extends BaseFragment {
                 break;
         }
         return true;
-    }
-
-    @Override
-    public String getTitle() {
-        return DiaguardApplication.getContext().getString(R.string.trend);
     }
 }

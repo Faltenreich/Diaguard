@@ -91,20 +91,14 @@ public class MainFragment extends BaseFragment {
     @Bind(R.id.textview_avg_day)
     protected TextView textViewAverageDay;
 
-    @Override
-    protected int getContentViewId() {
-        return R.layout.fragment_main;
+    public MainFragment() {
+        super(R.layout.fragment_main);
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onViewCreated (View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void onActivityCreated (Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         initialize();
     }
 

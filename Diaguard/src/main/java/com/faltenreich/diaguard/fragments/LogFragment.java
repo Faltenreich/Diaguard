@@ -41,9 +41,8 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
 
     private DateTime firstVisibleDay;
 
-    @Override
-    protected int getContentViewId() {
-        return R.layout.fragment_log;
+    public LogFragment() {
+        super(R.layout.fragment_log);
     }
 
     @Override

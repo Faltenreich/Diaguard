@@ -15,13 +15,7 @@ import com.faltenreich.diaguard.R;
  */
 public class OverviewFragment extends BaseFragment {
 
-    @Override
-    protected int getContentViewId() {
-        return R.layout.fragment_overview;
-    }
-
-    @Override
-    public String getTitle() {
-        return DiaguardApplication.getContext().getString(R.string.overview);
+    public OverviewFragment() {
+        super(R.layout.fragment_overview, R.string.overview);
     }
 }

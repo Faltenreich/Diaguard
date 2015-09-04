@@ -31,8 +31,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onAttachFragment(Fragment fragment) {
-        super.onAttachFragment(fragment);
+    public void onStart() {
+        super.onStart();
 
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.ui.activity.BaseActivity;
 
 import butterknife.ButterKnife;
@@ -33,7 +34,7 @@ public abstract class BaseFragment extends Fragment {
     public BaseFragment(@LayoutRes int layoutResourceId, @StringRes int titleResourceId) {
         this();
         this.layoutResourceId = layoutResourceId;
-        this.title = getString(titleResourceId);
+        this.title = DiaguardApplication.getContext().getString(titleResourceId);
     }
 
     @Override

@@ -9,4 +9,18 @@
     android:background="?attr/colorPrimary"
     app:navigationIcon="?attr/homeAsUpIndicator"
     app:navigationContentDescription="@string/abc_action_bar_up_description"
-    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+    <TextView
+        android:id="@+id/action"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/margin_between"
+        android:gravity="center_vertical"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_large"
+        android:clickable="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:visibility="gone"/>
+
+</android.support.v7.widget.Toolbar>

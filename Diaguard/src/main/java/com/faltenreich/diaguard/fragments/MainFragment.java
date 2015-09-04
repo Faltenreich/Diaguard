@@ -120,14 +120,6 @@ public class MainFragment extends BaseFragment {
         return DiaguardApplication.getContext().getString(R.string.home);
     }
 
-    @Override
-    public boolean hasAction() {
-        return false;
-    }
-
-    @Override
-    public void action(View view) {}
-
     private void initialize() {
         layoutToday.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -31,7 +31,7 @@ import butterknife.Bind;
 /**
  * Created by Filip on 05.07.2015.
  */
-public class LogFragment extends BaseFragment {
+public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCallback {
 
     @Bind(R.id.list)
     protected RecyclerView recyclerView;
@@ -82,16 +82,6 @@ public class LogFragment extends BaseFragment {
 
     private void initialize() {
         firstVisibleDay = DateTime.now();
-
-        // FIXME
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        final View actionView = toolbar.findViewById(R.id.action);
-        actionView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                action(actionView);
-            }
-        });
     }
 
     private void goToDay(DateTime day) {
@@ -181,12 +171,7 @@ public class LogFragment extends BaseFragment {
     }
 
     @Override
-    public boolean hasAction() {
-        return true;
-    }
-
-    @Override
-    public void action(View view) {
+    public void action() {
         showDatePicker();
     }
 }

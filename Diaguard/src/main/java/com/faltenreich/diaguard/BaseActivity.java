@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.TextView;
 
 import com.faltenreich.diaguard.database.DatabaseHelper;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
@@ -18,6 +20,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar)
     protected Toolbar toolbar;
+
+    @Bind(R.id.action)
+    protected TextView actionView;
 
     private int layoutResourceId;
     private DatabaseHelper databaseHelper;
@@ -65,7 +70,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         return databaseHelper;
     }
 
-    public Toolbar getToolbar() {
-        return toolbar;
+    public TextView getActionView() {
+        return actionView;
     }
 }

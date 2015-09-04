@@ -31,7 +31,7 @@ import butterknife.Bind;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ChartFragment extends BaseFragment implements ChartViewPager.ChartViewPagerCallback {
+public class ChartFragment extends BaseFragment implements ChartViewPager.ChartViewPagerCallback, BaseFragment.ToolbarCallback {
 
     @Bind(R.id.viewpager)
     protected ChartViewPager viewPager;
@@ -83,12 +83,7 @@ public class ChartFragment extends BaseFragment implements ChartViewPager.ChartV
     }
 
     @Override
-    public boolean hasAction() {
-        return true;
-    }
-
-    @Override
-    public void action(View view) {
+    public void action() {
         showDatePicker();
     }
 

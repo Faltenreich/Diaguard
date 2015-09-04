@@ -111,14 +111,6 @@ public class EntryDetailFragment extends BaseFragment {
         return DiaguardApplication.getContext().getString(R.string.entry);
     }
 
-    @Override
-    public boolean hasAction() {
-        return false;
-    }
-
-    @Override
-    public void action(View view) {}
-
     private void initializeGUI() {
         if(ViewHelper.isLargeScreen(getActivity())) {
             layoutLarge.setVisibility(View.VISIBLE);

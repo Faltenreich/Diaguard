@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.faltenreich.diaguard.BaseActivity;
 import com.faltenreich.diaguard.R;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
@@ -20,17 +21,7 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseFragment extends Fragment {
 
-    private TextView actionView;
-
     public abstract String getTitle();
-
-    public abstract boolean hasAction();
-
-    public abstract void action(View view);
-
-    public TextView getActionView() {
-        return actionView;
-    }
 
     protected abstract int getContentViewId();
 
@@ -45,30 +36,27 @@ public abstract class BaseFragment extends Fragment {
     public void onViewCreated (View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        actionView = (TextView) getToolbar().findViewById(R.id.action);
-        ActionBar actionBar = ((BaseActivity) getActivity()).getSupportActionBar();
-        if (actionBar != null && actionView != null) {
-            if (hasAction()) {
-                actionBar.setDisplayShowTitleEnabled(false);
+        if (getActivity() instanceof BaseActivity) {
+            View actionView = getActionView();
+            if (this instanceof ToolbarCallback) {
                 actionView.setVisibility(View.VISIBLE);
                 actionView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        action(actionView);
+                        ((ToolbarCallback) BaseFragment.this).action();
                     }
                 });
             } else {
-                actionBar.setDisplayShowTitleEnabled(false);
                 actionView.setVisibility(View.GONE);
             }
         }
     }
 
-    public Toolbar getToolbar() {
-        if (getActivity() instanceof BaseActivity) {
-            return ((BaseActivity) getActivity()).getToolbar();
-        } else {
-            throw new Resources.NotFoundException("Resource not found: R.id.toolbar");
-        }
+    public TextView getActionView() {
+        return ((BaseActivity) getActivity()).getActionView();
+    }
+
+    interface ToolbarCallback {
+        void action();
     }
 }

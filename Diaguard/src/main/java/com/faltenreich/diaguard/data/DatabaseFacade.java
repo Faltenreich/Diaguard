@@ -10,7 +10,7 @@ import com.faltenreich.diaguard.data.entity.HbA1c;
 import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.data.entity.Model;
+import com.faltenreich.diaguard.data.entity.BaseEntity;
 import com.faltenreich.diaguard.data.entity.Pressure;
 import com.faltenreich.diaguard.data.entity.Pulse;
 import com.faltenreich.diaguard.data.entity.Weight;
@@ -47,7 +47,7 @@ public class DatabaseFacade {
         this.databaseHelper = OpenHelperManager.getHelper(DiaguardApplication.getContext(), DatabaseHelper.class);
     }
 
-    public <T extends Model> Dao<T, Long> getDao(Class<T> clazz) {
+    public <T extends BaseEntity> Dao<T, Long> getDao(Class<T> clazz) {
         try {
             return databaseHelper.getDao(clazz);
         } catch (SQLException exception) {
@@ -56,7 +56,7 @@ public class DatabaseFacade {
         }
     }
     
-    public <T extends Model> List<T> getAll(Class<T> clazz, long offset, long limit,
+    public <T extends BaseEntity> List<T> getAll(Class<T> clazz, long offset, long limit,
                                             String orderColumn, boolean ascending) throws SQLException {
         return getDao(clazz).queryBuilder().offset(offset).limit(limit).orderBy(orderColumn, ascending).query();
     }
@@ -136,7 +136,7 @@ public class DatabaseFacade {
         return measurements;
     }
 
-    public <T extends Model, D extends Model> QueryBuilder<T, ?> join(Class<T> clazzOne, Class<D> classTwo) throws SQLException {
+    public <T extends BaseEntity, D extends BaseEntity> QueryBuilder<T, ?> join(Class<T> clazzOne, Class<D> classTwo) throws SQLException {
         QueryBuilder<T, ?> qbOne = getDao(clazzOne).queryBuilder();
         QueryBuilder<D, ?> qbTwo = getDao(classTwo).queryBuilder();
         return qbOne.join(qbTwo);
@@ -167,7 +167,7 @@ public class DatabaseFacade {
                 " FROM " + classNameMeasurement +
                 " INNER JOIN " + classNameEntry +
                 " ON " + classNameMeasurement + "." + Measurement.ENTRY_ID +
-                " = " + classNameEntry + "." + Model.ID +
+                " = " + classNameEntry + "." + BaseEntity.ID +
                 " AND " + classNameEntry + "." + Entry.DATE +
                 " >= " + intervalStart +
                 " AND " + classNameEntry + "." + Entry.DATE +

@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,7 +14,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -28,7 +26,9 @@ import android.widget.TimePicker;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.SwipeDismissTouchListener;
+import com.faltenreich.diaguard.data.DatabaseFacade;
 import com.faltenreich.diaguard.data.DatabaseHelper;
+import com.faltenreich.diaguard.data.entity.BaseEntity;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
@@ -70,14 +70,8 @@ public class NewEventActivity extends BaseActivity {
     private static final int ACTION_REQUEST_GALLERY = 98;
     private static final int ACTION_REQUEST_CAMERA = 99;
 
-    public static final String EXTRA_ENTRY = "Entry";
-    public static final String EXTRA_MEASUREMENT = "Measurement";
-    public static final String EXTRA_DATE = "Date";
-
-    private Entry entry;
-    private int alarmIntervalInMinutes;
-
-    private DateTime time;
+    public static final String EXTRA_ENTRY = "EXTRA_ENTRY";
+    public static final String EXTRA_DATE = "EXTRA_DATE";
 
     @Bind(R.id.fab_menu)
     protected FloatingActionMenu fab;
@@ -97,6 +91,9 @@ public class NewEventActivity extends BaseActivity {
     @Bind(R.id.spinner_alarm)
     protected Spinner spinnerAlarm;
 
+    private Entry entry;
+    private DateTime time;
+
     private LinkedHashMap<Measurement.Category, Boolean> categories;
 
     public NewEventActivity() {
@@ -115,7 +112,6 @@ public class NewEventActivity extends BaseActivity {
     }
 
     public void initialize() {
-        time = new DateTime();
 
         categories = new LinkedHashMap<>();
         Measurement.Category[] activeCategories = PreferenceHelper.getInstance().getActiveCategories();
@@ -123,69 +119,44 @@ public class NewEventActivity extends BaseActivity {
             categories.put(category, false);
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (toolbar != null) {
-            toolbar.setTitle(getString(R.string.entry_new));
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                }
-            });
-            setSupportActionBar(toolbar);
-        }
-
         checkIntents();
-        setDate();
-        setTime();
         setFloatingActionMenu();
 
-        alarmIntervalInMinutes = 0;
+        time = new DateTime();
+        setDate();
+        setTime();
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.alarm_intervals, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerAlarm.setAdapter(adapter);
-        spinnerAlarm.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                alarmIntervalInMinutes = getResources().getIntArray(R.array.alarm_intervals_values)[position];
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
     }
 
     private void checkIntents() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            if (extras.getLong(EXTRA_ENTRY) != 0L || extras.getLong(EXTRA_MEASUREMENT) != 0L) {
-
-                Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-                if (toolbar != null) {
-                    toolbar.setTitle(getString(R.string.entry_edit));
-                }
+            if (extras.getLong(EXTRA_ENTRY) != 0L) {
+                getSupportActionBar().setTitle(getString(R.string.entry_edit));
 
                 /*
                 // Get entry
                 if (extras.getLong(EXTRA_ENTRY) != 0L) {
-                    entry = (Entry) dataSource.get(DatabaseHelper.ENTRY, extras.getLong(EXTRA_ENTRY));
+                    entry = (Entry) DatabaseFacade.getInstance().get(DatabaseHelper.ENTRY, extras.getLong(EXTRA_ENTRY));
                 } else {
                     Measurement measurement = (Measurement) dataSource.get(DatabaseHelper.MEASUREMENT, extras.getLong("ID"));
                     entry = (Entry) dataSource.get(DatabaseHelper.ENTRY, measurement.getEntry());
                 }
 
                 // and all of its measurements
-                List<Model> measurements = dataSource.get(DatabaseHelper.MEASUREMENT, null,
+                List<BaseEntity> measurements = dataSource.get(DatabaseHelper.MEASUREMENT, null,
                         DatabaseHelper.ENTRY_ID + "=?", new String[]{Long.toString(entry.getId())},
                         null, null, null, null);
 
                 time = entry.getDate();
                 editTextNotes.setText(entry.getNote());
 
-                for (Model model : measurements) {
-                    Measurement measurement = (Measurement) model;
+                for (BaseEntity baseEntity : measurements) {
+                    Measurement measurement = (Measurement) baseEntity;
                     // TODO entry.getMeasurements().add(measurement);
                     for (int position = 0; position < layoutMeasurements.getChildCount(); position++) {
                         View view = layoutMeasurements.getChildAt(position);
@@ -197,7 +168,7 @@ public class NewEventActivity extends BaseActivity {
                         }
                     }
                 }
-                        */
+                */
             } else if (extras.getSerializable(EXTRA_DATE) != null) {
                 time = (DateTime) extras.getSerializable(EXTRA_DATE);
             }
@@ -595,9 +566,8 @@ public class NewEventActivity extends BaseActivity {
                 Log.d("OrmLite failed", exception.getMessage());
             }
 
-            // Optional: Set alarm
-            if (alarmIntervalInMinutes > 0) {
-                Helper.setAlarm(this, alarmIntervalInMinutes);
+            if (spinnerAlarm.getSelectedItemPosition() > 0) {
+                Helper.setAlarm(this, getResources().getIntArray(R.array.alarm_intervals_values)[spinnerAlarm.getSelectedItemPosition()]);
             }
 
             // Tell MainActivity that Events have been created

@@ -14,7 +14,7 @@ import java.util.List;
  * Created by Filip on 09.08.2014.
  */
 @DatabaseTable
-public class Entry extends Model {
+public class Entry extends BaseEntity {
 
     public static final String DATE = "date";
     public static final String NOTE = "note";

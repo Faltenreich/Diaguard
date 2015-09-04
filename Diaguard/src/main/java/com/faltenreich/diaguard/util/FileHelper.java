@@ -146,8 +146,8 @@ public class FileHelper {
                         Integer.toString(dataSource.getVersion()) };
                 writer.writeNext(meta);
 
-                List<Model> entries = dataSource.get(DatabaseHelper.ENTRY);
-                for(Model entryModel : entries) {
+                List<BaseEntity> entries = dataSource.get(DatabaseHelper.ENTRY);
+                for(BaseEntity entryModel : entries) {
                     Entry entry = (Entry)entryModel;
                     String[] entryValues = {
                             DatabaseHelper.ENTRY,
@@ -155,11 +155,11 @@ public class FileHelper {
                             entry.getNote() };
                     writer.writeNext(entryValues);
 
-                    List<Model> measurements = dataSource.get(DatabaseHelper.MEASUREMENT, null,
+                    List<BaseEntity> measurements = dataSource.get(DatabaseHelper.MEASUREMENT, null,
                             DatabaseHelper.ENTRY_ID + "=?",
                             new String[]{Long.toString(entry.getId())},
                             null, null, null, null);
-                    for(Model measurementModel : measurements) {
+                    for(BaseEntity measurementModel : measurements) {
                         Measurement measurement = (Measurement)measurementModel;
                         String[] measurementValues = {
                                 DatabaseHelper.MEASUREMENT,

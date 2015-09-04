@@ -8,7 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * Created by Filip on 09.08.14.
  */
 @DatabaseTable
-public class Food extends Model {
+public class Food extends BaseEntity {
 
     public static final String NAME = "name";
 

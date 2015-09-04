@@ -1,7 +1,9 @@
 package com.faltenreich.diaguard.ui.activity;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
@@ -73,4 +75,5 @@ public abstract class BaseActivity extends AppCompatActivity {
     public TextView getActionView() {
         return actionView;
     }
+
 }

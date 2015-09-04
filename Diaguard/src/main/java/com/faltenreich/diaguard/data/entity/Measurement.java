@@ -5,7 +5,7 @@ import com.j256.ormlite.field.DatabaseField;
 /**
  * Created by Filip on 11.05.2015.
  */
-public abstract class Measurement extends Model {
+public abstract class Measurement extends BaseEntity {
 
     public static final String ENTRY_ID = "entry_id";
 

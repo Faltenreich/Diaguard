@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.adapter;
 
 import android.support.v7.widget.RecyclerView;
 
-import com.faltenreich.diaguard.data.entity.Model;
+import com.faltenreich.diaguard.data.entity.BaseEntity;
 import com.faltenreich.diaguard.ui.viewholder.RecyclerItem;
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by Filip on 04.11.13.
  */
-public abstract class BaseAdapter<T extends Model, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
+public abstract class BaseAdapter<T extends BaseEntity, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
 
     public List<RecyclerItem> items;
 

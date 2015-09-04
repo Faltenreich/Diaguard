@@ -7,7 +7,7 @@ import org.joda.time.DateTime;
 /**
  * Created by Filip on 13.08.2014.
  */
-public abstract class Model {
+public abstract class BaseEntity {
 
     public static final String ID = "id";
     public static final String CREATED_AT = "createdat";

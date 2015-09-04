@@ -19,21 +19,28 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Bind(R.id.toolbar)
     protected Toolbar toolbar;
 
+    private int layoutResourceId;
     private DatabaseHelper databaseHelper;
 
-    protected abstract int getContentViewId();
+    public BaseActivity(int layoutResourceId) {
+        this();
+        this.layoutResourceId = layoutResourceId;
+    }
+
+    private BaseActivity() {
+        // Forbidden
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getContentViewId());
+        setContentView(layoutResourceId);
         ButterKnife.bind(this);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

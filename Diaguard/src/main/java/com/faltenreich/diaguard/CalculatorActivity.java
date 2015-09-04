@@ -63,9 +63,8 @@ public class CalculatorActivity extends BaseActivity {
     @Bind(R.id.spinner_factors)
     protected Spinner spinnerFactors;
 
-    @Override
-    protected int getContentViewId() {
-        return R.layout.activity_calculator;
+    public CalculatorActivity() {
+        super(R.layout.activity_calculator);
     }
 
     public void onCreate(Bundle savedInstanceState) {

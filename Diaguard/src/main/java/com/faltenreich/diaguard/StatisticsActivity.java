@@ -28,9 +28,8 @@ public class StatisticsActivity extends BaseActivity {
     @Bind(R.id.tablayout)
     protected TabLayout tabLayout;
 
-    @Override
-    protected int getContentViewId() {
-        return R.layout.activity_statistics;
+    public StatisticsActivity() {
+        super(R.layout.activity_statistics);
     }
 
     @Override

@@ -48,9 +48,8 @@ public class ExportActivity extends BaseActivity implements IFileListener {
     @Bind(R.id.checkbox_mail)
     protected CheckBox checkBoxMail;
 
-    @Override
-    protected int getContentViewId() {
-        return R.layout.activity_export;
+    public ExportActivity() {
+        super(R.layout.activity_export);
     }
 
     public void onCreate(Bundle savedInstanceState) {

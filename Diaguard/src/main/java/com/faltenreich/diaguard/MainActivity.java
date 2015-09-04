@@ -34,15 +34,14 @@ public class MainActivity extends BaseActivity {
 
     private ActionBarDrawerToggle drawerToggle;
 
-    @Override
-    protected int getContentViewId() {
-        return R.layout.activity_main;
+    public MainActivity() {
+        super(R.layout.activity_main);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         initialize();
     }
 

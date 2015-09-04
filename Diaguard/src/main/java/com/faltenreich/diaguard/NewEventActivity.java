@@ -99,9 +99,8 @@ public class NewEventActivity extends BaseActivity {
 
     private LinkedHashMap<Measurement.Category, Boolean> categories;
 
-    @Override
-    protected int getContentViewId() {
-        return R.layout.activity_newevent;
+    public NewEventActivity() {
+        super(R.layout.activity_newevent);
     }
 
     public void onCreate(Bundle savedInstanceState) {

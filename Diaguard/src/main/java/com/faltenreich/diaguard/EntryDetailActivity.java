@@ -17,9 +17,8 @@ public class EntryDetailActivity extends BaseActivity {
 
     private long entryId;
 
-    @Override
-    protected int getContentViewId() {
-        return R.layout.activity_entry_detail;
+    public EntryDetailActivity() {
+        super(R.layout.activity_entry_detail);
     }
 
     @Override

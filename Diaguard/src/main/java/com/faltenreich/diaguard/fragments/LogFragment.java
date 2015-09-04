@@ -26,24 +26,31 @@ import com.faltenreich.diaguard.ui.recycler.RecyclerItem;
 
 import org.joda.time.DateTime;
 
+import butterknife.Bind;
+
 /**
  * Created by Filip on 05.07.2015.
  */
 public class LogFragment extends BaseFragment {
 
-    private LinearLayoutManager linearLayoutManager;
-    private RecyclerView recyclerView;
+    @Bind(R.id.list)
+    protected RecyclerView recyclerView;
+
     private LogRecyclerAdapter recyclerAdapter;
+    private LinearLayoutManager linearLayoutManager;
 
     private DateTime firstVisibleDay;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_log, container, false);
+    protected int getContentViewId() {
+        return R.layout.fragment_log;
+    }
+
+    @Override
+    public void onViewCreated (View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
-        getComponents(view);
         initialize();
-        return view;
     }
 
     @Override
@@ -71,10 +78,6 @@ public class LogFragment extends BaseFragment {
                 menuItem.setIcon(R.drawable.ic_action_today);
             }
         }
-    }
-
-    private void getComponents(View view) {
-        recyclerView = (RecyclerView) view.findViewById(R.id.list);
     }
 
     private void initialize() {

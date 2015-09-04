@@ -16,24 +16,32 @@ import com.faltenreich.diaguard.fragments.TrendFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+
 public class StatisticsActivity extends BaseActivity {
 
     public static final String EXTRA_TAB = "com.faltenreich.diaguard.fragments.StatisticsActivity.EXTRA_TAB";
 
-    private ViewPager viewPager;
+    @Bind(R.id.viewpager)
+    protected ViewPager viewPager;
+
+    @Bind(R.id.tablayout)
+    protected TabLayout tabLayout;
+
+    @Override
+    protected int getContentViewId() {
+        return R.layout.activity_statistics;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_statistics);
         initViewPager();
         checkForIntents();
     }
 
     private void initViewPager() {
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new TabFragmentPagerAdapter(getSupportFragmentManager()));
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
     }
 

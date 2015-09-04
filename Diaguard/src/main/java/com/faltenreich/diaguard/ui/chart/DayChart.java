@@ -50,9 +50,11 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
     }
 
     private void setup() {
-        ChartHelper.setChartDefaultStyle(this);
-        setOnChartValueSelectedListener(this);
-        new InitChartTask().execute();
+        if (!isInEditMode()) {
+            ChartHelper.setChartDefaultStyle(this);
+            setOnChartValueSelectedListener(this);
+            new InitChartTask().execute();
+        }
     }
 
     public DateTime getDay() {
@@ -65,9 +67,8 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
     }
 
     @Override
-    public void onValueSelected(com.github.mikephil.charting.data.Entry e, int dataSetIndex, Highlight h) {
-        MarkerView markerView = new ChartMarkerView(getContext());
-        // TODO
+    public void onValueSelected(com.github.mikephil.charting.data.Entry e, int dataSetIndex, Highlight highlight) {
+        ChartMarkerView markerView = new ChartMarkerView(getContext());
         setMarkerView(markerView);
     }
 
@@ -120,7 +121,7 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
                 ScatterDataSet dataSet = new ScatterDataSet(new ArrayList<Entry>(), category.name());
                 int dataSetColor = getResources().getColor(PreferenceHelper.getInstance().getCategoryColorResourceId(category));
                 dataSet.setColor(dataSetColor);
-                dataSet.setScatterShapeSize(ChartHelper.SCATTER_SIZE);
+                dataSet.setScatterShapeSize(category == Measurement.Category.BloodSugar ? ChartHelper.SCATTER_SIZE : ChartHelper.SCATTER_SIZE * 0.75f);
                 dataSet.setScatterShape(ScatterShape.CIRCLE);
                 dataSet.setDrawValues(false);
                 dataSets.add(dataSet);
@@ -179,7 +180,7 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
                         Measurement.Category category = measurement.getMeasurementType();
                         int xValue = entry.getDate().getMinuteOfDay();
                         // TODO: Handle non-Bloodsugar values
-                        float yValue = category == Measurement.Category.BloodSugar ? ((BloodSugar) measurement).getMgDl() : 500;
+                        float yValue = category == Measurement.Category.BloodSugar ? ((BloodSugar) measurement).getMgDl() : 10;
                         getData().getDataSetByLabel(category.name(), true).addEntry(new Entry(yValue, xValue));
                     }
                 }

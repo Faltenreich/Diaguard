@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.ui.chart;
 
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.support.v4.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.database.measurements.Measurement;
@@ -44,7 +45,7 @@ public class ChartHelper {
         chart.getAxisLeft().setTextSize(TEXT_SIZE);
 
         // Axes
-        int gridColor = chart.getContext().getResources().getColor(android.R.color.darker_gray);
+        int gridColor = ContextCompat.getColor(chart.getContext(), android.R.color.darker_gray);
         chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         chart.getXAxis().setDrawAxisLine(false);
         chart.getXAxis().setGridColor(gridColor);

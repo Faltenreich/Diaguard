@@ -45,14 +45,15 @@ dependencies {
     compile 'com.android.support:cardview-v7:23.0.0'
     compile 'com.android.support:recyclerview-v7:23.0.0'
 
+    compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.j256.ormlite:ormlite-core:4.48'
     compile 'com.j256.ormlite:ormlite-android:4.48'
-    compile 'com.opencsv:opencsv:3.3'
     compile 'net.danlew:android.joda:2.7.2'
-    compile 'com.github.clans:fab:1.5.3'
-    compile 'com.github.PhilJay:MPAndroidChart:v2.1.3'
-    compile 'com.fmsirvent:parallaxeverywhere:1.0.4'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.opencsv:opencsv:3.3'
+    compile 'com.github.PhilJay:MPAndroidChart:v2.1.3'
+    compile 'com.github.clans:fab:1.5.3'
+    compile 'com.fmsirvent:parallaxeverywhere:1.0.4'
 
     compile files('libs/itextg-5.4.4.jar')
 }

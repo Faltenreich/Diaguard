@@ -25,6 +25,8 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.io.File;
 
+import butterknife.Bind;
+
 /**
  * Created by Filip on 30.11.13.
  */
@@ -34,14 +36,25 @@ public class ExportActivity extends BaseActivity implements IFileListener {
     private DateTime dateEnd;
     private DateTimeFormatter dateFormat;
 
-    private Spinner spinnerFormat;
-    private Button buttonDateStart;
-    private Button buttonDateEnd;
-    private CheckBox checkBoxMail;
+    @Bind(R.id.spinner_format)
+    protected Spinner spinnerFormat;
+
+    @Bind(R.id.button_datestart)
+    protected Button buttonDateStart;
+
+    @Bind(R.id.button_dateend)
+    protected Button buttonDateEnd;
+
+    @Bind(R.id.checkbox_mail)
+    protected CheckBox checkBoxMail;
+
+    @Override
+    protected int getContentViewId() {
+        return R.layout.activity_export;
+    }
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_export);
         initialize();
     }
 
@@ -57,15 +70,7 @@ public class ExportActivity extends BaseActivity implements IFileListener {
         dateStart = dateEnd.withDayOfMonth(1);
         dateFormat = PreferenceHelper.getInstance().getDateFormat();
 
-        getComponents();
         initializeGUI();
-    }
-
-    public void getComponents() {
-        spinnerFormat = (Spinner) findViewById(R.id.spinner_format);
-        buttonDateStart = (Button) findViewById(R.id.button_datestart);
-        buttonDateEnd = (Button) findViewById(R.id.button_dateend);
-        checkBoxMail = (CheckBox) findViewById(R.id.checkbox_mail);
     }
 
     public void initializeGUI() {

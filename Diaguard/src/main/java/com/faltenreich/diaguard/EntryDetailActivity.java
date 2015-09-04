@@ -18,9 +18,13 @@ public class EntryDetailActivity extends BaseActivity {
     private long entryId;
 
     @Override
+    protected int getContentViewId() {
+        return R.layout.activity_entry_detail;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_entry_detail);
 
         Bundle arguments = new Bundle();
         entryId = getIntent().getLongExtra(EntryDetailFragment.EXTRA_ENTRY, 0);

@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,38 +18,37 @@ import com.faltenreich.diaguard.fragments.LogFragment;
 import com.faltenreich.diaguard.fragments.MainFragment;
 import com.faltenreich.diaguard.helpers.PreferenceHelper;
 
+import butterknife.Bind;
+
 public class MainActivity extends BaseActivity {
 
     public static final int REQUEST_EVENT_CREATED = 1;
     public static final String ENTRY_CREATED = "ENTRY_CREATED";
     public static final String ENTRY_DELETED = "ENTRY_DELETED";
 
-    private DrawerLayout drawerLayout;
+    @Bind(R.id.drawer_layout)
+    protected DrawerLayout drawerLayout;
+
+    @Bind(R.id.navigation_drawer)
+    protected NavigationView drawer;
+
     private ActionBarDrawerToggle drawerToggle;
-    private NavigationView drawer;
-    private android.support.v7.widget.Toolbar toolbar;
+
+    @Override
+    protected int getContentViewId() {
+        return R.layout.activity_main;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        // TODO: Put in DiaguardApplication.java (needs Activity?)
         PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
-
-        getComponents();
         initialize();
     }
 
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         drawerToggle.syncState();
-    }
-
-    private void getComponents() {
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer = (NavigationView) findViewById(R.id.navigation);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
     }
 
     private void initialize() {

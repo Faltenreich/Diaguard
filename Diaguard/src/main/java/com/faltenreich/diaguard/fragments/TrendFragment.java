@@ -26,26 +26,16 @@ public class TrendFragment extends BaseFragment {
 
     private Interval currentInterval;
 
-    public TrendFragment() {
-        // Required empty public constructor
+    @Override
+    protected int getContentViewId() {
+        return R.layout.fragment_trend;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public void onViewCreated (View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
-        return inflater.inflate(R.layout.fragment_trend, container, false);
-    }
-
-    @Override
-    public void onActivityCreated (Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        getComponents();
         initialize();
-    }
-
-    private void getComponents() {
-
     }
 
     private void initialize() {

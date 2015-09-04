@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -7,25 +8,37 @@ import android.support.v7.widget.Toolbar;
 import com.faltenreich.diaguard.database.DatabaseHelper;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by Filip on 27.05.2015.
  */
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
+
+    @Bind(R.id.toolbar)
+    protected Toolbar toolbar;
 
     private DatabaseHelper databaseHelper;
+
+    protected abstract int getContentViewId();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(getContentViewId());
+        ButterKnife.bind(this);
+    }
 
     @Override
     public void onAttachFragment(Fragment fragment) {
         super.onAttachFragment(fragment);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (toolbar != null) {
-            setSupportActionBar(toolbar);
-            if (getSupportActionBar() != null) {
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                getSupportActionBar().setDisplayShowHomeEnabled(true);
-                getSupportActionBar().setHomeButtonEnabled(true);
-            }
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
         }
     }
 
@@ -43,5 +56,9 @@ public class BaseActivity extends AppCompatActivity {
             databaseHelper = OpenHelperManager.getHelper(this, DatabaseHelper.class);
         }
         return databaseHelper;
+    }
+
+    public Toolbar getToolbar() {
+        return toolbar;
     }
 }

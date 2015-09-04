@@ -33,22 +33,32 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 
+import butterknife.Bind;
+
 public class EntryDetailFragment extends BaseFragment {
 
     public static final String EXTRA_ENTRY = "com.faltenreich.diaguard.EntryDetailActivity.ENTRY";
 
-    public Entry entry;
+    @Bind(R.id.textview_note)
+    protected TextView textViewNote;
 
-    private TextView textViewNote;
-    private LinearLayout layoutMeasurements;
+    @Bind(R.id.layout_measurements)
+    protected LinearLayout layoutMeasurements;
 
+    @Bind(R.id.layout_large)
+    protected ViewGroup layoutLarge;
+
+    @Bind(R.id.textview_date)
+    protected TextView textViewDate;
+
+    @Bind(R.id.button_edit)
+    protected ImageView buttonEdit;
+
+    @Bind(R.id.button_delete)
+    protected ImageView buttonDelete;
+
+    private Entry entry;
     private HashMap<String, Integer> imageResources;
-
-    // Large only
-    private ViewGroup layoutLarge;
-    private TextView textViewDate;
-    private ImageView buttonEdit;
-    private ImageView buttonDelete;
 
     public static EntryDetailFragment newInstance(long entryId) {
         EntryDetailFragment fragment = new EntryDetailFragment();
@@ -58,8 +68,9 @@ public class EntryDetailFragment extends BaseFragment {
         return fragment;
     }
 
-    public EntryDetailFragment() {
-        // Required empty public constructor
+    @Override
+    protected int getContentViewId() {
+        return R.layout.fragment_entry_detail;
     }
 
     @Override
@@ -73,8 +84,6 @@ public class EntryDetailFragment extends BaseFragment {
             } catch (SQLException exception) {
                 Log.e("EntryDetailFragment", exception.getMessage());
             }
-
-            getComponents(view);
             initializeGUI();
         }
         return view;
@@ -109,15 +118,6 @@ public class EntryDetailFragment extends BaseFragment {
 
     @Override
     public void action(View view) {}
-
-    private void getComponents(View parentView) {
-        textViewNote = (TextView) parentView.findViewById(R.id.textview_note);
-        layoutMeasurements = (LinearLayout) parentView.findViewById(R.id.layout_measurements);
-        layoutLarge = (ViewGroup) parentView.findViewById(R.id.layout_large);
-        textViewDate = (TextView) parentView.findViewById(R.id.textview_date);
-        buttonEdit = (ImageView) parentView.findViewById(R.id.button_edit);
-        buttonDelete = (ImageView) parentView.findViewById(R.id.button_delete);
-    }
 
     private void initializeGUI() {
         if(ViewHelper.isLargeScreen(getActivity())) {

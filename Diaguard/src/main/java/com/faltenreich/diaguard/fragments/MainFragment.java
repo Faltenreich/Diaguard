@@ -42,37 +42,69 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+
 public class MainFragment extends BaseFragment {
 
-    private ViewGroup layoutLatest;
-    private ViewGroup layoutToday;
-    private ViewGroup layoutAverage;
-    private ViewGroup layoutTrend;
-    private LineChart chart;
+    @Bind(R.id.layout_latest)
+    protected ViewGroup layoutLatest;
 
-    private TextView textViewLatestValue;
-    private TextView textViewLatestUnit;
-    private TextView textViewLatestTime;
-    private TextView textViewLatestAgo;
+    @Bind(R.id.layout_today)
+    protected ViewGroup layoutToday;
 
-    private TextView textViewMeasurements;
-    private TextView textViewHyperglycemia;
-    private TextView textViewHypoglycemia;
+    @Bind(R.id.layout_average)
+    protected ViewGroup layoutAverage;
 
-    private TextView textViewAverageMonth;
-    private TextView textViewAverageWeek;
-    private TextView textViewAverageDay;
+    @Bind(R.id.layout_trend)
+    protected ViewGroup layoutTrend;
+
+    @Bind(R.id.chart)
+    protected LineChart chart;
+
+    @Bind(R.id.textview_latest_value)
+    protected TextView textViewLatestValue;
+
+    @Bind(R.id.textview_latest_unit)
+    protected TextView textViewLatestUnit;
+
+    @Bind(R.id.textview_latest_time)
+    protected TextView textViewLatestTime;
+
+    @Bind(R.id.textview_latest_ago)
+    protected TextView textViewLatestAgo;
+
+    @Bind(R.id.textview_measurements)
+    protected TextView textViewMeasurements;
+
+    @Bind(R.id.textview_hyperglycemia)
+    protected TextView textViewHyperglycemia;
+
+    @Bind(R.id.textview_hypoglycemia)
+    protected TextView textViewHypoglycemia;
+
+    @Bind(R.id.textview_avg_month)
+    protected TextView textViewAverageMonth;
+
+    @Bind(R.id.textview_avg_week)
+    protected TextView textViewAverageWeek;
+
+    @Bind(R.id.textview_avg_day)
+    protected TextView textViewAverageDay;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    protected int getContentViewId() {
+        return R.layout.fragment_main;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
     @Override
     public void onActivityCreated (Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getComponents();
         initialize();
     }
 
@@ -95,27 +127,6 @@ public class MainFragment extends BaseFragment {
 
     @Override
     public void action(View view) {}
-
-    private void getComponents() {
-        layoutLatest = (ViewGroup) getView().findViewById(R.id.layout_latest);
-        layoutToday = (ViewGroup) getView().findViewById(R.id.layout_today);
-        layoutAverage = (ViewGroup) getView().findViewById(R.id.layout_average);
-        layoutTrend = (ViewGroup) getView().findViewById(R.id.layout_trend);
-        chart = (LineChart) getView().findViewById(R.id.chart);
-
-        textViewLatestValue = (TextView) getView().findViewById(R.id.textview_latest_value);
-        textViewLatestUnit = (TextView) getView().findViewById(R.id.textview_latest_unit);
-        textViewLatestTime = (TextView) getView().findViewById(R.id.textview_latest_time);
-        textViewLatestAgo = (TextView) getView().findViewById(R.id.textview_latest_ago);
-
-        textViewMeasurements = (TextView) getView().findViewById(R.id.textview_measurements);
-        textViewHyperglycemia = (TextView) getView().findViewById(R.id.textview_hyperglycemia);
-        textViewHypoglycemia = (TextView) getView().findViewById(R.id.textview_hypoglycemia);
-
-        textViewAverageMonth = (TextView) getView().findViewById(R.id.textview_avg_month);
-        textViewAverageWeek = (TextView) getView().findViewById(R.id.textview_avg_week);
-        textViewAverageDay = (TextView) getView().findViewById(R.id.textview_avg_day);
-    }
 
     private void initialize() {
         layoutToday.setOnClickListener(new View.OnClickListener() {

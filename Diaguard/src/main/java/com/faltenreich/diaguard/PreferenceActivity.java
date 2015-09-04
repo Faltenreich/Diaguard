@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.ListPreference;
@@ -17,7 +18,7 @@ import java.util.Map;
 /**
  * Created by Filip on 26.10.13.
  */
-public class PreferenceActivity extends BaseActivity {
+public class PreferenceActivity extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

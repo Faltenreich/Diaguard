@@ -60,6 +60,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import butterknife.Bind;
+
 /**
  * Created by Filip on 19.10.13.
  */
@@ -77,18 +79,33 @@ public class NewEventActivity extends BaseActivity {
 
     private DateTime time;
 
-    private FloatingActionMenu fab;
-    private LinearLayout layoutValues;
-    private EditText editTextNotes;
-    private Button buttonDate;
-    private Button buttonTime;
-    private Spinner spinnerAlarm;
+    @Bind(R.id.fab_menu)
+    protected FloatingActionMenu fab;
+
+    @Bind(R.id.layout_measurements)
+    protected LinearLayout layoutMeasurements;
+
+    @Bind(R.id.edittext_notes)
+    protected EditText editTextNotes;
+
+    @Bind(R.id.button_date)
+    protected Button buttonDate;
+
+    @Bind(R.id.button_time)
+    protected Button buttonTime;
+
+    @Bind(R.id.spinner_alarm)
+    protected Spinner spinnerAlarm;
 
     private LinkedHashMap<Measurement.Category, Boolean> categories;
 
+    @Override
+    protected int getContentViewId() {
+        return R.layout.activity_newevent;
+    }
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_newevent);
         initialize();
     }
 
@@ -119,7 +136,6 @@ public class NewEventActivity extends BaseActivity {
             setSupportActionBar(toolbar);
         }
 
-        getComponents();
         checkIntents();
         setDate();
         setTime();
@@ -140,15 +156,6 @@ public class NewEventActivity extends BaseActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-    }
-
-    public void getComponents() {
-        fab = (FloatingActionMenu) findViewById(R.id.fab_menu);
-        layoutValues = (LinearLayout) findViewById(R.id.layout_measurements);
-        editTextNotes = (EditText) findViewById(R.id.edittext_notes);
-        buttonDate = (Button) findViewById(R.id.button_date);
-        buttonTime = (Button) findViewById(R.id.button_time);
-        spinnerAlarm = (Spinner) findViewById(R.id.spinner_alarm);
     }
 
     private void checkIntents() {
@@ -181,8 +188,8 @@ public class NewEventActivity extends BaseActivity {
                 for (Model model : measurements) {
                     Measurement measurement = (Measurement) model;
                     // TODO entry.getMeasurements().add(measurement);
-                    for (int position = 0; position < layoutValues.getChildCount(); position++) {
-                        View view = layoutValues.getChildAt(position);
+                    for (int position = 0; position < layoutMeasurements.getChildCount(); position++) {
+                        View view = layoutMeasurements.getChildAt(position);
                         Measurement.Category category = (Measurement.Category) view.getTag();
                         if(category == measurement.getCategory()) {
                             EditText editTextValue = (EditText) view.findViewById(R.id.value);
@@ -336,7 +343,7 @@ public class NewEventActivity extends BaseActivity {
 
         // Add view
         final LayoutInflater inflater = getLayoutInflater();
-        final View view = inflater.inflate(R.layout.cardview_entry, layoutValues, false);
+        final View view = inflater.inflate(R.layout.cardview_entry, layoutMeasurements, false);
         view.setTag(category);
 
         // Showcase images and colors
@@ -368,7 +375,7 @@ public class NewEventActivity extends BaseActivity {
         switch (category) {
             // TODO: Get rid of switch-case by making it more generic
             case Insulin:
-                viewContent = inflater.inflate(R.layout.cardview_entry_insulin, layoutValues, false);
+                viewContent = inflater.inflate(R.layout.cardview_entry_insulin, layoutMeasurements, false);
                 EditText editTextBolus = (EditText) viewContent.findViewById(R.id.edittext_bolus);
                 editTextBolus.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
                 editTextBolus.requestFocus();
@@ -378,7 +385,7 @@ public class NewEventActivity extends BaseActivity {
                 editTextBasal.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
                 break;
             case Meal:
-                viewContent = inflater.inflate(R.layout.cardview_entry_meal, layoutValues, false);
+                viewContent = inflater.inflate(R.layout.cardview_entry_meal, layoutMeasurements, false);
                 EditText editTextMeal = (EditText) viewContent.findViewById(R.id.edittext_value);
                 editTextMeal.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
                 editTextMeal.requestFocus();
@@ -391,7 +398,7 @@ public class NewEventActivity extends BaseActivity {
                 });
                 break;
             case Pressure:
-                viewContent = inflater.inflate(R.layout.cardview_entry_pressure, layoutValues, false);
+                viewContent = inflater.inflate(R.layout.cardview_entry_pressure, layoutMeasurements, false);
                 EditText editTextSystolic = (EditText) viewContent.findViewById(R.id.edittext_value);
                 editTextSystolic.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
                 editTextSystolic.requestFocus();
@@ -399,7 +406,7 @@ public class NewEventActivity extends BaseActivity {
                 editTextDiastolic.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
                 break;
             default:
-                viewContent = inflater.inflate(R.layout.cardview_entry_generic, layoutValues, false);
+                viewContent = inflater.inflate(R.layout.cardview_entry_generic, layoutMeasurements, false);
                 EditText editTextValue = (EditText) viewContent.findViewById(R.id.edittext_value);
                 editTextValue.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
                 editTextValue.requestFocus();
@@ -424,7 +431,7 @@ public class NewEventActivity extends BaseActivity {
                 }));
 
         categories.put(category, true);
-        layoutValues.addView(view, 0);
+        layoutMeasurements.addView(view, 0);
 
         // TODO: Refresh FAB to prevent showing already visible categories
     }
@@ -437,17 +444,17 @@ public class NewEventActivity extends BaseActivity {
 
         categories.put(category, false);
 
-        for (int position = 0; position < layoutValues.getChildCount(); position++) {
-            View childView = layoutValues.getChildAt(position);
+        for (int position = 0; position < layoutMeasurements.getChildCount(); position++) {
+            View childView = layoutMeasurements.getChildAt(position);
             if (childView.getTag() == category) {
-                layoutValues.removeView(childView);
+                layoutMeasurements.removeView(childView);
             }
         }
     }
 
     private boolean viewForCategoryIsVisible(Measurement.Category category) {
-        for (int position = 0; position < layoutValues.getChildCount(); position++) {
-            View childView = layoutValues.getChildAt(position);
+        for (int position = 0; position < layoutMeasurements.getChildCount(); position++) {
+            View childView = layoutMeasurements.getChildAt(position);
             if (childView.getTag() == category) {
                 return true;
             }
@@ -469,8 +476,8 @@ public class NewEventActivity extends BaseActivity {
 
         List<Measurement> measurements = new ArrayList<>();
         // Iterate through all views and validate
-        for (int position = 0; position < layoutValues.getChildCount(); position++) {
-            Measurement measurement = getMeasurementFromView(layoutValues.getChildAt(position));
+        for (int position = 0; position < layoutMeasurements.getChildCount(); position++) {
+            Measurement measurement = getMeasurementFromView(layoutMeasurements.getChildAt(position));
             if (measurement != null) {
                 measurements.add(measurement);
             } else {

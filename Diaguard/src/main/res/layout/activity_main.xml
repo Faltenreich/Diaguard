@@ -21,7 +21,7 @@
 
         <!-- Navigation drawer -->
         <android.support.design.widget.NavigationView
-            android:id="@+id/navigation"
+            android:id="@+id/navigation_drawer"
             app:menu="@menu/navigation"
             app:headerLayout="@layout/empty"
             style="@style/NavigationDrawer" />

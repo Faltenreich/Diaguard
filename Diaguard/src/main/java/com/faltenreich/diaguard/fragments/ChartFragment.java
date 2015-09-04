@@ -26,26 +26,27 @@ import com.faltenreich.diaguard.ui.recycler.DayOfMonthDrawable;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
+import butterknife.Bind;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ChartFragment extends BaseFragment implements ChartViewPager.ChartViewPagerCallback {
 
-    private ChartViewPager viewPager;
+    @Bind(R.id.viewpager)
+    protected ChartViewPager viewPager;
 
     private DateTime day;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_chart, container, false);
-        setHasOptionsMenu(true);
-        return view;
+    protected int getContentViewId() {
+        return R.layout.fragment_chart;
     }
 
     @Override
     public void onViewCreated (View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getComponents(view);
+        setHasOptionsMenu(true);
         initialize();
     }
 
@@ -96,10 +97,6 @@ public class ChartFragment extends BaseFragment implements ChartViewPager.ChartV
         today.setDayOfMonth(DateTime.now().dayOfMonth().get());
         icon.mutate();
         icon.setDrawableByLayerId(R.id.today_icon_day, today);
-    }
-
-    private void getComponents(@NonNull View view) {
-        viewPager = (ChartViewPager) view.findViewById(R.id.viewpager);
     }
 
     private void initialize() {

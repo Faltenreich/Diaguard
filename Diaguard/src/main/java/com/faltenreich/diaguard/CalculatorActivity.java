@@ -25,29 +25,51 @@ import com.faltenreich.diaguard.helpers.Validator;
 
 import org.joda.time.DateTime;
 
+import butterknife.Bind;
+
 /**
  * Created by Filip on 15.11.13.
  */
 
 public class CalculatorActivity extends BaseActivity {
 
-    private EditText editTextBloodSugar;
-    private EditText editTextTargetValue;
-    private EditText editTextMeal;
-    private EditText editTextCorrection;
-    private EditText editTextFactor;
+    @Bind(R.id.edittext_bloodsugar)
+    protected EditText editTextBloodSugar;
 
-    private TextView textViewUnitBloodSugar;
-    private TextView textViewUnitTargetValue;
-    private TextView textViewUnitCorrection;
-    private TextView textViewUnitMeal;
+    @Bind(R.id.edittext_target)
+    protected EditText editTextTargetValue;
 
-    private Spinner spinnerFactors;
+    @Bind(R.id.edittext_meal)
+    protected EditText editTextMeal;
+
+    @Bind(R.id.edittext_correction)
+    protected EditText editTextCorrection;
+
+    @Bind(R.id.edittext_factor)
+    protected EditText editTextFactor;
+
+    @Bind(R.id.textview_unit_bloodsugar)
+    protected TextView textViewUnitBloodSugar;
+
+    @Bind(R.id.textview_unit_target)
+    protected TextView textViewUnitTargetValue;
+
+    @Bind(R.id.textview_unit_correction)
+    protected TextView textViewUnitCorrection;
+
+    @Bind(R.id.textview_unit_meal)
+    protected TextView textViewUnitMeal;
+
+    @Bind(R.id.spinner_factors)
+    protected Spinner spinnerFactors;
+
+    @Override
+    protected int getContentViewId() {
+        return R.layout.activity_calculator;
+    }
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_calculator);
-        setTitle(getString(R.string.calculator));
         initialize();
     }
 
@@ -59,36 +81,6 @@ public class CalculatorActivity extends BaseActivity {
     }
 
     public void initialize() {
-        getComponents();
-        initializeGUI();
-    }
-
-    public void getComponents() {
-        editTextBloodSugar = (EditText) findViewById(R.id.edittext_bloodsugar);
-        editTextTargetValue = (EditText) findViewById(R.id.edittext_target);
-        editTextMeal = (EditText) findViewById(R.id.edittext_meal);
-        editTextCorrection = (EditText) findViewById(R.id.edittext_correction);
-        editTextFactor = (EditText) findViewById(R.id.edittext_factor);
-        textViewUnitBloodSugar = (TextView) findViewById(R.id.textview_unit_bloodsugar);
-        textViewUnitTargetValue = (TextView) findViewById(R.id.textview_unit_target);
-        textViewUnitCorrection = (TextView) findViewById(R.id.textview_unit_correction);
-        textViewUnitMeal = (TextView) findViewById(R.id.textview_unit_meal);
-        spinnerFactors = (Spinner) findViewById(R.id.spinner_factors);
-    }
-
-    public void initializeGUI() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (toolbar != null){
-            toolbar.setTitle(getString(R.string.calculator));
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                }
-            });
-            setSupportActionBar(toolbar);
-        }
-
         String unitAcronym = PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BloodSugar);
         textViewUnitBloodSugar.setText(unitAcronym);
         textViewUnitTargetValue.setText(unitAcronym);

@@ -22,13 +22,6 @@ android {
         minSdkVersion 14
         targetSdkVersion 23
     }
-    sourceSets {
-        main {
-            java {
-                exclude '**/DatabaseDataSource.java'
-            }
-        }
-    }
 
     packagingOptions {
         exclude 'META-INF/notice.txt'

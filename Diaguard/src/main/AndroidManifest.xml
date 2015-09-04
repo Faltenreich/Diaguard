@@ -14,10 +14,10 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <receiver android:name=".helpers.AlarmManagerBroadcastReceiver" />
+        <receiver android:name=".util.AlarmManagerBroadcastReceiver" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustNothing" >
@@ -27,54 +27,54 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NewEventActivity"
+            android:name=".ui.activity.NewEventActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/entry_new"
             android:windowSoftInputMode="stateHidden|adjustResize" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".ui.activity.MainActivity" />
         </activity>
         <activity
-            android:name=".EntryDetailActivity"
+            android:name=".ui.activity.EntryDetailActivity"
             android:label="@string/entry"
             android:windowSoftInputMode="adjustResize" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".ui.activity.MainActivity" />
         </activity>
         <activity
-            android:name=".CalculatorActivity"
+            android:name=".ui.activity.CalculatorActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/calculator"
             android:windowSoftInputMode="adjustResize|stateHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".ui.activity.MainActivity" />
         </activity>
         <activity
-            android:name=".ExportActivity"
+            android:name=".ui.activity.ExportActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/export" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".ui.activity.MainActivity" />
         </activity>
         <activity
-            android:name=".PreferenceActivity"
+            android:name=".ui.activity.PreferenceActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/settings" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".ui.activity.MainActivity" />
         </activity>
         <activity
-            android:name=".StatisticsActivity"
+            android:name=".ui.activity.StatisticsActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/statistics">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".ui.activity.MainActivity" />
         </activity>
     </application>
 

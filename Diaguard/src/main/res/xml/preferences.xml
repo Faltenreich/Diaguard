@@ -22,7 +22,7 @@
             android:title="@string/vibration"
             android:defaultValue="true"/>
 
-        <com.faltenreich.diaguard.preferences.CategoryPreference
+        <com.faltenreich.diaguard.ui.view.preferences.CategoryPreference
             android:key="categories"
             android:title="@string/categories_active"
             android:entries="@array/categories"
@@ -40,11 +40,11 @@
     <PreferenceCategory
         android:title="@string/data">
 
-        <com.faltenreich.diaguard.preferences.CleanUpPreference
+        <com.faltenreich.diaguard.ui.view.preferences.CleanUpPreference
             android:key="cleanup"
             android:title="@string/cleanup"/>
 
-        <com.faltenreich.diaguard.preferences.BackupPreference
+        <com.faltenreich.diaguard.ui.view.preferences.BackupPreference
             android:key="backup"
             android:title="@string/backup"/>
 
@@ -86,21 +86,21 @@
     <PreferenceCategory
         android:title="@string/pref_therapy_targets">
 
-        <com.faltenreich.diaguard.preferences.BloodSugarPreference
+        <com.faltenreich.diaguard.ui.view.preferences.BloodSugarPreference
             android:key="target"
             android:title="@string/pref_therapy_targets_target"
             android:dialogTitle="@string/pref_therapy_targets_target"
             android:defaultValue="120"
             android:inputType="number"/>
 
-        <com.faltenreich.diaguard.preferences.BloodSugarPreference
+        <com.faltenreich.diaguard.ui.view.preferences.BloodSugarPreference
             android:key="correction_value"
             android:title="@string/correction_value"
             android:dialogTitle="@string/correction_value"
             android:defaultValue="40"
             android:inputType="number"/>
 
-        <com.faltenreich.diaguard.preferences.FactorPreference
+        <com.faltenreich.diaguard.ui.view.preferences.FactorPreference
             android:key="factors"
             android:title="@string/factors"/>
 
@@ -114,14 +114,14 @@
             android:title="@string/pref_therapy_targets_highlight"
             android:defaultValue="true"/>
 
-        <com.faltenreich.diaguard.preferences.BloodSugarPreference
+        <com.faltenreich.diaguard.ui.view.preferences.BloodSugarPreference
             android:key="hyperclycemia"
             android:title="@string/pref_therapy_targets_hyperclycemia"
             android:dialogTitle="@string/pref_therapy_targets_hyperclycemia"
             android:defaultValue="180"
             android:inputType="number"/>
 
-        <com.faltenreich.diaguard.preferences.BloodSugarPreference
+        <com.faltenreich.diaguard.ui.view.preferences.BloodSugarPreference
             android:key="hypoclycemia"
             android:title="@string/pref_therapy_targets_hypoclycemia"
             android:dialogTitle="@string/pref_therapy_targets_hypoclycemia"
@@ -162,10 +162,10 @@
     <PreferenceCategory
         android:title="@string/about">
 
-        <com.faltenreich.diaguard.preferences.AboutPreference
+        <com.faltenreich.diaguard.ui.view.preferences.AboutPreference
             android:title="@string/impress"/>
 
-        <com.faltenreich.diaguard.preferences.LicensePreference
+        <com.faltenreich.diaguard.ui.view.preferences.LicensePreference
             android:title="@string/licenses"/>
 
         <Preference

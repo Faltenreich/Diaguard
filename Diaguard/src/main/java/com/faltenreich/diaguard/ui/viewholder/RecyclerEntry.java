@@ -1,0 +1,34 @@
+package com.faltenreich.diaguard.ui.viewholder;
+
+import com.faltenreich.diaguard.data.entity.Entry;
+
+import org.joda.time.DateTime;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by Filip on 10.07.2015.
+ */
+public class RecyclerEntry extends RecyclerItem {
+
+    private List<Entry> entries;
+
+    public RecyclerEntry(DateTime day, List<Entry> entries) {
+        super(day);
+        this.entries = entries;
+    }
+
+    public RecyclerEntry(DateTime day) {
+        super(day);
+        this.entries = new ArrayList<>();
+    }
+
+    public boolean hasEntries() {
+        return this.entries != null && this.entries.size() > 0;
+    }
+
+    public List<Entry> getEntries() {
+        return entries;
+    }
+}

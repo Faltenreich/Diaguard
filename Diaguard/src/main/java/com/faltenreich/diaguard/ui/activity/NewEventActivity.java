@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,12 +22,12 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.SwipeDismissTouchListener;
-import com.faltenreich.diaguard.data.DatabaseFacade;
-import com.faltenreich.diaguard.data.DatabaseHelper;
-import com.faltenreich.diaguard.data.entity.BaseEntity;
+import com.faltenreich.diaguard.data.dao.EntryDao;
+import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
@@ -48,14 +47,11 @@ import com.faltenreich.diaguard.util.Validator;
 import com.faltenreich.diaguard.util.ViewHelper;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
-import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.j256.ormlite.dao.Dao;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
 import java.io.File;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -94,6 +90,8 @@ public class NewEventActivity extends BaseActivity {
     private Entry entry;
     private DateTime time;
 
+    private boolean isNewEntry = true;
+
     private LinkedHashMap<Measurement.Category, Boolean> categories;
 
     public NewEventActivity() {
@@ -112,6 +110,7 @@ public class NewEventActivity extends BaseActivity {
     }
 
     public void initialize() {
+        time = new DateTime();
 
         categories = new LinkedHashMap<>();
         Measurement.Category[] activeCategories = PreferenceHelper.getInstance().getActiveCategories();
@@ -122,7 +121,6 @@ public class NewEventActivity extends BaseActivity {
         checkIntents();
         setFloatingActionMenu();
 
-        time = new DateTime();
         setDate();
         setTime();
 
@@ -137,6 +135,7 @@ public class NewEventActivity extends BaseActivity {
         if (extras != null) {
             if (extras.getLong(EXTRA_ENTRY) != 0L) {
                 getSupportActionBar().setTitle(getString(R.string.entry_edit));
+                isNewEntry = false;
 
                 /*
                 // Get entry
@@ -464,85 +463,17 @@ public class NewEventActivity extends BaseActivity {
         }
 
         if (inputIsValid) {
-            DatabaseHelper databaseHelper = OpenHelperManager.getHelper(this, DatabaseHelper.class);
-            try {
-                // Insert new entry
-                if (entry == null) {
-                    entry = new Entry();
-                    entry.setCreatedAt(now);
-                    entry.setUpdatedAt(now);
-                    entry.setDate(time);
-                    entry.setNote(editTextNotes.length() > 0 ? editTextNotes.getText().toString() : null);
-                    Dao<Entry, Long> entryDao = databaseHelper.getDao(Entry.class);
-                    entryDao.create(entry);
-
-                    // Connect measurements with entry
-                    for (Measurement measurement : measurements) {
-                        measurement.setCreatedAt(now);
-                        measurement.setUpdatedAt(now);
-                        measurement.setEntry(entry);
-                        // TODO: Generic Dao handling
-                        if (measurement instanceof BloodSugar) {
-                            Dao<BloodSugar, Long> dao = databaseHelper.getDao(BloodSugar.class);
-                            BloodSugar bloodSugar = (BloodSugar) measurement;
-                            dao.create(bloodSugar);
-                        }
-                        else if (measurement instanceof Insulin) {
-                            Dao<Insulin, Long> dao = databaseHelper.getDao(Insulin.class);
-                            Insulin insulin = (Insulin) measurement;
-                            // TODO: Other values
-                            dao.create(insulin);
-                        }
-                        else if (measurement instanceof Meal) {
-                            Dao<Meal, Long> dao = databaseHelper.getDao(Meal.class);
-                            Meal meal = (Meal) measurement;
-                            // TODO: Other values
-                            dao.create(meal);
-                        }
-                        else if (measurement instanceof com.faltenreich.diaguard.data.entity.Activity) {
-                            Dao<com.faltenreich.diaguard.data.entity.Activity, Long> dao = databaseHelper.getDao(com.faltenreich.diaguard.data.entity.Activity.class);
-                            com.faltenreich.diaguard.data.entity.Activity activity = (com.faltenreich.diaguard.data.entity.Activity) measurement;
-                            // TODO: Other values
-                            dao.create(activity);
-                        }
-                        else if (measurement instanceof HbA1c) {
-                            Dao<HbA1c, Long> dao = databaseHelper.getDao(HbA1c.class);
-                            HbA1c hbA1c = (HbA1c) measurement;
-                            dao.create(hbA1c);
-                        }
-                        else if (measurement instanceof Weight) {
-                            Dao<Weight, Long> dao = databaseHelper.getDao(Weight.class);
-                            Weight weight = (Weight) measurement;
-                            dao.create(weight);
-                        }
-                        else if (measurement instanceof Pulse) {
-                            Dao<Pulse, Long> dao = databaseHelper.getDao(Pulse.class);
-                            Pulse pulse = (Pulse) measurement;
-                            dao.create(pulse);
-                        }
-                        else if (measurement instanceof Pressure) {
-                            Dao<Pressure, Long> dao = databaseHelper.getDao(Pressure.class);
-                            Pressure pressure = (Pressure) measurement;
-                            // TODO: Other values
-                            dao.create(pressure);
-                        }
-                    }
-                }
-
-                // Update existing entry
-                else {
-                    entry.setDate(time);
-                    entry.setNote(editTextNotes.getText().toString());
-                    //dataSource.update(entry);
-
-                    // TODO
+            if (isNewEntry) {
+                entry = new Entry();
+                entry.setCreatedAt(now);
+            } else {
                 /*
                 // Step through measurements and compare
-                List<Measurement> measurementsToDelete = new ArrayList<Measurement>(entry.getMeasurements());
+                List<Measurement> measurementsToDelete = new ArrayList<>(entry.getMeasurements());
                 for(Measurement measurement : measurements) {
                     // Case 1: Measurement is new and old --> Update
                     boolean updatedExistingMeasurement = false;
-                    for(Measurement oldMeasurement : entry.getMeasurements()) {
+                    for (Measurement oldMeasurement : entry.getMeasurements()) {
                         if (measurement.getCategory() == oldMeasurement.getCategory()) {
                             oldMeasurement.setValue(measurement.getValue());
                             updatedExistingMeasurement = true;
@@ -552,29 +483,35 @@ public class NewEventActivity extends BaseActivity {
                     }
                     // Case 2: Measurement is new but not old --> Insert
                     if(!updatedExistingMeasurement) {
-                        measurement.setEntry(entry.getId());
+                        measurement.setEntry(entry);
                         dataSource.insert(measurement);
                     }
+                    MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
                 }
                 // Case 3: Measurement is old but not new --> Delete
                 for(Measurement measurement : measurementsToDelete) {
-                    dataSource.delete(measurement);
-                */
+                    MeasurementDao.getInstance(measurement.getClass()).delete(measurement);
                 }
+                */
+            }
 
-            } catch (SQLException exception) {
-                Log.d("OrmLite failed", exception.getMessage());
+            entry.setUpdatedAt(now);
+            entry.setDate(time);
+            entry.setNote(editTextNotes.length() > 0 ? editTextNotes.getText().toString() : null);
+            EntryDao.getInstance().createOrUpdate(entry);
+
+            for (Measurement measurement : measurements) {
+                measurement.setCreatedAt(now);
+                measurement.setUpdatedAt(now);
+                measurement.setEntry(entry);
+                MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
             }
 
             if (spinnerAlarm.getSelectedItemPosition() > 0) {
                 Helper.setAlarm(this, getResources().getIntArray(R.array.alarm_intervals_values)[spinnerAlarm.getSelectedItemPosition()]);
             }
 
-            // Tell MainActivity that Events have been created
-            Intent intent = new Intent();
-            intent.putExtra(MainActivity.ENTRY_CREATED, measurements.size());
-            setResult(RESULT_OK, intent);
-
+            Toast.makeText(this, getString(R.string.entry_added), Toast.LENGTH_LONG).show();
             finish();
         }
     }

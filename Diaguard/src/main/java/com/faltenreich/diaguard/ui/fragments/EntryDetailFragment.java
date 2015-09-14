@@ -15,8 +15,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.faltenreich.diaguard.DiaguardApplication;
+import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.ui.activity.MainActivity;
 import com.faltenreich.diaguard.ui.activity.NewEventActivity;
 import com.faltenreich.diaguard.R;
@@ -209,10 +211,8 @@ public class EntryDetailFragment extends BaseFragment {
             builder.setMessage(R.string.entry_delete_desc);
             builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    //dataSource.delete(entry);
-                    Intent intent = new Intent();
-                    intent.putExtra(MainActivity.ENTRY_DELETED, true);
-                    getActivity().setResult(Activity.RESULT_OK, intent);
+                    EntryDao.getInstance().delete(entry);
+                    Toast.makeText(getActivity(), getString(R.string.entry_deleted), Toast.LENGTH_LONG).show();
                     getActivity().finish();
                 }
             });

@@ -23,10 +23,6 @@ import butterknife.Bind;
 
 public class MainActivity extends BaseActivity {
 
-    public static final int REQUEST_EVENT_CREATED = 1;
-    public static final String ENTRY_CREATED = "ENTRY_CREATED";
-    public static final String ENTRY_DELETED = "ENTRY_DELETED";
-
     @Bind(R.id.drawer_layout)
     protected DrawerLayout drawerLayout;
 
@@ -139,22 +135,6 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK && requestCode == REQUEST_EVENT_CREATED) {
-            if (data.hasExtra(ENTRY_CREATED)) {
-                int eventsCreated = data.getExtras().getInt(ENTRY_CREATED);
-                if(eventsCreated > 0) {
-                    // TODO ViewHelper.showSnackbar(this, getString(R.string.entry_added));
-                }
-            }
-            else if (data.hasExtra(ENTRY_DELETED) && data.getExtras().getBoolean(ENTRY_DELETED)) {
-                // TODO: Undo functionality
-                // TODO ViewHelper.showSnackbar(this, getString(R.string.entry_deleted));
-            }
-        }
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
@@ -172,7 +152,7 @@ public class MainActivity extends BaseActivity {
                 }
                 return true;
             case R.id.action_newevent:
-                startActivityForResult(new Intent(this, NewEventActivity.class), MainActivity.REQUEST_EVENT_CREATED);
+                startActivity(new Intent(this, NewEventActivity.class));
                 return true;
         }
         return false;

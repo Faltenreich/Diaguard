@@ -203,7 +203,7 @@ public class MainFragment extends BaseFragment {
                 layoutLatest.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivityForResult(new Intent(getActivity(), NewEventActivity.class), MainActivity.REQUEST_EVENT_CREATED);
+                        startActivity(new Intent(getActivity(), NewEventActivity.class));
                     }
                 });
             }

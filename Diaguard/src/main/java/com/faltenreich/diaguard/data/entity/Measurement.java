@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.data.entity;
 
+import com.faltenreich.diaguard.DiaguardApplication;
+import com.faltenreich.diaguard.R;
 import com.j256.ormlite.field.DatabaseField;
 
 /**
@@ -17,7 +19,30 @@ public abstract class Measurement extends BaseEntity {
         HbA1c,
         Weight,
         Pulse,
-        Pressure
+        Pressure;
+
+        public Class toClass() {
+            switch (this) {
+                case BloodSugar:
+                    return BloodSugar.getClass();
+                case Insulin:
+                    return Insulin.getClass();
+                case Meal:
+                    return Meal.getClass();
+                case Activity:
+                    return Activity.getClass();
+                case HbA1c:
+                    return HbA1c.getClass();
+                case Weight:
+                    return Weight.getClass();
+                case Pulse:
+                    return Pulse.getClass();
+                case Pressure:
+                    return Pressure.getClass();
+                default:
+                    return null;
+            }
+        }
     }
 
     @DatabaseField(foreign = true)

@@ -38,7 +38,7 @@ public abstract class BaseDao <T extends BaseEntity> {
         }
     }
 
-    public T get(int id) {
+    public T get(long id) {
         try {
             return getDao().queryBuilder().where().eq(BaseEntity.ID, id).queryForFirst();
         } catch (SQLException exception) {

@@ -38,7 +38,7 @@ import butterknife.Bind;
 
 public class EntryDetailFragment extends BaseFragment {
 
-    public static final String EXTRA_ENTRY = "com.faltenreich.diaguard.ui.activity.EntryDetailActivity.ENTRY";
+    public static final String EXTRA_ENTRY = "EXTRA_ENTRY";
 
     @Bind(R.id.textview_note)
     protected TextView textViewNote;

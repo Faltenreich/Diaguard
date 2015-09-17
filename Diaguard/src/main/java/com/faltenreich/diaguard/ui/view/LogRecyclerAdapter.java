@@ -130,9 +130,9 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
         ViewType viewType = ViewType.values()[viewTypeInt];
         switch (viewType) {
             case SECTION:
-                return new ViewHolderRowSection(LayoutInflater.from(context).inflate(R.layout.recycler_log_row_section, parent, false));
+                return new ViewHolderRowSection(LayoutInflater.from(context).inflate(R.layout.list_item_log_row_section, parent, false));
             default:
-                return new ViewHolderRowEntry(LayoutInflater.from(context).inflate(R.layout.recycler_log_row_entry, parent, false));
+                return new ViewHolderRowEntry(LayoutInflater.from(context).inflate(R.layout.list_item_log_row_entry, parent, false));
         }
     }
 
@@ -179,7 +179,7 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
         // TODO: Threading
         if (recyclerEntry.hasEntries()) {
             for (final Entry entry : recyclerEntry.getEntries()) {
-                View viewEntry = inflate.inflate(R.layout.recycler_log_entry, vh.entries, false);
+                View viewEntry = inflate.inflate(R.layout.list_item_log_entry, vh.entries, false);
                 viewEntry.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -203,7 +203,7 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
                 ViewGroup layoutEntries = (ViewGroup) viewEntry.findViewById(R.id.measurements);
                 for (Measurement measurement : entry.getMeasurementCache()) {
                     Measurement.Category category = measurement.getMeasurementType();
-                    View viewMeasurement = inflate.inflate(R.layout.recycler_log_measurement, vh.entries, false);
+                    View viewMeasurement = inflate.inflate(R.layout.list_item_log_measurement, vh.entries, false);
                     ImageView categoryImage = (ImageView) viewMeasurement.findViewById(R.id.image);
                     int imageResourceId = PreferenceHelper.getInstance().getCategoryImageResourceId(category);
                     categoryImage.setImageDrawable(context.getResources().getDrawable(imageResourceId));
@@ -232,7 +232,7 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
                 vh.entries.addView(viewEntry);
             }
         } else {
-            View view = inflate.inflate(R.layout.recycler_log_empty, vh.entries, false);
+            View view = inflate.inflate(R.layout.list_item_log_empty, vh.entries, false);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -246,7 +246,7 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
 
         // Add indicator behind last entry
         if (isToday) {
-            View view = inflate.inflate(R.layout.recycler_log_indicator, vh.entries, false);
+            View view = inflate.inflate(R.layout.list_item_log_indicator, vh.entries, false);
             vh.entries.addView(view);
         }
     }

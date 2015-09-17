@@ -226,7 +226,7 @@ public class CalculatorActivity extends BaseActivity {
         // Build AlertDialog
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
-        View viewPopup = inflater.inflate(R.layout.popup_result, null);
+        View viewPopup = inflater.inflate(R.layout.dialog_calculator_result, null);
 
         // Handle negative insulin
         TextView textViewInfo = (TextView) viewPopup.findViewById(R.id.textViewInfo);
@@ -253,7 +253,7 @@ public class CalculatorActivity extends BaseActivity {
         final CheckBox checkBoxStoreValues = (CheckBox) viewPopup.findViewById(R.id.checkBoxStoreValues);
 
         // Custom TitleBar
-        View view = inflater.inflate(R.layout.alertdialog_title_bolus, null);
+        View view = inflater.inflate(R.layout.dialog_title_bolus, null);
         TextView textViewTitle = (TextView) view.findViewById(R.id.title);
         textViewTitle.setText(getString(R.string.insulin));
 

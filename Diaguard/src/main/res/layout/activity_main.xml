@@ -23,7 +23,7 @@
         <android.support.design.widget.NavigationView
             android:id="@+id/navigation_drawer"
             app:menu="@menu/navigation"
-            app:headerLayout="@layout/empty"
+            app:headerLayout="@layout/view_empty"
             style="@style/NavigationDrawer" />
 
     </android.support.v4.widget.DrawerLayout>

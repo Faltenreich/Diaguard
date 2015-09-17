@@ -312,7 +312,7 @@ public class NewEventActivity extends BaseActivity {
 
         // Add view
         final LayoutInflater inflater = getLayoutInflater();
-        final View view = inflater.inflate(R.layout.cardview_entry, layoutMeasurements, false);
+        final View view = inflater.inflate(R.layout.list_item_measurement, layoutMeasurements, false);
         view.setTag(category);
 
         // Showcase images and colors
@@ -344,7 +344,7 @@ public class NewEventActivity extends BaseActivity {
         switch (category) {
             // TODO: Get rid of switch-case by making it more generic
             case Insulin:
-                viewContent = inflater.inflate(R.layout.cardview_entry_insulin, layoutMeasurements, false);
+                viewContent = inflater.inflate(R.layout.list_item_measurement_insulin, layoutMeasurements, false);
                 EditText editTextBolus = (EditText) viewContent.findViewById(R.id.edittext_bolus);
                 editTextBolus.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
                 editTextBolus.requestFocus();
@@ -354,7 +354,7 @@ public class NewEventActivity extends BaseActivity {
                 editTextBasal.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
                 break;
             case Meal:
-                viewContent = inflater.inflate(R.layout.cardview_entry_meal, layoutMeasurements, false);
+                viewContent = inflater.inflate(R.layout.list_item_measurement_meal, layoutMeasurements, false);
                 EditText editTextMeal = (EditText) viewContent.findViewById(R.id.edittext_value);
                 editTextMeal.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
                 editTextMeal.requestFocus();
@@ -367,7 +367,7 @@ public class NewEventActivity extends BaseActivity {
                 });
                 break;
             case Pressure:
-                viewContent = inflater.inflate(R.layout.cardview_entry_pressure, layoutMeasurements, false);
+                viewContent = inflater.inflate(R.layout.list_item_measurement_pressure, layoutMeasurements, false);
                 EditText editTextSystolic = (EditText) viewContent.findViewById(R.id.edittext_value);
                 editTextSystolic.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
                 editTextSystolic.requestFocus();
@@ -375,7 +375,7 @@ public class NewEventActivity extends BaseActivity {
                 editTextDiastolic.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
                 break;
             default:
-                viewContent = inflater.inflate(R.layout.cardview_entry_generic, layoutMeasurements, false);
+                viewContent = inflater.inflate(R.layout.list_item_measurement_generic, layoutMeasurements, false);
                 EditText editTextValue = (EditText) viewContent.findViewById(R.id.edittext_value);
                 editTextValue.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
                 editTextValue.requestFocus();

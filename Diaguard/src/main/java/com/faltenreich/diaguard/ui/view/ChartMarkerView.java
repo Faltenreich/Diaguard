@@ -18,7 +18,7 @@ public class ChartMarkerView extends MarkerView {
     private TextView textViewValue;
 
     public ChartMarkerView (Context context) {
-        super(context, R.layout.popup_chart);
+        super(context, R.layout.view_chart_marker);
         textViewValue = (TextView) findViewById(R.id.textview_value);
     }
 

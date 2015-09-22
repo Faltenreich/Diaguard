@@ -47,8 +47,16 @@ public class Insulin extends Measurement {
         this.basal = basal;
     }
 
+    @Override
     public Category getMeasurementType() {
         return Category.Insulin;
+    }
+
+    @Override
+    public void setValues(float... values) {
+        bolus = values[0];
+        correction = values[1];
+        basal = values[2];
     }
 
     @Override

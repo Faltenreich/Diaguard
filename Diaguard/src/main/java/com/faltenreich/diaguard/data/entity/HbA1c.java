@@ -23,8 +23,14 @@ public class HbA1c extends Measurement {
         this.percent = percent;
     }
 
+    @Override
     public Category getMeasurementType() {
         return Category.HbA1c;
+    }
+
+    @Override
+    public void setValues(float... values) {
+        percent = values[0];
     }
 
     @Override

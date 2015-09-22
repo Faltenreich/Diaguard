@@ -35,8 +35,14 @@ public class Meal extends Measurement {
         this.foodId = foodId;
     }
 
+    @Override
     public Category getMeasurementType() {
         return Category.Meal;
+    }
+
+    @Override
+    public void setValues(float... values) {
+        carbohydrates = values[0];
     }
 
     @Override

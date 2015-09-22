@@ -23,8 +23,14 @@ public class Pulse extends Measurement {
         this.frequency = frequency;
     }
 
+    @Override
     public Category getMeasurementType() {
         return Category.Pulse;
+    }
+
+    @Override
+    public void setValues(float... values) {
+        frequency = values[0];
     }
 
     @Override

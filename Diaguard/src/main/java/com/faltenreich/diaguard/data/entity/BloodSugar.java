@@ -23,8 +23,14 @@ public class BloodSugar extends Measurement {
         this.mgDl = mgDl;
     }
 
+    @Override
     public Category getMeasurementType() {
         return Category.BloodSugar;
+    }
+
+    @Override
+    public void setValues(float... values) {
+        mgDl = values[0];
     }
 
     @Override

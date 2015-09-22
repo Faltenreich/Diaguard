@@ -39,8 +39,14 @@ public class Activity extends Measurement {
         this.type = type;
     }
 
+    @Override
     public Category getMeasurementType() {
         return Category.Activity;
+    }
+
+    @Override
+    public void setValues(float... values) {
+        minutes = (int) values[0];
     }
 
     @Override

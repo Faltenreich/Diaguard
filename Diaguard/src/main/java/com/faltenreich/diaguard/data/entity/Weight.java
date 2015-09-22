@@ -23,8 +23,14 @@ public class Weight extends Measurement {
         this.kilogram = kilogram;
     }
 
+    @Override
     public Category getMeasurementType() {
         return Category.Weight;
+    }
+
+    @Override
+    public void setValues(float... values) {
+        kilogram = values[0];
     }
 
     @Override

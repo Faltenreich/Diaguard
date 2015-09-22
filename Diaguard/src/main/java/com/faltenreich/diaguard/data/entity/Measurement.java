@@ -57,4 +57,8 @@ public abstract class Measurement extends BaseEntity {
     }
 
     public abstract Category getMeasurementType();
+
+    @SuppressWarnings("unchecked")
+    public abstract void setValues(float... values);
+
 }

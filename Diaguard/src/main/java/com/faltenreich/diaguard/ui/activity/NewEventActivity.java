@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -57,14 +58,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * Created by Filip on 19.10.13.
  */
 public class NewEventActivity extends BaseActivity {
-
-    private static final int ACTION_REQUEST_GALLERY = 98;
-    private static final int ACTION_REQUEST_CAMERA = 99;
 
     public static final String EXTRA_ENTRY = "EXTRA_ENTRY";
     public static final String EXTRA_DATE = "EXTRA_DATE";
@@ -234,9 +233,10 @@ public class NewEventActivity extends BaseActivity {
         floatingActionButton.setLabelText(text);
         floatingActionButton.setImageResource(imageResourceId);
         floatingActionButton.setColorNormalResId(colorResId);
-        int colorDarken = Helper.colorDarken(getResources().getColor(colorResId));
-        floatingActionButton.setColorPressed(colorDarken);
-        floatingActionButton.setColorRipple(colorDarken);
+        float brighteningPercentage = colorResId == android.R.color.white ? .9f : 1.2f;
+        int colorHighlight = Helper.colorBrighten(ContextCompat.getColor(this, colorResId), brighteningPercentage);
+        floatingActionButton.setColorPressed(colorHighlight);
+        floatingActionButton.setColorRipple(colorHighlight);
         return floatingActionButton;
     }
 
@@ -353,19 +353,6 @@ public class NewEventActivity extends BaseActivity {
                 EditText editTextBasal = (EditText) viewContent.findViewById(R.id.edittext_basal);
                 editTextBasal.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
                 break;
-            case Meal:
-                viewContent = inflater.inflate(R.layout.list_item_measurement_meal, layoutMeasurements, false);
-                EditText editTextMeal = (EditText) viewContent.findViewById(R.id.edittext_value);
-                editTextMeal.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
-                editTextMeal.requestFocus();
-                Button buttonImage = (Button) viewContent.findViewById(R.id.button_photo);
-                buttonImage.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        onClickShowImageDialog();
-                    }
-                });
-                break;
             case Pressure:
                 viewContent = inflater.inflate(R.layout.list_item_measurement_pressure, layoutMeasurements, false);
                 EditText editTextSystolic = (EditText) viewContent.findViewById(R.id.edittext_value);
@@ -440,8 +427,6 @@ public class NewEventActivity extends BaseActivity {
             ViewHelper.showSnackbar(findViewById(android.R.id.content), getString(R.string.validator_value_infuture));
             return;
         }
-
-        Food food;
 
         List<Measurement> measurements = new ArrayList<>();
         // Iterate through all views and validate
@@ -525,9 +510,6 @@ public class NewEventActivity extends BaseActivity {
                 switch (category) {
                     case Insulin:
                         measurement = getInsulinFromView(view);
-                        break;
-                    case Meal:
-                        measurement = getMealFromView(view);
                         break;
                     case Activity:
                         measurement = getActivityFromView(view);
@@ -648,20 +630,6 @@ public class NewEventActivity extends BaseActivity {
         }
     }
 
-    private Meal getMealFromView(View view) {
-        Meal meal = (Meal) getGenericFromView(Measurement.Category.Meal, view);
-
-        String foodName = ((EditText) view.findViewById(R.id.food)).getText().toString();
-        if (foodName.length() > 0) {
-            Food food = new Food();
-            food.setName(foodName);
-            ImageView imageViewFood = (ImageView) view.findViewById(R.id.image);
-            // TODO: Check for image, convert to Base64 and add to Food
-        }
-
-        return meal;
-    }
-
     private com.faltenreich.diaguard.data.entity.Activity getActivityFromView(View view) {
         com.faltenreich.diaguard.data.entity.Activity activity =
                 (com.faltenreich.diaguard.data.entity.Activity)
@@ -703,9 +671,9 @@ public class NewEventActivity extends BaseActivity {
         return PreferenceHelper.getInstance().validateEventValue(category, value);
     }
 
-    // LISTENERS
-
-    public void onClickShowDatePicker(View view) {
+    @SuppressWarnings("unused")
+    @OnClick(R.id.button_date)
+    public void showDatePicker() {
         DialogFragment fragment = new DatePickerFragment() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
@@ -719,7 +687,9 @@ public class NewEventActivity extends BaseActivity {
         fragment.show(getSupportFragmentManager(), "DatePicker");
     }
 
-    public void onClickShowTimePicker(View view) {
+    @SuppressWarnings("unused")
+    @OnClick(R.id.button_time)
+    public void showTimePicker() {
         DialogFragment fragment = new TimePickerFragment() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -731,42 +701,6 @@ public class NewEventActivity extends BaseActivity {
         bundle.putSerializable(TimePickerFragment.TIME, time);
         fragment.setArguments(bundle);
         fragment.show(getSupportFragmentManager(), "TimePicker");
-    }
-
-    public void onClickShowImageDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(NewEventActivity.this);
-        builder.setTitle(R.string.photo_desc);
-        builder.setItems(R.array.photo_dialog,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 0:
-                                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                                intent.setType("image/*");
-                                Intent chooser = Intent.createChooser(intent, "Choose a Picture");
-                                startActivityForResult(chooser, ACTION_REQUEST_GALLERY);
-                                break;
-                            case 1:
-
-                                File directory = FileHelper.getExternalStorage();
-                                if(directory == null) {
-                                    return;
-                                }
-                                File file = new File(directory.getAbsolutePath() +
-                                        "/photo" + DateTimeFormat.forPattern("yyyyMMddHHmmss").
-                                        print(new DateTime()) + ".jpg");
-
-                                Intent getCameraImage = new Intent("android.media.action.IMAGE_CAPTURE");
-                                getCameraImage.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-                                startActivityForResult(getCameraImage, ACTION_REQUEST_CAMERA);
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                });
-        builder.show();
     }
 
     @Override

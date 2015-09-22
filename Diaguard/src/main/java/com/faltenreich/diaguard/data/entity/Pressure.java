@@ -37,8 +37,15 @@ public class Pressure extends Measurement {
         this.diastolic = diastolic;
     }
 
+    @Override
     public Category getMeasurementType() {
         return Category.Pressure;
+    }
+
+    @Override
+    public void setValues(float... values) {
+        systolic = values[0];
+        diastolic = values[1];
     }
 
     @Override

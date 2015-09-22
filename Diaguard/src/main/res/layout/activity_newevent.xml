@@ -52,15 +52,13 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/margin_between"
-                                    android:layout_marginRight="@dimen/margin_between"
-                                    android:onClick="onClickShowDatePicker" />
+                                    android:layout_marginRight="@dimen/margin_between" />
 
                                 <Button
                                     android:id="@+id/button_time"
                                     style="?android:attr/borderlessButtonStyle"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:onClick="onClickShowTimePicker" />
+                                    android:layout_height="wrap_content" />
 
                             </LinearLayout>
 
@@ -127,16 +125,9 @@
         android:layout_gravity="bottom|end"
         android:padding="@dimen/padding_end"
         app:layout_behavior="com.faltenreich.diaguard.ui.behavior.Behavior"
-        fab:menu_animationDelayPerItem="25"
         fab:menu_backgroundColor="@color/transparent_light"
         fab:menu_colorNormal="@color/green"
-        fab:menu_colorPressed="@color/green_dark"
-        fab:menu_colorRipple="@color/green_darker"
-        fab:menu_labels_colorNormal="@android:color/white"
-        fab:menu_labels_colorPressed="@android:color/white"
-        fab:menu_labels_colorRipple="@android:color/white"
-        fab:menu_labels_hideAnimation="@anim/fab_scale_down"
-        fab:menu_labels_showAnimation="@anim/fab_scale_up"
-        fab:menu_labels_textColor="@color/gray_dark" />
+        fab:menu_colorPressed="@color/green_light"
+        fab:menu_colorRipple="@color/green_lighter" />
 
 </FrameLayout>

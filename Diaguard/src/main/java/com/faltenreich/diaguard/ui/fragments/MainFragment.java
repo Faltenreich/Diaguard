@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.faltenreich.diaguard.ui.activity.BaseActivity;
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.ui.activity.EntryDetailActivity;
-import com.faltenreich.diaguard.ui.activity.MainActivity;
 import com.faltenreich.diaguard.ui.activity.NewEventActivity;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.ui.activity.StatisticsActivity;

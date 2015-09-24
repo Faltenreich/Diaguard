@@ -39,6 +39,7 @@ import com.faltenreich.diaguard.data.entity.Pulse;
 import com.faltenreich.diaguard.data.entity.Weight;
 import com.faltenreich.diaguard.ui.fragments.DatePickerFragment;
 import com.faltenreich.diaguard.ui.fragments.TimePickerFragment;
+import com.faltenreich.diaguard.ui.view.MeasurementListView;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.util.Validator;
@@ -69,7 +70,7 @@ public class NewEventActivity extends BaseActivity {
     protected FloatingActionMenu fab;
 
     @Bind(R.id.layout_measurements)
-    protected LinearLayout layoutMeasurements;
+    protected MeasurementListView layoutMeasurements;
 
     @Bind(R.id.edittext_notes)
     protected EditText editTextNotes;
@@ -183,7 +184,7 @@ public class NewEventActivity extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         fab.close(true);
-                        addViewForCategory(category);
+                        layoutMeasurements.addMeasurement(category);
                     }
                 });
                 fab.addMenuButton(fabCategory);
@@ -272,7 +273,7 @@ public class NewEventActivity extends BaseActivity {
                             Measurement.Category category = categoriesArray[position];
                             // Value was false and is now true -> Add new measurement
                             if (!categories.get(category) && visibleCategories[position]) {
-                                addViewForCategory(activeCategories[position]);
+                                layoutMeasurements.addMeasurement(activeCategories[position]);
                             }
                             // Value was true and is now false -> Remove old measurement
                             else if (categories.get(category) && !visibleCategories[position]) {

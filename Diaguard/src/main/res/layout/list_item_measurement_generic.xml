@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<EditText xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/edittext_value"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:inputType="numberDecimal"
-    android:background="@android:color/transparent"
-    style="@style/Padding"/>
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/edittext_value"
+        style="@style/Padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:inputType="numberDecimal" />
+
+</LinearLayout>

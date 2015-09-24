@@ -1,9 +1,7 @@
 package com.faltenreich.diaguard.ui.view;
 
 import android.content.Context;
-import android.support.annotation.LayoutRes;
 import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
 
 import com.faltenreich.diaguard.R;
@@ -11,10 +9,7 @@ import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.StringUtils;
 
-import java.lang.reflect.Constructor;
-
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by Faltenreich on 20.09.2015.

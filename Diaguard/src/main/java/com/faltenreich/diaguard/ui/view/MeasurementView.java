@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.ui.view;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -69,7 +70,7 @@ public class MeasurementView<T extends Measurement> extends LinearLayout {
     }
 
     private void init() {
-        View.inflate(getContext(), R.layout.list_item_measurement, null);
+        LayoutInflater.from(getContext()).inflate(R.layout.list_item_measurement, this);
         ButterKnife.bind(this);
 
         if (measurement instanceof Insulin) {

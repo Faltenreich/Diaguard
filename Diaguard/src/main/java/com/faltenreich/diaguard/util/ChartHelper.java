@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.components.XAxis;
@@ -48,17 +47,17 @@ public class ChartHelper {
         chart.getAxisLeft().setGridColor(gridColor);
         chart.getAxisLeft().setDrawLimitLinesBehindData(true);
 
-        float minimum = PreferenceHelper.getInstance().getExtrema(Measurement.Category.BloodSugar)[0];
-        minimum = (int) PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BloodSugar, minimum - 10);
+        float minimum = PreferenceHelper.getInstance().getExtrema(Measurement.Category.BLOODSUGAR)[0];
+        minimum = (int) PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, minimum - 10);
         chart.getAxisLeft().setAxisMinValue(minimum);
 
-        float maximum = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BloodSugar, 275);
+        float maximum = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, 275);
         chart.getAxisLeft().setAxisMaxValue(maximum);
 
         chart.getAxisLeft().setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
-                return PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BloodSugar).format(value);
+                return PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(value);
             }
         });
     }

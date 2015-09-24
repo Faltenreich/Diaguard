@@ -25,7 +25,7 @@ public class Weight extends Measurement {
 
     @Override
     public Category getMeasurementType() {
-        return Category.Weight;
+        return Category.WEIGHT;
     }
 
     @Override

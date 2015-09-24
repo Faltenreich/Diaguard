@@ -49,7 +49,7 @@ public class Insulin extends Measurement {
 
     @Override
     public Category getMeasurementType() {
-        return Category.Insulin;
+        return Category.INSULIN;
     }
 
     @Override

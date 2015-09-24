@@ -87,9 +87,6 @@ public class MainActivity extends BaseActivity {
                         menuItem.setChecked(true);
                         replaceFragment(new LogFragment());
                         break;
-                    case R.id.nav_statistics:
-                        startActivity(new Intent(MainActivity.this, StatisticsActivity.class));
-                        break;
                     case R.id.nav_calculator:
                         startActivity(new Intent(MainActivity.this, CalculatorActivity.class));
                         break;

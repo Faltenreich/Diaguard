@@ -12,33 +12,57 @@ public abstract class Measurement extends BaseEntity {
     public static final String ENTRY_ID = "entry_id";
 
     public enum Category {
-        BloodSugar,
-        Insulin,
-        Meal,
-        Activity,
-        HbA1c,
-        Weight,
-        Pulse,
-        Pressure;
+        BLOODSUGAR,
+        INSULIN,
+        MEAL,
+        ACTIVITY,
+        HBA1C,
+        WEIGHT,
+        PULSE,
+        PRESSURE;
 
         public Class toClass() {
             switch (this) {
-                case BloodSugar:
-                    return BloodSugar.getClass();
-                case Insulin:
-                    return Insulin.getClass();
-                case Meal:
-                    return Meal.getClass();
-                case Activity:
-                    return Activity.getClass();
-                case HbA1c:
-                    return HbA1c.getClass();
-                case Weight:
-                    return Weight.getClass();
-                case Pulse:
-                    return Pulse.getClass();
-                case Pressure:
-                    return Pressure.getClass();
+                case BLOODSUGAR:
+                    return BloodSugar.class;
+                case INSULIN:
+                    return Insulin.class;
+                case MEAL:
+                    return Meal.class;
+                case ACTIVITY:
+                    return Activity.class;
+                case HBA1C:
+                    return HbA1c.class;
+                case WEIGHT:
+                    return Weight.class;
+                case PULSE:
+                    return Pulse.class;
+                case PRESSURE:
+                    return Pressure.class;
+                default:
+                    throw new IllegalArgumentException("Class is not supported");
+            }
+        }
+
+        @Override
+        public String toString() {
+            switch (this) {
+                case BLOODSUGAR:
+                    return DiaguardApplication.getContext().getString(R.string.bloodsugar);
+                case INSULIN:
+                    return DiaguardApplication.getContext().getString(R.string.insulin);
+                case MEAL:
+                    return DiaguardApplication.getContext().getString(R.string.meal);
+                case ACTIVITY:
+                    return DiaguardApplication.getContext().getString(R.string.activity);
+                case HBA1C:
+                    return DiaguardApplication.getContext().getString(R.string.hba1c);
+                case WEIGHT:
+                    return DiaguardApplication.getContext().getString(R.string.weight);
+                case PULSE:
+                    return DiaguardApplication.getContext().getString(R.string.pulse);
+                case PRESSURE:
+                    return DiaguardApplication.getContext().getString(R.string.pressure);
                 default:
                     return null;
             }

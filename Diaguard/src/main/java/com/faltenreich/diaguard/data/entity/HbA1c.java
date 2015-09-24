@@ -25,7 +25,7 @@ public class HbA1c extends Measurement {
 
     @Override
     public Category getMeasurementType() {
-        return Category.HbA1c;
+        return Category.HBA1C;
     }
 
     @Override

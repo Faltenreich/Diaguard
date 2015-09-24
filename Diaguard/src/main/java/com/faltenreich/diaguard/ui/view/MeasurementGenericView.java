@@ -1,21 +1,17 @@
 package com.faltenreich.diaguard.ui.view;
 
 import android.content.Context;
-import android.util.AttributeSet;
+import android.support.annotation.LayoutRes;
 import android.util.Log;
-import android.view.ViewGroup;
+import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 
-import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
-import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.StringUtils;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -23,45 +19,39 @@ import butterknife.ButterKnife;
 /**
  * Created by Faltenreich on 20.09.2015.
  */
-public class MeasurementGenericView <T extends Measurement> extends LinearLayout {
+public class MeasurementGenericView <T extends Measurement> extends MeasurementAbstractView<T> {
 
     private static final String TAG = MeasurementGenericView.class.getSimpleName();
 
     @Bind(R.id.edittext_value)
     protected EditText editTextValue;
 
-    private Constructor<T> constructor;
-    private Class<T> clazz;
-
-    private T measurement;
-
-    @Deprecated
-    public MeasurementGenericView(Context context) {
-        super(context);
+    public MeasurementGenericView(Context context, T measurement) {
+        super(context, measurement);
     }
 
-    public MeasurementGenericView(Context context, Class<T> clazz, T measurement) {
-        super(context);
-        this.clazz = clazz;
-        this.measurement = measurement;
-        init();
+    public MeasurementGenericView(Context context, Measurement.Category category) {
+        super(context, category);
     }
 
-    public MeasurementGenericView(Context context, Class<T> clazz) {
-        super(context);
-        this.clazz = clazz;
-        init();
+    @Override
+    protected int getLayoutResourceId() {
+        return R.layout.list_item_measurement_generic;
     }
 
-    private void init() {
-        ButterKnife.bind(this);
+    @Override
+    public Measurement getMeasurement() {
         try {
-            constructor = clazz.getConstructor();
-        } catch (NoSuchMethodException exception) {
-            Log.e(TAG, String.format("Could not get constructor for %s", clazz.getSimpleName()));
+            Measurement measurement = getMeasurementInstance();
+            measurement.setValues(Float.parseFloat(editTextValue.getText().toString()));
+            return measurement;
+        } catch (NumberFormatException exception) {
+            Log.e(TAG, exception.getMessage());
+            return null;
         }
     }
-    
+
+    @Override
     public boolean isValid() {
         boolean isValid = true;
         String input = editTextValue.getText().toString();
@@ -81,28 +71,6 @@ public class MeasurementGenericView <T extends Measurement> extends LinearLayout
             }
         }
         return isValid;
-    }
-
-    private Measurement getMeasurementInstance() {
-        if (measurement == null) {
-            try {
-                measurement = constructor.newInstance();
-            } catch (Exception exception) {
-                Log.e(TAG, String.format("Could not get newInstance for %s", clazz.getSimpleName()));
-            }
-        }
-        return measurement;
-    }
-
-    public Measurement getMeasurement() {
-        try {
-            Measurement measurement = getMeasurementInstance();
-            measurement.setValues(Float.parseFloat(editTextValue.getText().toString()));
-            return measurement;
-        } catch (NumberFormatException exception) {
-            Log.e(TAG, exception.getMessage());
-            return null;
-        }
     }
     
 }

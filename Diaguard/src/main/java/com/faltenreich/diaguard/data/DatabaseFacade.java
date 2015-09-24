@@ -92,21 +92,21 @@ public class DatabaseFacade {
 
     public Measurement getMeasurement(Entry entry, Measurement.Category category) throws SQLException {
         switch (category) {
-            case BloodSugar:
+            case BLOODSUGAR:
                 return getDao(BloodSugar.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
-            case Insulin:
+            case INSULIN:
                 return getDao(Insulin.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
-            case Meal:
+            case MEAL:
                 return getDao(Meal.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
-            case Activity:
+            case ACTIVITY:
                 return getDao(Activity.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
-            case HbA1c:
+            case HBA1C:
                 return getDao(HbA1c.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
-            case Weight:
+            case WEIGHT:
                 return getDao(Weight.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
-            case Pulse:
+            case PULSE:
                 return getDao(Pulse.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
-            case Pressure:
+            case PRESSURE:
                 return getDao(Pressure.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
             default:
                 return null;

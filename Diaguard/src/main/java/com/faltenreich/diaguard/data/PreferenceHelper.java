@@ -121,9 +121,9 @@ public class PreferenceHelper {
 
         String formatString = "#0";
         switch (category) {
-            case Insulin:
-            case HbA1c:
-            case Weight:
+            case INSULIN:
+            case HBA1C:
+            case WEIGHT:
                 formatString = "#0.#";
             default:
                 float unitValue = getUnitValue(category);

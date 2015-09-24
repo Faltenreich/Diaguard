@@ -5,6 +5,7 @@
 
     <!-- GENERAL -->
     <string name="about">Sobre nosotros</string>
+    <string name="activity">Actividad</string>
     <string name="add_value">Agregar valor</string>
     <string name="alarm">Medida de glucosa en sangre</string>
     <string name="alarm_desc">% desde el último análisis</string>
@@ -66,6 +67,7 @@
     <string name="note">Nota</string>
     <string name="ok">OK</string>
     <string name="overview">Sobrevista</string>
+    <string name="pulse">Pulso</string>
     <string name="settings">Configuración</string>
     <string name="sound">Sonido</string>
     <string name="startscreen">Pantalla de inicio</string>

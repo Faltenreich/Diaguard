@@ -37,7 +37,7 @@ public class Meal extends Measurement {
 
     @Override
     public Category getMeasurementType() {
-        return Category.Meal;
+        return Category.MEAL;
     }
 
     @Override

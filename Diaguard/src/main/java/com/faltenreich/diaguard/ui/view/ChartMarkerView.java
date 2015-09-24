@@ -24,7 +24,7 @@ public class ChartMarkerView extends MarkerView {
 
     @Override
     public void refreshContent(Entry entry, Highlight highlight) {
-        textViewValue.setText((int) entry.getVal() + " " + PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BloodSugar));
+        textViewValue.setText((int) entry.getVal() + " " + PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BLOODSUGAR));
     }
 
     @Override

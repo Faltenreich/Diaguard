@@ -116,13 +116,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public static final String BLOODSUGAR = "bloodsugar";
     public static final String MGDL = "mgdl";
 
-    // Insulin
+    // INSULIN
     public static final String INSULIN = "insulin";
     public static final String BOLUS = "insulin";
     public static final String CORRECTION = "correction";
     public static final String BASAL = "basal";
 
-    // Meal
+    // MEAL
     public static final String MEAL = "meal";
     public static final String FOOD_ID = "food_id";
 

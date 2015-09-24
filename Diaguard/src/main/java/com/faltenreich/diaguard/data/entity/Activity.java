@@ -41,7 +41,7 @@ public class Activity extends Measurement {
 
     @Override
     public Category getMeasurementType() {
-        return Category.Activity;
+        return Category.ACTIVITY;
     }
 
     @Override

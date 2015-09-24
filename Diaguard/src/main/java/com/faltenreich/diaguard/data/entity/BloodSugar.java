@@ -25,7 +25,7 @@ public class BloodSugar extends Measurement {
 
     @Override
     public Category getMeasurementType() {
-        return Category.BloodSugar;
+        return Category.BLOODSUGAR;
     }
 
     @Override

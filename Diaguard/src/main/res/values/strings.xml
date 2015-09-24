@@ -15,6 +15,7 @@
     <!-- GENERAL -->
 
     <string name="about">About</string>
+    <string name="activity">Activity</string>
     <string name="amount">Amount</string>
     <string name="all">All</string>
     <string name="add_value">Add value</string>
@@ -92,6 +93,7 @@
     </string-array>
     <string name="placeholder">-</string>
     <string name="pressure">Blood Pressure</string>
+    <string name="pulse">Pulse</string>
     <string name="settings">Settings</string>
     <string name="sound">Sound</string>
     <string name="startscreen">Start screen</string>
@@ -350,6 +352,7 @@
 
     <!-- ERRORS -->
 
+    <string name="error_unexpected">Something went wrong</string>
     <string name="error_no_mail">No app found to send E-Mail</string>
     <string name="error_no_app">No app found to open file</string>
     <string name="error_sd_card">SD card not available</string>

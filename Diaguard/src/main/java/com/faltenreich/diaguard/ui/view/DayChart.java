@@ -121,7 +121,7 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
                 ScatterDataSet dataSet = new ScatterDataSet(new ArrayList<Entry>(), category.name());
                 int dataSetColor = getResources().getColor(PreferenceHelper.getInstance().getCategoryColorResourceId(category));
                 dataSet.setColor(dataSetColor);
-                dataSet.setScatterShapeSize(category == Measurement.Category.BloodSugar ? ChartHelper.SCATTER_SIZE : ChartHelper.SCATTER_SIZE * 0.75f);
+                dataSet.setScatterShapeSize(category == Measurement.Category.BLOODSUGAR ? ChartHelper.SCATTER_SIZE : ChartHelper.SCATTER_SIZE * 0.75f);
                 dataSet.setScatterShape(ScatterShape.CIRCLE);
                 dataSet.setDrawValues(false);
                 dataSets.add(dataSet);
@@ -180,7 +180,7 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
                         Measurement.Category category = measurement.getMeasurementType();
                         int xValue = entry.getDate().getMinuteOfDay();
                         // TODO: Handle non-Bloodsugar values
-                        float yValue = category == Measurement.Category.BloodSugar ? ((BloodSugar) measurement).getMgDl() : 10;
+                        float yValue = category == Measurement.Category.BLOODSUGAR ? ((BloodSugar) measurement).getMgDl() : 10;
                         getData().getDataSetByLabel(category.name(), true).addEntry(new Entry(yValue, xValue));
                     }
                 }

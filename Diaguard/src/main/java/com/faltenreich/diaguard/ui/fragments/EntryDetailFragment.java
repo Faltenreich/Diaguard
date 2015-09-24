@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.ui.fragments;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,7 +18,6 @@ import android.widget.Toast;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.data.dao.EntryDao;
-import com.faltenreich.diaguard.ui.activity.MainActivity;
 import com.faltenreich.diaguard.ui.activity.NewEventActivity;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.DatabaseFacade;
@@ -163,7 +161,7 @@ public class EntryDetailFragment extends BaseFragment {
         ImageView imageViewCategory = (ImageView) view.findViewById(R.id.image);
         imageViewCategory.setImageResource(imageResources.get(category.name()));
         int backgroundColor = getResources().getColor(R.color.gray_dark);
-        if (category == Measurement.Category.BloodSugar) {
+        if (category == Measurement.Category.BLOODSUGAR) {
             BloodSugar bloodSugar = (BloodSugar) measurement;
             if (bloodSugar.getMgDl() > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
                 backgroundColor = getResources().getColor(R.color.red);
@@ -182,7 +180,7 @@ public class EntryDetailFragment extends BaseFragment {
         textViewValue.setText(measurement.toString());
 
         // Highlight extrema
-        if(category == Measurement.Category.BloodSugar && PreferenceHelper.getInstance().limitsAreHighlighted()) {
+        if(category == Measurement.Category.BLOODSUGAR && PreferenceHelper.getInstance().limitsAreHighlighted()) {
             BloodSugar bloodSugar = (BloodSugar) measurement;
             if(bloodSugar.getMgDl() > PreferenceHelper.getInstance().getLimitHyperglycemia())
                 textViewValue.setTextColor(getResources().getColor(R.color.red));

@@ -25,7 +25,7 @@ public class Pulse extends Measurement {
 
     @Override
     public Category getMeasurementType() {
-        return Category.Pulse;
+        return Category.PULSE;
     }
 
     @Override

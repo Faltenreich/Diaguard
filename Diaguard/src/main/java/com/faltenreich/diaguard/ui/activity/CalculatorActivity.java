@@ -80,25 +80,25 @@ public class CalculatorActivity extends BaseActivity {
     }
 
     public void initialize() {
-        String unitAcronym = PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BloodSugar);
+        String unitAcronym = PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BLOODSUGAR);
         textViewUnitBloodSugar.setText(unitAcronym);
         textViewUnitTargetValue.setText(unitAcronym);
         textViewUnitCorrection.setText(unitAcronym);
-        textViewUnitMeal.setText(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.Meal));
+        textViewUnitMeal.setText(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.MEAL));
 
         // Target
         float targetValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(
-                Measurement.Category.BloodSugar,
+                Measurement.Category.BLOODSUGAR,
                 PreferenceHelper.getInstance().getTargetValue());
         editTextTargetValue.setHint(
-                PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BloodSugar).format(targetValue));
+                PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(targetValue));
 
         // Correction
         float correctionValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(
-                Measurement.Category.BloodSugar,
+                Measurement.Category.BLOODSUGAR,
                 PreferenceHelper.getInstance().getCorrectionValue());
                 editTextCorrection.setHint(PreferenceHelper.getInstance().
-                        getDecimalFormat(Measurement.Category.BloodSugar).format(correctionValue));
+                        getDecimalFormat(Measurement.Category.BLOODSUGAR).format(correctionValue));
 
         // Factor
         spinnerFactors.setSelection(PreferenceHelper.getInstance().getCurrentDaytime().ordinal());
@@ -122,16 +122,16 @@ public class CalculatorActivity extends BaseActivity {
         boolean isValid = true;
 
         // Blood Sugar
-        if(!Validator.validateEditTextEvent(this, editTextBloodSugar, Measurement.Category.BloodSugar))
+        if(!Validator.validateEditTextEvent(this, editTextBloodSugar, Measurement.Category.BLOODSUGAR))
             isValid = false;
 
-        if(!Validator.validateEditTextEvent(this, editTextTargetValue, Measurement.Category.BloodSugar))
+        if(!Validator.validateEditTextEvent(this, editTextTargetValue, Measurement.Category.BLOODSUGAR))
             isValid = false;
 
-        if(!Validator.validateEditTextEvent(this, editTextCorrection, Measurement.Category.BloodSugar))
+        if(!Validator.validateEditTextEvent(this, editTextCorrection, Measurement.Category.BLOODSUGAR))
             isValid = false;
 
-        // Meal
+        // MEAL
         Editable editableMeal = editTextMeal.getText();
         if(editableMeal == null) {
             throw new Resources.NotFoundException();
@@ -140,7 +140,7 @@ public class CalculatorActivity extends BaseActivity {
         String valueMeal = editableMeal.toString();
         if(valueMeal.length() > 0) {
 
-            if (!Validator.validateEventValue(this, editTextMeal, Measurement.Category.Meal, valueMeal)) {
+            if (!Validator.validateEventValue(this, editTextMeal, Measurement.Category.MEAL, valueMeal)) {
                 isValid = false;
             }
 
@@ -171,17 +171,17 @@ public class CalculatorActivity extends BaseActivity {
     private void submit() {
         // Blood Sugar
         final float currentBloodSugar =
-                PreferenceHelper.getInstance().formatCustomToDefaultUnit(Measurement.Category.BloodSugar,
+                PreferenceHelper.getInstance().formatCustomToDefaultUnit(Measurement.Category.BLOODSUGAR,
                         Float.parseFloat(editTextBloodSugar.getText().toString()));
 
         String targetValueString = editTextTargetValue.getText().toString();
         float targetBloodSugar;
         if(!Validator.containsNumber(targetValueString))
             targetBloodSugar = PreferenceHelper.getInstance().formatDefaultToCustomUnit(
-                    Measurement.Category.BloodSugar, PreferenceHelper.getInstance().getTargetValue());
+                    Measurement.Category.BLOODSUGAR, PreferenceHelper.getInstance().getTargetValue());
         else
             targetBloodSugar = Float.parseFloat(targetValueString);
-        targetBloodSugar = PreferenceHelper.getInstance().formatCustomToDefaultUnit(Measurement.Category.BloodSugar, targetBloodSugar);
+        targetBloodSugar = PreferenceHelper.getInstance().formatCustomToDefaultUnit(Measurement.Category.BLOODSUGAR, targetBloodSugar);
 
         Editable editableText = editTextCorrection.getText();
         CharSequence charSequenceHint = editTextCorrection.getHint();
@@ -196,13 +196,13 @@ public class CalculatorActivity extends BaseActivity {
         }
         else
             return;
-        correction = PreferenceHelper.getInstance().formatCustomToDefaultUnit(Measurement.Category.BloodSugar, correction);
+        correction = PreferenceHelper.getInstance().formatCustomToDefaultUnit(Measurement.Category.BLOODSUGAR, correction);
 
-        // Meal
+        // MEAL
         String mealString = editTextMeal.getText().toString();
         final float meal;
         if(Validator.containsNumber(mealString))
-            meal = PreferenceHelper.getInstance().formatCustomToDefaultUnit(Measurement.Category.Meal, Float.parseFloat(mealString));
+            meal = PreferenceHelper.getInstance().formatCustomToDefaultUnit(Measurement.Category.MEAL, Float.parseFloat(mealString));
         else
             meal = 0;
 
@@ -248,7 +248,7 @@ public class CalculatorActivity extends BaseActivity {
         textViewValue.setText(Helper.getDecimalFormat().format(bolus));
 
         TextView textViewUnit = (TextView) viewPopup.findViewById(R.id.textViewUnit);
-        textViewUnit.setText(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.Insulin));
+        textViewUnit.setText(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.INSULIN));
 
         final CheckBox checkBoxStoreValues = (CheckBox) viewPopup.findViewById(R.id.checkBoxStoreValues);
 
@@ -288,14 +288,14 @@ public class CalculatorActivity extends BaseActivity {
 
         Measurement measurement = new Measurement();
         measurement.setValue(currentBloodSugar);
-        measurement.setCategory(Measurement.Category.BloodSugar);
+        measurement.setCategory(Measurement.Category.BLOODSUGAR);
         measurement.setEntry(entryId);
         dataSource.insert(measurement);
 
         if(meal > 0) {
             measurement = new Measurement();
             measurement.setValue(meal);
-            measurement.setCategory(Measurement.Category.Meal);
+            measurement.setCategory(Measurement.Category.MEAL);
             measurement.setEntry(entryId);
             dataSource.insert(measurement);
         }
@@ -303,7 +303,7 @@ public class CalculatorActivity extends BaseActivity {
         if(bolus > 0) {
             measurement = new Measurement();
             measurement.setValue(bolus);
-            measurement.setCategory(Measurement.Category.Insulin);
+            measurement.setCategory(Measurement.Category.INSULIN);
             measurement.setEntry(entryId);
             dataSource.insert(measurement);
         }

@@ -289,10 +289,10 @@ public class FileHelper {
 
         Measurement.Category[] selectedCategories =
                 new Measurement.Category[] {
-                        Measurement.Category.BloodSugar,
-                        Measurement.Category.Insulin,
-                        Measurement.Category.Meal,
-                        Measurement.Category.Activity};
+                        Measurement.Category.BLOODSUGAR,
+                        Measurement.Category.INSULIN,
+                        Measurement.Category.MEAL,
+                        Measurement.Category.ACTIVITY};
 
         DateTime dateStart;
         DateTime dateEnd;
@@ -400,7 +400,7 @@ public class FileHelper {
                                         getDecimalFormat(category).format(value);
 
                                 paragraph = new Paragraph(valueString, fontBasis);
-                                if(category == Measurement.Category.BloodSugar) {
+                                if(category == Measurement.Category.BLOODSUGAR) {
                                     if (values[categoryPosition][hour] <
                                             PreferenceHelper.getInstance().getLimitHypoglycemia())
                                         paragraph = new Paragraph(valueString, fontBlue);

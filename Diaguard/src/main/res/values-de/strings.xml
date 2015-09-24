@@ -5,6 +5,7 @@
 
     <!-- GENERAL -->
     <string name="about">Über</string>
+    <string name="activity">Aktivität</string>
     <string name="amount">Menge</string>
     <string name="all">Alle</string>
     <string name="add_value">Wert hinzufügen</string>
@@ -74,6 +75,7 @@
     <string name="ok">OK</string>
     <string name="overview">Übersicht</string>
     <string name="photo_desc">Foto hinzufügen &#8230;</string>
+    <string name="pulse">Puls</string>
     <string name="settings">Einstellungen</string>
     <string name="sound">Töne</string>
     <string name="startscreen">Startbildschirm</string>
@@ -222,6 +224,7 @@
     <string name="validator_value_enddate">Startdatum muss vor Enddatum liegen</string>
 
     <!-- ERRORS -->
+    <string name="error_unexpected">Etwas ist schief gelaufen</string>
     <string name="error_no_mail">Keine App zum Senden von E-Mails gefunden</string>
     <string name="error_no_app">Keine App zum Öffnen der Datei gefunden</string>
     <string name="error_sd_card">Speicherkarte nicht verfügbar</string>

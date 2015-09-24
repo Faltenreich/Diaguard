@@ -39,7 +39,7 @@ public class Pressure extends Measurement {
 
     @Override
     public Category getMeasurementType() {
-        return Category.Pressure;
+        return Category.PRESSURE;
     }
 
     @Override

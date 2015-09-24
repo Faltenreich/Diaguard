@@ -211,7 +211,7 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
                     TextView value = (TextView) viewMeasurement.findViewById(R.id.value);
 
                     switch (category) {
-                        case BloodSugar:
+                        case BLOODSUGAR:
                             BloodSugar bloodSugar = (BloodSugar) measurement;
                             if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
                                 int backgroundColor = context.getResources().getColor(R.color.green);

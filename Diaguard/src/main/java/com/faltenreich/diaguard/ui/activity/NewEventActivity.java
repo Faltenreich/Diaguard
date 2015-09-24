@@ -2,12 +2,10 @@ package com.faltenreich.diaguard.ui.activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,8 +27,8 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.SwipeDismissTouchListener;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
+import com.faltenreich.diaguard.data.entity.Activity;
 import com.faltenreich.diaguard.data.entity.Entry;
-import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.HbA1c;
 import com.faltenreich.diaguard.data.entity.Insulin;
@@ -41,7 +39,6 @@ import com.faltenreich.diaguard.data.entity.Pulse;
 import com.faltenreich.diaguard.data.entity.Weight;
 import com.faltenreich.diaguard.ui.fragments.DatePickerFragment;
 import com.faltenreich.diaguard.ui.fragments.TimePickerFragment;
-import com.faltenreich.diaguard.util.FileHelper;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.util.Validator;
@@ -50,9 +47,7 @@ import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -64,6 +59,8 @@ import butterknife.OnClick;
  * Created by Filip on 19.10.13.
  */
 public class NewEventActivity extends BaseActivity {
+
+    private static final String TAG = NewEventActivity.class.getSimpleName();
 
     public static final String EXTRA_ENTRY = "EXTRA_ENTRY";
     public static final String EXTRA_DATE = "EXTRA_DATE";
@@ -343,7 +340,7 @@ public class NewEventActivity extends BaseActivity {
         View viewContent;
         switch (category) {
             // TODO: Get rid of switch-case by making it more generic
-            case Insulin:
+            case INSULIN:
                 viewContent = inflater.inflate(R.layout.list_item_measurement_insulin, layoutMeasurements, false);
                 EditText editTextBolus = (EditText) viewContent.findViewById(R.id.edittext_bolus);
                 editTextBolus.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
@@ -353,7 +350,7 @@ public class NewEventActivity extends BaseActivity {
                 EditText editTextBasal = (EditText) viewContent.findViewById(R.id.edittext_basal);
                 editTextBasal.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
                 break;
-            case Pressure:
+            case PRESSURE:
                 viewContent = inflater.inflate(R.layout.list_item_measurement_pressure, layoutMeasurements, false);
                 EditText editTextSystolic = (EditText) viewContent.findViewById(R.id.edittext_value);
                 editTextSystolic.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
@@ -425,7 +422,7 @@ public class NewEventActivity extends BaseActivity {
         DateTime now = DateTime.now();
         if (time.isAfter(now)) {
             ViewHelper.showSnackbar(findViewById(android.R.id.content), getString(R.string.validator_value_infuture));
-            return;
+            inputIsValid = false;
         }
 
         List<Measurement> measurements = new ArrayList<>();
@@ -435,6 +432,7 @@ public class NewEventActivity extends BaseActivity {
             if (measurement != null) {
                 measurements.add(measurement);
             } else {
+                ViewHelper.showSnackbar(findViewById(android.R.id.content), getString(R.string.error_unexpected));
                 inputIsValid = false;
             }
         }
@@ -442,8 +440,9 @@ public class NewEventActivity extends BaseActivity {
         // Check whether there are values to submit
         if (measurements.size() == 0) {
             // Show alert only if everything else was valid to reduce clutter
-            if (inputIsValid)
+            if (inputIsValid) {
                 ViewHelper.showSnackbar(findViewById(android.R.id.content), getString(R.string.validator_value_none));
+            }
             inputIsValid = false;
         }
 
@@ -508,13 +507,10 @@ public class NewEventActivity extends BaseActivity {
             if (view.getTag() instanceof Measurement.Category) {
                 Measurement.Category category = (Measurement.Category) view.getTag();
                 switch (category) {
-                    case Insulin:
+                    case INSULIN:
                         measurement = getInsulinFromView(view);
                         break;
-                    case Activity:
-                        measurement = getActivityFromView(view);
-                        break;
-                    case Pressure:
+                    case PRESSURE:
                         measurement = getPressureFromView(view);
                         break;
                     default:
@@ -537,37 +533,42 @@ public class NewEventActivity extends BaseActivity {
                     Float.parseFloat(editText.getText().toString()));
             if (validateValue(category, value)) {
                 switch (category) {
-                    case BloodSugar:
+                    case BLOODSUGAR:
                         BloodSugar bloodSugar = new BloodSugar();
                         bloodSugar.setMgDl(value);
                         measurement = bloodSugar;
                         break;
-                    case Meal:
+                    case MEAL:
                         Meal meal = new Meal();
                         meal.setCarbohydrates(value);
                         measurement = meal;
                         break;
-                    case HbA1c:
+                    case ACTIVITY:
+                        Activity activity = new Activity();
+                        activity.setMinutes((int) value);
+                        measurement = activity;
+                        break;
+                    case HBA1C:
                         HbA1c hbA1c = new HbA1c();
                         hbA1c.setPercent(value);
                         measurement = hbA1c;
                         break;
-                    case Weight:
+                    case WEIGHT:
                         Weight weight = new Weight();
                         weight.setKilogram(value);
                         measurement = weight;
                         break;
-                    case Pulse:
+                    case PULSE:
                         Pulse pulse = new Pulse();
                         pulse.setFrequency(value);
                         measurement = pulse;
                         break;
-                    case Pressure:
+                    case PRESSURE:
                         Pressure pressure = new Pressure();
                         pressure.setSystolic(value);
                         measurement = pressure;
                     default:
-                        // TODO: Throw Exception
+                        Log.e(TAG, String.format("Category %s is unsupported", category.toString()));
                         break;
                 }
             } else {
@@ -587,9 +588,9 @@ public class NewEventActivity extends BaseActivity {
         editTextBolus.setError(null);
         if (validateEditText(editTextBolus)) {
             float bolus = PreferenceHelper.getInstance().formatCustomToDefaultUnit(
-                    Measurement.Category.Insulin,
+                    Measurement.Category.INSULIN,
                     Float.parseFloat(editTextBolus.getText().toString()));
-            if (validateValue(Measurement.Category.Insulin, bolus)) {
+            if (validateValue(Measurement.Category.INSULIN, bolus)) {
                 insulin.setBolus(bolus);
             } else {
                 editTextBolus.setError(getString(R.string.validator_value_unrealistic));
@@ -600,9 +601,9 @@ public class NewEventActivity extends BaseActivity {
         editTextCorrection.setError(null);
         if (validateEditText(editTextCorrection)) {
             float correction = PreferenceHelper.getInstance().formatCustomToDefaultUnit(
-                    Measurement.Category.Insulin,
+                    Measurement.Category.INSULIN,
                     Float.parseFloat(editTextCorrection.getText().toString()));
-            if (validateValue(Measurement.Category.Insulin, correction)) {
+            if (validateValue(Measurement.Category.INSULIN, correction)) {
                 insulin.setCorrection(correction);
             } else {
                 editTextCorrection.setError(getString(R.string.validator_value_unrealistic));
@@ -613,9 +614,9 @@ public class NewEventActivity extends BaseActivity {
         editTextBasal.setError(null);
         if (validateEditText(editTextBasal)) {
             float basal = PreferenceHelper.getInstance().formatCustomToDefaultUnit(
-                    Measurement.Category.Insulin,
+                    Measurement.Category.INSULIN,
                     Float.parseFloat(editTextBasal.getText().toString()));
-            if (validateValue(Measurement.Category.Insulin, basal)) {
+            if (validateValue(Measurement.Category.INSULIN, basal)) {
                 insulin.setBasal(basal);
             } else {
                 editTextBasal.setError(getString(R.string.validator_value_unrealistic));
@@ -633,7 +634,7 @@ public class NewEventActivity extends BaseActivity {
     private com.faltenreich.diaguard.data.entity.Activity getActivityFromView(View view) {
         com.faltenreich.diaguard.data.entity.Activity activity =
                 (com.faltenreich.diaguard.data.entity.Activity)
-                        getGenericFromView(Measurement.Category.Activity, view);
+                        getGenericFromView(Measurement.Category.ACTIVITY, view);
 
         // TODO: Type
 
@@ -641,15 +642,15 @@ public class NewEventActivity extends BaseActivity {
     }
 
     private Pressure getPressureFromView(View view) {
-        Pressure pressure = (Pressure) getGenericFromView(Measurement.Category.Pressure, view);
+        Pressure pressure = (Pressure) getGenericFromView(Measurement.Category.PRESSURE, view);
 
         EditText editTextDiastolic = (EditText) view.findViewById(R.id.edittext_diastolic);
         editTextDiastolic.setError(null);
         if (validateEditText(editTextDiastolic)) {
             float diastolic = PreferenceHelper.getInstance().formatCustomToDefaultUnit(
-                    Measurement.Category.Pressure,
+                    Measurement.Category.PRESSURE,
                     Float.parseFloat(editTextDiastolic.getText().toString()));
-            if (validateValue(Measurement.Category.Pressure, diastolic)) {
+            if (validateValue(Measurement.Category.PRESSURE, diastolic)) {
                 pressure.setDiastolic(diastolic);
                 return pressure;
             } else {

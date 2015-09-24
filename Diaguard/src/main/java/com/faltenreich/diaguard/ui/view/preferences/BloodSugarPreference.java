@@ -46,12 +46,12 @@ public class BloodSugarPreference extends EditTextPreference {
             throw new Resources.NotFoundException();
 
         float value = Float.parseFloat(sharedPreferences.getString(getKey(), ""));
-        value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BloodSugar, value);
-        editTextValue.setText(PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BloodSugar).format(value));
+        value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, value);
+        editTextValue.setText(PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(value));
         editTextValue.setSelection(editTextValue.getText().length());
 
         TextView textViewUnit = (TextView) view.findViewById(R.id.unit);
-        textViewUnit.setText(PreferenceHelper.getInstance().getUnitName(Measurement.Category.BloodSugar));
+        textViewUnit.setText(PreferenceHelper.getInstance().getUnitName(Measurement.Category.BLOODSUGAR));
 
         if(Build.VERSION.SDK_INT <= 10) {
             view.setBackgroundColor(Color.WHITE);
@@ -71,7 +71,7 @@ public class BloodSugarPreference extends EditTextPreference {
             @Override
             public void onClick(View v)
             {
-                if(Validator.validateEditTextEvent(context, editTextValue, Measurement.Category.BloodSugar))
+                if(Validator.validateEditTextEvent(context, editTextValue, Measurement.Category.BLOODSUGAR))
                 {
                     alertDialog.dismiss();
                     onDialogClosed(true);
@@ -93,7 +93,7 @@ public class BloodSugarPreference extends EditTextPreference {
             if(editor == null)
                 throw new Resources.NotFoundException();
 
-            value = PreferenceHelper.getInstance().formatCustomToDefaultUnit(Measurement.Category.BloodSugar, value);
+            value = PreferenceHelper.getInstance().formatCustomToDefaultUnit(Measurement.Category.BLOODSUGAR, value);
             editor.putString(getKey(), Float.toString(value));
             editor.commit();
         }

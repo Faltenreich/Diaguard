@@ -14,7 +14,6 @@ import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.ui.activity.EntryDetailActivity;
 import com.faltenreich.diaguard.ui.activity.NewEventActivity;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.ui.activity.StatisticsActivity;
 import com.faltenreich.diaguard.data.DatabaseFacade;
 import com.faltenreich.diaguard.data.DatabaseHelper;
 import com.faltenreich.diaguard.data.entity.Entry;
@@ -113,30 +112,6 @@ public class MainFragment extends BaseFragment {
     }
 
     private void initialize() {
-        layoutToday.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), StatisticsActivity.class);
-                intent.putExtra(StatisticsActivity.EXTRA_TAB, 0);
-                startActivity(intent);
-            }
-        });
-        layoutAverage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), StatisticsActivity.class);
-                intent.putExtra(StatisticsActivity.EXTRA_TAB, 0);
-                startActivity(intent);
-            }
-        });
-        layoutTrend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), StatisticsActivity.class);
-                intent.putExtra(StatisticsActivity.EXTRA_TAB, 1);
-                startActivity(intent);
-            }
-        });
         initializeChart();
     }
 
@@ -172,7 +147,7 @@ public class MainFragment extends BaseFragment {
                 }
 
                 // Unit
-                textViewLatestUnit.setText(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BloodSugar));
+                textViewLatestUnit.setText(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BLOODSUGAR));
 
                 // Time
                 textViewLatestTime.setText(PreferenceHelper.getInstance().
@@ -243,21 +218,21 @@ public class MainFragment extends BaseFragment {
                 Interval intervalMonth = new Interval(new DateTime(now.minusMonths(1)), now);
 
                 float avgDay = DatabaseFacade.getInstance().avg(BloodSugar.class, BloodSugar.MGDL, now);
-                float avgDayCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BloodSugar, avgDay);
+                float avgDayCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, avgDay);
 
                 float avgWeek = DatabaseFacade.getInstance().avg(BloodSugar.class, BloodSugar.MGDL, intervalWeek);
-                float avgWeekCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BloodSugar, avgWeek);
+                float avgWeekCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, avgWeek);
 
                 float avgMonth = DatabaseFacade.getInstance().avg(BloodSugar.class, BloodSugar.MGDL, intervalMonth);
-                float avgMonthCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BloodSugar, avgMonth);
+                float avgMonthCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, avgMonth);
 
                 return new String[] {
                         Integer.toString(entriesWithBloodSugar.size()),
                         Integer.toString(countHypers),
                         Integer.toString(countHypos),
-                        PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BloodSugar).format(avgDayCustom),
-                        PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BloodSugar).format(avgWeekCustom),
-                        PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BloodSugar).format(avgMonthCustom)};
+                        PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(avgDayCustom),
+                        PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(avgWeekCustom),
+                        PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(avgMonthCustom)};
 
             } catch (SQLException exception) {
                 Log.e("MainFragment", exception.getMessage());
@@ -302,7 +277,7 @@ public class MainFragment extends BaseFragment {
 
     private LimitLine getLimitLine() {
         float targetValue = PreferenceHelper.getInstance().
-                formatDefaultToCustomUnit(Measurement.Category.BloodSugar,
+                formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
                         PreferenceHelper.getInstance().getTargetValue());
         LimitLine hyperglycemia = new LimitLine(targetValue, getString(R.string.hyper));
         hyperglycemia.setLineColor(getResources().getColor(R.color.green_light));
@@ -325,7 +300,7 @@ public class MainFragment extends BaseFragment {
             String[] weekDays = getResources().getStringArray(R.array.weekdays_short);
 
             float targetValue = PreferenceHelper.getInstance().
-                    formatDefaultToCustomUnit(Measurement.Category.BloodSugar,
+                    formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
                             PreferenceHelper.getInstance().getTargetValue());
             float highestValue = targetValue * 2;
             while (!currentDay.isAfter(today)) {

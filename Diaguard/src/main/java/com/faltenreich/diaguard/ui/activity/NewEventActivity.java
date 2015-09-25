@@ -323,23 +323,17 @@ public class NewEventActivity extends BaseActivity {
             ViewHelper.showSnackbar(findViewById(android.R.id.content), getString(R.string.validator_value_infuture));
             inputIsValid = false;
         }
-
         // Check whether there are values to submit
-        if (layoutMeasurements.getMeasurements().size() == 0) {
-            // Show alert only if everything else was valid to reduce clutter
-            if (inputIsValid) {
-                ViewHelper.showSnackbar(findViewById(android.R.id.content), getString(R.string.validator_value_none));
-            }
+        else if (layoutMeasurements.getMeasurements().size() == 0) {
+            ViewHelper.showSnackbar(findViewById(android.R.id.content), getString(R.string.validator_value_none));
             inputIsValid = false;
         } else {
-            // Iterate through all views and validate
             for (Measurement measurement : layoutMeasurements.getMeasurements()) {
                 if (measurement == null) {
                     inputIsValid = false;
                 }
             }
         }
-
 
         if (inputIsValid) {
             if (isNewEntry) {

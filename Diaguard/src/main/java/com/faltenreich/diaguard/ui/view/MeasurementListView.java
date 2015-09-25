@@ -69,8 +69,8 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
         List<Measurement> measurements = new ArrayList<>();
         for (int position = 0; position < getChildCount(); position++) {
             View childView = getChildAt(position);
-            if (childView instanceof MeasurementAbstractView) {
-                measurements.add(((MeasurementAbstractView) childView).getMeasurement());
+            if (childView instanceof MeasurementView) {
+                measurements.add(((MeasurementView) childView).getMeasurement());
             }
         }
         return measurements;

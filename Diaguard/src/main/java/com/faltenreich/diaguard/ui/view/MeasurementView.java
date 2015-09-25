@@ -112,7 +112,7 @@ public class MeasurementView<T extends Measurement> extends LinearLayout {
     }
 
     public Measurement getMeasurement() {
-        View childView = getChildAt(0);
+        View childView = content.getChildAt(0);
         if (childView != null && childView instanceof MeasurementAbstractView) {
             return ((MeasurementAbstractView) childView).getMeasurement();
         } else {

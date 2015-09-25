@@ -5,8 +5,8 @@ package com.faltenreich.diaguard.util;
  */
 public class StringUtils {
 
-    public static boolean isBlank(String string) {
-        return string != null && string.trim().length() > 0;
+    public static boolean isBlank(String text) {
+        return text == null || text.trim().length() == 0;
     }
 
 }

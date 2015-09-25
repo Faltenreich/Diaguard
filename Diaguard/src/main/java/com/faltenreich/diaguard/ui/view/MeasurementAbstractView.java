@@ -27,10 +27,7 @@ public abstract class MeasurementAbstractView <T extends Measurement> extends Li
 
     private static final String TAG = MeasurementAbstractView.class.getSimpleName();
 
-    private Constructor<T> constructor;
-    private Class<T> clazz;
-
-    private T measurement;
+    protected T measurement;
 
     @Deprecated
     public MeasurementAbstractView(Context context) {
@@ -44,42 +41,33 @@ public abstract class MeasurementAbstractView <T extends Measurement> extends Li
 
     public MeasurementAbstractView(Context context, T measurement) {
         super(context);
-        this.clazz = measurement.getMeasurementType().toClass();
         this.measurement = measurement;
         init();
     }
 
     public MeasurementAbstractView(Context context, Measurement.Category category) {
         super(context);
-        this.clazz = category.toClass();
+        try {
+            Constructor<T> constructor = category.toClass().getConstructor();
+            measurement = constructor.newInstance();
+        } catch (Exception exception) {
+            Log.e(TAG, String.format("Could not get newInstance for %s", category.toClass().getSimpleName()));
+        }
         init();
     }
 
     protected abstract int getLayoutResourceId();
 
-    public abstract Measurement getMeasurement();
+    protected abstract void initLayout();
 
-    public abstract boolean isValid();
+    protected abstract boolean isValid();
+
+    public abstract Measurement getMeasurement();
 
     private void init() {
         LayoutInflater.from(getContext()).inflate(getLayoutResourceId(), this);
         ButterKnife.bind(this);
-        try {
-            constructor = clazz.getConstructor();
-        } catch (NoSuchMethodException exception) {
-            Log.e(TAG, String.format("Could not get constructor for %s", clazz.getSimpleName()));
-        }
-    }
-
-    protected Measurement getMeasurementInstance() {
-        if (measurement == null) {
-            try {
-                measurement = constructor.newInstance();
-            } catch (Exception exception) {
-                Log.e(TAG, String.format("Could not get newInstance for %s", clazz.getSimpleName()));
-            }
-        }
-        return measurement;
+        initLayout();
     }
     
 }

@@ -184,7 +184,7 @@ public class NewEventActivity extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         fab.close(true);
-                        layoutMeasurements.addMeasurement(category);
+                        addMeasurementView(category);
                     }
                 });
                 fab.addMenuButton(fabCategory);
@@ -273,7 +273,7 @@ public class NewEventActivity extends BaseActivity {
                             Measurement.Category category = categoriesArray[position];
                             // Value was false and is now true -> Add new measurement
                             if (!categories.get(category) && visibleCategories[position]) {
-                                layoutMeasurements.addMeasurement(activeCategories[position]);
+                                addMeasurementView(activeCategories[position]);
                             }
                             // Value was true and is now false -> Remove old measurement
                             else if (categories.get(category) && !visibleCategories[position]) {
@@ -300,94 +300,8 @@ public class NewEventActivity extends BaseActivity {
         buttonTime.setText(Helper.getTimeFormat().print(time));
     }
 
-    private void addViewForCategory(final Measurement.Category category) {
-        // Return if category is already active
-        if (categories.get(category) || viewForCategoryIsVisible(category)) {
-            return;
-        }
-
-        categories.put(category, true);
-
-        // Add view
-        final LayoutInflater inflater = getLayoutInflater();
-        final View view = inflater.inflate(R.layout.list_item_measurement, layoutMeasurements, false);
-        view.setTag(category);
-
-        // Showcase images and colors
-        ImageView imageViewShowcase = (ImageView) view.findViewById(R.id.image_showcase);
-        imageViewShowcase.setImageResource(PreferenceHelper.getInstance().getShowcaseImageResourceId(category));
-        View layerShowcase = view.findViewById(R.id.layer_showcase);
-        layerShowcase.setBackgroundColor(getResources().getColor(PreferenceHelper.getInstance().getCategoryColorResourceId(category)));
-
-        // Category image
-        ImageView imageViewCategory = (ImageView) view.findViewById(R.id.image_category);
-        imageViewCategory.setImageResource(PreferenceHelper.getInstance().getCategoryImageResourceId(category));
-
-        // Category name
-        TextView textViewCategory = (TextView) view.findViewById(R.id.category);
-        textViewCategory.setText(PreferenceHelper.getInstance().getCategoryName(category));
-
-        // Delete button
-        View buttonDelete = view.findViewById(R.id.button_delete);
-        buttonDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                removeViewForCategory(category);
-            }
-        });
-
-        // Measurement
-        ViewGroup layoutMeasurement = (ViewGroup) view.findViewById(R.id.layout_content);
-        View viewContent;
-        switch (category) {
-            // TODO: Get rid of switch-case by making it more generic
-            case INSULIN:
-                viewContent = inflater.inflate(R.layout.list_item_measurement_insulin, layoutMeasurements, false);
-                EditText editTextBolus = (EditText) viewContent.findViewById(R.id.edittext_bolus);
-                editTextBolus.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
-                editTextBolus.requestFocus();
-                EditText editTextCorrection = (EditText) viewContent.findViewById(R.id.edittext_correction);
-                editTextCorrection.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
-                EditText editTextBasal = (EditText) viewContent.findViewById(R.id.edittext_basal);
-                editTextBasal.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
-                break;
-            case PRESSURE:
-                viewContent = inflater.inflate(R.layout.list_item_measurement_pressure, layoutMeasurements, false);
-                EditText editTextSystolic = (EditText) viewContent.findViewById(R.id.edittext_value);
-                editTextSystolic.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
-                editTextSystolic.requestFocus();
-                EditText editTextDiastolic = (EditText) viewContent.findViewById(R.id.edittext_diastolic);
-                editTextDiastolic.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
-                break;
-            default:
-                viewContent = inflater.inflate(R.layout.list_item_measurement_generic, layoutMeasurements, false);
-                EditText editTextValue = (EditText) viewContent.findViewById(R.id.edittext_value);
-                editTextValue.setHint(PreferenceHelper.getInstance().getUnitAcronym(category));
-                editTextValue.requestFocus();
-                break;
-        }
-        layoutMeasurement.addView(viewContent);
-
-        // Swipe to dismiss
-        view.setOnTouchListener(new SwipeDismissTouchListener(
-                view,
-                null,
-                new SwipeDismissTouchListener.DismissCallbacks() {
-                    @Override
-                    public boolean canDismiss(Object token) {
-                        return true;
-                    }
-
-                    @Override
-                    public void onDismiss(View view, Object token) {
-                        removeViewForCategory(category);
-                    }
-                }));
-
-        categories.put(category, true);
-        layoutMeasurements.addView(view, 0);
-
-        // TODO: Refresh FAB to prevent showing already visible categories
+    private void addMeasurementView(Measurement.Category category) {
+        layoutMeasurements.addMeasurement(category);
     }
 
     private void removeViewForCategory(Measurement.Category category) {

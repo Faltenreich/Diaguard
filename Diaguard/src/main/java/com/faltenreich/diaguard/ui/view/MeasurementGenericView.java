@@ -35,19 +35,13 @@ public class MeasurementGenericView <T extends Measurement> extends MeasurementA
     }
 
     @Override
-    public Measurement getMeasurement() {
-        try {
-            Measurement measurement = getMeasurementInstance();
-            measurement.setValues(Float.parseFloat(editTextValue.getText().toString()));
-            return measurement;
-        } catch (NumberFormatException exception) {
-            Log.e(TAG, exception.getMessage());
-            return null;
-        }
+    protected
+    void initLayout() {
+        editTextValue.setHint(PreferenceHelper.getInstance().getUnitAcronym(measurement.getMeasurementType()));
     }
 
     @Override
-    public boolean isValid() {
+    protected boolean isValid() {
         boolean isValid = true;
         String input = editTextValue.getText().toString();
         if (StringUtils.isBlank(input)) {
@@ -56,7 +50,7 @@ public class MeasurementGenericView <T extends Measurement> extends MeasurementA
         } else {
             try {
                 float value = Float.parseFloat(input);
-                if (!PreferenceHelper.getInstance().validateEventValue(getMeasurementInstance().getMeasurementType(), value)) {
+                if (!PreferenceHelper.getInstance().validateEventValue(measurement.getMeasurementType(), value)) {
                     editTextValue.setError(getContext().getString(R.string.validator_value_unrealistic));
                     isValid = false;
                 }
@@ -66,6 +60,16 @@ public class MeasurementGenericView <T extends Measurement> extends MeasurementA
             }
         }
         return isValid;
+    }
+
+    @Override
+    public Measurement getMeasurement() {
+        if (isValid()) {
+            measurement.setValues(Float.parseFloat(editTextValue.getText().toString()));
+            return measurement;
+        } else {
+            return null;
+        }
     }
     
 }

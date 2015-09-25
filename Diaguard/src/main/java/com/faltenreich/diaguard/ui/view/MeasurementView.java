@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.ui.view;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.adapter.SwipeDismissTouchListener;
+import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
@@ -18,13 +21,13 @@ import java.lang.reflect.Constructor;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnTouch;
 
 /**
  * Created by Faltenreich on 24.09.2015.
  */
 public class MeasurementView<T extends Measurement> extends LinearLayout {
-
-    private static final String TAG = MeasurementView.class.getSimpleName();
 
     @Bind(R.id.image_showcase)
     protected ImageView imageViewShowcase;
@@ -38,13 +41,11 @@ public class MeasurementView<T extends Measurement> extends LinearLayout {
     @Bind(R.id.category)
     protected TextView textViewCategory;
 
-    @Bind(R.id.button_delete)
-    protected ImageView buttonDelete;
-
     @Bind(R.id.layout_content)
     protected LinearLayout content;
 
-    private T measurement;
+    private Measurement.Category category;
+    private MeasurementViewCallback measurementViewCallback;
 
     @Deprecated
     public MeasurementView(Context context) {
@@ -53,44 +54,82 @@ public class MeasurementView<T extends Measurement> extends LinearLayout {
 
     public MeasurementView(Context context, T measurement) {
         super(context);
-        this.measurement = measurement;
-        init();
+        this.category = measurement.getMeasurementType();
+        init(measurement);
     }
 
-    @SuppressWarnings("unchecked")
     public MeasurementView(Context context, Measurement.Category category) {
         super(context);
-        try {
-            Constructor<T> constructor = category.toClass().getConstructor();
-            measurement = constructor.newInstance();
-        } catch (Exception exception) {
-            Log.e(TAG, String.format("Could not instantiate object of class '%s'", category.toClass().getSimpleName()));
-        }
-        init();
+        this.category = category;
+        init(null);
     }
 
-    private void init() {
+    public void setMeasurementViewCallback(MeasurementViewCallback measurementViewCallback) {
+        this.measurementViewCallback = measurementViewCallback;
+    }
+
+    private boolean hasMeasurementViewCallback() {
+        return measurementViewCallback != null;
+    }
+
+    private void init(@Nullable Measurement measurement) {
+        boolean isUpdating = measurement != null;
+
         LayoutInflater.from(getContext()).inflate(R.layout.list_item_measurement, this);
         ButterKnife.bind(this);
 
-        if (measurement instanceof Insulin) {
+        imageViewShowcase.setImageResource(PreferenceHelper.getInstance().getShowcaseImageResourceId(category));
+        viewLayerShowcase.setBackgroundColor(getResources().getColor(PreferenceHelper.getInstance().getCategoryColorResourceId(category)));
+        imageViewCategory.setImageResource(PreferenceHelper.getInstance().getCategoryImageResourceId(category));
+        textViewCategory.setText(PreferenceHelper.getInstance().getCategoryName(category));
 
-        } else if (measurement instanceof Meal) {
+        setOnTouchListener(new SwipeDismissTouchListener(this, null,
+                new SwipeDismissTouchListener.DismissCallbacks() {
+                    @Override
+                    public boolean canDismiss(Object token) {
+                        return true;
+                    }
+                    @Override
+                    public void onDismiss(View view, Object token) {
+                        if (hasMeasurementViewCallback()) {
+                            measurementViewCallback.onCategoryRemoved(category);
+                        }
+                    }
+                }));
 
-        } else if (measurement instanceof Pressure) {
-
-        } else {
-            content.addView(new MeasurementGenericView(getContext(), measurement));
+        switch (category) {
+            case INSULIN:
+                break;
+            case MEAL:
+                break;
+            case PRESSURE:
+                break;
+            default:
+                content.addView(isUpdating ?
+                        new MeasurementGenericView<>(getContext(), measurement) :
+                        new MeasurementGenericView<>(getContext(), category));
         }
     }
 
     public Measurement getMeasurement() {
-        try {
-            return ((MeasurementAbstractView) getChildAt(0)).getMeasurement();
-        } catch (Exception exception) {
-            Log.e(TAG, "Could not return measurement");
+        View childView = getChildAt(0);
+        if (childView != null && childView instanceof MeasurementAbstractView) {
+            return ((MeasurementAbstractView) childView).getMeasurement();
+        } else {
             return null;
         }
+    }
+
+    @SuppressWarnings("unused")
+    @OnClick(R.id.button_delete)
+    protected void remove() {
+        if (hasMeasurementViewCallback()) {
+            measurementViewCallback.onCategoryRemoved(category);
+        }
+    }
+
+    public interface MeasurementViewCallback {
+        void onCategoryRemoved(Measurement.Category category);
     }
 
 }

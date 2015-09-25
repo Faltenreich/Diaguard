@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by Faltenreich on 24.09.2015.
  */
-public class MeasurementListView extends LinearLayout {
+public class MeasurementListView extends LinearLayout implements MeasurementView.MeasurementViewCallback {
 
     private ArrayList<Measurement.Category> categories;
 
@@ -38,15 +38,18 @@ public class MeasurementListView extends LinearLayout {
     public void addMeasurement(Measurement.Category category) {
         if (!hasCategory(category)) {
             categories.add(0, category);
-            addView(new MeasurementView(getContext(), category), 0);
+            MeasurementView measurementView = new MeasurementView(getContext(), category);
+            measurementView.setMeasurementViewCallback(this);
+            addView(measurementView, 0);
         }
     }
 
     public void addMeasurement(Measurement measurement) {
-        Measurement.Category category = measurement.getMeasurementType();
-        if (!hasCategory(category)) {
-            categories.add(0, category);
-            addView(new MeasurementView(getContext(), measurement), 0);
+        if (!hasCategory(measurement.getMeasurementType())) {
+            categories.add(0, measurement.getMeasurementType());
+            MeasurementView measurementView = new MeasurementView(getContext(), measurement);
+            measurementView.setMeasurementViewCallback(this);
+            addView(measurementView, 0);
         }
     }
 
@@ -58,6 +61,10 @@ public class MeasurementListView extends LinearLayout {
         }
     }
 
+    public void removeMeasurement(Measurement measurement) {
+        removeMeasurement(measurement.getMeasurementType());
+    }
+
     public List<Measurement> getMeasurements() {
         List<Measurement> measurements = new ArrayList<>();
         for (int position = 0; position < getChildCount(); position++) {
@@ -67,6 +74,11 @@ public class MeasurementListView extends LinearLayout {
             }
         }
         return measurements;
+    }
+
+    @Override
+    public void onCategoryRemoved(Measurement.Category category) {
+        removeMeasurement(category);
     }
 
 }

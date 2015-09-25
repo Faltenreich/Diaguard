@@ -38,7 +38,8 @@ public class MeasurementPressureView extends MeasurementAbstractView<Pressure> {
 
     @Override
     protected void initLayout() {
-
+        editTextSystolic.setHint(getContext().getString(R.string.systolic));
+        editTextDiastolic.setHint(getContext().getString(R.string.diastolic));
     }
 
     @Override

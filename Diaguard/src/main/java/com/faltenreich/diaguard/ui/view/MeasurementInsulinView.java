@@ -41,7 +41,9 @@ public class MeasurementInsulinView extends MeasurementAbstractView<Insulin> {
 
     @Override
     protected void initLayout() {
-
+        editTextBolus.setHint(getContext().getString(R.string.bolus));
+        editTextCorrection.setHint(getContext().getString(R.string.correction));
+        editTextBasal.setHint(getContext().getString(R.string.basal));
     }
 
     @Override

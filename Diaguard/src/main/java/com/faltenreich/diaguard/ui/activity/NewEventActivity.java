@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -14,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -21,31 +21,20 @@ import android.widget.Toast;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
-import com.faltenreich.diaguard.data.entity.Activity;
 import com.faltenreich.diaguard.data.entity.Entry;
-import com.faltenreich.diaguard.data.entity.BloodSugar;
-import com.faltenreich.diaguard.data.entity.HbA1c;
-import com.faltenreich.diaguard.data.entity.Insulin;
-import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.data.entity.Pressure;
-import com.faltenreich.diaguard.data.entity.Pulse;
-import com.faltenreich.diaguard.data.entity.Weight;
 import com.faltenreich.diaguard.ui.fragments.DatePickerFragment;
 import com.faltenreich.diaguard.ui.fragments.TimePickerFragment;
 import com.faltenreich.diaguard.ui.view.MeasurementListView;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.data.PreferenceHelper;
-import com.faltenreich.diaguard.util.Validator;
 import com.faltenreich.diaguard.util.ViewHelper;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 import org.joda.time.DateTime;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -57,6 +46,9 @@ public class NewEventActivity extends BaseActivity {
 
     public static final String EXTRA_ENTRY = "EXTRA_ENTRY";
     public static final String EXTRA_DATE = "EXTRA_DATE";
+
+    @Bind(R.id.activity_newevent_scrollview)
+    protected ScrollView scrollView;
 
     @Bind(R.id.fab_menu)
     protected FloatingActionMenu fab;
@@ -80,8 +72,6 @@ public class NewEventActivity extends BaseActivity {
     private DateTime time;
 
     private boolean isNewEntry = true;
-
-    private LinkedHashMap<Measurement.Category, Boolean> categories;
 
     public NewEventActivity() {
         super(R.layout.activity_newevent);
@@ -114,12 +104,6 @@ public class NewEventActivity extends BaseActivity {
 
     public void initialize() {
         time = new DateTime();
-
-        categories = new LinkedHashMap<>();
-        Measurement.Category[] activeCategories = PreferenceHelper.getInstance().getActiveCategories();
-        for (Measurement.Category category : activeCategories) {
-            categories.put(category, false);
-        }
 
         checkIntents();
         setFloatingActionMenu();
@@ -179,22 +163,20 @@ public class NewEventActivity extends BaseActivity {
     private void setFloatingActionMenu() {
         // Show categories as FAB
         int numberOfVisibleButtons = 0;
-        for (final Measurement.Category category : categories.keySet()) {
-            if (!categories.get(category)) {
-                final FloatingActionButton fabCategory = getFloatingActionButton(
-                        PreferenceHelper.getInstance().getCategoryName(category),
-                        PreferenceHelper.getInstance().getCategoryImageResourceId(category),
-                        PreferenceHelper.getInstance().getCategoryColorResourceId(category));
-                fabCategory.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        fab.close(true);
-                        addMeasurementView(category);
-                    }
-                });
-                fab.addMenuButton(fabCategory);
-                numberOfVisibleButtons++;
-            }
+        for (final Measurement.Category category : PreferenceHelper.getInstance().getActiveCategories()) {
+            final FloatingActionButton fabCategory = getFloatingActionButton(
+                    PreferenceHelper.getInstance().getCategoryName(category),
+                    PreferenceHelper.getInstance().getCategoryImageResourceId(category),
+                    PreferenceHelper.getInstance().getCategoryColorResourceId(category));
+            fabCategory.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    fab.close(true);
+                    addMeasurementView(category);
+                }
+            });
+            fab.addMenuButton(fabCategory);
+            numberOfVisibleButtons++;
 
             // Show at most three buttons
             if (numberOfVisibleButtons == 3) {
@@ -243,15 +225,18 @@ public class NewEventActivity extends BaseActivity {
         return floatingActionButton;
     }
 
+    // FIXME: Order is broken
     private void showDialogCategories() {
         final Measurement.Category[] activeCategories = PreferenceHelper.getInstance().getActiveCategories();
+
         String[] categoryNames = new String[activeCategories.length];
         for (int position = 0; position < activeCategories.length; position++) {
-            categoryNames[position] = PreferenceHelper.getInstance().getCategoryName(activeCategories[position]);
+            categoryNames[position] = activeCategories[position].toString();
         }
 
         // Store old values
-        final Boolean[] visibleCategories = categories.values().toArray(new Boolean[categories.size()]);
+        final HashMap<Measurement.Category, Boolean> selectedCategories = layoutMeasurements.getActiveCategories();
+        final Boolean[] visibleCategories = selectedCategories.values().toArray(new Boolean[selectedCategories.size()]);
         // TODO: Avoid parsing to array of primitives
         boolean[] visibleCategoriesAsPrimitiveArray = new boolean[visibleCategories.length];
         for (int position = 0; position < visibleCategories.length; position++) {
@@ -273,16 +258,12 @@ public class NewEventActivity extends BaseActivity {
                 .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Measurement.Category[] categoriesArray = categories.keySet().toArray(new Measurement.Category[categories.size()]);
-                        for (int position = categoriesArray.length - 1; position >= 0; position--) {
-                            Measurement.Category category = categoriesArray[position];
-                            // Value was false and is now true -> Add new measurement
-                            if (!categories.get(category) && visibleCategories[position]) {
-                                addMeasurementView(activeCategories[position]);
-                            }
-                            // Value was true and is now false -> Remove old measurement
-                            else if (categories.get(category) && !visibleCategories[position]) {
-                                removeViewForCategory(activeCategories[position]);
+                        for (int position = activeCategories.length - 1; position >= 0; position--) {
+                            Measurement.Category category = activeCategories[position];
+                            if (visibleCategories[position]) {
+                                addMeasurementView(category);
+                            } else {
+                                removeMeasurementView(category);
                             }
                         }
                     }
@@ -303,12 +284,11 @@ public class NewEventActivity extends BaseActivity {
     }
 
     private void addMeasurementView(Measurement.Category category) {
-        categories.put(category, true);
+        scrollView.smoothScrollTo(0, 0);
         layoutMeasurements.addMeasurement(category);
     }
 
-    private void removeViewForCategory(Measurement.Category category) {
-        categories.put(category, false);
+    private void removeMeasurementView(Measurement.Category category) {
         layoutMeasurements.removeMeasurement(category);
     }
 

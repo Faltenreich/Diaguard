@@ -5,34 +5,18 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <LinearLayout style="@style/LayoutRow">
-
-        <TextView
-            android:text="@string/systolic"
-            style="@style/LayoutRowLabel"/>
-
-        <EditText
-            android:id="@+id/edittext_systolic"
-            android:inputType="numberDecimal"
-            android:background="@android:color/transparent"
-            style="@style/LayoutRowText"/>
-
-    </LinearLayout>
+    <EditText
+        android:id="@+id/edittext_systolic"
+        android:inputType="numberDecimal"
+        android:background="@android:color/transparent"
+        style="@style/LayoutRow"/>
 
     <View style="@style/LayoutRowSeparator"/>
 
-    <LinearLayout style="@style/LayoutRow">
-
-        <TextView
-            android:text="@string/diastolic"
-            style="@style/LayoutRowLabel"/>
-
-        <EditText
-            android:id="@+id/edittext_diastolic"
-            android:inputType="numberDecimal"
-            android:background="@android:color/transparent"
-            style="@style/LayoutRowText"/>
-
-    </LinearLayout>
+    <EditText
+        android:id="@+id/edittext_diastolic"
+        android:inputType="numberDecimal"
+        android:background="@android:color/transparent"
+        style="@style/LayoutRow"/>
 
 </LinearLayout>

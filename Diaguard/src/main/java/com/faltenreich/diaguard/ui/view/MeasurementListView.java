@@ -5,9 +5,11 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -31,7 +33,7 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
         this.categories = new ArrayList<>();
     }
 
-    private boolean hasCategory(Measurement.Category category) {
+    public boolean hasCategory(Measurement.Category category) {
         return categories.indexOf(category) != -1;
     }
 
@@ -74,6 +76,14 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
             }
         }
         return measurements;
+    }
+
+    public HashMap<Measurement.Category, Boolean> getActiveCategories() {
+        HashMap<Measurement.Category, Boolean> activeCategories = new HashMap<>();
+        for (Measurement.Category category : PreferenceHelper.getInstance().getActiveCategories()) {
+            activeCategories.put(category, hasCategory(category));
+        }
+        return activeCategories;
     }
 
     @Override

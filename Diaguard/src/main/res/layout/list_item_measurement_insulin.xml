@@ -5,50 +5,26 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <LinearLayout style="@style/LayoutRow">
-
-        <TextView
-            android:text="@string/bolus"
-            style="@style/LayoutRowLabel"/>
-
-        <EditText
-            android:id="@+id/edittext_bolus"
-            android:inputType="numberDecimal"
-            android:background="@android:color/transparent"
-            style="@style/LayoutRowText"/>
-
-    </LinearLayout>
+    <EditText
+        android:id="@+id/edittext_bolus"
+        android:inputType="numberDecimal"
+        android:background="@android:color/transparent"
+        style="@style/LayoutRow"/>
 
     <View style="@style/LayoutRowSeparator"/>
 
-    <LinearLayout style="@style/LayoutRow">
-
-        <TextView
-            android:text="@string/correction"
-            style="@style/LayoutRowLabel"/>
-
-        <EditText
-            android:id="@+id/edittext_correction"
-            android:inputType="numberDecimal"
-            android:background="@android:color/transparent"
-            style="@style/LayoutRowText"/>
-
-    </LinearLayout>
+    <EditText
+        android:id="@+id/edittext_correction"
+        android:inputType="numberDecimal"
+        android:background="@android:color/transparent"
+        style="@style/LayoutRow"/>
 
     <View style="@style/LayoutRowSeparator"/>
 
-    <LinearLayout style="@style/LayoutRow">
-
-        <TextView
-            android:text="@string/basal"
-            style="@style/LayoutRowLabel"/>
-
-        <EditText
-            android:id="@+id/edittext_basal"
-            android:inputType="numberDecimal"
-            android:background="@android:color/transparent"
-            style="@style/LayoutRowText"/>
-
-    </LinearLayout>
+    <EditText
+        android:id="@+id/edittext_basal"
+        android:inputType="numberDecimal"
+        android:background="@android:color/transparent"
+        style="@style/LayoutRow"/>
 
 </LinearLayout>

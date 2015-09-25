@@ -55,8 +55,6 @@ import butterknife.OnClick;
  */
 public class NewEventActivity extends BaseActivity {
 
-    private static final String TAG = NewEventActivity.class.getSimpleName();
-
     public static final String EXTRA_ENTRY = "EXTRA_ENTRY";
     public static final String EXTRA_DATE = "EXTRA_DATE";
 

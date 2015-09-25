@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.ui.view;
 
 import android.content.Context;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.EditText;
 
@@ -16,10 +17,13 @@ import butterknife.Bind;
  */
 public class MeasurementGenericView <T extends Measurement> extends MeasurementAbstractView<T> {
 
-    private static final String TAG = MeasurementGenericView.class.getSimpleName();
-
     @Bind(R.id.edittext_value)
     protected EditText editTextValue;
+
+    @Deprecated
+    public MeasurementGenericView(Context context) {
+        super(context);
+    }
 
     public MeasurementGenericView(Context context, T measurement) {
         super(context, measurement);
@@ -35,8 +39,7 @@ public class MeasurementGenericView <T extends Measurement> extends MeasurementA
     }
 
     @Override
-    protected
-    void initLayout() {
+    protected void initLayout() {
         editTextValue.setHint(PreferenceHelper.getInstance().getUnitAcronym(measurement.getMeasurementType()));
     }
 

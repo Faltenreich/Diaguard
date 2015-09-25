@@ -99,10 +99,14 @@ public class MeasurementView<T extends Measurement> extends LinearLayout {
 
         switch (category) {
             case INSULIN:
-                break;
-            case MEAL:
+                content.addView(isUpdating ?
+                        new MeasurementInsulinView(getContext(), (Insulin) measurement) :
+                        new MeasurementInsulinView(getContext()));
                 break;
             case PRESSURE:
+                content.addView(isUpdating ?
+                        new MeasurementPressureView(getContext(), (Pressure) measurement) :
+                        new MeasurementPressureView(getContext()));
                 break;
             default:
                 content.addView(isUpdating ?

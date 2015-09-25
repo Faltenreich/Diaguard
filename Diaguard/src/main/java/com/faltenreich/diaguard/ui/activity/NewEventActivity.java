@@ -6,25 +6,19 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.SwipeDismissTouchListener;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.Activity;
@@ -106,6 +100,20 @@ public class NewEventActivity extends BaseActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            case R.id.action_done:
+                submit();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     public void initialize() {
         time = new DateTime();
 
@@ -118,8 +126,7 @@ public class NewEventActivity extends BaseActivity {
         checkIntents();
         setFloatingActionMenu();
 
-        setDate();
-        setTime();
+        setDateTime();
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.alarm_intervals, android.R.layout.simple_spinner_item);
@@ -292,42 +299,19 @@ public class NewEventActivity extends BaseActivity {
         dialog.show();
     }
 
-    private void setDate() {
+    private void setDateTime() {
         buttonDate.setText(PreferenceHelper.getInstance().getDateFormat().print(time));
-    }
-
-    private void setTime() {
         buttonTime.setText(Helper.getTimeFormat().print(time));
     }
 
     private void addMeasurementView(Measurement.Category category) {
+        categories.put(category, true);
         layoutMeasurements.addMeasurement(category);
     }
 
     private void removeViewForCategory(Measurement.Category category) {
-        // Return if category is not yet active
-        if (!categories.get(category) && !viewForCategoryIsVisible(category)) {
-            return;
-        }
-
         categories.put(category, false);
-
-        for (int position = 0; position < layoutMeasurements.getChildCount(); position++) {
-            View childView = layoutMeasurements.getChildAt(position);
-            if (childView.getTag() == category) {
-                layoutMeasurements.removeView(childView);
-            }
-        }
-    }
-
-    private boolean viewForCategoryIsVisible(Measurement.Category category) {
-        for (int position = 0; position < layoutMeasurements.getChildCount(); position++) {
-            View childView = layoutMeasurements.getChildAt(position);
-            if (childView.getTag() == category) {
-                return true;
-            }
-        }
-        return false;
+        layoutMeasurements.removeMeasurement(category);
     }
 
     private void submit() {
@@ -340,26 +324,22 @@ public class NewEventActivity extends BaseActivity {
             inputIsValid = false;
         }
 
-        List<Measurement> measurements = new ArrayList<>();
-        // Iterate through all views and validate
-        for (int position = 0; position < layoutMeasurements.getChildCount(); position++) {
-            Measurement measurement = getMeasurementFromView(layoutMeasurements.getChildAt(position));
-            if (measurement != null) {
-                measurements.add(measurement);
-            } else {
-                ViewHelper.showSnackbar(findViewById(android.R.id.content), getString(R.string.error_unexpected));
-                inputIsValid = false;
-            }
-        }
-
         // Check whether there are values to submit
-        if (measurements.size() == 0) {
+        if (layoutMeasurements.getMeasurements().size() == 0) {
             // Show alert only if everything else was valid to reduce clutter
             if (inputIsValid) {
                 ViewHelper.showSnackbar(findViewById(android.R.id.content), getString(R.string.validator_value_none));
             }
             inputIsValid = false;
+        } else {
+            // Iterate through all views and validate
+            for (Measurement measurement : layoutMeasurements.getMeasurements()) {
+                if (measurement == null) {
+                    inputIsValid = false;
+                }
+            }
         }
+
 
         if (inputIsValid) {
             if (isNewEntry) {
@@ -399,7 +379,7 @@ public class NewEventActivity extends BaseActivity {
             entry.setNote(editTextNotes.length() > 0 ? editTextNotes.getText().toString() : null);
             EntryDao.getInstance().createOrUpdate(entry);
 
-            for (Measurement measurement : measurements) {
+            for (Measurement measurement : layoutMeasurements.getMeasurements()) {
                 measurement.setCreatedAt(now);
                 measurement.setUpdatedAt(now);
                 measurement.setEntry(entry);
@@ -415,178 +395,6 @@ public class NewEventActivity extends BaseActivity {
         }
     }
 
-    private Measurement getMeasurementFromView(View view) {
-        Measurement measurement = null;
-
-        if (view != null && view.getTag() != null) {
-            if (view.getTag() instanceof Measurement.Category) {
-                Measurement.Category category = (Measurement.Category) view.getTag();
-                switch (category) {
-                    case INSULIN:
-                        measurement = getInsulinFromView(view);
-                        break;
-                    case PRESSURE:
-                        measurement = getPressureFromView(view);
-                        break;
-                    default:
-                        measurement = getGenericFromView(category, view);
-                        break;
-                }
-            }
-        }
-        return measurement;
-    }
-
-    private Measurement getGenericFromView(Measurement.Category category, View view) {
-        Measurement measurement = null;
-
-        EditText editText = (EditText) view.findViewById(R.id.edittext_value);
-        editText.setError(null);
-        if (validateEditText(editText)) {
-            float value = PreferenceHelper.getInstance().formatCustomToDefaultUnit(
-                    category,
-                    Float.parseFloat(editText.getText().toString()));
-            if (validateValue(category, value)) {
-                switch (category) {
-                    case BLOODSUGAR:
-                        BloodSugar bloodSugar = new BloodSugar();
-                        bloodSugar.setMgDl(value);
-                        measurement = bloodSugar;
-                        break;
-                    case MEAL:
-                        Meal meal = new Meal();
-                        meal.setCarbohydrates(value);
-                        measurement = meal;
-                        break;
-                    case ACTIVITY:
-                        Activity activity = new Activity();
-                        activity.setMinutes((int) value);
-                        measurement = activity;
-                        break;
-                    case HBA1C:
-                        HbA1c hbA1c = new HbA1c();
-                        hbA1c.setPercent(value);
-                        measurement = hbA1c;
-                        break;
-                    case WEIGHT:
-                        Weight weight = new Weight();
-                        weight.setKilogram(value);
-                        measurement = weight;
-                        break;
-                    case PULSE:
-                        Pulse pulse = new Pulse();
-                        pulse.setFrequency(value);
-                        measurement = pulse;
-                        break;
-                    case PRESSURE:
-                        Pressure pressure = new Pressure();
-                        pressure.setSystolic(value);
-                        measurement = pressure;
-                    default:
-                        Log.e(TAG, String.format("Category %s is unsupported", category.toString()));
-                        break;
-                }
-            } else {
-                editText.setError(getString(R.string.validator_value_unrealistic));
-            }
-        } else {
-            editText.setError(getString(R.string.validator_value_empty));
-        }
-
-        return measurement;
-    }
-
-    private Insulin getInsulinFromView(View view) {
-        Insulin insulin = new Insulin();
-
-        EditText editTextBolus = (EditText) view.findViewById(R.id.edittext_bolus);
-        editTextBolus.setError(null);
-        if (validateEditText(editTextBolus)) {
-            float bolus = PreferenceHelper.getInstance().formatCustomToDefaultUnit(
-                    Measurement.Category.INSULIN,
-                    Float.parseFloat(editTextBolus.getText().toString()));
-            if (validateValue(Measurement.Category.INSULIN, bolus)) {
-                insulin.setBolus(bolus);
-            } else {
-                editTextBolus.setError(getString(R.string.validator_value_unrealistic));
-            }
-        }
-
-        EditText editTextCorrection = (EditText) view.findViewById(R.id.edittext_correction);
-        editTextCorrection.setError(null);
-        if (validateEditText(editTextCorrection)) {
-            float correction = PreferenceHelper.getInstance().formatCustomToDefaultUnit(
-                    Measurement.Category.INSULIN,
-                    Float.parseFloat(editTextCorrection.getText().toString()));
-            if (validateValue(Measurement.Category.INSULIN, correction)) {
-                insulin.setCorrection(correction);
-            } else {
-                editTextCorrection.setError(getString(R.string.validator_value_unrealistic));
-            }
-        }
-
-        EditText editTextBasal = (EditText) view.findViewById(R.id.edittext_basal);
-        editTextBasal.setError(null);
-        if (validateEditText(editTextBasal)) {
-            float basal = PreferenceHelper.getInstance().formatCustomToDefaultUnit(
-                    Measurement.Category.INSULIN,
-                    Float.parseFloat(editTextBasal.getText().toString()));
-            if (validateValue(Measurement.Category.INSULIN, basal)) {
-                insulin.setBasal(basal);
-            } else {
-                editTextBasal.setError(getString(R.string.validator_value_unrealistic));
-            }
-        }
-
-        if (insulin.getBolus() == 0 && insulin.getCorrection() == 0 && insulin.getBasal() == 0) {
-            editTextBolus.setError(getString(R.string.validator_value_empty));
-            return null;
-        } else {
-            return insulin;
-        }
-    }
-
-    private com.faltenreich.diaguard.data.entity.Activity getActivityFromView(View view) {
-        com.faltenreich.diaguard.data.entity.Activity activity =
-                (com.faltenreich.diaguard.data.entity.Activity)
-                        getGenericFromView(Measurement.Category.ACTIVITY, view);
-
-        // TODO: Type
-
-        return activity;
-    }
-
-    private Pressure getPressureFromView(View view) {
-        Pressure pressure = (Pressure) getGenericFromView(Measurement.Category.PRESSURE, view);
-
-        EditText editTextDiastolic = (EditText) view.findViewById(R.id.edittext_diastolic);
-        editTextDiastolic.setError(null);
-        if (validateEditText(editTextDiastolic)) {
-            float diastolic = PreferenceHelper.getInstance().formatCustomToDefaultUnit(
-                    Measurement.Category.PRESSURE,
-                    Float.parseFloat(editTextDiastolic.getText().toString()));
-            if (validateValue(Measurement.Category.PRESSURE, diastolic)) {
-                pressure.setDiastolic(diastolic);
-                return pressure;
-            } else {
-                editTextDiastolic.setError(getString(R.string.validator_value_unrealistic));
-                return null;
-            }
-        } else {
-            editTextDiastolic.setError(getString(R.string.validator_value_empty));
-            return null;
-        }
-    }
-
-    private boolean validateEditText(EditText editText) {
-        String value = editText.getText().toString();
-        return value.length() >= 0 && Validator.containsNumber(value);
-    }
-
-    private boolean validateValue(Measurement.Category category, Float value) {
-        return PreferenceHelper.getInstance().validateEventValue(category, value);
-    }
-
     @SuppressWarnings("unused")
     @OnClick(R.id.button_date)
     public void showDatePicker() {
@@ -594,7 +402,7 @@ public class NewEventActivity extends BaseActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 time = time.withYear(year).withMonthOfYear(month + 1).withDayOfMonth(day);
-                setDate();
+                setDateTime();
             }
         };
         Bundle bundle = new Bundle(1);
@@ -610,26 +418,12 @@ public class NewEventActivity extends BaseActivity {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 time = time.withHourOfDay(hourOfDay).withMinuteOfHour(minute);
-                setTime();
+                setDateTime();
             }
         };
         Bundle bundle = new Bundle(1);
         bundle.putSerializable(TimePickerFragment.TIME, time);
         fragment.setArguments(bundle);
         fragment.show(getSupportFragmentManager(), "TimePicker");
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            case R.id.action_done:
-                submit();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 }

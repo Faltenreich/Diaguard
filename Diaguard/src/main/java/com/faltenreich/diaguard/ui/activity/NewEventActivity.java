@@ -19,8 +19,10 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.data.DatabaseFacade;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
+import com.faltenreich.diaguard.data.entity.BaseEntity;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.fragments.DatePickerFragment;
@@ -35,6 +37,7 @@ import com.github.clans.fab.FloatingActionMenu;
 import org.joda.time.DateTime;
 
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -70,8 +73,6 @@ public class NewEventActivity extends BaseActivity {
 
     private Entry entry;
     private DateTime time;
-
-    private boolean isNewEntry = true;
 
     public NewEventActivity() {
         super(R.layout.activity_newevent);
@@ -120,40 +121,12 @@ public class NewEventActivity extends BaseActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             if (extras.getLong(EXTRA_ENTRY) != 0L) {
-                getSupportActionBar().setTitle(getString(R.string.entry_edit));
-                isNewEntry = false;
-
-                /*
-                // Get entry
-                if (extras.getLong(EXTRA_ENTRY) != 0L) {
-                    entry = (Entry) DatabaseFacade.getInstance().get(DatabaseHelper.ENTRY, extras.getLong(EXTRA_ENTRY));
-                } else {
-                    Measurement measurement = (Measurement) dataSource.get(DatabaseHelper.MEASUREMENT, extras.getLong("ID"));
-                    entry = (Entry) dataSource.get(DatabaseHelper.ENTRY, measurement.getEntry());
-                }
-
-                // and all of its measurements
-                List<BaseEntity> measurements = dataSource.get(DatabaseHelper.MEASUREMENT, null,
-                        DatabaseHelper.ENTRY_ID + "=?", new String[]{Long.toString(entry.getId())},
-                        null, null, null, null);
+                setTitle(getString(R.string.entry_edit));
+                entry = EntryDao.getInstance().get(extras.getLong(EXTRA_ENTRY));
 
                 time = entry.getDate();
                 editTextNotes.setText(entry.getNote());
-
-                for (BaseEntity baseEntity : measurements) {
-                    Measurement measurement = (Measurement) baseEntity;
-                    // TODO entry.getMeasurements().add(measurement);
-                    for (int position = 0; position < layoutMeasurements.getChildCount(); position++) {
-                        View view = layoutMeasurements.getChildAt(position);
-                        Measurement.Category category = (Measurement.Category) view.getTag();
-                        if(category == measurement.getCategory()) {
-                            EditText editTextValue = (EditText) view.findViewById(R.id.value);
-                            float customValue = preferenceHelper.formatDefaultToCustomUnit(category, measurement.getValue());
-                            editTextValue.setText(Helper.getDecimalFormat().format(customValue));
-                        }
-                    }
-                }
-                */
+                // TODO: layoutMeasurements.addMeasurements(MeasurementDao.getInstance().getMeasurements(entry, PreferenceHelper.getInstance().getActiveCategories()));
             } else if (extras.getSerializable(EXTRA_DATE) != null) {
                 time = (DateTime) extras.getSerializable(EXTRA_DATE);
             }
@@ -314,37 +287,37 @@ public class NewEventActivity extends BaseActivity {
         }
 
         if (inputIsValid) {
-            if (isNewEntry) {
+            if (entry == null) {
                 entry = new Entry();
                 entry.setCreatedAt(now);
-            } else {
-                /*
-                // Step through measurements and compare
-                List<Measurement> measurementsToDelete = new ArrayList<>(entry.getMeasurements());
-                for(Measurement measurement : measurements) {
-                    // Case 1: Measurement is new and old --> Update
-                    boolean updatedExistingMeasurement = false;
-                    for (Measurement oldMeasurement : entry.getMeasurements()) {
-                        if (measurement.getCategory() == oldMeasurement.getCategory()) {
-                            oldMeasurement.setValue(measurement.getValue());
-                            updatedExistingMeasurement = true;
-                            measurementsToDelete.remove(oldMeasurement);
-                            dataSource.update(oldMeasurement);
-                        }
-                    }
-                    // Case 2: Measurement is new but not old --> Insert
-                    if(!updatedExistingMeasurement) {
-                        measurement.setEntry(entry);
-                        dataSource.insert(measurement);
-                    }
-                    MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
-                }
-                // Case 3: Measurement is old but not new --> Delete
-                for(Measurement measurement : measurementsToDelete) {
-                    MeasurementDao.getInstance(measurement.getClass()).delete(measurement);
-                }
-                */
             }
+
+            /*
+            // Step through measurements and compare
+            List<Measurement> measurementsToDelete = new ArrayList<>(entry.getMeasurements());
+            for(Measurement measurement : measurements) {
+                // Case 1: Measurement is new and old --> Update
+                boolean updatedExistingMeasurement = false;
+                for (Measurement oldMeasurement : entry.getMeasurements()) {
+                    if (measurement.getCategory() == oldMeasurement.getCategory()) {
+                        oldMeasurement.setValue(measurement.getValue());
+                        updatedExistingMeasurement = true;
+                        measurementsToDelete.remove(oldMeasurement);
+                        dataSource.update(oldMeasurement);
+                    }
+                }
+                // Case 2: Measurement is new but not old --> Insert
+                if(!updatedExistingMeasurement) {
+                    measurement.setEntry(entry);
+                    dataSource.insert(measurement);
+                }
+                MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
+            }
+            // Case 3: Measurement is old but not new --> Delete
+            for(Measurement measurement : measurementsToDelete) {
+                MeasurementDao.getInstance(measurement.getClass()).delete(measurement);
+            }
+            */
 
             entry.setUpdatedAt(now);
             entry.setDate(time);

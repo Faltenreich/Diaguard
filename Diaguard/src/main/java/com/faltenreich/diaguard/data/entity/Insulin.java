@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.data.entity;
 
+import com.faltenreich.diaguard.DiaguardApplication;
+import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -61,14 +63,34 @@ public class Insulin extends Measurement {
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
+        float total = bolus + correction + basal;
+        StringBuilder stringBuilder = new StringBuilder(PreferenceHelper.getInstance().getMeasurementForUi(getMeasurementType(), total));
+        stringBuilder.append(" (");
+        boolean isFirstValue = true;
         if (getBolus() > 0) {
-            stringBuilder.append(PreferenceHelper.getInstance().getMeasurementForUi(getMeasurementType(), bolus));
-        } else if (getCorrection() > 0) {
-            stringBuilder.append(" + " + PreferenceHelper.getInstance().getMeasurementForUi(getMeasurementType(), correction));
-        } else if (getBasal() > 0) {
-            stringBuilder.append(" (" + PreferenceHelper.getInstance().getMeasurementForUi(getMeasurementType(), basal) + ")");
+            stringBuilder.append(String.format("%s %s",
+                    PreferenceHelper.getInstance().getMeasurementForUi(getMeasurementType(), bolus),
+                    DiaguardApplication.getContext().getString(R.string.bolus)));
+            isFirstValue = false;
         }
+        if (getCorrection() > 0) {
+            if (!isFirstValue) {
+                stringBuilder.append(", ");
+            }
+            stringBuilder.append(String.format("%s %s",
+                    PreferenceHelper.getInstance().getMeasurementForUi(getMeasurementType(), correction),
+                    DiaguardApplication.getContext().getString(R.string.correction)));
+            isFirstValue = false;
+        }
+        if (getBasal() > 0) {
+            if (!isFirstValue) {
+                stringBuilder.append(", ");
+            }
+            stringBuilder.append(String.format("%s %s",
+                    PreferenceHelper.getInstance().getMeasurementForUi(getMeasurementType(), basal),
+                    DiaguardApplication.getContext().getString(R.string.basal)));
+        }
+        stringBuilder.append(")");
         return stringBuilder.toString().trim();
     }
 }

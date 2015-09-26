@@ -1,9 +1,15 @@
 package com.faltenreich.diaguard.data.dao;
 
+import android.util.Log;
+
+import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Faltenreich on 06.09.2015.

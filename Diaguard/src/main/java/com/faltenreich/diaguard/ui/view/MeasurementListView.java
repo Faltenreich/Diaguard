@@ -55,6 +55,12 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
         }
     }
 
+    public void addMeasurements(List<Measurement> measurements) {
+        for (Measurement measurement : measurements) {
+            addMeasurement(measurement);
+        }
+    }
+
     public void removeMeasurement(Measurement.Category category) {
         int position = categories.indexOf(category);
         if (hasCategory(category)) {

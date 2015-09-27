@@ -66,7 +66,7 @@ public abstract class Measurement extends BaseEntity {
                 case PRESSURE:
                     return DiaguardApplication.getContext().getString(R.string.pressure);
                 default:
-                    return null;
+                    return "";
             }
         }
     }

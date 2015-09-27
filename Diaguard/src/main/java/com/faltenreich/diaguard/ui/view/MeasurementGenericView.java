@@ -55,7 +55,7 @@ public class MeasurementGenericView <T extends Measurement> extends MeasurementA
             isValid = false;
         } else {
             try {
-                float value = Float.parseFloat(input);
+                float value = PreferenceHelper.getInstance().formatCustomToDefaultUnit(measurement.getCategory(), Float.parseFloat(input));
                 if (!PreferenceHelper.getInstance().validateEventValue(measurement.getCategory(), value)) {
                     editTextValue.setError(getContext().getString(R.string.validator_value_unrealistic));
                     isValid = false;
@@ -71,7 +71,10 @@ public class MeasurementGenericView <T extends Measurement> extends MeasurementA
     @Override
     public Measurement getMeasurement() {
         if (isValid()) {
-            measurement.setValues(Float.parseFloat(editTextValue.getText().toString()));
+            measurement.setValues(
+                    PreferenceHelper.getInstance().formatCustomToDefaultUnit(
+                            measurement.getCategory(),
+                            Float.parseFloat(editTextValue.getText().toString())));
             return measurement;
         } else {
             return null;

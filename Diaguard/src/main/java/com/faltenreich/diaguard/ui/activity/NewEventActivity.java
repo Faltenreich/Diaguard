@@ -199,29 +199,23 @@ public class NewEventActivity extends BaseActivity {
         return floatingActionButton;
     }
 
-    // FIXME: Order is broken
     private void showDialogCategories() {
         final Measurement.Category[] activeCategories = PreferenceHelper.getInstance().getActiveCategories();
 
         String[] categoryNames = new String[activeCategories.length];
+        boolean[] visibleCategoriesOld = new boolean[activeCategories.length];
         for (int position = 0; position < activeCategories.length; position++) {
-            categoryNames[position] = activeCategories[position].toString();
+            Measurement.Category category = activeCategories[position];
+            categoryNames[position] = category.toString();
+            visibleCategoriesOld[position] = layoutMeasurements.hasCategory(category);
         }
 
-        // Store old values
-        final HashMap<Measurement.Category, Boolean> selectedCategories = layoutMeasurements.getActiveCategories();
-        final Boolean[] visibleCategories = selectedCategories.values().toArray(new Boolean[selectedCategories.size()]);
-        // TODO: Avoid parsing to array of primitives
-        boolean[] visibleCategoriesAsPrimitiveArray = new boolean[visibleCategories.length];
-        for (int position = 0; position < visibleCategories.length; position++) {
-            visibleCategoriesAsPrimitiveArray[position] = visibleCategories[position];
-        }
-
+        final boolean[] visibleCategories = visibleCategoriesOld.clone();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.categories)
                 .setMultiChoiceItems(
                         categoryNames,
-                        visibleCategoriesAsPrimitiveArray,
+                        visibleCategoriesOld,
                         new DialogInterface.OnMultiChoiceClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which, boolean isChecked) {

@@ -61,7 +61,7 @@ public class MeasurementPressureView extends MeasurementAbstractView<Pressure> {
             isValid = false;
         } else {
             try {
-                float value = Float.parseFloat(input);
+                float value = PreferenceHelper.getInstance().formatCustomToDefaultUnit(measurement.getCategory(), Float.parseFloat(input));
                 if (!PreferenceHelper.getInstance().validateEventValue(measurement.getCategory(), value)) {
                     editText.setError(getContext().getString(R.string.validator_value_unrealistic));
                     isValid = false;
@@ -78,8 +78,12 @@ public class MeasurementPressureView extends MeasurementAbstractView<Pressure> {
     public Measurement getMeasurement() {
         if (isValid()) {
             measurement.setValues(
-                    Float.parseFloat(editTextSystolic.getText().toString()),
-                    Float.parseFloat(editTextDiastolic.getText().toString()));
+                    PreferenceHelper.getInstance().formatCustomToDefaultUnit(
+                            measurement.getCategory(),
+                            Float.parseFloat(editTextSystolic.getText().toString())),
+                    PreferenceHelper.getInstance().formatCustomToDefaultUnit(
+                            measurement.getCategory(),
+                            Float.parseFloat(editTextDiastolic.getText().toString())));
             return measurement;
         } else {
             return null;

@@ -80,7 +80,7 @@ public class MeasurementInsulinView extends MeasurementAbstractView<Insulin> {
     private boolean isValueValid(EditText editText) {
         boolean isValid = true;
         try {
-            float value = Float.parseFloat(editText.getText().toString());
+            float value = PreferenceHelper.getInstance().formatCustomToDefaultUnit(measurement.getCategory(), Float.parseFloat(editText.getText().toString()));
             if (!PreferenceHelper.getInstance().validateEventValue(measurement.getCategory(), value)) {
                 editText.setError(getContext().getString(R.string.validator_value_unrealistic));
                 isValid = false;
@@ -96,9 +96,18 @@ public class MeasurementInsulinView extends MeasurementAbstractView<Insulin> {
     public Measurement getMeasurement() {
         if (isValid()) {
             measurement.setValues(
-                    editTextBolus.getText().toString().length() > 0 ? Float.parseFloat(editTextBolus.getText().toString()) : 0,
-                    editTextCorrection.getText().toString().length() > 0 ? Float.parseFloat(editTextCorrection.getText().toString()) : 0,
-                    editTextBasal.getText().toString().length() > 0 ? Float.parseFloat(editTextBasal.getText().toString()) : 0);
+                    editTextBolus.getText().toString().length() > 0 ?
+                            PreferenceHelper.getInstance().formatCustomToDefaultUnit(
+                                    measurement.getCategory(),
+                                    Float.parseFloat(editTextBolus.getText().toString())) : 0,
+                    editTextCorrection.getText().toString().length() > 0 ?
+                            PreferenceHelper.getInstance().formatCustomToDefaultUnit(
+                                    measurement.getCategory(),
+                                    Float.parseFloat(editTextCorrection.getText().toString())) : 0,
+                    editTextBasal.getText().toString().length() > 0 ?
+                            PreferenceHelper.getInstance().formatCustomToDefaultUnit(
+                                    measurement.getCategory(),
+                                    Float.parseFloat(editTextBasal.getText().toString())) : 0);
             return measurement;
         } else {
             return null;

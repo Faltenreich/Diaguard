@@ -84,14 +84,6 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
         return measurements;
     }
 
-    public HashMap<Measurement.Category, Boolean> getActiveCategories() {
-        HashMap<Measurement.Category, Boolean> activeCategories = new HashMap<>();
-        for (Measurement.Category category : PreferenceHelper.getInstance().getActiveCategories()) {
-            activeCategories.put(category, hasCategory(category));
-        }
-        return activeCategories;
-    }
-
     @Override
     public void onCategoryRemoved(Measurement.Category category) {
         removeMeasurement(category);

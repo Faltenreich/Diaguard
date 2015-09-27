@@ -47,8 +47,8 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
     }
 
     public void addMeasurement(Measurement measurement) {
-        if (!hasCategory(measurement.getMeasurementType())) {
-            categories.add(0, measurement.getMeasurementType());
+        if (!hasCategory(measurement.getCategory())) {
+            categories.add(0, measurement.getCategory());
             MeasurementView measurementView = new MeasurementView(getContext(), measurement);
             measurementView.setMeasurementViewCallback(this);
             addView(measurementView, 0);
@@ -70,7 +70,7 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
     }
 
     public void removeMeasurement(Measurement measurement) {
-        removeMeasurement(measurement.getMeasurementType());
+        removeMeasurement(measurement.getCategory());
     }
 
     public List<Measurement> getMeasurements() {

@@ -24,8 +24,13 @@ public class Weight extends Measurement {
     }
 
     @Override
-    public Category getMeasurementType() {
+    public Category getCategory() {
         return Category.WEIGHT;
+    }
+
+    @Override
+    public float[] getValues() {
+        return new float[] { kilogram };
     }
 
     @Override
@@ -35,6 +40,6 @@ public class Weight extends Measurement {
 
     @Override
     public String toString() {
-        return PreferenceHelper.getInstance().getMeasurementForUi(getMeasurementType(), kilogram);
+        return PreferenceHelper.getInstance().getMeasurementForUi(getCategory(), kilogram);
     }
 }

@@ -1,8 +1,6 @@
 package com.faltenreich.diaguard.ui.view;
 
 import android.content.Context;
-import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.EditText;
 
 import com.faltenreich.diaguard.R;
@@ -40,7 +38,12 @@ public class MeasurementGenericView <T extends Measurement> extends MeasurementA
 
     @Override
     protected void initLayout() {
-        editTextValue.setHint(PreferenceHelper.getInstance().getUnitAcronym(measurement.getMeasurementType()));
+        editTextValue.setHint(PreferenceHelper.getInstance().getUnitAcronym(measurement.getCategory()));
+    }
+
+    @Override
+    protected void setValues() {
+        editTextValue.setText(measurement.getValuesForUI()[0]);
     }
 
     @Override
@@ -53,7 +56,7 @@ public class MeasurementGenericView <T extends Measurement> extends MeasurementA
         } else {
             try {
                 float value = Float.parseFloat(input);
-                if (!PreferenceHelper.getInstance().validateEventValue(measurement.getMeasurementType(), value)) {
+                if (!PreferenceHelper.getInstance().validateEventValue(measurement.getCategory(), value)) {
                     editTextValue.setError(getContext().getString(R.string.validator_value_unrealistic));
                     isValid = false;
                 }

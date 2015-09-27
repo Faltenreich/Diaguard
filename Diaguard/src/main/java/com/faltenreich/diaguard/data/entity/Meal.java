@@ -36,8 +36,13 @@ public class Meal extends Measurement {
     }
 
     @Override
-    public Category getMeasurementType() {
+    public Category getCategory() {
         return Category.MEAL;
+    }
+
+    @Override
+    public float[] getValues() {
+        return new float[] { carbohydrates };
     }
 
     @Override
@@ -47,6 +52,6 @@ public class Meal extends Measurement {
 
     @Override
     public String toString() {
-        return PreferenceHelper.getInstance().getMeasurementForUi(getMeasurementType(), carbohydrates);
+        return PreferenceHelper.getInstance().getMeasurementForUi(getCategory(), carbohydrates);
     }
 }

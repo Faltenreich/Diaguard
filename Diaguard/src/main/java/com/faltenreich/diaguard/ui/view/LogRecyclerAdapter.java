@@ -202,7 +202,7 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
 
                 ViewGroup layoutEntries = (ViewGroup) viewEntry.findViewById(R.id.measurements);
                 for (Measurement measurement : entry.getMeasurementCache()) {
-                    Measurement.Category category = measurement.getMeasurementType();
+                    Measurement.Category category = measurement.getCategory();
                     View viewMeasurement = inflate.inflate(R.layout.list_item_log_measurement, vh.entries, false);
                     ImageView categoryImage = (ImageView) viewMeasurement.findViewById(R.id.image);
                     int imageResourceId = PreferenceHelper.getInstance().getCategoryImageResourceId(category);

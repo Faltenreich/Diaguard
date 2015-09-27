@@ -43,6 +43,7 @@ public abstract class MeasurementAbstractView <T extends Measurement> extends Li
         super(context);
         this.measurement = measurement;
         init();
+        setValues();
     }
 
     public MeasurementAbstractView(Context context, Measurement.Category category) {
@@ -59,6 +60,8 @@ public abstract class MeasurementAbstractView <T extends Measurement> extends Li
     protected abstract int getLayoutResourceId();
 
     protected abstract void initLayout();
+
+    protected abstract void setValues();
 
     protected abstract boolean isValid();
 

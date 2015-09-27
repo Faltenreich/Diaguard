@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.ui.view;
 
 import android.content.Context;
-import android.util.AttributeSet;
 import android.widget.EditText;
 
 import com.faltenreich.diaguard.R;
@@ -47,6 +46,13 @@ public class MeasurementInsulinView extends MeasurementAbstractView<Insulin> {
     }
 
     @Override
+    protected void setValues() {
+        editTextBolus.setText(measurement.getValuesForUI()[0]);
+        editTextCorrection.setText(measurement.getValuesForUI()[1]);
+        editTextBasal.setText(measurement.getValuesForUI()[2]);
+    }
+
+    @Override
     protected boolean isValid() {
         boolean isValid = true;
 
@@ -75,7 +81,7 @@ public class MeasurementInsulinView extends MeasurementAbstractView<Insulin> {
         boolean isValid = true;
         try {
             float value = Float.parseFloat(editText.getText().toString());
-            if (!PreferenceHelper.getInstance().validateEventValue(measurement.getMeasurementType(), value)) {
+            if (!PreferenceHelper.getInstance().validateEventValue(measurement.getCategory(), value)) {
                 editText.setError(getContext().getString(R.string.validator_value_unrealistic));
                 isValid = false;
             }

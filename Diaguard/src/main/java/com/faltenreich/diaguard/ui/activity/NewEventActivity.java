@@ -126,7 +126,8 @@ public class NewEventActivity extends BaseActivity {
 
                 time = entry.getDate();
                 editTextNotes.setText(entry.getNote());
-                // TODO: layoutMeasurements.addMeasurements(MeasurementDao.getInstance().getMeasurements(entry, PreferenceHelper.getInstance().getActiveCategories()));
+                List<Measurement> measurements = DatabaseFacade.getInstance().getMeasurements(entry, PreferenceHelper.getInstance().getActiveCategories());
+                layoutMeasurements.addMeasurements(measurements);
             } else if (extras.getSerializable(EXTRA_DATE) != null) {
                 time = (DateTime) extras.getSerializable(EXTRA_DATE);
             }

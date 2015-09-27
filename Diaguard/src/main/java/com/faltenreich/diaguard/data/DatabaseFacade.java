@@ -33,6 +33,8 @@ import java.util.List;
  */
 public class DatabaseFacade {
 
+    private static final String TAG = DatabaseFacade.class.getSimpleName();
+
     private static DatabaseFacade instance;
     private DatabaseHelper databaseHelper;
 
@@ -56,8 +58,7 @@ public class DatabaseFacade {
         }
     }
     
-    public <T extends BaseEntity> List<T> getAll(Class<T> clazz, long offset, long limit,
-                                            String orderColumn, boolean ascending) throws SQLException {
+    public <T extends BaseEntity> List<T> getAll(Class<T> clazz, long offset, long limit, String orderColumn, boolean ascending) throws SQLException {
         return getDao(clazz).queryBuilder().offset(offset).limit(limit).orderBy(orderColumn, ascending).query();
     }
 
@@ -90,26 +91,31 @@ public class DatabaseFacade {
         return getMeasurements(entry, classes);
     }
 
-    public Measurement getMeasurement(Entry entry, Measurement.Category category) throws SQLException {
-        switch (category) {
-            case BLOODSUGAR:
-                return getDao(BloodSugar.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
-            case INSULIN:
-                return getDao(Insulin.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
-            case MEAL:
-                return getDao(Meal.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
-            case ACTIVITY:
-                return getDao(Activity.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
-            case HBA1C:
-                return getDao(HbA1c.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
-            case WEIGHT:
-                return getDao(Weight.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
-            case PULSE:
-                return getDao(Pulse.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
-            case PRESSURE:
-                return getDao(Pressure.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
-            default:
-                return null;
+    public Measurement getMeasurement(Entry entry, Measurement.Category category) {
+        try {
+            switch (category) {
+                case BLOODSUGAR:
+                    return getDao(BloodSugar.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
+                case INSULIN:
+                    return getDao(Insulin.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
+                case MEAL:
+                    return getDao(Meal.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
+                case ACTIVITY:
+                    return getDao(Activity.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
+                case HBA1C:
+                    return getDao(HbA1c.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
+                case WEIGHT:
+                    return getDao(Weight.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
+                case PULSE:
+                    return getDao(Pulse.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
+                case PRESSURE:
+                    return getDao(Pressure.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
+                default:
+                    return null;
+            }
+        } catch (SQLException exception) {
+            Log.e(TAG, String.format("Could not fetch measurements of category '%s'", category.toString()));
+            return null;
         }
     }
 
@@ -128,10 +134,13 @@ public class DatabaseFacade {
         return measurements;
     }
 
-    public List<Measurement> getMeasurements(Entry entry, Measurement.Category[] categories) throws SQLException {
+    public List<Measurement> getMeasurements(Entry entry, Measurement.Category[] categories) {
         List<Measurement> measurements = new ArrayList<>();
         for (Measurement.Category category : categories) {
-            measurements.add(getMeasurement(entry, category));
+            Measurement measurement = getMeasurement(entry, category);
+            if (measurement != null) {
+                measurements.add(measurement);
+            }
         }
         return measurements;
     }

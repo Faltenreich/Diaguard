@@ -5,7 +5,6 @@ import android.widget.EditText;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
-import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Pressure;
 import com.faltenreich.diaguard.util.StringUtils;
@@ -43,6 +42,12 @@ public class MeasurementPressureView extends MeasurementAbstractView<Pressure> {
     }
 
     @Override
+    protected void setValues() {
+        editTextSystolic.setText(measurement.getValuesForUI()[0]);
+        editTextDiastolic.setText(measurement.getValuesForUI()[1]);
+    }
+
+    @Override
     protected boolean isValid() {
         return isValueValid(editTextSystolic) && isValueValid(editTextDiastolic);
     }
@@ -57,7 +62,7 @@ public class MeasurementPressureView extends MeasurementAbstractView<Pressure> {
         } else {
             try {
                 float value = Float.parseFloat(input);
-                if (!PreferenceHelper.getInstance().validateEventValue(measurement.getMeasurementType(), value)) {
+                if (!PreferenceHelper.getInstance().validateEventValue(measurement.getCategory(), value)) {
                     editText.setError(getContext().getString(R.string.validator_value_unrealistic));
                     isValid = false;
                 }

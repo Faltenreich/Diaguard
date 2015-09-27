@@ -24,8 +24,13 @@ public class HbA1c extends Measurement {
     }
 
     @Override
-    public Category getMeasurementType() {
+    public Category getCategory() {
         return Category.HBA1C;
+    }
+
+    @Override
+    public float[] getValues() {
+        return new float[] { percent };
     }
 
     @Override
@@ -35,6 +40,6 @@ public class HbA1c extends Measurement {
 
     @Override
     public String toString() {
-        return PreferenceHelper.getInstance().getMeasurementForUi(getMeasurementType(), percent);
+        return PreferenceHelper.getInstance().getMeasurementForUi(getCategory(), percent);
     }
 }

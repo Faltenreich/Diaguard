@@ -177,7 +177,7 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
                 // Add new entries
                 for (com.faltenreich.diaguard.data.entity.Entry entry : entries) {
                     for (Measurement measurement : entry.getMeasurementCache()) {
-                        Measurement.Category category = measurement.getMeasurementType();
+                        Measurement.Category category = measurement.getCategory();
                         int xValue = entry.getDate().getMinuteOfDay();
                         // TODO: Handle non-Bloodsugar values
                         float yValue = category == Measurement.Category.BLOODSUGAR ? ((BloodSugar) measurement).getMgDl() : 10;

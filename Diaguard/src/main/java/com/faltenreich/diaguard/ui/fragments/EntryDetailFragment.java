@@ -154,7 +154,7 @@ public class EntryDetailFragment extends BaseFragment {
     }
 
     private void addMeasurement(Measurement measurement) {
-        Measurement.Category category = measurement.getMeasurementType();
+        Measurement.Category category = measurement.getCategory();
         View view = getLayoutInflater(getArguments()).inflate(R.layout.fragment_measurement, layoutMeasurements, false);
         view.setTag(category);
 

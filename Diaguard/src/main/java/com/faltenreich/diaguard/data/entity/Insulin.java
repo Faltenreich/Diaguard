@@ -50,8 +50,13 @@ public class Insulin extends Measurement {
     }
 
     @Override
-    public Category getMeasurementType() {
+    public Category getCategory() {
         return Category.INSULIN;
+    }
+
+    @Override
+    public float[] getValues() {
+        return new float[] { bolus, correction, basal };
     }
 
     @Override
@@ -64,12 +69,12 @@ public class Insulin extends Measurement {
     @Override
     public String toString() {
         float total = bolus + correction + basal;
-        StringBuilder stringBuilder = new StringBuilder(PreferenceHelper.getInstance().getMeasurementForUi(getMeasurementType(), total));
+        StringBuilder stringBuilder = new StringBuilder(PreferenceHelper.getInstance().getMeasurementForUi(getCategory(), total));
         stringBuilder.append(" (");
         boolean isFirstValue = true;
         if (getBolus() > 0) {
             stringBuilder.append(String.format("%s %s",
-                    PreferenceHelper.getInstance().getMeasurementForUi(getMeasurementType(), bolus),
+                    PreferenceHelper.getInstance().getMeasurementForUi(getCategory(), bolus),
                     DiaguardApplication.getContext().getString(R.string.bolus)));
             isFirstValue = false;
         }
@@ -78,7 +83,7 @@ public class Insulin extends Measurement {
                 stringBuilder.append(", ");
             }
             stringBuilder.append(String.format("%s %s",
-                    PreferenceHelper.getInstance().getMeasurementForUi(getMeasurementType(), correction),
+                    PreferenceHelper.getInstance().getMeasurementForUi(getCategory(), correction),
                     DiaguardApplication.getContext().getString(R.string.correction)));
             isFirstValue = false;
         }
@@ -87,7 +92,7 @@ public class Insulin extends Measurement {
                 stringBuilder.append(", ");
             }
             stringBuilder.append(String.format("%s %s",
-                    PreferenceHelper.getInstance().getMeasurementForUi(getMeasurementType(), basal),
+                    PreferenceHelper.getInstance().getMeasurementForUi(getCategory(), basal),
                     DiaguardApplication.getContext().getString(R.string.basal)));
         }
         stringBuilder.append(")");

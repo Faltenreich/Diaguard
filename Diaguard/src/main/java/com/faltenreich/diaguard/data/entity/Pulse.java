@@ -24,8 +24,13 @@ public class Pulse extends Measurement {
     }
 
     @Override
-    public Category getMeasurementType() {
+    public Category getCategory() {
         return Category.PULSE;
+    }
+
+    @Override
+    public float[] getValues() {
+        return new float[] { frequency };
     }
 
     @Override
@@ -35,6 +40,6 @@ public class Pulse extends Measurement {
 
     @Override
     public String toString() {
-        return PreferenceHelper.getInstance().getMeasurementForUi(getMeasurementType(), frequency);
+        return PreferenceHelper.getInstance().getMeasurementForUi(getCategory(), frequency);
     }
 }

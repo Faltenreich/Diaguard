@@ -38,8 +38,13 @@ public class Pressure extends Measurement {
     }
 
     @Override
-    public Category getMeasurementType() {
+    public Category getCategory() {
         return Category.PRESSURE;
+    }
+
+    @Override
+    public float[] getValues() {
+        return new float[] { systolic, diastolic };
     }
 
     @Override
@@ -50,8 +55,8 @@ public class Pressure extends Measurement {
 
     @Override
     public String toString() {
-        return PreferenceHelper.getInstance().getMeasurementForUi(getMeasurementType(), systolic) + " " +
+        return PreferenceHelper.getInstance().getMeasurementForUi(getCategory(), systolic) + " " +
                 DiaguardApplication.getContext().getString(R.string.to) + " " +
-                PreferenceHelper.getInstance().getMeasurementForUi(getMeasurementType(), diastolic);
+                PreferenceHelper.getInstance().getMeasurementForUi(getCategory(), diastolic);
     }
 }

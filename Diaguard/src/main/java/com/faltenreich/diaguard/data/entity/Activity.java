@@ -40,8 +40,13 @@ public class Activity extends Measurement {
     }
 
     @Override
-    public Category getMeasurementType() {
+    public Category getCategory() {
         return Category.ACTIVITY;
+    }
+
+    @Override
+    public float[] getValues() {
+        return new float[] { minutes };
     }
 
     @Override
@@ -51,6 +56,6 @@ public class Activity extends Measurement {
 
     @Override
     public String toString() {
-        return PreferenceHelper.getInstance().getMeasurementForUi(getMeasurementType(), minutes);
+        return PreferenceHelper.getInstance().getMeasurementForUi(getCategory(), minutes);
     }
 }

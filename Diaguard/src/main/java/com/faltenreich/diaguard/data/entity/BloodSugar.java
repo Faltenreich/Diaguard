@@ -24,8 +24,13 @@ public class BloodSugar extends Measurement {
     }
 
     @Override
-    public Category getMeasurementType() {
+    public Category getCategory() {
         return Category.BLOODSUGAR;
+    }
+
+    @Override
+    public float[] getValues() {
+        return new float[] { mgDl };
     }
 
     @Override
@@ -35,6 +40,6 @@ public class BloodSugar extends Measurement {
 
     @Override
     public String toString() {
-        return PreferenceHelper.getInstance().getMeasurementForUi(getMeasurementType(), mgDl);
+        return PreferenceHelper.getInstance().getMeasurementForUi(getCategory(), mgDl);
     }
 }

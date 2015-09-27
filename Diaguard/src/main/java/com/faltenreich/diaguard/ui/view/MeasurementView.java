@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.ui.view;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,16 +12,12 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.SwipeDismissTouchListener;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Insulin;
-import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Pressure;
-
-import java.lang.reflect.Constructor;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnTouch;
 
 /**
  * Created by Faltenreich on 24.09.2015.
@@ -54,7 +49,7 @@ public class MeasurementView<T extends Measurement> extends LinearLayout {
 
     public MeasurementView(Context context, T measurement) {
         super(context);
-        this.category = measurement.getMeasurementType();
+        this.category = measurement.getCategory();
         init(measurement);
     }
 

@@ -79,6 +79,7 @@ public class MeasurementInsulinView extends MeasurementAbstractView<Insulin> {
 
     private boolean isValueValid(EditText editText) {
         boolean isValid = true;
+        editText.setError(null);
         try {
             float value = PreferenceHelper.getInstance().formatCustomToDefaultUnit(measurement.getCategory(), Float.parseFloat(editText.getText().toString()));
             if (!PreferenceHelper.getInstance().validateEventValue(measurement.getCategory(), value)) {

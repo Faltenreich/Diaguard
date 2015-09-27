@@ -60,6 +60,7 @@ public class MeasurementPressureView extends MeasurementAbstractView<Pressure> {
             editText.setError(getContext().getString(R.string.validator_value_empty));
             isValid = false;
         } else {
+            editText.setError(null);
             try {
                 float value = PreferenceHelper.getInstance().formatCustomToDefaultUnit(measurement.getCategory(), Float.parseFloat(input));
                 if (!PreferenceHelper.getInstance().validateEventValue(measurement.getCategory(), value)) {

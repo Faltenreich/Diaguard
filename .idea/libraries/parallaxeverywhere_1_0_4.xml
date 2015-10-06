@@ -5,6 +5,8 @@
       <root url="file://$PROJECT_DIR$/Diaguard/build/intermediates/exploded-aar/com.fmsirvent/parallaxeverywhere/1.0.4/res" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fmsirvent/parallaxeverywhere/1.0.4/7a47c13eb3ca34b425431dc55abdb03b689fd5e6/parallaxeverywhere-1.0.4-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>

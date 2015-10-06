@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.data.DatabaseFacade;
+import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.PreferenceHelper;
@@ -150,15 +150,11 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
 
         protected List<com.faltenreich.diaguard.data.entity.Entry> doInBackground(Void... params) {
             try {
-                List<com.faltenreich.diaguard.data.entity.Entry> entries = DatabaseFacade.getInstance().getEntriesOfDay(day);
+                List<com.faltenreich.diaguard.data.entity.Entry> entries = EntryDao.getInstance().getEntriesOfDay(day);
                 if (entries != null && entries.size() > 0) {
                     for (com.faltenreich.diaguard.data.entity.Entry entry : entries) {
-                        for (Measurement.Category category : PreferenceHelper.getInstance().getActiveCategories()) {
-                            Measurement measurement = DatabaseFacade.getInstance().getMeasurement(entry, category);
-                            if (measurement != null) {
-                                entry.getMeasurementCache().add(measurement);
-                            }
-                        }
+                        List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
+                        entry.getMeasurementCache().addAll(measurements);
                     }
                 }
                 return entries;

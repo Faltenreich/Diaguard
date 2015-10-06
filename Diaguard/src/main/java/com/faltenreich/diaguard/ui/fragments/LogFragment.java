@@ -85,7 +85,7 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
 
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerAdapter = new LogRecyclerAdapter(getActivity(), day);
+        recyclerAdapter = new LogRecyclerAdapter(getActivity(), getActivity().getSupportFragmentManager(), day);
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.scrollToPosition(day.dayOfMonth().get());
         updateMonthForUi();

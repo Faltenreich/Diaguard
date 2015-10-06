@@ -10,6 +10,7 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.QueryBuilder;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -31,11 +32,15 @@ public abstract class BaseDao <T extends BaseEntity> {
 
     protected Dao<T, Long> getDao() {
         try {
-            return this.databaseHelper.getDao(clazz);
+            return databaseHelper.getDao(clazz);
         } catch (SQLException exception) {
             Log.e(TAG, String.format("Could not retrieve Dao of class %s", clazz.getSimpleName()));
             return null;
         }
+    }
+
+    protected Class<T> getClazz() {
+        return clazz;
     }
 
     public T get(long id) {

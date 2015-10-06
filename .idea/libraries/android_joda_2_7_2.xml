@@ -5,6 +5,8 @@
       <root url="file://$PROJECT_DIR$/Diaguard/build/intermediates/exploded-aar/net.danlew/android.joda/2.7.2/res" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.danlew/android.joda/2.7.2/2085ec94fe63a9cc96f62a7ee4d38ac70fb39b7a/android.joda-2.7.2-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>

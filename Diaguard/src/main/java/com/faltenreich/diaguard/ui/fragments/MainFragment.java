@@ -4,17 +4,17 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.faltenreich.diaguard.data.dao.EntryDao;
+import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.ui.activity.BaseActivity;
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.ui.activity.EntryDetailActivity;
 import com.faltenreich.diaguard.ui.activity.NewEventActivity;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.data.DatabaseFacade;
 import com.faltenreich.diaguard.data.DatabaseHelper;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
@@ -26,8 +26,6 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.j256.ormlite.stmt.QueryBuilder;
-import com.j256.ormlite.stmt.Where;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -35,7 +33,6 @@ import org.joda.time.Days;
 import org.joda.time.Interval;
 import org.joda.time.Minutes;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -122,67 +119,59 @@ public class MainFragment extends BaseFragment {
     }
 
     private void updateLatest() {
-        try {
-            QueryBuilder<Entry, ?> joinQb = DatabaseFacade.getInstance().join(Entry.class, BloodSugar.class).orderBy(Entry.DATE, false).limit(1L);
-            List<Entry> entries = joinQb.query();
-            if (entries.size() > 0) {
-                textViewLatestValue.setTextSize(60);
+        final Entry entry = EntryDao.getInstance().getLatestWithMeasurement(BloodSugar.class);
+        if (entry != null) {
+            textViewLatestValue.setTextSize(60);
+            final BloodSugar bloodSugar = (BloodSugar) MeasurementDao.getInstance(BloodSugar.class).getMeasurement(entry);
 
-                final Entry entry = entries.get(0);
-                Where<BloodSugar, ?> where = DatabaseFacade.getInstance().getDao(BloodSugar.class).queryBuilder().where().eq(BloodSugar.ENTRY_ID, entry.getId());
-                BloodSugar bloodSugar = where.query().get(0);
+            // Value
+            textViewLatestValue.setText(bloodSugar.toString());
 
-                // Value
-                textViewLatestValue.setText(bloodSugar.toString());
-
-                // Highlighting
-                if(PreferenceHelper.getInstance().limitsAreHighlighted()) {
-                    if(bloodSugar.getMgDl() > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
-                        textViewLatestValue.setTextColor(getResources().getColor(R.color.red));
-                    } else if(bloodSugar.getMgDl() < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
-                        textViewLatestValue.setTextColor(getResources().getColor(R.color.blue));
-                    } else {
-                        textViewLatestValue.setTextColor(getResources().getColor(R.color.green));
-                    }
+            // Highlighting
+            if(PreferenceHelper.getInstance().limitsAreHighlighted()) {
+                if(bloodSugar.getMgDl() > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
+                    textViewLatestValue.setTextColor(getResources().getColor(R.color.red));
+                } else if(bloodSugar.getMgDl() < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
+                    textViewLatestValue.setTextColor(getResources().getColor(R.color.blue));
+                } else {
+                    textViewLatestValue.setTextColor(getResources().getColor(R.color.green));
                 }
-
-                // Unit
-                textViewLatestUnit.setText(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BLOODSUGAR));
-
-                // Time
-                textViewLatestTime.setText(PreferenceHelper.getInstance().
-                        getDateFormat().print(entry.getDate()) + " " +
-                        Helper.getTimeFormat().print(entry.getDate()) + " | ");
-                int differenceInMinutes = Minutes.minutesBetween(entry.getDate(), new DateTime()).getMinutes();
-
-                // Highlight if last measurement is more than eight hours ago
-                textViewLatestAgo.setTextColor(getResources().getColor(R.color.green));
-                if(differenceInMinutes > DateTimeConstants.MINUTES_PER_HOUR * 8) {
-                    textViewLatestAgo.setTextColor(getResources().getColor(R.color.red));
-                }
-
-                textViewLatestAgo.setText(Helper.getTextAgo(getActivity(), differenceInMinutes));
-
-                layoutLatest.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), EntryDetailActivity.class);
-                        intent.putExtra(EntryDetailFragment.EXTRA_ENTRY, entry.getId());
-                        startActivity(intent);
-                    }
-                });
-            } else {
-                textViewLatestValue.setTextSize(40);
-
-                layoutLatest.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        startActivity(new Intent(getActivity(), NewEventActivity.class));
-                    }
-                });
             }
-        } catch (SQLException exception) {
-            Log.e("MainFragment", exception.getMessage());
+
+            // Unit
+            textViewLatestUnit.setText(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BLOODSUGAR));
+
+            // Time
+            textViewLatestTime.setText(PreferenceHelper.getInstance().
+                    getDateFormat().print(entry.getDate()) + " " +
+                    Helper.getTimeFormat().print(entry.getDate()) + " | ");
+            int differenceInMinutes = Minutes.minutesBetween(entry.getDate(), new DateTime()).getMinutes();
+
+            // Highlight if last measurement is more than eight hours ago
+            textViewLatestAgo.setTextColor(getResources().getColor(R.color.green));
+            if(differenceInMinutes > DateTimeConstants.MINUTES_PER_HOUR * 8) {
+                textViewLatestAgo.setTextColor(getResources().getColor(R.color.red));
+            }
+
+            textViewLatestAgo.setText(Helper.getTextAgo(getActivity(), differenceInMinutes));
+
+            layoutLatest.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), EntryDetailActivity.class);
+                    intent.putExtra(EntryDetailFragment.EXTRA_ENTRY, entry.getId());
+                    startActivity(intent);
+                }
+            });
+        } else {
+            textViewLatestValue.setTextSize(40);
+
+            layoutLatest.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getActivity(), NewEventActivity.class));
+                }
+            });
         }
     }
 
@@ -195,49 +184,40 @@ public class MainFragment extends BaseFragment {
     private class UpdateDashboardTask extends AsyncTask<Void, Void, String[]> {
 
         protected String[] doInBackground(Void... params) {
-            try {
-                QueryBuilder<Entry, ?> jointQuery = DatabaseFacade.getInstance().join(Entry.class, BloodSugar.class);
-                Where<Entry, ?> whereToday = jointQuery.where().gt(Entry.DATE, DateTime.now().withTimeAtStartOfDay());
-                List<Entry> entriesWithBloodSugar = whereToday.query();
+            List<Entry> entriesWithBloodSugar = EntryDao.getInstance().getAllWithMeasurementFromToday(BloodSugar.class);
 
-                int countHypers = 0;
-                int countHypos = 0;
-                for (Entry entry : entriesWithBloodSugar) {
-                    List<BloodSugar> bloodSugarList = DatabaseFacade.getInstance().getDao(BloodSugar.class).queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).query();
-                    for (BloodSugar bloodSugar : bloodSugarList) {
-                        float mgDl = bloodSugar.getMgDl();
-                        if (mgDl > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
-                            countHypers++;
-                        } else if (mgDl < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
-                            countHypos++;
-                        }
-                    }
+            int countHypers = 0;
+            int countHypos = 0;
+            for (Entry entry : entriesWithBloodSugar) {
+                BloodSugar bloodSugar = (BloodSugar) MeasurementDao.getInstance(BloodSugar.class).getMeasurement(entry);
+                float mgDl = bloodSugar.getMgDl();
+                if (mgDl > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
+                    countHypers++;
+                } else if (mgDl < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
+                    countHypos++;
                 }
-                DateTime now = DateTime.now();
-                Interval intervalWeek = new Interval(new DateTime(now.minusWeeks(1)), now);
-                Interval intervalMonth = new Interval(new DateTime(now.minusMonths(1)), now);
-
-                float avgDay = DatabaseFacade.getInstance().avg(BloodSugar.class, BloodSugar.MGDL, now);
-                float avgDayCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, avgDay);
-
-                float avgWeek = DatabaseFacade.getInstance().avg(BloodSugar.class, BloodSugar.MGDL, intervalWeek);
-                float avgWeekCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, avgWeek);
-
-                float avgMonth = DatabaseFacade.getInstance().avg(BloodSugar.class, BloodSugar.MGDL, intervalMonth);
-                float avgMonthCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, avgMonth);
-
-                return new String[] {
-                        Integer.toString(entriesWithBloodSugar.size()),
-                        Integer.toString(countHypers),
-                        Integer.toString(countHypos),
-                        PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(avgDayCustom),
-                        PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(avgWeekCustom),
-                        PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(avgMonthCustom)};
-
-            } catch (SQLException exception) {
-                Log.e("MainFragment", exception.getMessage());
-                return null;
             }
+            DateTime now = DateTime.now();
+            Interval intervalWeek = new Interval(new DateTime(now.minusWeeks(1)), now);
+            Interval intervalMonth = new Interval(new DateTime(now.minusMonths(1)), now);
+
+            float avgDay = MeasurementDao.getInstance(BloodSugar.class).avg(BloodSugar.MGDL, now);
+            float avgDayCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, avgDay);
+
+            float avgWeek = MeasurementDao.getInstance(BloodSugar.class).avg(BloodSugar.MGDL, intervalWeek);
+            float avgWeekCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, avgWeek);
+
+            float avgMonth = MeasurementDao.getInstance(BloodSugar.class).avg(BloodSugar.MGDL, intervalMonth);
+            float avgMonthCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, avgMonth);
+
+            return new String[] {
+                    Integer.toString(entriesWithBloodSugar.size()),
+                    Integer.toString(countHypers),
+                    Integer.toString(countHypos),
+                    PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(avgDayCustom),
+                    PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(avgWeekCustom),
+                    PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(avgMonthCustom)
+            };
         }
 
         protected void onPostExecute(String[] values) {
@@ -306,16 +286,12 @@ public class MainFragment extends BaseFragment {
             while (!currentDay.isAfter(today)) {
                 int index = DateTimeConstants.DAYS_PER_WEEK - Days.daysBetween(currentDay, today).getDays() - 1;
                 xLabels.add(index, weekDays[currentDay.dayOfWeek().get() - 1]);
-                try {
-                    float avg = DatabaseFacade.getInstance().avg(BloodSugar.class, BloodSugar.MGDL, currentDay);
-                    if (avg > 0) {
-                        entries.add(new com.github.mikephil.charting.data.Entry(avg, index));
-                        if (avg > highestValue) {
-                            highestValue = avg;
-                        }
+                float avg = MeasurementDao.getInstance(BloodSugar.class).avg(BloodSugar.MGDL, currentDay);
+                if (avg > 0) {
+                    entries.add(new com.github.mikephil.charting.data.Entry(avg, index));
+                    if (avg > highestValue) {
+                        highestValue = avg;
                     }
-                } catch (SQLException exception) {
-                    Log.e("MainFragment", exception.getMessage());
                 }
                 currentDay = currentDay.plusDays(1);
             }

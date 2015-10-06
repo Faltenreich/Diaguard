@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.ui.view;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,10 +12,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.ui.activity.EntryDetailActivity;
 import com.faltenreich.diaguard.ui.activity.NewEventActivity;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.data.DatabaseFacade;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Measurement;
@@ -44,12 +45,14 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
     }
 
     private Context context;
+    private FragmentManager fragmentManager;
 
     private DateTime maxVisibleDate;
     private DateTime minVisibleDate;
 
-    public LogRecyclerAdapter(Context context, DateTime firstVisibleDay) {
+    public LogRecyclerAdapter(Context context, FragmentManager fragmentManager, DateTime firstVisibleDay) {
         this.context = context;
+        this.fragmentManager = fragmentManager;
         this.items = new ArrayList<>();
 
         minVisibleDate = firstVisibleDay.withDayOfMonth(1);
@@ -99,9 +102,10 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
 
     private List<Entry> fetchData(DateTime day) {
         try {
-            List<Entry> entriesOfDay = DatabaseFacade.getInstance().getEntriesOfDay(day);
+            List<Entry> entriesOfDay = EntryDao.getInstance().getEntriesOfDay(day);
             for (Entry entry : entriesOfDay) {
-                entry.setMeasurementCache(DatabaseFacade.getInstance().getMeasurements(entry));
+                List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
+                entry.setMeasurementCache(measurements);
             }
             return entriesOfDay;
         } catch (SQLException exception) {

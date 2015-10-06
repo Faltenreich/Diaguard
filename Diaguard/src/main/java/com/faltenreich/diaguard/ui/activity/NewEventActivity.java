@@ -3,12 +3,10 @@ package com.faltenreich.diaguard.ui.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -19,20 +17,18 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.data.DatabaseFacade;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
-import com.faltenreich.diaguard.data.entity.BaseEntity;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.fragments.DatePickerFragment;
 import com.faltenreich.diaguard.ui.fragments.TimePickerFragment;
+import com.faltenreich.diaguard.ui.view.MeasurementFloatingActionMenu;
 import com.faltenreich.diaguard.ui.view.MeasurementListView;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.util.ViewHelper;
 import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
 
 import org.joda.time.DateTime;
 
@@ -45,7 +41,7 @@ import butterknife.OnClick;
 /**
  * Created by Filip on 19.10.13.
  */
-public class NewEventActivity extends BaseActivity {
+public class NewEventActivity extends BaseActivity implements MeasurementFloatingActionMenu.MeasurementFloatingActionMenuCallback {
 
     public static final String EXTRA_ENTRY = "EXTRA_ENTRY";
     public static final String EXTRA_DATE = "EXTRA_DATE";
@@ -54,7 +50,7 @@ public class NewEventActivity extends BaseActivity {
     protected ScrollView scrollView;
 
     @Bind(R.id.fab_menu)
-    protected FloatingActionMenu fab;
+    protected MeasurementFloatingActionMenu fab;
 
     @Bind(R.id.layout_measurements)
     protected MeasurementListView layoutMeasurements;
@@ -73,6 +69,8 @@ public class NewEventActivity extends BaseActivity {
 
     private Entry entry;
     private DateTime time;
+
+    private HashMap<Measurement.Category, FloatingActionButton> menuButtons;
 
     public NewEventActivity() {
         super(R.layout.activity_newevent);
@@ -107,14 +105,15 @@ public class NewEventActivity extends BaseActivity {
         time = new DateTime();
 
         checkIntents();
-        setFloatingActionMenu();
-
         setDateTime();
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.alarm_intervals, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerAlarm.setAdapter(adapter);
+
+        fab.init();
+        fab.setMeasurementFloatingActionMenuCallback(this);
     }
 
     private void checkIntents() {
@@ -126,77 +125,12 @@ public class NewEventActivity extends BaseActivity {
 
                 time = entry.getDate();
                 editTextNotes.setText(entry.getNote());
-                List<Measurement> measurements = DatabaseFacade.getInstance().getMeasurements(entry, PreferenceHelper.getInstance().getActiveCategories());
+                List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
                 layoutMeasurements.addMeasurements(measurements);
             } else if (extras.getSerializable(EXTRA_DATE) != null) {
                 time = (DateTime) extras.getSerializable(EXTRA_DATE);
             }
         }
-    }
-
-    private void setFloatingActionMenu() {
-        // Show categories as FAB
-        int numberOfVisibleButtons = 0;
-        for (final Measurement.Category category : PreferenceHelper.getInstance().getActiveCategories()) {
-            final FloatingActionButton fabCategory = getFloatingActionButton(
-                    PreferenceHelper.getInstance().getCategoryName(category),
-                    PreferenceHelper.getInstance().getCategoryImageResourceId(category),
-                    PreferenceHelper.getInstance().getCategoryColorResourceId(category));
-            fabCategory.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    fab.close(true);
-                    addMeasurementView(category);
-                }
-            });
-            fab.addMenuButton(fabCategory);
-            numberOfVisibleButtons++;
-
-            // Show at most three buttons
-            if (numberOfVisibleButtons == 3) {
-                break;
-            }
-        }
-
-        // FAB for all categories
-        FloatingActionButton fabAll = getFloatingActionButton(getString(R.string.all),
-                R.drawable.ic_other, android.R.color.white);
-        fabAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fab.close(true);
-                showDialogCategories();
-            }
-        });
-        fab.addMenuButton(fabAll);
-
-        // Close FAB on click outside
-        fab.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (fab.isOpened()) {
-                    if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
-                        fab.close(true);
-                    }
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        });
-    }
-
-    private FloatingActionButton getFloatingActionButton(String text, int imageResourceId, int colorResId) {
-        FloatingActionButton floatingActionButton = new FloatingActionButton(this);
-        floatingActionButton.setButtonSize(FloatingActionButton.SIZE_MINI);
-        floatingActionButton.setLabelText(text);
-        floatingActionButton.setImageResource(imageResourceId);
-        floatingActionButton.setColorNormalResId(colorResId);
-        float brighteningPercentage = colorResId == android.R.color.white ? .9f : 1.2f;
-        int colorHighlight = Helper.colorBrighten(ContextCompat.getColor(this, colorResId), brighteningPercentage);
-        floatingActionButton.setColorPressed(colorHighlight);
-        floatingActionButton.setColorRipple(colorHighlight);
-        return floatingActionButton;
     }
 
     private void showDialogCategories() {
@@ -365,5 +299,15 @@ public class NewEventActivity extends BaseActivity {
         bundle.putSerializable(TimePickerFragment.TIME, time);
         fragment.setArguments(bundle);
         fragment.show(getSupportFragmentManager(), "TimePicker");
+    }
+
+    @Override
+    public void onCategorySelected(@Nullable Measurement.Category category) {
+        addMeasurementView(category);
+    }
+
+    @Override
+    public void onMiscellaneousSelected() {
+        showDialogCategories();
     }
 }

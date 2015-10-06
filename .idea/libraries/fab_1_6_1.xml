@@ -5,6 +5,8 @@
       <root url="jar://$PROJECT_DIR$/Diaguard/build/intermediates/exploded-aar/com.github.clans/fab/1.6.1/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.clans/fab/1.6.1/261bfd3357e39d1268ca20fae575fa1fb1abe3b0/fab-1.6.1-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>

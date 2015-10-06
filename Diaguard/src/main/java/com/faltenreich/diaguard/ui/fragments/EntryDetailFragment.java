@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,7 +19,6 @@ import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.ui.activity.NewEventActivity;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.data.DatabaseFacade;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Measurement;
@@ -28,7 +26,6 @@ import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.util.ViewHelper;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -77,11 +74,7 @@ public class EntryDetailFragment extends BaseFragment {
         setHasOptionsMenu(true);
         if (getArguments() != null && getArguments().getLong(EXTRA_ENTRY) > 0) {
             long entryId = getArguments().getLong(EXTRA_ENTRY);
-            try {
-                entry = DatabaseFacade.getInstance().getDao(Entry.class).queryForId(entryId);
-            } catch (SQLException exception) {
-                Log.e("EntryDetailFragment", exception.getMessage());
-            }
+            entry = EntryDao.getInstance().get(entryId);
             initializeGUI();
         }
     }
@@ -139,13 +132,9 @@ public class EntryDetailFragment extends BaseFragment {
         }
 
         layoutMeasurements.removeAllViews();
-        try {
-            List<Measurement> measurements = DatabaseFacade.getInstance().getMeasurements(entry);
-            for(Measurement measurement : measurements) {
-                addMeasurement(measurement);
-            }
-        } catch (SQLException exception) {
-            Log.e("EntryDetailFragment", exception.getMessage());
+        List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
+        for(Measurement measurement : measurements) {
+            addMeasurement(measurement);
         }
 
         if(entry.getNote() != null && entry.getNote().length() > 0) {

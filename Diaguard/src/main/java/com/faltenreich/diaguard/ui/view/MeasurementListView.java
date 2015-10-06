@@ -84,6 +84,19 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
         return measurements;
     }
 
+    public Measurement getMeasurement(Measurement.Category category) {
+        for (int position = 0; position < getChildCount(); position++) {
+            View childView = getChildAt(position);
+            if (childView instanceof MeasurementView) {
+                Measurement measurement = ((MeasurementView) childView).getMeasurement();
+                if (measurement.getCategory() == category) {
+                    return measurement;
+                }
+            }
+        }
+        return null;
+    }
+
     @Override
     public void onCategoryRemoved(Measurement.Category category) {
         removeMeasurement(category);

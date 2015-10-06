@@ -64,7 +64,10 @@ public class EntryDao extends BaseDao<Entry> {
     public List<Measurement> getMeasurements(Entry entry, Measurement.Category[] categories) {
         List<Measurement> measurements = new ArrayList<>();
         for (Measurement.Category category : categories) {
-            measurements.addAll(MeasurementDao.getInstance(category.toClass()).getMeasurements(entry));
+            Measurement measurement = MeasurementDao.getInstance(category.toClass()).getMeasurement(entry);
+            if (measurement != null) {
+                measurements.add(measurement);
+            }
         }
         return measurements;
     }

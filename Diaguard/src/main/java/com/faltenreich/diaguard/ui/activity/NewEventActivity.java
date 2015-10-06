@@ -28,11 +28,9 @@ import com.faltenreich.diaguard.ui.view.MeasurementListView;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.util.ViewHelper;
-import com.github.clans.fab.FloatingActionButton;
 
 import org.joda.time.DateTime;
 
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -45,6 +43,7 @@ public class NewEventActivity extends BaseActivity implements MeasurementFloatin
 
     public static final String EXTRA_ENTRY = "EXTRA_ENTRY";
     public static final String EXTRA_DATE = "EXTRA_DATE";
+    public static final String EXTRA_UPDATED = "EXTRA_UPDATED";
 
     @Bind(R.id.activity_newevent_scrollview)
     protected ScrollView scrollView;
@@ -69,8 +68,6 @@ public class NewEventActivity extends BaseActivity implements MeasurementFloatin
 
     private Entry entry;
     private DateTime time;
-
-    private HashMap<Measurement.Category, FloatingActionButton> menuButtons;
 
     public NewEventActivity() {
         super(R.layout.activity_newevent);
@@ -194,15 +191,15 @@ public class NewEventActivity extends BaseActivity implements MeasurementFloatin
         layoutMeasurements.removeMeasurement(category);
     }
 
-    private void submit() {
+    private boolean inputIsValid() {
         boolean inputIsValid = true;
 
         // Validate date
-        DateTime now = DateTime.now();
-        if (time.isAfter(now)) {
+        if (time.isAfter(DateTime.now())) {
             ViewHelper.showSnackbar(findViewById(android.R.id.content), getString(R.string.validator_value_infuture));
             inputIsValid = false;
         }
+
         // Check whether there are values to submit
         else if (layoutMeasurements.getMeasurements().size() == 0) {
             ViewHelper.showSnackbar(findViewById(android.R.id.content), getString(R.string.validator_value_none));
@@ -215,56 +212,44 @@ public class NewEventActivity extends BaseActivity implements MeasurementFloatin
             }
         }
 
-        if (inputIsValid) {
-            if (entry == null) {
+        return inputIsValid;
+    }
+
+    private void submit() {
+        if (inputIsValid()) {
+            DateTime now = DateTime.now();
+            boolean isNewEntry = entry == null;
+
+            if (isNewEntry) {
                 entry = new Entry();
                 entry.setCreatedAt(now);
             }
-
-            /*
-            // Step through measurements and compare
-            List<Measurement> measurementsToDelete = new ArrayList<>(entry.getMeasurements());
-            for(Measurement measurement : measurements) {
-                // Case 1: Measurement is new and old --> Update
-                boolean updatedExistingMeasurement = false;
-                for (Measurement oldMeasurement : entry.getMeasurements()) {
-                    if (measurement.getCategory() == oldMeasurement.getCategory()) {
-                        oldMeasurement.setValue(measurement.getValue());
-                        updatedExistingMeasurement = true;
-                        measurementsToDelete.remove(oldMeasurement);
-                        dataSource.update(oldMeasurement);
-                    }
-                }
-                // Case 2: Measurement is new but not old --> Insert
-                if(!updatedExistingMeasurement) {
-                    measurement.setEntry(entry);
-                    dataSource.insert(measurement);
-                }
-                MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
-            }
-            // Case 3: Measurement is old but not new --> Delete
-            for(Measurement measurement : measurementsToDelete) {
-                MeasurementDao.getInstance(measurement.getClass()).delete(measurement);
-            }
-            */
 
             entry.setUpdatedAt(now);
             entry.setDate(time);
             entry.setNote(editTextNotes.length() > 0 ? editTextNotes.getText().toString() : null);
             EntryDao.getInstance().createOrUpdate(entry);
 
-            for (Measurement measurement : layoutMeasurements.getMeasurements()) {
-                measurement.setCreatedAt(now);
-                measurement.setUpdatedAt(now);
-                measurement.setEntry(entry);
-                MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
+            for (Measurement.Category category : Measurement.Category.values()) {
+                if (layoutMeasurements.hasCategory(category)) {
+                    Measurement measurement = layoutMeasurements.getMeasurement(category);
+                    measurement.setCreatedAt(now);
+                    measurement.setUpdatedAt(now);
+                    measurement.setEntry(entry);
+                    MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
+                } else {
+                    MeasurementDao.getInstance(category.toClass()).deleteMeasurements(entry);
+                }
             }
 
             if (spinnerAlarm.getSelectedItemPosition() > 0) {
                 Helper.setAlarm(this, getResources().getIntArray(R.array.alarm_intervals_values)[spinnerAlarm.getSelectedItemPosition()]);
             }
 
-            Toast.makeText(this, getString(R.string.entry_added), Toast.LENGTH_LONG).show();
+            if (isNewEntry) {
+                Toast.makeText(this, getString(R.string.entry_added), Toast.LENGTH_LONG).show();
+            }
+
             finish();
         }
     }

@@ -12,6 +12,8 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
 
+import org.joda.time.DateTime;
+
 import java.sql.SQLException;
 import java.util.List;
 
@@ -54,9 +56,13 @@ public abstract class BaseDao <T extends BaseEntity> {
 
     public void createOrUpdate(T object) {
         try {
+            DateTime now = DateTime.now();
             if (object.getId() > 0) {
+                object.setUpdatedAt(now);
                 getDao().update(object);
             } else {
+                object.setCreatedAt(now);
+                object.setUpdatedAt(now);
                 getDao().create(object);
             }
         } catch (SQLException exception) {

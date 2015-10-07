@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
+import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.fragments.DatePickerFragment;
@@ -43,7 +44,6 @@ public class NewEventActivity extends BaseActivity implements MeasurementFloatin
 
     public static final String EXTRA_ENTRY = "EXTRA_ENTRY";
     public static final String EXTRA_DATE = "EXTRA_DATE";
-    public static final String EXTRA_UPDATED = "EXTRA_UPDATED";
 
     @Bind(R.id.activity_newevent_scrollview)
     protected ScrollView scrollView;
@@ -222,10 +222,8 @@ public class NewEventActivity extends BaseActivity implements MeasurementFloatin
 
             if (isNewEntry) {
                 entry = new Entry();
-                entry.setCreatedAt(now);
             }
 
-            entry.setUpdatedAt(now);
             entry.setDate(time);
             entry.setNote(editTextNotes.length() > 0 ? editTextNotes.getText().toString() : null);
             EntryDao.getInstance().createOrUpdate(entry);
@@ -233,8 +231,6 @@ public class NewEventActivity extends BaseActivity implements MeasurementFloatin
             for (Measurement.Category category : Measurement.Category.values()) {
                 if (layoutMeasurements.hasCategory(category)) {
                     Measurement measurement = layoutMeasurements.getMeasurement(category);
-                    measurement.setCreatedAt(now);
-                    measurement.setUpdatedAt(now);
                     measurement.setEntry(entry);
                     MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
                 } else {

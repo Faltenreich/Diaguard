@@ -178,7 +178,7 @@ public class NewEventActivity extends BaseActivity implements MeasurementFloatin
     }
 
     private void setDateTime() {
-        buttonDate.setText(PreferenceHelper.getInstance().getDateFormat().print(time));
+        buttonDate.setText(Helper.getDateFormat().print(time));
         buttonTime.setText(Helper.getTimeFormat().print(time));
     }
 

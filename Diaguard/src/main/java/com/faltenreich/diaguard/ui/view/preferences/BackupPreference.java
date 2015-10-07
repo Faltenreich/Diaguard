@@ -86,7 +86,7 @@ public class BackupPreference extends DialogPreference {
         for(int position = 0; position < csvArray.length; position++) {
             String dateString = csvArray[position].substring(6, csvArray[position].lastIndexOf("."));
             DateTime date = DateTimeFormat.forPattern("yyyyMMddHHmmss").parseDateTime(dateString);
-            csvArrayDates[position] = PreferenceHelper.getInstance().getDateFormat().print(date) + " " +
+            csvArrayDates[position] = Helper.getDateFormat().print(date) + " " +
                     Helper.getTimeFormat().print(date);
         }
 

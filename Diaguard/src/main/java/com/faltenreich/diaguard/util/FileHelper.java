@@ -472,8 +472,8 @@ public class FileHelper {
         private void iTextGMetaData(Document document) {
             String subject = context.getString(R.string.app_name) + " " +
                     context.getString(R.string.export) + ": " +
-                    PreferenceHelper.getInstance().getDateFormat().print(dateStart) + " - " +
-                    PreferenceHelper.getInstance().getDateFormat().print(dateEnd);
+                    Helper.getDateFormat().print(dateStart) + " - " +
+                    Helper.getDateFormat().print(dateEnd);
             document.addTitle(subject);
             document.addAuthor(context.getString(R.string.app_name));
             document.addCreator(context.getString(R.string.app_name));
@@ -490,8 +490,9 @@ public class FileHelper {
             DateTime weekEnd = weekStart.withDayOfWeek(DateTimeConstants.SUNDAY);
 
             // Dates
-            chunk = new Chunk("\n" + PreferenceHelper.getInstance().getDateFormat().print(weekStart) + " - " +
-                    PreferenceHelper.getInstance().getDateFormat().print(weekEnd));
+            chunk = new Chunk("\n" +
+                    Helper.getDateFormat().print(weekStart) + " - " +
+                    Helper.getDateFormat().print(weekEnd));
             chunk.setFont(FontFactory.getFont(FontFactory.HELVETICA, 9));
             paragraph.add(chunk);
 
@@ -525,7 +526,7 @@ public class FileHelper {
 
             DateTime today = new DateTime();
             String stamp = context.getString(R.string.export_stamp) + " " +
-                    PreferenceHelper.getInstance().getDateFormat().print(today);
+                    Helper.getDateFormat().print(today);
             Chunk chunk = new Chunk(stamp,
                     FontFactory.getFont(FontFactory.HELVETICA, 9, BaseColor.GRAY));
             ColumnText.showTextAligned(writer.getDirectContent(),

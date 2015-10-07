@@ -76,19 +76,6 @@ public class PreferenceHelper {
         return value > extrema[0] && value < extrema[1];
     }
 
-    // DATES
-
-    public DateTimeFormatter getDateFormat() {
-        String dateString = sharedPreferences.getString("dateformat",
-                DiaguardApplication.getContext().getResources().getString(R.string.dateformat_default));
-
-        dateString = dateString.replace("YYYY", "yyyy");
-        dateString = dateString.replace("mm", "MM");
-        dateString = dateString.replace("DD", "dd");
-
-        return DateTimeFormat.forPattern(dateString);
-    }
-
     // BLOOD SUGAR
 
     public float getTargetValue() {

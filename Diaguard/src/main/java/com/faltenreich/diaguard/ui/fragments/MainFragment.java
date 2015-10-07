@@ -142,9 +142,9 @@ public class MainFragment extends BaseFragment {
             textViewLatestUnit.setText(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BLOODSUGAR));
 
             // Time
-            textViewLatestTime.setText(PreferenceHelper.getInstance().
-                    getDateFormat().print(entry.getDate()) + " " +
-                    Helper.getTimeFormat().print(entry.getDate()) + " | ");
+            textViewLatestTime.setText(String.format("%s %s | ",
+                    Helper.getDateFormat().print(entry.getDate()),
+                    Helper.getTimeFormat().print(entry.getDate())));
             int differenceInMinutes = Minutes.minutesBetween(entry.getDate(), new DateTime()).getMinutes();
 
             // Highlight if last measurement is more than eight hours ago

@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.ui.fragments.DatePickerFragment;
 import com.faltenreich.diaguard.util.FileHelper;
+import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.IFileListener;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 
@@ -35,7 +36,6 @@ public class ExportActivity extends BaseActivity implements IFileListener {
 
     private DateTime dateStart;
     private DateTime dateEnd;
-    private DateTimeFormatter dateFormat;
 
     @Bind(R.id.spinner_format)
     protected Spinner spinnerFormat;
@@ -68,8 +68,6 @@ public class ExportActivity extends BaseActivity implements IFileListener {
     public void initialize() {
         dateEnd = new DateTime();
         dateStart = dateEnd.withDayOfMonth(1);
-        dateFormat = PreferenceHelper.getInstance().getDateFormat();
-
         initializeGUI();
     }
 
@@ -86,8 +84,8 @@ public class ExportActivity extends BaseActivity implements IFileListener {
             setSupportActionBar(toolbar);
         }
 
-        buttonDateStart.setText(dateFormat.print(dateStart));
-        buttonDateEnd.setText(dateFormat.print(dateEnd));
+        buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
+        buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
     }
 
     private boolean validate() {
@@ -145,9 +143,8 @@ public class ExportActivity extends BaseActivity implements IFileListener {
         intent.setType(FileHelper.MIME_MAIL);
 
         // Diaguard Export: DateStart - DateEnd
-        DateTimeFormatter format = PreferenceHelper.getInstance().getDateFormat();
         String subject = getString(R.string.app_name) + " " + getString(R.string.export) + ": " +
-                format.print(dateStart) + " - " + format.print(dateEnd);
+                Helper.getDateFormat().print(dateStart) + " - " + Helper.getDateFormat().print(dateEnd);
         intent.putExtra(Intent.EXTRA_SUBJECT, subject);
         intent.putExtra(Intent.EXTRA_TEXT,
                 getString(R.string.pref_data_export_mail_message));
@@ -167,7 +164,7 @@ public class ExportActivity extends BaseActivity implements IFileListener {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 dateStart = dateStart.withYear(year).withMonthOfYear(month+1).withDayOfMonth(day);
-                buttonDateStart.setText(dateFormat.print(dateStart));
+                buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
             }
         };
         Bundle bundle = new Bundle(1);
@@ -181,7 +178,7 @@ public class ExportActivity extends BaseActivity implements IFileListener {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 dateEnd = dateEnd.withYear(year).withMonthOfYear(month+1).withDayOfMonth(day);
-                buttonDateEnd.setText(dateFormat.print(dateEnd));
+                buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
             }
         };
         Bundle bundle = new Bundle(1);

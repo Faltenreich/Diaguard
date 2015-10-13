@@ -102,5 +102,4 @@ public abstract class Measurement extends BaseEntity {
 
     @SuppressWarnings("unchecked")
     public abstract void setValues(float... values);
-
 }

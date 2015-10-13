@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.data.dao.EntryDao;
+import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.ui.activity.EntryDetailActivity;
 import com.faltenreich.diaguard.ui.activity.NewEventActivity;
 import com.faltenreich.diaguard.R;
@@ -215,6 +216,9 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
                     TextView value = (TextView) viewMeasurement.findViewById(R.id.value);
 
                     switch (category) {
+                        case INSULIN:
+                            value.setText(((Insulin)measurement).toStringDetail());
+                            break;
                         case BLOODSUGAR:
                             BloodSugar bloodSugar = (BloodSugar) measurement;
                             if (PreferenceHelper.getInstance().limitsAreHighlighted()) {

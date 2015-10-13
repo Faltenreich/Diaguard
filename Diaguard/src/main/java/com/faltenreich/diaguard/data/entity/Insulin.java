@@ -69,7 +69,13 @@ public class Insulin extends Measurement {
     @Override
     public String toString() {
         float total = bolus + correction + basal;
+        return Float.toString(PreferenceHelper.getInstance().formatDefaultToCustomUnit(getCategory(), total));
+    }
+
+    public String toStringDetail() {
+        float total = bolus + correction + basal;
         StringBuilder stringBuilder = new StringBuilder(PreferenceHelper.getInstance().getMeasurementForUi(getCategory(), total));
+        stringBuilder.append(String.format(" %s", PreferenceHelper.getInstance().getUnitAcronym(getCategory())));
         stringBuilder.append(" (");
         boolean isFirstValue = true;
         if (getBolus() > 0) {

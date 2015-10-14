@@ -49,8 +49,10 @@ public class ChartViewPager extends ViewPager {
             }
             @Override
             public void onPageSelected(int position) {
-                ChartDayFragment selectedFragment = (ChartDayFragment) adapter.getItem(position);
-                callback.onDaySelected(selectedFragment.getDay());
+                if (adapter.getItem(position) instanceof ChartDayFragment) {
+                    ChartDayFragment fragment = (ChartDayFragment) adapter.getItem(position);
+                    callback.onDaySelected(fragment.getDay());
+                }
             }
         });
     }

@@ -3,18 +3,20 @@ package com.faltenreich.diaguard.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.faltenreich.diaguard.ui.fragments.ChartDayFragment;
 
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by Faltenreich on 01.08.2015.
  */
-public class ChartPagerAdapter extends FragmentPagerAdapter {
+public class ChartPagerAdapter extends FragmentStatePagerAdapter {
 
     private static final int ITEM_COUNT = 3;
 
@@ -59,18 +61,26 @@ public class ChartPagerAdapter extends FragmentPagerAdapter {
     }
 
     public void nextDay() {
-        ChartDayFragment fragment = fragments.get(0);
-        fragments.remove(fragment);
-        fragments.add(fragment);
+        Collections.rotate(fragments, -1);
+        ChartDayFragment fragment = fragments.get(ITEM_COUNT - 1);
         fragment.setDay(fragment.getDay().plusDays(ITEM_COUNT));
         notifyDataSetChanged();
     }
 
     public void previousDay() {
-        ChartDayFragment fragment = fragments.get(ITEM_COUNT - 1);
-        fragments.remove(fragment);
-        fragments.add(0, fragment);
+        Collections.rotate(fragments, 1);
+        ChartDayFragment fragment = fragments.get(0);
         fragment.setDay(fragment.getDay().minusDays(ITEM_COUNT));
         notifyDataSetChanged();
+    }
+
+    private void validate() {
+        DateTime dateTime = fragments.get(0).getDay();
+        for (ChartDayFragment fragment : fragments) {
+            if (!fragment.getDay().isEqual(dateTime.plusDays(1))) {
+                //fragment.setDay();
+            }
+            DateTime correctDate = dateTime.plusDays(1);
+        }
     }
 }

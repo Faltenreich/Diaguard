@@ -74,6 +74,16 @@ public class ChartFragment extends BaseFragment implements ChartViewPager.ChartV
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_today:
+                goToDay(DateTime.now());
+                break;
+        }
+        return true;
+    }
+
+    @Override
     public String getTitle() {
         return DiaguardApplication.getContext().getString(R.string.timeline);
     }
@@ -99,9 +109,7 @@ public class ChartFragment extends BaseFragment implements ChartViewPager.ChartV
         DialogFragment fragment = new DatePickerFragment() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
-                ChartFragment.this.day = DateTime.now().withYear(year).withMonthOfYear(month + 1).withDayOfMonth(day);
-                viewPager.setDay(ChartFragment.this.day);
-                updateLabels();
+                goToDay(DateTime.now().withYear(year).withMonthOfYear(month + 1).withDayOfMonth(day));
             }
         };
         Bundle bundle = new Bundle(1);
@@ -119,6 +127,12 @@ public class ChartFragment extends BaseFragment implements ChartViewPager.ChartV
             String date = DateTimeFormat.mediumDate().print(day);
             getActionView().setText(String.format("%s, %s", weekDay, date));
         }
+    }
+
+    private void goToDay(DateTime day) {
+        this.day = day;
+        viewPager.setDay(day);
+        updateLabels();
     }
 
     @Override

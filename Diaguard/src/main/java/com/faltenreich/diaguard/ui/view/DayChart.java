@@ -13,6 +13,7 @@ import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.util.ChartHelper;
 import com.github.mikephil.charting.charts.ScatterChart;
 import com.github.mikephil.charting.components.LimitLine;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.ScatterData;
 import com.github.mikephil.charting.data.ScatterDataSet;
@@ -34,6 +35,8 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
     private static final String TAG = DayChart.class.getSimpleName();
 
     private static final int LABELS_TO_SKIP = 2;
+    private static final float Y_MAX_VALUE = 275;
+    private static final float Y_MAX_VALUE_OFFSET = 20;
 
     private DateTime day;
 
@@ -171,15 +174,22 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
                     getData().getDataSetByLabel(category.name(), true).clear();
                 }
                 // Add new entries
+                float maxValue = 0f;
                 for (com.faltenreich.diaguard.data.entity.Entry entry : entries) {
                     for (Measurement measurement : entry.getMeasurementCache()) {
                         Measurement.Category category = measurement.getCategory();
                         int xValue = entry.getDate().getMinuteOfDay();
                         // TODO: Handle non-Bloodsugar values
                         float yValue = category == Measurement.Category.BLOODSUGAR ? ((BloodSugar) measurement).getMgDl() : 10;
-                        getData().getDataSetByLabel(category.name(), true).addEntry(new Entry(yValue, xValue));
+                        Entry chartEntry = new Entry(PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, yValue), xValue);
+                        getData().getDataSetByLabel(category.name(), true).addEntry(chartEntry);
+                        if (yValue > maxValue) {
+                            maxValue = yValue;
+                        }
                     }
                 }
+                float yAxisMaxValue = maxValue > Y_MAX_VALUE ? maxValue + Y_MAX_VALUE_OFFSET : Y_MAX_VALUE;
+                getAxisLeft().setAxisMaxValue(PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, yAxisMaxValue));
                 notifyDataSetChanged();
                 invalidate();
             } catch (Exception exception) {

@@ -51,9 +51,6 @@ public class ChartHelper {
         minimum = (int) PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, minimum - 10);
         chart.getAxisLeft().setAxisMinValue(minimum);
 
-        float maximum = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, 275);
-        chart.getAxisLeft().setAxisMaxValue(maximum);
-
         chart.getAxisLeft().setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {

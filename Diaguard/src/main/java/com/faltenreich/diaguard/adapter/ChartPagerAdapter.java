@@ -48,14 +48,12 @@ public class ChartPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     public int getMiddle() {
-        return getCount() / 2;
+        return getCount() >= 1 ? getCount() / 2 : 0;
     }
 
     public void setDay(DateTime day) {
         for (int position = 0; position < ITEM_COUNT; position++) {
-            ChartDayFragment fragment = fragments.get(0);
-            DateTime dateTimeOfFragment = day.minusDays(getMiddle()).plusDays(position);
-            fragment.setDay(dateTimeOfFragment);
+            fragments.get(position).setDay(day.minusDays(getMiddle()).plusDays(position));
         }
         notifyDataSetChanged();
     }

@@ -10,9 +10,11 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable
 public class HbA1c extends Measurement {
 
-    public static final String PERCENT = "percent";
+    public class Column extends Measurement.Column {
+        public static final String PERCENT = "percent";
+    }
 
-    @DatabaseField
+    @DatabaseField(columnName = Column.PERCENT)
     private float percent;
 
     public float getPercent() {

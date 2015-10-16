@@ -46,7 +46,7 @@ public class EntryDao extends BaseDao<Entry> {
                 DateTimeConstants.MINUTES_PER_HOUR - 1,
                 DateTimeConstants.SECONDS_PER_MINUTE - 1,
                 DateTimeConstants.MILLIS_PER_SECOND - 1);
-        return getDao().queryBuilder().orderBy(Entry.DATE, true).where().gt(Entry.DATE, start).and().lt(Entry.DATE, end).query();
+        return getDao().queryBuilder().orderBy(Entry.Column.DATE, true).where().gt(Entry.Column.DATE, start).and().lt(Entry.Column.DATE, end).query();
     }
 
     public int deleteMeasurements(Entry entry) {
@@ -85,7 +85,7 @@ public class EntryDao extends BaseDao<Entry> {
 
     public <M extends Measurement> Entry getLatestWithMeasurement(Class<M> clazz) {
         try {
-            return join(clazz).orderBy(Entry.DATE, false).queryForFirst();
+            return join(clazz).orderBy(Entry.Column.DATE, false).queryForFirst();
         } catch (SQLException exception) {
             Log.e(TAG, String.format("Could not getLatestWithMeasurement '%s'", clazz.toString()));
             return null;
@@ -94,7 +94,7 @@ public class EntryDao extends BaseDao<Entry> {
 
     public <M extends Measurement> List<Entry> getAllWithMeasurementFromToday(Class<M> clazz) {
         try {
-            return join(clazz).where().gt(Entry.DATE, DateTime.now().withTimeAtStartOfDay()).query();
+            return join(clazz).where().gt(Entry.Column.DATE, DateTime.now().withTimeAtStartOfDay()).query();
         } catch (SQLException exception) {
             Log.e(TAG, String.format("Could not getLatestWithMeasurement '%s'", clazz.toString()));
             return null;

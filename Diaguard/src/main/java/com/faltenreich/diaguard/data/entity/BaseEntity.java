@@ -9,17 +9,19 @@ import org.joda.time.DateTime;
  */
 public abstract class BaseEntity {
 
-    public static final String ID = "id";
-    public static final String CREATED_AT = "createdat";
-    public static final String UPDATED_AT = "updatedat";
+    public class Column {
+        public static final String ID = "id";
+        public static final String CREATED_AT = "createdAt";
+        public static final String UPDATED_AT = "updatedAt";
+    }
 
-    @DatabaseField(generatedId = true)
+    @DatabaseField(columnName = Column.ID, generatedId = true)
     private long id;
 
-    @DatabaseField
+    @DatabaseField(columnName = Column.CREATED_AT)
     private DateTime createdAt;
 
-    @DatabaseField
+    @DatabaseField(columnName = Column.UPDATED_AT)
     private DateTime updatedAt;
 
     public long getId() {

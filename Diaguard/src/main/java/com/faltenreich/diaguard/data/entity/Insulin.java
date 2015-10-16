@@ -12,17 +12,19 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable
 public class Insulin extends Measurement {
 
-    public static final String BOLUS = "bolus";
-    public static final String CORRECTION = "correction";
-    public static final String BASAL = "basal";
+    public class Column extends Measurement.Column {
+        public static final String BOLUS = "bolus";
+        public static final String CORRECTION = "correction";
+        public static final String BASAL = "basal";
+    }
 
-    @DatabaseField
+    @DatabaseField(columnName = Column.BOLUS)
     private float bolus;
 
-    @DatabaseField
+    @DatabaseField(columnName = Column.CORRECTION)
     private float correction;
 
-    @DatabaseField
+    @DatabaseField(columnName = Column.BASAL)
     private float basal;
 
     public float getBolus() {

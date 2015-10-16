@@ -44,7 +44,7 @@ dependencies {
     compile 'net.danlew:android.joda:2.7.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.opencsv:opencsv:3.3'
-    compile 'com.github.PhilJay:MPAndroidChart:v2.1.3'
+    compile 'com.github.PhilJay:MPAndroidChart:v2.1.5'
     compile 'com.github.clans:fab:1.6.1'
     compile 'com.fmsirvent:parallaxeverywhere:1.0.4'
 

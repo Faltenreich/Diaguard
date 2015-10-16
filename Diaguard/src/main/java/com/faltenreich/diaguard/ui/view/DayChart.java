@@ -2,8 +2,11 @@ package com.faltenreich.diaguard.ui.view;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.annotation.ColorRes;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.dao.EntryDao;
@@ -22,6 +25,7 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
+import org.joda.time.format.DateTimeFormat;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -33,6 +37,9 @@ import java.util.List;
 public class DayChart extends ScatterChart implements OnChartValueSelectedListener {
 
     private static final String TAG = DayChart.class.getSimpleName();
+    private static final String DATA_SET_BLOODSUGAR = "bloodSugar";
+    private static final String DATA_SET_BLOODSUGAR_HYPERGLYCEMIA = "hyperglycemia";
+    private static final String DATA_SET_BLOODSUGAR_HYPOGLYCEMIA = "hypoglycemia";
 
     private static final int LABELS_TO_SKIP = 2;
     private static final float Y_MAX_VALUE = 275;
@@ -65,6 +72,7 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
     }
 
     public void setDay(DateTime day) {
+        Log.i(TAG, "Set Day to " + DateTimeFormat.shortDate().print(day));
         this.day = day;
         new UpdateChartDataTask().execute();
     }
@@ -73,6 +81,7 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
     public void onValueSelected(com.github.mikephil.charting.data.Entry e, int dataSetIndex, Highlight highlight) {
         ChartMarkerView markerView = new ChartMarkerView(getContext());
         setMarkerView(markerView);
+        Toast.makeText(getContext(), "Click", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -120,16 +129,22 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
 
         private List<ScatterDataSet> getEmptyDataSets() {
             List<ScatterDataSet> dataSets = new ArrayList<>();
-            for(Measurement.Category category : PreferenceHelper.getInstance().getActiveCategories()) {
-                ScatterDataSet dataSet = new ScatterDataSet(new ArrayList<Entry>(), category.name());
-                int dataSetColor = getResources().getColor(PreferenceHelper.getInstance().getCategoryColorResourceId(category));
-                dataSet.setColor(dataSetColor);
-                dataSet.setScatterShapeSize(category == Measurement.Category.BLOODSUGAR ? ChartHelper.SCATTER_SIZE : ChartHelper.SCATTER_SIZE * 0.75f);
-                dataSet.setScatterShape(ScatterShape.CIRCLE);
-                dataSet.setDrawValues(false);
-                dataSets.add(dataSet);
+            dataSets.add(getDataSet(DATA_SET_BLOODSUGAR, PreferenceHelper.getInstance().getCategoryColorResourceId(Measurement.Category.BLOODSUGAR)));
+            if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
+                dataSets.add(getDataSet(DATA_SET_BLOODSUGAR_HYPERGLYCEMIA, R.color.red));
+                dataSets.add(getDataSet(DATA_SET_BLOODSUGAR_HYPOGLYCEMIA, R.color.blue));
             }
             return dataSets;
+        }
+
+        private ScatterDataSet getDataSet(String title, @ColorRes int colorResourceId) {
+            ScatterDataSet dataSet = new ScatterDataSet(new ArrayList<Entry>(), title);
+            int dataSetColor = ContextCompat.getColor(getContext(), colorResourceId);
+            dataSet.setColor(dataSetColor);
+            dataSet.setScatterShapeSize(ChartHelper.SCATTER_SIZE);
+            dataSet.setScatterShape(ScatterShape.CIRCLE);
+            dataSet.setDrawValues(false);
+            return dataSet;
         }
 
         private void addLimitLines() {
@@ -149,43 +164,51 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
         }
     }
 
-    private class UpdateChartDataTask extends AsyncTask<Void, Void, List<com.faltenreich.diaguard.data.entity.Entry>> {
+    private class UpdateChartDataTask extends AsyncTask<Void, Void, List<BloodSugar>> {
 
-        protected List<com.faltenreich.diaguard.data.entity.Entry> doInBackground(Void... params) {
+        protected List<BloodSugar> doInBackground(Void... params) {
             try {
+                List<BloodSugar> bloodSugarList = new ArrayList<>();
                 List<com.faltenreich.diaguard.data.entity.Entry> entries = EntryDao.getInstance().getEntriesOfDay(day);
                 if (entries != null && entries.size() > 0) {
                     for (com.faltenreich.diaguard.data.entity.Entry entry : entries) {
-                        List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
-                        entry.getMeasurementCache().addAll(measurements);
+                        List measurements = EntryDao.getInstance().getMeasurements(entry, new Measurement.Category[] {Measurement.Category.BLOODSUGAR});
+                        bloodSugarList.addAll(measurements);
                     }
                 }
-                return entries;
+                return bloodSugarList;
             } catch (SQLException exception) {
                 Log.e(TAG, exception.getMessage());
+                return new ArrayList<>();
             }
-            return null;
         }
 
-        protected void onPostExecute(List<com.faltenreich.diaguard.data.entity.Entry> entries) {
+        protected void onPostExecute(List<BloodSugar> bloodSugarList) {
             try {
                 // Remove old entries
-                for (Measurement.Category category : PreferenceHelper.getInstance().getActiveCategories()) {
-                    getData().getDataSetByLabel(category.name(), true).clear();
+                for (int position = 0; position < getData().getDataSetCount(); position++) {
+                    getData().getDataSetByIndex(position).clear();
                 }
                 // Add new entries
                 float maxValue = 0f;
-                for (com.faltenreich.diaguard.data.entity.Entry entry : entries) {
-                    for (Measurement measurement : entry.getMeasurementCache()) {
-                        Measurement.Category category = measurement.getCategory();
-                        int xValue = entry.getDate().getMinuteOfDay();
-                        // TODO: Handle non-Bloodsugar values
-                        float yValue = category == Measurement.Category.BLOODSUGAR ? ((BloodSugar) measurement).getMgDl() : 10;
-                        Entry chartEntry = new Entry(PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, yValue), xValue);
-                        getData().getDataSetByLabel(category.name(), true).addEntry(chartEntry);
-                        if (yValue > maxValue) {
-                            maxValue = yValue;
+                for (BloodSugar bloodSugar : bloodSugarList) {
+                    com.faltenreich.diaguard.data.entity.Entry entry = bloodSugar.getEntry();
+                    int xValue = entry.getDate().getMinuteOfDay();
+                    float yValue = bloodSugar.getMgDl();
+                    Entry chartEntry = new Entry(PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, yValue), xValue);
+                    if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
+                        if (yValue > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
+                            getData().getDataSetByLabel(DATA_SET_BLOODSUGAR_HYPERGLYCEMIA, true).addEntry(chartEntry);
+                        } else if (yValue < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
+                            getData().getDataSetByLabel(DATA_SET_BLOODSUGAR_HYPOGLYCEMIA, true).addEntry(chartEntry);
+                        } else {
+                            getData().getDataSetByLabel(DATA_SET_BLOODSUGAR, true).addEntry(chartEntry);
                         }
+                    } else {
+                        getData().getDataSetByLabel(DATA_SET_BLOODSUGAR, true).addEntry(chartEntry);
+                    }
+                    if (yValue > maxValue) {
+                        maxValue = yValue;
                     }
                 }
                 float yAxisMaxValue = maxValue > Y_MAX_VALUE ? maxValue + Y_MAX_VALUE_OFFSET : Y_MAX_VALUE;

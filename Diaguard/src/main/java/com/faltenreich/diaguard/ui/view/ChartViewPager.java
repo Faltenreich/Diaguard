@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.ViewGroup;
 
 import com.faltenreich.diaguard.adapter.ChartPagerAdapter;
 import com.faltenreich.diaguard.ui.fragments.ChartDayFragment;
@@ -14,6 +16,8 @@ import org.joda.time.DateTime;
  * Created by Faltenreich on 02.08.2015.
  */
 public class ChartViewPager extends ViewPager {
+
+    private static final String TAG = ChartViewPager.class.getSimpleName();
 
     private ChartPagerAdapter adapter;
 
@@ -32,10 +36,12 @@ public class ChartViewPager extends ViewPager {
 
         addOnPageChangeListener(new OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
             @Override
             public void onPageScrollStateChanged(int state) {
                 if (state == ViewPager.SCROLL_STATE_IDLE) {
+                    Log.i(TAG, "onPageIdle " + getCurrentItem());
                     switch (getCurrentItem()) {
                         case 0:
                             adapter.previousDay();
@@ -49,7 +55,8 @@ public class ChartViewPager extends ViewPager {
             }
             @Override
             public void onPageSelected(int position) {
-                if (adapter.getItem(position) instanceof ChartDayFragment) {
+                Log.i(TAG, "onPageSelected " + position);
+                if (position != adapter.getMiddle() && adapter.getItem(position) instanceof ChartDayFragment) {
                     ChartDayFragment fragment = (ChartDayFragment) adapter.getItem(position);
                     callback.onDaySelected(fragment.getDay());
                 }

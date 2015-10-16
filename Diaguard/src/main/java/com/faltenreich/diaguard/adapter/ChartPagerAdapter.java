@@ -4,10 +4,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
 
 import com.faltenreich.diaguard.ui.fragments.ChartDayFragment;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeField;
+import org.joda.time.format.DateTimeFormat;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,6 +20,8 @@ import java.util.List;
  * Created by Faltenreich on 01.08.2015.
  */
 public class ChartPagerAdapter extends FragmentStatePagerAdapter {
+
+    private static final String TAG = ChartPagerAdapter.class.getSimpleName();
 
     private static final int ITEM_COUNT = 3;
 
@@ -61,24 +66,18 @@ public class ChartPagerAdapter extends FragmentStatePagerAdapter {
     public void nextDay() {
         Collections.rotate(fragments, -1);
         ChartDayFragment fragment = fragments.get(ITEM_COUNT - 1);
-        fragment.setDay(fragment.getDay().plusDays(ITEM_COUNT));
+        DateTime nextDay = fragment.getDay().plusDays(ITEM_COUNT);
+        Log.i(TAG, "Next day is " + DateTimeFormat.shortDate().print(nextDay));
+        fragment.setDay(nextDay);
         notifyDataSetChanged();
     }
 
     public void previousDay() {
         Collections.rotate(fragments, 1);
         ChartDayFragment fragment = fragments.get(0);
-        fragment.setDay(fragment.getDay().minusDays(ITEM_COUNT));
+        DateTime previousDay = fragment.getDay().minusDays(ITEM_COUNT);
+        Log.i(TAG, "Previous day is " + DateTimeFormat.shortDate().print(previousDay));
+        fragment.setDay(previousDay);
         notifyDataSetChanged();
-    }
-
-    private void validate() {
-        DateTime dateTime = fragments.get(0).getDay();
-        for (ChartDayFragment fragment : fragments) {
-            if (!fragment.getDay().isEqual(dateTime.plusDays(1))) {
-                //fragment.setDay();
-            }
-            DateTime correctDate = dateTime.plusDays(1);
-        }
     }
 }

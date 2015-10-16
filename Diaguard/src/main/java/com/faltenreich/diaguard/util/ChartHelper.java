@@ -7,7 +7,8 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.utils.ValueFormatter;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.formatter.YAxisValueFormatter;
 
 /**
  * Created by Filip on 30.06.2015.
@@ -21,6 +22,7 @@ public class ChartHelper {
     public static final float LINE_WIDTH = 1f;
 
     public static void setChartDefaultStyle(BarLineChartBase chart) {
+
         // General
         chart.setDrawGridBackground(false);
         chart.setBackgroundColor(Color.TRANSPARENT);
@@ -47,13 +49,12 @@ public class ChartHelper {
         chart.getAxisLeft().setGridColor(gridColor);
         chart.getAxisLeft().setDrawLimitLinesBehindData(true);
 
-        float minimum = PreferenceHelper.getInstance().getExtrema(Measurement.Category.BLOODSUGAR)[0];
-        minimum = (int) PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, minimum - 10);
-        chart.getAxisLeft().setAxisMinValue(minimum);
-
-        chart.getAxisLeft().setValueFormatter(new ValueFormatter() {
+        float yAxisMinValue = PreferenceHelper.getInstance().getExtrema(Measurement.Category.BLOODSUGAR)[0] - 5;
+        chart.getAxisLeft().setAxisMinValue(PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, yAxisMinValue));
+        chart.getAxisLeft().setStartAtZero(false);
+        chart.getAxisLeft().setValueFormatter(new YAxisValueFormatter() {
             @Override
-            public String getFormattedValue(float value) {
+            public String getFormattedValue(float value, YAxis axis) {
                 return PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(value);
             }
         });

@@ -24,9 +24,13 @@ public class ChartDayFragment extends Fragment {
 
     public static ChartDayFragment createInstance(DateTime dateTime) {
         ChartDayFragment fragment = new ChartDayFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(EXTRA_DATE_TIME, dateTime);
-        fragment.setArguments(bundle);
+        if (fragment.getArguments() != null) {
+            fragment.getArguments().putSerializable(EXTRA_DATE_TIME, dateTime);
+        } else {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(EXTRA_DATE_TIME, dateTime);
+            fragment.setArguments(bundle);
+        }
         return fragment;
     }
 
@@ -36,7 +40,7 @@ public class ChartDayFragment extends Fragment {
         getComponents(view);
         if (getArguments() != null) {
             DateTime dateTime = (DateTime) getArguments().getSerializable(EXTRA_DATE_TIME);
-            dayChart.setDay(dateTime);
+            setDay(dateTime);
         }
         return view;
     }

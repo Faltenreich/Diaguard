@@ -23,6 +23,8 @@ import com.faltenreich.diaguard.ui.view.DayOfMonthDrawable;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
+import java.lang.reflect.Field;
+
 import butterknife.Bind;
 
 /**
@@ -81,6 +83,18 @@ public class ChartFragment extends BaseFragment implements ChartViewPager.ChartV
                 break;
         }
         return true;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        try {
+            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
+            childFragmentManager.setAccessible(true);
+            childFragmentManager.set(this, null);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

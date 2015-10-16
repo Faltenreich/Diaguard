@@ -61,11 +61,11 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
         String query = "SELECT AVG(" + avgColumn + ")" +
                 " FROM " + classNameMeasurement +
                 " INNER JOIN " + classNameEntry +
-                " ON " + classNameMeasurement + "." + Measurement.ENTRY_ID +
-                " = " + classNameEntry + "." + BaseEntity.ID +
-                " AND " + classNameEntry + "." + Entry.DATE +
+                " ON " + classNameMeasurement + "." + Measurement.Column.ENTRY +
+                " = " + classNameEntry + "." + BaseEntity.Column.ID +
+                " AND " + classNameEntry + "." + Entry.Column.DATE +
                 " >= " + intervalStart +
-                " AND " + classNameEntry + "." + Entry.DATE +
+                " AND " + classNameEntry + "." + Entry.Column.DATE +
                 " <= " + intervalEnd + ";";
 
         List<String[]> results;
@@ -90,7 +90,7 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
 
     public List<M> getMeasurements(Entry entry) {
         try {
-            return getDao().queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).query();
+            return getDao().queryBuilder().where().eq(Measurement.Column.ENTRY, entry).query();
         } catch (SQLException exception) {
             Log.e(TAG, String.format("Could not fetch measurements of category '%s'", getClazz().toString()));
             return new ArrayList<>();
@@ -99,7 +99,7 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
 
     public M getMeasurement(Entry entry) {
         try {
-            return getDao().queryBuilder().where().eq(Measurement.ENTRY_ID, entry.getId()).queryForFirst();
+            return getDao().queryBuilder().where().eq(Measurement.Column.ENTRY, entry).queryForFirst();
         } catch (SQLException exception) {
             Log.e(TAG, String.format("Could not fetch measurement of category '%s'", getClazz().toString()));
             return null;
@@ -109,7 +109,7 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
     public int deleteMeasurements(Entry entry) {
         try {
             DeleteBuilder deleteBuilder = getDao().deleteBuilder();
-            deleteBuilder.where().eq(Measurement.ENTRY_ID, entry.getId());
+            deleteBuilder.where().eq(Measurement.Column.ENTRY, entry);
             return deleteBuilder.delete();
         } catch (SQLException exception) {
             Log.e(TAG, String.format("Could not delete '%s' measurements of entry with id %d", getClazz().toString(), entry.getId()));

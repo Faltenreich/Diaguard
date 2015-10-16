@@ -12,13 +12,15 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable
 public class Pressure extends Measurement {
 
-    public static final String SYSTOLIC = "systolic";
-    public static final String DIASTOLIC = "diastolic";
+    public class Column extends Measurement.Column {
+        public static final String SYSTOLIC = "systolic";
+        public static final String DIASTOLIC = "diastolic";
+    }
 
-    @DatabaseField
+    @DatabaseField(columnName = Column.SYSTOLIC)
     private float systolic;
 
-    @DatabaseField
+    @DatabaseField(columnName = Column.DIASTOLIC)
     private float diastolic;
 
     public float getSystolic() {

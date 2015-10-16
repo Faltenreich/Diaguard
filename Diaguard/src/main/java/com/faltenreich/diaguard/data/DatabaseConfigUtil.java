@@ -25,7 +25,7 @@ public class DatabaseConfigUtil extends OrmLiteConfigUtil {
 
         String currDirectory = "user.dir";
 
-        String configPath = "/src/main/res/raw/ormlite_config.txt";
+        String configPath = "/Diaguard/src/main/res/raw/ormlite_config.txt";
 
         /**
          * Gets the project root directory

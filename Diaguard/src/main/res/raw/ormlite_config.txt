@@ -1,18 +1,21 @@
 #
-# generated on 2015/07/03 01:52:42
+# generated on 2015/10/16 08:14:27
 #
 # --table-start--
-dataClass=com.faltenreich.diaguard.database.Entry
+dataClass=com.faltenreich.diaguard.data.entity.Entry
 tableName=entry
 # --table-fields-start--
 # --field-start--
 fieldName=date
+columnName=date
 # --field-end--
 # --field-start--
 fieldName=note
+columnName=note
 # --field-end--
 # --field-start--
 fieldName=isVisible
+columnName=isVisible
 # --field-end--
 # --field-start--
 fieldName=measurements
@@ -20,98 +23,88 @@ foreignCollection=true
 # --field-end--
 # --field-start--
 fieldName=id
+columnName=id
 generatedId=true
 # --field-end--
 # --field-start--
 fieldName=createdAt
+columnName=createdAt
 # --field-end--
 # --field-start--
 fieldName=updatedAt
+columnName=updatedAt
 # --field-end--
 # --table-fields-end--
 # --table-end--
 #################################
 # --table-start--
-dataClass=com.faltenreich.diaguard.database.Food
-tableName=food
-# --table-fields-start--
-# --field-start--
-fieldName=name
-dataPersister=STRING
-# --field-end--
-# --field-start--
-fieldName=image
-dataPersister=STRING
-# --field-end--
-# --field-start--
-fieldName=id
-generatedId=true
-# --field-end--
-# --field-start--
-fieldName=createdAt
-# --field-end--
-# --field-start--
-fieldName=updatedAt
-# --field-end--
-# --table-fields-end--
-# --table-end--
-#################################
-# --table-start--
-dataClass=com.faltenreich.diaguard.database.measurements.BloodSugar
+dataClass=com.faltenreich.diaguard.data.entity.BloodSugar
 tableName=bloodsugar
 # --table-fields-start--
 # --field-start--
 fieldName=mgDl
+columnName=mgDl
 # --field-end--
 # --field-start--
 fieldName=entry
+columnName=entry
 foreign=true
 # --field-end--
 # --field-start--
 fieldName=id
+columnName=id
 generatedId=true
 # --field-end--
 # --field-start--
 fieldName=createdAt
+columnName=createdAt
 # --field-end--
 # --field-start--
 fieldName=updatedAt
+columnName=updatedAt
 # --field-end--
 # --table-fields-end--
 # --table-end--
 #################################
 # --table-start--
-dataClass=com.faltenreich.diaguard.database.measurements.Insulin
+dataClass=com.faltenreich.diaguard.data.entity.Insulin
 tableName=insulin
 # --table-fields-start--
 # --field-start--
 fieldName=bolus
+columnName=bolus
 # --field-end--
 # --field-start--
 fieldName=correction
+columnName=correction
 # --field-end--
 # --field-start--
 fieldName=basal
+columnName=basal
 # --field-end--
 # --field-start--
 fieldName=entry
+columnName=entry
 foreign=true
 # --field-end--
 # --field-start--
 fieldName=id
+columnName=id
 generatedId=true
 # --field-end--
 # --field-start--
 fieldName=createdAt
+columnName=createdAt
 # --field-end--
 # --field-start--
 fieldName=updatedAt
+columnName=updatedAt
 # --field-end--
 # --table-fields-end--
 # --table-end--
 #################################
 # --table-start--
-dataClass=com.faltenreich.diaguard.database.measurements.Meal
+dataClass=com.faltenreich.diaguard.data.entity.Meal
 tableName=meal
 # --table-fields-start--
 # --field-start--
@@ -122,99 +115,118 @@ fieldName=foodId
 # --field-end--
 # --field-start--
 fieldName=entry
+columnName=entry
 foreign=true
 # --field-end--
 # --field-start--
 fieldName=id
+columnName=id
 generatedId=true
 # --field-end--
 # --field-start--
 fieldName=createdAt
+columnName=createdAt
 # --field-end--
 # --field-start--
 fieldName=updatedAt
+columnName=updatedAt
 # --field-end--
 # --table-fields-end--
 # --table-end--
 #################################
 # --table-start--
-dataClass=com.faltenreich.diaguard.database.measurements.Activity
+dataClass=com.faltenreich.diaguard.data.entity.Activity
 tableName=activity
 # --table-fields-start--
 # --field-start--
 fieldName=minutes
+columnName=minutes
 # --field-end--
 # --field-start--
 fieldName=type
-dataPersister=ENUM_INTEGER
+columnName=type
 # --field-end--
 # --field-start--
 fieldName=entry
+columnName=entry
 foreign=true
 # --field-end--
 # --field-start--
 fieldName=id
+columnName=id
 generatedId=true
 # --field-end--
 # --field-start--
 fieldName=createdAt
+columnName=createdAt
 # --field-end--
 # --field-start--
 fieldName=updatedAt
+columnName=updatedAt
 # --field-end--
 # --table-fields-end--
 # --table-end--
 #################################
 # --table-start--
-dataClass=com.faltenreich.diaguard.database.measurements.HbA1c
+dataClass=com.faltenreich.diaguard.data.entity.HbA1c
 tableName=hba1c
 # --table-fields-start--
 # --field-start--
 fieldName=percent
+columnName=percent
 # --field-end--
 # --field-start--
 fieldName=entry
+columnName=entry
 foreign=true
 # --field-end--
 # --field-start--
 fieldName=id
+columnName=id
 generatedId=true
 # --field-end--
 # --field-start--
 fieldName=createdAt
+columnName=createdAt
 # --field-end--
 # --field-start--
 fieldName=updatedAt
+columnName=updatedAt
 # --field-end--
 # --table-fields-end--
 # --table-end--
 #################################
 # --table-start--
-dataClass=com.faltenreich.diaguard.database.measurements.Weight
+dataClass=com.faltenreich.diaguard.data.entity.Weight
 tableName=weight
 # --table-fields-start--
 # --field-start--
 fieldName=kilogram
+columnName=kilogram
 # --field-end--
 # --field-start--
 fieldName=entry
+columnName=entry
 foreign=true
 # --field-end--
 # --field-start--
 fieldName=id
+columnName=id
 generatedId=true
 # --field-end--
 # --field-start--
 fieldName=createdAt
+columnName=createdAt
 # --field-end--
 # --field-start--
 fieldName=updatedAt
+columnName=updatedAt
 # --field-end--
 # --table-fields-end--
 # --table-end--
 #################################
 # --table-start--
-dataClass=com.faltenreich.diaguard.database.measurements.Pulse
+dataClass=com.faltenreich.diaguard.data.entity.Pulse
 tableName=pulse
 # --table-fields-start--
 # --field-start--
@@ -222,44 +234,54 @@ fieldName=frequency
 # --field-end--
 # --field-start--
 fieldName=entry
+columnName=entry
 foreign=true
 # --field-end--
 # --field-start--
 fieldName=id
+columnName=id
 generatedId=true
 # --field-end--
 # --field-start--
 fieldName=createdAt
+columnName=createdAt
 # --field-end--
 # --field-start--
 fieldName=updatedAt
+columnName=updatedAt
 # --field-end--
 # --table-fields-end--
 # --table-end--
 #################################
 # --table-start--
-dataClass=com.faltenreich.diaguard.database.measurements.Pressure
+dataClass=com.faltenreich.diaguard.data.entity.Pressure
 tableName=pressure
 # --table-fields-start--
 # --field-start--
 fieldName=systolic
+columnName=systolic
 # --field-end--
 # --field-start--
 fieldName=diastolic
+columnName=diastolic
 # --field-end--
 # --field-start--
 fieldName=entry
+columnName=entry
 foreign=true
 # --field-end--
 # --field-start--
 fieldName=id
+columnName=id
 generatedId=true
 # --field-end--
 # --field-start--
 fieldName=createdAt
+columnName=createdAt
 # --field-end--
 # --field-start--
 fieldName=updatedAt
+columnName=updatedAt
 # --field-end--
 # --table-fields-end--
 # --table-end--

@@ -16,17 +16,19 @@ import java.util.List;
 @DatabaseTable
 public class Entry extends BaseEntity {
 
-    public static final String DATE = "date";
-    public static final String NOTE = "note";
-    public static final String IS_VISIBLE = "isvisible";
+    public class Column extends BaseEntity.Column {
+        public static final String DATE = "date";
+        public static final String NOTE = "note";
+        public static final String IS_VISIBLE = "isVisible";
+    }
 
-    @DatabaseField
+    @DatabaseField(columnName = Column.DATE)
     private DateTime date;
 
-    @DatabaseField
+    @DatabaseField(columnName = Column.NOTE)
     private String note;
 
-    @DatabaseField
+    @DatabaseField(columnName = Column.IS_VISIBLE)
     private boolean isVisible;
 
     @ForeignCollectionField

@@ -156,7 +156,7 @@ public class FileHelper {
                     writer.writeNext(entryValues);
 
                     List<BaseEntity> measurements = dataSource.get(DatabaseHelper.MEASUREMENT, null,
-                            DatabaseHelper.ENTRY_ID + "=?",
+                            DatabaseHelper.ENTRY + "=?",
                             new String[]{Long.toString(entry.getId())},
                             null, null, null, null);
                     for(BaseEntity measurementModel : measurements) {

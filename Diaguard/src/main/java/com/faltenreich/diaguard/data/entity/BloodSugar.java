@@ -10,9 +10,11 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable
 public class BloodSugar extends Measurement {
 
-    public static final String MGDL = "mgDl";
+    public class Column extends Measurement.Column {
+        public static final String MGDL = "mgDl";
+    }
 
-    @DatabaseField
+    @DatabaseField(columnName = Column.MGDL)
     private float mgDl;
 
     public float getMgDl() {

@@ -47,7 +47,7 @@ public abstract class BaseDao <T extends BaseEntity> {
 
     public T get(long id) {
         try {
-            return getDao().queryBuilder().where().eq(BaseEntity.ID, id).queryForFirst();
+            return getDao().queryBuilder().where().eq(BaseEntity.Column.ID, id).queryForFirst();
         } catch (SQLException exception) {
             Log.e(TAG, String.format("Could not get %s with id %d", clazz.getSimpleName(), id));
             return null;

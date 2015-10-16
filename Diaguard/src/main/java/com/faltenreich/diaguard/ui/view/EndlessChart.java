@@ -12,6 +12,7 @@ import com.faltenreich.diaguard.adapter.OnChartPageChangeListener;
 import com.github.mikephil.charting.charts.ScatterChart;
 import com.github.mikephil.charting.data.ScatterData;
 import com.github.mikephil.charting.data.ScatterDataSet;
+import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
 
 import org.joda.time.DateTime;
@@ -100,6 +101,16 @@ public class EndlessChart extends ScatterChart implements OnChartGestureListener
                 getChartPageChangeListener().onChartPageChange(direction);
             }
         }
+    }
+
+    @Override
+    public void onChartGestureStart(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
+
+    }
+
+    @Override
+    public void onChartGestureEnd(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
+
     }
 
     @Override

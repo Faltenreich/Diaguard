@@ -9,7 +9,6 @@ import android.util.Log;
 import com.faltenreich.diaguard.data.entity.Activity;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
-import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.HbA1c;
 import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Meal;
@@ -37,7 +36,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     public static final Class[] tables = new Class[] {
             Entry.class,
-            Food.class,
             BloodSugar.class,
             Insulin.class,
             Meal.class,

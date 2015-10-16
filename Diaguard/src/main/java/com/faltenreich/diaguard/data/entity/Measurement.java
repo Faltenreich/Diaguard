@@ -11,7 +11,9 @@ import com.j256.ormlite.field.DatabaseField;
  */
 public abstract class Measurement extends BaseEntity {
 
-    public static final String ENTRY_ID = "entry_id";
+    public class Column extends BaseEntity.Column {
+        public static final String ENTRY = "entry";
+    }
 
     public enum Category {
         BLOODSUGAR,
@@ -71,7 +73,7 @@ public abstract class Measurement extends BaseEntity {
         }
     }
 
-    @DatabaseField(foreign = true)
+    @DatabaseField(columnName = Column.ENTRY, foreign = true)
     private Entry entry;
 
     public Entry getEntry() {

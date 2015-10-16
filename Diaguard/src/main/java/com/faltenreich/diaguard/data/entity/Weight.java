@@ -10,9 +10,11 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable
 public class Weight extends Measurement {
 
-    public static final String KILOGRAM = "kilogram";
+    public class Column extends Measurement.Column {
+        public static final String KILOGRAM = "kilogram";
+    }
 
-    @DatabaseField
+    @DatabaseField(columnName = Column.KILOGRAM)
     private float kilogram;
 
     public float getKilogram() {

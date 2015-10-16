@@ -11,16 +11,19 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable
 public class Activity extends Measurement {
 
-    public static final String MINUTES = "minutes";
+    public class Column extends Measurement.Column {
+        public static final String MINUTES = "minutes";
+        public static final String TYPE = "type";
+    }
 
     public enum Type {
         // TODO
     }
 
-    @DatabaseField
+    @DatabaseField(columnName = Column.MINUTES)
     private int minutes;
 
-    @DatabaseField(dataType = DataType.ENUM_INTEGER)
+    @DatabaseField(columnName = Column.TYPE)
     private Type type;
 
     public int getMinutes() {

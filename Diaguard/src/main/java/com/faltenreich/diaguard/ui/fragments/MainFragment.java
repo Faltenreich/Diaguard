@@ -201,13 +201,13 @@ public class MainFragment extends BaseFragment {
             Interval intervalWeek = new Interval(new DateTime(now.minusWeeks(1)), now);
             Interval intervalMonth = new Interval(new DateTime(now.minusMonths(1)), now);
 
-            float avgDay = MeasurementDao.getInstance(BloodSugar.class).avg(BloodSugar.MGDL, now);
+            float avgDay = MeasurementDao.getInstance(BloodSugar.class).avg(BloodSugar.Column.MGDL, now);
             float avgDayCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, avgDay);
 
-            float avgWeek = MeasurementDao.getInstance(BloodSugar.class).avg(BloodSugar.MGDL, intervalWeek);
+            float avgWeek = MeasurementDao.getInstance(BloodSugar.class).avg(BloodSugar.Column.MGDL, intervalWeek);
             float avgWeekCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, avgWeek);
 
-            float avgMonth = MeasurementDao.getInstance(BloodSugar.class).avg(BloodSugar.MGDL, intervalMonth);
+            float avgMonth = MeasurementDao.getInstance(BloodSugar.class).avg(BloodSugar.Column.MGDL, intervalMonth);
             float avgMonthCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, avgMonth);
 
             return new String[] {
@@ -286,7 +286,7 @@ public class MainFragment extends BaseFragment {
             while (!currentDay.isAfter(today)) {
                 int index = DateTimeConstants.DAYS_PER_WEEK - Days.daysBetween(currentDay, today).getDays() - 1;
                 xLabels.add(index, weekDays[currentDay.dayOfWeek().get() - 1]);
-                float avg = MeasurementDao.getInstance(BloodSugar.class).avg(BloodSugar.MGDL, currentDay);
+                float avg = MeasurementDao.getInstance(BloodSugar.class).avg(BloodSugar.Column.MGDL, currentDay);
                 if (avg > 0) {
                     entries.add(new com.github.mikephil.charting.data.Entry(avg, index));
                     if (avg > highestValue) {

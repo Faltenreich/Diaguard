@@ -14,9 +14,9 @@ import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.util.ChartHelper;
+import com.faltenreich.diaguard.util.Helper;
 import com.github.mikephil.charting.charts.ScatterChart;
 import com.github.mikephil.charting.components.LimitLine;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.ScatterData;
 import com.github.mikephil.charting.data.ScatterDataSet;
@@ -42,6 +42,7 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
     private static final String DATA_SET_BLOODSUGAR_HYPOGLYCEMIA = "hypoglycemia";
 
     private static final int LABELS_TO_SKIP = 2;
+    private static final float TARGET_LINE_WIDTH = .5f;
     private static final float Y_MAX_VALUE = 275;
     private static final float Y_MAX_VALUE_OFFSET = 20;
 
@@ -101,10 +102,7 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
         }
 
         protected void onPostExecute(ScatterData data) {
-            if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
-                addLimitLines();
-            }
-
+            // addTargetLine();
             setData(data);
             setVisibleXRangeMaximum(DateTimeConstants.MINUTES_PER_DAY);
             getXAxis().setLabelsToSkip((DateTimeConstants.MINUTES_PER_HOUR * LABELS_TO_SKIP) - 1);
@@ -147,20 +145,14 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
             return dataSet;
         }
 
-        private void addLimitLines() {
-            LimitLine hyperglycemia = new LimitLine(
-                    PreferenceHelper.getInstance().getLimitHyperglycemia(),
-                    getContext().getString(R.string.hyper));
-            hyperglycemia.setLineColor(getResources().getColor(R.color.red));
-            hyperglycemia.setLabel(null);
-            getAxisLeft().addLimitLine(hyperglycemia);
-
-            LimitLine hypoglycemia = new LimitLine(
-                    PreferenceHelper.getInstance().getLimitHypoglycemia(),
-                    getContext().getString(R.string.hypo));
-            hypoglycemia.setLineColor(getResources().getColor(R.color.blue));
-            hypoglycemia.setLabel(null);
-            getAxisLeft().addLimitLine(hypoglycemia);
+        private void addTargetLine() {
+            LimitLine targetLine = new LimitLine(
+                    PreferenceHelper.getInstance().getTargetValue(),
+                    getContext().getString(R.string.pref_therapy_targets));
+            targetLine.setLineColor(ContextCompat.getColor(getContext(), R.color.green_lighter));
+            targetLine.setLineWidth(Helper.getDPI(TARGET_LINE_WIDTH));
+            targetLine.setLabel(null);
+            getAxisLeft().addLimitLine(targetLine);
         }
     }
 

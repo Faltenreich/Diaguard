@@ -104,6 +104,7 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
     private List<Entry> fetchData(DateTime day) {
         try {
             List<Entry> entriesOfDay = EntryDao.getInstance().getEntriesOfDay(day);
+            // TODO: Get rid of measurementCache (Currently required to enable lazy loading for generic measurements
             for (Entry entry : entriesOfDay) {
                 List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
                 entry.setMeasurementCache(measurements);
@@ -111,7 +112,7 @@ public class LogRecyclerAdapter extends BaseAdapter<Measurement, RecyclerView.Vi
             return entriesOfDay;
         } catch (SQLException exception) {
             Log.e("LogRecyclerAdapter", exception.getMessage());
-            return null;
+            return new ArrayList<>();
         }
     }
 

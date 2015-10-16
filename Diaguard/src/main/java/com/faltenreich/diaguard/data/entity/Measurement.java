@@ -73,7 +73,7 @@ public abstract class Measurement extends BaseEntity {
         }
     }
 
-    @DatabaseField(columnName = Column.ENTRY, foreign = true)
+    @DatabaseField(columnName = Column.ENTRY, foreign = true, foreignAutoRefresh = true)
     private Entry entry;
 
     public Entry getEntry() {

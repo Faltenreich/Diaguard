@@ -9,9 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.ui.view.chart.CategoryChart;
 import com.faltenreich.diaguard.ui.view.chart.DayChart;
 
 import org.joda.time.DateTime;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,7 +24,10 @@ public class ChartDayFragment extends Fragment {
 
     public static final String EXTRA_DATE_TIME = "EXTRA_DATE_TIME";
 
-    private DayChart dayChart;
+    @Bind(R.id.day_chart)
+    protected DayChart dayChart;
+
+    private DateTime day;
 
     public static ChartDayFragment createInstance(DateTime dateTime) {
         ChartDayFragment fragment = new ChartDayFragment();
@@ -37,7 +44,7 @@ public class ChartDayFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chart_day, container, false);
-        getComponents(view);
+        ButterKnife.bind(this, view);
         if (getArguments() != null) {
             DateTime dateTime = (DateTime) getArguments().getSerializable(EXTRA_DATE_TIME);
             setDay(dateTime);
@@ -45,15 +52,12 @@ public class ChartDayFragment extends Fragment {
         return view;
     }
 
-    private void getComponents(@NonNull View view) {
-        dayChart = (DayChart) view.findViewById(R.id.day_chart);
-    }
-
     public DateTime getDay() {
-        return dayChart != null ? dayChart.getDay() : null;
+        return day;
     }
 
     public void setDay(DateTime day) {
+        this.day = day;
         if (dayChart != null) {
             dayChart.setDay(day);
         }

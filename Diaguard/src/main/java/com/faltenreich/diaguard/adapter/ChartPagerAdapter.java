@@ -67,7 +67,6 @@ public class ChartPagerAdapter extends FragmentStatePagerAdapter {
         Collections.rotate(fragments, -1);
         ChartDayFragment fragment = fragments.get(ITEM_COUNT - 1);
         DateTime nextDay = fragment.getDay().plusDays(ITEM_COUNT);
-        Log.i(TAG, "Next day is " + DateTimeFormat.shortDate().print(nextDay));
         fragment.setDay(nextDay);
         notifyDataSetChanged();
     }
@@ -76,7 +75,6 @@ public class ChartPagerAdapter extends FragmentStatePagerAdapter {
         Collections.rotate(fragments, 1);
         ChartDayFragment fragment = fragments.get(0);
         DateTime previousDay = fragment.getDay().minusDays(ITEM_COUNT);
-        Log.i(TAG, "Previous day is " + DateTimeFormat.shortDate().print(previousDay));
         fragment.setDay(previousDay);
         notifyDataSetChanged();
     }

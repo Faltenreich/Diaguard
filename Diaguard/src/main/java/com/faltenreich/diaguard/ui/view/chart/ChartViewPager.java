@@ -40,22 +40,25 @@ public class ChartViewPager extends ViewPager {
             @Override
             public void onPageScrollStateChanged(int state) {
                 if (state == ViewPager.SCROLL_STATE_IDLE) {
-                    Log.i(TAG, "onPageIdle " + getCurrentItem());
-                    switch (getCurrentItem()) {
-                        case 0:
-                            adapter.previousDay();
-                            break;
-                        case 2:
-                            adapter.nextDay();
-                            break;
+                    if (getCurrentItem() != adapter.getMiddle()) {
+                        Log.i(TAG, "onPageIdle " + getCurrentItem());
+                        switch (getCurrentItem()) {
+                            case 0:
+                                adapter.previousDay();
+                                break;
+                            case 2:
+                                adapter.nextDay();
+                                break;
+                        }
+                        Log.i(TAG, "Scroll to page " + adapter.getMiddle());
+                        setCurrentItem(adapter.getMiddle(), false);
                     }
-                    setCurrentItem(adapter.getMiddle(), false);
                 }
             }
             @Override
             public void onPageSelected(int position) {
-                Log.i(TAG, "onPageSelected " + position);
                 if (position != adapter.getMiddle() && adapter.getItem(position) instanceof ChartDayFragment) {
+                    Log.i(TAG, "onPageSelected " + position);
                     ChartDayFragment fragment = (ChartDayFragment) adapter.getItem(position);
                     callback.onDaySelected(fragment.getDay());
                 }

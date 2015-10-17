@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.ui.viewholder;
+package com.faltenreich.diaguard.adapter;
 
 import com.faltenreich.diaguard.data.entity.Entry;
 
@@ -10,16 +10,16 @@ import java.util.List;
 /**
  * Created by Filip on 10.07.2015.
  */
-public class RecyclerEntry extends RecyclerItem {
+public class LogListEntry extends LogListItem {
 
     private List<Entry> entries;
 
-    public RecyclerEntry(DateTime day, List<Entry> entries) {
+    public LogListEntry(DateTime day, List<Entry> entries) {
         super(day);
         this.entries = entries;
     }
 
-    public RecyclerEntry(DateTime day) {
+    public LogListEntry(DateTime day) {
         super(day);
         this.entries = new ArrayList<>();
     }

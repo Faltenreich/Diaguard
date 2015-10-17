@@ -18,8 +18,8 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.util.ViewHelper;
 import com.faltenreich.diaguard.ui.view.DayOfMonthDrawable;
 import com.faltenreich.diaguard.adapter.EndlessScrollListener;
-import com.faltenreich.diaguard.ui.view.LogRecyclerAdapter;
-import com.faltenreich.diaguard.ui.viewholder.RecyclerItem;
+import com.faltenreich.diaguard.adapter.LogRecyclerAdapter;
+import com.faltenreich.diaguard.adapter.LogListItem;
 
 import org.joda.time.DateTime;
 
@@ -85,7 +85,7 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
 
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerAdapter = new LogRecyclerAdapter(getActivity(), getActivity().getSupportFragmentManager(), day);
+        recyclerAdapter = new LogRecyclerAdapter(getActivity(), day);
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.scrollToPosition(day.dayOfMonth().get());
         updateMonthForUi();
@@ -104,7 +104,7 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                RecyclerItem item = recyclerAdapter.items.get(linearLayoutManager.findFirstVisibleItemPosition());
+                LogListItem item = recyclerAdapter.items.get(linearLayoutManager.findFirstVisibleItemPosition());
                 firstVisibleDay = item.getDateTime();
                 // Update month in Toolbar when section is being crossed
                 boolean isScrollingUp = dy < 0;

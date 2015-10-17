@@ -1,15 +1,13 @@
-package com.faltenreich.diaguard.ui.view;
+package com.faltenreich.diaguard.ui.view.entry;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**

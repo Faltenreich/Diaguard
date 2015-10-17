@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.ui.view;
+package com.faltenreich.diaguard.ui.view.chart;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -14,9 +14,7 @@ import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.util.ChartHelper;
-import com.faltenreich.diaguard.util.Helper;
 import com.github.mikephil.charting.charts.ScatterChart;
-import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.ScatterData;
 import com.github.mikephil.charting.data.ScatterDataSet;
@@ -102,7 +100,6 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
         }
 
         protected void onPostExecute(ScatterData data) {
-            // addTargetLine();
             setData(data);
             setVisibleXRangeMaximum(DateTimeConstants.MINUTES_PER_DAY);
             getXAxis().setLabelsToSkip((DateTimeConstants.MINUTES_PER_HOUR * LABELS_TO_SKIP) - 1);
@@ -143,16 +140,6 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
             dataSet.setScatterShape(ScatterShape.CIRCLE);
             dataSet.setDrawValues(false);
             return dataSet;
-        }
-
-        private void addTargetLine() {
-            LimitLine targetLine = new LimitLine(
-                    PreferenceHelper.getInstance().getTargetValue(),
-                    getContext().getString(R.string.pref_therapy_targets));
-            targetLine.setLineColor(ContextCompat.getColor(getContext(), R.color.green_lighter));
-            targetLine.setLineWidth(Helper.getDPI(TARGET_LINE_WIDTH));
-            targetLine.setLabel(null);
-            getAxisLeft().addLimitLine(targetLine);
         }
     }
 

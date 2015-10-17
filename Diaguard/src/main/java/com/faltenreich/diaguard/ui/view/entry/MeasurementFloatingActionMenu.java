@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.ui.view;
+package com.faltenreich.diaguard.ui.view.entry;
 
 import android.content.Context;
 import android.support.annotation.Nullable;

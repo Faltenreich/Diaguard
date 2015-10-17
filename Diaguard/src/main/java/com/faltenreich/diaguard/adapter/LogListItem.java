@@ -1,15 +1,15 @@
-package com.faltenreich.diaguard.ui.viewholder;
+package com.faltenreich.diaguard.adapter;
 
 import org.joda.time.DateTime;
 
 /**
  * Created by Filip on 10.07.2015.
  */
-public class RecyclerItem {
+public class LogListItem extends ListItem {
 
     private DateTime dateTime;
 
-    public RecyclerItem(DateTime dateTime) {
+    public LogListItem(DateTime dateTime) {
         this.dateTime = dateTime;
     }
 

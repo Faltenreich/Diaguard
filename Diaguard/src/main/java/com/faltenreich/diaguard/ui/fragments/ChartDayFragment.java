@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.ui.view.DayChart;
+import com.faltenreich.diaguard.ui.view.chart.DayChart;
 
 import org.joda.time.DateTime;
 
@@ -54,6 +54,8 @@ public class ChartDayFragment extends Fragment {
     }
 
     public void setDay(DateTime day) {
-        dayChart.setDay(day);
+        if (dayChart != null) {
+            dayChart.setDay(day);
+        }
     }
 }

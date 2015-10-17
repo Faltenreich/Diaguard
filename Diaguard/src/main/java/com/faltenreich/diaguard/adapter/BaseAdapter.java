@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.adapter;
 import android.support.v7.widget.RecyclerView;
 
 import com.faltenreich.diaguard.data.entity.BaseEntity;
-import com.faltenreich.diaguard.ui.viewholder.RecyclerItem;
+import com.faltenreich.diaguard.ui.viewholder.BaseViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,31 +11,31 @@ import java.util.List;
 /**
  * Created by Filip on 04.11.13.
  */
-public abstract class BaseAdapter<T extends BaseEntity, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
+public abstract class BaseAdapter<L extends ListItem, VH extends BaseViewHolder<L>> extends RecyclerView.Adapter<VH> {
 
-    public List<RecyclerItem> items;
+    public List<L> items;
 
     public BaseAdapter() {
         this.items = new ArrayList<>();
     }
 
-    public void addItem(RecyclerItem item) {
+    public void addItem(L item) {
         this.items.add(item);
     }
 
-    public void addItem(int position, RecyclerItem item) {
+    public void addItem(int position, L item) {
         this.items.add(position, item);
     }
 
-    public void addItems(List<RecyclerItem> items) {
+    public void addItems(List<L> items) {
         this.items.addAll(items);
     }
 
-    public void addItems(int position, List<RecyclerItem> items) {
+    public void addItems(int position, List<L> items) {
         this.items.addAll(position, items);
     }
 
-    public void removeItem(RecyclerItem item) {
+    public void removeItem(L item) {
         this.items.remove(item);
     }
 

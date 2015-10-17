@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,7 +18,7 @@ import android.widget.DatePicker;
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.util.ViewHelper;
-import com.faltenreich.diaguard.ui.view.ChartViewPager;
+import com.faltenreich.diaguard.ui.view.chart.ChartViewPager;
 import com.faltenreich.diaguard.ui.view.DayOfMonthDrawable;
 
 import org.joda.time.DateTime;
@@ -31,6 +32,8 @@ import butterknife.Bind;
  * A simple {@link Fragment} subclass.
  */
 public class ChartFragment extends BaseFragment implements ChartViewPager.ChartViewPagerCallback, BaseFragment.ToolbarCallback {
+
+    private static final String TAG = ChartFragment.class.getSimpleName();
 
     @Bind(R.id.viewpager)
     protected ChartViewPager viewPager;
@@ -51,7 +54,7 @@ public class ChartFragment extends BaseFragment implements ChartViewPager.ChartV
     @Override
     public void onResume() {
         super.onResume();
-        updateLabels();
+        goToDay(day);
     }
 
     @Override
@@ -92,8 +95,10 @@ public class ChartFragment extends BaseFragment implements ChartViewPager.ChartV
             Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
             childFragmentManager.setAccessible(true);
             childFragmentManager.set(this, null);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException(e);
+        } catch (NoSuchFieldException e) {
+            Log.e(TAG, "No ChildFragmentManager available");
+        } catch (IllegalAccessException e) {
+            Log.e(TAG, "No ChildFragmentManager available");
         }
     }
 

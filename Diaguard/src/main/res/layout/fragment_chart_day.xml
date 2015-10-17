@@ -1,4 +1,4 @@
-<com.faltenreich.diaguard.ui.view.DayChart
+<com.faltenreich.diaguard.ui.view.chart.DayChart
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/day_chart"
     android:layout_width="match_parent"

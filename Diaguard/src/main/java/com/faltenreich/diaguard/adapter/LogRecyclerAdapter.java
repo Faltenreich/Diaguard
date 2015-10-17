@@ -43,14 +43,11 @@ public class LogRecyclerAdapter extends BaseAdapter<LogListItem, BaseViewHolder<
         ENTRY
     }
 
-    private Context context;
-
     private DateTime maxVisibleDate;
     private DateTime minVisibleDate;
 
     public LogRecyclerAdapter(Context context, DateTime firstVisibleDay) {
-        this.context = context;
-        this.items = new ArrayList<>();
+        super(context);
 
         minVisibleDate = firstVisibleDay.withDayOfMonth(1);
         maxVisibleDate = minVisibleDate;
@@ -74,13 +71,13 @@ public class LogRecyclerAdapter extends BaseAdapter<LogListItem, BaseViewHolder<
 
     private void appendNextMonth() {
         // Header
-        items.add(new LogListSection(maxVisibleDate));
-        notifyItemInserted(items.size() - 1);
+        addItem(new LogListSection(maxVisibleDate));
+        notifyItemInserted(getItemCount() - 1);
 
         DateTime targetDate = maxVisibleDate.plusMonths(1);
         while (maxVisibleDate.isBefore(targetDate)) {
-            items.add(new LogListEntry(maxVisibleDate, fetchData(maxVisibleDate)));
-            notifyItemInserted(items.size() - 1);
+            addItem(new LogListEntry(maxVisibleDate, fetchData(maxVisibleDate)));
+            notifyItemInserted(getItemCount() - 1);
             maxVisibleDate = maxVisibleDate.plusDays(1);
         }
     }
@@ -89,11 +86,11 @@ public class LogRecyclerAdapter extends BaseAdapter<LogListItem, BaseViewHolder<
         DateTime targetDate = minVisibleDate.minusMonths(1);
         while (minVisibleDate.isAfter(targetDate)) {
             minVisibleDate = minVisibleDate.minusDays(1);
-            items.add(0, new LogListEntry(minVisibleDate, fetchData(minVisibleDate)));
+            addItem(0, new LogListEntry(minVisibleDate, fetchData(minVisibleDate)));
             notifyItemInserted(0);
         }
         // Header
-        items.add(0, new LogListSection(minVisibleDate));
+        addItem(0, new LogListSection(minVisibleDate));
         notifyItemInserted(0);
     }
 
@@ -114,10 +111,10 @@ public class LogRecyclerAdapter extends BaseAdapter<LogListItem, BaseViewHolder<
 
     @Override
     public int getItemViewType(int position) {
-        if (items.size() == 0) {
+        if (getItemCount() == 0) {
             return ViewType.ENTRY.ordinal();
         } else {
-            LogListItem item = items.get(position);
+            LogListItem item = getItem(position);
             if (item instanceof LogListSection) {
                 return ViewType.SECTION.ordinal();
             } else if (item instanceof LogListEntry) {
@@ -132,15 +129,15 @@ public class LogRecyclerAdapter extends BaseAdapter<LogListItem, BaseViewHolder<
         ViewType viewType = ViewType.values()[viewTypeInt];
         switch (viewType) {
             case SECTION:
-                return new LogMonthViewHolder(LayoutInflater.from(context).inflate(R.layout.list_item_log_row_section, parent, false));
+                return new LogMonthViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_log_row_section, parent, false));
             default:
-                return new LogDayViewHolder(LayoutInflater.from(context).inflate(R.layout.list_item_log_row_entry, parent, false));
+                return new LogDayViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_log_row_entry, parent, false));
         }
     }
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
-        LogListItem listItem = items.get(position);
+        LogListItem listItem = getItem(position);
         holder.bindData(listItem);
     }
 

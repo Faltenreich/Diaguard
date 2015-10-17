@@ -1,9 +1,12 @@
 package com.faltenreich.diaguard.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
 import com.faltenreich.diaguard.data.entity.BaseEntity;
 import com.faltenreich.diaguard.ui.viewholder.BaseViewHolder;
+
+import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +16,20 @@ import java.util.List;
  */
 public abstract class BaseAdapter<L extends ListItem, VH extends BaseViewHolder<L>> extends RecyclerView.Adapter<VH> {
 
-    public List<L> items;
+    private Context context;
+    private List<L> items;
 
-    public BaseAdapter() {
+    public BaseAdapter(Context context) {
+        this.context = context;
         this.items = new ArrayList<>();
+    }
+
+    protected Context getContext() {
+        return context;
+    }
+
+    public L getItem(int position) {
+        return items.get(position);
     }
 
     public void addItem(L item) {

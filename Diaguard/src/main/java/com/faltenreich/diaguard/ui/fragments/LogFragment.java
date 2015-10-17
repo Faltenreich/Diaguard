@@ -104,7 +104,7 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                LogListItem item = recyclerAdapter.items.get(linearLayoutManager.findFirstVisibleItemPosition());
+                LogListItem item = recyclerAdapter.getItem(linearLayoutManager.findFirstVisibleItemPosition());
                 firstVisibleDay = item.getDateTime();
                 // Update month in Toolbar when section is being crossed
                 boolean isScrollingUp = dy < 0;

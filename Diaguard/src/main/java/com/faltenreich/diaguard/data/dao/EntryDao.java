@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.BaseEntity;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.util.ArrayUtils;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 
@@ -14,6 +15,8 @@ import org.joda.time.DateTimeConstants;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -36,17 +39,22 @@ public class EntryDao extends BaseDao<Entry> {
         super(Entry.class);
     }
 
-    public List<Entry> getEntriesOfDay(DateTime day) throws SQLException {
+    public List<Entry> getEntriesOfDay(DateTime day) {
         return getEntriesBetween(day, day);
     }
 
-    public List<Entry> getEntriesBetween(DateTime start, DateTime end) throws SQLException {
+    public List<Entry> getEntriesBetween(DateTime start, DateTime end) {
         start = start.withTimeAtStartOfDay();
         end = end.withTime(DateTimeConstants.HOURS_PER_DAY - 1,
                 DateTimeConstants.MINUTES_PER_HOUR - 1,
                 DateTimeConstants.SECONDS_PER_MINUTE - 1,
                 DateTimeConstants.MILLIS_PER_SECOND - 1);
-        return getDao().queryBuilder().orderBy(Entry.Column.DATE, true).where().gt(Entry.Column.DATE, start).and().lt(Entry.Column.DATE, end).query();
+        try {
+            return getDao().queryBuilder().orderBy(Entry.Column.DATE, true).where().gt(Entry.Column.DATE, start).and().lt(Entry.Column.DATE, end).query();
+        } catch (SQLException e) {
+            Log.e(TAG, "Could not getEntriesBetween");
+            return new ArrayList<>();
+        }
     }
 
     public int deleteMeasurements(Entry entry) {
@@ -101,4 +109,33 @@ public class EntryDao extends BaseDao<Entry> {
         }
     }
 
+    public HashMap<Measurement.Category, Float[]> getAverageDataTable(DateTime day, Measurement.Category[] categories, int hoursToSkip) {
+        List<Measurement.Category> categoriesList = Arrays.asList(categories);
+
+        HashMap<Measurement.Category, Float[]> values = new HashMap<>();
+        for (Measurement.Category category : categories) {
+            values.put(category, new Float[DateTimeConstants.HOURS_PER_DAY / hoursToSkip]);
+        }
+
+        List<Entry> entriesOfDay = getEntriesOfDay(day);
+        for(Entry entry : entriesOfDay) {
+            for (Measurement measurement : entry.getMeasurements()) {
+                Measurement.Category category = measurement.getCategory();
+                if (categoriesList.contains(category)) {
+                    boolean valueIsAverage =
+                            category == Measurement.Category.BLOODSUGAR ||
+                            category == Measurement.Category.HBA1C ||
+                            category == Measurement.Category.WEIGHT ||
+                            category == Measurement.Category.PULSE;
+                    int index = measurement.getEntry().getDate().hourOfDay().get() / hoursToSkip;
+                    float value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, ArrayUtils.sum(measurement.getValues()));
+                    float oldValue = values.get(category)[index];
+                    // TODO: Divisor is not 2 but count
+                    float newValue = valueIsAverage ? (oldValue + value) / 2 : oldValue + value;
+                    values.get(category)[index] = newValue;
+                }
+            }
+        }
+        return values;
+    }
 }

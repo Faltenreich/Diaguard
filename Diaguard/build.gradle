@@ -12,6 +12,7 @@ repositories {
     mavenCentral()
     maven { url 'https://repo.commonsware.com.s3.amazonaws.com' }
     maven { url "https://jitpack.io" }
+    jcenter()
 }
 
 android {
@@ -47,6 +48,4 @@ dependencies {
     compile 'com.github.PhilJay:MPAndroidChart:v2.1.5'
     compile 'com.github.clans:fab:1.6.1'
     compile 'com.fmsirvent:parallaxeverywhere:1.0.4'
-
-    compile files('libs/itextg-5.4.4.jar')
 }

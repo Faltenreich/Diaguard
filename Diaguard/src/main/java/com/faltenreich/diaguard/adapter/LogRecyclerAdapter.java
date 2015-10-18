@@ -95,18 +95,13 @@ public class LogRecyclerAdapter extends BaseAdapter<LogListItem, BaseViewHolder<
     }
 
     private List<Entry> fetchData(DateTime day) {
-        try {
-            List<Entry> entriesOfDay = EntryDao.getInstance().getEntriesOfDay(day);
-            // TODO: Get rid of measurementCache (Currently required to enable lazy loading for generic measurements
-            for (Entry entry : entriesOfDay) {
-                List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
-                entry.setMeasurementCache(measurements);
-            }
-            return entriesOfDay;
-        } catch (SQLException exception) {
-            Log.e("LogRecyclerAdapter", exception.getMessage());
-            return new ArrayList<>();
+        List<Entry> entriesOfDay = EntryDao.getInstance().getEntriesOfDay(day);
+        // TODO: Get rid of measurementCache (Currently required to enable lazy loading for generic measurements
+        for (Entry entry : entriesOfDay) {
+            List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
+            entry.setMeasurementCache(measurements);
         }
+        return entriesOfDay;
     }
 
     @Override

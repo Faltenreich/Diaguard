@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -17,10 +18,12 @@ import android.widget.Spinner;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.ui.fragments.DatePickerFragment;
+import com.faltenreich.diaguard.util.Export;
 import com.faltenreich.diaguard.util.FileHelper;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.IFileListener;
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.util.ViewHelper;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
@@ -36,6 +39,9 @@ public class ExportActivity extends BaseActivity implements IFileListener {
 
     private DateTime dateStart;
     private DateTime dateEnd;
+
+    @Bind(R.id.root)
+    protected ViewGroup rootView;
 
     @Bind(R.id.spinner_format)
     protected Spinner spinnerFormat;
@@ -101,21 +107,20 @@ public class ExportActivity extends BaseActivity implements IFileListener {
 
     private void export() {
         if(validate()) {
-            FileHelper fileHelper = new FileHelper(this);
             if(spinnerFormat.getSelectedItemPosition() == 0) {
-                fileHelper.exportPDF(this, dateStart, dateEnd);
+                // TODO
             }
             else if(spinnerFormat.getSelectedItemPosition() == 1) {
+                FileHelper fileHelper = new FileHelper(this);
                 fileHelper.exportCSV(this);
             }
         }
     }
 
     @Override
-    // Callback method from IFileListener
     public void handleFile(File file, String mimeType) {
         if(file == null) {
-            // TODO ViewHelper.showAlert(this, getString(R.string.error_sd_card));
+            ViewHelper.showSnackbar(rootView, getString(R.string.error_sd_card));
         }
         else {
             if (checkBoxMail.isChecked()) {

@@ -130,20 +130,15 @@ public class CategoryChart extends ScatterChart {
     private class UpdateChartDataTask extends AsyncTask<Void, Void, List<Measurement>> {
 
         protected List<Measurement> doInBackground(Void... params) {
-            try {
-                List<Measurement> measurements = new ArrayList<>();
-                List<com.faltenreich.diaguard.data.entity.Entry> entries = EntryDao.getInstance().getEntriesOfDay(day);
-                if (entries != null && entries.size() > 0) {
-                    for (com.faltenreich.diaguard.data.entity.Entry entry : entries) {
-                        List<Measurement> measurementsOfEntry = EntryDao.getInstance().getMeasurements(entry, activeCategories);
-                        measurements.addAll(measurementsOfEntry);
-                    }
+            List<Measurement> measurements = new ArrayList<>();
+            List<com.faltenreich.diaguard.data.entity.Entry> entries = EntryDao.getInstance().getEntriesOfDay(day);
+            if (entries != null && entries.size() > 0) {
+                for (com.faltenreich.diaguard.data.entity.Entry entry : entries) {
+                    List<Measurement> measurementsOfEntry = EntryDao.getInstance().getMeasurements(entry, activeCategories);
+                    measurements.addAll(measurementsOfEntry);
                 }
-                return measurements;
-            } catch (SQLException exception) {
-                Log.e(TAG, exception.getMessage());
-                return new ArrayList<>();
             }
+            return measurements;
         }
 
         protected void onPostExecute(List<Measurement> measurements) {

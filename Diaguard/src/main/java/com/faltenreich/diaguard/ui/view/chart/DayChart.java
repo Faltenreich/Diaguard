@@ -146,20 +146,15 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
     private class UpdateChartDataTask extends AsyncTask<Void, Void, List<BloodSugar>> {
 
         protected List<BloodSugar> doInBackground(Void... params) {
-            try {
-                List<BloodSugar> bloodSugarList = new ArrayList<>();
-                List<com.faltenreich.diaguard.data.entity.Entry> entries = EntryDao.getInstance().getEntriesOfDay(day);
-                if (entries != null && entries.size() > 0) {
-                    for (com.faltenreich.diaguard.data.entity.Entry entry : entries) {
-                        List measurements = EntryDao.getInstance().getMeasurements(entry, new Measurement.Category[] {Measurement.Category.BLOODSUGAR});
-                        bloodSugarList.addAll(measurements);
-                    }
+            List<BloodSugar> bloodSugarList = new ArrayList<>();
+            List<com.faltenreich.diaguard.data.entity.Entry> entries = EntryDao.getInstance().getEntriesOfDay(day);
+            if (entries != null && entries.size() > 0) {
+                for (com.faltenreich.diaguard.data.entity.Entry entry : entries) {
+                    List measurements = EntryDao.getInstance().getMeasurements(entry, new Measurement.Category[] {Measurement.Category.BLOODSUGAR});
+                    bloodSugarList.addAll(measurements);
                 }
-                return bloodSugarList;
-            } catch (SQLException exception) {
-                Log.e(TAG, exception.getMessage());
-                return new ArrayList<>();
             }
+            return bloodSugarList;
         }
 
         protected void onPostExecute(List<BloodSugar> bloodSugarList) {

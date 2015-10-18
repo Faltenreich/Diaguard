@@ -109,31 +109,25 @@ public class EntryDao extends BaseDao<Entry> {
         }
     }
 
-    public HashMap<Measurement.Category, Float[]> getAverageDataTable(DateTime day, Measurement.Category[] categories, int hoursToSkip) {
-        List<Measurement.Category> categoriesList = Arrays.asList(categories);
-
-        HashMap<Measurement.Category, Float[]> values = new HashMap<>();
+    public HashMap<Measurement.Category, float[]> getAverageDataTable(DateTime day, Measurement.Category[] categories, int hoursToSkip) {
+        HashMap<Measurement.Category, float[]> values = new HashMap<>();
         for (Measurement.Category category : categories) {
-            values.put(category, new Float[DateTimeConstants.HOURS_PER_DAY / hoursToSkip]);
+            values.put(category, new float[DateTimeConstants.HOURS_PER_DAY / hoursToSkip]);
         }
-
-        List<Entry> entriesOfDay = getEntriesOfDay(day);
-        for(Entry entry : entriesOfDay) {
-            for (Measurement measurement : entry.getMeasurements()) {
+        for(Entry entry : getEntriesOfDay(day)) {
+            for (Measurement measurement : getMeasurements(entry, categories)) {
                 Measurement.Category category = measurement.getCategory();
-                if (categoriesList.contains(category)) {
-                    boolean valueIsAverage =
-                            category == Measurement.Category.BLOODSUGAR ||
-                            category == Measurement.Category.HBA1C ||
-                            category == Measurement.Category.WEIGHT ||
-                            category == Measurement.Category.PULSE;
-                    int index = measurement.getEntry().getDate().hourOfDay().get() / hoursToSkip;
-                    float value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, ArrayUtils.sum(measurement.getValues()));
-                    float oldValue = values.get(category)[index];
-                    // TODO: Divisor is not 2 but count
-                    float newValue = valueIsAverage ? (oldValue + value) / 2 : oldValue + value;
-                    values.get(category)[index] = newValue;
-                }
+                boolean valueIsAverage =
+                        category == Measurement.Category.BLOODSUGAR ||
+                                category == Measurement.Category.HBA1C ||
+                                category == Measurement.Category.WEIGHT ||
+                                category == Measurement.Category.PULSE;
+                int index = measurement.getEntry().getDate().hourOfDay().get() / hoursToSkip;
+                float value = ArrayUtils.sum(measurement.getValues());
+                float oldValue = values.get(category)[index];
+                // TODO: Divisor is not 2 but count
+                float newValue = valueIsAverage ? (oldValue + value) / 2 : oldValue + value;
+                values.get(category)[index] = newValue;
             }
         }
         return values;

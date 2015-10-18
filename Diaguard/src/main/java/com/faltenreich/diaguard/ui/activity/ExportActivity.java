@@ -108,7 +108,8 @@ public class ExportActivity extends BaseActivity implements IFileListener {
     private void export() {
         if(validate()) {
             if(spinnerFormat.getSelectedItemPosition() == 0) {
-                // TODO
+                Export export = new Export(this);
+                export.exportPDF(this, dateStart, dateEnd);
             }
             else if(spinnerFormat.getSelectedItemPosition() == 1) {
                 FileHelper fileHelper = new FileHelper(this);

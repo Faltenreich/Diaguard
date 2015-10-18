@@ -9,21 +9,32 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.pdfjet.Box;
+import com.pdfjet.Cell;
+import com.pdfjet.Color;
+import com.pdfjet.CoreFont;
+import com.pdfjet.Font;
+import com.pdfjet.Letter;
+import com.pdfjet.PDF;
+import com.pdfjet.Page;
+import com.pdfjet.Point;
+import com.pdfjet.Table;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.format.DateTimeFormat;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Faltenreich on 18.10.2015.
  */
 public class Export {
-
-    /*
 
     public static final String MIME_PDF = "application/pdf";
 
@@ -39,22 +50,21 @@ public class Export {
     }
 
     private class PDFExportTask extends AsyncTask<Void, String, File> {
-        IFileListener listener;
 
-        ProgressDialog progressDialog;
-        private final int TEXT_SIZE = 9;
-
-        private final
-
-        Measurement.Category[] selectedCategories =
+        private final Measurement.Category[] selectedCategories =
                 new Measurement.Category[] {
                         Measurement.Category.BLOODSUGAR,
                         Measurement.Category.INSULIN,
                         Measurement.Category.MEAL,
                         Measurement.Category.ACTIVITY};
 
-        DateTime dateStart;
-        DateTime dateEnd;
+        private ProgressDialog progressDialog;
+        private IFileListener listener;
+        private DateTime dateStart;
+        private DateTime dateEnd;
+
+        private Font fontNormal;
+        private Font fontBold;
 
         public PDFExportTask(IFileListener listener, DateTime dateStart, DateTime dateEnd) {
             this.listener = listener;
@@ -64,22 +74,30 @@ public class Export {
 
         @Override
         protected File doInBackground(Void... params) {
+
             File directory = FileHelper.getExternalStorage();
-            if(directory == null)
+            if(directory == null) {
                 return null;
+            }
 
-            File file = new File(directory.getAbsolutePath() + "/export" + DateTimeFormat.forPattern("yyyyMMddHHmmss").
-                    print(new DateTime()) + ".pdf");
+            // TODO: Store in Documents folder
+            File file = new File(String.format("%s/export%s.pdf",
+                    directory.getAbsolutePath(),
+                    DateTimeFormat.forPattern("yyyyMMddHHmmss").print(new DateTime())));
 
-            // iTextG
             try {
-                PDFont fontBasis = PDType1Font.HELVETICA;
-                PDFont fontBold = PDType1Font.HELVETICA_BOLD;
-                PDFont fontGray = PDType1Font.HELVETICA;
-                PDFont fontRed = PDType1Font.HELVETICA;
-                PDFont fontBlue = PDType1Font.HELVETICA;
+                FileOutputStream stream = new FileOutputStream(file);
+                PDF pdf = new PDF(stream);
+                pdf.setTitle(String.format("%s %s", context.getString(R.string.app_name), context.getString(R.string.export)));
+                pdf.setSubject(String.format("%s %s: %s - %s",
+                        context.getString(R.string.app_name),
+                        context.getString(R.string.export),
+                        Helper.getDateFormat().print(dateStart),
+                        Helper.getDateFormat().print(dateEnd)));
+                pdf.setAuthor(context.getString(R.string.app_name));
 
-                PDDocument document = new PDDocument();
+                fontNormal = new Font(pdf, CoreFont.HELVETICA);
+                fontBold = new Font(pdf, CoreFont.HELVETICA_BOLD);
 
                 DateTime dateIteration = dateStart;
 
@@ -94,28 +112,25 @@ public class Export {
                 // Day by day
                 int currentDay = 1;
                 while(dateIteration.isBefore(dateAfter)) {
-
                     // title bar for new week
 
                     // Header
-                    String weekDay = weekDays[dateIteration.getDayOfWeek()-1];
+                    String weekDay = weekDays[dateIteration.getDayOfWeek() - 1];
 
-                    PDPage page = new PDPage();
-                    document.addPage(page);
-                    pageForDay(document, page, dateIteration);
+                    addPageForDay(pdf, dateIteration);
 
-                    // Alternating row background
-
-
-                    publishProgress(context.getString(R.string.day) + " " + currentDay + "/" + totalDays);
+                    publishProgress(String.format("%s %d/%d",
+                            context.getString(R.string.day),
+                            currentDay,
+                            totalDays));
 
                     // Next day
                     dateIteration = dateIteration.plusDays(1);
                     currentDay++;
                 }
 
-                document.save(file);
-                document.close();
+                pdf.flush();
+                stream.close();
             }
             catch (Exception ex) {
                 Log.e("DiaguardError", ex.getMessage());
@@ -147,26 +162,54 @@ public class Export {
             }
         }
 
-        private void pageForDay(PDDocument document, PDPage page, DateTime day) {
+        private void addPageForDay(PDF pdf, DateTime day) {
             try {
-                PDPageContentStream contentStream = new PDPageContentStream(document, page);
-                HashMap<Measurement.Category, Float[]> values = EntryDao.getInstance().getAverageDataTable(day, selectedCategories, 2);
-                String[][] content = new String[selectedCategories.length][values.get(selectedCategories[0]).length];
-                int categoryPosition = 0;
-                for (Measurement.Category category : values.keySet()) {
-                    int valuePosition = 0;
-                    for (float value : values.get(category)) {
-                        content[categoryPosition][valuePosition] = PreferenceHelper.getInstance().getDecimalFormat(category).format(value);
-                        valuePosition++;
+                Page page = new Page(pdf, Letter.PORTRAIT);
+                Table table = new Table();
+                table.setData(getData(day), Table.DATA_HAS_1_HEADER_ROWS);
+                table.setPosition(0, 0);
+                table.autoAdjustColumnWidths();
+
+                boolean hasMoreData = true;
+                while (hasMoreData) {
+                    Point point = table.drawOn(page);
+                    point.drawOn(page);
+                    // TO DO: Draw "Page 1 of N" here
+                    if (!table.hasMoreData()) {
+                        // Allow the table to be drawn again later:
+                        table.resetRenderedPagesCount();
+                        hasMoreData = false;
                     }
-                    categoryPosition++;
+                    page = new Page(pdf, Letter.PORTRAIT);
                 }
-                drawTable(page, contentStream, 0, 0, content);
-            } catch (IOException e) {
+
+                // TODO: Alternating row background
+                table.drawOn(page);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
+        private List<List<Cell>> getData(DateTime day) {
+            List<List<Cell>> data = new ArrayList<>();
+            HashMap<Measurement.Category, float[]> values = EntryDao.getInstance().getAverageDataTable(day, selectedCategories, 2);
+            for (Measurement.Category category : values.keySet()) {
+                List<Cell> cells = new ArrayList<>();
+                for (float value : values.get(category)) {
+                    float customValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, value);
+                    String text = customValue > 0 ?
+                            PreferenceHelper.getInstance().getDecimalFormat(category).format(customValue) :
+                            "";
+                    Cell cell = new Cell(fontNormal, text);
+                    cell.setFgColor(Color.black);
+                    cells.add(cell);
+                }
+                data.add(cells);
+            }
+            return data;
+        }
+
+        /*
         private Paragraph getWeekBar(DateTime weekStart) {
             Paragraph paragraph = new Paragraph();
 
@@ -186,48 +229,6 @@ public class Export {
 
             return paragraph;
         }
-
-        private void drawTable(PDPage page, PDPageContentStream contentStream, float y, float margin, String[][] content) throws IOException {
-            final int rows = content.length;
-            final int cols = content[0].length;
-            final float rowHeight = 20f;
-            final float tableWidth = page.getMediaBox().getWidth() - margin - margin;
-            final float tableHeight = rowHeight * rows;
-            final float colWidth = tableWidth/(float)cols;
-            final float cellMargin=5f;
-
-            //draw the rows
-            float nexty = y ;
-            for (int i = 0; i <= rows; i++) {
-                contentStream.drawLine(margin, nexty, margin+tableWidth, nexty);
-                nexty-= rowHeight;
-            }
-
-            //draw the columns
-            float nextx = margin;
-            for (int i = 0; i <= cols; i++) {
-                contentStream.drawLine(nextx, y, nextx, y-tableHeight);
-                nextx += colWidth;
-            }
-
-            //now add the text
-            contentStream.setFont( PDType1Font.HELVETICA_BOLD , 12 );
-
-            float textx = margin+cellMargin;
-            float texty = y-15;
-            for(int i = 0; i < content.length; i++){
-                for(int j = 0 ; j < content[i].length; j++){
-                    String text = content[i][j];
-                    contentStream.beginText();
-                    contentStream.moveTextPositionByAmount(textx,texty);
-                    contentStream.drawString(text);
-                    contentStream.endText();
-                    textx += colWidth;
-                }
-                texty-=rowHeight;
-                textx = margin+cellMargin;
-            }
-        }
-    }
         */
+    }
 }

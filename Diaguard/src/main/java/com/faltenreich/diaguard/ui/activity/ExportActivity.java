@@ -18,15 +18,13 @@ import android.widget.Spinner;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.ui.fragments.DatePickerFragment;
-import com.faltenreich.diaguard.util.Export;
+import com.faltenreich.diaguard.util.export.PdfExport;
 import com.faltenreich.diaguard.util.FileHelper;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.IFileListener;
-import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.util.ViewHelper;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormatter;
 
 import java.io.File;
 
@@ -108,8 +106,8 @@ public class ExportActivity extends BaseActivity implements IFileListener {
     private void export() {
         if(validate()) {
             if(spinnerFormat.getSelectedItemPosition() == 0) {
-                Export export = new Export(this);
-                export.exportPDF(this, dateStart, dateEnd);
+                PdfExport pdfExport = new PdfExport(this);
+                pdfExport.exportPDF(this, dateStart, dateEnd);
             }
             else if(spinnerFormat.getSelectedItemPosition() == 1) {
                 FileHelper fileHelper = new FileHelper(this);

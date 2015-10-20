@@ -25,6 +25,7 @@ import org.joda.time.format.DateTimeFormat;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -37,13 +38,6 @@ public class PdfTable extends Table {
     private static final int ALTERNATING_ROW_COLOR = ContextCompat.getColor(DiaguardApplication.getContext(), R.color.gray_lighter);
     private static final float LABEL_WIDTH = 120;
     private static final int HOURS_TO_SKIP = 2;
-
-    private final Measurement.Category[] selectedCategories =
-            new Measurement.Category[] {
-                    Measurement.Category.BLOODSUGAR,
-                    Measurement.Category.INSULIN,
-                    Measurement.Category.MEAL,
-                    Measurement.Category.ACTIVITY};
 
     private PDF pdf;
     private PdfPage page;
@@ -105,7 +99,7 @@ public class PdfTable extends Table {
         data.add(header);
 
         // Data
-        HashMap<Measurement.Category, float[]> values = EntryDao.getInstance().getAverageDataTable(day, selectedCategories, HOURS_TO_SKIP);
+        LinkedHashMap<Measurement.Category, float[]> values = EntryDao.getInstance().getAverageDataTable(day, PreferenceHelper.getInstance().getActiveCategories(), HOURS_TO_SKIP);
         for (Measurement.Category category : values.keySet()) {
             boolean rowIsAlternating = category.ordinal() % 2 == 0;
             int backgroundColor = rowIsAlternating ? ALTERNATING_ROW_COLOR : Color.white;

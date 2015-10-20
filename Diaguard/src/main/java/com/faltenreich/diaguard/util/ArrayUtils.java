@@ -28,4 +28,8 @@ public class ArrayUtils {
         }
         return sum;
     }
+
+    public static float avg(float[] avg) {
+        return sum(avg) / avg.length;
+    }
 }

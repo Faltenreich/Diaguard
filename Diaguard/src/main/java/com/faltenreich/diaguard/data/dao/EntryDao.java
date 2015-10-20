@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -109,8 +110,8 @@ public class EntryDao extends BaseDao<Entry> {
         }
     }
 
-    public HashMap<Measurement.Category, float[]> getAverageDataTable(DateTime day, Measurement.Category[] categories, int hoursToSkip) {
-        HashMap<Measurement.Category, float[]> values = new HashMap<>();
+    public LinkedHashMap<Measurement.Category, float[]> getAverageDataTable(DateTime day, Measurement.Category[] categories, int hoursToSkip) {
+        LinkedHashMap<Measurement.Category, float[]> values = new LinkedHashMap<>();
         for (Measurement.Category category : categories) {
             values.put(category, new float[DateTimeConstants.HOURS_PER_DAY / hoursToSkip]);
         }
@@ -121,12 +122,18 @@ public class EntryDao extends BaseDao<Entry> {
                         category == Measurement.Category.BLOODSUGAR ||
                                 category == Measurement.Category.HBA1C ||
                                 category == Measurement.Category.WEIGHT ||
-                                category == Measurement.Category.PULSE;
+                                category == Measurement.Category.PULSE ||
+                                category == Measurement.Category.PRESSURE;
                 int index = measurement.getEntry().getDate().hourOfDay().get() / hoursToSkip;
-                float value = ArrayUtils.sum(measurement.getValues());
+                boolean valueIsSum = category != Measurement.Category.PRESSURE;
+                float value = valueIsSum ? ArrayUtils.sum(measurement.getValues()) : ArrayUtils.avg(measurement.getValues());
                 float oldValue = values.get(category)[index];
                 // TODO: Divisor is not 2 but count
-                float newValue = valueIsAverage ? (oldValue + value) / 2 : oldValue + value;
+                float newValue = valueIsAverage ?
+                        oldValue > 0 ?
+                                (oldValue + value) / 2 :
+                                value :
+                        oldValue + value;
                 values.get(category)[index] = newValue;
             }
         }

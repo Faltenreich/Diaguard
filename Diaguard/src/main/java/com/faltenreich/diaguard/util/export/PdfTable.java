@@ -8,11 +8,13 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.util.DateTimeUtils;
 import com.pdfjet.Align;
 import com.pdfjet.Cell;
 import com.pdfjet.Color;
 import com.pdfjet.CoreFont;
 import com.pdfjet.Font;
+import com.pdfjet.Line;
 import com.pdfjet.PDF;
 import com.pdfjet.Point;
 import com.pdfjet.Table;
@@ -89,7 +91,7 @@ public class PdfTable extends Table {
         // Header
         List<Cell> header = new ArrayList<>();
         String weekDay = DateTimeFormat.forPattern("E").print(day);
-        String date = String.format("%s %s", weekDay, DateTimeFormat.shortDate().print(day));
+        String date = String.format("%s %s", weekDay, DateTimeUtils.dayMonth().print(day));
         Cell dateCell = new Cell(fontBold, date);
         dateCell.setWidth(LABEL_WIDTH);
         header.add(dateCell);

@@ -3,25 +3,17 @@ package com.faltenreich.diaguard.util.export;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
-import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.util.DateTimeUtils;
 import com.faltenreich.diaguard.util.FileHelper;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.IFileListener;
-import com.pdfjet.Align;
 import com.pdfjet.CoreFont;
 import com.pdfjet.Font;
-import com.pdfjet.Letter;
 import com.pdfjet.PDF;
-import com.pdfjet.Page;
-import com.pdfjet.Paragraph;
 import com.pdfjet.Point;
-import com.pdfjet.Table;
-import com.pdfjet.Text;
 import com.pdfjet.TextLine;
 
 import org.joda.time.DateTime;
@@ -31,8 +23,7 @@ import org.joda.time.format.DateTimeFormat;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 /**
  * Created by Faltenreich on 18.10.2015.
@@ -56,7 +47,8 @@ public class PdfExport {
 
     private class PDFExportTask extends AsyncTask<Void, String, File> {
 
-        private static final float PADDING = 20;
+        private static final float PADDING_PARAGRAPH = 20;
+        private static final float PADDING_LINE = 3;
 
         private ProgressDialog progressDialog;
         private IFileListener listener;
@@ -87,7 +79,7 @@ public class PdfExport {
                     DateTimeFormat.forPattern("yyyyMMddHHmmss").print(new DateTime())));
 
             try {
-                Point currentPosition = new Point();
+                Point currentPosition;
 
                 PDF pdf = new PDF(new FileOutputStream(file));
                 pdf.setTitle(String.format("%s %s", context.getString(R.string.app_name), context.getString(R.string.export)));
@@ -104,13 +96,7 @@ public class PdfExport {
                 DateTime dateIteration = dateStart;
 
                 page = createPage(pdf);
-
-                Text weekBar = getWeekBar(dateIteration);
-                weekBar.setLocation(page.getStartPoint().getX(), page.getStartPoint().getY());
-
-                float[] nextPosition = weekBar.drawOn(page);
-                currentPosition.setX(nextPosition[0]);
-                currentPosition.setY(nextPosition[1]);
+                currentPosition = drawWeekBar(page, dateIteration);
 
                 // One day after last chosen day
                 DateTime dateAfter = dateEnd.plusDays(1);
@@ -122,13 +108,7 @@ public class PdfExport {
                     // title bar for new week
                     if(dateIteration.isAfter(dateStart) && dateIteration.getDayOfWeek() == 1) {
                         page = createPage(pdf);
-
-                        weekBar = getWeekBar(dateIteration);
-                        weekBar.setLocation(page.getStartPoint().getX(), page.getStartPoint().getY());
-
-                        nextPosition = weekBar.drawOn(page);
-                        currentPosition.setX(nextPosition[0]);
-                        currentPosition.setY(nextPosition[1]);
+                        currentPosition = drawWeekBar(page, dateIteration);
                     }
 
                     PdfTable table = new PdfTable(pdf, page, dateIteration);
@@ -136,12 +116,12 @@ public class PdfExport {
                     // Page break
                     if (currentPosition.getY() + table.getHeight() > page.getHeight()) {
                         page = new PdfPage(pdf);
-                        currentPosition = page.getStartPoint();
+                        currentPosition = drawWeekBar(page, dateIteration);
                     }
 
                     table.setPosition(currentPosition.getX(), currentPosition.getY());
                     currentPosition = table.drawOn(page);
-                    currentPosition.setY(currentPosition.getY() + PADDING);
+                    currentPosition.setY(currentPosition.getY() + PADDING_PARAGRAPH);
 
                     publishProgress(String.format("%s %d/%d",
                             context.getString(R.string.day),
@@ -192,34 +172,37 @@ public class PdfExport {
             }
         }
 
-        private Text getWeekBar(DateTime weekStart) {
-            Paragraph paragraph = new Paragraph();
+        private Point drawWeekBar(PdfPage page, DateTime day) {
+            DateTime weekStart = day.withDayOfWeek(1);
+            Point currentPosition = page.getStartPoint();
 
             TextLine week = new TextLine(fontBold);
+            week.setPosition(currentPosition.getX(), currentPosition.getY());
+            week.setFontSize(15f);
             week.setText(String.format("%s %d",
                     context.getString(R.string.calendarweek),
                     weekStart.getWeekOfWeekyear()));
-            paragraph.add(week);
+            try {
+                week.drawOn(page);
+                currentPosition.setY(currentPosition.getY() + week.getHeight() + PADDING_LINE);
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to draw TextLine");
+            }
 
             DateTime weekEnd = weekStart.withDayOfWeek(DateTimeConstants.SUNDAY);
             TextLine interval = new TextLine(fontNormal);
+            interval.setPosition(currentPosition.getX(), currentPosition.getY());
             interval.setText(String.format("%s - %s",
-                    Helper.getDateFormat().print(weekStart),
-                    Helper.getDateFormat().print(weekEnd)));
-            paragraph.add(interval);
-
-            List<Paragraph> paragraphs = new ArrayList<>();
-            paragraphs.add(paragraph);
-            Text text = null;
+                    DateTimeFormat.mediumDate().print(weekStart),
+                    DateTimeFormat.mediumDate().print(weekEnd)));
             try {
-                text = new Text(paragraphs);
-                text.setSpaceBetweenTextLines(50);
-                text.setWidth(page.getWidth());
+                interval.drawOn(page);
+                currentPosition.setY(currentPosition.getY() + interval.getHeight() + PADDING_PARAGRAPH);
             } catch (Exception e) {
-                Log.e(TAG, "Failed to instantiate Text");
+                Log.e(TAG, "Failed to draw TextLine");
             }
 
-            return text;
+            return currentPosition;
         }
     }
 }

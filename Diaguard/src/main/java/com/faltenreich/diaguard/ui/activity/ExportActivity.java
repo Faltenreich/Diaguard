@@ -143,13 +143,8 @@ public class ExportActivity extends BaseActivity implements IFileListener {
         if (file == null) {
             ViewHelper.showSnackbar(rootView, getString(R.string.error_sd_card));
         } else {
-            /* TODO
-            if (checkBoxMail.isChecked()) {
-                sendAttachment(file);
-            } else {
-                openFile(file, mimeType);
-            }
-            */
+            // TODO: Choose between open and send
+            openFile(file, mimeType);
         }
     }
 
@@ -159,7 +154,7 @@ public class ExportActivity extends BaseActivity implements IFileListener {
         try {
             startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            // TODO ViewHelper.showAlert(this, getString(R.string.error_no_app));
+            ViewHelper.showSnackbar(rootView, getString(R.string.error_no_app));
             Log.e("Open " + mimeType, e.getMessage());
         }
     }
@@ -179,7 +174,7 @@ public class ExportActivity extends BaseActivity implements IFileListener {
         try {
             startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            // TODO ViewHelper.showAlert(this, getString(R.string.error_no_mail));
+            ViewHelper.showSnackbar(rootView, getString(R.string.error_no_mail));
             Log.e("Send Mail", e.getMessage());
         }
     }

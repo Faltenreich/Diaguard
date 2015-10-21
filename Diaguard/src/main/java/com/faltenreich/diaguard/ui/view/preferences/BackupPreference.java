@@ -8,9 +8,9 @@ import android.preference.DialogPreference;
 import android.util.AttributeSet;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.util.FileHelper;
+import com.faltenreich.diaguard.util.FileUtils;
 import com.faltenreich.diaguard.util.Helper;
-import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.util.export.CsvExport;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -46,7 +46,7 @@ public class BackupPreference extends DialogPreference {
                         switch (which) {
                             case ACTION_CREATEBACKUP:
                                 createBackup();
-                                String path = FileHelper.PATH_EXTERNAL + "/backup" +
+                                String path = FileUtils.PATH_EXTERNAL + "/backup" +
                                         DateTimeFormat.forPattern("yyyyMMddHHmmss").print(new DateTime()) + ".csv";
                                 // TODO ViewHelper.showSnackbar(activity, activity.getResources().getString(R.string.pref_data_backup_finished) + ": " + path);
                                 break;
@@ -65,7 +65,7 @@ public class BackupPreference extends DialogPreference {
     }
 
     private void showBackups() {
-        File path = FileHelper.getStorageDirectory();
+        File path = FileUtils.getStorageDirectory();
         File[] files = path.listFiles();
         List<String> csvFiles = new ArrayList<String>();
         for (File file : files) {
@@ -94,8 +94,7 @@ public class BackupPreference extends DialogPreference {
         builder.setTitle(R.string.backup_title)
                 .setItems(csvArrayDates, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        FileHelper fileHelper = new FileHelper();
-                        fileHelper.importCSV(csvArray[which]);
+                        new CsvExport(getContext()).importBackup(csvArray[which]);
 
                         // TODO ViewHelper.showSnackbar(activity, activity.getResources().getString(R.string.pref_data_backup_import));
                     }
@@ -106,7 +105,6 @@ public class BackupPreference extends DialogPreference {
     }
 
     private void createBackup() {
-        FileHelper fileHelper = new FileHelper();
-        fileHelper.exportCSV(null);
+        new CsvExport(getContext()).exportFile(null);
     }
 }

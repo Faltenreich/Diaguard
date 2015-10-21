@@ -1,9 +1,10 @@
-package com.faltenreich.diaguard.util;
+package com.faltenreich.diaguard.util.export;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Environment;
 
+import com.faltenreich.diaguard.util.FileUtils;
+import com.faltenreich.diaguard.util.IFileListener;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
@@ -16,50 +17,25 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * Created by Filip on 05.06.2014.
+ * Created by Faltenreich on 21.10.2015.
  */
-public class FileHelper {
-
-    public static final String PATH_EXTERNAL = Environment.getExternalStorageDirectory().getAbsolutePath();
-    public static final String PATH_EXTERNAL_PARENT = Environment.getExternalStorageDirectory().getParent();
-    public static final String PATH_STORAGE = File.separator + "Diaguard";
+public class CsvExport {
 
     public static final char DELIMITER = ';';
-    public static final String KEY_META = "meta";
+    public static final String MIME_TYPE = "text/csv";
 
-    public static final String MIME_MAIL = "message/rfc822";
-    public static final String MIME_PDF = "application/pdf";
-    public static final String MIME_CSV = "text/csv";
+    private Context context;
 
-    public FileHelper() {
-
+    public CsvExport(Context context) {
+        this.context = context;
     }
 
-    public static File getDeprecatedStorageDirectory() {
-        File directory = new File(PATH_EXTERNAL);
-        if (!directory.exists()) {
-            directory = new File(PATH_EXTERNAL_PARENT);
-        }
-        directory = new File(directory.getAbsolutePath() + PATH_STORAGE);
-        directory.mkdirs();
-        return directory;
-    }
-
-    public static File getStorageDirectory() {
-        String path = android.os.Build.VERSION.SDK_INT >= 19 ?
-                Environment.DIRECTORY_DOCUMENTS :
-                Environment.DIRECTORY_DOWNLOADS;
-        File directory = Environment.getExternalStoragePublicDirectory(path);
-        directory.mkdir();
-        return directory;
-    }
-
-    public void exportCSV(IFileListener listener) {
+    public void exportFile(IFileListener listener) {
         CSVExportTask csvExportTask = new CSVExportTask(listener);
         csvExportTask.execute();
     }
 
-    public void importCSV(String fileName) {
+    public void importBackup(String fileName) {
         CSVImportTask csvImportTask = new CSVImportTask();
         csvImportTask.execute(fileName);
     }
@@ -73,7 +49,7 @@ public class FileHelper {
 
         @Override
         protected File doInBackground(Void... params) {
-            File file = new File(getStorageDirectory() + "/backup" + DateTimeFormat.forPattern("yyyyMMddHHmmss").
+            File file = new File(FileUtils.getStorageDirectory() + "/backup" + DateTimeFormat.forPattern("yyyyMMddHHmmss").
                     print(new DateTime()) + ".csv");
 
             try {
@@ -125,7 +101,7 @@ public class FileHelper {
         protected void onPostExecute(File file) {
             super.onPostExecute(file);
             if (listener != null)
-                listener.handleFile(file, MIME_CSV);
+                listener.handleFile(file, MIME_TYPE);
         }
 
         @Override
@@ -142,7 +118,7 @@ public class FileHelper {
         @Override
         protected Void doInBackground(String... params) {
             try {
-                String filePath = getStorageDirectory() + File.separator + params[0];
+                String filePath = FileUtils.getStorageDirectory() + File.separator + params[0];
                 CSVReader reader = new CSVReader(new FileReader(filePath), DELIMITER);
 
                 // Read first line and check data version

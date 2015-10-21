@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.util.FileHelper;
+import com.faltenreich.diaguard.util.FileUtils;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.IFileListener;
 import com.pdfjet.CoreFont;
@@ -32,7 +32,7 @@ public class PdfExport {
 
     private static final String TAG = PdfExport.class.getSimpleName();
 
-    public static final String MIME_PDF = "application/pdf";
+    public static final String MIME_TYPE = "application/pdf";
 
     private Context context;
 
@@ -40,7 +40,7 @@ public class PdfExport {
         this.context = context;
     }
 
-    public void exportPDF(IFileListener listener, DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories) {
+    public void exportFile(IFileListener listener, DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories) {
         PDFExportTask pdfExportTask = new PDFExportTask(listener, dateStart, dateEnd, categories);
         pdfExportTask.execute();
     }
@@ -71,7 +71,7 @@ public class PdfExport {
         protected File doInBackground(Void... params) {
 
             String fileName = String.format("%s%sDiaguard_%s.pdf",
-                    FileHelper.getStorageDirectory(),
+                    FileUtils.getStorageDirectory(),
                     File.separator,
                     DateTimeFormat.forPattern("yyyy-MM-dd_HH-mm").print(DateTime.now()));
             File file = new File(fileName);
@@ -156,10 +156,10 @@ public class PdfExport {
         protected void onPostExecute(File file) {
             super.onPostExecute(file);
             progressDialog.dismiss();
-            String confirmationText = String.format(context.getString(R.string.export_complete), FileHelper.getStorageDirectory());
+            String confirmationText = String.format(context.getString(R.string.export_complete), FileUtils.getStorageDirectory());
             Toast.makeText(context, confirmationText, Toast.LENGTH_LONG).show();
             if(listener != null) {
-                listener.handleFile(file, MIME_PDF);
+                listener.handleFile(file, MIME_TYPE);
             }
         }
 

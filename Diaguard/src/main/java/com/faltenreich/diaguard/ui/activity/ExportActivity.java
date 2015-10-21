@@ -1,31 +1,23 @@
 package com.faltenreich.diaguard.ui.activity;
 
-import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.data.PreferenceHelper;
-import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.fragments.DatePickerFragment;
 import com.faltenreich.diaguard.ui.view.CategoryCheckBoxList;
+import com.faltenreich.diaguard.util.export.CsvExport;
 import com.faltenreich.diaguard.util.export.PdfExport;
-import com.faltenreich.diaguard.util.FileHelper;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.IFileListener;
 import com.faltenreich.diaguard.util.ViewHelper;
@@ -33,12 +25,6 @@ import com.faltenreich.diaguard.util.ViewHelper;
 import org.joda.time.DateTime;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -130,11 +116,9 @@ public class ExportActivity extends BaseActivity implements IFileListener {
     private void export() {
         if (validate()) {
             if (spinnerFormat.getSelectedItemPosition() == 0) {
-                PdfExport pdfExport = new PdfExport(this);
-                pdfExport.exportPDF(this, dateStart, dateEnd, categoryCheckBoxList.getSelectedCategories());
+                new PdfExport(this).exportFile(this, dateStart, dateEnd, categoryCheckBoxList.getSelectedCategories());
             } else if (spinnerFormat.getSelectedItemPosition() == 1) {
-                FileHelper fileHelper = new FileHelper();
-                fileHelper.exportCSV(this);
+                new CsvExport(this).exportFile(this);
             }
         }
     }

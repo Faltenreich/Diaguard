@@ -40,7 +40,7 @@
 
                             <ImageView
                                 style="@style/LayoutRowImage"
-                                android:contentDescription="@string/note"
+                                android:contentDescription="@string/date_select"
                                 android:src="@drawable/ic_time" />
 
                             <LinearLayout
@@ -126,9 +126,9 @@
         android:layout_gravity="bottom|end"
         android:padding="@dimen/padding_end"
         app:layout_behavior="com.faltenreich.diaguard.ui.behavior.Behavior"
-        fab:menu_backgroundColor="@color/transparent_light"
         fab:menu_colorNormal="@color/green"
         fab:menu_colorPressed="@color/green_light"
-        fab:menu_colorRipple="@color/green_lighter" />
+        fab:menu_colorRipple="@color/green_lighter"
+        app:menu_backgroundColor="@color/semitransparent" />
 
 </FrameLayout>

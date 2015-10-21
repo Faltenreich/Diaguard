@@ -103,8 +103,9 @@ public class PdfTable extends Table {
         // Data
         LinkedHashMap<Measurement.Category, float[]> values = EntryDao.getInstance().getAverageDataTable(day, categories, HOURS_TO_SKIP);
 
+        int row = 0;
         for (Measurement.Category category : values.keySet()) {
-            boolean rowIsAlternating = category.ordinal() % 2 == 0;
+            boolean rowIsAlternating = row % 2 == 0;
             int backgroundColor = rowIsAlternating ? ALTERNATING_ROW_COLOR : Color.white;
             List<Cell> cells = new ArrayList<>();
 
@@ -135,6 +136,7 @@ public class PdfTable extends Table {
                 cells.add(cell);
             }
             data.add(cells);
+            row++;
         }
         return data;
     }

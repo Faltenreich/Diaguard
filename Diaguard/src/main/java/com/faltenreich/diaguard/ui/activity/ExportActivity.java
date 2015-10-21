@@ -22,6 +22,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.fragments.DatePickerFragment;
+import com.faltenreich.diaguard.ui.view.CategoryCheckBoxList;
 import com.faltenreich.diaguard.util.export.PdfExport;
 import com.faltenreich.diaguard.util.FileHelper;
 import com.faltenreich.diaguard.util.Helper;
@@ -58,21 +59,11 @@ public class ExportActivity extends BaseActivity implements IFileListener {
     @Bind(R.id.button_dateend)
     protected Button buttonDateEnd;
 
-    @Bind(R.id.button_categories)
-    protected Button buttonCategories;
-
-    @Bind(R.id.checkbox_mail)
-    protected CheckBox checkBoxMail;
-
-    private static final Measurement.Category[] defaultCategories = new Measurement.Category[]{
-            Measurement.Category.BLOODSUGAR,
-            Measurement.Category.INSULIN,
-            Measurement.Category.MEAL,
-            Measurement.Category.ACTIVITY};
+    @Bind(R.id.export_list_categories)
+    protected CategoryCheckBoxList categoryCheckBoxList;
 
     private DateTime dateStart;
     private DateTime dateEnd;
-    private LinkedHashMap<Measurement.Category, Boolean> categories;
 
     public ExportActivity() {
         super(R.layout.activity_export);
@@ -97,62 +88,49 @@ public class ExportActivity extends BaseActivity implements IFileListener {
         return super.onCreateOptionsMenu(menu);
     }
 
-    public void initialize() {
-        dateEnd = DateTime.now();
-        dateStart = dateEnd.withDayOfMonth(1);
-
-        // TODO: Get user settings
-        categories = new LinkedHashMap<>();
-        List<Measurement.Category> preselectedCategories = Arrays.asList(defaultCategories);
-        for (Measurement.Category category : Measurement.Category.values()) {
-            categories.put(category, preselectedCategories.contains(category));
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            case R.id.action_done:
+                export();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
-    public void initializeGUI() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (toolbar != null) {
-            toolbar.setTitle(getString(R.string.export));
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                }
-            });
-            setSupportActionBar(toolbar);
-        }
+    public void initialize() {
+        dateEnd = DateTime.now();
+        dateStart = dateEnd.withDayOfMonth(1);
+    }
 
+    public void initializeGUI() {
         buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
         buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
-        updateCategoryButton();
     }
 
     private boolean validate() {
         boolean isValid = true;
 
         if (dateStart.isAfter(dateEnd)) {
-            // TODO ViewHelper.showAlert(this, getString(R.string.validator_value_enddate));
+            ViewHelper.showSnackbar(rootView, getString(R.string.validator_value_enddate));
+            isValid = false;
+        } else if (categoryCheckBoxList.getSelectedCategories().length == 0) {
+            ViewHelper.showSnackbar(rootView, getString(R.string.validator_value_empty_list));
             isValid = false;
         }
 
         return isValid;
     }
 
-    private Measurement.Category[] getSelectedCategories() {
-        List<Measurement.Category> selectedCategories = new ArrayList<>();
-        for (Map.Entry<Measurement.Category, Boolean> mapEntry : categories.entrySet()) {
-            if (mapEntry.getValue()) {
-                selectedCategories.add(mapEntry.getKey());
-            }
-        }
-        return selectedCategories.toArray(new Measurement.Category[selectedCategories.size()]);
-    }
-
     private void export() {
         if (validate()) {
             if (spinnerFormat.getSelectedItemPosition() == 0) {
                 PdfExport pdfExport = new PdfExport(this);
-                pdfExport.exportPDF(this, dateStart, dateEnd, getSelectedCategories());
+                pdfExport.exportPDF(this, dateStart, dateEnd, categoryCheckBoxList.getSelectedCategories());
             } else if (spinnerFormat.getSelectedItemPosition() == 1) {
                 FileHelper fileHelper = new FileHelper(this);
                 fileHelper.exportCSV(this);
@@ -165,11 +143,13 @@ public class ExportActivity extends BaseActivity implements IFileListener {
         if (file == null) {
             ViewHelper.showSnackbar(rootView, getString(R.string.error_sd_card));
         } else {
+            /* TODO
             if (checkBoxMail.isChecked()) {
                 sendAttachment(file);
             } else {
                 openFile(file, mimeType);
             }
+            */
         }
     }
 
@@ -204,18 +184,6 @@ public class ExportActivity extends BaseActivity implements IFileListener {
         }
     }
 
-    private void updateCategoryButton() {
-        int selectedCategoriesCount = 0;
-        for (Map.Entry<Measurement.Category, Boolean> mapEntry : categories.entrySet()) {
-            if (mapEntry.getValue()) {
-                selectedCategoriesCount++;
-            }
-        }
-        buttonCategories.setText(String.format("%d", selectedCategoriesCount));
-    }
-
-    // LISTENERS
-
     @SuppressWarnings("unused")
     @OnClick(R.id.button_datestart)
     public void showStartDatePicker() {
@@ -246,65 +214,5 @@ public class ExportActivity extends BaseActivity implements IFileListener {
         bundle.putSerializable(DatePickerFragment.DATE, dateEnd);
         fragment.setArguments(bundle);
         fragment.show(getSupportFragmentManager(), "EndDatePicker");
-    }
-
-    @SuppressWarnings("unused")
-    @OnClick(R.id.button_categories)
-    public void showCategoryDialog() {
-
-        String[] categoryNames = new String[categories.size()];
-        final boolean[] selectedCategories = new boolean[categories.size()];
-
-        int position = 0;
-        for (Map.Entry<Measurement.Category, Boolean> mapEntry : categories.entrySet()) {
-            categoryNames[position] = mapEntry.getKey().toString();
-            selectedCategories[position] = mapEntry.getValue();
-            position++;
-        }
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.categories)
-                .setMultiChoiceItems(
-                        categoryNames,
-                        selectedCategories,
-                        new DialogInterface.OnMultiChoiceClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                                selectedCategories[which] = isChecked;
-                            }
-                        }
-                )
-                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        int position = 0;
-                        for (Measurement.Category category : categories.keySet()) {
-                            categories.put(category, selectedCategories[position]);
-                        }
-                        updateCategoryButton();
-                    }
-                })
-                .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            case R.id.action_done:
-                export();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 }

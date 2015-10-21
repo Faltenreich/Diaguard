@@ -70,6 +70,7 @@
     <string name="home">Home</string>
     <string name="homepage">Website</string>
     <string name="hyper">Hyper</string>
+    <string name="hyphen">-</string>
     <string name="hypo">Hypo</string>
     <string name="impress">Impress</string>
     <string name="insulin">Insulin</string>
@@ -346,6 +347,7 @@
     <string name="validator_value_number">Only numbers are allowed</string>
     <string name="validator_value_infuture">Event cannot take place in the future</string>
     <string name="validator_value_empty">Please enter a value</string>
+    <string name="validator_value_empty_list">At least one category must be selected</string>
     <string name="validator_value_none">Entry contains no events</string>
     <string name="validator_value_unrealistic">Unrealistic value</string>
     <string name="validator_value_enddate">Start date must be before end date</string>

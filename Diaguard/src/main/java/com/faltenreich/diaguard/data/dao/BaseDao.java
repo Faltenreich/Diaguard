@@ -54,7 +54,7 @@ public abstract class BaseDao <T extends BaseEntity> {
         }
     }
 
-    public void createOrUpdate(T object) {
+    public long createOrUpdate(T object) {
         try {
             DateTime now = DateTime.now();
             if (object.getId() > 0) {
@@ -65,8 +65,10 @@ public abstract class BaseDao <T extends BaseEntity> {
                 object.setUpdatedAt(now);
                 getDao().create(object);
             }
+            return object.getId();
         } catch (SQLException exception) {
             Log.e(TAG, String.format("Could not createOrUpdate %s", clazz.getSimpleName()));
+            return 0;
         }
     }
 

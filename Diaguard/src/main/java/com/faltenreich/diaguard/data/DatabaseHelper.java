@@ -29,9 +29,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     // Metadata
     private static final String DATABASE_NAME = "diaguard.db";
 
-    private static final int DATABASE_VERSION_1_0 = 17;
-    private static final int DATABASE_VERSION_1_1 = 18;
-    private static final int DATABASE_VERSION_1_3 = 19;
+    public static final int DATABASE_VERSION_1_0 = 17;
+    public static final int DATABASE_VERSION_1_1 = 18;
+    public static final int DATABASE_VERSION_1_3 = 19;
 
     public static final Class[] tables = new Class[] {
             Entry.class,

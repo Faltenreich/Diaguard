@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.IFileListener;
 
 import org.joda.time.DateTime;
@@ -41,5 +42,9 @@ public class Export {
         CsvImport csvImport = new CsvImport(context, file);
         csvImport.setListener(listener);
         csvImport.execute();
+    }
+
+    public static DateTime dateTimeFromCsv(String dateString) {
+        return Helper.getDateTimeFormatExport().parseDateTime(dateString);
     }
 }

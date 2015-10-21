@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
@@ -132,7 +133,7 @@ public class ExportActivity extends BaseActivity implements IFileListener {
                 PdfExport pdfExport = new PdfExport(this);
                 pdfExport.exportPDF(this, dateStart, dateEnd, categoryCheckBoxList.getSelectedCategories());
             } else if (spinnerFormat.getSelectedItemPosition() == 1) {
-                FileHelper fileHelper = new FileHelper(this);
+                FileHelper fileHelper = new FileHelper();
                 fileHelper.exportCSV(this);
             }
         }
@@ -140,12 +141,7 @@ public class ExportActivity extends BaseActivity implements IFileListener {
 
     @Override
     public void handleFile(File file, String mimeType) {
-        if (file == null) {
-            ViewHelper.showSnackbar(rootView, getString(R.string.error_sd_card));
-        } else {
-            // TODO: Choose between open and send
-            openFile(file, mimeType);
-        }
+        openFile(file, mimeType);
     }
 
     private void openFile(File file, String mimeType) {
@@ -156,26 +152,6 @@ public class ExportActivity extends BaseActivity implements IFileListener {
         } catch (ActivityNotFoundException e) {
             ViewHelper.showSnackbar(rootView, getString(R.string.error_no_app));
             Log.e("Open " + mimeType, e.getMessage());
-        }
-    }
-
-    private void sendAttachment(File file) {
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-        intent.setType(FileHelper.MIME_MAIL);
-
-        // Diaguard Export: DateStart - DateEnd
-        String subject = getString(R.string.app_name) + " " + getString(R.string.export) + ": " +
-                Helper.getDateFormat().print(dateStart) + " - " + Helper.getDateFormat().print(dateEnd);
-        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
-        intent.putExtra(Intent.EXTRA_TEXT,
-                getString(R.string.pref_data_export_mail_message));
-
-        try {
-            startActivity(intent);
-        } catch (ActivityNotFoundException e) {
-            ViewHelper.showSnackbar(rootView, getString(R.string.error_no_mail));
-            Log.e("Send Mail", e.getMessage());
         }
     }
 

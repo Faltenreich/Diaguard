@@ -7,7 +7,6 @@ import android.util.Log;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.util.DateTimeUtils;
 import com.faltenreich.diaguard.util.FileHelper;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.IFileListener;
@@ -24,7 +23,6 @@ import org.joda.time.format.DateTimeFormat;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.Date;
 
 /**
  * Created by Faltenreich on 18.10.2015.
@@ -71,15 +69,11 @@ public class PdfExport {
         @Override
         protected File doInBackground(Void... params) {
 
-            File directory = FileHelper.getExternalStorage();
-            if(directory == null) {
-                return null;
-            }
-
-            // TODO: Store in Documents folder
-            File file = new File(String.format("%s/export%s.pdf",
-                    directory.getAbsolutePath(),
-                    DateTimeFormat.forPattern("yyyyMMddHHmmss").print(new DateTime())));
+            String fileName = String.format("%s%sexport%s.pdf",
+                    FileHelper.getStorageDirectory(),
+                    File.separator,
+                    DateTimeFormat.forPattern("yyyyMMddHHmmss").print(DateTime.now()));
+            File file = new File(fileName);
 
             try {
                 Point currentPosition;

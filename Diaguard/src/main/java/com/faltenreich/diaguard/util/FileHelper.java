@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.util;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
+
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
@@ -21,7 +22,7 @@ public class FileHelper {
 
     public static final String PATH_EXTERNAL = Environment.getExternalStorageDirectory().getAbsolutePath();
     public static final String PATH_EXTERNAL_PARENT = Environment.getExternalStorageDirectory().getParent();
-    public static final String PATH_STORAGE =  File.separator  + "Diaguard";
+    public static final String PATH_STORAGE = File.separator + "Diaguard";
 
     public static final char DELIMITER = ';';
     public static final String KEY_META = "meta";
@@ -30,53 +31,27 @@ public class FileHelper {
     public static final String MIME_PDF = "application/pdf";
     public static final String MIME_CSV = "text/csv";
 
-    private Context context;
+    public FileHelper() {
 
-    public FileHelper(Context context) {
-        this.context = context;
     }
 
-    private static boolean isExternalStorageWritable() {
-        return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
+    public static File getDeprecatedStorageDirectory() {
+        File directory = new File(PATH_EXTERNAL);
+        if (!directory.exists()) {
+            directory = new File(PATH_EXTERNAL_PARENT);
+        }
+        directory = new File(directory.getAbsolutePath() + PATH_STORAGE);
+        directory.mkdirs();
+        return directory;
     }
 
-    public static String getExternalStorageDirectory() {
-        String path = null;
-
-        if(new File(FileHelper.PATH_EXTERNAL).exists()) {
-            path = PATH_EXTERNAL;
-        }
-        else if(new File(FileHelper.PATH_EXTERNAL_PARENT).exists()) {
-            path = PATH_EXTERNAL_PARENT;
-        }
-
-        if(path == null) {
-            return null;
-        }
-
-        return path + PATH_STORAGE;
-    }
-
-    public static File getExternalStorage() {
-        if(!isExternalStorageWritable())
-            return null;
-
-        String path = getExternalStorageDirectory();
-
-        if(path == null) {
-            return null;
-        }
-
-        File file = new File(path);
-        boolean fileCouldBeCreated = true;
-
-        if(!file.exists())
-            fileCouldBeCreated = file.mkdirs();
-
-        if(!fileCouldBeCreated)
-            return null;
-
-        return file;
+    public static File getStorageDirectory() {
+        String path = android.os.Build.VERSION.SDK_INT >= 19 ?
+                Environment.DIRECTORY_DOCUMENTS :
+                Environment.DIRECTORY_DOWNLOADS;
+        File directory = Environment.getExternalStoragePublicDirectory(path);
+        directory.mkdir();
+        return directory;
     }
 
     public void exportCSV(IFileListener listener) {
@@ -98,11 +73,7 @@ public class FileHelper {
 
         @Override
         protected File doInBackground(Void... params) {
-            File directory = FileHelper.getExternalStorage();
-            if(directory == null)
-                return null;
-
-            File file = new File(directory.getAbsolutePath() + "/backup" + DateTimeFormat.forPattern("yyyyMMddHHmmss").
+            File file = new File(getStorageDirectory() + "/backup" + DateTimeFormat.forPattern("yyyyMMddHHmmss").
                     print(new DateTime()) + ".csv");
 
             try {
@@ -143,8 +114,7 @@ public class FileHelper {
                         */
 
                 writer.close();
-            }
-            catch (IOException ex) {
+            } catch (IOException ex) {
                 //Log.e("DiaguardError", ex.getEntry());
             }
 
@@ -154,15 +124,17 @@ public class FileHelper {
         @Override
         protected void onPostExecute(File file) {
             super.onPostExecute(file);
-            if(listener != null)
+            if (listener != null)
                 listener.handleFile(file, MIME_CSV);
         }
 
         @Override
-        protected void onPreExecute() {}
+        protected void onPreExecute() {
+        }
 
         @Override
-        protected void onProgressUpdate(Void... values) {}
+        protected void onProgressUpdate(Void... values) {
+        }
     }
 
     private class CSVImportTask extends AsyncTask<String, Void, Void> {
@@ -170,7 +142,7 @@ public class FileHelper {
         @Override
         protected Void doInBackground(String... params) {
             try {
-                String filePath = getExternalStorage().getAbsolutePath() + File.separator + params[0];
+                String filePath = getStorageDirectory() + File.separator + params[0];
                 CSVReader reader = new CSVReader(new FileReader(filePath), DELIMITER);
 
                 // Read first line and check data version

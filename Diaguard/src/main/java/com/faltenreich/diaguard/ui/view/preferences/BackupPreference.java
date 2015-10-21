@@ -65,7 +65,7 @@ public class BackupPreference extends DialogPreference {
     }
 
     private void showBackups() {
-        File path = FileHelper.getExternalStorage();
+        File path = FileHelper.getStorageDirectory();
         File[] files = path.listFiles();
         List<String> csvFiles = new ArrayList<String>();
         for (File file : files) {
@@ -94,7 +94,7 @@ public class BackupPreference extends DialogPreference {
         builder.setTitle(R.string.backup_title)
                 .setItems(csvArrayDates, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        FileHelper fileHelper = new FileHelper(getContext());
+                        FileHelper fileHelper = new FileHelper();
                         fileHelper.importCSV(csvArray[which]);
 
                         // TODO ViewHelper.showSnackbar(activity, activity.getResources().getString(R.string.pref_data_backup_import));
@@ -106,7 +106,7 @@ public class BackupPreference extends DialogPreference {
     }
 
     private void createBackup() {
-        FileHelper fileHelper = new FileHelper(getContext());
+        FileHelper fileHelper = new FileHelper();
         fileHelper.exportCSV(null);
     }
 }

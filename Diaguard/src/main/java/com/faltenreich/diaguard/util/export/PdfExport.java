@@ -69,10 +69,10 @@ public class PdfExport {
         @Override
         protected File doInBackground(Void... params) {
 
-            String fileName = String.format("%s%sexport%s.pdf",
+            String fileName = String.format("%s%sDiaguard_%s.pdf",
                     FileHelper.getStorageDirectory(),
                     File.separator,
-                    DateTimeFormat.forPattern("yyyyMMddHHmmss").print(DateTime.now()));
+                    DateTimeFormat.forPattern("yyyy-MM-dd_HH-mm").print(DateTime.now()));
             File file = new File(fileName);
 
             try {

@@ -2,201 +2,112 @@ package com.faltenreich.diaguard.util.export;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
+import com.faltenreich.diaguard.data.DatabaseHelper;
+import com.faltenreich.diaguard.data.dao.EntryDao;
+import com.faltenreich.diaguard.data.entity.Entry;
+import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.util.ArrayUtils;
 import com.faltenreich.diaguard.util.FileUtils;
+import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.IFileListener;
-import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by Faltenreich on 21.10.2015.
  */
-public class CsvExport {
+public class CsvExport extends AsyncTask<Void, Void, File> {
 
-    public static final char DELIMITER = ';';
-    public static final String MIME_TYPE = "text/csv";
+    private static final String TAG = CsvExport.class.getSimpleName();
 
     private Context context;
+    private DateTime dateStart;
+    private DateTime dateEnd;
+    private Measurement.Category[] categories;
+    private IFileListener listener;
 
     public CsvExport(Context context) {
         this.context = context;
     }
 
-    public void exportFile(IFileListener listener) {
-        CSVExportTask csvExportTask = new CSVExportTask(listener);
-        csvExportTask.execute();
+    public CsvExport(Context context, DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories) {
+        this.context = context;
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
+        this.categories = categories;
     }
 
-    public void importBackup(String fileName) {
-        CSVImportTask csvImportTask = new CSVImportTask();
-        csvImportTask.execute(fileName);
+    public void setListener(IFileListener listener) {
+        this.listener = listener;
     }
 
-    private class CSVExportTask extends AsyncTask<Void, Void, File> {
-        IFileListener listener;
+    @Override
+    protected File doInBackground(Void... params) {
+        String fileName = String.format("%s%sbackup%s.csv",
+                FileUtils.getStorageDirectory(),
+                File.separator,
+                DateTimeFormat.forPattern("yyyyMMddHHmmss").print(new DateTime()));
+        File file = new File(fileName);
 
-        public CSVExportTask(IFileListener listener) {
-            this.listener = listener;
-        }
+        try {
+            FileWriter fileWriter = new FileWriter(file);
+            CSVWriter writer = new CSVWriter(fileWriter, Export.CSV_DELIMITER);
 
-        @Override
-        protected File doInBackground(Void... params) {
-            File file = new File(FileUtils.getStorageDirectory() + "/backup" + DateTimeFormat.forPattern("yyyyMMddHHmmss").
-                    print(new DateTime()) + ".csv");
+            // Meta information to detect the data scheme in future iterations
+            String[] meta = new String[]{
+                    Export.CSV_KEY_META,
+                    Integer.toString(DatabaseHelper.getVersion())};
+            writer.writeNext(meta);
 
-            try {
-                FileWriter fileWriter = new FileWriter(file);
-                CSVWriter writer = new CSVWriter(fileWriter, DELIMITER);
+            List<Entry> entries = EntryDao.getInstance().getEntriesBetween(dateStart, dateEnd);
+            for (Entry entry : entries) {
+                String[] entryValues = {
+                        DatabaseHelper.ENTRY,
+                        Helper.getDateTimeFormatExport().print(entry.getDate()),
+                        entry.getNote()};
+                writer.writeNext(entryValues);
 
-                // TODO
-                        /*
-                // Meta information to detect the data schema in future iterations
-                String[] meta = new String[]{
-                        KEY_META,
-                        Integer.toString(dataSource.getVersion()) };
-                writer.writeNext(meta);
-
-                List<BaseEntity> entries = dataSource.get(DatabaseHelper.ENTRY);
-                for(BaseEntity entryModel : entries) {
-                    Entry entry = (Entry)entryModel;
-                    String[] entryValues = {
-                            DatabaseHelper.ENTRY,
-                            Helper.getDateDatabaseFormat().print(entry.getDate()),
-                            entry.getNote() };
-                    writer.writeNext(entryValues);
-
-                    List<BaseEntity> measurements = dataSource.get(DatabaseHelper.MEASUREMENT, null,
-                            DatabaseHelper.ENTRY + "=?",
-                            new String[]{Long.toString(entry.getId())},
-                            null, null, null, null);
-                    for(BaseEntity measurementModel : measurements) {
-                        Measurement measurement = (Measurement)measurementModel;
-                        String[] measurementValues = {
-                                DatabaseHelper.MEASUREMENT,
-                                Float.toString(measurement.getValue()),
-                                measurement.getCategory().name()
-                        };
-                        writer.writeNext(measurementValues);
-                    }
+                List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry, categories);
+                for (Measurement measurement : measurements) {
+                    // TODO: Split values
+                    String[] measurementValues = {
+                            DatabaseHelper.MEASUREMENT,
+                            Float.toString(ArrayUtils.sum(measurement.getValues())),
+                            measurement.getCategory().name()
+                    };
+                    writer.writeNext(measurementValues);
                 }
-                        */
-
-                writer.close();
-            } catch (IOException ex) {
-                //Log.e("DiaguardError", ex.getEntry());
             }
 
-            return file;
+            writer.close();
+        } catch (IOException ex) {
+            Log.e(TAG, ex.getMessage());
         }
 
-        @Override
-        protected void onPostExecute(File file) {
-            super.onPostExecute(file);
-            if (listener != null)
-                listener.handleFile(file, MIME_TYPE);
-        }
-
-        @Override
-        protected void onPreExecute() {
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-        }
+        return file;
     }
 
-    private class CSVImportTask extends AsyncTask<String, Void, Void> {
+    @Override
+    protected void onPostExecute(File file) {
+        super.onPostExecute(file);
+        if (listener != null)
+            listener.handleFile(file, Export.CSV_MIME_TYPE);
+    }
 
-        @Override
-        protected Void doInBackground(String... params) {
-            try {
-                String filePath = FileUtils.getStorageDirectory() + File.separator + params[0];
-                CSVReader reader = new CSVReader(new FileReader(filePath), DELIMITER);
+    @Override
+    protected void onPreExecute() {
+    }
 
-                // Read first line and check data version
-                String[] nextLine = reader.readNext();
-
-                // TODO
-                        /*
-                if(!nextLine[0].equals(KEY_META)) {
-                    // First data version without meta information (17)
-                    while (nextLine != null) {
-                        // Entry
-                        Entry entry = new Entry();
-                        entry.setDate(nextLine[1]);
-                        entry.setNote(nextLine[2]);
-                        long entryId = dataSource.insert(entry);
-
-                        // Measurement
-                        Measurement measurement = new Measurement();
-                        measurement.setValue(Float.parseFloat(nextLine[0]));
-                        measurement.setCategory(Measurement.Category.valueOf(nextLine[3]));
-                        measurement.setEntry(entryId);
-                        dataSource.insert(measurement);
-
-                        nextLine = reader.readNext();
-                    }
-                }
-
-                // Database version > 17
-                else {
-                    int databaseVersion = Integer.parseInt(nextLine[1]);
-
-                    // Migrate from old data version
-                    if(databaseVersion < dataSource.getVersion()) {
-                        // For future releases
-                    }
-
-                    long parentId = -1;
-                    while ((nextLine = reader.readNext()) != null) {
-                        String key = nextLine[0];
-                        if (key.equals(DatabaseHelper.ENTRY)) {
-                            Entry entry = new Entry();
-                            entry.setDate(nextLine[1]);
-                            entry.setNote(nextLine[2]);
-                            parentId = dataSource.insert(entry);
-                        }
-                        else if(key.equals(DatabaseHelper.MEASUREMENT) && parentId != -1) {
-                            // Measurement
-                            // TODO
-                            /*
-                            Measurement measurement = new Measurement();
-                            measurement.setValue(Float.parseFloat(nextLine[1]));
-                            measurement.setCategory(Measurement.Category.valueOf(nextLine[2]));
-                            measurement.setEntry(parentId);
-                            dataSource.insert(measurement);
-                        }
-                    }
-                }
-                */
-
-                reader.close();
-
-            } catch (IOException ex) {
-                //Log.e("DiaguardError", ex.getEntry());
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-        }
-
-        @Override
-        protected void onPreExecute() {
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-        }
+    @Override
+    protected void onProgressUpdate(Void... values) {
     }
 }

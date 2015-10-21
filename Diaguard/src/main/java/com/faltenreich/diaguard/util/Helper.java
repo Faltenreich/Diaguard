@@ -17,23 +17,21 @@ import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.ui.activity.NewEventActivity;
 import com.faltenreich.diaguard.R;
 
-import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.text.Format;
-import java.text.SimpleDateFormat;
 
 /**
  * Created by Filip on 10.12.13.
  */
 public class Helper {
 
-    public static final String DB_FORMAT_TIME = "HH:mm";
-    public static final String PLACEHOLDER = "-";
+    private static final String FORMAT_DATE_TIME_EXPORT = "yyyy-MM-dd HH:mm";
+    private static final String FORMAT_TIME = "HH:mm";
 
+    @Deprecated
     public static DecimalFormat getDecimalFormat() {
         DecimalFormat decimalFormat = new DecimalFormat("#.#");
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
@@ -42,31 +40,16 @@ public class Helper {
         return decimalFormat;
     }
 
-    public static DecimalFormat getRationalFormat() {
-        return new DecimalFormat("#");
-    }
-
-    private static String getTimePattern() {
-        return DB_FORMAT_TIME;
-    }
-
-    private static String getDatePattern() {
-        Format dateFormat = android.text.format.DateFormat.getDateFormat(DiaguardApplication.getContext().getApplicationContext());
-        return ((SimpleDateFormat)dateFormat).toLocalizedPattern();
+    public static DateTimeFormatter getDateTimeFormatExport() {
+        return DateTimeFormat.forPattern(FORMAT_DATE_TIME_EXPORT);
     }
 
     public static DateTimeFormatter getDateFormat() {
-        return DateTimeFormat.forPattern(getDatePattern());
+        return DateTimeFormat.mediumDate();
     }
 
     public static DateTimeFormatter getTimeFormat() {
-        return DateTimeFormat.forPattern(getTimePattern());
-    }
-
-    public static float formatCalendarToHourMinutes(DateTime time) {
-        int hour = time.getHourOfDay();
-        int minute = time.getMinuteOfHour();
-        return hour + ((float)minute / 60.0f);
+        return DateTimeFormat.forPattern(FORMAT_TIME);
     }
 
     public static float getDPI(float pixels) {

@@ -266,11 +266,11 @@ public class PreferenceHelper {
 
     public Measurement.Category[] getActiveCategories() {
         List<Measurement.Category> activeCategories = new ArrayList<Measurement.Category>();
-
-        for(int item = 0; item < Measurement.Category.values().length; item++)
-            if(isCategoryActive(Measurement.Category.values()[item]))
+        for(int item = 0; item < Measurement.Category.values().length; item++) {
+            if (isCategoryActive(Measurement.Category.values()[item])) {
                 activeCategories.add(Measurement.Category.values()[item]);
-
+            }
+        }
         return activeCategories.toArray(new Measurement.Category[activeCategories.size()]);
     }
 }

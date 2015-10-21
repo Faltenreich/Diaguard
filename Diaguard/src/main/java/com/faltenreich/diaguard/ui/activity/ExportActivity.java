@@ -17,6 +17,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.ui.fragments.DatePickerFragment;
 import com.faltenreich.diaguard.ui.view.CategoryCheckBoxList;
 import com.faltenreich.diaguard.util.export.CsvExport;
+import com.faltenreich.diaguard.util.export.Export;
 import com.faltenreich.diaguard.util.export.PdfExport;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.IFileListener;
@@ -115,10 +116,11 @@ public class ExportActivity extends BaseActivity implements IFileListener {
 
     private void export() {
         if (validate()) {
+            Export export = new Export(this);
             if (spinnerFormat.getSelectedItemPosition() == 0) {
-                new PdfExport(this).exportFile(this, dateStart, dateEnd, categoryCheckBoxList.getSelectedCategories());
+                export.exportPdf(this, dateStart, dateEnd, categoryCheckBoxList.getSelectedCategories());
             } else if (spinnerFormat.getSelectedItemPosition() == 1) {
-                new CsvExport(this).exportFile(this);
+                export.exportCsv(this, dateStart, dateEnd, categoryCheckBoxList.getSelectedCategories());
             }
         }
     }

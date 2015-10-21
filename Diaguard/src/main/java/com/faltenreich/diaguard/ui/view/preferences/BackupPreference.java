@@ -10,7 +10,9 @@ import android.util.AttributeSet;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.util.FileUtils;
 import com.faltenreich.diaguard.util.Helper;
+import com.faltenreich.diaguard.util.IFileListener;
 import com.faltenreich.diaguard.util.export.CsvExport;
+import com.faltenreich.diaguard.util.export.Export;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -22,7 +24,7 @@ import java.util.List;
 /**
  * Created by Filip on 04.11.13.
  */
-public class BackupPreference extends DialogPreference {
+public class BackupPreference extends DialogPreference implements IFileListener {
 
     private final int ACTION_CREATEBACKUP = 0;
     private final int ACTION_RESTOREBACKUP = 1;
@@ -94,8 +96,7 @@ public class BackupPreference extends DialogPreference {
         builder.setTitle(R.string.backup_title)
                 .setItems(csvArrayDates, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        new CsvExport(getContext()).importBackup(csvArray[which]);
-
+                        importBackup(csvArray[which]);
                         // TODO ViewHelper.showSnackbar(activity, activity.getResources().getString(R.string.pref_data_backup_import));
                     }
                 }); 
@@ -104,7 +105,19 @@ public class BackupPreference extends DialogPreference {
         dialog.show();
     }
 
+    private void importBackup(String fileName) {
+        Export export = new Export(getContext());
+        export.importCsv(this, new File(FileUtils.getStorageDirectory() + fileName));
+
+    }
+
     private void createBackup() {
-        new CsvExport(getContext()).exportFile(null);
+        Export export = new Export(getContext());
+        export.exportCsv(this, null, null, null);
+    }
+
+    @Override
+    public void handleFile(File file, String mimeType) {
+        // TODO
     }
 }

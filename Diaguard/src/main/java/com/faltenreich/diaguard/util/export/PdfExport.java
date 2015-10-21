@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.DateTimeUtils;
 import com.faltenreich.diaguard.util.FileHelper;
 import com.faltenreich.diaguard.util.Helper;
@@ -40,8 +41,8 @@ public class PdfExport {
         this.context = context;
     }
 
-    public void exportPDF(IFileListener listener, DateTime dateStart, DateTime dateEnd) {
-        PDFExportTask pdfExportTask = new PDFExportTask(listener, dateStart, dateEnd);
+    public void exportPDF(IFileListener listener, DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories) {
+        PDFExportTask pdfExportTask = new PDFExportTask(listener, dateStart, dateEnd, categories);
         pdfExportTask.execute();
     }
 
@@ -54,15 +55,17 @@ public class PdfExport {
         private IFileListener listener;
         private DateTime dateStart;
         private DateTime dateEnd;
+        private Measurement.Category[] categories;
 
         private Font fontNormal;
         private Font fontBold;
         private PdfPage page;
 
-        public PDFExportTask(IFileListener listener, DateTime dateStart, DateTime dateEnd) {
+        public PDFExportTask(IFileListener listener, DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories) {
             this.listener = listener;
             this.dateStart = dateStart;
             this.dateEnd = dateEnd;
+            this.categories = categories;
         }
 
         @Override
@@ -111,7 +114,7 @@ public class PdfExport {
                         currentPosition = drawWeekBar(page, dateIteration);
                     }
 
-                    PdfTable table = new PdfTable(pdf, page, dateIteration);
+                    PdfTable table = new PdfTable(pdf, page, dateIteration, categories);
 
                     // Page break
                     if (currentPosition.getY() + table.getHeight() > page.getHeight()) {

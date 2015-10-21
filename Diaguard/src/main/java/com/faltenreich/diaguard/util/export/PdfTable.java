@@ -42,15 +42,17 @@ public class PdfTable extends Table {
     private PDF pdf;
     private PdfPage page;
     private DateTime day;
+    private Measurement.Category[] categories;
 
     private Font fontNormal;
     private Font fontBold;
 
-    public PdfTable(PDF pdf, PdfPage page, DateTime day) {
+    public PdfTable(PDF pdf, PdfPage page, DateTime day, Measurement.Category[] categories) {
         super();
         this.pdf = pdf;
         this.page = page;
         this.day = day;
+        this.categories = categories;
         init();
     }
 
@@ -99,7 +101,8 @@ public class PdfTable extends Table {
         data.add(header);
 
         // Data
-        LinkedHashMap<Measurement.Category, float[]> values = EntryDao.getInstance().getAverageDataTable(day, PreferenceHelper.getInstance().getActiveCategories(), HOURS_TO_SKIP);
+        LinkedHashMap<Measurement.Category, float[]> values = EntryDao.getInstance().getAverageDataTable(day, categories, HOURS_TO_SKIP);
+
         for (Measurement.Category category : values.keySet()) {
             boolean rowIsAlternating = category.ordinal() % 2 == 0;
             int backgroundColor = rowIsAlternating ? ALTERNATING_ROW_COLOR : Color.white;

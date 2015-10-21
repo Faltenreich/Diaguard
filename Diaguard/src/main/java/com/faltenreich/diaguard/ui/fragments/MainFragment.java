@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -37,20 +38,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 public class MainFragment extends BaseFragment {
-
-    @Bind(R.id.layout_latest)
-    protected ViewGroup layoutLatest;
-
-    @Bind(R.id.layout_today)
-    protected ViewGroup layoutToday;
-
-    @Bind(R.id.layout_average)
-    protected ViewGroup layoutAverage;
-
-    @Bind(R.id.layout_trend)
-    protected ViewGroup layoutTrend;
 
     @Bind(R.id.chart)
     protected LineChart chart;
@@ -85,6 +75,8 @@ public class MainFragment extends BaseFragment {
     @Bind(R.id.textview_avg_day)
     protected TextView textViewAverageDay;
 
+    private Entry latestEntry;
+
     public MainFragment() {
         super(R.layout.fragment_main);
     }
@@ -93,13 +85,12 @@ public class MainFragment extends BaseFragment {
     public void onViewCreated (View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
-        initialize();
+        initializeChart();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        ((BaseActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
         updateContent();
     }
 
@@ -108,21 +99,17 @@ public class MainFragment extends BaseFragment {
         return DiaguardApplication.getContext().getString(R.string.home);
     }
 
-    private void initialize() {
-        initializeChart();
-    }
-
     private void updateContent() {
+        latestEntry = EntryDao.getInstance().getLatestWithMeasurement(BloodSugar.class);
         updateLatest();
         updateDashboard();
         updateChart();
     }
 
     private void updateLatest() {
-        final Entry entry = EntryDao.getInstance().getLatestWithMeasurement(BloodSugar.class);
-        if (entry != null) {
+        if (latestEntry != null) {
             textViewLatestValue.setTextSize(60);
-            final BloodSugar bloodSugar = (BloodSugar) MeasurementDao.getInstance(BloodSugar.class).getMeasurement(entry);
+            BloodSugar bloodSugar = (BloodSugar) MeasurementDao.getInstance(BloodSugar.class).getMeasurement(latestEntry);
 
             // Value
             textViewLatestValue.setText(bloodSugar.toString());
@@ -130,11 +117,11 @@ public class MainFragment extends BaseFragment {
             // Highlighting
             if(PreferenceHelper.getInstance().limitsAreHighlighted()) {
                 if(bloodSugar.getMgDl() > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
-                    textViewLatestValue.setTextColor(getResources().getColor(R.color.red));
+                    textViewLatestValue.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
                 } else if(bloodSugar.getMgDl() < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
-                    textViewLatestValue.setTextColor(getResources().getColor(R.color.blue));
+                    textViewLatestValue.setTextColor(ContextCompat.getColor(getContext(), R.color.blue));
                 } else {
-                    textViewLatestValue.setTextColor(getResources().getColor(R.color.green));
+                    textViewLatestValue.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
                 }
             }
 
@@ -143,35 +130,19 @@ public class MainFragment extends BaseFragment {
 
             // Time
             textViewLatestTime.setText(String.format("%s %s | ",
-                    Helper.getDateFormat().print(entry.getDate()),
-                    Helper.getTimeFormat().print(entry.getDate())));
-            int differenceInMinutes = Minutes.minutesBetween(entry.getDate(), new DateTime()).getMinutes();
+                    Helper.getDateFormat().print(latestEntry.getDate()),
+                    Helper.getTimeFormat().print(latestEntry.getDate())));
+            int differenceInMinutes = Minutes.minutesBetween(latestEntry.getDate(), new DateTime()).getMinutes();
 
             // Highlight if last measurement is more than eight hours ago
-            textViewLatestAgo.setTextColor(getResources().getColor(R.color.green));
+            textViewLatestAgo.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
             if(differenceInMinutes > DateTimeConstants.MINUTES_PER_HOUR * 8) {
-                textViewLatestAgo.setTextColor(getResources().getColor(R.color.red));
+                textViewLatestAgo.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
             }
 
             textViewLatestAgo.setText(Helper.getTextAgo(getActivity(), differenceInMinutes));
-
-            layoutLatest.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), EntryDetailActivity.class);
-                    intent.putExtra(EntryDetailFragment.EXTRA_ENTRY, entry.getId());
-                    startActivity(intent);
-                }
-            });
         } else {
             textViewLatestValue.setTextSize(40);
-
-            layoutLatest.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(getActivity(), NewEventActivity.class));
-                }
-            });
         }
     }
 
@@ -248,7 +219,7 @@ public class MainFragment extends BaseFragment {
         chart.getAxisLeft().setDrawGridLines(false);
         chart.getAxisLeft().setDrawLabels(false);
         chart.getXAxis().setDrawGridLines(false);
-        chart.getXAxis().setTextColor(getResources().getColor(R.color.gray_dark));
+        chart.getXAxis().setTextColor(ContextCompat.getColor(getContext(), R.color.gray_dark));
         chart.getXAxis().setLabelsToSkip(0);
         float offset = Helper.getDPI(20);
         chart.setViewPortOffsets(offset, 0, offset, offset * 1.2f);
@@ -259,10 +230,10 @@ public class MainFragment extends BaseFragment {
         float targetValue = PreferenceHelper.getInstance().
                 formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
                         PreferenceHelper.getInstance().getTargetValue());
-        LimitLine hyperglycemia = new LimitLine(targetValue, getString(R.string.hyper));
-        hyperglycemia.setLineColor(getResources().getColor(R.color.green_light));
-        hyperglycemia.setLabel(null);
-        return hyperglycemia;
+        LimitLine limitLine = new LimitLine(targetValue, getString(R.string.hyper));
+        limitLine.setLineColor(ContextCompat.getColor(getContext(), R.color.gray_light));
+        limitLine.setLabel(null);
+        return limitLine;
     }
 
     private void updateChart() {
@@ -299,24 +270,21 @@ public class MainFragment extends BaseFragment {
 
             ArrayList<LineDataSet> dataSets = new ArrayList<>();
             LineDataSet dataSet = new LineDataSet(entries, DatabaseHelper.BLOODSUGAR);
-            int dataSetColor = getResources().getColor(R.color.green_light);
+            int dataSetColor = ContextCompat.getColor(getContext(), R.color.green_light);
             dataSet.setColor(dataSetColor);
             dataSet.setCircleColor(dataSetColor);
             dataSet.setCircleSize(ChartHelper.CIRCLE_SIZE);
+            dataSet.setDrawCircles(entries.size() <= 1);
             dataSet.setDrawValues(false);
             dataSet.setLineWidth(Helper.getDPI(ChartHelper.LINE_WIDTH));
             dataSets.add(dataSet);
 
             // Workaround to set visible area
-            if (entries.size() > 0) {
-                List<com.github.mikephil.charting.data.Entry> entriesMaximum = new ArrayList<>();
-                entriesMaximum.add(new com.github.mikephil.charting.data.Entry(highestValue, xLabels.size()));
-                LineDataSet dataSetMaximum = new LineDataSet(entriesMaximum, "Maximum");
-                dataSetMaximum.setColor(Color.TRANSPARENT);
-                dataSets.add(dataSetMaximum);
-            } else {
-                xLabels = new ArrayList<>();
-            }
+            List<com.github.mikephil.charting.data.Entry> entriesMaximum = new ArrayList<>();
+            entriesMaximum.add(new com.github.mikephil.charting.data.Entry(highestValue, xLabels.size()));
+            LineDataSet dataSetMaximum = new LineDataSet(entriesMaximum, "Maximum");
+            dataSetMaximum.setColor(Color.TRANSPARENT);
+            dataSets.add(dataSetMaximum);
 
             return new LineData(xLabels, dataSets);
         }
@@ -330,4 +298,16 @@ public class MainFragment extends BaseFragment {
     }
 
     // endregion
+
+    @SuppressWarnings("unused")
+    @OnClick(R.id.layout_latest)
+    protected void openEntry() {
+        if (latestEntry != null) {
+            Intent intent = new Intent(getActivity(), EntryDetailActivity.class);
+            intent.putExtra(EntryDetailFragment.EXTRA_ENTRY, latestEntry.getId());
+            startActivity(intent);
+        } else {
+            startActivity(new Intent(getActivity(), NewEventActivity.class));
+        }
+    }
 }

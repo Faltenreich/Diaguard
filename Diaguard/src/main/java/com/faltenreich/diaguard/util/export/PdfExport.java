@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Measurement;
@@ -153,8 +154,10 @@ public class PdfExport {
 
         @Override
         protected void onPostExecute(File file) {
-            progressDialog.dismiss();
             super.onPostExecute(file);
+            progressDialog.dismiss();
+            String confirmationText = String.format(context.getString(R.string.export_complete), FileHelper.getStorageDirectory());
+            Toast.makeText(context, confirmationText, Toast.LENGTH_LONG).show();
             if(listener != null) {
                 listener.handleFile(file, MIME_PDF);
             }

@@ -45,6 +45,7 @@
     <string name="entry_deleted">Eintrag gelöscht</string>
     <string name="entry_new">Neuer Eintrag</string>
     <string name="export">Export</string>
+    <string name="export_complete">Gespeichert unter %s</string>
     <string name="export_progress">PDF wird erstellt</string>
     <string name="export_stamp">Bericht generiert am</string>
     <string name="factor">KE-Faktor</string>

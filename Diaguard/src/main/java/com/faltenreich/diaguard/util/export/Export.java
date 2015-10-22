@@ -16,30 +16,26 @@ import java.io.File;
  */
 public class Export {
 
+    public static final String PDF_MIME_TYPE = "application/pdf";
+
     public static final String CSV_MIME_TYPE = "text/csv";
     public static final char CSV_DELIMITER = ';';
     public static final String CSV_KEY_META = "meta";
 
-    private Context context;
-
-    public Export(Context context) {
-        this.context = context;
-    }
-
-    public void exportPdf(@NonNull IFileListener listener, @NonNull DateTime dateStart, @NonNull DateTime dateEnd, @NonNull Measurement.Category[] categories) {
-        PdfExport pdfExport = new PdfExport(context, dateStart, dateEnd, categories);
+    public static void exportPdf(@NonNull IFileListener listener, @NonNull DateTime dateStart, @NonNull DateTime dateEnd, @NonNull Measurement.Category[] categories) {
+        PdfExport pdfExport = new PdfExport(dateStart, dateEnd, categories);
         pdfExport.setListener(listener);
         pdfExport.execute();
     }
 
-    public void exportCsv(@NonNull IFileListener listener, DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories) {
-        CsvExport csvExport = new CsvExport(context, dateStart, dateEnd, categories);
+    public static void exportCsv(@NonNull IFileListener listener, DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories) {
+        CsvExport csvExport = new CsvExport(dateStart, dateEnd, categories);
         csvExport.setListener(listener);
         csvExport.execute();
     }
 
-    public void importCsv(@NonNull IFileListener listener, @NonNull File file) {
-        CsvImport csvImport = new CsvImport(context, file);
+    public static void importCsv(@NonNull IFileListener listener, @NonNull File file) {
+        CsvImport csvImport = new CsvImport(file);
         csvImport.setListener(listener);
         csvImport.execute();
     }

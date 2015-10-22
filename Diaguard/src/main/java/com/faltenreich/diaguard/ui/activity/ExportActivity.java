@@ -13,10 +13,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.ui.fragments.DatePickerFragment;
 import com.faltenreich.diaguard.ui.view.CategoryCheckBoxList;
+import com.faltenreich.diaguard.util.FileUtils;
 import com.faltenreich.diaguard.util.export.CsvExport;
 import com.faltenreich.diaguard.util.export.Export;
 import com.faltenreich.diaguard.util.export.PdfExport;
@@ -125,11 +127,10 @@ public class ExportActivity extends BaseActivity implements IFileListener {
             progressDialog.setCancelable(false);
             progressDialog.show();
 
-            Export export = new Export(this);
             if (spinnerFormat.getSelectedItemPosition() == 0) {
-                export.exportPdf(this, dateStart, dateEnd, categoryCheckBoxList.getSelectedCategories());
+                Export.exportPdf(this, dateStart, dateEnd, categoryCheckBoxList.getSelectedCategories());
             } else if (spinnerFormat.getSelectedItemPosition() == 1) {
-                export.exportCsv(this, dateStart, dateEnd, categoryCheckBoxList.getSelectedCategories());
+                Export.exportCsv(this, dateStart, dateEnd, categoryCheckBoxList.getSelectedCategories());
             }
         }
     }
@@ -142,6 +143,8 @@ public class ExportActivity extends BaseActivity implements IFileListener {
     @Override
     public void onComplete(File file, String mimeType) {
         progressDialog.dismiss();
+        String confirmationText = String.format(getString(R.string.export_complete), FileUtils.getStorageDirectory());
+        Toast.makeText(this, confirmationText, Toast.LENGTH_LONG).show();
         openFile(file, mimeType);
     }
 

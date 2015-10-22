@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.DatabaseHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
@@ -30,18 +31,15 @@ public class CsvExport extends AsyncTask<Void, String, File> {
 
     private static final String TAG = CsvExport.class.getSimpleName();
 
-    private Context context;
     private DateTime dateStart;
     private DateTime dateEnd;
     private Measurement.Category[] categories;
     private IFileListener listener;
 
-    public CsvExport(Context context) {
-        this.context = context;
+    public CsvExport() {
     }
 
-    public CsvExport(Context context, DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories) {
-        this.context = context;
+    public CsvExport(DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories) {
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
         this.categories = categories;
@@ -73,7 +71,7 @@ public class CsvExport extends AsyncTask<Void, String, File> {
             List<Entry> entries = EntryDao.getInstance().getEntriesBetween(dateStart, dateEnd);
             for (Entry entry : entries) {
                 publishProgress(String.format("%s %d/%d",
-                        context.getString(R.string.entry),
+                        DiaguardApplication.getContext().getString(R.string.entry),
                         position,
                         entries.size()));
 

@@ -107,14 +107,12 @@ public class BackupPreference extends DialogPreference implements IFileListener 
     }
 
     private void importBackup(String fileName) {
-        Export export = new Export(getContext());
-        export.importCsv(this, new File(FileUtils.getStorageDirectory() + fileName));
+        Export.importCsv(this, new File(FileUtils.getStorageDirectory() + fileName));
 
     }
 
     private void createBackup() {
-        Export export = new Export(getContext());
-        export.exportCsv(this, null, null, null);
+        Export.exportCsv(this, null, null, null);
     }
 
     private void showProgressDialog() {

@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.FileUtils;
@@ -31,12 +32,9 @@ public class PdfExport extends AsyncTask<Void, String, File> {
 
     private static final String TAG = PdfExport.class.getSimpleName();
 
-    private static final String MIME_TYPE = "application/pdf";
-
     private static final float PADDING_PARAGRAPH = 20;
     private static final float PADDING_LINE = 3;
 
-    private Context context;
     private IFileListener listener;
     private DateTime dateStart;
     private DateTime dateEnd;
@@ -45,8 +43,7 @@ public class PdfExport extends AsyncTask<Void, String, File> {
     private Font fontNormal;
     private Font fontBold;
 
-    public PdfExport(Context context, DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories) {
-        this.context = context;
+    public PdfExport(DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories) {
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
         this.categories = categories;
@@ -69,13 +66,15 @@ public class PdfExport extends AsyncTask<Void, String, File> {
             Point currentPosition;
 
             PDF pdf = new PDF(new FileOutputStream(file));
-            pdf.setTitle(String.format("%s %s", context.getString(R.string.app_name), context.getString(R.string.export)));
+            pdf.setTitle(String.format("%s %s",
+                    DiaguardApplication.getContext().getString(R.string.app_name),
+                    DiaguardApplication.getContext().getString(R.string.export)));
             pdf.setSubject(String.format("%s %s: %s - %s",
-                    context.getString(R.string.app_name),
-                    context.getString(R.string.export),
+                    DiaguardApplication.getContext().getString(R.string.app_name),
+                    DiaguardApplication.getContext().getString(R.string.export),
                     Helper.getDateFormat().print(dateStart),
                     Helper.getDateFormat().print(dateEnd)));
-            pdf.setAuthor(context.getString(R.string.app_name));
+            pdf.setAuthor(DiaguardApplication.getContext().getString(R.string.app_name));
 
             fontNormal = new Font(pdf, CoreFont.HELVETICA);
             fontBold = new Font(pdf, CoreFont.HELVETICA_BOLD);
@@ -109,7 +108,7 @@ public class PdfExport extends AsyncTask<Void, String, File> {
                 currentPosition.setY(currentPosition.getY() + PADDING_PARAGRAPH);
 
                 publishProgress(String.format("%s %d/%d",
-                        context.getString(R.string.day),
+                        DiaguardApplication.getContext().getString(R.string.day),
                         Days.daysBetween(dateStart, dateIteration).getDays() + 1,
                         Days.daysBetween(dateStart, dateEnd).getDays() + 1));
 
@@ -139,10 +138,8 @@ public class PdfExport extends AsyncTask<Void, String, File> {
     @Override
     protected void onPostExecute(File file) {
         super.onPostExecute(file);
-        String confirmationText = String.format(context.getString(R.string.export_complete), FileUtils.getStorageDirectory());
-        Toast.makeText(context, confirmationText, Toast.LENGTH_LONG).show();
         if (listener != null) {
-            listener.onComplete(file, MIME_TYPE);
+            listener.onComplete(file, Export.PDF_MIME_TYPE);
         }
     }
 
@@ -163,7 +160,7 @@ public class PdfExport extends AsyncTask<Void, String, File> {
         week.setPosition(currentPosition.getX(), currentPosition.getY());
         week.setFontSize(15f);
         week.setText(String.format("%s %d",
-                context.getString(R.string.calendarweek),
+                DiaguardApplication.getContext().getString(R.string.calendarweek),
                 weekStart.getWeekOfWeekyear()));
         try {
             week.drawOn(page);

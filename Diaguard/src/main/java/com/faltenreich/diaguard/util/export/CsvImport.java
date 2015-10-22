@@ -29,12 +29,10 @@ public class CsvImport<T extends Measurement> extends AsyncTask<Void, Void, Void
 
     private static final String TAG = CsvImport.class.getSimpleName();
 
-    private Context context;
     private File file;
     private IFileListener listener;
 
-    public CsvImport(Context context, File file) {
-        this.context = context;
+    public CsvImport(File file) {
         this.file = file;
     }
 

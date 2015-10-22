@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.DatabaseHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.entity.Entry;
@@ -25,7 +26,7 @@ import java.util.List;
 /**
  * Created by Faltenreich on 21.10.2015.
  */
-public class CsvExport extends AsyncTask<Void, Void, File> {
+public class CsvExport extends AsyncTask<Void, String, File> {
 
     private static final String TAG = CsvExport.class.getSimpleName();
 
@@ -68,8 +69,14 @@ public class CsvExport extends AsyncTask<Void, Void, File> {
                     Integer.toString(DatabaseHelper.getVersion())};
             writer.writeNext(meta);
 
+            int position = 0;
             List<Entry> entries = EntryDao.getInstance().getEntriesBetween(dateStart, dateEnd);
             for (Entry entry : entries) {
+                publishProgress(String.format("%s %d/%d",
+                        context.getString(R.string.entry),
+                        position,
+                        entries.size()));
+
                 String[] entryValues = {
                         DatabaseHelper.ENTRY,
                         Helper.getDateTimeFormatExport().print(entry.getDate()),
@@ -81,11 +88,12 @@ public class CsvExport extends AsyncTask<Void, Void, File> {
                     // TODO: Split values
                     String[] measurementValues = {
                             DatabaseHelper.MEASUREMENT,
-                            Float.toString(ArrayUtils.sum(measurement.getValues())),
-                            measurement.getCategory().name()
+                            measurement.getCategory().name().toLowerCase(),
+                            Float.toString(ArrayUtils.sum(measurement.getValues()))
                     };
                     writer.writeNext(measurementValues);
                 }
+                position++;
             }
 
             writer.close();
@@ -97,17 +105,21 @@ public class CsvExport extends AsyncTask<Void, Void, File> {
     }
 
     @Override
+    protected void onPreExecute() {
+
+    }
+
+    @Override
+    protected void onProgressUpdate(String... message) {
+        if (listener != null) {
+            listener.onProgress(message[0]);
+        }
+    }
+
+    @Override
     protected void onPostExecute(File file) {
         super.onPostExecute(file);
         if (listener != null)
-            listener.handleFile(file, Export.CSV_MIME_TYPE);
-    }
-
-    @Override
-    protected void onPreExecute() {
-    }
-
-    @Override
-    protected void onProgressUpdate(Void... values) {
+            listener.onComplete(file, Export.CSV_MIME_TYPE);
     }
 }

@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.util.export;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -36,8 +35,6 @@ public class PdfExport extends AsyncTask<Void, String, File> {
 
     private static final float PADDING_PARAGRAPH = 20;
     private static final float PADDING_LINE = 3;
-
-    private ProgressDialog progressDialog;
 
     private Context context;
     private IFileListener listener;
@@ -129,26 +126,23 @@ public class PdfExport extends AsyncTask<Void, String, File> {
 
     @Override
     protected void onPreExecute() {
-        progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage(context.getString(R.string.export_progress));
-        progressDialog.setIndeterminate(true);
-        progressDialog.setCancelable(false);
-        progressDialog.show();
+
     }
 
     @Override
     protected void onProgressUpdate(String... message) {
-        progressDialog.setMessage(message[0]);
+        if (listener != null) {
+            listener.onProgress(message[0]);
+        }
     }
 
     @Override
     protected void onPostExecute(File file) {
         super.onPostExecute(file);
-        progressDialog.dismiss();
         String confirmationText = String.format(context.getString(R.string.export_complete), FileUtils.getStorageDirectory());
         Toast.makeText(context, confirmationText, Toast.LENGTH_LONG).show();
         if (listener != null) {
-            listener.handleFile(file, MIME_TYPE);
+            listener.onComplete(file, MIME_TYPE);
         }
     }
 

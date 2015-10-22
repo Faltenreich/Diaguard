@@ -101,7 +101,7 @@ public class CsvImport<T extends Measurement> extends AsyncTask<Void, Void, Void
                 }
             }
             reader.close();
-            
+
         } catch (IOException ex) {
             Log.e(TAG, ex.getMessage());
         }

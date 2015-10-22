@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.ui.activity;
 
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
@@ -50,6 +51,8 @@ public class ExportActivity extends BaseActivity implements IFileListener {
     @Bind(R.id.export_list_categories)
     protected CategoryCheckBoxList categoryCheckBoxList;
 
+    private ProgressDialog progressDialog;
+
     private DateTime dateStart;
     private DateTime dateEnd;
 
@@ -98,6 +101,7 @@ public class ExportActivity extends BaseActivity implements IFileListener {
     public void initializeGUI() {
         buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
         buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
+        progressDialog = new ProgressDialog(this);
     }
 
     private boolean validate() {
@@ -116,6 +120,11 @@ public class ExportActivity extends BaseActivity implements IFileListener {
 
     private void export() {
         if (validate()) {
+            progressDialog.setMessage(getString(R.string.export_progress));
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+
             Export export = new Export(this);
             if (spinnerFormat.getSelectedItemPosition() == 0) {
                 export.exportPdf(this, dateStart, dateEnd, categoryCheckBoxList.getSelectedCategories());
@@ -126,7 +135,13 @@ public class ExportActivity extends BaseActivity implements IFileListener {
     }
 
     @Override
-    public void handleFile(File file, String mimeType) {
+    public void onProgress(String message) {
+        progressDialog.setMessage(message);
+    }
+
+    @Override
+    public void onComplete(File file, String mimeType) {
+        progressDialog.dismiss();
         openFile(file, mimeType);
     }
 

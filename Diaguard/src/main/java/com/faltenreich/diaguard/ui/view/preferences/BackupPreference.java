@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.ui.view.preferences;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.preference.DialogPreference;
@@ -29,11 +30,12 @@ public class BackupPreference extends DialogPreference implements IFileListener 
     private final int ACTION_CREATEBACKUP = 0;
     private final int ACTION_RESTOREBACKUP = 1;
 
-    Activity activity;
+    private ProgressDialog progressDialog;
 
     public BackupPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
-        activity = (Activity) context;
+
+        progressDialog = new ProgressDialog(getContext());
 
         // Hide standard buttons
         setPositiveButtonText(null);
@@ -42,7 +44,7 @@ public class BackupPreference extends DialogPreference implements IFileListener 
 
     @Override
     protected void onPrepareDialogBuilder(android.app.AlertDialog.Builder builder) {
-        builder.setTitle(activity.getResources().getString(R.string.backup))
+        builder.setTitle(getContext().getString(R.string.backup))
                 .setItems(R.array.backup_actions, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
@@ -78,7 +80,6 @@ public class BackupPreference extends DialogPreference implements IFileListener 
         }
 
         if(csvFiles.size() <= 0) {
-            Activity preferenceActivity = (Activity)getContext();
             // TODO ViewHelper.showAlert(preferenceActivity, preferenceActivity.getString(R.string.error_no_backups) + " " + FileHelper.PATH_EXTERNAL + FileHelper.PATH_STORAGE);
             return;
         }
@@ -92,7 +93,7 @@ public class BackupPreference extends DialogPreference implements IFileListener 
                     Helper.getTimeFormat().print(date);
         }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(R.string.backup_title)
                 .setItems(csvArrayDates, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -116,8 +117,21 @@ public class BackupPreference extends DialogPreference implements IFileListener 
         export.exportCsv(this, null, null, null);
     }
 
+    private void showProgressDialog() {
+        progressDialog.setMessage(getContext().getString(R.string.export_progress));
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
     @Override
-    public void handleFile(File file, String mimeType) {
+    public void onProgress(String message) {
+        progressDialog.setMessage(message);
+    }
+
+    @Override
+    public void onComplete(File file, String mimeType) {
+        progressDialog.dismiss();
         // TODO
     }
 }

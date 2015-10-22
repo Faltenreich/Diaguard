@@ -56,12 +56,7 @@ public class PdfExport extends AsyncTask<Void, String, File> {
     @Override
     protected File doInBackground(Void... params) {
 
-        String fileName = String.format("%s%sDiaguard_%s.pdf",
-                FileUtils.getStorageDirectory(),
-                File.separator,
-                DateTimeFormat.forPattern("yyyy-MM-dd_HH-mm").print(DateTime.now()));
-        File file = new File(fileName);
-
+        File file = Export.getExportFile(Export.FileType.PDF);
         try {
             Point currentPosition;
 

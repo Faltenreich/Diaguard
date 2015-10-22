@@ -49,7 +49,16 @@ public abstract class BaseDao <T extends BaseEntity> {
         try {
             return getDao().queryBuilder().where().eq(BaseEntity.Column.ID, id).queryForFirst();
         } catch (SQLException exception) {
-            Log.e(TAG, String.format("Could not get %s with id %d", clazz.getSimpleName(), id));
+            Log.e(TAG, exception.getMessage());
+            return null;
+        }
+    }
+
+    public List<T> getAll() {
+        try {
+            return getDao().queryBuilder().query();
+        } catch (SQLException exception) {
+            Log.e(TAG, exception.getMessage());
             return null;
         }
     }

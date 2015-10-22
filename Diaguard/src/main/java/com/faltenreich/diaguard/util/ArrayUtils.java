@@ -32,4 +32,12 @@ public class ArrayUtils {
     public static float avg(float[] avg) {
         return sum(avg) / avg.length;
     }
+
+    public static String[] toStringArray(float[] array) {
+        String[] stringArray = new String[array.length];
+        for (int position = 0; position < array.length; position++) {
+            stringArray[position] = Float.toString(array[position]);
+        }
+        return stringArray;
+    }
 }

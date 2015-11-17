@@ -6,12 +6,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.faltenreich.diaguard.data.dao.EntryDao;
+import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.Activity;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.HbA1c;
 import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Meal;
+import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Pressure;
 import com.faltenreich.diaguard.data.entity.Pulse;
 import com.faltenreich.diaguard.data.entity.Weight;
@@ -84,8 +87,31 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
-    private void upgradeToVersion19(SQLiteDatabase sqliteDatabase) {
-        // TODO
+    private <M extends Measurement> void upgradeToVersion19(SQLiteDatabase sqliteDatabase) {
+        String query = "SELECT * FROM " + DatabaseHelper.MEASUREMENT;
+        Cursor cursor = sqliteDatabase.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                try {
+                    Measurement.Category category = Measurement.Category.valueOf(cursor.getString(2));
+
+                    M measurement = (M) category.toClass().newInstance();
+                    float value = Float.parseFloat(cursor.getString(1));
+                    measurement.setValues(value);
+
+                    Entry entry = EntryDao.getInstance().get(Long.parseLong(cursor.getString(3)));
+                    measurement.setEntry(entry);
+
+                    MeasurementDao.getInstance(category.toClass()).createOrUpdate(measurement);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                cursor.moveToNext();
+            }
+        }
+        sqliteDatabase.execSQL("DROP TABLE IF EXISTS " + MEASUREMENT + ";");
+        sqliteDatabase.execSQL("DROP TABLE IF EXISTS " + FOOD + ";");
+        sqliteDatabase.execSQL("DROP TABLE IF EXISTS " + FOOD_EATEN + ";");
     }
 
     // region Deprecated

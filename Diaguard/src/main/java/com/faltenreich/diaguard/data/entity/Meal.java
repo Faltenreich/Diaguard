@@ -46,7 +46,7 @@ public class Meal extends Measurement {
     }
 
     @Override
-    public void setValues(float... values) {
+    public void setValues(float... values) throws IndexOutOfBoundsException {
         carbohydrates = values[0];
     }
 

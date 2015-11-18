@@ -36,7 +36,7 @@ public class BloodSugar extends Measurement {
     }
 
     @Override
-    public void setValues(float... values) {
+    public void setValues(float... values) throws IndexOutOfBoundsException {
         mgDl = values[0];
     }
 

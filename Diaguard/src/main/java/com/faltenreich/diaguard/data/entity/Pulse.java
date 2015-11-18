@@ -34,7 +34,7 @@ public class Pulse extends Measurement {
     }
 
     @Override
-    public void setValues(float... values) {
+    public void setValues(float... values) throws IndexOutOfBoundsException {
         frequency = values[0];
     }
 

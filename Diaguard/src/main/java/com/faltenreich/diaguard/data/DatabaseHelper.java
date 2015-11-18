@@ -9,6 +9,7 @@ import android.util.Log;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.Activity;
+import com.faltenreich.diaguard.data.entity.BaseEntity;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.HbA1c;
@@ -97,12 +98,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             while (!cursor.isAfterLast()) {
                 try {
                     Measurement.Category category = Helper.valueOf(Measurement.Category.class, cursor.getString(2));
-
                     M measurement = (M) category.toClass().newInstance();
                     float value = Float.parseFloat(cursor.getString(1));
-                    measurement.setValues(value);
+                    float[] values = new float[measurement.getValues().length];
+                    values[0] = value;
+                    measurement.setValues(values);
 
-                    String entryIdString = cursor.getString(3);
                     Entry entry = EntryDao.getInstance().get(Integer.parseInt(cursor.getString(3)));
                     measurement.setEntry(entry);
 

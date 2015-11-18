@@ -36,7 +36,7 @@ public class Weight extends Measurement {
     }
 
     @Override
-    public void setValues(float... values) {
+    public void setValues(float... values) throws IndexOutOfBoundsException {
         kilogram = values[0];
     }
 

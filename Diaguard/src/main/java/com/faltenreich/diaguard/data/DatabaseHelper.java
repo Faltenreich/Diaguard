@@ -102,6 +102,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                     float value = Float.parseFloat(cursor.getString(1));
                     measurement.setValues(value);
 
+                    String entryIdString = cursor.getString(3);
                     Entry entry = EntryDao.getInstance().get(Integer.parseInt(cursor.getString(3)));
                     measurement.setEntry(entry);
 

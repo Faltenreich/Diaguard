@@ -1,5 +1,5 @@
 #
-# generated on 2015/10/16 08:14:27
+# generated on 2015/11/18 07:20:58
 #
 # --table-start--
 dataClass=com.faltenreich.diaguard.data.entity.Entry
@@ -14,16 +14,12 @@ fieldName=note
 columnName=note
 # --field-end--
 # --field-start--
-fieldName=isVisible
-columnName=isVisible
-# --field-end--
-# --field-start--
 fieldName=measurements
 foreignCollection=true
 # --field-end--
 # --field-start--
 fieldName=id
-columnName=id
+columnName=_id
 generatedId=true
 # --field-end--
 # --field-start--
@@ -49,10 +45,11 @@ columnName=mgDl
 fieldName=entry
 columnName=entry
 foreign=true
+foreignAutoRefresh=true
 # --field-end--
 # --field-start--
 fieldName=id
-columnName=id
+columnName=_id
 generatedId=true
 # --field-end--
 # --field-start--
@@ -86,10 +83,11 @@ columnName=basal
 fieldName=entry
 columnName=entry
 foreign=true
+foreignAutoRefresh=true
 # --field-end--
 # --field-start--
 fieldName=id
-columnName=id
+columnName=_id
 generatedId=true
 # --field-end--
 # --field-start--
@@ -117,10 +115,11 @@ fieldName=foodId
 fieldName=entry
 columnName=entry
 foreign=true
+foreignAutoRefresh=true
 # --field-end--
 # --field-start--
 fieldName=id
-columnName=id
+columnName=_id
 generatedId=true
 # --field-end--
 # --field-start--
@@ -150,10 +149,11 @@ columnName=type
 fieldName=entry
 columnName=entry
 foreign=true
+foreignAutoRefresh=true
 # --field-end--
 # --field-start--
 fieldName=id
-columnName=id
+columnName=_id
 generatedId=true
 # --field-end--
 # --field-start--
@@ -179,10 +179,11 @@ columnName=percent
 fieldName=entry
 columnName=entry
 foreign=true
+foreignAutoRefresh=true
 # --field-end--
 # --field-start--
 fieldName=id
-columnName=id
+columnName=_id
 generatedId=true
 # --field-end--
 # --field-start--
@@ -208,10 +209,11 @@ columnName=kilogram
 fieldName=entry
 columnName=entry
 foreign=true
+foreignAutoRefresh=true
 # --field-end--
 # --field-start--
 fieldName=id
-columnName=id
+columnName=_id
 generatedId=true
 # --field-end--
 # --field-start--
@@ -236,10 +238,11 @@ fieldName=frequency
 fieldName=entry
 columnName=entry
 foreign=true
+foreignAutoRefresh=true
 # --field-end--
 # --field-start--
 fieldName=id
-columnName=id
+columnName=_id
 generatedId=true
 # --field-end--
 # --field-start--
@@ -269,10 +272,11 @@ columnName=diastolic
 fieldName=entry
 columnName=entry
 foreign=true
+foreignAutoRefresh=true
 # --field-end--
 # --field-start--
 fieldName=id
-columnName=id
+columnName=_id
 generatedId=true
 # --field-end--
 # --field-start--

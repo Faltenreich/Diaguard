@@ -18,9 +18,12 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Pressure;
 import com.faltenreich.diaguard.data.entity.Pulse;
 import com.faltenreich.diaguard.data.entity.Weight;
+import com.faltenreich.diaguard.util.Helper;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+
+import org.joda.time.format.DateTimeFormat;
 
 import java.sql.SQLException;
 
@@ -93,13 +96,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
                 try {
-                    Measurement.Category category = Measurement.Category.valueOf(cursor.getString(2));
+                    Measurement.Category category = Helper.valueOf(Measurement.Category.class, cursor.getString(2));
 
                     M measurement = (M) category.toClass().newInstance();
                     float value = Float.parseFloat(cursor.getString(1));
                     measurement.setValues(value);
 
-                    Entry entry = EntryDao.getInstance().get(Long.parseLong(cursor.getString(3)));
+                    Entry entry = EntryDao.getInstance().get(Integer.parseInt(cursor.getString(3)));
                     measurement.setEntry(entry);
 
                     MeasurementDao.getInstance(category.toClass()).createOrUpdate(measurement);

@@ -157,4 +157,13 @@ public class Helper {
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(AlarmManagerBroadcastReceiver.ALARM_ID, notification);
     }
+
+    public static <T extends Enum<?>> T valueOf(Class<T> enumeration, String search) {
+        for (T each : enumeration.getEnumConstants()) {
+            if (each.name().compareToIgnoreCase(search) == 0) {
+                return each;
+            }
+        }
+        return null;
+    }
 }

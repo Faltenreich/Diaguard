@@ -10,7 +10,7 @@ import org.joda.time.DateTime;
 public abstract class BaseEntity {
 
     public class Column {
-        public static final String ID = "id";
+        public static final String ID = "_id";
         public static final String CREATED_AT = "createdAt";
         public static final String UPDATED_AT = "updatedAt";
     }

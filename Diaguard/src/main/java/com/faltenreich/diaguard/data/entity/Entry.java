@@ -19,7 +19,6 @@ public class Entry extends BaseEntity {
     public class Column extends BaseEntity.Column {
         public static final String DATE = "date";
         public static final String NOTE = "note";
-        public static final String IS_VISIBLE = "isVisible";
     }
 
     @DatabaseField(columnName = Column.DATE)
@@ -27,9 +26,6 @@ public class Entry extends BaseEntity {
 
     @DatabaseField(columnName = Column.NOTE)
     private String note;
-
-    @DatabaseField(columnName = Column.IS_VISIBLE)
-    private boolean isVisible;
 
     @ForeignCollectionField
     private ForeignCollection<Measurement> measurements;
@@ -50,14 +46,6 @@ public class Entry extends BaseEntity {
 
     public void setNote(String note) {
         this.note = note;
-    }
-
-    public boolean isVisible() {
-        return isVisible;
-    }
-
-    public void setIsVisible(boolean isVisible) {
-        this.isVisible = isVisible;
     }
 
     public ForeignCollection<Measurement> getMeasurements() {

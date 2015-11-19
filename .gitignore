@@ -4,3 +4,11 @@
 build
 .DS_Store
 sh.exe.stackdump
+.idea/libraries/appcompat_v7_23_1_0.xml
+.idea/libraries/cardview_v7_23_1_0.xml
+.idea/libraries/design_23_1_0.xml
+.idea/libraries/recyclerview_v7_23_1_0.xml
+.idea/libraries/support_v4_23_1_0.xml
+.idea/modules.xml
+Diaguard/Diaguard-Diaguard.iml
+Diaguard/Diaguard.iml

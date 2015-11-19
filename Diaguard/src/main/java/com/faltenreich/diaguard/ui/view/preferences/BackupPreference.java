@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
+import android.widget.Toast;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.util.FileUtils;
@@ -134,6 +135,7 @@ public class BackupPreference extends DialogPreference implements IFileListener 
     @Override
     public void onComplete(File file, String mimeType) {
         progressDialog.dismiss();
-        // TODO
+        String confirmationText = String.format(getContext().getString(R.string.export_complete), file.getAbsolutePath());
+        Toast.makeText(getContext(), confirmationText, Toast.LENGTH_LONG).show();
     }
 }

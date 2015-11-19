@@ -141,7 +141,7 @@ public class ExportActivity extends BaseActivity implements IFileListener {
     @Override
     public void onComplete(File file, String mimeType) {
         progressDialog.dismiss();
-        String confirmationText = String.format(getString(R.string.export_complete), FileUtils.getStorageDirectory());
+        String confirmationText = String.format(getString(R.string.export_complete), file.getAbsolutePath());
         Toast.makeText(this, confirmationText, Toast.LENGTH_LONG).show();
         openFile(file, mimeType);
     }

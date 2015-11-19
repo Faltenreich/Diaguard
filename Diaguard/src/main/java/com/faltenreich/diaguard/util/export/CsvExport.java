@@ -133,7 +133,8 @@ public class CsvExport extends AsyncTask<Void, String, File> {
     @Override
     protected void onPostExecute(File file) {
         super.onPostExecute(file);
-        if (listener != null)
+        if (listener != null) {
             listener.onComplete(file, Export.CSV_MIME_TYPE);
+        }
     }
 }

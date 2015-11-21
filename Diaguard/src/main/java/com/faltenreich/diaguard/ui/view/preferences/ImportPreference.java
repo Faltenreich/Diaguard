@@ -6,12 +6,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.util.FileUtils;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.IFileListener;
-import com.faltenreich.diaguard.util.ViewHelper;
 import com.faltenreich.diaguard.util.export.Export;
 
 import org.joda.time.DateTime;
@@ -25,6 +25,8 @@ import java.util.List;
  * Created by Filip on 04.11.13.
  */
 public class ImportPreference extends DialogPreference implements IFileListener {
+
+    private static final String TAG = ImportPreference.class.getSimpleName();
 
     private ProgressDialog progressDialog;
 
@@ -44,7 +46,7 @@ public class ImportPreference extends DialogPreference implements IFileListener 
         if(csvFiles.size() <= 0) {
             String errorMessage = String.format("%s %s",
                     getContext().getString(R.string.error_no_backups),
-                    FileUtils.getStorageDirectory());
+                    FileUtils.getPublicDirectory());
             // TODO: ViewHelper.showSnackbar(getView(), errorMessage);
             return;
         }
@@ -53,10 +55,14 @@ public class ImportPreference extends DialogPreference implements IFileListener 
         final String[] csvArrayDates = new String[csvArray.length];
         for(int position = 0; position < csvArray.length; position++) {
             String fileName = csvArray[position].getName();
-            String dateString = csvArray[position].getName().substring(fileName.lastIndexOf("_") + 1, fileName.lastIndexOf("."));
-            DateTime date = DateTimeFormat.forPattern("yyyyMMddHHmmss").parseDateTime(dateString);
-            csvArrayDates[position] = Helper.getDateFormat().print(date) + " " +
-                    Helper.getTimeFormat().print(date);
+            try {
+                String dateString = csvArray[position].getName().substring(fileName.lastIndexOf("_") + 1, fileName.lastIndexOf("."));
+                DateTime date = DateTimeFormat.forPattern("yyyyMMddHHmmss").parseDateTime(dateString);
+                csvArrayDates[position] = Helper.getDateFormat().print(date) + " " +
+                        Helper.getTimeFormat().print(date);
+            } catch (IllegalArgumentException e) {
+                Log.e(TAG, e.getMessage());
+            }
         }
 
         builder.setTitle(R.string.backup_title)
@@ -70,7 +76,7 @@ public class ImportPreference extends DialogPreference implements IFileListener 
     }
 
     private List<File> getBackupFiles() {
-        File path = FileUtils.getStorageDirectory();
+        File path = FileUtils.getPrivateDirectory();
         File[] files = path.listFiles();
         List<File> csvFiles = new ArrayList<>();
         for (File file : files) {
@@ -84,7 +90,7 @@ public class ImportPreference extends DialogPreference implements IFileListener 
 
     private void importBackup(File file) {
         showProgressDialog();
-        Export.importCsv(this, new File(FileUtils.getStorageDirectory() + file.getName()));
+        Export.importCsv(this, new File(FileUtils.getPublicDirectory() + file.getName()));
     }
 
     private void showProgressDialog() {

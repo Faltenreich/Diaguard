@@ -14,8 +14,8 @@
     <string name="alarm_desc_first">Schon dran gedacht?</string>
     <string name="average">Durchschnitt</string>
     <string name="back">Zurück</string>
-    <string name="backup">Sicherung</string>
-    <string name="backup_title">Sicherung wählen</string>
+    <string name="backup">Backup anlegen</string>
+    <string name="backup_title">Backup wählen</string>
     <string name="bloodsugar">Blutzucker</string>
     <string name="bolus">Bolus</string>
     <string name="bolus_no1">Es wird empfohlen, keinen Bolus zu verabreichen.</string>
@@ -60,7 +60,7 @@
     <string name="homepage">Website</string>
     <string name="hyper">Hyper</string>
     <string name="hypo">Hypo</string>
-    <string name="import_">Import</string>
+    <string name="import_">Backup wiederherstellen</string>
     <string name="impress">Impressum</string>
     <string name="insulin">Insulin</string>
     <string name="interval">Intervall</string>
@@ -232,7 +232,7 @@
     <string name="error_no_mail">Keine App zum Senden von E-Mails gefunden</string>
     <string name="error_no_app">Keine App zum Öffnen der Datei gefunden</string>
     <string name="error_sd_card">Speicherkarte nicht verfügbar</string>
-    <string name="error_no_backups">Keine Sicherungen gefunden unter</string>
+    <string name="error_no_backups">Keine Backups gefunden unter</string>
 
     <!-- SETTINGS -->
     <string name="pref_therapy_targets">Zielwerte</string>
@@ -249,12 +249,8 @@
     <string name="pref_data_export_info">Jeder Export wird lokal auf der Speicherkarte abgelegt und kann zusätzlich via E-Mail versendet werden.</string>
     <string name="pref_data_export_mail_message">Meine Daten im Anhang gesendet via Diaguard</string>
 
-    <string name="pref_data_backup_finished">Sicherung wird angelegt &#8230;</string>
-    <string-array name="backup_actions">
-        <item>Sicherung anlegen</item>
-        <item>Sicherung wiederherstellen</item>
-    </string-array>
-    <string name="pref_data_backup_import">Sicherung wird eingespielt &#8230;</string>
+    <string name="pref_data_backup_finished">Backup wird angelegt &#8230;</string>
+    <string name="pref_data_backup_import">Backup wird eingespielt &#8230;</string>
 
     <!-- ABOUT -->
     <string name="about_dev">Entwickler</string>

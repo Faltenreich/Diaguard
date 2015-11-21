@@ -24,7 +24,7 @@ public class FileUtils {
     public static final String PATH_EXTERNAL_PARENT = Environment.getExternalStorageDirectory().getParent();
     public static final String PATH_STORAGE = File.separator + "Diaguard";
 
-    public static File getDeprecatedStorageDirectory() {
+    public static File getPrivateDirectory() {
         File directory = new File(PATH_EXTERNAL);
         if (!directory.exists()) {
             directory = new File(PATH_EXTERNAL_PARENT);
@@ -34,17 +34,12 @@ public class FileUtils {
         return directory;
     }
 
-    public static File getAppDirectory() {
-        return getStorageDirectory();
-    }
-
-    public static File getStorageDirectory() {
+    public static File getPublicDirectory() {
         String path = android.os.Build.VERSION.SDK_INT >= 19 ?
                 Environment.DIRECTORY_DOCUMENTS :
                 Environment.DIRECTORY_DOWNLOADS;
         File directory = Environment.getExternalStoragePublicDirectory(path);
-        directory.mkdir();
+        directory.mkdirs();
         return directory;
     }
-
 }

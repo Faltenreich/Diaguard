@@ -19,6 +19,14 @@ import java.io.File;
  */
 public class Export {
 
+    public static final String FILE_BACKUP_1_1_PREFIX = "backup";
+    public static final String FILE_BACKUP_1_1_DATE_FORMAT = "yyyyMMddHHmmss";
+    public static final String FILE_BACKUP_1_1_REGEX = "backup[0-9]{8}";
+
+    public static final String FILE_BACKUP_1_3_PREFIX = "diaguard_backup_";
+    public static final String FILE_BACKUP_1_3_DATE_FORMAT = "yyyyMMddHHmmss";
+    public static final String FILE_BACKUP_1_3_REGEX = "diaguard_backup_[0-9]{8}";
+
     public enum FileType {
         CSV,
         PDF;
@@ -76,7 +84,7 @@ public class Export {
 
     public static File getExportFile(FileType fileType) {
         String fileName = String.format("%s%s%s_%s.%s",
-                FileUtils.getStorageDirectory(),
+                FileUtils.getPublicDirectory(),
                 File.separator,
                 DiaguardApplication.getContext().getString(R.string.app_name),
                 DateTimeFormat.forPattern("yyyy-MM-dd_HH-mm").print(DateTime.now()),
@@ -85,10 +93,11 @@ public class Export {
     }
 
     public static File getBackupFile(FileType fileType) {
-        String fileName = String.format("%s%sbackup_%s.%s",
-                FileUtils.getStorageDirectory(),
+        String fileName = String.format("%s%s%s%s.%s",
+                FileUtils.getPublicDirectory(),
                 File.separator,
-                DateTimeFormat.forPattern("yyyyMMddHHmmss").print(DateTime.now()),
+                FILE_BACKUP_1_3_PREFIX,
+                DateTimeFormat.forPattern(FILE_BACKUP_1_3_DATE_FORMAT).print(DateTime.now()),
                 fileType.getExtension());
         return new File(fileName);
     }

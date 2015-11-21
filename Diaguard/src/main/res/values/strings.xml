@@ -25,6 +25,7 @@
     <string name="average">Average</string>
     <string name="back">Back</string>
     <string name="backup">Backup</string>
+    <string name="backup_import">Backup is being restored &#8230;</string>
     <string name="backup_title">Choose backup</string>
     <string name="basal">Basal</string>
     <string name="bloodsugar">Blood Sugar</string>
@@ -377,13 +378,6 @@
     <string name="pref_data_cleanup_confirm_title">Delete entries?</string>
     <string name="pref_data_cleanup_confirm_message">entries would be affected</string>
     <string name="pref_data_cleanup_return">entries have been deleted</string>
-
-    <string name="pref_data_backup_finished">Backup will be created &#8230;</string>
-    <string-array name="backup_actions">
-        <item>Create backup</item>
-        <item>Restore backup</item>
-    </string-array>
-    <string name="pref_data_backup_import">Backup is being restored &#8230;</string>
 
     <string name="pref_data_export_info">Every export will be stored locally on the SD card and can be sent via E-Mail, too.</string>
     <string name="pref_data_export_mail_message">My data as attachment sent from Diaguard</string>

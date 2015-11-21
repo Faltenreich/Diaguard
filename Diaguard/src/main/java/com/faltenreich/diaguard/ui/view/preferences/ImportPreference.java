@@ -42,8 +42,8 @@ public class ImportPreference extends DialogPreference implements IFileListener 
 
     @Override
     protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
-        List<File> csvFiles = getBackupFiles();
-        if(csvFiles.size() <= 0) {
+        final List<File> backupFiles = Export.getBackupFiles();
+        if(backupFiles.size() <= 0) {
             String errorMessage = String.format("%s %s",
                     getContext().getString(R.string.error_no_backups),
                     FileUtils.getPublicDirectory());
@@ -51,41 +51,30 @@ public class ImportPreference extends DialogPreference implements IFileListener 
             return;
         }
 
-        final File[] csvArray = csvFiles.toArray(new File[csvFiles.size()]);
-        final String[] csvArrayDates = new String[csvArray.length];
-        for(int position = 0; position < csvArray.length; position++) {
-            String fileName = csvArray[position].getName();
+        final List<String> dateList = new ArrayList<>();
+        for(File file : backupFiles) {
             try {
-                String dateString = csvArray[position].getName().substring(fileName.lastIndexOf("_") + 1, fileName.lastIndexOf("."));
-                DateTime date = DateTimeFormat.forPattern("yyyyMMddHHmmss").parseDateTime(dateString);
-                csvArrayDates[position] = Helper.getDateFormat().print(date) + " " +
-                        Helper.getTimeFormat().print(date);
+                DateTime date = Export.getBackupDate(file);
+                if (date != null) {
+                    String dateString = String.format("%s %s",
+                            Helper.getDateFormat().print(date),
+                            Helper.getTimeFormat().print(date));
+                    dateList.add(dateString);
+                }
             } catch (IllegalArgumentException e) {
                 Log.e(TAG, e.getMessage());
             }
         }
 
+        String[] csvArrayDates = dateList.toArray(new String[dateList.size()]);
         builder.setTitle(R.string.backup_title)
                 .setItems(csvArrayDates, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        importBackup(csvArray[which]);
+                        importBackup(backupFiles.get(which));
                     }
                 });
         AlertDialog dialog = builder.create();
         dialog.setCanceledOnTouchOutside(true);
-    }
-
-    private List<File> getBackupFiles() {
-        File path = FileUtils.getPrivateDirectory();
-        File[] files = path.listFiles();
-        List<File> csvFiles = new ArrayList<>();
-        for (File file : files) {
-            String fileName = file.getName();
-            String extension = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
-            if(extension.equals(Export.FileType.CSV.getExtension()))
-                csvFiles.add(0, file);
-        }
-        return csvFiles;
     }
 
     private void importBackup(File file) {
@@ -94,7 +83,7 @@ public class ImportPreference extends DialogPreference implements IFileListener 
     }
 
     private void showProgressDialog() {
-        progressDialog.setMessage(getContext().getString(R.string.export_progress));
+        progressDialog.setMessage(getContext().getString(R.string.backup_import));
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
         progressDialog.show();

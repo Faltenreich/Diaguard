@@ -13,6 +13,7 @@
     <string name="average">Promedio</string>
     <string name="back">Volver</string>
     <string name="backup">Copia de seguridad</string>
+    <string name="backup_import"> La copia de seguridad se registrará  &#8230;</string>
     <string name="backup_title">Seleccionar copia de seguridad</string>
     <string name="bloodsugar">Glicemia</string>
     <string name="bolus">Bolo</string>
@@ -220,14 +221,8 @@
     <string name="pref_data_cleanup_return">Las entradas se han eliminado</string>
 
     <string name="pref_data_backup_finished"> Se creará la copia de seguridad  &#8230;</string>
-    <string name="pref_data_backup_import"> La copia de seguridad se registrará  &#8230;</string>
     <string name="pref_data_export_info"> Cada exportación se almacena localmente en la tarjeta de memoria y también se pueden enviar por correo electrónico.</string>
     <string name="pref_data_export_mail_message">Mis datos adjuntos serán enviados a través de Diaguard</string>
-
-    <string-array name="backup_actions">
-        <item>Crear una copia de seguridad </item>
-        <item>Restaurar copia de seguridad</item>
-    </string-array>
 
     <!-- ABOUT -->
     <string name="about_dev">Revelador</string>

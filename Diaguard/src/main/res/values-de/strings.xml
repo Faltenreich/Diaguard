@@ -15,6 +15,7 @@
     <string name="average">Durchschnitt</string>
     <string name="back">Zurück</string>
     <string name="backup">Backup anlegen</string>
+    <string name="backup_import">Backup wird eingespielt &#8230;</string>
     <string name="backup_title">Backup wählen</string>
     <string name="bloodsugar">Blutzucker</string>
     <string name="bolus">Bolus</string>
@@ -248,9 +249,6 @@
     <string name="pref_data_cleanup_return">Einträge wurden gelöscht</string>
     <string name="pref_data_export_info">Jeder Export wird lokal auf der Speicherkarte abgelegt und kann zusätzlich via E-Mail versendet werden.</string>
     <string name="pref_data_export_mail_message">Meine Daten im Anhang gesendet via Diaguard</string>
-
-    <string name="pref_data_backup_finished">Backup wird angelegt &#8230;</string>
-    <string name="pref_data_backup_import">Backup wird eingespielt &#8230;</string>
 
     <!-- ABOUT -->
     <string name="about_dev">Entwickler</string>

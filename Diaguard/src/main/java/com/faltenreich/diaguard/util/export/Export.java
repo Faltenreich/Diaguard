@@ -13,19 +13,22 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Faltenreich on 21.10.2015.
  */
 public class Export {
 
-    public static final String FILE_BACKUP_1_1_PREFIX = "backup";
+    public static final String FILE_BACKUP_1_1_PREFIX = "backup_";
     public static final String FILE_BACKUP_1_1_DATE_FORMAT = "yyyyMMddHHmmss";
-    public static final String FILE_BACKUP_1_1_REGEX = "backup[0-9]{8}";
+    public static final String FILE_BACKUP_1_1_REGEX = "backup_[0-9]{14}.csv";
 
     public static final String FILE_BACKUP_1_3_PREFIX = "diaguard_backup_";
     public static final String FILE_BACKUP_1_3_DATE_FORMAT = "yyyyMMddHHmmss";
-    public static final String FILE_BACKUP_1_3_REGEX = "diaguard_backup_[0-9]{8}";
+    public static final String FILE_BACKUP_1_3_REGEX = "diaguard_backup_[0-9]{14}.csv";
 
     public enum FileType {
         CSV,
@@ -72,7 +75,7 @@ public class Export {
         csvExport.execute();
     }
 
-    public static void importCsv(@NonNull IFileListener listener, @NonNull File file) {
+    public static void importCsv(IFileListener listener, File file) {
         CsvImport csvImport = new CsvImport(file);
         csvImport.setListener(listener);
         csvImport.execute();
@@ -100,5 +103,47 @@ public class Export {
                 DateTimeFormat.forPattern(FILE_BACKUP_1_3_DATE_FORMAT).print(DateTime.now()),
                 fileType.getExtension());
         return new File(fileName);
+    }
+
+    public static DateTime getBackupDate(File file) {
+        String fileName = file.getName();
+        if (fileName.matches(String.format(".*%s", FILE_BACKUP_1_1_REGEX))) {
+            String dateString = getBackupDateString(fileName, FILE_BACKUP_1_1_PREFIX);
+            return DateTimeFormat.forPattern(FILE_BACKUP_1_1_DATE_FORMAT).parseDateTime(dateString);
+        } else if (fileName.matches(String.format(".*%s", FILE_BACKUP_1_3_REGEX))) {
+            String dateString = getBackupDateString(fileName, FILE_BACKUP_1_3_PREFIX);
+            return DateTimeFormat.forPattern(FILE_BACKUP_1_3_DATE_FORMAT).parseDateTime(dateString);
+        } else {
+            return null;
+        }
+    }
+
+    private static String getBackupDateString(String fileName, String prefix) {
+        int start = fileName.lastIndexOf(prefix) + prefix.length();
+        int end = fileName.lastIndexOf(FileUtils.POINT);
+        return fileName.substring(start, end);
+    }
+
+    public static List<File> getBackupFiles() {
+        List<File> files = new ArrayList<>();
+
+        File[] privateFiles = FileUtils.getPrivateDirectory().listFiles();
+        File[] publicFiles = FileUtils.getPublicDirectory().listFiles();
+
+        files.addAll(new ArrayList<>(Arrays.asList(privateFiles)));
+        files.addAll(new ArrayList<>(Arrays.asList(publicFiles)));
+
+        List<File> csvFiles = new ArrayList<>();
+        for (File file : files) {
+            if (isBackupFile(file)) {
+                csvFiles.add(0, file);
+            }
+        }
+        return csvFiles;
+    }
+
+    private static boolean isBackupFile(File file) {
+        return file.getName().matches(String.format(".*%s", FILE_BACKUP_1_1_REGEX)) ||
+                file.getName().matches(String.format(".*%s", FILE_BACKUP_1_3_REGEX));
     }
 }

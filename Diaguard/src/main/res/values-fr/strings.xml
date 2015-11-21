@@ -13,6 +13,7 @@
     <string name="average">Moyenne</string>
     <string name="back">Arrière</string>
     <string name="backup">Sauvegarde</string>
+    <string name="backup_import">Sauvegarde est charger &#8230;</string>
     <string name="backup_title">Sélectionnez sauvegarde</string>
     <string name="bloodsugar">Glycémie</string>
     <string name="bolus">Bol</string>
@@ -225,13 +226,6 @@
     <string name="pref_data_cleanup_return">entrées ont été supprimés</string>
     <string name="pref_data_export_info">Chaque exportation est enrégistrée localement sur la carte mémoire. En plus, elle peut être envoyée par mail.</string>
     <string name="pref_data_export_mail_message">Mes données attachées ont été envoyées par Diaguard</string>
-
-    <string name="pref_data_backup_finished">Sauvegarde est créé &#8230;</string>
-    <string-array name="backup_actions">
-        <item>Créer sauvegarde</item>
-        <item>Restaurer sauvegarde</item>
-    </string-array>
-    <string name="pref_data_backup_import">Sauvegarde est charger &#8230;</string>
 
     <!-- ABOUT -->
     <string name="about_dev">Développeur</string>

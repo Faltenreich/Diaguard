@@ -52,7 +52,7 @@ public class CsvImport<T extends Measurement> extends AsyncTask<Void, Void, Void
                     Entry entry = new Entry();
                     entry.setDate(Export.dateTimeFromCsv(nextLine[1]));
                     entry.setNote(nextLine[2]);
-                    long entryId = EntryDao.getInstance().createOrUpdate(entry);
+                    EntryDao.getInstance().createOrUpdate(entry);
                     try {
                         Measurement.Category category = Measurement.Category.valueOf(nextLine[3]);
                         T measurement = (T) category.toClass().newInstance();

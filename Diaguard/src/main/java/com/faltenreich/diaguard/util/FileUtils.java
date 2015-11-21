@@ -24,6 +24,8 @@ public class FileUtils {
     public static final String PATH_EXTERNAL_PARENT = Environment.getExternalStorageDirectory().getParent();
     public static final String PATH_STORAGE = File.separator + "Diaguard";
 
+    public static final char POINT = '.';
+
     public static File getPrivateDirectory() {
         File directory = new File(PATH_EXTERNAL);
         if (!directory.exists()) {

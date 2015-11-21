@@ -26,9 +26,6 @@ import java.util.List;
  */
 public class BackupPreference extends DialogPreference implements IFileListener {
 
-    private final int ACTION_CREATEBACKUP = 0;
-    private final int ACTION_RESTOREBACKUP = 1;
-
     private ProgressDialog progressDialog;
 
     public BackupPreference(Context context, AttributeSet attrs) {
@@ -43,28 +40,10 @@ public class BackupPreference extends DialogPreference implements IFileListener 
 
     @Override
     protected void onPrepareDialogBuilder(android.app.AlertDialog.Builder builder) {
-        builder.setTitle(getContext().getString(R.string.backup))
-                .setItems(R.array.backup_actions, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case ACTION_CREATEBACKUP:
-                                createBackup();
-                                String path = FileUtils.PATH_EXTERNAL + "/backup" +
-                                        DateTimeFormat.forPattern("yyyyMMddHHmmss").print(new DateTime()) + ".csv";
-                                // TODO ViewHelper.showSnackbar(activity, activity.getResources().getString(R.string.pref_data_backup_finished) + ": " + path);
-                                break;
-                            case ACTION_RESTOREBACKUP:
-                                dialog.dismiss();
-                                showBackups();
-                                break;
-                            default:
-                                dialog.dismiss();
-                                break;
-                        }
-                    }
-                });
-        AlertDialog dialog = builder.create();
-        dialog.setCanceledOnTouchOutside(true);
+        createBackup();
+        String path = FileUtils.PATH_EXTERNAL + "/backup" +
+                DateTimeFormat.forPattern("yyyyMMddHHmmss").print(new DateTime()) + ".csv";
+        // TODO ViewHelper.showSnackbar(activity, activity.getResources().getString(R.string.pref_data_backup_finished) + ": " + path);
     }
 
     private void showBackups() {

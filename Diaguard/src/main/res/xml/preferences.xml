@@ -33,13 +33,13 @@
     <PreferenceCategory
         android:title="@string/data">
 
-        <com.faltenreich.diaguard.ui.view.preferences.CleanUpPreference
-            android:key="cleanup"
-            android:title="@string/cleanup"/>
-
         <com.faltenreich.diaguard.ui.view.preferences.BackupPreference
             android:key="backup"
             android:title="@string/backup"/>
+
+        <com.faltenreich.diaguard.ui.view.preferences.ImportPreference
+            android:key="import"
+            android:title="@string/import_"/>
 
     </PreferenceCategory>
 

@@ -40,6 +40,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public static final int DATABASE_VERSION_1_1 = 18;
     public static final int DATABASE_VERSION_1_3 = 19;
 
+    private static final String TYPE_REAL = "REAL";
+
     public static final Class[] tables = new Class[] {
             Entry.class,
             BloodSugar.class,
@@ -92,8 +94,21 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     private <M extends Measurement> void upgradeToVersion19(SQLiteDatabase sqliteDatabase) {
-        String query = "SELECT * FROM " + DatabaseHelper.MEASUREMENT;
-        Cursor cursor = sqliteDatabase.rawQuery(query, null);
+
+        // Entry
+        sqliteDatabase.rawQuery(String.format("ALTER TABLE %s ADD COLUMN %s {%s}", ENTRY, Entry.Column.CREATED_AT, TYPE_REAL), null);
+        sqliteDatabase.rawQuery(String.format("ALTER TABLE %s ADD COLUMN %s {%s}", ENTRY, Entry.Column.UPDATED_AT, TYPE_REAL), null);
+        Cursor cursor = sqliteDatabase.rawQuery("SELECT * FROM " + DatabaseHelper.ENTRY, null);
+        if (cursor.moveToFirst()) {
+            while(!cursor.isAfterLast()) {
+                // TODO: Parse date TEXT to REAL
+                cursor.moveToNext();
+            }
+        }
+        cursor.close();
+
+        // Measurement
+        cursor = sqliteDatabase.rawQuery("SELECT * FROM " + DatabaseHelper.MEASUREMENT, null);
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
                 try {
@@ -104,7 +119,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                     values[0] = value;
                     measurement.setValues(values);
 
-                    Entry entry = EntryDao.getInstance().get(Integer.parseInt(cursor.getString(3)));
+                    Entry entry = new Entry();
                     measurement.setEntry(entry);
 
                     MeasurementDao.getInstance(category.toClass()).createOrUpdate(measurement);
@@ -114,6 +129,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                 cursor.moveToNext();
             }
         }
+        cursor.close();
+
         sqliteDatabase.execSQL("DROP TABLE IF EXISTS " + MEASUREMENT + ";");
         sqliteDatabase.execSQL("DROP TABLE IF EXISTS " + FOOD + ";");
         sqliteDatabase.execSQL("DROP TABLE IF EXISTS " + FOOD_EATEN + ";");
@@ -160,6 +177,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public static final String CATEGORY = "category";
     public static final String MEASUREMENT_ID = "measurementId";
     public static final String FOOD_EATEN = "food_eaten";
+
+    private static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     private void onCreateVersion17(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " +

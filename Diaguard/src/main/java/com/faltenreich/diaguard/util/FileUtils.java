@@ -34,6 +34,10 @@ public class FileUtils {
         return directory;
     }
 
+    public static File getAppDirectory() {
+        return getStorageDirectory();
+    }
+
     public static File getStorageDirectory() {
         String path = android.os.Build.VERSION.SDK_INT >= 19 ?
                 Environment.DIRECTORY_DOCUMENTS :

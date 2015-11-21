@@ -60,6 +60,7 @@
     <string name="homepage">Website</string>
     <string name="hyper">Hyper</string>
     <string name="hypo">Hypo</string>
+    <string name="import_">Import</string>
     <string name="impress">Impressum</string>
     <string name="insulin">Insulin</string>
     <string name="interval">Intervall</string>

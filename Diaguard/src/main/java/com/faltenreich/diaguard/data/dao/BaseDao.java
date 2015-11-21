@@ -67,8 +67,11 @@ public abstract class BaseDao <T extends BaseEntity> {
         try {
             DateTime now = DateTime.now();
             if (object.getId() > 0) {
+                object.setUpdatedAt(now);
                 getDao().update(object);
             } else {
+                object.setCreatedAt(now);
+                object.setUpdatedAt(now);
                 getDao().create(object);
             }
             return object.getId();

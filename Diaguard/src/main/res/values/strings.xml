@@ -25,6 +25,7 @@
     <string name="average">Average</string>
     <string name="back">Back</string>
     <string name="backup">Backup</string>
+    <string name="backup_complete">Backup complete</string>
     <string name="backup_import">Backup is being restored &#8230;</string>
     <string name="backup_title">Choose backup</string>
     <string name="basal">Basal</string>

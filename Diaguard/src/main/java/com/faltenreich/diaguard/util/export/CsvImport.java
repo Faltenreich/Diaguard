@@ -21,11 +21,13 @@ import org.joda.time.format.DateTimeFormat;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Faltenreich on 21.10.2015.
  */
-public class CsvImport<T extends Measurement> extends AsyncTask<Void, Void, Void> {
+public class CsvImport extends AsyncTask<Void, Void, Void> {
 
     private static final String TAG = CsvImport.class.getSimpleName();
 
@@ -55,7 +57,7 @@ public class CsvImport<T extends Measurement> extends AsyncTask<Void, Void, Void
                     EntryDao.getInstance().createOrUpdate(entry);
                     try {
                         Measurement.Category category = Measurement.Category.valueOf(nextLine[3]);
-                        T measurement = (T) category.toClass().newInstance();
+                        Measurement measurement = (Measurement) category.toClass().newInstance();
                         measurement.setValues(new float[]{Float.parseFloat(nextLine[0])});
                         measurement.setEntry(entry);
                         MeasurementDao.getInstance(category.toClass()).createOrUpdate(measurement);
@@ -82,8 +84,8 @@ public class CsvImport<T extends Measurement> extends AsyncTask<Void, Void, Void
                             parentId = EntryDao.getInstance().createOrUpdate(entry);
                         } else if (key.equals(DatabaseHelper.MEASUREMENT) && parentId != -1) {
                             try {
-                                Measurement.Category category = Measurement.Category.valueOf(nextLine[2]);
-                                T measurement = (T) category.toClass().newInstance();
+                                Measurement.Category category = Helper.valueOf(Measurement.Category.class, nextLine[2]);
+                                Measurement measurement = (Measurement) category.toClass().newInstance();
                                 measurement.setValues(new float[]{Float.parseFloat(nextLine[1])});
                                 measurement.setEntry(EntryDao.getInstance().get(parentId));
                                 MeasurementDao.getInstance(category.toClass()).createOrUpdate(measurement);
@@ -95,11 +97,46 @@ public class CsvImport<T extends Measurement> extends AsyncTask<Void, Void, Void
                         }
                     }
                 } else if (databaseVersion == DatabaseHelper.DATABASE_VERSION_1_3) {
-                    // TODO
+                    long parentId = -1;
+                    while ((nextLine = reader.readNext()) != null) {
+                        String key = nextLine[0];
+                        if (key.equals(DatabaseHelper.ENTRY)) {
+                            Entry entry = new Entry();
+                            entry.setDate(Export.dateTimeFromCsv(nextLine[1]));
+                            entry.setNote(nextLine[2]);
+                            parentId = EntryDao.getInstance().createOrUpdate(entry);
+                        } else if (key.equals(DatabaseHelper.MEASUREMENT) && parentId != -1) {
+                            try {
+                                Measurement.Category category = Helper.valueOf(Measurement.Category.class, nextLine[1]);
+                                Measurement measurement = (Measurement) category.toClass().newInstance();
+
+                                List<Float> valueList = new ArrayList<>();
+                                for (int position = 2; position < nextLine.length; position++) {
+                                    String valueString = nextLine[position];
+                                    try {
+                                        valueList.add(Float.parseFloat(valueString));
+                                    } catch (NumberFormatException e) {
+                                        Log.e(TAG, e.getMessage());
+                                    }
+                                }
+                                float[] values = new float[valueList.size()];
+                                for (int position = 0; position < valueList.size(); position++) {
+                                    values[position] = valueList.get(position);
+                                }
+                                measurement.setValues(values);
+
+                                measurement.setEntry(EntryDao.getInstance().get(parentId));
+                                MeasurementDao.getInstance(category.toClass()).createOrUpdate(measurement);
+                            } catch (InstantiationException e) {
+                                Log.e(TAG, e.getMessage());
+                            } catch (IllegalAccessException e) {
+                                Log.e(TAG, e.getMessage());
+                            }
+                        }
+                    }
                 }
             }
             reader.close();
-
         } catch (IOException ex) {
             Log.e(TAG, ex.getMessage());
         }
@@ -109,13 +146,8 @@ public class CsvImport<T extends Measurement> extends AsyncTask<Void, Void, Void
 
     @Override
     protected void onPostExecute(Void result) {
-    }
-
-    @Override
-    protected void onPreExecute() {
-    }
-
-    @Override
-    protected void onProgressUpdate(Void... values) {
+        if (listener != null) {
+            listener.onComplete(file, Export.CSV_MIME_TYPE);
+        }
     }
 }

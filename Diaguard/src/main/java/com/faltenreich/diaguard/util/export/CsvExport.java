@@ -119,11 +119,6 @@ public class CsvExport extends AsyncTask<Void, String, File> {
     }
 
     @Override
-    protected void onPreExecute() {
-
-    }
-
-    @Override
     protected void onProgressUpdate(String... message) {
         if (listener != null) {
             listener.onProgress(message[0]);

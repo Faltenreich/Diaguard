@@ -14,6 +14,7 @@
     <string name="back">Volver</string>
     <string name="backup">Copia de seguridad</string>
     <string name="backup_import"> La copia de seguridad se registrará  &#8230;</string>
+    <string name="backup_complete">Se creará la copia de seguridad</string>
     <string name="backup_title">Seleccionar copia de seguridad</string>
     <string name="bloodsugar">Glicemia</string>
     <string name="bolus">Bolo</string>
@@ -220,7 +221,6 @@
     <string name="pref_data_cleanup_confirm_message">Las entradas se verían afectadas</string>
     <string name="pref_data_cleanup_return">Las entradas se han eliminado</string>
 
-    <string name="pref_data_backup_finished"> Se creará la copia de seguridad  &#8230;</string>
     <string name="pref_data_export_info"> Cada exportación se almacena localmente en la tarjeta de memoria y también se pueden enviar por correo electrónico.</string>
     <string name="pref_data_export_mail_message">Mis datos adjuntos serán enviados a través de Diaguard</string>
 

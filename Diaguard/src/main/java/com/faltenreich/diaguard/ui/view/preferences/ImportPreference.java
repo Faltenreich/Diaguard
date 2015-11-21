@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.util.FileUtils;
@@ -79,7 +80,7 @@ public class ImportPreference extends DialogPreference implements IFileListener 
 
     private void importBackup(File file) {
         showProgressDialog();
-        Export.importCsv(this, new File(FileUtils.getPublicDirectory() + file.getName()));
+        Export.importCsv(this, file);
     }
 
     private void showProgressDialog() {
@@ -97,6 +98,6 @@ public class ImportPreference extends DialogPreference implements IFileListener 
     @Override
     public void onComplete(File file, String mimeType) {
         progressDialog.dismiss();
-        // TODO: User feedback
+        Toast.makeText(getContext(), getContext().getString(R.string.backup_complete), Toast.LENGTH_SHORT).show();
     }
 }

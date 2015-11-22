@@ -78,7 +78,7 @@ public class CsvExport extends AsyncTask<Void, String, File> {
                 List<String> entryValues = new ArrayList<>();
                 if (isBackup) {
                     entryValues.add(Entry.class.getSimpleName().toLowerCase());
-                    entryValues.add(Helper.getDateTimeFormatExport().print(entry.getDate()));
+                    entryValues.add(DateTimeFormat.forPattern(Export.BACKUP_DATE_FORMAT).print(entry.getDate()));
                 } else {
                     entryValues.add(String.format("%s %s",
                             Helper.getDateFormat().print(entry.getDate()),

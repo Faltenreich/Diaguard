@@ -29,7 +29,6 @@ import java.text.DecimalFormatSymbols;
  */
 public class Helper {
 
-    private static final String FORMAT_DATE_TIME_EXPORT = "yyyy-MM-dd HH:mm";
     private static final String FORMAT_TIME = "HH:mm";
 
     @Deprecated
@@ -39,10 +38,6 @@ public class Helper {
         symbols.setDecimalSeparator('.');
         decimalFormat.setDecimalFormatSymbols(symbols);
         return decimalFormat;
-    }
-
-    public static DateTimeFormatter getDateTimeFormatExport() {
-        return DateTimeFormat.forPattern(FORMAT_DATE_TIME_EXPORT);
     }
 
     public static DateTimeFormatter getDateFormat() {

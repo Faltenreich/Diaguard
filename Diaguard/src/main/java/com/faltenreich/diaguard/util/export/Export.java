@@ -83,10 +83,6 @@ public class Export {
         csvImport.execute();
     }
 
-    public static DateTime dateTimeFromCsv(String dateString) {
-        return Helper.getDateTimeFormatExport().parseDateTime(dateString);
-    }
-
     public static File getExportFile(FileType fileType) {
         String fileName = String.format("%s%s%s_%s.%s",
                 FileUtils.getPublicDirectory(),

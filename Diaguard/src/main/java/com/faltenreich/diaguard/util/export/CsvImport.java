@@ -109,8 +109,7 @@ public class CsvImport extends AsyncTask<Void, Void, Void> {
                             entry = EntryDao.getInstance().createOrUpdate(entry);
                         } else if (key.equalsIgnoreCase(Measurement.class.getSimpleName()) && entry != null) {
                             try {
-                                Measurement.CategoryDeprecated categoryDeprecated = Helper.valueOf(Measurement.CategoryDeprecated.class, nextLine[1]);
-                                Measurement.Category category = categoryDeprecated.toUpdate();
+                                Measurement.Category category = Helper.valueOf(Measurement.Category.class, nextLine[1]);
                                 Measurement measurement = (Measurement) category.toClass().newInstance();
 
                                 List<Float> valueList = new ArrayList<>();

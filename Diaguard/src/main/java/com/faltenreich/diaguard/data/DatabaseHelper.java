@@ -109,6 +109,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         if (cursor.moveToFirst()) {
             while(!cursor.isAfterLast()) {
                 Entry entry = new Entry();
+                entry.setId(Long.parseLong(cursor.getString(0)));
                 entry.setDate(DateTimeFormat.forPattern(DATE_TIME_FORMAT_1_1).parseDateTime(cursor.getString(1)));
                 entry.setNote(cursor.getString(2));
                 entries.add(entry);
@@ -116,6 +117,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             }
         }
         cursor.close();
+        Log.i(TAG, String.format("Got %d entries", entries.size()));
 
         HashMap<Entry, List<M>> entities = new HashMap<>();
         for (Entry entry : entries) {
@@ -141,14 +143,17 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             }
             entities.put(entry, measurements);
             cursor.close();
+            Log.i(TAG, String.format("Got %d measurements", measurements.size()));
         }
 
         sqliteDatabase.execSQL("DROP TABLE IF EXISTS " + ENTRY);
         sqliteDatabase.execSQL("DROP TABLE IF EXISTS " + MEASUREMENT);
         sqliteDatabase.execSQL("DROP TABLE IF EXISTS " + FOOD);
         sqliteDatabase.execSQL("DROP TABLE IF EXISTS " + FOOD_EATEN);
+        Log.i(TAG, "Cleared database %d measurements");
 
         onCreate(sqliteDatabase, connectionSource);
+        Log.i(TAG, "Created updated database");
 
         for (Map.Entry<Entry, List<M>> mapEntry : entities.entrySet()) {
             long entryId = EntryDao.getInstance().createOrUpdate(mapEntry.getKey());
@@ -158,6 +163,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                 MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
             }
         }
+
+        Log.i(TAG, "Finished upgrade to version 19");
     }
 
     // region Deprecated

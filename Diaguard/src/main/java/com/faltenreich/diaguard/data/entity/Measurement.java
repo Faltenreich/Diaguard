@@ -15,6 +15,37 @@ public abstract class Measurement extends BaseEntity {
         public static final String ENTRY = "entry";
     }
 
+    public enum CategoryDeprecated {
+        BLOODSUGAR,
+        BOLUS,
+        MEAL,
+        ACTIVITY,
+        HBA1C,
+        WEIGHT,
+        PULSE;
+
+        public Category toUpdate() {
+            switch (this) {
+                case BLOODSUGAR:
+                    return Category.BLOODSUGAR;
+                case BOLUS:
+                    return Category.INSULIN;
+                case MEAL:
+                    return Category.MEAL;
+                case ACTIVITY:
+                    return Category.ACTIVITY;
+                case HBA1C:
+                    return Category.HBA1C;
+                case WEIGHT:
+                    return Category.WEIGHT;
+                case PULSE:
+                    return Category.PULSE;
+                default:
+                    return null;
+            }
+        }
+    }
+
     public enum Category {
         BLOODSUGAR,
         INSULIN,

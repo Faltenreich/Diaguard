@@ -22,6 +22,8 @@ import java.util.List;
  */
 public class Export {
 
+    public static final String BACKUP_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
     public static final String FILE_BACKUP_1_1_PREFIX = "backup";
     public static final String FILE_BACKUP_1_1_DATE_FORMAT = "yyyyMMddHHmmss";
     public static final String FILE_BACKUP_1_1_REGEX = "backup[0-9]{14}.csv";

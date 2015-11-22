@@ -52,11 +52,12 @@ public class CsvImport extends AsyncTask<Void, Void, Void> {
             if (!nextLine[0].equals(Export.CSV_KEY_META)) {
                 while (nextLine != null) {
                     Entry entry = new Entry();
-                    entry.setDate(Export.dateTimeFromCsv(nextLine[1]));
+                    entry.setDate(DateTimeFormat.forPattern(Export.BACKUP_DATE_FORMAT).parseDateTime(nextLine[1]));
                     entry.setNote(nextLine[2]);
                     EntryDao.getInstance().createOrUpdate(entry);
                     try {
-                        Measurement.Category category = Measurement.Category.valueOf(nextLine[3]);
+                        Measurement.CategoryDeprecated categoryDeprecated = Helper.valueOf(Measurement.CategoryDeprecated.class, nextLine[2]);
+                        Measurement.Category category = categoryDeprecated.toUpdate();
                         Measurement measurement = (Measurement) category.toClass().newInstance();
                         measurement.setValues(new float[]{Float.parseFloat(nextLine[0])});
                         measurement.setEntry(entry);
@@ -79,12 +80,13 @@ public class CsvImport extends AsyncTask<Void, Void, Void> {
                         String key = nextLine[0];
                         if (key.equalsIgnoreCase(Entry.class.getSimpleName())) {
                             Entry entry = new Entry();
-                            entry.setDate(Export.dateTimeFromCsv(nextLine[1]));
+                            entry.setDate(DateTimeFormat.forPattern(Export.BACKUP_DATE_FORMAT).parseDateTime(nextLine[1]));
                             entry.setNote(nextLine[2]);
                             parentId = EntryDao.getInstance().createOrUpdate(entry);
                         } else if (key.equalsIgnoreCase(Measurement.class.getSimpleName()) && parentId != -1) {
                             try {
-                                Measurement.Category category = Helper.valueOf(Measurement.Category.class, nextLine[2]);
+                                Measurement.CategoryDeprecated categoryDeprecated = Helper.valueOf(Measurement.CategoryDeprecated.class, nextLine[2]);
+                                Measurement.Category category = categoryDeprecated.toUpdate();
                                 Measurement measurement = (Measurement) category.toClass().newInstance();
                                 measurement.setValues(new float[]{Float.parseFloat(nextLine[1])});
                                 measurement.setEntry(EntryDao.getInstance().get(parentId));
@@ -102,12 +104,13 @@ public class CsvImport extends AsyncTask<Void, Void, Void> {
                         String key = nextLine[0];
                         if (key.equalsIgnoreCase(Entry.class.getSimpleName())) {
                             Entry entry = new Entry();
-                            entry.setDate(Export.dateTimeFromCsv(nextLine[1]));
+                            entry.setDate(DateTimeFormat.forPattern(Export.BACKUP_DATE_FORMAT).parseDateTime(nextLine[1]));
                             entry.setNote(nextLine[2]);
                             parentId = EntryDao.getInstance().createOrUpdate(entry);
                         } else if (key.equalsIgnoreCase(Measurement.class.getSimpleName()) && parentId != -1) {
                             try {
-                                Measurement.Category category = Helper.valueOf(Measurement.Category.class, nextLine[1]);
+                                Measurement.CategoryDeprecated categoryDeprecated = Helper.valueOf(Measurement.CategoryDeprecated.class, nextLine[1]);
+                                Measurement.Category category = categoryDeprecated.toUpdate();
                                 Measurement measurement = (Measurement) category.toClass().newInstance();
 
                                 List<Float> valueList = new ArrayList<>();

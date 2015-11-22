@@ -53,8 +53,10 @@ public class Activity extends Measurement {
     }
 
     @Override
-    public void setValues(float... values) throws IndexOutOfBoundsException{
-        minutes = (int) values[0];
+    public void setValues(float... values) {
+        if (values.length > 0) {
+            minutes = (int) values[0];
+        }
     }
 
     @Override

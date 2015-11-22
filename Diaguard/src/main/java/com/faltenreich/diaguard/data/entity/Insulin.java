@@ -62,10 +62,16 @@ public class Insulin extends Measurement {
     }
 
     @Override
-    public void setValues(float... values) throws IndexOutOfBoundsException {
-        bolus = values[0];
-        correction = values[1];
-        basal = values[2];
+    public void setValues(float... values) {
+        if (values.length > 0) {
+            bolus = values[0];
+            if (values.length > 1) {
+                correction = values[1];
+                if (values.length > 2) {
+                    basal = values[2];
+                }
+            }
+        }
     }
 
     @Override

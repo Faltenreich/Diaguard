@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_large"
         android:textStyle="bold"
+        android:textColor="@android:color/white"
         style="@style/Padding"/>
 
 </FrameLayout>

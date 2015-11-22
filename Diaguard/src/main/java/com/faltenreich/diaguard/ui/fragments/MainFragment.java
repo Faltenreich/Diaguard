@@ -269,7 +269,7 @@ public class MainFragment extends BaseFragment {
             xLabels.set(xLabels.size() - 1, getString(R.string.today));
 
             ArrayList<LineDataSet> dataSets = new ArrayList<>();
-            LineDataSet dataSet = new LineDataSet(entries, DatabaseHelper.BLOODSUGAR);
+            LineDataSet dataSet = new LineDataSet(entries, BloodSugar.class.getSimpleName());
             int dataSetColor = ContextCompat.getColor(getContext(), R.color.green_light);
             dataSet.setColor(dataSetColor);
             dataSet.setCircleColor(dataSetColor);

@@ -22,16 +22,23 @@ import com.faltenreich.diaguard.data.entity.Weight;
 import com.faltenreich.diaguard.util.Helper;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.DatabaseTableConfig;
 import com.j256.ormlite.table.TableUtils;
 
 import org.joda.time.format.DateTimeFormat;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Filip on 20.10.13.
  */
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
+
+    private static final String TAG = DatabaseHelper.class.getSimpleName();
 
     // Metadata
     private static final String DATABASE_NAME = "diaguard.db";
@@ -39,8 +46,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public static final int DATABASE_VERSION_1_0 = 17;
     public static final int DATABASE_VERSION_1_1 = 18;
     public static final int DATABASE_VERSION_1_3 = 19;
-
-    private static final String TYPE_REAL = "REAL";
 
     public static final Class[] tables = new Class[] {
             Entry.class,
@@ -60,6 +65,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     public static int getVersion() {
         return DATABASE_VERSION_1_3;
+    }
+
+    public static <T extends BaseEntity> String getTableName(Class<T> clazz) {
+        return DatabaseTableConfig.extractTableName(clazz);
     }
 
     @Override
@@ -85,7 +94,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                         upgradeToVersion18(sqLiteDatabase);
                         break;
                     case DATABASE_VERSION_1_1:
-                        upgradeToVersion19(sqLiteDatabase);
+                        upgradeToVersion19(sqLiteDatabase, connectionSource);
                         break;
                 }
                 upgradeFromVersion++;
@@ -93,92 +102,84 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
-    private <M extends Measurement> void upgradeToVersion19(SQLiteDatabase sqliteDatabase) {
+    private <M extends Measurement> void upgradeToVersion19(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource) {
 
-        // Entry
-        sqliteDatabase.rawQuery(String.format("ALTER TABLE %s ADD COLUMN %s {%s}", ENTRY, Entry.Column.CREATED_AT, TYPE_REAL), null);
-        sqliteDatabase.rawQuery(String.format("ALTER TABLE %s ADD COLUMN %s {%s}", ENTRY, Entry.Column.UPDATED_AT, TYPE_REAL), null);
+        List<Entry> entries = new ArrayList<>();
         Cursor cursor = sqliteDatabase.rawQuery("SELECT * FROM " + DatabaseHelper.ENTRY, null);
         if (cursor.moveToFirst()) {
             while(!cursor.isAfterLast()) {
-                // TODO: Parse date TEXT to REAL
+                Entry entry = new Entry();
+                entry.setDate(DateTimeFormat.forPattern(DATE_TIME_FORMAT_1_1).parseDateTime(cursor.getString(1)));
+                entry.setNote(cursor.getString(2));
+                entries.add(entry);
                 cursor.moveToNext();
             }
         }
         cursor.close();
 
-        // Measurement
-        cursor = sqliteDatabase.rawQuery("SELECT * FROM " + DatabaseHelper.MEASUREMENT, null);
-        if (cursor.moveToFirst()) {
-            while (!cursor.isAfterLast()) {
-                try {
-                    Measurement.Category category = Helper.valueOf(Measurement.Category.class, cursor.getString(2));
-                    M measurement = (M) category.toClass().newInstance();
-                    float value = Float.parseFloat(cursor.getString(1));
-                    float[] values = new float[measurement.getValues().length];
-                    values[0] = value;
-                    measurement.setValues(values);
+        HashMap<Entry, List<M>> entities = new HashMap<>();
+        for (Entry entry : entries) {
+            String query = String.format("SELECT * FROM %s WHERE %s = %d", DatabaseHelper.MEASUREMENT, ID, entry.getId());
+            cursor = sqliteDatabase.rawQuery(query, null);
 
-                    Entry entry = new Entry();
-                    measurement.setEntry(entry);
-
-                    MeasurementDao.getInstance(category.toClass()).createOrUpdate(measurement);
-                } catch (Exception e) {
-                    e.printStackTrace();
+            List<M> measurements = new ArrayList<>();
+            if (cursor.moveToFirst()) {
+                while (!cursor.isAfterLast()) {
+                    try {
+                        Measurement.Category category = Helper.valueOf(Measurement.Category.class, cursor.getString(2));
+                        M measurement = (M) category.toClass().newInstance();
+                        float value = Float.parseFloat(cursor.getString(1));
+                        float[] values = new float[measurement.getValues().length];
+                        values[0] = value;
+                        measurement.setValues(values);
+                        measurements.add(measurement);
+                    } catch (Exception e) {
+                        Log.e(TAG, e.getMessage());
+                    }
+                    cursor.moveToNext();
                 }
-                cursor.moveToNext();
+            }
+            entities.put(entry, measurements);
+            cursor.close();
+        }
+
+        sqliteDatabase.execSQL("DROP TABLE IF EXISTS " + ENTRY);
+        sqliteDatabase.execSQL("DROP TABLE IF EXISTS " + MEASUREMENT);
+        sqliteDatabase.execSQL("DROP TABLE IF EXISTS " + FOOD);
+        sqliteDatabase.execSQL("DROP TABLE IF EXISTS " + FOOD_EATEN);
+
+        onCreate(sqliteDatabase, connectionSource);
+
+        for (Map.Entry<Entry, List<M>> mapEntry : entities.entrySet()) {
+            long entryId = EntryDao.getInstance().createOrUpdate(mapEntry.getKey());
+            Entry entry = EntryDao.getInstance().get(entryId);
+            for (Measurement measurement : mapEntry.getValue()) {
+                measurement.setEntry(entry);
+                MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
             }
         }
-        cursor.close();
-
-        sqliteDatabase.execSQL("DROP TABLE IF EXISTS " + MEASUREMENT + ";");
-        sqliteDatabase.execSQL("DROP TABLE IF EXISTS " + FOOD + ";");
-        sqliteDatabase.execSQL("DROP TABLE IF EXISTS " + FOOD_EATEN + ";");
     }
 
     // region Deprecated
 
-    public static final String ID = "_id";
-    public static final String CREATED_AT = "created_at";
-    public static final String UPDATED_AT = "updated_at";
-    public static final String ENTRY = "entry";
-    public static final String DATE = "date";
-    public static final String NOTE = "note";
-    public static final String IS_VISIBLE = "is_visible";
-    public static final String VALUE = "value";
-    public static final String ENTRY_ID = "entry_id";
-    public static final String FOOD = "food";
-    public static final String CARBOHYDRATES = "carbohydrates";
-    public static final String NAME = "name";
-    public static final String IMAGE = "image";
-    public static final String BLOODSUGAR = "bloodsugar";
-    public static final String MGDL = "mgdl";
-    public static final String INSULIN = "insulin";
-    public static final String BOLUS = "insulin";
-    public static final String CORRECTION = "correction";
-    public static final String BASAL = "basal";
-    public static final String MEAL = "meal";
-    public static final String FOOD_ID = "food_id";
-    public static final String ACTIVITY = "activity";
-    public static final String MINUTES = "minutes";
-    public static final String TYPE = "type";
-    public static final String HBA1C = "hba1c";
-    public static final String PERCENT = "percent";
-    public static final String WEIGHT = "weight";
-    public static final String KILOGRAM = "kilogram";
-    public static final String PULSE = "pulse";
-    public static final String FREQUENCY = "frequency";
-    public static final String PRESSURE = "pressure";
-    public static final String SYSTOLIC = "systolic";
-    public static final String DIASTOLIC = "diastolic";
-    public static final String EVENTS = "events";
-    public static final String NOTES = "notes";
-    public static final String MEASUREMENT = "measurement";
-    public static final String CATEGORY = "category";
-    public static final String MEASUREMENT_ID = "measurementId";
-    public static final String FOOD_EATEN = "food_eaten";
+    private static final String DATE_TIME_FORMAT_1_1 = "yyyy-MM-dd HH:mm:ss";
 
-    private static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    private static final String ID = "_id";
+    private static final String ENTRY = "entry";
+    private static final String DATE = "date";
+    private static final String NOTE = "note";
+    private static final String VALUE = "value";
+    private static final String ENTRY_ID = "entry_id";
+    private static final String FOOD = "food";
+    private static final String CARBOHYDRATES = "carbohydrates";
+    private static final String NAME = "name";
+    private static final String FOOD_ID = "food_id";
+    private static final String EVENTS = "events";
+    private static final String NOTES = "notes";
+    private static final String MEASUREMENT = "measurement";
+    private static final String CATEGORY = "category";
+    private static final String MEASUREMENT_ID = "measurementId";
+    private static final String FOOD_EATEN = "food_eaten";
 
     private void onCreateVersion17(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " +
@@ -222,6 +223,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         Cursor cursor = sqliteDatabase.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             while(!cursor.isAfterLast()) {
+
                 // Entry
                 ContentValues values = new ContentValues();
                 values.put(DatabaseHelper.DATE, cursor.getString(2));

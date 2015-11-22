@@ -103,5 +103,5 @@ public abstract class Measurement extends BaseEntity {
     public abstract float[] getValues();
 
     @SuppressWarnings("unchecked")
-    public abstract void setValues(float... values) throws IndexOutOfBoundsException;
+    public abstract void setValues(float... values);
 }

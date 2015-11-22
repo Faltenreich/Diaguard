@@ -51,8 +51,10 @@ public class Pressure extends Measurement {
 
     @Override
     public void setValues(float... values) {
-        systolic = values[0];
-        diastolic = values[1];
+        if (values.length > 1) {
+            systolic = values[0];
+            diastolic = values[1];
+        }
     }
 
     @Override

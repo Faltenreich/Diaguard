@@ -36,8 +36,10 @@ public class HbA1c extends Measurement {
     }
 
     @Override
-    public void setValues(float... values) throws IndexOutOfBoundsException {
-        percent = values[0];
+    public void setValues(float... values) {
+        if (values.length > 0) {
+            percent = values[0];
+        }
     }
 
     @Override

@@ -75,21 +75,21 @@ public class CsvImport extends AsyncTask<Void, Void, Void> {
             else {
                 int databaseVersion = Integer.parseInt(nextLine[1]);
                 if (databaseVersion == DatabaseHelper.DATABASE_VERSION_1_1) {
-                    long parentId = -1;
+                    Entry entry = null;
                     while ((nextLine = reader.readNext()) != null) {
                         String key = nextLine[0];
                         if (key.equalsIgnoreCase(Entry.class.getSimpleName())) {
-                            Entry entry = new Entry();
+                            entry = new Entry();
                             entry.setDate(DateTimeFormat.forPattern(Export.BACKUP_DATE_FORMAT).parseDateTime(nextLine[1]));
                             entry.setNote(nextLine[2]);
-                            parentId = EntryDao.getInstance().createOrUpdate(entry);
-                        } else if (key.equalsIgnoreCase(Measurement.class.getSimpleName()) && parentId != -1) {
+                            entry = EntryDao.getInstance().createOrUpdate(entry);
+                        } else if (key.equalsIgnoreCase(Measurement.class.getSimpleName()) && entry != null) {
                             try {
                                 Measurement.CategoryDeprecated categoryDeprecated = Helper.valueOf(Measurement.CategoryDeprecated.class, nextLine[2]);
                                 Measurement.Category category = categoryDeprecated.toUpdate();
                                 Measurement measurement = (Measurement) category.toClass().newInstance();
                                 measurement.setValues(new float[]{Float.parseFloat(nextLine[1])});
-                                measurement.setEntry(EntryDao.getInstance().get(parentId));
+                                measurement.setEntry(entry);
                                 MeasurementDao.getInstance(category.toClass()).createOrUpdate(measurement);
                             } catch (InstantiationException e) {
                                 Log.e(TAG, e.getMessage());
@@ -99,15 +99,15 @@ public class CsvImport extends AsyncTask<Void, Void, Void> {
                         }
                     }
                 } else if (databaseVersion == DatabaseHelper.DATABASE_VERSION_1_3) {
-                    long parentId = -1;
+                    Entry entry = null;
                     while ((nextLine = reader.readNext()) != null) {
                         String key = nextLine[0];
                         if (key.equalsIgnoreCase(Entry.class.getSimpleName())) {
-                            Entry entry = new Entry();
+                            entry = new Entry();
                             entry.setDate(DateTimeFormat.forPattern(Export.BACKUP_DATE_FORMAT).parseDateTime(nextLine[1]));
                             entry.setNote(nextLine[2]);
-                            parentId = EntryDao.getInstance().createOrUpdate(entry);
-                        } else if (key.equalsIgnoreCase(Measurement.class.getSimpleName()) && parentId != -1) {
+                            entry = EntryDao.getInstance().createOrUpdate(entry);
+                        } else if (key.equalsIgnoreCase(Measurement.class.getSimpleName()) && entry != null) {
                             try {
                                 Measurement.CategoryDeprecated categoryDeprecated = Helper.valueOf(Measurement.CategoryDeprecated.class, nextLine[1]);
                                 Measurement.Category category = categoryDeprecated.toUpdate();
@@ -127,8 +127,7 @@ public class CsvImport extends AsyncTask<Void, Void, Void> {
                                     values[position] = valueList.get(position);
                                 }
                                 measurement.setValues(values);
-
-                                measurement.setEntry(EntryDao.getInstance().get(parentId));
+                                measurement.setEntry(entry);
                                 MeasurementDao.getInstance(category.toClass()).createOrUpdate(measurement);
                             } catch (InstantiationException e) {
                                 Log.e(TAG, e.getMessage());

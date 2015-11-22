@@ -156,8 +156,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         Log.i(TAG, "Created updated database");
 
         for (Map.Entry<Entry, List<M>> mapEntry : entities.entrySet()) {
-            long entryId = EntryDao.getInstance().createOrUpdate(mapEntry.getKey());
-            Entry entry = EntryDao.getInstance().get(entryId);
+            Entry entry = EntryDao.getInstance().createOrUpdate(mapEntry.getKey());
             for (Measurement measurement : mapEntry.getValue()) {
                 measurement.setEntry(entry);
                 MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);

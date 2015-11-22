@@ -22,9 +22,9 @@ import java.util.List;
  */
 public class Export {
 
-    public static final String FILE_BACKUP_1_1_PREFIX = "backup_";
+    public static final String FILE_BACKUP_1_1_PREFIX = "backup";
     public static final String FILE_BACKUP_1_1_DATE_FORMAT = "yyyyMMddHHmmss";
-    public static final String FILE_BACKUP_1_1_REGEX = "backup_[0-9]{14}.csv";
+    public static final String FILE_BACKUP_1_1_REGEX = "backup[0-9]{14}.csv";
 
     public static final String FILE_BACKUP_1_3_PREFIX = "diaguard_backup_";
     public static final String FILE_BACKUP_1_3_DATE_FORMAT = "yyyyMMddHHmmss";

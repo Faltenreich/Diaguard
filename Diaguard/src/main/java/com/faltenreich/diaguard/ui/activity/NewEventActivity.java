@@ -39,7 +39,7 @@ import butterknife.OnClick;
 /**
  * Created by Filip on 19.10.13.
  */
-public class NewEventActivity extends BaseActivity implements MeasurementFloatingActionMenu.MeasurementFloatingActionMenuCallback {
+public class NewEventActivity extends BaseActivity implements MeasurementFloatingActionMenu.OnFabSelectedListener, MeasurementListView.OnCategoryEventListener {
 
     public static final String EXTRA_ENTRY = "EXTRA_ENTRY";
     public static final String EXTRA_DATE = "EXTRA_DATE";
@@ -109,7 +109,9 @@ public class NewEventActivity extends BaseActivity implements MeasurementFloatin
         spinnerAlarm.setAdapter(adapter);
 
         fab.init();
-        fab.setMeasurementFloatingActionMenuCallback(this);
+        fab.setOnFabSelectedListener(this);
+
+        layoutMeasurements.setOnCategoryEventListener(this);
     }
 
     private void checkIntents() {
@@ -216,9 +218,7 @@ public class NewEventActivity extends BaseActivity implements MeasurementFloatin
 
     private void submit() {
         if (inputIsValid()) {
-            DateTime now = DateTime.now();
             boolean isNewEntry = entry == null;
-
             if (isNewEntry) {
                 entry = new Entry();
             }
@@ -289,5 +289,17 @@ public class NewEventActivity extends BaseActivity implements MeasurementFloatin
     @Override
     public void onMiscellaneousSelected() {
         showDialogCategories();
+    }
+
+    @Override
+    public void onCategoryAdded(Measurement.Category category) {
+        fab.ignore(category);
+        fab.restock();
+    }
+
+    @Override
+    public void onCategoryRemoved(Measurement.Category category) {
+        fab.removeIgnore(category);
+        fab.restock();
     }
 }

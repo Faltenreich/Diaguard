@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.ui.view.entry;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -14,7 +13,8 @@ import com.faltenreich.diaguard.util.Helper;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Faltenreich on 30.09.2015.
@@ -23,8 +23,8 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
 
     private static final int MAX_BUTTON_COUNT = 3;
 
-    private MeasurementFloatingActionMenuCallback measurementFloatingActionMenuCallback;
-    private HashMap<Measurement.Category, FloatingActionButton> menuButtons;
+    private List<Measurement.Category> categoriesToSkip;
+    private OnFabSelectedListener onFabSelectedListener;
 
     public MeasurementFloatingActionMenu(Context context) {
         super(context);
@@ -35,7 +35,7 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
     }
 
     public void init() {
-        menuButtons = new HashMap<>();
+        categoriesToSkip = new ArrayList<>();
 
         // Close FAB on click outside
         setOnTouchListener(new View.OnTouchListener() {
@@ -52,6 +52,36 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
             }
         });
 
+        restock();
+    }
+
+    public void ignore(Measurement.Category category) {
+        if (!categoriesToSkip.contains(category)) {
+            categoriesToSkip.add(category);
+        }
+    }
+
+    public void removeIgnore(Measurement.Category category) {
+        if (categoriesToSkip.contains(category)) {
+            categoriesToSkip.remove(category);
+        }
+    }
+
+    public void restock() {
+        removeAllMenuButtons();
+
+        Measurement.Category[] activeCategories = PreferenceHelper.getInstance().getActiveCategories();
+        int menuButtonCount = 0;
+        int position = 0;
+        while (position < activeCategories.length && menuButtonCount < MAX_BUTTON_COUNT) {
+            Measurement.Category category = activeCategories[position];
+            if (!categoriesToSkip.contains(category)) {
+                addMenuButton(category);
+                menuButtonCount++;
+            }
+            position++;
+        }
+
         FloatingActionButton fabAll = getFloatingActionButton(
                 getContext().getString(R.string.all),
                 R.drawable.ic_other,
@@ -61,35 +91,14 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
             public void onClick(View v) {
                 close(true);
                 if (hasMeasurementFloatingActionMenuCallback()) {
-                    measurementFloatingActionMenuCallback.onMiscellaneousSelected();
+                    onFabSelectedListener.onMiscellaneousSelected();
                 }
             }
         });
         addMenuButton(fabAll);
-
-        restock();
     }
 
-    /**
-     * FAB count must always be equals MAX_BUTTON_COUNT, so we restock in case this count changes
-     */
-    private void restock() {
-        Measurement.Category[] activeCategories = PreferenceHelper.getInstance().getActiveCategories();
-        int position = 0;
-        while (position < activeCategories.length && menuButtons.size() < MAX_BUTTON_COUNT) {
-            Measurement.Category category = activeCategories[position];
-            if (!hasCategory(category)) {
-                addCategory(category);
-            }
-            position++;
-        }
-    }
-
-    public boolean hasCategory(Measurement.Category category) {
-        return menuButtons.get(category) != null;
-    }
-
-    public void addCategory(final Measurement.Category category) {
+    public void addMenuButton(final Measurement.Category category) {
         FloatingActionButton fab = getFloatingActionButton(
                 category.toString(),
                 PreferenceHelper.getInstance().getCategoryImageResourceId(category),
@@ -100,22 +109,11 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
             public void onClick(View v) {
                 close(true);
                 if (hasMeasurementFloatingActionMenuCallback()) {
-                    measurementFloatingActionMenuCallback.onCategorySelected(category);
-                    //removeCategory(category);
+                    onFabSelectedListener.onCategorySelected(category);
                 }
             }
         });
-
-        addMenuButton(fab, menuButtons.size());
-        menuButtons.put(category, fab);
-    }
-
-    public void removeCategory(Measurement.Category category) {
-        if (hasCategory(category)) {
-            removeMenuButton(menuButtons.get(category));
-            menuButtons.remove(category);
-            restock();
-        }
+        addMenuButton(fab);
     }
 
     private FloatingActionButton getFloatingActionButton(String text, int imageResourceId, int colorResId) {
@@ -131,17 +129,16 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
         return floatingActionButton;
     }
 
-    public void setMeasurementFloatingActionMenuCallback(MeasurementFloatingActionMenuCallback measurementFloatingActionMenuCallback) {
-        this.measurementFloatingActionMenuCallback = measurementFloatingActionMenuCallback;
+    public void setOnFabSelectedListener(OnFabSelectedListener onFabSelectedListener) {
+        this.onFabSelectedListener = onFabSelectedListener;
     }
 
     private boolean hasMeasurementFloatingActionMenuCallback() {
-        return measurementFloatingActionMenuCallback != null;
+        return onFabSelectedListener != null;
     }
 
-    public interface MeasurementFloatingActionMenuCallback {
+    public interface OnFabSelectedListener {
         void onCategorySelected(Measurement.Category category);
         void onMiscellaneousSelected();
     }
-
 }

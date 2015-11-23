@@ -13,9 +13,10 @@ import java.util.List;
 /**
  * Created by Faltenreich on 24.09.2015.
  */
-public class MeasurementListView extends LinearLayout implements MeasurementView.MeasurementViewCallback {
+public class MeasurementListView extends LinearLayout implements MeasurementView.OnCategoryRemovedListener {
 
     private ArrayList<Measurement.Category> categories;
+    private OnCategoryEventListener callback;
 
     public MeasurementListView(Context context) {
         super(context);
@@ -25,6 +26,10 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
     public MeasurementListView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
         init();
+    }
+
+    public void setOnCategoryEventListener(OnCategoryEventListener callback) {
+        this.callback = callback;
     }
 
     private void init() {
@@ -39,17 +44,24 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
         if (!hasCategory(category)) {
             categories.add(0, category);
             MeasurementView measurementView = new MeasurementView(getContext(), category);
-            measurementView.setMeasurementViewCallback(this);
+            measurementView.setOnCategoryRemovedListener(this);
             addView(measurementView, 0);
+            if (callback != null) {
+                callback.onCategoryAdded(category);
+            }
         }
     }
 
     public void addMeasurement(Measurement measurement) {
-        if (!hasCategory(measurement.getCategory())) {
-            categories.add(0, measurement.getCategory());
-            MeasurementView measurementView = new MeasurementView(getContext(), measurement);
-            measurementView.setMeasurementViewCallback(this);
+        Measurement.Category category = measurement.getCategory();
+        if (!hasCategory(category)) {
+            categories.add(0, category);
+            MeasurementView<Measurement> measurementView = new MeasurementView<>(getContext(), measurement);
+            measurementView.setOnCategoryRemovedListener(this);
             addView(measurementView, 0);
+            if (callback != null) {
+                callback.onCategoryAdded(category);
+            }
         }
     }
 
@@ -64,11 +76,10 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
         if (hasCategory(category)) {
             categories.remove(position);
             removeViewAt(position);
+            if (callback != null) {
+                callback.onCategoryRemoved(category);
+            }
         }
-    }
-
-    public void removeMeasurement(Measurement measurement) {
-        removeMeasurement(measurement.getCategory());
     }
 
     public List<Measurement> getMeasurements() {
@@ -96,8 +107,12 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
     }
 
     @Override
-    public void onCategoryRemoved(Measurement.Category category) {
+    public void onRemove(Measurement.Category category) {
         removeMeasurement(category);
     }
 
+    public interface OnCategoryEventListener {
+        void onCategoryAdded(Measurement.Category category);
+        void onCategoryRemoved(Measurement.Category category);
+    }
 }

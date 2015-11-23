@@ -40,7 +40,7 @@ public class MeasurementView<T extends Measurement> extends LinearLayout {
     protected LinearLayout content;
 
     private Measurement.Category category;
-    private MeasurementViewCallback measurementViewCallback;
+    private OnCategoryRemovedListener onCategoryRemovedListener;
 
     @Deprecated
     public MeasurementView(Context context) {
@@ -59,12 +59,12 @@ public class MeasurementView<T extends Measurement> extends LinearLayout {
         init(null);
     }
 
-    public void setMeasurementViewCallback(MeasurementViewCallback measurementViewCallback) {
-        this.measurementViewCallback = measurementViewCallback;
+    public void setOnCategoryRemovedListener(OnCategoryRemovedListener onCategoryRemovedListener) {
+        this.onCategoryRemovedListener = onCategoryRemovedListener;
     }
 
     private boolean hasMeasurementViewCallback() {
-        return measurementViewCallback != null;
+        return onCategoryRemovedListener != null;
     }
 
     private void init(@Nullable Measurement measurement) {
@@ -87,7 +87,7 @@ public class MeasurementView<T extends Measurement> extends LinearLayout {
                     @Override
                     public void onDismiss(View view, Object token) {
                         if (hasMeasurementViewCallback()) {
-                            measurementViewCallback.onCategoryRemoved(category);
+                            onCategoryRemovedListener.onRemove(category);
                         }
                     }
                 }));
@@ -123,12 +123,11 @@ public class MeasurementView<T extends Measurement> extends LinearLayout {
     @OnClick(R.id.button_delete)
     protected void remove() {
         if (hasMeasurementViewCallback()) {
-            measurementViewCallback.onCategoryRemoved(category);
+            onCategoryRemovedListener.onRemove(category);
         }
     }
 
-    public interface MeasurementViewCallback {
-        void onCategoryRemoved(Measurement.Category category);
+    public interface OnCategoryRemovedListener {
+        void onRemove(Measurement.Category category);
     }
-
 }

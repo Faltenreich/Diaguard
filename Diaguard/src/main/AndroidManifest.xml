@@ -36,14 +36,6 @@
                 android:value=".ui.activity.MainActivity" />
         </activity>
         <activity
-            android:name=".ui.activity.EntryDetailActivity"
-            android:label="@string/entry"
-            android:windowSoftInputMode="adjustResize" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activity.MainActivity" />
-        </activity>
-        <activity
             android:name=".ui.activity.CalculatorActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/calculator"

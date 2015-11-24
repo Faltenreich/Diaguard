@@ -124,7 +124,7 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
 
         private List<ScatterDataSet> getEmptyDataSets() {
             List<ScatterDataSet> dataSets = new ArrayList<>();
-            dataSets.add(getDataSet(DATA_SET_BLOODSUGAR, PreferenceHelper.getInstance().getCategoryColorResourceId(Measurement.Category.BLOODSUGAR)));
+            dataSets.add(getDataSet(DATA_SET_BLOODSUGAR, R.color.green));
             if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
                 dataSets.add(getDataSet(DATA_SET_BLOODSUGAR_HYPERGLYCEMIA, R.color.red));
                 dataSets.add(getDataSet(DATA_SET_BLOODSUGAR_HYPOGLYCEMIA, R.color.blue));

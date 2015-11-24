@@ -1,36 +1,19 @@
 package com.faltenreich.diaguard.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.PorterDuff;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.faltenreich.diaguard.data.dao.EntryDao;
-import com.faltenreich.diaguard.data.entity.Insulin;
-import com.faltenreich.diaguard.ui.activity.EntryDetailActivity;
-import com.faltenreich.diaguard.ui.activity.NewEventActivity;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Entry;
-import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.ui.fragments.EntryDetailFragment;
-import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.ui.viewholder.BaseViewHolder;
 import com.faltenreich.diaguard.ui.viewholder.LogDayViewHolder;
 import com.faltenreich.diaguard.ui.viewholder.LogMonthViewHolder;
-import com.squareup.picasso.Picasso;
 
 import org.joda.time.DateTime;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

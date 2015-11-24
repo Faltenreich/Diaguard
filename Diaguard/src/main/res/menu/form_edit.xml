@@ -6,11 +6,12 @@
     <item android:id="@+id/action_delete"
         android:icon="@drawable/ic_action_delete"
         android:title="@string/entry_delete"
-        diaguard:showAsAction="ifRoom"/>
+        diaguard:showAsAction="ifRoom"
+        android:visible="false"/>
 
-    <item android:id="@+id/action_edit"
-        android:icon="@drawable/ic_action_edit"
-        android:title="@string/entry_edit"
+    <item android:id="@+id/action_done"
+        android:icon="@drawable/ic_action_done"
+        android:title="@string/ok"
         diaguard:showAsAction="ifRoom"/>
 
 </menu>

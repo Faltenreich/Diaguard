@@ -18,7 +18,6 @@ import android.widget.Toast;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.ui.fragments.DatePickerFragment;
 import com.faltenreich.diaguard.ui.view.CategoryCheckBoxList;
-import com.faltenreich.diaguard.util.FileUtils;
 import com.faltenreich.diaguard.util.export.Export;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.IFileListener;
@@ -75,7 +74,7 @@ public class ExportActivity extends BaseActivity implements IFileListener {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.formular, menu);
+        inflater.inflate(R.menu.form, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.ui.view.entry;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -74,7 +75,7 @@ public class MeasurementView<T extends Measurement> extends LinearLayout {
         ButterKnife.bind(this);
 
         imageViewShowcase.setImageResource(PreferenceHelper.getInstance().getShowcaseImageResourceId(category));
-        viewLayerShowcase.setBackgroundColor(getResources().getColor(PreferenceHelper.getInstance().getCategoryColorResourceId(category)));
+        viewLayerShowcase.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.green));
         imageViewCategory.setImageResource(PreferenceHelper.getInstance().getCategoryImageResourceId(category));
         textViewCategory.setText(PreferenceHelper.getInstance().getCategoryName(category));
 

@@ -78,7 +78,7 @@ public class CalculatorActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.formular, menu);
+        inflater.inflate(R.menu.form, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

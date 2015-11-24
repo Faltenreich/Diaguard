@@ -102,7 +102,7 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
         FloatingActionButton fab = getFloatingActionButton(
                 category.toString(),
                 PreferenceHelper.getInstance().getCategoryImageResourceId(category),
-                PreferenceHelper.getInstance().getCategoryColorResourceId(category));
+                R.color.green);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -17,7 +17,7 @@ import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.ui.activity.NewEventActivity;
+import com.faltenreich.diaguard.ui.activity.EntryActivity;
 
 import org.joda.time.DateTime;
 
@@ -63,8 +63,8 @@ public class LogDayViewHolder extends BaseViewHolder<LogListEntry> {
                 viewEntry.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(getContext(), NewEventActivity.class);
-                        intent.putExtra(NewEventActivity.EXTRA_ENTRY, entry.getId());
+                        Intent intent = new Intent(getContext(), EntryActivity.class);
+                        intent.putExtra(EntryActivity.EXTRA_ENTRY, entry.getId());
                         getContext().startActivity(intent);
                     }
                 });
@@ -119,8 +119,8 @@ public class LogDayViewHolder extends BaseViewHolder<LogListEntry> {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(getContext(), NewEventActivity.class);
-                    intent.putExtra(NewEventActivity.EXTRA_DATE, recyclerEntry.getDateTime());
+                    Intent intent = new Intent(getContext(), EntryActivity.class);
+                    intent.putExtra(EntryActivity.EXTRA_DATE, recyclerEntry.getDateTime());
                     getContext().startActivity(intent);
                 }
             });

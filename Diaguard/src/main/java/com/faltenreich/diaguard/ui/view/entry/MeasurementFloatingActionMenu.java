@@ -37,6 +37,18 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
     public void init() {
         categoriesToSkip = new ArrayList<>();
 
+        // TODO: Execute changes when menu has closed instead of immediately
+        /*
+        setOnMenuToggleListener(new OnMenuToggleListener() {
+            @Override
+            public void onMenuToggle(boolean opened) {
+                if (!isOpened()) {
+                    restock();
+                }
+            }
+        });
+        */
+
         // Close FAB on click outside
         setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -67,35 +79,42 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
         }
     }
 
+    private boolean hasChanged() {
+        // TODO: Check whether ignores have changed
+        return true;
+    }
+
     public void restock() {
-        removeAllMenuButtons();
+        if (hasChanged()) {
+            removeAllMenuButtons();
 
-        Measurement.Category[] activeCategories = PreferenceHelper.getInstance().getActiveCategories();
-        int menuButtonCount = 0;
-        int position = 0;
-        while (position < activeCategories.length && menuButtonCount < MAX_BUTTON_COUNT) {
-            Measurement.Category category = activeCategories[position];
-            if (!categoriesToSkip.contains(category)) {
-                addMenuButton(category);
-                menuButtonCount++;
-            }
-            position++;
-        }
-
-        FloatingActionButton fabAll = getFloatingActionButton(
-                getContext().getString(R.string.all),
-                R.drawable.ic_other,
-                android.R.color.white);
-        fabAll.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                close(true);
-                if (hasMeasurementFloatingActionMenuCallback()) {
-                    onFabSelectedListener.onMiscellaneousSelected();
+            Measurement.Category[] activeCategories = PreferenceHelper.getInstance().getActiveCategories();
+            int menuButtonCount = 0;
+            int position = 0;
+            while (position < activeCategories.length && menuButtonCount < MAX_BUTTON_COUNT) {
+                Measurement.Category category = activeCategories[position];
+                if (!categoriesToSkip.contains(category)) {
+                    addMenuButton(category);
+                    menuButtonCount++;
                 }
+                position++;
             }
-        });
-        addMenuButton(fabAll);
+
+            FloatingActionButton fabAll = getFloatingActionButton(
+                    getContext().getString(R.string.all),
+                    R.drawable.ic_other,
+                    android.R.color.white);
+            fabAll.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    close(true);
+                    if (hasMeasurementFloatingActionMenuCallback()) {
+                        onFabSelectedListener.onMiscellaneousSelected();
+                    }
+                }
+            });
+            addMenuButton(fabAll);
+        }
     }
 
     public void addMenuButton(final Measurement.Category category) {

@@ -149,7 +149,7 @@ public class MainActivity extends BaseActivity {
                 }
                 return true;
             case R.id.action_newevent:
-                startActivity(new Intent(this, NewEventActivity.class));
+                startActivity(new Intent(this, EntryActivity.class));
                 return true;
         }
         return false;

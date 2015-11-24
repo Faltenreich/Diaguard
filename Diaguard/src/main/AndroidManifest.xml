@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.NewEventActivity"
+            android:name=".ui.activity.EntryActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/entry_new"
             android:windowSoftInputMode="stateHidden|adjustResize" >

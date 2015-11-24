@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.DiaguardApplication;
-import com.faltenreich.diaguard.ui.activity.NewEventActivity;
+import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
@@ -299,11 +299,11 @@ public class MainFragment extends BaseFragment {
     @OnClick(R.id.layout_latest)
     protected void openEntry() {
         if (latestEntry != null) {
-            Intent intent = new Intent(getActivity(), NewEventActivity.class);
-            intent.putExtra(NewEventActivity.EXTRA_ENTRY, latestEntry.getId());
+            Intent intent = new Intent(getActivity(), EntryActivity.class);
+            intent.putExtra(EntryActivity.EXTRA_ENTRY, latestEntry.getId());
             startActivity(intent);
         } else {
-            startActivity(new Intent(getActivity(), NewEventActivity.class));
+            startActivity(new Intent(getActivity(), EntryActivity.class));
         }
     }
 }

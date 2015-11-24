@@ -39,7 +39,7 @@ import butterknife.OnClick;
 /**
  * Created by Filip on 19.10.13.
  */
-public class NewEventActivity extends BaseActivity implements MeasurementFloatingActionMenu.OnFabSelectedListener, MeasurementListView.OnCategoryEventListener {
+public class EntryActivity extends BaseActivity implements MeasurementFloatingActionMenu.OnFabSelectedListener, MeasurementListView.OnCategoryEventListener {
 
     public static final String EXTRA_ENTRY = "EXTRA_ENTRY";
     public static final String EXTRA_DATE = "EXTRA_DATE";
@@ -68,8 +68,8 @@ public class NewEventActivity extends BaseActivity implements MeasurementFloatin
     private Entry entry;
     private DateTime time;
 
-    public NewEventActivity() {
-        super(R.layout.activity_newevent);
+    public EntryActivity() {
+        super(R.layout.activity_entry);
     }
 
     public void onCreate(Bundle savedInstanceState) {
@@ -261,7 +261,7 @@ public class NewEventActivity extends BaseActivity implements MeasurementFloatin
             builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     EntryDao.getInstance().delete(entry);
-                    Toast.makeText(NewEventActivity.this, getString(R.string.entry_deleted), Toast.LENGTH_LONG).show();
+                    Toast.makeText(EntryActivity.this, getString(R.string.entry_deleted), Toast.LENGTH_LONG).show();
                     finish();
                 }
             });

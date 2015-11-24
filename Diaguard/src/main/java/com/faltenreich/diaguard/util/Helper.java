@@ -14,8 +14,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 
 import com.faltenreich.diaguard.DiaguardApplication;
-import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.ui.activity.NewEventActivity;
+import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.R;
 
 import org.joda.time.format.DateTimeFormat;
@@ -136,11 +135,11 @@ public class Helper {
                         .setContentText(message)
                         .setTicker(title)
                         .setWhen(1000);
-        Intent resultIntent = new Intent(context, NewEventActivity.class);
+        Intent resultIntent = new Intent(context, EntryActivity.class);
 
         // Put target activity on back stack on top of its parent to guarantee correct back navigation
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addParentStack(NewEventActivity.class);
+        stackBuilder.addParentStack(EntryActivity.class);
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(pendingIntent);

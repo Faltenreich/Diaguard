@@ -27,6 +27,9 @@ public class ChartDayFragment extends Fragment {
     @Bind(R.id.day_chart)
     protected DayChart dayChart;
 
+    @Bind(R.id.category_chart)
+    protected CategoryChart categoryChart;
+
     private DateTime day;
 
     public static ChartDayFragment createInstance(DateTime dateTime) {
@@ -60,6 +63,9 @@ public class ChartDayFragment extends Fragment {
         this.day = day;
         if (dayChart != null) {
             dayChart.setDay(day);
+        }
+        if (categoryChart != null) {
+            categoryChart.setDay(day);
         }
     }
 }

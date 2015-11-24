@@ -26,7 +26,6 @@ public class ChartHelper {
         // General
         chart.setDrawGridBackground(false);
         chart.setBackgroundColor(Color.TRANSPARENT);
-        chart.setHighlightEnabled(true);
         chart.setPinchZoom(false);
         chart.setScaleEnabled(false);
         chart.setExtraLeftOffset(VIEW_PORT_OFFSET);

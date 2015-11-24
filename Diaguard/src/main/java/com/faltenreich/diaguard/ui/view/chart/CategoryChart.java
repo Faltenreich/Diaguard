@@ -2,33 +2,23 @@ package com.faltenreich.diaguard.ui.view.chart;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.annotation.ColorRes;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
-import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.ChartHelper;
 import com.github.mikephil.charting.charts.ScatterChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.ScatterData;
 import com.github.mikephil.charting.data.ScatterDataSet;
-import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
-import org.joda.time.format.DateTimeFormat;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -41,7 +31,7 @@ public class CategoryChart extends ScatterChart {
     private static final int LABELS_TO_SKIP = 2;
 
     private DateTime day;
-    private Measurement.Category[] activeCategories;
+    private Measurement.Category[] categories;
 
     public CategoryChart(Context context) {
         super(context);
@@ -58,12 +48,8 @@ public class CategoryChart extends ScatterChart {
     private void setup() {
         if (!isInEditMode()) {
             Measurement.Category[] activeCategories = PreferenceHelper.getInstance().getActiveCategories();
-            this.activeCategories = Arrays.copyOfRange(activeCategories, 1, activeCategories.length);
-
+            categories = Arrays.copyOfRange(activeCategories, 1, activeCategories.length);
             ChartHelper.setChartDefaultStyle(this);
-            getAxisLeft().setEnabled(false);
-            getXAxis().setEnabled(false);
-
             new InitChartTask().execute();
         }
     }
@@ -110,7 +96,7 @@ public class CategoryChart extends ScatterChart {
 
         private List<ScatterDataSet> getEmptyDataSets() {
             List<ScatterDataSet> dataSets = new ArrayList<>();
-            for (Measurement.Category category : activeCategories) {
+            for (Measurement.Category category : categories) {
                 if (category != Measurement.Category.BLOODSUGAR) {
                     dataSets.add(getDataSet(category));
                 }
@@ -121,6 +107,7 @@ public class CategoryChart extends ScatterChart {
         private ScatterDataSet getDataSet(Measurement.Category category) {
             ScatterDataSet dataSet = new ScatterDataSet(new ArrayList<Entry>(), category.name());
             dataSet.setScatterShapeSize(ChartHelper.SCATTER_SIZE);
+            dataSet.setScatterShapeSize(0);
             dataSet.setScatterShape(ScatterShape.CIRCLE);
             dataSet.setDrawValues(true);
             return dataSet;
@@ -134,7 +121,7 @@ public class CategoryChart extends ScatterChart {
             List<com.faltenreich.diaguard.data.entity.Entry> entries = EntryDao.getInstance().getEntriesOfDay(day);
             if (entries != null && entries.size() > 0) {
                 for (com.faltenreich.diaguard.data.entity.Entry entry : entries) {
-                    List<Measurement> measurementsOfEntry = EntryDao.getInstance().getMeasurements(entry, activeCategories);
+                    List<Measurement> measurementsOfEntry = EntryDao.getInstance().getMeasurements(entry, categories);
                     measurements.addAll(measurementsOfEntry);
                 }
             }
@@ -148,15 +135,17 @@ public class CategoryChart extends ScatterChart {
                     getData().getDataSetByIndex(position).clear();
                 }
                 // Add new entries
-                List<Measurement.Category> categories = Arrays.asList(activeCategories);
+                List<Measurement.Category> categoryList = Arrays.asList(categories);
                 for (Measurement measurement : measurements) {
                     com.faltenreich.diaguard.data.entity.Entry entry = measurement.getEntry();
                     int xValue = entry.getDate().getMinuteOfDay();
-                    float yValue = categories.indexOf(measurement.getCategory());
+                    float yValue = categoryList.indexOf(measurement.getCategory());
                     Entry chartEntry = new Entry(PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, yValue), xValue);
                     chartEntry.setData(measurement);
                     getData().getDataSetByLabel(measurement.getCategory().name(), true).addEntry(chartEntry);
                 }
+                getAxisLeft().setAxisMinValue(0);
+                getAxisLeft().setAxisMaxValue(categories.length);
                 notifyDataSetChanged();
                 invalidate();
             } catch (Exception exception) {

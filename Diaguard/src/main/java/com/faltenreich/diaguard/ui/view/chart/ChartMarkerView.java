@@ -28,14 +28,12 @@ public class ChartMarkerView extends MarkerView {
     }
 
     @Override
-    public int getXOffset() {
-        // Center the marker-view horizontally
+    public int getXOffset(float xpos) {
         return - (getWidth() / 2);
     }
 
     @Override
-    public int getYOffset() {
-        // Position the marker-view to be above the selected value
+    public int getYOffset(float ypos) {
         return - getHeight() - (getHeight() / 4);
     }
 }

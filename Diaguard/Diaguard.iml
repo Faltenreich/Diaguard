@@ -94,8 +94,8 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="butterknife-7.0.1" level="project" />
     <orderEntry type="library" exported="" name="opencsv-3.3" level="project" />
+    <orderEntry type="library" exported="" name="MPAndroidChart-v2.1.6" level="project" />
     <orderEntry type="library" exported="" name="picasso-2.5.2" level="project" />
-    <orderEntry type="library" exported="" name="MPAndroidChart-v2.1.5" level="project" />
     <orderEntry type="library" exported="" name="cardview-v7-23.1.0" level="project" />
     <orderEntry type="library" exported="" name="design-23.1.0" level="project" />
     <orderEntry type="library" exported="" name="ormlite-android-4.48" level="project" />

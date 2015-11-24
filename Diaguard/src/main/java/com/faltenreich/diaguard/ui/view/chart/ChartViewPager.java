@@ -36,7 +36,18 @@ public class ChartViewPager extends ViewPager {
         addOnPageChangeListener(new OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
             }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position != adapter.getMiddle() && adapter.getItem(position) instanceof ChartDayFragment) {
+                    Log.i(TAG, "onPageSelected " + position);
+                    ChartDayFragment fragment = (ChartDayFragment) adapter.getItem(position);
+                    callback.onDaySelected(fragment.getDay());
+                }
+            }
+
             @Override
             public void onPageScrollStateChanged(int state) {
                 if (state == ViewPager.SCROLL_STATE_IDLE) {
@@ -51,16 +62,12 @@ public class ChartViewPager extends ViewPager {
                                 break;
                         }
                         Log.i(TAG, "Scroll to page " + adapter.getMiddle());
-                        setCurrentItem(adapter.getMiddle(), false);
+                        try {
+                            setCurrentItem(adapter.getMiddle(), false);
+                        } catch (NullPointerException e) {
+                            Log.e(TAG, e.getMessage());
+                        }
                     }
-                }
-            }
-            @Override
-            public void onPageSelected(int position) {
-                if (position != adapter.getMiddle() && adapter.getItem(position) instanceof ChartDayFragment) {
-                    Log.i(TAG, "onPageSelected " + position);
-                    ChartDayFragment fragment = (ChartDayFragment) adapter.getItem(position);
-                    callback.onDaySelected(fragment.getDay());
                 }
             }
         });

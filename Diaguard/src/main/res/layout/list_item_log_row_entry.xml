@@ -8,9 +8,8 @@
     style="@style/Padding">
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="36dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:orientation="vertical"
         android:layout_marginRight="@dimen/margin_between"
         android:layout_marginEnd="@dimen/margin_between">
@@ -32,9 +31,8 @@
 
     <LinearLayout
         android:id="@+id/entries"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="6"
         android:orientation="vertical"/>
 
 </LinearLayout>

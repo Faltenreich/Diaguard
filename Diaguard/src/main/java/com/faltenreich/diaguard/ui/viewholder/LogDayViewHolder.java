@@ -3,6 +3,8 @@ package com.faltenreich.diaguard.ui.viewholder;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,7 @@ import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
+import com.faltenreich.diaguard.ui.view.TintImageView;
 
 import org.joda.time.DateTime;
 
@@ -84,10 +87,10 @@ public class LogDayViewHolder extends BaseViewHolder<LogListEntry> {
                 for (Measurement measurement : entry.getMeasurementCache()) {
                     Measurement.Category category = measurement.getCategory();
                     View viewMeasurement = inflate.inflate(R.layout.list_item_log_measurement, entries, false);
-                    ImageView categoryImage = (ImageView) viewMeasurement.findViewById(R.id.image);
+                    TintImageView categoryImage = (TintImageView) viewMeasurement.findViewById(R.id.image);
                     int imageResourceId = PreferenceHelper.getInstance().getCategoryImageResourceId(category);
                     categoryImage.setImageDrawable(ContextCompat.getDrawable(getContext(), imageResourceId));
-                    categoryImage.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray_dark), PorterDuff.Mode.SRC_ATOP.SRC_ATOP);
+                    categoryImage.setTintColor(ContextCompat.getColor(getContext(), R.color.gray_dark));
                     TextView value = (TextView) viewMeasurement.findViewById(R.id.value);
 
                     switch (category) {
@@ -103,10 +106,12 @@ public class LogDayViewHolder extends BaseViewHolder<LogListEntry> {
                                 } else if (bloodSugar.getMgDl() < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
                                     backgroundColor = ContextCompat.getColor(getContext(), R.color.blue);
                                 }
-                                categoryImage.setColorFilter(backgroundColor, PorterDuff.Mode.SRC_ATOP.SRC_ATOP);
+                                categoryImage.setTintColor(backgroundColor);
                             }
                         default:
-                            value.setText(measurement.toString() + " " + PreferenceHelper.getInstance().getUnitAcronym(category));
+                            value.setText(String.format("%s %s",
+                                    measurement.toString(),
+                                    PreferenceHelper.getInstance().getUnitAcronym(category)));
                     }
 
                     layoutEntries.addView(viewMeasurement);
@@ -128,11 +133,9 @@ public class LogDayViewHolder extends BaseViewHolder<LogListEntry> {
         }
 
         // Add indicator behind last entry
-        /*
         if (isToday) {
             View view = inflate.inflate(R.layout.list_item_log_indicator, entries, false);
             entries.addView(view);
         }
-        */
     }
 }

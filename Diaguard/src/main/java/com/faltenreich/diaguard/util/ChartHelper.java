@@ -15,11 +15,11 @@ import com.github.mikephil.charting.formatter.YAxisValueFormatter;
  */
 public class ChartHelper {
 
-    public static final float VIEW_PORT_OFFSET = Helper.getDPI(2);
-    public static final float TEXT_SIZE = Helper.getDPI(5);
-    public static final float SCATTER_SIZE = Helper.getDPI(5);
-    public static final float CIRCLE_SIZE = Helper.getDPI(1.6f);
-    public static final float LINE_WIDTH = 1f;
+    public static final float VIEW_PORT_OFFSET = 10;
+    public static final float TEXT_SIZE = 14;
+    public static final float SCATTER_SIZE = 14;
+    public static final float CIRCLE_SIZE = 8;
+    public static final float LINE_WIDTH = 3;
 
     public static void setChartDefaultStyle(BarLineChartBase chart) {
 

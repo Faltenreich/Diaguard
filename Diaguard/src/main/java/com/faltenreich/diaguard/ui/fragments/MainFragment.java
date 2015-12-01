@@ -217,8 +217,6 @@ public class MainFragment extends BaseFragment {
         chart.getXAxis().setDrawGridLines(false);
         chart.getXAxis().setTextColor(ContextCompat.getColor(getContext(), R.color.gray_dark));
         chart.getXAxis().setLabelsToSkip(0);
-        float offset = Helper.getDPI(20);
-        chart.setViewPortOffsets(offset, 0, offset, offset * 1.2f);
         chart.getAxisLeft().addLimitLine(getLimitLine());
     }
 
@@ -262,7 +260,6 @@ public class MainFragment extends BaseFragment {
                 }
                 currentDay = currentDay.plusDays(1);
             }
-            xLabels.set(xLabels.size() - 1, getString(R.string.today));
 
             ArrayList<LineDataSet> dataSets = new ArrayList<>();
             LineDataSet dataSet = new LineDataSet(entries, BloodSugar.class.getSimpleName());
@@ -272,7 +269,7 @@ public class MainFragment extends BaseFragment {
             dataSet.setCircleSize(ChartHelper.CIRCLE_SIZE);
             dataSet.setDrawCircles(entries.size() <= 1);
             dataSet.setDrawValues(false);
-            dataSet.setLineWidth(Helper.getDPI(ChartHelper.LINE_WIDTH));
+            dataSet.setLineWidth(ChartHelper.LINE_WIDTH);
             dataSets.add(dataSet);
 
             // Workaround to set visible area

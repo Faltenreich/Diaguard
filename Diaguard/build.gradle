@@ -48,5 +48,4 @@ dependencies {
     compile 'com.github.PhilJay:MPAndroidChart:v2.1.6'
     compile 'com.github.clans:fab:1.6.1'
     compile 'com.fmsirvent:parallaxeverywhere:1.0.4'
-    compile 'com.tonicartos:superslim:0.4.13'
 }

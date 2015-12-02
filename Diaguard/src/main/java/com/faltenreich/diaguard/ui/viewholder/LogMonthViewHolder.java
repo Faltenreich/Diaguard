@@ -5,9 +5,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.LogListSection;
+import com.faltenreich.diaguard.adapter.ListItemMonth;
 import com.faltenreich.diaguard.data.PreferenceHelper;
-import com.faltenreich.diaguard.data.entity.BaseEntity;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
@@ -15,7 +14,7 @@ import butterknife.Bind;
 /**
  * Created by Faltenreich on 17.10.2015.
  */
-public class LogMonthViewHolder extends BaseViewHolder<LogListSection> {
+public class LogMonthViewHolder extends BaseViewHolder<ListItemMonth> {
 
     @Bind(R.id.background)
     public ImageView background;
@@ -28,9 +27,9 @@ public class LogMonthViewHolder extends BaseViewHolder<LogListSection> {
     }
 
     @Override
-    public void bindData(final LogListSection logListSection) {
-        int resourceId = PreferenceHelper.getInstance().getSeasonResourceId(logListSection.getDateTime());
+    public void bindData(final ListItemMonth listItemMonth) {
+        int resourceId = PreferenceHelper.getInstance().getSeasonResourceId(listItemMonth.getMonth());
         Picasso.with(getContext()).load(resourceId).placeholder(R.color.gray_lighter).into(background);
-        month.setText(logListSection.getDateTime().toString("MMMM YYYY"));
+        month.setText(listItemMonth.getMonth().toString("MMMM YYYY"));
     }
 }

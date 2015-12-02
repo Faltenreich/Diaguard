@@ -3,10 +3,7 @@ package com.faltenreich.diaguard.adapter;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
-import com.faltenreich.diaguard.data.entity.BaseEntity;
 import com.faltenreich.diaguard.ui.viewholder.BaseViewHolder;
-
-import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.List;

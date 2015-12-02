@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="superslim-0.4.13">
+    <ANNOTATIONS>
+      <root url="jar://$PROJECT_DIR$/Diaguard/build/intermediates/exploded-aar/com.tonicartos/superslim/0.4.13/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/Diaguard/build/intermediates/exploded-aar/com.tonicartos/superslim/0.4.13/res" />
+      <root url="jar://$PROJECT_DIR$/Diaguard/build/intermediates/exploded-aar/com.tonicartos/superslim/0.4.13/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.tonicartos/superslim/0.4.13/6bd08c7f6f5b0926d26527f9eee7a69003d4d346/superslim-0.4.13-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

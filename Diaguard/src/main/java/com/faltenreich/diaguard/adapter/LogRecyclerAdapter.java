@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.adapter;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -13,8 +14,6 @@ import com.faltenreich.diaguard.ui.viewholder.BaseViewHolder;
 import com.faltenreich.diaguard.ui.viewholder.LogDayViewHolder;
 import com.faltenreich.diaguard.ui.viewholder.LogEntryViewHolder;
 import com.faltenreich.diaguard.ui.viewholder.LogMonthViewHolder;
-import com.tonicartos.superslim.GridSLM;
-import com.tonicartos.superslim.LinearSLM;
 
 import org.joda.time.DateTime;
 
@@ -23,9 +22,7 @@ import java.util.List;
 /**
  * Created by Filip on 04.11.13.
  */
-public class LogRecyclerAdapter extends BaseAdapter<ListItem, BaseViewHolder<ListItem>> {
-
-    private static final String TAG = LogRecyclerAdapter.class.getSimpleName();
+public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<ListItem>> implements EndlessAdapter.OnEndlessListener {
 
     private enum ViewType {
         MONTH,
@@ -43,37 +40,40 @@ public class LogRecyclerAdapter extends BaseAdapter<ListItem, BaseViewHolder<Lis
         minVisibleDate = firstVisibleDay.withDayOfMonth(1);
         maxVisibleDate = minVisibleDate;
 
+        setOnEndlessListener(this);
+
         appendNextMonth();
 
         // Workaround to endless scrolling when after visible threshold
-        if (firstVisibleDay.dayOfMonth().get() >= (firstVisibleDay.dayOfMonth().getMaximumValue() -
-                EndlessScrollListener.VISIBLE_THRESHOLD) - 1) {
+        if (firstVisibleDay.dayOfMonth().get() >= (firstVisibleDay.dayOfMonth().getMaximumValue() - EndlessAdapter.VISIBLE_THRESHOLD) - 1) {
             appendNextMonth();
         }
     }
 
-    public void appendRows(EndlessScrollListener.Direction direction) {
-        if (direction == EndlessScrollListener.Direction.DOWN) {
-            appendNextMonth();
-        } else {
-            appendPreviousMonth();
+    @Override
+    public void onLoadMore(Direction direction) {
+        switch (direction) {
+            case DOWN:
+                appendNextMonth();
+                break;
+            case UP:
+                appendPreviousMonth();
+                break;
         }
     }
 
     private void appendNextMonth() {
         DateTime targetDate = maxVisibleDate.plusMonths(1);
-        int sectionManager = targetDate.getMonthOfYear() % 2;
-        int sectionFirstPosition = getItemCount();
 
         // Header
-        addItem(new ListItemMonth(maxVisibleDate, sectionManager, sectionFirstPosition));
+        addItem(new ListItemMonth(maxVisibleDate));
         notifyItemInserted(getItemCount() - 1);
 
         while (maxVisibleDate.isBefore(targetDate)) {
-            addItem(new ListItemDay(maxVisibleDate, sectionManager, sectionFirstPosition));
+            addItem(new ListItemDay(maxVisibleDate));
             List<Entry> entries = fetchData(maxVisibleDate);
             for (Entry entry : entries) {
-                addItem(new ListItemEntry(entry, sectionManager, sectionFirstPosition));
+                addItem(new ListItemEntry(entry));
             }
             int insertCount = entries.size() + 1;
             int maxPosition = getItemCount() - 1;
@@ -84,22 +84,20 @@ public class LogRecyclerAdapter extends BaseAdapter<ListItem, BaseViewHolder<Lis
 
     private void appendPreviousMonth() {
         DateTime targetDate = minVisibleDate.minusMonths(1);
-        int sectionManager = targetDate.getMonthOfYear() % 2;
-        int sectionFirstPosition = 0;
 
         while (minVisibleDate.isAfter(targetDate)) {
             minVisibleDate = minVisibleDate.minusDays(1);
             List<Entry> entries = fetchData(maxVisibleDate);
             for (Entry entry : entries) {
-                addItem(0, new ListItemEntry(entry, sectionManager, 0));
+                addItem(0, new ListItemEntry(entry));
             }
-            addItem(0, new ListItemDay(minVisibleDate, sectionManager, 0));
+            addItem(0, new ListItemDay(minVisibleDate));
             int insertCount = entries.size() + 1;
             notifyItemRangeInserted(0, insertCount);
         }
 
         // Header
-        addItem(0, new ListItemMonth(minVisibleDate, sectionManager, sectionFirstPosition));
+        addItem(0, new ListItemMonth(minVisibleDate));
         notifyItemInserted(0);
     }
 
@@ -147,15 +145,10 @@ public class LogRecyclerAdapter extends BaseAdapter<ListItem, BaseViewHolder<Lis
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
         if (holder != null) {
             ListItem listItem = getItem(position);
             holder.bindData(listItem);
-
-            GridSLM.LayoutParams params = GridSLM.LayoutParams.from(holder.itemView.getLayoutParams());
-            params.setFirstPosition(listItem.getSectionFirstPosition());
-            params.setSlm(LinearSLM.ID);
-            holder.itemView.setLayoutParams(params);
-            Log.i(TAG, String.format("Added row for section %d", listItem.getSectionFirstPosition()));
         }
     }
 

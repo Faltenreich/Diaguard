@@ -11,8 +11,8 @@ public class ListItemEntry extends ListItem {
 
     private Entry entry;
 
-    public ListItemEntry(Entry entry, int sectionManager, int sectionFirstPosition) {
-        super(false, sectionManager, sectionFirstPosition);
+    public ListItemEntry(Entry entry) {
+        super();
         this.entry = entry;
     }
 

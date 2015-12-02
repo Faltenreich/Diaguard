@@ -11,8 +11,8 @@ public class ListItemMeasurement extends ListItem {
 
     private Measurement measurement;
 
-    public ListItemMeasurement(Measurement measurement, int sectionManager, int sectionFirstPosition) {
-        super(false, sectionManager, sectionFirstPosition);
+    public ListItemMeasurement(Measurement measurement) {
+        super();
         this.measurement = measurement;
     }
 

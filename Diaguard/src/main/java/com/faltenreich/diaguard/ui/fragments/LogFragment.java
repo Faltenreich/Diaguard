@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,19 +16,11 @@ import android.widget.DatePicker;
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.ListItem;
-import com.faltenreich.diaguard.data.dao.EntryDao;
-import com.faltenreich.diaguard.data.dao.MeasurementDao;
-import com.faltenreich.diaguard.data.entity.Entry;
-import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.ViewHelper;
 import com.faltenreich.diaguard.ui.view.DayOfMonthDrawable;
-import com.faltenreich.diaguard.adapter.EndlessScrollListener;
 import com.faltenreich.diaguard.adapter.LogRecyclerAdapter;
 
 import org.joda.time.DateTime;
-
-import java.util.Random;
-import com.tonicartos.superslim.LayoutManager;
 
 import butterknife.Bind;
 
@@ -37,8 +28,6 @@ import butterknife.Bind;
  * Created by Filip on 05.07.2015.
  */
 public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCallback {
-
-    private static final String TAG = LogFragment.class.getSimpleName();
 
     @Bind(R.id.list)
     protected RecyclerView recyclerView;
@@ -99,14 +88,6 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.scrollToPosition(day.dayOfMonth().get());
         updateMonthForUi();
-
-        // Endless scroll
-        recyclerView.addOnScrollListener(new EndlessScrollListener(layoutManager) {
-            @Override
-            public void onLoadMore(Direction direction) {
-                recyclerAdapter.appendRows(direction);
-            }
-        });
 
         // Fragment updates
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

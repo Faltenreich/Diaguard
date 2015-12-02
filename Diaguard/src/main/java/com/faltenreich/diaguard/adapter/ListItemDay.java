@@ -9,8 +9,8 @@ public class ListItemDay extends ListItem {
 
     private DateTime day;
 
-    public ListItemDay(DateTime day, int sectionManager, int sectionFirstPosition) {
-        super(true, sectionManager, sectionFirstPosition);
+    public ListItemDay(DateTime day) {
+        super();
         this.day = day;
     }
 

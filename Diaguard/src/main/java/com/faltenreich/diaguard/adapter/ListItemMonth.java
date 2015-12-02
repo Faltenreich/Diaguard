@@ -9,8 +9,8 @@ public class ListItemMonth extends ListItem {
 
     private DateTime month;
 
-    public ListItemMonth(DateTime month, int sectionManager, int sectionFirstPosition) {
-        super(true, sectionManager, sectionFirstPosition);
+    public ListItemMonth(DateTime month) {
+        super();
         this.month = month;
     }
 

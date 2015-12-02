@@ -5,8 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.faltenreich.diaguard.adapter.ListItem;
-import com.faltenreich.diaguard.adapter.LogListItem;
-import com.faltenreich.diaguard.data.entity.BaseEntity;
 
 import butterknife.ButterKnife;
 
@@ -16,15 +14,21 @@ import butterknife.ButterKnife;
 public abstract class BaseViewHolder <T extends ListItem> extends RecyclerView.ViewHolder {
 
     private Context context;
+    private View view;
 
     protected BaseViewHolder(View view) {
         super(view);
+        this.view = view;
         this.context = view.getContext();
         ButterKnife.bind(this, view);
     }
 
     protected Context getContext() {
         return context;
+    }
+
+    protected View getView() {
+        return view;
     }
 
     public abstract void bindData(final T listItem);

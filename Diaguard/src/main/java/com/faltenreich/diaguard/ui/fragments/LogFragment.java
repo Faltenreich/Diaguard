@@ -15,11 +15,10 @@ import android.widget.DatePicker;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.adapter.ListItem;
 import com.faltenreich.diaguard.util.ViewHelper;
 import com.faltenreich.diaguard.ui.view.DayOfMonthDrawable;
-import com.faltenreich.diaguard.adapter.EndlessScrollListener;
 import com.faltenreich.diaguard.adapter.LogRecyclerAdapter;
-import com.faltenreich.diaguard.adapter.LogListItem;
 
 import org.joda.time.DateTime;
 
@@ -34,7 +33,7 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
     protected RecyclerView recyclerView;
 
     private LogRecyclerAdapter recyclerAdapter;
-    private LinearLayoutManager linearLayoutManager;
+    private LinearLayoutManager layoutManager;
 
     private DateTime firstVisibleDay;
 
@@ -83,20 +82,12 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
     private void goToDay(DateTime day) {
         firstVisibleDay = day;
 
-        linearLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(linearLayoutManager);
+        layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
         recyclerAdapter = new LogRecyclerAdapter(getActivity(), day);
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.scrollToPosition(day.dayOfMonth().get());
         updateMonthForUi();
-
-        // Endless scroll
-        recyclerView.addOnScrollListener(new EndlessScrollListener(linearLayoutManager) {
-            @Override
-            public void onLoadMore(Direction direction) {
-                recyclerAdapter.appendRows(direction);
-            }
-        });
 
         // Fragment updates
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -104,7 +95,7 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                LogListItem item = recyclerAdapter.getItem(linearLayoutManager.findFirstVisibleItemPosition());
+                ListItem item = recyclerAdapter.getItem(layoutManager.findFirstVisibleItemPosition());
                 firstVisibleDay = item.getDateTime();
                 // Update month in Toolbar when section is being crossed
                 boolean isScrollingUp = dy < 0;

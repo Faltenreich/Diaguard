@@ -10,24 +10,33 @@ import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.os.Vibrator;
+import android.support.annotation.DimenRes;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.util.Log;
 
 import com.faltenreich.diaguard.DiaguardApplication;
+import com.faltenreich.diaguard.data.dao.EntryDao;
+import com.faltenreich.diaguard.data.dao.MeasurementDao;
+import com.faltenreich.diaguard.data.entity.Entry;
+import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.R;
 
+import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.Random;
 
 /**
  * Created by Filip on 10.12.13.
  */
 public class Helper {
 
+    private static final String TAG = Helper.class.getSimpleName();
     private static final String FORMAT_TIME = "HH:mm";
 
     @Deprecated
@@ -47,8 +56,8 @@ public class Helper {
         return DateTimeFormat.forPattern(FORMAT_TIME);
     }
 
-    public static float getDPI(float pixels) {
-        return pixels * (DiaguardApplication.getContext().getResources().getDisplayMetrics().densityDpi / 160);
+    public static float getDPI(@DimenRes int dimenResId) {
+        return DiaguardApplication.getContext().getResources().getDimensionPixelSize(dimenResId);
     }
 
     public static String getTextAgo(Context context, int differenceInMinutes) {
@@ -160,5 +169,28 @@ public class Helper {
             }
         }
         return null;
+    }
+
+    public static  <T extends Measurement> void createTestData() {
+        final int entryCount = 500;
+        Random random = new Random();
+        for (int i = 0; i < entryCount; i++) {
+            Entry entry = new Entry();
+            entry.setDate(DateTime.now().minusHours(entryCount - i));
+            EntryDao.getInstance().createOrUpdate(entry);
+            int categoryIndex = random.nextInt(Measurement.Category.values().length - 1);
+            Measurement.Category category = Measurement.Category.values()[categoryIndex];
+            try {
+                T measurement = (T) category.toClass().newInstance();
+                measurement.setValues(new float[]{111});
+                measurement.setEntry(entry);
+                MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
+            } catch (java.lang.InstantiationException e) {
+
+            } catch (IllegalAccessException e) {
+
+            }
+            Log.d(TAG, String.format("Added %d/%d", i, entryCount));
+        }
     }
 }

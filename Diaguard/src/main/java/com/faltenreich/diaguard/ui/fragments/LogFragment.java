@@ -16,6 +16,7 @@ import android.widget.DatePicker;
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.ListItem;
+import com.faltenreich.diaguard.adapter.StickyHeaderDecoration;
 import com.faltenreich.diaguard.util.ViewHelper;
 import com.faltenreich.diaguard.ui.view.DayOfMonthDrawable;
 import com.faltenreich.diaguard.adapter.LogRecyclerAdapter;
@@ -33,7 +34,6 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
     protected RecyclerView recyclerView;
 
     private LogRecyclerAdapter recyclerAdapter;
-    private LinearLayoutManager layoutManager;
 
     private DateTime firstVisibleDay;
 
@@ -82,10 +82,14 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
     private void goToDay(DateTime day) {
         firstVisibleDay = day;
 
-        layoutManager = new LinearLayoutManager(getActivity());
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerAdapter = new LogRecyclerAdapter(getActivity(), day);
+        RecyclerView.ItemDecoration recyclerDecoration = new StickyHeaderDecoration(recyclerAdapter, true);
+
         recyclerView.setAdapter(recyclerAdapter);
+        recyclerView.addItemDecoration(recyclerDecoration);
+
         recyclerView.scrollToPosition(day.dayOfMonth().get());
         updateMonthForUi();
 
@@ -95,15 +99,18 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                ListItem item = recyclerAdapter.getItem(layoutManager.findFirstVisibleItemPosition());
-                firstVisibleDay = item.getDateTime();
-                // Update month in Toolbar when section is being crossed
-                boolean isScrollingUp = dy < 0;
-                boolean isCrossingMonth = isScrollingUp ?
-                        firstVisibleDay.dayOfMonth().get() == firstVisibleDay.dayOfMonth().getMaximumValue() :
-                        firstVisibleDay.dayOfMonth().get() == firstVisibleDay.dayOfMonth().getMinimumValue();
-                if (isCrossingMonth) {
-                    updateMonthForUi();
+                int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+                if (firstVisibleItemPosition >= 0 && firstVisibleItemPosition < recyclerAdapter.getItemCount()) {
+                    ListItem item = recyclerAdapter.getItem(layoutManager.findFirstVisibleItemPosition());
+                    firstVisibleDay = item.getDateTime();
+                    // Update month in Toolbar when section is being crossed
+                    boolean isScrollingUp = dy < 0;
+                    boolean isCrossingMonth = isScrollingUp ?
+                            firstVisibleDay.dayOfMonth().get() == firstVisibleDay.dayOfMonth().getMaximumValue() :
+                            firstVisibleDay.dayOfMonth().get() == firstVisibleDay.dayOfMonth().getMinimumValue();
+                    if (isCrossingMonth) {
+                        updateMonthForUi();
+                    }
                 }
             }
         });

@@ -1,8 +1,6 @@
 package com.faltenreich.diaguard.adapter;
 
 import android.content.Context;
-import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -22,7 +20,7 @@ import java.util.List;
 /**
  * Created by Filip on 04.11.13.
  */
-public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<ListItem>> implements EndlessAdapter.OnEndlessListener {
+public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<ListItem>> implements EndlessAdapter.OnEndlessListener, StickyHeaderAdapter<LogDayViewHolder> {
 
     private enum ViewType {
         MONTH,
@@ -158,5 +156,23 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
             ((LogEntryViewHolder)holder).measurements.removeAllViews();
         }
         super.onViewRecycled(holder);
+    }
+
+    @Override
+    public long getHeaderId(int position) {
+        return (long) position / 7;
+    }
+
+    @Override
+    public LogDayViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
+        return new LogDayViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_log_day, parent, false));
+    }
+
+    @Override
+    public void onBindHeaderViewHolder(LogDayViewHolder holder, int position) {
+        ListItem listItem = getItem(position);
+        if (listItem instanceof ListItemDay) {
+            holder.bindData((ListItemDay) listItem);
+        }
     }
 }

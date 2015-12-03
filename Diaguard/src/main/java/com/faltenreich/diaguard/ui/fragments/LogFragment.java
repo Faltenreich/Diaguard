@@ -34,6 +34,7 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
     protected RecyclerView recyclerView;
 
     private LogRecyclerAdapter recyclerAdapter;
+    private StickyHeaderDecoration recyclerDecoration;
 
     private DateTime firstVisibleDay;
 
@@ -84,8 +85,9 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.removeItemDecoration(recyclerDecoration);
         recyclerAdapter = new LogRecyclerAdapter(getActivity(), day);
-        RecyclerView.ItemDecoration recyclerDecoration = new StickyHeaderDecoration(recyclerAdapter, true);
+        recyclerDecoration = new StickyHeaderDecoration(recyclerAdapter, true);
 
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.addItemDecoration(recyclerDecoration);

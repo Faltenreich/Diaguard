@@ -97,7 +97,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
 
         while (minVisibleDate.isAfter(targetDate)) {
             minVisibleDate = minVisibleDate.minusDays(1);
-            List<Entry> entries = fetchData(maxVisibleDate);
+            List<Entry> entries = fetchData(minVisibleDate);
             if (entries.size() > 0) {
                 List<ListItemEntry> listItemEntries = new ArrayList<>();
                 for (Entry entry : entries) {

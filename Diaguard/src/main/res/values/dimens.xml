@@ -22,5 +22,6 @@
     <dimen name="corners">4dp</dimen>
 
     <dimen name="list_header_width">64dp</dimen>
+    <dimen name="list_header_height">72dp</dimen>
 
 </resources>

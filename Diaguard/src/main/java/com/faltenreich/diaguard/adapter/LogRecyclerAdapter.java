@@ -203,8 +203,9 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
     @Override
     public void onBindHeaderViewHolder(LogDayViewHolder holder, int position) {
         ListItem listItem = getItem(position);
-        if (listItem instanceof ListItemDay) {
-            holder.bindData((ListItemDay) listItem);
+        // TODO: Remove header for other items instead of ignoring them here
+        if (listItem instanceof ListItemEntry || listItem instanceof ListItemEmpty) {
+            holder.bindData(new ListItemDay(listItem.getDateTime()));
         }
     }
 }

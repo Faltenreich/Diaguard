@@ -8,6 +8,7 @@ import org.joda.time.DateTime;
 public abstract class ListItem {
 
     public ListItem() {
+
     }
 
     public abstract DateTime getDateTime();

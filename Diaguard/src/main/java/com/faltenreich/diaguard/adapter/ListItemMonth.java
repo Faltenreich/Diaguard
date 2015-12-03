@@ -10,7 +10,6 @@ public class ListItemMonth extends ListItem {
     private DateTime month;
 
     public ListItemMonth(DateTime month) {
-        super();
         this.month = month;
     }
 

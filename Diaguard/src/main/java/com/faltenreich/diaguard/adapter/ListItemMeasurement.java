@@ -12,7 +12,6 @@ public class ListItemMeasurement extends ListItem {
     private Measurement measurement;
 
     public ListItemMeasurement(Measurement measurement) {
-        super();
         this.measurement = measurement;
     }
 

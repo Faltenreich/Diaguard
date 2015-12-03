@@ -9,11 +9,19 @@ import org.joda.time.DateTime;
  */
 public class ListItemEntry extends ListItem {
 
+    private ListItemEntry firstListItemEntryOfDay;
     private Entry entry;
 
     public ListItemEntry(Entry entry) {
-        super();
         this.entry = entry;
+    }
+
+    public ListItemEntry getFirstListItemEntryOfDay() {
+        return firstListItemEntryOfDay;
+    }
+
+    public void setFirstListItemEntryOfDay(ListItemEntry firstListItemEntryOfDay) {
+        this.firstListItemEntryOfDay = firstListItemEntryOfDay;
     }
 
     public Entry getEntry() {

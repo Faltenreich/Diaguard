@@ -29,6 +29,10 @@ public abstract class BaseAdapter<L extends ListItem, VH extends BaseViewHolder<
         return items.get(position);
     }
 
+    public int getItemPosition(L item) {
+        return items.indexOf(item);
+    }
+
     public void addItem(L item) {
         this.items.add(item);
     }

@@ -10,23 +10,27 @@ import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.viewholder.BaseViewHolder;
 import com.faltenreich.diaguard.ui.viewholder.LogDayViewHolder;
+import com.faltenreich.diaguard.ui.viewholder.LogEmptyViewHolder;
 import com.faltenreich.diaguard.ui.viewholder.LogEntryViewHolder;
 import com.faltenreich.diaguard.ui.viewholder.LogMonthViewHolder;
 
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Filip on 04.11.13.
  */
-public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<ListItem>> implements EndlessAdapter.OnEndlessListener, StickyHeaderAdapter<LogDayViewHolder> {
+public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<ListItem>>
+        implements EndlessAdapter.OnEndlessListener, StickyHeaderAdapter<LogDayViewHolder> {
 
     private enum ViewType {
         MONTH,
         DAY,
         ENTRY,
-        MEASUREMENT
+        MEASUREMENT,
+        EMPTY
     }
 
     private DateTime maxVisibleDate;
@@ -65,17 +69,25 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
 
         // Header
         addItem(new ListItemMonth(maxVisibleDate));
-        notifyItemInserted(getItemCount() - 1);
+        notifyItemInserted(getItemCount());
 
         while (maxVisibleDate.isBefore(targetDate)) {
-            addItem(new ListItemDay(maxVisibleDate));
             List<Entry> entries = fetchData(maxVisibleDate);
-            for (Entry entry : entries) {
-                addItem(new ListItemEntry(entry));
+            if (entries.size() > 0) {
+                List<ListItemEntry> listItemEntries = new ArrayList<>();
+                for (Entry entry : entries) {
+                    listItemEntries.add(new ListItemEntry(entry));
+                }
+                ListItemEntry firstListItemEntryOfDay = listItemEntries.get(0);
+                for (ListItemEntry listItemEntry : listItemEntries) {
+                    listItemEntry.setFirstListItemEntryOfDay(firstListItemEntryOfDay);
+                    addItem(listItemEntry);
+                }
+                notifyItemRangeInserted(getItemCount() - listItemEntries.size(), getItemCount());
+            } else {
+                addItem(new ListItemEmpty(maxVisibleDate));
+                notifyItemInserted(getItemCount());
             }
-            int insertCount = entries.size() + 1;
-            int maxPosition = getItemCount() - 1;
-            notifyItemRangeInserted(maxPosition - insertCount, maxPosition);
             maxVisibleDate = maxVisibleDate.plusDays(1);
         }
     }
@@ -86,12 +98,21 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
         while (minVisibleDate.isAfter(targetDate)) {
             minVisibleDate = minVisibleDate.minusDays(1);
             List<Entry> entries = fetchData(maxVisibleDate);
-            for (Entry entry : entries) {
-                addItem(0, new ListItemEntry(entry));
+            if (entries.size() > 0) {
+                List<ListItemEntry> listItemEntries = new ArrayList<>();
+                for (Entry entry : entries) {
+                    listItemEntries.add(new ListItemEntry(entry));
+                }
+                ListItemEntry firstListItemEntryOfDay = listItemEntries.get(listItemEntries.size() - 1);
+                for (ListItemEntry listItemEntry : listItemEntries) {
+                    listItemEntry.setFirstListItemEntryOfDay(firstListItemEntryOfDay);
+                    addItem(0, listItemEntry);
+                }
+                notifyItemRangeInserted(0, listItemEntries.size());
+            } else {
+                addItem(0, new ListItemEmpty(minVisibleDate));
+                notifyItemInserted(0);
             }
-            addItem(0, new ListItemDay(minVisibleDate));
-            int insertCount = entries.size() + 1;
-            notifyItemRangeInserted(0, insertCount);
         }
 
         // Header
@@ -117,10 +138,10 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
             ListItem item = getItem(position);
             if (item instanceof ListItemMonth) {
                 return ViewType.MONTH.ordinal();
-            } else if (item instanceof ListItemDay) {
-                return ViewType.DAY.ordinal();
             } else if (item instanceof ListItemEntry) {
                 return ViewType.ENTRY.ordinal();
+            } else if (item instanceof ListItemEmpty) {
+                return ViewType.EMPTY.ordinal();
             }
         }
         return super.getItemViewType(position);
@@ -132,10 +153,10 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
         switch (viewType) {
             case MONTH:
                 return new LogMonthViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_log_month, parent, false));
-            case DAY:
-                return new LogDayViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_log_day, parent, false));
             case ENTRY:
                 return new LogEntryViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_log_entry, parent, false));
+            case EMPTY:
+                return new LogEmptyViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_log_empty, parent, false));
             default:
                 return null;
         }
@@ -160,7 +181,18 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
 
     @Override
     public long getHeaderId(int position) {
-        return (long) position / 7;
+        ListItem listItem = getItem(position);
+        if (listItem instanceof ListItemMonth) {
+            return position;
+        } else if (listItem instanceof ListItemDay) {
+            return position;
+        } else if (listItem instanceof ListItemEntry) {
+            return getItemPosition(((ListItemEntry) listItem).getFirstListItemEntryOfDay());
+        } else if (listItem instanceof ListItemEmpty) {
+            return position;
+        } else {
+            return -1;
+        }
     }
 
     @Override

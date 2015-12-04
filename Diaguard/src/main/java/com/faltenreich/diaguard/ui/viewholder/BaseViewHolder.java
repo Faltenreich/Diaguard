@@ -16,6 +16,8 @@ public abstract class BaseViewHolder <T extends ListItem> extends RecyclerView.V
     private Context context;
     private View view;
 
+    private T listItem;
+
     protected BaseViewHolder(View view) {
         super(view);
         this.view = view;
@@ -31,5 +33,14 @@ public abstract class BaseViewHolder <T extends ListItem> extends RecyclerView.V
         return view;
     }
 
-    public abstract void bindData(final T listItem);
+    protected T getListItem() {
+        return listItem;
+    }
+
+    public void bindData(T listItem) {
+        this.listItem = listItem;
+        bindData();
+    }
+
+    protected abstract void bindData();
 }

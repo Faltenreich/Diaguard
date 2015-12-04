@@ -9,6 +9,8 @@ import com.faltenreich.diaguard.adapter.ListItemMonth;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.squareup.picasso.Picasso;
 
+import org.joda.time.DateTime;
+
 import butterknife.Bind;
 
 /**
@@ -17,19 +19,20 @@ import butterknife.Bind;
 public class LogMonthViewHolder extends BaseViewHolder<ListItemMonth> {
 
     @Bind(R.id.background)
-    public ImageView background;
+    protected ImageView background;
 
     @Bind(R.id.month)
-    public TextView month;
+    protected TextView month;
 
     public LogMonthViewHolder(View view) {
         super(view);
     }
 
     @Override
-    public void bindData(final ListItemMonth listItemMonth) {
-        int resourceId = PreferenceHelper.getInstance().getSeasonResourceId(listItemMonth.getMonth());
+    public void bindData() {
+        DateTime dateTime = getListItem().getDateTime();
+        int resourceId = PreferenceHelper.getInstance().getSeasonResourceId(dateTime);
         Picasso.with(getContext()).load(resourceId).placeholder(R.color.gray_lighter).into(background);
-        month.setText(listItemMonth.getMonth().toString("MMMM YYYY"));
+        month.setText(dateTime.toString("MMMM YYYY"));
     }
 }

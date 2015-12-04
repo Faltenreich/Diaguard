@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.adapter.ListItem;
 import com.faltenreich.diaguard.adapter.ListItemDay;
 import com.faltenreich.diaguard.adapter.ListItemEmpty;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
@@ -20,26 +21,21 @@ import butterknife.Bind;
 public class LogEmptyViewHolder extends BaseViewHolder<ListItemEmpty> implements View.OnClickListener {
 
     @Bind(R.id.empty)
-    public TextView textView;
-
-    private ListItemEmpty listItem;
+    protected TextView textView;
 
     public LogEmptyViewHolder(View view) {
         super(view);
+    }
+
+    @Override
+    public void bindData() {
         textView.setOnClickListener(this);
     }
 
     @Override
-    public void bindData(ListItemEmpty listItem) {
-        this.listItem = listItem;
-    }
-
-    @Override
     public void onClick(View v) {
-        if (listItem != null) {
-            Intent intent = new Intent(getContext(), EntryActivity.class);
-            intent.putExtra(EntryActivity.EXTRA_DATE, listItem.getDay());
-            getContext().startActivity(intent);
-        }
+        Intent intent = new Intent(getContext(), EntryActivity.class);
+        intent.putExtra(EntryActivity.EXTRA_DATE, getListItem().getDateTime());
+        getContext().startActivity(intent);
     }
 }

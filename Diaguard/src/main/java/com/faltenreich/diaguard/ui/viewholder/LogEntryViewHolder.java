@@ -3,12 +3,14 @@ package com.faltenreich.diaguard.ui.viewholder;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.adapter.ListItem;
 import com.faltenreich.diaguard.adapter.ListItemEntry;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
@@ -27,25 +29,27 @@ import butterknife.Bind;
  */
 public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> implements View.OnClickListener {
 
+    @Bind(R.id.cardview)
+    protected CardView cardView;
+
     @Bind(R.id.time)
-    public TextView time;
+    protected TextView time;
 
     @Bind(R.id.note)
-    public TextView note;
+    protected TextView note;
 
     @Bind(R.id.measurements)
     public ViewGroup measurements;
 
-    private Entry entry;
-
     public LogEntryViewHolder(View view) {
         super(view);
-        view.setOnClickListener(this);
     }
 
     @Override
-    public void bindData(final ListItemEntry listItem) {
-        entry = listItem.getEntry();
+    public void bindData() {
+        cardView.setOnClickListener(this);
+
+        Entry entry = getListItem().getEntry();
 
         time.setText(entry.getDate().toString("HH:mm"));
 
@@ -93,10 +97,8 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> implements
 
     @Override
     public void onClick(View v) {
-        if (entry != null) {
-            Intent intent = new Intent(getContext(), EntryActivity.class);
-            intent.putExtra(EntryActivity.EXTRA_ENTRY, entry.getId());
-            getContext().startActivity(intent);
-        }
+        Intent intent = new Intent(getContext(), EntryActivity.class);
+        intent.putExtra(EntryActivity.EXTRA_ENTRY, getListItem().getEntry().getId());
+        getContext().startActivity(intent);
     }
 }

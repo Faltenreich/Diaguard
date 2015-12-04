@@ -17,22 +17,24 @@ import butterknife.Bind;
 public class LogDayViewHolder extends BaseViewHolder<ListItemDay> {
 
     @Bind(R.id.day)
-    public TextView day;
+    protected TextView day;
 
     @Bind(R.id.weekday)
-    public TextView weekDay;
+    protected TextView weekDay;
 
     public LogDayViewHolder(View view) {
         super(view);
     }
 
     @Override
-    public void bindData(final ListItemDay listItem) {
-        day.setText(listItem.getDay().toString("dd"));
-        weekDay.setText(listItem.getDay().dayOfWeek().getAsShortText());
+    public void bindData() {
+        DateTime dateTime = getListItem().getDateTime();
+
+        day.setText(dateTime.toString("dd"));
+        weekDay.setText(dateTime.dayOfWeek().getAsShortText());
 
         // Highlight current day
-        boolean isToday = listItem.getDay().withTimeAtStartOfDay().isEqual(DateTime.now().withTimeAtStartOfDay());
+        boolean isToday = dateTime.withTimeAtStartOfDay().isEqual(DateTime.now().withTimeAtStartOfDay());
         int textColor =  isToday ?
                 ContextCompat.getColor(getContext(), R.color.green) :
                 ContextCompat.getColor(getContext(), R.color.gray_dark);

@@ -128,4 +128,18 @@
         <item name="android:background">@color/gray_light</item>
     </style>
 
+    <style name="InlineListSection" parent="Padding">
+        <item name="android:layout_width">@dimen/list_header_width</item>
+        <item name="android:layout_height">@dimen/list_header_height</item>
+    </style>
+
+    <style name="InlineListItem">
+        <item name="android:minHeight">@dimen/list_header_height</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">@dimen/list_header_width</item>
+        <item name="android:paddingStart">@dimen/list_header_width</item>
+        <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingEnd">@dimen/activity_horizontal_margin</item>
+    </style>
+
 </resources>

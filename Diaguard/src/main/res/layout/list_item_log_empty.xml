@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<TextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/empty"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/list_header_height"
-    android:paddingLeft="@dimen/list_header_width"
-    android:paddingStart="@dimen/list_header_width"
-    android:text="@string/no_data"
-    android:textColor="@android:color/darker_gray"
-    android:gravity="center_vertical"
-    android:clickable="true"
-    android:background="?android:attr/selectableItemBackground"
-    style="@style/Padding"/>
+    android:layout_height="wrap_content"
+    style="@style/InlineListItem">
+
+    <TextView
+        android:id="@+id/empty"
+        style="@style/Padding"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_element"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:text="@string/no_data"
+        android:textColor="@android:color/darker_gray" />
+
+</LinearLayout>

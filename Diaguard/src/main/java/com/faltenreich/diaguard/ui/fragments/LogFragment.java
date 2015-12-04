@@ -16,6 +16,7 @@ import android.widget.DatePicker;
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.ListItem;
+import com.faltenreich.diaguard.adapter.SafeLinearLayoutManager;
 import com.faltenreich.diaguard.adapter.StickyHeaderDecoration;
 import com.faltenreich.diaguard.util.ViewHelper;
 import com.faltenreich.diaguard.ui.view.DayOfMonthDrawable;
@@ -33,8 +34,9 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
     @Bind(R.id.list)
     protected RecyclerView recyclerView;
 
-    private LogRecyclerAdapter recyclerAdapter;
-    private StickyHeaderDecoration recyclerDecoration;
+    private LogRecyclerAdapter listAdapter;
+    private StickyHeaderDecoration listDecoration;
+    private LinearLayoutManager listLayoutManager;
 
     private DateTime firstVisibleDay;
 
@@ -78,22 +80,6 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
 
     private void initialize() {
         firstVisibleDay = DateTime.now();
-    }
-
-    private void goToDay(DateTime day) {
-        firstVisibleDay = day;
-
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.removeItemDecoration(recyclerDecoration);
-        recyclerAdapter = new LogRecyclerAdapter(getActivity(), day);
-        recyclerDecoration = new StickyHeaderDecoration(recyclerAdapter, true);
-
-        recyclerView.setAdapter(recyclerAdapter);
-        recyclerView.addItemDecoration(recyclerDecoration);
-
-        recyclerView.scrollToPosition(day.dayOfMonth().get());
-        updateMonthForUi();
 
         // Fragment updates
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -101,9 +87,9 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
-                if (firstVisibleItemPosition >= 0 && firstVisibleItemPosition < recyclerAdapter.getItemCount()) {
-                    ListItem item = recyclerAdapter.getItem(layoutManager.findFirstVisibleItemPosition());
+                int firstVisibleItemPosition = listLayoutManager.findFirstVisibleItemPosition();
+                if (firstVisibleItemPosition >= 0 && firstVisibleItemPosition < listAdapter.getItemCount()) {
+                    ListItem item = listAdapter.getItem(listLayoutManager.findFirstVisibleItemPosition());
                     firstVisibleDay = item.getDateTime();
                     // Update month in Toolbar when section is being crossed
                     boolean isScrollingUp = dy < 0;
@@ -116,6 +102,25 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
                 }
             }
         });
+    }
+
+    private void goToDay(DateTime day) {
+        firstVisibleDay = day;
+
+        listLayoutManager = new SafeLinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(listLayoutManager);
+        listAdapter = new LogRecyclerAdapter(getActivity(), firstVisibleDay);
+        recyclerView.setAdapter(listAdapter);
+        recyclerView.removeItemDecoration(listDecoration);
+        listDecoration = new StickyHeaderDecoration(listAdapter, true);
+        recyclerView.addItemDecoration(listDecoration);
+
+        int positionOfDay = listAdapter.getDayPosition(day);
+        if (positionOfDay >= 0) {
+            recyclerView.scrollToPosition(positionOfDay);
+        }
+
+        updateMonthForUi();
     }
 
     private void updateMonthForUi() {

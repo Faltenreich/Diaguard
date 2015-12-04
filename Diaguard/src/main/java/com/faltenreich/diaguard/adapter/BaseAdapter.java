@@ -29,6 +29,10 @@ public abstract class BaseAdapter<L extends ListItem, VH extends BaseViewHolder<
         return items.get(position);
     }
 
+    protected List<L> getItems() {
+        return items;
+    }
+
     public int getItemPosition(L item) {
         return items.indexOf(item);
     }

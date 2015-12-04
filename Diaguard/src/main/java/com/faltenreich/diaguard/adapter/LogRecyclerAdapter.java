@@ -1,6 +1,8 @@
 package com.faltenreich.diaguard.adapter;
 
 import android.content.Context;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -36,15 +38,21 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
     private DateTime maxVisibleDate;
     private DateTime minVisibleDate;
 
+    private boolean shouldLoadPreviousMonth;
+    private boolean isLoadingPreviousMonth;
+
+    private boolean shouldLoadNextMonth;
+    private boolean isLoadingNextMonth;
+
     public LogRecyclerAdapter(Context context, DateTime firstVisibleDay) {
         super(context);
 
         minVisibleDate = firstVisibleDay.withDayOfMonth(1);
         maxVisibleDate = minVisibleDate;
 
-        setOnEndlessListener(this);
-
         appendNextMonth();
+
+        setOnEndlessListener(this);
 
         // Workaround to endless scrolling when after visible threshold
         if (firstVisibleDay.dayOfMonth().get() >= (firstVisibleDay.dayOfMonth().getMaximumValue() - EndlessAdapter.VISIBLE_THRESHOLD) - 1) {
@@ -65,59 +73,25 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
     }
 
     private void appendNextMonth() {
-        DateTime targetDate = maxVisibleDate.plusMonths(1);
-
-        // Header
-        addItem(new ListItemMonth(maxVisibleDate));
-        notifyItemInserted(getItemCount());
-
-        while (maxVisibleDate.isBefore(targetDate)) {
-            List<Entry> entries = fetchData(maxVisibleDate);
-            if (entries.size() > 0) {
-                List<ListItemEntry> listItemEntries = new ArrayList<>();
-                for (Entry entry : entries) {
-                    listItemEntries.add(new ListItemEntry(entry));
-                }
-                ListItemEntry firstListItemEntryOfDay = listItemEntries.get(0);
-                for (ListItemEntry listItemEntry : listItemEntries) {
-                    listItemEntry.setFirstListItemEntryOfDay(firstListItemEntryOfDay);
-                    addItem(listItemEntry);
-                }
-                notifyItemRangeInserted(getItemCount() - listItemEntries.size(), getItemCount());
+        if (!isLoadingNextMonth) {
+            if (isLoadingPreviousMonth) {
+                shouldLoadNextMonth = true;
             } else {
-                addItem(new ListItemEmpty(maxVisibleDate));
-                notifyItemInserted(getItemCount());
+                isLoadingNextMonth = true;
+                new AppendNextMonthTask().execute();
             }
-            maxVisibleDate = maxVisibleDate.plusDays(1);
         }
     }
 
     private void appendPreviousMonth() {
-        DateTime targetDate = minVisibleDate.minusMonths(1);
-
-        while (minVisibleDate.isAfter(targetDate)) {
-            minVisibleDate = minVisibleDate.minusDays(1);
-            List<Entry> entries = fetchData(minVisibleDate);
-            if (entries.size() > 0) {
-                List<ListItemEntry> listItemEntries = new ArrayList<>();
-                for (Entry entry : entries) {
-                    listItemEntries.add(new ListItemEntry(entry));
-                }
-                ListItemEntry firstListItemEntryOfDay = listItemEntries.get(listItemEntries.size() - 1);
-                for (ListItemEntry listItemEntry : listItemEntries) {
-                    listItemEntry.setFirstListItemEntryOfDay(firstListItemEntryOfDay);
-                    addItem(0, listItemEntry);
-                }
-                notifyItemRangeInserted(0, listItemEntries.size());
+        if (!isLoadingPreviousMonth) {
+            if (isLoadingNextMonth) {
+                shouldLoadPreviousMonth = true;
             } else {
-                addItem(0, new ListItemEmpty(minVisibleDate));
-                notifyItemInserted(0);
+                isLoadingPreviousMonth = true;
+                new AppendPreviousMonthTask().execute();
             }
         }
-
-        // Header
-        addItem(0, new ListItemMonth(minVisibleDate));
-        notifyItemInserted(0);
     }
 
     private List<Entry> fetchData(DateTime day) {
@@ -128,6 +102,20 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
             entry.setMeasurementCache(measurements);
         }
         return entriesOfDay;
+    }
+
+    public int getDayPosition(DateTime dateTime) {
+        for (int position = 0; position < getItemCount(); position++) {
+            ListItem listItem = getItem(position);
+            if (listItem instanceof ListItemDay) {
+                ListItemDay listItemDay = (ListItemDay)listItem;
+                boolean isSameDay = listItemDay.getDay().withTimeAtStartOfDay().equals(dateTime.withTimeAtStartOfDay());
+                if (isSameDay) {
+                    return position;
+                }
+            }
+        }
+        return -1;
     }
 
     @Override
@@ -206,6 +194,95 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
         // TODO: Remove header for other items instead of ignoring them here
         if (listItem instanceof ListItemEntry || listItem instanceof ListItemEmpty) {
             holder.bindData(new ListItemDay(listItem.getDateTime()));
+        }
+    }
+
+    private class AppendPreviousMonthTask extends AsyncTask<Void, Integer, List<ListItem>> {
+
+        protected List<ListItem> doInBackground(Void... params) {
+            List<ListItem> listItems = new ArrayList<>();
+            DateTime targetDate = minVisibleDate.minusMonths(1);
+
+            while (minVisibleDate.isAfter(targetDate)) {
+                minVisibleDate = minVisibleDate.minusDays(1);
+                List<Entry> entries = fetchData(minVisibleDate);
+                if (entries.size() > 0) {
+                    List<ListItemEntry> listItemEntries = new ArrayList<>();
+                    for (Entry entry : entries) {
+                        listItemEntries.add(new ListItemEntry(entry));
+                    }
+                    ListItemEntry firstListItemEntryOfDay = listItemEntries.get(listItemEntries.size() - 1);
+                    for (ListItemEntry listItemEntry : listItemEntries) {
+                        listItemEntry.setFirstListItemEntryOfDay(firstListItemEntryOfDay);
+                        listItems.add(0, listItemEntry);
+                    }
+                } else {
+                    listItems.add(0, new ListItemEmpty(minVisibleDate));
+                }
+            }
+
+            listItems.add(0, new ListItemMonth(minVisibleDate));
+
+            return listItems;
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+
+        }
+
+        protected void onPostExecute(List<ListItem> listItems) {
+            addItems(0, listItems);
+            notifyItemRangeInserted(0, listItems.size());
+
+            isLoadingPreviousMonth = false;
+            if (shouldLoadNextMonth) {
+                shouldLoadNextMonth = false;
+                appendNextMonth();
+            }
+        }
+    }
+
+    private class AppendNextMonthTask extends AsyncTask<Void, Integer, List<ListItem>> {
+
+        protected List<ListItem> doInBackground(Void... params) {
+            List<ListItem> listItems = new ArrayList<>();
+
+            DateTime targetDate = maxVisibleDate.plusMonths(1);
+            listItems.add(new ListItemMonth(maxVisibleDate));
+
+            while (maxVisibleDate.isBefore(targetDate)) {
+                List<Entry> entries = fetchData(maxVisibleDate);
+                if (entries.size() > 0) {
+                    List<ListItemEntry> listItemEntries = new ArrayList<>();
+                    for (Entry entry : entries) {
+                        listItemEntries.add(new ListItemEntry(entry));
+                    }
+                    ListItemEntry firstListItemEntryOfDay = listItemEntries.get(0);
+                    for (ListItemEntry listItemEntry : listItemEntries) {
+                        listItemEntry.setFirstListItemEntryOfDay(firstListItemEntryOfDay);
+                        listItems.add(listItemEntry);
+                    }
+                } else {
+                    listItems.add(new ListItemEmpty(maxVisibleDate));
+                }
+                maxVisibleDate = maxVisibleDate.plusDays(1);
+            }
+            return listItems;
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+
+        }
+
+        protected void onPostExecute(List<ListItem> listItems) {
+            addItems(listItems);
+            notifyItemRangeInserted(getItemCount() - listItems.size(), getItemCount());
+            isLoadingNextMonth = false;
+
+            if (shouldLoadPreviousMonth) {
+                shouldLoadPreviousMonth = false;
+                appendPreviousMonth();
+            }
         }
     }
 }

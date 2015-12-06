@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.faltenreich.diaguard.adapter.ListItem;
+import com.faltenreich.diaguard.adapter.list.ListItem;
 
 import butterknife.ButterKnife;
 

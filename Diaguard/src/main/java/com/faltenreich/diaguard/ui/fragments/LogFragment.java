@@ -15,7 +15,7 @@ import android.widget.DatePicker;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.ListItem;
+import com.faltenreich.diaguard.adapter.list.ListItem;
 import com.faltenreich.diaguard.adapter.SafeLinearLayoutManager;
 import com.faltenreich.diaguard.adapter.StickyHeaderDecoration;
 import com.faltenreich.diaguard.util.ViewHelper;
@@ -29,7 +29,7 @@ import butterknife.Bind;
 /**
  * Created by Filip on 05.07.2015.
  */
-public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCallback {
+public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCallback, LogRecyclerAdapter.OnReorderingListener {
 
     @Bind(R.id.list)
     protected RecyclerView recyclerView;
@@ -49,12 +49,6 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
         initialize();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        goToDay(firstVisibleDay);
     }
 
     @Override
@@ -102,6 +96,8 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
                 }
             }
         });
+
+        goToDay(firstVisibleDay);
     }
 
     private void goToDay(DateTime day) {
@@ -109,7 +105,7 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
 
         listLayoutManager = new SafeLinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(listLayoutManager);
-        listAdapter = new LogRecyclerAdapter(getActivity(), firstVisibleDay);
+        listAdapter = new LogRecyclerAdapter(getActivity(), this, firstVisibleDay);
         recyclerView.setAdapter(listAdapter);
         recyclerView.removeItemDecoration(listDecoration);
         listDecoration = new StickyHeaderDecoration(listAdapter, true);
@@ -174,5 +170,10 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
     @Override
     public void action() {
         showDatePicker();
+    }
+
+    @Override
+    public void changesOrder() {
+        listDecoration.clearHeaderCache();
     }
 }

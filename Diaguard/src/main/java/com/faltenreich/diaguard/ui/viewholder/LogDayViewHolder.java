@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.ListItemDay;
+import com.faltenreich.diaguard.adapter.list.ListItemDay;
 
 import org.joda.time.DateTime;
 

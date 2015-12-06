@@ -6,6 +6,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.faltenreich.diaguard.adapter.list.ListItem;
+import com.faltenreich.diaguard.adapter.list.ListItemDay;
+import com.faltenreich.diaguard.adapter.list.ListItemEmpty;
+import com.faltenreich.diaguard.adapter.list.ListItemEntry;
+import com.faltenreich.diaguard.adapter.list.ListItemMonth;
+import com.faltenreich.diaguard.adapter.list.ListItemPending;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Entry;
@@ -15,8 +21,10 @@ import com.faltenreich.diaguard.ui.viewholder.LogDayViewHolder;
 import com.faltenreich.diaguard.ui.viewholder.LogEmptyViewHolder;
 import com.faltenreich.diaguard.ui.viewholder.LogEntryViewHolder;
 import com.faltenreich.diaguard.ui.viewholder.LogMonthViewHolder;
+import com.faltenreich.diaguard.ui.viewholder.LogPendingViewHolder;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,69 +35,86 @@ import java.util.List;
 public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<ListItem>>
         implements EndlessAdapter.OnEndlessListener, StickyHeaderAdapter<LogDayViewHolder> {
 
+    private static final String TAG = LogRecyclerAdapter.class.getSimpleName();
+
     private enum ViewType {
         MONTH,
         DAY,
         ENTRY,
         MEASUREMENT,
-        EMPTY
+        EMPTY,
+        PENDING
     }
 
-    private DateTime maxVisibleDate;
-    private DateTime minVisibleDate;
+    private OnReorderingListener listener;
 
-    private boolean shouldLoadPreviousMonth;
-    private boolean isLoadingPreviousMonth;
+    private boolean shouldLoadPrevious;
+    private boolean isLoadingPrevious;
 
-    private boolean shouldLoadNextMonth;
-    private boolean isLoadingNextMonth;
+    private boolean shouldLoadNext;
+    private boolean isLoadingNext;
 
-    public LogRecyclerAdapter(Context context, DateTime firstVisibleDay) {
+    private DateTime startDateTime;
+
+    public LogRecyclerAdapter(Context context, OnReorderingListener listener, DateTime startDateTime) {
         super(context);
-
-        minVisibleDate = firstVisibleDay.withDayOfMonth(1);
-        maxVisibleDate = minVisibleDate;
-
-        appendNextMonth();
-
+        this.listener = listener;
+        this.startDateTime = startDateTime;
         setOnEndlessListener(this);
-
-        // Workaround to endless scrolling when after visible threshold
-        if (firstVisibleDay.dayOfMonth().get() >= (firstVisibleDay.dayOfMonth().getMaximumValue() - EndlessAdapter.VISIBLE_THRESHOLD) - 1) {
-            appendNextMonth();
-        }
+        appendNext();
     }
 
     @Override
     public void onLoadMore(Direction direction) {
         switch (direction) {
             case DOWN:
-                appendNextMonth();
+                appendNext();
                 break;
             case UP:
-                appendPreviousMonth();
+                appendPrevious();
                 break;
         }
     }
 
-    private void appendNextMonth() {
-        if (!isLoadingNextMonth) {
-            if (isLoadingPreviousMonth) {
-                shouldLoadNextMonth = true;
+    private void appendNext() {
+        if (!isLoadingNext) {
+            if (isLoadingPrevious) {
+                shouldLoadNext = true;
             } else {
-                isLoadingNextMonth = true;
-                new AppendNextMonthTask().execute();
+                isLoadingNext = true;
+                new AppendNextTask().execute();
             }
         }
     }
 
-    private void appendPreviousMonth() {
-        if (!isLoadingPreviousMonth) {
-            if (isLoadingNextMonth) {
-                shouldLoadPreviousMonth = true;
+    private void appendPrevious() {
+        if (!isLoadingPrevious) {
+            if (isLoadingNext) {
+                shouldLoadPrevious = true;
             } else {
-                isLoadingPreviousMonth = true;
-                new AppendPreviousMonthTask().execute();
+                isLoadingPrevious = true;
+                new AppendPreviousTask().execute();
+            }
+        }
+    }
+
+    private void removePendingView(Direction direction) {
+        if (getItemCount() > 0) {
+            int position = -1;
+            switch (direction) {
+                case DOWN:
+                    if (getItem(getItemCount() - 1) instanceof ListItemPending) {
+                        position = getItemCount() - 1;
+                    }
+                    break;
+                case UP:
+                    if (getItem(0) instanceof ListItemPending) {
+                        position = 0;
+                    }
+                    break;
+            }
+            if (position >= 0) {
+                removeItem(position);
             }
         }
     }
@@ -109,7 +134,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
             ListItem listItem = getItem(position);
             if (listItem instanceof ListItemDay) {
                 ListItemDay listItemDay = (ListItemDay)listItem;
-                boolean isSameDay = listItemDay.getDay().withTimeAtStartOfDay().equals(dateTime.withTimeAtStartOfDay());
+                boolean isSameDay = listItemDay.getDateTime().withTimeAtStartOfDay().equals(dateTime.withTimeAtStartOfDay());
                 if (isSameDay) {
                     return position;
                 }
@@ -130,6 +155,8 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
                 return ViewType.ENTRY.ordinal();
             } else if (item instanceof ListItemEmpty) {
                 return ViewType.EMPTY.ordinal();
+            } else if (item instanceof ListItemPending) {
+                return ViewType.PENDING.ordinal();
             }
         }
         return super.getItemViewType(position);
@@ -145,6 +172,8 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
                 return new LogEntryViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_log_entry, parent, false));
             case EMPTY:
                 return new LogEmptyViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_log_empty, parent, false));
+            case PENDING:
+                return new LogPendingViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_log_pending, parent, false));
             default:
                 return null;
         }
@@ -153,10 +182,8 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        if (holder != null) {
-            ListItem listItem = getItem(position);
-            holder.bindData(listItem);
-        }
+        ListItem listItem = getItem(position);
+        holder.bindData(listItem);
     }
 
     @Override
@@ -170,16 +197,10 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
     @Override
     public long getHeaderId(int position) {
         ListItem listItem = getItem(position);
-        if (listItem instanceof ListItemMonth) {
-            return position;
-        } else if (listItem instanceof ListItemDay) {
-            return position;
-        } else if (listItem instanceof ListItemEntry) {
+        if (listItem instanceof ListItemEntry) {
             return getItemPosition(((ListItemEntry) listItem).getFirstListItemEntryOfDay());
-        } else if (listItem instanceof ListItemEmpty) {
-            return position;
         } else {
-            return -1;
+            return position;
         }
     }
 
@@ -197,14 +218,17 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
         }
     }
 
-    private class AppendPreviousMonthTask extends AsyncTask<Void, Integer, List<ListItem>> {
+    private class AppendPreviousTask extends AsyncTask<Void, Integer, List<ListItem>> {
 
+        @Override
         protected List<ListItem> doInBackground(Void... params) {
             List<ListItem> listItems = new ArrayList<>();
-            DateTime targetDate = minVisibleDate.minusMonths(1);
 
+            DateTime minVisibleDate = getItem(0).getDateTime();
+            DateTime targetDate = minVisibleDate.minusDays(EndlessAdapter.BULK_SIZE);
             while (minVisibleDate.isAfter(targetDate)) {
                 minVisibleDate = minVisibleDate.minusDays(1);
+
                 List<Entry> entries = fetchData(minVisibleDate);
                 if (entries.size() > 0) {
                     List<ListItemEntry> listItemEntries = new ArrayList<>();
@@ -219,38 +243,61 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
                 } else {
                     listItems.add(0, new ListItemEmpty(minVisibleDate));
                 }
-            }
 
-            listItems.add(0, new ListItemMonth(minVisibleDate));
+                boolean isFirstDayOfMonth = minVisibleDate.dayOfMonth().get() == 1;
+                if (isFirstDayOfMonth) {
+                    listItems.add(0, new ListItemMonth(minVisibleDate));
+                }
+            }
 
             return listItems;
         }
 
-        protected void onProgressUpdate(Integer... progress) {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            DateTime dateTime = getItemCount() > 0 ?
+                    getItem(0).getDateTime() :
+                    startDateTime;
+            addItem(0, new ListItemPending(dateTime));
+            notifyItemInserted(0);
 
+            listener.changesOrder();
         }
 
+        @Override
         protected void onPostExecute(List<ListItem> listItems) {
-            addItems(0, listItems);
-            notifyItemRangeInserted(0, listItems.size());
+            removePendingView(Direction.UP);
 
-            isLoadingPreviousMonth = false;
-            if (shouldLoadNextMonth) {
-                shouldLoadNextMonth = false;
-                appendNextMonth();
+            addItems(0, listItems);
+            notifyItemRangeInserted(0, listItems.size() - 1);
+
+            listener.changesOrder();
+
+            isLoadingPrevious = false;
+            if (shouldLoadNext) {
+                shouldLoadNext = false;
+                appendNext();
             }
         }
     }
 
-    private class AppendNextMonthTask extends AsyncTask<Void, Integer, List<ListItem>> {
+    private class AppendNextTask extends AsyncTask<Void, Integer, List<ListItem>> {
 
+        @Override
         protected List<ListItem> doInBackground(Void... params) {
             List<ListItem> listItems = new ArrayList<>();
 
-            DateTime targetDate = maxVisibleDate.plusMonths(1);
-            listItems.add(new ListItemMonth(maxVisibleDate));
-
+            DateTime maxVisibleDate = getItem(getItemCount() - 1).getDateTime();
+            DateTime targetDate = maxVisibleDate.plusDays(EndlessAdapter.BULK_SIZE);
             while (maxVisibleDate.isBefore(targetDate)) {
+                maxVisibleDate = maxVisibleDate.plusDays(1);
+
+                boolean isFirstDayOfMonth = maxVisibleDate.dayOfMonth().get() == 1;
+                if (isFirstDayOfMonth) {
+                    listItems.add(new ListItemMonth(maxVisibleDate));
+                }
+
                 List<Entry> entries = fetchData(maxVisibleDate);
                 if (entries.size() > 0) {
                     List<ListItemEntry> listItemEntries = new ArrayList<>();
@@ -265,24 +312,39 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
                 } else {
                     listItems.add(new ListItemEmpty(maxVisibleDate));
                 }
-                maxVisibleDate = maxVisibleDate.plusDays(1);
             }
+
             return listItems;
         }
 
-        protected void onProgressUpdate(Integer... progress) {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
 
+            DateTime dateTime = getItemCount() > 0 ?
+                    getItem(getItemCount() - 1).getDateTime() :
+                    startDateTime;
+            addItem(getItemCount(), new ListItemPending(dateTime));
+            notifyItemInserted(getItemCount());
         }
 
+        @Override
         protected void onPostExecute(List<ListItem> listItems) {
-            addItems(listItems);
-            notifyItemRangeInserted(getItemCount() - listItems.size(), getItemCount());
-            isLoadingNextMonth = false;
+            removePendingView(Direction.DOWN);
 
-            if (shouldLoadPreviousMonth) {
-                shouldLoadPreviousMonth = false;
-                appendPreviousMonth();
+            addItems(listItems);
+            notifyItemRangeInserted(getItemCount() - listItems.size(), getItemCount() - 1);
+            isLoadingNext = false;
+
+            if (shouldLoadPrevious) {
+                shouldLoadPrevious = false;
+                appendPrevious();
             }
         }
+    }
+
+    // Required to notify position changes
+    public interface OnReorderingListener {
+        void changesOrder();
     }
 }

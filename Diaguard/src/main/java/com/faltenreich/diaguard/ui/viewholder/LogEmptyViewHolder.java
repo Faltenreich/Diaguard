@@ -1,17 +1,12 @@
 package com.faltenreich.diaguard.ui.viewholder;
 
 import android.content.Intent;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.ListItem;
-import com.faltenreich.diaguard.adapter.ListItemDay;
-import com.faltenreich.diaguard.adapter.ListItemEmpty;
+import com.faltenreich.diaguard.adapter.list.ListItemEmpty;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
-
-import org.joda.time.DateTime;
 
 import butterknife.Bind;
 

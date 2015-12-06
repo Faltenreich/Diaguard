@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.adapter;
+package com.faltenreich.diaguard.adapter.list;
 
 import com.faltenreich.diaguard.data.entity.Measurement;
 
@@ -12,15 +12,11 @@ public class ListItemMeasurement extends ListItem {
     private Measurement measurement;
 
     public ListItemMeasurement(Measurement measurement) {
+        super(measurement.getEntry().getDate());
         this.measurement = measurement;
     }
 
     public Measurement getMeasurement() {
         return measurement;
-    }
-
-    @Override
-    public DateTime getDateTime() {
-        return measurement.getEntry().getDate();
     }
 }

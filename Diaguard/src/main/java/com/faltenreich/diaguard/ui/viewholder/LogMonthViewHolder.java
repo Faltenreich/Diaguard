@@ -5,7 +5,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.ListItemMonth;
+import com.faltenreich.diaguard.adapter.list.ListItemMonth;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.squareup.picasso.Picasso;
 

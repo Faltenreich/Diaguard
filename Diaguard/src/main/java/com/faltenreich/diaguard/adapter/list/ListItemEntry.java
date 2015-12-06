@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.adapter;
+package com.faltenreich.diaguard.adapter.list;
 
 import com.faltenreich.diaguard.data.entity.Entry;
 
@@ -13,6 +13,7 @@ public class ListItemEntry extends ListItem {
     private Entry entry;
 
     public ListItemEntry(Entry entry) {
+        super(entry.getDate());
         this.entry = entry;
     }
 
@@ -26,10 +27,5 @@ public class ListItemEntry extends ListItem {
 
     public Entry getEntry() {
         return entry;
-    }
-
-    @Override
-    public DateTime getDateTime() {
-        return entry.getDate();
     }
 }

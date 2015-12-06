@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.adapter;
 import android.content.Context;
 import android.os.Handler;
 
+import com.faltenreich.diaguard.adapter.list.ListItem;
 import com.faltenreich.diaguard.ui.viewholder.BaseViewHolder;
 
 /**
@@ -11,6 +12,7 @@ import com.faltenreich.diaguard.ui.viewholder.BaseViewHolder;
 public abstract class EndlessAdapter<L extends ListItem, VH extends BaseViewHolder<L>> extends BaseAdapter<L, VH> {
 
     public static final int VISIBLE_THRESHOLD = 5;
+    public static final int BULK_SIZE = 10;
 
     private OnEndlessListener listener;
 
@@ -21,6 +23,7 @@ public abstract class EndlessAdapter<L extends ListItem, VH extends BaseViewHold
     @Override
     public void onBindViewHolder(VH holder, final int position) {
         if (listener != null) {
+            // Handler is required to make layout changes during scroll
             Handler handler = new Handler();
             Runnable runnable = new Runnable() {
                 public void run() {

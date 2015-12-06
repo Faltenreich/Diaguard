@@ -10,8 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.ListItem;
-import com.faltenreich.diaguard.adapter.ListItemEntry;
+import com.faltenreich.diaguard.adapter.list.ListItemEntry;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
@@ -19,8 +18,6 @@ import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.ui.view.TintImageView;
-
-import org.joda.time.DateTime;
 
 import butterknife.Bind;
 

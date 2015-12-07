@@ -50,14 +50,21 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
     private boolean shouldLoadNext;
     private boolean isLoadingNext;
 
-    private DateTime startDateTime;
-
-    public LogRecyclerAdapter(Context context, OnAdapterChangesListener listener, DateTime startDateTime) {
+    public LogRecyclerAdapter(Context context, OnAdapterChangesListener listener) {
         super(context);
         this.listener = listener;
-        this.startDateTime = startDateTime;
-        setOnEndlessListener(this);
-        appendNext();
+    }
+
+    public void setup(DateTime startDateTime) {
+        removeOnEndlessListener();
+
+        int count = getItemCount();
+        if (count > 0) {
+            clear();
+            notifyItemRangeRemoved(0, count - 1);
+        }
+
+        new SetupTask(startDateTime).execute();
     }
 
     @Override
@@ -128,12 +135,9 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
     public int getDayPosition(DateTime dateTime) {
         for (int position = 0; position < getItemCount(); position++) {
             ListItem listItem = getItem(position);
-            if (listItem instanceof ListItemDay) {
-                ListItemDay listItemDay = (ListItemDay)listItem;
-                boolean isSameDay = listItemDay.getDateTime().withTimeAtStartOfDay().equals(dateTime.withTimeAtStartOfDay());
-                if (isSameDay) {
-                    return position;
-                }
+            boolean isSameDay = listItem.getDateTime().withTimeAtStartOfDay().isEqual(dateTime.withTimeAtStartOfDay());
+            if (isSameDay) {
+                return position;
             }
         }
         return -1;
@@ -192,12 +196,13 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
 
     @Override
     public long getHeaderId(int position) {
-        ListItem listItem = getItem(position);
-        if (listItem instanceof ListItemEntry) {
-            return getItemPosition(((ListItemEntry) listItem).getFirstListItemEntryOfDay());
-        } else {
-            return position;
+        if (position >= 0 && position < getItemCount()) {
+            ListItem listItem = getItem(position);
+            if (listItem instanceof ListItemEntry) {
+                return getItemPosition(((ListItemEntry) listItem).getFirstListItemEntryOfDay());
+            }
         }
+        return position;
     }
 
     @Override
@@ -207,10 +212,77 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
 
     @Override
     public void onBindHeaderViewHolder(LogDayViewHolder holder, int position) {
-        ListItem listItem = getItem(position);
-        // TODO: Remove header for other items instead of ignoring them here
-        if (listItem instanceof ListItemEntry || listItem instanceof ListItemEmpty) {
-            holder.bindData(new ListItemDay(listItem.getDateTime()));
+        if (position >= 0 && position < getItemCount()) {
+            ListItem listItem = getItem(position);
+            // TODO: Remove header for other items instead of ignoring them here
+            if (listItem instanceof ListItemEntry || listItem instanceof ListItemEmpty) {
+                holder.bindData(new ListItemDay(listItem.getDateTime()));
+            }
+        }
+    }
+
+    private class SetupTask extends AsyncTask<Void, Integer, List<ListItem>> {
+
+        private DateTime startDate;
+
+        public SetupTask(DateTime startDate) {
+            this.startDate = startDate;
+        }
+
+        @Override
+        protected List<ListItem> doInBackground(Void... params) {
+            List<ListItem> listItems = new ArrayList<>();
+            DateTime currentDate = startDate.minusDays(EndlessAdapter.BULK_SIZE);
+            DateTime targetDate = startDate.plusDays(EndlessAdapter.BULK_SIZE);
+
+            while (currentDate.isBefore(targetDate)) {
+                boolean isFirstDayOfMonth = currentDate.dayOfMonth().get() == 1;
+                if (isFirstDayOfMonth) {
+                    listItems.add(new ListItemMonth(currentDate));
+                }
+
+                List<Entry> entries = fetchData(currentDate);
+                if (entries.size() > 0) {
+                    List<ListItemEntry> listItemEntries = new ArrayList<>();
+                    for (Entry entry : entries) {
+                        listItemEntries.add(new ListItemEntry(entry));
+                    }
+                    ListItemEntry firstListItemEntryOfDay = listItemEntries.get(listItemEntries.size() - 1);
+                    for (ListItemEntry listItemEntry : listItemEntries) {
+                        listItemEntry.setFirstListItemEntryOfDay(firstListItemEntryOfDay);
+                        listItems.add(listItemEntry);
+                    }
+                } else {
+                    listItems.add(new ListItemEmpty(currentDate));
+                }
+
+                currentDate = currentDate.plusDays(1);
+            }
+
+            return listItems;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            addItem(new ListItemPending(startDate));
+            notifyItemInserted(0);
+
+            listener.onOrderChanges();
+        }
+
+        @Override
+        protected void onPostExecute(List<ListItem> listItems) {
+            removePendingView(Direction.DOWN);
+
+            addItems(listItems);
+            notifyItemRangeInserted(getItemCount() - listItems.size(), getItemCount() - 1);
+
+            listener.onOrderChanges();
+            listener.onSetupComplete(startDate);
+            
+            setOnEndlessListener(LogRecyclerAdapter.this);
         }
     }
 
@@ -253,13 +325,11 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
         protected void onPreExecute() {
             super.onPreExecute();
 
-            DateTime dateTime = getItemCount() > 0 ?
-                    getItem(0).getDateTime() :
-                    startDateTime.plusDays(1);
+            DateTime dateTime = getItem(0).getDateTime();
             addItem(0, new ListItemPending(dateTime));
             notifyItemInserted(0);
 
-            listener.changesOrder();
+            listener.onOrderChanges();
         }
 
         @Override
@@ -269,7 +339,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
             addItems(0, listItems);
             notifyItemRangeInserted(0, listItems.size() - 1);
 
-            listener.changesOrder();
+            listener.onOrderChanges();
 
             isLoadingPrevious = false;
             if (shouldLoadNext) {
@@ -318,9 +388,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
         protected void onPreExecute() {
             super.onPreExecute();
 
-            DateTime dateTime = getItemCount() > 0 ?
-                    getItem(getItemCount() - 1).getDateTime() :
-                    startDateTime.minusDays(1);
+            DateTime dateTime = getItem(getItemCount() - 1).getDateTime();
             addItem(getItemCount(), new ListItemPending(dateTime));
             notifyItemInserted(getItemCount());
         }
@@ -342,6 +410,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
 
     // Required to notify position changes
     public interface OnAdapterChangesListener {
-        void changesOrder();
+        void onOrderChanges();
+        void onSetupComplete(DateTime dateTime);
     }
 }

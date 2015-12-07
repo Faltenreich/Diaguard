@@ -42,6 +42,10 @@ public abstract class EndlessAdapter<L extends ListItem, VH extends BaseViewHold
         this.listener = listener;
     }
 
+    public void removeOnEndlessListener() {
+        this.listener = null;
+    }
+
     public enum Direction {
         UP,
         DOWN

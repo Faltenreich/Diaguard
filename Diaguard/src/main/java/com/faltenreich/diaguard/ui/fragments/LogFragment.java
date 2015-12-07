@@ -47,7 +47,6 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
         initialize();
-        goToDay(DateTime.now());
     }
 
     @Override
@@ -72,6 +71,12 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
     }
 
     private void initialize() {
+        listLayoutManager = new SafeLinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(listLayoutManager);
+        listAdapter = new LogRecyclerAdapter(getActivity(), this);
+        recyclerView.setAdapter(listAdapter);
+        listDecoration = new StickyHeaderDecoration(listAdapter, true);
+        recyclerView.addItemDecoration(listDecoration);
 
         // Fragment updates
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -92,6 +97,8 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
                 }
             }
         });
+
+        goToDay(DateTime.now());
     }
 
     private DateTime getFirstVisibleDay() {
@@ -105,21 +112,12 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
     }
 
     private void goToDay(DateTime dateTime) {
-        int firstVisibleDayPosition = listAdapter != null ?
-                listAdapter.getDayPosition(dateTime) :
-                -1;
+        int firstVisibleDayPosition = listAdapter.getDayPosition(dateTime);
         if (firstVisibleDayPosition >= 0) {
             recyclerView.scrollToPosition(firstVisibleDayPosition);
         } else {
-            listLayoutManager = new SafeLinearLayoutManager(getActivity());
-            recyclerView.setLayoutManager(listLayoutManager);
-            listAdapter = new LogRecyclerAdapter(getActivity(), this, dateTime);
-            recyclerView.setAdapter(listAdapter);
-            recyclerView.removeItemDecoration(listDecoration);
-            listDecoration = new StickyHeaderDecoration(listAdapter, true);
-            recyclerView.addItemDecoration(listDecoration);
+            listAdapter.setup(dateTime);
         }
-
         updateMonthForUi(dateTime);
     }
 
@@ -177,9 +175,14 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
     }
 
     @Override
-    public void changesOrder() {
+    public void onOrderChanges() {
         if (listDecoration != null) {
             listDecoration.clearHeaderCache();
         }
+    }
+
+    @Override
+    public void onSetupComplete(DateTime dateTime) {
+        goToDay(dateTime);
     }
 }

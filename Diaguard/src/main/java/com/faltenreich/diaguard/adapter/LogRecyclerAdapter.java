@@ -67,6 +67,17 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
         new SetupTask(startDateTime).execute();
     }
 
+    public int getDayPosition(DateTime dateTime) {
+        for (int position = getItemCount() - 1; position >= 0; position--) {
+            ListItem listItem = getItem(position);
+            boolean isSameDay = listItem.getDateTime().withTimeAtStartOfDay().isEqual(dateTime.withTimeAtStartOfDay());
+            if (isSameDay) {
+                return position;
+            }
+        }
+        return -1;
+    }
+
     @Override
     public void onLoadMore(Direction direction) {
         switch (direction) {
@@ -130,17 +141,6 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
             entry.setMeasurementCache(measurements);
         }
         return entriesOfDay;
-    }
-
-    public int getDayPosition(DateTime dateTime) {
-        for (int position = 0; position < getItemCount(); position++) {
-            ListItem listItem = getItem(position);
-            boolean isSameDay = listItem.getDateTime().withTimeAtStartOfDay().isEqual(dateTime.withTimeAtStartOfDay());
-            if (isSameDay) {
-                return position;
-            }
-        }
-        return -1;
     }
 
     @Override
@@ -279,9 +279,8 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
             addItems(listItems);
             notifyItemRangeInserted(getItemCount() - listItems.size(), getItemCount() - 1);
 
-            listener.onOrderChanges();
             listener.onSetupComplete(startDate);
-            
+
             setOnEndlessListener(LogRecyclerAdapter.this);
         }
     }

@@ -112,9 +112,10 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
     }
 
     private void goToDay(DateTime dateTime) {
-        int firstVisibleDayPosition = listAdapter.getDayPosition(dateTime);
-        if (firstVisibleDayPosition >= 0) {
-            recyclerView.scrollToPosition(firstVisibleDayPosition);
+        int positionOfDay = listAdapter.getDayPosition(dateTime);
+        boolean containsDay = positionOfDay >= 0;
+        if (containsDay) {
+            recyclerView.scrollToPosition(positionOfDay);
         } else {
             listAdapter.setup(dateTime);
         }

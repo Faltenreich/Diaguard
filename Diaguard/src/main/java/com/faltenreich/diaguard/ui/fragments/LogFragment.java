@@ -29,7 +29,7 @@ import butterknife.Bind;
 /**
  * Created by Filip on 05.07.2015.
  */
-public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCallback, LogRecyclerAdapter.OnReorderingListener {
+public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCallback, LogRecyclerAdapter.OnAdapterChangesListener {
 
     @Bind(R.id.list)
     protected RecyclerView recyclerView;
@@ -37,8 +37,6 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
     private LogRecyclerAdapter listAdapter;
     private StickyHeaderDecoration listDecoration;
     private LinearLayoutManager listLayoutManager;
-
-    private DateTime firstVisibleDay;
 
     public LogFragment() {
         super(R.layout.fragment_log);
@@ -49,11 +47,12 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
         initialize();
+        goToDay(DateTime.now());
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        updateMonthForUi();
+        updateMonthForUi(getFirstVisibleDay());
     }
 
     @Override
@@ -73,7 +72,6 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
     }
 
     private void initialize() {
-        firstVisibleDay = DateTime.now();
 
         // Fragment updates
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -81,46 +79,52 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                int firstVisibleItemPosition = listLayoutManager.findFirstVisibleItemPosition();
-                if (firstVisibleItemPosition >= 0 && firstVisibleItemPosition < listAdapter.getItemCount()) {
-                    ListItem item = listAdapter.getItem(listLayoutManager.findFirstVisibleItemPosition());
-                    firstVisibleDay = item.getDateTime();
+                DateTime dateTime = getFirstVisibleDay();
+                if (dateTime != null) {
                     // Update month in Toolbar when section is being crossed
                     boolean isScrollingUp = dy < 0;
                     boolean isCrossingMonth = isScrollingUp ?
-                            firstVisibleDay.dayOfMonth().get() == firstVisibleDay.dayOfMonth().getMaximumValue() :
-                            firstVisibleDay.dayOfMonth().get() == firstVisibleDay.dayOfMonth().getMinimumValue();
+                            dateTime.dayOfMonth().get() == dateTime.dayOfMonth().getMaximumValue() :
+                            dateTime.dayOfMonth().get() == dateTime.dayOfMonth().getMinimumValue();
                     if (isCrossingMonth) {
-                        updateMonthForUi();
+                        updateMonthForUi(dateTime);
                     }
                 }
             }
         });
-
-        goToDay(firstVisibleDay);
     }
 
-    private void goToDay(DateTime day) {
-        firstVisibleDay = day;
+    private DateTime getFirstVisibleDay() {
+        int firstVisibleItemPosition = listLayoutManager.findFirstVisibleItemPosition();
+        if (firstVisibleItemPosition >= 0 && firstVisibleItemPosition < listAdapter.getItemCount()) {
+            ListItem item = listAdapter.getItem(listLayoutManager.findFirstVisibleItemPosition());
+            return item.getDateTime();
+        } else {
+            return null;
+        }
+    }
 
-        listLayoutManager = new SafeLinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(listLayoutManager);
-        listAdapter = new LogRecyclerAdapter(getActivity(), this, firstVisibleDay);
-        recyclerView.setAdapter(listAdapter);
-        recyclerView.removeItemDecoration(listDecoration);
-        listDecoration = new StickyHeaderDecoration(listAdapter, true);
-        recyclerView.addItemDecoration(listDecoration);
-
-        int positionOfDay = listAdapter.getDayPosition(day);
-        if (positionOfDay >= 0) {
-            recyclerView.scrollToPosition(positionOfDay);
+    private void goToDay(DateTime dateTime) {
+        int firstVisibleDayPosition = listAdapter != null ?
+                listAdapter.getDayPosition(dateTime) :
+                -1;
+        if (firstVisibleDayPosition >= 0) {
+            recyclerView.scrollToPosition(firstVisibleDayPosition);
+        } else {
+            listLayoutManager = new SafeLinearLayoutManager(getActivity());
+            recyclerView.setLayoutManager(listLayoutManager);
+            listAdapter = new LogRecyclerAdapter(getActivity(), this, dateTime);
+            recyclerView.setAdapter(listAdapter);
+            recyclerView.removeItemDecoration(listDecoration);
+            listDecoration = new StickyHeaderDecoration(listAdapter, true);
+            recyclerView.addItemDecoration(listDecoration);
         }
 
-        updateMonthForUi();
+        updateMonthForUi(dateTime);
     }
 
-    private void updateMonthForUi() {
-        boolean isCurrentYear = firstVisibleDay.year().get() == DateTime.now().year().get();
+    private void updateMonthForUi(DateTime dateTime) {
+        boolean isCurrentYear = dateTime.year().get() == DateTime.now().year().get();
         String format = "MMMM";
         if (!isCurrentYear) {
             if (ViewHelper.isLandscape(getActivity()) || ViewHelper.isLargeScreen(getActivity())) {
@@ -129,7 +133,7 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
                 format = "MMM YYYY";
             }
         }
-        getActionView().setText(firstVisibleDay.toString(format));
+        getActionView().setText(dateTime.toString(format));
     }
 
     private void setTodayIcon(LayerDrawable icon, Context context) {
@@ -147,7 +151,7 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
             }
         };
         Bundle bundle = new Bundle(1);
-        bundle.putSerializable(DatePickerFragment.DATE, firstVisibleDay);
+        bundle.putSerializable(DatePickerFragment.DATE, getFirstVisibleDay());
         fragment.setArguments(bundle);
         fragment.show(getActivity().getSupportFragmentManager(), "DatePicker");
     }
@@ -174,6 +178,8 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
 
     @Override
     public void changesOrder() {
-        listDecoration.clearHeaderCache();
+        if (listDecoration != null) {
+            listDecoration.clearHeaderCache();
+        }
     }
 }

@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.adapter;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -24,7 +23,6 @@ import com.faltenreich.diaguard.ui.viewholder.LogMonthViewHolder;
 import com.faltenreich.diaguard.ui.viewholder.LogPendingViewHolder;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +33,6 @@ import java.util.List;
 public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<ListItem>>
         implements EndlessAdapter.OnEndlessListener, StickyHeaderAdapter<LogDayViewHolder> {
 
-    private static final String TAG = LogRecyclerAdapter.class.getSimpleName();
-
     private enum ViewType {
         MONTH,
         DAY,
@@ -46,7 +42,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
         PENDING
     }
 
-    private OnReorderingListener listener;
+    private OnAdapterChangesListener listener;
 
     private boolean shouldLoadPrevious;
     private boolean isLoadingPrevious;
@@ -56,7 +52,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
 
     private DateTime startDateTime;
 
-    public LogRecyclerAdapter(Context context, OnReorderingListener listener, DateTime startDateTime) {
+    public LogRecyclerAdapter(Context context, OnAdapterChangesListener listener, DateTime startDateTime) {
         super(context);
         this.listener = listener;
         this.startDateTime = startDateTime;
@@ -256,9 +252,10 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
             DateTime dateTime = getItemCount() > 0 ?
                     getItem(0).getDateTime() :
-                    startDateTime;
+                    startDateTime.plusDays(1);
             addItem(0, new ListItemPending(dateTime));
             notifyItemInserted(0);
 
@@ -323,7 +320,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
 
             DateTime dateTime = getItemCount() > 0 ?
                     getItem(getItemCount() - 1).getDateTime() :
-                    startDateTime;
+                    startDateTime.minusDays(1);
             addItem(getItemCount(), new ListItemPending(dateTime));
             notifyItemInserted(getItemCount());
         }
@@ -344,7 +341,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
     }
 
     // Required to notify position changes
-    public interface OnReorderingListener {
+    public interface OnAdapterChangesListener {
         void changesOrder();
     }
 }

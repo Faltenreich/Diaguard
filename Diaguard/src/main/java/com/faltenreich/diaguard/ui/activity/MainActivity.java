@@ -14,9 +14,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.ui.fragments.ChartFragment;
-import com.faltenreich.diaguard.ui.fragments.LogFragment;
-import com.faltenreich.diaguard.ui.fragments.MainFragment;
+import com.faltenreich.diaguard.ui.fragment.ChartFragment;
+import com.faltenreich.diaguard.ui.fragment.LogFragment;
+import com.faltenreich.diaguard.ui.fragment.MainFragment;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 
 import butterknife.Bind;

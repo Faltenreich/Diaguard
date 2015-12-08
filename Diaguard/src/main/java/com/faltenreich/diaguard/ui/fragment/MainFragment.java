@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.ui.fragments;
+package com.faltenreich.diaguard.ui.fragment;
 
 import android.content.Intent;
 import android.graphics.Color;

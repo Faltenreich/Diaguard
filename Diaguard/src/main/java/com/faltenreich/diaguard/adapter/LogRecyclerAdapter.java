@@ -15,12 +15,12 @@ import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.ui.viewholder.BaseViewHolder;
-import com.faltenreich.diaguard.ui.viewholder.LogDayViewHolder;
-import com.faltenreich.diaguard.ui.viewholder.LogEmptyViewHolder;
-import com.faltenreich.diaguard.ui.viewholder.LogEntryViewHolder;
-import com.faltenreich.diaguard.ui.viewholder.LogMonthViewHolder;
-import com.faltenreich.diaguard.ui.viewholder.LogPendingViewHolder;
+import com.faltenreich.diaguard.ui.view.viewholder.BaseViewHolder;
+import com.faltenreich.diaguard.ui.view.viewholder.LogDayViewHolder;
+import com.faltenreich.diaguard.ui.view.viewholder.LogEmptyViewHolder;
+import com.faltenreich.diaguard.ui.view.viewholder.LogEntryViewHolder;
+import com.faltenreich.diaguard.ui.view.viewholder.LogMonthViewHolder;
+import com.faltenreich.diaguard.ui.view.viewholder.LogPendingViewHolder;
 
 import org.joda.time.DateTime;
 
@@ -73,6 +73,19 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
             boolean isSameDay = listItem.getDateTime().withTimeAtStartOfDay().isEqual(dateTime.withTimeAtStartOfDay());
             if (isSameDay) {
                 return position;
+            }
+        }
+        return -1;
+    }
+
+    public int getEntryPosition(Entry entry) {
+        for (int position = 0; position < getItemCount(); position++) {
+            ListItem listItem = getItem(position);
+            if (listItem instanceof  ListItemEntry) {
+                ListItemEntry listItemEntry = (ListItemEntry) listItem;
+                if (listItemEntry.getEntry().equals(entry)) {
+                    return position;
+                }
             }
         }
         return -1;

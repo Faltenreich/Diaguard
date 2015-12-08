@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.ui.fragments;
+package com.faltenreich.diaguard.ui.fragment;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;

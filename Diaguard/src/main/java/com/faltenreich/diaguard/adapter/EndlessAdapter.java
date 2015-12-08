@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 
 import com.faltenreich.diaguard.adapter.list.ListItem;
-import com.faltenreich.diaguard.ui.viewholder.BaseViewHolder;
+import com.faltenreich.diaguard.ui.view.viewholder.BaseViewHolder;
 
 /**
  * Created by Filip on 04.11.13.

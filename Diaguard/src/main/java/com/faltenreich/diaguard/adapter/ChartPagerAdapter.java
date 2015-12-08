@@ -2,15 +2,11 @@ package com.faltenreich.diaguard.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.util.Log;
 
-import com.faltenreich.diaguard.ui.fragments.ChartDayFragment;
+import com.faltenreich.diaguard.ui.fragment.ChartDayFragment;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeField;
-import org.joda.time.format.DateTimeFormat;
 
 import java.util.ArrayList;
 import java.util.Collections;

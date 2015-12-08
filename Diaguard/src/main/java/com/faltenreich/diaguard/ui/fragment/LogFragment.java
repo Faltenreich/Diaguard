@@ -1,5 +1,6 @@
-package com.faltenreich.diaguard.ui.fragments;
+package com.faltenreich.diaguard.ui.fragment;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.drawable.LayerDrawable;
@@ -18,7 +19,6 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.list.ListItem;
 import com.faltenreich.diaguard.adapter.SafeLinearLayoutManager;
 import com.faltenreich.diaguard.adapter.StickyHeaderDecoration;
-import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.ViewHelper;
 import com.faltenreich.diaguard.ui.view.DayOfMonthDrawable;
 import com.faltenreich.diaguard.adapter.LogRecyclerAdapter;
@@ -82,6 +82,18 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        DateTime dateTime = getFirstVisibleDay();
+        if (dateTime == null) {
+            dateTime = DateTime.now();
+        }
+        listAdapter.setup(dateTime);
+        updateMonthForUi(dateTime);
+    }
+
+    @Override
     public String getTitle() {
         return DiaguardApplication.getContext().getString(R.string.log);
     }
@@ -118,8 +130,6 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
                 }
             }
         });
-
-        goToDay(DateTime.now());
     }
 
     private DateTime getFirstVisibleDay() {

@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 
 import com.faltenreich.diaguard.adapter.ChartPagerAdapter;
-import com.faltenreich.diaguard.ui.fragments.ChartDayFragment;
+import com.faltenreich.diaguard.ui.fragment.ChartDayFragment;
 
 import org.joda.time.DateTime;
 

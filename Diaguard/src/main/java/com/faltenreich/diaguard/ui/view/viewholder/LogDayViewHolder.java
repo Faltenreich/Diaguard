@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.ui.viewholder;
+package com.faltenreich.diaguard.ui.view.viewholder;
 
 import android.support.v4.content.ContextCompat;
 import android.view.View;

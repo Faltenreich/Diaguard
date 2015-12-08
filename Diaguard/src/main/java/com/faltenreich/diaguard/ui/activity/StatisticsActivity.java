@@ -10,9 +10,9 @@ import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.ui.fragments.BaseFragment;
-import com.faltenreich.diaguard.ui.fragments.OverviewFragment;
-import com.faltenreich.diaguard.ui.fragments.TrendFragment;
+import com.faltenreich.diaguard.ui.fragment.BaseFragment;
+import com.faltenreich.diaguard.ui.fragment.OverviewFragment;
+import com.faltenreich.diaguard.ui.fragment.TrendFragment;
 
 import java.util.ArrayList;
 import java.util.List;

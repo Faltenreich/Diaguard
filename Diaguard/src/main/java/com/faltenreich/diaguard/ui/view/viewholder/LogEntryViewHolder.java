@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.ui.viewholder;
+package com.faltenreich.diaguard.ui.view.viewholder;
 
 import android.content.Context;
 import android.content.Intent;

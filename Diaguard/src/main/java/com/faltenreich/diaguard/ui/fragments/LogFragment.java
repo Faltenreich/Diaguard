@@ -18,6 +18,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.list.ListItem;
 import com.faltenreich.diaguard.adapter.SafeLinearLayoutManager;
 import com.faltenreich.diaguard.adapter.StickyHeaderDecoration;
+import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.ViewHelper;
 import com.faltenreich.diaguard.ui.view.DayOfMonthDrawable;
 import com.faltenreich.diaguard.adapter.LogRecyclerAdapter;
@@ -68,6 +69,26 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
                 menuItem.setIcon(R.drawable.ic_action_today);
             }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_today:
+                goToDay(DateTime.now());
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public String getTitle() {
+        return DiaguardApplication.getContext().getString(R.string.log);
+    }
+
+    @Override
+    public void action() {
+        showDatePicker();
     }
 
     private void initialize() {
@@ -123,14 +144,11 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
     }
 
     private void updateMonthForUi(DateTime dateTime) {
-        boolean isCurrentYear = dateTime.year().get() == DateTime.now().year().get();
-        String format = "MMMM";
-        if (!isCurrentYear) {
-            if (ViewHelper.isLandscape(getActivity()) || ViewHelper.isLargeScreen(getActivity())) {
-                format = "MMMM YYYY";
-            } else {
-                format = "MMM YYYY";
-            }
+        String format;
+        if (ViewHelper.isLandscape(getActivity()) || ViewHelper.isLargeScreen(getActivity())) {
+            format = "MMMM YYYY";
+        } else {
+            format = "MMM YYYY";
         }
         getActionView().setText(dateTime.toString(format));
     }
@@ -153,26 +171,6 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
         bundle.putSerializable(DatePickerFragment.DATE, getFirstVisibleDay());
         fragment.setArguments(bundle);
         fragment.show(getActivity().getSupportFragmentManager(), "DatePicker");
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_today:
-                goToDay(DateTime.now());
-                break;
-        }
-        return true;
-    }
-
-    @Override
-    public String getTitle() {
-        return DiaguardApplication.getContext().getString(R.string.log);
-    }
-
-    @Override
-    public void action() {
-        showDatePicker();
     }
 
     @Override

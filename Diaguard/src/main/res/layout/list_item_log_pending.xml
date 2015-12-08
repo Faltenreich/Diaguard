@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<me.zhanghai.android.materialprogressbar.MaterialProgressBar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    style="@style/Padding">
-
-    <ProgressBar
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="@dimen/progress_circle_size"
-        android:layout_height="@dimen/progress_circle_size" />
-
-</LinearLayout>
+    android:layout_height="4dp"
+    android:indeterminate="true"
+    app:mpb_progressStyle="horizontal"
+    app:mpb_useIntrinsicPadding="false"/>

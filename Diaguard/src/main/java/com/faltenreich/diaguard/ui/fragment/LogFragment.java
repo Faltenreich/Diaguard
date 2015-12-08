@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.ProgressBar;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
@@ -32,8 +33,11 @@ import butterknife.Bind;
  */
 public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCallback, LogRecyclerAdapter.OnAdapterChangesListener {
 
-    @Bind(R.id.list)
+    @Bind(R.id.fragment_log_list)
     protected RecyclerView recyclerView;
+
+    @Bind(R.id.fragment_log_progressbar)
+    protected ProgressBar progressBar;
 
     private LogRecyclerAdapter listAdapter;
     private StickyHeaderDecoration listDecoration;
@@ -85,10 +89,13 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
     public void onResume() {
         super.onResume();
 
+        progressBar.setVisibility(View.VISIBLE);
+
         DateTime dateTime = getFirstVisibleDay();
         if (dateTime == null) {
             dateTime = DateTime.now();
         }
+
         listAdapter.setup(dateTime);
         updateMonthForUi(dateTime);
     }
@@ -148,6 +155,7 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
         if (containsDay) {
             recyclerView.scrollToPosition(positionOfDay);
         } else {
+            progressBar.setVisibility(View.VISIBLE);
             listAdapter.setup(dateTime);
         }
         updateMonthForUi(dateTime);
@@ -192,6 +200,7 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
 
     @Override
     public void onSetupComplete(DateTime dateTime) {
+        progressBar.setVisibility(View.GONE);
         goToDay(dateTime);
     }
 }

@@ -276,19 +276,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
         }
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            addItem(new ListItemPending(startDate));
-            notifyItemInserted(0);
-
-            listener.onOrderChanges();
-        }
-
-        @Override
         protected void onPostExecute(List<ListItem> listItems) {
-            removePendingView(Direction.DOWN);
-
             addItems(listItems);
             notifyItemRangeInserted(getItemCount() - listItems.size(), getItemCount() - 1);
 

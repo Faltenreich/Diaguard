@@ -38,11 +38,13 @@
                 android:layout_marginBottom="@dimen/margin_between"
                 android:visibility="gone" />
 
-            <LinearLayout
+            <org.apmem.tools.layouts.FlowLayout
+                xmlns:flow="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/measurements"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical" />
+                android:gravity="fill_horizontal"
+                flow:weightDefault="1.0"/>
 
         </LinearLayout>
 

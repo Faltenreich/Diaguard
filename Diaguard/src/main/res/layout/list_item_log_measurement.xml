@@ -3,10 +3,12 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:layout_marginBottom="@dimen/padding">
+    android:layout_marginBottom="@dimen/padding"
+    android:layout_marginRight="@dimen/margin_between"
+    android:layout_marginEnd="@dimen/margin_between">
 
     <com.faltenreich.diaguard.ui.view.TintImageView
         android:id="@+id/image"

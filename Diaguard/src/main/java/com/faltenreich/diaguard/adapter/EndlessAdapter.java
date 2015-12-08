@@ -27,10 +27,12 @@ public abstract class EndlessAdapter<L extends ListItem, VH extends BaseViewHold
             Handler handler = new Handler();
             Runnable runnable = new Runnable() {
                 public void run() {
-                    if (position < VISIBLE_THRESHOLD) {
-                        listener.onLoadMore(Direction.UP);
-                    } else if (position > getItemCount() - VISIBLE_THRESHOLD) {
-                        listener.onLoadMore(Direction.DOWN);
+                    if (listener != null) {
+                        if (position < VISIBLE_THRESHOLD) {
+                            listener.onLoadMore(Direction.UP);
+                        } else if (position > getItemCount() - VISIBLE_THRESHOLD) {
+                            listener.onLoadMore(Direction.DOWN);
+                        }
                     }
                 }
             };

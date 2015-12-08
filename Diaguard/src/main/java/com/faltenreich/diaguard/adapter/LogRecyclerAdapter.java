@@ -280,6 +280,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
             addItems(listItems);
             notifyItemRangeInserted(getItemCount() - listItems.size(), getItemCount() - 1);
 
+            listener.onOrderChanges();
             listener.onSetupComplete(startDate);
 
             setOnEndlessListener(LogRecyclerAdapter.this);

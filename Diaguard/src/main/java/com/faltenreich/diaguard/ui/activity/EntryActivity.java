@@ -75,6 +75,8 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initialize();
+        checkIntents();
+        setDateTime();
     }
 
     @Override
@@ -104,9 +106,6 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     public void initialize() {
         time = new DateTime();
 
-        checkIntents();
-        setDateTime();
-
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.alarm_intervals, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -127,8 +126,13 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
                 time = entry.getDate();
                 editTextNotes.setText(entry.getNote());
+
                 List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
                 layoutMeasurements.addMeasurements(measurements);
+                for (Measurement measurement : measurements) {
+                    fab.ignore(measurement.getCategory());
+                }
+                fab.restock();
             } else if (extras.getSerializable(EXTRA_DATE) != null) {
                 time = (DateTime) extras.getSerializable(EXTRA_DATE);
             }

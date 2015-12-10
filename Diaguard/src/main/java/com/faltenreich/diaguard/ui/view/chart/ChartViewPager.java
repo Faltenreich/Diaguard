@@ -19,6 +19,7 @@ public class ChartViewPager extends ViewPager {
     private static final String TAG = ChartViewPager.class.getSimpleName();
 
     private ChartPagerAdapter adapter;
+    private OnPageChangeListener onPageChangeListener;
 
     public ChartViewPager(Context context) {
         super(context);
@@ -33,44 +34,47 @@ public class ChartViewPager extends ViewPager {
         setAdapter(adapter);
         setCurrentItem(adapter.getMiddle(), false);
 
-        addOnPageChangeListener(new OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if (position != adapter.getMiddle() && adapter.getItem(position) instanceof ChartDayFragment) {
-                    Log.i(TAG, "onPageSelected " + position);
-                    ChartDayFragment fragment = (ChartDayFragment) adapter.getItem(position);
-                    callback.onDaySelected(fragment.getDay());
+        if (onPageChangeListener == null) {
+            onPageChangeListener = new OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 }
-            }
+                @Override
+                public void onPageSelected(int position) {
+                    if (position != adapter.getMiddle() && adapter.getItem(position) instanceof ChartDayFragment) {
+                        Log.i(TAG, "onPageSelected " + position);
+                        ChartDayFragment fragment = (ChartDayFragment) adapter.getItem(position);
+                        callback.onDaySelected(fragment.getDay());
+                    }
+                }
+                @Override
+                public void onPageScrollStateChanged(int state) {
+                    if (state == ViewPager.SCROLL_STATE_IDLE) {
+                        int currentItem = getCurrentItem();
+                        int targetItem = adapter.getMiddle();
 
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                if (state == ViewPager.SCROLL_STATE_IDLE) {
-                    if (getCurrentItem() != adapter.getMiddle()) {
-                        Log.i(TAG, "onPageIdle " + getCurrentItem());
-                        switch (getCurrentItem()) {
-                            case 0:
-                                adapter.previousDay();
-                                break;
-                            case 2:
-                                adapter.nextDay();
-                                break;
-                        }
-                        Log.i(TAG, "Scroll to page " + adapter.getMiddle());
-                        try {
-                            setCurrentItem(adapter.getMiddle(), false);
-                        } catch (NullPointerException e) {
-                            Log.e(TAG, e.getMessage());
+                        if (currentItem != targetItem) {
+                            Log.i(TAG, "onPageIdle " + currentItem);
+
+                            switch (currentItem) {
+                                case 0:
+                                    adapter.previousDay();
+                                    break;
+                                case 2:
+                                    adapter.nextDay();
+                                    break;
+                            }
+
+                            setCurrentItem(targetItem, false);
+                            Log.i(TAG, "Scrolled to page " + targetItem);
                         }
                     }
                 }
-            }
-        });
+            };
+        } else {
+            removeOnPageChangeListener(onPageChangeListener);
+        }
+        addOnPageChangeListener(onPageChangeListener);
     }
 
     public void setDay(DateTime day) {

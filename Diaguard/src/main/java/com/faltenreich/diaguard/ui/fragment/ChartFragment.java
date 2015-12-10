@@ -156,7 +156,9 @@ public class ChartFragment extends BaseFragment implements ChartViewPager.ChartV
 
     @Override
     public void onDaySelected(DateTime day) {
-        this.day = day;
-        updateLabels();
+        if (day != null) {
+            this.day = day;
+            updateLabels();
+        }
     }
 }

@@ -79,8 +79,7 @@ public abstract class Measurement extends BaseEntity {
             }
         }
 
-        @Override
-        public String toString() {
+        public String toLocalizedString() {
             switch (this) {
                 case BLOODSUGAR:
                     return DiaguardApplication.getContext().getString(R.string.bloodsugar);

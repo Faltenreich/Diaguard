@@ -99,7 +99,7 @@ public class CsvExport extends AsyncTask<Void, String, File> {
                             measurementValues.add(Float.toString(value));
                         }
                     } else {
-                        measurementValues.add(measurement.getCategory().toString());
+                        measurementValues.add(measurement.getCategory().toLocalizedString());
                         for (float value : measurement.getValues()) {
                             measurementValues.add(Float.toString(PreferenceHelper.getInstance().
                                     formatDefaultToCustomUnit(measurement.getCategory(), value)));

@@ -127,7 +127,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             if (cursor.moveToFirst()) {
                 while (!cursor.isAfterLast()) {
                     try {
-                        Measurement.Category category = Helper.valueOf(Measurement.Category.class, cursor.getString(2));
+                        String categoryString = cursor.getString(2);
+                        Measurement.Category category = Helper.valueOf(Measurement.Category.class, categoryString);
                         M measurement = (M) category.toClass().newInstance();
                         float value = Float.parseFloat(cursor.getString(1));
                         float[] values = new float[measurement.getValues().length];

@@ -146,7 +146,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         boolean[] visibleCategoriesOld = new boolean[activeCategories.length];
         for (int position = 0; position < activeCategories.length; position++) {
             Measurement.Category category = activeCategories[position];
-            categoryNames[position] = category.toString();
+            categoryNames[position] = category.toLocalizedString();
             visibleCategoriesOld[position] = layoutMeasurements.hasCategory(category);
         }
 

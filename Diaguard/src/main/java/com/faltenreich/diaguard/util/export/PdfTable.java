@@ -109,7 +109,7 @@ public class PdfTable extends Table {
             int backgroundColor = rowIsAlternating ? ALTERNATING_ROW_COLOR : Color.white;
             List<Cell> cells = new ArrayList<>();
 
-            Cell categoryCell = new Cell(fontNormal, category.toString());
+            Cell categoryCell = new Cell(fontNormal, category.toLocalizedString());
             categoryCell.setBgColor(backgroundColor);
             categoryCell.setFgColor(Color.gray);
             categoryCell.setWidth(LABEL_WIDTH);

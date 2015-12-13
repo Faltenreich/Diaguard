@@ -119,7 +119,7 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
 
     public void addMenuButton(final Measurement.Category category) {
         FloatingActionButton fab = getFloatingActionButton(
-                category.toString(),
+                category.toLocalizedString(),
                 PreferenceHelper.getInstance().getCategoryImageResourceId(category),
                 R.color.green);
 

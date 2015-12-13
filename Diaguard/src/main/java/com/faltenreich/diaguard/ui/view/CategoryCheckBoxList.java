@@ -51,7 +51,7 @@ public class CategoryCheckBoxList extends LinearLayout {
         categories.put(category, isSelected);
 
         CheckBox checkBox = new CheckBox(getContext());
-        checkBox.setText(category.toString());
+        checkBox.setText(category.toLocalizedString());
         checkBox.setChecked(categories.get(category));
         checkBox.setPadding(PADDING, PADDING, PADDING, PADDING);
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

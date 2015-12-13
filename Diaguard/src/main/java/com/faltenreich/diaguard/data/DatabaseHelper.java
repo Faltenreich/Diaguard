@@ -86,7 +86,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         if(oldVersion < newVersion) {
-            onCreate(sqLiteDatabase);
             int upgradeFromVersion = oldVersion;
             while (upgradeFromVersion < newVersion) {
                 switch (upgradeFromVersion) {
@@ -225,6 +224,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     private void upgradeToVersion18(SQLiteDatabase sqliteDatabase) {
+        onCreateVersion18(sqliteDatabase);
+
         String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " ORDER BY " + DatabaseHelper.DATE;
         Cursor cursor = sqliteDatabase.rawQuery(query, null);
         if (cursor.moveToFirst()) {

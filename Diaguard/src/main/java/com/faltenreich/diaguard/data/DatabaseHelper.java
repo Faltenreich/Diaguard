@@ -47,7 +47,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public static final int DATABASE_VERSION_1_1 = 18;
     public static final int DATABASE_VERSION_1_3 = 19;
 
-    public static final Class[] tables = new Class[] {
+    public static final Class[] tables = new Class[]{
             Entry.class,
             BloodSugar.class,
             Insulin.class,
@@ -76,8 +76,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         for (Class tableClass : tables) {
             try {
                 TableUtils.createTable(connectionSource, tableClass);
-            }
-            catch (SQLException exception) {
+            } catch (SQLException exception) {
                 Log.e(DatabaseHelper.class.getName(), "Couldn't create table " + tableClass.getSimpleName(), exception);
             }
         }
@@ -85,7 +84,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource, int oldVersion, int newVersion) {
-        if(oldVersion < newVersion) {
+        if (oldVersion < newVersion) {
             int upgradeFromVersion = oldVersion;
             while (upgradeFromVersion < newVersion) {
                 switch (upgradeFromVersion) {
@@ -107,17 +106,20 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         String entryQuery = String.format("SELECT * FROM %s", DatabaseHelper.ENTRY);
         Cursor cursor = sqliteDatabase.rawQuery(entryQuery, null);
         if (cursor.moveToFirst()) {
-            while(!cursor.isAfterLast()) {
-                Entry entry = new Entry();
-                entry.setId(Long.parseLong(cursor.getString(0)));
-                entry.setDate(DateTimeFormat.forPattern(DATE_TIME_FORMAT_1_1).parseDateTime(cursor.getString(1)));
-                entry.setNote(cursor.getString(2));
-                entries.add(entry);
+            while (!cursor.isAfterLast()) {
+                try {
+                    Entry entry = new Entry();
+                    entry.setId(Long.parseLong(cursor.getString(0)));
+                    entry.setDate(DateTimeFormat.forPattern(DATE_TIME_FORMAT_1_1).parseDateTime(cursor.getString(1)));
+                    entry.setNote(cursor.getString(2));
+                    entries.add(entry);
+                } catch (Exception e) {
+                    Log.e(TAG, e.getMessage());
+                }
                 cursor.moveToNext();
             }
         }
         cursor.close();
-        Log.i(TAG, String.format("Got %d entries", entries.size()));
 
         HashMap<Entry, List<M>> entities = new HashMap<>();
         for (Entry entry : entries) {
@@ -145,17 +147,14 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             }
             entities.put(entry, measurements);
             cursor.close();
-            Log.i(TAG, String.format("Got %d measurements", measurements.size()));
         }
 
         sqliteDatabase.execSQL("DROP TABLE IF EXISTS " + ENTRY);
         sqliteDatabase.execSQL("DROP TABLE IF EXISTS " + MEASUREMENT);
         sqliteDatabase.execSQL("DROP TABLE IF EXISTS " + FOOD);
         sqliteDatabase.execSQL("DROP TABLE IF EXISTS " + FOOD_EATEN);
-        Log.i(TAG, "Cleared database %d measurements");
 
         onCreate(sqliteDatabase, connectionSource);
-        Log.i(TAG, "Created updated database");
 
         for (Map.Entry<Entry, List<M>> mapEntry : entities.entrySet()) {
             Entry entry = EntryDao.getInstance().createOrUpdate(mapEntry.getKey());
@@ -165,6 +164,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             }
         }
 
+        List<Entry> allEntries = EntryDao.getInstance().getAll();
         Log.i(TAG, "Finished upgrade to version 19");
     }
 
@@ -232,7 +232,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         String query = "SELECT * FROM " + DatabaseHelper.EVENTS + " ORDER BY " + DatabaseHelper.DATE;
         Cursor cursor = sqliteDatabase.rawQuery(query, null);
         if (cursor.moveToFirst()) {
-            while(!cursor.isAfterLast()) {
+            while (!cursor.isAfterLast()) {
 
                 // Entry
                 ContentValues values = new ContentValues();

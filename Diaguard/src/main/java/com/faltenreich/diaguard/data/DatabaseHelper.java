@@ -104,7 +104,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private <M extends Measurement> void upgradeToVersion19(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource) {
 
         List<Entry> entries = new ArrayList<>();
-        Cursor cursor = sqliteDatabase.rawQuery("SELECT * FROM " + DatabaseHelper.ENTRY, null);
+        String entryQuery = String.format("SELECT * FROM %s", DatabaseHelper.ENTRY);
+        Cursor cursor = sqliteDatabase.rawQuery(entryQuery, null);
         if (cursor.moveToFirst()) {
             while(!cursor.isAfterLast()) {
                 Entry entry = new Entry();
@@ -120,8 +121,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
         HashMap<Entry, List<M>> entities = new HashMap<>();
         for (Entry entry : entries) {
-            String query = String.format("SELECT * FROM %s WHERE %s = %d", DatabaseHelper.MEASUREMENT, ID, entry.getId());
-            cursor = sqliteDatabase.rawQuery(query, null);
+            String measurementQuery = String.format("SELECT * FROM %s WHERE %s = %d", DatabaseHelper.MEASUREMENT, ID, entry.getId());
+            cursor = sqliteDatabase.rawQuery(measurementQuery, null);
 
             List<M> measurements = new ArrayList<>();
             if (cursor.moveToFirst()) {

@@ -106,7 +106,7 @@ public class EntryDao extends BaseDao<Entry> {
             return join(clazz).where().gt(Entry.Column.DATE, DateTime.now().withTimeAtStartOfDay()).query();
         } catch (SQLException exception) {
             Log.e(TAG, String.format("Could not getLatestWithMeasurement '%s'", clazz.toString()));
-            return null;
+            return new ArrayList<>();
         }
     }
 

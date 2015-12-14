@@ -151,17 +151,19 @@ public class MainFragment extends BaseFragment {
     private class UpdateDashboardTask extends AsyncTask<Void, Void, String[]> {
 
         protected String[] doInBackground(Void... params) {
-            List<Entry> entriesWithBloodSugar = EntryDao.getInstance().getAllWithMeasurementFromToday(BloodSugar.class);
-
             int countHypers = 0;
             int countHypos = 0;
-            for (Entry entry : entriesWithBloodSugar) {
-                BloodSugar bloodSugar = (BloodSugar) MeasurementDao.getInstance(BloodSugar.class).getMeasurement(entry);
-                float mgDl = bloodSugar.getMgDl();
-                if (mgDl > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
-                    countHypers++;
-                } else if (mgDl < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
-                    countHypos++;
+
+            List<Entry> entriesWithBloodSugar = EntryDao.getInstance().getAllWithMeasurementFromToday(BloodSugar.class);
+            if (entriesWithBloodSugar != null) {
+                for (Entry entry : entriesWithBloodSugar) {
+                    BloodSugar bloodSugar = (BloodSugar) MeasurementDao.getInstance(BloodSugar.class).getMeasurement(entry);
+                    float mgDl = bloodSugar.getMgDl();
+                    if (mgDl > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
+                        countHypers++;
+                    } else if (mgDl < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
+                        countHypos++;
+                    }
                 }
             }
             DateTime now = DateTime.now();

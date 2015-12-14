@@ -101,10 +101,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     private <M extends Measurement> void upgradeToVersion19(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource) {
-
         List<Entry> entries = new ArrayList<>();
+
         String entryQuery = String.format("SELECT * FROM %s", DatabaseHelper.ENTRY);
         Cursor cursor = sqliteDatabase.rawQuery(entryQuery, null);
+
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
                 try {
@@ -123,10 +124,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
         HashMap<Entry, List<M>> entities = new HashMap<>();
         for (Entry entry : entries) {
-            String measurementQuery = String.format("SELECT * FROM %s WHERE %s = %d", DatabaseHelper.MEASUREMENT, ID, entry.getId());
+            List<M> measurements = new ArrayList<>();
+
+            String measurementQuery = String.format("SELECT * FROM %s WHERE %s = %d", DatabaseHelper.MEASUREMENT, ENTRY_ID, entry.getId());
             cursor = sqliteDatabase.rawQuery(measurementQuery, null);
 
-            List<M> measurements = new ArrayList<>();
             if (cursor.moveToFirst()) {
                 while (!cursor.isAfterLast()) {
                     try {
@@ -164,6 +166,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             }
         }
 
+        // FIXME: Entities do not get stored
         List<Entry> allEntries = EntryDao.getInstance().getAll();
         Log.i(TAG, "Finished upgrade to version 19");
     }

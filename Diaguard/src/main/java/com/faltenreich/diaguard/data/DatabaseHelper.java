@@ -180,11 +180,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private static final String DATE = "date";
     private static final String NOTE = "note";
     private static final String VALUE = "value";
-    private static final String ENTRY_ID = "entry_id";
+    private static final String ENTRY_ID = "entryId";
     private static final String FOOD = "food";
     private static final String CARBOHYDRATES = "carbohydrates";
     private static final String NAME = "name";
-    private static final String FOOD_ID = "food_id";
+    private static final String FOOD_ID = "foodId";
     private static final String EVENTS = "events";
     private static final String NOTES = "notes";
     private static final String MEASUREMENT = "measurement";

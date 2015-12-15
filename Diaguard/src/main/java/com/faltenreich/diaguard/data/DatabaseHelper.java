@@ -159,8 +159,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         onCreate(sqliteDatabase, connectionSource);
 
         for (Map.Entry<Entry, List<M>> mapEntry : entities.entrySet()) {
-            Entry entry = EntryDao.getInstance().createOrUpdate(mapEntry.getKey());
+            Entry tempEntry = mapEntry.getKey();
+            tempEntry.setId(-1);
+            Entry entry = EntryDao.getInstance().createOrUpdate(tempEntry);
             for (Measurement measurement : mapEntry.getValue()) {
+                measurement.setId(-1);
                 measurement.setEntry(entry);
                 MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
             }

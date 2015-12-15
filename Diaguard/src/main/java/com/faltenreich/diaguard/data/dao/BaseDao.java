@@ -66,7 +66,8 @@ public abstract class BaseDao <T extends BaseEntity> {
     public T createOrUpdate(T object) {
         try {
             DateTime now = DateTime.now();
-            if (object.getId() > 0) {
+            T existingObject = getDao().queryBuilder().where().eq(BaseEntity.Column.ID, object.getId()).queryForFirst();
+            if (existingObject != null) {
                 object.setUpdatedAt(now);
                 getDao().update(object);
             } else {

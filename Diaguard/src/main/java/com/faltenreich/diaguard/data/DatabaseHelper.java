@@ -168,10 +168,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                 MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
             }
         }
-
-        // FIXME: Entities do not get stored
-        List<Entry> allEntries = EntryDao.getInstance().getAll();
-        Log.i(TAG, "Finished upgrade to version 19");
     }
 
     // region Deprecated

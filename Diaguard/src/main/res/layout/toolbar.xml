@@ -7,9 +7,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/colorPrimary"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
     app:navigationIcon="?attr/homeAsUpIndicator"
-    app:navigationContentDescription="@string/abc_action_bar_up_description"
-    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    app:navigationContentDescription="@string/abc_action_bar_up_description">
 
     <TextView
         android:id="@+id/action"

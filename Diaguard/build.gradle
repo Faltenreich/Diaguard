@@ -50,4 +50,5 @@ dependencies {
     compile 'com.fmsirvent:parallaxeverywhere:1.0.4'
     compile 'org.apmem.tools:layouts:1.10@aar'
     compile 'me.zhanghai.android.materialprogressbar:library:1.1.4'
+    compile 'de.codecrafters.tableview:tableview:0.9.5'
 }

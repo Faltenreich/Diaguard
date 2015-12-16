@@ -129,6 +129,14 @@ public abstract class Measurement extends BaseEntity {
         return valuesForUI;
     }
 
+    public String getValueForUI() {
+        float sum = 0;
+        for (float value : getValues()) {
+            sum += PreferenceHelper.getInstance().formatDefaultToCustomUnit(getCategory(), value);
+        }
+        return PreferenceHelper.getInstance().getDecimalFormat(getCategory()).format(sum);
+    }
+
     @SuppressWarnings("unchecked")
     public abstract float[] getValues();
 

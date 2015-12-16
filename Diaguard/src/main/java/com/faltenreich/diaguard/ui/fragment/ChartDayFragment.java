@@ -8,13 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.ui.view.chart.CategoryChart;
+import com.faltenreich.diaguard.ui.view.chart.CategoryTable;
 import com.faltenreich.diaguard.ui.view.chart.DayChart;
 
 import org.joda.time.DateTime;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.codecrafters.tableview.TableView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,8 +27,8 @@ public class ChartDayFragment extends Fragment {
     @Bind(R.id.day_chart)
     protected DayChart dayChart;
 
-    @Bind(R.id.category_chart)
-    protected CategoryChart categoryChart;
+    @Bind(R.id.category_table)
+    protected CategoryTable categoryTable;
 
     private DateTime day;
 
@@ -63,8 +64,8 @@ public class ChartDayFragment extends Fragment {
         if (dayChart != null) {
             dayChart.setDay(day);
         }
-        if (categoryChart != null) {
-            categoryChart.setDay(day);
+        if (categoryTable != null) {
+            categoryTable.setDay(day);
         }
     }
 }

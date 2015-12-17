@@ -1,10 +1,14 @@
 package com.faltenreich.diaguard.ui.view.viewholder;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorRes;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.faltenreich.diaguard.adapter.list.ListItem;
+import com.faltenreich.diaguard.adapter.list.ListItemDate;
 
 import butterknife.ButterKnife;
 
@@ -40,6 +44,10 @@ public abstract class BaseViewHolder <T extends ListItem> extends RecyclerView.V
     public void bindData(T listItem) {
         this.listItem = listItem;
         bindData();
+    }
+
+    public void setBackgroundColor(@ColorRes int colorResourceId) {
+        getView().setBackgroundColor(ContextCompat.getColor(getContext(), colorResourceId));
     }
 
     protected abstract void bindData();

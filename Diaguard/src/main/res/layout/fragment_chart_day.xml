@@ -10,14 +10,12 @@
         android:id="@+id/day_chart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1.5" />
 
     <com.faltenreich.diaguard.ui.view.chart.CategoryTable
-        xmlns:table="http://schemas.android.com/apk/res-auto"
         android:id="@+id/category_table"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        table:columnCount="13" />
+        android:layout_weight="1" />
 
 </LinearLayout>

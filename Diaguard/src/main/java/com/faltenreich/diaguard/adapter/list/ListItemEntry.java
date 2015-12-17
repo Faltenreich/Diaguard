@@ -2,12 +2,10 @@ package com.faltenreich.diaguard.adapter.list;
 
 import com.faltenreich.diaguard.data.entity.Entry;
 
-import org.joda.time.DateTime;
-
 /**
  * Created by Filip on 10.07.2015.
  */
-public class ListItemEntry extends ListItem {
+public class ListItemEntry extends ListItemDate {
 
     private ListItemEntry firstListItemEntryOfDay;
     private Entry entry;

@@ -2,12 +2,10 @@ package com.faltenreich.diaguard.adapter.list;
 
 import com.faltenreich.diaguard.data.entity.Measurement;
 
-import org.joda.time.DateTime;
-
 /**
  * Created by Filip on 10.07.2015.
  */
-public class ListItemMeasurement extends ListItem {
+public class ListItemMeasurement extends ListItemDate {
 
     private Measurement measurement;
 

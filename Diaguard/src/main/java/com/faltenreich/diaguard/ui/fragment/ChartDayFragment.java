@@ -15,7 +15,6 @@ import org.joda.time.DateTime;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import de.codecrafters.tableview.TableView;
 
 /**
  * A simple {@link Fragment} subclass.

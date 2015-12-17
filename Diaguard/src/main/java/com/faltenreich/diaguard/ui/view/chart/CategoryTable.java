@@ -3,12 +3,13 @@ package com.faltenreich.diaguard.ui.view.chart;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.CategoryTableDataAdapter;
-import com.faltenreich.diaguard.adapter.table.CategoryTableRow;
+import com.faltenreich.diaguard.adapter.CategoryRecyclerAdapter;
+import com.faltenreich.diaguard.adapter.list.ListItemCategoryValues;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.entity.Entry;
@@ -25,13 +26,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import de.codecrafters.tableview.TableView;
-import de.codecrafters.tableview.toolkit.TableDataRowColorizers;
-
 /**
  * Created by Faltenreich on 15.12.2015.
  */
-public class CategoryTable extends TableView {
+public class CategoryTable extends RecyclerView {
 
     private static final int SKIP_EVERY_X_HOUR = 2;
 
@@ -65,18 +63,17 @@ public class CategoryTable extends TableView {
 
             int colorEvenRows = ContextCompat.getColor(getContext(), android.R.color.transparent);
             int colorOddRows = ContextCompat.getColor(getContext(), R.color.gray_lighter);
-            setDataRowColoriser(TableDataRowColorizers.alternatingRows(colorEvenRows, colorOddRows));
-
-            setColumnWeight(0, 2);
         }
     }
 
-    private class UpdateDataTask extends AsyncTask<Void, Void, List<CategoryTableRow>> {
+    private class UpdateDataTask extends AsyncTask<Void, Void, List<ListItemCategoryValues>> {
 
-        protected List<CategoryTableRow> doInBackground(Void... params) {
+        protected List<ListItemCategoryValues> doInBackground(Void... params) {
             HashMap<Measurement.Category, String[]> values = new LinkedHashMap<>();
             for (Measurement.Category category : categories) {
-                values.put(category, new String[DateTimeConstants.HOURS_PER_DAY / SKIP_EVERY_X_HOUR]);
+                String[] valueArray = new String[DateTimeConstants.HOURS_PER_DAY / SKIP_EVERY_X_HOUR];
+                Arrays.fill(valueArray, "");
+                values.put(category, valueArray);
             }
 
             List<Entry> entries = EntryDao.getInstance().getEntriesOfDay(day);
@@ -87,26 +84,28 @@ public class CategoryTable extends TableView {
                     Measurement.Category category = measurement.getCategory();
 
                     String oldValueString = values.get(category)[index];
-                    float oldValue = oldValueString != null ?
+                    float oldValue = oldValueString != null && oldValueString.length() > 0 ?
                             Float.parseFloat(oldValueString) : 0;
                     float newValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, ArrayUtils.sum(measurement.getValues()));
-                    float avg = (oldValue + newValue) / 2;
+                    float avg = oldValue > 0 ? (oldValue + newValue) / 2 : newValue;
 
                     String valueForUi = PreferenceHelper.getInstance().getDecimalFormat(category).format(avg);
                     values.get(category)[index] = valueForUi;
                 }
             }
 
-            List<CategoryTableRow> rowList = new ArrayList<>();
+            List<ListItemCategoryValues> rowList = new ArrayList<>();
             for (Map.Entry<Measurement.Category, String[]> mapEntry : values.entrySet()) {
-                rowList.add(new CategoryTableRow(mapEntry.getKey(), mapEntry.getValue()));
+                rowList.add(new ListItemCategoryValues(mapEntry.getKey(), mapEntry.getValue()));
             }
             return rowList;
         }
 
-        protected void onPostExecute(List<CategoryTableRow> measurements) {
-            CategoryTableDataAdapter adapter = new CategoryTableDataAdapter(getContext(), measurements);
-            setDataAdapter(adapter);
+        protected void onPostExecute(List<ListItemCategoryValues> measurements) {
+            setLayoutManager(new LinearLayoutManager(getContext()));
+            CategoryRecyclerAdapter adapter = new CategoryRecyclerAdapter(getContext());
+            adapter.addItems(measurements);
+            setAdapter(adapter);
         }
     }
 }

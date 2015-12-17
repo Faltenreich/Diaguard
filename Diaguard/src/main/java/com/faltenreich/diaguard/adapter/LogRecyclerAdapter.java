@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.faltenreich.diaguard.adapter.list.ListItem;
+import com.faltenreich.diaguard.adapter.list.ListItemDate;
 import com.faltenreich.diaguard.adapter.list.ListItemDay;
 import com.faltenreich.diaguard.adapter.list.ListItemEmpty;
 import com.faltenreich.diaguard.adapter.list.ListItemEntry;
@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * Created by Filip on 04.11.13.
  */
-public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<ListItem>>
+public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHolder<ListItemDate>>
         implements EndlessAdapter.OnEndlessListener, StickyHeaderAdapter<LogDayViewHolder> {
 
     private enum ViewType {
@@ -69,7 +69,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
 
     public int getDayPosition(DateTime dateTime) {
         for (int position = getItemCount() - 1; position >= 0; position--) {
-            ListItem listItem = getItem(position);
+            ListItemDate listItem = getItem(position);
             boolean isSameDay = listItem.getDateTime().withTimeAtStartOfDay().isEqual(dateTime.withTimeAtStartOfDay());
             if (isSameDay) {
                 return position;
@@ -80,7 +80,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
 
     public int getEntryPosition(Entry entry) {
         for (int position = 0; position < getItemCount(); position++) {
-            ListItem listItem = getItem(position);
+            ListItemDate listItem = getItem(position);
             if (listItem instanceof  ListItemEntry) {
                 ListItemEntry listItemEntry = (ListItemEntry) listItem;
                 if (listItemEntry.getEntry().equals(entry)) {
@@ -161,7 +161,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
         if (getItemCount() == 0) {
             return ViewType.ENTRY.ordinal();
         } else {
-            ListItem item = getItem(position);
+            ListItemDate item = getItem(position);
             if (item instanceof ListItemMonth) {
                 return ViewType.MONTH.ordinal();
             } else if (item instanceof ListItemEntry) {
@@ -195,8 +195,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        ListItem listItem = getItem(position);
-        holder.bindData(listItem);
+        holder.bindData(getItem(position));
     }
 
     @Override
@@ -210,7 +209,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
     @Override
     public long getHeaderId(int position) {
         if (position >= 0 && position < getItemCount()) {
-            ListItem listItem = getItem(position);
+            ListItemDate listItem = getItem(position);
             if (listItem instanceof ListItemEntry) {
                 return getItemPosition(((ListItemEntry) listItem).getFirstListItemEntryOfDay());
             }
@@ -226,7 +225,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
     @Override
     public void onBindHeaderViewHolder(LogDayViewHolder holder, int position) {
         if (position >= 0 && position < getItemCount()) {
-            ListItem listItem = getItem(position);
+            ListItemDate listItem = getItem(position);
             // TODO: Remove header for other items instead of ignoring them here
             if (listItem instanceof ListItemEntry || listItem instanceof ListItemEmpty) {
                 holder.bindData(new ListItemDay(listItem.getDateTime()));
@@ -234,7 +233,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
         }
     }
 
-    private class SetupTask extends AsyncTask<Void, Integer, List<ListItem>> {
+    private class SetupTask extends AsyncTask<Void, Integer, List<ListItemDate>> {
 
         private DateTime startDate;
 
@@ -243,8 +242,8 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
         }
 
         @Override
-        protected List<ListItem> doInBackground(Void... params) {
-            List<ListItem> listItems = new ArrayList<>();
+        protected List<ListItemDate> doInBackground(Void... params) {
+            List<ListItemDate> listItems = new ArrayList<>();
             DateTime currentDate = startDate.minusDays(EndlessAdapter.BULK_SIZE);
             DateTime targetDate = startDate.plusDays(EndlessAdapter.BULK_SIZE);
 
@@ -276,7 +275,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
         }
 
         @Override
-        protected void onPostExecute(List<ListItem> listItems) {
+        protected void onPostExecute(List<ListItemDate> listItems) {
             addItems(listItems);
             notifyItemRangeInserted(getItemCount() - listItems.size(), getItemCount() - 1);
 
@@ -287,11 +286,11 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
         }
     }
 
-    private class AppendPreviousTask extends AsyncTask<Void, Integer, List<ListItem>> {
+    private class AppendPreviousTask extends AsyncTask<Void, Integer, List<ListItemDate>> {
 
         @Override
-        protected List<ListItem> doInBackground(Void... params) {
-            List<ListItem> listItems = new ArrayList<>();
+        protected List<ListItemDate> doInBackground(Void... params) {
+            List<ListItemDate> listItems = new ArrayList<>();
 
             DateTime minVisibleDate = getItem(0).getDateTime();
             DateTime targetDate = minVisibleDate.minusDays(EndlessAdapter.BULK_SIZE);
@@ -334,7 +333,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
         }
 
         @Override
-        protected void onPostExecute(List<ListItem> listItems) {
+        protected void onPostExecute(List<ListItemDate> listItems) {
             removePendingView(Direction.UP);
 
             addItems(0, listItems);
@@ -350,11 +349,11 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
         }
     }
 
-    private class AppendNextTask extends AsyncTask<Void, Integer, List<ListItem>> {
+    private class AppendNextTask extends AsyncTask<Void, Integer, List<ListItemDate>> {
 
         @Override
-        protected List<ListItem> doInBackground(Void... params) {
-            List<ListItem> listItems = new ArrayList<>();
+        protected List<ListItemDate> doInBackground(Void... params) {
+            List<ListItemDate> listItems = new ArrayList<>();
 
             DateTime maxVisibleDate = getItem(getItemCount() - 1).getDateTime();
             DateTime targetDate = maxVisibleDate.plusDays(EndlessAdapter.BULK_SIZE);
@@ -395,7 +394,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItem, BaseViewHolder<
         }
 
         @Override
-        protected void onPostExecute(List<ListItem> listItems) {
+        protected void onPostExecute(List<ListItemDate> listItems) {
             removePendingView(Direction.DOWN);
 
             addItems(listItems);

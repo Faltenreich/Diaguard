@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.adapter.table;
+package com.faltenreich.diaguard.adapter.list;
 
 import com.faltenreich.diaguard.data.entity.Measurement;
 
@@ -8,12 +8,12 @@ import java.util.HashMap;
 /**
  * Created by Faltenreich on 15.12.2015.
  */
-public class CategoryTableRow {
+public class ListItemCategoryValues extends ListItem {
 
     private Measurement.Category category;
     private String[] values;
 
-    public CategoryTableRow(Measurement.Category category, String[] values) {
+    public ListItemCategoryValues(Measurement.Category category, String[] values) {
         this.category = category;
         this.values = values;
     }

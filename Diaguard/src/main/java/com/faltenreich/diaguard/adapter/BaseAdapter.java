@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
 import com.faltenreich.diaguard.adapter.list.ListItem;
+import com.faltenreich.diaguard.adapter.list.ListItemDate;
 import com.faltenreich.diaguard.ui.view.viewholder.BaseViewHolder;
 
 import java.util.ArrayList;

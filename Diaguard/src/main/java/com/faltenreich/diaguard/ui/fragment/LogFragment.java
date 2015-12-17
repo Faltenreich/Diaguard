@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.ui.fragment;
 
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.drawable.LayerDrawable;
@@ -17,7 +16,7 @@ import android.widget.ProgressBar;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.list.ListItem;
+import com.faltenreich.diaguard.adapter.list.ListItemDate;
 import com.faltenreich.diaguard.adapter.SafeLinearLayoutManager;
 import com.faltenreich.diaguard.adapter.StickyHeaderDecoration;
 import com.faltenreich.diaguard.util.ViewHelper;
@@ -142,7 +141,7 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
     private DateTime getFirstVisibleDay() {
         int firstVisibleItemPosition = listLayoutManager.findFirstVisibleItemPosition();
         if (firstVisibleItemPosition >= 0 && firstVisibleItemPosition < listAdapter.getItemCount()) {
-            ListItem item = listAdapter.getItem(listLayoutManager.findFirstVisibleItemPosition());
+            ListItemDate item = listAdapter.getItem(listLayoutManager.findFirstVisibleItemPosition());
             return item.getDateTime();
         } else {
             return null;

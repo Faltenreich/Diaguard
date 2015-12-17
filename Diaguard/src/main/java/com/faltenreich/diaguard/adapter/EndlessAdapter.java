@@ -3,13 +3,13 @@ package com.faltenreich.diaguard.adapter;
 import android.content.Context;
 import android.os.Handler;
 
-import com.faltenreich.diaguard.adapter.list.ListItem;
+import com.faltenreich.diaguard.adapter.list.ListItemDate;
 import com.faltenreich.diaguard.ui.view.viewholder.BaseViewHolder;
 
 /**
  * Created by Filip on 04.11.13.
  */
-public abstract class EndlessAdapter<L extends ListItem, VH extends BaseViewHolder<L>> extends BaseAdapter<L, VH> {
+public abstract class EndlessAdapter<L extends ListItemDate, VH extends BaseViewHolder<L>> extends BaseAdapter<L, VH> {
 
     public static final int VISIBLE_THRESHOLD = 5;
     public static final int BULK_SIZE = 10;

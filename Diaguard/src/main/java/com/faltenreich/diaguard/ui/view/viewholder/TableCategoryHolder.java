@@ -2,6 +2,8 @@ package com.faltenreich.diaguard.ui.view.viewholder;
 
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
+import android.text.Layout;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -41,7 +43,7 @@ public class TableCategoryHolder extends BaseViewHolder<ListItemCategoryValues> 
         imageView.setImageDrawable(ContextCompat.getDrawable(getContext(), categoryImageResourceId));
 
         for (String value : listItem.getValues()) {
-            TextView textView = (TextView) View.inflate(getContext(), R.layout.list_item_table_category_value, null);
+            TextView textView = (TextView) LayoutInflater.from(getContext()).inflate(R.layout.list_item_table_category_value, content, false);
             textView.setText(value);
             content.addView(textView);
         }

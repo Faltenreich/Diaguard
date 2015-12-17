@@ -25,7 +25,11 @@ public class CategoryRecyclerAdapter extends BaseAdapter<ListItemCategoryValues,
     @Override
     public void onBindViewHolder(TableCategoryHolder holder, int position) {
         holder.bindData(getItem(position));
-        boolean isOdd = position % 2 == 0;
-        holder.setBackgroundColor(isOdd ? R.color.gray_lighter : android.R.color.transparent);
+    }
+
+    @Override
+    public void onViewRecycled(TableCategoryHolder holder) {
+        super.onViewRecycled(holder);
+        holder.content.removeAllViews();
     }
 }

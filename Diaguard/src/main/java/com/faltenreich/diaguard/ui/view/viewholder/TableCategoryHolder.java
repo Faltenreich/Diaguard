@@ -29,7 +29,7 @@ public class TableCategoryHolder extends BaseViewHolder<ListItemCategoryValues> 
     protected TintImageView imageView;
 
     @Bind(R.id.list_item_chart_table_content)
-    protected ViewGroup content;
+    public ViewGroup content;
 
     public TableCategoryHolder(View view) {
         super(view);

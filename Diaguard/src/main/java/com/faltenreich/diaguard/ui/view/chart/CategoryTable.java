@@ -10,6 +10,7 @@ import android.util.AttributeSet;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.CategoryRecyclerAdapter;
 import com.faltenreich.diaguard.adapter.list.ListItemCategoryValues;
+import com.faltenreich.diaguard.adapter.list.SimpleDividerItemDecoration;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.entity.Entry;
@@ -102,6 +103,7 @@ public class CategoryTable extends RecyclerView {
         }
 
         protected void onPostExecute(List<ListItemCategoryValues> measurements) {
+            addItemDecoration(new SimpleDividerItemDecoration(getContext()));
             setLayoutManager(new LinearLayoutManager(getContext()));
             CategoryRecyclerAdapter adapter = new CategoryRecyclerAdapter(getContext());
             adapter.addItems(measurements);

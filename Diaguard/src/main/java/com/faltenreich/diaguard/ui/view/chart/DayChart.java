@@ -104,6 +104,7 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
             setVisibleXRangeMaximum(DateTimeConstants.MINUTES_PER_DAY);
             getXAxis().setLabelsToSkip((DateTimeConstants.MINUTES_PER_HOUR * LABELS_TO_SKIP) - 1);
 
+
             new UpdateChartDataTask().execute();
         }
 

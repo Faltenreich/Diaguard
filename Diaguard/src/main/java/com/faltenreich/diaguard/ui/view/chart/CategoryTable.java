@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.ViewGroup;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.CategoryRecyclerAdapter;
@@ -61,9 +62,6 @@ public class CategoryTable extends RecyclerView {
         if (!isInEditMode()) {
             Measurement.Category[] activeCategories = PreferenceHelper.getInstance().getActiveCategories();
             categories = Arrays.copyOfRange(activeCategories, 1, activeCategories.length);
-
-            int colorEvenRows = ContextCompat.getColor(getContext(), android.R.color.transparent);
-            int colorOddRows = ContextCompat.getColor(getContext(), R.color.gray_lighter);
         }
     }
 

@@ -104,6 +104,11 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
             setVisibleXRangeMaximum(DateTimeConstants.MINUTES_PER_DAY);
             getXAxis().setLabelsToSkip((DateTimeConstants.MINUTES_PER_HOUR * LABELS_TO_SKIP) - 1);
 
+            // Offsets are calculated manually (possible leak)
+            float leftOffset = getContext().getResources().getDimension(R.dimen.size_image) +
+                    getContext().getResources().getDimension(R.dimen.margin_between);
+            float bottomOffset = getContext().getResources().getDimension(R.dimen.chart_offset_bottom);
+            setViewPortOffsets(leftOffset, 0, 0, bottomOffset);
 
             new UpdateChartDataTask().execute();
         }

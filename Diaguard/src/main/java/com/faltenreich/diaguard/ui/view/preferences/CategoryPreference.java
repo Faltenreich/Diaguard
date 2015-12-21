@@ -16,6 +16,7 @@ import android.widget.ListView;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.util.ViewHelper;
 
 /**
  * Created by Filip on 04.11.13.
@@ -48,8 +49,11 @@ public class CategoryPreference extends DialogPreference {
             listView.setBackgroundColor(Color.WHITE);
         }
 
-        for(int item = 0; item < Measurement.Category.values().length; item++)
-            listView.setItemChecked(item, PreferenceHelper.getInstance().isCategoryActive(Measurement.Category.values()[item]));
+        for(int item = 0; item < Measurement.Category.values().length; item++) {
+            Measurement.Category category = Measurement.Category.values()[item];
+            listView.setItemChecked(item, PreferenceHelper.getInstance().isCategoryActive(category));
+        }
+        // TODO: listView.getChildAt(Measurement.Category.BLOODSUGAR.ordinal()).setEnabled(false);
     }
 
     @Override
@@ -67,7 +71,7 @@ public class CategoryPreference extends DialogPreference {
                 editor.apply();
             }
             else {
-                // TODO ViewHelper.showAlert((Activity) getContext(), getContext().getString(R.string.validator_value_none));
+                ViewHelper.showToast(getContext(), getContext().getString(R.string.validator_value_none));
                 // TODO: Keep Dialog open
             }
         }

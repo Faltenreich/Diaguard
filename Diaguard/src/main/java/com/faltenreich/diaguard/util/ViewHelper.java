@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
+import android.widget.Toast;
 
 /**
  * Created by Filip on 10.12.13.
@@ -46,6 +47,10 @@ public class ViewHelper {
         Snackbar
                 .make(parentView, text, Snackbar.LENGTH_LONG)
                 .show();
+    }
+
+    public static void showToast(Context context, String text) {
+        Toast.makeText(context, text, Toast.LENGTH_LONG).show();
     }
 
     public static void expand(final View v) {

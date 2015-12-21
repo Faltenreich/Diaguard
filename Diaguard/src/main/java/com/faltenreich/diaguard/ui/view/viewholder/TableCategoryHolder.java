@@ -42,9 +42,13 @@ public class TableCategoryHolder extends BaseViewHolder<ListItemCategoryValues> 
         int categoryImageResourceId = PreferenceHelper.getInstance().getCategoryImageResourceId(category);
         imageView.setImageDrawable(ContextCompat.getDrawable(getContext(), categoryImageResourceId));
 
-        for (String value : listItem.getValues()) {
+        for (float value : listItem.getValues()) {
             TextView textView = (TextView) LayoutInflater.from(getContext()).inflate(R.layout.list_item_table_category_value, content, false);
-            textView.setText(value);
+            if (value > 0) {
+                value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, value);
+                String valueForUi = PreferenceHelper.getInstance().getDecimalFormat(category).format(value);
+                textView.setText(valueForUi);
+            }
             content.addView(textView);
         }
     }

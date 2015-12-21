@@ -11,9 +11,9 @@ import java.util.HashMap;
 public class ListItemCategoryValues extends ListItem {
 
     private Measurement.Category category;
-    private String[] values;
+    private float[] values;
 
-    public ListItemCategoryValues(Measurement.Category category, String[] values) {
+    public ListItemCategoryValues(Measurement.Category category, float[] values) {
         this.category = category;
         this.values = values;
     }
@@ -22,11 +22,11 @@ public class ListItemCategoryValues extends ListItem {
         return category;
     }
 
-    public String[] getValues() {
+    public float[] getValues() {
         return values;
     }
 
-    public String getValue(int index) {
+    public float getValue(int index) {
         return values[index];
     }
 }

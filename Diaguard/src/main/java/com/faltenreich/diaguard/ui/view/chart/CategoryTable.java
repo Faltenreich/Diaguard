@@ -68,33 +68,9 @@ public class CategoryTable extends RecyclerView {
     private class UpdateDataTask extends AsyncTask<Void, Void, List<ListItemCategoryValues>> {
 
         protected List<ListItemCategoryValues> doInBackground(Void... params) {
-            HashMap<Measurement.Category, String[]> values = new LinkedHashMap<>();
-            for (Measurement.Category category : categories) {
-                String[] valueArray = new String[DateTimeConstants.HOURS_PER_DAY / SKIP_EVERY_X_HOUR];
-                Arrays.fill(valueArray, "");
-                values.put(category, valueArray);
-            }
-
-            List<Entry> entries = EntryDao.getInstance().getEntriesOfDay(day);
-            for (Entry entry : entries) {
-                List<Measurement> measurementsOfEntry = EntryDao.getInstance().getMeasurements(entry, categories);
-                for (Measurement measurement : measurementsOfEntry) {
-                    int index = entry.getDate().getHourOfDay() / SKIP_EVERY_X_HOUR;
-                    Measurement.Category category = measurement.getCategory();
-
-                    String oldValueString = values.get(category)[index];
-                    float oldValue = oldValueString != null && oldValueString.length() > 0 ?
-                            Float.parseFloat(oldValueString) : 0;
-                    float newValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, ArrayUtils.sum(measurement.getValues()));
-                    float avg = oldValue > 0 ? (oldValue + newValue) / 2 : newValue;
-
-                    String valueForUi = PreferenceHelper.getInstance().getDecimalFormat(category).format(avg);
-                    values.get(category)[index] = valueForUi;
-                }
-            }
-
+            LinkedHashMap<Measurement.Category, float[]> values = EntryDao.getInstance().getAverageDataTable(day, categories, SKIP_EVERY_X_HOUR);
             List<ListItemCategoryValues> rowList = new ArrayList<>();
-            for (Map.Entry<Measurement.Category, String[]> mapEntry : values.entrySet()) {
+            for (Map.Entry<Measurement.Category, float[]> mapEntry : values.entrySet()) {
                 rowList.add(new ListItemCategoryValues(mapEntry.getKey(), mapEntry.getValue()));
             }
             return rowList;

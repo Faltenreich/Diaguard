@@ -35,6 +35,8 @@ public class CategoryTable extends RecyclerView {
 
     private static final int SKIP_EVERY_X_HOUR = 2;
 
+    CategoryRecyclerAdapter adapter;
+
     private DateTime day;
     private Measurement.Category[] categories;
 
@@ -62,6 +64,10 @@ public class CategoryTable extends RecyclerView {
         if (!isInEditMode()) {
             Measurement.Category[] activeCategories = PreferenceHelper.getInstance().getActiveCategories();
             categories = Arrays.copyOfRange(activeCategories, 1, activeCategories.length);
+            addItemDecoration(new SimpleDividerItemDecoration(getContext()));
+            setLayoutManager(new LinearLayoutManager(getContext()));
+            adapter = new CategoryRecyclerAdapter(getContext());
+            setAdapter(adapter);
         }
     }
 
@@ -77,11 +83,9 @@ public class CategoryTable extends RecyclerView {
         }
 
         protected void onPostExecute(List<ListItemCategoryValues> measurements) {
-            addItemDecoration(new SimpleDividerItemDecoration(getContext()));
-            setLayoutManager(new LinearLayoutManager(getContext()));
-            CategoryRecyclerAdapter adapter = new CategoryRecyclerAdapter(getContext());
+            adapter.clear();
             adapter.addItems(measurements);
-            setAdapter(adapter);
+            adapter.notifyDataSetChanged();
         }
     }
 }

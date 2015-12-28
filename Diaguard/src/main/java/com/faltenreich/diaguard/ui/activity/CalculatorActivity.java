@@ -195,6 +195,8 @@ public class CalculatorActivity extends BaseActivity {
     // Values are normalized
     private void showResult(final float bloodSugar, final float meal, final float bolus, final float correction) {
 
+        float insulin = bolus + correction;
+
         // Build AlertDialog
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
@@ -202,11 +204,11 @@ public class CalculatorActivity extends BaseActivity {
 
         // Handle negative insulin
         TextView textViewInfo = (TextView) viewPopup.findViewById(R.id.textViewInfo);
-        if (bolus <= 0) {
+        if (insulin <= 0) {
             // Advice skipping bolus
             viewPopup.findViewById(R.id.result).setVisibility(View.GONE);
             textViewInfo.setVisibility(View.VISIBLE);
-            if (bolus < -1) {
+            if (insulin < -1) {
                 // Advice consuming carbohydrates
                 textViewInfo.setText(String.format("%s %s", textViewInfo.getText().toString(), getString(R.string.bolus_no2)));
             }
@@ -216,7 +218,7 @@ public class CalculatorActivity extends BaseActivity {
         }
 
         TextView textViewValue = (TextView) viewPopup.findViewById(R.id.textViewResult);
-        textViewValue.setText(Helper.getDecimalFormat().format(bolus + correction));
+        textViewValue.setText(Helper.getDecimalFormat().format(insulin));
 
         TextView textViewUnit = (TextView) viewPopup.findViewById(R.id.textViewUnit);
         textViewUnit.setText(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.INSULIN));

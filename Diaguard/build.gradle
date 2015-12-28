@@ -43,6 +43,7 @@ dependencies {
     compile 'com.j256.ormlite:ormlite-core:4.48'
     compile 'com.j256.ormlite:ormlite-android:4.48'
     compile 'net.danlew:android.joda:2.7.2'
+    compile 'de.psdev.licensesdialog:licensesdialog:1.8.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.opencsv:opencsv:3.3'
     compile 'com.github.PhilJay:MPAndroidChart:v2.1.6'

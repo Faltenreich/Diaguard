@@ -18,6 +18,7 @@ import com.faltenreich.diaguard.ui.fragment.ChartFragment;
 import com.faltenreich.diaguard.ui.fragment.LogFragment;
 import com.faltenreich.diaguard.ui.fragment.MainFragment;
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.util.Helper;
 
 import butterknife.Bind;
 

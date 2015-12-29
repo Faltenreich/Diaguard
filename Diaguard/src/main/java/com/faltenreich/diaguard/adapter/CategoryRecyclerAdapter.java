@@ -19,7 +19,7 @@ public class CategoryRecyclerAdapter extends BaseAdapter<ListItemCategoryValues,
 
     @Override
     public TableCategoryHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new TableCategoryHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_chart_table, parent, false));
+        return new TableCategoryHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_table, parent, false));
     }
 
     @Override

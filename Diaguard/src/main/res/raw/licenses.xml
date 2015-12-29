@@ -79,4 +79,10 @@
         <copyright>Copyright 2013, Roman Nurik</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
+    <notice>
+        <name>AutoFitTextView</name>
+        <url>https://github.com/grantland/android-autofittextview</url>
+        <copyright>Copyright 2014, Grantland Chew</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
 </notices>

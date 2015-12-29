@@ -57,22 +57,23 @@ public class ChartPagerAdapter extends FragmentStatePagerAdapter {
         for (int position = 0; position < ITEM_COUNT; position++) {
             fragments.get(position).setDay(day.minusDays(getMiddle()).plusDays(position));
         }
-        notifyDataSetChanged();
     }
 
-    public void previousDay() {
+    public synchronized void previousDay() {
         Collections.rotate(fragments, 1);
+        notifyDataSetChanged();
+
         ChartDayFragment fragment = fragments.get(0);
         DateTime previousDay = fragment.getDay().minusDays(ITEM_COUNT);
         fragment.setDay(previousDay);
-        notifyDataSetChanged();
     }
 
-    public void nextDay() {
+    public synchronized void nextDay() {
         Collections.rotate(fragments, -1);
+        notifyDataSetChanged();
+
         ChartDayFragment fragment = fragments.get(ITEM_COUNT - 1);
         DateTime nextDay = fragment.getDay().plusDays(ITEM_COUNT);
         fragment.setDay(nextDay);
-        notifyDataSetChanged();
     }
 }

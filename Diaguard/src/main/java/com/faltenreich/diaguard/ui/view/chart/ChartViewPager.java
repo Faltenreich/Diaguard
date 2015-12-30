@@ -34,11 +34,15 @@ public class ChartViewPager extends ViewPager {
         setAdapter(adapter);
         setCurrentItem(adapter.getMiddle(), false);
 
+        // Prevent destroying offscreen fragments that occur on fast scrolling
+        setOffscreenPageLimit(2);
+
         if (onPageChangeListener == null) {
             onPageChangeListener = new OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 }
+
                 @Override
                 public void onPageSelected(int position) {
                     if (position != adapter.getMiddle() && adapter.getItem(position) instanceof ChartDayFragment) {
@@ -47,6 +51,7 @@ public class ChartViewPager extends ViewPager {
                         callback.onDaySelected(fragment.getDay());
                     }
                 }
+
                 @Override
                 public void onPageScrollStateChanged(int state) {
                     if (state == ViewPager.SCROLL_STATE_IDLE) {

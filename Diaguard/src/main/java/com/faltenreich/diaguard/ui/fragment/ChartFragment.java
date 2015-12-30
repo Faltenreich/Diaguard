@@ -89,20 +89,6 @@ public class ChartFragment extends BaseFragment implements ChartViewPager.ChartV
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        try {
-            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
-            childFragmentManager.setAccessible(true);
-            childFragmentManager.set(this, null);
-        } catch (NoSuchFieldException e) {
-            Log.e(TAG, "No ChildFragmentManager available");
-        } catch (IllegalAccessException e) {
-            Log.e(TAG, "No ChildFragmentManager available");
-        }
-    }
-
-    @Override
     public String getTitle() {
         return DiaguardApplication.getContext().getString(R.string.timeline);
     }

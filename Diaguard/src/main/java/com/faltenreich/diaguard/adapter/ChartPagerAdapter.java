@@ -41,7 +41,7 @@ public class ChartPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getItemPosition(Object object) {
-        return object instanceof ChartDayFragment ? fragments.indexOf(object) : -1;
+        return object instanceof ChartDayFragment ? fragments.indexOf(object) : POSITION_NONE;
     }
 
     @Override
@@ -55,7 +55,13 @@ public class ChartPagerAdapter extends FragmentStatePagerAdapter {
 
     public void setDay(DateTime day) {
         for (int position = 0; position < ITEM_COUNT; position++) {
-            fragments.get(position).setDay(day.minusDays(getMiddle()).plusDays(position));
+            if (position < fragments.size()) {
+                ChartDayFragment fragment = fragments.get(position);
+                if (fragment != null) {
+                    DateTime fragmentDay = day.minusDays(getMiddle()).plusDays(position);
+                    fragment.setDay(fragmentDay);
+                }
+            }
         }
     }
 

@@ -297,7 +297,6 @@ public class MainFragment extends BaseFragment {
     @SuppressWarnings("unused")
     @OnClick(R.id.layout_latest)
     protected void openEntry() {
-        Helper.createTestData();
         if (latestEntry != null) {
             Intent intent = new Intent(getActivity(), EntryActivity.class);
             intent.putExtra(EntryActivity.EXTRA_ENTRY, latestEntry.getId());

@@ -17,7 +17,7 @@ import android.widget.Toast;
 public class ViewHelper {
 
     public static boolean isLargeScreen(Context context) {
-        return (context.getResources().getConfiguration().screenLayout &
+        return context != null && (context.getResources().getConfiguration().screenLayout &
                 Configuration.SCREENLAYOUT_SIZE_MASK) >=
                 Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
@@ -30,8 +30,11 @@ public class ViewHelper {
         int height = size.y;
      */
     public static boolean isLandscape(Activity activity) {
-        Display display = activity.getWindowManager().getDefaultDisplay();
-        return display.getWidth() > display.getHeight();
+        if (activity != null) {
+            Display display = activity.getWindowManager().getDefaultDisplay();
+            return display.getWidth() > display.getHeight();
+        }
+        return false;
     }
 
     public static int getStatusBarHeight(Context context) {

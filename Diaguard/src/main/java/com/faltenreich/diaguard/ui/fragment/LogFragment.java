@@ -192,14 +192,16 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
 
     @Override
     public void onOrderChanges() {
-        if (listDecoration != null) {
+        if (isAdded() && listDecoration != null) {
             listDecoration.clearHeaderCache();
         }
     }
 
     @Override
     public void onSetupComplete(DateTime dateTime) {
-        progressBar.setVisibility(View.GONE);
-        goToDay(dateTime);
+        if (isAdded()) {
+            progressBar.setVisibility(View.GONE);
+            goToDay(dateTime);
+        }
     }
 }

@@ -71,7 +71,6 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
     }
 
     public void setDay(DateTime day) {
-        Log.i(TAG, "Set Day to " + DateTimeFormat.shortDate().print(day));
         this.day = day;
         new UpdateChartDataTask().execute();
     }

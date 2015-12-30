@@ -58,14 +58,6 @@ public class EntryDao extends BaseDao<Entry> {
         }
     }
 
-    public int deleteMeasurements(Entry entry) {
-        int deletedMeasurements = 0;
-        for (Measurement.Category category : Measurement.Category.values()) {
-            deletedMeasurements += MeasurementDao.getInstance(category.toClass()).deleteMeasurements(entry);
-        }
-        return deletedMeasurements;
-    }
-
     public List<Measurement> getMeasurements(Entry entry) {
         return getMeasurements(entry, PreferenceHelper.getInstance().getActiveCategories());
     }

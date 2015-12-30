@@ -88,15 +88,6 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
         }
     }
 
-    public List<M> getMeasurements(Entry entry) {
-        try {
-            return getDao().queryBuilder().where().eq(Measurement.Column.ENTRY, entry).query();
-        } catch (SQLException exception) {
-            Log.e(TAG, String.format("Could not fetch measurements of category '%s'", getClazz().toString()));
-            return new ArrayList<>();
-        }
-    }
-
     public M getMeasurement(Entry entry) {
         try {
             return getDao().queryBuilder().where().eq(Measurement.Column.ENTRY, entry).queryForFirst();

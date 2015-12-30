@@ -46,7 +46,6 @@ public class ChartViewPager extends ViewPager {
                 @Override
                 public void onPageSelected(int position) {
                     if (position != adapter.getMiddle() && adapter.getItem(position) instanceof ChartDayFragment) {
-                        Log.i(TAG, "onPageSelected " + position);
                         ChartDayFragment fragment = (ChartDayFragment) adapter.getItem(position);
                         callback.onDaySelected(fragment.getDay());
                     }
@@ -59,8 +58,6 @@ public class ChartViewPager extends ViewPager {
                         int targetItem = adapter.getMiddle();
 
                         if (currentItem != targetItem) {
-                            Log.i(TAG, "onPageIdle " + currentItem);
-
                             switch (currentItem) {
                                 case 0:
                                     adapter.previousDay();
@@ -69,9 +66,7 @@ public class ChartViewPager extends ViewPager {
                                     adapter.nextDay();
                                     break;
                             }
-
                             setCurrentItem(targetItem, false);
-                            Log.i(TAG, "Scrolled to page " + targetItem);
                         }
                     }
                 }

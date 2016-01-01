@@ -8,6 +8,6 @@ import org.joda.time.DateTime;
 public class ListItemDay extends ListItemDate {
 
     public ListItemDay(DateTime dateTime) {
-        super(dateTime);
+        super(dateTime.withTimeAtStartOfDay());
     }
 }

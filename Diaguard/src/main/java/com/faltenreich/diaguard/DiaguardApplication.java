@@ -2,7 +2,6 @@ package com.faltenreich.diaguard;
 
 import android.app.Application;
 import android.content.Context;
-import android.preference.PreferenceManager;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 

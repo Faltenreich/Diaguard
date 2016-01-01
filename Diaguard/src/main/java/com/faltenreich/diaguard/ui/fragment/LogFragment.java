@@ -16,12 +16,18 @@ import android.widget.ProgressBar;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.adapter.list.ListItem;
 import com.faltenreich.diaguard.adapter.list.ListItemDate;
 import com.faltenreich.diaguard.adapter.SafeLinearLayoutManager;
 import com.faltenreich.diaguard.adapter.StickyHeaderDecoration;
+import com.faltenreich.diaguard.adapter.list.ListItemEntry;
+import com.faltenreich.diaguard.data.dao.EntryDao;
+import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.util.ViewHelper;
 import com.faltenreich.diaguard.ui.view.DayOfMonthDrawable;
 import com.faltenreich.diaguard.adapter.LogRecyclerAdapter;
+import com.faltenreich.diaguard.util.event.Event;
+import com.faltenreich.diaguard.util.event.Events;
 
 import org.joda.time.DateTime;
 
@@ -54,6 +60,18 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Events.register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Events.unregister(this);
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         updateMonthForUi(getFirstVisibleDay());
     }
@@ -82,21 +100,6 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
                 break;
         }
         return true;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        progressBar.setVisibility(View.VISIBLE);
-
-        DateTime dateTime = getFirstVisibleDay();
-        if (dateTime == null) {
-            dateTime = DateTime.now();
-        }
-
-        listAdapter.setup(dateTime);
-        updateMonthForUi(dateTime);
     }
 
     @Override
@@ -136,6 +139,11 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
                 }
             }
         });
+
+        progressBar.setVisibility(View.VISIBLE);
+        DateTime dateTime = DateTime.now();
+        listAdapter.setup(dateTime);
+        updateMonthForUi(dateTime);
     }
 
     private DateTime getFirstVisibleDay() {
@@ -202,6 +210,65 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
         if (isAdded()) {
             progressBar.setVisibility(View.GONE);
             goToDay(dateTime);
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onEvent(Event.EntryAddedEvent event) {
+        if (isAdded()) {
+            Entry entry = event.entry;
+            if (entry != null) {
+                int entryPosition = listAdapter.getNextDateTimePosition(entry.getDate());
+                entry.setMeasurementCache(EntryDao.getInstance().getMeasurements(entry));
+                ListItemEntry listItemEntry = new ListItemEntry(entry);
+
+                int listItemDayPosition = listAdapter.getFirstListItemEntryOfDayPosition(entry.getDate());
+                if (listItemDayPosition > -1) {
+                    listItemEntry.setFirstListItemEntryOfDay((ListItemEntry) listAdapter.getItem(listItemDayPosition));
+                } else {
+                    listItemEntry.setFirstListItemEntryOfDay(listItemEntry);
+                }
+
+                listDecoration.clearHeaderCache();
+                listAdapter.addItem(entryPosition, listItemEntry);
+                listAdapter.notifyItemInserted(entryPosition);
+            }
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onEvent(Event.EntryUpdatedEvent event) {
+        if (isAdded()) {
+            Entry entry = event.entry;
+            if (entry != null) {
+                int entryPosition = listAdapter.getEntryPosition(entry);
+                if (entryPosition >= 0) {
+                    ListItem listItem = listAdapter.getItem(entryPosition);
+                    if (listItem instanceof ListItemEntry) {
+                        ListItemEntry listItemEntry = (ListItemEntry) listItem;
+                        entry.setMeasurementCache(EntryDao.getInstance().getMeasurements(entry));
+                        listItemEntry.setEntry(event.entry);
+                        listAdapter.notifyItemChanged(entryPosition);
+                    }
+                }
+            }
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onEvent(Event.EntryDeletedEvent event) {
+        if (isAdded()) {
+            Entry entry = event.entry;
+            if (entry != null) {
+                int entryPosition = listAdapter.getEntryPosition(entry);
+                if (entryPosition >= 0) {
+                    listAdapter.removeItem(entryPosition);
+                    listAdapter.notifyItemRemoved(entryPosition);
+                    listDecoration.clearHeaderCache();
+
+                    // TODO: Add ListItemEmpty if no ListItemEntry is available anymore for this day
+                }
+            }
         }
     }
 }

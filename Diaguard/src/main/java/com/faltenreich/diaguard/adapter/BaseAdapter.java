@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.adapter.list.ListItemDate;
 import com.faltenreich.diaguard.ui.view.viewholder.BaseViewHolder;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**

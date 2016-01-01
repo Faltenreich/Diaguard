@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.adapter.list;
 
+import android.support.annotation.NonNull;
+
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 

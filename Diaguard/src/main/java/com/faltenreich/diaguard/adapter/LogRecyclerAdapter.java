@@ -25,6 +25,7 @@ import com.faltenreich.diaguard.ui.view.viewholder.LogPendingViewHolder;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -65,6 +66,40 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
         }
 
         new SetupTask(startDateTime).execute();
+    }
+
+    /**
+     * @return Position of the first ListItemEntry with the same day
+     */
+    public int getFirstListItemEntryOfDayPosition(DateTime day) {
+        int firstListItemEntryOfDayPosition = -1;
+        for (int position = getItemCount() - 1; position >= 0; position--) {
+            ListItemDate listItem = getItem(position);
+
+            boolean isSameDay = listItem.getDateTime().withTimeAtStartOfDay().equals(day.withTimeAtStartOfDay());
+            if (isSameDay && listItem instanceof ListItemEntry) {
+                firstListItemEntryOfDayPosition = position;
+            }
+
+            boolean isBefore = listItem.getDateTime().withTimeAtStartOfDay().isBefore(day.withTimeAtStartOfDay());
+            if (isBefore) {
+                break;
+            }
+        }
+        return firstListItemEntryOfDayPosition;
+    }
+
+    /**
+     * @return Position of the first ListItem with a higher date time
+     */
+    public int getNextDateTimePosition(DateTime dateTime) {
+        for (int position = 0; position < getItemCount(); position++) {
+            ListItemDate listItem = getItem(position);
+            if (listItem.getDateTime().isAfter(dateTime)) {
+                return position;
+            }
+        }
+        return getItemCount() - 1;
     }
 
     public int getDayPosition(DateTime dateTime) {

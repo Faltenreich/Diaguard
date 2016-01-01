@@ -238,5 +238,20 @@
     <string name="about_health_desc">Toutes indications sanitaires sont basées sur des conseils de diabètologues allemands reconnus.</string>
     <string name="about_privacy">Confidentialité</string>
     <string name="about_privacy_desc">Nous prenons très au sérieux la protection de vous données personnelles. Nous n\'allons pas les traiter de n\'importe quelle manière ni les transmettre à des tièrs.</string>
+    <string name="all">Tous</string>
+    <string name="amount">Quantité</string>
+    <string name="backup_complete">Sauvegarde terminée</string>
+    <string name="basal"></string>
+    <string name="correction">Correction</string>
+    <string name="diastolic">Diastolique</string>
+    <string name="error_unexpected">Quelque chose a mal tourné</string>
+    <string name="export_complete">Sauvé sous %s</string>
+    <string name="import_">Restaurer la sauvegarde</string>
+    <string name="interval">Intervalle</string>
+    <string name="measurement_latest">Dernier</string>
+    <string name="pressure_units_default">Battements par minute</string>
+    <string name="systolic">Systolique</string>
+    <string name="validator_value_empty_list"> Au moins une catégorie doit être sélectionnée</string>
+    <string name="pressure">Pression artérielle</string>
 
 </resources>

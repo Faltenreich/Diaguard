@@ -393,5 +393,6 @@
     <string name="about_health">Sources</string>
     <string name="about_health_desc">All medical data are based on approved recommendations from several diabetologists.</string>
     <string name="about_privacy">Privacy</string>
+    <string name="about_privacy_desc">We take the protection of your personal information very seriously and do not process your personal data or forward these to third parties.</string>
 
 </resources>

@@ -13,6 +13,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.util.FileUtils;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.IFileListener;
+import com.faltenreich.diaguard.util.ViewHelper;
 import com.faltenreich.diaguard.util.export.Export;
 
 import org.joda.time.DateTime;
@@ -48,11 +49,11 @@ public class ImportPreference extends DialogPreference implements IFileListener 
             String errorMessage = String.format("%s %s",
                     getContext().getString(R.string.error_no_backups),
                     FileUtils.getPublicDirectory());
-            // TODO: ViewHelper.showSnackbar(getView(), errorMessage);
+            ViewHelper.showToast(getContext(), errorMessage);
             return;
         }
 
-        final List<String> dateList = new ArrayList<>();
+        List<String> dateList = new ArrayList<>();
         for(File file : backupFiles) {
             try {
                 DateTime date = Export.getBackupDate(file);

@@ -262,5 +262,6 @@
     <string name="about_health_desc">Alle gesundheitlichen Angaben basieren auf Empfehlungen anerkannter deutscher Diabetologen.</string>
     <string name="about_privacy">Datenschutz</string>
     <string name="about_privacy_desc">Wir nehmen den Schutz Ihrer persönlichen Daten sehr ernst und verarbeiten keine personenbezogenen Daten weiter oder übermitteln diese an Dritte.</string>
+    <string name="pressure_units_default">Schläge pro Minute</string>
 
 </resources>

@@ -235,5 +235,18 @@
     <string name="about_health_desc">Toda la información de la salud, se basa en las recomendaciones de Diabetólogos Alemanes reconocidos.</string>
     <string name="about_privacy">Protección de datos</string>
     <string name="about_privacy_desc">Nos tomamos la privacidad de sus datos muy en serio, por ello, ningún dato personal será procesado ó reenviado a terceros.</string>
+    <string name="all">Todo</string>
+    <string name="validator_value_empty_list"> Al menos una categoría se debe seleccionar</string>
+    <string name="amount">Cantidad</string>
+    <string name="correction">Corrección</string>
+    <string name="diastolic">Diastólica</string>
+    <string name="error_unexpected">Algo salió mal</string>
+    <string name="export_complete">Memorizar bajo %s</string>
+    <string name="import_"> Restaurar copia de seguridad</string>
+    <string name="interval">Intervalo</string>
+    <string name="measurement_latest">Hace poco</string>
+    <string name="pressure">Presión arterial</string>
+    <string name="pressure_units_default"> Latidos por minuto</string>
+    <string name="systolic">Sistólica</string>
 
 </resources>

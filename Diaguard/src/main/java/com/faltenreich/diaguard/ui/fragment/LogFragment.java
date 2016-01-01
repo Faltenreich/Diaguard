@@ -219,19 +219,23 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
             Entry entry = event.entry;
             if (entry != null) {
                 int entryPosition = listAdapter.getNextDateTimePosition(entry.getDate());
-                entry.setMeasurementCache(EntryDao.getInstance().getMeasurements(entry));
-                ListItemEntry listItemEntry = new ListItemEntry(entry);
+                if (entryPosition >= 0) {
+                    entry.setMeasurementCache(EntryDao.getInstance().getMeasurements(entry));
+                    ListItemEntry listItemEntry = new ListItemEntry(entry);
 
-                int listItemDayPosition = listAdapter.getFirstListItemEntryOfDayPosition(entry.getDate());
-                if (listItemDayPosition > -1) {
-                    listItemEntry.setFirstListItemEntryOfDay((ListItemEntry) listAdapter.getItem(listItemDayPosition));
-                } else {
-                    listItemEntry.setFirstListItemEntryOfDay(listItemEntry);
+                    int firstListItemEntryOfDayPosition = listAdapter.getFirstListItemEntryOfDayPosition(entry.getDate());
+                    if (firstListItemEntryOfDayPosition > -1) {
+                        listItemEntry.setFirstListItemEntryOfDay((ListItemEntry) listAdapter.getItem(firstListItemEntryOfDayPosition));
+                    } else {
+                        listItemEntry.setFirstListItemEntryOfDay(listItemEntry);
+                    }
+
+                    // TODO: Fix duplicates
+
+                    listDecoration.clearHeaderCache();
+                    listAdapter.addItem(entryPosition, listItemEntry);
+                    listAdapter.notifyItemInserted(entryPosition);
                 }
-
-                listDecoration.clearHeaderCache();
-                listAdapter.addItem(entryPosition, listItemEntry);
-                listAdapter.notifyItemInserted(entryPosition);
             }
         }
     }

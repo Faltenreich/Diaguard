@@ -69,6 +69,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
     }
 
     /**
+     * Required for StickyHeaderItemDecoration
      * @return Position of the first ListItemEntry with the same day
      */
     public int getFirstListItemEntryOfDayPosition(DateTime day) {
@@ -90,6 +91,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
     }
 
     /**
+     * Required for notifying changes
      * @return Position of the first ListItem with a higher date time
      */
     public int getNextDateTimePosition(DateTime dateTime) {
@@ -99,7 +101,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
                 return position;
             }
         }
-        return getItemCount() - 1;
+        return -1;
     }
 
     public int getDayPosition(DateTime dateTime) {

@@ -70,6 +70,26 @@
             android:text="@string/about_privacy_desc"
             style="@style/LicenseDescription"/>
 
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/about_code"
+            style="@style/LicenseLabel"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/about_code_desc"
+            style="@style/LicenseDescription"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/about_code_url"
+            android:autoLink="web"
+            android:linksClickable="true"
+            style="@style/LicenseDescription"/>
+
     </LinearLayout>
 
 </ScrollView>

@@ -235,6 +235,9 @@
     <string name="about_health_desc">Toda la información de la salud, se basa en las recomendaciones de Diabetólogos Alemanes reconocidos.</string>
     <string name="about_privacy">Protección de datos</string>
     <string name="about_privacy_desc">Nos tomamos la privacidad de sus datos muy en serio, por ello, ningún dato personal será procesado ó reenviado a terceros.</string>
+    <string name="about_code">Código de honor</string>
+    <string name="about_code_desc">La aplicación cumple con todos los criterios de calidad de HealthOn Código aplicación de Ética de información de salud confiable.</string>
+
     <string name="all">Todo</string>
     <string name="validator_value_empty_list"> Al menos una categoría se debe seleccionar</string>
     <string name="amount">Cantidad</string>

@@ -238,10 +238,12 @@
     <string name="about_health_desc">Toutes indications sanitaires sont basées sur des conseils de diabètologues allemands reconnus.</string>
     <string name="about_privacy">Confidentialité</string>
     <string name="about_privacy_desc">Nous prenons très au sérieux la protection de vous données personnelles. Nous n\'allons pas les traiter de n\'importe quelle manière ni les transmettre à des tièrs.</string>
+    <string name="about_code">Code d\'honneur</string>
+    <string name="about_code_desc">L\'application répond à tous les critères de qualité de code HealthOn App de déontologie des informations de santé digne de confiance.</string>
+
     <string name="all">Tous</string>
     <string name="amount">Quantité</string>
     <string name="backup_complete">Sauvegarde terminée</string>
-    <string name="basal"></string>
     <string name="correction">Correction</string>
     <string name="diastolic">Diastolique</string>
     <string name="error_unexpected">Quelque chose a mal tourné</string>

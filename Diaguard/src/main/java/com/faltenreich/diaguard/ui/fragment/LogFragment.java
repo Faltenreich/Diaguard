@@ -20,6 +20,7 @@ import com.faltenreich.diaguard.adapter.list.ListItem;
 import com.faltenreich.diaguard.adapter.list.ListItemDate;
 import com.faltenreich.diaguard.adapter.SafeLinearLayoutManager;
 import com.faltenreich.diaguard.adapter.StickyHeaderDecoration;
+import com.faltenreich.diaguard.adapter.list.ListItemEmpty;
 import com.faltenreich.diaguard.adapter.list.ListItemEntry;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.entity.Entry;
@@ -213,6 +214,20 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
         }
     }
 
+    private void updateHeaderSection(DateTime dateTime) {
+        int position = listAdapter.getFirstListItemEntryOfDayPosition(dateTime);
+        if (position >= 0) {
+            ListItemEntry firstListItemEntry = (ListItemEntry) listAdapter.getItem(position);
+            while (listAdapter.getItem(position).getDateTime().withTimeAtStartOfDay().isEqual(dateTime.withTimeAtStartOfDay()) &&
+                    listAdapter.getItem(position) instanceof ListItemEntry) {
+                ListItemEntry listItem = (ListItemEntry) listAdapter.getItem(position);
+                listItem.setFirstListItemEntryOfDay(firstListItemEntry);
+                position++;
+            }
+        }
+        listDecoration.clearHeaderCache();
+    }
+
     @SuppressWarnings("unused")
     public void onEvent(Event.EntryAddedEvent event) {
         if (isAdded()) {
@@ -220,21 +235,20 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
             if (entry != null) {
                 int entryPosition = listAdapter.getNextDateTimePosition(entry.getDate());
                 if (entryPosition >= 0) {
-                    entry.setMeasurementCache(EntryDao.getInstance().getMeasurements(entry));
-                    ListItemEntry listItemEntry = new ListItemEntry(entry);
-
-                    int firstListItemEntryOfDayPosition = listAdapter.getFirstListItemEntryOfDayPosition(entry.getDate());
-                    if (firstListItemEntryOfDayPosition > -1) {
-                        listItemEntry.setFirstListItemEntryOfDay((ListItemEntry) listAdapter.getItem(firstListItemEntryOfDayPosition));
-                    } else {
-                        listItemEntry.setFirstListItemEntryOfDay(listItemEntry);
+                    // Remove any existing empty view
+                    int emptyViewPosition = entryPosition - 1;
+                    if (listAdapter.getItem(emptyViewPosition) instanceof ListItemEmpty) {
+                        listAdapter.removeItem(emptyViewPosition);
+                        listAdapter.notifyItemRemoved(emptyViewPosition);
+                        entryPosition = emptyViewPosition;
                     }
 
-                    // TODO: Fix duplicates
-
-                    listDecoration.clearHeaderCache();
+                    entry.setMeasurementCache(EntryDao.getInstance().getMeasurements(entry));
+                    ListItemEntry listItemEntry = new ListItemEntry(entry);
                     listAdapter.addItem(entryPosition, listItemEntry);
                     listAdapter.notifyItemInserted(entryPosition);
+
+                    updateHeaderSection(entry.getDate());
                 }
             }
         }
@@ -268,9 +282,16 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
                 if (entryPosition >= 0) {
                     listAdapter.removeItem(entryPosition);
                     listAdapter.notifyItemRemoved(entryPosition);
-                    listDecoration.clearHeaderCache();
 
-                    // TODO: Add ListItemEmpty if no ListItemEntry is available anymore for this day
+                    // Add empty view if there is no entry available anymore for this day
+                    DateTime day = entry.getDate();
+                    boolean hasNoMoreEntries = listAdapter.getFirstListItemEntryOfDayPosition(day) == -1;
+                    if (hasNoMoreEntries) {
+                        listAdapter.addItem(entryPosition, new ListItemEmpty(day));
+                        listAdapter.notifyItemInserted(entryPosition);
+                    }
+
+                    listDecoration.clearHeaderCache();
                 }
             }
         }

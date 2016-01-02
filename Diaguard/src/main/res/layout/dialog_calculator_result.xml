@@ -6,11 +6,17 @@
     android:layout_height="match_parent"
     style="@style/Padding">
 
-    <TextView android:id="@+id/textViewFormula"
+    <TextView android:id="@+id/dialog_calculator_result_formula"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:visibility="gone"/>
+        android:gravity="center"/>
+
+    <TextView android:id="@+id/dialog_calculator_result_formula_content"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"/>
 
     <TextView android:id="@+id/textViewInfo"
         android:layout_width="fill_parent"

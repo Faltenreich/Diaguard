@@ -25,6 +25,8 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.util.Validator;
+import com.faltenreich.diaguard.util.event.Event;
+import com.faltenreich.diaguard.util.event.Events;
 
 import org.joda.time.DateTime;
 
@@ -188,12 +190,42 @@ public class CalculatorActivity extends BaseActivity {
             float insulinBolus = (meal * factor) / 10;
             float insulinCorrection = (currentBloodSugar - targetBloodSugar) / correction;
 
-            showResult(currentBloodSugar, meal, insulinBolus, insulinCorrection);
+            StringBuilder builderFormula = new StringBuilder();
+            StringBuilder builderFormulaContent = new StringBuilder();
+            if (insulinBolus > 0) {
+                String carbohydrateAcronym = getResources().getStringArray(R.array.meal_units_acronyms)[1];
+                builderFormula.append(String.format("%s * %s",
+                        carbohydrateAcronym,
+                        getString(R.string.factor)));
+                builderFormulaContent.append(String.format("%s %s * %s",
+                        PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.MEAL).format(meal / 10),
+                        carbohydrateAcronym,
+                        factor));
+            }
+            if (insulinCorrection > 0) {
+                if (builderFormulaContent.length() > 0) {
+                    builderFormula.append("\n + ");
+                    builderFormulaContent.append("\n + ");
+                }
+                builderFormula.append(String.format("(%s - %s) / %s",
+                        getString(R.string.bloodsugar),
+                        getString(R.string.pref_therapy_targets_target),
+                        getString(R.string.correction_value)));
+                String bloodSugarUnit = PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BLOODSUGAR);
+                builderFormulaContent.append(String.format("(%s %s - %s %s) / %s %s",
+                        PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(currentBloodSugar), bloodSugarUnit,
+                        PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(targetBloodSugar), bloodSugarUnit,
+                        PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(correction), bloodSugarUnit));
+            }
+            builderFormulaContent.append(" =");
+
+            showResult(builderFormula.toString(), builderFormulaContent.toString(),
+                    currentBloodSugar, meal, insulinBolus, insulinCorrection);
         }
     }
 
     // Values are normalized
-    private void showResult(final float bloodSugar, final float meal, final float bolus, final float correction) {
+    private void showResult(String formula, String formulaContent, final float bloodSugar, final float meal, final float bolus, final float correction) {
 
         float insulin = bolus + correction;
 
@@ -201,6 +233,12 @@ public class CalculatorActivity extends BaseActivity {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         final View viewPopup = inflater.inflate(R.layout.dialog_calculator_result, null);
+
+        TextView textViewFormula = (TextView) viewPopup.findViewById(R.id.dialog_calculator_result_formula);
+        textViewFormula.setText(formula);
+
+        TextView textViewFormulaContent = (TextView) viewPopup.findViewById(R.id.dialog_calculator_result_formula_content);
+        textViewFormulaContent.setText(formulaContent);
 
         // Handle negative insulin
         TextView textViewInfo = (TextView) viewPopup.findViewById(R.id.textViewInfo);
@@ -218,7 +256,7 @@ public class CalculatorActivity extends BaseActivity {
         }
 
         TextView textViewValue = (TextView) viewPopup.findViewById(R.id.textViewResult);
-        textViewValue.setText(Helper.getDecimalFormat().format(insulin));
+        textViewValue.setText(PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.INSULIN).format(insulin));
 
         TextView textViewUnit = (TextView) viewPopup.findViewById(R.id.textViewUnit);
         textViewUnit.setText(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.INSULIN));
@@ -276,6 +314,8 @@ public class CalculatorActivity extends BaseActivity {
             insulin.setEntry(entry);
             MeasurementDao.getInstance(Insulin.class).createOrUpdate(insulin);
         }
+
+        Events.post(new Event.EntryAddedEvent(entry));
     }
 
     @Override

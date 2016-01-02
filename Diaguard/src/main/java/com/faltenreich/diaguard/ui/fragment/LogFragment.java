@@ -250,6 +250,9 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
 
                     updateHeaderSection(entry.getDate());
                 }
+
+                // TODO: Could irritate user?
+                // goToDay(entry.getDate());
             }
         }
     }

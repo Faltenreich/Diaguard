@@ -95,10 +95,17 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
      * @return Position of the first ListItem with a higher date time
      */
     public int getNextDateTimePosition(DateTime dateTime) {
-        for (int position = 0; position < getItemCount(); position++) {
-            ListItemDate listItem = getItem(position);
-            if (listItem.getDateTime().isAfter(dateTime)) {
-                return position;
+        if (getItemCount() > 0) {
+            DateTime visibleMinDate = getItem(0).getDateTime().withTimeAtStartOfDay();
+            DateTime visibleMaxDate = getItem(getItemCount() - 1).getDateTime().withTimeAtStartOfDay();
+            boolean isInRange = visibleMinDate.isBefore(dateTime) && visibleMaxDate.isAfter(dateTime);
+            if (isInRange) {
+                for (int position = 0; position < getItemCount(); position++) {
+                    ListItemDate listItem = getItem(position);
+                    if (listItem.getDateTime().isAfter(dateTime)) {
+                        return position;
+                    }
+                }
             }
         }
         return -1;

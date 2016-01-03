@@ -17,6 +17,8 @@ import com.faltenreich.diaguard.R;
  */
 public class DayOfMonthDrawable extends Drawable {
 
+    private static final int OFFSET = 8;
+
     private String mDayOfMonth = "1";
     private final Paint mPaint;
     private final Rect mTextBounds = new Rect();
@@ -37,7 +39,7 @@ public class DayOfMonthDrawable extends Drawable {
         mPaint.getTextBounds(mDayOfMonth, 0, mDayOfMonth.length(), mTextBounds);
         int textHeight = mTextBounds.bottom - mTextBounds.top;
         Rect bounds = getBounds();
-        canvas.drawText(mDayOfMonth, bounds.right / 2, ((float) bounds.bottom + textHeight + 1) / 2,
+        canvas.drawText(mDayOfMonth, bounds.right / 2, ((float) bounds.bottom + textHeight + 1 + OFFSET) / 2,
                 mPaint);
     }
 

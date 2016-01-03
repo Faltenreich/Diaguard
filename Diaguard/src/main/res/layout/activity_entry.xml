@@ -38,10 +38,11 @@
 
                         <LinearLayout style="@style/LayoutRow">
 
-                            <ImageView
+                            <com.faltenreich.diaguard.ui.view.TintImageView
                                 style="@style/LayoutRowImage"
                                 android:contentDescription="@string/date_select"
-                                android:src="@drawable/ic_time" />
+                                android:src="@drawable/ic_time"
+                                app:tintColor="@color/gray_darker" />
 
                             <LinearLayout
                                 style="@style/LayoutRowItem"
@@ -69,10 +70,11 @@
 
                         <LinearLayout style="@style/LayoutRow">
 
-                            <ImageView
+                            <com.faltenreich.diaguard.ui.view.TintImageView
                                 style="@style/LayoutRowImage"
                                 android:contentDescription="@string/note"
-                                android:src="@drawable/ic_note" />
+                                android:src="@drawable/ic_note"
+                                app:tintColor="@color/gray_darker" />
 
                             <EditText
                                 android:id="@+id/edittext_notes"
@@ -89,10 +91,11 @@
 
                         <LinearLayout style="@style/LayoutRow">
 
-                            <ImageView
+                            <com.faltenreich.diaguard.ui.view.TintImageView
                                 style="@style/LayoutRowImage"
                                 android:contentDescription="@string/alarm"
-                                android:src="@drawable/ic_alarm" />
+                                android:src="@drawable/ic_alarm"
+                                app:tintColor="@color/gray_darker" />
 
                             <Spinner
                                 android:id="@+id/spinner_alarm"

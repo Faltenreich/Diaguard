@@ -14,7 +14,7 @@
             android:title="@string/timeline" />
         <item
             android:id="@+id/nav_log"
-            android:icon="@drawable/ic_list"
+            android:icon="@drawable/ic_log"
             android:title="@string/log" />
     </group>
 

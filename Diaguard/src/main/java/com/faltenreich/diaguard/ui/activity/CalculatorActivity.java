@@ -192,6 +192,7 @@ public class CalculatorActivity extends BaseActivity {
 
             StringBuilder builderFormula = new StringBuilder();
             StringBuilder builderFormulaContent = new StringBuilder();
+
             if (insulinBolus > 0) {
                 String carbohydrateAcronym = getResources().getStringArray(R.array.meal_units_acronyms)[1];
                 builderFormula.append(String.format("%s * %s",
@@ -202,21 +203,22 @@ public class CalculatorActivity extends BaseActivity {
                         carbohydrateAcronym,
                         factor));
             }
-            if (insulinCorrection > 0) {
-                if (builderFormulaContent.length() > 0) {
-                    builderFormula.append("\n + ");
-                    builderFormulaContent.append("\n + ");
-                }
-                builderFormula.append(String.format("(%s - %s) / %s",
-                        getString(R.string.bloodsugar),
-                        getString(R.string.pref_therapy_targets_target),
-                        getString(R.string.correction_value)));
-                String bloodSugarUnit = PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BLOODSUGAR);
-                builderFormulaContent.append(String.format("(%s %s - %s %s) / %s %s",
-                        PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(currentBloodSugar), bloodSugarUnit,
-                        PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(targetBloodSugar), bloodSugarUnit,
-                        PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(correction), bloodSugarUnit));
+
+            if (builderFormulaContent.length() > 0) {
+                builderFormula.append(" + ");
+                builderFormulaContent.append(" + ");
             }
+            builderFormula.append(String.format("(%s - %s) / %s",
+                    getString(R.string.bloodsugar),
+                    getString(R.string.pref_therapy_targets_target),
+                    getString(R.string.correction_value)));
+            String bloodSugarUnit = PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BLOODSUGAR);
+            builderFormulaContent.append(String.format("(%s %s - %s %s) / %s %s",
+                    PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(currentBloodSugar), bloodSugarUnit,
+                    PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(targetBloodSugar), bloodSugarUnit,
+                    PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(correction), bloodSugarUnit));
+
+            builderFormula.append(" =");
             builderFormulaContent.append(" =");
 
             showResult(builderFormula.toString(), builderFormulaContent.toString(),
@@ -261,24 +263,16 @@ public class CalculatorActivity extends BaseActivity {
         TextView textViewUnit = (TextView) viewPopup.findViewById(R.id.textViewUnit);
         textViewUnit.setText(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.INSULIN));
 
-        // Custom TitleBar
-        View view = inflater.inflate(R.layout.dialog_title_bolus, null);
-        TextView textViewTitle = (TextView) view.findViewById(R.id.title);
-        textViewTitle.setText(getString(R.string.insulin));
-
         dialogBuilder.setView(viewPopup)
-                .setCustomTitle(view)
+                .setTitle(R.string.bolus)
                 .setNegativeButton(R.string.back, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                     }
                 })
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.store_values, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        CheckBox checkBoxStoreValues = (CheckBox) viewPopup.findViewById(R.id.checkBoxStoreValues);
-                        if (checkBoxStoreValues.isChecked()) {
-                            storeValues(bloodSugar, meal, bolus, correction);
-                        }
+                        storeValues(bloodSugar, meal, bolus, correction);
                         finish();
                     }
                 });

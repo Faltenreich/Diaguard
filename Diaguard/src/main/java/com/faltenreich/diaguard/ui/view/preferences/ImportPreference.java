@@ -12,12 +12,11 @@ import android.widget.Toast;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.util.FileUtils;
 import com.faltenreich.diaguard.util.Helper;
-import com.faltenreich.diaguard.util.IFileListener;
+import com.faltenreich.diaguard.util.export.FileListener;
 import com.faltenreich.diaguard.util.ViewHelper;
 import com.faltenreich.diaguard.util.export.Export;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ import java.util.List;
 /**
  * Created by Filip on 04.11.13.
  */
-public class ImportPreference extends DialogPreference implements IFileListener {
+public class ImportPreference extends DialogPreference implements FileListener {
 
     private static final String TAG = ImportPreference.class.getSimpleName();
 

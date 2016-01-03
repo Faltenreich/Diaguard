@@ -63,14 +63,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity" />
         </activity>
-        <activity
-            android:name=".ui.activity.StatisticsActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/statistics">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activity.MainActivity" />
-        </activity>
     </application>
 
 </manifest>

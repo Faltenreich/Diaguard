@@ -1,21 +1,16 @@
 package com.faltenreich.diaguard.util.export;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.faltenreich.diaguard.data.DatabaseHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
-import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.util.FileUtils;
 import com.faltenreich.diaguard.util.Helper;
-import com.faltenreich.diaguard.util.IFileListener;
 import com.opencsv.CSVReader;
 
-import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
 import java.io.File;
@@ -32,13 +27,13 @@ public class CsvImport extends AsyncTask<Void, Void, Void> {
     private static final String TAG = CsvImport.class.getSimpleName();
 
     private File file;
-    private IFileListener listener;
+    private FileListener listener;
 
     public CsvImport(File file) {
         this.file = file;
     }
 
-    public void setListener(IFileListener listener) {
+    public void setListener(FileListener listener) {
         this.listener = listener;
     }
 

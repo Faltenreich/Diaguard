@@ -53,7 +53,9 @@ public class CategoryPreference extends DialogPreference {
             Measurement.Category category = Measurement.Category.values()[item];
             listView.setItemChecked(item, PreferenceHelper.getInstance().isCategoryActive(category));
         }
-        // TODO: listView.getChildAt(Measurement.Category.BLOODSUGAR.ordinal()).setEnabled(false);
+
+        // TODO: Make Blood Sugar always active
+        // listView.getChildAt(0).setEnabled(false);
     }
 
     @Override
@@ -72,7 +74,6 @@ public class CategoryPreference extends DialogPreference {
             }
             else {
                 ViewHelper.showToast(getContext(), getContext().getString(R.string.validator_value_none));
-                // TODO: Keep Dialog open
             }
         }
     }

@@ -8,7 +8,7 @@
     <string name="activity">Actividad</string>
     <string name="add_value">Agregar valor</string>
     <string name="alarm">Medida de glucosa en sangre</string>
-    <string name="alarm_desc">% desde el último análisis</string>
+    <string name="alarm_desc">%s desde el último análisis</string>
     <string name="alarm_desc_first">Ha pensado en ello?</string>
     <string name="average">Promedio</string>
     <string name="back">Volver</string>

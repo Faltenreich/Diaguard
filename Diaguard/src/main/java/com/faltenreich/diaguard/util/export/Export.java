@@ -6,8 +6,6 @@ import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.FileUtils;
-import com.faltenreich.diaguard.util.Helper;
-import com.faltenreich.diaguard.util.IFileListener;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -65,19 +63,19 @@ public class Export {
     public static final char CSV_DELIMITER = ';';
     public static final String CSV_KEY_META = "meta";
 
-    public static void exportPdf(IFileListener listener, @NonNull DateTime dateStart, @NonNull DateTime dateEnd, @NonNull Measurement.Category[] categories) {
+    public static void exportPdf(FileListener listener, @NonNull DateTime dateStart, @NonNull DateTime dateEnd, @NonNull Measurement.Category[] categories) {
         PdfExport pdfExport = new PdfExport(dateStart, dateEnd, categories);
         pdfExport.setListener(listener);
         pdfExport.execute();
     }
 
-    public static void exportCsv(IFileListener listener, boolean isBackup, DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories) {
+    public static void exportCsv(FileListener listener, boolean isBackup, DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories) {
         CsvExport csvExport = new CsvExport(isBackup, dateStart, dateEnd, categories);
         csvExport.setListener(listener);
         csvExport.execute();
     }
 
-    public static void importCsv(IFileListener listener, File file) {
+    public static void importCsv(FileListener listener, File file) {
         CsvImport csvImport = new CsvImport(file);
         csvImport.setListener(listener);
         csvImport.execute();

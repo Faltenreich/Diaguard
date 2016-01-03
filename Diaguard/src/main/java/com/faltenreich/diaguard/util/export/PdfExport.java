@@ -1,16 +1,12 @@
 package com.faltenreich.diaguard.util.export;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.util.FileUtils;
 import com.faltenreich.diaguard.util.Helper;
-import com.faltenreich.diaguard.util.IFileListener;
 import com.pdfjet.CoreFont;
 import com.pdfjet.Font;
 import com.pdfjet.PDF;
@@ -35,7 +31,7 @@ public class PdfExport extends AsyncTask<Void, String, File> {
     private static final float PADDING_PARAGRAPH = 20;
     private static final float PADDING_LINE = 3;
 
-    private IFileListener listener;
+    private FileListener listener;
     private DateTime dateStart;
     private DateTime dateEnd;
     private Measurement.Category[] categories;
@@ -49,7 +45,7 @@ public class PdfExport extends AsyncTask<Void, String, File> {
         this.categories = categories;
     }
 
-    public void setListener(IFileListener listener) {
+    public void setListener(FileListener listener) {
         this.listener = listener;
     }
 

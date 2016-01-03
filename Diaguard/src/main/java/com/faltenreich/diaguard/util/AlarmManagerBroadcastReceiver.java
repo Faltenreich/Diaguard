@@ -4,7 +4,17 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.data.dao.EntryDao;
+import com.faltenreich.diaguard.data.dao.MeasurementDao;
+import com.faltenreich.diaguard.data.entity.BloodSugar;
+import com.faltenreich.diaguard.data.entity.Entry;
+
+import org.joda.time.DateTime;
+import org.joda.time.Hours;
+import org.joda.time.Interval;
+import org.joda.time.Minutes;
 
 /**
  * Created by Filip on 22.12.2014.
@@ -16,10 +26,8 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
         // Get date of latest blood sugar measurement
-        /*
-        Entry lastMeasurement = dataSource.getLatestBloodSugar();
+        Entry lastMeasurement = EntryDao.getInstance().getLatestWithMeasurement(BloodSugar.class);
 
         String message = context.getString(R.string.alarm_desc_first);
         if(lastMeasurement != null) {
@@ -38,7 +46,6 @@ public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
             }
         }
         Helper.notify(context, context.getString(R.string.alarm), message);
-        */
 
         if(PreferenceHelper.getInstance().isSoundAllowed()) {
             Helper.playSound(context);

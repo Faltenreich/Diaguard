@@ -60,14 +60,12 @@ public class MainActivity extends BaseActivity {
                 toolbar,
                 R.string.drawer_open,
                 R.string.drawer_close) {
-            public void onDrawerClosed(View view)
-            {
+            public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
                 invalidateOptionsMenu();
                 syncState();
             }
-            public void onDrawerOpened(View drawerView)
-            {
+            public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 invalidateOptionsMenu();
                 syncState();

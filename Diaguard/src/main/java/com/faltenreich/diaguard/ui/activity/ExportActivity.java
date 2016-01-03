@@ -20,7 +20,7 @@ import com.faltenreich.diaguard.ui.fragment.DatePickerFragment;
 import com.faltenreich.diaguard.ui.view.CategoryCheckBoxList;
 import com.faltenreich.diaguard.util.export.Export;
 import com.faltenreich.diaguard.util.Helper;
-import com.faltenreich.diaguard.util.IFileListener;
+import com.faltenreich.diaguard.util.export.FileListener;
 import com.faltenreich.diaguard.util.ViewHelper;
 
 import org.joda.time.DateTime;
@@ -33,7 +33,7 @@ import butterknife.OnClick;
 /**
  * Created by Filip on 30.11.13.
  */
-public class ExportActivity extends BaseActivity implements IFileListener {
+public class ExportActivity extends BaseActivity implements FileListener {
 
     @Bind(R.id.root)
     protected ViewGroup rootView;

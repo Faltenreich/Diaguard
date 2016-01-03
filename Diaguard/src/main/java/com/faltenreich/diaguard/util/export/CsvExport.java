@@ -10,9 +10,7 @@ import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.util.FileUtils;
 import com.faltenreich.diaguard.util.Helper;
-import com.faltenreich.diaguard.util.IFileListener;
 import com.opencsv.CSVWriter;
 
 import org.joda.time.DateTime;
@@ -35,7 +33,7 @@ public class CsvExport extends AsyncTask<Void, String, File> {
     private DateTime dateStart;
     private DateTime dateEnd;
     private Measurement.Category[] categories;
-    private IFileListener listener;
+    private FileListener listener;
 
     public CsvExport(boolean isBackup, DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories) {
         this.isBackup = isBackup;
@@ -44,7 +42,7 @@ public class CsvExport extends AsyncTask<Void, String, File> {
         this.categories = categories;
     }
 
-    public void setListener(IFileListener listener) {
+    public void setListener(FileListener listener) {
         this.listener = listener;
     }
 

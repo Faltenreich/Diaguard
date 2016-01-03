@@ -104,6 +104,9 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
                     getContext().getString(R.string.all),
                     R.drawable.ic_other,
                     android.R.color.white);
+            
+            addMenuButton(fabAll);
+
             fabAll.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -113,7 +116,6 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
                     }
                 }
             });
-            addMenuButton(fabAll);
         }
     }
 
@@ -122,6 +124,8 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
                 category.toLocalizedString(),
                 PreferenceHelper.getInstance().getCategoryImageResourceId(category),
                 R.color.green);
+
+        addMenuButton(fab);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,7 +136,6 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
                 }
             }
         });
-        addMenuButton(fab);
     }
 
     private FloatingActionButton getFloatingActionButton(String text, int imageResourceId, int colorResId) {

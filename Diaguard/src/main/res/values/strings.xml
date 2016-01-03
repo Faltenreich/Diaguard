@@ -397,5 +397,7 @@
     <string name="about_code">Ethical code</string>
     <string name="about_code_desc">The app meets all quality criteria of HealthOn App Code of Ethics for trustworthy health information.</string>
     <string name="about_code_url">https://www.healthon.de/de/diaguard-diabetes</string>
+    <string name="about_legal">Legal</string>
+    <string name="about_legal_desc">This app does not replace a doctor.</string>
 
 </resources>

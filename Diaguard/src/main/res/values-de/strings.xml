@@ -266,5 +266,7 @@
     <string name="about_privacy_desc">Wir nehmen den Schutz Ihrer persönlichen Daten sehr ernst und verarbeiten keine personenbezogenen Daten weiter oder übermitteln diese an Dritte.</string>
     <string name="about_code">Ehrenkodex</string>
     <string name="about_code_desc">Die App entspricht in allen Qualitätskriterien dem HealthOn-App-Ehrenkodex für vertrauensvolle Gesundheitsinformationen in Apps.</string>
+    <string name="about_legal">Rechtliches</string>
+    <string name="about_legal_desc">Diese App ersetzt keinen Diabetesberater oder Arzt.</string>
 
 </resources>

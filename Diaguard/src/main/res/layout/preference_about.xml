@@ -90,6 +90,18 @@
             android:linksClickable="true"
             style="@style/LicenseDescription"/>
 
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/about_legal"
+            style="@style/LicenseLabel"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/about_legal_desc"
+            style="@style/LicenseDescription"/>
+
     </LinearLayout>
 
 </ScrollView>

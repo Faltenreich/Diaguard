@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Entry;
@@ -34,6 +35,9 @@ public class MainActivity extends BaseActivity {
 
     @Bind(R.id.navigation_drawer)
     protected NavigationView drawer;
+
+    @Bind(R.id.container)
+    protected ViewGroup container;
 
     private ActionBarDrawerToggle drawerToggle;
 
@@ -129,10 +133,14 @@ public class MainActivity extends BaseActivity {
     }
 
     private void replaceFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, fragment, fragment.toString());
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        transaction.commit();
+        Fragment activeFragment = getSupportFragmentManager().findFragmentById(R.id.container);
+        boolean isActive = activeFragment != null && activeFragment.getClass() == fragment.getClass();
+        if (!isActive) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.container, fragment, fragment.toString());
+            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            transaction.commit();
+        }
     }
 
     @Override

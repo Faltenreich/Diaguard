@@ -50,16 +50,18 @@ public abstract class BaseFragment extends Fragment {
 
         if (getActivity() instanceof BaseActivity) {
             View actionView = getActionView();
-            if (this instanceof ToolbarCallback) {
-                actionView.setVisibility(View.VISIBLE);
-                actionView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        ((ToolbarCallback) BaseFragment.this).action();
-                    }
-                });
-            } else {
-                actionView.setVisibility(View.GONE);
+            if (actionView != null) {
+                if (this instanceof ToolbarCallback) {
+                    actionView.setVisibility(View.VISIBLE);
+                    actionView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            ((ToolbarCallback) BaseFragment.this).action();
+                        }
+                    });
+                } else {
+                    actionView.setVisibility(View.GONE);
+                }
             }
         }
     }

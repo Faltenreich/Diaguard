@@ -15,16 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.data.entity.Entry;
+import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.ui.fragment.ChartFragment;
 import com.faltenreich.diaguard.ui.fragment.LogFragment;
 import com.faltenreich.diaguard.ui.fragment.MainFragment;
-import com.faltenreich.diaguard.data.PreferenceHelper;
-import com.faltenreich.diaguard.util.event.Event;
-import com.faltenreich.diaguard.util.event.Events;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 
@@ -97,6 +91,12 @@ public class MainActivity extends BaseActivity {
                         break;
                     case R.id.nav_calculator:
                         startActivity(new Intent(MainActivity.this, CalculatorActivity.class));
+                        break;
+                    case R.id.nav_statistics:
+                        startActivity(new Intent(MainActivity.this, StatisticsActivity.class));
+                        break;
+                    case R.id.nav_trend:
+                        startActivity(new Intent(MainActivity.this, TrendActivity.class));
                         break;
                     case R.id.nav_export:
                         startActivity(new Intent(MainActivity.this, ExportActivity.class));

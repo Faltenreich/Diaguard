@@ -16,6 +16,8 @@ import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
+import com.faltenreich.diaguard.ui.activity.StatisticsActivity;
+import com.faltenreich.diaguard.ui.activity.TrendActivity;
 import com.faltenreich.diaguard.util.ChartHelper;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.thread.BaseAsyncTask;
@@ -239,7 +241,7 @@ public class MainFragment extends BaseFragment {
                     chart.invalidate();
                 }
             }
-        }).execute();
+        }, UpdateChartTask.TimeSpan.WEEK).execute();
     }
 
     // endregion
@@ -254,5 +256,23 @@ public class MainFragment extends BaseFragment {
         } else {
             startActivity(new Intent(getActivity(), EntryActivity.class));
         }
+    }
+
+    @SuppressWarnings("unused")
+    @OnClick(R.id.layout_today)
+    protected void openStatisticsToday() {
+        startActivity(new Intent(getActivity(), StatisticsActivity.class));
+    }
+
+    @SuppressWarnings("unused")
+    @OnClick(R.id.layout_average)
+    protected void openStatisticsAverage() {
+        startActivity(new Intent(getActivity(), StatisticsActivity.class));
+    }
+
+    @SuppressWarnings("unused")
+    @OnClick(R.id.layout_trend)
+    protected void openTrend() {
+        startActivity(new Intent(getActivity(), TrendActivity.class));
     }
 }

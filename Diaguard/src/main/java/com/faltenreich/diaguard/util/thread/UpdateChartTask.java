@@ -27,13 +27,33 @@ import java.util.List;
 
 public class UpdateChartTask extends BaseAsyncTask<Void, Void, LineData> {
 
-    public UpdateChartTask(Context context, OnAsyncProgressListener<LineData> onAsyncProgressListener) {
+    public enum TimeSpan {
+        WEEK,
+        MONTH,
+        YEAR
+    }
+
+    private TimeSpan timeSpan;
+
+    public UpdateChartTask(Context context, OnAsyncProgressListener<LineData> onAsyncProgressListener, TimeSpan timeSpan) {
         super(context, onAsyncProgressListener);
+        this.timeSpan = timeSpan;
     }
 
     protected LineData doInBackground(Void... params) {
         DateTime today = DateTime.now();
-        DateTime currentDay = today.minusWeeks(1).plusDays(1);
+        DateTime currentDay = today.plusDays(1);
+        switch (timeSpan) {
+            case WEEK:
+                currentDay = currentDay.minusWeeks(1);
+                break;
+            case MONTH:
+                currentDay = currentDay.minusMonths(1);
+                break;
+            case YEAR:
+                currentDay = currentDay.minusYears(1);
+                break;
+        }
 
         List<Entry> entries = new ArrayList<>();
         ArrayList<String> xLabels = new ArrayList<>();

@@ -90,7 +90,7 @@
                 card_view:cardUseCompatPadding="true"
                 android:layout_marginEnd="1dp"
                 android:layout_marginRight="1dp"
-                android:clickable="false"
+                android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground">
 
                 <LinearLayout
@@ -179,7 +179,7 @@
                 card_view:cardUseCompatPadding="true"
                 android:layout_marginStart="1dp"
                 android:layout_marginLeft="1dp"
-                android:clickable="false"
+                android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground">
 
                 <LinearLayout
@@ -267,7 +267,7 @@
             card_view:cardCornerRadius="4dp"
             card_view:cardElevation="2dp"
             card_view:cardUseCompatPadding="true"
-            android:clickable="false"
+            android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground">
 
             <LinearLayout
@@ -288,7 +288,7 @@
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/chart"
                     android:orientation="horizontal"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="100dp"/>
 
             </LinearLayout>

@@ -15,16 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.data.entity.Entry;
+import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.ui.fragment.ChartFragment;
 import com.faltenreich.diaguard.ui.fragment.LogFragment;
 import com.faltenreich.diaguard.ui.fragment.MainFragment;
-import com.faltenreich.diaguard.data.PreferenceHelper;
-import com.faltenreich.diaguard.util.event.Event;
-import com.faltenreich.diaguard.util.event.Events;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 

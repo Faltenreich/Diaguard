@@ -3,11 +3,9 @@ package com.faltenreich.diaguard.data.dao;
 import android.util.Log;
 
 import com.faltenreich.diaguard.data.PreferenceHelper;
-import com.faltenreich.diaguard.data.entity.BaseEntity;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.ArrayUtils;
-import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 
 import org.joda.time.DateTime;
@@ -15,8 +13,6 @@ import org.joda.time.DateTimeConstants;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -53,7 +49,7 @@ public class EntryDao extends BaseDao<Entry> {
         try {
             return getDao().queryBuilder().orderBy(Entry.Column.DATE, true).where().gt(Entry.Column.DATE, start).and().lt(Entry.Column.DATE, end).query();
         } catch (SQLException e) {
-            Log.e(TAG, "Could not getEntriesBetween");
+            Log.e(TAG, e.getMessage());
             return new ArrayList<>();
         }
     }
@@ -79,7 +75,7 @@ public class EntryDao extends BaseDao<Entry> {
         try {
             return qbOne.join(qbTwo);
         } catch (SQLException exception) {
-            Log.e(TAG, String.format("Could not join with '%s'", clazz.toString()));
+            Log.e(TAG, exception.getMessage());
             return null;
         }
     }
@@ -88,7 +84,7 @@ public class EntryDao extends BaseDao<Entry> {
         try {
             return join(clazz).orderBy(Entry.Column.DATE, false).queryForFirst();
         } catch (SQLException exception) {
-            Log.e(TAG, String.format("Could not getLatestWithMeasurement '%s'", clazz.toString()));
+            Log.e(TAG, exception.getMessage());
             return null;
         }
     }
@@ -97,7 +93,7 @@ public class EntryDao extends BaseDao<Entry> {
         try {
             return join(clazz).where().gt(Entry.Column.DATE, DateTime.now().withTimeAtStartOfDay()).query();
         } catch (SQLException exception) {
-            Log.e(TAG, String.format("Could not getLatestWithMeasurement '%s'", clazz.toString()));
+            Log.e(TAG, exception.getMessage());
             return new ArrayList<>();
         }
     }

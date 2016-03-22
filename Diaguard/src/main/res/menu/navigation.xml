@@ -27,9 +27,6 @@
             android:id="@+id/nav_statistics"
             android:title="@string/statistics" />
         <item
-            android:id="@+id/nav_trend"
-            android:title="@string/trend" />
-        <item
             android:id="@+id/nav_export"
             android:title="@string/export" />
         <item

@@ -115,9 +115,9 @@
     <string name="day">Tag</string>
     <string name="days">Tagen</string>
     <string name="week">Woche</string>
-    <string name="weeks">Wochen</string>
+    <string name="week_two">14 Tage</string>
     <string name="month">Monat</string>
-    <string name="months">Monate</string>
+    <string name="year">Jahr</string>
 
     <string-array name="weekdays">
         <item>Montag</item>

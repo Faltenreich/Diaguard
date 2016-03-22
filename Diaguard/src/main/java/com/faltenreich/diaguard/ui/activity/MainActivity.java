@@ -95,9 +95,6 @@ public class MainActivity extends BaseActivity {
                     case R.id.nav_statistics:
                         startActivity(new Intent(MainActivity.this, StatisticsActivity.class));
                         break;
-                    case R.id.nav_trend:
-                        startActivity(new Intent(MainActivity.this, TrendActivity.class));
-                        break;
                     case R.id.nav_export:
                         startActivity(new Intent(MainActivity.this, ExportActivity.class));
                         break;

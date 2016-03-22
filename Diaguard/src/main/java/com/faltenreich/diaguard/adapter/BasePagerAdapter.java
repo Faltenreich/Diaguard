@@ -26,7 +26,7 @@ public class BasePagerAdapter<T extends BaseFragment> extends FragmentPagerAdapt
 
     @Override
     public int getCount() {
-        return fragments.size();
+        return fragments != null ? fragments.size() : 0;
     }
 
     @Override

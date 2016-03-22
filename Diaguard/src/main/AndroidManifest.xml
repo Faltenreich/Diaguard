@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.faltenreich.diaguard"
-    android:versionCode="5"
+    android:versionCode="6"
     android:versionName="@string/app_version" >
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -51,15 +51,6 @@
             android:name=".ui.activity.StatisticsActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/statistics"
-            android:windowSoftInputMode="adjustResize|stateHidden" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activity.MainActivity" />
-        </activity>
-        <activity
-            android:name=".ui.activity.TrendActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/trend"
             android:windowSoftInputMode="adjustResize|stateHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

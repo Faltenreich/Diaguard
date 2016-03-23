@@ -16,7 +16,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
 import org.joda.time.DateTime;
-import org.joda.time.Days;
+import org.joda.time.Interval;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,20 +29,17 @@ public class UpdateChartTask extends BaseAsyncTask<Void, Void, LineData> {
 
     private Measurement.Category category;
     private TimeSpan timeSpan;
-
     private int dataSetColor;
-    private String[] weekDays;
 
     public UpdateChartTask(Context context, OnAsyncProgressListener<LineData> onAsyncProgressListener, Measurement.Category category, TimeSpan timeSpan) {
         super(context, onAsyncProgressListener);
         this.category = category;
         this.timeSpan = timeSpan;
         this.dataSetColor = ContextCompat.getColor(context, R.color.green_light);
-        this.weekDays = context.getResources().getStringArray(R.array.weekdays_short);
     }
 
     protected LineData doInBackground(Void... params) {
-        DateTime endDateTime = DateTime.now();
+        DateTime endDateTime = DateTime.now().withTime(23, 59, 59, 999);
         DateTime startDateTime;
         switch (timeSpan) {
             case WEEK:
@@ -60,7 +57,7 @@ public class UpdateChartTask extends BaseAsyncTask<Void, Void, LineData> {
             default:
                 startDateTime = endDateTime;
         }
-        startDateTime = startDateTime.plusDays(1);
+        startDateTime = startDateTime.plusDays(1).withTimeAtStartOfDay();
 
         List<Entry> entries = new ArrayList<>();
         ArrayList<String> xLabels = new ArrayList<>();
@@ -70,21 +67,20 @@ public class UpdateChartTask extends BaseAsyncTask<Void, Void, LineData> {
                 PreferenceHelper.getInstance().getTargetValue());
         float highestValue = targetValue * 2;
 
-        DateTime currentDay = startDateTime;
-        while (!currentDay.isAfter(endDateTime)) {
-            int index = Days.daysBetween(startDateTime, currentDay).getDays();
-            int weekDayIndex = currentDay.dayOfWeek().get() - 1;
-            if (weekDayIndex >= 0 && weekDayIndex < weekDays.length) {
-                xLabels.add(index, weekDays[weekDayIndex]);
-                float avg = MeasurementDao.getInstance(BloodSugar.class).avg(BloodSugar.Column.MGDL, currentDay);
-                if (avg > 0) {
-                    entries.add(new com.github.mikephil.charting.data.Entry(avg, index));
-                    if (avg > highestValue) {
-                        highestValue = avg;
-                    }
+        DateTime intervalStart = startDateTime;
+        int index = 0;
+        while (!intervalStart.isAfter(endDateTime)) {
+            DateTime intervalEnd = timeSpan.getNextInterval(intervalStart, 1).minusDays(1);
+            xLabels.add(timeSpan.getLabel(intervalStart));
+            float avg = MeasurementDao.getInstance(BloodSugar.class).avg(BloodSugar.Column.MGDL, new Interval(intervalStart, intervalEnd));
+            if (avg > 0) {
+                entries.add(new com.github.mikephil.charting.data.Entry(avg, index));
+                if (avg > highestValue) {
+                    highestValue = avg;
                 }
             }
-            currentDay = currentDay.plusDays(1);
+            intervalStart = timeSpan.getNextInterval(intervalStart, 1);
+            index++;
         }
 
         ArrayList<LineDataSet> dataSets = new ArrayList<>();

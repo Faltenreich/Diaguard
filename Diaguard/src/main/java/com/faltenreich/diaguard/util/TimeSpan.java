@@ -27,33 +27,33 @@ public enum TimeSpan {
         return DiaguardApplication.getContext().getString(stringRes);
     }
 
-    public DateTime getPreviousInterval(DateTime dateTime, int step) {
-        switch (this) {
-            case WEEK:
-                return dateTime.minusDays(step);
-            case TWO_WEEKS:
-                return dateTime.minusDays(step * 2);
-            case MONTH:
-                return dateTime.minusWeeks(step);
-            case YEAR:
-                return dateTime.minusMonths(step);
-            default:
-                return dateTime.minusDays(step);
-        }
-    }
-
     public DateTime getNextInterval(DateTime dateTime, int step) {
         switch (this) {
             case WEEK:
                 return dateTime.plusDays(step);
             case TWO_WEEKS:
-                return dateTime.plusDays(step * 2);
+                return dateTime.plusDays(step);
             case MONTH:
                 return dateTime.plusWeeks(step);
             case YEAR:
                 return dateTime.plusMonths(step);
             default:
                 return dateTime.plusDays(step);
+        }
+    }
+
+    public String getLabel(DateTime dateTime) {
+        switch (this) {
+            case WEEK:
+                return DateTimeUtils.toWeekDayShort(dateTime);
+            case TWO_WEEKS:
+                return DateTimeUtils.toWeekDayShort(dateTime);
+            case MONTH:
+                return dateTime.toString("w");
+            case YEAR:
+                return dateTime.toString("MMM");
+            default:
+                return dateTime.toString();
         }
     }
 }

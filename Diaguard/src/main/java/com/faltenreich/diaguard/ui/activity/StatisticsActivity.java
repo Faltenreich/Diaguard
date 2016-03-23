@@ -62,7 +62,7 @@ public class StatisticsActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.action_time_interval:
                 skipTimeInterval();
-                item.setTitle(timeSpan.toString());
+                item.setTitle(timeSpan.toLocalizedString());
                 return true;
         }
         return false;

@@ -24,8 +24,8 @@ import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.Validator;
-import com.faltenreich.diaguard.util.event.Event;
 import com.faltenreich.diaguard.util.event.Events;
+import com.faltenreich.diaguard.util.event.data.EntryAddedEvent;
 
 import org.joda.time.DateTime;
 
@@ -308,7 +308,7 @@ public class CalculatorActivity extends BaseActivity {
             MeasurementDao.getInstance(Insulin.class).createOrUpdate(insulin);
         }
 
-        Events.post(new Event.EntryAddedEvent(entry));
+        Events.post(new EntryAddedEvent(entry));
     }
 
     @Override

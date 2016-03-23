@@ -12,8 +12,8 @@ import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.fragment.StatisticsFragment;
 import com.faltenreich.diaguard.util.TimeSpan;
-import com.faltenreich.diaguard.util.event.Event;
 import com.faltenreich.diaguard.util.event.Events;
+import com.faltenreich.diaguard.util.event.ui.TimeSpanChangedEvent;
 
 import java.util.ArrayList;
 
@@ -101,6 +101,6 @@ public class StatisticsActivity extends BaseActivity {
 
     private void setTimeSpan(TimeSpan timeSpan) {
         this.timeSpan = timeSpan;
-        Events.post(new Event.TimeSpanChangedEvent(timeSpan));
+        Events.post(new TimeSpanChangedEvent(timeSpan));
     }
 }

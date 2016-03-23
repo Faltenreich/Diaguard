@@ -9,8 +9,8 @@ import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.ChartHelper;
 import com.faltenreich.diaguard.util.TimeSpan;
-import com.faltenreich.diaguard.util.event.Event;
 import com.faltenreich.diaguard.util.event.Events;
+import com.faltenreich.diaguard.util.event.ui.TimeSpanChangedEvent;
 import com.faltenreich.diaguard.util.thread.BaseAsyncTask;
 import com.faltenreich.diaguard.util.thread.UpdateChartTask;
 import com.github.mikephil.charting.charts.LineChart;
@@ -126,7 +126,7 @@ public class StatisticsFragment extends BaseFragment {
     // endregion
 
     @SuppressWarnings("unused")
-    public void onEvent(Event.TimeSpanChangedEvent event) {
+    public void onEvent(TimeSpanChangedEvent event) {
         setTimeSpan(event.context);
         updateContent();
     }

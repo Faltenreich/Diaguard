@@ -17,6 +17,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.Entry;
@@ -26,10 +27,11 @@ import com.faltenreich.diaguard.ui.fragment.TimePickerFragment;
 import com.faltenreich.diaguard.ui.view.entry.MeasurementFloatingActionMenu;
 import com.faltenreich.diaguard.ui.view.entry.MeasurementListView;
 import com.faltenreich.diaguard.util.Helper;
-import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.util.ViewHelper;
-import com.faltenreich.diaguard.util.event.Event;
 import com.faltenreich.diaguard.util.event.Events;
+import com.faltenreich.diaguard.util.event.data.EntryAddedEvent;
+import com.faltenreich.diaguard.util.event.data.EntryDeletedEvent;
+import com.faltenreich.diaguard.util.event.data.EntryUpdatedEvent;
 
 import org.joda.time.DateTime;
 
@@ -253,9 +255,9 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
             if (isNewEntry) {
                 Toast.makeText(this, getString(R.string.entry_added), Toast.LENGTH_LONG).show();
-                Events.post(new Event.EntryAddedEvent(entry));
+                Events.post(new EntryAddedEvent(entry));
             } else {
-                Events.post(new Event.EntryUpdatedEvent(entry));
+                Events.post(new EntryUpdatedEvent(entry));
             }
 
             finish();
@@ -282,7 +284,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             AlertDialog dialog = builder.create();
             dialog.show();
 
-            Events.post(new Event.EntryDeletedEvent(entry));
+            Events.post(new EntryDeletedEvent(entry));
         }
     }
 

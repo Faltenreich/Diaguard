@@ -16,19 +16,21 @@ import android.widget.ProgressBar;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.list.ListItem;
-import com.faltenreich.diaguard.adapter.list.ListItemDate;
+import com.faltenreich.diaguard.adapter.LogRecyclerAdapter;
 import com.faltenreich.diaguard.adapter.SafeLinearLayoutManager;
 import com.faltenreich.diaguard.adapter.StickyHeaderDecoration;
+import com.faltenreich.diaguard.adapter.list.ListItem;
+import com.faltenreich.diaguard.adapter.list.ListItemDate;
 import com.faltenreich.diaguard.adapter.list.ListItemEmpty;
 import com.faltenreich.diaguard.adapter.list.ListItemEntry;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.entity.Entry;
-import com.faltenreich.diaguard.util.ViewHelper;
 import com.faltenreich.diaguard.ui.view.DayOfMonthDrawable;
-import com.faltenreich.diaguard.adapter.LogRecyclerAdapter;
-import com.faltenreich.diaguard.util.event.Event;
+import com.faltenreich.diaguard.util.ViewHelper;
 import com.faltenreich.diaguard.util.event.Events;
+import com.faltenreich.diaguard.util.event.data.EntryAddedEvent;
+import com.faltenreich.diaguard.util.event.data.EntryDeletedEvent;
+import com.faltenreich.diaguard.util.event.data.EntryUpdatedEvent;
 
 import org.joda.time.DateTime;
 
@@ -229,7 +231,7 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
     }
 
     @SuppressWarnings("unused")
-    public void onEvent(Event.EntryAddedEvent event) {
+    public void onEvent(EntryAddedEvent event) {
         if (isAdded()) {
             Entry entry = event.context;
             if (entry != null) {
@@ -258,7 +260,7 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
     }
 
     @SuppressWarnings("unused")
-    public void onEvent(Event.EntryUpdatedEvent event) {
+    public void onEvent(EntryUpdatedEvent event) {
         if (isAdded()) {
             Entry entry = event.context;
             if (entry != null) {
@@ -277,7 +279,7 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
     }
 
     @SuppressWarnings("unused")
-    public void onEvent(Event.EntryDeletedEvent event) {
+    public void onEvent(EntryDeletedEvent event) {
         if (isAdded()) {
             Entry entry = event.context;
             if (entry != null) {

@@ -27,7 +27,7 @@ public class Events {
         return getEventBus().isRegistered(object);
     }
 
-    public static void post(Event.BaseEvent event) {
+    public static void post(BaseEvent event) {
         getEventBus().post(event);
     }
 }

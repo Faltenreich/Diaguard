@@ -19,6 +19,7 @@ import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.ui.activity.StatisticsActivity;
 import com.faltenreich.diaguard.util.ChartHelper;
 import com.faltenreich.diaguard.util.Helper;
+import com.faltenreich.diaguard.util.TimeSpan;
 import com.faltenreich.diaguard.util.thread.BaseAsyncTask;
 import com.faltenreich.diaguard.util.thread.UpdateChartTask;
 import com.github.mikephil.charting.charts.LineChart;
@@ -240,7 +241,7 @@ public class MainFragment extends BaseFragment {
                     chart.invalidate();
                 }
             }
-        }, UpdateChartTask.TimeSpan.WEEK).execute();
+        }, Measurement.Category.BLOODSUGAR, TimeSpan.WEEK).execute();
     }
 
     // endregion

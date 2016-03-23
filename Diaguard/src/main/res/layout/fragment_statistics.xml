@@ -102,7 +102,7 @@
                 style="@style/BoxRow"/>
 
             <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/chart"
+                android:id="@+id/statistics_chart_trend"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"/>

@@ -12,11 +12,19 @@ public class Events {
     }
 
     public static void register(Object object) {
-        getEventBus().register(object);
+        if (!isRegistered(object)) {
+            getEventBus().register(object);
+        }
     }
 
     public static void unregister(Object object) {
-        getEventBus().unregister(object);
+        if (isRegistered(object)) {
+            getEventBus().unregister(object);
+        }
+    }
+
+    private static boolean isRegistered(Object object) {
+        return getEventBus().isRegistered(object);
     }
 
     public static void post(Event.BaseEvent event) {

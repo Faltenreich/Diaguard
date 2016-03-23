@@ -2,17 +2,18 @@ package com.faltenreich.diaguard.ui.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.list.StatisticsFragmentPagerAdapter;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.fragment.StatisticsFragment;
+import com.faltenreich.diaguard.util.TimeSpan;
+import com.faltenreich.diaguard.util.event.Event;
+import com.faltenreich.diaguard.util.event.Events;
 
 import java.util.ArrayList;
 
@@ -24,29 +25,6 @@ import butterknife.Bind;
 
 public class StatisticsActivity extends BaseActivity {
 
-    public enum TimeInterval {
-        WEEK,
-        TWO_WEEKS,
-        MONTH,
-        YEAR;
-
-        @Override
-        public String toString() {
-            switch (this) {
-                case WEEK:
-                    return DiaguardApplication.getContext().getString(R.string.week);
-                case TWO_WEEKS:
-                    return DiaguardApplication.getContext().getString(R.string.week_two);
-                case MONTH:
-                    return DiaguardApplication.getContext().getString(R.string.month);
-                case YEAR:
-                    return DiaguardApplication.getContext().getString(R.string.year);
-                default:
-                    return super.toString();
-            }
-        }
-    }
-
     @Bind(R.id.statistics_tablayout)
     protected TabLayout tabLayout;
 
@@ -55,7 +33,7 @@ public class StatisticsActivity extends BaseActivity {
 
     private StatisticsFragmentPagerAdapter pagerAdapter;
 
-    private TimeInterval timeInterval;
+    private TimeSpan timeSpan;
 
     public StatisticsActivity() {
         super(R.layout.activity_statistics);
@@ -75,7 +53,7 @@ public class StatisticsActivity extends BaseActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.action_time_interval).setTitle(timeInterval.toString());
+        menu.findItem(R.id.action_time_interval).setTitle(timeSpan.toString());
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -84,14 +62,14 @@ public class StatisticsActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.action_time_interval:
                 skipTimeInterval();
-                item.setTitle(timeInterval.toString());
+                item.setTitle(timeSpan.toString());
                 return true;
         }
         return false;
     }
 
     private void init() {
-        timeInterval = TimeInterval.WEEK;
+        timeSpan = TimeSpan.WEEK;
         initLayout();
     }
 
@@ -99,7 +77,7 @@ public class StatisticsActivity extends BaseActivity {
         Measurement.Category[] categories = PreferenceHelper.getInstance().getActiveCategories();
         ArrayList<StatisticsFragment> fragments = new ArrayList<>();
         for (Measurement.Category category : categories) {
-            fragments.add(StatisticsFragment.newInstance(category, timeInterval));
+            fragments.add(StatisticsFragment.newInstance(category, timeSpan));
         }
         pagerAdapter = new StatisticsFragmentPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(pagerAdapter);
@@ -116,24 +94,13 @@ public class StatisticsActivity extends BaseActivity {
     }
 
     private void skipTimeInterval() {
-        int nextOrdinal = timeInterval.ordinal() + 1;
-        TimeInterval nextTimeInterval = TimeInterval.values()[nextOrdinal < TimeInterval.values().length ? nextOrdinal : 0];
-        setTimeInterval(nextTimeInterval);
+        int nextOrdinal = timeSpan.ordinal() + 1;
+        TimeSpan nextTimeSpan = TimeSpan.values()[nextOrdinal < TimeSpan.values().length ? nextOrdinal : 0];
+        setTimeSpan(nextTimeSpan);
     }
 
-    private void setTimeInterval(TimeInterval timeInterval) {
-        this.timeInterval = timeInterval;
-        updateTimeIntervalForChildren();
-    }
-
-    private void updateTimeIntervalForChildren() {
-        for (int fragmentPosition = 0; fragmentPosition < pagerAdapter.getCount(); fragmentPosition++) {
-            Fragment fragment = pagerAdapter.getItem(fragmentPosition);
-            if (fragment instanceof StatisticsFragment) {
-                StatisticsFragment statisticsFragment = (StatisticsFragment) fragment;
-                statisticsFragment.setTimeInterval(timeInterval);
-                statisticsFragment.updateContent();
-            }
-        }
+    private void setTimeSpan(TimeSpan timeSpan) {
+        this.timeSpan = timeSpan;
+        Events.post(new Event.TimeSpanChangedEvent(timeSpan));
     }
 }

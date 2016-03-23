@@ -231,7 +231,7 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
     @SuppressWarnings("unused")
     public void onEvent(Event.EntryAddedEvent event) {
         if (isAdded()) {
-            Entry entry = event.entry;
+            Entry entry = event.context;
             if (entry != null) {
                 int entryPosition = listAdapter.getNextDateTimePosition(entry.getDate());
                 if (entryPosition >= 0) {
@@ -260,7 +260,7 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
     @SuppressWarnings("unused")
     public void onEvent(Event.EntryUpdatedEvent event) {
         if (isAdded()) {
-            Entry entry = event.entry;
+            Entry entry = event.context;
             if (entry != null) {
                 int entryPosition = listAdapter.getEntryPosition(entry);
                 if (entryPosition >= 0) {
@@ -268,7 +268,7 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
                     if (listItem instanceof ListItemEntry) {
                         ListItemEntry listItemEntry = (ListItemEntry) listItem;
                         entry.setMeasurementCache(EntryDao.getInstance().getMeasurements(entry));
-                        listItemEntry.setEntry(event.entry);
+                        listItemEntry.setEntry(event.context);
                         listAdapter.notifyItemChanged(entryPosition);
                     }
                 }
@@ -279,7 +279,7 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
     @SuppressWarnings("unused")
     public void onEvent(Event.EntryDeletedEvent event) {
         if (isAdded()) {
-            Entry entry = event.entry;
+            Entry entry = event.context;
             if (entry != null) {
                 int entryPosition = listAdapter.getEntryPosition(entry);
                 if (entryPosition >= 0) {

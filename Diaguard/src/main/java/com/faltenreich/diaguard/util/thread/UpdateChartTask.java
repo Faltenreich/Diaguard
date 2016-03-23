@@ -10,12 +10,12 @@ import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.ChartHelper;
+import com.faltenreich.diaguard.util.TimeSpan;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeConstants;
 import org.joda.time.Days;
 
 import java.util.ArrayList;
@@ -27,44 +27,52 @@ import java.util.List;
 
 public class UpdateChartTask extends BaseAsyncTask<Void, Void, LineData> {
 
-    public enum TimeSpan {
-        WEEK,
-        MONTH,
-        YEAR
-    }
-
+    private Measurement.Category category;
     private TimeSpan timeSpan;
 
-    public UpdateChartTask(Context context, OnAsyncProgressListener<LineData> onAsyncProgressListener, TimeSpan timeSpan) {
+    private int dataSetColor;
+    private String[] weekDays;
+
+    public UpdateChartTask(Context context, OnAsyncProgressListener<LineData> onAsyncProgressListener, Measurement.Category category, TimeSpan timeSpan) {
         super(context, onAsyncProgressListener);
+        this.category = category;
         this.timeSpan = timeSpan;
+        this.dataSetColor = ContextCompat.getColor(context, R.color.green_light);
+        this.weekDays = context.getResources().getStringArray(R.array.weekdays_short);
     }
 
     protected LineData doInBackground(Void... params) {
-        DateTime today = DateTime.now();
-        DateTime currentDay = today.plusDays(1);
+        DateTime endDateTime = DateTime.now();
+        DateTime startDateTime;
         switch (timeSpan) {
             case WEEK:
-                currentDay = currentDay.minusWeeks(1);
+                startDateTime = endDateTime.minusWeeks(1);
+                break;
+            case TWO_WEEKS:
+                startDateTime = endDateTime.minusWeeks(2);
                 break;
             case MONTH:
-                currentDay = currentDay.minusMonths(1);
+                startDateTime = endDateTime.minusMonths(1);
                 break;
             case YEAR:
-                currentDay = currentDay.minusYears(1);
+                startDateTime = endDateTime.minusYears(1);
                 break;
+            default:
+                startDateTime = endDateTime;
         }
+        startDateTime = startDateTime.plusDays(1);
 
         List<Entry> entries = new ArrayList<>();
         ArrayList<String> xLabels = new ArrayList<>();
-        String[] weekDays = getContext().getResources().getStringArray(R.array.weekdays_short);
 
-        float targetValue = PreferenceHelper.getInstance().
-                formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
-                        PreferenceHelper.getInstance().getTargetValue());
+        float targetValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(
+                Measurement.Category.BLOODSUGAR,
+                PreferenceHelper.getInstance().getTargetValue());
         float highestValue = targetValue * 2;
-        while (!currentDay.isAfter(today)) {
-            int index = DateTimeConstants.DAYS_PER_WEEK - Days.daysBetween(currentDay, today).getDays() - 1;
+
+        DateTime currentDay = startDateTime;
+        while (!currentDay.isAfter(endDateTime)) {
+            int index = Days.daysBetween(startDateTime, currentDay).getDays();
             int weekDayIndex = currentDay.dayOfWeek().get() - 1;
             if (weekDayIndex >= 0 && weekDayIndex < weekDays.length) {
                 xLabels.add(index, weekDays[weekDayIndex]);
@@ -81,7 +89,6 @@ public class UpdateChartTask extends BaseAsyncTask<Void, Void, LineData> {
 
         ArrayList<LineDataSet> dataSets = new ArrayList<>();
         LineDataSet dataSet = new LineDataSet(entries, BloodSugar.class.getSimpleName());
-        int dataSetColor = ContextCompat.getColor(getContext(), R.color.green_light);
         dataSet.setColor(dataSetColor);
         dataSet.setCircleColor(dataSetColor);
         dataSet.setCircleSize(ChartHelper.CIRCLE_SIZE);

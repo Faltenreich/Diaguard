@@ -75,6 +75,8 @@
     <string name="meal">Mahlzeit</string>
     <string name="measurement_latest">Zuletzt</string>
     <string name="measurements">Messungen</string>
+    <string name="measurements_count">Anzahl Messungen</string>
+    <string name="measurements_per_day">Ø Messungen pro Tag</string>
     <string name="note">Notiz</string>
     <string name="ok">OK</string>
     <string name="overview">Übersicht</string>

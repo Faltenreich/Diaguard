@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 
 import org.joda.time.DateTime;
+import org.joda.time.Interval;
 
 /**
  * Created by Faltenreich on 22.03.2016.
@@ -25,6 +26,36 @@ public enum TimeSpan {
 
     public String toLocalizedString() {
         return DiaguardApplication.getContext().getString(stringRes);
+    }
+
+    public Interval getPastInterval(DateTime end) {
+        switch (this) {
+            case WEEK:
+                return new Interval(end.minusWeeks(1), end);
+            case TWO_WEEKS:
+                return new Interval(end.minusWeeks(2), end);
+            case MONTH:
+                return new Interval(end.minusMonths(1), end);
+            case YEAR:
+                return new Interval(end.minusYears(1), end);
+            default:
+                return new Interval(end.minusWeeks(1), end);
+        }
+    }
+
+    public Interval getUpcomingInterval(DateTime start) {
+        switch (this) {
+            case WEEK:
+                return new Interval(start, start.plusWeeks(1));
+            case TWO_WEEKS:
+                return new Interval(start, start.plusWeeks(2));
+            case MONTH:
+                return new Interval(start, start.plusMonths(1));
+            case YEAR:
+                return new Interval(start, start.plusYears(1));
+            default:
+                return new Interval(start, start.plusWeeks(1));
+        }
     }
 
     public DateTime getNextInterval(DateTime dateTime, int step) {

@@ -10,81 +10,104 @@
 
     <include layout="@layout/toolbar" />
 
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardElevation="3dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:orientation="vertical">
+
+            <LinearLayout style="@style/LayoutRow">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="@string/datestart" />
+
+                <TextView
+                    android:id="@+id/statistics_date_start"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="@string/placeholder" />
+
+            </LinearLayout>
+
+            <View style="@style/LayoutRowSeparator" />
+
+            <LinearLayout style="@style/LayoutRow">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="@string/measurements_count" />
+
+                <TextView
+                    android:id="@+id/statistics_measurement_count"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="@string/placeholder" />
+
+            </LinearLayout>
+
+            <View style="@style/LayoutRowSeparator" />
+
+            <LinearLayout style="@style/LayoutRow">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="@string/measurements_per_day" />
+
+                <TextView
+                    android:id="@+id/statistics_measurement_count_avg"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="@string/placeholder" />
+
+            </LinearLayout>
+
+            <View style="@style/LayoutRowSeparator" />
+
+            <LinearLayout style="@style/LayoutRow">
+
+                <TextView
+                    android:id="@+id/statistics_avg_unit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3" />
+
+                <TextView
+                    android:id="@+id/statistics_avg_value"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="@string/placeholder" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
     <LinearLayout
         style="@style/Padding"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <!-- Average -->
-        <android.support.v7.widget.CardView
-            android:id="@+id/layout_average"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            card_view:cardCornerRadius="4dp"
-            card_view:cardElevation="2dp"
-            card_view:cardUseCompatPadding="true">
-
-            <LinearLayout
-                style="@style/Padding"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    style="@style/BoxRow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/average"
-                    android:textColor="@color/green"
-                    android:textStyle="bold" />
-
-                <TableLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TableRow style="@style/BoxRow">
-
-                        <TextView
-                            android:id="@+id/statistics_avg_unit"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="3" />
-
-                        <TextView
-                            android:id="@+id/statistics_avg_value"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="end"
-                            android:text="@string/placeholder" />
-
-                    </TableRow>
-
-                    <TableRow style="@style/BoxRow">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="3"
-                            android:text="@string/count" />
-
-                        <TextView
-                            android:id="@+id/statistics_avg_count"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="end"
-                            android:text="@string/placeholder" />
-
-                    </TableRow>
-
-                </TableLayout>
-
-            </LinearLayout>
-
-        </android.support.v7.widget.CardView>
 
         <!-- Trend -->
         <android.support.v7.widget.CardView

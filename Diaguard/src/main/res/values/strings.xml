@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingTranslation">
+<resources>
 
     <string name="app_name">Diaguard</string>
     <string name="app_facebook">http://www.facebook.com/diaguard.de</string>
@@ -23,6 +21,7 @@
     <string name="alarm_desc">%s since the last measurement</string>
     <string name="alarm_desc_first">Thought about yet?</string>
     <string name="average">Average</string>
+    <string name="average_symbol">Ø</string>
     <string name="back">Back</string>
     <string name="backup">Backup</string>
     <string name="backup_complete">Backup complete</string>
@@ -89,6 +88,8 @@
     <string name="meal">Meal</string>
     <string name="measurement_latest">Latest</string>
     <string name="measurements">Measured</string>
+    <string name="measurements_count">Measurement count</string>
+    <string name="measurements_per_day">Ø Measurements per day</string>
     <string name="note">Note</string>
     <string name="ok">OK</string>
     <string name="overview">Overview</string>

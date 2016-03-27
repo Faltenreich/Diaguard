@@ -6,9 +6,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.ChartHelper;
 import com.faltenreich.diaguard.util.TimeSpan;
@@ -18,6 +20,10 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.data.LineData;
 
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
+import org.joda.time.format.DateTimeFormat;
+
 import butterknife.Bind;
 
 /**
@@ -25,6 +31,21 @@ import butterknife.Bind;
  */
 
 public class StatisticsActivity extends BaseActivity {
+
+    @Bind(R.id.statistics_date_start)
+    protected TextView textViewDateStart;
+
+    @Bind(R.id.statistics_measurement_count)
+    protected TextView textViewMeasurementCount;
+
+    @Bind(R.id.statistics_measurement_count_avg)
+    protected TextView textViewMeasurementCountAvg;
+
+    @Bind(R.id.statistics_avg_unit)
+    protected TextView textViewAvgUnit;
+
+    @Bind(R.id.statistics_avg_value)
+    protected TextView textViewAvgValue;
 
     @Bind(R.id.statistics_chart_trend)
     protected LineChart chart;
@@ -96,6 +117,7 @@ public class StatisticsActivity extends BaseActivity {
     }
 
     private void updateContent() {
+        updateAverage();
         updateChart();
     }
 
@@ -132,6 +154,24 @@ public class StatisticsActivity extends BaseActivity {
 
     private void changeCategory(MenuItem menuItem, Measurement.Category category) {
         menuItem.setIcon(PreferenceHelper.getInstance().getCategoryImageResourceId(category));
+        updateContent();
+    }
+
+    private void updateAverage() {
+        Interval interval = timeSpan.getPastInterval(DateTime.now());
+
+        textViewDateStart.setText(DateTimeFormat.mediumDate().print(interval.getStart()));
+
+        long count = EntryDao.getInstance().count(category, interval.getStart(), interval.getEnd());
+        textViewMeasurementCount.setText(String.format("%d", count));
+
+        long days = interval.toDuration().getStandardDays();
+        float avgCountPerDay = (float) count / (float) days;
+        textViewMeasurementCountAvg.setText(String.format("%.2f", avgCountPerDay));
+
+        textViewAvgUnit.setText(String.format("%s %s",
+                getString(R.string.average_symbol),
+                PreferenceHelper.getInstance().getUnitAcronym(category)));
     }
 
     // region Charting

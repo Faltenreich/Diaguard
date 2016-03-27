@@ -1,21 +1,22 @@
 package com.faltenreich.diaguard.ui.activity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.list.StatisticsFragmentPagerAdapter;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.ui.fragment.StatisticsFragment;
+import com.faltenreich.diaguard.util.ChartHelper;
 import com.faltenreich.diaguard.util.TimeSpan;
-import com.faltenreich.diaguard.util.event.Events;
-import com.faltenreich.diaguard.util.event.ui.TimeSpanChangedEvent;
-
-import java.util.ArrayList;
+import com.faltenreich.diaguard.util.thread.BaseAsyncTask;
+import com.faltenreich.diaguard.util.thread.UpdateChartTask;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.LimitLine;
+import com.github.mikephil.charting.data.LineData;
 
 import butterknife.Bind;
 
@@ -25,15 +26,11 @@ import butterknife.Bind;
 
 public class StatisticsActivity extends BaseActivity {
 
-    @Bind(R.id.statistics_tablayout)
-    protected TabLayout tabLayout;
-
-    @Bind(R.id.statistics_viewpager)
-    protected ViewPager viewPager;
-
-    private StatisticsFragmentPagerAdapter pagerAdapter;
+    @Bind(R.id.statistics_chart_trend)
+    protected LineChart chart;
 
     private TimeSpan timeSpan;
+    private Measurement.Category category;
 
     public StatisticsActivity() {
         super(R.layout.activity_statistics);
@@ -46,14 +43,31 @@ public class StatisticsActivity extends BaseActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        updateContent();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.date_interval, menu);
+        getMenuInflater().inflate(R.menu.statistics, menu);
         return true;
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.action_time_interval).setTitle(timeSpan.toString());
+        if (timeSpan != null) {
+            MenuItem timeIntervalMenuItem = menu.findItem(R.id.action_time_interval);
+            if (timeIntervalMenuItem != null) {
+                timeIntervalMenuItem.setTitle(timeSpan.toLocalizedString());
+            }
+        }
+        if (category != null) {
+            MenuItem categoryMenuItem = menu.findItem(R.id.action_category);
+            if (categoryMenuItem != null) {
+                categoryMenuItem.setIcon(PreferenceHelper.getInstance().getCategoryImageResourceId(category));
+            }
+        }
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -64,43 +78,95 @@ public class StatisticsActivity extends BaseActivity {
                 skipTimeInterval();
                 item.setTitle(timeSpan.toLocalizedString());
                 return true;
+            case R.id.action_category:
+                showCategoriesDialog(item);
+                return true;
         }
         return false;
     }
 
     private void init() {
-        timeSpan = TimeSpan.WEEK;
+        this.timeSpan = TimeSpan.WEEK;
+        this.category = Measurement.Category.BLOODSUGAR;
         initLayout();
     }
 
     private void initLayout() {
-        Measurement.Category[] categories = PreferenceHelper.getInstance().getActiveCategories();
-        ArrayList<StatisticsFragment> fragments = new ArrayList<>();
-        for (Measurement.Category category : categories) {
-            fragments.add(StatisticsFragment.newInstance(category, timeSpan));
-        }
-        pagerAdapter = new StatisticsFragmentPagerAdapter(getSupportFragmentManager(), fragments);
-        viewPager.setAdapter(pagerAdapter);
-        tabLayout.setupWithViewPager(viewPager);
-        for (int tabPosition = 0; tabPosition < tabLayout.getTabCount(); tabPosition++) {
-            Measurement.Category category = categories[tabPosition];
-            int categoryImageResourceId = PreferenceHelper.getInstance().getCategoryImageResourceId(category);
-            TabLayout.Tab tab = tabLayout.getTabAt(tabPosition);
-            if (tab != null) {
-                tab.setIcon(categoryImageResourceId);
-                tab.setText(null);
-            }
-        }
+        initializeChart();
+    }
+
+    private void updateContent() {
+        updateChart();
     }
 
     private void skipTimeInterval() {
         int nextOrdinal = timeSpan.ordinal() + 1;
-        TimeSpan nextTimeSpan = TimeSpan.values()[nextOrdinal < TimeSpan.values().length ? nextOrdinal : 0];
-        setTimeSpan(nextTimeSpan);
+        this.timeSpan = TimeSpan.values()[nextOrdinal < TimeSpan.values().length ? nextOrdinal : 0];
+        updateContent();
     }
 
-    private void setTimeSpan(TimeSpan timeSpan) {
-        this.timeSpan = timeSpan;
-        Events.post(new TimeSpanChangedEvent(timeSpan));
+    private void showCategoriesDialog(final MenuItem menuItem) {
+        final Measurement.Category[] categories = PreferenceHelper.getInstance().getActiveCategories();
+        String[] categoryNames = new String[categories.length];
+        for (int position = 0; position < categories.length; position++) {
+            categoryNames[position] = categories[position].toLocalizedString();
+        }
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.categories)
+                .setItems(categoryNames,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                changeCategory(menuItem, categories[which]);
+                            }
+                        })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .create()
+                .show();
     }
+
+    private void changeCategory(MenuItem menuItem, Measurement.Category category) {
+        menuItem.setIcon(PreferenceHelper.getInstance().getCategoryImageResourceId(category));
+    }
+
+    // region Charting
+
+    private void initializeChart() {
+        ChartHelper.setChartDefaultStyle(chart);
+        chart.setTouchEnabled(false);
+        chart.getAxisLeft().setDrawAxisLine(false);
+        chart.getAxisLeft().setDrawGridLines(false);
+        chart.getAxisLeft().setDrawLabels(false);
+        chart.getXAxis().setDrawGridLines(false);
+        chart.getXAxis().setTextColor(ContextCompat.getColor(this, R.color.gray_dark));
+        chart.getXAxis().setLabelsToSkip(0);
+        chart.getAxisLeft().addLimitLine(getLimitLine());
+    }
+
+    private LimitLine getLimitLine() {
+        float targetValue = PreferenceHelper.getInstance().
+                formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
+                        PreferenceHelper.getInstance().getTargetValue());
+        LimitLine limitLine = new LimitLine(targetValue, getString(R.string.hyper));
+        limitLine.setLineColor(ContextCompat.getColor(this, R.color.gray_light));
+        limitLine.setLabel(null);
+        return limitLine;
+    }
+
+    private void updateChart() {
+        new UpdateChartTask(this, new BaseAsyncTask.OnAsyncProgressListener<LineData>() {
+            @Override
+            public void onPostExecute(LineData lineData) {
+                chart.setData(lineData);
+                chart.invalidate();
+            }
+        }, category, timeSpan).execute();
+    }
+
+    // endregion
 }

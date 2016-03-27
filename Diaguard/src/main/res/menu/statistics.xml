@@ -6,4 +6,8 @@
         android:title="@string/week"
         diaguard:showAsAction="ifRoom"/>
 
+    <item android:id="@+id/action_category"
+        android:title="@string/category"
+        diaguard:showAsAction="ifRoom"/>
+
 </menu>

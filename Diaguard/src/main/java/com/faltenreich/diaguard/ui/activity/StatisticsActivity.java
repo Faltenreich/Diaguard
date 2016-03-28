@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
+import com.faltenreich.diaguard.data.dao.MeasurementDao;
+import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.ChartHelper;
 import com.faltenreich.diaguard.util.TimeSpan;
@@ -32,8 +34,8 @@ import butterknife.Bind;
 
 public class StatisticsActivity extends BaseActivity {
 
-    @Bind(R.id.statistics_date_start)
-    protected TextView textViewDateStart;
+    @Bind(R.id.statistics_period)
+    protected TextView textViewPeriod;
 
     @Bind(R.id.statistics_measurement_count)
     protected TextView textViewMeasurementCount;
@@ -81,6 +83,7 @@ public class StatisticsActivity extends BaseActivity {
             MenuItem timeIntervalMenuItem = menu.findItem(R.id.action_time_interval);
             if (timeIntervalMenuItem != null) {
                 timeIntervalMenuItem.setTitle(timeSpan.toLocalizedString());
+                timeIntervalMenuItem.setIcon(timeSpan.getImageResId());
             }
         }
         if (category != null) {
@@ -96,8 +99,7 @@ public class StatisticsActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_time_interval:
-                skipTimeInterval();
-                item.setTitle(timeSpan.toLocalizedString());
+                skipTimeInterval(item);
                 return true;
             case R.id.action_category:
                 showCategoriesDialog(item);
@@ -121,9 +123,11 @@ public class StatisticsActivity extends BaseActivity {
         updateChart();
     }
 
-    private void skipTimeInterval() {
+    private void skipTimeInterval(MenuItem item) {
         int nextOrdinal = timeSpan.ordinal() + 1;
         this.timeSpan = TimeSpan.values()[nextOrdinal < TimeSpan.values().length ? nextOrdinal : 0];
+        item.setTitle(timeSpan.toLocalizedString());
+        item.setIcon(timeSpan.getImageResId());
         updateContent();
     }
 
@@ -153,6 +157,7 @@ public class StatisticsActivity extends BaseActivity {
     }
 
     private void changeCategory(MenuItem menuItem, Measurement.Category category) {
+        this.category = category;
         menuItem.setIcon(PreferenceHelper.getInstance().getCategoryImageResourceId(category));
         updateContent();
     }
@@ -160,7 +165,9 @@ public class StatisticsActivity extends BaseActivity {
     private void updateAverage() {
         Interval interval = timeSpan.getPastInterval(DateTime.now());
 
-        textViewDateStart.setText(DateTimeFormat.mediumDate().print(interval.getStart()));
+        textViewPeriod.setText(String.format("%s\n- %s",
+                DateTimeFormat.mediumDate().print(interval.getStart()),
+                DateTimeFormat.mediumDate().print(interval.getEnd())));
 
         long count = EntryDao.getInstance().count(category, interval.getStart(), interval.getEnd());
         textViewMeasurementCount.setText(String.format("%d", count));
@@ -172,6 +179,10 @@ public class StatisticsActivity extends BaseActivity {
         textViewAvgUnit.setText(String.format("%s %s",
                 getString(R.string.average_symbol),
                 PreferenceHelper.getInstance().getUnitAcronym(category)));
+
+        float avgValue = MeasurementDao.getInstance(BloodSugar.class).avg(BloodSugar.Column.MGDL, interval);
+        float avgValueCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, avgValue);
+        textViewAvgValue.setText(PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(avgValueCustom));
     }
 
     // region Charting

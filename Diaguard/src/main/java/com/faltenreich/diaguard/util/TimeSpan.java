@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.util;
 
+import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 
 import com.faltenreich.diaguard.DiaguardApplication;
@@ -13,27 +14,30 @@ import org.joda.time.Interval;
  */
 public enum TimeSpan {
 
-    WEEK(R.string.week),
-    TWO_WEEKS(R.string.week_two),
-    MONTH(R.string.month),
-    YEAR(R.string.year);
+    WEEK(R.string.week, R.drawable.ic_week),
+    MONTH(R.string.month, R.drawable.ic_month),
+    YEAR(R.string.year, R.drawable.ic_year);
 
-    private int stringRes;
+    private int stringResId;
+    private int imageResId;
 
-    TimeSpan(@StringRes int stringRes) {
-        this.stringRes = stringRes;
+    TimeSpan(@StringRes int stringResId, @DrawableRes int imageResId) {
+        this.stringResId = stringResId;
+        this.imageResId = imageResId;
     }
 
     public String toLocalizedString() {
-        return DiaguardApplication.getContext().getString(stringRes);
+        return DiaguardApplication.getContext().getString(stringResId);
+    }
+
+    public int getImageResId() {
+        return imageResId;
     }
 
     public Interval getPastInterval(DateTime end) {
         switch (this) {
             case WEEK:
                 return new Interval(end.minusWeeks(1), end);
-            case TWO_WEEKS:
-                return new Interval(end.minusWeeks(2), end);
             case MONTH:
                 return new Interval(end.minusMonths(1), end);
             case YEAR:
@@ -47,8 +51,6 @@ public enum TimeSpan {
         switch (this) {
             case WEEK:
                 return new Interval(start, start.plusWeeks(1));
-            case TWO_WEEKS:
-                return new Interval(start, start.plusWeeks(2));
             case MONTH:
                 return new Interval(start, start.plusMonths(1));
             case YEAR:
@@ -62,8 +64,6 @@ public enum TimeSpan {
         switch (this) {
             case WEEK:
                 return dateTime.plusDays(step);
-            case TWO_WEEKS:
-                return dateTime.plusDays(step);
             case MONTH:
                 return dateTime.plusWeeks(step);
             case YEAR:
@@ -76,8 +76,6 @@ public enum TimeSpan {
     public String getLabel(DateTime dateTime) {
         switch (this) {
             case WEEK:
-                return DateTimeUtils.toWeekDayShort(dateTime);
-            case TWO_WEEKS:
                 return DateTimeUtils.toWeekDayShort(dateTime);
             case MONTH:
                 return dateTime.toString("w");

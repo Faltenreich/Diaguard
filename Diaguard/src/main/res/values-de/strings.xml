@@ -41,6 +41,8 @@
     <string name="drawer_open">Navigator öffnen</string>
     <string name="entry">Eintrag</string>
     <string name="entry_added">Eintrag hinzugefügt</string>
+    <string name="entry_count">Anzahl Einträge</string>
+    <string name="entry_count_per_day">Ø Einträge pro Tag</string>
     <string name="entry_edit">Eintrag bearbeiten</string>
     <string name="entry_delete">Eintrag löschen</string>
     <string name="entry_delete_desc">Der Eintrag und seine Messungen werden entfernt</string>
@@ -75,12 +77,11 @@
     <string name="meal">Mahlzeit</string>
     <string name="measurement_latest">Zuletzt</string>
     <string name="measurements">Messungen</string>
-    <string name="measurements_count">Anzahl Messungen</string>
-    <string name="measurements_per_day">Ø Messungen pro Tag</string>
     <string name="note">Notiz</string>
     <string name="ok">OK</string>
     <string name="overview">Übersicht</string>
     <string name="photo_desc">Foto hinzufügen &#8230;</string>
+    <string name="period">Zeitraum</string>
     <string name="pressure">Blutdruck</string>
     <string name="pulse">Puls</string>
     <string name="settings">Einstellungen</string>

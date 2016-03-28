@@ -52,6 +52,8 @@
     <string name="drawer_open">Open Navigator</string>
     <string name="entry">Entry</string>
     <string name="entry_added">Entry added</string>
+    <string name="entry_count">Measurement count</string>
+    <string name="entry_count_per_day">Ø Measurements per day</string>
     <string name="entry_edit">Edit entry</string>
     <string name="entry_delete">Delete entry</string>
     <string name="entry_delete_desc">Remove entry and its measurements from timeline</string>
@@ -88,8 +90,6 @@
     <string name="meal">Meal</string>
     <string name="measurement_latest">Latest</string>
     <string name="measurements">Measured</string>
-    <string name="measurements_count">Measurement count</string>
-    <string name="measurements_per_day">Ø Measurements per day</string>
     <string name="note">Note</string>
     <string name="ok">OK</string>
     <string name="overview">Overview</string>
@@ -98,6 +98,7 @@
         <item>Gallery</item>
         <item>Camera</item>
     </string-array>
+    <string name="period">Period</string>
     <string name="placeholder">-</string>
     <string name="pressure">Blood Pressure</string>
     <string name="pulse">Pulse</string>

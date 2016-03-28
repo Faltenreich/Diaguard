@@ -27,10 +27,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:text="@string/datestart" />
+                    android:text="@string/period" />
 
                 <TextView
-                    android:id="@+id/statistics_date_start"
+                    android:id="@+id/statistics_period"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -47,7 +47,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:text="@string/measurements_count" />
+                    android:text="@string/entry_count" />
 
                 <TextView
                     android:id="@+id/statistics_measurement_count"
@@ -67,7 +67,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:text="@string/measurements_per_day" />
+                    android:text="@string/entry_count_per_day" />
 
                 <TextView
                     android:id="@+id/statistics_measurement_count_avg"

@@ -40,23 +40,7 @@ public class UpdateChartTask extends BaseAsyncTask<Void, Void, LineData> {
 
     protected LineData doInBackground(Void... params) {
         DateTime endDateTime = DateTime.now().withTime(23, 59, 59, 999);
-        DateTime startDateTime;
-        switch (timeSpan) {
-            case WEEK:
-                startDateTime = endDateTime.minusWeeks(1);
-                break;
-            case TWO_WEEKS:
-                startDateTime = endDateTime.minusWeeks(2);
-                break;
-            case MONTH:
-                startDateTime = endDateTime.minusMonths(1);
-                break;
-            case YEAR:
-                startDateTime = endDateTime.minusYears(1);
-                break;
-            default:
-                startDateTime = endDateTime;
-        }
+        DateTime startDateTime = timeSpan.getPastInterval(endDateTime).getStart();
         startDateTime = startDateTime.plusDays(1).withTimeAtStartOfDay();
 
         List<Entry> entries = new ArrayList<>();

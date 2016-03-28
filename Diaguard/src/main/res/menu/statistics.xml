@@ -3,7 +3,7 @@
     xmlns:diaguard="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/action_time_interval"
-        android:title="@string/week"
+        android:title="@string/interval"
         diaguard:showAsAction="ifRoom"/>
 
     <item android:id="@+id/action_category"

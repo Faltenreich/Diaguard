@@ -19,7 +19,6 @@ import com.faltenreich.diaguard.util.TimeSpan;
 import com.faltenreich.diaguard.util.thread.BaseAsyncTask;
 import com.faltenreich.diaguard.util.thread.UpdateChartTask;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.data.LineData;
 
 import org.joda.time.DateTime;
@@ -190,23 +189,9 @@ public class StatisticsActivity extends BaseActivity {
     private void initializeChart() {
         ChartHelper.setChartDefaultStyle(chart);
         chart.setTouchEnabled(false);
-        chart.getAxisLeft().setDrawAxisLine(false);
-        chart.getAxisLeft().setDrawGridLines(false);
-        chart.getAxisLeft().setDrawLabels(false);
-        chart.getXAxis().setDrawGridLines(false);
         chart.getXAxis().setTextColor(ContextCompat.getColor(this, R.color.gray_dark));
         chart.getXAxis().setLabelsToSkip(0);
-        chart.getAxisLeft().addLimitLine(getLimitLine());
-    }
-
-    private LimitLine getLimitLine() {
-        float targetValue = PreferenceHelper.getInstance().
-                formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
-                        PreferenceHelper.getInstance().getTargetValue());
-        LimitLine limitLine = new LimitLine(targetValue, getString(R.string.hyper));
-        limitLine.setLineColor(ContextCompat.getColor(this, R.color.gray_light));
-        limitLine.setLabel(null);
-        return limitLine;
+        chart.getAxisLeft().setTextColor(ContextCompat.getColor(this, R.color.gray_dark));
     }
 
     private void updateChart() {

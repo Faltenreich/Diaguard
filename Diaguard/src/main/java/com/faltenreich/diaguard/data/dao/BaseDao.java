@@ -5,11 +5,8 @@ import android.util.Log;
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.data.DatabaseHelper;
 import com.faltenreich.diaguard.data.entity.BaseEntity;
-import com.faltenreich.diaguard.data.entity.Meal;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.DaoManager;
-import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
 
 import org.joda.time.DateTime;
@@ -39,6 +36,10 @@ public abstract class BaseDao <T extends BaseEntity> {
             Log.e(TAG, String.format("Could not retrieve Dao of class %s", clazz.getSimpleName()));
             return null;
         }
+    }
+
+    protected QueryBuilder<T, Long> getQueryBuilder() {
+        return getDao().queryBuilder();
     }
 
     protected Class<T> getClazz() {

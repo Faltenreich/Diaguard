@@ -21,7 +21,7 @@ import com.faltenreich.diaguard.util.ChartHelper;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.TimeSpan;
 import com.faltenreich.diaguard.util.thread.BaseAsyncTask;
-import com.faltenreich.diaguard.util.thread.UpdateChartTask;
+import com.faltenreich.diaguard.util.thread.UpdateLineChartTask;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.data.LineData;
@@ -233,7 +233,7 @@ public class MainFragment extends BaseFragment {
     }
 
     private void updateChart() {
-        new UpdateChartTask(getContext(), new BaseAsyncTask.OnAsyncProgressListener<LineData>() {
+        new UpdateLineChartTask(getContext(), new BaseAsyncTask.OnAsyncProgressListener<LineData>() {
             @Override
             public void onPostExecute(LineData lineData) {
                 if(isAdded()) {

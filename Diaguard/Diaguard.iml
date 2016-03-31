@@ -99,9 +99,9 @@
     <orderEntry type="library" exported="" name="butterknife-7.0.1" level="project" />
     <orderEntry type="library" exported="" name="opencsv-3.3" level="project" />
     <orderEntry type="library" exported="" name="eventbus-2.4.0" level="project" />
-    <orderEntry type="library" exported="" name="MPAndroidChart-v2.1.6" level="project" />
     <orderEntry type="library" exported="" name="picasso-2.5.2" level="project" />
     <orderEntry type="library" exported="" name="layouts-1.10" level="project" />
+    <orderEntry type="library" exported="" name="MPAndroidChart-v2.2.4" level="project" />
     <orderEntry type="library" exported="" name="licensesdialog-1.8.0" level="project" />
     <orderEntry type="library" exported="" name="cardview-v7-23.1.1" level="project" />
     <orderEntry type="library" exported="" name="jsr305-3.0.0" level="project" />

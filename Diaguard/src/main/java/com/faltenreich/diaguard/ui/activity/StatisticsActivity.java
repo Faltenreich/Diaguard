@@ -17,7 +17,7 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.ChartHelper;
 import com.faltenreich.diaguard.util.TimeSpan;
 import com.faltenreich.diaguard.util.thread.BaseAsyncTask;
-import com.faltenreich.diaguard.util.thread.UpdateChartTask;
+import com.faltenreich.diaguard.util.thread.UpdateLineChartTask;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.data.LineData;
@@ -116,12 +116,12 @@ public class StatisticsActivity extends BaseActivity {
     }
 
     private void initLayout() {
-        initializeChart();
+        initializeCharts();
     }
 
     private void updateContent() {
         updateAverage();
-        updateChart();
+        updateCharts();
     }
 
     private void skipTimeInterval(MenuItem item) {
@@ -188,7 +188,7 @@ public class StatisticsActivity extends BaseActivity {
 
     // region Charting
 
-    private void initializeChart() {
+    private void initializeCharts() {
         ChartHelper.setChartDefaultStyle(chart);
         chart.setTouchEnabled(false);
         chart.getAxisLeft().setDrawAxisLine(false);
@@ -211,8 +211,8 @@ public class StatisticsActivity extends BaseActivity {
     }
 
 
-    private void updateChart() {
-        new UpdateChartTask(this, new BaseAsyncTask.OnAsyncProgressListener<LineData>() {
+    private void updateCharts() {
+        new UpdateLineChartTask(this, new BaseAsyncTask.OnAsyncProgressListener<LineData>() {
             @Override
             public void onPostExecute(LineData lineData) {
                 chart.setData(lineData);

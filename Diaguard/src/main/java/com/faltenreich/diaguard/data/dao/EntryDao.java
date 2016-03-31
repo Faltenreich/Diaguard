@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.data.dao;
 import android.util.Log;
 
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.ArrayUtils;
@@ -134,6 +135,59 @@ public class EntryDao extends BaseDao<Entry> {
                     .where().ge(Entry.Column.DATE, start)
                     .and().le(Entry.Column.DATE, end)
                     .countOf();
+        } catch (SQLException exception) {
+            Log.e(TAG, exception.getMessage());
+            return -1;
+        }
+    }
+
+    public long countBelow(DateTime start, DateTime end, float maximumValue) {
+        try {
+            QueryBuilder<Entry, Long> queryBuilderEntry = getDao().queryBuilder();
+            queryBuilderEntry
+                    .where().ge(Entry.Column.DATE, start)
+                    .and().le(Entry.Column.DATE, end);
+
+            QueryBuilder<Measurement, Long> queryBuilderMeasurement = MeasurementDao.getInstance(BloodSugar.class).getQueryBuilder();
+            queryBuilderMeasurement.where().lt(BloodSugar.Column.MGDL, maximumValue);
+
+            return queryBuilderEntry.join(queryBuilderMeasurement).countOf();
+        } catch (SQLException exception) {
+            Log.e(TAG, exception.getMessage());
+            return -1;
+        }
+    }
+
+    public long countAbove(DateTime start, DateTime end, float minimumValue) {
+        try {
+            QueryBuilder<Entry, Long> queryBuilderEntry = getDao().queryBuilder();
+            queryBuilderEntry
+                    .where().ge(Entry.Column.DATE, start)
+                    .and().le(Entry.Column.DATE, end);
+
+            QueryBuilder<Measurement, Long> queryBuilderMeasurement = MeasurementDao.getInstance(BloodSugar.class).getQueryBuilder();
+            queryBuilderMeasurement.where().gt(BloodSugar.Column.MGDL, minimumValue);
+
+            return queryBuilderEntry.join(queryBuilderMeasurement).countOf();
+        } catch (SQLException exception) {
+            Log.e(TAG, exception.getMessage());
+            return -1;
+        }
+    }
+
+    public long countBetween(DateTime start, DateTime end, float minimumValue, float maximumValue) {
+        try {
+            QueryBuilder<Entry, Long> queryBuilderEntry = getDao().queryBuilder();
+            queryBuilderEntry
+                    .where().ge(Entry.Column.DATE, start)
+                    .and().le(Entry.Column.DATE, end);
+
+            QueryBuilder<Measurement, Long> queryBuilderMeasurement = MeasurementDao.getInstance(BloodSugar.class).getQueryBuilder();
+            queryBuilderMeasurement
+                    .where().ge(BloodSugar.Column.MGDL, minimumValue)
+                    .and().le(BloodSugar.Column.MGDL, maximumValue);
+
+            return queryBuilderEntry.join(queryBuilderMeasurement).countOf();
         } catch (SQLException exception) {
             Log.e(TAG, exception.getMessage());
             return -1;

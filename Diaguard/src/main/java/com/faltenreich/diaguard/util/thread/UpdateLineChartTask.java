@@ -15,6 +15,7 @@ import com.faltenreich.diaguard.util.ViewHelper;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
@@ -26,13 +27,13 @@ import java.util.List;
  * Created by Faltenreich on 16.03.2016.
  */
 
-public class UpdateChartTask extends BaseAsyncTask<Void, Void, LineData> {
+public class UpdateLineChartTask extends BaseAsyncTask<Void, Void, LineData> {
 
     private Measurement.Category category;
     private TimeSpan timeSpan;
     private int dataSetColor;
 
-    public UpdateChartTask(Context context, OnAsyncProgressListener<LineData> onAsyncProgressListener, Measurement.Category category, TimeSpan timeSpan) {
+    public UpdateLineChartTask(Context context, OnAsyncProgressListener<LineData> onAsyncProgressListener, Measurement.Category category, TimeSpan timeSpan) {
         super(context, onAsyncProgressListener);
         this.category = category;
         this.timeSpan = timeSpan;
@@ -69,7 +70,7 @@ public class UpdateChartTask extends BaseAsyncTask<Void, Void, LineData> {
             index++;
         }
 
-        ArrayList<LineDataSet> dataSets = new ArrayList<>();
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         LineDataSet dataSet = new LineDataSet(entries, BloodSugar.class.getSimpleName());
         dataSet.setColor(dataSetColor);
         dataSet.setCircleColor(dataSetColor);

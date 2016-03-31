@@ -13,12 +13,6 @@
 -keep interface com.faltenreich.diaguard.data.entity.**
 -keepclassmembers interface com.faltenreich.diaguard.data.entity.** { *; }
 
-##---------------Begin: Android Support ----------
--dontwarn android.support.**
--keep class android.support.** { *; }
--keep interface android.support.** { *; }
-##---------------End: Android Support ----------
-
 ##---------------Begin: EventBus ----------
 -keepclassmembers class ** {
     public void onEvent*(**);

@@ -11,6 +11,7 @@ import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.ChartHelper;
 import com.faltenreich.diaguard.util.TimeSpan;
+import com.faltenreich.diaguard.util.ViewHelper;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -55,7 +56,8 @@ public class UpdateChartTask extends BaseAsyncTask<Void, Void, LineData> {
         int index = 0;
         while (!intervalStart.isAfter(endDateTime)) {
             DateTime intervalEnd = timeSpan.getNextInterval(intervalStart, 1).minusDays(1);
-            xLabels.add(timeSpan.getLabel(intervalStart));
+            boolean showLabel = ViewHelper.isLargeScreen(getContext()) || timeSpan != TimeSpan.YEAR || index % 2 == 0;
+            xLabels.add(showLabel ? timeSpan.getLabel(intervalStart) : "");
             float avg = MeasurementDao.getInstance(BloodSugar.class).avg(BloodSugar.Column.MGDL, new Interval(intervalStart, intervalEnd));
             if (avg > 0) {
                 entries.add(new com.github.mikephil.charting.data.Entry(avg, index));

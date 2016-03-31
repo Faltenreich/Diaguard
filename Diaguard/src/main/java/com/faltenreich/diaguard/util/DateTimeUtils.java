@@ -18,4 +18,10 @@ public class DateTimeUtils {
     public static String toWeekDayShort(DateTime dateTime) {
         return toWeekDayShort(dateTime, false);
     }
+
+    public static String toDayAndMonth(DateTime dateTime) {
+        return String.format("%s.%s.",
+                dateTime.toString("dd"),
+                dateTime.toString("MM"));
+    }
 }

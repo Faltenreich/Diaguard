@@ -78,7 +78,7 @@ public enum TimeSpan {
             case WEEK:
                 return DateTimeUtils.toWeekDayShort(dateTime);
             case MONTH:
-                return dateTime.toString("w");
+                return DateTimeUtils.toDayAndMonth(dateTime);
             case YEAR:
                 return dateTime.toString("MMM");
             default:

@@ -104,8 +104,9 @@ public class StatisticsActivity extends BaseActivity {
             case R.id.action_category:
                 showCategoriesDialog(item);
                 return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return false;
     }
 
     private void init() {

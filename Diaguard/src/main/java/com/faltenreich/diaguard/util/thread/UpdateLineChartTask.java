@@ -40,6 +40,7 @@ public class UpdateLineChartTask extends BaseAsyncTask<Void, Void, LineData> {
         this.dataSetColor = ContextCompat.getColor(context, R.color.green_light);
     }
 
+    @Override
     protected LineData doInBackground(Void... params) {
         DateTime endDateTime = DateTime.now().withTime(23, 59, 59, 999);
         DateTime startDateTime = timeSpan.getPastInterval(endDateTime).getStart();

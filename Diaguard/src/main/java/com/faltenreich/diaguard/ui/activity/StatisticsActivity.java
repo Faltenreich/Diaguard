@@ -6,6 +6,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
@@ -17,10 +19,13 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.ChartHelper;
 import com.faltenreich.diaguard.util.TimeSpan;
 import com.faltenreich.diaguard.util.thread.BaseAsyncTask;
+import com.faltenreich.diaguard.util.thread.UpdateBloodSugarPieChartTask;
 import com.faltenreich.diaguard.util.thread.UpdateLineChartTask;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.PieData;
 
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
@@ -50,7 +55,13 @@ public class StatisticsActivity extends BaseActivity {
     protected TextView textViewAvgValue;
 
     @Bind(R.id.statistics_chart_trend)
-    protected LineChart chart;
+    protected LineChart chartTrend;
+
+    @Bind(R.id.layout_distribution)
+    protected ViewGroup layoutDistribution;
+
+    @Bind(R.id.statistics_chart_distribution)
+    protected PieChart chartDistribution;
 
     private TimeSpan timeSpan;
     private Measurement.Category category;
@@ -189,15 +200,20 @@ public class StatisticsActivity extends BaseActivity {
     // region Charting
 
     private void initializeCharts() {
-        ChartHelper.setChartDefaultStyle(chart);
-        chart.setTouchEnabled(false);
-        chart.getAxisLeft().setDrawAxisLine(false);
-        chart.getAxisLeft().setDrawGridLines(false);
-        chart.getAxisLeft().setDrawLabels(false);
-        chart.getXAxis().setDrawGridLines(false);
-        chart.getXAxis().setTextColor(ContextCompat.getColor(this, R.color.gray_dark));
-        chart.getXAxis().setLabelsToSkip(0);
-        chart.getAxisLeft().addLimitLine(getLimitLine());
+        ChartHelper.setChartDefaultStyle(chartTrend);
+        chartTrend.setTouchEnabled(false);
+        chartTrend.getAxisLeft().setDrawAxisLine(false);
+        chartTrend.getAxisLeft().setDrawGridLines(false);
+        chartTrend.getAxisLeft().setDrawLabels(false);
+        chartTrend.getXAxis().setDrawGridLines(false);
+        chartTrend.getXAxis().setTextColor(ContextCompat.getColor(this, R.color.gray_dark));
+        chartTrend.getXAxis().setLabelsToSkip(0);
+        chartTrend.getAxisLeft().addLimitLine(getLimitLine());
+
+        chartDistribution.setDrawHoleEnabled(false);
+        chartDistribution.setUsePercentValues(true);
+        chartDistribution.setDescription(null);
+        chartDistribution.setDrawSliceText(false);
     }
 
     private LimitLine getLimitLine() {
@@ -212,13 +228,27 @@ public class StatisticsActivity extends BaseActivity {
 
 
     private void updateCharts() {
+
         new UpdateLineChartTask(this, new BaseAsyncTask.OnAsyncProgressListener<LineData>() {
             @Override
             public void onPostExecute(LineData lineData) {
-                chart.setData(lineData);
-                chart.invalidate();
+                chartTrend.setData(lineData);
+                chartTrend.invalidate();
             }
         }, category, timeSpan).execute();
+
+        if (category == Measurement.Category.BLOODSUGAR) {
+            layoutDistribution.setVisibility(View.VISIBLE);
+            new UpdateBloodSugarPieChartTask(this, new BaseAsyncTask.OnAsyncProgressListener<PieData>() {
+                @Override
+                public void onPostExecute(PieData pieData) {
+                    chartDistribution.setData(pieData.getDataSet().getEntryCount() > 0 ? pieData : null);
+                    chartDistribution.invalidate();
+                }
+            }, timeSpan).execute();
+        } else {
+            layoutDistribution.setVisibility(View.GONE);
+        }
     }
 
     // endregion

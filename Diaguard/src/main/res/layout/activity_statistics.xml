@@ -180,7 +180,7 @@
                         <com.github.mikephil.charting.charts.PieChart
                             android:id="@+id/statistics_chart_distribution"
                             android:layout_width="match_parent"
-                            android:layout_height="200dp"
+                            android:layout_height="160dp"
                             android:orientation="horizontal" />
 
                     </LinearLayout>

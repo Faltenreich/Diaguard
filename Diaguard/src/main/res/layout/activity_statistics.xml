@@ -35,6 +35,7 @@
 
                         <com.faltenreich.diaguard.ui.view.TintImageView
                             style="@style/LayoutRowImage"
+                            android:id="@+id/statistics_image_category"
                             android:contentDescription="@string/category"
                             android:src="@drawable/ic_list"
                             app:tintColor="@color/gray_darker"/>

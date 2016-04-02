@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -40,6 +41,9 @@ import butterknife.Bind;
  */
 
 public class StatisticsActivity extends BaseActivity {
+
+    @Bind(R.id.statistics_image_category)
+    protected ImageView imageViewCategory;
 
     @Bind(R.id.statistics_categories)
     protected Spinner spinnerCategories;
@@ -143,6 +147,8 @@ public class StatisticsActivity extends BaseActivity {
     private void updateContent() {
         updateAverage();
         updateCharts();
+        imageViewCategory.setImageDrawable(ContextCompat.getDrawable(this,
+                PreferenceHelper.getInstance().getCategoryImageResourceId(category)));
     }
 
     private void changeTimeInterval(TimeSpan timeSpan) {

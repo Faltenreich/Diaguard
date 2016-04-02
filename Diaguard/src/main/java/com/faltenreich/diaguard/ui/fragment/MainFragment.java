@@ -92,7 +92,7 @@ public class MainFragment extends BaseFragment {
 
     @Override
     public String getTitle() {
-        return DiaguardApplication.getContext().getString(R.string.home);
+        return DiaguardApplication.getContext().getString(R.string.app_name);
     }
 
     private void updateContent() {

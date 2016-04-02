@@ -10,7 +10,9 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable
 public class Pulse extends Measurement {
 
-    public static final String FREQUENCY = "frequency";
+    public class Column extends Measurement.Column {
+        public static final String FREQUENCY = "frequency";
+    }
 
     @DatabaseField
     private float frequency;

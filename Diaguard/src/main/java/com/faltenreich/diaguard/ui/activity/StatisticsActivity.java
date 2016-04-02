@@ -15,7 +15,10 @@ import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
+import com.faltenreich.diaguard.data.entity.HbA1c;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.data.entity.Pressure;
+import com.faltenreich.diaguard.data.entity.Pulse;
 import com.faltenreich.diaguard.util.ChartHelper;
 import com.faltenreich.diaguard.util.TimeSpan;
 import com.faltenreich.diaguard.util.thread.BaseAsyncTask;
@@ -176,13 +179,34 @@ public class StatisticsActivity extends BaseActivity {
                 getString(R.string.average_symbol),
                 PreferenceHelper.getInstance().getUnitName(category)));
 
-        float avgValue = MeasurementDao.getInstance(BloodSugar.class).avg(BloodSugar.Column.MGDL, interval);
-        float avgValueCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, avgValue);
-        textViewAvgValue.setText(PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(avgValueCustom));
+        Measurement measurement = null;
+        switch (category) {
+            case BLOODSUGAR:
+                BloodSugar avgBloodSugar = new BloodSugar();
+                avgBloodSugar.setMgDl(MeasurementDao.getInstance(category.toClass()).avg(BloodSugar.Column.MGDL, interval));
+                measurement = avgBloodSugar;
+                break;
+            case HBA1C:
+                HbA1c hbA1c = new HbA1c();
+                hbA1c.setPercent(MeasurementDao.getInstance(category.toClass()).avg(HbA1c.Column.PERCENT, interval));
+                measurement = hbA1c;
+                break;
+            case PULSE:
+                Pulse pulse = new Pulse();
+                pulse.setFrequency(MeasurementDao.getInstance(category.toClass()).avg(Pulse.Column.FREQUENCY, interval));
+                measurement = pulse;
+                break;
+            case PRESSURE:
+                Pressure pressure = new Pressure();
+                pressure.setSystolic(MeasurementDao.getInstance(category.toClass()).avg(Pressure.Column.SYSTOLIC, interval));
+                pressure.setDiastolic(MeasurementDao.getInstance(category.toClass()).avg(Pressure.Column.DIASTOLIC, interval));
+                measurement = pressure;
+                break;
+        }
+        textViewAvgValue.setText(measurement != null ? measurement.toString() : getString(R.string.placeholder));
 
         imageViewCategory.setImageDrawable(ContextCompat.getDrawable(this,
                 PreferenceHelper.getInstance().getCategoryImageResourceId(category)));
-
     }
 
     // region Charting

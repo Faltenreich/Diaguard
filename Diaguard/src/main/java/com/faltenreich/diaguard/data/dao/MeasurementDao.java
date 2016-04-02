@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.data.dao;
 
 import android.util.Log;
 
-import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.BaseEntity;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
@@ -15,7 +14,6 @@ import org.joda.time.DateTimeConstants;
 import org.joda.time.Interval;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 

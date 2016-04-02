@@ -75,7 +75,7 @@ public class UpdateLineChartTask extends BaseAsyncTask<Void, Void, LineData> {
         LineDataSet dataSet = new LineDataSet(entries, BloodSugar.class.getSimpleName());
         dataSet.setColor(dataSetColor);
         dataSet.setCircleColor(dataSetColor);
-        dataSet.setCircleSize(ChartHelper.CIRCLE_SIZE);
+        dataSet.setCircleRadius(ChartHelper.CIRCLE_SIZE);
         dataSet.setDrawCircles(entries.size() <= 1);
         dataSet.setDrawValues(false);
         dataSet.setLineWidth(ChartHelper.LINE_WIDTH);

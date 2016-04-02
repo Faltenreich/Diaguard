@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -32,39 +33,21 @@
 
                     <LinearLayout style="@style/LayoutRow">
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="3"
-                            android:text="@string/period" />
+                        <com.faltenreich.diaguard.ui.view.TintImageView
+                            style="@style/LayoutRowImage"
+                            android:contentDescription="@string/category"
+                            android:src="@drawable/ic_list"
+                            app:tintColor="@color/gray_darker"/>
 
-                        <TextView
-                            android:id="@+id/statistics_period"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="end"
-                            android:text="@string/placeholder" />
+                        <LinearLayout
+                            style="@style/LayoutRowItem"
+                            android:orientation="horizontal">
 
-                    </LinearLayout>
+                            <Spinner
+                                android:id="@+id/statistics_categories"
+                                style="@style/LayoutRowText"/>
 
-                    <View style="@style/LayoutRowSeparator" />
-
-                    <LinearLayout style="@style/LayoutRow">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="3"
-                            android:text="@string/entry_count" />
-
-                        <TextView
-                            android:id="@+id/statistics_measurement_count"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="end"
-                            android:text="@string/placeholder" />
+                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -72,41 +55,24 @@
 
                     <LinearLayout style="@style/LayoutRow">
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="3"
-                            android:text="@string/entry_count_per_day" />
+                        <com.faltenreich.diaguard.ui.view.TintImageView
+                            style="@style/LayoutRowImage"
+                            android:contentDescription="@string/interval"
+                            android:src="@drawable/ic_time"
+                            app:tintColor="@color/gray_darker"/>
 
-                        <TextView
-                            android:id="@+id/statistics_measurement_count_avg"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="end"
-                            android:text="@string/placeholder" />
+                        <LinearLayout
+                            style="@style/LayoutRowItem"
+                            android:orientation="horizontal">
 
-                    </LinearLayout>
+                            <Spinner
+                                android:id="@+id/statistics_interval"
+                                style="@style/LayoutRowText" />
 
-                    <View style="@style/LayoutRowSeparator" />
-
-                    <LinearLayout style="@style/LayoutRow">
-
-                        <TextView
-                            android:id="@+id/statistics_avg_unit"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="3" />
-
-                        <TextView
-                            android:id="@+id/statistics_avg_value"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="end"
-                            android:text="@string/placeholder" />
+                        </LinearLayout>
 
                     </LinearLayout>
+
 
                 </LinearLayout>
 
@@ -117,6 +83,112 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
+                <!-- General -->
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/layout_today"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    card_view:cardCornerRadius="4dp"
+                    card_view:cardElevation="2dp"
+                    card_view:cardUseCompatPadding="true"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginRight="1dp"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        style="@style/Padding">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/general"
+                            android:textColor="@color/green"
+                            android:textStyle="bold"
+                            style="@style/BoxRow"/>
+
+                        <TableLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TableRow style="@style/BoxRow">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="@string/period"/>
+
+                                <TextView android:id="@+id/statistics_period"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:text="@string/placeholder"/>
+
+                            </TableRow>
+
+                            <TableRow style="@style/BoxRow">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="@string/entries"/>
+
+                                <TextView android:id="@+id/statistics_measurement_count"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:text="@string/placeholder"/>
+
+                            </TableRow>
+
+                            <TableRow style="@style/BoxRow">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="@string/entry_count_per_day"/>
+
+                                <TextView android:id="@+id/statistics_measurement_count_avg"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:text="@string/placeholder"/>
+
+                            </TableRow>
+
+                            <TableRow style="@style/BoxRow">
+
+                                <TextView
+                                    android:id="@+id/statistics_avg_unit"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"/>
+
+                                <TextView android:id="@+id/statistics_avg_value"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:text="@string/placeholder"/>
+
+                            </TableRow>
+
+                        </TableLayout>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
 
                 <!-- Trend -->
                 <android.support.v7.widget.CardView
@@ -152,12 +224,11 @@
 
                 </android.support.v7.widget.CardView>
 
-                <!-- Trend -->
+                <!-- Distribution -->
                 <android.support.v7.widget.CardView
                     android:id="@+id/layout_distribution"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_between"
                     card_view:cardCornerRadius="4dp"
                     card_view:cardElevation="2dp"
                     card_view:cardUseCompatPadding="true">

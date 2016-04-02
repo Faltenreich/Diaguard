@@ -52,9 +52,9 @@
     <string name="drawer_close">Close Navigator</string>
     <string name="drawer_open">Open Navigator</string>
     <string name="entry">Entry</string>
+    <string name="entries">Entries</string>
     <string name="entry_added">Entry added</string>
-    <string name="entry_count">Measurement count</string>
-    <string name="entry_count_per_day">Ø Measurements per day</string>
+    <string name="entry_count_per_day">Ø Entries per day</string>
     <string name="entry_edit">Edit entry</string>
     <string name="entry_delete">Delete entry</string>
     <string name="entry_delete_desc">Remove entry and its measurements from timeline</string>
@@ -147,6 +147,12 @@
     <string name="week_two">14 Days</string>
     <string name="month">Month</string>
     <string name="year">Year</string>
+
+    <string-array name="array_interval">
+        <item>@string/week</item>
+        <item>@string/month</item>
+        <item>@string/year</item>
+    </string-array>
 
     <string-array name="weekdays">
         <item>Monday</item>

@@ -1,13 +1,12 @@
 package com.faltenreich.diaguard.ui.activity;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
@@ -31,6 +30,9 @@ import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.format.DateTimeFormat;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.Bind;
 
 /**
@@ -38,6 +40,12 @@ import butterknife.Bind;
  */
 
 public class StatisticsActivity extends BaseActivity {
+
+    @Bind(R.id.statistics_categories)
+    protected Spinner spinnerCategories;
+
+    @Bind(R.id.statistics_interval)
+    protected Spinner spinnerInterval;
 
     @Bind(R.id.statistics_period)
     protected TextView textViewPeriod;
@@ -82,44 +90,6 @@ public class StatisticsActivity extends BaseActivity {
         updateContent();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.statistics, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        if (timeSpan != null) {
-            MenuItem timeIntervalMenuItem = menu.findItem(R.id.action_time_interval);
-            if (timeIntervalMenuItem != null) {
-                timeIntervalMenuItem.setTitle(timeSpan.toLocalizedString());
-                timeIntervalMenuItem.setIcon(timeSpan.getImageResId());
-            }
-        }
-        if (category != null) {
-            MenuItem categoryMenuItem = menu.findItem(R.id.action_category);
-            if (categoryMenuItem != null) {
-                categoryMenuItem.setIcon(PreferenceHelper.getInstance().getCategoryImageResourceId(category));
-            }
-        }
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_time_interval:
-                skipTimeInterval(item);
-                return true;
-            case R.id.action_category:
-                showCategoriesDialog(item);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
     private void init() {
         this.timeSpan = TimeSpan.WEEK;
         this.category = Measurement.Category.BLOODSUGAR;
@@ -128,6 +98,46 @@ public class StatisticsActivity extends BaseActivity {
 
     private void initLayout() {
         initializeCharts();
+        initSpinners();
+    }
+
+    private void initSpinners() {
+        final Measurement.Category[] categories = PreferenceHelper.getInstance().getActiveCategories();
+        List<String> categoryNames = new ArrayList<>();
+        for (Measurement.Category category : categories) {
+            categoryNames.add(category.toLocalizedString());
+        }
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categoryNames);
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCategories.setAdapter(categoryAdapter);
+        spinnerCategories.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                changeCategory(categories[position]);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        final TimeSpan[] timeSpans = TimeSpan.values();
+        List<String> timeSpanNames = new ArrayList<>();
+        for (TimeSpan timeSpan : timeSpans) {
+            timeSpanNames.add(timeSpan.toLocalizedString());
+        }
+        ArrayAdapter<String> timeSpanAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, timeSpanNames);
+        timeSpanAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerInterval.setAdapter(timeSpanAdapter);
+        spinnerInterval.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                changeTimeInterval(timeSpans[position]);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 
     private void updateContent() {
@@ -135,42 +145,13 @@ public class StatisticsActivity extends BaseActivity {
         updateCharts();
     }
 
-    private void skipTimeInterval(MenuItem item) {
-        int nextOrdinal = timeSpan.ordinal() + 1;
-        this.timeSpan = TimeSpan.values()[nextOrdinal < TimeSpan.values().length ? nextOrdinal : 0];
-        item.setTitle(timeSpan.toLocalizedString());
-        item.setIcon(timeSpan.getImageResId());
+    private void changeTimeInterval(TimeSpan timeSpan) {
+        this.timeSpan = timeSpan;
         updateContent();
     }
 
-    private void showCategoriesDialog(final MenuItem menuItem) {
-        final Measurement.Category[] categories = PreferenceHelper.getInstance().getActiveCategories();
-        String[] categoryNames = new String[categories.length];
-        for (int position = 0; position < categories.length; position++) {
-            categoryNames[position] = categories[position].toLocalizedString();
-        }
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.categories)
-                .setItems(categoryNames,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                changeCategory(menuItem, categories[which]);
-                            }
-                        })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
-                .create()
-                .show();
-    }
-
-    private void changeCategory(MenuItem menuItem, Measurement.Category category) {
+    private void changeCategory(Measurement.Category category) {
         this.category = category;
-        menuItem.setIcon(PreferenceHelper.getInstance().getCategoryImageResourceId(category));
         updateContent();
     }
 

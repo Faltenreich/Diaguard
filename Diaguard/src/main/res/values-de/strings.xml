@@ -41,8 +41,8 @@
     <string name="drawer_close">Navigator schließen</string>
     <string name="drawer_open">Navigator öffnen</string>
     <string name="entry">Eintrag</string>
+    <string name="entries">Einträge</string>
     <string name="entry_added">Eintrag hinzugefügt</string>
-    <string name="entry_count">Anzahl Einträge</string>
     <string name="entry_count_per_day">Ø Einträge pro Tag</string>
     <string name="entry_edit">Eintrag bearbeiten</string>
     <string name="entry_delete">Eintrag löschen</string>

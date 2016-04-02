@@ -33,6 +33,7 @@
     <string name="date_select">Seleccionar datos</string>
     <string name="day_next">Día siguiente</string>
     <string name="day_previous">Día anterior</string>
+    <string name="diastolic">Diastólica</string>
     <string name="drawer_close">Cerrar navegador</string>
     <string name="drawer_open">Abrir navegador</string>
     <string name="entry">Entrada</string>
@@ -69,11 +70,13 @@
     <string name="ok">OK</string>
     <string name="overview">Sobrevista</string>
     <string name="pulse">Pulso</string>
+    <string name="pressure">Presión arterial</string>
     <string name="settings">Configuración</string>
     <string name="sound">Sonido</string>
     <string name="startscreen">Pantalla de inicio</string>
     <string name="statistics">Estadística</string>
     <string name="store_values">Ingresar valores</string>
+    <string name="systolic">Sistólica</string>
     <string name="timeline">Diario</string>
     <string name="to">y</string>
     <string name="today">Hoy</string>
@@ -195,6 +198,11 @@
         <item>Latidos por minuto</item>
     </string-array>
 
+    <string name="pressure_units_default">Milímetro de mercurio</string>
+    <string-array name="pressure_units">
+        <item>Milímetro de mercurio</item>
+    </string-array>
+
     <!-- VALIDATORS -->
     <string name="validator_value_number"> Se permiten solamente números </string>
     <string name="validator_value_infuture">Evento no debe ser en el futuro</string>
@@ -243,14 +251,10 @@
     <string name="validator_value_empty_list"> Al menos una categoría se debe seleccionar</string>
     <string name="amount">Cantidad</string>
     <string name="correction">Corrección</string>
-    <string name="diastolic">Diastólica</string>
     <string name="error_unexpected">Algo salió mal</string>
     <string name="export_complete">Memorizar bajo %s</string>
     <string name="import_"> Restaurar copia de seguridad</string>
     <string name="interval">Intervalo</string>
     <string name="measurement_latest">Hace poco</string>
-    <string name="pressure">Presión arterial</string>
-    <string name="pressure_units_default"> Latidos por minuto</string>
-    <string name="systolic">Sistólica</string>
 
 </resources>

@@ -224,7 +224,10 @@
         <item>spm</item>
     </string-array>
 
-    <string name="pressure_units_default">Schläge pro Minute</string>
+    <string name="pressure_units_default">Millimeter Quecksilbersäule</string>
+    <string-array name="pressure_units">
+        <item>Millimeter Quecksilbersäule</item>
+    </string-array>
 
     <!-- VALIDATORS -->
     <string name="validator_value_number">Nur Zahlen sind erlaubt</string>

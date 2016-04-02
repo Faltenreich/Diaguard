@@ -116,7 +116,7 @@
                                 <TextView
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
+                                    android:layout_weight="3"
                                     android:text="@string/entries"/>
 
                                 <TextView android:id="@+id/statistics_measurement_count"
@@ -133,7 +133,7 @@
                                 <TextView
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
+                                    android:layout_weight="3"
                                     android:text="@string/entry_count_per_day"/>
 
                                 <TextView android:id="@+id/statistics_measurement_count_avg"
@@ -151,7 +151,7 @@
                                     android:id="@+id/statistics_avg_unit"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"/>
+                                    android:layout_weight="3"/>
 
                                 <TextView android:id="@+id/statistics_avg_value"
                                     android:layout_width="0dp"

@@ -341,9 +341,9 @@
         <item name="maximum">200</item>
     </integer-array>
 
-    <string name="pressure_units_default">Beats per Minutes</string>
+    <string name="pressure_units_default">Millimeters of Mercury</string>
     <string-array name="pressure_units">
-        <item>Millimeters of Mercury </item>
+        <item>Millimeters of Mercury</item>
     </string-array>
     <string-array name="pressure_units_acronyms">
         <item>mm Hg</item>

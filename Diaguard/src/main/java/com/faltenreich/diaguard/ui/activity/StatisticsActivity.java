@@ -174,7 +174,7 @@ public class StatisticsActivity extends BaseActivity {
 
         textViewAvgUnit.setText(String.format("%s %s",
                 getString(R.string.average_symbol),
-                PreferenceHelper.getInstance().getUnitAcronym(category)));
+                PreferenceHelper.getInstance().getUnitName(category)));
 
         float avgValue = MeasurementDao.getInstance(BloodSugar.class).avg(BloodSugar.Column.MGDL, interval);
         float avgValueCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, avgValue);

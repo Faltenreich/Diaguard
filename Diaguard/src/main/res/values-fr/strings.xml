@@ -197,6 +197,11 @@
         <item>Battements par minute</item>
     </string-array>
 
+    <string name="pressure_units_default">Millimètre de mercure</string>
+    <string-array name="pressure_units">
+        <item>Millimètre de mercure</item>
+    </string-array>
+
     <!-- VALIDATORS -->
     <string name="validator_value_number">Veuillez n\'entrer que des chiffres s.v.p.</string>
     <string name="validator_value_infuture">La saisie d\'événements futurs n\'est pas possible</string>
@@ -252,7 +257,6 @@
     <string name="import_">Restaurer la sauvegarde</string>
     <string name="interval">Intervalle</string>
     <string name="measurement_latest">Dernier</string>
-    <string name="pressure_units_default">Battements par minute</string>
     <string name="systolic">Systolique</string>
     <string name="validator_value_empty_list"> Au moins une catégorie doit être sélectionnée</string>
     <string name="pressure">Pression artérielle</string>

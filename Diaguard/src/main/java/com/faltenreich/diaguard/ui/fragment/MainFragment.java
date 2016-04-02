@@ -167,10 +167,11 @@ public class MainFragment extends BaseFragment {
                 }
             }
             DateTime now = DateTime.now();
+            Interval intervalDay = new Interval(now, now);
             Interval intervalWeek = new Interval(new DateTime(now.minusWeeks(1)), now);
             Interval intervalMonth = new Interval(new DateTime(now.minusMonths(1)), now);
 
-            float avgDay = MeasurementDao.getInstance(BloodSugar.class).avg(BloodSugar.Column.MGDL, now);
+            float avgDay = MeasurementDao.getInstance(BloodSugar.class).avg(BloodSugar.Column.MGDL, intervalDay);
             float avgDayCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, avgDay);
 
             float avgWeek = MeasurementDao.getInstance(BloodSugar.class).avg(BloodSugar.Column.MGDL, intervalWeek);

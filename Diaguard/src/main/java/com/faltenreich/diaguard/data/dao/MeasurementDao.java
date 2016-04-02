@@ -9,7 +9,6 @@ import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.table.DatabaseTableConfig;
 
-import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.Interval;
 
@@ -42,10 +41,6 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
         super(clazz);
     }
 
-    public float avg(String avgColumn, DateTime dateTime) {
-        return avg(avgColumn, new Interval(dateTime, dateTime));
-    }
-
     public float avg(String avgColumn, Interval interval) {
         String classNameEntry = DatabaseTableConfig.extractTableName(Entry.class);
         String classNameMeasurement = DatabaseTableConfig.extractTableName(getClazz());
@@ -71,7 +66,7 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
             GenericRawResults<String[]> rawResults = getDao().queryRaw(query);
             results = rawResults.getResults();
         } catch (SQLException exception) {
-            Log.e(TAG, String.format("Could not calculate avg of %s", getClazz().getSimpleName()));
+            Log.e(TAG, exception.getMessage());
             return 0;
         }
 

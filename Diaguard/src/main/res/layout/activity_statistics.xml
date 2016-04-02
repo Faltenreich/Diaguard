@@ -74,7 +74,6 @@
 
                     </LinearLayout>
 
-
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
@@ -111,23 +110,6 @@
                         <TableLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
-
-                            <TableRow style="@style/BoxRow">
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="@string/period"/>
-
-                                <TextView android:id="@+id/statistics_period"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:gravity="end"
-                                    android:text="@string/placeholder"/>
-
-                            </TableRow>
 
                             <TableRow style="@style/BoxRow">
 

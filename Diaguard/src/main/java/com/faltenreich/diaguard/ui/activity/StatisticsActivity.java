@@ -51,9 +51,6 @@ public class StatisticsActivity extends BaseActivity {
     @Bind(R.id.statistics_interval)
     protected Spinner spinnerInterval;
 
-    @Bind(R.id.statistics_period)
-    protected TextView textViewPeriod;
-
     @Bind(R.id.statistics_measurement_count)
     protected TextView textViewMeasurementCount;
 
@@ -128,7 +125,13 @@ public class StatisticsActivity extends BaseActivity {
         final TimeSpan[] timeSpans = TimeSpan.values();
         List<String> timeSpanNames = new ArrayList<>();
         for (TimeSpan timeSpan : timeSpans) {
-            timeSpanNames.add(timeSpan.toLocalizedString());
+            Interval interval = timeSpan.getPastInterval(DateTime.now());
+            String intervalText = String.format("%s - %s",
+                DateTimeFormat.mediumDate().print(interval.getStart()),
+                DateTimeFormat.mediumDate().print(interval.getEnd()));
+            timeSpanNames.add(String.format("%s (%s)",
+                    timeSpan.toLocalizedString(),
+                    intervalText));
         }
         ArrayAdapter<String> timeSpanAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, timeSpanNames);
         timeSpanAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -145,10 +148,8 @@ public class StatisticsActivity extends BaseActivity {
     }
 
     private void updateContent() {
-        updateAverage();
+        updateViews();
         updateCharts();
-        imageViewCategory.setImageDrawable(ContextCompat.getDrawable(this,
-                PreferenceHelper.getInstance().getCategoryImageResourceId(category)));
     }
 
     private void changeTimeInterval(TimeSpan timeSpan) {
@@ -161,12 +162,8 @@ public class StatisticsActivity extends BaseActivity {
         updateContent();
     }
 
-    private void updateAverage() {
+    private void updateViews() {
         Interval interval = timeSpan.getPastInterval(DateTime.now());
-
-        textViewPeriod.setText(String.format("%s\n- %s",
-                DateTimeFormat.mediumDate().print(interval.getStart()),
-                DateTimeFormat.mediumDate().print(interval.getEnd())));
 
         long count = EntryDao.getInstance().count(category, interval.getStart(), interval.getEnd());
         textViewMeasurementCount.setText(String.format("%d", count));
@@ -182,6 +179,10 @@ public class StatisticsActivity extends BaseActivity {
         float avgValue = MeasurementDao.getInstance(BloodSugar.class).avg(BloodSugar.Column.MGDL, interval);
         float avgValueCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, avgValue);
         textViewAvgValue.setText(PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(avgValueCustom));
+
+        imageViewCategory.setImageDrawable(ContextCompat.getDrawable(this,
+                PreferenceHelper.getInstance().getCategoryImageResourceId(category)));
+
     }
 
     // region Charting

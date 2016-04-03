@@ -165,7 +165,7 @@
     </string-array>
 
     <string name="insulin_units_default">Unidades de Insulina</string>
-    <string-array name="bolus_units">
+    <string-array name="insulin_units">
         <item>Unidades de Insulina</item>
     </string-array>
 

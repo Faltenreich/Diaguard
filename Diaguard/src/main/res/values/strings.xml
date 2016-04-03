@@ -52,9 +52,8 @@
     <string name="drawer_close">Close Navigator</string>
     <string name="drawer_open">Open Navigator</string>
     <string name="entry">Entry</string>
-    <string name="entries">Entries</string>
     <string name="entry_added">Entry added</string>
-    <string name="entry_count_per_day">Ø Entries per day</string>
+    <string name="entry_count_per_day">Entries per day</string>
     <string name="entry_edit">Edit entry</string>
     <string name="entry_delete">Delete entry</string>
     <string name="entry_delete_desc">Remove entry and its measurements from timeline</string>
@@ -75,8 +74,10 @@
     <string name="hba1c">HbA1c</string>
     <string name="homepage">Website</string>
     <string name="hyper">Hyper</string>
+    <string name="hyper_per_day">Hypers per day</string>
     <string name="hyphen">-</string>
     <string name="hypo">Hypo</string>
+    <string name="hypo_per_day">Hypos per day</string>
     <string name="import_">Import</string>
     <string name="impress">Impress</string>
     <string name="insulin">Insulin</string>

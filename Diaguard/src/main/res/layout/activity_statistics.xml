@@ -85,7 +85,6 @@
                 android:orientation="vertical">
 
                 <!-- Overview -->
-
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -103,7 +102,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/overview"
+                            android:text="@string/average"
                             android:textColor="@color/green"
                             android:textStyle="bold"
                             style="@style/BoxRow"/>
@@ -115,12 +114,12 @@
                             <TableRow style="@style/BoxRow">
 
                                 <TextView
+                                    android:id="@+id/statistics_avg_unit"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="3"
-                                    android:text="@string/entries"/>
+                                    android:layout_weight="3"/>
 
-                                <TextView android:id="@+id/statistics_measurement_count"
+                                <TextView android:id="@+id/statistics_avg_value"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -146,15 +145,34 @@
 
                             </TableRow>
 
-                            <TableRow style="@style/BoxRow">
+                            <TableRow style="@style/BoxRow"
+                                android:id="@+id/statistics_layout_hyper">
 
                                 <TextView
-                                    android:id="@+id/statistics_avg_unit"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="3"/>
+                                    android:layout_weight="3"
+                                    android:text="@string/hyper_per_day"/>
 
-                                <TextView android:id="@+id/statistics_avg_value"
+                                <TextView android:id="@+id/statistics_avg_hyper"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:text="@string/placeholder"/>
+
+                            </TableRow>
+
+                            <TableRow style="@style/BoxRow"
+                                android:id="@+id/statistics_layout_hypo">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="3"
+                                    android:text="@string/hypo_per_day"/>
+
+                                <TextView android:id="@+id/statistics_avg_hypo"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -170,7 +188,6 @@
                 </android.support.v7.widget.CardView>
 
                 <!-- Trend -->
-
                 <android.support.v7.widget.CardView
                     android:id="@+id/layout_trend"
                     android:layout_width="match_parent"

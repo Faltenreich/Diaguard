@@ -55,11 +55,20 @@ public class StatisticsActivity extends BaseActivity {
     @Bind(R.id.statistics_interval)
     protected Spinner spinnerInterval;
 
-    @Bind(R.id.statistics_measurement_count)
-    protected TextView textViewMeasurementCount;
-
     @Bind(R.id.statistics_measurement_count_avg)
     protected TextView textViewMeasurementCountAvg;
+
+    @Bind(R.id.statistics_layout_hyper)
+    protected ViewGroup layoutAvgHyper;
+
+    @Bind(R.id.statistics_avg_hyper)
+    protected TextView textViewAvgHyper;
+
+    @Bind(R.id.statistics_layout_hypo)
+    protected ViewGroup layoutAvgHypo;
+
+    @Bind(R.id.statistics_avg_hypo)
+    protected TextView textViewAvgHypo;
 
     @Bind(R.id.statistics_avg_unit)
     protected TextView textViewAvgUnit;
@@ -169,16 +178,10 @@ public class StatisticsActivity extends BaseActivity {
     private void updateViews() {
         Interval interval = timeSpan.getPastInterval(DateTime.now());
 
-        long count = EntryDao.getInstance().count(category, interval.getStart(), interval.getEnd());
-        textViewMeasurementCount.setText(String.format("%d", count));
+        imageViewCategory.setImageDrawable(ContextCompat.getDrawable(this,
+                PreferenceHelper.getInstance().getCategoryImageResourceId(category)));
 
-        long days = interval.toDuration().getStandardDays();
-        float avgCountPerDay = (float) count / (float) days;
-        textViewMeasurementCountAvg.setText(String.format("%.2f", avgCountPerDay));
-
-        textViewAvgUnit.setText(String.format("%s %s",
-                getString(R.string.average_symbol),
-                PreferenceHelper.getInstance().getUnitName(category)));
+        textViewAvgUnit.setText(PreferenceHelper.getInstance().getUnitName(category));
 
         Measurement measurement = null;
         switch (category) {
@@ -206,8 +209,24 @@ public class StatisticsActivity extends BaseActivity {
         }
         textViewAvgValue.setText(measurement != null ? measurement.toString() : getString(R.string.placeholder));
 
-        imageViewCategory.setImageDrawable(ContextCompat.getDrawable(this,
-                PreferenceHelper.getInstance().getCategoryImageResourceId(category)));
+        long count = EntryDao.getInstance().count(category, interval.getStart(), interval.getEnd());
+        long days = interval.toDuration().getStandardDays();
+        float avgCountPerDay = (float) count / (float) days;
+        textViewMeasurementCountAvg.setText(String.format("%.2f", avgCountPerDay));
+
+        if (category == Measurement.Category.BLOODSUGAR) {
+            layoutAvgHyper.setVisibility(View.VISIBLE);
+            layoutAvgHypo.setVisibility(View.VISIBLE);
+            long hyperCount = EntryDao.getInstance().countAbove(interval.getStart(), interval.getEnd(), PreferenceHelper.getInstance().getLimitHyperglycemia());
+            long hypoCount = EntryDao.getInstance().countBelow(interval.getStart(), interval.getEnd(), PreferenceHelper.getInstance().getLimitHypoglycemia());
+            float avgHypersPerDay = (float) hyperCount / (float) days;
+            float avgHyposPerDay = (float) hypoCount / (float) days;
+            textViewAvgHyper.setText(String.format("%.2f", avgHypersPerDay));
+            textViewAvgHypo.setText(String.format("%.2f", avgHyposPerDay));
+        } else {
+            layoutAvgHyper.setVisibility(View.GONE);
+            layoutAvgHypo.setVisibility(View.GONE);
+        }
     }
 
     // region Charting

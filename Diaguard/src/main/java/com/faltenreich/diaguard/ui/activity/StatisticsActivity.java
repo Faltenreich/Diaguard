@@ -24,6 +24,7 @@ import com.faltenreich.diaguard.util.TimeSpan;
 import com.faltenreich.diaguard.util.thread.BaseAsyncTask;
 import com.faltenreich.diaguard.util.thread.UpdateBloodSugarPieChartTask;
 import com.faltenreich.diaguard.util.thread.UpdateLineChartTask;
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.LimitLine;
@@ -226,6 +227,8 @@ public class StatisticsActivity extends BaseActivity {
         chartDistribution.setUsePercentValues(true);
         chartDistribution.setDescription(null);
         chartDistribution.setDrawSliceText(false);
+        chartDistribution.setNoDataText(getString(R.string.no_data));
+        chartDistribution.getPaint(Chart.PAINT_INFO).setColor(ContextCompat.getColor(this, android.R.color.darker_gray));
     }
 
     private LimitLine getLimitLine() {
@@ -254,7 +257,11 @@ public class StatisticsActivity extends BaseActivity {
             new UpdateBloodSugarPieChartTask(this, new BaseAsyncTask.OnAsyncProgressListener<PieData>() {
                 @Override
                 public void onPostExecute(PieData pieData) {
-                    chartDistribution.setData(pieData.getDataSet().getEntryCount() > 0 ? pieData : null);
+                    boolean hasData = pieData.getDataSet().getEntryCount() > 0;
+                    chartDistribution.setData(hasData ? pieData : null);
+                    ViewGroup.LayoutParams params = chartDistribution.getLayoutParams();
+                    params.height = hasData ? (int) getResources().getDimension(R.dimen.pie_chart_height) : ViewGroup.LayoutParams.WRAP_CONTENT;
+                    chartDistribution.setLayoutParams(params);
                     chartDistribution.invalidate();
                 }
             }, timeSpan).execute();

@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.ui.fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
@@ -181,7 +182,7 @@ public class MainFragment extends BaseFragment {
             float avgMonthCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, avgMonth);
 
             return new String[] {
-                    Integer.toString(entriesWithBloodSugar.size()),
+                    Integer.toString(entriesWithBloodSugar != null ? entriesWithBloodSugar.size() : 0),
                     Integer.toString(countHypers),
                     Integer.toString(countHypos),
                     PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(avgDayCustom),
@@ -245,35 +246,48 @@ public class MainFragment extends BaseFragment {
         }, Measurement.Category.BLOODSUGAR, TimeSpan.WEEK).execute();
     }
 
+    private void openStatistics(View view, String transitionName) {
+        Intent intent = new Intent(getActivity(), StatisticsActivity.class);
+        ActivityOptionsCompat options =
+                ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        getActivity(),
+                        view,
+                        transitionName);
+        startActivity(intent, options);
+    }
+
     // endregion
 
     @SuppressWarnings("unused")
     @OnClick(R.id.layout_latest)
-    protected void openEntry() {
+    protected void openEntry(View view) {
+        Intent intent = new Intent(getActivity(), EntryActivity.class);
         if (latestEntry != null) {
-            Intent intent = new Intent(getActivity(), EntryActivity.class);
             intent.putExtra(EntryActivity.EXTRA_ENTRY, latestEntry.getId());
-            startActivity(intent);
-        } else {
-            startActivity(new Intent(getActivity(), EntryActivity.class));
         }
+        ActivityOptionsCompat options =
+                ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        getActivity(),
+                        view,
+                        "transitionEntry");
+        startActivity(intent, options);
     }
 
     @SuppressWarnings("unused")
     @OnClick(R.id.layout_today)
-    protected void openStatisticsToday() {
-        startActivity(new Intent(getActivity(), StatisticsActivity.class));
+    protected void openStatisticsToday(View view) {
+        openStatistics(view, "transitionDistribution");
     }
 
     @SuppressWarnings("unused")
     @OnClick(R.id.layout_average)
-    protected void openStatisticsAverage() {
-        startActivity(new Intent(getActivity(), StatisticsActivity.class));
+    protected void openStatisticsAverage(View view) {
+        openStatistics(view, "transitionOverview");
     }
 
     @SuppressWarnings("unused")
     @OnClick(R.id.layout_trend)
-    protected void openTrend() {
-        startActivity(new Intent(getActivity(), StatisticsActivity.class));
+    protected void openTrend(View view) {
+        openStatistics(view, "transitionTrend");
     }
 }

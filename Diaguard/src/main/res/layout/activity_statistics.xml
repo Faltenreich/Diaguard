@@ -84,14 +84,15 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <!-- General -->
+                <!-- Overview -->
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     card_view:cardCornerRadius="4dp"
                     card_view:cardElevation="2dp"
-                    card_view:cardUseCompatPadding="true">
+                    card_view:cardUseCompatPadding="true"
+                    android:transitionName="transitionOverview">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -169,12 +170,15 @@
                 </android.support.v7.widget.CardView>
 
                 <!-- Trend -->
+
                 <android.support.v7.widget.CardView
+                    android:id="@+id/layout_trend"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     card_view:cardCornerRadius="4dp"
                     card_view:cardElevation="2dp"
-                    card_view:cardUseCompatPadding="true">
+                    card_view:cardUseCompatPadding="true"
+                    android:transitionName="transitionTrend">
 
                     <LinearLayout
                         style="@style/Padding"
@@ -208,7 +212,8 @@
                     android:layout_height="wrap_content"
                     card_view:cardCornerRadius="4dp"
                     card_view:cardElevation="2dp"
-                    card_view:cardUseCompatPadding="true">
+                    card_view:cardUseCompatPadding="true"
+                    android:transitionName="transitionDistribution">
 
                     <LinearLayout
                         style="@style/Padding"

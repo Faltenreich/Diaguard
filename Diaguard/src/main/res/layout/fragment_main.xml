@@ -19,7 +19,8 @@
             card_view:cardUseCompatPadding="true"
             android:layout_marginBottom="2dp"
             android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground">
+            android:foreground="?android:attr/selectableItemBackground"
+            android:transitionName="transitionEntry">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -91,7 +92,8 @@
                 android:layout_marginEnd="1dp"
                 android:layout_marginRight="1dp"
                 android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground">
+                android:foreground="?android:attr/selectableItemBackground"
+                android:transitionName="transitionOverview">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -180,7 +182,8 @@
                 android:layout_marginStart="1dp"
                 android:layout_marginLeft="1dp"
                 android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground">
+                android:foreground="?android:attr/selectableItemBackground"
+                android:transitionName="transitionOverview">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -268,7 +271,8 @@
             card_view:cardElevation="2dp"
             card_view:cardUseCompatPadding="true"
             android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground">
+            android:foreground="?android:attr/selectableItemBackground"
+            android:transitionName="transitionTrend">
 
             <LinearLayout
                 android:layout_width="match_parent"

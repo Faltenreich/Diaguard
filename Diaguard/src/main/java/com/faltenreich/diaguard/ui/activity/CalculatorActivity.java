@@ -83,6 +83,17 @@ public class CalculatorActivity extends BaseActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_done:
+                calculate();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     public void initialize() {
         String unitAcronym = PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BLOODSUGAR);
         textViewUnitBloodSugar.setText(unitAcronym);
@@ -309,16 +320,5 @@ public class CalculatorActivity extends BaseActivity {
         }
 
         Events.post(new EntryAddedEvent(entry));
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_done:
-                calculate();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 }

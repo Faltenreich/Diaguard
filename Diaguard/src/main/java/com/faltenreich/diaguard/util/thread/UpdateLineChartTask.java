@@ -44,7 +44,7 @@ public class UpdateLineChartTask extends BaseAsyncTask<Void, Void, LineData> {
     protected LineData doInBackground(Void... params) {
         DateTime endDateTime = DateTime.now().withTime(23, 59, 59, 999);
         DateTime startDateTime = timeSpan.getPastInterval(endDateTime).getStart();
-        startDateTime = startDateTime.plusDays(1).withTimeAtStartOfDay();
+        startDateTime = startDateTime.withTimeAtStartOfDay();
 
         List<Entry> entries = new ArrayList<>();
         ArrayList<String> xLabels = new ArrayList<>();

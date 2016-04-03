@@ -19,8 +19,7 @@
             card_view:cardUseCompatPadding="true"
             android:layout_marginBottom="2dp"
             android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:transitionName="transitionEntry">
+            android:foreground="?android:attr/selectableItemBackground">
 
             <LinearLayout
                 android:layout_width="match_parent"

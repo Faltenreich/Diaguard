@@ -10,8 +10,10 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable
 public class Meal extends Measurement {
 
-    public static final String CARBOHYDRATES = "carbohydrates";
-    public static final String FOOD_ID = "food_id";
+    public class Column extends Measurement.Column {
+        public static final String CARBOHYDRATES = "carbohydrates";
+        public static final String FOOD_ID = "food_id";
+    }
 
     @DatabaseField
     private float carbohydrates;

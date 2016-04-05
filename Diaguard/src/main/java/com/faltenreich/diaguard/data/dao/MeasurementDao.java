@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.data.dao;
 
 import android.util.Log;
 
+import com.faltenreich.diaguard.data.SqlFunction;
 import com.faltenreich.diaguard.data.entity.BaseEntity;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
@@ -41,7 +42,7 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
         super(clazz);
     }
 
-    public float avg(String avgColumn, Interval interval) {
+    public float function(SqlFunction sqlFunction, String column, Interval interval) {
         String classNameEntry = DatabaseTableConfig.extractTableName(Entry.class);
         String classNameMeasurement = DatabaseTableConfig.extractTableName(getClazz());
         long intervalStart = interval.getStart().withTimeAtStartOfDay().getMillis();
@@ -51,7 +52,7 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
                 DateTimeConstants.SECONDS_PER_MINUTE - 1,
                 DateTimeConstants.MILLIS_PER_SECOND - 1)
                 .getMillis();
-        String query = "SELECT AVG(" + avgColumn + ")" +
+        String query = "SELECT " + sqlFunction.function + "(" + column + ")" +
                 " FROM " + classNameMeasurement +
                 " INNER JOIN " + classNameEntry +
                 " ON " + classNameMeasurement + "." + Measurement.Column.ENTRY +

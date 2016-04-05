@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.data.SqlFunction;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Measurement;
@@ -60,7 +61,7 @@ public class UpdateLineChartTask extends BaseAsyncTask<Void, Void, LineData> {
             DateTime intervalEnd = timeSpan.getNextInterval(intervalStart, 1).minusDays(1);
             boolean showLabel = ViewHelper.isLargeScreen(getContext()) || timeSpan != TimeSpan.YEAR || index % 2 == 0;
             xLabels.add(showLabel ? timeSpan.getLabel(intervalStart) : "");
-            float avg = MeasurementDao.getInstance(BloodSugar.class).avg(BloodSugar.Column.MGDL, new Interval(intervalStart, intervalEnd));
+            float avg = MeasurementDao.getInstance(BloodSugar.class).function(SqlFunction.AVG, BloodSugar.Column.MGDL, new Interval(intervalStart, intervalEnd));
             if (avg > 0) {
                 entries.add(new com.github.mikephil.charting.data.Entry(avg, index));
                 if (avg > highestValue) {

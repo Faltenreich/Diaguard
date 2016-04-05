@@ -270,6 +270,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
                 public void onClick(DialogInterface dialog, int id) {
                     EntryDao.getInstance().delete(entry);
                     Toast.makeText(EntryActivity.this, getString(R.string.entry_deleted), Toast.LENGTH_LONG).show();
+                    Events.post(new EntryDeletedEvent(entry));
                     finish();
                 }
             });
@@ -280,8 +281,6 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             });
             AlertDialog dialog = builder.create();
             dialog.show();
-
-            Events.post(new EntryDeletedEvent(entry));
         }
     }
 

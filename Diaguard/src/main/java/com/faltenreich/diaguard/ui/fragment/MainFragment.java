@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.data.SqlFunction;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
@@ -172,13 +173,13 @@ public class MainFragment extends BaseFragment {
             Interval intervalWeek = new Interval(new DateTime(now.minusWeeks(1)), now);
             Interval intervalMonth = new Interval(new DateTime(now.minusMonths(1)), now);
 
-            float avgDay = MeasurementDao.getInstance(BloodSugar.class).avg(BloodSugar.Column.MGDL, intervalDay);
+            float avgDay = MeasurementDao.getInstance(BloodSugar.class).function(SqlFunction.AVG, BloodSugar.Column.MGDL, intervalDay);
             float avgDayCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, avgDay);
 
-            float avgWeek = MeasurementDao.getInstance(BloodSugar.class).avg(BloodSugar.Column.MGDL, intervalWeek);
+            float avgWeek = MeasurementDao.getInstance(BloodSugar.class).function(SqlFunction.AVG, BloodSugar.Column.MGDL, intervalWeek);
             float avgWeekCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, avgWeek);
 
-            float avgMonth = MeasurementDao.getInstance(BloodSugar.class).avg(BloodSugar.Column.MGDL, intervalMonth);
+            float avgMonth = MeasurementDao.getInstance(BloodSugar.class).function(SqlFunction.AVG, BloodSugar.Column.MGDL, intervalMonth);
             float avgMonthCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, avgMonth);
 
             return new String[] {

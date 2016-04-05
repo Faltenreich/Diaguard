@@ -75,9 +75,15 @@ public class Insulin extends Measurement {
     }
 
     @Override
+    public boolean stackValues() {
+        return true;
+    }
+
+    @Override
     public String toString() {
         float total = bolus + correction + basal;
-        return Float.toString(PreferenceHelper.getInstance().formatDefaultToCustomUnit(getCategory(), total));
+        float customTotal = PreferenceHelper.getInstance().formatDefaultToCustomUnit(getCategory(), total);
+        return PreferenceHelper.getInstance().getDecimalFormat(getCategory()).format(customTotal);
     }
 
     public String toStringDetail() {

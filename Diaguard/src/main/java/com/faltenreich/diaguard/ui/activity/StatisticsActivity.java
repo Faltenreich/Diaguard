@@ -12,17 +12,9 @@ import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
-import com.faltenreich.diaguard.data.SqlFunction;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
-import com.faltenreich.diaguard.data.entity.BloodSugar;
-import com.faltenreich.diaguard.data.entity.HbA1c;
-import com.faltenreich.diaguard.data.entity.Insulin;
-import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.data.entity.Pressure;
-import com.faltenreich.diaguard.data.entity.Pulse;
-import com.faltenreich.diaguard.data.entity.Weight;
 import com.faltenreich.diaguard.util.ChartHelper;
 import com.faltenreich.diaguard.util.TimeSpan;
 import com.faltenreich.diaguard.util.thread.BaseAsyncTask;
@@ -144,8 +136,8 @@ public class StatisticsActivity extends BaseActivity {
         for (TimeSpan timeSpan : timeSpans) {
             Interval interval = timeSpan.getPastInterval(DateTime.now());
             String intervalText = String.format("%s - %s",
-                DateTimeFormat.mediumDate().print(interval.getStart()),
-                DateTimeFormat.mediumDate().print(interval.getEnd()));
+                    DateTimeFormat.mediumDate().print(interval.getStart()),
+                    DateTimeFormat.mediumDate().print(interval.getEnd()));
             timeSpanNames.add(String.format("%s (%s)",
                     timeSpan.toLocalizedString(),
                     intervalText));
@@ -158,6 +150,7 @@ public class StatisticsActivity extends BaseActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 changeTimeInterval(timeSpans[position]);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -186,55 +179,12 @@ public class StatisticsActivity extends BaseActivity {
         imageViewCategory.setImageDrawable(ContextCompat.getDrawable(this,
                 PreferenceHelper.getInstance().getCategoryImageResourceId(category)));
 
-        textViewAvgUnit.setText(PreferenceHelper.getInstance().getUnitName(category));
+        Measurement avgMeasurement = MeasurementDao.getInstance(category.toClass()).getAvgMeasurement(category, interval);
+        textViewAvgUnit.setText(avgMeasurement.stackValues() ?
+                String.format("%s %s", PreferenceHelper.getInstance().getUnitName(category), getString(R.string.per_day)) :
+                PreferenceHelper.getInstance().getUnitName(category));
 
-        Measurement measurement = null;
-        switch (category) {
-            case BLOODSUGAR:
-                BloodSugar avgBloodSugar = new BloodSugar();
-                avgBloodSugar.setMgDl(MeasurementDao.getInstance(category.toClass()).function(SqlFunction.AVG, BloodSugar.Column.MGDL, interval));
-                measurement = avgBloodSugar;
-                break;
-            case INSULIN:
-                Insulin insulin = new Insulin();
-                insulin.setBolus(MeasurementDao.getInstance(category.toClass()).function(SqlFunction.SUM, Insulin.Column.BOLUS, interval) / days);
-                insulin.setBasal(MeasurementDao.getInstance(category.toClass()).function(SqlFunction.SUM, Insulin.Column.BASAL, interval) / days);
-                insulin.setCorrection(MeasurementDao.getInstance(category.toClass()).function(SqlFunction.SUM, Insulin.Column.CORRECTION, interval) / days);
-                measurement = insulin;
-                break;
-            case MEAL:
-                Meal meal = new Meal();
-                meal.setCarbohydrates(MeasurementDao.getInstance(category.toClass()).function(SqlFunction.SUM, Meal.Column.CARBOHYDRATES, interval) / days);
-                measurement = meal;
-                break;
-            case ACTIVITY:
-                com.faltenreich.diaguard.data.entity.Activity activity = new com.faltenreich.diaguard.data.entity.Activity();
-                activity.setMinutes((int) (MeasurementDao.getInstance(category.toClass()).function(SqlFunction.SUM, Meal.Column.CARBOHYDRATES, interval) / days));
-                measurement = activity;
-                break;
-            case HBA1C:
-                HbA1c hbA1c = new HbA1c();
-                hbA1c.setPercent(MeasurementDao.getInstance(category.toClass()).function(SqlFunction.AVG, HbA1c.Column.PERCENT, interval));
-                measurement = hbA1c;
-                break;
-            case WEIGHT:
-                Weight weight = new Weight();
-                weight.setKilogram(MeasurementDao.getInstance(category.toClass()).function(SqlFunction.AVG, Weight.Column.KILOGRAM, interval));
-                measurement = weight;
-                break;
-            case PULSE:
-                Pulse pulse = new Pulse();
-                pulse.setFrequency(MeasurementDao.getInstance(category.toClass()).function(SqlFunction.AVG, Pulse.Column.FREQUENCY, interval));
-                measurement = pulse;
-                break;
-            case PRESSURE:
-                Pressure pressure = new Pressure();
-                pressure.setSystolic(MeasurementDao.getInstance(category.toClass()).function(SqlFunction.AVG, Pressure.Column.SYSTOLIC, interval));
-                pressure.setDiastolic(MeasurementDao.getInstance(category.toClass()).function(SqlFunction.AVG, Pressure.Column.DIASTOLIC, interval));
-                measurement = pressure;
-                break;
-        }
-        textViewAvgValue.setText(measurement.toString());
+        textViewAvgValue.setText(avgMeasurement.toString());
 
         long count = EntryDao.getInstance().count(category, interval.getStart(), interval.getEnd());
         float avgCountPerDay = (float) count / (float) days;

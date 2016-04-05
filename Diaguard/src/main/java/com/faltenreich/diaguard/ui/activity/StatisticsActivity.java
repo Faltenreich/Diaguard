@@ -26,6 +26,7 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
@@ -211,12 +212,13 @@ public class StatisticsActivity extends BaseActivity {
         ChartHelper.setChartDefaultStyle(chartTrend);
         chartTrend.setTouchEnabled(false);
         chartTrend.getAxisLeft().setDrawAxisLine(false);
-        chartTrend.getAxisLeft().setDrawGridLines(false);
-        chartTrend.getAxisLeft().setDrawLabels(false);
         chartTrend.getXAxis().setDrawGridLines(false);
         chartTrend.getXAxis().setTextColor(ContextCompat.getColor(this, R.color.gray_dark));
         chartTrend.getXAxis().setLabelsToSkip(0);
         chartTrend.getAxisLeft().addLimitLine(getLimitLine());
+        chartTrend.getAxisLeft().setLabelCount(3, false);
+        chartTrend.setNoDataText(getString(R.string.no_data));
+        chartTrend.getPaint(Chart.PAINT_INFO).setColor(ContextCompat.getColor(this, android.R.color.darker_gray));
 
         chartDistribution.setDrawHoleEnabled(false);
         chartDistribution.setUsePercentValues(true);
@@ -242,10 +244,26 @@ public class StatisticsActivity extends BaseActivity {
         new UpdateLineChartTask(this, new BaseAsyncTask.OnAsyncProgressListener<LineData>() {
             @Override
             public void onPostExecute(LineData lineData) {
-                chartTrend.setData(lineData);
-                chartTrend.invalidate();
+                boolean hasData = false;
+                for (ILineDataSet lineDataSet : lineData.getDataSets()) {
+                    if (lineDataSet.getEntryCount() > 0) {
+                        hasData = true;
+                        break;
+                    }
+                }
+
+                ViewGroup.LayoutParams params = chartTrend.getLayoutParams();
+                params.height = hasData ? (int) getResources().getDimension(R.dimen.line_chart_height) : ViewGroup.LayoutParams.WRAP_CONTENT;
+                chartTrend.setLayoutParams(params);
+
+                if (hasData) {
+                    chartTrend.setData(lineData);
+                    chartTrend.invalidate();
+                } else {
+                    chartTrend.clear();
+                }
             }
-        }, category, timeSpan).execute();
+        }, category, timeSpan, false).execute();
 
         if (category == Measurement.Category.BLOODSUGAR) {
             layoutDistribution.setVisibility(View.VISIBLE);

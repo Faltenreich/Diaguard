@@ -215,7 +215,7 @@
                         <com.github.mikephil.charting.charts.LineChart
                             android:id="@+id/statistics_chart_trend"
                             android:layout_width="match_parent"
-                            android:layout_height="100dp"
+                            android:layout_height="@dimen/line_chart_height"
                             android:orientation="horizontal" />
 
                     </LinearLayout>

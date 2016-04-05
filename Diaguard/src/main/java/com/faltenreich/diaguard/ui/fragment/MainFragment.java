@@ -244,7 +244,7 @@ public class MainFragment extends BaseFragment {
                     chart.invalidate();
                 }
             }
-        }, Measurement.Category.BLOODSUGAR, TimeSpan.WEEK).execute();
+        }, Measurement.Category.BLOODSUGAR, TimeSpan.WEEK, true).execute();
     }
 
     private void openStatistics(View view, String transitionName) {

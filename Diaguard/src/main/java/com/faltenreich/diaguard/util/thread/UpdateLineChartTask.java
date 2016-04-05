@@ -5,10 +5,7 @@ import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.data.PreferenceHelper;
-import com.faltenreich.diaguard.data.SqlFunction;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
-import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.ChartHelper;
 import com.faltenreich.diaguard.util.TimeSpan;
@@ -33,11 +30,13 @@ public class UpdateLineChartTask extends BaseAsyncTask<Void, Void, LineData> {
     private Measurement.Category category;
     private TimeSpan timeSpan;
     private int dataSetColor;
+    private boolean forceDrawing;
 
-    public UpdateLineChartTask(Context context, OnAsyncProgressListener<LineData> onAsyncProgressListener, Measurement.Category category, TimeSpan timeSpan) {
+    public UpdateLineChartTask(Context context, OnAsyncProgressListener<LineData> onAsyncProgressListener, Measurement.Category category, TimeSpan timeSpan, boolean forceDrawing) {
         super(context, onAsyncProgressListener);
         this.category = category;
         this.timeSpan = timeSpan;
+        this.forceDrawing = forceDrawing;
         this.dataSetColor = ContextCompat.getColor(context, R.color.green_light);
     }
 
@@ -50,22 +49,20 @@ public class UpdateLineChartTask extends BaseAsyncTask<Void, Void, LineData> {
         List<Entry> entries = new ArrayList<>();
         ArrayList<String> xLabels = new ArrayList<>();
 
-        float targetValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(
-                Measurement.Category.BLOODSUGAR,
-                PreferenceHelper.getInstance().getTargetValue());
-        float highestValue = targetValue * 2;
-
+        float highestValue = 0;
         DateTime intervalStart = startDateTime;
         int index = 0;
         while (!intervalStart.isAfter(endDateTime)) {
             DateTime intervalEnd = timeSpan.getNextInterval(intervalStart, 1).minusDays(1);
             boolean showLabel = ViewHelper.isLargeScreen(getContext()) || timeSpan != TimeSpan.YEAR || index % 2 == 0;
             xLabels.add(showLabel ? timeSpan.getLabel(intervalStart) : "");
-            float avg = MeasurementDao.getInstance(BloodSugar.class).function(SqlFunction.AVG, BloodSugar.Column.MGDL, new Interval(intervalStart, intervalEnd));
-            if (avg > 0) {
-                entries.add(new com.github.mikephil.charting.data.Entry(avg, index));
-                if (avg > highestValue) {
-                    highestValue = avg;
+            Measurement measurement = MeasurementDao.getInstance(category.toClass()).getAvgMeasurement(category, new Interval(intervalStart, intervalEnd));
+            for (float avg : measurement.getValues()) {
+                if (avg > 0) {
+                    entries.add(new com.github.mikephil.charting.data.Entry(avg, index));
+                    if (avg > highestValue) {
+                        highestValue = avg;
+                    }
                 }
             }
             intervalStart = timeSpan.getNextInterval(intervalStart, 1);
@@ -73,7 +70,7 @@ public class UpdateLineChartTask extends BaseAsyncTask<Void, Void, LineData> {
         }
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        LineDataSet dataSet = new LineDataSet(entries, BloodSugar.class.getSimpleName());
+        LineDataSet dataSet = new LineDataSet(entries, category.toClass().getSimpleName());
         dataSet.setColor(dataSetColor);
         dataSet.setCircleColor(dataSetColor);
         dataSet.setCircleRadius(ChartHelper.CIRCLE_SIZE);
@@ -83,11 +80,13 @@ public class UpdateLineChartTask extends BaseAsyncTask<Void, Void, LineData> {
         dataSets.add(dataSet);
 
         // Workaround to set visible area
-        List<com.github.mikephil.charting.data.Entry> entriesMaximum = new ArrayList<>();
-        entriesMaximum.add(new com.github.mikephil.charting.data.Entry(highestValue, xLabels.size()));
-        LineDataSet dataSetMaximum = new LineDataSet(entriesMaximum, "Maximum");
-        dataSetMaximum.setColor(Color.TRANSPARENT);
-        dataSets.add(dataSetMaximum);
+        if (forceDrawing) {
+            List<com.github.mikephil.charting.data.Entry> entriesMaximum = new ArrayList<>();
+            entriesMaximum.add(new com.github.mikephil.charting.data.Entry(highestValue, xLabels.size()));
+            LineDataSet dataSetMaximum = new LineDataSet(entriesMaximum, "Maximum");
+            dataSetMaximum.setColor(Color.TRANSPARENT);
+            dataSets.add(dataSetMaximum);
+        }
 
         return new LineData(xLabels, dataSets);
     }

@@ -109,7 +109,7 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
                 return meal;
             case ACTIVITY:
                 Activity activity = new Activity();
-                activity.setMinutes((int) (function(SqlFunction.SUM, Meal.Column.CARBOHYDRATES, interval) / days));
+                activity.setMinutes((int) (function(SqlFunction.SUM, Activity.Column.MINUTES, interval) / days));
                 return activity;
             case HBA1C:
                 HbA1c hbA1c = new HbA1c();

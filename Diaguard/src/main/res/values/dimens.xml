@@ -20,7 +20,8 @@
     <dimen name="size_image_big">64dp</dimen>
 
     <dimen name="chart_offset_bottom">24dp</dimen>
-    <dimen name="line_chart_height">100dp</dimen>
+    <dimen name="line_chart_height_detailed">160dp</dimen>
+    <dimen name="line_chart_height_simple">100dp</dimen>
     <dimen name="pie_chart_height">160dp</dimen>
 
     <dimen name="corners">4dp</dimen>

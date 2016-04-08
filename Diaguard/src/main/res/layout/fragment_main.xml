@@ -290,7 +290,7 @@
                     android:id="@+id/chart"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/line_chart_height"/>
+                    android:layout_height="@dimen/line_chart_height_simple"/>
 
             </LinearLayout>
 

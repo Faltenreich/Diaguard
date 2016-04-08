@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.ChartHelper;
+import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.TimeSpan;
 import com.faltenreich.diaguard.util.ViewHelper;
 import com.github.mikephil.charting.data.Entry;
@@ -57,8 +58,8 @@ public class UpdateLineChartTask extends BaseAsyncTask<Void, Void, LineData> {
             boolean showLabel = ViewHelper.isLargeScreen(getContext()) || timeSpan != TimeSpan.YEAR || index % 2 == 0;
             xLabels.add(showLabel ? timeSpan.getLabel(intervalStart) : "");
             Measurement measurement = MeasurementDao.getInstance(category.toClass()).getAvgMeasurement(category, new Interval(intervalStart, intervalEnd));
-            for (float avg : measurement.getValues()) {
-                if (avg > 0) {
+            for (Float avg : measurement.getValues()) {
+                if (NumberUtils.isValid(avg) && avg > 0) {
                     entries.add(new com.github.mikephil.charting.data.Entry(avg, index));
                     if (avg > highestValue) {
                         highestValue = avg;

@@ -216,7 +216,7 @@ public class StatisticsActivity extends BaseActivity {
         chartTrend.getXAxis().setTextColor(ContextCompat.getColor(this, R.color.gray_dark));
         chartTrend.getXAxis().setLabelsToSkip(0);
         chartTrend.getAxisLeft().addLimitLine(getLimitLine());
-        chartTrend.getAxisLeft().setLabelCount(3, false);
+        chartTrend.getAxisLeft().setLabelCount(4, false);
         chartTrend.setNoDataText(getString(R.string.no_data));
         chartTrend.getPaint(Chart.PAINT_INFO).setColor(ContextCompat.getColor(this, android.R.color.darker_gray));
 
@@ -253,7 +253,7 @@ public class StatisticsActivity extends BaseActivity {
                 }
 
                 ViewGroup.LayoutParams params = chartTrend.getLayoutParams();
-                params.height = hasData ? (int) getResources().getDimension(R.dimen.line_chart_height) : ViewGroup.LayoutParams.WRAP_CONTENT;
+                params.height = hasData ? (int) getResources().getDimension(R.dimen.line_chart_height_detailed) : ViewGroup.LayoutParams.WRAP_CONTENT;
                 chartTrend.setLayoutParams(params);
 
                 if (hasData) {

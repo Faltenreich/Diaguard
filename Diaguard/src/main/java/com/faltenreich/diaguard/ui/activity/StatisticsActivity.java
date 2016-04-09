@@ -23,7 +23,6 @@ import com.faltenreich.diaguard.util.thread.UpdateLineChartTask;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
@@ -213,12 +212,8 @@ public class StatisticsActivity extends BaseActivity {
         chartTrend.setTouchEnabled(false);
         chartTrend.getAxisLeft().setDrawAxisLine(false);
         chartTrend.getXAxis().setDrawGridLines(false);
-        chartTrend.getXAxis().setTextColor(ContextCompat.getColor(this, R.color.gray_dark));
         chartTrend.getXAxis().setLabelsToSkip(0);
-        chartTrend.getAxisLeft().addLimitLine(getLimitLine());
         chartTrend.getAxisLeft().setLabelCount(4, false);
-        chartTrend.setNoDataText(getString(R.string.no_data));
-        chartTrend.getPaint(Chart.PAINT_INFO).setColor(ContextCompat.getColor(this, android.R.color.darker_gray));
 
         chartDistribution.setDrawHoleEnabled(false);
         chartDistribution.setUsePercentValues(true);
@@ -226,16 +221,6 @@ public class StatisticsActivity extends BaseActivity {
         chartDistribution.setDrawSliceText(false);
         chartDistribution.setNoDataText(getString(R.string.no_data));
         chartDistribution.getPaint(Chart.PAINT_INFO).setColor(ContextCompat.getColor(this, android.R.color.darker_gray));
-    }
-
-    private LimitLine getLimitLine() {
-        float targetValue = PreferenceHelper.getInstance().
-                formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
-                        PreferenceHelper.getInstance().getTargetValue());
-        LimitLine limitLine = new LimitLine(targetValue, getString(R.string.hyper));
-        limitLine.setLineColor(ContextCompat.getColor(this, R.color.gray_light));
-        limitLine.setLabel(null);
-        return limitLine;
     }
 
 

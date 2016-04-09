@@ -59,7 +59,7 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
 
     private void setup() {
         if (!isInEditMode()) {
-            ChartHelper.setChartDefaultStyle(this);
+            ChartHelper.setChartDefaultStyle(this, Measurement.Category.BLOODSUGAR);
             setOnChartValueSelectedListener(this);
             new InitChartTask().execute();
         }
@@ -101,9 +101,6 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
             setData(data);
             setVisibleXRangeMaximum(DateTimeConstants.MINUTES_PER_DAY);
             getXAxis().setLabelsToSkip((DateTimeConstants.MINUTES_PER_HOUR * LABELS_TO_SKIP) - 1);
-            float yAxisMinValue = PreferenceHelper.getInstance().getExtrema(Measurement.Category.BLOODSUGAR)[0] - 5;
-            float yAxisMinCustomValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, yAxisMinValue);
-            getAxisLeft().setAxisMinValue(yAxisMinCustomValue);
 
             // Offsets are calculated manually (possible leak)
             float leftOffset = getContext().getResources().getDimension(R.dimen.size_image) +

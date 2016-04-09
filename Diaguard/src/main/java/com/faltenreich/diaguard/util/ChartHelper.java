@@ -24,7 +24,7 @@ public class ChartHelper {
     public static final float CIRCLE_SIZE = 6;
     public static final float LINE_WIDTH = 3;
 
-    public static void setChartDefaultStyle(BarLineChartBase chart) {
+    public static void setChartDefaultStyle(BarLineChartBase chart, final Measurement.Category category) {
         Context context = chart.getContext();
 
         // General
@@ -54,11 +54,13 @@ public class ChartHelper {
         chart.getAxisLeft().setDrawAxisLine(false);
         chart.getAxisLeft().setGridColor(gridColor);
         chart.getAxisLeft().setDrawLimitLinesBehindData(true);
-        chart.getAxisLeft().setAxisMinValue(0f);
+        float yAxisMinValue = PreferenceHelper.getInstance().getExtrema(category)[0] * .9f;
+        float yAxisMinCustomValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, yAxisMinValue);
+        chart.getAxisLeft().setAxisMinValue(yAxisMinCustomValue);
         chart.getAxisLeft().setValueFormatter(new YAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, YAxis axis) {
-                return PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(value);
+                return PreferenceHelper.getInstance().getDecimalFormat(category).format(value);
             }
         });
     }

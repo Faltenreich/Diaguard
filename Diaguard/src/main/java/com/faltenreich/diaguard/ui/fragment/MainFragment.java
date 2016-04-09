@@ -214,7 +214,7 @@ public class MainFragment extends BaseFragment {
     // region Charting
 
     private void initializeChart() {
-        ChartHelper.setChartDefaultStyle(chart);
+        ChartHelper.setChartDefaultStyle(chart, Measurement.Category.BLOODSUGAR);
         chart.setTouchEnabled(false);
         chart.getAxisLeft().setDrawAxisLine(false);
         chart.getAxisLeft().setDrawGridLines(false);

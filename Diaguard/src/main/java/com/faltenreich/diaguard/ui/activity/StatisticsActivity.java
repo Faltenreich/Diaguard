@@ -208,12 +208,14 @@ public class StatisticsActivity extends BaseActivity {
     // region Charting
 
     private void initializeCharts() {
-        ChartHelper.setChartDefaultStyle(chartTrend);
+        ChartHelper.setChartDefaultStyle(chartTrend, category);
         chartTrend.setTouchEnabled(false);
         chartTrend.getAxisLeft().setDrawAxisLine(false);
         chartTrend.getXAxis().setDrawGridLines(false);
         chartTrend.getXAxis().setLabelsToSkip(0);
-        chartTrend.getAxisLeft().setLabelCount(4, false);
+        chartTrend.getAxisLeft().setLabelCount(5, false);
+        chartTrend.getAxisLeft().resetAxisMinValue();
+        chartTrend.getAxisLeft().resetAxisMaxValue();
 
         chartDistribution.setDrawHoleEnabled(false);
         chartDistribution.setUsePercentValues(true);

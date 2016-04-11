@@ -23,6 +23,7 @@ import com.faltenreich.diaguard.util.thread.UpdateLineChartTask;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
@@ -74,9 +75,6 @@ public class StatisticsActivity extends BaseActivity {
 
     @Bind(R.id.statistics_chart_trend)
     protected LineChart chartTrend;
-
-    @Bind(R.id.statistics_trend_x_label)
-    protected TextView textViewXLabel;
 
     @Bind(R.id.layout_distribution)
     protected ViewGroup layoutDistribution;
@@ -215,6 +213,8 @@ public class StatisticsActivity extends BaseActivity {
         chartTrend.setTouchEnabled(false);
         chartTrend.getXAxis().setLabelsToSkip(0);
         chartTrend.getAxisLeft().setDrawAxisLine(false);
+        chartTrend.getLegend().setEnabled(true);
+        chartTrend.getLegend().setPosition(Legend.LegendPosition.BELOW_CHART_RIGHT);
 
         chartDistribution.setDrawHoleEnabled(false);
         chartDistribution.setUsePercentValues(true);
@@ -222,6 +222,7 @@ public class StatisticsActivity extends BaseActivity {
         chartDistribution.setDrawSliceText(false);
         chartDistribution.setNoDataText(getString(R.string.no_data));
         chartDistribution.getPaint(Chart.PAINT_INFO).setColor(ContextCompat.getColor(this, android.R.color.darker_gray));
+        chartDistribution.getLegend().setPosition(Legend.LegendPosition.BELOW_CHART_RIGHT);
     }
 
 
@@ -244,9 +245,6 @@ public class StatisticsActivity extends BaseActivity {
                 params.height = hasData ? (int) getResources().getDimension(R.dimen.line_chart_height_detailed) : ViewGroup.LayoutParams.WRAP_CONTENT;
                 chartTrend.setLayoutParams(params);
 
-                textViewXLabel.setVisibility(hasData ? View.VISIBLE : View.GONE);
-                textViewXLabel.setText(timeSpan.toSubIntervalLabel());
-
                 if (hasData) {
                     float yAxisMinValue = PreferenceHelper.getInstance().getExtrema(category)[0] * .9f;
                     float yAxisMinCustomValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, yAxisMinValue);
@@ -257,15 +255,18 @@ public class StatisticsActivity extends BaseActivity {
                         float targetValue = PreferenceHelper.getInstance().
                                 formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
                                         PreferenceHelper.getInstance().getTargetValue());
-                        float limitHypo = PreferenceHelper.getInstance().
-                                formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
-                                        PreferenceHelper.getInstance().getLimitHypoglycemia());
-                        float limitHyper = PreferenceHelper.getInstance().
-                                formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
-                                        PreferenceHelper.getInstance().getLimitHyperglycemia());
                         chartTrend.getAxisLeft().addLimitLine(ChartHelper.getLimitLine(StatisticsActivity.this, targetValue, R.color.green));
-                        chartTrend.getAxisLeft().addLimitLine(ChartHelper.getLimitLine(StatisticsActivity.this, limitHypo, R.color.blue));
-                        chartTrend.getAxisLeft().addLimitLine(ChartHelper.getLimitLine(StatisticsActivity.this, limitHyper, R.color.red));
+
+                        if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
+                            float limitHypo = PreferenceHelper.getInstance().
+                                    formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
+                                            PreferenceHelper.getInstance().getLimitHypoglycemia());
+                            chartTrend.getAxisLeft().addLimitLine(ChartHelper.getLimitLine(StatisticsActivity.this, limitHypo, R.color.blue));
+                            float limitHyper = PreferenceHelper.getInstance().
+                                    formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
+                                            PreferenceHelper.getInstance().getLimitHyperglycemia());
+                            chartTrend.getAxisLeft().addLimitLine(ChartHelper.getLimitLine(StatisticsActivity.this, limitHyper, R.color.red));
+                        }
                     }
 
                     chartTrend.setData(lineData);

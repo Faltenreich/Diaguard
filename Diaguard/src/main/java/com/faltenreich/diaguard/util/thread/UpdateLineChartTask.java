@@ -77,15 +77,15 @@ public class UpdateLineChartTask extends BaseAsyncTask<Void, Void, LineData> {
         }
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        LineDataSet dataSet = new LineDataSet(entries, category.toClass().getSimpleName());
-        dataSet.setColor(fillDrawing ? android.R.color.transparent : dataSetColor);
+        LineDataSet dataSet = new LineDataSet(entries, PreferenceHelper.getInstance().getUnitName(category));
+        dataSet.setColor(dataSetColor);
+        dataSet.setLineWidth(fillDrawing ? 0 : ChartHelper.LINE_WIDTH);
         dataSet.setCircleColor(dataSetColor);
         dataSet.setCircleRadius(ChartHelper.CIRCLE_SIZE);
         dataSet.setDrawCircles(entries.size() <= 1);
         dataSet.setDrawValues(false);
         dataSet.setDrawFilled(fillDrawing);
         dataSet.setFillColor(dataSetColor);
-        dataSet.setLineWidth(ChartHelper.LINE_WIDTH);
         dataSets.add(dataSet);
 
         // Workaround to set visible area

@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.util;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.annotation.ColorRes;
 import android.support.v4.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
@@ -9,6 +10,7 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
+import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.formatter.YAxisValueFormatter;
@@ -65,5 +67,12 @@ public class ChartHelper {
                 return PreferenceHelper.getInstance().getDecimalFormat(category).format(value);
             }
         });
+    }
+
+    public static LimitLine getLimitLine(Context context, float yValue, @ColorRes int color) {
+        LimitLine limitLine = new LimitLine(yValue, null);
+        limitLine.setLineColor(ContextCompat.getColor(context, color));
+        limitLine.setLabel(null);
+        return limitLine;
     }
 }

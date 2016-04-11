@@ -241,13 +241,17 @@ public class StatisticsActivity extends BaseActivity {
                 chartTrend.setLayoutParams(params);
 
                 if (hasData) {
-                    float minValue = lineData.getYMin();
-                    float maxValue = lineData.getYMax();
-
                     float yAxisMinValue = PreferenceHelper.getInstance().getExtrema(category)[0] * .9f;
                     float yAxisMinCustomValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, yAxisMinValue);
                     chartTrend.getAxisLeft().setAxisMinValue(yAxisMinCustomValue);
                     chartTrend.getAxisLeft().setAxisMaxValue(lineData.getYMax() * 1.1f);
+
+                    if (category == Measurement.Category.BLOODSUGAR) {
+                        float targetValue = PreferenceHelper.getInstance().
+                                formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
+                                        PreferenceHelper.getInstance().getTargetValue());
+                        chartTrend.getAxisLeft().addLimitLine(ChartHelper.getLimitLine(StatisticsActivity.this, targetValue, R.color.green));
+                    }
 
                     chartTrend.setData(lineData);
                     chartTrend.invalidate();
@@ -255,7 +259,7 @@ public class StatisticsActivity extends BaseActivity {
                     chartTrend.clear();
                 }
             }
-        }, category, timeSpan, false).execute();
+        }, category, timeSpan, false, true).execute();
 
         if (category == Measurement.Category.BLOODSUGAR) {
             layoutDistribution.setVisibility(View.VISIBLE);

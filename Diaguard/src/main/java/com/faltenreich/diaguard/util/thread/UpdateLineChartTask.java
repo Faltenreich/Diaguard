@@ -32,12 +32,14 @@ public class UpdateLineChartTask extends BaseAsyncTask<Void, Void, LineData> {
     private TimeSpan timeSpan;
     private int dataSetColor;
     private boolean forceDrawing;
+    private boolean fillDrawing;
 
-    public UpdateLineChartTask(Context context, OnAsyncProgressListener<LineData> onAsyncProgressListener, Measurement.Category category, TimeSpan timeSpan, boolean forceDrawing) {
+    public UpdateLineChartTask(Context context, OnAsyncProgressListener<LineData> onAsyncProgressListener, Measurement.Category category, TimeSpan timeSpan, boolean forceDrawing, boolean fillDrawing) {
         super(context, onAsyncProgressListener);
         this.category = category;
         this.timeSpan = timeSpan;
         this.forceDrawing = forceDrawing;
+        this.fillDrawing = fillDrawing;
         this.dataSetColor = ContextCompat.getColor(context, R.color.green_light);
     }
 
@@ -74,11 +76,13 @@ public class UpdateLineChartTask extends BaseAsyncTask<Void, Void, LineData> {
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         LineDataSet dataSet = new LineDataSet(entries, category.toClass().getSimpleName());
-        dataSet.setColor(dataSetColor);
+        dataSet.setColor(fillDrawing ? android.R.color.transparent : dataSetColor);
         dataSet.setCircleColor(dataSetColor);
         dataSet.setCircleRadius(ChartHelper.CIRCLE_SIZE);
         dataSet.setDrawCircles(entries.size() <= 1);
         dataSet.setDrawValues(false);
+        dataSet.setDrawFilled(fillDrawing);
+        dataSet.setFillColor(dataSetColor);
         dataSet.setLineWidth(ChartHelper.LINE_WIDTH);
         dataSets.add(dataSet);
 

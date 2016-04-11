@@ -75,6 +75,9 @@ public class StatisticsActivity extends BaseActivity {
     @Bind(R.id.statistics_chart_trend)
     protected LineChart chartTrend;
 
+    @Bind(R.id.statistics_trend_x_label)
+    protected TextView textViewXLabel;
+
     @Bind(R.id.layout_distribution)
     protected ViewGroup layoutDistribution;
 
@@ -139,7 +142,7 @@ public class StatisticsActivity extends BaseActivity {
                     DateTimeFormat.mediumDate().print(interval.getStart()),
                     DateTimeFormat.mediumDate().print(interval.getEnd()));
             timeSpanNames.add(String.format("%s (%s)",
-                    timeSpan.toLocalizedString(),
+                    timeSpan.toIntervalLabel(),
                     intervalText));
         }
         ArrayAdapter<String> timeSpanAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, timeSpanNames);
@@ -235,9 +238,14 @@ public class StatisticsActivity extends BaseActivity {
                     }
                 }
 
+                chartTrend.getAxisLeft().removeAllLimitLines();
+
                 ViewGroup.LayoutParams params = chartTrend.getLayoutParams();
                 params.height = hasData ? (int) getResources().getDimension(R.dimen.line_chart_height_detailed) : ViewGroup.LayoutParams.WRAP_CONTENT;
                 chartTrend.setLayoutParams(params);
+
+                textViewXLabel.setVisibility(hasData ? View.VISIBLE : View.GONE);
+                textViewXLabel.setText(timeSpan.toSubIntervalLabel());
 
                 if (hasData) {
                     float yAxisMinValue = PreferenceHelper.getInstance().getExtrema(category)[0] * .9f;
@@ -249,7 +257,15 @@ public class StatisticsActivity extends BaseActivity {
                         float targetValue = PreferenceHelper.getInstance().
                                 formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
                                         PreferenceHelper.getInstance().getTargetValue());
+                        float limitHypo = PreferenceHelper.getInstance().
+                                formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
+                                        PreferenceHelper.getInstance().getLimitHypoglycemia());
+                        float limitHyper = PreferenceHelper.getInstance().
+                                formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
+                                        PreferenceHelper.getInstance().getLimitHyperglycemia());
                         chartTrend.getAxisLeft().addLimitLine(ChartHelper.getLimitLine(StatisticsActivity.this, targetValue, R.color.green));
+                        chartTrend.getAxisLeft().addLimitLine(ChartHelper.getLimitLine(StatisticsActivity.this, limitHypo, R.color.blue));
+                        chartTrend.getAxisLeft().addLimitLine(ChartHelper.getLimitLine(StatisticsActivity.this, limitHyper, R.color.red));
                     }
 
                     chartTrend.setData(lineData);

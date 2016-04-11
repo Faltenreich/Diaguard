@@ -218,6 +218,13 @@
                             android:layout_height="@dimen/line_chart_height_detailed"
                             android:orientation="horizontal" />
 
+                        <TextView
+                            android:id="@+id/statistics_trend_x_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="Kalenderwoche"/>
+
                     </LinearLayout>
 
                 </android.support.v7.widget.CardView>

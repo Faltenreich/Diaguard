@@ -13,18 +13,24 @@ import org.joda.time.Interval;
  */
 public enum TimeSpan {
 
-    WEEK(R.string.week),
-    MONTH(R.string.month),
-    YEAR(R.string.year);
+    WEEK(R.string.week, R.string.day),
+    MONTH(R.string.month, R.string.calendarweek),
+    YEAR(R.string.year, R.string.month);
 
-    private int stringResId;
+    private int intervalStringResId;
+    private int subIntervalStringResId;
 
-    TimeSpan(@StringRes int stringResId) {
-        this.stringResId = stringResId;
+    TimeSpan(@StringRes int intervalStringResId, @StringRes int subIntervalStringResId) {
+        this.intervalStringResId = intervalStringResId;
+        this.subIntervalStringResId = subIntervalStringResId;
     }
 
-    public String toLocalizedString() {
-        return DiaguardApplication.getContext().getString(stringResId);
+    public String toIntervalLabel() {
+        return DiaguardApplication.getContext().getString(intervalStringResId);
+    }
+
+    public String toSubIntervalLabel() {
+        return DiaguardApplication.getContext().getString(subIntervalStringResId);
     }
 
     public Interval getPastInterval(DateTime end) {
@@ -71,7 +77,7 @@ public enum TimeSpan {
             case WEEK:
                 return DateTimeUtils.toWeekDayShort(dateTime);
             case MONTH:
-                return DateTimeUtils.toDayAndMonth(dateTime);
+                return dateTime.toString("w");
             case YEAR:
                 return dateTime.toString("MMM");
             default:

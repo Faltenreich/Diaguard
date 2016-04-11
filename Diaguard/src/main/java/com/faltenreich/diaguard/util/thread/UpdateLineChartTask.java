@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.ChartHelper;
@@ -63,9 +64,10 @@ public class UpdateLineChartTask extends BaseAsyncTask<Void, Void, LineData> {
             if (measurement != null) {
                 for (Float avg : measurement.getValues()) {
                     if (NumberUtils.isValid(avg) && avg > 0) {
-                        entries.add(new com.github.mikephil.charting.data.Entry(avg, index));
-                        if (avg > highestValue) {
-                            highestValue = avg;
+                        float customAvg = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, avg);
+                        entries.add(new com.github.mikephil.charting.data.Entry(customAvg, index));
+                        if (customAvg > highestValue) {
+                            highestValue = customAvg;
                         }
                     }
                 }

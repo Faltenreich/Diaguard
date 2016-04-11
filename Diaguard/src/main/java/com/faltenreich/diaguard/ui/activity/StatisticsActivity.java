@@ -212,7 +212,6 @@ public class StatisticsActivity extends BaseActivity {
         chartTrend.setTouchEnabled(false);
         chartTrend.getXAxis().setLabelsToSkip(0);
         chartTrend.getAxisLeft().setDrawAxisLine(false);
-        chartTrend.getAxisLeft().setLabelCount(5, false);
 
         chartDistribution.setDrawHoleEnabled(false);
         chartDistribution.setUsePercentValues(true);

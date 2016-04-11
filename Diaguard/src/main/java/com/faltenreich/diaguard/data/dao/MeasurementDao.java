@@ -91,7 +91,7 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
     }
 
     public Measurement getAvgMeasurement(Measurement.Category category, Interval interval) {
-        long days = interval.toDuration().getStandardDays();
+        long daysBetween = interval.toDuration().getStandardDays() + 1;
         switch (category) {
             case BLOODSUGAR:
                 BloodSugar bloodSugar = new BloodSugar();
@@ -99,17 +99,17 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
                 return bloodSugar;
             case INSULIN:
                 Insulin insulin = new Insulin();
-                insulin.setBolus(function(SqlFunction.SUM, Insulin.Column.BOLUS, interval) / days);
-                insulin.setBasal(function(SqlFunction.SUM, Insulin.Column.BASAL, interval) / days);
-                insulin.setCorrection(function(SqlFunction.SUM, Insulin.Column.CORRECTION, interval) / days);
+                insulin.setBolus(function(SqlFunction.SUM, Insulin.Column.BOLUS, interval) / daysBetween);
+                insulin.setBasal(function(SqlFunction.SUM, Insulin.Column.BASAL, interval) / daysBetween);
+                insulin.setCorrection(function(SqlFunction.SUM, Insulin.Column.CORRECTION, interval) / daysBetween);
                 return insulin;
             case MEAL:
                 Meal meal = new Meal();
-                meal.setCarbohydrates(function(SqlFunction.SUM, Meal.Column.CARBOHYDRATES, interval) / days);
+                meal.setCarbohydrates(function(SqlFunction.SUM, Meal.Column.CARBOHYDRATES, interval) / daysBetween);
                 return meal;
             case ACTIVITY:
                 Activity activity = new Activity();
-                activity.setMinutes((int) (function(SqlFunction.SUM, Activity.Column.MINUTES, interval) / days));
+                activity.setMinutes((int) (function(SqlFunction.SUM, Activity.Column.MINUTES, interval) / daysBetween));
                 return activity;
             case HBA1C:
                 HbA1c hbA1c = new HbA1c();

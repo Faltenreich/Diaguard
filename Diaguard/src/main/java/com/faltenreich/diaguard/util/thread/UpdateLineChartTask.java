@@ -58,11 +58,13 @@ public class UpdateLineChartTask extends BaseAsyncTask<Void, Void, LineData> {
             boolean showLabel = ViewHelper.isLargeScreen(getContext()) || timeSpan != TimeSpan.YEAR || index % 2 == 0;
             xLabels.add(showLabel ? timeSpan.getLabel(intervalStart) : "");
             Measurement measurement = MeasurementDao.getInstance(category.toClass()).getAvgMeasurement(category, new Interval(intervalStart, intervalEnd));
-            for (Float avg : measurement.getValues()) {
-                if (NumberUtils.isValid(avg) && avg > 0) {
-                    entries.add(new com.github.mikephil.charting.data.Entry(avg, index));
-                    if (avg > highestValue) {
-                        highestValue = avg;
+            if (measurement != null) {
+                for (Float avg : measurement.getValues()) {
+                    if (NumberUtils.isValid(avg) && avg > 0) {
+                        entries.add(new com.github.mikephil.charting.data.Entry(avg, index));
+                        if (avg > highestValue) {
+                            highestValue = avg;
+                        }
                     }
                 }
             }
@@ -81,7 +83,7 @@ public class UpdateLineChartTask extends BaseAsyncTask<Void, Void, LineData> {
         dataSets.add(dataSet);
 
         // Workaround to set visible area
-        if (forceDrawing) {
+        if (dataSet.getEntryCount() == 0 && forceDrawing) {
             List<com.github.mikephil.charting.data.Entry> entriesMaximum = new ArrayList<>();
             entriesMaximum.add(new com.github.mikephil.charting.data.Entry(highestValue, xLabels.size()));
             LineDataSet dataSetMaximum = new LineDataSet(entriesMaximum, "Maximum");

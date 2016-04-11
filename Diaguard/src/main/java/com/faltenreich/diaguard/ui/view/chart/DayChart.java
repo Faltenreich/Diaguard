@@ -60,7 +60,12 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
     private void setup() {
         if (!isInEditMode()) {
             ChartHelper.setChartDefaultStyle(this, Measurement.Category.BLOODSUGAR);
+            int textColor = ContextCompat.getColor(getContext(), android.R.color.black);
+            getAxisLeft().setTextColor(textColor);
+            getXAxis().setTextColor(textColor);
+
             setOnChartValueSelectedListener(this);
+
             new InitChartTask().execute();
         }
     }

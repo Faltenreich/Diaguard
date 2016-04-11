@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.util;
 
-import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 
 import com.faltenreich.diaguard.DiaguardApplication;
@@ -14,24 +13,18 @@ import org.joda.time.Interval;
  */
 public enum TimeSpan {
 
-    WEEK(R.string.week, R.drawable.ic_week),
-    MONTH(R.string.month, R.drawable.ic_month),
-    YEAR(R.string.year, R.drawable.ic_year);
+    WEEK(R.string.week),
+    MONTH(R.string.month),
+    YEAR(R.string.year);
 
     private int stringResId;
-    private int imageResId;
 
-    TimeSpan(@StringRes int stringResId, @DrawableRes int imageResId) {
+    TimeSpan(@StringRes int stringResId) {
         this.stringResId = stringResId;
-        this.imageResId = imageResId;
     }
 
     public String toLocalizedString() {
         return DiaguardApplication.getContext().getString(stringResId);
-    }
-
-    public int getImageResId() {
-        return imageResId;
     }
 
     public Interval getPastInterval(DateTime end) {

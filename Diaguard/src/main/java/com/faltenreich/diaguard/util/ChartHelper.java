@@ -26,6 +26,8 @@ public class ChartHelper {
 
     public static void setChartDefaultStyle(BarLineChartBase chart, final Measurement.Category category) {
         Context context = chart.getContext();
+        int textColor = ContextCompat.getColor(context, R.color.gray_darker);
+        int gridColor = ContextCompat.getColor(context, android.R.color.darker_gray);
 
         // General
         chart.setDrawGridBackground(false);
@@ -42,17 +44,17 @@ public class ChartHelper {
         chart.getXAxis().setTextSize(TEXT_SIZE);
         chart.getAxisLeft().setTextSize(TEXT_SIZE);
         chart.setNoDataText(context.getString(R.string.no_data));
-        chart.getPaint(Chart.PAINT_INFO).setColor(ContextCompat.getColor(context, android.R.color.darker_gray));
+        chart.getPaint(Chart.PAINT_INFO).setColor(textColor);
 
         // Axes
-        int gridColor = ContextCompat.getColor(chart.getContext(), android.R.color.darker_gray);
         chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         chart.getXAxis().setDrawAxisLine(false);
         chart.getXAxis().setGridColor(gridColor);
-        chart.getXAxis().setTextColor(ContextCompat.getColor(context, R.color.gray_dark));
+        chart.getXAxis().setTextColor(textColor);
         chart.getAxisRight().setEnabled(false);
         chart.getAxisLeft().setDrawAxisLine(false);
         chart.getAxisLeft().setGridColor(gridColor);
+        chart.getAxisLeft().setTextColor(textColor);
         chart.getAxisLeft().setDrawLimitLinesBehindData(true);
         float yAxisMinValue = PreferenceHelper.getInstance().getExtrema(category)[0] * .9f;
         float yAxisMinCustomValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, yAxisMinValue);

@@ -210,12 +210,9 @@ public class StatisticsActivity extends BaseActivity {
     private void initializeCharts() {
         ChartHelper.setChartDefaultStyle(chartTrend, category);
         chartTrend.setTouchEnabled(false);
-        chartTrend.getAxisLeft().setDrawAxisLine(false);
-        chartTrend.getXAxis().setDrawGridLines(false);
         chartTrend.getXAxis().setLabelsToSkip(0);
+        chartTrend.getAxisLeft().setDrawAxisLine(false);
         chartTrend.getAxisLeft().setLabelCount(5, false);
-        chartTrend.getAxisLeft().resetAxisMinValue();
-        chartTrend.getAxisLeft().resetAxisMaxValue();
 
         chartDistribution.setDrawHoleEnabled(false);
         chartDistribution.setUsePercentValues(true);
@@ -244,6 +241,14 @@ public class StatisticsActivity extends BaseActivity {
                 chartTrend.setLayoutParams(params);
 
                 if (hasData) {
+                    float minValue = lineData.getYMin();
+                    float maxValue = lineData.getYMax();
+
+                    float yAxisMinValue = PreferenceHelper.getInstance().getExtrema(category)[0] * .9f;
+                    float yAxisMinCustomValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, yAxisMinValue);
+                    chartTrend.getAxisLeft().setAxisMinValue(yAxisMinCustomValue);
+                    chartTrend.getAxisLeft().setAxisMaxValue(lineData.getYMax() * 1.1f);
+
                     chartTrend.setData(lineData);
                     chartTrend.invalidate();
                 } else {
@@ -254,6 +259,7 @@ public class StatisticsActivity extends BaseActivity {
 
         if (category == Measurement.Category.BLOODSUGAR) {
             layoutDistribution.setVisibility(View.VISIBLE);
+
             new UpdateBloodSugarPieChartTask(this, new BaseAsyncTask.OnAsyncProgressListener<PieData>() {
                 @Override
                 public void onPostExecute(PieData pieData) {

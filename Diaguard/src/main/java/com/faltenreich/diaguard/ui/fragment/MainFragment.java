@@ -269,7 +269,7 @@ public class MainFragment extends BaseFragment {
     @SuppressWarnings("unused")
     @OnClick(R.id.layout_today)
     protected void openStatisticsToday(View view) {
-        openStatistics(view, "transitionDistribution");
+        startActivity(new Intent(getActivity(), StatisticsActivity.class));
     }
 
     @SuppressWarnings("unused")

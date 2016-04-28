@@ -141,7 +141,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     }
 
     private void showDialogCategories() {
-        final Measurement.Category[] activeCategories = PreferenceHelper.getInstance().getActiveCategories();
+        final Measurement.Category[] activeCategories = PreferenceHelper.getInstance().getActiveCategoriesAsArray();
 
         String[] categoryNames = new String[activeCategories.length];
         boolean[] visibleCategoriesOld = new boolean[activeCategories.length];

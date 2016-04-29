@@ -113,35 +113,25 @@ public class StatisticsActivity extends BaseActivity {
     }
 
     private void initSpinners() {
-        initCategorySpinner();
-        initTimeSpanSpinner();
-    }
-
-    private void initCategorySpinner() {
-        final List<Measurement.Category> categories = PreferenceHelper.getInstance().getActiveCategoriesAsList();
-        categories.remove(Measurement.Category.PRESSURE);
-
+        final Measurement.Category[] categories = PreferenceHelper.getInstance().getActiveCategories();
         List<String> categoryNames = new ArrayList<>();
         for (Measurement.Category category : categories) {
             categoryNames.add(category.toLocalizedString());
         }
-
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categoryNames);
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCategories.setAdapter(categoryAdapter);
         spinnerCategories.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                changeCategory(categories.get(position));
+                changeCategory(categories[position]);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-    }
 
-    private void initTimeSpanSpinner() {
         final TimeSpan[] timeSpans = TimeSpan.values();
         List<String> timeSpanNames = new ArrayList<>();
         for (TimeSpan timeSpan : timeSpans) {

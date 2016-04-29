@@ -88,7 +88,7 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
         if (hasChanged()) {
             removeAllMenuButtons();
 
-            Measurement.Category[] activeCategories = PreferenceHelper.getInstance().getActiveCategoriesAsArray();
+            Measurement.Category[] activeCategories = PreferenceHelper.getInstance().getActiveCategories();
             int menuButtonCount = 0;
             int position = 0;
             while (position < activeCategories.length && menuButtonCount < MAX_BUTTON_COUNT) {

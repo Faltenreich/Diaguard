@@ -11,6 +11,8 @@ import com.faltenreich.diaguard.ui.view.preferences.CategoryPreference;
 import com.faltenreich.diaguard.ui.view.preferences.FactorPreference;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -257,18 +259,13 @@ public class PreferenceHelper {
         return sharedPreferences.getBoolean(category.name() + CategoryPreference.ACTIVE, true);
     }
 
-    public List<Measurement.Category> getActiveCategoriesAsList() {
+    public Measurement.Category[] getActiveCategories() {
         List<Measurement.Category> activeCategories = new ArrayList<Measurement.Category>();
         for(int item = 0; item < Measurement.Category.values().length; item++) {
             if (isCategoryActive(Measurement.Category.values()[item])) {
                 activeCategories.add(Measurement.Category.values()[item]);
             }
         }
-        return activeCategories;
-    }
-
-    public Measurement.Category[] getActiveCategoriesAsArray() {
-        List<Measurement.Category> activeCategories = getActiveCategoriesAsList();
         return activeCategories.toArray(new Measurement.Category[activeCategories.size()]);
     }
 }

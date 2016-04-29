@@ -56,7 +56,7 @@ public class EntryDao extends BaseDao<Entry> {
     }
 
     public List<Measurement> getMeasurements(Entry entry) {
-        return getMeasurements(entry, PreferenceHelper.getInstance().getActiveCategoriesAsArray());
+        return getMeasurements(entry, PreferenceHelper.getInstance().getActiveCategories());
     }
 
     public List<Measurement> getMeasurements(Entry entry, Measurement.Category[] categories) {

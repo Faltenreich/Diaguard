@@ -43,6 +43,8 @@ import butterknife.Bind;
 
 public class StatisticsActivity extends BaseActivity {
 
+    private static final int MIN_MAX_Y_VALUE = 3;
+
     @Bind(R.id.statistics_image_category)
     protected ImageView imageViewCategory;
 
@@ -212,7 +214,9 @@ public class StatisticsActivity extends BaseActivity {
         ChartHelper.setChartDefaultStyle(chartTrend, category);
         chartTrend.setTouchEnabled(false);
         chartTrend.getXAxis().setLabelsToSkip(0);
+        chartTrend.getXAxis().setDrawAxisLine(true);
         chartTrend.getAxisLeft().setDrawAxisLine(false);
+        chartTrend.getAxisLeft().setLabelCount(5, false);
         chartTrend.getLegend().setEnabled(true);
         chartTrend.getLegend().setPosition(Legend.LegendPosition.BELOW_CHART_RIGHT);
 
@@ -249,7 +253,10 @@ public class StatisticsActivity extends BaseActivity {
                     float yAxisMinValue = PreferenceHelper.getInstance().getExtrema(category)[0] * .9f;
                     float yAxisMinCustomValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, yAxisMinValue);
                     chartTrend.getAxisLeft().setAxisMinValue(yAxisMinCustomValue);
-                    chartTrend.getAxisLeft().setAxisMaxValue(lineData.getYMax() * 1.1f);
+
+                    float yAxisMaxCustomValue = lineData.getYMax();
+                    yAxisMaxCustomValue = yAxisMaxCustomValue > MIN_MAX_Y_VALUE ? yAxisMaxCustomValue : MIN_MAX_Y_VALUE;
+                    chartTrend.getAxisLeft().setAxisMaxValue(yAxisMaxCustomValue * 1.1f);
 
                     if (category == Measurement.Category.BLOODSUGAR) {
                         float targetValue = PreferenceHelper.getInstance().

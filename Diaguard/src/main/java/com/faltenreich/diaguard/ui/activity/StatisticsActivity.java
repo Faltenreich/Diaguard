@@ -30,7 +30,6 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
-import org.joda.time.format.DateTimeFormat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -137,13 +136,7 @@ public class StatisticsActivity extends BaseActivity {
         final TimeSpan[] timeSpans = TimeSpan.values();
         List<String> timeSpanNames = new ArrayList<>();
         for (TimeSpan timeSpan : timeSpans) {
-            Interval interval = timeSpan.getPastInterval(DateTime.now());
-            String intervalText = String.format("%s - %s",
-                    DateTimeFormat.mediumDate().print(interval.getStart()),
-                    DateTimeFormat.mediumDate().print(interval.getEnd()));
-            timeSpanNames.add(String.format("%s (%s)",
-                    timeSpan.toIntervalLabel(),
-                    intervalText));
+            timeSpanNames.add(timeSpan.toIntervalLabel());
         }
         ArrayAdapter<String> timeSpanAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, timeSpanNames);
         timeSpanAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

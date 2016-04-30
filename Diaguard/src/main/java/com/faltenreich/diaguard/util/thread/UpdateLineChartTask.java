@@ -90,6 +90,13 @@ public class UpdateLineChartTask extends BaseAsyncTask<Void, Void, LineData> {
 
         // Workaround to set visible area
         if (dataSet.getEntryCount() == 0 && forceDrawing) {
+            // FIXME: Workaround
+            if (highestValue == 0 && category == Measurement.Category.BLOODSUGAR) {
+                float targetValue = PreferenceHelper.getInstance().
+                        formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
+                                PreferenceHelper.getInstance().getTargetValue());
+                highestValue = targetValue * 2;
+            }
             List<com.github.mikephil.charting.data.Entry> entriesMaximum = new ArrayList<>();
             entriesMaximum.add(new com.github.mikephil.charting.data.Entry(highestValue, xLabels.size()));
             LineDataSet dataSetMaximum = new LineDataSet(entriesMaximum, "Maximum");

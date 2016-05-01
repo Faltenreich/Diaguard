@@ -12,7 +12,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
@@ -20,18 +19,12 @@ import com.faltenreich.diaguard.ui.fragment.ChartFragment;
 import com.faltenreich.diaguard.ui.fragment.LogFragment;
 import com.faltenreich.diaguard.ui.fragment.MainFragment;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 public class MainActivity extends BaseActivity {
 
-    @Bind(R.id.drawer_layout)
-    protected DrawerLayout drawerLayout;
-
-    @Bind(R.id.navigation_drawer)
-    protected NavigationView drawer;
-
-    @Bind(R.id.container)
-    protected ViewGroup container;
+    @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
+    @BindView(R.id.navigation_drawer) NavigationView drawer;
 
     private ActionBarDrawerToggle drawerToggle;
 

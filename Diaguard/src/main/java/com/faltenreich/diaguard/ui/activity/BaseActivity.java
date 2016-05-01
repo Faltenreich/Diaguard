@@ -16,7 +16,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.DatabaseHelper;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -24,11 +24,8 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseActivity extends AppCompatActivity {
 
-    @Bind(R.id.toolbar)
-    protected Toolbar toolbar;
-
-    @Bind(R.id.action)
-    protected TextView actionView;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.action) TextView actionView;
 
     private int layoutResourceId;
     private DatabaseHelper databaseHelper;

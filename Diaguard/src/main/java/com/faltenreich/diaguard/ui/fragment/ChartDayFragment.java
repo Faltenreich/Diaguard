@@ -13,7 +13,7 @@ import com.faltenreich.diaguard.ui.view.chart.DayChart;
 
 import org.joda.time.DateTime;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -23,11 +23,8 @@ public class ChartDayFragment extends Fragment {
 
     public static final String EXTRA_DATE_TIME = "EXTRA_DATE_TIME";
 
-    @Bind(R.id.day_chart)
-    protected DayChart dayChart;
-
-    @Bind(R.id.category_table)
-    protected CategoryTable categoryTable;
+    @BindView(R.id.day_chart) DayChart dayChart;
+    @BindView(R.id.category_table) CategoryTable categoryTable;
 
     private DateTime day;
 

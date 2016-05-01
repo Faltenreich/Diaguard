@@ -34,43 +34,22 @@ import org.joda.time.Minutes;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 public class MainFragment extends BaseFragment {
 
-    @Bind(R.id.chart)
-    protected LineChart chart;
-
-    @Bind(R.id.textview_latest_value)
-    protected TextView textViewLatestValue;
-
-    @Bind(R.id.textview_latest_unit)
-    protected TextView textViewLatestUnit;
-
-    @Bind(R.id.textview_latest_time)
-    protected TextView textViewLatestTime;
-
-    @Bind(R.id.textview_latest_ago)
-    protected TextView textViewLatestAgo;
-
-    @Bind(R.id.textview_measurements)
-    protected TextView textViewMeasurements;
-
-    @Bind(R.id.textview_hyperglycemia)
-    protected TextView textViewHyperglycemia;
-
-    @Bind(R.id.textview_hypoglycemia)
-    protected TextView textViewHypoglycemia;
-
-    @Bind(R.id.textview_avg_month)
-    protected TextView textViewAverageMonth;
-
-    @Bind(R.id.textview_avg_week)
-    protected TextView textViewAverageWeek;
-
-    @Bind(R.id.textview_avg_day)
-    protected TextView textViewAverageDay;
+    @BindView(R.id.chart) LineChart chart;
+    @BindView(R.id.textview_latest_value) TextView textViewLatestValue;
+    @BindView(R.id.textview_latest_unit) TextView textViewLatestUnit;
+    @BindView(R.id.textview_latest_time) TextView textViewLatestTime;
+    @BindView(R.id.textview_latest_ago) TextView textViewLatestAgo;
+    @BindView(R.id.textview_measurements) TextView textViewMeasurements;
+    @BindView(R.id.textview_hyperglycemia) TextView textViewHyperglycemia;
+    @BindView(R.id.textview_hypoglycemia) TextView textViewHypoglycemia;
+    @BindView(R.id.textview_avg_month) TextView textViewAverageMonth;
+    @BindView(R.id.textview_avg_week) TextView textViewAverageWeek;
+    @BindView(R.id.textview_avg_day) TextView textViewAverageDay;
 
     private Entry latestEntry;
 

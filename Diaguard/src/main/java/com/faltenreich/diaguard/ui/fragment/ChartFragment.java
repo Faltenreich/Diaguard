@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,26 +16,21 @@ import android.widget.DatePicker;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.util.ViewHelper;
-import com.faltenreich.diaguard.ui.view.chart.ChartViewPager;
 import com.faltenreich.diaguard.ui.view.DayOfMonthDrawable;
+import com.faltenreich.diaguard.ui.view.chart.ChartViewPager;
+import com.faltenreich.diaguard.util.ViewHelper;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
-import java.lang.reflect.Field;
-
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ChartFragment extends BaseFragment implements ChartViewPager.ChartViewPagerCallback, BaseFragment.ToolbarCallback {
 
-    private static final String TAG = ChartFragment.class.getSimpleName();
-
-    @Bind(R.id.viewpager)
-    protected ChartViewPager viewPager;
+    @BindView(R.id.viewpager) ChartViewPager viewPager;
 
     private DateTime day;
 

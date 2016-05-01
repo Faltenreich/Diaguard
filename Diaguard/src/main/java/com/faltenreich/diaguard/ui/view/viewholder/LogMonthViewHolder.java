@@ -11,18 +11,15 @@ import com.squareup.picasso.Picasso;
 
 import org.joda.time.DateTime;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by Faltenreich on 17.10.2015.
  */
 public class LogMonthViewHolder extends BaseViewHolder<ListItemMonth> {
 
-    @Bind(R.id.background)
-    protected ImageView background;
-
-    @Bind(R.id.month)
-    protected TextView month;
+    @BindView(R.id.background) ImageView background;
+    @BindView(R.id.month) TextView month;
 
     public LogMonthViewHolder(View view) {
         super(view);

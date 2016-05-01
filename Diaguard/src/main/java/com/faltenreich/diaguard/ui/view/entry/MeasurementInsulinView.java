@@ -9,20 +9,20 @@ import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.StringUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by Faltenreich on 20.09.2015.
  */
 public class MeasurementInsulinView extends MeasurementAbstractView<Insulin> {
 
-    @Bind(R.id.edittext_bolus)
+    @BindView(R.id.edittext_bolus)
     protected EditText editTextBolus;
 
-    @Bind(R.id.edittext_correction)
+    @BindView(R.id.edittext_correction)
     protected EditText editTextCorrection;
 
-    @Bind(R.id.edittext_basal)
+    @BindView(R.id.edittext_basal)
     protected EditText editTextBasal;
 
     public MeasurementInsulinView(Context context) {

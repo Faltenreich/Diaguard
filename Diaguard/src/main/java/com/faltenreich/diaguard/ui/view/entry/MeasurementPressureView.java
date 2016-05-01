@@ -9,17 +9,17 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Pressure;
 import com.faltenreich.diaguard.util.StringUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by Faltenreich on 20.09.2015.
  */
 public class MeasurementPressureView extends MeasurementAbstractView<Pressure> {
 
-    @Bind(R.id.edittext_systolic)
+    @BindView(R.id.edittext_systolic)
     protected EditText editTextSystolic;
 
-    @Bind(R.id.edittext_diastolic)
+    @BindView(R.id.edittext_diastolic)
     protected EditText editTextDiastolic;
 
     public MeasurementPressureView(Context context) {

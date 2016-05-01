@@ -8,14 +8,14 @@ import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.StringUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by Faltenreich on 20.09.2015.
  */
 public class MeasurementGenericView <T extends Measurement> extends MeasurementAbstractView<T> {
 
-    @Bind(R.id.edittext_value)
+    @BindView(R.id.edittext_value)
     protected EditText editTextValue;
 
     @Deprecated

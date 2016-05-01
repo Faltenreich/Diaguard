@@ -18,16 +18,16 @@ import android.widget.Toast;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.ui.fragment.DatePickerFragment;
 import com.faltenreich.diaguard.ui.view.CategoryCheckBoxList;
-import com.faltenreich.diaguard.util.export.Export;
 import com.faltenreich.diaguard.util.Helper;
-import com.faltenreich.diaguard.util.export.FileListener;
 import com.faltenreich.diaguard.util.ViewHelper;
+import com.faltenreich.diaguard.util.export.Export;
+import com.faltenreich.diaguard.util.export.FileListener;
 
 import org.joda.time.DateTime;
 
 import java.io.File;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -35,20 +35,11 @@ import butterknife.OnClick;
  */
 public class ExportActivity extends BaseActivity implements FileListener {
 
-    @Bind(R.id.root)
-    protected ViewGroup rootView;
-
-    @Bind(R.id.spinner_format)
-    protected Spinner spinnerFormat;
-
-    @Bind(R.id.button_datestart)
-    protected Button buttonDateStart;
-
-    @Bind(R.id.button_dateend)
-    protected Button buttonDateEnd;
-
-    @Bind(R.id.export_list_categories)
-    protected CategoryCheckBoxList categoryCheckBoxList;
+    @BindView(R.id.root) ViewGroup rootView;
+    @BindView(R.id.spinner_format) Spinner spinnerFormat;
+    @BindView(R.id.button_datestart) Button buttonDateStart;
+    @BindView(R.id.button_dateend) Button buttonDateEnd;
+    @BindView(R.id.export_list_categories) CategoryCheckBoxList categoryCheckBoxList;
 
     private ProgressDialog progressDialog;
 

@@ -16,12 +16,12 @@ import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
 import com.faltenreich.diaguard.DiaguardApplication;
+import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
-import com.faltenreich.diaguard.R;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;

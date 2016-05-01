@@ -9,12 +9,12 @@
         <item name="colorAccent">@color/green</item>
         <item name="elevation">4dp</item>
         <item name="drawerArrowStyle">@style/NavigationDrawerArrowStyle</item>
-        <item name="android:windowContentTransitions">true</item>
-        <item name="android:windowAllowEnterTransitionOverlap">true</item>
-        <item name="android:windowAllowReturnTransitionOverlap">true</item>
-        <item name="android:windowSharedElementEnterTransition">@android:transition/move</item>
-        <item name="android:windowSharedElementExitTransition">@android:transition/move</item>
+        <item name="android:windowSharedElementsUseOverlay">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="NavigationDrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
@@ -35,11 +35,6 @@
         <item name="android:paddingEnd">@dimen/activity_horizontal_margin</item>
         <item name="android:paddingTop">@dimen/activity_vertical_margin</item>
         <item name="android:paddingBottom">@dimen/activity_vertical_margin</item>
-    </style>
-
-    <style name="BoxText">
-        <item name="android:textColor">@color/green_light</item>
-        <item name="android:textSize">40sp</item>
     </style>
 
     <style name="BoxRow">

@@ -2,20 +2,26 @@ package com.faltenreich.diaguard.data.dao;
 
 import android.util.Log;
 
-import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.data.SqlFunction;
+import com.faltenreich.diaguard.data.entity.Activity;
 import com.faltenreich.diaguard.data.entity.BaseEntity;
+import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
+import com.faltenreich.diaguard.data.entity.HbA1c;
+import com.faltenreich.diaguard.data.entity.Insulin;
+import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.data.entity.Pressure;
+import com.faltenreich.diaguard.data.entity.Pulse;
+import com.faltenreich.diaguard.data.entity.Weight;
 import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.table.DatabaseTableConfig;
 
-import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.Interval;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -44,11 +50,7 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
         super(clazz);
     }
 
-    public float avg(String avgColumn, DateTime dateTime) {
-        return avg(avgColumn, new Interval(dateTime, dateTime));
-    }
-
-    public float avg(String avgColumn, Interval interval) {
+    public float function(SqlFunction sqlFunction, String column, Interval interval) {
         String classNameEntry = DatabaseTableConfig.extractTableName(Entry.class);
         String classNameMeasurement = DatabaseTableConfig.extractTableName(getClazz());
         long intervalStart = interval.getStart().withTimeAtStartOfDay().getMillis();
@@ -58,7 +60,7 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
                 DateTimeConstants.SECONDS_PER_MINUTE - 1,
                 DateTimeConstants.MILLIS_PER_SECOND - 1)
                 .getMillis();
-        String query = "SELECT AVG(" + avgColumn + ")" +
+        String query = "SELECT " + sqlFunction.function + "(" + column + ")" +
                 " FROM " + classNameMeasurement +
                 " INNER JOIN " + classNameEntry +
                 " ON " + classNameMeasurement + "." + Measurement.Column.ENTRY +
@@ -73,7 +75,7 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
             GenericRawResults<String[]> rawResults = getDao().queryRaw(query);
             results = rawResults.getResults();
         } catch (SQLException exception) {
-            Log.e(TAG, String.format("Could not calculate avg of %s", getClazz().getSimpleName()));
+            Log.e(TAG, exception.getMessage());
             return 0;
         }
 
@@ -85,6 +87,49 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
             return 0;
         } catch (NullPointerException exception) {
             return 0;
+        }
+    }
+
+    public Measurement getAvgMeasurement(Measurement.Category category, Interval interval) {
+        long daysBetween = interval.toDuration().getStandardDays() + 1;
+        switch (category) {
+            case BLOODSUGAR:
+                BloodSugar bloodSugar = new BloodSugar();
+                bloodSugar.setMgDl(function(SqlFunction.AVG, BloodSugar.Column.MGDL, interval));
+                return bloodSugar;
+            case INSULIN:
+                Insulin insulin = new Insulin();
+                insulin.setBolus(function(SqlFunction.SUM, Insulin.Column.BOLUS, interval) / daysBetween);
+                insulin.setBasal(function(SqlFunction.SUM, Insulin.Column.BASAL, interval) / daysBetween);
+                insulin.setCorrection(function(SqlFunction.SUM, Insulin.Column.CORRECTION, interval) / daysBetween);
+                return insulin;
+            case MEAL:
+                Meal meal = new Meal();
+                meal.setCarbohydrates(function(SqlFunction.SUM, Meal.Column.CARBOHYDRATES, interval) / daysBetween);
+                return meal;
+            case ACTIVITY:
+                Activity activity = new Activity();
+                activity.setMinutes((int) (function(SqlFunction.SUM, Activity.Column.MINUTES, interval) / daysBetween));
+                return activity;
+            case HBA1C:
+                HbA1c hbA1c = new HbA1c();
+                hbA1c.setPercent(function(SqlFunction.AVG, HbA1c.Column.PERCENT, interval));
+                return hbA1c;
+            case WEIGHT:
+                Weight weight = new Weight();
+                weight.setKilogram(function(SqlFunction.AVG, Weight.Column.KILOGRAM, interval));
+                return weight;
+            case PULSE:
+                Pulse pulse = new Pulse();
+                pulse.setFrequency(function(SqlFunction.AVG, Pulse.Column.FREQUENCY, interval));
+                return pulse;
+            case PRESSURE:
+                Pressure pressure = new Pressure();
+                pressure.setSystolic(function(SqlFunction.AVG, Pressure.Column.SYSTOLIC, interval));
+                pressure.setDiastolic(function(SqlFunction.AVG, Pressure.Column.DIASTOLIC, interval));
+                return pressure;
+            default:
+                return null;
         }
     }
 

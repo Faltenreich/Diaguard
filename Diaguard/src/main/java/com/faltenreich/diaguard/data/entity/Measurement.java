@@ -1,9 +1,10 @@
 package com.faltenreich.diaguard.data.entity;
 
+import android.support.annotation.StringRes;
+
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
-import com.faltenreich.diaguard.ui.activity.PreferenceActivity;
 import com.j256.ormlite.field.DatabaseField;
 
 /**
@@ -15,91 +16,31 @@ public abstract class Measurement extends BaseEntity {
         public static final String ENTRY = "entry";
     }
 
-    public enum CategoryDeprecated {
-        BLOODSUGAR,
-        BOLUS,
-        MEAL,
-        ACTIVITY,
-        HBA1C,
-        WEIGHT,
-        PULSE;
-
-        public Category toUpdate() {
-            switch (this) {
-                case BLOODSUGAR:
-                    return Category.BLOODSUGAR;
-                case BOLUS:
-                    return Category.INSULIN;
-                case MEAL:
-                    return Category.MEAL;
-                case ACTIVITY:
-                    return Category.ACTIVITY;
-                case HBA1C:
-                    return Category.HBA1C;
-                case WEIGHT:
-                    return Category.WEIGHT;
-                case PULSE:
-                    return Category.PULSE;
-                default:
-                    return null;
-            }
-        }
-    }
-
     public enum Category {
-        BLOODSUGAR,
-        INSULIN,
-        MEAL,
-        ACTIVITY,
-        HBA1C,
-        WEIGHT,
-        PULSE,
-        PRESSURE;
+
+        BLOODSUGAR(BloodSugar.class, R.string.bloodsugar),
+        INSULIN(Insulin.class, R.string.insulin),
+        MEAL(Meal.class, R.string.meal),
+        ACTIVITY(Activity.class, R.string.activity),
+        HBA1C(HbA1c.class, R.string.hba1c),
+        WEIGHT(Weight.class, R.string.weight),
+        PULSE(Pulse.class, R.string.pulse),
+        PRESSURE(Pressure.class, R.string.pressure);
+
+        private Class clazz;
+        private int stringResId;
+
+        Category(Class clazz, @StringRes int stringResId) {
+            this.clazz = clazz;
+            this.stringResId = stringResId;
+        }
 
         public Class toClass() {
-            switch (this) {
-                case BLOODSUGAR:
-                    return BloodSugar.class;
-                case INSULIN:
-                    return Insulin.class;
-                case MEAL:
-                    return Meal.class;
-                case ACTIVITY:
-                    return Activity.class;
-                case HBA1C:
-                    return HbA1c.class;
-                case WEIGHT:
-                    return Weight.class;
-                case PULSE:
-                    return Pulse.class;
-                case PRESSURE:
-                    return Pressure.class;
-                default:
-                    throw new IllegalArgumentException("Class is not supported");
-            }
+            return clazz;
         }
 
         public String toLocalizedString() {
-            switch (this) {
-                case BLOODSUGAR:
-                    return DiaguardApplication.getContext().getString(R.string.bloodsugar);
-                case INSULIN:
-                    return DiaguardApplication.getContext().getString(R.string.insulin);
-                case MEAL:
-                    return DiaguardApplication.getContext().getString(R.string.meal);
-                case ACTIVITY:
-                    return DiaguardApplication.getContext().getString(R.string.activity);
-                case HBA1C:
-                    return DiaguardApplication.getContext().getString(R.string.hba1c);
-                case WEIGHT:
-                    return DiaguardApplication.getContext().getString(R.string.weight);
-                case PULSE:
-                    return DiaguardApplication.getContext().getString(R.string.pulse);
-                case PRESSURE:
-                    return DiaguardApplication.getContext().getString(R.string.pressure);
-                default:
-                    return "";
-            }
+            return DiaguardApplication.getContext().getString(stringResId);
         }
     }
 
@@ -142,4 +83,6 @@ public abstract class Measurement extends BaseEntity {
 
     @SuppressWarnings("unchecked")
     public abstract void setValues(float... values);
+
+    public abstract boolean stackValues();
 }

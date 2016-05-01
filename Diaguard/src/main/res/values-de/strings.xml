@@ -37,10 +37,12 @@
     <string name="day_next">Nächster Tag</string>
     <string name="day_previous">Vorheriger Tag</string>
     <string name="diastolic">Diastolisch</string>
+    <string name="distribution">Verteilung</string>
     <string name="drawer_close">Navigator schließen</string>
     <string name="drawer_open">Navigator öffnen</string>
     <string name="entry">Eintrag</string>
     <string name="entry_added">Eintrag hinzugefügt</string>
+    <string name="entry_count_per_day">Einträge pro Tag</string>
     <string name="entry_edit">Eintrag bearbeiten</string>
     <string name="entry_delete">Eintrag löschen</string>
     <string name="entry_delete_desc">Der Eintrag und seine Messungen werden entfernt</string>
@@ -58,10 +60,11 @@
     <string name="format">Format</string>
     <string name="general">Allgemein</string>
     <string name="hba1c">HbA1c</string>
-    <string name="home">Übersicht</string>
     <string name="homepage">Website</string>
     <string name="hyper">Hyper</string>
+    <string name="hyper_per_day">Hypers pro Tag</string>
     <string name="hypo">Hypo</string>
+    <string name="hypo_per_day">Hypos pro Tag</string>
     <string name="import_">Backup wiederherstellen</string>
     <string name="impress">Impressum</string>
     <string name="insulin">Insulin</string>
@@ -78,7 +81,9 @@
     <string name="note">Notiz</string>
     <string name="ok">OK</string>
     <string name="overview">Übersicht</string>
+    <string name="per_day">pro Tag</string>
     <string name="photo_desc">Foto hinzufügen &#8230;</string>
+    <string name="period">Zeitraum</string>
     <string name="pressure">Blutdruck</string>
     <string name="pulse">Puls</string>
     <string name="settings">Einstellungen</string>
@@ -87,6 +92,7 @@
     <string name="statistics">Statistik</string>
     <string name="store_values">Werte eintragen</string>
     <string name="systolic">Systolisch</string>
+    <string name="target_area">Zielbereich</string>
     <string name="timeline">Tagebuch</string>
     <string name="to">zu</string>
     <string name="today">Heute</string>
@@ -115,9 +121,9 @@
     <string name="day">Tag</string>
     <string name="days">Tagen</string>
     <string name="week">Woche</string>
-    <string name="weeks">Wochen</string>
+    <string name="week_two">14 Tage</string>
     <string name="month">Monat</string>
-    <string name="months">Monate</string>
+    <string name="year">Jahr</string>
 
     <string-array name="weekdays">
         <item>Montag</item>
@@ -173,13 +179,13 @@
     </string-array>
 
     <string name="insulin_units_default">Insulineinheiten</string>
-    <string-array name="bolus_units">
+    <string-array name="insulin_units">
         <item>Insulineinheiten</item>
     </string-array>
-    <string-array name="bolus_units_acronyms">
+    <string-array name="insulin_units_acronyms">
         <item>IE</item>
     </string-array>
-    <string-array name="bolus_units_values">
+    <string-array name="insulin_units_values">
         <item>1</item>
     </string-array>
 
@@ -220,7 +226,10 @@
         <item>spm</item>
     </string-array>
 
-    <string name="pressure_units_default">Schläge pro Minute</string>
+    <string name="pressure_units_default">Millimeter Quecksilbersäule</string>
+    <string-array name="pressure_units">
+        <item>Millimeter Quecksilbersäule</item>
+    </string-array>
 
     <!-- VALIDATORS -->
     <string name="validator_value_number">Nur Zahlen sind erlaubt</string>

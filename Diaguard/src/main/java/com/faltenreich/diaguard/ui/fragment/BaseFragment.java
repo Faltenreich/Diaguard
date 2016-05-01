@@ -1,8 +1,11 @@
 package com.faltenreich.diaguard.ui.fragment;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.StringRes;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,16 +53,18 @@ public abstract class BaseFragment extends Fragment {
 
         if (getActivity() instanceof BaseActivity) {
             View actionView = getActionView();
-            if (this instanceof ToolbarCallback) {
-                actionView.setVisibility(View.VISIBLE);
-                actionView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        ((ToolbarCallback) BaseFragment.this).action();
-                    }
-                });
-            } else {
-                actionView.setVisibility(View.GONE);
+            if (actionView != null) {
+                if (this instanceof ToolbarCallback) {
+                    actionView.setVisibility(View.VISIBLE);
+                    actionView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            ((ToolbarCallback) BaseFragment.this).action();
+                        }
+                    });
+                } else {
+                    actionView.setVisibility(View.GONE);
+                }
             }
         }
     }
@@ -70,6 +75,14 @@ public abstract class BaseFragment extends Fragment {
 
     public String getTitle() {
         return title;
+    }
+
+    public void startActivity(Intent intent, ActivityOptionsCompat options) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            getActivity().startActivity(intent, options.toBundle());
+        } else {
+            startActivity(intent);
+        }
     }
 
     interface ToolbarCallback {

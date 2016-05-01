@@ -1,11 +1,16 @@
 package com.faltenreich.diaguard.util;
 
+import android.content.Context;
 import android.graphics.Color;
+import android.support.annotation.ColorRes;
 import android.support.v4.content.ContextCompat;
 
-import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.data.entity.Measurement;
 import com.github.mikephil.charting.charts.BarLineChartBase;
+import com.github.mikephil.charting.charts.Chart;
+import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.formatter.YAxisValueFormatter;
@@ -21,7 +26,10 @@ public class ChartHelper {
     public static final float CIRCLE_SIZE = 6;
     public static final float LINE_WIDTH = 3;
 
-    public static void setChartDefaultStyle(BarLineChartBase chart) {
+    public static void setChartDefaultStyle(BarLineChartBase chart, final Measurement.Category category) {
+        Context context = chart.getContext();
+        int textColor = ContextCompat.getColor(context, R.color.gray_darker);
+        int gridColor = ContextCompat.getColor(context, android.R.color.darker_gray);
 
         // General
         chart.setDrawGridBackground(false);
@@ -37,25 +45,34 @@ public class ChartHelper {
         chart.setNoDataText("");
         chart.getXAxis().setTextSize(TEXT_SIZE);
         chart.getAxisLeft().setTextSize(TEXT_SIZE);
+        chart.setNoDataText(context.getString(R.string.no_data));
+        chart.getPaint(Chart.PAINT_INFO).setColor(textColor);
 
         // Axes
-        int gridColor = ContextCompat.getColor(chart.getContext(), android.R.color.darker_gray);
         chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         chart.getXAxis().setDrawAxisLine(false);
         chart.getXAxis().setGridColor(gridColor);
+        chart.getXAxis().setTextColor(textColor);
         chart.getAxisRight().setEnabled(false);
         chart.getAxisLeft().setDrawAxisLine(false);
         chart.getAxisLeft().setGridColor(gridColor);
+        chart.getAxisLeft().setTextColor(textColor);
         chart.getAxisLeft().setDrawLimitLinesBehindData(true);
-
-        float yAxisMinValue = PreferenceHelper.getInstance().getExtrema(Measurement.Category.BLOODSUGAR)[0] - 5;
-        chart.getAxisLeft().setAxisMinValue(PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, yAxisMinValue));
-        chart.getAxisLeft().setStartAtZero(false);
+        float yAxisMinValue = PreferenceHelper.getInstance().getExtrema(category)[0] * .9f;
+        float yAxisMinCustomValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, yAxisMinValue);
+        chart.getAxisLeft().setAxisMinValue(yAxisMinCustomValue);
         chart.getAxisLeft().setValueFormatter(new YAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, YAxis axis) {
-                return PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(value);
+                return PreferenceHelper.getInstance().getDecimalFormat(category).format(value);
             }
         });
+    }
+
+    public static LimitLine getLimitLine(Context context, float yValue, @ColorRes int color) {
+        LimitLine limitLine = new LimitLine(yValue, null);
+        limitLine.setLineColor(ContextCompat.getColor(context, color));
+        limitLine.setLabel(null);
+        return limitLine;
     }
 }

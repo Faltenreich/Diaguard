@@ -7,7 +7,9 @@ import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
+import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.util.Helper;
 import com.pdfjet.Align;
 import com.pdfjet.Cell;
 import com.pdfjet.Color;
@@ -57,8 +59,8 @@ public class PdfTable extends Table {
             fontNormal = new Font(pdf, CoreFont.HELVETICA);
             fontBold = new Font(pdf, CoreFont.HELVETICA_BOLD);
 
-            setData(getData());
             setNoCellBorders();
+            setData(getData());
         } catch (Exception e) {
             Log.e(TAG, "Failed to init");
         }
@@ -86,12 +88,14 @@ public class PdfTable extends Table {
         String date = String.format("%s %s", weekDay, DateTimeFormat.forPattern("dd.MM").print(day));
         Cell dateCell = new Cell(fontBold, date);
         dateCell.setWidth(LABEL_WIDTH);
+        dateCell.setBorder(0x00030000, true);
         header.add(dateCell);
         for (int hour = 0; hour < DateTimeConstants.HOURS_PER_DAY; hour += HOURS_TO_SKIP) {
             Cell hourCell = new Cell(fontNormal, Integer.toString(hour));
             hourCell.setWidth(getCellWidth());
             hourCell.setFgColor(Color.gray);
             hourCell.setTextAlignment(Align.CENTER);
+            dateCell.setBorder(0x00030000, true);
             header.add(hourCell);
         }
         data.add(header);
@@ -134,6 +138,27 @@ public class PdfTable extends Table {
             data.add(cells);
             row++;
         }
+
+        List<Entry> entriesWithNotes = EntryDao.getInstance().getAllWithNotes(day);
+        if (entriesWithNotes.size() > 0) {
+
+            // TODO: Add border line
+
+            for (Entry entry : entriesWithNotes) {
+                ArrayList<Cell> noteValueCells = new ArrayList<>();
+                Cell noteDateCell = new Cell(fontNormal, Helper.getTimeFormat().print(entry.getDate()));
+                noteDateCell.setFgColor(Color.gray);
+                noteDateCell.setWidth(LABEL_WIDTH);
+                noteValueCells.add(noteDateCell);
+
+                Cell noteTextCell = new Cell(fontNormal, entry.getNote());
+                noteTextCell.setFgColor(Color.gray);
+                noteTextCell.setWidth(page.getWidth() - LABEL_WIDTH);
+                noteValueCells.add(noteTextCell);
+                data.add(noteValueCells);
+            }
+        }
+
         return data;
     }
 

@@ -16,7 +16,8 @@
         android:foreground="?android:attr/selectableItemBackground"
         card_view:cardCornerRadius="4dp"
         card_view:cardElevation="2dp"
-        card_view:cardUseCompatPadding="true">
+        card_view:cardUseCompatPadding="true"
+        android:transitionName="transitionEntry">
 
         <LinearLayout
             style="@style/Padding"

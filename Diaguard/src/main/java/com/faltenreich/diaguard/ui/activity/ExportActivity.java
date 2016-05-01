@@ -38,6 +38,8 @@ import butterknife.OnClick;
  */
 public class ExportActivity extends BaseActivity implements FileListener {
 
+    private static final int PADDING = (int) Helper.getDPI(R.dimen.padding);
+
     @BindView(R.id.root) ViewGroup rootView;
     @BindView(R.id.button_datestart) Button buttonDateStart;
     @BindView(R.id.button_dateend) Button buttonDateEnd;
@@ -93,6 +95,7 @@ public class ExportActivity extends BaseActivity implements FileListener {
         buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
         buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
         progressDialog = new ProgressDialog(this);
+        checkBoxNotes.setPadding(PADDING, PADDING, PADDING, PADDING);
         checkBoxNotes.setChecked(PreferenceHelper.getInstance().exportNotes());
         checkBoxNotes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

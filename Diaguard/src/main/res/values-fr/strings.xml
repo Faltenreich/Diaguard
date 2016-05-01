@@ -51,7 +51,6 @@
     <string name="format">Format</string>
     <string name="general">Généralement</string>
     <string name="hba1c">HbA1c</string>
-    <string name="home">Sommaire</string>
     <string name="homepage">Site web</string>
     <string name="hyper">Hyper</string>
     <string name="hypo">Hypo</string>
@@ -160,7 +159,7 @@
     </string-array>
 
     <string name="insulin_units_default">Unités d\'insuline</string>
-    <string-array name="bolus_units">
+    <string-array name="insulin_units">
         <item>Unités d\'insuline</item>
     </string-array>
 
@@ -196,6 +195,11 @@
     <string name="pulse_units_default">Battements par minute</string>
     <string-array name="pulse_units">
         <item>Battements par minute</item>
+    </string-array>
+
+    <string name="pressure_units_default">Millimètre de mercure</string>
+    <string-array name="pressure_units">
+        <item>Millimètre de mercure</item>
     </string-array>
 
     <!-- VALIDATORS -->
@@ -253,7 +257,6 @@
     <string name="import_">Restaurer la sauvegarde</string>
     <string name="interval">Intervalle</string>
     <string name="measurement_latest">Dernier</string>
-    <string name="pressure_units_default">Battements par minute</string>
     <string name="systolic">Systolique</string>
     <string name="validator_value_empty_list"> Au moins une catégorie doit être sélectionnée</string>
     <string name="pressure">Pression artérielle</string>

@@ -6,11 +6,11 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_home"
-            android:title="@string/home" />
+            android:icon="@drawable/ic_dashboard"
+            android:title="@string/overview" />
         <item
             android:id="@+id/nav_timeline"
-            android:icon="@drawable/ic_timeline"
+            android:icon="@drawable/ic_day"
             android:title="@string/timeline" />
         <item
             android:id="@+id/nav_log"
@@ -23,6 +23,9 @@
         <item
             android:id="@+id/nav_calculator"
             android:title="@string/calculator" />
+        <item
+            android:id="@+id/nav_statistics"
+            android:title="@string/statistics" />
         <item
             android:id="@+id/nav_export"
             android:title="@string/export" />

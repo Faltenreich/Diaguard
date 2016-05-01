@@ -9,12 +9,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
@@ -23,10 +23,9 @@ import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.Helper;
-import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.util.Validator;
-import com.faltenreich.diaguard.util.event.Event;
 import com.faltenreich.diaguard.util.event.Events;
+import com.faltenreich.diaguard.util.event.data.EntryAddedEvent;
 
 import org.joda.time.DateTime;
 
@@ -82,6 +81,17 @@ public class CalculatorActivity extends BaseActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.form, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_done:
+                calculate();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void initialize() {
@@ -309,20 +319,6 @@ public class CalculatorActivity extends BaseActivity {
             MeasurementDao.getInstance(Insulin.class).createOrUpdate(insulin);
         }
 
-        Events.post(new Event.EntryAddedEvent(entry));
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            case R.id.action_done:
-                calculate();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+        Events.post(new EntryAddedEvent(entry));
     }
 }

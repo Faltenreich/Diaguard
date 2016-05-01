@@ -9,23 +9,22 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.util.ChartHelper;
 import com.github.mikephil.charting.charts.ScatterChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.ScatterData;
 import com.github.mikephil.charting.data.ScatterDataSet;
 import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.interfaces.datasets.IScatterDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
-import org.joda.time.format.DateTimeFormat;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,8 +59,13 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
 
     private void setup() {
         if (!isInEditMode()) {
-            ChartHelper.setChartDefaultStyle(this);
+            ChartHelper.setChartDefaultStyle(this, Measurement.Category.BLOODSUGAR);
+            int textColor = ContextCompat.getColor(getContext(), android.R.color.black);
+            getAxisLeft().setTextColor(textColor);
+            getXAxis().setTextColor(textColor);
+
             setOnChartValueSelectedListener(this);
+
             new InitChartTask().execute();
         }
     }
@@ -91,7 +95,7 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
 
         protected ScatterData doInBackground(Void... params) {
             List<String> xLabels = getXLabels();
-            List<ScatterDataSet> dataSets = getEmptyDataSets();
+            List<IScatterDataSet> dataSets = getEmptyDataSets();
             return new ScatterData(xLabels, dataSets);
         }
 
@@ -127,8 +131,8 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
             return xLabels;
         }
 
-        private List<ScatterDataSet> getEmptyDataSets() {
-            List<ScatterDataSet> dataSets = new ArrayList<>();
+        private List<IScatterDataSet> getEmptyDataSets() {
+            List<IScatterDataSet> dataSets = new ArrayList<>();
             dataSets.add(getDataSet(DATA_SET_BLOODSUGAR, R.color.green));
             if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
                 dataSets.add(getDataSet(DATA_SET_BLOODSUGAR_HYPERGLYCEMIA, R.color.red));

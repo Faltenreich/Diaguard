@@ -6,6 +6,7 @@ import android.util.Log;
 import com.faltenreich.diaguard.data.DatabaseHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
+import com.faltenreich.diaguard.data.entity.CategoryDeprecated;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.Helper;
@@ -51,7 +52,7 @@ public class CsvImport extends AsyncTask<Void, Void, Void> {
                     entry.setNote(nextLine[2]);
                     EntryDao.getInstance().createOrUpdate(entry);
                     try {
-                        Measurement.CategoryDeprecated categoryDeprecated = Helper.valueOf(Measurement.CategoryDeprecated.class, nextLine[2]);
+                        CategoryDeprecated categoryDeprecated = Helper.valueOf(CategoryDeprecated.class, nextLine[2]);
                         Measurement.Category category = categoryDeprecated.toUpdate();
                         Measurement measurement = (Measurement) category.toClass().newInstance();
                         measurement.setValues(new float[]{Float.parseFloat(nextLine[0])});
@@ -80,7 +81,7 @@ public class CsvImport extends AsyncTask<Void, Void, Void> {
                             entry = EntryDao.getInstance().createOrUpdate(entry);
                         } else if (key.equalsIgnoreCase(Measurement.class.getSimpleName()) && entry != null) {
                             try {
-                                Measurement.CategoryDeprecated categoryDeprecated = Helper.valueOf(Measurement.CategoryDeprecated.class, nextLine[2]);
+                                CategoryDeprecated categoryDeprecated = Helper.valueOf(CategoryDeprecated.class, nextLine[2]);
                                 Measurement.Category category = categoryDeprecated.toUpdate();
                                 Measurement measurement = (Measurement) category.toClass().newInstance();
                                 measurement.setValues(new float[]{Float.parseFloat(nextLine[1])});

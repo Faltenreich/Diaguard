@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingTranslation">
+<resources>
 
     <string name="app_name">Diaguard</string>
     <string name="app_facebook">http://www.facebook.com/diaguard.de</string>
@@ -10,7 +8,7 @@
     <string name="app_homepage_short">diaguard.wordpress.com</string>
     <string name="app_mail">mailto:diaguard.de@gmail.com</string>
     <string name="app_mail_short">diaguard.de@gmail.com</string>
-    <string name="app_version">1.3.1</string>
+    <string name="app_version">1.4</string>
 
     <!-- GENERAL -->
 
@@ -23,6 +21,7 @@
     <string name="alarm_desc">%s since the last measurement</string>
     <string name="alarm_desc_first">Thought about yet?</string>
     <string name="average">Average</string>
+    <string name="average_symbol">Ø</string>
     <string name="back">Back</string>
     <string name="backup">Backup</string>
     <string name="backup_complete">Backup complete</string>
@@ -43,15 +42,18 @@
     <string name="contact">Contact</string>
     <string name="correction">Correction</string>
     <string name="correction_value">Correction value</string>
+    <string name="count">Count</string>
     <string name="data">Data</string>
     <string name="date_select">Select date</string>
     <string name="day_next">Next day</string>
     <string name="day_previous">Previous day</string>
     <string name="diastolic">Diastolic</string>
+    <string name="distribution">Distribution</string>
     <string name="drawer_close">Close Navigator</string>
     <string name="drawer_open">Open Navigator</string>
     <string name="entry">Entry</string>
     <string name="entry_added">Entry added</string>
+    <string name="entry_count_per_day">Entries per day</string>
     <string name="entry_edit">Edit entry</string>
     <string name="entry_delete">Delete entry</string>
     <string name="entry_delete_desc">Remove entry and its measurements from timeline</string>
@@ -70,11 +72,12 @@
     <string name="format">Format</string>
     <string name="general">General</string>
     <string name="hba1c">HbA1c</string>
-    <string name="home">Home</string>
     <string name="homepage">Website</string>
     <string name="hyper">Hyper</string>
+    <string name="hyper_per_day">Hypers per day</string>
     <string name="hyphen">-</string>
     <string name="hypo">Hypo</string>
+    <string name="hypo_per_day">Hypos per day</string>
     <string name="import_">Import</string>
     <string name="impress">Impress</string>
     <string name="insulin">Insulin</string>
@@ -96,6 +99,8 @@
         <item>Gallery</item>
         <item>Camera</item>
     </string-array>
+    <string name="per_day">per day</string>
+    <string name="period">Period</string>
     <string name="placeholder">-</string>
     <string name="pressure">Blood Pressure</string>
     <string name="pulse">Pulse</string>
@@ -105,6 +110,7 @@
     <string name="statistics">Statistics</string>
     <string name="store_values">Store values</string>
     <string name="systolic">Systolic</string>
+    <string name="target_area">Target area</string>
     <string name="timeline">Timeline</string>
     <string name="to">to</string>
     <string name="today">Today</string>
@@ -139,9 +145,15 @@
     <string name="day">Day</string>
     <string name="days">Days</string>
     <string name="week">Week</string>
-    <string name="weeks">Weeks</string>
+    <string name="week_two">14 Days</string>
     <string name="month">Month</string>
-    <string name="months">Months</string>
+    <string name="year">Year</string>
+
+    <string-array name="array_interval">
+        <item>@string/week</item>
+        <item>@string/month</item>
+        <item>@string/year</item>
+    </string-array>
 
     <string-array name="weekdays">
         <item>Monday</item>
@@ -331,9 +343,9 @@
         <item name="maximum">200</item>
     </integer-array>
 
-    <string name="pressure_units_default">Beats per Minutes</string>
+    <string name="pressure_units_default">Millimeters of Mercury</string>
     <string-array name="pressure_units">
-        <item>Millimeters of Mercury </item>
+        <item>Millimeters of Mercury</item>
     </string-array>
     <string-array name="pressure_units_acronyms">
         <item>mm Hg</item>

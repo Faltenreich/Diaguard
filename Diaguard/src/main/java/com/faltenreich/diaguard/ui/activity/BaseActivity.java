@@ -1,11 +1,15 @@
 package com.faltenreich.diaguard.ui.activity;
 
-import android.content.res.Resources;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
-import android.support.v7.app.ActionBar;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Fade;
+import android.transition.Transition;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
@@ -43,16 +47,21 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(layoutResourceId);
         ButterKnife.bind(this);
-    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Transition fade = new Fade();
+            fade.excludeTarget(android.R.id.statusBarBackground, true);
+            fade.excludeTarget(android.R.id.navigationBarBackground, true);
+            fade.excludeTarget(R.id.toolbar, true);
+            getWindow().setExitTransition(fade);
+            getWindow().setEnterTransition(fade);
         }
     }
 
@@ -62,6 +71,17 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (databaseHelper != null) {
             OpenHelperManager.releaseHelper();
             databaseHelper = null;
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                supportFinishAfterTransition();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
@@ -76,4 +96,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         return actionView;
     }
 
+    public void startActivity(Intent intent, ActivityOptionsCompat options) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            startActivity(intent, options.toBundle());
+        } else {
+            startActivity(intent);
+        }
+    }
 }

@@ -10,7 +10,9 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable
 public class Pulse extends Measurement {
 
-    public static final String FREQUENCY = "frequency";
+    public class Column extends Measurement.Column {
+        public static final String FREQUENCY = "frequency";
+    }
 
     @DatabaseField
     private float frequency;
@@ -38,6 +40,11 @@ public class Pulse extends Measurement {
         if (values.length > 0) {
             frequency = values[0];
         }
+    }
+
+    @Override
+    public boolean stackValues() {
+        return false;
     }
 
     @Override

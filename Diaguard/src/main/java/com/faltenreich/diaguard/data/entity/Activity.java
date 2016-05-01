@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.data.entity;
 
 import com.faltenreich.diaguard.data.PreferenceHelper;
-import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -57,6 +56,11 @@ public class Activity extends Measurement {
         if (values.length > 0) {
             minutes = (int) values[0];
         }
+    }
+
+    @Override
+    public boolean stackValues() {
+        return true;
     }
 
     @Override

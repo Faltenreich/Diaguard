@@ -36,8 +36,8 @@
                     <TextView android:id="@+id/textview_latest_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/BoxText"
                         android:text="@string/first_visit"
+                        android:textColor="@color/green"
                         android:textSize="60sp"/>
 
                     <TextView android:id="@+id/textview_latest_unit"
@@ -45,8 +45,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/margin_between"
                         android:layout_marginStart="@dimen/margin_between"
-                        android:lines="1"
-                        android:textColor="@color/gray_dark"/>
+                        android:lines="1"/>
 
                 </LinearLayout>
 
@@ -59,8 +58,7 @@
                     <TextView android:id="@+id/textview_latest_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:textColor="@color/gray_dark"/>
+                        android:gravity="center_horizontal"/>
 
                     <TextView android:id="@+id/textview_latest_ago"
                         android:layout_width="match_parent"
@@ -90,8 +88,9 @@
                 card_view:cardUseCompatPadding="true"
                 android:layout_marginEnd="1dp"
                 android:layout_marginRight="1dp"
-                android:clickable="false"
-                android:foreground="?android:attr/selectableItemBackground">
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:transitionName="transitionOverview">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -179,8 +178,9 @@
                 card_view:cardUseCompatPadding="true"
                 android:layout_marginStart="1dp"
                 android:layout_marginLeft="1dp"
-                android:clickable="false"
-                android:foreground="?android:attr/selectableItemBackground">
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:transitionName="transitionOverview">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -267,8 +267,9 @@
             card_view:cardCornerRadius="4dp"
             card_view:cardElevation="2dp"
             card_view:cardUseCompatPadding="true"
-            android:clickable="false"
-            android:foreground="?android:attr/selectableItemBackground">
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:transitionName="transitionTrend">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -288,8 +289,8 @@
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/chart"
                     android:orientation="horizontal"
-                    android:layout_width="fill_parent"
-                    android:layout_height="100dp"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_chart_height_simple"/>
 
             </LinearLayout>
 

@@ -11,6 +11,7 @@ import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.Activity;
 import com.faltenreich.diaguard.data.entity.BaseEntity;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
+import com.faltenreich.diaguard.data.entity.CategoryDeprecated;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.HbA1c;
 import com.faltenreich.diaguard.data.entity.Insulin;
@@ -133,7 +134,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                 while (!cursor.isAfterLast()) {
                     try {
                         String categoryString = cursor.getString(2);
-                        Measurement.CategoryDeprecated categoryDeprecated = Helper.valueOf(Measurement.CategoryDeprecated.class, categoryString);
+                        CategoryDeprecated categoryDeprecated = Helper.valueOf(CategoryDeprecated.class, categoryString);
                         Measurement.Category category = categoryDeprecated.toUpdate();
                         M measurement = (M) category.toClass().newInstance();
                         float value = Float.parseFloat(cursor.getString(1));

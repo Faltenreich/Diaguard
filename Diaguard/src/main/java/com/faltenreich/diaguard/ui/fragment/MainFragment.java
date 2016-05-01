@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.ui.fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
@@ -10,18 +11,20 @@ import android.widget.TextView;
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.data.SqlFunction;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
+import com.faltenreich.diaguard.ui.activity.StatisticsActivity;
 import com.faltenreich.diaguard.util.ChartHelper;
 import com.faltenreich.diaguard.util.Helper;
+import com.faltenreich.diaguard.util.TimeSpan;
 import com.faltenreich.diaguard.util.thread.BaseAsyncTask;
-import com.faltenreich.diaguard.util.thread.UpdateChartTask;
+import com.faltenreich.diaguard.util.thread.UpdateLineChartTask;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.data.LineData;
 
 import org.joda.time.DateTime;
@@ -90,7 +93,7 @@ public class MainFragment extends BaseFragment {
 
     @Override
     public String getTitle() {
-        return DiaguardApplication.getContext().getString(R.string.home);
+        return DiaguardApplication.getContext().getString(R.string.app_name);
     }
 
     private void updateContent() {
@@ -165,20 +168,21 @@ public class MainFragment extends BaseFragment {
                 }
             }
             DateTime now = DateTime.now();
+            Interval intervalDay = new Interval(now, now);
             Interval intervalWeek = new Interval(new DateTime(now.minusWeeks(1)), now);
             Interval intervalMonth = new Interval(new DateTime(now.minusMonths(1)), now);
 
-            float avgDay = MeasurementDao.getInstance(BloodSugar.class).avg(BloodSugar.Column.MGDL, now);
+            float avgDay = MeasurementDao.getInstance(BloodSugar.class).function(SqlFunction.AVG, BloodSugar.Column.MGDL, intervalDay);
             float avgDayCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, avgDay);
 
-            float avgWeek = MeasurementDao.getInstance(BloodSugar.class).avg(BloodSugar.Column.MGDL, intervalWeek);
+            float avgWeek = MeasurementDao.getInstance(BloodSugar.class).function(SqlFunction.AVG, BloodSugar.Column.MGDL, intervalWeek);
             float avgWeekCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, avgWeek);
 
-            float avgMonth = MeasurementDao.getInstance(BloodSugar.class).avg(BloodSugar.Column.MGDL, intervalMonth);
+            float avgMonth = MeasurementDao.getInstance(BloodSugar.class).function(SqlFunction.AVG, BloodSugar.Column.MGDL, intervalMonth);
             float avgMonthCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, avgMonth);
 
             return new String[] {
-                    Integer.toString(entriesWithBloodSugar.size()),
+                    Integer.toString(entriesWithBloodSugar != null ? entriesWithBloodSugar.size() : 0),
                     Integer.toString(countHypers),
                     Integer.toString(countHypos),
                     PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(avgDayCustom),
@@ -209,7 +213,7 @@ public class MainFragment extends BaseFragment {
     // region Charting
 
     private void initializeChart() {
-        ChartHelper.setChartDefaultStyle(chart);
+        ChartHelper.setChartDefaultStyle(chart, Measurement.Category.BLOODSUGAR);
         chart.setTouchEnabled(false);
         chart.getAxisLeft().setDrawAxisLine(false);
         chart.getAxisLeft().setDrawGridLines(false);
@@ -217,21 +221,14 @@ public class MainFragment extends BaseFragment {
         chart.getXAxis().setDrawGridLines(false);
         chart.getXAxis().setTextColor(ContextCompat.getColor(getContext(), R.color.gray_dark));
         chart.getXAxis().setLabelsToSkip(0);
-        chart.getAxisLeft().addLimitLine(getLimitLine());
-    }
-
-    private LimitLine getLimitLine() {
         float targetValue = PreferenceHelper.getInstance().
                 formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
                         PreferenceHelper.getInstance().getTargetValue());
-        LimitLine limitLine = new LimitLine(targetValue, getString(R.string.hyper));
-        limitLine.setLineColor(ContextCompat.getColor(getContext(), R.color.gray_light));
-        limitLine.setLabel(null);
-        return limitLine;
+        chart.getAxisLeft().addLimitLine(ChartHelper.getLimitLine(getContext(), targetValue, R.color.gray_light));
     }
 
     private void updateChart() {
-        new UpdateChartTask(getContext(), new BaseAsyncTask.OnAsyncProgressListener<LineData>() {
+        new UpdateLineChartTask(getContext(), new BaseAsyncTask.OnAsyncProgressListener<LineData>() {
             @Override
             public void onPostExecute(LineData lineData) {
                 if(isAdded()) {
@@ -239,20 +236,51 @@ public class MainFragment extends BaseFragment {
                     chart.invalidate();
                 }
             }
-        }).execute();
+        }, Measurement.Category.BLOODSUGAR, TimeSpan.WEEK, true, false).execute();
+    }
+
+    private void openStatistics(View view, String transitionName) {
+        Intent intent = new Intent(getActivity(), StatisticsActivity.class);
+        ActivityOptionsCompat options =
+                ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        getActivity(),
+                        view,
+                        transitionName);
+        startActivity(intent, options);
     }
 
     // endregion
 
     @SuppressWarnings("unused")
     @OnClick(R.id.layout_latest)
-    protected void openEntry() {
+    protected void openEntry(View view) {
+        Intent intent = new Intent(getActivity(), EntryActivity.class);
         if (latestEntry != null) {
-            Intent intent = new Intent(getActivity(), EntryActivity.class);
             intent.putExtra(EntryActivity.EXTRA_ENTRY, latestEntry.getId());
-            startActivity(intent);
-        } else {
-            startActivity(new Intent(getActivity(), EntryActivity.class));
         }
+        ActivityOptionsCompat options =
+                ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        getActivity(),
+                        view,
+                        "transitionEntry");
+        startActivity(intent, options);
+    }
+
+    @SuppressWarnings("unused")
+    @OnClick(R.id.layout_today)
+    protected void openStatisticsToday(View view) {
+        startActivity(new Intent(getActivity(), StatisticsActivity.class));
+    }
+
+    @SuppressWarnings("unused")
+    @OnClick(R.id.layout_average)
+    protected void openStatisticsAverage(View view) {
+        openStatistics(view, "transitionOverview");
+    }
+
+    @SuppressWarnings("unused")
+    @OnClick(R.id.layout_trend)
+    protected void openTrend(View view) {
+        openStatistics(view, "transitionTrend");
     }
 }

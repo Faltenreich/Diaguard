@@ -7,6 +7,7 @@ import com.faltenreich.diaguard.data.DatabaseHelper;
 import com.faltenreich.diaguard.data.entity.BaseEntity;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.QueryBuilder;
 
 import org.joda.time.DateTime;
 
@@ -32,9 +33,13 @@ public abstract class BaseDao <T extends BaseEntity> {
         try {
             return databaseHelper.getDao(clazz);
         } catch (SQLException exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, String.format("Could not retrieve Dao of class %s", clazz.getSimpleName()));
             return null;
         }
+    }
+
+    protected QueryBuilder<T, Long> getQueryBuilder() {
+        return getDao().queryBuilder();
     }
 
     protected Class<T> getClazz() {
@@ -73,7 +78,7 @@ public abstract class BaseDao <T extends BaseEntity> {
             }
             return object;
         } catch (SQLException exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, String.format("Could not createOrUpdate %s", clazz.getSimpleName()));
             return null;
         }
     }
@@ -82,7 +87,7 @@ public abstract class BaseDao <T extends BaseEntity> {
         try {
             return getDao().delete(objects);
         } catch (SQLException exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, "Could not delete list of objects");
             return 0;
         }
     }
@@ -91,7 +96,7 @@ public abstract class BaseDao <T extends BaseEntity> {
         try {
             return getDao().delete(object);
         } catch (SQLException exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, String.format("Could not delete %s with id %d", clazz.getSimpleName(), object.getId()));
             return 0;
         }
     }

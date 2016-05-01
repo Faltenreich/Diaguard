@@ -61,12 +61,13 @@
     <string name="latest">Antes [value] [unit]</string>
     <string name="latest_moments">En este momento</string>
     <string name="licenses">Licencia Libre</string>
-    <string name="no_data">No hay entradas para mostrar</string>
     <string name="log">Protocolo</string>
     <string name="mail">E-Mail</string>
     <string name="meal">Alimento</string>
     <string name="measurements">Mediciones</string>
+    <string name="no_data">No hay entradas para mostrar</string>
     <string name="note">Nota</string>
+    <string name="note_append">Adjuntar notas</string>
     <string name="ok">OK</string>
     <string name="overview">Sobrevista</string>
     <string name="pulse">Pulso</string>

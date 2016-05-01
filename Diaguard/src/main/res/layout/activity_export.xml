@@ -78,6 +78,29 @@
 
             <View style="@style/LayoutRowSeparator" />
 
+            <LinearLayout style="@style/LayoutRow">
+
+                <com.faltenreich.diaguard.ui.view.TintImageView
+                    style="@style/LayoutRowImage"
+                    android:contentDescription="@string/note"
+                    android:src="@drawable/ic_note"
+                    app:tintColor="@color/gray_darker" />
+
+                <LinearLayout
+                    style="@style/LayoutRowItem"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/checkbox_note"
+                        style="@style/LayoutRowText"
+                        android:text="@string/note_append"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View style="@style/LayoutRowSeparator" />
+
             <LinearLayout
                 style="@style/LayoutRow"
                 android:layout_height="wrap_content"

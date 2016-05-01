@@ -11,11 +11,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.ui.fragment.DatePickerFragment;
 import com.faltenreich.diaguard.ui.view.CategoryCheckBoxList;
 import com.faltenreich.diaguard.util.Helper;
@@ -36,9 +39,10 @@ import butterknife.OnClick;
 public class ExportActivity extends BaseActivity implements FileListener {
 
     @BindView(R.id.root) ViewGroup rootView;
-    @BindView(R.id.spinner_format) Spinner spinnerFormat;
     @BindView(R.id.button_datestart) Button buttonDateStart;
     @BindView(R.id.button_dateend) Button buttonDateEnd;
+    @BindView(R.id.spinner_format) Spinner spinnerFormat;
+    @BindView(R.id.checkbox_note) CheckBox checkBoxNotes;
     @BindView(R.id.export_list_categories) CategoryCheckBoxList categoryCheckBoxList;
 
     private ProgressDialog progressDialog;
@@ -89,6 +93,13 @@ public class ExportActivity extends BaseActivity implements FileListener {
         buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
         buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
         progressDialog = new ProgressDialog(this);
+        checkBoxNotes.setChecked(PreferenceHelper.getInstance().exportNotes());
+        checkBoxNotes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                PreferenceHelper.getInstance().setExportNotes(isChecked);
+            }
+        });
     }
 
     private boolean validate() {

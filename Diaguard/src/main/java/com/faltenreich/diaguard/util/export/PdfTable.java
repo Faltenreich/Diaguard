@@ -42,16 +42,18 @@ public class PdfTable extends Table {
     private PdfPage page;
     private DateTime day;
     private Measurement.Category[] categories;
+    private boolean exportNotes;
 
     private Font fontNormal;
     private Font fontBold;
 
-    public PdfTable(PDF pdf, PdfPage page, DateTime day, Measurement.Category[] categories) {
+    public PdfTable(PDF pdf, PdfPage page, DateTime day, Measurement.Category[] categories, boolean exportNotes) {
         super();
         this.pdf = pdf;
         this.page = page;
         this.day = day;
         this.categories = categories;
+        this.exportNotes = exportNotes;
         init();
     }
 
@@ -91,12 +93,14 @@ public class PdfTable extends Table {
             row++;
         }
 
-        List<Entry> entriesWithNotes = EntryDao.getInstance().getAllWithNotes(day);
-        if (entriesWithNotes.size() > 0) {
-            for (Entry entry : entriesWithNotes) {
-                data.add(getNote(entry,
-                        entriesWithNotes.indexOf(entry) == 0,
-                        entriesWithNotes.indexOf(entry) == entriesWithNotes.size() - 1));
+        if (exportNotes) {
+            List<Entry> entriesWithNotes = EntryDao.getInstance().getAllWithNotes(day);
+            if (entriesWithNotes.size() > 0) {
+                for (Entry entry : entriesWithNotes) {
+                    data.add(getNote(entry,
+                            entriesWithNotes.indexOf(entry) == 0,
+                            entriesWithNotes.indexOf(entry) == entriesWithNotes.size() - 1));
+                }
             }
         }
 

@@ -11,8 +11,6 @@ import com.faltenreich.diaguard.ui.view.preferences.CategoryPreference;
 import com.faltenreich.diaguard.ui.view.preferences.FactorPreference;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -74,6 +72,14 @@ public class PreferenceHelper {
             throw new IllegalStateException("IntArray with event value extrema has to contain two values");
 
         return value > extrema[0] && value < extrema[1];
+    }
+
+    public void setExportNotes(boolean exportNotes) {
+        sharedPreferences.edit().putBoolean("export_notes", exportNotes).apply();
+    }
+
+    public boolean exportNotes() {
+        return sharedPreferences.getBoolean("export_notes", true);
     }
 
     // BLOOD SUGAR

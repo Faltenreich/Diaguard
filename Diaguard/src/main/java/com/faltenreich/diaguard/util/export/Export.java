@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.FileUtils;
 
@@ -64,7 +65,7 @@ public class Export {
     public static final String CSV_KEY_META = "meta";
 
     public static void exportPdf(FileListener listener, @NonNull DateTime dateStart, @NonNull DateTime dateEnd, @NonNull Measurement.Category[] categories) {
-        PdfExport pdfExport = new PdfExport(dateStart, dateEnd, categories);
+        PdfExport pdfExport = new PdfExport(dateStart, dateEnd, categories, PreferenceHelper.getInstance().exportNotes());
         pdfExport.setListener(listener);
         pdfExport.execute();
     }

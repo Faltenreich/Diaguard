@@ -85,13 +85,14 @@
     <string name="latest">[value] [unit] ago</string>
     <string name="latest_moments">Moments ago</string>
     <string name="licenses">Open-Source-Licenses</string>
-    <string name="no_data">No data available</string>
     <string name="log">Log</string>
     <string name="mail">E-Mail</string>
     <string name="meal">Meal</string>
     <string name="measurement_latest">Latest</string>
     <string name="measurements">Measured</string>
+    <string name="no_data">No data available</string>
     <string name="note">Note</string>
+    <string name="note_append">Append notes</string>
     <string name="ok">OK</string>
     <string name="overview">Overview</string>
     <string name="photo_desc">Add photo &#8230;</string>

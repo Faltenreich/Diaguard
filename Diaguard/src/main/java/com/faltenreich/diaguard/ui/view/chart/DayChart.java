@@ -1,18 +1,21 @@
 package com.faltenreich.diaguard.ui.view.chart;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.ColorRes;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.ui.activity.BaseActivity;
+import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.util.ChartHelper;
 import com.github.mikephil.charting.charts.ScatterChart;
 import com.github.mikephil.charting.data.Entry;
@@ -64,6 +67,7 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
             getAxisLeft().setTextColor(textColor);
             getXAxis().setTextColor(textColor);
 
+            setTouchEnabled(true);
             setOnChartValueSelectedListener(this);
 
             new InitChartTask().execute();
@@ -77,18 +81,6 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
     public void setDay(DateTime day) {
         this.day = day;
         new UpdateChartDataTask().execute();
-    }
-
-    @Override
-    public void onValueSelected(com.github.mikephil.charting.data.Entry e, int dataSetIndex, Highlight highlight) {
-        ChartMarkerView markerView = new ChartMarkerView(getContext());
-        setMarkerView(markerView);
-        Toast.makeText(getContext(), "Click", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onNothingSelected() {
-        // TODO: Dismiss MarkerView
     }
 
     private class InitChartTask extends AsyncTask<Void, Void, ScatterData> {
@@ -178,7 +170,10 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
                     com.faltenreich.diaguard.data.entity.Entry entry = bloodSugar.getEntry();
                     int xValue = entry.getDate().getMinuteOfDay();
                     float yValue = bloodSugar.getMgDl();
-                    Entry chartEntry = new Entry(PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, yValue), xValue);
+                    float yCustomValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, yValue);
+
+                    Entry chartEntry = new Entry(yCustomValue, xValue, entry);
+
                     if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
                         if (yValue > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
                             getData().getDataSetByLabel(DATA_SET_BLOODSUGAR_HYPERGLYCEMIA, true).addEntry(chartEntry);
@@ -190,6 +185,7 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
                     } else {
                         getData().getDataSetByLabel(DATA_SET_BLOODSUGAR, true).addEntry(chartEntry);
                     }
+
                     if (yValue > maxValue) {
                         maxValue = yValue;
                     }
@@ -202,5 +198,30 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
                 Log.e(TAG, exception.getMessage());
             }
         }
+    }
+
+    @Override
+    public void onValueSelected(com.github.mikephil.charting.data.Entry chartEntry, int dataSetIndex, Highlight highlight) {
+        if (chartEntry.getData() instanceof com.faltenreich.diaguard.data.entity.Entry) {
+            com.faltenreich.diaguard.data.entity.Entry entry = (com.faltenreich.diaguard.data.entity.Entry) chartEntry.getData();
+            Intent intent = new Intent(getContext(), EntryActivity.class);
+            intent.putExtra(EntryActivity.EXTRA_ENTRY, entry.getId());
+
+            if (getContext() instanceof BaseActivity) {
+                BaseActivity activity = (BaseActivity)getContext();
+                ActivityOptionsCompat options =
+                        ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                activity,
+                                this,
+                                "transitionEntry");
+                activity.startActivity(intent, options);
+            } else {
+                getContext().startActivity(intent);
+            }
+        }
+    }
+
+    @Override
+    public void onNothingSelected() {
     }
 }

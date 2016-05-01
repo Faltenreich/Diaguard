@@ -197,6 +197,7 @@ public class EntryDao extends BaseDao<Entry> {
     public List<Entry> getAllWithNotes(DateTime day) {
         try {
             return getDao().queryBuilder()
+                    .orderBy(Entry.Column.DATE, true)
                     .where().isNotNull(Entry.Column.NOTE)
                     .and().ge(Entry.Column.DATE, day.withTimeAtStartOfDay())
                     .and().le(Entry.Column.DATE, day.withTime(DateTimeConstants.HOURS_PER_DAY - 1,

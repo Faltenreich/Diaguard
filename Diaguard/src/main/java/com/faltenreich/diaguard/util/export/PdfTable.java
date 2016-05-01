@@ -180,19 +180,19 @@ public class PdfTable extends Table {
 
         cells.add(cell);
 
-        cell = new Cell(fontNormal, entry.getNote());
-        cell.setFgColor(Color.gray);
-        cell.setWidth(page.getWidth() - LABEL_WIDTH);
-        cell.setNoBorders();
+        PdfMultilineCell multilineCell = new PdfMultilineCell(fontNormal, entry.getNote(), 55);
+        multilineCell.setFgColor(Color.gray);
+        multilineCell.setWidth(page.getWidth() - LABEL_WIDTH);
+        multilineCell.setNoBorders();
 
         if (isFirst) {
-            cell.setBorder(Border.TOP, true);
+            multilineCell.setBorder(Border.TOP, true);
         }
         if (isLast) {
-            cell.setBorder(Border.BOTTOM, true);
+            multilineCell.setBorder(Border.BOTTOM, true);
         }
 
-        cells.add(cell);
+        cells.add(multilineCell);
         return cells;
     }
 }

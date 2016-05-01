@@ -48,6 +48,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(layoutResourceId);
         ButterKnife.bind(this);
 
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Transition fade = new Fade();
             fade.excludeTarget(android.R.id.statusBarBackground, true);
@@ -55,17 +62,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             fade.excludeTarget(R.id.toolbar, true);
             getWindow().setExitTransition(fade);
             getWindow().setEnterTransition(fade);
-        }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setHomeButtonEnabled(true);
         }
     }
 

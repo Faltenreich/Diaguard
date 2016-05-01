@@ -151,7 +151,7 @@ public class StatisticsActivity extends BaseActivity {
                 PreferenceHelper.getInstance().getCategoryImageResourceId(category)));
 
         Measurement avgMeasurement = MeasurementDao.getInstance(category.toClass()).getAvgMeasurement(category, interval);
-        textViewAvgUnit.setText(avgMeasurement.stackValues() ?
+        textViewAvgUnit.setText(category.stackValues() ?
                 String.format("%s %s", PreferenceHelper.getInstance().getUnitName(category), getString(R.string.per_day)) :
                 PreferenceHelper.getInstance().getUnitName(category));
 

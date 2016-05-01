@@ -17,22 +17,23 @@ public abstract class Measurement extends BaseEntity {
     }
 
     public enum Category {
-
-        BLOODSUGAR(BloodSugar.class, R.string.bloodsugar),
-        INSULIN(Insulin.class, R.string.insulin),
-        MEAL(Meal.class, R.string.meal),
-        ACTIVITY(Activity.class, R.string.activity),
-        HBA1C(HbA1c.class, R.string.hba1c),
-        WEIGHT(Weight.class, R.string.weight),
-        PULSE(Pulse.class, R.string.pulse),
-        PRESSURE(Pressure.class, R.string.pressure);
+        BLOODSUGAR(BloodSugar.class, R.string.bloodsugar, false),
+        INSULIN(Insulin.class, R.string.insulin, true),
+        MEAL(Meal.class, R.string.meal, true),
+        ACTIVITY(Activity.class, R.string.activity, true),
+        HBA1C(HbA1c.class, R.string.hba1c, false),
+        WEIGHT(Weight.class, R.string.weight, false),
+        PULSE(Pulse.class, R.string.pulse, false),
+        PRESSURE(Pressure.class, R.string.pressure, false);
 
         private Class clazz;
         private int stringResId;
+        private boolean stackValues;
 
-        Category(Class clazz, @StringRes int stringResId) {
+        Category(Class clazz, @StringRes int stringResId, boolean stackValues) {
             this.clazz = clazz;
             this.stringResId = stringResId;
+            this.stackValues = stackValues;
         }
 
         public Class toClass() {
@@ -41,6 +42,10 @@ public abstract class Measurement extends BaseEntity {
 
         public String toLocalizedString() {
             return DiaguardApplication.getContext().getString(stringResId);
+        }
+
+        public boolean stackValues() {
+            return stackValues;
         }
     }
 
@@ -83,6 +88,4 @@ public abstract class Measurement extends BaseEntity {
 
     @SuppressWarnings("unchecked")
     public abstract void setValues(float... values);
-
-    public abstract boolean stackValues();
 }

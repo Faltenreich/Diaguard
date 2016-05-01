@@ -32,11 +32,13 @@
     <string name="date_select">DChoisissez une date</string>
     <string name="day_next">Suivant jour</string>
     <string name="day_previous">Jour précédent</string>
+    <string name="distribution">Distribution</string>
     <string name="drawer_close">Fermer Navigator</string>
     <string name="drawer_open">Ouvrir Navigator</string>
     <string name="entry">Entrée</string>
     <string name="entry_added">Ajout d\'une entrée</string>
     <string name="entry_edit">Modifiez l\'entrée</string>
+    <string name="entry_count_per_day">Entrée par jour</string>
     <string name="entry_delete">Supprimer l\'entrée</string>
     <string name="entry_delete_desc">Cette entrée et toutes mésures y contenues seront supprimées</string>
     <string name="entry_deleted">Entrée supprimée</string>
@@ -102,9 +104,7 @@
     <string name="day">Jour</string>
     <string name="days">Jours</string>
     <string name="week">Semaine</string>
-    <string name="weeks">Semaines</string>
     <string name="month">Mois</string>
-    <string name="months">Mois</string>
 
     <string-array name="weekdays">
         <item>Lundi</item>
@@ -261,5 +261,10 @@
     <string name="systolic">Systolique</string>
     <string name="validator_value_empty_list"> Au moins une catégorie doit être sélectionnée</string>
     <string name="pressure">Pression artérielle</string>
+    <string name="hypo_per_day">Hypos par jour</string>
+    <string name="hyper_per_day">Hypers par jour</string>
+    <string name="per_day">par jour</string>
+    <string name="target_area">Zone cible</string>
+    <string name="year">An</string>
 
 </resources>

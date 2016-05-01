@@ -34,10 +34,12 @@
     <string name="day_next">Día siguiente</string>
     <string name="day_previous">Día anterior</string>
     <string name="diastolic">Diastólica</string>
+    <string name="distribution">Distribución</string>
     <string name="drawer_close">Cerrar navegador</string>
     <string name="drawer_open">Abrir navegador</string>
     <string name="entry">Entrada</string>
     <string name="entry_added">Ha agregado una entrada</string>
+    <string name="entry_count_per_day">Entrada por día</string>
     <string name="entry_edit">Editar entrada</string>
     <string name="entry_delete">Eliminar entrada</string>
     <string name="entry_delete_desc">La entrada y sus medidas serán eliminadas.</string>
@@ -106,9 +108,7 @@
     <string name="day">Día</string>
     <string name="days">Días</string>
     <string name="week">Semana</string>
-    <string name="weeks">Semanas</string>
     <string name="month">Mes</string>
-    <string name="months">Meses</string>
 
     <string-array name="weekdays">
         <item>Lunes</item>
@@ -257,5 +257,10 @@
     <string name="import_"> Restaurar copia de seguridad</string>
     <string name="interval">Intervalo</string>
     <string name="measurement_latest">Hace poco</string>
+    <string name="hyper_per_day">Hipers por día</string>
+    <string name="hypo_per_day">Hipos por día</string>
+    <string name="per_day">por día</string>
+    <string name="target_area">Área objetivo</string>
+    <string name="year">Año</string>
 
 </resources>

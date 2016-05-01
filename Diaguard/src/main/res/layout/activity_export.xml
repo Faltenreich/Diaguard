@@ -108,12 +108,7 @@
                 android:paddingBottom="@dimen/margin_between"
                 android:paddingTop="@dimen/margin_between">
 
-                <com.faltenreich.diaguard.ui.view.TintImageView
-                    style="@style/LayoutRowImage"
-                    android:contentDescription="@string/format"
-                    android:src="@drawable/ic_list"
-                    app:tintColor="@color/gray_darker"
-                    android:layout_marginTop="@dimen/padding"/>
+                <View style="@style/LayoutRowImage"/>
 
                 <com.faltenreich.diaguard.ui.view.CategoryCheckBoxList
                     android:id="@+id/export_list_categories"

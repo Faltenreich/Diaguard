@@ -21,24 +21,17 @@ import com.faltenreich.diaguard.ui.activity.BaseActivity;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.ui.view.TintImageView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by Faltenreich on 17.10.2015.
  */
 public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> implements View.OnClickListener {
 
-    @Bind(R.id.cardview)
-    protected CardView cardView;
-
-    @Bind(R.id.time)
-    protected TextView time;
-
-    @Bind(R.id.note)
-    protected TextView note;
-
-    @Bind(R.id.measurements)
-    public ViewGroup measurements;
+    @BindView(R.id.cardview) CardView cardView;
+    @BindView(R.id.time) TextView time;
+    @BindView(R.id.note) TextView note;
+    @BindView(R.id.measurements) public ViewGroup measurements;
 
     public LogEntryViewHolder(View view) {
         super(view);

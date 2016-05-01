@@ -34,18 +34,15 @@ import com.faltenreich.diaguard.util.event.data.EntryUpdatedEvent;
 
 import org.joda.time.DateTime;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by Filip on 05.07.2015.
  */
 public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCallback, LogRecyclerAdapter.OnAdapterChangesListener {
 
-    @Bind(R.id.fragment_log_list)
-    protected RecyclerView recyclerView;
-
-    @Bind(R.id.fragment_log_progressbar)
-    protected ProgressBar progressBar;
+    @BindView(R.id.fragment_log_list) RecyclerView recyclerView;
+    @BindView(R.id.fragment_log_progressbar) ProgressBar progressBar;
 
     private LogRecyclerAdapter listAdapter;
     private StickyHeaderDecoration listDecoration;

@@ -29,7 +29,7 @@ import com.faltenreich.diaguard.util.event.data.EntryAddedEvent;
 
 import org.joda.time.DateTime;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by Filip on 15.11.13.
@@ -37,35 +37,16 @@ import butterknife.Bind;
 
 public class CalculatorActivity extends BaseActivity {
 
-    @Bind(R.id.edittext_bloodsugar)
-    protected EditText editTextBloodSugar;
-
-    @Bind(R.id.edittext_target)
-    protected EditText editTextTargetValue;
-
-    @Bind(R.id.edittext_meal)
-    protected EditText editTextMeal;
-
-    @Bind(R.id.edittext_correction)
-    protected EditText editTextCorrection;
-
-    @Bind(R.id.edittext_factor)
-    protected EditText editTextFactor;
-
-    @Bind(R.id.textview_unit_bloodsugar)
-    protected TextView textViewUnitBloodSugar;
-
-    @Bind(R.id.textview_unit_target)
-    protected TextView textViewUnitTargetValue;
-
-    @Bind(R.id.textview_unit_correction)
-    protected TextView textViewUnitCorrection;
-
-    @Bind(R.id.textview_unit_meal)
-    protected TextView textViewUnitMeal;
-
-    @Bind(R.id.spinner_factors)
-    protected Spinner spinnerFactors;
+    @BindView(R.id.edittext_bloodsugar) EditText editTextBloodSugar;
+    @BindView(R.id.edittext_target) EditText editTextTargetValue;
+    @BindView(R.id.edittext_meal) EditText editTextMeal;
+    @BindView(R.id.edittext_correction) EditText editTextCorrection;
+    @BindView(R.id.edittext_factor) EditText editTextFactor;
+    @BindView(R.id.textview_unit_bloodsugar) TextView textViewUnitBloodSugar;
+    @BindView(R.id.textview_unit_target) TextView textViewUnitTargetValue;
+    @BindView(R.id.textview_unit_correction) TextView textViewUnitCorrection;
+    @BindView(R.id.textview_unit_meal) TextView textViewUnitMeal;
+    @BindView(R.id.spinner_factors) Spinner spinnerFactors;
 
     public CalculatorActivity() {
         super(R.layout.activity_calculator);

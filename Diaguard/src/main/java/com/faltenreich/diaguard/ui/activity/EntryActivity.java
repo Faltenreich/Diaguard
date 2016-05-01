@@ -37,7 +37,7 @@ import org.joda.time.DateTime;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -48,26 +48,13 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     public static final String EXTRA_ENTRY = "EXTRA_ENTRY";
     public static final String EXTRA_DATE = "EXTRA_DATE";
 
-    @Bind(R.id.activity_newevent_scrollview)
-    protected ScrollView scrollView;
-
-    @Bind(R.id.fab_menu)
-    protected MeasurementFloatingActionMenu fab;
-
-    @Bind(R.id.layout_measurements)
-    protected MeasurementListView layoutMeasurements;
-
-    @Bind(R.id.edittext_notes)
-    protected EditText editTextNotes;
-
-    @Bind(R.id.button_date)
-    protected Button buttonDate;
-
-    @Bind(R.id.button_time)
-    protected Button buttonTime;
-
-    @Bind(R.id.spinner_alarm)
-    protected Spinner spinnerAlarm;
+    @BindView(R.id.activity_newevent_scrollview) ScrollView scrollView;
+    @BindView(R.id.fab_menu) MeasurementFloatingActionMenu fab;
+    @BindView(R.id.layout_measurements) MeasurementListView layoutMeasurements;
+    @BindView(R.id.edittext_notes) EditText editTextNotes;
+    @BindView(R.id.button_date) Button buttonDate;
+    @BindView(R.id.button_time) Button buttonTime;
+    @BindView(R.id.spinner_alarm) Spinner spinnerAlarm;
 
     private Entry entry;
     private DateTime time;

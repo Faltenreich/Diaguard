@@ -12,18 +12,15 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.view.TintImageView;
 import com.squareup.picasso.Picasso;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by Faltenreich on 17.10.2015.
  */
 public class TableCategoryHolder extends BaseViewHolder<ListItemCategoryValues> {
 
-    @Bind(R.id.list_item_chart_table_image)
-    protected TintImageView imageView;
-
-    @Bind(R.id.list_item_chart_table_content)
-    public ViewGroup content;
+    @BindView(R.id.list_item_chart_table_image) TintImageView imageView;
+    @BindView(R.id.list_item_chart_table_content) public ViewGroup content;
 
     public TableCategoryHolder(View view) {
         super(view);

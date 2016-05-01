@@ -34,7 +34,7 @@ import org.joda.time.Interval;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by Filip on 15.11.13.
@@ -44,44 +44,19 @@ public class StatisticsActivity extends BaseActivity {
 
     private static final int MIN_MAX_Y_VALUE = 3;
 
-    @Bind(R.id.statistics_image_category)
-    protected ImageView imageViewCategory;
-
-    @Bind(R.id.statistics_categories)
-    protected Spinner spinnerCategories;
-
-    @Bind(R.id.statistics_interval)
-    protected Spinner spinnerInterval;
-
-    @Bind(R.id.statistics_measurement_count_avg)
-    protected TextView textViewMeasurementCountAvg;
-
-    @Bind(R.id.statistics_layout_hyper)
-    protected ViewGroup layoutAvgHyper;
-
-    @Bind(R.id.statistics_avg_hyper)
-    protected TextView textViewAvgHyper;
-
-    @Bind(R.id.statistics_layout_hypo)
-    protected ViewGroup layoutAvgHypo;
-
-    @Bind(R.id.statistics_avg_hypo)
-    protected TextView textViewAvgHypo;
-
-    @Bind(R.id.statistics_avg_unit)
-    protected TextView textViewAvgUnit;
-
-    @Bind(R.id.statistics_avg_value)
-    protected TextView textViewAvgValue;
-
-    @Bind(R.id.statistics_chart_trend)
-    protected LineChart chartTrend;
-
-    @Bind(R.id.layout_distribution)
-    protected ViewGroup layoutDistribution;
-
-    @Bind(R.id.statistics_chart_distribution)
-    protected PieChart chartDistribution;
+    @BindView(R.id.statistics_image_category) ImageView imageViewCategory;
+    @BindView(R.id.statistics_categories) Spinner spinnerCategories;
+    @BindView(R.id.statistics_interval) Spinner spinnerInterval;
+    @BindView(R.id.statistics_measurement_count_avg) TextView textViewMeasurementCountAvg;
+    @BindView(R.id.statistics_layout_hyper) ViewGroup layoutAvgHyper;
+    @BindView(R.id.statistics_avg_hyper) TextView textViewAvgHyper;
+    @BindView(R.id.statistics_layout_hypo) ViewGroup layoutAvgHypo;
+    @BindView(R.id.statistics_avg_hypo) TextView textViewAvgHypo;
+    @BindView(R.id.statistics_avg_unit) TextView textViewAvgUnit;
+    @BindView(R.id.statistics_avg_value) TextView textViewAvgValue;
+    @BindView(R.id.statistics_chart_trend) LineChart chartTrend;
+    @BindView(R.id.layout_distribution) ViewGroup layoutDistribution;
+    @BindView(R.id.statistics_chart_distribution) PieChart chartDistribution;
 
     private TimeSpan timeSpan;
     private Measurement.Category category;

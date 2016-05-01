@@ -16,7 +16,7 @@ import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Pressure;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -25,19 +25,19 @@ import butterknife.OnClick;
  */
 public class MeasurementView<T extends Measurement> extends LinearLayout {
 
-    @Bind(R.id.image_showcase)
+    @BindView(R.id.image_showcase)
     protected ImageView imageViewShowcase;
 
-    @Bind(R.id.layer_showcase)
+    @BindView(R.id.layer_showcase)
     protected View viewLayerShowcase;
 
-    @Bind(R.id.image_category)
+    @BindView(R.id.image_category)
     protected ImageView imageViewCategory;
 
-    @Bind(R.id.category)
+    @BindView(R.id.category)
     protected TextView textViewCategory;
 
-    @Bind(R.id.layout_content)
+    @BindView(R.id.layout_content)
     protected LinearLayout content;
 
     private Measurement.Category category;

@@ -9,18 +9,15 @@ import com.faltenreich.diaguard.adapter.list.ListItemDay;
 
 import org.joda.time.DateTime;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by Faltenreich on 17.10.2015.
  */
 public class LogDayViewHolder extends BaseViewHolder<ListItemDay> {
 
-    @Bind(R.id.day)
-    protected TextView day;
-
-    @Bind(R.id.weekday)
-    protected TextView weekDay;
+    @BindView(R.id.day) TextView day;
+    @BindView(R.id.weekday) TextView weekDay;
 
     public LogDayViewHolder(View view) {
         super(view);

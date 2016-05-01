@@ -8,15 +8,14 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.list.ListItemEmpty;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by Faltenreich on 17.10.2015.
  */
 public class LogEmptyViewHolder extends BaseViewHolder<ListItemEmpty> implements View.OnClickListener {
 
-    @Bind(R.id.empty)
-    protected TextView textView;
+    @BindView(R.id.empty) TextView textView;
 
     public LogEmptyViewHolder(View view) {
         super(view);

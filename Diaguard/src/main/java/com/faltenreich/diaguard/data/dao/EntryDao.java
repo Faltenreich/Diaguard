@@ -193,4 +193,20 @@ public class EntryDao extends BaseDao<Entry> {
             return -1;
         }
     }
+
+    public List<Entry> getAllWithNotes(DateTime day) {
+        try {
+            return getDao().queryBuilder()
+                    .where().isNotNull(Entry.Column.NOTE)
+                    .and().ge(Entry.Column.DATE, day.withTimeAtStartOfDay())
+                    .and().le(Entry.Column.DATE, day.withTime(DateTimeConstants.HOURS_PER_DAY - 1,
+                            DateTimeConstants.MINUTES_PER_HOUR - 1,
+                            DateTimeConstants.SECONDS_PER_MINUTE - 1,
+                            DateTimeConstants.MILLIS_PER_SECOND - 1))
+                    .query();
+        } catch (SQLException exception) {
+            Log.e(TAG, exception.getMessage());
+            return new ArrayList<>();
+        }
+    }
 }

@@ -259,6 +259,7 @@
     <string name="measurement_latest">Hace poco</string>
     <string name="hyper_per_day">Hipers por día</string>
     <string name="hypo_per_day">Hipos por día</string>
+    <string name="per">por</string>
     <string name="per_day">por día</string>
     <string name="target_area">Área objetivo</string>
     <string name="year">Año</string>

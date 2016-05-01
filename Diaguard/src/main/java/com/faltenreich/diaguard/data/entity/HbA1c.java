@@ -43,11 +43,6 @@ public class HbA1c extends Measurement {
     }
 
     @Override
-    public boolean stackValues() {
-        return false;
-    }
-
-    @Override
     public String toString() {
         return PreferenceHelper.getInstance().getMeasurementForUi(getCategory(), percent);
     }

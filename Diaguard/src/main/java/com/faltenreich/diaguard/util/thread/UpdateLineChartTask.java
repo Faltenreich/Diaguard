@@ -77,7 +77,12 @@ public class UpdateLineChartTask extends BaseAsyncTask<Void, Void, LineData> {
         }
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        LineDataSet dataSet = new LineDataSet(entries, PreferenceHelper.getInstance().getUnitName(category));
+        String dataSetName = String.format("%s %s",
+                PreferenceHelper.getInstance().getUnitName(category),
+                category.stackValues() ?
+                        getContext().getString(R.string.per) + " " + timeSpan.toSubIntervalLabel() :
+                        getContext().getString(R.string.average));
+        LineDataSet dataSet = new LineDataSet(entries, dataSetName);
         dataSet.setColor(dataSetColor);
         dataSet.setLineWidth(fillDrawing ? 0 : ChartHelper.LINE_WIDTH);
         dataSet.setCircleColor(dataSetColor);

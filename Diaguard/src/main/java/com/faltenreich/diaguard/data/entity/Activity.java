@@ -59,11 +59,6 @@ public class Activity extends Measurement {
     }
 
     @Override
-    public boolean stackValues() {
-        return true;
-    }
-
-    @Override
     public String toString() {
         return PreferenceHelper.getInstance().getMeasurementForUi(getCategory(), minutes);
     }

@@ -11,6 +11,7 @@ import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.Helper;
 import com.pdfjet.Align;
+import com.pdfjet.Border;
 import com.pdfjet.Cell;
 import com.pdfjet.Color;
 import com.pdfjet.CoreFont;
@@ -58,8 +59,6 @@ public class PdfTable extends Table {
         try {
             fontNormal = new Font(pdf, CoreFont.HELVETICA);
             fontBold = new Font(pdf, CoreFont.HELVETICA_BOLD);
-
-            setNoCellBorders();
             setData(getData());
         } catch (Exception e) {
             Log.e(TAG, "Failed to init");
@@ -79,83 +78,25 @@ public class PdfTable extends Table {
     }
 
     private List<List<Cell>> getData() {
-
         List<List<Cell>> data = new ArrayList<>();
 
-        // Header
-        List<Cell> header = new ArrayList<>();
-        String weekDay = DateTimeFormat.forPattern("E").print(day);
-        String date = String.format("%s %s", weekDay, DateTimeFormat.forPattern("dd.MM").print(day));
-        Cell dateCell = new Cell(fontBold, date);
-        dateCell.setWidth(LABEL_WIDTH);
-        dateCell.setBorder(0x00030000, true);
-        header.add(dateCell);
-        for (int hour = 0; hour < DateTimeConstants.HOURS_PER_DAY; hour += HOURS_TO_SKIP) {
-            Cell hourCell = new Cell(fontNormal, Integer.toString(hour));
-            hourCell.setWidth(getCellWidth());
-            hourCell.setFgColor(Color.gray);
-            hourCell.setTextAlignment(Align.CENTER);
-            dateCell.setBorder(0x00030000, true);
-            header.add(hourCell);
-        }
-        data.add(header);
+        data.add(getHeader());
 
-        // Data
         LinkedHashMap<Measurement.Category, float[]> values = EntryDao.getInstance().getAverageDataTable(day, categories, HOURS_TO_SKIP);
-
         int row = 0;
         for (Measurement.Category category : values.keySet()) {
             boolean rowIsAlternating = row % 2 == 0;
             int backgroundColor = rowIsAlternating ? ALTERNATING_ROW_COLOR : Color.white;
-            List<Cell> cells = new ArrayList<>();
-
-            Cell categoryCell = new Cell(fontNormal, category.toLocalizedString());
-            categoryCell.setBgColor(backgroundColor);
-            categoryCell.setFgColor(Color.gray);
-            categoryCell.setWidth(LABEL_WIDTH);
-            cells.add(categoryCell);
-
-            for (float value : values.get(category)) {
-                int textColor = Color.black;
-                if (category == Measurement.Category.BLOODSUGAR && PreferenceHelper.getInstance().limitsAreHighlighted()) {
-                    if (value > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
-                        textColor = ContextCompat.getColor(DiaguardApplication.getContext(), R.color.red);
-                    } else if (value < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
-                        textColor = ContextCompat.getColor(DiaguardApplication.getContext(), R.color.blue);
-                    }
-                }
-                float customValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, value);
-                String text = customValue > 0 ?
-                        PreferenceHelper.getInstance().getDecimalFormat(category).format(customValue) :
-                        "";
-                Cell cell = new Cell(fontNormal, text);
-                cell.setBgColor(backgroundColor);
-                cell.setFgColor(textColor);
-                cell.setWidth(getCellWidth());
-                cell.setTextAlignment(Align.CENTER);
-                cells.add(cell);
-            }
-            data.add(cells);
+            data.add(getRow(category, values.get(category), backgroundColor));
             row++;
         }
 
         List<Entry> entriesWithNotes = EntryDao.getInstance().getAllWithNotes(day);
         if (entriesWithNotes.size() > 0) {
-
-            // TODO: Add border line
-
             for (Entry entry : entriesWithNotes) {
-                ArrayList<Cell> noteValueCells = new ArrayList<>();
-                Cell noteDateCell = new Cell(fontNormal, Helper.getTimeFormat().print(entry.getDate()));
-                noteDateCell.setFgColor(Color.gray);
-                noteDateCell.setWidth(LABEL_WIDTH);
-                noteValueCells.add(noteDateCell);
-
-                Cell noteTextCell = new Cell(fontNormal, entry.getNote());
-                noteTextCell.setFgColor(Color.gray);
-                noteTextCell.setWidth(page.getWidth() - LABEL_WIDTH);
-                noteValueCells.add(noteTextCell);
-                data.add(noteValueCells);
+                data.add(getNote(entry,
+                        entriesWithNotes.indexOf(entry) == 0,
+                        entriesWithNotes.indexOf(entry) == entriesWithNotes.size() - 1));
             }
         }
 
@@ -164,5 +105,94 @@ public class PdfTable extends Table {
 
     private float getCellWidth() {
         return (page.getWidth() - LABEL_WIDTH) / (DateTimeConstants.HOURS_PER_DAY / 2);
+    }
+
+    private List<Cell> getHeader() {
+        List<Cell> cells = new ArrayList<>();
+
+        String weekDay = DateTimeFormat.forPattern("E").print(day);
+        String date = String.format("%s %s", weekDay, DateTimeFormat.forPattern("dd.MM").print(day));
+        Cell cell = new Cell(fontBold, date);
+        cell.setWidth(LABEL_WIDTH);
+        cell.setNoBorders();
+        cells.add(cell);
+
+        for (int hour = 0; hour < DateTimeConstants.HOURS_PER_DAY; hour += HOURS_TO_SKIP) {
+            cell = new Cell(fontNormal, Integer.toString(hour));
+            cell.setWidth(getCellWidth());
+            cell.setFgColor(Color.gray);
+            cell.setTextAlignment(Align.CENTER);
+            cell.setNoBorders();
+            cells.add(cell);
+        }
+
+        return cells;
+    }
+
+    private List<Cell> getRow(Measurement.Category category, float[] values, int backgroundColor) {
+        List<Cell> cells = new ArrayList<>();
+
+        Cell cell = new Cell(fontNormal, category.toLocalizedString());
+        cell.setBgColor(backgroundColor);
+        cell.setFgColor(Color.gray);
+        cell.setWidth(LABEL_WIDTH);
+        cell.setNoBorders();
+        cells.add(cell);
+
+        for (float value : values) {
+            int textColor = Color.black;
+            if (category == Measurement.Category.BLOODSUGAR && PreferenceHelper.getInstance().limitsAreHighlighted()) {
+                if (value > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
+                    textColor = ContextCompat.getColor(DiaguardApplication.getContext(), R.color.red);
+                } else if (value < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
+                    textColor = ContextCompat.getColor(DiaguardApplication.getContext(), R.color.blue);
+                }
+            }
+            float customValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, value);
+            String text = customValue > 0 ?
+                    PreferenceHelper.getInstance().getDecimalFormat(category).format(customValue) :
+                    "";
+            cell = new Cell(fontNormal, text);
+            cell.setBgColor(backgroundColor);
+            cell.setFgColor(textColor);
+            cell.setWidth(getCellWidth());
+            cell.setTextAlignment(Align.CENTER);
+            cell.setNoBorders();
+            cells.add(cell);
+        }
+        return cells;
+    }
+
+    private List<Cell> getNote(Entry entry, boolean isFirst, boolean isLast) {
+        ArrayList<Cell> cells = new ArrayList<>();
+
+        Cell cell = new Cell(fontNormal, Helper.getTimeFormat().print(entry.getDate()));
+        cell.setFgColor(Color.gray);
+        cell.setWidth(LABEL_WIDTH);
+        cell.setNoBorders();
+
+        if (isFirst) {
+            cell.setBorder(Border.TOP, true);
+        }
+        if (isLast) {
+            cell.setBorder(Border.BOTTOM, true);
+        }
+
+        cells.add(cell);
+
+        cell = new Cell(fontNormal, entry.getNote());
+        cell.setFgColor(Color.gray);
+        cell.setWidth(page.getWidth() - LABEL_WIDTH);
+        cell.setNoBorders();
+
+        if (isFirst) {
+            cell.setBorder(Border.TOP, true);
+        }
+        if (isLast) {
+            cell.setBorder(Border.BOTTOM, true);
+        }
+
+        cells.add(cell);
+        return cells;
     }
 }

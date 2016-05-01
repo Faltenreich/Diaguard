@@ -42,7 +42,6 @@
     <string name="contact">Contact</string>
     <string name="correction">Correction</string>
     <string name="correction_value">Correction value</string>
-    <string name="count">Count</string>
     <string name="data">Data</string>
     <string name="date_select">Select date</string>
     <string name="day_next">Next day</string>
@@ -68,7 +67,6 @@
     <string name="factors">Factors</string>
     <string name="first_visit">First visit?</string>
     <string name="first_visit_desc">Enter your first value</string>
-    <string name="food_desc">What did you eat?</string>
     <string name="format">Format</string>
     <string name="general">General</string>
     <string name="hba1c">HbA1c</string>
@@ -95,13 +93,7 @@
     <string name="note_append">Append notes</string>
     <string name="ok">OK</string>
     <string name="overview">Overview</string>
-    <string name="photo_desc">Add photo &#8230;</string>
-    <string-array name="photo_dialog">
-        <item>Gallery</item>
-        <item>Camera</item>
-    </string-array>
     <string name="per_day">per day</string>
-    <string name="period">Period</string>
     <string name="placeholder">-</string>
     <string name="pressure">Blood Pressure</string>
     <string name="pulse">Pulse</string>
@@ -146,7 +138,6 @@
     <string name="day">Day</string>
     <string name="days">Days</string>
     <string name="week">Week</string>
-    <string name="week_two">14 Days</string>
     <string name="month">Month</string>
     <string name="year">Year</string>
 

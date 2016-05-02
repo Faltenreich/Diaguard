@@ -1,10 +1,11 @@
 package com.faltenreich.diaguard.ui.activity;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -274,33 +275,25 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     @SuppressWarnings("unused")
     @OnClick(R.id.button_date)
     public void showDatePicker() {
-        DialogFragment fragment = new DatePickerFragment() {
+        DatePickerFragment.newInstance(time, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 time = time.withYear(year).withMonthOfYear(month + 1).withDayOfMonth(day);
                 setDateTime();
             }
-        };
-        Bundle bundle = new Bundle(1);
-        bundle.putSerializable(DatePickerFragment.DATE, time);
-        fragment.setArguments(bundle);
-        fragment.show(getSupportFragmentManager(), "DatePicker");
+        }).show(getSupportFragmentManager());
     }
 
     @SuppressWarnings("unused")
     @OnClick(R.id.button_time)
     public void showTimePicker() {
-        DialogFragment fragment = new TimePickerFragment() {
+        TimePickerFragment.newInstance(time, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 time = time.withHourOfDay(hourOfDay).withMinuteOfHour(minute);
                 setDateTime();
             }
-        };
-        Bundle bundle = new Bundle(1);
-        bundle.putSerializable(TimePickerFragment.TIME, time);
-        fragment.setArguments(bundle);
-        fragment.show(getSupportFragmentManager(), "TimePicker");
+        }).show(getSupportFragmentManager());
     }
 
     @Override

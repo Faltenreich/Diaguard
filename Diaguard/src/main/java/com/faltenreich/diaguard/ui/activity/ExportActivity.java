@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.ui.activity;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -161,32 +162,24 @@ public class ExportActivity extends BaseActivity implements FileListener {
     @SuppressWarnings("unused")
     @OnClick(R.id.button_datestart)
     public void showStartDatePicker() {
-        DatePickerFragment fragment = new DatePickerFragment() {
+        DatePickerFragment.newInstance(dateStart, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 dateStart = dateStart.withYear(year).withMonthOfYear(month + 1).withDayOfMonth(day);
                 buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
             }
-        };
-        Bundle bundle = new Bundle(1);
-        bundle.putSerializable(DatePickerFragment.DATE, dateStart);
-        fragment.setArguments(bundle);
-        fragment.show(getSupportFragmentManager(), "StartDatePicker");
+        }).show(getSupportFragmentManager());
     }
 
     @SuppressWarnings("unused")
     @OnClick(R.id.button_dateend)
     public void showEndDatePicker() {
-        DatePickerFragment fragment = new DatePickerFragment() {
+        DatePickerFragment.newInstance(dateEnd, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 dateEnd = dateEnd.withYear(year).withMonthOfYear(month + 1).withDayOfMonth(day);
                 buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
             }
-        };
-        Bundle bundle = new Bundle(1);
-        bundle.putSerializable(DatePickerFragment.DATE, dateEnd);
-        fragment.setArguments(bundle);
-        fragment.show(getSupportFragmentManager(), "EndDatePicker");
+        }).show(getSupportFragmentManager());
     }
 }

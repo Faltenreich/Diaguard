@@ -16,6 +16,7 @@ import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.ChartHelper;
+import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.TimeSpan;
 import com.faltenreich.diaguard.util.thread.BaseAsyncTask;
 import com.faltenreich.diaguard.util.thread.UpdateBloodSugarPieChartTask;
@@ -159,7 +160,7 @@ public class StatisticsActivity extends BaseActivity {
 
         long count = EntryDao.getInstance().count(category, interval.getStart(), interval.getEnd());
         float avgCountPerDay = (float) count / (float) days;
-        textViewMeasurementCountAvg.setText(String.format("%.2f", avgCountPerDay));
+        textViewMeasurementCountAvg.setText(Helper.parseFloat(avgCountPerDay));
 
         if (category == Measurement.Category.BLOODSUGAR) {
             layoutAvgHyper.setVisibility(View.VISIBLE);
@@ -168,8 +169,8 @@ public class StatisticsActivity extends BaseActivity {
             long hypoCount = EntryDao.getInstance().countBelow(interval.getStart(), interval.getEnd(), PreferenceHelper.getInstance().getLimitHypoglycemia());
             float avgHypersPerDay = (float) hyperCount / (float) days;
             float avgHyposPerDay = (float) hypoCount / (float) days;
-            textViewAvgHyper.setText(String.format("%.2f", avgHypersPerDay));
-            textViewAvgHypo.setText(String.format("%.2f", avgHyposPerDay));
+            textViewAvgHyper.setText(Helper.parseFloat(avgHypersPerDay));
+            textViewAvgHypo.setText(Helper.parseFloat(avgHyposPerDay));
         } else {
             layoutAvgHyper.setVisibility(View.GONE);
             layoutAvgHypo.setVisibility(View.GONE);

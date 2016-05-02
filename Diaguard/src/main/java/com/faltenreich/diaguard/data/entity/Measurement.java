@@ -5,6 +5,7 @@ import android.support.annotation.StringRes;
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.util.Helper;
 import com.j256.ormlite.field.DatabaseField;
 
 /**
@@ -69,18 +70,10 @@ public abstract class Measurement extends BaseEntity {
             float value = values[position];
             if (value > 0) {
                 float valueFormatted = PreferenceHelper.getInstance().formatDefaultToCustomUnit(getCategory(), value);
-                valuesForUI[position] = PreferenceHelper.getInstance().getDecimalFormat(getCategory()).format(valueFormatted);
+                valuesForUI[position] = Helper.parseFloat(valueFormatted);
             }
         }
         return valuesForUI;
-    }
-
-    public String getValueForUI() {
-        float sum = 0;
-        for (float value : getValues()) {
-            sum += PreferenceHelper.getInstance().formatDefaultToCustomUnit(getCategory(), value);
-        }
-        return PreferenceHelper.getInstance().getDecimalFormat(getCategory()).format(sum);
     }
 
     @SuppressWarnings("unchecked")

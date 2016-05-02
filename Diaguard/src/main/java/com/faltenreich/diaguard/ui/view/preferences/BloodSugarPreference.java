@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.Validator;
 
 /**
@@ -47,7 +48,7 @@ public class BloodSugarPreference extends EditTextPreference {
 
         float value = Float.parseFloat(sharedPreferences.getString(getKey(), ""));
         value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, value);
-        editTextValue.setText(PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(value));
+        editTextValue.setText(Helper.parseFloat(value));
         editTextValue.setSelection(editTextValue.getText().length());
 
         TextView textViewUnit = (TextView) view.findViewById(R.id.unit);

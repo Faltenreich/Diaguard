@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.data.entity;
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.util.Helper;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -78,7 +79,7 @@ public class Insulin extends Measurement {
     public String toString() {
         float total = bolus + correction + basal;
         float customTotal = PreferenceHelper.getInstance().formatDefaultToCustomUnit(getCategory(), total);
-        return PreferenceHelper.getInstance().getDecimalFormat(getCategory()).format(customTotal);
+        return Helper.parseFloat(customTotal);
     }
 
     public String toStringDetail() {

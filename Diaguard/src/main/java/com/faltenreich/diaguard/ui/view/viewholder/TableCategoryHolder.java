@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.adapter.list.ListItemCategoryValues;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.view.TintImageView;
+import com.faltenreich.diaguard.util.Helper;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -38,7 +39,7 @@ public class TableCategoryHolder extends BaseViewHolder<ListItemCategoryValues> 
             TextView textView = (TextView) LayoutInflater.from(getContext()).inflate(R.layout.list_item_table_category_value, content, false);
             if (value > 0) {
                 value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, value);
-                String valueForUi = PreferenceHelper.getInstance().getDecimalFormat(category).format(value);
+                String valueForUi = Helper.parseFloat(value);
                 textView.setText(valueForUi);
             }
             content.addView(textView);

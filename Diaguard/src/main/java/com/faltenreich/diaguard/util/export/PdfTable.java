@@ -153,9 +153,7 @@ public class PdfTable extends Table {
                 }
             }
             float customValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, value);
-            String text = customValue > 0 ?
-                    PreferenceHelper.getInstance().getDecimalFormat(category).format(customValue) :
-                    "";
+            String text = customValue > 0 ? Helper.parseFloat(customValue) : "";
             cell = new Cell(fontNormal, text);
             cell.setBgColor(backgroundColor);
             cell.setFgColor(textColor);

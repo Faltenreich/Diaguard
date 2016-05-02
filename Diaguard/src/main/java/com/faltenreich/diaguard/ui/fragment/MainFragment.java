@@ -200,6 +200,7 @@ public class MainFragment extends BaseFragment {
         chart.getXAxis().setDrawGridLines(false);
         chart.getXAxis().setTextColor(ContextCompat.getColor(getContext(), R.color.gray_dark));
         chart.getXAxis().setLabelsToSkip(0);
+        chart.getAxisLeft().removeAllLimitLines();
         float targetValue = PreferenceHelper.getInstance().
                 formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
                         PreferenceHelper.getInstance().getTargetValue());
@@ -211,6 +212,7 @@ public class MainFragment extends BaseFragment {
             @Override
             public void onPostExecute(LineData lineData) {
                 if(isAdded()) {
+                    initializeChart();
                     chart.setData(lineData);
                     chart.invalidate();
                 }

@@ -9,11 +9,10 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.view.preferences.CategoryPreference;
 import com.faltenreich.diaguard.ui.view.preferences.FactorPreference;
+import com.faltenreich.diaguard.util.Helper;
 
 import org.joda.time.DateTime;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -105,28 +104,6 @@ public class PreferenceHelper {
 
     public float getCorrectionValue() {
         return Float.parseFloat(sharedPreferences.getString("correction_value", "40"));
-    }
-
-    // TODO: Localization
-    public DecimalFormat getDecimalFormat(Measurement.Category category) {
-        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-        symbols.setDecimalSeparator('.');
-
-        String formatString = "#0";
-        switch (category) {
-            case INSULIN:
-            case HBA1C:
-            case WEIGHT:
-                formatString = "#0.#";
-            default:
-                float unitValue = getUnitValue(category);
-                if(unitValue != 1)
-                    formatString = "#0.#";
-        }
-
-        DecimalFormat format = new DecimalFormat(formatString);
-        format.setDecimalFormatSymbols(symbols);
-        return format;
     }
 
     // CATEGORIES
@@ -229,7 +206,7 @@ public class PreferenceHelper {
     }
 
     public String getMeasurementForUi(Measurement.Category category, float defaultValue) {
-        return getDecimalFormat(category).format(formatDefaultToCustomUnit(category, defaultValue));
+        return Helper.parseFloat(formatDefaultToCustomUnit(category, defaultValue));
     }
 
     // FACTORS

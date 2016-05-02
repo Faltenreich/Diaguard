@@ -27,8 +27,7 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 import java.util.Random;
 
 /**
@@ -39,13 +38,22 @@ public class Helper {
     private static final String TAG = Helper.class.getSimpleName();
     private static final String FORMAT_TIME = "HH:mm";
 
-    @Deprecated
-    public static DecimalFormat getDecimalFormat() {
-        DecimalFormat decimalFormat = new DecimalFormat("#.#");
-        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-        symbols.setDecimalSeparator('.');
-        decimalFormat.setDecimalFormatSymbols(symbols);
-        return decimalFormat;
+    public static Locale getLocale() {
+        return DiaguardApplication.getContext().getResources().getConfiguration().locale;
+    }
+
+    public static String parseFloat(float number) {
+        return (number % 1 != 0) ?
+                parseFloatWithDigit(number) :
+                parseFloatWithoutDigit(number);
+    }
+
+    public static String parseFloatWithDigit(float number) {
+        return String.format(getLocale(), "%.1f", number);
+    }
+
+    public static String parseFloatWithoutDigit(float number) {
+        return String.format(getLocale(), "%d", (int) number);
     }
 
     public static DateTimeFormatter getDateFormat() {

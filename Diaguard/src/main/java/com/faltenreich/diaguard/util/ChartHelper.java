@@ -66,7 +66,7 @@ public class ChartHelper {
         chart.getAxisLeft().setValueFormatter(new YAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, YAxis axis) {
-                return PreferenceHelper.getInstance().getDecimalFormat(category).format(value);
+                return Helper.parseFloat(value);
             }
         });
     }

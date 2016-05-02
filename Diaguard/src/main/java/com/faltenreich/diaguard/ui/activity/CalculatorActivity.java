@@ -86,15 +86,13 @@ public class CalculatorActivity extends BaseActivity {
         float targetValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(
                 Measurement.Category.BLOODSUGAR,
                 PreferenceHelper.getInstance().getTargetValue());
-        editTextTargetValue.setHint(
-                PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(targetValue));
+        editTextTargetValue.setHint(Helper.parseFloat(targetValue));
 
         // Correction
         float correctionValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(
                 Measurement.Category.BLOODSUGAR,
                 PreferenceHelper.getInstance().getCorrectionValue());
-        editTextCorrection.setHint(PreferenceHelper.getInstance().
-                getDecimalFormat(Measurement.Category.BLOODSUGAR).format(correctionValue));
+        editTextCorrection.setHint(Helper.parseFloat(correctionValue));
 
         // Factor
         spinnerFactors.setSelection(PreferenceHelper.getInstance().getCurrentDaytime().ordinal());
@@ -104,7 +102,7 @@ public class CalculatorActivity extends BaseActivity {
                 PreferenceHelper.Daytime daytime = PreferenceHelper.Daytime.values()[position];
                 float factor = PreferenceHelper.getInstance().getFactorValue(daytime);
                 if (factor != 0)
-                    editTextFactor.setHint(Helper.getDecimalFormat().format(factor));
+                    editTextFactor.setHint(Helper.parseFloat(factor));
                 else
                     editTextFactor.setHint("");
             }
@@ -190,7 +188,7 @@ public class CalculatorActivity extends BaseActivity {
                         carbohydrateAcronym,
                         getString(R.string.factor)));
                 builderFormulaContent.append(String.format("%s %s * %s",
-                        PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.MEAL).format(meal / 10),
+                        Helper.parseFloat(meal / 10),
                         carbohydrateAcronym,
                         factor));
             }
@@ -205,9 +203,9 @@ public class CalculatorActivity extends BaseActivity {
                     getString(R.string.correction_value)));
             String bloodSugarUnit = PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BLOODSUGAR);
             builderFormulaContent.append(String.format("(%s %s - %s %s) / %s %s",
-                    PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(currentBloodSugar), bloodSugarUnit,
-                    PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(targetBloodSugar), bloodSugarUnit,
-                    PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(correction), bloodSugarUnit));
+                    Helper.parseFloat(currentBloodSugar), bloodSugarUnit,
+                    Helper.parseFloat(targetBloodSugar), bloodSugarUnit,
+                    Helper.parseFloat(correction), bloodSugarUnit));
 
             builderFormula.append(" =");
             builderFormulaContent.append(" =");
@@ -249,7 +247,7 @@ public class CalculatorActivity extends BaseActivity {
         }
 
         TextView textViewValue = (TextView) viewPopup.findViewById(R.id.textViewResult);
-        textViewValue.setText(PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.INSULIN).format(insulin));
+        textViewValue.setText(Helper.parseFloat(insulin));
 
         TextView textViewUnit = (TextView) viewPopup.findViewById(R.id.textViewUnit);
         textViewUnit.setText(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.INSULIN));

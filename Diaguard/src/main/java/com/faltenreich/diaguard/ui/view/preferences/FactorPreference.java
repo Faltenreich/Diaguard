@@ -52,25 +52,25 @@ public class FactorPreference extends DialogPreference {
         night = (EditText) view.findViewById(R.id.night);
 
         if(sharedPreferences.contains(FACTOR + PreferenceHelper.Daytime.Morning)) {
-            morning.setText(Helper.getDecimalFormat().format(
+            morning.setText(Helper.parseFloat(
                     sharedPreferences.getFloat(FACTOR + PreferenceHelper.Daytime.Morning, 1)));
             morning.setSelection(morning.length());
         }
 
         if(sharedPreferences.contains(FACTOR + PreferenceHelper.Daytime.Noon)) {
-            noon.setText(Helper.getDecimalFormat().format(
+            noon.setText(Helper.parseFloat(
                     sharedPreferences.getFloat(FACTOR + PreferenceHelper.Daytime.Noon, 1)));
             noon.setSelection(noon.length());
         }
 
         if(sharedPreferences.contains(FACTOR + PreferenceHelper.Daytime.Evening)) {
-            evening.setText(Helper.getDecimalFormat().format(
+            evening.setText(Helper.parseFloat(
                     sharedPreferences.getFloat(FACTOR + PreferenceHelper.Daytime.Evening, 1)));
             evening.setSelection(evening.length());
         }
 
         if(sharedPreferences.contains(FACTOR + PreferenceHelper.Daytime.Night)) {
-            night.setText(Helper.getDecimalFormat().format(
+            night.setText(Helper.parseFloat(
                     sharedPreferences.getFloat(FACTOR + PreferenceHelper.Daytime.Night, 1)));
             night.setSelection(night.length());
         }

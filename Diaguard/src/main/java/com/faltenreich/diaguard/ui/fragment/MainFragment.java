@@ -164,9 +164,9 @@ public class MainFragment extends BaseFragment {
                     Integer.toString(entriesWithBloodSugar != null ? entriesWithBloodSugar.size() : 0),
                     Integer.toString(countHypers),
                     Integer.toString(countHypos),
-                    PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(avgDayCustom),
-                    PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(avgWeekCustom),
-                    PreferenceHelper.getInstance().getDecimalFormat(Measurement.Category.BLOODSUGAR).format(avgMonthCustom)
+                    Helper.parseFloat(avgDayCustom),
+                    Helper.parseFloat(avgWeekCustom),
+                    Helper.parseFloat(avgMonthCustom)
             };
         }
 

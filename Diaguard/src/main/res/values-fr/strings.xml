@@ -163,6 +163,9 @@
     <string-array name="insulin_units">
         <item>Unités d\'insuline</item>
     </string-array>
+    <string-array name="insulin_units_acronyms">
+        <item>IU</item>
+    </string-array>
 
     <string name="meal_units_default">Glucides</string>
     <string-array name="meal_units">
@@ -178,7 +181,10 @@
 
     <string name="activity_units_default">Minutes</string>
     <string-array name="activity_units">
-        <item>Minutens</item>
+        <item>Minutes</item>
+    </string-array>
+    <string-array name="activity_units_acronyms">
+        <item>min</item>
     </string-array>
 
     <string name="hba1c_units_default">mmol/mol</string>
@@ -190,17 +196,27 @@
     <string name="weight_units_default">Kilogrammes</string>
     <string-array name="weight_units">
         <item>Kilogrammes</item>
-        <item>Livre</item>
+        <item>Livres</item>
+    </string-array>
+    <string-array name="weight_units_acronyms">
+        <item>kg</item>
+        <item>lb</item>
     </string-array>
 
     <string name="pulse_units_default">Battements par minute</string>
     <string-array name="pulse_units">
         <item>Battements par minute</item>
     </string-array>
+    <string-array name="pulse_units_acronyms">
+        <item>bpm</item>
+    </string-array>
 
-    <string name="pressure_units_default">Millimètre de mercure</string>
+    <string name="pressure_units_default">Millimètres de mercure</string>
     <string-array name="pressure_units">
-        <item>Millimètre de mercure</item>
+        <item>Millimètres de mercure</item>
+    </string-array>
+    <string-array name="pressure_units_acronyms">
+        <item>mm Hg</item>
     </string-array>
 
     <!-- VALIDATORS -->

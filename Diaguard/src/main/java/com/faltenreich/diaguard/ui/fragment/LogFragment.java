@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.ui.fragment;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.drawable.LayerDrawable;
@@ -186,16 +187,12 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
     }
 
     public void showDatePicker () {
-        DatePickerFragment fragment = new DatePickerFragment() {
+        DatePickerFragment.newInstance(getFirstVisibleDay(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 goToDay(DateTime.now().withYear(year).withMonthOfYear(month + 1).withDayOfMonth(day));
             }
-        };
-        Bundle bundle = new Bundle(1);
-        bundle.putSerializable(DatePickerFragment.DATE, getFirstVisibleDay());
-        fragment.setArguments(bundle);
-        fragment.show(getActivity().getSupportFragmentManager(), "DatePicker");
+        }).show(getActivity().getSupportFragmentManager());
     }
 
     @Override

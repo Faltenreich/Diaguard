@@ -1,12 +1,12 @@
 package com.faltenreich.diaguard.ui.fragment;
 
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -105,16 +105,12 @@ public class ChartFragment extends BaseFragment implements ChartViewPager.ChartV
     }
 
     private void showDatePicker() {
-        DialogFragment fragment = new DatePickerFragment() {
+        DatePickerFragment.newInstance(day, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 goToDay(DateTime.now().withYear(year).withMonthOfYear(month + 1).withDayOfMonth(day));
             }
-        };
-        Bundle bundle = new Bundle(1);
-        bundle.putSerializable(DatePickerFragment.DATE, day);
-        fragment.setArguments(bundle);
-        fragment.show(getActivity().getSupportFragmentManager(), "DatePicker");
+        }).show(getActivity().getSupportFragmentManager());
     }
 
     private void updateLabels() {

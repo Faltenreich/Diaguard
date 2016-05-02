@@ -43,7 +43,7 @@ public class Helper {
     }
 
     public static String parseFloat(float number) {
-        return (number % 1 != 0) ?
+        return (number % 1 >= .1) ?
                 parseFloatWithDigit(number) :
                 parseFloatWithoutDigit(number);
     }

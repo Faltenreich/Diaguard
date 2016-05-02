@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Diaguard</string>
-    <string name="app_facebook">http://www.facebook.com/diaguard.de</string>
-    <string name="app_facebook_short">facebook.com/diaguard.de</string>
-    <string name="app_homepage">http://www.diaguard.wordpress.com</string>
-    <string name="app_homepage_short">diaguard.wordpress.com</string>
-    <string name="app_mail">mailto:diaguard.de@gmail.com</string>
-    <string name="app_mail_short">diaguard.de@gmail.com</string>
-    <string name="app_version">1.4</string>
+    <string name="app_name" translatable="false">Diaguard</string>
+    <string name="app_facebook" translatable="false">http://www.facebook.com/diaguard.de</string>
+    <string name="app_facebook_short" translatable="false">facebook.com/diaguard.de</string>
+    <string name="app_homepage" translatable="false">http://www.diaguard.wordpress.com</string>
+    <string name="app_homepage_short" translatable="false">diaguard.wordpress.com</string>
+    <string name="app_mail" translatable="false">mailto:diaguard.de@gmail.com</string>
+    <string name="app_mail_short" translatable="false">diaguard.de@gmail.com</string>
+    <string name="app_version" translatable="false">1.4</string>
 
     <!-- GENERAL -->
 
@@ -21,13 +21,13 @@
     <string name="alarm_desc">%s since the last measurement</string>
     <string name="alarm_desc_first">Thought about yet?</string>
     <string name="average">Average</string>
-    <string name="average_symbol">Ø</string>
+    <string name="average_symbol" translatable="false">Ø</string>
     <string name="back">Back</string>
     <string name="backup">Backup</string>
     <string name="backup_complete">Backup complete</string>
     <string name="backup_import">Backup is being restored &#8230;</string>
     <string name="backup_title">Choose backup</string>
-    <string name="basal">Basal</string>
+    <string name="basal" translatable="false">Basal</string>
     <string name="bloodsugar">Blood Sugar</string>
     <string name="bolus">Bolus</string>
     <string name="bolus_no1">It is recommended not to inject a bolus.</string>
@@ -62,7 +62,7 @@
     <string name="export_complete">Saved to %s</string>
     <string name="export_progress">PDF is being created</string>
     <string name="export_stamp">Report generated on</string>
-    <string name="facebook">Facebook</string>
+    <string name="facebook" translatable="false">Facebook</string>
     <string name="factor">Factor</string>
     <string name="factors">Factors</string>
     <string name="first_visit">First visit?</string>
@@ -73,7 +73,7 @@
     <string name="homepage">Website</string>
     <string name="hyper">Hyper</string>
     <string name="hyper_per_day">Hypers per day</string>
-    <string name="hyphen">-</string>
+    <string name="hyphen" translatable="false">-</string>
     <string name="hypo">Hypo</string>
     <string name="hypo_per_day">Hypos per day</string>
     <string name="import_">Import</string>
@@ -95,7 +95,7 @@
     <string name="overview">Overview</string>
     <string name="per">per</string>
     <string name="per_day">per day</string>
-    <string name="placeholder">-</string>
+    <string name="placeholder" translatable="false">-</string>
     <string name="pressure">Blood Pressure</string>
     <string name="pulse">Pulse</string>
     <string name="settings">Settings</string>
@@ -120,7 +120,7 @@
         <item>Timeline</item>
         <item>Log</item>
     </string-array>
-    <string-array name="startscreens_values">
+    <string-array name="startscreens_values" translatable="false">
         <item>0</item>
         <item>1</item>
         <item>2</item>
@@ -203,7 +203,7 @@
 
     <!-- EXPORT -->
 
-    <string-array name="formats">
+    <string-array name="formats" translatable="false">
         <item>PDF</item>
         <item>CSV</item>
     </string-array>
@@ -221,12 +221,12 @@
         <item>Blood Pressure</item>
     </string-array>
 
-    <string name="bloodsugar_units_default">mmol/L</string>
-    <string-array name="bloodsugar_units">
+    <string name="bloodsugar_units_default" translatable="false">mmol/L</string>
+    <string-array name="bloodsugar_units" translatable="false">
         <item>mg/dL</item>
         <item>mmol/L</item>
     </string-array>
-    <string-array name="bloodsugar_units_values">
+    <string-array name="bloodsugar_units_values" translatable="false">
         <item>1</item>
         <item>0.0555</item>
     </string-array>
@@ -242,10 +242,10 @@
     <string-array name="insulin_units_acronyms">
         <item>IU</item>
     </string-array>
-    <string-array name="insulin_units_values">
+    <string-array name="insulin_units_values" translatable="false">
         <item>1</item>
     </string-array>
-    <integer-array name="insulin_extrema">
+    <integer-array name="insulin_extrema" translatable="false">
         <item name="minimum">0</item>
         <item name="maximum">100</item>
     </integer-array>
@@ -261,7 +261,7 @@
         <item>CU</item>
         <item>BU</item>
     </string-array>
-    <string-array name="meal_units_values">
+    <string-array name="meal_units_values" translatable="false">
         <item>1</item>
         <item>0.1</item>
         <item>0.0833</item>
@@ -278,10 +278,10 @@
     <string-array name="activity_units_acronyms">
         <item>min</item>
     </string-array>
-    <string-array name="activity_units_values">
+    <string-array name="activity_units_values" translatable="false">
         <item>1</item>
     </string-array>
-    <integer-array name="activity_extrema">
+    <integer-array name="activity_extrema" translatable="false">
         <item name="minimum">1</item>
         <item name="maximum">1000</item>
     </integer-array>
@@ -291,14 +291,14 @@
         <item>Percent</item>
         <item>mmol/mol</item>
     </string-array>
-    <string-array name="hba1c_units_acronyms">
+    <string-array name="hba1c_units_acronyms" translatable="false">
         <item>%</item>
     </string-array>
-    <string-array name="hba1c_units_values">
+    <string-array name="hba1c_units_values" translatable="false">
         <item>1</item>
         <item>0.00001</item>
     </string-array>
-    <integer-array name="hba1c_extrema">
+    <integer-array name="hba1c_extrema" translatable="false">
         <item name="minimum">1</item>
         <item name="maximum">25</item>
     </integer-array>
@@ -312,11 +312,11 @@
         <item>kg</item>
         <item>lbs</item>
     </string-array>
-    <string-array name="weight_units_values">
+    <string-array name="weight_units_values" translatable="false">
         <item>1</item>
         <item>0.45359237</item>
     </string-array>
-    <integer-array name="weight_extrema">
+    <integer-array name="weight_extrema" translatable="false">
         <item name="minimum">20</item>
         <item name="maximum">500</item>
     </integer-array>
@@ -328,10 +328,10 @@
     <string-array name="pulse_units_acronyms">
         <item>bpm</item>
     </string-array>
-    <string-array name="pulse_units_values">
+    <string-array name="pulse_units_values" translatable="false">
         <item>1</item>
     </string-array>
-    <integer-array name="pulse_extrema">
+    <integer-array name="pulse_extrema" translatable="false">
         <item name="minimum">10</item>
         <item name="maximum">200</item>
     </integer-array>
@@ -343,10 +343,10 @@
     <string-array name="pressure_units_acronyms">
         <item>mm Hg</item>
     </string-array>
-    <string-array name="pressure_units_values">
+    <string-array name="pressure_units_values" translatable="false">
         <item>1</item>
     </string-array>
-    <integer-array name="pressure_extrema">
+    <integer-array name="pressure_extrema" translatable="false">
         <item name="minimum">50</item>
         <item name="maximum">300</item>
     </integer-array>
@@ -373,13 +373,13 @@
 
     <string name="pref_therapy_targets">Target values</string>
     <string name="pref_therapy_targets_target">Target value</string>
-    <string name="pref_therapy_targets_target_default">120.0</string>
+    <string name="pref_therapy_targets_target_default" translatable="false">120.0</string>
     <string name="pref_therapy_limits">Limits</string>
     <string name="pref_therapy_targets_highlight">Highlight limits?</string>
     <string name="pref_therapy_targets_hyperclycemia">Limit for hyperclycemia</string>
-    <string name="pref_therapy_targets_hyperclycemia_default">180.0</string>
+    <string name="pref_therapy_targets_hyperclycemia_default" translatable="false">180.0</string>
     <string name="pref_therapy_targets_hypoclycemia">Limit for hypoclycemia</string>
-    <string name="pref_therapy_targets_hypoclycemia_default">60.0</string>
+    <string name="pref_therapy_targets_hypoclycemia_default" translatable="false">60.0</string>
 
     <string name="pref_data_cleanup_confirm_title">Delete entries?</string>
     <string name="pref_data_cleanup_confirm_message">entries would be affected</string>
@@ -401,7 +401,7 @@
     <string name="about_privacy_desc">We take the protection of your personal information very seriously and do not process your personal data or forward these to third parties.</string>
     <string name="about_code">Ethical code</string>
     <string name="about_code_desc">The app meets all quality criteria of HealthOn App Code of Ethics for trustworthy health information.</string>
-    <string name="about_code_url">https://www.healthon.de/de/diaguard-diabetes</string>
+    <string name="about_code_url" translatable="false">https://www.healthon.de/de/diaguard-diabetes</string>
     <string name="about_legal">Legal</string>
     <string name="about_legal_desc">This app does not replace a doctor.</string>
 

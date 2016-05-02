@@ -169,6 +169,9 @@
     <string-array name="insulin_units">
         <item>Unidades de Insulina</item>
     </string-array>
+    <string-array name="insulin_units_acronyms">
+        <item>IU</item>
+    </string-array>
 
     <string name="meal_units_default">Carbohidrato</string>
     <string-array name="meal_units">
@@ -176,10 +179,18 @@
         <item>Unidades de Carbohidratos</item>
         <item>Unidades de pan</item>
     </string-array>
+    <string-array name="meal_units_acronyms">
+        <item>CHO</item>
+        <item>CU</item>
+        <item>PU</item>
+    </string-array>
 
     <string name="activity_units_default">Minutos</string>
     <string-array name="activity_units">
         <item>Minutos</item>
+    </string-array>
+    <string-array name="activity_units_acronyms">
+        <item>min</item>
     </string-array>
 
     <string name="hba1c_units_default">Porcentaje</string>
@@ -193,15 +204,25 @@
         <item>Kilogramos</item>
         <item>Libras</item>
     </string-array>
-
-    <string name="pulse_units_default">Latidos por minuto</string>
-    <string-array name="pulse_units">
-        <item>Latidos por minuto</item>
+    <string-array name="weight_units_acronyms">
+        <item>kg</item>
+        <item>lb</item>
     </string-array>
 
-    <string name="pressure_units_default">Milímetro de mercurio</string>
+    <string name="pulse_units_default">Pulsaciones por minuto</string>
+    <string-array name="pulse_units">
+        <item>Pulsaciones por minuto</item>
+    </string-array>
+    <string-array name="pulse_units_acronyms">
+        <item>ppm</item>
+    </string-array>
+
+    <string name="pressure_units_default">Millímetros de mercurio</string>
     <string-array name="pressure_units">
-        <item>Milímetro de mercurio</item>
+        <item>Millímetros de mercurio</item>
+    </string-array>
+    <string-array name="pressure_units_acronyms">
+        <item>mm Hg</item>
     </string-array>
 
     <!-- VALIDATORS -->

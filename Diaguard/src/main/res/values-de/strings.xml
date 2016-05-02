@@ -183,9 +183,6 @@
     <string-array name="insulin_units_acronyms">
         <item>IE</item>
     </string-array>
-    <string-array name="insulin_units_values">
-        <item>1</item>
-    </string-array>
 
     <string name="meal_units_default">Kohlenhydrate</string>
     <string-array name="meal_units">
@@ -203,6 +200,9 @@
     <string-array name="activity_units">
         <item>Minuten</item>
     </string-array>
+    <string-array name="activity_units_acronyms">
+        <item>min</item>
+    </string-array>
 
     <string name="hba1c_units_default">Prozent</string>
     <string-array name="hba1c_units">
@@ -214,6 +214,10 @@
     <string-array name="weight_units">
         <item>Kilogramm</item>
         <item>Pfund</item>
+    </string-array>
+    <string-array name="weight_units_acronyms">
+        <item>kg</item>
+        <item>lb</item>
     </string-array>
 
     <string name="pulse_units_default">Schläge pro Minute</string>
@@ -227,6 +231,9 @@
     <string name="pressure_units_default">Millimeter Quecksilbersäule</string>
     <string-array name="pressure_units">
         <item>Millimeter Quecksilbersäule</item>
+    </string-array>
+    <string-array name="pressure_units_acronyms">
+        <item>mm Hg</item>
     </string-array>
 
     <!-- VALIDATORS -->

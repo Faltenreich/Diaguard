@@ -192,8 +192,8 @@ public class StatisticsActivity extends BaseActivity {
         chartDistribution.setUsePercentValues(true);
         chartDistribution.setDescription(null);
         chartDistribution.setDrawSliceText(false);
-        chartDistribution.setNoDataText(getString(R.string.no_data));
-        chartDistribution.getPaint(Chart.PAINT_INFO).setColor(ContextCompat.getColor(this, android.R.color.darker_gray));
+        chartDistribution.setNoDataText(getString(ChartHelper.NO_DATA_TEXT_RESOURCE_ID));
+        chartDistribution.getPaint(Chart.PAINT_INFO).setColor(ContextCompat.getColor(this, ChartHelper.NO_DATA_COLOR_RESOURCE_ID));
         chartDistribution.getLegend().setPosition(Legend.LegendPosition.BELOW_CHART_RIGHT);
     }
 

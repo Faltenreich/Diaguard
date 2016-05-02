@@ -20,6 +20,9 @@ import com.github.mikephil.charting.formatter.YAxisValueFormatter;
  */
 public class ChartHelper {
 
+    public static final int NO_DATA_TEXT_RESOURCE_ID = R.string.no_data;
+    public static final int NO_DATA_COLOR_RESOURCE_ID = R.color.gray_darker;
+
     public static final float VIEW_PORT_OFFSET = 10;
     public static final float TEXT_SIZE = 14;
     public static final float SCATTER_SIZE = 14;
@@ -42,11 +45,10 @@ public class ChartHelper {
         // Text
         chart.getLegend().setEnabled(false);
         chart.setDescription(null);
-        chart.setNoDataText("");
         chart.getXAxis().setTextSize(TEXT_SIZE);
         chart.getAxisLeft().setTextSize(TEXT_SIZE);
-        chart.setNoDataText(context.getString(R.string.no_data));
-        chart.getPaint(Chart.PAINT_INFO).setColor(textColor);
+        chart.setNoDataText(context.getString(NO_DATA_TEXT_RESOURCE_ID));
+        chart.getPaint(Chart.PAINT_INFO).setColor(ContextCompat.getColor(context, NO_DATA_COLOR_RESOURCE_ID));
 
         // Axes
         chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);

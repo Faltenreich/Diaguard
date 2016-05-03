@@ -34,9 +34,12 @@
     <string name="bolus_no2">Instead some carbohydrate-heavy products should be consumed to prevent lower blood sugar level.</string>
     <string name="calculator">Calculator</string>
     <string name="cancel">Cancel</string>
-    <string name="category">Category</string>
     <string name="categories">Categories</string>
     <string name="categories_active">Active Categories</string>
+    <string name="category">Category</string>
+    <string name="category_pin">Pin category</string>
+    <string name="category_pin_confirm">Category has been pinned</string>
+    <string name="category_unpin_confirm">Category has been unpinned</string>
     <string name="cleanup">Clean Up</string>
     <string name="cleanup_desc">This will permanently delete all data on and before the chosen date.</string>
     <string name="contact">Contact</string>

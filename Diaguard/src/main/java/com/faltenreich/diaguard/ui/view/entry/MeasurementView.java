@@ -5,9 +5,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.SwipeDismissTouchListener;
@@ -15,6 +18,7 @@ import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Pressure;
+import com.faltenreich.diaguard.util.ViewHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,20 +29,12 @@ import butterknife.OnClick;
  */
 public class MeasurementView<T extends Measurement> extends LinearLayout {
 
-    @BindView(R.id.image_showcase)
-    protected ImageView imageViewShowcase;
-
-    @BindView(R.id.layer_showcase)
-    protected View viewLayerShowcase;
-
-    @BindView(R.id.image_category)
-    protected ImageView imageViewCategory;
-
-    @BindView(R.id.category)
-    protected TextView textViewCategory;
-
-    @BindView(R.id.layout_content)
-    protected LinearLayout content;
+    @BindView(R.id.image_showcase) ImageView imageViewShowcase;
+    @BindView(R.id.layer_showcase) View viewLayerShowcase;
+    @BindView(R.id.image_category) ImageView imageViewCategory;
+    @BindView(R.id.category) TextView textViewCategory;
+    @BindView(R.id.layout_content) LinearLayout content;
+    @BindView(R.id.checkbox_pin) CheckBox checkBoxPin;
 
     private Measurement.Category category;
     private OnCategoryRemovedListener onCategoryRemovedListener;
@@ -78,6 +74,18 @@ public class MeasurementView<T extends Measurement> extends LinearLayout {
         viewLayerShowcase.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.green));
         imageViewCategory.setImageResource(PreferenceHelper.getInstance().getCategoryImageResourceId(category));
         textViewCategory.setText(PreferenceHelper.getInstance().getCategoryName(category));
+        checkBoxPin.setChecked(PreferenceHelper.getInstance().isCategoryPinned(category));
+        checkBoxPin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                ViewHelper.showToast(getContext(),
+                        getContext().getString(isChecked ?
+                                R.string.category_pin_confirm :
+                                R.string.category_unpin_confirm),
+                        Toast.LENGTH_SHORT);
+                PreferenceHelper.getInstance().setCategoryPinned(category, isChecked);
+            }
+        });
 
         setOnTouchListener(new SwipeDismissTouchListener(this, null,
                 new SwipeDismissTouchListener.DismissCallbacks() {

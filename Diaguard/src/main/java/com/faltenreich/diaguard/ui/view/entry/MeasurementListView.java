@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
 
 import java.util.ArrayList;
@@ -34,6 +35,11 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
 
     private void init() {
         this.categories = new ArrayList<>();
+        for (Measurement.Category category : PreferenceHelper.getInstance().getActiveCategories()) {
+            if (PreferenceHelper.getInstance().isCategoryPinned(category)) {
+                addMeasurement(category);
+            }
+        }
     }
 
     public boolean hasCategory(Measurement.Category category) {

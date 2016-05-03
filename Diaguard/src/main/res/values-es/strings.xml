@@ -21,10 +21,13 @@
     <string name="bolus_no1">No se recomienda administrar bolo.</string>
     <string name="bolus_no2">Usted debería consumir carbohidratos, para así evitar un menor nivel de azúcar en la sangre.</string>
     <string name="calculator">Calcular bolo</string>
-    <string name="category">Categoría</string>
     <string name="cancel">Cancelar</string>
     <string name="categories">Categorías</string>
     <string name="categories_active">Categorías activas</string>
+    <string name="category">Categoría</string>
+    <string name="category_pin">Categoría pin</string>
+    <string name="category_pin_confirm">Categoría se fijó</string>
+    <string name="category_unpin_confirm">Categoría se separado</string>
     <string name="cleanup">Limpiar</string>
     <string name="cleanup_desc">Esto eliminará todas las entradas en la fecha y sobre la fecha seleccionada de forma permanente.</string>
     <string name="contact">Contacto</string>

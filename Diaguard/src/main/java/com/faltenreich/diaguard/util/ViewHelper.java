@@ -5,11 +5,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.support.design.widget.Snackbar;
-import android.view.Display;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.Transformation;
 import android.widget.Toast;
 
 /**
@@ -39,6 +35,10 @@ public class ViewHelper {
     }
 
     public static void showToast(Context context, String text) {
-        Toast.makeText(context, text, Toast.LENGTH_LONG).show();
+        showToast(context, text, Toast.LENGTH_LONG);
+    }
+
+    public static void showToast(Context context, String text, int duration) {
+        Toast.makeText(context, text, duration).show();
     }
 }

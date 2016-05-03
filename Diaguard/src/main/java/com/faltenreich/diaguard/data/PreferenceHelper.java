@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.view.preferences.CategoryPreference;
 import com.faltenreich.diaguard.ui.view.preferences.FactorPreference;
 import com.faltenreich.diaguard.util.Helper;
+import com.faltenreich.diaguard.util.NumberUtils;
 
 import org.joda.time.DateTime;
 
@@ -26,6 +27,10 @@ import java.util.List;
  * Return Values are of Custom Value
  */
 public class PreferenceHelper {
+
+    private class Keys {
+        public static final String PINNED_CATEGORIES = "pinnedCategories";
+    }
 
     private static PreferenceHelper instance;
     private static SharedPreferences sharedPreferences;
@@ -250,5 +255,16 @@ public class PreferenceHelper {
             }
         }
         return activeCategories.toArray(new Measurement.Category[activeCategories.size()]);
+    }
+
+    public boolean isCategoryPinned(Measurement.Category category) {
+        int flags = sharedPreferences.getInt(Keys.PINNED_CATEGORIES, 0);
+        return NumberUtils.getFlag(flags, category.getMaskId());
+    }
+
+    public void setCategoryPinned(Measurement.Category category, boolean isPinned) {
+        int flags = sharedPreferences.getInt(Keys.PINNED_CATEGORIES, 0);
+        flags = NumberUtils.setFlag(flags, category.getMaskId(), isPinned);
+        sharedPreferences.edit().putInt(Keys.PINNED_CATEGORIES, flags).apply();
     }
 }

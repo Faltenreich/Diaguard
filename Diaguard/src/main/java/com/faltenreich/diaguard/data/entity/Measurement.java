@@ -18,21 +18,23 @@ public abstract class Measurement extends BaseEntity {
     }
 
     public enum Category {
-        BLOODSUGAR(BloodSugar.class, R.string.bloodsugar, false),
-        INSULIN(Insulin.class, R.string.insulin, true),
-        MEAL(Meal.class, R.string.meal, true),
-        ACTIVITY(Activity.class, R.string.activity, true),
-        HBA1C(HbA1c.class, R.string.hba1c, false),
-        WEIGHT(Weight.class, R.string.weight, false),
-        PULSE(Pulse.class, R.string.pulse, false),
-        PRESSURE(Pressure.class, R.string.pressure, false);
+        BLOODSUGAR(BloodSugar.class, 1, R.string.bloodsugar, false),
+        INSULIN(Insulin.class, 2, R.string.insulin, true),
+        MEAL(Meal.class, 3, R.string.meal, true),
+        ACTIVITY(Activity.class, 4, R.string.activity, true),
+        HBA1C(HbA1c.class, 5, R.string.hba1c, false),
+        WEIGHT(Weight.class, 6, R.string.weight, false),
+        PULSE(Pulse.class, 7, R.string.pulse, false),
+        PRESSURE(Pressure.class, 8, R.string.pressure, false);
 
         private Class clazz;
+        private int maskId;
         private int stringResId;
         private boolean stackValues;
 
-        Category(Class clazz, @StringRes int stringResId, boolean stackValues) {
+        Category(Class clazz, int maskId, @StringRes int stringResId, boolean stackValues) {
             this.clazz = clazz;
+            this.maskId = maskId;
             this.stringResId = stringResId;
             this.stackValues = stackValues;
         }
@@ -47,6 +49,10 @@ public abstract class Measurement extends BaseEntity {
 
         public boolean stackValues() {
             return stackValues;
+        }
+
+        public int getMaskId() {
+            return maskId;
         }
     }
 

@@ -35,11 +35,6 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
 
     private void init() {
         this.categories = new ArrayList<>();
-        for (Measurement.Category category : PreferenceHelper.getInstance().getActiveCategories()) {
-            if (PreferenceHelper.getInstance().isCategoryPinned(category)) {
-                addMeasurement(category);
-            }
-        }
     }
 
     public boolean hasCategory(Measurement.Category category) {

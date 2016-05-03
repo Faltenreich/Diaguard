@@ -55,7 +55,6 @@ public class CategoryPreference extends DialogPreference {
         }
 
         // TODO: Make Blood Sugar always active
-        // listView.getChildAt(0).setEnabled(false);
     }
 
     @Override

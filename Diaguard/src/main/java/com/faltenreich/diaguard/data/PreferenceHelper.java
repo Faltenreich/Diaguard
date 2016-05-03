@@ -10,7 +10,6 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.view.preferences.CategoryPreference;
 import com.faltenreich.diaguard.ui.view.preferences.FactorPreference;
 import com.faltenreich.diaguard.util.Helper;
-import com.faltenreich.diaguard.util.NumberUtils;
 
 import org.joda.time.DateTime;
 
@@ -29,7 +28,7 @@ import java.util.List;
 public class PreferenceHelper {
 
     private class Keys {
-        public static final String PINNED_CATEGORIES = "pinnedCategories";
+        public static final String CATEGORY_PINNED = "categoryPinned%s";
     }
 
     private static PreferenceHelper instance;
@@ -257,14 +256,15 @@ public class PreferenceHelper {
         return activeCategories.toArray(new Measurement.Category[activeCategories.size()]);
     }
 
+    private String getCategoryPinnedName(Measurement.Category category) {
+        return String.format(Keys.CATEGORY_PINNED, category.name());
+    }
+
     public boolean isCategoryPinned(Measurement.Category category) {
-        int flags = sharedPreferences.getInt(Keys.PINNED_CATEGORIES, 0);
-        return NumberUtils.getFlag(flags, category.getMaskId());
+        return sharedPreferences.getBoolean(getCategoryPinnedName(category), false);
     }
 
     public void setCategoryPinned(Measurement.Category category, boolean isPinned) {
-        int flags = sharedPreferences.getInt(Keys.PINNED_CATEGORIES, 0);
-        flags = NumberUtils.setFlag(flags, category.getMaskId(), isPinned);
-        sharedPreferences.edit().putInt(Keys.PINNED_CATEGORIES, flags).apply();
+        sharedPreferences.edit().putBoolean(getCategoryPinnedName(category), isPinned).apply();
     }
 }

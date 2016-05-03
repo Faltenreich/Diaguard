@@ -106,7 +106,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         layoutMeasurements.setOnCategoryEventListener(this);
         for (Measurement.Category category : PreferenceHelper.getInstance().getActiveCategories()) {
             if (PreferenceHelper.getInstance().isCategoryPinned(category)) {
-                layoutMeasurements.addMeasurement(category);
+                layoutMeasurements.addMeasurementAtEnd(category);
             }
         }
     }

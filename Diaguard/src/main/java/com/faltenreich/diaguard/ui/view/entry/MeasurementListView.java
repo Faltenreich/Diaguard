@@ -2,10 +2,10 @@ package com.faltenreich.diaguard.ui.view.entry;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
 
 import java.util.ArrayList;
@@ -49,6 +49,23 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
             addView(measurementView, 0);
             if (callback != null) {
                 callback.onCategoryAdded(category);
+            }
+        }
+    }
+
+    public void addMeasurementAtEnd(Measurement.Category category) {
+        if (!hasCategory(category)) {
+            try {
+                int position = categories.size();
+                categories.add(position, category);
+                MeasurementView measurementView = new MeasurementView(getContext(), category);
+                measurementView.setOnCategoryRemovedListener(this);
+                addView(measurementView, position);
+                if (callback != null) {
+                    callback.onCategoryAdded(category);
+                }
+            } catch (IndexOutOfBoundsException exception) {
+                Log.e(MeasurementListView.class.getSimpleName(), exception.getMessage());
             }
         }
     }

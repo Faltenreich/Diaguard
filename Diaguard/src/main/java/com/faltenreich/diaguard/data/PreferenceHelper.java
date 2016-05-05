@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.view.preferences.CategoryPreference;
 import com.faltenreich.diaguard.ui.view.preferences.FactorPreference;
 import com.faltenreich.diaguard.util.Helper;
+import com.faltenreich.diaguard.util.NumberUtils;
 
 import org.joda.time.DateTime;
 
@@ -88,7 +89,7 @@ public class PreferenceHelper {
     // BLOOD SUGAR
 
     public float getTargetValue() {
-        return Float.valueOf(sharedPreferences.getString("target",
+        return NumberUtils.parseNumber(sharedPreferences.getString("target",
                 DiaguardApplication.getContext().getString(R.string.pref_therapy_targets_target_default)));
     }
 
@@ -97,17 +98,17 @@ public class PreferenceHelper {
     }
 
     public float getLimitHyperglycemia() {
-        return Float.valueOf(sharedPreferences.getString("hyperclycemia",
+        return NumberUtils.parseNumber(sharedPreferences.getString("hyperclycemia",
                 DiaguardApplication.getContext().getString(R.string.pref_therapy_targets_hyperclycemia_default)));
     }
 
     public float getLimitHypoglycemia() {
-        return Float.valueOf(sharedPreferences.getString("hypoclycemia",
+        return NumberUtils.parseNumber(sharedPreferences.getString("hypoclycemia",
                 DiaguardApplication.getContext().getString(R.string.pref_therapy_targets_hypoclycemia_default)));
     }
 
     public float getCorrectionValue() {
-        return Float.parseFloat(sharedPreferences.getString("correction_value", "40"));
+        return NumberUtils.parseNumber(sharedPreferences.getString("correction_value", "40"));
     }
 
     // CATEGORIES
@@ -198,7 +199,7 @@ public class PreferenceHelper {
         String sharedPref = sharedPreferences.
                 getString("unit_" + category.name().toLowerCase(), "1");
         String value = getUnitsValues(category)[Arrays.asList(getUnitsValues(category)).indexOf(sharedPref)];
-        return Float.valueOf(value);
+        return NumberUtils.parseNumber(value);
     }
 
     public float formatCustomToDefaultUnit(Measurement.Category category, float value) {

@@ -7,6 +7,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.StringUtils;
 
 import butterknife.BindView;
@@ -81,7 +82,7 @@ public class MeasurementInsulinView extends MeasurementAbstractView<Insulin> {
         boolean isValid = true;
         editText.setError(null);
         try {
-            float value = PreferenceHelper.getInstance().formatCustomToDefaultUnit(measurement.getCategory(), Float.parseFloat(editText.getText().toString()));
+            float value = PreferenceHelper.getInstance().formatCustomToDefaultUnit(measurement.getCategory(), NumberUtils.parseNumber(editText.getText().toString()));
             if (!PreferenceHelper.getInstance().validateEventValue(measurement.getCategory(), value)) {
                 editText.setError(getContext().getString(R.string.validator_value_unrealistic));
                 isValid = false;
@@ -100,15 +101,15 @@ public class MeasurementInsulinView extends MeasurementAbstractView<Insulin> {
                     editTextBolus.getText().toString().length() > 0 ?
                             PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                                     measurement.getCategory(),
-                                    Float.parseFloat(editTextBolus.getText().toString())) : 0,
+                                    NumberUtils.parseNumber(editTextBolus.getText().toString())) : 0,
                     editTextCorrection.getText().toString().length() > 0 ?
                             PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                                     measurement.getCategory(),
-                                    Float.parseFloat(editTextCorrection.getText().toString())) : 0,
+                                    NumberUtils.parseNumber(editTextCorrection.getText().toString())) : 0,
                     editTextBasal.getText().toString().length() > 0 ?
                             PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                                     measurement.getCategory(),
-                                    Float.parseFloat(editTextBasal.getText().toString())) : 0);
+                                    NumberUtils.parseNumber(editTextBasal.getText().toString())) : 0);
             return measurement;
         } else {
             return null;

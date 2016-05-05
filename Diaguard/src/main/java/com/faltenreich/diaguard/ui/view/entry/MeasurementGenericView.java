@@ -6,6 +6,7 @@ import android.widget.EditText;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.StringUtils;
 
 import butterknife.BindView;
@@ -55,7 +56,7 @@ public class MeasurementGenericView <T extends Measurement> extends MeasurementA
             isValid = false;
         } else {
             try {
-                float value = PreferenceHelper.getInstance().formatCustomToDefaultUnit(measurement.getCategory(), Float.parseFloat(input));
+                float value = PreferenceHelper.getInstance().formatCustomToDefaultUnit(measurement.getCategory(), NumberUtils.parseNumber(input));
                 if (!PreferenceHelper.getInstance().validateEventValue(measurement.getCategory(), value)) {
                     editTextValue.setError(getContext().getString(R.string.validator_value_unrealistic));
                     isValid = false;
@@ -74,7 +75,7 @@ public class MeasurementGenericView <T extends Measurement> extends MeasurementA
             measurement.setValues(
                     PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                             measurement.getCategory(),
-                            Float.parseFloat(editTextValue.getText().toString())));
+                            NumberUtils.parseNumber(editTextValue.getText().toString())));
             return measurement;
         } else {
             return null;

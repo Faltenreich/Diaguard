@@ -23,6 +23,7 @@ import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.Helper;
+import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.Validator;
 import com.faltenreich.diaguard.util.event.Events;
 import com.faltenreich.diaguard.util.event.data.EntryAddedEvent;
@@ -148,31 +149,31 @@ public class CalculatorActivity extends BaseActivity {
             float currentBloodSugar =
                     PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                             Measurement.Category.BLOODSUGAR,
-                            Float.parseFloat(editTextBloodSugar.getText().toString()));
+                            NumberUtils.parseNumber(editTextBloodSugar.getText().toString()));
             float targetBloodSugar =
                     Validator.containsNumber(editTextTargetValue.getText().toString()) ?
                             PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                                     Measurement.Category.BLOODSUGAR,
-                                    Float.parseFloat(editTextTargetValue.getText().toString())) :
+                                    NumberUtils.parseNumber(editTextTargetValue.getText().toString())) :
                             PreferenceHelper.getInstance().getTargetValue();
             float correction =
                     Validator.containsNumber(editTextCorrection.getText().toString()) ?
                             PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                                     Measurement.Category.BLOODSUGAR,
-                                    Float.parseFloat(editTextCorrection.getText().toString())) :
+                                    NumberUtils.parseNumber(editTextCorrection.getText().toString())) :
                             PreferenceHelper.getInstance().getCorrectionValue();
             float meal =
                     Validator.containsNumber(editTextMeal.getText().toString()) ?
                             PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                                     Measurement.Category.MEAL,
-                                    Float.parseFloat(editTextMeal.getText().toString())) :
+                                    NumberUtils.parseNumber(editTextMeal.getText().toString())) :
                             0;
             float factor = 0;
             if (meal > 0) {
                 if (Validator.containsNumber(editTextFactor.getText().toString())) {
-                    factor = Float.parseFloat(editTextFactor.getText().toString());
+                    factor = NumberUtils.parseNumber(editTextFactor.getText().toString());
                 } else if (Validator.containsNumber(editTextFactor.getHint().toString())) {
-                    factor = Float.parseFloat(editTextFactor.getHint().toString());
+                    factor = NumberUtils.parseNumber(editTextFactor.getHint().toString());
                 }
             }
 

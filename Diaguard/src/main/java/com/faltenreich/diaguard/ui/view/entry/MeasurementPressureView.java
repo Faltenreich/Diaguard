@@ -7,6 +7,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Pressure;
+import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.StringUtils;
 
 import butterknife.BindView;
@@ -62,7 +63,7 @@ public class MeasurementPressureView extends MeasurementAbstractView<Pressure> {
         } else {
             editText.setError(null);
             try {
-                float value = PreferenceHelper.getInstance().formatCustomToDefaultUnit(measurement.getCategory(), Float.parseFloat(input));
+                float value = PreferenceHelper.getInstance().formatCustomToDefaultUnit(measurement.getCategory(), NumberUtils.parseNumber(input));
                 if (!PreferenceHelper.getInstance().validateEventValue(measurement.getCategory(), value)) {
                     editText.setError(getContext().getString(R.string.validator_value_unrealistic));
                     isValid = false;
@@ -81,10 +82,10 @@ public class MeasurementPressureView extends MeasurementAbstractView<Pressure> {
             measurement.setValues(
                     PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                             measurement.getCategory(),
-                            Float.parseFloat(editTextSystolic.getText().toString())),
+                            NumberUtils.parseNumber(editTextSystolic.getText().toString())),
                     PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                             measurement.getCategory(),
-                            Float.parseFloat(editTextDiastolic.getText().toString())));
+                            NumberUtils.parseNumber(editTextDiastolic.getText().toString())));
             return measurement;
         } else {
             return null;

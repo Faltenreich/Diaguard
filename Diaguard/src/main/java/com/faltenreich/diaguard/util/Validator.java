@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.util;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.text.Editable;
 import android.widget.EditText;
 
@@ -41,7 +40,7 @@ public class Validator {
 
         boolean isValid = true;
         if (containsNumber(value)) {
-            float parsedValue = Float.parseFloat(value);
+            float parsedValue = NumberUtils.parseNumber(value);
             float defaultValue = PreferenceHelper.getInstance().formatCustomToDefaultUnit(category, parsedValue);
             if (!PreferenceHelper.getInstance().validateEventValue(category, defaultValue)) {
                 editText.setError(context.getString(R.string.validator_value_unrealistic));
@@ -94,7 +93,7 @@ public class Validator {
             return false;
         }
 
-        float parsedValue = Float.parseFloat(value);
+        float parsedValue = NumberUtils.parseNumber(value);
         if(parsedValue < 0.1f || parsedValue > 20) {
             editText.setError(context.getString(R.string.validator_value_unrealistic));
             return false;

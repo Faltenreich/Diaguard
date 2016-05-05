@@ -21,6 +21,7 @@ import com.faltenreich.diaguard.data.entity.Pressure;
 import com.faltenreich.diaguard.data.entity.Pulse;
 import com.faltenreich.diaguard.data.entity.Weight;
 import com.faltenreich.diaguard.util.Helper;
+import com.faltenreich.diaguard.util.NumberUtils;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.DatabaseTableConfig;
@@ -137,7 +138,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                         CategoryDeprecated categoryDeprecated = Helper.valueOf(CategoryDeprecated.class, categoryString);
                         Measurement.Category category = categoryDeprecated.toUpdate();
                         M measurement = (M) category.toClass().newInstance();
-                        float value = Float.parseFloat(cursor.getString(1));
+                        float value = NumberUtils.parseNumber(cursor.getString(1));
                         float[] values = new float[measurement.getValues().length];
                         values[0] = value;
                         measurement.setValues(values);
@@ -245,7 +246,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
                 // Measurement
                 values = new ContentValues();
-                values.put(DatabaseHelper.VALUE, Float.parseFloat(cursor.getString(1)));
+                values.put(DatabaseHelper.VALUE, NumberUtils.parseNumber(cursor.getString(1)));
                 values.put(DatabaseHelper.CATEGORY, cursor.getString(4));
                 values.put(DatabaseHelper.ENTRY_ID, entryId);
                 sqliteDatabase.insertOrThrow(DatabaseHelper.MEASUREMENT, null, values);

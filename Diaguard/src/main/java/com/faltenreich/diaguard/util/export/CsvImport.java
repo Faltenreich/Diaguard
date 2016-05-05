@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.data.entity.CategoryDeprecated;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.Helper;
+import com.faltenreich.diaguard.util.NumberUtils;
 import com.opencsv.CSVReader;
 
 import org.joda.time.format.DateTimeFormat;
@@ -55,7 +56,7 @@ public class CsvImport extends AsyncTask<Void, Void, Void> {
                         CategoryDeprecated categoryDeprecated = Helper.valueOf(CategoryDeprecated.class, nextLine[2]);
                         Measurement.Category category = categoryDeprecated.toUpdate();
                         Measurement measurement = (Measurement) category.toClass().newInstance();
-                        measurement.setValues(new float[]{Float.parseFloat(nextLine[0])});
+                        measurement.setValues(new float[]{NumberUtils.parseNumber(nextLine[0])});
                         measurement.setEntry(entry);
                         MeasurementDao.getInstance(category.toClass()).createOrUpdate(measurement);
                     } catch (InstantiationException e) {
@@ -84,7 +85,7 @@ public class CsvImport extends AsyncTask<Void, Void, Void> {
                                 CategoryDeprecated categoryDeprecated = Helper.valueOf(CategoryDeprecated.class, nextLine[2]);
                                 Measurement.Category category = categoryDeprecated.toUpdate();
                                 Measurement measurement = (Measurement) category.toClass().newInstance();
-                                measurement.setValues(new float[]{Float.parseFloat(nextLine[1])});
+                                measurement.setValues(new float[]{NumberUtils.parseNumber(nextLine[1])});
                                 measurement.setEntry(entry);
                                 MeasurementDao.getInstance(category.toClass()).createOrUpdate(measurement);
                             } catch (InstantiationException e) {
@@ -112,7 +113,7 @@ public class CsvImport extends AsyncTask<Void, Void, Void> {
                                 for (int position = 2; position < nextLine.length; position++) {
                                     String valueString = nextLine[position];
                                     try {
-                                        valueList.add(Float.parseFloat(valueString));
+                                        valueList.add(NumberUtils.parseNumber(valueString));
                                     } catch (NumberFormatException e) {
                                         Log.e(TAG, e.getMessage());
                                     }

@@ -18,6 +18,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.util.Helper;
+import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.Validator;
 
 /**
@@ -46,7 +47,7 @@ public class BloodSugarPreference extends EditTextPreference {
         if(editTextValue == null || editTextValue.getText() == null)
             throw new Resources.NotFoundException();
 
-        float value = Float.parseFloat(sharedPreferences.getString(getKey(), ""));
+        float value = NumberUtils.parseNumber(sharedPreferences.getString(getKey(), ""));
         value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, value);
         editTextValue.setText(Helper.parseFloat(value));
         editTextValue.setSelection(editTextValue.getText().length());
@@ -89,7 +90,7 @@ public class BloodSugarPreference extends EditTextPreference {
             if(editTextValue == null || editTextValue.getText() == null)
                 throw new Resources.NotFoundException();
 
-            float value = Float.valueOf(editTextValue.getText().toString());
+            float value = NumberUtils.parseNumber(editTextValue.getText().toString());
             SharedPreferences.Editor editor = getEditor();
             if(editor == null)
                 throw new Resources.NotFoundException();

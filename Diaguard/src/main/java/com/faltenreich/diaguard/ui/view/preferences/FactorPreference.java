@@ -16,6 +16,7 @@ import android.widget.EditText;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.Validator;
 
 /**
@@ -123,22 +124,22 @@ public class FactorPreference extends DialogPreference {
             if(morning.length() == 0)
                 editor.remove(FACTOR + PreferenceHelper.Daytime.Morning);
             else
-                editor.putFloat(FACTOR + PreferenceHelper.Daytime.Morning, Float.parseFloat(morning.getText().toString()));
+                editor.putFloat(FACTOR + PreferenceHelper.Daytime.Morning, NumberUtils.parseNumber(morning.getText().toString()));
 
             if(noon.length() == 0)
                 editor.remove(FACTOR + PreferenceHelper.Daytime.Noon);
             else
-                editor.putFloat(FACTOR + PreferenceHelper.Daytime.Noon, Float.parseFloat(noon.getText().toString()));
+                editor.putFloat(FACTOR + PreferenceHelper.Daytime.Noon, NumberUtils.parseNumber(noon.getText().toString()));
 
             if(evening.length() == 0)
                 editor.remove(FACTOR + PreferenceHelper.Daytime.Evening);
             else
-                editor.putFloat(FACTOR + PreferenceHelper.Daytime.Evening, Float.parseFloat(evening.getText().toString()));
+                editor.putFloat(FACTOR + PreferenceHelper.Daytime.Evening, NumberUtils.parseNumber(evening.getText().toString()));
 
             if(night.length() == 0)
                 editor.remove(FACTOR + PreferenceHelper.Daytime.Night);
             else
-                editor.putFloat(FACTOR + PreferenceHelper.Daytime.Night, Float.parseFloat(night.getText().toString()));
+                editor.putFloat(FACTOR + PreferenceHelper.Daytime.Night, NumberUtils.parseNumber(night.getText().toString()));
 
             editor.commit();
         }

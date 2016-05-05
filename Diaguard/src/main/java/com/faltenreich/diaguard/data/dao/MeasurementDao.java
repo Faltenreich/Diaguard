@@ -14,6 +14,7 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Pressure;
 import com.faltenreich.diaguard.data.entity.Pulse;
 import com.faltenreich.diaguard.data.entity.Weight;
+import com.faltenreich.diaguard.util.NumberUtils;
 import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.table.DatabaseTableConfig;
@@ -82,7 +83,7 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
         String[] resultArray = results.get(0);
         String result = resultArray[0];
         try {
-            return Float.parseFloat(result);
+            return NumberUtils.parseNumber(result);
         } catch (NumberFormatException exception) {
             return 0;
         } catch (NullPointerException exception) {

@@ -92,7 +92,7 @@ public class MainFragment extends BaseFragment {
 
     private void updateReminder() {
         if (AlarmUtils.isAlarmSet()) {
-            final long alarmIntervalInMillis = AlarmUtils.getAlarmInMillis() - DateTime.now().getMillis();
+            final long alarmIntervalInMillis = AlarmUtils.getAlarmInMillis() - DateTime.now().getMillis() + DateTimeConstants.MILLIS_PER_MINUTE;
 
             layoutAlarm.setVisibility(View.VISIBLE);
             textViewAlarm.setText(String.format("%s %s",

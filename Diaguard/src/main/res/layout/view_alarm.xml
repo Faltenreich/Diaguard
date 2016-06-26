@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="4dp"
+    card_view:cardElevation="2dp"
+    card_view:cardUseCompatPadding="true">
+
+    <LinearLayout
+        style="@style/Padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <com.faltenreich.diaguard.ui.view.TintImageView
+            android:layout_width="@dimen/size_image_small"
+            android:layout_height="@dimen/size_image_small"
+            android:src="@drawable/ic_alarm"
+            app:tintColor="@color/gray_darker"/>
+
+        <TextView
+            android:id="@+id/alarm_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/alarm_reminder"
+            android:layout_marginLeft="@dimen/margin_between"
+            android:layout_marginStart="@dimen/margin_between"/>
+
+        <com.faltenreich.diaguard.ui.view.TintImageView
+            android:id="@+id/alarm_delete"
+            android:layout_width="@dimen/size_image_small"
+            android:layout_height="@dimen/size_image_small"
+            android:src="@drawable/ic_action_delete"
+            android:contentDescription="@string/alarm_delete"
+            app:tintColor="@color/gray_darker"/>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

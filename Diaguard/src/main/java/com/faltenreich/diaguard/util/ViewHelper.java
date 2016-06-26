@@ -8,6 +8,8 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.Toast;
 
+import com.faltenreich.diaguard.R;
+
 /**
  * Created by Filip on 10.12.13.
  */
@@ -32,6 +34,10 @@ public class ViewHelper {
 
     public static void showSnackbar(View parentView, String text) {
         Snackbar.make(parentView, text, Snackbar.LENGTH_LONG).show();
+    }
+
+    public static void showSnackbar(View parentView, String text, View.OnClickListener onClickListener) {
+        Snackbar.make(parentView, text, Snackbar.LENGTH_LONG).setAction(R.string.undo, onClickListener).show();
     }
 
     public static void showToast(Context context, String text) {

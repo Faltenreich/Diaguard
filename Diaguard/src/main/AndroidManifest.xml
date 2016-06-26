@@ -17,7 +17,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <receiver android:name=".util.AlarmManagerBroadcastReceiver" />
+        <receiver android:name=".util.AlarmBroadcastReceiver" />
 
         <activity
             android:name=".ui.activity.MainActivity"

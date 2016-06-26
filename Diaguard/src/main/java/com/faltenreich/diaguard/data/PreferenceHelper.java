@@ -30,6 +30,7 @@ public class PreferenceHelper {
 
     private class Keys {
         public static final String CATEGORY_PINNED = "categoryPinned%s";
+        public static final String ALARM_START_IN_MILLIS = "alarmStartInMillis";
     }
 
     private static PreferenceHelper instance;
@@ -44,6 +45,14 @@ public class PreferenceHelper {
     }
 
     // GENERAL
+
+    public long getAlarmStartInMillis() {
+        return sharedPreferences.getLong(Keys.ALARM_START_IN_MILLIS, -1);
+    }
+
+    public void setAlarmStartInMillis(long alarmStartInMillis) {
+        sharedPreferences.edit().putLong(Keys.ALARM_START_IN_MILLIS, alarmStartInMillis).apply();
+    }
 
     public int getStartScreen() {
         String startScreen = sharedPreferences.getString("startscreen", "0");

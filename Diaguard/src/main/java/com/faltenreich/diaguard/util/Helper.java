@@ -1,18 +1,8 @@
 package com.faltenreich.diaguard.util;
 
-import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
-import android.media.MediaPlayer;
-import android.media.RingtoneManager;
-import android.os.Vibrator;
 import android.support.annotation.DimenRes;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
 import com.faltenreich.diaguard.DiaguardApplication;
@@ -21,7 +11,6 @@ import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.ui.activity.EntryActivity;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -105,69 +94,6 @@ public class Helper {
         }
         stringBuilder.deleteCharAt(stringBuilder.length()-1);
         return stringBuilder.toString();
-    }
-
-    public static void setAlarm(Context context, int intervalInMinutes) {
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, AlarmManagerBroadcastReceiver.ALARM_ID, intent, 0);
-        alarmManager.set(AlarmManager.RTC_WAKEUP,
-                System.currentTimeMillis() + 1000 * 60 * intervalInMinutes,
-                pendingIntent);
-    }
-
-    public static void stopAlarm(Context context) {
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, AlarmManagerBroadcastReceiver.ALARM_ID, intent, 0);
-        alarmManager.cancel(pendingIntent);
-    }
-
-    public static void vibrate(Context context, int timeInMilliseconds) {
-        Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-        vibrator.vibrate(timeInMilliseconds);
-    }
-
-    public static void playSound(Context context) {
-        try {
-            MediaPlayer mediaPlayer = MediaPlayer.create(
-                    context.getApplicationContext(),
-                    RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-            if(mediaPlayer != null) {
-                mediaPlayer.setLooping(false);
-                mediaPlayer.start();
-            }
-        }
-        catch (IllegalArgumentException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public static void notify(Context context, String title, String message) {
-        NotificationCompat.Builder builder =
-                new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.ic_notification)
-                        .setContentTitle(title)
-                        .setContentText(message)
-                        .setTicker(title)
-                        .setWhen(1000);
-        Intent resultIntent = new Intent(context, EntryActivity.class);
-
-        // Put target activity on back stack on top of its parent to guarantee correct back navigation
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addParentStack(EntryActivity.class);
-        stackBuilder.addNextIntent(resultIntent);
-        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setContentIntent(pendingIntent);
-
-        // Notification will dismiss when be clicked on
-        Notification notification = builder.build();
-        notification.flags = Notification.DEFAULT_LIGHTS | Notification.FLAG_AUTO_CANCEL | Notification.FLAG_ONLY_ALERT_ONCE;
-
-        NotificationManager notificationManager =
-                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(AlarmManagerBroadcastReceiver.ALARM_ID, notification);
     }
 
     public static <T extends Enum<?>> T valueOf(Class<T> enumeration, String search) {

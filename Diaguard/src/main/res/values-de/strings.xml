@@ -10,8 +10,11 @@
     <string name="all">Alle</string>
     <string name="add_value">Wert hinzufügen</string>
     <string name="alarm">Blutzucker messen</string>
+    <string name="alarm_delete">Erinnerung entfernen</string>
+    <string name="alarm_deleted">Erinnerung entfernt</string>
     <string name="alarm_desc">%s seit der letzten Messung</string>
     <string name="alarm_desc_first">Schon dran gedacht?</string>
+    <string name="alarm_reminder">Erinnerung in</string>
     <string name="average">Durchschnitt</string>
     <string name="back">Zurück</string>
     <string name="backup">Backup anlegen</string>

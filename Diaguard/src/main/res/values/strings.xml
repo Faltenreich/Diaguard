@@ -18,8 +18,11 @@
     <string name="all">All</string>
     <string name="add_value">Add value</string>
     <string name="alarm">Measure blood sugar</string>
+    <string name="alarm_delete">Remove reminder</string>
+    <string name="alarm_deleted">Removed reminder</string>
     <string name="alarm_desc">%s since the last measurement</string>
     <string name="alarm_desc_first">Thought about yet?</string>
+    <string name="alarm_reminder">Reminder in</string>
     <string name="average">Average</string>
     <string name="average_symbol" translatable="false">Ø</string>
     <string name="back">Back</string>

@@ -27,6 +27,7 @@ import com.faltenreich.diaguard.ui.fragment.DatePickerFragment;
 import com.faltenreich.diaguard.ui.fragment.TimePickerFragment;
 import com.faltenreich.diaguard.ui.view.entry.MeasurementFloatingActionMenu;
 import com.faltenreich.diaguard.ui.view.entry.MeasurementListView;
+import com.faltenreich.diaguard.util.AlarmUtils;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.ViewHelper;
 import com.faltenreich.diaguard.util.event.Events;
@@ -35,6 +36,7 @@ import com.faltenreich.diaguard.util.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.util.event.data.EntryUpdatedEvent;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 
 import java.util.List;
 
@@ -244,7 +246,8 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             }
 
             if (spinnerAlarm.getSelectedItemPosition() > 0) {
-                Helper.setAlarm(this, getResources().getIntArray(R.array.alarm_intervals_values)[spinnerAlarm.getSelectedItemPosition()]);
+                int intervalInMinutes = getResources().getIntArray(R.array.alarm_intervals_values)[spinnerAlarm.getSelectedItemPosition()];
+                AlarmUtils.setAlarm(intervalInMinutes * DateTimeConstants.MILLIS_PER_MINUTE);
             }
 
             if (isNewEntry) {

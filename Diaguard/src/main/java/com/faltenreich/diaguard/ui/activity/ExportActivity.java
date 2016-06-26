@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.ui.activity;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
@@ -23,7 +24,11 @@ import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.ui.fragment.DatePickerFragment;
 import com.faltenreich.diaguard.ui.view.CategoryCheckBoxList;
 import com.faltenreich.diaguard.util.Helper;
+import com.faltenreich.diaguard.util.SystemUtils;
 import com.faltenreich.diaguard.util.ViewHelper;
+import com.faltenreich.diaguard.util.event.Events;
+import com.faltenreich.diaguard.util.event.PermissionDeniedEvent;
+import com.faltenreich.diaguard.util.event.PermissionGrantedEvent;
 import com.faltenreich.diaguard.util.export.Export;
 import com.faltenreich.diaguard.util.export.FileListener;
 
@@ -41,12 +46,18 @@ public class ExportActivity extends BaseActivity implements FileListener {
 
     private static final int PADDING = (int) Helper.getDPI(R.dimen.padding);
 
-    @BindView(R.id.root) ViewGroup rootView;
-    @BindView(R.id.button_datestart) Button buttonDateStart;
-    @BindView(R.id.button_dateend) Button buttonDateEnd;
-    @BindView(R.id.spinner_format) Spinner spinnerFormat;
-    @BindView(R.id.checkbox_note) CheckBox checkBoxNotes;
-    @BindView(R.id.export_list_categories) CategoryCheckBoxList categoryCheckBoxList;
+    @BindView(R.id.root)
+    ViewGroup rootView;
+    @BindView(R.id.button_datestart)
+    Button buttonDateStart;
+    @BindView(R.id.button_dateend)
+    Button buttonDateEnd;
+    @BindView(R.id.spinner_format)
+    Spinner spinnerFormat;
+    @BindView(R.id.checkbox_note)
+    CheckBox checkBoxNotes;
+    @BindView(R.id.export_list_categories)
+    CategoryCheckBoxList categoryCheckBoxList;
 
     private ProgressDialog progressDialog;
 
@@ -66,7 +77,14 @@ public class ExportActivity extends BaseActivity implements FileListener {
     @Override
     protected void onResume() {
         super.onResume();
+        Events.register(this);
         initializeGUI();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Events.unregister(this);
     }
 
     @Override
@@ -80,7 +98,7 @@ public class ExportActivity extends BaseActivity implements FileListener {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_done:
-                export();
+                exportIfInputIsValid();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -120,18 +138,30 @@ public class ExportActivity extends BaseActivity implements FileListener {
         return isValid;
     }
 
-    private void export() {
+    private void exportIfInputIsValid() {
         if (validate()) {
-            progressDialog.setMessage(getString(R.string.export_progress));
-            progressDialog.setIndeterminate(true);
-            progressDialog.setCancelable(false);
-            progressDialog.show();
+            exportIfPermissionGranted();
+        }
+    }
 
-            if (spinnerFormat.getSelectedItemPosition() == 0) {
-                Export.exportPdf(this, dateStart, dateEnd, categoryCheckBoxList.getSelectedCategories());
-            } else if (spinnerFormat.getSelectedItemPosition() == 1) {
-                Export.exportCsv(this, false, dateStart, dateEnd, categoryCheckBoxList.getSelectedCategories());
-            }
+    private void exportIfPermissionGranted() {
+        if (SystemUtils.canWriteExternalStorage(this)) {
+            export();
+        } else {
+            SystemUtils.requestPermissionWriteExternalStorage(this);
+        }
+    }
+
+    private void export() {
+        progressDialog.setMessage(getString(R.string.export_progress));
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        if (spinnerFormat.getSelectedItemPosition() == 0) {
+            Export.exportPdf(this, dateStart, dateEnd, categoryCheckBoxList.getSelectedCategories());
+        } else if (spinnerFormat.getSelectedItemPosition() == 1) {
+            Export.exportCsv(this, false, dateStart, dateEnd, categoryCheckBoxList.getSelectedCategories());
         }
     }
 
@@ -181,5 +211,19 @@ public class ExportActivity extends BaseActivity implements FileListener {
                 buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
             }
         }).show(getSupportFragmentManager());
+    }
+
+    @SuppressWarnings("unused")
+    public void onEvent(PermissionGrantedEvent event) {
+        if (event.context.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            export();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onEvent(PermissionDeniedEvent event) {
+        if (event.context.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            ViewHelper.showToast(this, "Permission required");
+        }
     }
 }

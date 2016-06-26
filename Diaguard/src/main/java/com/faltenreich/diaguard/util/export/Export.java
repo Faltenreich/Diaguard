@@ -35,17 +35,6 @@ public class Export {
         CSV,
         PDF;
 
-        public String getMimeType() {
-            switch (this) {
-                case CSV:
-                    return "text/csv";
-                case PDF:
-                    return "application/pdf";
-                default:
-                    return null;
-            }
-        }
-
         public String getExtension() {
             switch (this) {
                 case CSV:
@@ -74,6 +63,10 @@ public class Export {
         CsvExport csvExport = new CsvExport(isBackup, dateStart, dateEnd, categories);
         csvExport.setListener(listener);
         csvExport.execute();
+    }
+
+    public static void exportCsv(FileListener listener, boolean isBackup) {
+        exportCsv(listener, isBackup, null, null, null);
     }
 
     public static void importCsv(FileListener listener, File file) {
@@ -127,8 +120,12 @@ public class Export {
         File[] privateFiles = FileUtils.getPrivateDirectory().listFiles();
         File[] publicFiles = FileUtils.getPublicDirectory().listFiles();
 
-        files.addAll(new ArrayList<>(Arrays.asList(privateFiles)));
-        files.addAll(new ArrayList<>(Arrays.asList(publicFiles)));
+        if (privateFiles != null && privateFiles.length > 0) {
+            files.addAll(new ArrayList<>(Arrays.asList(privateFiles)));
+        }
+        if (publicFiles != null && publicFiles.length > 0) {
+            files.addAll(new ArrayList<>(Arrays.asList(publicFiles)));
+        }
 
         List<File> csvFiles = new ArrayList<>();
         for (File file : files) {

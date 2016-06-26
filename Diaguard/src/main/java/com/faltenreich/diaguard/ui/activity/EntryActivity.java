@@ -67,8 +67,6 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initialize();
-        checkIntents();
-        setDateTime();
     }
 
     @Override
@@ -103,12 +101,18 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         fab.init();
         fab.setOnFabSelectedListener(this);
 
-        layoutMeasurements.setOnCategoryEventListener(this);
-        for (Measurement.Category category : PreferenceHelper.getInstance().getActiveCategories()) {
-            if (PreferenceHelper.getInstance().isCategoryPinned(category)) {
-                layoutMeasurements.addMeasurementAtEnd(category);
+        checkIntents();
+
+        if (layoutMeasurements.getCount() == 0) {
+            layoutMeasurements.setOnCategoryEventListener(this);
+            for (Measurement.Category category : PreferenceHelper.getInstance().getActiveCategories()) {
+                if (PreferenceHelper.getInstance().isCategoryPinned(category)) {
+                    layoutMeasurements.addMeasurementAtEnd(category);
+                }
             }
         }
+
+        setDateTime();
     }
 
     private void checkIntents() {

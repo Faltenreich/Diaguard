@@ -124,6 +124,10 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
         return null;
     }
 
+    public int getCount() {
+        return categories.size();
+    }
+
     @Override
     public void onRemove(Measurement.Category category) {
         removeMeasurement(category);

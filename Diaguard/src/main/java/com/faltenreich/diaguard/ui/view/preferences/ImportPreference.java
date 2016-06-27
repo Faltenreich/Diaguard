@@ -1,10 +1,12 @@
 package com.faltenreich.diaguard.ui.view.preferences;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.preference.DialogPreference;
+import android.preference.Preference;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.Toast;
@@ -12,9 +14,13 @@ import android.widget.Toast;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.util.FileUtils;
 import com.faltenreich.diaguard.util.Helper;
-import com.faltenreich.diaguard.util.export.FileListener;
+import com.faltenreich.diaguard.util.SystemUtils;
 import com.faltenreich.diaguard.util.ViewHelper;
+import com.faltenreich.diaguard.util.event.Events;
+import com.faltenreich.diaguard.util.event.PermissionDeniedEvent;
+import com.faltenreich.diaguard.util.event.PermissionGrantedEvent;
 import com.faltenreich.diaguard.util.export.Export;
+import com.faltenreich.diaguard.util.export.FileListener;
 
 import org.joda.time.DateTime;
 
@@ -25,7 +31,7 @@ import java.util.List;
 /**
  * Created by Filip on 04.11.13.
  */
-public class ImportPreference extends DialogPreference implements FileListener {
+public class ImportPreference extends Preference implements Preference.OnPreferenceClickListener, FileListener {
 
     private static final String TAG = ImportPreference.class.getSimpleName();
 
@@ -33,18 +39,28 @@ public class ImportPreference extends DialogPreference implements FileListener {
 
     public ImportPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
-
-        progressDialog = new ProgressDialog(getContext());
-
-        // Hide standard buttons
-        setPositiveButtonText(null);
-        setNegativeButtonText(null);
+        setOnPreferenceClickListener(this);
     }
 
     @Override
-    protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
+    public boolean onPreferenceClick(Preference preference) {
+        tryListBackups();
+        return true;
+    }
+
+    private void tryListBackups() {
+        Activity activity = (Activity) getContext();
+        if (SystemUtils.canWriteExternalStorage(activity)) {
+            listBackups();
+        } else {
+            Events.register(this);
+            SystemUtils.requestPermissionWriteExternalStorage(activity);
+        }
+    }
+
+    private void listBackups() {
         final List<File> backupFiles = Export.getBackupFiles();
-        if(backupFiles.size() <= 0) {
+        if (backupFiles.size() <= 0) {
             String errorMessage = String.format("%s %s",
                     getContext().getString(R.string.error_no_backups),
                     FileUtils.getPublicDirectory());
@@ -53,7 +69,7 @@ public class ImportPreference extends DialogPreference implements FileListener {
         }
 
         List<String> dateList = new ArrayList<>();
-        for(File file : backupFiles) {
+        for (File file : backupFiles) {
             try {
                 DateTime date = Export.getBackupDate(file);
                 if (date != null) {
@@ -68,6 +84,7 @@ public class ImportPreference extends DialogPreference implements FileListener {
         }
 
         String[] csvArrayDates = dateList.toArray(new String[dateList.size()]);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(R.string.backup_title)
                 .setItems(csvArrayDates, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -76,6 +93,7 @@ public class ImportPreference extends DialogPreference implements FileListener {
                 });
         AlertDialog dialog = builder.create();
         dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
     }
 
     private void importBackup(File file) {
@@ -84,6 +102,7 @@ public class ImportPreference extends DialogPreference implements FileListener {
     }
 
     private void showProgressDialog() {
+        progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage(getContext().getString(R.string.backup_import));
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
@@ -99,5 +118,21 @@ public class ImportPreference extends DialogPreference implements FileListener {
     public void onComplete(File file, String mimeType) {
         progressDialog.dismiss();
         Toast.makeText(getContext(), getContext().getString(R.string.backup_complete), Toast.LENGTH_SHORT).show();
+    }
+
+    @SuppressWarnings("unused")
+    public void onEvent(PermissionGrantedEvent event) {
+        if (event.context.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            listBackups();
+            Events.unregister(this);
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onEvent(PermissionDeniedEvent event) {
+        if (event.context.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            ViewHelper.showToast(getContext(), R.string.permission_required_storage);
+            Events.unregister(this);
+        }
     }
 }

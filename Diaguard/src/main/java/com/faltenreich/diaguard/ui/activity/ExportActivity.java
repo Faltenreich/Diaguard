@@ -223,7 +223,7 @@ public class ExportActivity extends BaseActivity implements FileListener {
     @SuppressWarnings("unused")
     public void onEvent(PermissionDeniedEvent event) {
         if (event.context.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            ViewHelper.showToast(this, "Permission required");
+            ViewHelper.showToast(this, R.string.permission_required_storage);
         }
     }
 }

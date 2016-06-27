@@ -1,16 +1,21 @@
 package com.faltenreich.diaguard.util;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.os.Vibrator;
 import android.support.annotation.StringRes;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.faltenreich.diaguard.DiaguardApplication;
@@ -24,7 +29,8 @@ public class SystemUtils {
 
     private static final String TAG = SystemUtils.class.getSimpleName();
 
-    private static final int NOTIFICATION_ID = 34248273;
+    public static final int NOTIFICATION_ID = 34248273;
+    public static final int PERMISSION_WRITE_EXTERNAL_STORAGE = 123;
 
     public static void showNotification(@StringRes int titleResId, String message) {
         Context context = DiaguardApplication.getContext();
@@ -70,5 +76,16 @@ public class SystemUtils {
     public static void vibrate(int timeInMilliseconds) {
         Vibrator vibrator = (Vibrator) DiaguardApplication.getContext().getSystemService(Context.VIBRATOR_SERVICE);
         vibrator.vibrate(timeInMilliseconds);
+    }
+
+    public static boolean canWriteExternalStorage(Activity activity) {
+        int filePermission = ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        return filePermission == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public static void requestPermissionWriteExternalStorage(Activity activity) {
+        ActivityCompat.requestPermissions(activity,
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                PERMISSION_WRITE_EXTERNAL_STORAGE);
     }
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Point;
+import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.Toast;
@@ -42,6 +43,10 @@ public class ViewHelper {
 
     public static void showToast(Context context, String text) {
         showToast(context, text, Toast.LENGTH_LONG);
+    }
+
+    public static void showToast(Context context, @StringRes int stringResId) {
+        showToast(context, context.getString(stringResId), Toast.LENGTH_SHORT);
     }
 
     public static void showToast(Context context, String text, int duration) {

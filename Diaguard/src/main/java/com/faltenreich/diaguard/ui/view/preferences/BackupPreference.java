@@ -83,7 +83,7 @@ public class BackupPreference extends Preference implements Preference.OnPrefere
     @SuppressWarnings("unused")
     public void onEvent(PermissionDeniedEvent event) {
         if (event.context.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            ViewHelper.showToast(getContext(), "Permission required");
+            ViewHelper.showToast(getContext(), R.string.permission_required_storage);
             Events.unregister(this);
         }
     }

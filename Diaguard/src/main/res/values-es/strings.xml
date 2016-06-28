@@ -45,7 +45,6 @@
     <string name="entry_count_per_day">Entrada por día</string>
     <string name="entry_edit">Editar entrada</string>
     <string name="entry_delete">Eliminar entrada</string>
-    <string name="entry_delete_desc">La entrada y sus medidas serán eliminadas.</string>
     <string name="entry_deleted">Entrada eliminada</string>
     <string name="entry_new">Nueva entrada</string>
     <string name="export">Exportación</string>

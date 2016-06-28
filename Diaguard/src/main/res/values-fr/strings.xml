@@ -43,7 +43,6 @@
     <string name="entry_edit">Modifiez l\'entrée</string>
     <string name="entry_count_per_day">Entrée par jour</string>
     <string name="entry_delete">Supprimer l\'entrée</string>
-    <string name="entry_delete_desc">Cette entrée et toutes mésures y contenues seront supprimées</string>
     <string name="entry_deleted">Entrée supprimée</string>
     <string name="entry_new">Nouvelle entrée</string>
     <string name="export">Exportation</string>

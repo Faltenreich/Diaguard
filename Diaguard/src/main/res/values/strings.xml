@@ -61,7 +61,6 @@
     <string name="entry_count_per_day">Entries per day</string>
     <string name="entry_edit">Edit entry</string>
     <string name="entry_delete">Delete entry</string>
-    <string name="entry_delete_desc">Remove entry and its measurements from timeline</string>
     <string name="entry_deleted">Entry deleted</string>
     <string name="entry_new">New entry</string>
     <string name="export">Export</string>

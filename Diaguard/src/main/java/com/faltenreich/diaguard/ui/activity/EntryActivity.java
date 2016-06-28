@@ -268,8 +268,11 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             builder.setMessage(R.string.entry_delete_desc);
             builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
+                    for (Measurement measurement : EntryDao.getInstance().getMeasurements(entry)) {
+                        entry.getMeasurementCache().add(measurement);
+                        MeasurementDao.getInstance(measurement.getClass()).delete(measurement);
+                    }
                     EntryDao.getInstance().delete(entry);
-                    Toast.makeText(EntryActivity.this, getString(R.string.entry_deleted), Toast.LENGTH_LONG).show();
                     Events.post(new EntryDeletedEvent(entry));
                     finish();
                 }

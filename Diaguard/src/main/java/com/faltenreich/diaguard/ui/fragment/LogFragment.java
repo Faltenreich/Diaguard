@@ -25,7 +25,9 @@ import com.faltenreich.diaguard.adapter.list.ListItemDate;
 import com.faltenreich.diaguard.adapter.list.ListItemEmpty;
 import com.faltenreich.diaguard.adapter.list.ListItemEntry;
 import com.faltenreich.diaguard.data.dao.EntryDao;
+import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.Entry;
+import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.view.DayOfMonthDrawable;
 import com.faltenreich.diaguard.util.ViewHelper;
 import com.faltenreich.diaguard.util.event.Events;
@@ -275,8 +277,9 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
     @SuppressWarnings("unused")
     public void onEvent(EntryDeletedEvent event) {
         if (isAdded()) {
-            Entry entry = event.context;
+            final Entry entry = event.context;
             if (entry != null) {
+                // Remove from list
                 int entryPosition = listAdapter.getEntryPosition(entry);
                 if (entryPosition >= 0) {
                     listAdapter.removeItem(entryPosition);
@@ -292,6 +295,19 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
 
                     listDecoration.clearHeaderCache();
                 }
+
+                // Show notification
+                ViewHelper.showSnackbar(getView(), getString(R.string.entry_deleted), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        EntryDao.getInstance().createOrUpdate(entry);
+                        for (Measurement measurement : entry.getMeasurementCache()) {
+                            measurement.setEntry(entry);
+                            MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
+                        }
+                        Events.post(new EntryAddedEvent(entry));
+                    }
+                });
             }
         }
     }

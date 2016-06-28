@@ -1,10 +1,8 @@
 package com.faltenreich.diaguard.ui.view.chart;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.ColorRes;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -14,16 +12,12 @@ import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.ui.activity.BaseActivity;
-import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.util.ChartHelper;
 import com.github.mikephil.charting.charts.ScatterChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.ScatterData;
 import com.github.mikephil.charting.data.ScatterDataSet;
-import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IScatterDataSet;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -34,7 +28,7 @@ import java.util.List;
 /**
  * Created by Filip on 07.07.2015.
  */
-public class DayChart extends ScatterChart implements OnChartValueSelectedListener {
+public class DayChart extends ScatterChart {
 
     private static final String TAG = DayChart.class.getSimpleName();
 
@@ -66,9 +60,6 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
             int textColor = ContextCompat.getColor(getContext(), android.R.color.black);
             getAxisLeft().setTextColor(textColor);
             getXAxis().setTextColor(textColor);
-
-            setTouchEnabled(true);
-            setOnChartValueSelectedListener(this);
 
             new InitChartTask().execute();
         }
@@ -198,30 +189,5 @@ public class DayChart extends ScatterChart implements OnChartValueSelectedListen
                 Log.e(TAG, exception.getMessage());
             }
         }
-    }
-
-    @Override
-    public void onValueSelected(com.github.mikephil.charting.data.Entry chartEntry, int dataSetIndex, Highlight highlight) {
-        if (chartEntry.getData() instanceof com.faltenreich.diaguard.data.entity.Entry) {
-            com.faltenreich.diaguard.data.entity.Entry entry = (com.faltenreich.diaguard.data.entity.Entry) chartEntry.getData();
-            Intent intent = new Intent(getContext(), EntryActivity.class);
-            intent.putExtra(EntryActivity.EXTRA_ENTRY, entry.getId());
-
-            if (getContext() instanceof BaseActivity) {
-                BaseActivity activity = (BaseActivity)getContext();
-                ActivityOptionsCompat options =
-                        ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                activity,
-                                this,
-                                "transitionEntry");
-                activity.startActivity(intent, options);
-            } else {
-                getContext().startActivity(intent);
-            }
-        }
-    }
-
-    @Override
-    public void onNothingSelected() {
     }
 }

@@ -51,7 +51,6 @@
     <string name="entry_count_per_day">Einträge pro Tag</string>
     <string name="entry_edit">Eintrag bearbeiten</string>
     <string name="entry_delete">Eintrag löschen</string>
-    <string name="entry_delete_desc">Der Eintrag und seine Messungen werden entfernt</string>
     <string name="entry_deleted">Eintrag gelöscht</string>
     <string name="entry_new">Neuer Eintrag</string>
     <string name="export">Export</string>

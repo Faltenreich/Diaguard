@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.ui.fragment;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.StringRes;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -13,7 +14,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.DiaguardApplication;
+import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.data.dao.EntryDao;
+import com.faltenreich.diaguard.data.dao.MeasurementDao;
+import com.faltenreich.diaguard.data.entity.Entry;
+import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.activity.BaseActivity;
+import com.faltenreich.diaguard.util.ViewHelper;
+import com.faltenreich.diaguard.util.event.Events;
+import com.faltenreich.diaguard.util.event.data.EntryAddedEvent;
+import com.faltenreich.diaguard.util.event.data.EntryDeletedEvent;
 
 import butterknife.ButterKnife;
 
@@ -69,6 +79,18 @@ public abstract class BaseFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Events.register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Events.unregister(this);
+    }
+
     public TextView getActionView() {
         return ((BaseActivity) getActivity()).getActionView();
     }
@@ -88,4 +110,23 @@ public abstract class BaseFragment extends Fragment {
     interface ToolbarCallback {
         void action();
     }
+
+    @CallSuper
+    @SuppressWarnings("unused")
+    public void onEvent(EntryDeletedEvent event) {
+        // Show notification
+        final Entry entry = event.context;
+        ViewHelper.showSnackbar(getView(), getString(R.string.entry_deleted), new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EntryDao.getInstance().createOrUpdate(entry);
+                for (Measurement measurement : entry.getMeasurementCache()) {
+                    measurement.setEntry(entry);
+                    MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
+                }
+                Events.post(new EntryAddedEvent(entry));
+            }
+        });
+    }
+
 }

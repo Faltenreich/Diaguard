@@ -6,9 +6,11 @@ import android.content.res.Configuration;
 import android.graphics.Point;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Toast;
 
+import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 
 /**
@@ -38,7 +40,11 @@ public class ViewHelper {
     }
 
     public static void showSnackbar(View parentView, String text, View.OnClickListener onClickListener) {
-        Snackbar.make(parentView, text, Snackbar.LENGTH_LONG).setAction(R.string.undo, onClickListener).show();
+        int actionTextColor = ContextCompat.getColor(DiaguardApplication.getContext(), R.color.green_light);
+        Snackbar.make(parentView, text, Snackbar.LENGTH_LONG)
+                .setAction(R.string.undo, onClickListener)
+                .setActionTextColor(actionTextColor)
+                .show();
     }
 
     public static void showToast(Context context, String text) {

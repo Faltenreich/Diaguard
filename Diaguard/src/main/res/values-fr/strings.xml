@@ -140,7 +140,7 @@
     </string-array>
 
     <string-array name="alarm_intervals">
-        <item>Pas de rappel</item>
+        <item>Pas de mémoire</item>
         <item>En 30 minutes</item>
         <item>En 1 heure</item>
         <item>En 2 heures</item>
@@ -286,5 +286,9 @@
     <string name="per_day">par jour</string>
     <string name="target_area">Zone cible</string>
     <string name="year">An</string>
+    <string name="alarm_delete">Retirer la mémoire</string>
+    <string name="alarm_deleted">Retiré la mémoire</string>
+    <string name="alarm_reminder">Mémoire pour</string>
+    <string name="permission_required_storage">L\'autorisation d\'accès au stockage est manquant</string>
 
 </resources>

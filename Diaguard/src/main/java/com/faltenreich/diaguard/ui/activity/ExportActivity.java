@@ -78,6 +78,7 @@ public class ExportActivity extends BaseActivity implements FileListener {
     protected void onResume() {
         super.onResume();
         Events.register(this);
+        initializeGUI();
     }
 
     @Override
@@ -107,9 +108,12 @@ public class ExportActivity extends BaseActivity implements FileListener {
     public void initialize() {
         dateEnd = DateTime.now();
         dateStart = dateEnd.withDayOfMonth(1);
-        progressDialog = new ProgressDialog(this);
+    }
+
+    public void initializeGUI() {
         buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
         buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
+        progressDialog = new ProgressDialog(this);
         checkBoxNotes.setPadding(PADDING, PADDING, PADDING, PADDING);
         checkBoxNotes.setChecked(PreferenceHelper.getInstance().exportNotes());
         checkBoxNotes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

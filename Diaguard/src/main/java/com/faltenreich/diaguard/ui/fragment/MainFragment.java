@@ -26,6 +26,7 @@ import com.faltenreich.diaguard.util.DateTimeUtils;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.TimeSpan;
 import com.faltenreich.diaguard.util.ViewHelper;
+import com.faltenreich.diaguard.util.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.util.thread.BaseAsyncTask;
 import com.faltenreich.diaguard.util.thread.UpdateLineChartTask;
 import com.github.mikephil.charting.charts.LineChart;
@@ -156,6 +157,13 @@ public class MainFragment extends BaseFragment {
             textViewLatestAgo.setText(Helper.getTextAgo(getActivity(), differenceInMinutes));
         } else {
             textViewLatestValue.setTextSize(40);
+            textViewLatestValue.setText(R.string.first_visit);
+            textViewLatestValue.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+            textViewLatestUnit.setText(null);
+
+            textViewLatestAgo.setText(R.string.first_visit_desc);
+            textViewLatestAgo.setTextColor(ContextCompat.getColor(getContext(), R.color.gray_darker));
+            textViewLatestTime.setText(null);
         }
     }
 
@@ -300,5 +308,10 @@ public class MainFragment extends BaseFragment {
     @OnClick(R.id.layout_trend)
     protected void openTrend(View view) {
         openStatistics(view, "transitionTrend");
+    }
+
+    @SuppressWarnings("unused")
+    public void onEvent(EntryAddedEvent event) {
+        updateContent();
     }
 }

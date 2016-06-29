@@ -8,6 +8,7 @@ import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.faltenreich.diaguard.DiaguardApplication;
@@ -57,5 +58,9 @@ public class ViewHelper {
 
     public static void showToast(Context context, String text, int duration) {
         Toast.makeText(context, text, duration).show();
+    }
+
+    public static int getDefaultTextColor() {
+        return new TextView(DiaguardApplication.getContext()).getTextColors().getDefaultColor();
     }
 }

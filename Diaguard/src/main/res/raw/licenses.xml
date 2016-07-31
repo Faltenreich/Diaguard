@@ -20,6 +20,12 @@
         <license>ISC License</license>
     </notice>
     <notice>
+        <name>EventBus</name>
+        <url>https://github.com/greenrobot/EventBus</url>
+        <copyright>Copyright 2012-2016 Markus Junginger, greenrobot</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
         <name>Butter Knife</name>
         <url>http://jakewharton.github.io/butterknife</url>
         <copyright>Copyright 2012, Jake Wharton</copyright>

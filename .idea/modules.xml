@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Diaguard/Diaguard.iml" filepath="$PROJECT_DIR$/Diaguard/Diaguard.iml" />
-      <module fileurl="file://$PROJECT_DIR$/DiaguardProject.iml" filepath="$PROJECT_DIR$/DiaguardProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Diaguard.iml" filepath="$PROJECT_DIR$/Diaguard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Diaguard/Diaguard-Diaguard.iml" filepath="$PROJECT_DIR$/Diaguard/Diaguard-Diaguard.iml" />
     </modules>
   </component>
 </project>

@@ -25,7 +25,6 @@ import com.faltenreich.diaguard.ui.view.viewholder.LogPendingViewHolder;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -334,7 +333,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
 
         @Override
         protected List<ListItemDate> doInBackground(Void... params) {
-            List<ListItemDate> listItems = new ArrayList<>();
+            ArrayList<ListItemDate> listItems = new ArrayList<>();
 
             DateTime minVisibleDate = getItem(0).getDateTime();
             DateTime targetDate = minVisibleDate.minusDays(EndlessAdapter.BULK_SIZE);
@@ -343,15 +342,18 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
 
                 List<Entry> entries = fetchData(minVisibleDate);
                 if (entries.size() > 0) {
-                    ArrayList<ListItemEntry> listItemEntries = new ArrayList<>();
+
+                    ListItemEntry firstListItemEntryOfDay = null;
                     for (Entry entry : entries) {
-                        listItemEntries.add(new ListItemEntry(entry));
-                    }
-                    Collections.reverse(listItemEntries);
-                    ListItemEntry firstListItemEntryOfDay = listItemEntries.get(listItemEntries.size() - 1);
-                    for (ListItemEntry listItemEntry : listItemEntries) {
+                        int index = entries.indexOf(entry);
+                        ListItemEntry listItemEntry = new ListItemEntry(entry);
+
+                        if (index == 0) {
+                            firstListItemEntryOfDay = listItemEntry;
+                        }
+
                         listItemEntry.setFirstListItemEntryOfDay(firstListItemEntryOfDay);
-                        listItems.add(0, listItemEntry);
+                        listItems.add(index, new ListItemEntry(entry));
                     }
                 } else {
                     listItems.add(0, new ListItemEmpty(minVisibleDate));
@@ -412,14 +414,14 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
 
                 List<Entry> entries = fetchData(maxVisibleDate);
                 if (entries.size() > 0) {
-                    List<ListItemEntry> listItemEntries = new ArrayList<>();
+                    ListItemEntry firstListItemEntryOfDay = null;
                     for (Entry entry : entries) {
-                        listItemEntries.add(new ListItemEntry(entry));
-                    }
-                    ListItemEntry firstListItemEntryOfDay = listItemEntries.get(0);
-                    for (ListItemEntry listItemEntry : listItemEntries) {
+                        ListItemEntry listItemEntry = new ListItemEntry(entry);
+                        if (entry == entries.get(0)) {
+                            firstListItemEntryOfDay = listItemEntry;
+                        }
                         listItemEntry.setFirstListItemEntryOfDay(firstListItemEntryOfDay);
-                        listItems.add(listItemEntry);
+                        listItems.add(new ListItemEntry(entry));
                     }
                 } else {
                     listItems.add(new ListItemEmpty(maxVisibleDate));

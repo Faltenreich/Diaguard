@@ -1,18 +1,8 @@
 package com.faltenreich.diaguard.ui.fragment;
 
-import android.app.DatePickerDialog;
-import android.content.Context;
-import android.content.res.Configuration;
-import android.graphics.drawable.LayerDrawable;
-import android.os.Build;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.ProgressBar;
 
 import com.faltenreich.diaguard.DiaguardApplication;
@@ -26,7 +16,6 @@ import com.faltenreich.diaguard.adapter.list.ListItemEmpty;
 import com.faltenreich.diaguard.adapter.list.ListItemEntry;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.entity.Entry;
-import com.faltenreich.diaguard.ui.view.DayOfMonthDrawable;
 import com.faltenreich.diaguard.util.ViewHelper;
 import com.faltenreich.diaguard.util.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.util.event.data.EntryDeletedEvent;
@@ -39,7 +28,7 @@ import butterknife.BindView;
 /**
  * Created by Filip on 05.07.2015.
  */
-public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCallback, LogRecyclerAdapter.OnAdapterChangesListener {
+public class LogFragment extends DateFragment implements LogRecyclerAdapter.OnAdapterChangesListener {
 
     @BindView(R.id.fragment_log_list) RecyclerView recyclerView;
     @BindView(R.id.fragment_log_progressbar) ProgressBar progressBar;
@@ -53,54 +42,13 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
     }
 
     @Override
-    public void onViewCreated (View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        setHasOptionsMenu(true);
-        initialize();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        updateMonthForUi(getFirstVisibleDay());
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.date, menu);
-
-        MenuItem menuItem = menu.findItem(R.id.action_today);
-         if (menuItem != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                LayerDrawable icon = (LayerDrawable) menuItem.getIcon();
-                setTodayIcon(icon, getActivity());
-            } else {
-                menuItem.setIcon(R.drawable.ic_action_today);
-            }
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_today:
-                goToDay(DateTime.now());
-                break;
-        }
-        return true;
-    }
-
-    @Override
     public String getTitle() {
         return DiaguardApplication.getContext().getString(R.string.log);
     }
 
-    @Override
-    public void action() {
-        showDatePicker();
-    }
+    protected void initialize() {
+        super.initialize();
 
-    private void initialize() {
         listLayoutManager = new SafeLinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(listLayoutManager);
         listAdapter = new LogRecyclerAdapter(getActivity(), this);
@@ -114,24 +62,19 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                DateTime dateTime = getFirstVisibleDay();
-                if (dateTime != null) {
-                    // Update month in Toolbar when section is being crossed
-                    boolean isScrollingUp = dy < 0;
-                    boolean isCrossingMonth = isScrollingUp ?
-                            dateTime.dayOfMonth().get() == dateTime.dayOfMonth().getMaximumValue() :
-                            dateTime.dayOfMonth().get() == dateTime.dayOfMonth().getMinimumValue();
-                    if (isCrossingMonth) {
-                        updateMonthForUi(dateTime);
-                    }
+                setDay(getFirstVisibleDay());
+                // Update month in Toolbar when section is being crossed
+                boolean isScrollingUp = dy < 0;
+                boolean isCrossingMonth = isScrollingUp ?
+                        getDay().dayOfMonth().get() == getDay().dayOfMonth().getMaximumValue() :
+                        getDay().dayOfMonth().get() == getDay().dayOfMonth().getMinimumValue();
+                if (isCrossingMonth) {
+                    updateLabels();
                 }
             }
         });
 
         progressBar.setVisibility(View.VISIBLE);
-        DateTime dateTime = DateTime.now();
-        listAdapter.setup(dateTime);
-        updateMonthForUi(dateTime);
     }
 
     private DateTime getFirstVisibleDay() {
@@ -144,7 +87,10 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
         }
     }
 
-    private void goToDay(DateTime dateTime) {
+    @Override
+    protected void goToDay(DateTime dateTime) {
+        super.goToDay(dateTime);
+
         int positionOfDay = listAdapter.getDayPosition(dateTime);
         boolean containsDay = positionOfDay >= 0;
         if (containsDay) {
@@ -153,33 +99,17 @@ public class LogFragment extends BaseFragment implements BaseFragment.ToolbarCal
             progressBar.setVisibility(View.VISIBLE);
             listAdapter.setup(dateTime);
         }
-        updateMonthForUi(dateTime);
     }
 
-    private void updateMonthForUi(DateTime dateTime) {
+    @Override
+    protected void updateLabels() {
         String format;
         if (ViewHelper.isLandscape(getActivity()) || ViewHelper.isLargeScreen(getActivity())) {
             format = "MMMM YYYY";
         } else {
             format = "MMM YYYY";
         }
-        getActionView().setText(dateTime.toString(format));
-    }
-
-    private void setTodayIcon(LayerDrawable icon, Context context) {
-        DayOfMonthDrawable today = new DayOfMonthDrawable(context);
-        today.setDayOfMonth(DateTime.now().dayOfMonth().get());
-        icon.mutate();
-        icon.setDrawableByLayerId(R.id.today_icon_day, today);
-    }
-
-    public void showDatePicker () {
-        DatePickerFragment.newInstance(getFirstVisibleDay(), new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int day) {
-                goToDay(DateTime.now().withYear(year).withMonthOfYear(month + 1).withDayOfMonth(day));
-            }
-        }).show(getActivity().getSupportFragmentManager());
+        getActionView().setText(getDay().toString(format));
     }
 
     @Override

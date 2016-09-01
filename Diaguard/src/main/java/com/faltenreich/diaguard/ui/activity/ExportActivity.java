@@ -4,8 +4,6 @@ import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -23,6 +21,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.ui.fragment.DatePickerFragment;
 import com.faltenreich.diaguard.ui.view.CategoryCheckBoxList;
+import com.faltenreich.diaguard.util.FileUtils;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.SystemUtils;
 import com.faltenreich.diaguard.util.ViewHelper;
@@ -179,10 +178,8 @@ public class ExportActivity extends BaseActivity implements FileListener {
     }
 
     private void openFile(File file, String mimeType) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.fromFile(file), mimeType);
         try {
-            startActivity(intent);
+            FileUtils.openFile(file, mimeType, this);
         } catch (ActivityNotFoundException e) {
             ViewHelper.showSnackbar(rootView, getString(R.string.error_no_app));
             Log.e("Open " + mimeType, e.getMessage());

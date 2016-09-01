@@ -1,19 +1,16 @@
 package com.faltenreich.diaguard.util;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.os.AsyncTask;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Environment;
-
-import com.opencsv.CSVReader;
-import com.opencsv.CSVWriter;
-
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
+import android.support.v4.content.FileProvider;
 
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by Filip on 05.06.2014.
@@ -43,5 +40,30 @@ public class FileUtils {
         File directory = Environment.getExternalStoragePublicDirectory(path);
         directory.mkdirs();
         return directory;
+    }
+
+    public static void openFile(File file, String mimeType, Context context) throws ActivityNotFoundException {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri uri = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".provider", file);
+        intent.setDataAndType(uri, mimeType);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        grantUriPermission(uri, intent, context);
+        context.startActivity(intent);
+        // TODO: revokeUriPermission onResult
+    }
+
+    private static List<ResolveInfo> getSupportingApps(Intent intent, Context context) {
+        return context.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+    }
+
+    private static void grantUriPermission(Uri uri, Intent intent, Context context) {
+        for (ResolveInfo resolveInfo : getSupportingApps(intent, context)) {
+            String packageName = resolveInfo.activityInfo.packageName;
+            context.grantUriPermission(packageName, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        }
+    }
+
+    private static void revokeUriPermission(Uri uri, Context context) {
+        context.revokeUriPermission(uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
     }
 }

@@ -62,14 +62,17 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.OnAd
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                setDay(getFirstVisibleDay());
-                // Update month in Toolbar when section is being crossed
-                boolean isScrollingUp = dy < 0;
-                boolean isCrossingMonth = isScrollingUp ?
-                        getDay().dayOfMonth().get() == getDay().dayOfMonth().getMaximumValue() :
-                        getDay().dayOfMonth().get() == getDay().dayOfMonth().getMinimumValue();
-                if (isCrossingMonth) {
-                    updateLabels();
+                DateTime firstVisibleDay = getFirstVisibleDay();
+                if (firstVisibleDay != null) {
+                    setDay(firstVisibleDay);
+                    // Update month in Toolbar when section is being crossed
+                    boolean isScrollingUp = dy < 0;
+                    boolean isCrossingMonth = isScrollingUp ?
+                            getDay().dayOfMonth().get() == getDay().dayOfMonth().getMaximumValue() :
+                            getDay().dayOfMonth().get() == getDay().dayOfMonth().getMinimumValue();
+                    if (isCrossingMonth) {
+                        updateLabels();
+                    }
                 }
             }
         });

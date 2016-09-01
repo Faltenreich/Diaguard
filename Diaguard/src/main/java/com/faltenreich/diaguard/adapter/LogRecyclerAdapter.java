@@ -25,6 +25,7 @@ import com.faltenreich.diaguard.ui.view.viewholder.LogPendingViewHolder;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -342,14 +343,15 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
 
                 List<Entry> entries = fetchData(minVisibleDate);
                 if (entries.size() > 0) {
-                    List<ListItemEntry> listItemEntries = new ArrayList<>();
+                    ArrayList<ListItemEntry> listItemEntries = new ArrayList<>();
                     for (Entry entry : entries) {
                         listItemEntries.add(new ListItemEntry(entry));
                     }
+                    Collections.reverse(listItemEntries);
                     ListItemEntry firstListItemEntryOfDay = listItemEntries.get(listItemEntries.size() - 1);
                     for (ListItemEntry listItemEntry : listItemEntries) {
                         listItemEntry.setFirstListItemEntryOfDay(firstListItemEntryOfDay);
-                        listItems.add(listItemEntry);
+                        listItems.add(0, listItemEntry);
                     }
                 } else {
                     listItems.add(0, new ListItemEmpty(minVisibleDate));

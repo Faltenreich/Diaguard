@@ -166,9 +166,6 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.OnAd
 
                     updateHeaderSection(entry.getDate());
                 }
-
-                // TODO: Could irritate user?
-                // goToDay(entry.getDate());
             }
         }
     }

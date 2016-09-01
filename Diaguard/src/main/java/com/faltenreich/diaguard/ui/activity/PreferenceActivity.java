@@ -8,11 +8,6 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.ui.view.preferences.BloodSugarPreference;
@@ -26,34 +21,18 @@ import java.util.Map;
 /**
  * Created by Filip on 26.10.13.
  */
-public class PreferenceActivity extends AppCompatActivity {
+public class PreferenceActivity extends BaseActivity {
+    
+    public PreferenceActivity() {
+        super(R.layout.activity_preferences);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getFragmentManager().beginTransaction().replace(
-                android.R.id.content,
+                R.id.content,
                 new PreferenceFragment()).commit();
-    }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-
-        ViewGroup root = (ViewGroup) findViewById(android.R.id.list).getParent().getParent().getParent();
-        View view = LayoutInflater.from(this).inflate(R.layout.toolbar, root, false);
-        root.addView(view, 0);
-
-        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        if (toolbar != null) {
-            toolbar.setTitle(getString(R.string.settings));
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                }
-            });
-        }
     }
 
     public static class PreferenceFragment extends android.preference.PreferenceFragment {

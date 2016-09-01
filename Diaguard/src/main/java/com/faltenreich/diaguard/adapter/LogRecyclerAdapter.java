@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.list.ListItemDate;
 import com.faltenreich.diaguard.adapter.list.ListItemDay;
 import com.faltenreich.diaguard.adapter.list.ListItemEmpty;
@@ -12,7 +13,6 @@ import com.faltenreich.diaguard.adapter.list.ListItemEntry;
 import com.faltenreich.diaguard.adapter.list.ListItemMonth;
 import com.faltenreich.diaguard.adapter.list.ListItemPending;
 import com.faltenreich.diaguard.data.dao.EntryDao;
-import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.view.viewholder.BaseViewHolder;
@@ -25,7 +25,6 @@ import com.faltenreich.diaguard.ui.view.viewholder.LogPendingViewHolder;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -350,7 +349,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
                     ListItemEntry firstListItemEntryOfDay = listItemEntries.get(listItemEntries.size() - 1);
                     for (ListItemEntry listItemEntry : listItemEntries) {
                         listItemEntry.setFirstListItemEntryOfDay(firstListItemEntryOfDay);
-                        listItems.add(0, listItemEntry);
+                        listItems.add(listItemEntry);
                     }
                 } else {
                     listItems.add(0, new ListItemEmpty(minVisibleDate));

@@ -75,6 +75,7 @@
     <string name="format">Format</string>
     <string name="general">General</string>
     <string name="hba1c">HbA1c</string>
+    <string name="hba1c_estimated">Estimated HbA1c</string>
     <string name="homepage">Website</string>
     <string name="hyper">Hyper</string>
     <string name="hyper_per_day">Hypers per day</string>
@@ -125,7 +126,7 @@
     <string name="change_every_second_hour">Changes every second hour</string>
     <string name="change_every_four_hours">Changes every four hour</string>
     <string name="change_every_six_hours">Changes every time of day</string>
-    
+
     <string-array name="time_rhythm">
         <item>@string/change_none</item>
         <item>@string/change_every_six_hours</item>

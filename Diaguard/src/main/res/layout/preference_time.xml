@@ -3,15 +3,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    style="@style/Padding">
+    android:orientation="vertical">
 
     <Spinner
         android:id="@+id/preference_time_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_between"
-        android:layout_marginBottom="@dimen/margin_between"/>
+        android:layout_margin="@dimen/activity_horizontal_margin"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/preference_time_list"

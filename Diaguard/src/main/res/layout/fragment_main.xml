@@ -280,6 +280,11 @@
 
         </LinearLayout>
 
+        <!-- HbA1c -->
+        <include
+            android:id="@+id/layout_hba1c"
+            layout="@layout/view_hba1c" />
+
         <!-- Trend -->
         <android.support.v7.widget.CardView
             android:id="@+id/layout_trend"

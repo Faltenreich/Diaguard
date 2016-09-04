@@ -79,6 +79,7 @@ public class TimePreference extends DialogPreference {
                 timeInterval = TimeInterval.values()[position];
                 updateList();
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }

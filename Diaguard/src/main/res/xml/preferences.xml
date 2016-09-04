@@ -93,7 +93,7 @@
             android:defaultValue="40"
             android:inputType="number"/>
 
-        <com.faltenreich.diaguard.ui.view.preferences.FactorPreference
+        <com.faltenreich.diaguard.ui.view.preferences.TimePreference
             android:key="factors"
             android:title="@string/factors"/>
 

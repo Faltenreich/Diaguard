@@ -120,6 +120,19 @@
     <string name="weight">Weight</string>
     <string name="version">Version</string>
     <string name="vibration">Vibration</string>
+    <string name="change_none">Constant</string>
+    <string name="change_every_hour">Changes every hour</string>
+    <string name="change_every_second_hour">Changes every second hour</string>
+    <string name="change_every_four_hours">Changes every four hour</string>
+    <string name="change_every_six_hours">Changes every time of day</string>
+    
+    <string-array name="time_rhythm">
+        <item>@string/change_none</item>
+        <item>@string/change_every_six_hours</item>
+        <item>@string/change_every_four_hours</item>
+        <item>@string/change_every_second_hour</item>
+        <item>@string/change_every_hour</item>
+    </string-array>
 
     <string-array name="startscreens">
         <item>Home</item>

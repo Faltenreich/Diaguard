@@ -76,6 +76,7 @@
     <string name="general">General</string>
     <string name="hba1c">HbA1c</string>
     <string name="hba1c_estimated">Estimated HbA1c</string>
+    <string name="hba1c_formula" translatable="false">HbA1c = 0,031 * %s %s 3 %s + 2,393</string>
     <string name="homepage">Website</string>
     <string name="hyper">Hyper</string>
     <string name="hyper_per_day">Hypers per day</string>
@@ -160,6 +161,7 @@
     <string name="days">Days</string>
     <string name="week">Week</string>
     <string name="month">Month</string>
+    <string name="months">Months</string>
     <string name="year">Year</string>
 
     <string-array name="array_interval">

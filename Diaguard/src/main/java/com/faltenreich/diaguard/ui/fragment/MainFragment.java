@@ -7,7 +7,6 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.DiaguardApplication;
@@ -60,7 +59,6 @@ public class MainFragment extends BaseFragment {
     @BindView(R.id.textview_avg_week) TextView textViewAverageWeek;
     @BindView(R.id.textview_avg_day) TextView textViewAverageDay;
     @BindView(R.id.hba1c_value) TextView textViewHbA1c;
-    @BindView(R.id.hba1c_trend_icon) ImageView imageViewHbA1c;
 
     private Entry latestEntry;
 
@@ -196,9 +194,9 @@ public class MainFragment extends BaseFragment {
             }
             DateTime now = DateTime.now();
             Interval intervalDay = new Interval(now, now);
-            Interval intervalLastDay = new Interval(now.minusDays(1), now.minusDays(1));
             Interval intervalWeek = new Interval(new DateTime(now.minusWeeks(1)), now);
             Interval intervalMonth = new Interval(new DateTime(now.minusMonths(1)), now);
+            Interval intervalQuarter = new Interval(new DateTime(now.minusMonths(3)), now);
 
             float avgDay = MeasurementDao.getInstance(BloodSugar.class).function(SqlFunction.AVG, BloodSugar.Column.MGDL, intervalDay);
             float avgDayCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, avgDay);
@@ -209,27 +207,27 @@ public class MainFragment extends BaseFragment {
             float avgMonth = MeasurementDao.getInstance(BloodSugar.class).function(SqlFunction.AVG, BloodSugar.Column.MGDL, intervalMonth);
             float avgMonthCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, avgMonth);
 
-            float avgLastDay = MeasurementDao.getInstance(BloodSugar.class).function(SqlFunction.AVG, BloodSugar.Column.MGDL, intervalLastDay);
-            float avgLastDayCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, avgLastDay);
-
-            float hbA1c = (avgMonth + 86) / 33.33f;
-            float hbA1cCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.HBA1C, hbA1c);
+            float avgQuarter = MeasurementDao.getInstance(BloodSugar.class).function(SqlFunction.AVG, BloodSugar.Column.MGDL, intervalQuarter);
+            float hbA1cCustom = 0;
+            if (avgQuarter > 0) {
+                float hbA1c = Helper.calculateHbA1c(avgQuarter);
+                hbA1cCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.HBA1C, hbA1c);
+            }
 
             return new String[] {
                     Integer.toString(entriesWithBloodSugar != null ? entriesWithBloodSugar.size() : 0),
                     Integer.toString(countHypers),
                     Integer.toString(countHypos),
-                    Helper.parseFloat(avgDayCustom),
-                    Helper.parseFloat(avgWeekCustom),
-                    Helper.parseFloat(avgMonthCustom),
-                    Helper.parseFloat(avgLastDayCustom),
-                    Helper.parseFloat(hbA1cCustom)
+                    avgDayCustom > 0 ? Helper.parseFloat(avgDayCustom) : getContext().getString(R.string.placeholder),
+                    avgWeekCustom > 0 ? Helper.parseFloat(avgWeekCustom) : getContext().getString(R.string.placeholder),
+                    avgMonthCustom > 0 ? Helper.parseFloat(avgMonthCustom) : getContext().getString(R.string.placeholder),
+                    hbA1cCustom > 0 ? String.format("%s%s", Helper.parseFloat(hbA1cCustom), PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.HBA1C)) : getContext().getString(R.string.placeholder)
             };
         }
 
         protected void onPostExecute(String[] values) {
             if(isAdded()) {
-                if (values.length == 8) {
+                if (values.length == 7) {
                     // Today
                     textViewMeasurements.setText(values[0]);
                     textViewHyperglycemia.setText(values[1]);
@@ -241,9 +239,7 @@ public class MainFragment extends BaseFragment {
                     textViewAverageMonth.setText(values[5]);
 
                     // HbA1c
-                    boolean trendIsUp = Float.parseFloat(values[3]) > Float.parseFloat(values[6]);
-                    imageViewHbA1c.setImageResource(trendIsUp ? R.drawable.ic_arrow_up : R.drawable.ic_arrow_down);
-                    textViewHbA1c.setText(String.format("%s%s", values[7], PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.HBA1C)));
+                    textViewHbA1c.setText(values[6]);
                 }
             }
         }

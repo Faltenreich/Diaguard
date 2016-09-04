@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="2dp"
     card_view:cardCornerRadius="4dp"
     card_view:cardElevation="2dp"
     card_view:cardUseCompatPadding="true">
@@ -31,14 +32,6 @@
             android:layout_marginStart="@dimen/margin_between"
             android:textColor="@android:color/black"
             android:text="-"/>
-
-        <com.faltenreich.diaguard.ui.view.TintImageView
-            android:id="@+id/hba1c_trend_icon"
-            android:layout_width="@dimen/size_image_small"
-            android:layout_height="@dimen/size_image_small"
-            android:src="@drawable/ic_arrow_up"
-            android:contentDescription="@null"
-            app:tintColor="@color/gray"/>
 
     </LinearLayout>
 

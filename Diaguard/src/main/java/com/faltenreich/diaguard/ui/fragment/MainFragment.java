@@ -324,6 +324,16 @@ public class MainFragment extends BaseFragment {
     }
 
     @SuppressWarnings("unused")
+    @OnClick(R.id.layout_hba1c)
+    protected void showHbA1cFormula(View view) {
+        String formula = String.format(getString(R.string.hba1c_formula),
+                getString(R.string.average_symbol),
+                getString(R.string.bloodsugar),
+                getString(R.string.months));
+        ViewHelper.showSnackbar(getView(), formula);
+    }
+
+    @SuppressWarnings("unused")
     public void onEvent(EntryAddedEvent event) {
         updateContent();
     }

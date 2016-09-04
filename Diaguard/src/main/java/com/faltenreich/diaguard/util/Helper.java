@@ -127,4 +127,8 @@ public class Helper {
             Log.d(TAG, String.format("Added %d/%d", i, entryCount));
         }
     }
+
+    public static float calculateHbA1c(float avgMgDl) {
+        return 0.031f * avgMgDl + 2.393f;
+    }
 }

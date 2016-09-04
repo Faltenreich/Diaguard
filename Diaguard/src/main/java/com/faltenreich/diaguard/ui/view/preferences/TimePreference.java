@@ -1,9 +1,7 @@
 package com.faltenreich.diaguard.ui.view.preferences;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.preference.DialogPreference;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,12 +10,12 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.TimeAdapter;
 import com.faltenreich.diaguard.adapter.list.ListItemTimePreference;
+import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.TimeInterval;
 
 import org.joda.time.DateTime;
@@ -40,16 +38,14 @@ public class TimePreference extends DialogPreference {
     private SharedPreferences sharedPreferences;
 
     private TimeAdapter adapter;
-    private TimeInterval interval;
-    private ListItemTimePreference.Type type;
+    private TimeInterval timeInterval;
 
     public TimePreference(Context context, AttributeSet attrs) {
         super(context, attrs);
         setDialogLayoutResource(R.layout.preference_time);
         this.context = context;
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.context);
-        this.interval = TimeInterval.CONSTANT;
-        this.type = ListItemTimePreference.Type.BLOOD_SUGAR;
+        this.timeInterval = PreferenceHelper.getInstance().getFactorInterval();
     }
 
     @Override
@@ -61,37 +57,16 @@ public class TimePreference extends DialogPreference {
     }
 
     @Override
-    protected void showDialog(Bundle state) {
-        super.showDialog(state);
-
-        AlertDialog alertDialog = (AlertDialog) getDialog();
-        if (alertDialog != null) {
-            Button positiveButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-            if (positiveButton != null) {
-                positiveButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                });
-            }
-        }
-    }
-
-    @Override
     protected void onDialogClosed(boolean positiveResult) {
         super.onDialogClosed(positiveResult);
         if (positiveResult) {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-
-            editor.apply();
+            store();
         }
     }
 
     private void init() {
         initSpinner();
         initList();
-        loadPreferences();
     }
 
     private void initSpinner() {
@@ -101,7 +76,7 @@ public class TimePreference extends DialogPreference {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                interval = TimeInterval.values()[position];
+                timeInterval = TimeInterval.values()[position];
                 updateList();
             }
             @Override
@@ -118,18 +93,24 @@ public class TimePreference extends DialogPreference {
         updateList();
     }
 
-    private void loadPreferences() {
-
-    }
-
     private void updateList() {
         adapter.clear();
-        DateTime dateTime = DateTime.now().withHourOfDay(interval.startHour);
-        while (adapter.getItemCount() < DateTimeConstants.HOURS_PER_DAY / interval.interval) {
-            adapter.addItem(new ListItemTimePreference(type, interval, dateTime.getHourOfDay(), 10));
-            int hourOfDay = dateTime.getHourOfDay() + interval.interval;
-            dateTime = dateTime.withHourOfDay(hourOfDay % DateTimeConstants.HOURS_PER_DAY);
+        DateTime dateTime = DateTime.now().withHourOfDay(timeInterval.startHour);
+        while (adapter.getItemCount() < DateTimeConstants.HOURS_PER_DAY / timeInterval.interval) {
+            int hourOfDay = dateTime.getHourOfDay();
+            float value = PreferenceHelper.getInstance().getFactorForHour(hourOfDay);
+            adapter.addItem(new ListItemTimePreference(timeInterval, hourOfDay, value));
+            dateTime = dateTime.withHourOfDay((hourOfDay + timeInterval.interval) % DateTimeConstants.HOURS_PER_DAY);
         }
         adapter.notifyDataSetChanged();
+    }
+
+    private void store() {
+        PreferenceHelper.getInstance().setFactorInterval(timeInterval);
+
+        for (int pos = 0; pos < adapter.getItemCount(); pos++) {
+            ListItemTimePreference preference = adapter.getItem(pos);
+            PreferenceHelper.getInstance().setFactorForHour(preference.getHourOfDay(), preference.getValue());
+        }
     }
 }

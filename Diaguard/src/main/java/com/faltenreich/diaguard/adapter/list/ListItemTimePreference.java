@@ -7,25 +7,14 @@ import com.faltenreich.diaguard.data.TimeInterval;
  */
 public class ListItemTimePreference extends ListItem {
 
-    public enum Type {
-        BLOOD_SUGAR,
-        FACTOR
-    }
-
-    private Type type;
     private TimeInterval interval;
     private int hourOfDay;
     private float value;
 
-    public ListItemTimePreference(Type type, TimeInterval interval, int hourOfDay, float value) {
-        this.type = type;
+    public ListItemTimePreference(TimeInterval interval, int hourOfDay, float value) {
         this.interval = interval;
         this.hourOfDay = hourOfDay;
         this.value = value;
-    }
-
-    public Type getType() {
-        return type;
     }
 
     public TimeInterval getInterval() {
@@ -38,5 +27,9 @@ public class ListItemTimePreference extends ListItem {
 
     public float getValue() {
         return value;
+    }
+
+    public void setValue(float value) {
+        this.value = value;
     }
 }

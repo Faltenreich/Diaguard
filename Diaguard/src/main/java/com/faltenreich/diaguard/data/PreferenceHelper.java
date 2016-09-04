@@ -31,6 +31,8 @@ public class PreferenceHelper {
     private class Keys {
         public static final String CATEGORY_PINNED = "categoryPinned%s";
         public static final String ALARM_START_IN_MILLIS = "alarmStartInMillis";
+        public static final String INTERVAL_FACTOR = "intervalFactor";
+        public static final String INTERVAL_FACTOR_FOR_HOUR = "intervalFactor%d";
     }
 
     private static PreferenceHelper instance;
@@ -248,6 +250,26 @@ public class PreferenceHelper {
 
     public float getFactorValue(Daytime daytime) {
         return sharedPreferences.getFloat(FactorPreference.FACTOR + daytime.toString(), 0);
+    }
+
+    public void setFactorInterval(TimeInterval interval) {
+        sharedPreferences.edit().putInt(Keys.INTERVAL_FACTOR, interval.ordinal()).apply();
+    }
+
+    public TimeInterval getFactorInterval() {
+        int position = sharedPreferences.getInt(Keys.INTERVAL_FACTOR, TimeInterval.EVERY_SIX_HOURS.ordinal());
+        TimeInterval[] timeIntervals = TimeInterval.values();
+        return position >= 0 && position < timeIntervals.length ? timeIntervals[position] : TimeInterval.EVERY_FOUR_HOURS;
+    }
+
+    public void setFactorForHour(int hourOfDay, float factor) {
+        String key = String.format(Keys.INTERVAL_FACTOR_FOR_HOUR, hourOfDay);
+        sharedPreferences.edit().putFloat(key, factor).apply();
+    }
+
+    public float getFactorForHour(int hourOfDay) {
+        String key = String.format(Keys.INTERVAL_FACTOR_FOR_HOUR, hourOfDay);
+        return sharedPreferences.getFloat(key, -1);
     }
 
     // CATEGORIES

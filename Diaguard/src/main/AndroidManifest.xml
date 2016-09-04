@@ -68,7 +68,8 @@
         <activity
             android:name=".ui.activity.PreferenceActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/settings">
+            android:label="@string/settings"
+            android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity" />

@@ -1,15 +1,16 @@
 package com.faltenreich.diaguard.ui.view.viewholder;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.list.ListItemTimePreference;
-import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.TimeInterval;
-import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.Helper;
+import com.faltenreich.diaguard.util.NumberUtils;
 
 import org.joda.time.DateTimeConstants;
 
@@ -32,7 +33,8 @@ public class TimeViewHolder extends BaseViewHolder<ListItemTimePreference> {
 
     @Override
     protected void bindData() {
-        ListItemTimePreference preference = getListItem();
+        final ListItemTimePreference preference = getListItem();
+
         if (preference.getInterval() == TimeInterval.CONSTANT) {
             time.setVisibility(View.GONE);
         } else {
@@ -41,13 +43,23 @@ public class TimeViewHolder extends BaseViewHolder<ListItemTimePreference> {
             int target = (preference.getHourOfDay() + preference.getInterval().interval) % DateTimeConstants.HOURS_PER_DAY;
             time.setText(String.format("%02d:00 - %02d:00", hourOfDay, target));
         }
-        switch (preference.getType()) {
-            case BLOOD_SUGAR:
-                value.setText(PreferenceHelper.getInstance().getMeasurementForUi(Measurement.Category.BLOODSUGAR, preference.getValue()));
-                break;
-            case FACTOR:
-                value.setText(Helper.parseFloatWithDigit(preference.getValue()));
-                break;
-        }
+
+        value.setText(Helper.parseFloatWithDigit(preference.getValue()));
+        value.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                try {
+                    preference.setValue(NumberUtils.parseNumber(editable.toString()));
+                } catch (NumberFormatException exception) {
+                    preference.setValue(-1);
+                }
+            }
+        });
     }
 }

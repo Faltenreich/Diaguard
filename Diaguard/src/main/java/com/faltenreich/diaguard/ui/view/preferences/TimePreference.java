@@ -82,6 +82,9 @@ public class TimePreference extends DialogPreference {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.time_rhythm, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        if (timeInterval.ordinal() < spinner.getCount()) {
+            spinner.setSelection(timeInterval.ordinal());
+        }
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
@@ -120,7 +123,13 @@ public class TimePreference extends DialogPreference {
 
         for (int pos = 0; pos < adapter.getItemCount(); pos++) {
             ListItemTimePreference preference = adapter.getItem(pos);
-            PreferenceHelper.getInstance().setFactorForHour(preference.getHourOfDay(), preference.getValue());
+            int hoursIntoInterval = 0;
+
+            while (hoursIntoInterval < preference.getInterval().interval) {
+                int hourOfDay = (preference.getHourOfDay() + hoursIntoInterval) % DateTimeConstants.HOURS_PER_DAY;
+                PreferenceHelper.getInstance().setFactorForHour(hourOfDay, preference.getValue());
+                hoursIntoInterval++;
+            }
         }
     }
 }

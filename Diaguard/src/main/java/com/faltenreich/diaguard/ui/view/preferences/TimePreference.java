@@ -2,12 +2,14 @@ package com.faltenreich.diaguard.ui.view.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.DialogPreference;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -54,6 +56,13 @@ public class TimePreference extends DialogPreference {
         spinner = (Spinner) view.findViewById(R.id.preference_time_spinner);
         list = (RecyclerView) view.findViewById(R.id.preference_time_list);
         init();
+    }
+
+    @Override
+    protected void showDialog(Bundle state) {
+        super.showDialog(state);
+        // Workaround for showing keyboard on focusing EditText in RecyclerView
+        getDialog().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
     }
 
     @Override

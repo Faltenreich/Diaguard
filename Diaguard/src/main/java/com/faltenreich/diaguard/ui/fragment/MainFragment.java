@@ -328,8 +328,8 @@ public class MainFragment extends BaseFragment {
     protected void showHbA1cFormula(View view) {
         String formula = String.format(getString(R.string.hba1c_formula),
                 getString(R.string.average_symbol),
-                getString(R.string.bloodsugar),
-                getString(R.string.months));
+                getString(R.string.months),
+                getString(R.string.bloodsugar));
         ViewHelper.showSnackbar(getView(), formula);
     }
 

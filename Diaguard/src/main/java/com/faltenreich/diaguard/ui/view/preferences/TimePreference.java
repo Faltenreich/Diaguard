@@ -47,14 +47,14 @@ public class TimePreference extends DialogPreference {
         setDialogLayoutResource(R.layout.preference_time);
         this.context = context;
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.context);
-        this.timeInterval = PreferenceHelper.getInstance().getFactorInterval();
     }
 
     @Override
     public void onBindDialogView(View view) {
         super.onBindDialogView(view);
-        spinner = (Spinner) view.findViewById(R.id.preference_time_spinner);
-        list = (RecyclerView) view.findViewById(R.id.preference_time_list);
+        this.spinner = (Spinner) view.findViewById(R.id.preference_time_spinner);
+        this.list = (RecyclerView) view.findViewById(R.id.preference_time_list);
+        this.timeInterval = PreferenceHelper.getInstance().getFactorInterval();
         init();
     }
 

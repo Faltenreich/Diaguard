@@ -36,13 +36,6 @@ public class PreferenceHelper {
         public final static String FACTOR_DEPRECATED = "factor_";
     }
 
-    public enum Daytime {
-        Morning,
-        Noon,
-        Evening,
-        Night
-    }
-
     private static PreferenceHelper instance;
     private static SharedPreferences sharedPreferences;
 
@@ -235,43 +228,6 @@ public class PreferenceHelper {
 
     // FACTORS
 
-    public Daytime getCurrentDaytime() {
-        DateTime now = new DateTime();
-        int hour = now.getHourOfDay();
-
-        if(hour >= 4 && hour < 10)
-            return Daytime.Morning;
-        else if(hour >= 10 && hour < 16)
-            return Daytime.Noon;
-        else if(hour >= 16 && hour < 22)
-            return Daytime.Evening;
-        else
-            return Daytime.Night;
-    }
-
-    public void migrateFactors() {
-        int intervalLength = 6;
-        for (Daytime daytime : Daytime.values()) {
-            float factor = sharedPreferences.getFloat(Keys.FACTOR_DEPRECATED + daytime.toString(), 0);
-            if (factor >= 0) {
-                int startingHour;
-                switch (daytime) {
-                    case Morning: startingHour = 4; break;
-                    case Noon: startingHour = 10; break;
-                    case Evening: startingHour = 16; break;
-                    default: startingHour = 22; break;
-                }
-                int step = 0;
-                while (step < intervalLength) {
-                    int hourOfDay = (startingHour + step) % DateTimeConstants.HOURS_PER_DAY;
-                    setFactorForHour(hourOfDay, factor);
-                    step++;
-                }
-                sharedPreferences.edit().putFloat(Keys.FACTOR_DEPRECATED + daytime, -1).apply();
-            }
-        }
-    }
-
     public TimeInterval getFactorInterval() {
         int position = sharedPreferences.getInt(Keys.INTERVAL_FACTOR, TimeInterval.EVERY_SIX_HOURS.ordinal());
         TimeInterval[] timeIntervals = TimeInterval.values();
@@ -290,6 +246,24 @@ public class PreferenceHelper {
     public void setFactorForHour(int hourOfDay, float factor) {
         String key = String.format(Keys.INTERVAL_FACTOR_FOR_HOUR, hourOfDay);
         sharedPreferences.edit().putFloat(key, factor).apply();
+    }
+
+    /**
+     * Used to migrate from static to dynamic factors
+     */
+    public void migrateFactors() {
+        for (Daytime daytime : Daytime.values()) {
+            float factor = sharedPreferences.getFloat(Keys.FACTOR_DEPRECATED + daytime.toString(), 0);
+            if (factor >= 0) {
+                int step = 0;
+                while (step < Daytime.INTERVAL_LENGTH) {
+                    int hourOfDay = (daytime.startingHour + step) % DateTimeConstants.HOURS_PER_DAY;
+                    setFactorForHour(hourOfDay, factor);
+                    step++;
+                }
+                sharedPreferences.edit().putFloat(Keys.FACTOR_DEPRECATED + daytime, -1).apply();
+            }
+        }
     }
 
     // CATEGORIES

@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -161,35 +162,35 @@ public class CalculatorActivity extends BaseActivity {
             float insulinCorrection = (currentBloodSugar - targetBloodSugar) / correction;
 
             StringBuilder builderFormula = new StringBuilder();
+            builderFormula.append(String.format("%s = ", getString(R.string.bolus)));
+
             StringBuilder builderFormulaContent = new StringBuilder();
+            builderFormulaContent.append(String.format("%s = ", getString(R.string.bolus)));
 
             if (insulinBolus > 0) {
                 String carbohydrateAcronym = getResources().getStringArray(R.array.meal_units_acronyms)[1];
                 builderFormula.append(String.format("%s * %s",
                         carbohydrateAcronym,
                         getString(R.string.factor)));
+                builderFormula.append(" + ");
+
                 builderFormulaContent.append(String.format("%s %s * %s",
                         Helper.parseFloat(meal / 10),
                         carbohydrateAcronym,
                         factor));
-            }
-
-            if (builderFormulaContent.length() > 0) {
-                builderFormula.append(" + ");
                 builderFormulaContent.append(" + ");
             }
+
             builderFormula.append(String.format("(%s - %s) / %s",
                     getString(R.string.bloodsugar),
                     getString(R.string.pref_therapy_targets_target),
                     getString(R.string.correction_value)));
+
             String bloodSugarUnit = PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BLOODSUGAR);
             builderFormulaContent.append(String.format("(%s %s - %s %s) / %s %s",
                     Helper.parseFloat(currentBloodSugar), bloodSugarUnit,
                     Helper.parseFloat(targetBloodSugar), bloodSugarUnit,
                     Helper.parseFloat(correction), bloodSugarUnit));
-
-            builderFormula.append(" =");
-            builderFormulaContent.append(" =");
 
             showResult(builderFormula.toString(), builderFormulaContent.toString(),
                     currentBloodSugar, meal, insulinBolus, insulinCorrection);
@@ -205,6 +206,8 @@ public class CalculatorActivity extends BaseActivity {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         final View viewPopup = inflater.inflate(R.layout.dialog_calculator_result, null);
+
+        final ViewGroup infoLayout = (ViewGroup) viewPopup.findViewById(R.id.dialog_calculator_result_info);
 
         TextView textViewFormula = (TextView) viewPopup.findViewById(R.id.dialog_calculator_result_formula);
         textViewFormula.setText(formula);
@@ -235,9 +238,9 @@ public class CalculatorActivity extends BaseActivity {
 
         dialogBuilder.setView(viewPopup)
                 .setTitle(R.string.bolus)
-                .setNegativeButton(R.string.back, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.info, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
+                        //
                     }
                 })
                 .setPositiveButton(R.string.store_values, new DialogInterface.OnClickListener() {
@@ -245,12 +248,33 @@ public class CalculatorActivity extends BaseActivity {
                         storeValues(bloodSugar, meal, bolus, correction);
                         finish();
                     }
+                })
+                .setNeutralButton(R.string.back, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
                 });
 
         AlertDialog dialog = dialogBuilder.create();
+
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+
+            }
+        });
+
         dialog.setCanceledOnTouchOutside(true);
 
         dialog.show();
+
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                infoLayout.setVisibility(View.VISIBLE);
+                view.setEnabled(false);
+            }
+        });
     }
 
     private void storeValues(float mgDl, float carbohydrates, float bolus, float correction) {

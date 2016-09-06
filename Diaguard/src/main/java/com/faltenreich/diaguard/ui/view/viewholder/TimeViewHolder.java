@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.list.ListItemTimePreference;
 import com.faltenreich.diaguard.data.TimeInterval;
+import com.faltenreich.diaguard.util.DateTimeUtils;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 
@@ -41,7 +42,12 @@ public class TimeViewHolder extends BaseViewHolder<ListItemTimePreference> {
             time.setVisibility(View.VISIBLE);
             int hourOfDay = preference.getHourOfDay();
             int target = (preference.getHourOfDay() + preference.getInterval().interval) % DateTimeConstants.HOURS_PER_DAY;
-            time.setText(String.format("%02d:00 - %02d:00", hourOfDay, target));
+            if (preference.getInterval() == TimeInterval.EVERY_SIX_HOURS) {
+                String timeOfDay = getContext().getString(DateTimeUtils.getTimeOfDayResId(hourOfDay));
+                time.setText(String.format("%s (%02dh - %02d:00)", timeOfDay, hourOfDay, target));
+            } else {
+                time.setText(String.format("%02d:00 - %02d:00", hourOfDay, target));
+            }
         }
 
         value.setText(Helper.parseFloatWithDigit(preference.getValue()));

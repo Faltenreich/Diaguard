@@ -9,7 +9,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
@@ -46,7 +45,6 @@ public class CalculatorActivity extends BaseActivity {
     @BindView(R.id.textview_unit_target) TextView textViewUnitTargetValue;
     @BindView(R.id.textview_unit_correction) TextView textViewUnitCorrection;
     @BindView(R.id.textview_unit_meal) TextView textViewUnitMeal;
-    @BindView(R.id.spinner_factors) Spinner spinnerFactors;
 
     public CalculatorActivity() {
         super(R.layout.activity_calculator);
@@ -95,24 +93,9 @@ public class CalculatorActivity extends BaseActivity {
         editTextCorrection.setHint(Helper.parseFloat(correctionValue));
 
         // Factor
-        /*
-        spinnerFactors.setSelection(PreferenceHelper.getInstance().getCurrentDaytime().ordinal());
-        spinnerFactors.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                PreferenceHelper.Daytime daytime = PreferenceHelper.Daytime.values()[position];
-                float factor = PreferenceHelper.getInstance().getFactorValue(daytime);
-                if (factor != 0)
-                    editTextFactor.setHint(Helper.parseFloat(factor));
-                else
-                    editTextFactor.setHint("");
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-            }
-        });
-        */
+        int hourOfDay = DateTime.now().getHourOfDay();
+        float factor = PreferenceHelper.getInstance().getFactorForHour(hourOfDay);
+        editTextFactor.setHint(Helper.parseFloat(factor));
     }
 
     private boolean inputIsValid() {

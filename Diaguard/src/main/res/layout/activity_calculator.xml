@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white">
 
     <include layout="@layout/toolbar"/>
 
@@ -13,38 +13,18 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
         <LinearLayout style="@style/LayoutRow">
 
             <TextView style="@style/LayoutRowLabel"
+                android:id="@+id/calculator_target_label"
                 android:text="@string/pref_therapy_targets_target"/>
 
-            <LinearLayout style="@style/LayoutRowText"
-                android:orientation="horizontal">
-
-                <EditText android:id="@+id/edittext_target"
-                    android:layout_height="wrap_content"
-                    android:layout_width="fill_parent"
-                    android:layout_weight="1"
-                    android:inputType="numberDecimal"
-                    android:background="@android:color/transparent"/>
-
-                <TextView android:id="@+id/textview_unit_target"
-                    android:layout_height="wrap_content"
-                    android:layout_width="fill_parent"
-                    android:gravity="center_horizontal"
-                    android:layout_weight="1"
-                    android:singleLine="true"
-                    android:ellipsize="marquee"
-                    android:marqueeRepeatLimit ="marquee_forever"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:scrollHorizontally="true" />
-
-            </LinearLayout>
+            <EditText style="@style/LayoutRowTextLarge"
+                android:id="@+id/calculator_target"/>
 
         </LinearLayout>
 
@@ -53,31 +33,11 @@
         <LinearLayout style="@style/LayoutRow">
 
             <TextView style="@style/LayoutRowLabel"
+                android:id="@+id/calculator_correction_label"
                 android:text="@string/correction_value"/>
 
-            <LinearLayout style="@style/LayoutRowText"
-                android:orientation="horizontal">
-
-                <EditText android:id="@+id/edittext_correction"
-                    android:layout_height="wrap_content"
-                    android:layout_width="fill_parent"
-                    android:layout_weight="1"
-                    android:inputType="numberDecimal"
-                    android:background="@android:color/transparent"/>
-
-                <TextView android:id="@+id/textview_unit_correction"
-                    android:layout_height="wrap_content"
-                    android:layout_width="fill_parent"
-                    android:gravity="center_horizontal"
-                    android:layout_weight="1"
-                    android:singleLine="true"
-                    android:ellipsize="marquee"
-                    android:marqueeRepeatLimit ="marquee_forever"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:scrollHorizontally="true" />
-
-            </LinearLayout>
+            <EditText style="@style/LayoutRowTextLarge"
+                android:id="@+id/calculator_correction"/>
 
         </LinearLayout>
 
@@ -86,33 +46,13 @@
         <LinearLayout style="@style/LayoutRow">
 
             <TextView style="@style/LayoutRowLabel"
+                android:id="@+id/calculator_bloodsugar_label"
                 android:text="@string/bloodsugar"/>
 
-            <LinearLayout style="@style/LayoutRowText"
-                android:orientation="horizontal">
-
-                <EditText android:id="@+id/edittext_bloodsugar"
-                    android:layout_height="wrap_content"
-                    android:layout_width="fill_parent"
-                    android:layout_weight="1"
-                    android:inputType="numberDecimal"
-                    android:background="@android:color/transparent">
-                    <requestFocus />
-                </EditText>
-
-                <TextView android:id="@+id/textview_unit_bloodsugar"
-                    android:layout_height="wrap_content"
-                    android:layout_width="fill_parent"
-                    android:gravity="center_horizontal"
-                    android:layout_weight="1"
-                    android:singleLine="true"
-                    android:ellipsize="marquee"
-                    android:marqueeRepeatLimit ="marquee_forever"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:scrollHorizontally="true" />
-
-            </LinearLayout>
+            <EditText style="@style/LayoutRowTextLarge"
+                android:id="@+id/calculator_bloodsugar">
+                <requestFocus />
+            </EditText>
 
         </LinearLayout>
 
@@ -121,31 +61,11 @@
         <LinearLayout style="@style/LayoutRow">
 
             <TextView style="@style/LayoutRowLabel"
+                android:id="@+id/calculator_meal_label"
                 android:text="@string/meal"/>
 
-            <LinearLayout style="@style/LayoutRowText"
-                android:orientation="horizontal">
-
-                <EditText android:id="@+id/edittext_meal"
-                    android:layout_height="wrap_content"
-                    android:layout_width="fill_parent"
-                    android:layout_weight="1"
-                    android:inputType="numberDecimal"
-                    android:background="@android:color/transparent"/>
-
-                <TextView android:id="@+id/textview_unit_meal"
-                    android:layout_height="wrap_content"
-                    android:layout_width="fill_parent"
-                    android:gravity="center_horizontal"
-                    android:layout_weight="1"
-                    android:singleLine="true"
-                    android:ellipsize="marquee"
-                    android:marqueeRepeatLimit ="marquee_forever"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:scrollHorizontally="true" />
-
-            </LinearLayout>
+            <EditText style="@style/LayoutRowTextLarge"
+                android:id="@+id/calculator_meal"/>
 
         </LinearLayout>
 
@@ -156,17 +76,8 @@
             <TextView style="@style/LayoutRowLabel"
                 android:text="@string/factor"/>
 
-            <LinearLayout style="@style/LayoutRowText"
-                android:orientation="horizontal">
-
-                <EditText android:id="@+id/edittext_factor"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:inputType="numberDecimal"
-                    android:background="@android:color/transparent"/>
-
-            </LinearLayout>
+            <EditText style="@style/LayoutRowTextLarge"
+                android:id="@+id/calculator_factor"/>
 
         </LinearLayout>
 

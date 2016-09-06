@@ -115,6 +115,14 @@
         <item name="android:layout_weight">3</item>
     </style>
 
+    <style name="LayoutRowTextLarge">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">2</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:inputType">numberDecimal</item>
+    </style>
+
     <style name="LayoutRowImage">
         <item name="android:layout_height">@dimen/size_image</item>
         <item name="android:layout_width">@dimen/size_image</item>

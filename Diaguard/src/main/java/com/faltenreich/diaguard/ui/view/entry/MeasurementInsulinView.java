@@ -20,7 +20,7 @@ public class MeasurementInsulinView extends MeasurementAbstractView<Insulin> {
     @BindView(R.id.edittext_bolus)
     protected EditText editTextBolus;
 
-    @BindView(R.id.edittext_correction)
+    @BindView(R.id.calculator_correction)
     protected EditText editTextCorrection;
 
     @BindView(R.id.edittext_basal)

@@ -36,15 +36,16 @@ import butterknife.BindView;
 
 public class CalculatorActivity extends BaseActivity {
 
-    @BindView(R.id.edittext_bloodsugar) EditText editTextBloodSugar;
-    @BindView(R.id.edittext_target) EditText editTextTargetValue;
-    @BindView(R.id.edittext_meal) EditText editTextMeal;
-    @BindView(R.id.edittext_correction) EditText editTextCorrection;
-    @BindView(R.id.edittext_factor) EditText editTextFactor;
-    @BindView(R.id.textview_unit_bloodsugar) TextView textViewUnitBloodSugar;
-    @BindView(R.id.textview_unit_target) TextView textViewUnitTargetValue;
-    @BindView(R.id.textview_unit_correction) TextView textViewUnitCorrection;
-    @BindView(R.id.textview_unit_meal) TextView textViewUnitMeal;
+    @BindView(R.id.calculator_bloodsugar_label) TextView labelBloodSugar;
+    @BindView(R.id.calculator_target_label) TextView labelTarget;
+    @BindView(R.id.calculator_correction_label) TextView labelCorrection;
+    @BindView(R.id.calculator_meal_label) TextView labelMeal;
+
+    @BindView(R.id.calculator_bloodsugar) EditText editTextBloodSugar;
+    @BindView(R.id.calculator_target) EditText editTextTargetValue;
+    @BindView(R.id.calculator_meal) EditText editTextMeal;
+    @BindView(R.id.calculator_correction) EditText editTextCorrection;
+    @BindView(R.id.calculator_factor) EditText editTextFactor;
 
     public CalculatorActivity() {
         super(R.layout.activity_calculator);
@@ -75,10 +76,11 @@ public class CalculatorActivity extends BaseActivity {
 
     public void initialize() {
         String unitAcronym = PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BLOODSUGAR);
-        textViewUnitBloodSugar.setText(unitAcronym);
-        textViewUnitTargetValue.setText(unitAcronym);
-        textViewUnitCorrection.setText(unitAcronym);
-        textViewUnitMeal.setText(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.MEAL));
+        String in = getString(R.string.in);
+        labelBloodSugar.setText(String.format("%s %s %s", getString(R.string.bloodsugar), in, unitAcronym));
+        labelTarget.setText(String.format("%s %s %s", getString(R.string.pref_therapy_targets_target), in, unitAcronym));
+        labelCorrection.setText(String.format("%s %s %s", getString(R.string.correction_value), in, unitAcronym));
+        labelMeal.setText(String.format("%s %s %s", getString(R.string.meal), in, PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.MEAL)));
 
         // Target
         float targetValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(

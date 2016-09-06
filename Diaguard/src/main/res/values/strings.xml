@@ -85,6 +85,7 @@
     <string name="hypo_per_day">Hypos per day</string>
     <string name="import_">Import</string>
     <string name="impress">Impress</string>
+    <string name="in">in</string>
     <string name="insulin">Insulin</string>
     <string name="interval">Interval</string>
     <string name="latest">[value] [unit] ago</string>

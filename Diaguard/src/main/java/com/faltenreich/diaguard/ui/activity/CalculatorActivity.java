@@ -240,7 +240,7 @@ public class CalculatorActivity extends BaseActivity {
                 .setTitle(R.string.bolus)
                 .setNegativeButton(R.string.info, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        //
+                        // Is set down below
                     }
                 })
                 .setPositiveButton(R.string.store_values, new DialogInterface.OnClickListener() {
@@ -256,16 +256,7 @@ public class CalculatorActivity extends BaseActivity {
                 });
 
         AlertDialog dialog = dialogBuilder.create();
-
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialogInterface) {
-
-            }
-        });
-
         dialog.setCanceledOnTouchOutside(true);
-
         dialog.show();
 
         dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {

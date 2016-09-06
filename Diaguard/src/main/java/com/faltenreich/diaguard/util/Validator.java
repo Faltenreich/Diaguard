@@ -18,29 +18,26 @@ public class Validator {
     }
 
     public static boolean validateEditTextEvent(Context context, EditText editText, Measurement.Category category, boolean checkForHint) {
-        boolean isValid;
         String value = editText.getText().toString();
 
         if (value.length() > 0) {
-            isValid = validateEventValue(context, editText, category, value);
+            return validateEventValue(context, editText, category, value);
 
         } else if (checkForHint) {
             // Check for Hint value
             CharSequence hint = editText.getHint();
             if (hint != null && hint.toString().length() > 0) {
-                isValid = validateEventValue(context, editText, category, hint.toString());
+                return validateEventValue(context, editText, category, hint.toString());
+
             } else {
-                isValid = false;
+                editText.setError(context.getString(R.string.validator_value_empty));
+                return false;
             }
 
         } else {
-            isValid = false;
-        }
-
-        if (!isValid) {
             editText.setError(context.getString(R.string.validator_value_empty));
+            return false;
         }
-        return isValid;
     }
 
     public static boolean validateEventValue(Context context, EditText editText, Measurement.Category category, String value) {

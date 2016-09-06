@@ -36,11 +36,6 @@ import butterknife.BindView;
 
 public class CalculatorActivity extends BaseActivity {
 
-    @BindView(R.id.calculator_bloodsugar_label) TextView labelBloodSugar;
-    @BindView(R.id.calculator_target_label) TextView labelTarget;
-    @BindView(R.id.calculator_correction_label) TextView labelCorrection;
-    @BindView(R.id.calculator_meal_label) TextView labelMeal;
-
     @BindView(R.id.calculator_bloodsugar) EditText editTextBloodSugar;
     @BindView(R.id.calculator_target) EditText editTextTargetValue;
     @BindView(R.id.calculator_meal) EditText editTextMeal;
@@ -76,41 +71,40 @@ public class CalculatorActivity extends BaseActivity {
 
     public void initialize() {
         String unitAcronym = PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BLOODSUGAR);
-        String in = getString(R.string.in);
-        labelBloodSugar.setText(String.format("%s %s %s", getString(R.string.bloodsugar), in, unitAcronym));
-        labelTarget.setText(String.format("%s %s %s", getString(R.string.pref_therapy_targets_target), in, unitAcronym));
-        labelCorrection.setText(String.format("%s %s %s", getString(R.string.correction_value), in, unitAcronym));
-        labelMeal.setText(String.format("%s %s %s", getString(R.string.meal), in, PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.MEAL)));
+        editTextTargetValue.setHint(unitAcronym);
+        editTextCorrection.setHint(unitAcronym);
+        editTextBloodSugar.setHint(unitAcronym);
+        editTextMeal.setHint(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.MEAL));
 
         // Target
         float targetValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(
                 Measurement.Category.BLOODSUGAR,
                 PreferenceHelper.getInstance().getTargetValue());
-        editTextTargetValue.setHint(Helper.parseFloat(targetValue));
+        editTextTargetValue.setText(Helper.parseFloat(targetValue));
 
         // Correction
         float correctionValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(
                 Measurement.Category.BLOODSUGAR,
                 PreferenceHelper.getInstance().getCorrectionValue());
-        editTextCorrection.setHint(Helper.parseFloat(correctionValue));
+        editTextCorrection.setText(Helper.parseFloat(correctionValue));
 
         // Factor
         int hourOfDay = DateTime.now().getHourOfDay();
         float factor = PreferenceHelper.getInstance().getFactorForHour(hourOfDay);
-        editTextFactor.setHint(Helper.parseFloat(factor));
+        editTextFactor.setText(Helper.parseFloat(factor));
     }
 
     private boolean inputIsValid() {
         boolean isValid = true;
 
         // Blood Sugar
-        if (!Validator.validateEditTextEvent(this, editTextBloodSugar, Measurement.Category.BLOODSUGAR)) {
+        if (!Validator.validateEditTextEvent(this, editTextBloodSugar, Measurement.Category.BLOODSUGAR, false)) {
             isValid = false;
         }
-        if (!Validator.validateEditTextEvent(this, editTextTargetValue, Measurement.Category.BLOODSUGAR)) {
+        if (!Validator.validateEditTextEvent(this, editTextTargetValue, Measurement.Category.BLOODSUGAR, false)) {
             isValid = false;
         }
-        if (!Validator.validateEditTextEvent(this, editTextCorrection, Measurement.Category.BLOODSUGAR)) {
+        if (!Validator.validateEditTextEvent(this, editTextCorrection, Measurement.Category.BLOODSUGAR, false)) {
             isValid = false;
         }
 

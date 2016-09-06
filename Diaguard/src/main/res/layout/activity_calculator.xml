@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -19,8 +20,12 @@
 
         <LinearLayout style="@style/LayoutRow">
 
+            <com.faltenreich.diaguard.ui.view.TintImageView
+                style="@style/LayoutRowImage"
+                android:src="@drawable/ic_action_done"
+                app:tintColor="@color/gray_darker" />
+
             <TextView style="@style/LayoutRowLabel"
-                android:id="@+id/calculator_target_label"
                 android:text="@string/pref_therapy_targets_target"/>
 
             <EditText style="@style/LayoutRowTextLarge"
@@ -32,8 +37,12 @@
 
         <LinearLayout style="@style/LayoutRow">
 
+            <com.faltenreich.diaguard.ui.view.TintImageView
+                style="@style/LayoutRowImage"
+                android:src="@drawable/ic_done_all"
+                app:tintColor="@color/gray_darker" />
+
             <TextView style="@style/LayoutRowLabel"
-                android:id="@+id/calculator_correction_label"
                 android:text="@string/correction_value"/>
 
             <EditText style="@style/LayoutRowTextLarge"
@@ -45,8 +54,12 @@
 
         <LinearLayout style="@style/LayoutRow">
 
+            <com.faltenreich.diaguard.ui.view.TintImageView
+                style="@style/LayoutRowImage"
+                android:src="@drawable/ic_category_bloodsugar"
+                app:tintColor="@color/gray_darker" />
+
             <TextView style="@style/LayoutRowLabel"
-                android:id="@+id/calculator_bloodsugar_label"
                 android:text="@string/bloodsugar"/>
 
             <EditText style="@style/LayoutRowTextLarge"
@@ -60,8 +73,12 @@
 
         <LinearLayout style="@style/LayoutRow">
 
+            <com.faltenreich.diaguard.ui.view.TintImageView
+                style="@style/LayoutRowImage"
+                android:src="@drawable/ic_category_meal"
+                app:tintColor="@color/gray_darker" />
+
             <TextView style="@style/LayoutRowLabel"
-                android:id="@+id/calculator_meal_label"
                 android:text="@string/meal"/>
 
             <EditText style="@style/LayoutRowTextLarge"
@@ -72,6 +89,11 @@
         <View style="@style/LayoutRowSeparator"/>
 
         <LinearLayout style="@style/LayoutRow">
+
+            <com.faltenreich.diaguard.ui.view.TintImageView
+                style="@style/LayoutRowImage"
+                android:src="@drawable/ic_factor"
+                app:tintColor="@color/gray_darker" />
 
             <TextView style="@style/LayoutRowLabel"
                 android:text="@string/factor"/>

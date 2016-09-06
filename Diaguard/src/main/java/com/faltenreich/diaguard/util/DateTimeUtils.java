@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.util;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.annotation.StringRes;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
@@ -31,18 +30,6 @@ public class DateTimeUtils {
         return String.format("%s.%s.",
                 dateTime.toString("dd"),
                 dateTime.toString("MM"));
-    }
-
-    public static @StringRes int getTimeOfDayResId(int hourOfDay) {
-        if (hourOfDay >=4 && hourOfDay < 10) {
-            return R.string.morning;
-        } else if (hourOfDay >= 10 && hourOfDay < 16) {
-            return R.string.noon;
-        } else if (hourOfDay >= 16 && hourOfDay < 22) {
-            return R.string.evening;
-        } else {
-            return R.string.night;
-        }
     }
 
     @SuppressLint("DefaultLocale")

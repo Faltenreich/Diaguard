@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -96,24 +95,24 @@ public class CalculatorActivity extends BaseActivity {
         editTextCorrection.setHint(Helper.parseFloat(correctionValue));
 
         // Factor
+        /*
         spinnerFactors.setSelection(PreferenceHelper.getInstance().getCurrentDaytime().ordinal());
         spinnerFactors.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 PreferenceHelper.Daytime daytime = PreferenceHelper.Daytime.values()[position];
-                /*
                 float factor = PreferenceHelper.getInstance().getFactorValue(daytime);
                 if (factor != 0)
                     editTextFactor.setHint(Helper.parseFloat(factor));
                 else
                     editTextFactor.setHint("");
-                    */
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
             }
         });
+        */
     }
 
     private boolean inputIsValid() {

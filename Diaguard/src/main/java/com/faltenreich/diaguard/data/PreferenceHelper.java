@@ -8,11 +8,11 @@ import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.view.preferences.CategoryPreference;
-import com.faltenreich.diaguard.ui.view.preferences.FactorPreference;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,6 +33,14 @@ public class PreferenceHelper {
         public static final String ALARM_START_IN_MILLIS = "alarmStartInMillis";
         public static final String INTERVAL_FACTOR = "intervalFactor";
         public static final String INTERVAL_FACTOR_FOR_HOUR = "intervalFactor%d";
+        public final static String FACTOR_DEPRECATED = "factor_";
+    }
+
+    public enum Daytime {
+        Morning,
+        Noon,
+        Evening,
+        Night
     }
 
     private static PreferenceHelper instance;
@@ -227,13 +235,6 @@ public class PreferenceHelper {
 
     // FACTORS
 
-    public enum Daytime {
-        Morning,
-        Noon,
-        Evening,
-        Night
-    }
-
     public Daytime getCurrentDaytime() {
         DateTime now = new DateTime();
         int hour = now.getHourOfDay();
@@ -248,12 +249,27 @@ public class PreferenceHelper {
             return Daytime.Night;
     }
 
-    public float getFactorValue(Daytime daytime) {
-        return sharedPreferences.getFloat(FactorPreference.FACTOR + daytime.toString(), 0);
-    }
-
-    public void setFactorInterval(TimeInterval interval) {
-        sharedPreferences.edit().putInt(Keys.INTERVAL_FACTOR, interval.ordinal()).apply();
+    public void migrateFactors() {
+        int intervalLength = 6;
+        for (Daytime daytime : Daytime.values()) {
+            float factor = sharedPreferences.getFloat(Keys.FACTOR_DEPRECATED + daytime.toString(), 0);
+            if (factor >= 0) {
+                int startingHour;
+                switch (daytime) {
+                    case Morning: startingHour = 4; break;
+                    case Noon: startingHour = 10; break;
+                    case Evening: startingHour = 16; break;
+                    default: startingHour = 22; break;
+                }
+                int step = 0;
+                while (step < intervalLength) {
+                    int hourOfDay = (startingHour + step) % DateTimeConstants.HOURS_PER_DAY;
+                    setFactorForHour(hourOfDay, factor);
+                    step++;
+                }
+                sharedPreferences.edit().putFloat(Keys.FACTOR_DEPRECATED + daytime, -1).apply();
+            }
+        }
     }
 
     public TimeInterval getFactorInterval() {
@@ -262,14 +278,18 @@ public class PreferenceHelper {
         return position >= 0 && position < timeIntervals.length ? timeIntervals[position] : TimeInterval.EVERY_FOUR_HOURS;
     }
 
-    public void setFactorForHour(int hourOfDay, float factor) {
-        String key = String.format(Keys.INTERVAL_FACTOR_FOR_HOUR, hourOfDay);
-        sharedPreferences.edit().putFloat(key, factor).apply();
+    public void setFactorInterval(TimeInterval interval) {
+        sharedPreferences.edit().putInt(Keys.INTERVAL_FACTOR, interval.ordinal()).apply();
     }
 
     public float getFactorForHour(int hourOfDay) {
         String key = String.format(Keys.INTERVAL_FACTOR_FOR_HOUR, hourOfDay);
         return sharedPreferences.getFloat(key, -1);
+    }
+
+    public void setFactorForHour(int hourOfDay, float factor) {
+        String key = String.format(Keys.INTERVAL_FACTOR_FOR_HOUR, hourOfDay);
+        sharedPreferences.edit().putFloat(key, factor).apply();
     }
 
     // CATEGORIES

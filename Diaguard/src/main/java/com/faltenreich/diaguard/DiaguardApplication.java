@@ -3,6 +3,8 @@ package com.faltenreich.diaguard;
 import android.app.Application;
 import android.content.Context;
 
+import com.faltenreich.diaguard.data.PreferenceHelper;
+
 import net.danlew.android.joda.JodaTimeAndroid;
 
 /**
@@ -17,9 +19,14 @@ public class DiaguardApplication extends Application {
         super.onCreate();
         context = getApplicationContext();
         JodaTimeAndroid.init(this);
+        migrate();
     }
 
     public static Context getContext() {
         return context;
+    }
+
+    private void migrate() {
+        PreferenceHelper.getInstance().migrateFactors();
     }
 }

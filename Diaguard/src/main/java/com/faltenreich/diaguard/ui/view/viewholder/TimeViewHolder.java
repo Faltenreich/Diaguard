@@ -50,7 +50,7 @@ public class TimeViewHolder extends BaseViewHolder<ListItemTimePreference> {
             }
         }
 
-        value.setText(Helper.parseFloatWithDigit(preference.getValue()));
+        value.setText(preference.getValue() >= 0 ? Helper.parseFloatWithDigit(preference.getValue()) : null);
         value.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

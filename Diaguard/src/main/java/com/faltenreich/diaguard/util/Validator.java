@@ -17,22 +17,30 @@ public class Validator {
         return input.matches(".*\\d.*");
     }
 
-    public static boolean validateEditTextEvent(Context context, EditText editText, Measurement.Category category) {
+    public static boolean validateEditTextEvent(Context context, EditText editText, Measurement.Category category, boolean checkForHint) {
+        boolean isValid;
         String value = editText.getText().toString();
+
         if (value.length() > 0) {
-            return validateEventValue(context, editText, category, value);
-        }
-        else {
+            isValid = validateEventValue(context, editText, category, value);
+
+        } else if (checkForHint) {
             // Check for Hint value
             CharSequence hint = editText.getHint();
-            if(hint != null && hint.toString().length() > 0 ) {
-                return validateEventValue(context, editText, category, hint.toString());
+            if (hint != null && hint.toString().length() > 0) {
+                isValid = validateEventValue(context, editText, category, hint.toString());
+            } else {
+                isValid = false;
             }
-            else {
-                editText.setError(context.getString(R.string.validator_value_empty));
-                return false;
-            }
+
+        } else {
+            isValid = false;
         }
+
+        if (!isValid) {
+            editText.setError(context.getString(R.string.validator_value_empty));
+        }
+        return isValid;
     }
 
     public static boolean validateEventValue(Context context, EditText editText, Measurement.Category category, String value) {
@@ -63,23 +71,17 @@ public class Validator {
         String value = editable.toString();
         if (value.length() > 0) {
             return validateFactor(context, editText, value);
-        }
+        } else {
 
-        else {
-
-            if(canBeEmpty) {
+            if (canBeEmpty) {
                 return true;
-            }
-
-            else {
+            } else {
                 // Check for Hint value
                 CharSequence charSequence = editText.getHint();
 
-                if(charSequence != null && charSequence.toString().length() > 0 ) {
+                if (charSequence != null && charSequence.toString().length() > 0) {
                     return validateFactor(context, editText, charSequence.toString());
-                }
-
-                else {
+                } else {
                     editText.setError(context.getString(R.string.validator_value_empty));
                     return false;
                 }
@@ -94,7 +96,7 @@ public class Validator {
         }
 
         float parsedValue = NumberUtils.parseNumber(value);
-        if(parsedValue < 0.1f || parsedValue > 20) {
+        if (parsedValue < 0.1f || parsedValue > 20) {
             editText.setError(context.getString(R.string.validator_value_unrealistic));
             return false;
         }

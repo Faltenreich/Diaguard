@@ -73,7 +73,7 @@ public class BloodSugarPreference extends EditTextPreference {
             @Override
             public void onClick(View v)
             {
-                if(Validator.validateEditTextEvent(context, editTextValue, Measurement.Category.BLOODSUGAR))
+                if(Validator.validateEditTextEvent(context, editTextValue, Measurement.Category.BLOODSUGAR, true))
                 {
                     alertDialog.dismiss();
                     onDialogClosed(true);

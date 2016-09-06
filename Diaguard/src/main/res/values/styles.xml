@@ -121,11 +121,14 @@
         <item name="android:layout_weight">2</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:inputType">numberDecimal</item>
+        <item name="android:layout_marginLeft">@dimen/margin_between</item>
+        <item name="android:layout_marginStart">@dimen/margin_between</item>
     </style>
 
     <style name="LayoutRowImage">
         <item name="android:layout_height">@dimen/size_image</item>
         <item name="android:layout_width">@dimen/size_image</item>
+        <item name="android:contentDescription">@null</item>
         <item name="android:scaleType">fitStart</item>
         <item name="android:layout_marginRight">@dimen/padding_end</item>
         <item name="android:layout_marginEnd">@dimen/padding_end</item>

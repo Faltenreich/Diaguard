@@ -71,6 +71,7 @@
     <string name="hypo_per_day">Hypos pro Tag</string>
     <string name="import_">Backup wiederherstellen</string>
     <string name="impress">Impressum</string>
+    <string name="in">in</string>
     <string name="insulin">Insulin</string>
     <string name="interval">Intervall</string>
     <string name="latest">Vor [value] [unit]</string>

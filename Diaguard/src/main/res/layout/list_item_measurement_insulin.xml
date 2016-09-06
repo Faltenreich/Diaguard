@@ -14,7 +14,7 @@
     <View style="@style/LayoutRowSeparator"/>
 
     <EditText
-        android:id="@+id/edittext_correction"
+        android:id="@+id/calculator_correction"
         android:inputType="numberDecimal"
         android:background="@android:color/transparent"
         style="@style/LayoutRow"/>

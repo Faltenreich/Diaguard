@@ -35,4 +35,14 @@ public enum  Daytime {
             return NIGHT;
         }
     }
+
+    public String toDeprecatedString() {
+        switch (this) {
+            case MORNING: return "Morning";
+            case NOON: return "Noon";
+            case EVENING: return "Evening";
+            case NIGHT: return "Night";
+            default: return null;
+        }
+    }
 }

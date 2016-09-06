@@ -101,11 +101,13 @@ public class CalculatorActivity extends BaseActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 PreferenceHelper.Daytime daytime = PreferenceHelper.Daytime.values()[position];
+                /*
                 float factor = PreferenceHelper.getInstance().getFactorValue(daytime);
                 if (factor != 0)
                     editTextFactor.setHint(Helper.parseFloat(factor));
                 else
                     editTextFactor.setHint("");
+                    */
             }
 
             @Override

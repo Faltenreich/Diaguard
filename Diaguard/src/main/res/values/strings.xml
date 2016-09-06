@@ -86,6 +86,7 @@
     <string name="import_">Import</string>
     <string name="impress">Impress</string>
     <string name="in">in</string>
+    <string name="info" translatable="false">Info</string>
     <string name="insulin">Insulin</string>
     <string name="interval">Interval</string>
     <string name="latest">[value] [unit] ago</string>
@@ -111,7 +112,7 @@
     <string name="sound">Sound</string>
     <string name="startscreen">Start screen</string>
     <string name="statistics">Statistics</string>
-    <string name="store_values">Store values</string>
+    <string name="store_values">Store</string>
     <string name="systolic">Systolic</string>
     <string name="target_area">Target area</string>
     <string name="timeline">Timeline</string>

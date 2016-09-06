@@ -87,6 +87,11 @@
     <string name="weight">Poids</string>
     <string name="version">Version</string>
     <string name="vibration">Vibration</string>
+    <string name="change_none">Constant</string>
+    <string name="change_every_six_hours">Cambia cada durante el día</string>
+    <string name="change_every_four_hours">Cambia cada cuatro horas</string>
+    <string name="change_every_second_hour">Cambia cada dos horas</string>
+    <string name="change_every_hour">Cambia cada hora</string>
 
     <string-array name="startscreens">
         <item>Sommaire</item>

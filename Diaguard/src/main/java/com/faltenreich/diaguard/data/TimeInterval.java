@@ -6,7 +6,7 @@ package com.faltenreich.diaguard.data;
 public enum  TimeInterval {
 
     CONSTANT(24, 0),
-    EVERY_SIX_HOURS(6, 22),
+    EVERY_SIX_HOURS(6, 4),
     EVERY_FOUR_HOURS(4, 0),
     EVERY_SECOND_HOUR(2, 0),
     EVERY_HOUR(1, 0);

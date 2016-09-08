@@ -1,7 +1,5 @@
 package com.faltenreich.diaguard.ui.view.viewholder;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -11,7 +9,6 @@ import com.faltenreich.diaguard.adapter.list.ListItemTimePreference;
 import com.faltenreich.diaguard.data.Daytime;
 import com.faltenreich.diaguard.data.TimeInterval;
 import com.faltenreich.diaguard.util.Helper;
-import com.faltenreich.diaguard.util.NumberUtils;
 
 import org.joda.time.DateTimeConstants;
 
@@ -26,7 +23,7 @@ public class TimeViewHolder extends BaseViewHolder<ListItemTimePreference> {
     protected TextView time;
 
     @BindView(R.id.list_item_time_value)
-    protected EditText value;
+    public EditText value;
 
     public TimeViewHolder(View view) {
         super(view);
@@ -51,21 +48,5 @@ public class TimeViewHolder extends BaseViewHolder<ListItemTimePreference> {
         }
 
         value.setText(preference.getValue() >= 0 ? Helper.parseFloatWithDigit(preference.getValue()) : null);
-        value.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-            @Override
-            public void afterTextChanged(Editable editable) {
-                try {
-                    preference.setValue(NumberUtils.parseNumber(editable.toString()));
-                } catch (NumberFormatException exception) {
-                    preference.setValue(-1);
-                }
-            }
-        });
     }
 }

@@ -414,7 +414,7 @@
 
     <!-- ABOUT -->
     <string name="about_dev">Developer</string>
-    <string name="about_dev_desc">Philipp Fahlteich,\nB. Sc. of Informatics, Type-1-Diabetic</string>
+    <string name="about_dev_desc">Philipp Fahlteich,\nM. Sc. of Informatics, Type-1-Diabetic</string>
     <string name="about_financing">Financing</string>
     <string name="about_financing_desc">There is no financial support of commercial or non-commercial organisations which support the app with funds, services or materials. The app is financed only by the developer.</string>
     <string name="about_advertisement">Advertising policy</string>

@@ -253,7 +253,7 @@ public class PreferenceHelper {
      */
     public void migrateFactors() {
         for (Daytime daytime : Daytime.values()) {
-            float factor = sharedPreferences.getFloat(Keys.FACTOR_DEPRECATED + daytime.toDeprecatedString(), 0);
+            float factor = sharedPreferences.getFloat(Keys.FACTOR_DEPRECATED + daytime.toDeprecatedString(), -1);
             if (factor >= 0) {
                 int step = 0;
                 while (step < Daytime.INTERVAL_LENGTH) {

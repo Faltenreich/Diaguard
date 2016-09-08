@@ -94,7 +94,7 @@
             android:inputType="number"/>
 
         <com.faltenreich.diaguard.ui.view.preferences.TimePreference
-            android:key="factors"
+            android:key="@string/pref_factor"
             android:title="@string/factors"/>
 
     </PreferenceCategory>

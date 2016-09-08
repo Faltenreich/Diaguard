@@ -33,6 +33,21 @@
                     android:id="@+id/calculator_factor"
                     style="@style/LayoutRowTextLarge" />
 
+                <com.faltenreich.diaguard.ui.view.TintImageView
+                    style="@style/LayoutRowImage"
+                    android:id="@+id/calculator_factor_edit_button"
+                    android:layout_width="@dimen/size_image_small"
+                    android:layout_height="@dimen/size_image_small"
+                    android:layout_marginStart="@dimen/margin_between"
+                    android:layout_marginLeft="@dimen/margin_between"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:src="@drawable/ic_settings"
+                    android:contentDescription="@string/note"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    app:tintColor="@color/gray_darker"/>
+
             </LinearLayout>
 
             <View style="@style/LayoutRowSeparator" />

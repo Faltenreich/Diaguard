@@ -10,6 +10,9 @@
     <string name="app_mail_short" translatable="false">diaguard.de@gmail.com</string>
     <string name="app_version" translatable="false">1.6</string>
 
+    <!-- PREFERENCES -->
+    <string name="pref_factor" translatable="false">pref_factor</string>
+
     <!-- GENERAL -->
 
     <string name="about">About</string>

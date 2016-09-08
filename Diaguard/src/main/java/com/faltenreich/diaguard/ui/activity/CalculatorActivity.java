@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.ui.activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,6 +22,7 @@ import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.ui.fragment.PreferenceFragment;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.Validator;
@@ -30,6 +32,7 @@ import com.faltenreich.diaguard.util.event.data.EntryAddedEvent;
 import org.joda.time.DateTime;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by Filip on 15.11.13.
@@ -53,6 +56,12 @@ public class CalculatorActivity extends BaseActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        updateFactor();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.form, menu);
@@ -70,29 +79,35 @@ public class CalculatorActivity extends BaseActivity {
         }
     }
 
-    public void initialize() {
+    private void initialize() {
         String unitAcronym = PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BLOODSUGAR);
         editTextTargetValue.setHint(unitAcronym);
         editTextCorrection.setHint(unitAcronym);
         editTextBloodSugar.setHint(unitAcronym);
         editTextMeal.setHint(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.MEAL));
 
-        // Target
+        updateTargetValue();
+        updateCorrectionValue();
+    }
+
+    private void updateTargetValue() {
         float targetValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(
                 Measurement.Category.BLOODSUGAR,
                 PreferenceHelper.getInstance().getTargetValue());
         editTextTargetValue.setText(Helper.parseFloat(targetValue));
+    }
 
-        // Correction
+    private void updateCorrectionValue() {
         float correctionValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(
                 Measurement.Category.BLOODSUGAR,
                 PreferenceHelper.getInstance().getCorrectionValue());
         editTextCorrection.setText(Helper.parseFloat(correctionValue));
+    }
 
-        // Factor
+    private void updateFactor() {
         int hourOfDay = DateTime.now().getHourOfDay();
         float factor = PreferenceHelper.getInstance().getFactorForHour(hourOfDay);
-        editTextFactor.setText(Helper.parseFloat(factor));
+        editTextFactor.setText(factor >= 0 ? Helper.parseFloat(factor) : null);
     }
 
     private boolean inputIsValid() {
@@ -295,5 +310,13 @@ public class CalculatorActivity extends BaseActivity {
         }
 
         Events.post(new EntryAddedEvent(entry));
+    }
+
+    @SuppressWarnings("unused")
+    @OnClick(R.id.calculator_factor_edit_button)
+    protected void openSettings(View view) {
+        Intent intent = new Intent(this, PreferenceActivity.class);
+        intent.putExtra(PreferenceFragment.EXTRA_OPENING_PREFERENCE, getString(R.string.pref_factor));
+        startActivity(intent);
     }
 }

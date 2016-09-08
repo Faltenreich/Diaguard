@@ -1,62 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    style="@style/Padding"
-    android:paddingLeft="30dp"
-    android:paddingRight="30dp">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <TableRow style="@style/TableRow">
+    <Spinner
+        android:id="@+id/preference_time_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin"/>
 
-        <TextView
-            android:layout_weight="1"
-            android:text="@string/morning"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/preference_time_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
-        <EditText android:id="@+id/morning"
-            android:layout_weight="2"
-            android:gravity="center_horizontal"
-            android:inputType="numberDecimal"/>
-
-    </TableRow>
-
-    <TableRow style="@style/TableRow">
-
-        <TextView
-            android:layout_weight="1"
-            android:text="@string/noon"/>
-
-        <EditText android:id="@+id/noon"
-            android:layout_weight="2"
-            android:gravity="center_horizontal"
-            android:inputType="numberDecimal"/>
-
-    </TableRow>
-
-    <TableRow style="@style/TableRow">
-
-        <TextView
-            android:layout_weight="1"
-            android:text="@string/evening"/>
-
-        <EditText android:id="@+id/evening"
-            android:layout_weight="2"
-            android:gravity="center_horizontal"
-            android:inputType="numberDecimal"/>
-
-    </TableRow>
-
-    <TableRow style="@style/TableRow">
-
-        <TextView
-            android:layout_weight="1"
-            android:text="@string/night"/>
-
-        <EditText android:id="@+id/night"
-            android:layout_weight="2"
-            android:gravity="center_horizontal"
-            android:inputType="numberDecimal"/>
-
-    </TableRow>
-
-</TableLayout>
+</LinearLayout>

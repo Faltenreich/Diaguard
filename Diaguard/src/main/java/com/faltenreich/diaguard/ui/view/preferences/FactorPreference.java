@@ -15,7 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.TimeAdapter;
+import com.faltenreich.diaguard.adapter.FactorAdapter;
 import com.faltenreich.diaguard.adapter.list.ListItemTimePreference;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.TimeInterval;
@@ -28,7 +28,7 @@ import butterknife.BindView;
 /**
  * Created by Filip on 04.11.13.
  */
-public class TimePreference extends DialogPreference {
+public class FactorPreference extends DialogPreference {
 
     @BindView(R.id.preference_time_spinner)
     protected Spinner spinner;
@@ -39,12 +39,12 @@ public class TimePreference extends DialogPreference {
     private Context context;
     private SharedPreferences sharedPreferences;
 
-    private TimeAdapter adapter;
+    private FactorAdapter adapter;
     private TimeInterval timeInterval;
 
-    public TimePreference(Context context, AttributeSet attrs) {
+    public FactorPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setDialogLayoutResource(R.layout.preference_time);
+        setDialogLayoutResource(R.layout.preference_factor);
         this.context = context;
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.context);
     }
@@ -101,7 +101,7 @@ public class TimePreference extends DialogPreference {
     private void initList() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         list.setLayoutManager(layoutManager);
-        adapter = new TimeAdapter(getContext());
+        adapter = new FactorAdapter(getContext());
         list.setAdapter(adapter);
         updateList();
     }

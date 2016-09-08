@@ -17,7 +17,7 @@ import butterknife.BindView;
 /**
  * Created by Faltenreich on 03.09.2016.
  */
-public class TimeViewHolder extends BaseViewHolder<ListItemTimePreference> {
+public class FactorViewHolder extends BaseViewHolder<ListItemTimePreference> {
 
     @BindView(R.id.list_item_time_text)
     protected TextView time;
@@ -25,7 +25,7 @@ public class TimeViewHolder extends BaseViewHolder<ListItemTimePreference> {
     @BindView(R.id.list_item_time_value)
     public EditText value;
 
-    public TimeViewHolder(View view) {
+    public FactorViewHolder(View view) {
         super(view);
     }
 

@@ -47,6 +47,6 @@ public class TimeViewHolder extends BaseViewHolder<ListItemTimePreference> {
             }
         }
 
-        value.setText(preference.getValue() >= 0 ? Helper.parseFloatWithDigit(preference.getValue()) : null);
+        value.setText(preference.getValue() >= 0 ? Helper.parseFloat(preference.getValue()) : null);
     }
 }

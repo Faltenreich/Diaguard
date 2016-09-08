@@ -281,7 +281,7 @@
 
     <!-- ABOUT -->
     <string name="about_dev">Entwickler</string>
-    <string name="about_dev_desc">Philipp Fahlteich,\nB. Sc. der Informatik, Typ-1-Diabetiker</string>
+    <string name="about_dev_desc">Philipp Fahlteich,\nM. Sc. der Informatik, Typ-1-Diabetiker</string>
     <string name="about_financing">Finanzierung</string>
     <string name="about_financing_desc">Es gibt keine finanzielle Unterstützung von kommerziellen oder nicht-kommerziellen Organisationen, die mit finanziellen Mitteln, Dienstleistungen oder Materialien zur App beigetragen haben. Die App wird ausschließlich durch den Entwickler finanziert.</string>
     <string name="about_advertisement">Werbepolitik</string>

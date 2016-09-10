@@ -107,6 +107,10 @@ public abstract class BaseFragment extends Fragment {
         }
     }
 
+    protected void finish() {
+        getActivity().finish();
+    }
+
     interface ToolbarCallback {
         void action();
     }

@@ -49,7 +49,7 @@
                         android:contentDescription="@string/note"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:clickable="true"
-                        app:tintColor="@color/gray_darker"/>
+                        app:tintColor="@color/green"/>
 
                 </LinearLayout>
 

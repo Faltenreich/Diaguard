@@ -5,13 +5,13 @@ import com.faltenreich.diaguard.data.TimeInterval;
 /**
  * Created by Faltenreich on 03.09.2016.
  */
-public class ListItemTimePreference extends ListItem {
+public class ListItemFactor extends ListItem {
 
     private TimeInterval interval;
     private int hourOfDay;
     private float value;
 
-    public ListItemTimePreference(TimeInterval interval, int hourOfDay, float value) {
+    public ListItemFactor(TimeInterval interval, int hourOfDay, float value) {
         this.interval = interval;
         this.hourOfDay = hourOfDay;
         this.value = value;

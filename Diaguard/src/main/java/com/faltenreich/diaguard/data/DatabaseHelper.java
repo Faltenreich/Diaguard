@@ -9,10 +9,11 @@ import android.util.Log;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.Activity;
-import com.faltenreich.diaguard.data.entity.BaseEntity;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.CategoryDeprecated;
 import com.faltenreich.diaguard.data.entity.Entry;
+import com.faltenreich.diaguard.data.entity.Food;
+import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.data.entity.HbA1c;
 import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Meal;
@@ -24,7 +25,6 @@ import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
-import com.j256.ormlite.table.DatabaseTableConfig;
 import com.j256.ormlite.table.TableUtils;
 
 import org.joda.time.format.DateTimeFormat;
@@ -41,13 +41,12 @@ import java.util.Map;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private static final String TAG = DatabaseHelper.class.getSimpleName();
-
-    // Metadata
     private static final String DATABASE_NAME = "diaguard.db";
 
     public static final int DATABASE_VERSION_1_0 = 17;
     public static final int DATABASE_VERSION_1_1 = 18;
     public static final int DATABASE_VERSION_1_3 = 19;
+    public static final int DATABASE_VERSION_1_7 = 20;
 
     public static final Class[] tables = new Class[]{
             Entry.class,
@@ -58,7 +57,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             HbA1c.class,
             Weight.class,
             Pulse.class,
-            Pressure.class
+            Pressure.class,
+            Food.class,
+            FoodEaten.class
     };
 
     public DatabaseHelper(Context context) {
@@ -66,11 +67,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     public static int getVersion() {
-        return DATABASE_VERSION_1_3;
-    }
-
-    public static <T extends BaseEntity> String getTableName(Class<T> clazz) {
-        return DatabaseTableConfig.extractTableName(clazz);
+        return DATABASE_VERSION_1_7;
     }
 
     @Override
@@ -96,10 +93,17 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                     case DATABASE_VERSION_1_1:
                         upgradeToVersion19(sqLiteDatabase, connectionSource);
                         break;
+                    case DATABASE_VERSION_1_7:
+                        upgradeToVersion20(sqLiteDatabase, connectionSource);
+                        break;
                 }
                 upgradeFromVersion++;
             }
         }
+    }
+
+    private void upgradeToVersion20(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource) {
+        // TODO
     }
 
     private <M extends Measurement> void upgradeToVersion19(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource) {

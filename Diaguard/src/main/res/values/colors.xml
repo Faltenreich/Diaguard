@@ -12,6 +12,7 @@
     <color name="gray">#ababab</color>
     <color name="gray_dark">#ff8c8c8c</color>
     <color name="gray_darker">#767676</color>
+    <color name="gray_semitransparent">#77d4d4d4</color>
 
     <color name="green">#478063</color>
     <color name="green_light">#6d947f</color>

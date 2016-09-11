@@ -12,14 +12,14 @@ public class Meal extends Measurement {
 
     public class Column extends Measurement.Column {
         public static final String CARBOHYDRATES = "carbohydrates";
-        public static final String FOOD_ID = "food_id";
+        public static final String FOOD_EATEN = "foodEaten";
     }
 
-    @DatabaseField
+    @DatabaseField(columnName = Column.CARBOHYDRATES)
     private float carbohydrates;
 
-    @DatabaseField
-    private int foodId;
+    @DatabaseField(columnName = Column.FOOD_EATEN)
+    private FoodEaten foodEaten;
 
     public float getCarbohydrates() {
         return carbohydrates;
@@ -29,12 +29,12 @@ public class Meal extends Measurement {
         this.carbohydrates = carbohydrates;
     }
 
-    public int getFoodId() {
-        return foodId;
+    public FoodEaten getFoodEaten() {
+        return foodEaten;
     }
 
-    public void setFoodId(int foodId) {
-        this.foodId = foodId;
+    public void setFoodEaten(FoodEaten foodEaten) {
+        this.foodEaten = foodEaten;
     }
 
     @Override

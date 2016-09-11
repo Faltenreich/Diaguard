@@ -1,5 +1,5 @@
 #
-# generated on 2015/11/18 07:20:58
+# generated on 2016/09/11 10:23:22
 #
 # --table-start--
 dataClass=com.faltenreich.diaguard.data.entity.Entry
@@ -107,9 +107,11 @@ tableName=meal
 # --table-fields-start--
 # --field-start--
 fieldName=carbohydrates
+columnName=carbohydrates
 # --field-end--
 # --field-start--
-fieldName=foodId
+fieldName=foodEaten
+columnName=foodEaten
 # --field-end--
 # --field-start--
 fieldName=entry
@@ -273,6 +275,112 @@ fieldName=entry
 columnName=entry
 foreign=true
 foreignAutoRefresh=true
+# --field-end--
+# --field-start--
+fieldName=id
+columnName=_id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=createdAt
+columnName=createdAt
+# --field-end--
+# --field-start--
+fieldName=updatedAt
+columnName=updatedAt
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.faltenreich.diaguard.data.entity.Food
+tableName=food
+# --table-fields-start--
+# --field-start--
+fieldName=name
+columnName=name
+# --field-end--
+# --field-start--
+fieldName=imageUrl
+columnName=imageUrl
+# --field-end--
+# --field-start--
+fieldName=carbohydrates
+columnName=carbohydrates
+# --field-end--
+# --field-start--
+fieldName=energy
+columnName=energy
+# --field-end--
+# --field-start--
+fieldName=fat
+columnName=fat
+# --field-end--
+# --field-start--
+fieldName=fatSaturated
+columnName=fatSaturated
+# --field-end--
+# --field-start--
+fieldName=fiber
+columnName=fiber
+# --field-end--
+# --field-start--
+fieldName=proteins
+columnName=proteins
+# --field-end--
+# --field-start--
+fieldName=salt
+columnName=salt
+# --field-end--
+# --field-start--
+fieldName=sodium
+columnName=sodium
+# --field-end--
+# --field-start--
+fieldName=sugar
+columnName=sugar
+# --field-end--
+# --field-start--
+fieldName=meals
+columnName=meals
+foreignCollection=true
+foreignCollectionColumnName=meals
+# --field-end--
+# --field-start--
+fieldName=serverId
+columnName=serverId
+# --field-end--
+# --field-start--
+fieldName=id
+columnName=_id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=createdAt
+columnName=createdAt
+# --field-end--
+# --field-start--
+fieldName=updatedAt
+columnName=updatedAt
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.faltenreich.diaguard.data.entity.FoodEaten
+tableName=foodeaten
+# --table-fields-start--
+# --field-start--
+fieldName=amountInGrams
+columnName=amountInGrams
+# --field-end--
+# --field-start--
+fieldName=food
+columnName=food
+# --field-end--
+# --field-start--
+fieldName=meal
+columnName=meal
 # --field-end--
 # --field-start--
 fieldName=id

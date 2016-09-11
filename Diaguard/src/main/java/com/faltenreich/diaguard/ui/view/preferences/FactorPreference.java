@@ -16,7 +16,7 @@ import android.widget.Spinner;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.FactorAdapter;
-import com.faltenreich.diaguard.adapter.list.ListItemTimePreference;
+import com.faltenreich.diaguard.adapter.list.ListItemFactor;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.TimeInterval;
 
@@ -112,7 +112,7 @@ public class FactorPreference extends DialogPreference {
         while (adapter.getItemCount() < DateTimeConstants.HOURS_PER_DAY / timeInterval.interval) {
             int hourOfDay = dateTime.getHourOfDay();
             float value = PreferenceHelper.getInstance().getFactorForHour(hourOfDay);
-            adapter.addItem(new ListItemTimePreference(timeInterval, hourOfDay, value));
+            adapter.addItem(new ListItemFactor(timeInterval, hourOfDay, value));
             dateTime = dateTime.withHourOfDay((hourOfDay + timeInterval.interval) % DateTimeConstants.HOURS_PER_DAY);
         }
         adapter.notifyDataSetChanged();
@@ -122,7 +122,7 @@ public class FactorPreference extends DialogPreference {
         PreferenceHelper.getInstance().setFactorInterval(timeInterval);
 
         for (int pos = 0; pos < adapter.getItemCount(); pos++) {
-            ListItemTimePreference preference = adapter.getItem(pos);
+            ListItemFactor preference = adapter.getItem(pos);
             int hoursIntoInterval = 0;
 
             while (hoursIntoInterval < preference.getInterval().interval) {

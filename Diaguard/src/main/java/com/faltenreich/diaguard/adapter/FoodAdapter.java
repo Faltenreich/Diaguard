@@ -5,13 +5,13 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.list.FoodItem;
+import com.faltenreich.diaguard.adapter.list.ListItemFood;
 import com.faltenreich.diaguard.ui.view.viewholder.FoodViewHolder;
 
 /**
  * Created by Faltenreich on 11.09.2016.
  */
-public class FoodAdapter extends BaseAdapter<FoodItem, FoodViewHolder> {
+public class FoodAdapter extends BaseAdapter<ListItemFood, FoodViewHolder> {
 
     public FoodAdapter(Context context) {
         super(context);

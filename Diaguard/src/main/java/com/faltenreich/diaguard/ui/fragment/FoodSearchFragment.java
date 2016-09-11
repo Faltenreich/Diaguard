@@ -14,6 +14,8 @@ import android.view.View;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.FoodAdapter;
+import com.faltenreich.diaguard.adapter.list.ListItemFood;
+import com.faltenreich.diaguard.data.entity.Food;
 
 import butterknife.BindView;
 
@@ -80,6 +82,11 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
 
     @Override
     public boolean onQueryTextChange(String newText) {
+        adapter.clear();
+        for (int i = 0; i < newText.length(); i++) {
+            adapter.addItem(new ListItemFood(new Food()));
+        }
+        adapter.notifyDataSetChanged();
         return false;
     }
 }

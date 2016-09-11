@@ -49,6 +49,15 @@
                 android:value=".ui.activity.MainActivity" />
         </activity>
         <activity
+            android:name=".ui.activity.FoodSearchActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/food_database"
+            android:windowSoftInputMode="adjustResize|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activity.MainActivity" />
+        </activity>
+        <activity
             android:name=".ui.activity.StatisticsActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/statistics"

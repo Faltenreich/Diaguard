@@ -85,6 +85,9 @@ public class MainActivity extends BaseActivity {
                     case R.id.nav_calculator:
                         startActivity(new Intent(MainActivity.this, CalculatorActivity.class));
                         break;
+                    case R.id.nav_food_database:
+                        startActivity(new Intent(MainActivity.this, FoodSearchActivity.class));
+                        break;
                     case R.id.nav_statistics:
                         startActivity(new Intent(MainActivity.this, StatisticsActivity.class));
                         break;

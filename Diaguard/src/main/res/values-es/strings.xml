@@ -279,7 +279,7 @@
 
     <string name="all">Todo</string>
     <string name="validator_value_empty_list"> Al menos una categoría se debe seleccionar</string>
-    <string name="amount">Cantidad</string>
+    <string name="amount_in_grams">Cantidad</string>
     <string name="correction">Corrección</string>
     <string name="error_unexpected">Algo salió mal</string>
     <string name="export_complete">Memorizar bajo %s</string>

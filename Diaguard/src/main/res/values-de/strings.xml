@@ -6,7 +6,7 @@
     <!-- GENERAL -->
     <string name="about">Über</string>
     <string name="activity">Aktivität</string>
-    <string name="amount">Menge</string>
+    <string name="amount_in_grams">Menge in Gramm</string>
     <string name="all">Alle</string>
     <string name="add_value">Wert hinzufügen</string>
     <string name="alarm">Blutzucker messen</string>
@@ -61,7 +61,7 @@
     <string name="factors">KE-Faktoren</string>
     <string name="first_visit">Neu hier?</string>
     <string name="first_visit_desc">Ersten Wert eintragen</string>
-    <string name="food_database">Lebensmitteldatenbank</string>
+    <string name="food">Lebensmittel</string>
     <string name="format">Format</string>
     <string name="general">Allgemein</string>
     <string name="hba1c">HbA1c</string>

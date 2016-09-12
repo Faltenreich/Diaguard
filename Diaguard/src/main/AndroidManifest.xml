@@ -51,7 +51,7 @@
         <activity
             android:name=".ui.activity.FoodSearchActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/food_database"
+            android:label="@string/food"
             android:windowSoftInputMode="adjustResize|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

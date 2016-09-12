@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/meal_value"
+        style="@style/Padding"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_element"
+        android:background="@android:color/transparent"
+        android:inputType="numberDecimal" />
+
+    <View style="@style/LayoutRowSeparator" />
+
+    <TextView
+        android:id="@+id/meal_name"
+        style="@style/Padding"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_element"
+        android:gravity="center_vertical"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:text="@string/food"
+        android:textSize="@dimen/text_medium" />
+
+    <View style="@style/LayoutRowSeparator" />
+
+    <EditText
+        android:id="@+id/meal_amount_in_grams"
+        style="@style/Padding"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_element"
+        android:background="@android:color/transparent"
+        android:hint="@string/amount_in_grams"
+        android:inputType="number" />
+
+</LinearLayout>

@@ -17,7 +17,7 @@
 
     <string name="about">About</string>
     <string name="activity">Activity</string>
-    <string name="amount">Amount</string>
+    <string name="amount_in_grams">Amount in grams</string>
     <string name="all">All</string>
     <string name="add_value">Add value</string>
     <string name="alarm">Measure blood sugar</string>
@@ -75,7 +75,7 @@
     <string name="factors">Factors</string>
     <string name="first_visit">First visit?</string>
     <string name="first_visit_desc">Enter your first value</string>
-    <string name="food_database">Food database</string>
+    <string name="food">Food</string>
     <string name="format">Format</string>
     <string name="general">General</string>
     <string name="hba1c">HbA1c</string>

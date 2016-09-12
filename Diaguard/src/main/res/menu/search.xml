@@ -6,8 +6,14 @@
     <item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_settings"
-        android:title="@string/food_database"
+        android:title="@string/food"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="ifRoom" />
+
+    <item android:id="@+id/action_new"
+        android:icon="@drawable/ic_action_new"
+        android:title="@string/entry_new"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom"/>
 
 </menu>

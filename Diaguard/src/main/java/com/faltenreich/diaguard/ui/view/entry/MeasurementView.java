@@ -16,6 +16,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.SwipeDismissTouchListener;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Insulin;
+import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Pressure;
 import com.faltenreich.diaguard.util.ViewHelper;
@@ -106,6 +107,11 @@ public class MeasurementView<T extends Measurement> extends LinearLayout {
                 content.addView(isUpdating ?
                         new MeasurementInsulinView(getContext(), (Insulin) measurement) :
                         new MeasurementInsulinView(getContext()));
+                break;
+            case MEAL:
+                content.addView(isUpdating ?
+                        new MeasurementMealView(getContext(), (Meal) measurement) :
+                        new MeasurementMealView(getContext()));
                 break;
             case PRESSURE:
                 content.addView(isUpdating ?

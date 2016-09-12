@@ -16,6 +16,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.FoodAdapter;
 import com.faltenreich.diaguard.adapter.list.ListItemFood;
 import com.faltenreich.diaguard.data.entity.Food;
+import com.faltenreich.diaguard.ui.activity.FoodSearchActivity;
 
 import butterknife.BindView;
 
@@ -24,18 +25,28 @@ import butterknife.BindView;
  */
 public class FoodSearchFragment extends BaseFragment implements SearchView.OnQueryTextListener {
 
+    public static final String EXTRA_MODE = "EXTRA_MODE";
+
+    public enum Mode {
+        READ,
+        SELECT
+    }
+
     @BindView(R.id.food_search_list) RecyclerView list;
 
+    private Mode mode;
     private FoodAdapter adapter;
 
     public FoodSearchFragment() {
-        super(R.layout.fragment_food_search, R.string.food_database);
+        super(R.layout.fragment_food_search, R.string.food);
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        this.mode = Mode.READ;
+        checkIntents();
     }
 
     @Override
@@ -61,6 +72,15 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
             SearchView searchView = (SearchView) menuItemSearch.getActionView();
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
             searchView.setOnQueryTextListener(this);
+        }
+    }
+
+    private void checkIntents() {
+        if (getActivity() instanceof FoodSearchActivity && getActivity().getIntent() != null && getActivity().getIntent().getExtras() != null) {
+            Bundle extras = getActivity().getIntent().getExtras();
+            if (extras.get(EXTRA_MODE) != null && extras.get(EXTRA_MODE) instanceof Mode) {
+                this.mode = (Mode) extras.get(EXTRA_MODE);
+            }
         }
     }
 

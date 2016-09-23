@@ -16,26 +16,25 @@
 
     <View style="@style/LayoutRowSeparator" />
 
-    <TextView
+    <AutoCompleteTextView
         android:id="@+id/meal_name"
         style="@style/Padding"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_element"
-        android:gravity="center_vertical"
-        android:clickable="true"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:text="@string/food"
-        android:textSize="@dimen/text_medium" />
+        android:background="@android:color/transparent"
+        android:inputType="text"
+        android:hint="@string/food" />
 
     <View style="@style/LayoutRowSeparator" />
 
-    <EditText
+    <com.gregacucnik.EditableSeekBar
         android:id="@+id/meal_amount_in_grams"
-        style="@style/Padding"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_element"
-        android:background="@android:color/transparent"
-        android:hint="@string/amount_in_grams"
-        android:inputType="number" />
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        app:esbMax="2000"
+        app:esbMin="0"
+        app:esbTitle="@string/amount_in_grams"
+        app:esbValue="0" />
 
 </LinearLayout>

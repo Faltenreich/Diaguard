@@ -60,11 +60,12 @@ public class FoodSearchFragment extends BaseFragment implements MaterialSearchVi
     public void onResume() {
         super.onResume();
         updateList();
+        updateSearch();
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.search, menu);
+        inflater.inflate(R.menu.food, menu);
         super.onCreateOptionsMenu(menu, inflater);
         searchView.setMenuItem(menu.findItem(R.id.action_search));
     }
@@ -91,16 +92,7 @@ public class FoodSearchFragment extends BaseFragment implements MaterialSearchVi
     private void initSearch() {
         searchView.setVoiceSearch(true);
         searchView.setOnQueryTextListener(this);
-        if (adapter.getItemCount() > 0) {
-            String[] suggestions = new String[adapter.getItemCount()];
-            for (int position = 0; position < adapter.getItemCount(); position++) {
-                Food food = adapter.getItem(position);
-                suggestions[position] = food.getName();
-            }
-            searchView.setSuggestions(suggestions);
-        } else {
-            searchView.setSuggestions(null);
-        }
+        searchView.clearFocus();
     }
 
     private void updateList() {
@@ -108,6 +100,17 @@ public class FoodSearchFragment extends BaseFragment implements MaterialSearchVi
         adapter.clear();
         adapter.addItems(foodList);
         adapter.notifyDataSetChanged();
+    }
+
+    private void updateSearch() {
+        if (adapter.getItemCount() > 0) {
+            String[] suggestions = new String[adapter.getItemCount()];
+            for (int position = 0; position < adapter.getItemCount(); position++) {
+                Food food = adapter.getItem(position);
+                suggestions[position] = food.getName();
+            }
+            searchView.setSuggestions(suggestions);
+        }
     }
 
     @Override

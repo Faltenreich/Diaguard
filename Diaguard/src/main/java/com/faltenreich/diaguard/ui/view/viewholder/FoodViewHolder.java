@@ -26,6 +26,6 @@ public class FoodViewHolder extends BaseViewHolder<Food> {
     protected void bindData() {
         Food food = getListItem();
         Picasso.with(getContext()).load("http://static.openfoodfacts.org/images/products/073/762/806/4502/front_en.6.200.jpg").into(image);
-        name.setText("Fish on a plate");
+        name.setText(food.getName());
     }
 }

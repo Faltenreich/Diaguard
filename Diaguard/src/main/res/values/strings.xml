@@ -76,6 +76,7 @@
     <string name="first_visit">First visit?</string>
     <string name="first_visit_desc">Enter your first value</string>
     <string name="food">Food</string>
+    <string name="food_search">Search for food</string>
     <string name="format">Format</string>
     <string name="general">General</string>
     <string name="hba1c">HbA1c</string>

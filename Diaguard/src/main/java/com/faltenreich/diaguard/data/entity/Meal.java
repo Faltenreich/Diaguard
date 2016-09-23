@@ -18,7 +18,7 @@ public class Meal extends Measurement {
     @DatabaseField(columnName = Column.CARBOHYDRATES)
     private float carbohydrates;
 
-    @DatabaseField(columnName = Column.FOOD_EATEN)
+    @DatabaseField(columnName = Column.FOOD_EATEN, foreign = true, foreignAutoRefresh = true)
     private FoodEaten foodEaten;
 
     public float getCarbohydrates() {

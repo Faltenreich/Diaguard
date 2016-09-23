@@ -3,18 +3,15 @@ package com.faltenreich.diaguard.adapter;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
-import com.faltenreich.diaguard.adapter.list.ListItem;
-import com.faltenreich.diaguard.adapter.list.ListItemDate;
 import com.faltenreich.diaguard.ui.view.viewholder.BaseViewHolder;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by Filip on 04.11.13.
  */
-public abstract class BaseAdapter<L extends ListItem, VH extends BaseViewHolder<L>> extends RecyclerView.Adapter<VH> {
+public abstract class BaseAdapter<L, VH extends BaseViewHolder<L>> extends RecyclerView.Adapter<VH> {
 
     private Context context;
     private List<L> items;

@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.networking.openfoodfacts.OpenFoodFactsManager;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
@@ -20,6 +21,14 @@ public class DiaguardApplication extends Application {
         context = getApplicationContext();
         JodaTimeAndroid.init(this);
         migrate();
+        OpenFoodFactsManager.getInstance().start();
+        OpenFoodFactsManager.getInstance().getProduct("737628064502");
+    }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        OpenFoodFactsManager.getInstance().stop();
     }
 
     public static Context getContext() {

@@ -32,7 +32,10 @@ public class FoodDao extends BaseDao<Food> {
         List<Food> foodList = new ArrayList<>();
         for (ProductDto productDto : dto.products) {
             Food food = new Food();
+            food.setServerId(Integer.toString(productDto.identifier));
             food.setName(productDto.name);
+            food.setImageUrl(productDto.imageUrl);
+            food.setBrand(productDto.brand);
             food.setCarbohydrates(productDto.nutriments.carbohydrates);
             food.setEnergy(productDto.nutriments.energy);
             food.setFat(productDto.nutriments.fat);
@@ -42,7 +45,6 @@ public class FoodDao extends BaseDao<Food> {
             food.setSalt(productDto.nutriments.salt);
             food.setSodium(productDto.nutriments.sodium);
             food.setSugar(productDto.nutriments.sugar);
-            food.setImageUrl(productDto.imageUrl);
             foodList.add(food);
         }
         return foodList;

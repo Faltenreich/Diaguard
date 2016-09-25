@@ -2,6 +2,7 @@
   <dictionary name="Faltenreich">
     <words>
       <w>preopen</w>
+      <w>sortkey</w>
     </words>
   </dictionary>
 </component>

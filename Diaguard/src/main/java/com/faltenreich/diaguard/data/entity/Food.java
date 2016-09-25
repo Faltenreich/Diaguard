@@ -12,6 +12,7 @@ public class Food extends BaseServerEntity {
     public class Column extends BaseServerEntity.Column {
         public static final String NAME = "name";
         public static final String IMAGE_URL = "imageUrl";
+        public static final String BRAND = "brand";
         public static final String CARBOHYDRATES = "carbohydrates";
         public static final String ENERGY = "energy";
         public static final String FAT = "fat";
@@ -29,6 +30,9 @@ public class Food extends BaseServerEntity {
 
     @DatabaseField(columnName = Column.IMAGE_URL)
     private String imageUrl;
+
+    @DatabaseField(columnName = Column.BRAND)
+    private String brand;
 
     @DatabaseField(columnName = Column.CARBOHYDRATES)
     private float carbohydrates;
@@ -74,6 +78,14 @@ public class Food extends BaseServerEntity {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
     public float getCarbohydrates() {

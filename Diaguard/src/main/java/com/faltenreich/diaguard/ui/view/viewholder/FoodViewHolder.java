@@ -18,7 +18,8 @@ public class FoodViewHolder extends BaseViewHolder<Food> {
 
     @BindView(R.id.food_image) ImageView image;
     @BindView(R.id.food_name) TextView name;
-    @BindView(R.id.food_ingredients) TextView ingredients;
+    @BindView(R.id.food_brand) TextView brand;
+    @BindView(R.id.food_carbohydrates) TextView carbohydrates;
 
     public FoodViewHolder(View view) {
         super(view);
@@ -29,7 +30,8 @@ public class FoodViewHolder extends BaseViewHolder<Food> {
         Food food = getListItem();
         Picasso.with(getContext()).load(food.getImageUrl()).into(image);
         name.setText(food.getName());
-        ingredients.setText(String.format("%s %s",
+        brand.setText(food.getBrand());
+        carbohydrates.setText(String.format("%s %s",
                 Helper.parseFloat(food.getCarbohydrates()),
                 getContext().getResources().getStringArray(R.array.meal_units_acronyms)[0]));
     }

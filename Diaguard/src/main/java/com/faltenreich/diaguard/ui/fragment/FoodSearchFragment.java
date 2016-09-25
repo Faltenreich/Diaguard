@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.FoodAdapter;
@@ -19,8 +20,11 @@ import com.faltenreich.diaguard.event.networking.FoodSearchFailedEvent;
 import com.faltenreich.diaguard.event.networking.FoodSearchSucceededEvent;
 import com.faltenreich.diaguard.networking.openfoodfacts.OpenFoodFactsManager;
 import com.faltenreich.diaguard.ui.activity.FoodSearchActivity;
+import com.lapism.searchview.SearchAdapter;
+import com.lapism.searchview.SearchItem;
 import com.lapism.searchview.SearchView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -38,8 +42,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     }
 
     @BindView(R.id.food_search_list) RecyclerView list;
-    @BindView(R.id.search_view)
-    SearchView searchView;
+    @BindView(R.id.search_view) SearchView searchView;
 
     private Mode mode;
     private FoodAdapter adapter;
@@ -115,13 +118,22 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         searchView.setOnQueryTextListener(this);
         searchView.setOnMenuClickListener(this);
 
-        List<Food> foodList = FoodDao.getInstance().getAll();
-        String[] suggestions = new String[foodList.size()];
-        for (int position = 0; position < foodList.size(); position++) {
-            Food food = foodList.get(position);
-            suggestions[position] = food.getName();
+        final List<Food> foodList = FoodDao.getInstance().getAll();
+        List<SearchItem> suggestions  = new ArrayList<>();
+        for (Food food : foodList) {
+            suggestions.add(new SearchItem(food.getName()));
         }
-        searchView.setAdapter(adapter);
+        final SearchAdapter searchAdapter = new SearchAdapter(getContext(), suggestions);
+        searchAdapter.addOnItemClickListener(new SearchAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                TextView textView = (TextView) view.findViewById(R.id.textView_item_text);
+                String query = textView.getText().toString();
+                searchView.setQuery(query);
+                searchView.close(true);
+            }
+        });
+        searchView.setAdapter(searchAdapter);
     }
 
     private void updateList(List<Food> foodList) {

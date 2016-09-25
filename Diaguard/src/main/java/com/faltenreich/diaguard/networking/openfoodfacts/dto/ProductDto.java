@@ -9,12 +9,18 @@ import com.google.gson.annotations.SerializedName;
 
 public class ProductDto extends NetworkDto {
 
-    @SerializedName("origins")
-    public String origin;
+    @SerializedName("product_name")
+    public String name;
+
+    @SerializedName("brands")
+    public String brand;
 
     @SerializedName("image_url")
     public String imageUrl;
 
     @SerializedName("nutriments")
     public NutrimentsDto nutriments;
+
+    @SerializedName("origins")
+    public String origin;
 }

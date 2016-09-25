@@ -26,7 +26,7 @@ import com.faltenreich.diaguard.util.DateTimeUtils;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.TimeSpan;
 import com.faltenreich.diaguard.util.ViewHelper;
-import com.faltenreich.diaguard.util.event.data.EntryAddedEvent;
+import com.faltenreich.diaguard.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.util.thread.BaseAsyncTask;
 import com.faltenreich.diaguard.util.thread.UpdateLineChartTask;
 import com.github.mikephil.charting.charts.LineChart;

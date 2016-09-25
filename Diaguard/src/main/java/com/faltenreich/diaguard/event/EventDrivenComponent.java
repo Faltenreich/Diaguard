@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.util.event;
+package com.faltenreich.diaguard.event;
 
 /**
  * Created by Faltenreich on 01.08.2016.

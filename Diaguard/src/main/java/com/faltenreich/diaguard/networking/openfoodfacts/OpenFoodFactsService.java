@@ -14,6 +14,6 @@ public class OpenFoodFactsService extends NetworkService<OpenFoodFactsApi> {
 
     @Override
     protected String getServerUrl() {
-        return "http://world.openfoodfacts.org/api/v0";
+        return "http://world.openfoodfacts.org";
     }
 }

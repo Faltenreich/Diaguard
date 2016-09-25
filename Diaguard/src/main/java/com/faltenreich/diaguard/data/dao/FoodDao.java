@@ -1,6 +1,11 @@
 package com.faltenreich.diaguard.data.dao;
 
 import com.faltenreich.diaguard.data.entity.Food;
+import com.faltenreich.diaguard.networking.openfoodfacts.dto.ProductDto;
+import com.faltenreich.diaguard.networking.openfoodfacts.dto.SearchResponseDto;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Faltenreich on 23.09.2016.
@@ -21,5 +26,25 @@ public class FoodDao extends BaseDao<Food> {
 
     private FoodDao() {
         super(Food.class);
+    }
+
+    public List<Food> parseFromDto(SearchResponseDto dto) {
+        List<Food> foodList = new ArrayList<>();
+        for (ProductDto productDto : dto.products) {
+            Food food = new Food();
+            food.setName(productDto.name);
+            food.setCarbohydrates(productDto.nutriments.carbohydrates);
+            food.setEnergy(productDto.nutriments.energy);
+            food.setFat(productDto.nutriments.fat);
+            food.setFatSaturated(productDto.nutriments.fatSaturated);
+            food.setFiber(productDto.nutriments.fiber);
+            food.setProteins(productDto.nutriments.proteins);
+            food.setSalt(productDto.nutriments.salt);
+            food.setSodium(productDto.nutriments.sodium);
+            food.setSugar(productDto.nutriments.sugar);
+            food.setImageUrl(productDto.imageUrl);
+            foodList.add(food);
+        }
+        return foodList;
     }
 }

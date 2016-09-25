@@ -30,10 +30,10 @@ import com.faltenreich.diaguard.ui.view.entry.MeasurementListView;
 import com.faltenreich.diaguard.util.AlarmUtils;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.ViewHelper;
-import com.faltenreich.diaguard.util.event.Events;
-import com.faltenreich.diaguard.util.event.data.EntryAddedEvent;
-import com.faltenreich.diaguard.util.event.data.EntryDeletedEvent;
-import com.faltenreich.diaguard.util.event.data.EntryUpdatedEvent;
+import com.faltenreich.diaguard.event.Events;
+import com.faltenreich.diaguard.event.data.EntryAddedEvent;
+import com.faltenreich.diaguard.event.data.EntryDeletedEvent;
+import com.faltenreich.diaguard.event.data.EntryUpdatedEvent;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;

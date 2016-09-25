@@ -1,7 +1,7 @@
-package com.faltenreich.diaguard.util.event.ui;
+package com.faltenreich.diaguard.event.ui;
 
 import com.faltenreich.diaguard.util.TimeSpan;
-import com.faltenreich.diaguard.util.event.BaseContextEvent;
+import com.faltenreich.diaguard.event.BaseContextEvent;
 
 /**
  * Created by Faltenreich on 23.03.2016.

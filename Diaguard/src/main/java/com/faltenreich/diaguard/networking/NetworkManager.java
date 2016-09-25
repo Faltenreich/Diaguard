@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.networking;
 
 import com.faltenreich.diaguard.DiaguardApplication;
-import com.faltenreich.diaguard.util.event.EventDrivenComponent;
+import com.faltenreich.diaguard.event.EventDrivenComponent;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.SpiceService;
 

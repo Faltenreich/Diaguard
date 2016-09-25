@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.util.event.data;
+package com.faltenreich.diaguard.event.data;
 
 import com.faltenreich.diaguard.data.entity.Entry;
 

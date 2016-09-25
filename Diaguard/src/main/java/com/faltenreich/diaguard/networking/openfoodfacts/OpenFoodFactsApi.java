@@ -1,8 +1,10 @@
 package com.faltenreich.diaguard.networking.openfoodfacts;
 
 import com.faltenreich.diaguard.networking.openfoodfacts.dto.ProductResponseDto;
+import com.faltenreich.diaguard.networking.openfoodfacts.dto.SearchResponseDto;
 
 import retrofit.http.GET;
+import retrofit.http.Path;
 import retrofit.http.Query;
 
 /**
@@ -11,6 +13,9 @@ import retrofit.http.Query;
 
 public interface OpenFoodFactsApi {
 
-    @GET("/product/{productId}")
-    ProductResponseDto getProduct(@Query("productId") String productId);
+    @GET("/api/v0/product/{productId}")
+    ProductResponseDto getProduct(@Path("productId") String productId);
+
+    @GET("/cgi/search.pl")
+    SearchResponseDto search(@Query("search_terms") String query, @Query("json") int json);
 }

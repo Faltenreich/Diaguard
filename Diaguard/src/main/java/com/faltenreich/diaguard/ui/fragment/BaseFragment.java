@@ -21,9 +21,9 @@ import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.activity.BaseActivity;
 import com.faltenreich.diaguard.util.ViewHelper;
-import com.faltenreich.diaguard.util.event.Events;
-import com.faltenreich.diaguard.util.event.data.EntryAddedEvent;
-import com.faltenreich.diaguard.util.event.data.EntryDeletedEvent;
+import com.faltenreich.diaguard.event.Events;
+import com.faltenreich.diaguard.event.data.EntryAddedEvent;
+import com.faltenreich.diaguard.event.data.EntryDeletedEvent;
 
 import butterknife.ButterKnife;
 

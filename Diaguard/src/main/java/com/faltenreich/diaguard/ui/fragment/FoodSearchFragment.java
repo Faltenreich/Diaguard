@@ -117,6 +117,9 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     private void initSearch() {
         searchView.setOnQueryTextListener(this);
         searchView.setOnMenuClickListener(this);
+        searchView.setHint(R.string.food_search);
+        searchView.setShouldClearOnClose(false);
+        searchView.setShouldClearOnOpen(false);
 
         final List<Food> foodList = FoodDao.getInstance().getAll();
         List<SearchItem> suggestions  = new ArrayList<>();
@@ -142,26 +145,9 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         adapter.notifyDataSetChanged();
     }
 
-    /*
-    @Override
-    public void onSearchViewShown() {
-        List<Food> foodList = FoodDao.getInstance().getAll();
-        String[] suggestions = new String[foodList.size()];
-        for (int position = 0; position < foodList.size(); position++) {
-            Food food = foodList.get(position);
-            suggestions[position] = food.getName();
-        }
-        searchView.setSuggestions(suggestions);
-    }
-
-    @Override
-    public void onSearchViewClosed() {
-
-    }
-    */
-
     @Override
     public boolean onQueryTextSubmit(String query) {
+        searchView.close(true);
         OpenFoodFactsManager.getInstance().search(query);
         return false;
     }

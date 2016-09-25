@@ -11,7 +11,7 @@ import java.util.List;
  * Created by Faltenreich on 23.09.2016.
  */
 
-public class FoodDao extends BaseDao<Food> {
+public class FoodDao extends BaseServerDao<Food> {
 
     private static final String TAG = EntryDao.class.getSimpleName();
 
@@ -28,25 +28,35 @@ public class FoodDao extends BaseDao<Food> {
         super(Food.class);
     }
 
-    public List<Food> parseFromDto(SearchResponseDto dto) {
+    public List<Food> createOrUpdate(SearchResponseDto dto) {
         List<Food> foodList = new ArrayList<>();
         for (ProductDto productDto : dto.products) {
-            Food food = new Food();
-            food.setServerId(Integer.toString(productDto.identifier));
-            food.setName(productDto.name);
-            food.setImageUrl(productDto.imageUrl);
-            food.setBrand(productDto.brand);
-            food.setCarbohydrates(productDto.nutriments.carbohydrates);
-            food.setEnergy(productDto.nutriments.energy);
-            food.setFat(productDto.nutriments.fat);
-            food.setFatSaturated(productDto.nutriments.fatSaturated);
-            food.setFiber(productDto.nutriments.fiber);
-            food.setProteins(productDto.nutriments.proteins);
-            food.setSalt(productDto.nutriments.salt);
-            food.setSodium(productDto.nutriments.sodium);
-            food.setSugar(productDto.nutriments.sugar);
+            Food food = parseFromDto(productDto);
+            createOrUpdate(food);
             foodList.add(food);
         }
         return foodList;
+    }
+
+    public Food parseFromDto(ProductDto dto) {
+        String serverId = Integer.toString(dto.identifier);
+        Food food = getByServerId(serverId);
+        if (food == null) {
+            food = new Food();
+        }
+        food.setServerId(serverId);
+        food.setName(dto.name);
+        food.setImageUrl(dto.imageUrl);
+        food.setBrand(dto.brand);
+        food.setCarbohydrates(dto.nutriments.carbohydrates);
+        food.setEnergy(dto.nutriments.energy);
+        food.setFat(dto.nutriments.fat);
+        food.setFatSaturated(dto.nutriments.fatSaturated);
+        food.setFiber(dto.nutriments.fiber);
+        food.setProteins(dto.nutriments.proteins);
+        food.setSalt(dto.nutriments.salt);
+        food.setSodium(dto.nutriments.sodium);
+        food.setSugar(dto.nutriments.sugar);
+        return food;
     }
 }

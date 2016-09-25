@@ -71,4 +71,5 @@ dependencies {
     compile 'me.grantland:autofittextview:0.2.1'
     compile 'com.gregacucnik:editableseekbar:1.2'
     compile 'com.miguelcatalan:materialsearchview:1.4.0'
+    compile 'com.mikhaellopez:circularimageview:3.0.2'
 }

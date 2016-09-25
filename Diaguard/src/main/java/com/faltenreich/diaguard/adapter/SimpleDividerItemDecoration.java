@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.adapter.list;
+package com.faltenreich.diaguard.adapter;
 
 import android.content.Context;
 import android.graphics.Canvas;

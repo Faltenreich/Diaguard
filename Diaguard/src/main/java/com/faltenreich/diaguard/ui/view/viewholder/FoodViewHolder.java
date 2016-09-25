@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Food;
+import com.faltenreich.diaguard.util.Helper;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -17,6 +18,7 @@ public class FoodViewHolder extends BaseViewHolder<Food> {
 
     @BindView(R.id.food_image) ImageView image;
     @BindView(R.id.food_name) TextView name;
+    @BindView(R.id.food_ingredients) TextView ingredients;
 
     public FoodViewHolder(View view) {
         super(view);
@@ -25,7 +27,10 @@ public class FoodViewHolder extends BaseViewHolder<Food> {
     @Override
     protected void bindData() {
         Food food = getListItem();
-        Picasso.with(getContext()).load("http://static.openfoodfacts.org/images/products/073/762/806/4502/front_en.6.200.jpg").into(image);
+        Picasso.with(getContext()).load(food.getImageUrl()).into(image);
         name.setText(food.getName());
+        ingredients.setText(String.format("%s %s",
+                Helper.parseFloat(food.getCarbohydrates()),
+                getContext().getResources().getStringArray(R.array.meal_units_acronyms)[0]));
     }
 }

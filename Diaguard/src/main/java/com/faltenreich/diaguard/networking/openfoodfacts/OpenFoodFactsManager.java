@@ -56,7 +56,7 @@ public class OpenFoodFactsManager extends NetworkManager<OpenFoodFactsService> {
             }
             @Override
             public void onSuccess(SearchResponseDto dto) {
-                List<Food> foodList = FoodDao.getInstance().parseFromDto(dto);
+                List<Food> foodList = FoodDao.getInstance().createOrUpdate(dto);
                 Events.post(new FoodSearchSucceededEvent(foodList));
             }
             @Override

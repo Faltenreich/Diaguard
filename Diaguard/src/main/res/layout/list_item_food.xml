@@ -44,40 +44,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="2"
-            android:ellipsize="end"/>
+            android:ellipsize="end"
+            android:textColor="@android:color/black"/>
 
         <TextView
             android:id="@+id/food_brand"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding"
+            android:layout_marginTop="2dp"
             android:textSize="@dimen/text_micro"
             android:maxLines="1"
             android:ellipsize="end"/>
 
     </LinearLayout>
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/food_carbohydrates"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_between"
-        android:layout_marginStart="@dimen/margin_between"
-        android:gravity="end"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/food_carbohydrates"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="3" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding"
-            android:text="@string/per_100g"
-            android:textSize="@dimen/text_micro" />
-
-    </LinearLayout>
+        android:layout_marginLeft="@dimen/padding_end"
+        android:layout_marginStart="@dimen/padding_end"/>
 
 </LinearLayout>

@@ -31,8 +31,6 @@ public class FoodViewHolder extends BaseViewHolder<Food> {
         Picasso.with(getContext()).load(food.getImageUrl()).into(image);
         name.setText(food.getName());
         brand.setText(food.getBrand());
-        carbohydrates.setText(String.format("%s %s",
-                Helper.parseFloat(food.getCarbohydrates()),
-                getContext().getResources().getStringArray(R.array.meal_units_acronyms)[0]));
+        carbohydrates.setText(Helper.parseFloat(food.getCarbohydrates()));
     }
 }

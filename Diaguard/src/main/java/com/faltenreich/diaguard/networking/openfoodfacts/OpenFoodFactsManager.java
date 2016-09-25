@@ -52,7 +52,7 @@ public class OpenFoodFactsManager extends NetworkManager<OpenFoodFactsService> {
         execute(new OpenFoodFactsRequest<SearchResponseDto>(SearchResponseDto.class) {
             @Override
             public SearchResponseDto getResponse() {
-                return getService().search(query, 1);
+                return getService().search(query, "Deutschland", 1);
             }
             @Override
             public void onSuccess(SearchResponseDto dto) {

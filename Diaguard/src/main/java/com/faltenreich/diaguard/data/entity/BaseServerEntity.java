@@ -17,4 +17,8 @@ public class BaseServerEntity extends BaseEntity {
     public String getServerId() {
         return serverId;
     }
+
+    public void setServerId(String serverId) {
+        this.serverId = serverId;
+    }
 }

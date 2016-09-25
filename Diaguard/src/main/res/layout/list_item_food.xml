@@ -2,14 +2,14 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Padding"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="@dimen/height_element"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    android:orientation="horizontal"
     android:gravity="center_vertical"
-    style="@style/Padding">
+    android:minHeight="@dimen/height_element"
+    android:orientation="horizontal">
 
     <FrameLayout
         android:layout_width="wrap_content"
@@ -20,7 +20,7 @@
             android:layout_height="@dimen/size_image"
             android:layout_gravity="center"
             android:src="@drawable/ic_image"
-            app:tintColor="@color/gray"/>
+            app:tintColor="@color/gray" />
 
         <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/food_image"
@@ -31,34 +31,52 @@
 
     </FrameLayout>
 
-    <TextView
-        android:id="@+id/food_name"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_marginLeft="@dimen/padding_end"
-        android:layout_marginStart="@dimen/padding_end"/>
+        android:layout_marginStart="@dimen/padding_end"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/food_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:ellipsize="end"/>
+
+        <TextView
+            android:id="@+id/food_brand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding"
+            android:textSize="@dimen/text_micro"
+            android:maxLines="1"
+            android:ellipsize="end"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_between"
         android:layout_marginStart="@dimen/margin_between"
-        android:orientation="vertical"
-        android:gravity="end">
+        android:gravity="end"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/food_ingredients"
+            android:id="@+id/food_carbohydrates"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLines="3"/>
+            android:maxLines="3" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding"
             android:text="@string/per_100g"
-            android:textSize="@dimen/text_micro"/>
+            android:textSize="@dimen/text_micro" />
 
     </LinearLayout>
 

@@ -11,9 +11,9 @@ import android.widget.Toast;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.util.SystemUtils;
 import com.faltenreich.diaguard.util.ViewHelper;
-import com.faltenreich.diaguard.util.event.Events;
-import com.faltenreich.diaguard.util.event.PermissionDeniedEvent;
-import com.faltenreich.diaguard.util.event.PermissionGrantedEvent;
+import com.faltenreich.diaguard.event.Events;
+import com.faltenreich.diaguard.event.PermissionDeniedEvent;
+import com.faltenreich.diaguard.event.PermissionGrantedEvent;
 import com.faltenreich.diaguard.util.export.Export;
 import com.faltenreich.diaguard.util.export.FileListener;
 

@@ -27,8 +27,8 @@ import com.faltenreich.diaguard.ui.activity.PreferenceActivity;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.Validator;
-import com.faltenreich.diaguard.util.event.Events;
-import com.faltenreich.diaguard.util.event.data.EntryAddedEvent;
+import com.faltenreich.diaguard.event.Events;
+import com.faltenreich.diaguard.event.data.EntryAddedEvent;
 
 import org.joda.time.DateTime;
 

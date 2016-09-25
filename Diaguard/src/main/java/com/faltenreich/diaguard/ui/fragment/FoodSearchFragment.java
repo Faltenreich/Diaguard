@@ -12,6 +12,10 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.FoodAdapter;
 import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.entity.Food;
+import com.faltenreich.diaguard.event.Events;
+import com.faltenreich.diaguard.event.networking.FoodSearchFailedEvent;
+import com.faltenreich.diaguard.event.networking.FoodSearchSucceededEvent;
+import com.faltenreich.diaguard.networking.openfoodfacts.OpenFoodFactsManager;
 import com.faltenreich.diaguard.ui.activity.FoodSearchActivity;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
@@ -59,8 +63,15 @@ public class FoodSearchFragment extends BaseFragment implements MaterialSearchVi
     @Override
     public void onResume() {
         super.onResume();
+        Events.register(this);
         updateList();
         updateSearch();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Events.unregister(this);
     }
 
     @Override
@@ -120,6 +131,22 @@ public class FoodSearchFragment extends BaseFragment implements MaterialSearchVi
 
     @Override
     public boolean onQueryTextChange(String newText) {
+        OpenFoodFactsManager.getInstance().search(newText);
         return false;
+    }
+
+    @SuppressWarnings("unused")
+    public void onEvent(FoodSearchSucceededEvent event) {
+        String[] suggestions = new String[event.context.size()];
+        for (int position = 0; position < event.context.size(); position++) {
+            Food food = event.context.get(position);
+            suggestions[position] = food.getName();
+        }
+        searchView.setSuggestions(suggestions);
+    }
+
+    @SuppressWarnings("unused")
+    public void onEvent(FoodSearchFailedEvent event) {
+
     }
 }

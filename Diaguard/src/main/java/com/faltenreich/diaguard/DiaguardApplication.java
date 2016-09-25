@@ -22,7 +22,6 @@ public class DiaguardApplication extends Application {
         JodaTimeAndroid.init(this);
         migrate();
         OpenFoodFactsManager.getInstance().start();
-        OpenFoodFactsManager.getInstance().getProduct("737628064502");
     }
 
     @Override

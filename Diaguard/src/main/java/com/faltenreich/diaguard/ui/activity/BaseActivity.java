@@ -18,9 +18,9 @@ import android.widget.TextView;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.DatabaseHelper;
 import com.faltenreich.diaguard.util.SystemUtils;
-import com.faltenreich.diaguard.util.event.Events;
-import com.faltenreich.diaguard.util.event.PermissionDeniedEvent;
-import com.faltenreich.diaguard.util.event.PermissionGrantedEvent;
+import com.faltenreich.diaguard.event.Events;
+import com.faltenreich.diaguard.event.PermissionDeniedEvent;
+import com.faltenreich.diaguard.event.PermissionGrantedEvent;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 import butterknife.BindView;

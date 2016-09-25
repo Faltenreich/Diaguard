@@ -17,9 +17,9 @@ import com.faltenreich.diaguard.adapter.list.ListItemEntry;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.util.ViewHelper;
-import com.faltenreich.diaguard.util.event.data.EntryAddedEvent;
-import com.faltenreich.diaguard.util.event.data.EntryDeletedEvent;
-import com.faltenreich.diaguard.util.event.data.EntryUpdatedEvent;
+import com.faltenreich.diaguard.event.data.EntryAddedEvent;
+import com.faltenreich.diaguard.event.data.EntryDeletedEvent;
+import com.faltenreich.diaguard.event.data.EntryUpdatedEvent;
 
 import org.joda.time.DateTime;
 

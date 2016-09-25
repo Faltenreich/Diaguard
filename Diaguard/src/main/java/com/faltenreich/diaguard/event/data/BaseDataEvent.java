@@ -1,7 +1,7 @@
-package com.faltenreich.diaguard.util.event.data;
+package com.faltenreich.diaguard.event.data;
 
 import com.faltenreich.diaguard.data.entity.BaseEntity;
-import com.faltenreich.diaguard.util.event.BaseContextEvent;
+import com.faltenreich.diaguard.event.BaseContextEvent;
 
 /**
  * Created by Faltenreich on 23.03.2016.

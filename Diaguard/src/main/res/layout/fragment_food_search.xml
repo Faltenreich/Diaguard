@@ -9,12 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include layout="@layout/toolbar"/>
+        <include layout="@layout/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"/>
 
-        <com.miguelcatalan.materialsearchview.MaterialSearchView
+        <com.lapism.searchview.SearchView
             android:id="@+id/search_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
     </FrameLayout>
 

@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.faltenreich.diaguard.R;
@@ -18,7 +19,7 @@ import com.faltenreich.diaguard.event.networking.FoodSearchFailedEvent;
 import com.faltenreich.diaguard.event.networking.FoodSearchSucceededEvent;
 import com.faltenreich.diaguard.networking.openfoodfacts.OpenFoodFactsManager;
 import com.faltenreich.diaguard.ui.activity.FoodSearchActivity;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
+import com.lapism.searchview.SearchView;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ import butterknife.BindView;
 /**
  * Created by Faltenreich on 11.09.2016.
  */
-public class FoodSearchFragment extends BaseFragment implements MaterialSearchView.OnQueryTextListener {
+public class FoodSearchFragment extends BaseFragment implements SearchView.OnQueryTextListener, SearchView.OnMenuClickListener {
 
     public static final String EXTRA_MODE = "EXTRA_MODE";
 
@@ -37,7 +38,8 @@ public class FoodSearchFragment extends BaseFragment implements MaterialSearchVi
     }
 
     @BindView(R.id.food_search_list) RecyclerView list;
-    @BindView(R.id.search_view) MaterialSearchView searchView;
+    @BindView(R.id.search_view)
+    SearchView searchView;
 
     private Mode mode;
     private FoodAdapter adapter;
@@ -77,7 +79,18 @@ public class FoodSearchFragment extends BaseFragment implements MaterialSearchVi
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.food, menu);
         super.onCreateOptionsMenu(menu, inflater);
-        searchView.setMenuItem(menu.findItem(R.id.action_search));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search: {
+                searchView.open(true);
+                return true;
+            }
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void checkIntents() {
@@ -99,9 +112,27 @@ public class FoodSearchFragment extends BaseFragment implements MaterialSearchVi
     }
 
     private void initSearch() {
-        searchView.setVoiceSearch(true);
         searchView.setOnQueryTextListener(this);
-        searchView.clearFocus();
+        searchView.setOnMenuClickListener(this);
+
+        List<Food> foodList = FoodDao.getInstance().getAll();
+        String[] suggestions = new String[foodList.size()];
+        for (int position = 0; position < foodList.size(); position++) {
+            Food food = foodList.get(position);
+            suggestions[position] = food.getName();
+        }
+        searchView.setAdapter(adapter);
+    }
+
+    private void updateList(List<Food> foodList) {
+        adapter.clear();
+        adapter.addItems(foodList);
+        adapter.notifyDataSetChanged();
+    }
+
+    /*
+    @Override
+    public void onSearchViewShown() {
         List<Food> foodList = FoodDao.getInstance().getAll();
         String[] suggestions = new String[foodList.size()];
         for (int position = 0; position < foodList.size(); position++) {
@@ -111,11 +142,11 @@ public class FoodSearchFragment extends BaseFragment implements MaterialSearchVi
         searchView.setSuggestions(suggestions);
     }
 
-    private void updateList(List<Food> foodList) {
-        adapter.clear();
-        adapter.addItems(foodList);
-        adapter.notifyDataSetChanged();
+    @Override
+    public void onSearchViewClosed() {
+
     }
+    */
 
     @Override
     public boolean onQueryTextSubmit(String query) {
@@ -126,6 +157,15 @@ public class FoodSearchFragment extends BaseFragment implements MaterialSearchVi
     @Override
     public boolean onQueryTextChange(String newText) {
         return false;
+    }
+
+    @Override
+    public void onMenuClick() {
+        if (searchView.isSearchOpen()) {
+            searchView.close(true);
+        } else {
+            finish();
+        }
     }
 
     @SuppressWarnings("unused")

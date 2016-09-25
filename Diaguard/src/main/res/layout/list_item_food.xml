@@ -1,48 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/layout_latest"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-    android:layout_marginStart="@dimen/activity_horizontal_margin"
-    android:layout_marginRight="@dimen/activity_horizontal_margin"
-    android:layout_marginEnd="@dimen/activity_horizontal_margin"
-    android:layout_marginTop="@dimen/padding"
-    android:layout_marginBottom="@dimen/padding"
+    android:minHeight="@dimen/height_element"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    card_view:cardCornerRadius="4dp"
-    card_view:cardElevation="2dp"
-    card_view:cardUseCompatPadding="true">
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    style="@style/Padding">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/food_image"
+        android:layout_width="@dimen/height_element"
+        android:layout_height="@dimen/height_element"
+        android:contentDescription="@null"
+        app:civ_border="false" />
 
-        <ImageView
-            android:id="@+id/food_image"
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:contentDescription="@null"/>
+    <TextView
+        android:id="@+id/food_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginLeft="@dimen/padding_end"
+        android:layout_marginStart="@dimen/padding_end"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_between"
+        android:layout_marginStart="@dimen/margin_between"
+        android:orientation="vertical"
+        android:gravity="end">
+
+        <TextView
+            android:id="@+id/food_ingredients"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="bottom"
-            android:background="@color/gray_semitransparent"
-            style="@style/Padding">
+            android:maxLines="3"/>
 
-            <TextView
-                android:id="@+id/food_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding"
+            android:text="@string/per_100g"
+            android:textSize="@dimen/text_micro"/>
 
-        </LinearLayout>
+    </LinearLayout>
 
-    </FrameLayout>
-
-</android.support.v7.widget.CardView>
+</LinearLayout>

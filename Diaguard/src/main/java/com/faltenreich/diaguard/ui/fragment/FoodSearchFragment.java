@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.FoodAdapter;
+import com.faltenreich.diaguard.adapter.SimpleDividerItemDecoration;
 import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.event.Events;
@@ -64,8 +65,6 @@ public class FoodSearchFragment extends BaseFragment implements MaterialSearchVi
     public void onResume() {
         super.onResume();
         Events.register(this);
-        updateList();
-        updateSearch();
     }
 
     @Override
@@ -93,56 +92,45 @@ public class FoodSearchFragment extends BaseFragment implements MaterialSearchVi
     private void initList() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         list.setLayoutManager(layoutManager);
+        list.addItemDecoration(new SimpleDividerItemDecoration(getContext()));
         adapter = new FoodAdapter(getContext());
-        Food food = new Food();
-        food.setName("Rice");
-        adapter.addItem(food);
         list.setAdapter(adapter);
+        updateList(FoodDao.getInstance().getAll());
     }
 
     private void initSearch() {
         searchView.setVoiceSearch(true);
         searchView.setOnQueryTextListener(this);
         searchView.clearFocus();
+        List<Food> foodList = FoodDao.getInstance().getAll();
+        String[] suggestions = new String[foodList.size()];
+        for (int position = 0; position < foodList.size(); position++) {
+            Food food = foodList.get(position);
+            suggestions[position] = food.getName();
+        }
+        searchView.setSuggestions(suggestions);
     }
 
-    private void updateList() {
-        List<Food> foodList = FoodDao.getInstance().getAll();
+    private void updateList(List<Food> foodList) {
         adapter.clear();
         adapter.addItems(foodList);
         adapter.notifyDataSetChanged();
     }
 
-    private void updateSearch() {
-        if (adapter.getItemCount() > 0) {
-            String[] suggestions = new String[adapter.getItemCount()];
-            for (int position = 0; position < adapter.getItemCount(); position++) {
-                Food food = adapter.getItem(position);
-                suggestions[position] = food.getName();
-            }
-            searchView.setSuggestions(suggestions);
-        }
-    }
-
     @Override
     public boolean onQueryTextSubmit(String query) {
+        OpenFoodFactsManager.getInstance().search(query);
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        OpenFoodFactsManager.getInstance().search(newText);
         return false;
     }
 
     @SuppressWarnings("unused")
     public void onEvent(FoodSearchSucceededEvent event) {
-        String[] suggestions = new String[event.context.size()];
-        for (int position = 0; position < event.context.size(); position++) {
-            Food food = event.context.get(position);
-            suggestions[position] = food.getName();
-        }
-        searchView.setSuggestions(suggestions);
+        updateList(event.context);
     }
 
     @SuppressWarnings("unused")

@@ -288,6 +288,7 @@
     <string name="hypo_per_day">Hypos par jour</string>
     <string name="hyper_per_day">Hypers par jour</string>
     <string name="per">par</string>
+    <string name="per_100g">par 100g</string>
     <string name="per_day">par jour</string>
     <string name="target_area">Zone cible</string>
     <string name="year">An</string>

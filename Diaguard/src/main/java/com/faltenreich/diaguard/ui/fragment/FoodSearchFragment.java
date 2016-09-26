@@ -124,7 +124,15 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         list.addItemDecoration(new SimpleDividerItemDecoration(getContext()));
         adapter = new FoodAdapter(getContext());
         list.setAdapter(adapter);
-        updateList(FoodDao.getInstance().getAllFoodEaten());
+
+        List<Food> foodEaten = FoodDao.getInstance().getAllFoodEaten();
+        if (foodEaten.size() > 0) {
+            updateList(FoodDao.getInstance().getAllFoodEaten());
+        } else {
+            // TODO: Request interesting food items
+            queryTextView.setText(R.string.food);
+            OpenFoodFactsManager.getInstance().search("");
+        }
     }
 
     private void initSearch() {

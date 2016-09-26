@@ -28,6 +28,10 @@ public class FoodDao extends BaseServerDao<Food> {
         super(Food.class);
     }
 
+    public List<Food> getAllFoodEaten() {
+        return new ArrayList<>();
+    }
+
     public List<Food> createOrUpdate(SearchResponseDto dto) {
         List<Food> foodList = new ArrayList<>();
         for (ProductDto productDto : dto.products) {
@@ -38,7 +42,7 @@ public class FoodDao extends BaseServerDao<Food> {
         return foodList;
     }
 
-    public Food parseFromDto(ProductDto dto) {
+    private Food parseFromDto(ProductDto dto) {
         String serverId = Integer.toString(dto.identifier);
         Food food = getByServerId(serverId);
         if (food == null) {

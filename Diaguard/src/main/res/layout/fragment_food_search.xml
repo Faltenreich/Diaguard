@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -16,14 +17,104 @@
         <com.lapism.searchview.SearchView
             android:id="@+id/search_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
     </FrameLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/food_search_list"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:background="@color/green"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/food_search_query"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/entry_latest"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_micro" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_end"
+            android:layout_marginStart="@dimen/padding_end"
+            android:text="@string/carbohydrates_per_100g"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_micro" />
+
+    </LinearLayout>
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+                android:id="@+id/food_search_progress"
+                style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:indeterminate="true"
+                app:mpb_progressStyle="horizontal"
+                app:mpb_useIntrinsicPadding="false"
+                android:visibility="gone"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/food_search_list" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/food_search_list_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@color/green_light"
+            android:visibility="gone"
+            style="@style/Padding">
+
+            <ImageView
+                android:id="@+id/food_search_empty_icon"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:contentDescription="@null"/>
+
+            <TextView
+                android:id="@+id/food_search_empty_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_end"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/food_search_empty_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_between"
+                android:gravity="center"
+                android:textColor="@android:color/white"/>
+
+        </LinearLayout>
+
+
+    </FrameLayout>
 
 </LinearLayout>

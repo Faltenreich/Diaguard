@@ -1,13 +1,17 @@
 package com.faltenreich.diaguard.ui.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
@@ -20,6 +24,7 @@ import com.faltenreich.diaguard.event.networking.FoodSearchFailedEvent;
 import com.faltenreich.diaguard.event.networking.FoodSearchSucceededEvent;
 import com.faltenreich.diaguard.networking.openfoodfacts.OpenFoodFactsManager;
 import com.faltenreich.diaguard.ui.activity.FoodSearchActivity;
+import com.faltenreich.diaguard.util.NetworkingUtils;
 import com.lapism.searchview.SearchAdapter;
 import com.lapism.searchview.SearchItem;
 import com.lapism.searchview.SearchView;
@@ -28,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 /**
  * Created by Faltenreich on 11.09.2016.
@@ -41,8 +47,15 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         SELECT
     }
 
+    @BindView(R.id.food_search_query) TextView queryTextView;
     @BindView(R.id.food_search_list) RecyclerView list;
+    @BindView(R.id.food_search_progress) MaterialProgressBar progressBar;
     @BindView(R.id.search_view) SearchView searchView;
+
+    @BindView(R.id.food_search_list_empty) ViewGroup emptyList;
+    @BindView(R.id.food_search_empty_icon) ImageView emptyIcon;
+    @BindView(R.id.food_search_empty_text) TextView emptyText;
+    @BindView(R.id.food_search_empty_description) TextView emptyDescription;
 
     private Mode mode;
     private FoodAdapter adapter;
@@ -111,15 +124,13 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         list.addItemDecoration(new SimpleDividerItemDecoration(getContext()));
         adapter = new FoodAdapter(getContext());
         list.setAdapter(adapter);
-        updateList(FoodDao.getInstance().getAll());
+        updateList(FoodDao.getInstance().getAllFoodEaten());
     }
 
     private void initSearch() {
         searchView.setOnQueryTextListener(this);
         searchView.setOnMenuClickListener(this);
         searchView.setHint(R.string.food_search);
-        searchView.setShouldClearOnClose(false);
-        searchView.setShouldClearOnOpen(false);
 
         final List<Food> foodList = FoodDao.getInstance().getAll();
         List<SearchItem> suggestions  = new ArrayList<>();
@@ -140,15 +151,46 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     }
 
     private void updateList(List<Food> foodList) {
+        if (foodList.size() > 0) {
+            emptyList.setVisibility(View.GONE);
+            adapter.clear();
+            adapter.addItems(foodList);
+            adapter.notifyDataSetChanged();
+        } else {
+            showError(R.drawable.ic_sad, R.string.error_no_data, R.string.error_no_data_desc);
+        }
+    }
+
+    private void tryQuery(String query) {
+        if (NetworkingUtils.isOnline()) {
+            query(query);
+        } else {
+            showError(R.drawable.ic_wifi_off, R.string.error_no_connection, R.string.error_no_connection_desc);
+        }
+    }
+
+    private void query(String query) {
+        queryTextView.setText(String.format("%s: \"%s\"", getString(R.string.search_for), query));
+        emptyList.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+
         adapter.clear();
-        adapter.addItems(foodList);
         adapter.notifyDataSetChanged();
+
+        OpenFoodFactsManager.getInstance().search(query);
+    }
+
+    private void showError(@DrawableRes int iconResId, @StringRes int textResId, @StringRes int descResId) {
+        emptyList.setVisibility(View.VISIBLE);
+        emptyIcon.setImageResource(iconResId);
+        emptyText.setText(textResId);
+        emptyDescription.setText(descResId);
     }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
         searchView.close(true);
-        OpenFoodFactsManager.getInstance().search(query);
+        tryQuery(query);
         return false;
     }
 
@@ -168,11 +210,12 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
 
     @SuppressWarnings("unused")
     public void onEvent(FoodSearchSucceededEvent event) {
+        progressBar.setVisibility(View.GONE);
         updateList(event.context);
     }
 
     @SuppressWarnings("unused")
     public void onEvent(FoodSearchFailedEvent event) {
-
+        progressBar.setVisibility(View.GONE);
     }
 }

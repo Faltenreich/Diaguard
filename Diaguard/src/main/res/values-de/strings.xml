@@ -27,6 +27,7 @@
     <string name="bolus_no2">Stattdessen sollten schnelle Kohlenhydrate konsumiert werden, um tiefere Blutzuckerlevel zu vermeiden.</string>
     <string name="calculator">Bolusrechner</string>
     <string name="cancel">Abbrechen</string>
+    <string name="carbohydrates_per_100g">KH/100g</string>
     <string name="categories">Kategorien</string>
     <string name="categories_active">Aktive Kategorien</string>
     <string name="category">Kategorie</string>
@@ -52,6 +53,7 @@
     <string name="entry_edit">Eintrag bearbeiten</string>
     <string name="entry_delete">Eintrag löschen</string>
     <string name="entry_deleted">Eintrag gelöscht</string>
+    <string name="entry_latest">Letzte Einträge</string>
     <string name="entry_new">Neuer Eintrag</string>
     <string name="export">Export</string>
     <string name="export_complete">Gespeichert unter %s</string>
@@ -89,11 +91,11 @@
     <string name="ok">OK</string>
     <string name="overview">Übersicht</string>
     <string name="per">pro</string>
-    <string name="per_100g">pro 100g</string>
     <string name="per_day">pro Tag</string>
     <string name="permission_required_storage">Berechtigung für Speicherzugriff fehlt</string>
     <string name="pressure">Blutdruck</string>
     <string name="pulse">Puls</string>
+    <string name="search_for">Suche nach</string>
     <string name="settings">Einstellungen</string>
     <string name="sound">Töne</string>
     <string name="startscreen">Startbildschirm</string>

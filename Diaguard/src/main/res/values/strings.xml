@@ -40,6 +40,7 @@
     <string name="bolus_no2">Instead some carbohydrate-heavy products should be consumed to prevent lower blood sugar level.</string>
     <string name="calculator">Calculator</string>
     <string name="cancel">Cancel</string>
+    <string name="carbohydrates_per_100g">CHO/100g</string>
     <string name="categories">Categories</string>
     <string name="categories_active">Active Categories</string>
     <string name="category">Category</string>
@@ -65,6 +66,7 @@
     <string name="entry_edit">Edit entry</string>
     <string name="entry_delete">Delete entry</string>
     <string name="entry_deleted">Entry deleted</string>
+    <string name="entry_latest">Latest entries</string>
     <string name="entry_new">New entry</string>
     <string name="export">Export</string>
     <string name="export_complete">Saved to %s</string>
@@ -108,12 +110,12 @@
     <string name="ok">OK</string>
     <string name="overview">Overview</string>
     <string name="per">per</string>
-    <string name="per_100g">per 100g</string>
     <string name="per_day">per day</string>
     <string name="permission_required_storage">Permission for storage access is missing</string>
     <string name="placeholder" translatable="false">-</string>
     <string name="pressure">Blood Pressure</string>
     <string name="pulse">Pulse</string>
+    <string name="search_for">Search for</string>
     <string name="settings">Settings</string>
     <string name="sound">Sound</string>
     <string name="startscreen">Start screen</string>
@@ -394,6 +396,10 @@
     <!-- ERRORS -->
 
     <string name="error_unexpected">Something went wrong</string>
+    <string name="error_no_connection">No connection</string>
+    <string name="error_no_connection_desc">Please establish a connection to the internet to get more information</string>
+    <string name="error_no_data">Nothing to show</string>
+    <string name="error_no_data_desc">Log your first meal to show its food here</string>
     <string name="error_no_mail">No app found to send E-Mail</string>
     <string name="error_no_app">No app found to open file</string>
     <string name="error_sd_card">SD card not available</string>

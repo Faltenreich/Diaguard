@@ -1,11 +1,16 @@
 package com.faltenreich.diaguard.ui.view.viewholder;
 
+import android.content.Intent;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Food;
+import com.faltenreich.diaguard.ui.activity.FoodActivity;
+import com.faltenreich.diaguard.ui.activity.FoodSearchActivity;
+import com.faltenreich.diaguard.ui.fragment.FoodFragment;
 import com.faltenreich.diaguard.util.Helper;
 import com.squareup.picasso.Picasso;
 
@@ -14,7 +19,7 @@ import butterknife.BindView;
 /**
  * Created by Faltenreich on 11.09.2016.
  */
-public class FoodViewHolder extends BaseViewHolder<Food> {
+public class FoodViewHolder extends BaseViewHolder<Food> implements View.OnClickListener {
 
     @BindView(R.id.food_image) ImageView image;
     @BindView(R.id.food_name) TextView name;
@@ -23,6 +28,7 @@ public class FoodViewHolder extends BaseViewHolder<Food> {
 
     public FoodViewHolder(View view) {
         super(view);
+        view.setOnClickListener(this);
     }
 
     @Override
@@ -32,5 +38,20 @@ public class FoodViewHolder extends BaseViewHolder<Food> {
         name.setText(food.getName());
         brand.setText(food.getBrand());
         carbohydrates.setText(Helper.parseFloat(food.getCarbohydrates()));
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (getContext() instanceof FoodSearchActivity) {
+            FoodSearchActivity activity = (FoodSearchActivity) getContext();
+            Intent intent = new Intent(getContext(), FoodActivity.class);
+            intent.putExtra(FoodFragment.EXTRA_FOOD_ID, getListItem().getId());
+            ActivityOptionsCompat options =
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(
+                            activity,
+                            view,
+                            "transitionFood");
+            activity.startActivity(intent, options);
+        }
     }
 }

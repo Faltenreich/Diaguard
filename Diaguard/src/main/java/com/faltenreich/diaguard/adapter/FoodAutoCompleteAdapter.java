@@ -58,7 +58,7 @@ public class FoodAutoCompleteAdapter extends ArrayAdapter<Food> implements Filte
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-        FoodViewHolder holder = null;
+        FoodViewHolder holder;
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_auto_complete_food, parent);
             holder = new FoodViewHolder(convertView);

@@ -2,9 +2,9 @@ package com.faltenreich.diaguard.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.dao.FoodDao;
@@ -23,7 +23,7 @@ public class FoodFragment extends BaseFragment {
     public static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
 
     @BindView(R.id.food_image) ImageView image;
-    @BindView(R.id.food_name) TextView name;
+    @BindView(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingToolbarLayout;
 
     private Food food;
 
@@ -55,8 +55,8 @@ public class FoodFragment extends BaseFragment {
 
     private void init() {
         if (food != null) {
-            name.setText(food.getName());
             Picasso.with(getContext()).load(food.getImageUrl()).into(image);
+            collapsingToolbarLayout.setTitle(food.getName());
         }
     }
 }

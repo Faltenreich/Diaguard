@@ -39,21 +39,9 @@
                 android:layout_height="wrap_content"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 app:navigationIcon="?attr/homeAsUpIndicator"
-                app:navigationContentDescription="@string/abc_action_bar_up_description">
-
-                <TextView
-                    android:id="@+id/action"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="@dimen/margin_between"
-                    android:gravity="center_vertical"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_large"
-                    android:clickable="true"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:visibility="gone"/>
-
-            </android.support.v7.widget.Toolbar>
+                app:navigationContentDescription="@string/abc_action_bar_up_description"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:layout_collapseMode="pin"/>
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -70,13 +58,7 @@
             android:orientation="vertical"
             style="@style/Padding">
 
-            <TextView
-                android:id="@+id/food_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/food"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/text_large"/>
+
 
         </LinearLayout>
 

@@ -106,13 +106,15 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.OnAd
 
     @Override
     protected void updateLabels() {
-        String format;
-        if (ViewHelper.isLandscape(getActivity()) || ViewHelper.isLargeScreen(getActivity())) {
-            format = "MMMM YYYY";
-        } else {
-            format = "MMM YYYY";
+        if (getActionView() != null) {
+            String format;
+            if (ViewHelper.isLandscape(getActivity()) || ViewHelper.isLargeScreen(getActivity())) {
+                format = "MMMM YYYY";
+            } else {
+                format = "MMM YYYY";
+            }
+            getActionView().setText(getDay().toString(format));
         }
-        getActionView().setText(getDay().toString(format));
     }
 
     @Override

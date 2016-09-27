@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,10 +18,10 @@ import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.DatabaseHelper;
-import com.faltenreich.diaguard.util.SystemUtils;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.PermissionDeniedEvent;
 import com.faltenreich.diaguard.event.PermissionGrantedEvent;
+import com.faltenreich.diaguard.util.SystemUtils;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 import butterknife.BindView;
@@ -32,7 +33,7 @@ import butterknife.ButterKnife;
 public abstract class BaseActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.action) TextView actionView;
+    @Nullable @BindView(R.id.action) TextView actionView;
 
     private int layoutResourceId;
     private DatabaseHelper databaseHelper;
@@ -96,7 +97,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         return databaseHelper;
     }
 
-    public TextView getActionView() {
+    public @Nullable TextView getActionView() {
         return actionView;
     }
 

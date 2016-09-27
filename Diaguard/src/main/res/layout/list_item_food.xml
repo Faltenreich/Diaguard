@@ -27,7 +27,8 @@
             android:layout_width="@dimen/height_element"
             android:layout_height="@dimen/height_element"
             android:contentDescription="@null"
-            app:civ_border="false" />
+            app:civ_border="false"
+            android:transitionName="transitionFood" />
 
     </FrameLayout>
 

@@ -25,10 +25,9 @@
             <ImageView
                 android:id="@+id/food_image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="200dp"
                 android:contentDescription="@null"
                 android:scaleType="centerCrop"
-                android:src="@drawable/img"
                 android:transitionName="transitionFood"
                 app:layout_collapseMode="parallax" />
 
@@ -65,6 +64,21 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            style="@style/Padding">
+
+            <TextView
+                android:id="@+id/food_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/food"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_large"/>
+
+        </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
 

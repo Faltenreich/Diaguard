@@ -50,7 +50,7 @@ public class ChartFragment extends DateFragment implements ChartViewPager.ChartV
 
     @Override
     protected void updateLabels() {
-        if(isAdded()) {
+        if (isAdded() && getActionView() != null) {
             boolean showShortText = !ViewHelper.isLandscape(getActivity()) && !ViewHelper.isLargeScreen(getActivity());
             String weekDay = showShortText ?
                     getDay().dayOfWeek().getAsShortText() :

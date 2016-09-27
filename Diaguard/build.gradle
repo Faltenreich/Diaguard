@@ -52,8 +52,8 @@ dependencies {
     compile 'com.j256.ormlite:ormlite-android:4.48'
     compile 'net.danlew:android.joda:2.9.3.1'
     compile 'de.greenrobot:eventbus:2.4.0'
-    compile 'com.jakewharton:butterknife:8.1.0'
-    apt 'com.jakewharton:butterknife-compiler:8.0.1'
+    compile 'com.jakewharton:butterknife:8.4.0'
+    apt 'com.jakewharton:butterknife-compiler:8.4.0'
 
     compile 'com.octo.android.robospice:robospice:1.4.14'
     compile 'com.octo.android.robospice:robospice-retrofit:1.4.14'

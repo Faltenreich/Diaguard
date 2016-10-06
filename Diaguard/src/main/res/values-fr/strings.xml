@@ -274,7 +274,7 @@
     <string name="about_legal_desc">Cette application ne remplace pas un médecin.</string>
 
     <string name="all">Tous</string>
-    <string name="amount_in_grams">Quantité</string>
+    <string name="grams">Gramme</string>
     <string name="backup_complete">Sauvegarde terminée</string>
     <string name="correction">Correction</string>
     <string name="diastolic">Diastolique</string>

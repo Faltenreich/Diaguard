@@ -5,8 +5,6 @@ package com.faltenreich.diaguard.util;
  */
 public class NumberUtils {
 
-    private static final String TAG = NumberUtils.class.getSimpleName();
-
     public static boolean isValid(Float number) {
         return !number.isNaN() && !number.isInfinite();
     }

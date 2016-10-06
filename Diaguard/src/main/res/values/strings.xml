@@ -17,7 +17,6 @@
 
     <string name="about">About</string>
     <string name="activity">Activity</string>
-    <string name="amount_in_grams">Amount in grams</string>
     <string name="all">All</string>
     <string name="add_value">Add value</string>
     <string name="alarm">Measure blood sugar</string>
@@ -81,6 +80,7 @@
     <string name="food_search">Search for food</string>
     <string name="format">Format</string>
     <string name="general">General</string>
+    <string name="grams">Grams</string>
     <string name="hba1c">HbA1c</string>
     <string name="hba1c_estimated">Estimated HbA1c</string>
     <string name="hba1c_formula" translatable="false">HbA1c = 0,031 * %s 3-%s-%s + 2,393</string>

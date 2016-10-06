@@ -69,7 +69,7 @@ dependencies {
     compile 'org.apmem.tools:layouts:1.10@aar'
     compile 'me.zhanghai.android.materialprogressbar:library:1.1.6'
     compile 'me.grantland:autofittextview:0.2.1'
-    compile 'com.gregacucnik:editableseekbar:1.2'
     compile 'com.lapism:searchview:3.6.3'
     compile 'com.mikhaellopez:circularimageview:3.0.2'
+    compile 'com.appyvet:materialrangebar:1.3'
 }

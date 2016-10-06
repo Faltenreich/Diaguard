@@ -6,35 +6,15 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/meal_value"
-        style="@style/Padding"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_element"
-        android:background="@android:color/transparent"
-        android:inputType="numberDecimal" />
+        app:tabSelectedTextColor="@color/green" />
 
-    <View style="@style/LayoutRowSeparator" />
-
-    <AutoCompleteTextView
-        android:id="@+id/meal_name"
-        style="@style/Padding"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_element"
-        android:background="@android:color/transparent"
-        android:inputType="text"
-        android:hint="@string/food" />
-
-    <View style="@style/LayoutRowSeparator" />
-
-    <com.gregacucnik.EditableSeekBar
-        android:id="@+id/meal_amount_in_grams"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        app:esbMax="2000"
-        app:esbMin="0"
-        app:esbTitle="@string/amount_in_grams"
-        app:esbValue="0" />
+        android:layout_height="200dp"/>
 
 </LinearLayout>

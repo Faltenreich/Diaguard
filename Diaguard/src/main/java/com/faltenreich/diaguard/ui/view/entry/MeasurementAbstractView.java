@@ -64,5 +64,4 @@ public abstract class MeasurementAbstractView <T extends Measurement> extends Li
         ButterKnife.bind(this);
         initLayout();
     }
-    
 }

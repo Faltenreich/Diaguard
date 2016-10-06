@@ -110,6 +110,7 @@
     <string name="undo">Rückgängig</string>
     <string name="units">Einheiten</string>
     <string name="weight">Gewicht</string>
+    <string name="value">Wert</string>
     <string name="version">Version</string>
     <string name="vibration">Vibration</string>
     <string name="change_none">Konstant</string>

@@ -130,6 +130,7 @@
     <string name="undo">Undo</string>
     <string name="units">Units</string>
     <string name="weight">Weight</string>
+    <string name="value">Value</string>
     <string name="version">Version</string>
     <string name="vibration">Vibration</string>
     <string name="change_none">Constant</string>

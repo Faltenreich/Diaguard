@@ -12,7 +12,8 @@
 
     <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
         <com.faltenreich.diaguard.ui.view.TintImageView
             android:layout_width="@dimen/size_image"
@@ -33,8 +34,6 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/padding_end"
-        android:layout_marginStart="@dimen/padding_end"
         android:layout_weight="1"
         android:orientation="vertical">
 
@@ -63,17 +62,20 @@
         android:id="@+id/food_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAllCaps="false"/>
+        android:layout_marginLeft="@dimen/margin_between"
+        android:layout_marginStart="@dimen/margin_between"
+        android:textAllCaps="false"
+        android:text="Menge &#8230;"/>
 
     <com.faltenreich.diaguard.ui.view.TintImageView
-        android:layout_width="@dimen/size_image"
-        android:layout_height="@dimen/size_image"
-        android:layout_marginLeft="@dimen/padding_end"
-        android:layout_marginStart="@dimen/padding_end"
+        android:id="@+id/food_delete"
+        android:layout_width="@dimen/size_image_small"
+        android:layout_height="@dimen/size_image_small"
+        android:layout_marginLeft="@dimen/margin_between"
+        android:layout_marginStart="@dimen/margin_between"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
-        android:src="@drawable/ic_action_delete"
-        app:tintColor="@color/gray"
-        android:visibility="gone"/>
+        android:src="@drawable/ic_delete"
+        app:tintColor="@color/gray_light"/>
 
 </LinearLayout>

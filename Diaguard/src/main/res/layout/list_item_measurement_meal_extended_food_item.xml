@@ -5,100 +5,75 @@
     style="@style/Padding"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:baselineAligned="false"
     android:gravity="center_vertical"
     android:minHeight="@dimen/height_element"
-    android:orientation="vertical"
-    android:baselineAligned="false">
+    android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <com.faltenreich.diaguard.ui.view.TintImageView
-                android:layout_width="@dimen/size_image"
-                android:layout_height="@dimen/size_image"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_image"
-                app:tintColor="@color/gray" />
-
-            <com.mikhaellopez.circularimageview.CircularImageView
-                android:id="@+id/food_image"
-                android:layout_width="@dimen/height_element"
-                android:layout_height="@dimen/height_element"
-                android:contentDescription="@null"
-                app:civ_border="false" />
-
-        </FrameLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_end"
-            android:layout_marginStart="@dimen/padding_end"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/food_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="2"
-                android:ellipsize="end"
-                android:textColor="@android:color/black"
-                android:text="Erdbeeren"/>
-
-            <TextView
-                android:id="@+id/food_brand"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:textSize="@dimen/text_micro"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:text="Oettinger"/>
-
-        </LinearLayout>
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <com.faltenreich.diaguard.ui.view.TintImageView
             android:layout_width="@dimen/size_image"
             android:layout_height="@dimen/size_image"
-            android:layout_marginLeft="@dimen/padding_end"
-            android:layout_marginStart="@dimen/padding_end"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:src="@drawable/ic_action_delete"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_image"
             app:tintColor="@color/gray" />
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/food_image"
+            android:layout_width="@dimen/height_element"
+            android:layout_height="@dimen/height_element"
+            android:contentDescription="@null"
+            app:civ_border="false" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/padding_end"
+        android:layout_marginStart="@dimen/padding_end"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/food_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="Erdbeeren"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/food_brand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Oettinger"
+            android:textSize="@dimen/text_micro" />
 
     </LinearLayout>
 
-    <com.appyvet.rangebar.RangeBar
-        android:id="@+id/food_amount_in_grams"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_element"
-        android:layout_marginLeft="@dimen/margin_between"
-        android:layout_marginStart="@dimen/margin_between"
-        android:layout_marginRight="@dimen/margin_between"
-        android:layout_marginEnd="@dimen/margin_between"
-        app:rangeBar="false"
-        app:rangeBarColor="@color/gray"
-        app:connectingLineWeight="0dp"
-        app:tickStart="0"
-        app:tickInterval="100"
-        app:tickEnd="2000"
-        app:tickHeight="0dp"
-        app:pinColor="@android:color/white"
-        app:pinRadius="@dimen/margin_between"
-        app:rangeBarPaddingBottom="10dp"
-        app:textColor="@color/gray_darker"
-        app:selectorColor="@color/green"
-        app:temporaryPins="false"
-        app:pinMinFont="@dimen/text_small"
-        app:pinMaxFont="@dimen/text_small" />
+    <Button
+        android:id="@+id/food_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"/>
+
+    <com.faltenreich.diaguard.ui.view.TintImageView
+        android:layout_width="@dimen/size_image"
+        android:layout_height="@dimen/size_image"
+        android:layout_marginLeft="@dimen/padding_end"
+        android:layout_marginStart="@dimen/padding_end"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:src="@drawable/ic_action_delete"
+        app:tintColor="@color/gray"
+        android:visibility="gone"/>
 
 </LinearLayout>

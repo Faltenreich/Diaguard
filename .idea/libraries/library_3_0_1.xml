@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="library-3.0.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Diaguard/build/intermediates/exploded-aar/com.code-troopers.betterpickers/library/3.0.1/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/Diaguard/build/intermediates/exploded-aar/com.code-troopers.betterpickers/library/3.0.1/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.code-troopers.betterpickers/library/3.0.1/c67970f5b171514baaffb2e5a0dad5d7c1ef7116/library-3.0.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.ui.view.viewholder;
 
-import android.content.res.ColorStateList;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -11,6 +10,7 @@ import com.codetroopers.betterpickers.numberpicker.NumberPickerDialogFragment;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.ui.activity.BaseActivity;
+import com.faltenreich.diaguard.ui.view.TintImageView;
 import com.faltenreich.diaguard.util.NumberUtils;
 
 import java.math.BigDecimal;
@@ -27,9 +27,7 @@ public class FoodEditViewHolder extends BaseViewHolder<Food> {
     @BindView(R.id.food_image) ImageView image;
     @BindView(R.id.food_name) TextView name;
     @BindView(R.id.food_amount) Button amount;
-
-    private ColorStateList originalButtonBackgroundColor;
-    private ColorStateList originalButtonTextColor;
+    @BindView(R.id.food_delete) public TintImageView delete;
 
     public FoodEditViewHolder(View view) {
         super(view);

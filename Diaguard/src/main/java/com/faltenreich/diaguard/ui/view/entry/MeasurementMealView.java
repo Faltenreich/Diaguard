@@ -14,10 +14,12 @@ import com.faltenreich.diaguard.adapter.FoodEditableAdapter;
 import com.faltenreich.diaguard.adapter.SimpleDividerItemDecoration;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Food;
+import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.Events;
-import com.faltenreich.diaguard.event.ui.FoodRemovedEvent;
+import com.faltenreich.diaguard.event.ui.FoodEatenRemovedEvent;
+import com.faltenreich.diaguard.event.ui.FoodEatenUpdatedEvent;
 import com.faltenreich.diaguard.event.ui.FoodSelectedEvent;
 import com.faltenreich.diaguard.ui.activity.FoodSearchActivity;
 import com.faltenreich.diaguard.util.Helper;
@@ -36,7 +38,6 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
     @BindView(R.id.list_item_measurement_meal_food_item_list) RecyclerView foodList;
 
     private FoodEditableAdapter adapter;
-
 
     public MeasurementMealView(Context context) {
         super(context, Measurement.Category.MEAL);
@@ -101,17 +102,29 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
     }
 
     private void addFood(Food food) {
-        this.adapter.addItem(food);
+        FoodEaten foodEaten = new FoodEaten();
+        foodEaten.setFood(food);
+        foodEaten.setMeal(measurement);
+
+        this.adapter.addItem(foodEaten);
         this.adapter.notifyItemInserted(this.adapter.getItemCount() - 1);
-        this.value.setText(Helper.parseFloat(this.adapter.getTotalCarbohydrates()));
+
         updateUi();
     }
 
-    private void removeFood(Food food) {
-        int position = this.adapter.getItemPosition(food);
+    private void removeFoodEaten(FoodEaten foodEaten) {
+        int position = this.adapter.getItemPosition(foodEaten);
         if (position >= 0) {
             this.adapter.removeItem(position);
             this.adapter.notifyItemRemoved(position);
+            updateUi();
+        }
+    }
+
+    private void updateFoodEaten(FoodEaten foodEaten) {
+        int position = this.adapter.getItemPosition(foodEaten);
+        if (position >= 0) {
+            this.adapter.updateItem(position, foodEaten);
             updateUi();
         }
     }
@@ -127,6 +140,7 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
         }
 
         this.extendedLayout.setVisibility(isManually ? GONE : VISIBLE);
+        this.value.setText(Helper.parseFloat(this.adapter.getTotalCarbohydrates()));
     }
 
     private void addTestFood() {
@@ -149,7 +163,12 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
     }
 
     @SuppressWarnings("unused")
-    public void onEvent(FoodRemovedEvent event) {
-        removeFood(event.context);
+    public void onEvent(FoodEatenUpdatedEvent event) {
+        updateFoodEaten(event.context);
+    }
+
+    @SuppressWarnings("unused")
+    public void onEvent(FoodEatenRemovedEvent event) {
+        removeFoodEaten(event.context);
     }
 }

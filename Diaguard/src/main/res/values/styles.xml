@@ -159,4 +159,11 @@
         <item name="android:paddingEnd">@dimen/activity_horizontal_margin</item>
     </style>
 
+    <style name="NumberPicker">
+        <item name="bpTextColor">@android:color/black</item>
+        <item name="bpDeleteIcon">@drawable/ic_backspace_light</item>
+        <item name="bpCheckIcon">@drawable/ic_check_light</item>
+        <item name="bpDividerColor">@color/gray_light</item>
+    </style>
+
 </resources>

@@ -63,7 +63,7 @@ public class FoodEditViewHolder extends BaseViewHolder<Food> {
     private void showNumberPicker(AppCompatActivity activity) {
         NumberPickerBuilder numberPicker = new NumberPickerBuilder()
                 .setFragmentManager(activity.getSupportFragmentManager())
-                .setStyleResId(R.style.BetterPickersDialogFragment_Light)
+                .setStyleResId(R.style.NumberPicker)
                 .setLabelText(getContext().getString(R.string.grams))
                 .setPlusMinusVisibility(View.GONE)
                 .setDecimalVisibility(View.GONE)

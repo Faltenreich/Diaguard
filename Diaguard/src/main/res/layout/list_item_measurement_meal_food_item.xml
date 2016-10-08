@@ -37,14 +37,16 @@
 
     </LinearLayout>
 
-    <Button
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/food_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_between"
         android:layout_marginStart="@dimen/margin_between"
         android:textAllCaps="false"
-        android:text="Menge &#8230;"/>
+        android:text="Menge &#8230;"
+        android:textColor="@android:color/white"
+        app:backgroundTint="@color/green_light"/>
 
     <com.faltenreich.diaguard.ui.view.TintImageView
         android:id="@+id/food_delete"

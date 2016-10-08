@@ -2,13 +2,10 @@ package com.faltenreich.diaguard.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Food;
-import com.faltenreich.diaguard.event.Events;
-import com.faltenreich.diaguard.event.ui.FoodRemovedEvent;
 import com.faltenreich.diaguard.ui.view.viewholder.FoodEditViewHolder;
 
 /**
@@ -28,16 +25,6 @@ public class FoodEditableAdapter extends BaseAdapter<Food, FoodEditViewHolder> {
     @Override
     public void onBindViewHolder(final FoodEditViewHolder holder, int position) {
         holder.bindData(getItem(position));
-        holder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int removedPosition = holder.getLayoutPosition();
-                Food food = getItem(removedPosition);
-                removeItem(removedPosition);
-                notifyItemRemoved(removedPosition);
-                Events.post(new FoodRemovedEvent(food));
-            }
-        });
     }
 
     public float getTotalCarbohydrates() {

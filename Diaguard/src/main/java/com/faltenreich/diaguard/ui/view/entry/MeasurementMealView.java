@@ -112,6 +112,15 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
         updateUi();
     }
 
+    private void removeFood(Food food) {
+        int position = this.adapter.getItemPosition(food);
+        if (position >= 0) {
+            this.adapter.removeItem(position);
+            this.adapter.notifyItemRemoved(position);
+            updateUi();
+        }
+    }
+
     private void updateUi() {
         boolean isManually = !this.mode.isChecked();
 
@@ -146,6 +155,6 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
 
     @SuppressWarnings("unused")
     public void onEvent(FoodRemovedEvent event) {
-        updateUi();
+        removeFood(event.context);
     }
 }

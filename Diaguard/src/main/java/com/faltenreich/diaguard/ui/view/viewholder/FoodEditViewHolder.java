@@ -1,13 +1,16 @@
 package com.faltenreich.diaguard.ui.view.viewholder;
 
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatButton;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.codetroopers.betterpickers.numberpicker.NumberPickerBuilder;
 import com.codetroopers.betterpickers.numberpicker.NumberPickerDialogFragment;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Food;
+import com.faltenreich.diaguard.event.Events;
+import com.faltenreich.diaguard.event.ui.FoodRemovedEvent;
 import com.faltenreich.diaguard.ui.activity.BaseActivity;
 import com.faltenreich.diaguard.ui.view.TintImageView;
 import com.faltenreich.diaguard.util.NumberUtils;
@@ -25,8 +28,8 @@ public class FoodEditViewHolder extends BaseViewHolder<Food> {
 
     @BindView(R.id.food_name) TextView name;
     @BindView(R.id.food_carbohydrates) TextView carbohydrates;
-    @BindView(R.id.food_amount) Button amount;
-    @BindView(R.id.food_delete) public TintImageView delete;
+    @BindView(R.id.food_amount) AppCompatButton amount;
+    @BindView(R.id.food_delete) TintImageView delete;
 
     public FoodEditViewHolder(View view) {
         super(view);
@@ -34,7 +37,7 @@ public class FoodEditViewHolder extends BaseViewHolder<Food> {
 
     @Override
     protected void bindData() {
-        Food food = getListItem();
+        final Food food = getListItem();
 
         this.name.setText(food.getName());
         this.carbohydrates.setText(String.format("%d %s", (int) food.getCarbohydrates(), getContext().getString(R.string.carbohydrates_per_100g)));
@@ -64,10 +67,19 @@ public class FoodEditViewHolder extends BaseViewHolder<Food> {
                 }
             }
         });
+
+        this.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Events.post(new FoodRemovedEvent(food));
+            }
+        });
     }
 
     private void setAmountToButton(int number) {
         this.amount.setText(String.format("%d %s", number, getContext().getString(R.string.grams)));
+        this.amount.setSupportBackgroundTintList(new AppCompatButton(getContext()).getSupportBackgroundTintList());
+        this.amount.setTextColor(ContextCompat.getColor(getContext(), android.R.color.black));
     }
 
     private int getAmountFromButton() {

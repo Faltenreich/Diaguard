@@ -5,28 +5,51 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/list_item_measurement_meal_food_item_value"
-        style="@style/Padding"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_element"
-        android:background="@android:color/transparent"
-        android:inputType="numberDecimal"/>
-
-    <View style="@style/LayoutRowSeparator" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_item_measurement_meal_food_item_list"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:nestedScrollingEnabled="false"/>
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/list_item_measurement_meal_food_item_add"
+        <EditText
+            android:id="@+id/list_item_measurement_meal_food_item_value"
+            style="@style/Padding"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_element"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:inputType="numberDecimal"/>
+
+        <Spinner
+            android:id="@+id/list_item_measurement_meal_food_item_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_between"
+            android:layout_marginStart="@dimen/margin_between"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/list_item_measurement_meal_food_item_extended_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/add_value"
-        android:textColor="@color/green"
-        style="?attr/borderlessButtonStyle"/>
+        android:orientation="vertical">
+
+        <View style="@style/LayoutRowSeparator" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_item_measurement_meal_food_item_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"/>
+
+        <Button
+            android:id="@+id/list_item_measurement_meal_food_item_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add_value"
+            android:textColor="@color/green"
+            style="?attr/borderlessButtonStyle"/>
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -4,7 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.FoodEditableAdapter;
@@ -28,6 +33,8 @@ import butterknife.OnClick;
 public class MeasurementMealView extends MeasurementAbstractView<Meal> {
 
     @BindView(R.id.list_item_measurement_meal_food_item_value) EditText value;
+    @BindView(R.id.list_item_measurement_meal_food_item_mode) Spinner mode;
+    @BindView(R.id.list_item_measurement_meal_food_item_extended_layout) ViewGroup extendedLayout;
     @BindView(R.id.list_item_measurement_meal_food_item_list) RecyclerView foodList;
 
     private FoodEditableAdapter adapter;
@@ -62,6 +69,19 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
     protected void initLayout() {
         this.value.setText(measurement != null &&measurement.getCarbohydrates() > 0 ? Helper.parseFloat(measurement.getCarbohydrates()) : null);
         this.value.setHint(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.MEAL));
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.meal_modes, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        this.mode.setAdapter(adapter);
+        this.mode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                updateUi();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
 
         this.adapter = new FoodEditableAdapter(getContext());
         this.foodList.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -99,13 +119,16 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
     }
 
     private void updateUi() {
-        boolean isEditable = this.adapter.getItemCount() == 0;
-        this.value.setFocusable(isEditable);
-        this.value.setFocusableInTouchMode(isEditable);
-        this.value.setClickable(isEditable);
-        if (!isEditable) {
+        boolean isManually = this.mode.getSelectedItemPosition() == 0;
+
+        this.value.setFocusable(isManually);
+        this.value.setFocusableInTouchMode(isManually);
+        this.value.setClickable(isManually);
+        if (!isManually) {
             requestFocus();
         }
+
+        this.extendedLayout.setVisibility(isManually ? GONE : VISIBLE);
     }
 
     private void addTestFood() {

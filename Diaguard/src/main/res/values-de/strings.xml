@@ -24,6 +24,7 @@
     <string name="bolus">Bolus</string>
     <string name="bolus_no1">Es wird empfohlen, keinen Bolus zu verabreichen.</string>
     <string name="bolus_no2">Stattdessen sollten schnelle Kohlenhydrate konsumiert werden, um tiefere Blutzuckerlevel zu vermeiden.</string>
+    <string name="calculated">Berechnet</string>
     <string name="calculator">Bolusrechner</string>
     <string name="cancel">Abbrechen</string>
     <string name="carbohydrates_per_100g">KH/100g</string>
@@ -82,6 +83,7 @@
     <string name="licenses">Open-Source-Lizenzen</string>
     <string name="log">Protokoll</string>
     <string name="mail">E-Mail</string>
+    <string name="manually">Manuell</string>
     <string name="meal">Mahlzeit</string>
     <string name="measurement_latest">Zuletzt</string>
     <string name="measurements">Messungen</string>
@@ -118,6 +120,11 @@
     <string name="change_every_four_hours">Ändert sich alle vier Stunden</string>
     <string name="change_every_second_hour">Ändert sich jede zweite Stunde</string>
     <string name="change_every_hour">Ändert sich jede Stunde</string>
+
+    <string-array name="meal_modes">
+        <item>@string/manually</item>
+        <item>@string/calculated</item>
+    </string-array>
 
     <string-array name="startscreens">
         <item>Übersicht</item>

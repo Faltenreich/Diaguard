@@ -22,7 +22,6 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="2"
-            android:text="Erdbeeren"
             android:textColor="@android:color/black" />
 
         <TextView
@@ -32,7 +31,6 @@
             android:layout_marginTop="2dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="10 KH in 100g"
             android:textSize="@dimen/text_micro" />
 
     </LinearLayout>
@@ -44,7 +42,7 @@
         android:layout_marginLeft="@dimen/margin_between"
         android:layout_marginStart="@dimen/margin_between"
         android:textAllCaps="false"
-        android:text="Menge &#8230;"
+        android:text="@string/amount"
         android:textColor="@android:color/white"
         app:backgroundTint="@color/green_light"/>
 

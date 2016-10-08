@@ -1,6 +1,8 @@
 package com.faltenreich.diaguard.ui.view.viewholder;
 
+import android.content.res.ColorStateList;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.view.View;
 import android.widget.TextView;
@@ -11,7 +13,6 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.ui.FoodRemovedEvent;
-import com.faltenreich.diaguard.ui.activity.BaseActivity;
 import com.faltenreich.diaguard.ui.view.TintImageView;
 import com.faltenreich.diaguard.util.NumberUtils;
 
@@ -45,25 +46,8 @@ public class FoodEditViewHolder extends BaseViewHolder<Food> {
         this.amount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (getContext() instanceof BaseActivity) {
-                    BaseActivity activity = (BaseActivity) getContext();
-                    NumberPickerBuilder npb = new NumberPickerBuilder()
-                            .setFragmentManager(activity.getSupportFragmentManager())
-                            .setStyleResId(R.style.BetterPickersDialogFragment_Light)
-                            .setLabelText(getContext().getString(R.string.grams))
-                            .setPlusMinusVisibility(View.GONE)
-                            .setDecimalVisibility(View.GONE)
-                            .addNumberPickerDialogHandler(new NumberPickerDialogFragment.NumberPickerDialogHandlerV2() {
-                                @Override
-                                public void onDialogNumberSet(int reference, BigInteger number, double decimal, boolean isNegative, BigDecimal fullNumber) {
-                                    setAmountToButton(number.intValue());
-                                }
-                            });
-                    int currentAmount = getAmountFromButton();
-                    if (currentAmount > 0) {
-                        npb.setCurrentNumber(currentAmount);
-                    }
-                    npb.show();
+                if (getContext() instanceof AppCompatActivity) {
+                    showNumberPicker((AppCompatActivity) getContext());
                 }
             }
         });
@@ -76,9 +60,31 @@ public class FoodEditViewHolder extends BaseViewHolder<Food> {
         });
     }
 
+    private void showNumberPicker(AppCompatActivity activity) {
+        NumberPickerBuilder numberPicker = new NumberPickerBuilder()
+                .setFragmentManager(activity.getSupportFragmentManager())
+                .setStyleResId(R.style.BetterPickersDialogFragment_Light)
+                .setLabelText(getContext().getString(R.string.grams))
+                .setPlusMinusVisibility(View.GONE)
+                .setDecimalVisibility(View.GONE)
+                .setMaxNumber(BigDecimal.valueOf(10000))
+                .setMinNumber(BigDecimal.valueOf(1))
+                .addNumberPickerDialogHandler(new NumberPickerDialogFragment.NumberPickerDialogHandlerV2() {
+                    @Override
+                    public void onDialogNumberSet(int reference, BigInteger number, double decimal, boolean isNegative, BigDecimal fullNumber) {
+                        setAmountToButton(number.intValue());
+                    }
+                });
+        int currentAmount = getAmountFromButton();
+        if (currentAmount > 0) {
+            numberPicker.setCurrentNumber(currentAmount);
+        }
+        numberPicker.show();
+    }
+
     private void setAmountToButton(int number) {
         this.amount.setText(String.format("%d %s", number, getContext().getString(R.string.grams)));
-        this.amount.setSupportBackgroundTintList(new AppCompatButton(getContext()).getSupportBackgroundTintList());
+        this.amount.setSupportBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.gray_light)));
         this.amount.setTextColor(ContextCompat.getColor(getContext(), android.R.color.black));
     }
 

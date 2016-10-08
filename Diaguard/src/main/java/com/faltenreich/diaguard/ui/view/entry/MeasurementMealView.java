@@ -82,11 +82,6 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
         this.foodList.addItemDecoration(new SimpleDividerItemDecoration(getContext()));
         this.foodList.setAdapter(this.adapter);
 
-        addTestFood();
-        addTestFood();
-        addTestFood();
-        addTestFood();
-
         updateUi();
     }
 
@@ -108,7 +103,7 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
     private void addFood(Food food) {
         this.adapter.addItem(food);
         this.adapter.notifyItemInserted(this.adapter.getItemCount() - 1);
-        this.value.setText(String.format("%d", (int) this.adapter.getTotalCarbohydrates()));
+        this.value.setText(Helper.parseFloat(this.adapter.getTotalCarbohydrates()));
         updateUi();
     }
 

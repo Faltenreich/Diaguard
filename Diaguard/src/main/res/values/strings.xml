@@ -24,6 +24,7 @@
     <string name="alarm_desc">%s since the last measurement</string>
     <string name="alarm_desc_first">Thought about yet?</string>
     <string name="alarm_reminder">Reminder in</string>
+    <string name="amount">Amount &#8230;</string>
     <string name="average">Average</string>
     <string name="average_symbol" translatable="false">Ø</string>
     <string name="back">Back</string>

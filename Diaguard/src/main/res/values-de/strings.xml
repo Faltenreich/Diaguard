@@ -13,6 +13,7 @@
     <string name="alarm_desc">%s seit der letzten Messung</string>
     <string name="alarm_desc_first">Schon dran gedacht?</string>
     <string name="alarm_reminder">Erinnerung in</string>
+    <string name="amount">Menge &#8230;</string>
     <string name="average">Durchschnitt</string>
     <string name="back">Zurück</string>
     <string name="backup">Backup anlegen</string>

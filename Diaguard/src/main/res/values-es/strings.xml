@@ -9,6 +9,7 @@
     <string name="alarm">Medida de glucosa en sangre</string>
     <string name="alarm_desc">%s desde el último análisis</string>
     <string name="alarm_desc_first">Ha pensado en ello?</string>
+    <string name="amount">Cantidad &#8230;</string>
     <string name="average">Promedio</string>
     <string name="back">Volver</string>
     <string name="backup">Copia de seguridad</string>

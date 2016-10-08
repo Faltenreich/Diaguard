@@ -9,6 +9,7 @@
     <string name="alarm">Mesure de la glycémie</string>
     <string name="alarm_desc">%s depuis la dernière mesure</string>
     <string name="alarm_desc_first">Y avez-vous déjà pensé?</string>
+    <string name="amount">Quantité &#8230;</string>
     <string name="average">Moyenne</string>
     <string name="back">Arrière</string>
     <string name="backup">Sauvegarde</string>

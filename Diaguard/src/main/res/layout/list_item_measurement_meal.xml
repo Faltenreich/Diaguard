@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <EditText
-        android:id="@+id/meal_value"
+        android:id="@+id/list_item_measurement_meal_food_item_value"
         style="@style/Padding"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_element"
@@ -14,12 +14,12 @@
         android:inputType="numberDecimal"/>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_item_measurement_meal_extended_food_item_list"
+        android:id="@+id/list_item_measurement_meal_food_item_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/list_item_measurement_meal_extended_food_item_add"
+        android:id="@+id/list_item_measurement_meal_food_item_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/add_value"

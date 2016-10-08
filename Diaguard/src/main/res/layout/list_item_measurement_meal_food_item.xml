@@ -10,27 +10,6 @@
     android:minHeight="@dimen/height_element"
     android:orientation="horizontal">
 
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone">
-
-        <com.faltenreich.diaguard.ui.view.TintImageView
-            android:layout_width="@dimen/size_image"
-            android:layout_height="@dimen/size_image"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_image"
-            app:tintColor="@color/gray" />
-
-        <com.mikhaellopez.circularimageview.CircularImageView
-            android:id="@+id/food_image"
-            android:layout_width="@dimen/height_element"
-            android:layout_height="@dimen/height_element"
-            android:contentDescription="@null"
-            app:civ_border="false" />
-
-    </FrameLayout>
-
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -47,13 +26,13 @@
             android:textColor="@android:color/black" />
 
         <TextView
-            android:id="@+id/food_brand"
+            android:id="@+id/food_carbohydrates"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="Oettinger"
+            android:text="10 KH in 100g"
             android:textSize="@dimen/text_micro" />
 
     </LinearLayout>

@@ -37,6 +37,7 @@
     <string name="bolus">Bolus</string>
     <string name="bolus_no1">It is recommended not to inject a bolus.</string>
     <string name="bolus_no2">Instead some carbohydrate-heavy products should be consumed to prevent lower blood sugar level.</string>
+    <string name="calculated">Calculated</string>
     <string name="calculator">Calculator</string>
     <string name="cancel">Cancel</string>
     <string name="carbohydrates_per_100g">CHO/100g</string>
@@ -101,6 +102,7 @@
     <string name="licenses">Open-Source-Licenses</string>
     <string name="log">Log</string>
     <string name="mail">E-Mail</string>
+    <string name="manually">Manually</string>
     <string name="meal">Meal</string>
     <string name="measurement_latest">Latest</string>
     <string name="measurements">Measured</string>

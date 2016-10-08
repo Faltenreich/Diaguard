@@ -30,7 +30,7 @@ public class FoodEditableAdapter extends BaseAdapter<FoodEaten, FoodEditViewHold
     public float getTotalCarbohydrates() {
         float totalCarbohydrates = 0;
         for (FoodEaten foodEaten : getItems()) {
-            float carbohydrates = foodEaten.getAmountInGrams() * foodEaten.getFood().getCarbohydrates();
+            float carbohydrates = foodEaten.getAmountInGrams() * foodEaten.getFood().getCarbohydrates() / 100;
             totalCarbohydrates += carbohydrates;
         }
         return totalCarbohydrates;

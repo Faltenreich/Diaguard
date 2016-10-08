@@ -5,13 +5,13 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.data.entity.Food;
+import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.ui.view.viewholder.FoodEditViewHolder;
 
 /**
  * Created by Faltenreich on 11.09.2016.
  */
-public class FoodEditableAdapter extends BaseAdapter<Food, FoodEditViewHolder> {
+public class FoodEditableAdapter extends BaseAdapter<FoodEaten, FoodEditViewHolder> {
 
     public FoodEditableAdapter(Context context) {
         super(context);
@@ -29,8 +29,9 @@ public class FoodEditableAdapter extends BaseAdapter<Food, FoodEditViewHolder> {
 
     public float getTotalCarbohydrates() {
         float totalCarbohydrates = 0;
-        for (Food food : getItems()) {
-            totalCarbohydrates += food.getCarbohydrates();
+        for (FoodEaten foodEaten : getItems()) {
+            float carbohydrates = foodEaten.getAmountInGrams() * foodEaten.getFood().getCarbohydrates();
+            totalCarbohydrates += carbohydrates;
         }
         return totalCarbohydrates;
     }

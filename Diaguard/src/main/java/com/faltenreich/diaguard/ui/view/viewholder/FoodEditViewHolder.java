@@ -11,8 +11,10 @@ import com.codetroopers.betterpickers.numberpicker.NumberPickerBuilder;
 import com.codetroopers.betterpickers.numberpicker.NumberPickerDialogFragment;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Food;
+import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.event.Events;
-import com.faltenreich.diaguard.event.ui.FoodRemovedEvent;
+import com.faltenreich.diaguard.event.ui.FoodEatenRemovedEvent;
+import com.faltenreich.diaguard.event.ui.FoodEatenUpdatedEvent;
 import com.faltenreich.diaguard.ui.view.TintImageView;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
@@ -26,7 +28,7 @@ import butterknife.BindView;
  * Created by Faltenreich on 03.10.2016.
  */
 
-public class FoodEditViewHolder extends BaseViewHolder<Food> {
+public class FoodEditViewHolder extends BaseViewHolder<FoodEaten> {
 
     @BindView(R.id.food_name) TextView name;
     @BindView(R.id.food_carbohydrates) TextView carbohydrates;
@@ -39,7 +41,8 @@ public class FoodEditViewHolder extends BaseViewHolder<Food> {
 
     @Override
     protected void bindData() {
-        final Food food = getListItem();
+        final FoodEaten foodEaten = getListItem();
+        final Food food = foodEaten.getFood();
 
         this.name.setText(food.getName());
         this.carbohydrates.setText(String.format("%s %s", Helper.parseFloat(food.getCarbohydrates()), getContext().getString(R.string.carbohydrates_per_100g)));
@@ -56,9 +59,11 @@ public class FoodEditViewHolder extends BaseViewHolder<Food> {
         this.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Events.post(new FoodRemovedEvent(food));
+                Events.post(new FoodEatenRemovedEvent(foodEaten));
             }
         });
+
+        updateUi();
     }
 
     private void showNumberPicker(AppCompatActivity activity) {
@@ -73,7 +78,10 @@ public class FoodEditViewHolder extends BaseViewHolder<Food> {
                 .addNumberPickerDialogHandler(new NumberPickerDialogFragment.NumberPickerDialogHandlerV2() {
                     @Override
                     public void onDialogNumberSet(int reference, BigInteger number, double decimal, boolean isNegative, BigDecimal fullNumber) {
-                        setAmountToButton(number.floatValue());
+                        FoodEaten foodEaten = getListItem();
+                        foodEaten.setAmountInGrams(number.floatValue());
+                        updateUi();
+                        Events.post(new FoodEatenUpdatedEvent(foodEaten));
                     }
                 });
         int currentAmount = getAmountFromButton();
@@ -83,8 +91,8 @@ public class FoodEditViewHolder extends BaseViewHolder<Food> {
         numberPicker.show();
     }
 
-    private void setAmountToButton(float number) {
-        this.amount.setText(String.format("%ds %s", Helper.parseFloat(number), getContext().getString(R.string.grams)));
+    private void updateUi() {
+        this.amount.setText(String.format("%s %s", Helper.parseFloat(getListItem().getAmountInGrams()), getContext().getString(R.string.grams)));
         this.amount.setSupportBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.gray_light)));
         this.amount.setTextColor(ContextCompat.getColor(getContext(), android.R.color.black));
     }

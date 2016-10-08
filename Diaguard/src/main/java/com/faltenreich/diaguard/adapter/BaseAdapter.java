@@ -61,6 +61,10 @@ public abstract class BaseAdapter<L, VH extends BaseViewHolder<L>> extends Recyc
         this.items.remove(position);
     }
 
+    public void updateItem(int position, L item) {
+        items.set(position, item);
+    }
+
     public void clear() {
         this.items.clear();
     }

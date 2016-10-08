@@ -14,7 +14,7 @@ public class FoodEaten extends BaseEntity {
     }
 
     @DatabaseField(columnName = Column.AMOUNT_IN_GRAMS)
-    private int amountInGrams;
+    private float amountInGrams;
 
     @DatabaseField(columnName = Column.FOOD, foreign = true, foreignAutoRefresh = true)
     private Food food;
@@ -22,11 +22,11 @@ public class FoodEaten extends BaseEntity {
     @DatabaseField(columnName = Column.MEAL, foreign = true, foreignAutoRefresh = true)
     private Meal meal;
 
-    public int getAmountInGrams() {
+    public float getAmountInGrams() {
         return amountInGrams;
     }
 
-    public void setAmountInGrams(int amountInGrams) {
+    public void setAmountInGrams(float amountInGrams) {
         this.amountInGrams = amountInGrams;
     }
 

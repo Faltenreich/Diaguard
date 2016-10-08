@@ -29,11 +29,12 @@ import java.util.List;
 public class PreferenceHelper {
 
     private class Keys {
-        public static final String CATEGORY_PINNED = "categoryPinned%s";
-        public static final String ALARM_START_IN_MILLIS = "alarmStartInMillis";
-        public static final String INTERVAL_FACTOR = "intervalFactor";
-        public static final String INTERVAL_FACTOR_FOR_HOUR = "intervalFactor%d";
-        public final static String FACTOR_DEPRECATED = "factor_";
+        static final String CATEGORY_PINNED = "categoryPinned%s";
+        static final String ALARM_START_IN_MILLIS = "alarmStartInMillis";
+        static final String INTERVAL_FACTOR = "intervalFactor";
+        static final String INTERVAL_FACTOR_FOR_HOUR = "intervalFactor%d";
+        final static String FACTOR_DEPRECATED = "factor_";
+        final static String MEAL_IS_CALCULATED = "mealIsCalculated";
     }
 
     private static PreferenceHelper instance;
@@ -158,6 +159,40 @@ public class PreferenceHelper {
                 "drawable", DiaguardApplication.getContext().getPackageName());
     }
 
+    public boolean isCategoryActive(Measurement.Category category) {
+        return sharedPreferences.getBoolean(category.name() + CategoryPreference.ACTIVE, true);
+    }
+
+    public Measurement.Category[] getActiveCategories() {
+        List<Measurement.Category> activeCategories = new ArrayList<Measurement.Category>();
+        for(int item = 0; item < Measurement.Category.values().length; item++) {
+            if (isCategoryActive(Measurement.Category.values()[item])) {
+                activeCategories.add(Measurement.Category.values()[item]);
+            }
+        }
+        return activeCategories.toArray(new Measurement.Category[activeCategories.size()]);
+    }
+
+    private String getCategoryPinnedName(Measurement.Category category) {
+        return String.format(Keys.CATEGORY_PINNED, category.name());
+    }
+
+    public boolean isCategoryPinned(Measurement.Category category) {
+        return sharedPreferences.getBoolean(getCategoryPinnedName(category), false);
+    }
+
+    public void setCategoryPinned(Measurement.Category category, boolean isPinned) {
+        sharedPreferences.edit().putBoolean(getCategoryPinnedName(category), isPinned).apply();
+    }
+
+    public boolean isMealCalculated() {
+        return sharedPreferences.getBoolean(Keys.MEAL_IS_CALCULATED, false);
+    }
+
+    public void setIsMealCalculated(boolean isMealCalculated) {
+        sharedPreferences.edit().putBoolean(Keys.MEAL_IS_CALCULATED, isMealCalculated).apply();
+    }
+
     // UNITS
 
     public String[] getUnitsNames(Measurement.Category category) {
@@ -264,33 +299,5 @@ public class PreferenceHelper {
                 sharedPreferences.edit().putFloat(Keys.FACTOR_DEPRECATED + daytime, -1).apply();
             }
         }
-    }
-
-    // CATEGORIES
-
-    public boolean isCategoryActive(Measurement.Category category) {
-        return sharedPreferences.getBoolean(category.name() + CategoryPreference.ACTIVE, true);
-    }
-
-    public Measurement.Category[] getActiveCategories() {
-        List<Measurement.Category> activeCategories = new ArrayList<Measurement.Category>();
-        for(int item = 0; item < Measurement.Category.values().length; item++) {
-            if (isCategoryActive(Measurement.Category.values()[item])) {
-                activeCategories.add(Measurement.Category.values()[item]);
-            }
-        }
-        return activeCategories.toArray(new Measurement.Category[activeCategories.size()]);
-    }
-
-    private String getCategoryPinnedName(Measurement.Category category) {
-        return String.format(Keys.CATEGORY_PINNED, category.name());
-    }
-
-    public boolean isCategoryPinned(Measurement.Category category) {
-        return sharedPreferences.getBoolean(getCategoryPinnedName(category), false);
-    }
-
-    public void setCategoryPinned(Measurement.Category category, boolean isPinned) {
-        sharedPreferences.edit().putBoolean(getCategoryPinnedName(category), isPinned).apply();
     }
 }

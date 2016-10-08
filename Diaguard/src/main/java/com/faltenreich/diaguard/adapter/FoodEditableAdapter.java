@@ -25,12 +25,12 @@ public class FoodEditableAdapter extends BaseAdapter<Food, FoodEditViewHolder> {
 
     @Override
     public void onBindViewHolder(final FoodEditViewHolder holder, int position) {
-        holder.bindData(getItem(holder.getAdapterPosition()));
+        holder.bindData(getItem(position));
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int removedPosition = holder.getAdapterPosition();
-                removeItem(getItem(removedPosition));
+                int removedPosition = holder.getLayoutPosition();
+                removeItem(removedPosition);
                 notifyItemRemoved(removedPosition);
             }
         });

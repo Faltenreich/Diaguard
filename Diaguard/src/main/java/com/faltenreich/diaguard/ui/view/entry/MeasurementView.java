@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -34,7 +35,7 @@ public class MeasurementView<T extends Measurement> extends LinearLayout {
     @BindView(R.id.layer_showcase) View viewLayerShowcase;
     @BindView(R.id.image_category) ImageView imageViewCategory;
     @BindView(R.id.category) TextView textViewCategory;
-    @BindView(R.id.layout_content) LinearLayout content;
+    @BindView(R.id.layout_content) ViewGroup content;
     @BindView(R.id.checkbox_pin) CheckBox checkBoxPin;
 
     private Measurement.Category category;

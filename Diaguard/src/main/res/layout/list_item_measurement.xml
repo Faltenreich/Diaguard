@@ -75,6 +75,8 @@
                     android:id="@+id/button_delete"
                     android:layout_width="@dimen/size_image_small"
                     android:layout_height="@dimen/size_image_small"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
                     android:src="@drawable/ic_delete"
                     app:tintColor="@android:color/white"/>
 
@@ -82,13 +84,10 @@
 
         </RelativeLayout>
 
-        <LinearLayout
+        <FrameLayout
             android:id="@+id/layout_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:minHeight="@dimen/height_element"
-            android:orientation="vertical" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

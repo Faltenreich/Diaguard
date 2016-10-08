@@ -17,7 +17,7 @@
 
         <include layout="@layout/toolbar" />
 
-        <ScrollView
+        <android.support.v4.widget.NestedScrollView
             android:id="@+id/activity_newevent_scrollview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -121,7 +121,7 @@
 
             </LinearLayout>
 
-        </ScrollView>
+        </android.support.v4.widget.NestedScrollView>
 
     </LinearLayout>
 

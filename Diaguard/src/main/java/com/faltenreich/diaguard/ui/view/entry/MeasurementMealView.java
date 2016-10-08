@@ -9,6 +9,7 @@ import android.widget.EditText;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.FoodEditableAdapter;
 import com.faltenreich.diaguard.adapter.SimpleDividerItemDecoration;
+import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
@@ -58,14 +59,13 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
 
     @Override
     protected void initLayout() {
-        this.value.setText(measurement != null ? Helper.parseFloat(measurement.getCarbohydrates()) : null);
+        this.value.setText(measurement != null &&measurement.getCarbohydrates() > 0 ? Helper.parseFloat(measurement.getCarbohydrates()) : null);
+        this.value.setHint(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.MEAL));
 
         this.adapter = new FoodEditableAdapter(getContext());
         this.foodList.setLayoutManager(new LinearLayoutManager(getContext()));
         this.foodList.addItemDecoration(new SimpleDividerItemDecoration(getContext()));
         this.foodList.setAdapter(this.adapter);
-
-        addTestFood();
     }
 
     @Override

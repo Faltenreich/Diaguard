@@ -18,7 +18,6 @@
     <string name="about">About</string>
     <string name="activity">Activity</string>
     <string name="all">All</string>
-    <string name="add_value">Add value</string>
     <string name="alarm">Measure blood sugar</string>
     <string name="alarm_delete">Remove reminder</string>
     <string name="alarm_deleted">Removed reminder</string>
@@ -78,6 +77,7 @@
     <string name="first_visit">First visit?</string>
     <string name="first_visit_desc">Enter your first value</string>
     <string name="food">Food</string>
+    <string name="food_add">Add food</string>
     <string name="food_search">Search for food</string>
     <string name="format">Format</string>
     <string name="general">General</string>
@@ -102,7 +102,6 @@
     <string name="licenses">Open-Source-Licenses</string>
     <string name="log">Log</string>
     <string name="mail">E-Mail</string>
-    <string name="manually">Manually</string>
     <string name="meal">Meal</string>
     <string name="measurement_latest">Latest</string>
     <string name="measurements">Measured</string>

@@ -7,7 +7,6 @@
     <string name="about">Über</string>
     <string name="activity">Aktivität</string>
     <string name="all">Alle</string>
-    <string name="add_value">Wert hinzufügen</string>
     <string name="alarm">Blutzucker messen</string>
     <string name="alarm_delete">Erinnerung entfernen</string>
     <string name="alarm_deleted">Erinnerung entfernt</string>
@@ -64,6 +63,7 @@
     <string name="first_visit">Neu hier?</string>
     <string name="first_visit_desc">Ersten Wert eintragen</string>
     <string name="food">Lebensmittel</string>
+    <string name="food_add">Lebensmittel hinzufügen</string>
     <string name="format">Format</string>
     <string name="general">Allgemein</string>
     <string name="grams">Gramm</string>
@@ -83,7 +83,6 @@
     <string name="licenses">Open-Source-Lizenzen</string>
     <string name="log">Protokoll</string>
     <string name="mail">E-Mail</string>
-    <string name="manually">Manuell</string>
     <string name="meal">Mahlzeit</string>
     <string name="measurement_latest">Zuletzt</string>
     <string name="measurements">Messungen</string>
@@ -120,11 +119,6 @@
     <string name="change_every_four_hours">Ändert sich alle vier Stunden</string>
     <string name="change_every_second_hour">Ändert sich jede zweite Stunde</string>
     <string name="change_every_hour">Ändert sich jede Stunde</string>
-
-    <string-array name="meal_modes">
-        <item>@string/manually</item>
-        <item>@string/calculated</item>
-    </string-array>
 
     <string-array name="startscreens">
         <item>Übersicht</item>

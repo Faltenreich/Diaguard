@@ -6,7 +6,6 @@
     <!-- GENERAL -->
     <string name="about">Sobre nosotros</string>
     <string name="activity">Actividad</string>
-    <string name="add_value">Agregar valor</string>
     <string name="alarm">Medida de glucosa en sangre</string>
     <string name="alarm_desc">%s desde el último análisis</string>
     <string name="alarm_desc_first">Ha pensado en ello?</string>
@@ -55,6 +54,7 @@
     <string name="factors">Factores</string>
     <string name="first_visit">Eres nuevo?</string>
     <string name="first_visit_desc">Ingresar los primeros valores</string>
+    <string name="food_add">Añadir alimentos</string>
     <string name="format">Formato</string>
     <string name="general">General</string>
     <string name="hba1c">HbA1c</string>

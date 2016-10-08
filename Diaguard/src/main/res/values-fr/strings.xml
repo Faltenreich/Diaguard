@@ -6,7 +6,6 @@
     <!-- GENERAL -->
     <string name="about">Sur</string>
     <string name="activity">Activité</string>
-    <string name="add_value">Ajouter de la valeur</string>
     <string name="alarm">Mesure de la glycémie</string>
     <string name="alarm_desc">%s depuis la dernière mesure</string>
     <string name="alarm_desc_first">Y avez-vous déjà pensé?</string>
@@ -53,6 +52,7 @@
     <string name="factors">Facteurs unitaire de glucides</string>
     <string name="first_visit">Nouveau ici?</string>
     <string name="first_visit_desc">Ajouter la première valeur</string>
+    <string name="food_add">Ajouter la nourriture</string>
     <string name="format">Format</string>
     <string name="general">Généralement</string>
     <string name="hba1c">HbA1c</string>

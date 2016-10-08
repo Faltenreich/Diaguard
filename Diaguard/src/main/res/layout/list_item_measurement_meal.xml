@@ -8,7 +8,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
         <EditText
             android:id="@+id/list_item_measurement_meal_food_item_value"
@@ -19,12 +20,12 @@
             android:background="@android:color/transparent"
             android:inputType="numberDecimal"/>
 
-        <Spinner
+        <android.support.v7.widget.SwitchCompat
             android:id="@+id/list_item_measurement_meal_food_item_mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_between"
-            android:layout_marginStart="@dimen/margin_between"/>
+            android:layout_margin="@dimen/margin_between"
+            android:text="@string/calculated"/>
 
     </LinearLayout>
 
@@ -34,7 +35,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <View style="@style/LayoutRowSeparator" />
+        <View style="@style/LayoutRowSeparator"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_item_measurement_meal_food_item_list"
@@ -42,11 +45,14 @@
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false"/>
 
+        <View style="@style/LayoutRowSeparator" />
+
+
         <Button
             android:id="@+id/list_item_measurement_meal_food_item_add"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/add_value"
+            android:text="@string/food_add"
             android:textColor="@color/green"
             style="?attr/borderlessButtonStyle"/>
 

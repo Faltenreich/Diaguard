@@ -4,12 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
+import android.support.v7.widget.SwitchCompat;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Spinner;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.FoodEditableAdapter;
@@ -33,7 +31,7 @@ import butterknife.OnClick;
 public class MeasurementMealView extends MeasurementAbstractView<Meal> {
 
     @BindView(R.id.list_item_measurement_meal_food_item_value) EditText value;
-    @BindView(R.id.list_item_measurement_meal_food_item_mode) Spinner mode;
+    @BindView(R.id.list_item_measurement_meal_food_item_mode) SwitchCompat mode;
     @BindView(R.id.list_item_measurement_meal_food_item_extended_layout) ViewGroup extendedLayout;
     @BindView(R.id.list_item_measurement_meal_food_item_list) RecyclerView foodList;
 
@@ -70,16 +68,12 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
         this.value.setText(measurement != null &&measurement.getCarbohydrates() > 0 ? Helper.parseFloat(measurement.getCarbohydrates()) : null);
         this.value.setHint(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.MEAL));
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.meal_modes, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        this.mode.setAdapter(adapter);
-        this.mode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        this.mode.setChecked(PreferenceHelper.getInstance().isMealCalculated());
+        this.mode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                PreferenceHelper.getInstance().setIsMealCalculated(isChecked);
                 updateUi();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
 
@@ -119,7 +113,7 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
     }
 
     private void updateUi() {
-        boolean isManually = this.mode.getSelectedItemPosition() == 0;
+        boolean isManually = !this.mode.isChecked();
 
         this.value.setFocusable(isManually);
         this.value.setFocusableInTouchMode(isManually);

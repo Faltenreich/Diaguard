@@ -20,7 +20,7 @@ public class FoodEditableAdapter extends BaseAdapter<Food, FoodEditViewHolder> {
 
     @Override
     public FoodEditViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new FoodEditViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_measurement_meal_extended_food_item, parent, false));
+        return new FoodEditViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_measurement_meal_food_item, parent, false));
     }
 
     @Override

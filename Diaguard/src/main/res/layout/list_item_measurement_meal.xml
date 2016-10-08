@@ -1,20 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tab_layout"
+    <EditText
+        android:id="@+id/meal_value"
+        style="@style/Padding"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_element"
-        app:tabSelectedTextColor="@color/green" />
+        android:background="@android:color/transparent"
+        android:inputType="numberDecimal"/>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_item_measurement_meal_extended_food_item_list"
         android:layout_width="match_parent"
-        android:layout_height="200dp"/>
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/list_item_measurement_meal_extended_food_item_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_value"
+        android:textColor="@color/green"
+        style="?attr/borderlessButtonStyle"/>
 
 </LinearLayout>

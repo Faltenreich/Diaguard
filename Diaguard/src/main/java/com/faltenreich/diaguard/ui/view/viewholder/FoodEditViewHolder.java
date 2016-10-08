@@ -14,6 +14,7 @@ import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.ui.FoodRemovedEvent;
 import com.faltenreich.diaguard.ui.view.TintImageView;
+import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 
 import java.math.BigDecimal;
@@ -41,7 +42,7 @@ public class FoodEditViewHolder extends BaseViewHolder<Food> {
         final Food food = getListItem();
 
         this.name.setText(food.getName());
-        this.carbohydrates.setText(String.format("%d %s", (int) food.getCarbohydrates(), getContext().getString(R.string.carbohydrates_per_100g)));
+        this.carbohydrates.setText(String.format("%s %s", Helper.parseFloat(food.getCarbohydrates()), getContext().getString(R.string.carbohydrates_per_100g)));
 
         this.amount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +73,7 @@ public class FoodEditViewHolder extends BaseViewHolder<Food> {
                 .addNumberPickerDialogHandler(new NumberPickerDialogFragment.NumberPickerDialogHandlerV2() {
                     @Override
                     public void onDialogNumberSet(int reference, BigInteger number, double decimal, boolean isNegative, BigDecimal fullNumber) {
-                        setAmountToButton(number.intValue());
+                        setAmountToButton(number.floatValue());
                     }
                 });
         int currentAmount = getAmountFromButton();
@@ -82,8 +83,8 @@ public class FoodEditViewHolder extends BaseViewHolder<Food> {
         numberPicker.show();
     }
 
-    private void setAmountToButton(int number) {
-        this.amount.setText(String.format("%d %s", number, getContext().getString(R.string.grams)));
+    private void setAmountToButton(float number) {
+        this.amount.setText(String.format("%ds %s", Helper.parseFloat(number), getContext().getString(R.string.grams)));
         this.amount.setSupportBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.gray_light)));
         this.amount.setTextColor(ContextCompat.getColor(getContext(), android.R.color.black));
     }

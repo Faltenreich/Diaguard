@@ -35,9 +35,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <View style="@style/LayoutRowSeparator"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"/>
+        <View style="@style/LayoutRowSeparator" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_item_measurement_meal_food_item_list"
@@ -46,7 +44,6 @@
             android:nestedScrollingEnabled="false"/>
 
         <View style="@style/LayoutRowSeparator" />
-
 
         <Button
             android:id="@+id/list_item_measurement_meal_food_item_add"

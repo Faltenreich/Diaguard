@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.ui.view.viewholder;
 
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codetroopers.betterpickers.numberpicker.NumberPickerBuilder;
@@ -24,8 +23,8 @@ import butterknife.BindView;
 
 public class FoodEditViewHolder extends BaseViewHolder<Food> {
 
-    @BindView(R.id.food_image) ImageView image;
     @BindView(R.id.food_name) TextView name;
+    @BindView(R.id.food_carbohydrates) TextView carbohydrates;
     @BindView(R.id.food_amount) Button amount;
     @BindView(R.id.food_delete) public TintImageView delete;
 
@@ -35,6 +34,11 @@ public class FoodEditViewHolder extends BaseViewHolder<Food> {
 
     @Override
     protected void bindData() {
+        Food food = getListItem();
+
+        this.name.setText(food.getName());
+        this.carbohydrates.setText(String.format("%d %s", (int) food.getCarbohydrates(), getContext().getString(R.string.carbohydrates_per_100g)));
+
         this.amount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

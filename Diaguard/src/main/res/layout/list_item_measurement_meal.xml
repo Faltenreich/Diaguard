@@ -1,69 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <LinearLayout
-        style="@style/Padding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
         android:minHeight="@dimen/height_element"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        style="@style/Padding">
 
-        <com.faltenreich.diaguard.ui.view.TintImageView
-            android:layout_width="@dimen/size_image_small"
-            android:layout_height="@dimen/size_image_small"
-            android:src="@drawable/ic_edit"
-            app:tintColor="@color/gray_darker" />
+        <TextView
+            android:id="@+id/list_item_measurement_meal_food_item_value_calculated"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_marginRight="@dimen/padding"
+            android:layout_marginEnd="@dimen/padding"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_medium" />
 
         <EditText
             android:id="@+id/list_item_measurement_meal_food_item_value_input"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/padding_end"
-            android:layout_marginStart="@dimen/padding_end"
-            android:layout_weight="1"
             android:background="@android:color/transparent"
             android:inputType="numberDecimal" />
 
     </LinearLayout>
 
-    <View style="@style/LayoutRowSeparator" />
-
-    <LinearLayout
-        style="@style/Padding"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:minHeight="@dimen/height_element"
-        android:orientation="horizontal">
-
-
-        <com.faltenreich.diaguard.ui.view.TintImageView
-            android:layout_width="@dimen/size_image_small"
-            android:layout_height="@dimen/size_image_small"
-            android:src="@drawable/ic_calc"
-            app:tintColor="@color/gray_darker" />
-
-        <TextView
-            android:id="@+id/list_item_measurement_meal_food_item_value_calculated"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/padding_end"
-            android:layout_marginStart="@dimen/padding_end"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/text_medium" />
-
-    </LinearLayout>
-
     <View style="@style/LayoutRowSeparator"
-        android:id="@+id/list_item_measurement_meal_food_item_separator"/>
+        android:id="@+id/list_item_measurement_meal_food_item_separator" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list_item_measurement_meal_food_item_list"

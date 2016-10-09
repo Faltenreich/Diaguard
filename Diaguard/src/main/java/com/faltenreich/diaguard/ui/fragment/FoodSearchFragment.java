@@ -20,7 +20,9 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.FoodAdapter;
 import com.faltenreich.diaguard.adapter.SimpleDividerItemDecoration;
 import com.faltenreich.diaguard.data.dao.FoodDao;
+import com.faltenreich.diaguard.data.dao.FoodEatenDao;
 import com.faltenreich.diaguard.data.entity.Food;
+import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.networking.FoodSearchFailedEvent;
 import com.faltenreich.diaguard.event.networking.FoodSearchSucceededEvent;
@@ -129,25 +131,34 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         adapter = new FoodAdapter(getContext());
         list.setAdapter(adapter);
 
-        List<Food> foodList = FoodDao.getInstance().getAllFoodEaten();
+        List<Food> foodList = new ArrayList<>();
 
-        if (foodList.size() == 0) {
-            queryTextView.setText(R.string.food);
-            foodList = FoodDao.getInstance().getAll();
-
-            if (foodList.size() > 0) {
-                updateList(foodList);
-
-            } else {
-                // TODO: Request interesting food items
-                OpenFoodFactsManager.getInstance().search("");
-            }
-
-        } else {
+        List<FoodEaten> foodEatenList = FoodEatenDao.getInstance().getAll();
+        if (foodEatenList.size() > 0) {
             queryTextView.setText(R.string.entry_latest);
-            updateList(foodList);
+            for (FoodEaten foodEaten : foodEatenList) {
+                foodList.add(foodEaten.getFood());
+            }
         }
 
+        List<Food> foodAllList = FoodDao.getInstance().getAll();
+        if (foodAllList.size() > 0) {
+            queryTextView.setText(R.string.food);
+            for (Food food : foodAllList) {
+                // Skip food that has been eaten before
+                if (!foodList.contains(food)) {
+                    foodList.add(food);
+                }
+            }
+        }
+
+        if (foodList.size() > 0) {
+            updateList(foodList);
+
+        } else {
+            // Request interesting food items
+            OpenFoodFactsManager.getInstance().search("");
+        }
     }
 
     private void initSearch() {

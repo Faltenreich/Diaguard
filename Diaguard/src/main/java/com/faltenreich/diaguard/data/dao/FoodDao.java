@@ -13,7 +13,7 @@ import java.util.List;
 
 public class FoodDao extends BaseServerDao<Food> {
 
-    private static final String TAG = EntryDao.class.getSimpleName();
+    private static final String TAG = FoodDao.class.getSimpleName();
 
     private static FoodDao instance;
 
@@ -26,10 +26,6 @@ public class FoodDao extends BaseServerDao<Food> {
 
     private FoodDao() {
         super(Food.class);
-    }
-
-    public List<Food> getAllFoodEaten() {
-        return new ArrayList<>();
     }
 
     public List<Food> createOrUpdate(SearchResponseDto dto) {

@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.ui.view.entry;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -93,7 +92,6 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
         boolean isValid = true;
 
         String input = valueInput.getText().toString().trim();
-        String calculated = valueCalculated.getText().toString().trim();
 
         if (StringUtils.isBlank(input) && this.adapter.getTotalCarbohydrates() == 0) {
             valueInput.setError(getContext().getString(R.string.validator_value_empty));
@@ -102,6 +100,8 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
             if (!StringUtils.isBlank(input)) {
                 isValid = isValueValid(valueInput);
             }
+
+            // TODO: Check if every food eaten is valid
         }
         return isValid;
     }
@@ -113,7 +113,9 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
                     PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                     measurement.getCategory(),
                     NumberUtils.parseNumber(valueInput.getText().toString())) : 0);
+
             MeasurementDao.getInstance(Meal.class).createOrUpdate(measurement);
+
             for (FoodEaten foodEaten : this.adapter.getItems()) {
                 foodEaten.setMeal(measurement);
                 FoodEatenDao.getInstance().createOrUpdate(foodEaten);
@@ -148,20 +150,14 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
     }
 
     private void updateUi() {
-        boolean hasInput = this.adapter.getTotalCarbohydrates() > 0;
-        this.valueCalculated.setText(hasInput ?
-                Helper.parseFloat(this.adapter.getTotalCarbohydrates()) :
-                String.format(getContext().getString(R.string.meal_calculated), this.valueInput.getHint().toString()));
-        this.valueCalculated.setTextColor(ContextCompat.getColor(getContext(), hasInput ? android.R.color.black : R.color.gray_darker));
-        this.separator.setVisibility(this.adapter.getItemCount() > 0 ? VISIBLE : GONE);
-    }
+        boolean hasFood = this.adapter.getItemCount() > 0;
+        this.separator.setVisibility(hasFood ? VISIBLE : GONE);
 
-    private void addTestFood(int position) {
-        Food food = new Food();
-        food.setName("Food" + position);
-        food.setCarbohydrates((position + 1) * 10);
-        food.setImageUrl("https://upload.wikimedia.org/wikipedia/commons/a/a3/Mischbrot-1.jpg");
-        addFood(food);
+        boolean hasFoodEaten = this.adapter.getTotalCarbohydrates() > 0;
+        this.valueCalculated.setVisibility(hasFoodEaten ? VISIBLE : GONE);
+        this.valueCalculated.setText(hasFoodEaten ?
+                String.format("%s +", Helper.parseFloat(this.adapter.getTotalCarbohydrates())) :
+                null);
     }
 
     @SuppressWarnings("unused")

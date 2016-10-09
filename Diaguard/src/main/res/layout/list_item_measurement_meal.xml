@@ -13,7 +13,7 @@
         android:gravity="center_vertical"
         style="@style/Padding">
 
-        <TextView
+        <com.daasuu.cat.CountAnimationTextView
             android:id="@+id/list_item_measurement_meal_food_item_value_calculated"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

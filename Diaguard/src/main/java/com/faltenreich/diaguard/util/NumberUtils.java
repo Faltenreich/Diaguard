@@ -10,6 +10,10 @@ public class NumberUtils {
     }
 
     public static float parseNumber(String number) {
-        return Float.parseFloat(number.trim().replaceAll(",", "."));
+        try {
+            return Float.parseFloat(number.trim().replaceAll(",", "."));
+        } catch (NumberFormatException exception) {
+            return 0;
+        }
     }
 }

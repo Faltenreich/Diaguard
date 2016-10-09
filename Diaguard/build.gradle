@@ -71,4 +71,5 @@ dependencies {
     compile 'com.lapism:searchview:3.6.3'
     compile 'com.mikhaellopez:circularimageview:3.0.2'
     compile 'com.code-troopers.betterpickers:library:3.0.1'
+    compile 'com.daasuu:CountAnimationTextView:0.1.1'
 }

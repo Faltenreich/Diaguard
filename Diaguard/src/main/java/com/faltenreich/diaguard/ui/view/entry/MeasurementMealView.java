@@ -5,9 +5,10 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.EditText;
-import android.widget.TextView;
 
+import com.daasuu.cat.CountAnimationTextView;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.FoodEditableAdapter;
 import com.faltenreich.diaguard.adapter.SimpleDividerItemDecoration;
@@ -37,7 +38,7 @@ import butterknife.OnClick;
 public class MeasurementMealView extends MeasurementAbstractView<Meal> {
 
     @BindView(R.id.list_item_measurement_meal_food_item_value_input) EditText valueInput;
-    @BindView(R.id.list_item_measurement_meal_food_item_value_calculated) TextView valueCalculated;
+    @BindView(R.id.list_item_measurement_meal_food_item_value_calculated) CountAnimationTextView valueCalculated;
     @BindView(R.id.list_item_measurement_meal_food_item_list) RecyclerView foodList;
     @BindView(R.id.list_item_measurement_meal_food_item_separator) View separator;
 
@@ -78,6 +79,16 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
         this.foodList.setLayoutManager(new LinearLayoutManager(getContext()));
         this.foodList.addItemDecoration(new SimpleDividerItemDecoration(getContext()));
         this.foodList.setAdapter(this.adapter);
+
+        this.valueCalculated.setCountAnimationListener(new CountAnimationTextView.CountAnimationListener() {
+            @Override
+            public void onAnimationStart(Object animatedValue) {
+            }
+            @Override
+            public void onAnimationEnd(Object animatedValue) {
+                valueCalculated.setText(Helper.parseFloat(adapter.getTotalCarbohydrates()));
+            }
+        });
 
         updateUi();
     }
@@ -150,14 +161,15 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
     }
 
     private void updateUi() {
-        boolean hasFood = this.adapter.getItemCount() > 0;
-        this.separator.setVisibility(hasFood ? VISIBLE : GONE);
+        boolean hasFood = adapter.getItemCount() > 0;
+        separator.setVisibility(hasFood ? VISIBLE : GONE);
 
-        boolean hasFoodEaten = this.adapter.getTotalCarbohydrates() > 0;
-        this.valueCalculated.setVisibility(hasFoodEaten ? VISIBLE : GONE);
-        this.valueCalculated.setText(hasFoodEaten ?
-                String.format("%s +", Helper.parseFloat(this.adapter.getTotalCarbohydrates())) :
-                null);
+        float oldValue = NumberUtils.parseNumber(valueCalculated.getText().toString());
+        float newValue = adapter.getTotalCarbohydrates();
+        // TODO: Only animate on changes
+        boolean hasFoodEaten = newValue > 0;
+        valueCalculated.setVisibility(hasFoodEaten ? VISIBLE : GONE);
+        valueCalculated.setInterpolator(new AccelerateInterpolator()).countAnimation((int) oldValue, (int) newValue);
     }
 
     @SuppressWarnings("unused")

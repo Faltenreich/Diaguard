@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.daasuu.cat.CountAnimationTextView;
 import com.faltenreich.diaguard.R;
@@ -39,6 +40,7 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
 
     @BindView(R.id.list_item_measurement_meal_food_item_value_input) EditText valueInput;
     @BindView(R.id.list_item_measurement_meal_food_item_value_calculated) CountAnimationTextView valueCalculated;
+    @BindView(R.id.list_item_measurement_meal_food_item_value_sign) TextView valueSign;
     @BindView(R.id.list_item_measurement_meal_food_item_list) RecyclerView foodList;
     @BindView(R.id.list_item_measurement_meal_food_item_separator) View separator;
 
@@ -169,6 +171,7 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
         // TODO: Only animate on changes
         boolean hasFoodEaten = newValue > 0;
         valueCalculated.setVisibility(hasFoodEaten ? VISIBLE : GONE);
+        valueSign.setVisibility(hasFoodEaten ? VISIBLE : GONE);
         valueCalculated.setInterpolator(new AccelerateInterpolator()).countAnimation((int) oldValue, (int) newValue);
     }
 

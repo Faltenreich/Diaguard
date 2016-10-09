@@ -2,12 +2,11 @@ package com.faltenreich.diaguard.ui.view.entry;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SwitchCompat;
-import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.FoodEditableAdapter;
@@ -33,9 +32,8 @@ import butterknife.OnClick;
  */
 public class MeasurementMealView extends MeasurementAbstractView<Meal> {
 
-    @BindView(R.id.list_item_measurement_meal_food_item_value) EditText value;
-    @BindView(R.id.list_item_measurement_meal_food_item_mode) SwitchCompat mode;
-    @BindView(R.id.list_item_measurement_meal_food_item_extended_layout) ViewGroup extendedLayout;
+    @BindView(R.id.list_item_measurement_meal_food_item_value_input) EditText valueInput;
+    @BindView(R.id.list_item_measurement_meal_food_item_value_calculated) TextView valueCalculated;
     @BindView(R.id.list_item_measurement_meal_food_item_list) RecyclerView foodList;
 
     private FoodEditableAdapter adapter;
@@ -67,17 +65,9 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
 
     @Override
     protected void initLayout() {
-        this.value.setText(measurement != null &&measurement.getCarbohydrates() > 0 ? Helper.parseFloat(measurement.getCarbohydrates()) : null);
-        this.value.setHint(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.MEAL));
-
-        this.mode.setChecked(PreferenceHelper.getInstance().isMealCalculated());
-        this.mode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                PreferenceHelper.getInstance().setIsMealCalculated(isChecked);
-                updateUi();
-            }
-        });
+        // TODO: Set values from given measurement
+        String mealUnit = PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.MEAL);
+        this.valueInput.setHint(mealUnit);
 
         this.adapter = new FoodEditableAdapter(getContext());
         this.foodList.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -126,19 +116,11 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
     }
 
     private void updateUi() {
-        boolean isManually = !this.mode.isChecked();
-
-        this.value.setFocusable(isManually);
-        this.value.setFocusableInTouchMode(isManually);
-        this.value.setClickable(isManually);
-        if (!isManually) {
-            requestFocus();
-        }
-
-        this.extendedLayout.setVisibility(isManually ? GONE : VISIBLE);
-        if (!isManually) {
-            this.value.setText(Helper.parseFloat(this.adapter.getTotalCarbohydrates()));
-        }
+        boolean hasInput = this.adapter.getTotalCarbohydrates() > 0;
+        this.valueCalculated.setText(hasInput ?
+                Helper.parseFloat(this.adapter.getTotalCarbohydrates()) :
+                String.format(getContext().getString(R.string.meal_calculated), this.valueInput.getHint().toString()));
+        this.valueCalculated.setTextColor(ContextCompat.getColor(getContext(), hasInput ? android.R.color.black : R.color.gray_darker));
     }
 
     private void addTestFood(int position) {

@@ -14,6 +14,7 @@
     <string name="alarm_desc_first">Schon dran gedacht?</string>
     <string name="alarm_reminder">Erinnerung in</string>
     <string name="amount">Menge &#8230;</string>
+    <string name="and_or">und/oder</string>
     <string name="average">Durchschnitt</string>
     <string name="back">Zurück</string>
     <string name="backup">Backup anlegen</string>
@@ -24,7 +25,6 @@
     <string name="bolus">Bolus</string>
     <string name="bolus_no1">Es wird empfohlen, keinen Bolus zu verabreichen.</string>
     <string name="bolus_no2">Stattdessen sollten schnelle Kohlenhydrate konsumiert werden, um tiefere Blutzuckerlevel zu vermeiden.</string>
-    <string name="calculated">Berechnet</string>
     <string name="calculator">Bolusrechner</string>
     <string name="cancel">Abbrechen</string>
     <string name="carbohydrates_per_100g">KH/100g</string>
@@ -85,6 +85,7 @@
     <string name="log">Protokoll</string>
     <string name="mail">E-Mail</string>
     <string name="meal">Mahlzeit</string>
+    <string name="meal_calculated">Berechnete %s</string>
     <string name="measurement_latest">Zuletzt</string>
     <string name="measurements">Messungen</string>
     <string name="no_data">Keine Einträge vorhanden</string>

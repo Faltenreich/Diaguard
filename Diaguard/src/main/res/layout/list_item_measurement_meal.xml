@@ -1,58 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <LinearLayout
+        style="@style/Padding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:minHeight="@dimen/height_element"
+        android:orientation="horizontal">
+
+        <com.faltenreich.diaguard.ui.view.TintImageView
+            android:layout_width="@dimen/size_image_small"
+            android:layout_height="@dimen/size_image_small"
+            android:src="@drawable/ic_edit"
+            app:tintColor="@color/gray" />
 
         <EditText
-            android:id="@+id/list_item_measurement_meal_food_item_value"
-            style="@style/Padding"
+            android:id="@+id/list_item_measurement_meal_food_item_value_input"
             android:layout_width="0dp"
-            android:layout_height="@dimen/height_element"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/padding_end"
+            android:layout_marginStart="@dimen/padding_end"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:inputType="numberDecimal"/>
-
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/list_item_measurement_meal_food_item_mode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_between"
-            android:text="@string/calculated"/>
+            android:inputType="numberDecimal" />
 
     </LinearLayout>
+
+    <View style="@style/LayoutRowSeparator" />
 
     <LinearLayout
-        android:id="@+id/list_item_measurement_meal_food_item_extended_layout"
+        style="@style/Padding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:gravity="center_vertical"
+        android:minHeight="@dimen/height_element"
+        android:orientation="horizontal">
 
-        <View style="@style/LayoutRowSeparator" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/list_item_measurement_meal_food_item_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"/>
+        <com.faltenreich.diaguard.ui.view.TintImageView
+            android:layout_width="@dimen/size_image_small"
+            android:layout_height="@dimen/size_image_small"
+            android:src="@drawable/ic_calc"
+            app:tintColor="@color/gray" />
 
-        <View style="@style/LayoutRowSeparator" />
-
-        <Button
-            android:id="@+id/list_item_measurement_meal_food_item_add"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/food_add"
-            android:textColor="@color/green"
-            style="?attr/borderlessButtonStyle"/>
+        <TextView
+            android:id="@+id/list_item_measurement_meal_food_item_value_calculated"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/padding_end"
+            android:layout_marginStart="@dimen/padding_end"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="@string/meal_calculated"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_medium" />
 
     </LinearLayout>
+
+    <View style="@style/LayoutRowSeparator" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_item_measurement_meal_food_item_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="false" />
+
+    <View style="@style/LayoutRowSeparator" />
+
+    <Button
+        android:id="@+id/list_item_measurement_meal_food_item_add"
+        style="?attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/food_add"
+        android:textColor="@color/green" />
 
 </LinearLayout>

@@ -25,6 +25,7 @@
     <string name="alarm_desc_first">Thought about yet?</string>
     <string name="alarm_reminder">Reminder in</string>
     <string name="amount">Amount &#8230;</string>
+    <string name="and_or">and/or</string>
     <string name="average">Average</string>
     <string name="average_symbol" translatable="false">Ø</string>
     <string name="back">Back</string>
@@ -37,7 +38,6 @@
     <string name="bolus">Bolus</string>
     <string name="bolus_no1">It is recommended not to inject a bolus.</string>
     <string name="bolus_no2">Instead some carbohydrate-heavy products should be consumed to prevent lower blood sugar level.</string>
-    <string name="calculated">Calculated</string>
     <string name="calculator">Calculator</string>
     <string name="cancel">Cancel</string>
     <string name="carbohydrates_per_100g">CHO/100g</string>

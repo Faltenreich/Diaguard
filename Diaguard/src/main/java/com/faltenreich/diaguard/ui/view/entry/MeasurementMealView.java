@@ -22,6 +22,7 @@ import com.faltenreich.diaguard.event.ui.FoodEatenRemovedEvent;
 import com.faltenreich.diaguard.event.ui.FoodEatenUpdatedEvent;
 import com.faltenreich.diaguard.event.ui.FoodSelectedEvent;
 import com.faltenreich.diaguard.ui.activity.FoodSearchActivity;
+import com.faltenreich.diaguard.ui.fragment.FoodSearchFragment;
 import com.faltenreich.diaguard.util.Helper;
 
 import butterknife.BindView;
@@ -149,7 +150,9 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
     @SuppressWarnings("unused")
     @OnClick(R.id.list_item_measurement_meal_food_item_add)
     public void searchForFood() {
-        getContext().startActivity(new Intent(getContext(), FoodSearchActivity.class));
+        Intent intent = new Intent(getContext(), FoodSearchActivity.class);
+        intent.putExtra(FoodSearchFragment.EXTRA_MODE, FoodSearchFragment.Mode.SELECT);
+        getContext().startActivity(intent);
     }
 
     @SuppressWarnings("unused")

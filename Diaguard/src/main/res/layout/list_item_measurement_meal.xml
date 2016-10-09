@@ -63,7 +63,8 @@
 
     </LinearLayout>
 
-    <View style="@style/LayoutRowSeparator" />
+    <View style="@style/LayoutRowSeparator"
+        android:id="@+id/list_item_measurement_meal_food_item_separator"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list_item_measurement_meal_food_item_list"

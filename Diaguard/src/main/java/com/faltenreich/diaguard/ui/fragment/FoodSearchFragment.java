@@ -1,9 +1,11 @@
 package com.faltenreich.diaguard.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -22,7 +24,9 @@ import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.networking.FoodSearchFailedEvent;
 import com.faltenreich.diaguard.event.networking.FoodSearchSucceededEvent;
+import com.faltenreich.diaguard.event.ui.FoodSelectedEvent;
 import com.faltenreich.diaguard.networking.openfoodfacts.OpenFoodFactsManager;
+import com.faltenreich.diaguard.ui.activity.FoodActivity;
 import com.faltenreich.diaguard.ui.activity.FoodSearchActivity;
 import com.faltenreich.diaguard.util.NetworkingUtils;
 import com.lapism.searchview.SearchAdapter;
@@ -125,14 +129,25 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         adapter = new FoodAdapter(getContext());
         list.setAdapter(adapter);
 
-        List<Food> foodEaten = FoodDao.getInstance().getAllFoodEaten();
-        if (foodEaten.size() > 0) {
-            updateList(FoodDao.getInstance().getAllFoodEaten());
-        } else {
-            // TODO: Request interesting food items
+        List<Food> foodList = FoodDao.getInstance().getAllFoodEaten();
+
+        if (foodList.size() == 0) {
             queryTextView.setText(R.string.food);
-            OpenFoodFactsManager.getInstance().search("");
+            foodList = FoodDao.getInstance().getAll();
+
+            if (foodList.size() > 0) {
+                updateList(foodList);
+
+            } else {
+                // TODO: Request interesting food items
+                OpenFoodFactsManager.getInstance().search("");
+            }
+
+        } else {
+            queryTextView.setText(R.string.entry_latest);
+            updateList(foodList);
         }
+
     }
 
     private void initSearch() {
@@ -195,6 +210,23 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         emptyDescription.setText(descResId);
     }
 
+    private void onFoodSelected(Food food, View view) {
+
+        if (mode == Mode.SELECT) {
+            finish();
+
+        } else if (mode == Mode.READ) {
+            Intent intent = new Intent(getContext(), FoodActivity.class);
+            intent.putExtra(FoodFragment.EXTRA_FOOD_ID, food.getId());
+            ActivityOptionsCompat options =
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(
+                            getActivity(),
+                            view,
+                            "transitionFood");
+            startActivity(intent, options);
+        }
+    }
+
     @Override
     public boolean onQueryTextSubmit(String query) {
         searchView.close(true);
@@ -214,6 +246,11 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         } else {
             finish();
         }
+    }
+
+    @SuppressWarnings("unused")
+    public void onEvent(FoodSelectedEvent event) {
+        onFoodSelected(event.context, event.view);
     }
 
     @SuppressWarnings("unused")

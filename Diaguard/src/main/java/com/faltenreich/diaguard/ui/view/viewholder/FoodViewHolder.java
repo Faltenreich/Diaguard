@@ -8,7 +8,6 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.ui.FoodSelectedEvent;
-import com.faltenreich.diaguard.ui.activity.FoodSearchActivity;
 import com.faltenreich.diaguard.util.Helper;
 import com.squareup.picasso.Picasso;
 
@@ -40,21 +39,6 @@ public class FoodViewHolder extends BaseViewHolder<Food> implements View.OnClick
 
     @Override
     public void onClick(View view) {
-        if (getContext() instanceof FoodSearchActivity) {
-            FoodSearchActivity activity = (FoodSearchActivity) getContext();
-            Events.post(new FoodSelectedEvent(getListItem()));
-            activity.finish();
-
-        /*
-            Intent intent = new Intent(getContext(), FoodActivity.class);
-            intent.putExtra(FoodFragment.EXTRA_FOOD_ID, getListItem().getId());
-            ActivityOptionsCompat options =
-                    ActivityOptionsCompat.makeSceneTransitionAnimation(
-                            activity,
-                            view,
-                            "transitionFood");
-            activity.startActivity(intent, options);
-        */
-        }
+        Events.post(new FoodSelectedEvent(getListItem(), view));
     }
 }

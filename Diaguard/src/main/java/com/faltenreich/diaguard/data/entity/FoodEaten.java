@@ -45,4 +45,9 @@ public class FoodEaten extends BaseEntity {
     public void setMeal(Meal meal) {
         this.meal = meal;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s: %f grams", food.getName(), amountInGrams);
+    }
 }

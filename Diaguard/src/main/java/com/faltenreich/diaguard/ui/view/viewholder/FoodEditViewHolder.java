@@ -59,7 +59,7 @@ public class FoodEditViewHolder extends BaseViewHolder<FoodEaten> {
         this.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Events.post(new FoodEatenRemovedEvent(foodEaten));
+                Events.post(new FoodEatenRemovedEvent(foodEaten, getAdapterPosition()));
             }
         });
 
@@ -80,8 +80,7 @@ public class FoodEditViewHolder extends BaseViewHolder<FoodEaten> {
                     public void onDialogNumberSet(int reference, BigInteger number, double decimal, boolean isNegative, BigDecimal fullNumber) {
                         FoodEaten foodEaten = getListItem();
                         foodEaten.setAmountInGrams(number.floatValue());
-                        updateUi();
-                        Events.post(new FoodEatenUpdatedEvent(foodEaten));
+                        Events.post(new FoodEatenUpdatedEvent(foodEaten, getAdapterPosition()));
                     }
                 });
         int currentAmount = getAmountFromButton();
@@ -92,9 +91,16 @@ public class FoodEditViewHolder extends BaseViewHolder<FoodEaten> {
     }
 
     private void updateUi() {
-        this.amount.setText(String.format("%s %s", Helper.parseFloat(getListItem().getAmountInGrams()), getContext().getString(R.string.grams)));
-        this.amount.setSupportBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.gray_light)));
-        this.amount.setTextColor(ContextCompat.getColor(getContext(), android.R.color.black));
+        FoodEaten foodEaten = getListItem();
+        boolean isSet = foodEaten.getAmountInGrams() > 0;
+        String text = isSet ?
+                String.format("%s %s", Helper.parseFloat(getListItem().getAmountInGrams()), getContext().getString(R.string.grams)) :
+                getContext().getString(R.string.amount);
+        int backgroundColor = isSet ? R.color.gray_light : R.color.green_light;
+        int textColor = isSet ? android.R.color.black : android.R.color.white;
+        this.amount.setText(text);
+        this.amount.setSupportBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), backgroundColor)));
+        this.amount.setTextColor(ContextCompat.getColor(getContext(), textColor));
     }
 
     private int getAmountFromButton() {

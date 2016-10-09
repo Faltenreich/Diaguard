@@ -83,6 +83,9 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
         this.foodList.addItemDecoration(new SimpleDividerItemDecoration(getContext()));
         this.foodList.setAdapter(this.adapter);
 
+        addTestFood(0);
+        addTestFood(1);
+
         updateUi();
     }
 
@@ -112,21 +115,16 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
         updateUi();
     }
 
-    private void removeFoodEaten(FoodEaten foodEaten) {
-        int position = this.adapter.getItemPosition(foodEaten);
-        if (position >= 0) {
-            this.adapter.removeItem(position);
-            this.adapter.notifyItemRemoved(position);
-            updateUi();
-        }
+    private void removeFoodEaten(int position) {
+        this.adapter.removeItem(position);
+        this.adapter.notifyItemRemoved(position);
+        updateUi();
     }
 
-    private void updateFoodEaten(FoodEaten foodEaten) {
-        int position = this.adapter.getItemPosition(foodEaten);
-        if (position >= 0) {
-            this.adapter.updateItem(position, foodEaten);
-            updateUi();
-        }
+    private void updateFoodEaten(FoodEaten foodEaten, int position) {
+        this.adapter.updateItem(position, foodEaten);
+        this.adapter.notifyItemChanged(position);
+        updateUi();
     }
 
     private void updateUi() {
@@ -143,10 +141,10 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
         this.value.setText(Helper.parseFloat(this.adapter.getTotalCarbohydrates()));
     }
 
-    private void addTestFood() {
+    private void addTestFood(int position) {
         Food food = new Food();
-        food.setName("Keks");
-        food.setCarbohydrates(24);
+        food.setName("Food" + position);
+        food.setCarbohydrates((position + 1) * 10);
         food.setImageUrl("https://upload.wikimedia.org/wikipedia/commons/a/a3/Mischbrot-1.jpg");
         addFood(food);
     }
@@ -164,11 +162,11 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
 
     @SuppressWarnings("unused")
     public void onEvent(FoodEatenUpdatedEvent event) {
-        updateFoodEaten(event.context);
+        updateFoodEaten(event.context, event.position);
     }
 
     @SuppressWarnings("unused")
     public void onEvent(FoodEatenRemovedEvent event) {
-        removeFoodEaten(event.context);
+        removeFoodEaten(event.position);
     }
 }

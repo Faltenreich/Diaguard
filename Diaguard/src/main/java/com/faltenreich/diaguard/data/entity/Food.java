@@ -167,4 +167,9 @@ public class Food extends BaseServerEntity {
     public void setFoodEaten(ForeignCollection<FoodEaten> foodEaten) {
         this.foodEaten = foodEaten;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

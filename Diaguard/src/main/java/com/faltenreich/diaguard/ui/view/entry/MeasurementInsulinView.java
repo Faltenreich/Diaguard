@@ -78,22 +78,6 @@ public class MeasurementInsulinView extends MeasurementAbstractView<Insulin> {
         return isValid;
     }
 
-    private boolean isValueValid(EditText editText) {
-        boolean isValid = true;
-        editText.setError(null);
-        try {
-            float value = PreferenceHelper.getInstance().formatCustomToDefaultUnit(measurement.getCategory(), NumberUtils.parseNumber(editText.getText().toString()));
-            if (!PreferenceHelper.getInstance().validateEventValue(measurement.getCategory(), value)) {
-                editText.setError(getContext().getString(R.string.validator_value_unrealistic));
-                isValid = false;
-            }
-        } catch (NumberFormatException exception) {
-            editText.setError(getContext().getString(R.string.validator_value_number));
-            isValid = false;
-        }
-        return isValid;
-    }
-
     @Override
     public Measurement getMeasurement() {
         if (isValid()) {

@@ -5,8 +5,12 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.util.NumberUtils;
 
 import java.lang.reflect.Constructor;
 
@@ -63,5 +67,21 @@ public abstract class MeasurementAbstractView <T extends Measurement> extends Li
         LayoutInflater.from(getContext()).inflate(getLayoutResourceId(), this);
         ButterKnife.bind(this);
         initLayout();
+    }
+
+    protected boolean isValueValid(TextView textView) {
+        boolean isValid = true;
+        textView.setError(null);
+        try {
+            float value = PreferenceHelper.getInstance().formatCustomToDefaultUnit(measurement.getCategory(), NumberUtils.parseNumber(textView.getText().toString()));
+            if (!PreferenceHelper.getInstance().validateEventValue(measurement.getCategory(), value)) {
+                textView.setError(getContext().getString(R.string.validator_value_unrealistic));
+                isValid = false;
+            }
+        } catch (NumberFormatException exception) {
+            textView.setError(getContext().getString(R.string.validator_value_number));
+            isValid = false;
+        }
+        return isValid;
     }
 }

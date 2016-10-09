@@ -49,22 +49,13 @@ public class MeasurementGenericView <T extends Measurement> extends MeasurementA
 
     @Override
     protected boolean isValid() {
-        boolean isValid = true;
+        boolean isValid;
         String input = editTextValue.getText().toString();
         if (StringUtils.isBlank(input)) {
             editTextValue.setError(getContext().getString(R.string.validator_value_empty));
             isValid = false;
         } else {
-            try {
-                float value = PreferenceHelper.getInstance().formatCustomToDefaultUnit(measurement.getCategory(), NumberUtils.parseNumber(input));
-                if (!PreferenceHelper.getInstance().validateEventValue(measurement.getCategory(), value)) {
-                    editTextValue.setError(getContext().getString(R.string.validator_value_unrealistic));
-                    isValid = false;
-                }
-            } catch (NumberFormatException exception) {
-                editTextValue.setError(getContext().getString(R.string.validator_value_number));
-                isValid = false;
-            }
+            isValid = isValueValid(editTextValue);
         }
         return isValid;
     }

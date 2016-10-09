@@ -13,6 +13,8 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.FoodEditableAdapter;
 import com.faltenreich.diaguard.adapter.SimpleDividerItemDecoration;
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.data.dao.FoodEatenDao;
+import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.data.entity.Meal;
@@ -24,6 +26,8 @@ import com.faltenreich.diaguard.event.ui.FoodSelectedEvent;
 import com.faltenreich.diaguard.ui.activity.FoodSearchActivity;
 import com.faltenreich.diaguard.ui.fragment.FoodSearchFragment;
 import com.faltenreich.diaguard.util.Helper;
+import com.faltenreich.diaguard.util.NumberUtils;
+import com.faltenreich.diaguard.util.StringUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -86,12 +90,38 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
 
     @Override
     protected boolean isValid() {
-        return false;
+        boolean isValid = true;
+
+        String input = valueInput.getText().toString().trim();
+        String calculated = valueCalculated.getText().toString().trim();
+
+        if (StringUtils.isBlank(input) && this.adapter.getTotalCarbohydrates() == 0) {
+            valueInput.setError(getContext().getString(R.string.validator_value_empty));
+            isValid = false;
+        } else {
+            if (!StringUtils.isBlank(input)) {
+                isValid = isValueValid(valueInput);
+            }
+        }
+        return isValid;
     }
 
     @Override
     public Measurement getMeasurement() {
-        return null;
+        if (isValid()) {
+            measurement.setValues(valueInput.getText().toString().length() > 0 ?
+                    PreferenceHelper.getInstance().formatCustomToDefaultUnit(
+                    measurement.getCategory(),
+                    NumberUtils.parseNumber(valueInput.getText().toString())) : 0);
+            MeasurementDao.getInstance(Meal.class).createOrUpdate(measurement);
+            for (FoodEaten foodEaten : this.adapter.getItems()) {
+                foodEaten.setMeal(measurement);
+                FoodEatenDao.getInstance().createOrUpdate(foodEaten);
+            }
+            return measurement;
+        } else {
+            return null;
+        }
     }
 
     private void addFood(Food food) {

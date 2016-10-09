@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -35,6 +36,7 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
     @BindView(R.id.list_item_measurement_meal_food_item_value_input) EditText valueInput;
     @BindView(R.id.list_item_measurement_meal_food_item_value_calculated) TextView valueCalculated;
     @BindView(R.id.list_item_measurement_meal_food_item_list) RecyclerView foodList;
+    @BindView(R.id.list_item_measurement_meal_food_item_separator) View separator;
 
     private FoodEditableAdapter adapter;
 
@@ -121,6 +123,7 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
                 Helper.parseFloat(this.adapter.getTotalCarbohydrates()) :
                 String.format(getContext().getString(R.string.meal_calculated), this.valueInput.getHint().toString()));
         this.valueCalculated.setTextColor(ContextCompat.getColor(getContext(), hasInput ? android.R.color.black : R.color.gray_darker));
+        this.separator.setVisibility(this.adapter.getItemCount() > 0 ? VISIBLE : GONE);
     }
 
     private void addTestFood(int position) {

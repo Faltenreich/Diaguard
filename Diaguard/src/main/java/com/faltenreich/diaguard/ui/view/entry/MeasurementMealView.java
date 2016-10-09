@@ -88,7 +88,9 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
             }
             @Override
             public void onAnimationEnd(Object animatedValue) {
-                valueCalculated.setText(Helper.parseFloat(adapter.getTotalCarbohydrates()));
+                float totalCarbohydrates = adapter.getTotalCarbohydrates();
+                float totalMeal = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.MEAL, totalCarbohydrates);
+                valueCalculated.setText(Helper.parseFloat(totalMeal));
             }
         });
 
@@ -167,7 +169,7 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
         separator.setVisibility(hasFood ? VISIBLE : GONE);
 
         float oldValue = NumberUtils.parseNumber(valueCalculated.getText().toString());
-        float newValue = adapter.getTotalCarbohydrates();
+        float newValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.MEAL, adapter.getTotalCarbohydrates());
         // TODO: Only animate on changes
         boolean hasFoodEaten = newValue > 0;
         valueCalculated.setVisibility(hasFoodEaten ? VISIBLE : GONE);

@@ -83,9 +83,6 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
         this.foodList.addItemDecoration(new SimpleDividerItemDecoration(getContext()));
         this.foodList.setAdapter(this.adapter);
 
-        addTestFood(0);
-        addTestFood(1);
-
         updateUi();
     }
 

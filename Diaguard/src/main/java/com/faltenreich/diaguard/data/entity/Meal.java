@@ -1,7 +1,9 @@
 package com.faltenreich.diaguard.data.entity;
 
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 /**
@@ -12,14 +14,13 @@ public class Meal extends Measurement {
 
     public class Column extends Measurement.Column {
         public static final String CARBOHYDRATES = "carbohydrates";
-        public static final String FOOD_EATEN = "foodEaten";
     }
 
     @DatabaseField(columnName = Column.CARBOHYDRATES)
     private float carbohydrates;
 
-    @DatabaseField(columnName = Column.FOOD_EATEN, foreign = true, foreignAutoRefresh = true)
-    private FoodEaten foodEaten;
+    @ForeignCollectionField
+    private ForeignCollection<FoodEaten> foodEaten;
 
     public float getCarbohydrates() {
         return carbohydrates;
@@ -29,11 +30,11 @@ public class Meal extends Measurement {
         this.carbohydrates = carbohydrates;
     }
 
-    public FoodEaten getFoodEaten() {
+    public ForeignCollection<FoodEaten> getFoodEaten() {
         return foodEaten;
     }
 
-    public void setFoodEaten(FoodEaten foodEaten) {
+    public void setFoodEaten(ForeignCollection<FoodEaten> foodEaten) {
         this.foodEaten = foodEaten;
     }
 

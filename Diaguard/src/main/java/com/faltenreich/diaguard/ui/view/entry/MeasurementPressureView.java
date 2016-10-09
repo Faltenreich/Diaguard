@@ -8,7 +8,6 @@ import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Pressure;
 import com.faltenreich.diaguard.util.NumberUtils;
-import com.faltenreich.diaguard.util.StringUtils;
 
 import butterknife.BindView;
 
@@ -51,29 +50,6 @@ public class MeasurementPressureView extends MeasurementAbstractView<Pressure> {
     @Override
     protected boolean isValid() {
         return isValueValid(editTextSystolic) && isValueValid(editTextDiastolic);
-    }
-
-    private boolean isValueValid(EditText editText) {
-        boolean isValid = true;
-
-        String input = editText.getText().toString().trim();
-        if (StringUtils.isBlank(input)) {
-            editText.setError(getContext().getString(R.string.validator_value_empty));
-            isValid = false;
-        } else {
-            editText.setError(null);
-            try {
-                float value = PreferenceHelper.getInstance().formatCustomToDefaultUnit(measurement.getCategory(), NumberUtils.parseNumber(input));
-                if (!PreferenceHelper.getInstance().validateEventValue(measurement.getCategory(), value)) {
-                    editText.setError(getContext().getString(R.string.validator_value_unrealistic));
-                    isValid = false;
-                }
-            } catch (NumberFormatException exception) {
-                editText.setError(getContext().getString(R.string.validator_value_number));
-                isValid = false;
-            }
-        }
-        return isValid;
     }
 
     @Override

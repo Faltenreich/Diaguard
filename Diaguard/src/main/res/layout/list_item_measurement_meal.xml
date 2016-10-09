@@ -18,7 +18,7 @@
             android:layout_width="@dimen/size_image_small"
             android:layout_height="@dimen/size_image_small"
             android:src="@drawable/ic_edit"
-            app:tintColor="@color/gray" />
+            app:tintColor="@color/gray_darker" />
 
         <EditText
             android:id="@+id/list_item_measurement_meal_food_item_value_input"
@@ -47,7 +47,7 @@
             android:layout_width="@dimen/size_image_small"
             android:layout_height="@dimen/size_image_small"
             android:src="@drawable/ic_calc"
-            app:tintColor="@color/gray" />
+            app:tintColor="@color/gray_darker" />
 
         <TextView
             android:id="@+id/list_item_measurement_meal_food_item_value_calculated"
@@ -57,7 +57,6 @@
             android:layout_marginStart="@dimen/padding_end"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="@string/meal_calculated"
             android:textColor="@android:color/black"
             android:textSize="@dimen/text_medium" />
 

@@ -29,7 +29,7 @@ public abstract class BaseAdapter<L, VH extends BaseViewHolder<L>> extends Recyc
         return items.get(position);
     }
 
-    protected List<L> getItems() {
+    public List<L> getItems() {
         return items;
     }
 

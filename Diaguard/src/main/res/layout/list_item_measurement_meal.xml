@@ -18,10 +18,21 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:layout_marginRight="@dimen/padding"
-            android:layout_marginEnd="@dimen/padding"
             android:textColor="@android:color/black"
             android:textSize="@dimen/text_medium" />
+
+        <TextView
+            android:id="@+id/list_item_measurement_meal_food_item_value_sign"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/margin_between"
+            android:layout_marginStart="@dimen/margin_between"
+            android:layout_marginRight="@dimen/margin_between"
+            android:layout_marginEnd="@dimen/margin_between"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_medium"
+            android:text="+"/>
 
         <EditText
             android:id="@+id/list_item_measurement_meal_food_item_value_input"

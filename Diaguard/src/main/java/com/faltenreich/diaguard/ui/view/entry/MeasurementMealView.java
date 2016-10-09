@@ -136,7 +136,9 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
         }
 
         this.extendedLayout.setVisibility(isManually ? GONE : VISIBLE);
-        this.value.setText(Helper.parseFloat(this.adapter.getTotalCarbohydrates()));
+        if (!isManually) {
+            this.value.setText(Helper.parseFloat(this.adapter.getTotalCarbohydrates()));
+        }
     }
 
     private void addTestFood(int position) {

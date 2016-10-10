@@ -6,6 +6,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -68,6 +69,9 @@ public class Meal extends Measurement {
     }
 
     public List<FoodEaten> getFoodEatenCache() {
+        if (foodEatenCache == null) {
+            foodEatenCache = new ArrayList<>();
+        }
         return foodEatenCache;
     }
 

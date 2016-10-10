@@ -20,11 +20,8 @@ import android.widget.Toast;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
-import com.faltenreich.diaguard.data.dao.FoodEatenDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.Entry;
-import com.faltenreich.diaguard.data.entity.FoodEaten;
-import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.data.EntryAddedEvent;
@@ -126,16 +123,17 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             if (extras.getLong(EXTRA_ENTRY) != 0L) {
                 setTitle(getString(R.string.entry_edit));
                 entry = EntryDao.getInstance().get(extras.getLong(EXTRA_ENTRY));
+                if (entry != null) {
+                    time = entry.getDate();
+                    editTextNotes.setText(entry.getNote());
 
-                time = entry.getDate();
-                editTextNotes.setText(entry.getNote());
-
-                List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
-                layoutMeasurements.addMeasurements(measurements);
-                for (Measurement measurement : measurements) {
-                    fab.ignore(measurement.getCategory());
+                    List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
+                    layoutMeasurements.addMeasurements(measurements);
+                    for (Measurement measurement : measurements) {
+                        fab.ignore(measurement.getCategory());
+                    }
+                    fab.restock();
                 }
-                fab.restock();
             } else if (extras.getSerializable(EXTRA_DATE) != null) {
                 time = (DateTime) extras.getSerializable(EXTRA_DATE);
             }
@@ -244,24 +242,6 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
                     Measurement measurement = layoutMeasurements.getMeasurement(category);
                     measurement.setEntry(entry);
                     MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
-
-                    switch (measurement.getCategory()) {
-                        case MEAL:
-                            Meal meal = (Meal) measurement;
-                            
-                            List<FoodEaten> foodEatenOldList = FoodEatenDao.getInstance().getAll(meal);
-                            for (FoodEaten foodEatenOld : foodEatenOldList) {
-                                if (!meal.getFoodEatenCache().contains(foodEatenOld)) {
-                                    FoodEatenDao.getInstance().delete(foodEatenOld);
-                                }
-                            }
-
-                            for (FoodEaten foodEaten : meal.getFoodEatenCache()) {
-                                foodEaten.setMeal(meal);
-                                FoodEatenDao.getInstance().createOrUpdate(foodEaten);
-                            }
-                            break;
-                    }
                 } else {
                     MeasurementDao.getInstance(category.toClass()).deleteMeasurements(entry);
                 }

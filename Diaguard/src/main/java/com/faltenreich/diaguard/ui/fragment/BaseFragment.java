@@ -19,11 +19,11 @@ import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.ui.activity.BaseActivity;
-import com.faltenreich.diaguard.util.ViewHelper;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.event.data.EntryDeletedEvent;
+import com.faltenreich.diaguard.ui.activity.BaseActivity;
+import com.faltenreich.diaguard.util.ViewHelper;
 
 import butterknife.ButterKnife;
 
@@ -124,6 +124,7 @@ public abstract class BaseFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 EntryDao.getInstance().createOrUpdate(entry);
+
                 for (Measurement measurement : entry.getMeasurementCache()) {
                     measurement.setEntry(entry);
                     MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);

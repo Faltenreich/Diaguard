@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.Measurement;
 
 import java.util.ArrayList;
@@ -75,6 +76,19 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
         if (!hasCategory(category)) {
             categories.add(0, category);
             MeasurementView<Measurement> measurementView = new MeasurementView<>(getContext(), measurement);
+            measurementView.setOnCategoryRemovedListener(this);
+            addView(measurementView, 0);
+            if (callback != null) {
+                callback.onCategoryAdded(category);
+            }
+        }
+    }
+
+    public void addMeasurement(Food food) {
+        Measurement.Category category = Measurement.Category.MEAL;
+        if (!hasCategory(category)) {
+            categories.add(0, category);
+            MeasurementView<Measurement> measurementView = new MeasurementView<>(getContext(), food);
             measurementView.setOnCategoryRemovedListener(this);
             addView(measurementView, 0);
             if (callback != null) {

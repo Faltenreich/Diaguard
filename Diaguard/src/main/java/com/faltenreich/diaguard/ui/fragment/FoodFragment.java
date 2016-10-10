@@ -1,14 +1,19 @@
 package com.faltenreich.diaguard.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.entity.Food;
+import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.ui.activity.FoodActivity;
 import com.squareup.picasso.Picasso;
 
@@ -34,6 +39,7 @@ public class FoodFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         checkIntents();
     }
 
@@ -41,6 +47,24 @@ public class FoodFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         init();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.food, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_entry: {
+                createEntry();
+                return true;
+            }
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void checkIntents() {
@@ -58,5 +82,11 @@ public class FoodFragment extends BaseFragment {
             Picasso.with(getContext()).load(food.getImageUrl()).into(image);
             collapsingToolbarLayout.setTitle(food.getName());
         }
+    }
+
+    private void createEntry() {
+        Intent intent = new Intent(getActivity(), EntryActivity.class);
+        intent.putExtra(EntryActivity.EXTRA_FOOD, food.getId());
+        startActivity(intent);
     }
 }

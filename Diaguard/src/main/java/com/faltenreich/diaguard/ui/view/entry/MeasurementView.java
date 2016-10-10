@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.SwipeDismissTouchListener;
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
@@ -49,13 +50,19 @@ public class MeasurementView<T extends Measurement> extends LinearLayout {
     public MeasurementView(Context context, T measurement) {
         super(context);
         this.category = measurement.getCategory();
-        init(measurement);
+        init(measurement, null);
+    }
+
+    public MeasurementView(Context context, Food food) {
+        super(context);
+        this.category = Measurement.Category.MEAL;
+        init(null, food);
     }
 
     public MeasurementView(Context context, Measurement.Category category) {
         super(context);
         this.category = category;
-        init(null);
+        init(null, null);
     }
 
     public void setOnCategoryRemovedListener(OnCategoryRemovedListener onCategoryRemovedListener) {
@@ -66,7 +73,7 @@ public class MeasurementView<T extends Measurement> extends LinearLayout {
         return onCategoryRemovedListener != null;
     }
 
-    private void init(@Nullable Measurement measurement) {
+    private void init(@Nullable Measurement measurement, @Nullable Food food) {
         boolean isUpdating = measurement != null;
 
         LayoutInflater.from(getContext()).inflate(R.layout.list_item_measurement, this);
@@ -112,7 +119,7 @@ public class MeasurementView<T extends Measurement> extends LinearLayout {
             case MEAL:
                 content.addView(isUpdating ?
                         new MeasurementMealView(getContext(), (Meal) measurement) :
-                        new MeasurementMealView(getContext()));
+                        new MeasurementMealView(getContext(), food));
                 break;
             case PRESSURE:
                 content.addView(isUpdating ?

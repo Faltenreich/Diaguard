@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.NumberUtils;
 
@@ -24,6 +25,7 @@ public abstract class MeasurementAbstractView <T extends Measurement> extends Li
     private static final String TAG = MeasurementAbstractView.class.getSimpleName();
 
     protected T measurement;
+    protected Food food;
 
     @Deprecated
     public MeasurementAbstractView(Context context) {
@@ -50,6 +52,12 @@ public abstract class MeasurementAbstractView <T extends Measurement> extends Li
         } catch (Exception exception) {
             Log.e(TAG, String.format("Could not get newInstance for %s", category.toClass().getSimpleName()));
         }
+        init();
+    }
+
+    public MeasurementAbstractView(Context context, Food food) {
+        super(context);
+        this.food = food;
         init();
     }
 

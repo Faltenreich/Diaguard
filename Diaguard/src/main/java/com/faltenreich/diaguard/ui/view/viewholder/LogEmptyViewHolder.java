@@ -8,6 +8,8 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.list.ListItemEmpty;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
 
+import org.joda.time.DateTime;
+
 import butterknife.BindView;
 
 /**
@@ -29,7 +31,13 @@ public class LogEmptyViewHolder extends BaseViewHolder<ListItemEmpty> implements
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(getContext(), EntryActivity.class);
-        intent.putExtra(EntryActivity.EXTRA_DATE, getListItem().getDateTime());
+        DateTime now = DateTime.now();
+        DateTime dateTime = getListItem().getDateTime()
+                .withHourOfDay(now.hourOfDay().get())
+                .withMinuteOfHour(now.minuteOfHour().get())
+                .withSecondOfMinute(now.secondOfMinute().get())
+                .withMillisOfSecond(now.millisOfSecond().get());
+        intent.putExtra(EntryActivity.EXTRA_DATE, dateTime);
         getContext().startActivity(intent);
     }
 }

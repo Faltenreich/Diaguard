@@ -45,8 +45,10 @@ public class Meal extends Measurement {
 
     public float getTotalCarbohydrates() {
         float carbohydrates = getCarbohydrates();
-        for (FoodEaten eaten : foodEaten) {
-            carbohydrates += eaten.getCarbohydrates();
+        if (foodEaten != null) {
+            for (FoodEaten eaten : foodEaten) {
+                carbohydrates += eaten.getCarbohydrates();
+            }
         }
         return carbohydrates;
     }

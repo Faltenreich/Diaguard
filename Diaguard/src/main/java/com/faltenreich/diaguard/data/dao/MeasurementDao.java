@@ -148,6 +148,7 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
                 return insulin;
             case MEAL:
                 Meal meal = new Meal();
+                // TODO: Include carbohydrates from FoodEaten
                 meal.setCarbohydrates(function(SqlFunction.SUM, Meal.Column.CARBOHYDRATES, interval) / daysBetween);
                 return meal;
             case ACTIVITY:

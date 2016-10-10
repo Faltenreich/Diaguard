@@ -7,6 +7,7 @@ import com.faltenreich.diaguard.data.entity.Activity;
 import com.faltenreich.diaguard.data.entity.BaseEntity;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
+import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.data.entity.HbA1c;
 import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Meal;
@@ -23,6 +24,7 @@ import org.joda.time.DateTimeConstants;
 import org.joda.time.Interval;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -49,6 +51,46 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
 
     private MeasurementDao(Class<M> clazz) {
         super(clazz);
+    }
+
+    @Override
+    public M createOrUpdate(M object) {
+        M entity = super.createOrUpdate(object);
+        switch (entity.getCategory()) {
+            case MEAL:
+                createOrUpdate((Meal) entity);
+                break;
+        }
+        return entity;
+    }
+
+    @Override
+    public int delete(M object) {
+        switch (object.getCategory()) {
+            case MEAL:
+                Meal meal = (Meal) object;
+                List<FoodEaten> foodEatenCache = new ArrayList<>();
+                for (FoodEaten foodEaten : meal.getFoodEaten()) {
+                    foodEatenCache.add(foodEaten);
+                }
+                meal.setFoodEatenCache(foodEatenCache);
+                break;
+        }
+        return super.delete(object);
+    }
+
+    private void createOrUpdate(Meal meal) {
+
+        for (FoodEaten foodEatenOld : FoodEatenDao.getInstance().getAll(meal)) {
+            if (!meal.getFoodEatenCache().contains(foodEatenOld)) {
+                FoodEatenDao.getInstance().delete(foodEatenOld);
+            }
+        }
+
+        for (FoodEaten foodEaten : meal.getFoodEatenCache()) {
+            foodEaten.setMeal(meal);
+            FoodEatenDao.getInstance().createOrUpdate(foodEaten);
+        }
     }
 
     public float function(SqlFunction sqlFunction, String column, Interval interval) {

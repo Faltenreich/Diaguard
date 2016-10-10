@@ -126,8 +126,8 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
         if (isValid()) {
             measurement.setValues(valueInput.getText().toString().length() > 0 ?
                     PreferenceHelper.getInstance().formatCustomToDefaultUnit(
-                    measurement.getCategory(),
-                    NumberUtils.parseNumber(valueInput.getText().toString())) : 0);
+                            measurement.getCategory(),
+                            NumberUtils.parseNumber(valueInput.getText().toString())) : 0);
             measurement.setFoodEatenCache(adapter.getItems());
             return measurement;
         } else {

@@ -20,8 +20,10 @@ import android.widget.Toast;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
+import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.Entry;
+import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.data.EntryAddedEvent;
@@ -50,6 +52,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
     public static final String EXTRA_ENTRY = "EXTRA_ENTRY";
     public static final String EXTRA_DATE = "EXTRA_DATE";
+    public static final String EXTRA_FOOD = "EXTRA_FOOD";
 
     @BindView(R.id.activity_newevent_scrollview) NestedScrollView scrollView;
     @BindView(R.id.fab_menu) MeasurementFloatingActionMenu fab;
@@ -120,7 +123,9 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     private void checkIntents() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
+
             if (extras.getLong(EXTRA_ENTRY) != 0L) {
+
                 setTitle(getString(R.string.entry_edit));
                 entry = EntryDao.getInstance().get(extras.getLong(EXTRA_ENTRY));
                 if (entry != null) {
@@ -134,6 +139,14 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
                     }
                     fab.restock();
                 }
+
+            } else if (extras.getSerializable(EXTRA_FOOD) != null) {
+
+                Food food = FoodDao.getInstance().get(extras.getLong(EXTRA_FOOD));
+                layoutMeasurements.addMeasurement(food);
+                fab.ignore(Measurement.Category.MEAL);
+                fab.restock();
+
             } else if (extras.getSerializable(EXTRA_DATE) != null) {
                 time = (DateTime) extras.getSerializable(EXTRA_DATE);
             }

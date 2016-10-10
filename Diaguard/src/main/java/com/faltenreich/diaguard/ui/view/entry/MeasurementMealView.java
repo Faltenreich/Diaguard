@@ -53,6 +53,10 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
         super(context, meal);
     }
 
+    public MeasurementMealView(Context context, Food food) {
+        super(context, food);
+    }
+
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
@@ -80,6 +84,10 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
         this.foodList.setLayoutManager(new LinearLayoutManager(getContext()));
         this.foodList.addItemDecoration(new SimpleDividerItemDecoration(getContext()));
         this.foodList.setAdapter(this.adapter);
+
+        if (this.food != null) {
+            addFood(this.food);
+        }
 
         this.valueCalculated.setCountAnimationListener(new CountAnimationTextView.CountAnimationListener() {
             @Override

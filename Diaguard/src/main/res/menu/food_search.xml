@@ -4,9 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_entry"
-        android:icon="@drawable/ic_action_new"
-        android:title="@string/food_add"
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="@string/abc_search_hint"
         app:showAsAction="always" />
 
 </menu>

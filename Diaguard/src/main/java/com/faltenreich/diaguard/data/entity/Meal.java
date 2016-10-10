@@ -6,6 +6,8 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.List;
+
 /**
  * Created by Filip on 11.05.2015.
  */
@@ -22,6 +24,8 @@ public class Meal extends Measurement {
     @ForeignCollectionField
     private ForeignCollection<FoodEaten> foodEaten;
 
+    private List<FoodEaten> foodEatenCache;
+
     public float getCarbohydrates() {
         return carbohydrates;
     }
@@ -36,6 +40,14 @@ public class Meal extends Measurement {
 
     public void setFoodEaten(ForeignCollection<FoodEaten> foodEaten) {
         this.foodEaten = foodEaten;
+    }
+
+    public float getTotalCarbohydrates() {
+        float carbohydrates = getCarbohydrates();
+        for (FoodEaten eaten : foodEaten) {
+            carbohydrates += eaten.getCarbohydrates();
+        }
+        return carbohydrates;
     }
 
     @Override
@@ -55,8 +67,16 @@ public class Meal extends Measurement {
         }
     }
 
+    public List<FoodEaten> getFoodEatenCache() {
+        return foodEatenCache;
+    }
+
+    public void setFoodEatenCache(List<FoodEaten> foodEatenCache) {
+        this.foodEatenCache = foodEatenCache;
+    }
+
     @Override
     public String toString() {
-        return PreferenceHelper.getInstance().getMeasurementForUi(getCategory(), carbohydrates);
+        return PreferenceHelper.getInstance().getMeasurementForUi(getCategory(), getTotalCarbohydrates());
     }
 }

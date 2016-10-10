@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.FoodAdapter;
 import com.faltenreich.diaguard.adapter.SimpleDividerItemDecoration;
+import com.faltenreich.diaguard.adapter.list.ListItemFood;
 import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.dao.FoodEatenDao;
 import com.faltenreich.diaguard.data.entity.Food;
@@ -131,13 +132,16 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         adapter = new FoodAdapter(getContext());
         list.setAdapter(adapter);
 
-        List<Food> foodList = new ArrayList<>();
+        List<ListItemFood> foodList = new ArrayList<>();
 
-        List<FoodEaten> foodEatenList = FoodEatenDao.getInstance().getAll();
+        List<FoodEaten> foodEatenList = FoodEatenDao.getInstance().getAllOrdered();
         if (foodEatenList.size() > 0) {
             queryTextView.setText(R.string.entry_latest);
             for (FoodEaten foodEaten : foodEatenList) {
-                foodList.add(foodEaten.getFood());
+                ListItemFood listItem = new ListItemFood(foodEaten.getFood(), foodEaten);
+                if (!foodList.contains(listItem)) {
+                    foodList.add(listItem);
+                }
             }
         }
 
@@ -146,8 +150,9 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
             queryTextView.setText(R.string.food);
             for (Food food : foodAllList) {
                 // Skip food that has been eaten before
-                if (!foodList.contains(food)) {
-                    foodList.add(food);
+                ListItemFood listItem = new ListItemFood(food);
+                if (!foodList.contains(listItem)) {
+                    foodList.add(listItem);
                 }
             }
         }
@@ -184,7 +189,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         searchView.setAdapter(searchAdapter);
     }
 
-    private void updateList(List<Food> foodList) {
+    private void updateList(List<ListItemFood> foodList) {
         if (foodList.size() > 0) {
             emptyList.setVisibility(View.GONE);
             adapter.clear();
@@ -267,7 +272,11 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     @SuppressWarnings("unused")
     public void onEvent(FoodSearchSucceededEvent event) {
         progressBar.setVisibility(View.GONE);
-        updateList(event.context);
+        List<ListItemFood> foodList = new ArrayList<>();
+        for (Food food : event.context) {
+            foodList.add(new ListItemFood(food));
+        }
+        updateList(foodList);
     }
 
     @SuppressWarnings("unused")

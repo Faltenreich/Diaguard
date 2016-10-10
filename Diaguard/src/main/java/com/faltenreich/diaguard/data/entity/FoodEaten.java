@@ -2,6 +2,8 @@ package com.faltenreich.diaguard.data.entity;
 
 import com.j256.ormlite.field.DatabaseField;
 
+import org.joda.time.format.DateTimeFormat;
+
 /**
  * Created by Faltenreich on 11.09.2016.
  */
@@ -52,6 +54,6 @@ public class FoodEaten extends BaseEntity {
 
     @Override
     public String toString() {
-        return String.format("%s: %f grams", food.getName(), amountInGrams);
+        return String.format("%s: %f grams (updated: %s)", food.getName(), amountInGrams, DateTimeFormat.mediumDateTime().print(getUpdatedAt()));
     }
 }

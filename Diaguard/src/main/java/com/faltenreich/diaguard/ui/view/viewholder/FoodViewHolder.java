@@ -5,6 +5,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.adapter.list.ListItemFood;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.ui.FoodSelectedEvent;
@@ -16,7 +17,7 @@ import butterknife.BindView;
 /**
  * Created by Faltenreich on 11.09.2016.
  */
-public class FoodViewHolder extends BaseViewHolder<Food> implements View.OnClickListener {
+public class FoodViewHolder extends BaseViewHolder<ListItemFood> implements View.OnClickListener {
 
     @BindView(R.id.food_image) ImageView image;
     @BindView(R.id.food_name) TextView name;
@@ -30,7 +31,7 @@ public class FoodViewHolder extends BaseViewHolder<Food> implements View.OnClick
 
     @Override
     protected void bindData() {
-        Food food = getListItem();
+        Food food = getListItem().getFood();
         Picasso.with(getContext()).load(food.getImageUrl()).into(image);
         name.setText(food.getName());
         brand.setText(food.getBrand());
@@ -39,6 +40,6 @@ public class FoodViewHolder extends BaseViewHolder<Food> implements View.OnClick
 
     @Override
     public void onClick(View view) {
-        Events.post(new FoodSelectedEvent(getListItem(), view));
+        Events.post(new FoodSelectedEvent(getListItem().getFood(), view));
     }
 }

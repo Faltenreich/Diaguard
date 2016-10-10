@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Food;
+import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.NumberUtils;
 
@@ -57,6 +58,7 @@ public abstract class MeasurementAbstractView <T extends Measurement> extends Li
 
     public MeasurementAbstractView(Context context, Food food) {
         super(context);
+        this.measurement = (T) new Meal();
         this.food = food;
         init();
     }

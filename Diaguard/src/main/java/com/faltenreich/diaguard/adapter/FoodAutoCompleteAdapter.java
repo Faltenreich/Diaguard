@@ -11,7 +11,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.data.entity.Food;
+import com.faltenreich.diaguard.adapter.list.ListItemFood;
 import com.faltenreich.diaguard.ui.view.viewholder.FoodViewHolder;
 
 import java.util.ArrayList;
@@ -21,21 +21,16 @@ import java.util.List;
  * Created by Faltenreich on 20.09.2016.
  */
 
-public class FoodAutoCompleteAdapter extends ArrayAdapter<Food> implements Filterable {
+public class FoodAutoCompleteAdapter extends ArrayAdapter<ListItemFood> implements Filterable {
 
-    private List<Food> items;
+    private List<ListItemFood> items;
 
     public FoodAutoCompleteAdapter(Context context) {
         super(context, android.R.layout.simple_list_item_1);
         this.items = new ArrayList<>();
-        Food food = new Food();
-        food.setName("Food");
-        items.add(food);
-        items.add(food);
-        items.add(food);
     }
 
-    public void setItems(List<Food> items) {
+    public void setItems(List<ListItemFood> items) {
         this.items = items;
     }
 
@@ -46,7 +41,7 @@ public class FoodAutoCompleteAdapter extends ArrayAdapter<Food> implements Filte
 
     @Nullable
     @Override
-    public Food getItem(int position) {
+    public ListItemFood getItem(int position) {
         return items.get(position);
     }
 

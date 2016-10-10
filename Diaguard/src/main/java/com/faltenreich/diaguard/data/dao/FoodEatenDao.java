@@ -30,6 +30,19 @@ public class FoodEatenDao extends BaseDao<FoodEaten> {
         super(FoodEaten.class);
     }
 
+    public List<FoodEaten> getAllOrdered() {
+        try {
+            // TODO: Distinct
+            return getDao().queryBuilder()
+                    .orderBy(FoodEaten.Column.UPDATED_AT, false)
+                    .join(FoodDao.getInstance().getQueryBuilder())
+                    .query();
+        } catch (SQLException exception) {
+            Log.e(TAG, exception.getLocalizedMessage());
+            return new ArrayList<>();
+        }
+    }
+
     public List<FoodEaten> getAll(Meal meal) {
         try {
             return getDao().queryBuilder().where().eq(FoodEaten.Column.MEAL, meal).query();

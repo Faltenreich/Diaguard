@@ -85,15 +85,15 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@color/green_light"
             android:visibility="gone"
             style="@style/Padding">
 
-            <ImageView
+            <com.faltenreich.diaguard.ui.view.TintImageView
                 android:id="@+id/food_search_empty_icon"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:contentDescription="@null"/>
+                android:contentDescription="@null"
+                app:tintColor="@color/green"/>
 
             <TextView
                 android:id="@+id/food_search_empty_text"
@@ -101,7 +101,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_end"
                 android:gravity="center"
-                android:textColor="@android:color/white"
                 android:textStyle="bold"/>
 
             <TextView
@@ -109,8 +108,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_between"
-                android:gravity="center"
-                android:textColor="@android:color/white"/>
+                android:gravity="center"/>
 
         </LinearLayout>
 

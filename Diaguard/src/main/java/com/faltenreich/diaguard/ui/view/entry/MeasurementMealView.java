@@ -14,8 +14,6 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.FoodEditableAdapter;
 import com.faltenreich.diaguard.adapter.SimpleDividerItemDecoration;
 import com.faltenreich.diaguard.data.PreferenceHelper;
-import com.faltenreich.diaguard.data.dao.FoodEatenDao;
-import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.data.entity.Meal;
@@ -29,6 +27,7 @@ import com.faltenreich.diaguard.ui.fragment.FoodSearchFragment;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.StringUtils;
+import com.j256.ormlite.dao.ForeignCollection;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -99,7 +98,8 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
 
     @Override
     protected void setValues() {
-
+        valueInput.setText(measurement.getValuesForUI()[0]);
+        addFood(measurement.getFoodEaten());
     }
 
     @Override
@@ -128,13 +128,7 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
                     PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                     measurement.getCategory(),
                     NumberUtils.parseNumber(valueInput.getText().toString())) : 0);
-
-            MeasurementDao.getInstance(Meal.class).createOrUpdate(measurement);
-
-            for (FoodEaten foodEaten : this.adapter.getItems()) {
-                foodEaten.setMeal(measurement);
-                FoodEatenDao.getInstance().createOrUpdate(foodEaten);
-            }
+            measurement.setFoodEatenCache(adapter.getItems());
             return measurement;
         } else {
             return null;
@@ -158,6 +152,15 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
         updateUi();
     }
 
+    private void addFood(ForeignCollection<FoodEaten> foodEatenList) {
+        int oldCount = adapter.getItemCount();
+        for (FoodEaten foodEaten : foodEatenList) {
+            this.adapter.addItem(foodEaten);
+        }
+        this.adapter.notifyItemRangeInserted(oldCount, adapter.getItemCount());
+        updateUi();
+    }
+
     private void updateFoodEaten(FoodEaten foodEaten, int position) {
         this.adapter.updateItem(position, foodEaten);
         this.adapter.notifyItemChanged(position);
@@ -170,11 +173,16 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
 
         float oldValue = NumberUtils.parseNumber(valueCalculated.getText().toString());
         float newValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.MEAL, adapter.getTotalCarbohydrates());
-        // TODO: Only animate on changes
         boolean hasFoodEaten = newValue > 0;
         valueCalculated.setVisibility(hasFoodEaten ? VISIBLE : GONE);
         valueSign.setVisibility(hasFoodEaten ? VISIBLE : GONE);
-        valueCalculated.setInterpolator(new AccelerateInterpolator()).countAnimation((int) oldValue, (int) newValue);
+
+        boolean hasChangedSignificantly = Math.abs(newValue - oldValue) > 5;
+        if (hasChangedSignificantly) {
+            valueCalculated.setInterpolator(new AccelerateInterpolator()).countAnimation((int) oldValue, (int) newValue);
+        } else {
+            valueCalculated.setText(Helper.parseFloat(newValue));
+        }
     }
 
     @SuppressWarnings("unused")

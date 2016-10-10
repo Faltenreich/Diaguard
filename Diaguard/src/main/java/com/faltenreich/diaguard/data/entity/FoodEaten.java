@@ -46,6 +46,10 @@ public class FoodEaten extends BaseEntity {
         this.food = food;
     }
 
+    public float getCarbohydrates() {
+        return getAmountInGrams() * getFood().getCarbohydrates() / 100;
+    }
+
     @Override
     public String toString() {
         return String.format("%s: %f grams", food.getName(), amountInGrams);

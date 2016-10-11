@@ -7,12 +7,15 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.FoodAdapter;
+import com.faltenreich.diaguard.adapter.FoodEatenAdapter;
 import com.faltenreich.diaguard.adapter.NutrientAdapter;
+import com.faltenreich.diaguard.adapter.SimpleDividerItemDecoration;
 import com.faltenreich.diaguard.data.dao.FoodDao;
+import com.faltenreich.diaguard.data.dao.FoodEatenDao;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.ui.activity.FoodActivity;
@@ -34,9 +37,12 @@ public class FoodFragment extends BaseFragment {
     @BindView(R.id.food_image) ImageView image;
     @BindView(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingToolbarLayout;
     @BindView(R.id.food_list_nutrients) RecyclerView nutrientList;
+    @BindView(R.id.food_layout_history) ViewGroup historyLayout;
     @BindView(R.id.food_list_history) RecyclerView historyList;
 
     private Food food;
+
+    private FoodEatenAdapter historyAdapter;
 
     public FoodFragment() {
         super(R.layout.fragment_food);
@@ -52,6 +58,12 @@ public class FoodFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         init();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        update();
     }
 
     private void checkIntents() {
@@ -74,8 +86,19 @@ public class FoodFragment extends BaseFragment {
             nutrientList.setAdapter(new NutrientAdapter(getContext(), food));
 
             historyList.setLayoutManager(new LinearLayoutManager(getContext()));
-            historyList.setAdapter(new FoodAdapter(getContext()));
+            historyList.addItemDecoration(new SimpleDividerItemDecoration(getContext()));
+            historyAdapter = new FoodEatenAdapter(getContext());
+            historyList.setAdapter(historyAdapter);
         }
+    }
+
+    private void update() {
+        historyAdapter.clear();
+        historyAdapter.addItems(FoodEatenDao.getInstance().getAll(food));
+        historyAdapter.notifyDataSetChanged();
+
+        boolean showHistory = historyAdapter.getItemCount() > 0;
+        historyLayout.setVisibility(showHistory ? View.VISIBLE : View.GONE);
     }
 
     @SuppressWarnings("unused")

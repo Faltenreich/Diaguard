@@ -1,5 +1,5 @@
 #
-# generated on 2016/10/09 02:05:54
+# generated on 2016/10/11 09:18:54
 #
 # --table-start--
 dataClass=com.faltenreich.diaguard.data.entity.Entry

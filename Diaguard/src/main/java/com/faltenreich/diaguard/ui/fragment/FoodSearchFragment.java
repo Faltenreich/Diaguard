@@ -227,20 +227,24 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     }
 
     private void onFoodSelected(Food food, View view) {
-
         if (mode == Mode.SELECT) {
             finish();
-
         } else if (mode == Mode.READ) {
-            Intent intent = new Intent(getContext(), FoodActivity.class);
-            intent.putExtra(FoodFragment.EXTRA_FOOD_ID, food.getId());
-            ActivityOptionsCompat options =
-                    ActivityOptionsCompat.makeSceneTransitionAnimation(
-                            getActivity(),
-                            view,
-                            "transitionFood");
-            startActivity(intent, options);
+            openFood(food, view);
         }
+    }
+
+    private void openFood(Food food, View view) {
+        Events.unregister(this);
+        
+        Intent intent = new Intent(getContext(), FoodActivity.class);
+        intent.putExtra(FoodFragment.EXTRA_FOOD_ID, food.getId());
+        ActivityOptionsCompat options =
+                ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        getActivity(),
+                        view,
+                        "transitionFood");
+        startActivity(intent, options);
     }
 
     @Override

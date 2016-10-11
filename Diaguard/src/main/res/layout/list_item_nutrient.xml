@@ -4,7 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:padding="@dimen/padding"
+    android:paddingTop="@dimen/padding"
+    android:paddingBottom="@dimen/padding"
+    android:paddingLeft="@dimen/padding_end"
+    android:paddingStart="@dimen/padding_end"
+    android:paddingRight="@dimen/padding_end"
+    android:paddingEnd="@dimen/padding_end"
     android:orientation="horizontal">
 
     <TextView

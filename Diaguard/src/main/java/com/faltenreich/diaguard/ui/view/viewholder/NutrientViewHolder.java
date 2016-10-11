@@ -28,6 +28,6 @@ public class NutrientViewHolder extends BaseViewHolder<ListItemNutrient> {
         value.setText(Helper.parseFloat(listItem.getValue()));
 
         boolean hasBackgroundColor = getAdapterPosition() % 2 == 0;
-        setBackgroundColor(hasBackgroundColor ? R.color.gray_lighter : android.R.color.transparent);
+        setBackgroundColor(hasBackgroundColor ? R.color.light : android.R.color.transparent);
     }
 }

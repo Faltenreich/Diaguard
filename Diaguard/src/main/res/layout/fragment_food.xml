@@ -77,7 +77,7 @@
                     <LinearLayout
                         style="@style/Padding"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/height_element"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
@@ -86,8 +86,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
                             android:text="@string/nutrients"
-                            android:textColor="@color/green"
-                            android:textStyle="bold" />
+                            android:textColor="@color/green" />
 
                         <TextView
                             android:id="@+id/list_item_nutrient_value"
@@ -128,8 +127,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/entry_latest"
-                        android:textColor="@color/green"
-                        android:textStyle="bold"/>
+                        android:textColor="@color/green"/>
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/food_list_history"

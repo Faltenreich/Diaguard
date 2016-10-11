@@ -60,13 +60,31 @@
             android:orientation="vertical"
             style="@style/Padding">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_between"
-                android:textSize="@dimen/text_medium"
-                android:textColor="@android:color/black"
-                android:text="@string/nutrients"/>
+                android:gravity="center_vertical"
+                android:padding="@dimen/padding"
+                android:orientation="horizontal"
+                android:background="@color/green_lighter">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/nutrients"
+                    android:textColor="@android:color/white"/>
+
+                <TextView
+                    android:id="@+id/list_item_nutrient_value"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:textColor="@android:color/white"
+                    android:text="@string/per_100g"/>
+
+            </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/food_list_nutrients"

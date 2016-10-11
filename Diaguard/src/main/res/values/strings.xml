@@ -109,6 +109,7 @@
     <string name="no_data">No data available</string>
     <string name="note">Note</string>
     <string name="note_append">Append notes</string>
+    <string name="nutrients">Nutrients</string>
     <string name="ok">OK</string>
     <string name="overview">Overview</string>
     <string name="per">per</string>
@@ -140,6 +141,16 @@
     <string name="change_every_four_hours">Changes every four hours</string>
     <string name="change_every_second_hour">Changes every second hour</string>
     <string name="change_every_hour">Changes every hour</string>
+
+    <string name="nutrient_carbohydrates">Carbohydrates</string>
+    <string name="nutrient_energy">Energy</string>
+    <string name="nutrient_fat">Fat</string>
+    <string name="nutrient_fat_saturated">Saturated fat</string>
+    <string name="nutrient_fiber">Fiber</string>
+    <string name="nutrient_proteins">Proteins</string>
+    <string name="nutrient_salt">Salt</string>
+    <string name="nutrient_sodium">Sodium</string>
+    <string name="nutrient_sugar">Sugar</string>
 
     <string-array name="time_rhythm">
         <item>@string/change_none</item>

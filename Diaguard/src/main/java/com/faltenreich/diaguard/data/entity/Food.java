@@ -1,8 +1,14 @@
 package com.faltenreich.diaguard.data.entity;
 
+import android.support.annotation.StringRes;
+
+import com.faltenreich.diaguard.DiaguardApplication;
+import com.faltenreich.diaguard.R;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
+
+import static com.faltenreich.diaguard.data.entity.Food.Column.FAT_SATURATED;
 
 /**
  * Created by Faltenreich on 11.09.2016.
@@ -25,6 +31,44 @@ public class Food extends BaseServerEntity {
         public static final String FOOD_EATEN = "foodEaten";
     }
 
+    public enum Nutrient {
+
+        CARBOHYDRATES(R.string.nutrient_carbohydrates),
+        ENERGY(R.string.nutrient_energy),
+        FAT(R.string.nutrient_fat),
+        FAT_SATURATED(R.string.nutrient_fat_saturated),
+        FIBER(R.string.nutrient_fiber),
+        PROTEINS(R.string.nutrient_proteins),
+        SALT(R.string.nutrient_salt),
+        SODIUM(R.string.nutrient_sodium),
+        SUGAR(R.string.nutrient_sugar);
+
+        private int textResId;
+
+        Nutrient(@StringRes int textResId) {
+            this.textResId = textResId;
+        }
+
+        public String getLabel() {
+            return DiaguardApplication.getContext().getString(textResId);
+        }
+
+        public float getValue(Food food) {
+            switch (this) {
+                case CARBOHYDRATES: return food.getCarbohydrates();
+                case ENERGY: return food.getEnergy();
+                case FAT: return food.getFat();
+                case FAT_SATURATED: return food.getFatSaturated();
+                case FIBER: return food.getFiber();
+                case PROTEINS: return food.getProteins();
+                case SALT: return food.getSalt();
+                case SODIUM: return food.getSodium();
+                case SUGAR: return food.getSugar();
+                default: return -1;
+            }
+        }
+    }
+
     @DatabaseField(columnName = Column.NAME)
     private String name;
 
@@ -43,7 +87,7 @@ public class Food extends BaseServerEntity {
     @DatabaseField(columnName = Column.FAT)
     private float fat;
 
-    @DatabaseField(columnName = Column.FAT_SATURATED)
+    @DatabaseField(columnName = FAT_SATURATED)
     private float fatSaturated;
 
     @DatabaseField(columnName = Column.FIBER)

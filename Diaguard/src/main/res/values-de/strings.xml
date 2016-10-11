@@ -92,6 +92,7 @@
     <string name="no_data">Keine Einträge vorhanden</string>
     <string name="note">Notiz</string>
     <string name="note_append">Notizen anhängen</string>
+    <string name="nutrients">Nährstoffe</string>
     <string name="ok">OK</string>
     <string name="overview">Übersicht</string>
     <string name="per">pro</string>
@@ -122,6 +123,16 @@
     <string name="change_every_four_hours">Ändert sich alle vier Stunden</string>
     <string name="change_every_second_hour">Ändert sich jede zweite Stunde</string>
     <string name="change_every_hour">Ändert sich jede Stunde</string>
+
+    <string name="nutrient_carbohydrates">Kohlenhydrate</string>
+    <string name="nutrient_energy">Kalorien</string>
+    <string name="nutrient_fat">Fett</string>
+    <string name="nutrient_fat_saturated">Gesättigte Fettsäuren</string>
+    <string name="nutrient_fiber">Ballaststoffe</string>
+    <string name="nutrient_proteins">Eiweiß</string>
+    <string name="nutrient_salt">Salz</string>
+    <string name="nutrient_sodium">Natrium</string>
+    <string name="nutrient_sugar">Zucker</string>
 
     <string-array name="startscreens">
         <item>Übersicht</item>

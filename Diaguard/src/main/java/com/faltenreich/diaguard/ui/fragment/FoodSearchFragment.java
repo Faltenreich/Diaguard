@@ -236,7 +236,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
 
     private void openFood(Food food, View view) {
         Events.unregister(this);
-        
+
         Intent intent = new Intent(getContext(), FoodActivity.class);
         intent.putExtra(FoodFragment.EXTRA_FOOD_ID, food.getId());
         ActivityOptionsCompat options =

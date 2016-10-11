@@ -60,7 +60,32 @@
             android:orientation="vertical"
             style="@style/Padding">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_between"
+                android:textSize="@dimen/text_medium"
+                android:textColor="@android:color/black"
+                android:text="@string/nutrients"/>
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/food_list_nutrients"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_end"
+                android:layout_marginBottom="@dimen/margin_between"
+                android:textSize="@dimen/text_medium"
+                android:textColor="@android:color/black"
+                android:text="@string/entry_latest"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/food_list_history"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 

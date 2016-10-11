@@ -16,8 +16,7 @@
         android:layout_weight="2"
         android:ellipsize="end"
         android:lines="1"
-        android:textColor="@android:color/black"
-        android:textSize="@dimen/text_medium" />
+        android:textColor="@android:color/black" />
 
     <TextView
         android:id="@+id/list_item_food_eaten_amount"
@@ -27,7 +26,6 @@
         android:ellipsize="end"
         android:gravity="end"
         android:lines="1"
-        android:textColor="@android:color/black"
-        android:textSize="@dimen/text_medium" />
+        android:textColor="@android:color/black" />
 
 </LinearLayout>

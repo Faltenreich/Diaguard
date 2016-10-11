@@ -123,7 +123,7 @@ public class MainFragment extends BaseFragment {
 
     private void updateLatest() {
         if (latestEntry != null) {
-            textViewLatestValue.setTextSize(60);
+            textViewLatestValue.setTextSize(54);
             BloodSugar bloodSugar = (BloodSugar) MeasurementDao.getInstance(BloodSugar.class).getMeasurement(latestEntry);
 
             // Value
@@ -157,7 +157,7 @@ public class MainFragment extends BaseFragment {
 
             textViewLatestAgo.setText(Helper.getTextAgo(getActivity(), differenceInMinutes));
         } else {
-            textViewLatestValue.setTextSize(40);
+            textViewLatestValue.setTextSize(32);
             textViewLatestValue.setText(R.string.first_visit);
             textViewLatestValue.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
             textViewLatestUnit.setText(null);

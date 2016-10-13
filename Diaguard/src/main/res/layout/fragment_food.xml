@@ -55,7 +55,6 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
-            style="@style/Padding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -63,80 +62,107 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:foreground="?android:attr/selectableItemBackground"
-                card_view:cardCornerRadius="4dp"
-                card_view:cardElevation="2dp"
-                card_view:cardUseCompatPadding="true"
-                android:layout_marginBottom="@dimen/margin_between">
+                card_view:cardElevation="3dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@android:color/white"
                     android:orientation="vertical">
 
+                    <!-- TODO -->
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <LinearLayout
+                style="@style/Padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_between"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    card_view:cardCornerRadius="4dp"
+                    card_view:cardElevation="2dp"
+                    card_view:cardUseCompatPadding="true">
+
                     <LinearLayout
-                        style="@style/Padding"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/height_element"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:text="@string/nutrients"
-                            android:textColor="@color/green" />
+                        <LinearLayout
+                            style="@style/Padding"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/height_element"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/list_item_nutrient_value"
-                            android:layout_width="0dp"
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:text="@string/nutrients"
+                                android:textColor="@color/green" />
+
+                            <TextView
+                                android:id="@+id/list_item_nutrient_value"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:text="@string/per_100g"
+                                android:textColor="@color/green" />
+
+                        </LinearLayout>
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/food_list_nutrients"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="end"
-                            android:text="@string/per_100g"
-                            android:textColor="@color/green" />
+                            android:nestedScrollingEnabled="false" />
 
                     </LinearLayout>
 
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/food_list_nutrients"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                </android.support.v7.widget.CardView>
 
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/food_layout_history"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:foreground="?android:attr/selectableItemBackground"
-                card_view:cardCornerRadius="4dp"
-                card_view:cardElevation="2dp"
-                card_view:cardUseCompatPadding="true">
-
-                <LinearLayout
+                <android.support.v7.widget.CardView
+                    android:id="@+id/food_layout_history"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:foreground="?android:attr/selectableItemBackground"
+                    card_view:cardCornerRadius="4dp"
+                    card_view:cardElevation="2dp"
+                    card_view:cardUseCompatPadding="true">
 
-                    <TextView
-                        style="@style/Padding"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/entry_latest"
-                        android:textColor="@color/green"/>
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/food_list_history"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
-                </LinearLayout>
+                        <TextView
+                            style="@style/Padding"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/entry_latest"
+                            android:textColor="@color/green" />
 
-            </android.support.v7.widget.CardView>
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/food_list_history"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:nestedScrollingEnabled="false" />
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -147,11 +173,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_action_new"
-        app:layout_anchor="@id/appbar"
-        app:layout_anchorGravity="bottom|right|end"
         app:fab_colorNormal="@color/green"
         app:fab_colorPressed="@color/green_light"
         app:fab_colorRipple="@color/green_lighter"
-        app:fab_label="@string/entry_new"/>
+        app:fab_label="@string/entry_new"
+        app:layout_anchor="@id/appbar"
+        app:layout_anchorGravity="bottom|right|end" />
 
 </android.support.design.widget.CoordinatorLayout>

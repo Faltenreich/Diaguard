@@ -49,7 +49,8 @@ public class MeasurementPressureView extends MeasurementAbstractView<Pressure> {
 
     @Override
     protected boolean isValid() {
-        return isValueValid(editTextSystolic) && isValueValid(editTextDiastolic);
+        return PreferenceHelper.isValueValid(editTextSystolic, Measurement.Category.PRESSURE) &&
+                PreferenceHelper.isValueValid(editTextDiastolic, Measurement.Category.PRESSURE);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.data;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
+import android.widget.TextView;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
@@ -89,6 +90,22 @@ public class PreferenceHelper {
             throw new IllegalStateException("IntArray with event value extrema has to contain two values");
 
         return value > extrema[0] && value < extrema[1];
+    }
+
+    public static boolean isValueValid(TextView textView, Measurement.Category category) {
+        boolean isValid = true;
+        textView.setError(null);
+        try {
+            float value = PreferenceHelper.getInstance().formatCustomToDefaultUnit(category, NumberUtils.parseNumber(textView.getText().toString()));
+            if (!PreferenceHelper.getInstance().validateEventValue(category, value)) {
+                textView.setError(textView.getContext().getString(R.string.validator_value_unrealistic));
+                isValid = false;
+            }
+        } catch (NumberFormatException exception) {
+            textView.setError(textView.getContext().getString(R.string.validator_value_number));
+            isValid = false;
+        }
+        return isValid;
     }
 
     public void setExportNotes(boolean exportNotes) {

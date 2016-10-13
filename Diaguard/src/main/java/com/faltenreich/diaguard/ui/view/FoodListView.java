@@ -7,20 +7,29 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.daasuu.cat.CountAnimationTextView;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.FoodEditableAdapter;
 import com.faltenreich.diaguard.adapter.SimpleDividerItemDecoration;
+import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.data.entity.Meal;
+import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.ui.FoodEatenRemovedEvent;
 import com.faltenreich.diaguard.event.ui.FoodEatenUpdatedEvent;
 import com.faltenreich.diaguard.event.ui.FoodSelectedEvent;
 import com.faltenreich.diaguard.ui.activity.FoodSearchActivity;
 import com.faltenreich.diaguard.ui.fragment.FoodSearchFragment;
+import com.faltenreich.diaguard.util.Helper;
+import com.faltenreich.diaguard.util.NumberUtils;
+import com.faltenreich.diaguard.util.StringUtils;
 import com.j256.ormlite.dao.ForeignCollection;
 
 import java.util.List;
@@ -35,11 +44,13 @@ import butterknife.OnClick;
 
 public class FoodListView extends LinearLayout {
 
+    @BindView(R.id.food_list_value_input) EditText valueInput;
+    @BindView(R.id.food_list_value_calculated) CountAnimationTextView valueCalculated;
+    @BindView(R.id.food_list_value_sign) TextView valueSign;
     @BindView(R.id.food_list_separator) View separator;
     @BindView(R.id.food_list) RecyclerView foodList;
 
     private FoodEditableAdapter adapter;
-    private OnContentChangeListener listener;
 
     private Meal meal;
 
@@ -70,33 +81,85 @@ public class FoodListView extends LinearLayout {
         Events.unregister(this);
     }
 
-    public void setOnContentChangeListener(OnContentChangeListener listener) {
-        this.listener = listener;
-    }
-
-    public void setMeal(Meal meal) {
-        this.meal = meal;
-    }
-
     private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_food_list, this);
         ButterKnife.bind(this);
 
         meal = new Meal();
 
+        valueInput.setHint(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.MEAL));
+
         adapter = new FoodEditableAdapter(getContext());
         foodList.setLayoutManager(new LinearLayoutManager(getContext()));
         foodList.addItemDecoration(new SimpleDividerItemDecoration(getContext()));
         foodList.setAdapter(adapter);
 
+        valueCalculated.setCountAnimationListener(new CountAnimationTextView.CountAnimationListener() {
+            @Override
+            public void onAnimationStart(Object animatedValue) {
+            }
+            @Override
+            public void onAnimationEnd(Object animatedValue) {
+                float totalCarbohydrates = adapter.getTotalCarbohydrates();
+                float totalMeal = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.MEAL, totalCarbohydrates);
+                valueCalculated.setText(Helper.parseFloat(totalMeal));
+            }
+        });
+
         update();
+    }
+
+    public void setupWithMeal(Meal meal) {
+        this.meal = meal;
+        valueInput.setText(meal.getValuesForUI()[0]);
+        addItems(meal.getFoodEaten());
+        update();
+    }
+
+    public boolean isValid() {
+        boolean isValid = true;
+
+        String input = valueInput.getText().toString().trim();
+
+        if (StringUtils.isBlank(input) && adapter.getTotalCarbohydrates() == 0) {
+            valueInput.setError(getContext().getString(R.string.validator_value_empty));
+            isValid = false;
+        } else {
+            if (!StringUtils.isBlank(input)) {
+                isValid = PreferenceHelper.isValueValid(valueInput, Measurement.Category.MEAL);
+            }
+        }
+        return isValid;
+    }
+
+    public Meal getMeal() {
+        if (isValid()) {
+            meal.setValues(valueInput.getText().toString().length() > 0 ?
+                    PreferenceHelper.getInstance().formatCustomToDefaultUnit(
+                            meal.getCategory(),
+                            NumberUtils.parseNumber(valueInput.getText().toString())) : 0);
+            meal.setFoodEatenCache(adapter.getItems());
+            return meal;
+        } else {
+            return null;
+        }
     }
 
     private void update() {
         boolean hasFood = adapter.getItemCount() > 0;
         separator.setVisibility(hasFood ? VISIBLE : GONE);
-        if (listener != null) {
-            listener.onContentChanged();
+
+        float oldValue = NumberUtils.parseNumber(valueCalculated.getText().toString());
+        float newValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.MEAL, adapter.getTotalCarbohydrates());
+        boolean hasFoodEaten = newValue > 0;
+        valueCalculated.setVisibility(hasFoodEaten ? VISIBLE : GONE);
+        valueSign.setVisibility(hasFoodEaten ? VISIBLE : GONE);
+
+        boolean hasChangedSignificantly = Math.abs(newValue - oldValue) > 5;
+        if (hasChangedSignificantly) {
+            valueCalculated.setInterpolator(new AccelerateInterpolator()).countAnimation((int) oldValue, (int) newValue);
+        } else {
+            valueCalculated.setText(Helper.parseFloat(newValue));
         }
     }
 
@@ -163,9 +226,5 @@ public class FoodListView extends LinearLayout {
     @SuppressWarnings("unused")
     public void onEvent(FoodEatenRemovedEvent event) {
         removeItem(event.position);
-    }
-
-    public interface OnContentChangeListener {
-        void onContentChanged();
     }
 }

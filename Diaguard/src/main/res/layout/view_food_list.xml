@@ -5,6 +5,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/height_element"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        style="@style/Padding">
+
+        <com.daasuu.cat.CountAnimationTextView
+            android:id="@+id/food_list_value_calculated"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_medium" />
+
+        <TextView
+            android:id="@+id/food_list_value_sign"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/margin_between"
+            android:layout_marginStart="@dimen/margin_between"
+            android:layout_marginRight="@dimen/margin_between"
+            android:layout_marginEnd="@dimen/margin_between"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_medium"
+            android:text="+"/>
+
+        <EditText
+            android:id="@+id/food_list_value_input"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:inputType="numberDecimal" />
+
+    </LinearLayout>
+
     <View style="@style/LayoutRowSeparator"
         android:id="@+id/food_list_separator" />
 

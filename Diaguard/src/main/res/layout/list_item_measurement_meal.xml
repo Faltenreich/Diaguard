@@ -43,23 +43,9 @@
 
     </LinearLayout>
 
-    <View style="@style/LayoutRowSeparator"
-        android:id="@+id/list_item_measurement_meal_food_item_separator" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_item_measurement_meal_food_item_list"
+    <com.faltenreich.diaguard.ui.view.FoodListView
+        android:id="@+id/list_item_measurement_meal_food_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:nestedScrollingEnabled="false" />
-
-    <View style="@style/LayoutRowSeparator" />
-
-    <Button
-        android:id="@+id/list_item_measurement_meal_food_item_add"
-        style="?attr/borderlessButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/food_add"
-        android:textColor="@color/green" />
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

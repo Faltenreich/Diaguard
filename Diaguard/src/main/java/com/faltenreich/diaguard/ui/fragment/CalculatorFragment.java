@@ -23,12 +23,12 @@ import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.event.Events;
+import com.faltenreich.diaguard.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.ui.activity.PreferenceActivity;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.Validator;
-import com.faltenreich.diaguard.event.Events;
-import com.faltenreich.diaguard.event.data.EntryAddedEvent;
 
 import org.joda.time.DateTime;
 
@@ -42,8 +42,8 @@ public class CalculatorFragment extends BaseFragment {
 
     @BindView(R.id.calculator_bloodsugar) EditText editTextBloodSugar;
     @BindView(R.id.calculator_target) EditText editTextTargetValue;
-    @BindView(R.id.calculator_meal) EditText editTextMeal;
     @BindView(R.id.calculator_correction) EditText editTextCorrection;
+    @BindView(R.id.calculator_meal) EditText editTextMeal;
     @BindView(R.id.calculator_factor) EditText editTextFactor;
 
     public CalculatorFragment() {

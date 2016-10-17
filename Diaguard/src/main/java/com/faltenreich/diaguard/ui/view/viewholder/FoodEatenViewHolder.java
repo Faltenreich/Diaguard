@@ -29,10 +29,15 @@ public class FoodEatenViewHolder extends BaseViewHolder<FoodEaten> implements Vi
     @Override
     protected void bindData() {
         FoodEaten foodEaten = getListItem();
-        DateTime foodEatenDateTime = foodEaten.getMeal().getEntry().getDate();
-        dateTime.setText(String.format("%s %s",
-                Helper.getDateFormat().print(foodEatenDateTime),
-                Helper.getTimeFormat().print(foodEatenDateTime)));
+        boolean hasDateTime = foodEaten.getMeal() != null && foodEaten.getMeal().getEntry() != null;
+        if (hasDateTime) {
+            DateTime foodEatenDateTime = foodEaten.getMeal().getEntry().getDate();
+            dateTime.setText(String.format("%s %s",
+                    Helper.getDateFormat().print(foodEatenDateTime),
+                    Helper.getTimeFormat().print(foodEatenDateTime)));
+        } else {
+            dateTime.setText(null);
+        }
         amount.setText(String.format("%s g", Helper.parseFloat(foodEaten.getAmountInGrams())));
     }
 

@@ -53,10 +53,6 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
 
     @Override
     public Measurement getMeasurement() {
-        if (isValid()) {
-            return foodList.getMeal();
-        } else {
-            return null;
-        }
+        return foodList.getMeal();
     }
 }

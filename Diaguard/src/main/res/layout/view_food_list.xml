@@ -22,6 +22,8 @@
 
         <TextView
             android:id="@+id/food_list_label"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
             style="@style/LayoutRowLabel"
             android:text="@string/meal" />
 

@@ -221,6 +221,15 @@ public class FoodListView extends LinearLayout {
     }
 
     public float getTotalCarbohydrates() {
+        return getInputCarbohydrates() + getCalculatedCarbohydrates();
+    }
+
+    public float getInputCarbohydrates() {
+        float input = NumberUtils.parseNumber(valueInput.getText().toString());
+        return PreferenceHelper.getInstance().formatCustomToDefaultUnit(Measurement.Category.MEAL, input);
+    }
+
+    public float getCalculatedCarbohydrates() {
         return adapter.getTotalCarbohydrates();
     }
 

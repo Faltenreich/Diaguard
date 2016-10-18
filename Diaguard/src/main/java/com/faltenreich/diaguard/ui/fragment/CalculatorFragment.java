@@ -131,7 +131,14 @@ public class CalculatorFragment extends BaseFragment {
         }
 
         // Meal
-        isValid = foodListView.isValid();
+        if (foodListView.getTotalCarbohydrates() > 0) {
+            // Factor
+            if (!Validator.validateEditTextFactor(getContext(), editTextFactor, false)) {
+                isValid = false;
+            } else {
+                editTextFactor.setError(null);
+            }
+        }
 
         return isValid;
     }

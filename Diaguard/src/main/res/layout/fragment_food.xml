@@ -65,6 +65,7 @@
                 card_view:cardElevation="3dp">
 
                 <LinearLayout
+                    style="@style/Padding"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/white"
@@ -97,10 +98,7 @@
                         android:orientation="vertical">
 
                         <LinearLayout
-                            style="@style/Padding"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/height_element"
-                            android:gravity="center_vertical"
+                            style="@style/ListHeader"
                             android:orientation="horizontal">
 
                             <TextView
@@ -108,7 +106,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="2"
                                 android:text="@string/nutrients"
-                                android:textColor="@color/green" />
+                                android:textColor="@android:color/white" />
 
                             <TextView
                                 android:id="@+id/list_item_nutrient_value"
@@ -117,7 +115,7 @@
                                 android:layout_weight="1"
                                 android:gravity="end"
                                 android:text="@string/per_100g"
-                                android:textColor="@color/green" />
+                                android:textColor="@android:color/white" />
 
                         </LinearLayout>
 
@@ -146,11 +144,8 @@
                         android:orientation="vertical">
 
                         <TextView
-                            style="@style/Padding"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/entry_latest"
-                            android:textColor="@color/green" />
+                            style="@style/ListHeader"
+                            android:text="@string/entry_latest" />
 
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/food_list_history"

@@ -1,50 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
+        style="@style/Padding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="@dimen/height_element"
-        android:orientation="horizontal"
         android:gravity="center_vertical"
-        style="@style/Padding">
+        android:orientation="horizontal">
 
-        <com.daasuu.cat.CountAnimationTextView
-            android:id="@+id/food_list_value_calculated"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/text_medium" />
+        <com.faltenreich.diaguard.ui.view.TintImageView
+            android:id="@+id/food_list_icon"
+            style="@style/LayoutRowImage"
+            android:src="@drawable/ic_category_meal"
+            app:tintColor="@color/gray_darker" />
 
         <TextView
-            android:id="@+id/food_list_value_sign"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:layout_marginLeft="@dimen/margin_between"
-            android:layout_marginStart="@dimen/margin_between"
-            android:layout_marginRight="@dimen/margin_between"
-            android:layout_marginEnd="@dimen/margin_between"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/text_medium"
-            android:text="+"/>
+            android:id="@+id/food_list_label"
+            style="@style/LayoutRowLabel"
+            android:text="@string/meal" />
 
-        <EditText
-            android:id="@+id/food_list_value_input"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:inputType="numberDecimal" />
+            android:layout_weight="2"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.daasuu.cat.CountAnimationTextView
+                android:id="@+id/food_list_value_calculated"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_medium" />
+
+            <TextView
+                android:id="@+id/food_list_value_sign"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/margin_between"
+                android:layout_marginLeft="@dimen/margin_between"
+                android:layout_marginRight="@dimen/margin_between"
+                android:layout_marginStart="@dimen/margin_between"
+                android:gravity="center_vertical"
+                android:text="+"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_medium" />
+
+            <EditText
+                android:id="@+id/food_list_value_input"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:inputType="numberDecimal" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <View style="@style/LayoutRowSeparator"
-        android:id="@+id/food_list_separator" />
+    <View
+        android:id="@+id/food_list_separator"
+        style="@style/LayoutRowSeparator" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/food_list"

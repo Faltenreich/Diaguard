@@ -5,4 +5,8 @@
         <attr name="tintColor" format="color"/>
     </declare-styleable>
 
+    <declare-styleable name="FoodListView">
+        <attr name="showLabelIcon" format="boolean"/>
+    </declare-styleable>
+
 </resources>

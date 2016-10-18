@@ -121,8 +121,6 @@
         <item name="android:layout_weight">2</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:inputType">numberDecimal</item>
-        <item name="android:layout_marginLeft">@dimen/margin_between</item>
-        <item name="android:layout_marginStart">@dimen/margin_between</item>
     </style>
 
     <style name="LayoutRowImage">
@@ -165,6 +163,15 @@
         <item name="bpTextColor">@android:color/black</item>
         <item name="bpDeleteIcon">@drawable/ic_backspace_light</item>
         <item name="bpCheckIcon">@drawable/ic_check_light</item>
+    </style>
+
+    <style name="ListHeader" parent="Padding">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">@dimen/height_element</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@color/green_light</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
 </resources>

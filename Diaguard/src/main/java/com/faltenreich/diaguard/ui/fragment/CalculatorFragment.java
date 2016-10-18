@@ -26,6 +26,7 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.ui.activity.PreferenceActivity;
+import com.faltenreich.diaguard.ui.view.FoodListView;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.Validator;
@@ -43,7 +44,7 @@ public class CalculatorFragment extends BaseFragment {
     @BindView(R.id.calculator_bloodsugar) EditText editTextBloodSugar;
     @BindView(R.id.calculator_target) EditText editTextTargetValue;
     @BindView(R.id.calculator_correction) EditText editTextCorrection;
-    @BindView(R.id.calculator_meal) EditText editTextMeal;
+    @BindView(R.id.calculator_food_list_view) FoodListView foodListView;
     @BindView(R.id.calculator_factor) EditText editTextFactor;
 
     public CalculatorFragment() {
@@ -90,7 +91,6 @@ public class CalculatorFragment extends BaseFragment {
         editTextTargetValue.setHint(unitAcronym);
         editTextCorrection.setHint(unitAcronym);
         editTextBloodSugar.setHint(unitAcronym);
-        editTextMeal.setHint(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.MEAL));
 
         updateTargetValue();
         updateCorrectionValue();
@@ -131,18 +131,8 @@ public class CalculatorFragment extends BaseFragment {
         }
 
         // Meal
-        String meal = editTextMeal.getText().toString();
-        if (meal.length() > 0) {
-            if (!Validator.validateEventValue(getContext(), editTextMeal, Measurement.Category.MEAL, meal)) {
-                isValid = false;
-            }
-            // Factor
-            if (!Validator.validateEditTextFactor(getContext(), editTextFactor, false)) {
-                isValid = false;
-            } else {
-                editTextFactor.setError(null);
-            }
-        }
+        isValid = foodListView.isValid();
+
         return isValid;
     }
 
@@ -164,12 +154,7 @@ public class CalculatorFragment extends BaseFragment {
                                     Measurement.Category.BLOODSUGAR,
                                     NumberUtils.parseNumber(editTextCorrection.getText().toString())) :
                             PreferenceHelper.getInstance().getCorrectionValue();
-            float meal =
-                    Validator.containsNumber(editTextMeal.getText().toString()) ?
-                            PreferenceHelper.getInstance().formatCustomToDefaultUnit(
-                                    Measurement.Category.MEAL,
-                                    NumberUtils.parseNumber(editTextMeal.getText().toString())) :
-                            0;
+            float meal = foodListView.getTotalCarbohydrates();
             float factor = 0;
             if (meal > 0) {
                 if (Validator.containsNumber(editTextFactor.getText().toString())) {

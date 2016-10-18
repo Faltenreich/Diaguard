@@ -83,6 +83,7 @@ public class FoodFragment extends BaseFragment {
             collapsingToolbarLayout.setTitle(food.getName());
 
             nutrientList.setLayoutManager(new LinearLayoutManager(getContext()));
+            nutrientList.addItemDecoration(new SimpleDividerItemDecoration(getContext()));
             nutrientList.setAdapter(new NutrientAdapter(getContext(), food));
 
             historyList.setLayoutManager(new LinearLayoutManager(getContext()));

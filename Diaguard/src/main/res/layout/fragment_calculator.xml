@@ -109,7 +109,7 @@
                         android:contentDescription="@string/note"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:clickable="true"
-                        app:tintColor="@color/green"/>
+                        app:tintColor="@color/gray"/>
 
                 </LinearLayout>
 

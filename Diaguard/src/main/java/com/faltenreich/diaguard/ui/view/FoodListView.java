@@ -29,6 +29,7 @@ import com.faltenreich.diaguard.ui.activity.FoodSearchActivity;
 import com.faltenreich.diaguard.ui.fragment.FoodSearchFragment;
 import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.StringUtils;
+import com.faltenreich.diaguard.util.SystemUtils;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.robinhood.ticker.TickerUtils;
 import com.robinhood.ticker.TickerView;
@@ -45,10 +46,14 @@ import butterknife.OnClick;
 
 public class FoodListView extends LinearLayout {
 
+    private static final int ANIMATION_DURATION_IN_MILLIS = 750;
+
     @BindView(R.id.food_list_icon) ImageView icon;
     @BindView(R.id.food_list_label) TextView label;
     @BindView(R.id.food_list_value_input) EditText valueInput;
-    @BindView(R.id.food_list_value_calculated) TickerView valueCalculated;
+    @BindView(R.id.food_list_value_calculated_integral) TickerView valueCalculatedIntegral;
+    @BindView(R.id.food_list_value_calculated_point) TextView valueCalculatedPoint;
+    @BindView(R.id.food_list_value_calculated_fractional) TickerView valueCalculatedFractional;
     @BindView(R.id.food_list_value_sign) TextView valueSign;
     @BindView(R.id.food_list_separator) View separator;
     @BindView(R.id.food_list) RecyclerView foodList;
@@ -106,7 +111,10 @@ public class FoodListView extends LinearLayout {
         icon.setVisibility(visibility);
 
         valueInput.setHint(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.MEAL));
-        valueCalculated.setCharacterList(TickerUtils.getDefaultNumberList());
+        valueCalculatedIntegral.setCharacterList(TickerUtils.getDefaultNumberList());
+        valueCalculatedFractional.setCharacterList(TickerUtils.getDefaultNumberList());
+        valueCalculatedIntegral.setAnimationDuration(ANIMATION_DURATION_IN_MILLIS);
+        valueCalculatedFractional.setAnimationDuration(ANIMATION_DURATION_IN_MILLIS);
 
         adapter = new FoodEditableAdapter(getContext());
         foodList.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -158,12 +166,20 @@ public class FoodListView extends LinearLayout {
 
         float newValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.MEAL, adapter.getTotalCarbohydrates());
         boolean hasFoodEaten = newValue > 0;
-        valueCalculated.setVisibility(hasFoodEaten ? VISIBLE : GONE);
+        valueCalculatedIntegral.setVisibility(hasFoodEaten ? VISIBLE : GONE);
+        valueCalculatedPoint.setVisibility(hasFoodEaten ? VISIBLE : GONE);
+        valueCalculatedPoint.setText(SystemUtils.getDecimalSeparator());
+        valueCalculatedFractional.setVisibility(hasFoodEaten ? VISIBLE : GONE);
         valueSign.setVisibility(hasFoodEaten ? VISIBLE : GONE);
 
         float totalCarbohydrates = adapter.getTotalCarbohydrates();
         float totalMeal = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.MEAL, totalCarbohydrates);
-        valueCalculated.setText(String.valueOf(234), true);
+
+        int integral = (int) totalMeal;
+        int fractional = Math.round((totalMeal - integral) * 100);
+
+        valueCalculatedIntegral.setText(String.valueOf(integral), true);
+        valueCalculatedFractional.setText(String.valueOf(fractional), true);
     }
 
     public List<FoodEaten> getItems() {

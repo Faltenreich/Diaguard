@@ -8,13 +8,11 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.daasuu.cat.CountAnimationTextView;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.FoodEditableAdapter;
 import com.faltenreich.diaguard.adapter.SimpleDividerItemDecoration;
@@ -29,10 +27,11 @@ import com.faltenreich.diaguard.event.ui.FoodEatenUpdatedEvent;
 import com.faltenreich.diaguard.event.ui.FoodSelectedEvent;
 import com.faltenreich.diaguard.ui.activity.FoodSearchActivity;
 import com.faltenreich.diaguard.ui.fragment.FoodSearchFragment;
-import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.StringUtils;
 import com.j256.ormlite.dao.ForeignCollection;
+import com.robinhood.ticker.TickerUtils;
+import com.robinhood.ticker.TickerView;
 
 import java.util.List;
 
@@ -49,7 +48,7 @@ public class FoodListView extends LinearLayout {
     @BindView(R.id.food_list_icon) ImageView icon;
     @BindView(R.id.food_list_label) TextView label;
     @BindView(R.id.food_list_value_input) EditText valueInput;
-    @BindView(R.id.food_list_value_calculated) CountAnimationTextView valueCalculated;
+    @BindView(R.id.food_list_value_calculated) TickerView valueCalculated;
     @BindView(R.id.food_list_value_sign) TextView valueSign;
     @BindView(R.id.food_list_separator) View separator;
     @BindView(R.id.food_list) RecyclerView foodList;
@@ -107,23 +106,12 @@ public class FoodListView extends LinearLayout {
         icon.setVisibility(visibility);
 
         valueInput.setHint(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.MEAL));
+        valueCalculated.setCharacterList(TickerUtils.getDefaultNumberList());
 
         adapter = new FoodEditableAdapter(getContext());
         foodList.setLayoutManager(new LinearLayoutManager(getContext()));
         foodList.addItemDecoration(new SimpleDividerItemDecoration(getContext()));
         foodList.setAdapter(adapter);
-
-        valueCalculated.setCountAnimationListener(new CountAnimationTextView.CountAnimationListener() {
-            @Override
-            public void onAnimationStart(Object animatedValue) {
-            }
-            @Override
-            public void onAnimationEnd(Object animatedValue) {
-                float totalCarbohydrates = adapter.getTotalCarbohydrates();
-                float totalMeal = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.MEAL, totalCarbohydrates);
-                valueCalculated.setText(Helper.parseFloat(totalMeal));
-            }
-        });
 
         update();
     }
@@ -168,18 +156,14 @@ public class FoodListView extends LinearLayout {
         boolean hasFood = adapter.getItemCount() > 0;
         separator.setVisibility(hasFood ? VISIBLE : GONE);
 
-        float oldValue = NumberUtils.parseNumber(valueCalculated.getText().toString());
         float newValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.MEAL, adapter.getTotalCarbohydrates());
         boolean hasFoodEaten = newValue > 0;
         valueCalculated.setVisibility(hasFoodEaten ? VISIBLE : GONE);
         valueSign.setVisibility(hasFoodEaten ? VISIBLE : GONE);
 
-        boolean hasChangedSignificantly = Math.abs(newValue - oldValue) > 5;
-        if (hasChangedSignificantly) {
-            valueCalculated.setInterpolator(new AccelerateInterpolator()).countAnimation((int) oldValue, (int) newValue);
-        } else {
-            valueCalculated.setText(Helper.parseFloat(newValue));
-        }
+        float totalCarbohydrates = adapter.getTotalCarbohydrates();
+        float totalMeal = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.MEAL, totalCarbohydrates);
+        valueCalculated.setText(String.valueOf(234), true);
     }
 
     public List<FoodEaten> getItems() {

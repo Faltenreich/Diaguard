@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="ticker-1.1.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Diaguard/build/intermediates/exploded-aar/com.robinhood.ticker/ticker/1.1.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/Diaguard/build/intermediates/exploded-aar/com.robinhood.ticker/ticker/1.1.0/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.robinhood.ticker/ticker/1.1.0/7d273c7c5469ce7eccfdac9fc677f20ed22bc122/ticker-1.1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -3,7 +3,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.1'
+        classpath 'com.android.tools.build:gradle:2.2.2'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
     }
 }
@@ -17,12 +17,12 @@ repositories {
 }
 
 android {
-    compileSdkVersion 24
+    compileSdkVersion 25
     buildToolsVersion '24.0.2'
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 24
+        targetSdkVersion 25
     }
 
     buildTypes {
@@ -43,9 +43,9 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:design:24.2.1'
-    compile 'com.android.support:cardview-v7:24.2.1'
-    compile 'com.android.support:recyclerview-v7:24.2.1'
+    compile 'com.android.support:design:25.0.0'
+    compile 'com.android.support:cardview-v7:25.0.0'
+    compile 'com.android.support:recyclerview-v7:25.0.0'
 
     compile 'com.j256.ormlite:ormlite-core:4.48'
     compile 'com.j256.ormlite:ormlite-android:4.48'
@@ -71,5 +71,5 @@ dependencies {
     compile 'com.lapism:searchview:3.6.3'
     compile 'com.mikhaellopez:circularimageview:3.0.2'
     compile 'com.code-troopers.betterpickers:library:3.0.1'
-    compile 'com.daasuu:CountAnimationTextView:0.1.1'
+    compile 'com.robinhood.ticker:ticker:1.1.0'
 }

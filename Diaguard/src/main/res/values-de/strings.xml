@@ -86,7 +86,6 @@
     <string name="log">Protokoll</string>
     <string name="mail">E-Mail</string>
     <string name="meal">Mahlzeit</string>
-    <string name="meal_calculated">Berechnete %s</string>
     <string name="measurement_latest">Zuletzt</string>
     <string name="measurements">Messungen</string>
     <string name="no_data">Keine Einträge vorhanden</string>

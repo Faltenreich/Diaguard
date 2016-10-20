@@ -35,7 +35,23 @@
             android:orientation="horizontal">
 
             <com.robinhood.ticker.TickerView
-                android:id="@+id/food_list_value_calculated"
+                android:id="@+id/food_list_value_calculated_integral"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_medium" />
+
+            <TextView
+                android:id="@+id/food_list_value_calculated_point"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_medium"/>
+
+            <com.robinhood.ticker.TickerView
+                android:id="@+id/food_list_value_calculated_fractional"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"

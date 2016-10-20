@@ -22,6 +22,8 @@ import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by Faltenreich on 26.06.2016.
  */
@@ -87,5 +89,9 @@ public class SystemUtils {
         ActivityCompat.requestPermissions(activity,
                 new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                 PERMISSION_WRITE_EXTERNAL_STORAGE);
+    }
+
+    public static String getDecimalSeparator() {
+        return String.valueOf(new DecimalFormat().getDecimalFormatSymbols().getDecimalSeparator());
     }
 }

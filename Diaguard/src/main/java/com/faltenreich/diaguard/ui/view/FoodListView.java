@@ -34,8 +34,6 @@ import com.j256.ormlite.dao.ForeignCollection;
 import com.robinhood.ticker.TickerUtils;
 import com.robinhood.ticker.TickerView;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -172,18 +170,18 @@ public class FoodListView extends LinearLayout {
         valueCalculatedFractional.setVisibility(hasFoodEaten ? VISIBLE : GONE);
         valueSign.setVisibility(hasFoodEaten ? VISIBLE : GONE);
 
-        float totalCarbohydrates = adapter.getTotalCarbohydrates();
-        float totalMeal = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.MEAL, totalCarbohydrates);
+        float carbohydrates = adapter.getTotalCarbohydrates();
+        float meal = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.MEAL, carbohydrates);
 
-        int integral = (int) totalMeal;
-        int fractional = Math.round((totalMeal - integral) * 100);
+        int integral = (int) meal;
+        int fractional = Math.round((meal - integral) * 100);
 
-        valueCalculatedIntegral.setText(String.valueOf(integral), true);
-        valueCalculatedFractional.setText(String.valueOf(fractional), true);
-    }
+        String integralString = String.valueOf(integral);
+        // TODO: Trim ending zeros for fractional part
+        String fractionalString = String.valueOf(fractional);
 
-    public List<FoodEaten> getItems() {
-        return adapter.getItems();
+        valueCalculatedIntegral.setText(integralString, true);
+        valueCalculatedFractional.setText(fractionalString, true);
     }
 
     public void addItem(FoodEaten foodEaten) {

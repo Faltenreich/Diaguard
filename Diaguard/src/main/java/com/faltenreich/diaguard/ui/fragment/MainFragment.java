@@ -49,7 +49,6 @@ public class MainFragment extends BaseFragment {
     @BindView(R.id.alarm_text) TextView textViewAlarm;
     @BindView(R.id.alarm_delete) View buttonAlarmDelete;
     @BindView(R.id.textview_latest_value) TextView textViewLatestValue;
-    @BindView(R.id.textview_latest_unit) TextView textViewLatestUnit;
     @BindView(R.id.textview_latest_time) TextView textViewLatestTime;
     @BindView(R.id.textview_latest_ago) TextView textViewLatestAgo;
     @BindView(R.id.textview_measurements) TextView textViewMeasurements;
@@ -140,11 +139,8 @@ public class MainFragment extends BaseFragment {
                 }
             }
 
-            // Unit
-            textViewLatestUnit.setText(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BLOODSUGAR));
-
             // Time
-            textViewLatestTime.setText(String.format("%s %s | ",
+            textViewLatestTime.setText(String.format("%s %s - ",
                     Helper.getDateFormat().print(latestEntry.getDate()),
                     Helper.getTimeFormat().print(latestEntry.getDate())));
             int differenceInMinutes = Minutes.minutesBetween(latestEntry.getDate(), new DateTime()).getMinutes();
@@ -160,11 +156,10 @@ public class MainFragment extends BaseFragment {
             textViewLatestValue.setTextSize(32);
             textViewLatestValue.setText(R.string.first_visit);
             textViewLatestValue.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
-            textViewLatestUnit.setText(null);
 
-            textViewLatestAgo.setText(R.string.first_visit_desc);
+            textViewLatestTime.setText(R.string.first_visit_desc);
+            textViewLatestAgo.setText(null);
             textViewLatestAgo.setTextColor(ContextCompat.getColor(getContext(), R.color.gray_darker));
-            textViewLatestTime.setText(null);
         }
     }
 

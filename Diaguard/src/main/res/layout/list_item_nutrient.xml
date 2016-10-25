@@ -14,8 +14,7 @@
         android:layout_weight="2"
         android:ellipsize="end"
         android:lines="1"
-        android:text="@string/nutrient_carbohydrates"
-        android:textColor="@android:color/black"/>
+        android:text="@string/nutrient_carbohydrates"/>
 
     <TextView
         android:id="@+id/list_item_nutrient_value"

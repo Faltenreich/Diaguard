@@ -2,6 +2,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -52,7 +53,7 @@
 
     </LinearLayout>
 
-    <FrameLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
@@ -112,6 +113,18 @@
 
         </LinearLayout>
 
-    </FrameLayout>
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/padding_end"
+            android:src="@drawable/ic_action_new"
+            app:layout_behavior="com.faltenreich.diaguard.adapter.FloatingActionButtonBehavior"
+            fab:fab_colorNormal="@color/green"
+            fab:fab_colorPressed="@color/green_light"
+            fab:fab_colorRipple="@color/green_lighter"/>
+
+    </android.support.design.widget.CoordinatorLayout>
 
 </LinearLayout>

@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 /**
@@ -266,6 +267,12 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         } else {
             finish();
         }
+    }
+
+    @SuppressWarnings("unused")
+    @OnClick(R.id.fab)
+    public void createFood() {
+        // TODO
     }
 
     @SuppressWarnings("unused")

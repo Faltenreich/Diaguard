@@ -11,7 +11,6 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.SwipeDismissTouchListener;
@@ -30,7 +29,7 @@ import butterknife.OnClick;
 /**
  * Created by Faltenreich on 24.09.2015.
  */
-public class MeasurementView<T extends Measurement> extends LinearLayout {
+public class MeasurementView<T extends Measurement> extends LinearLayout implements CompoundButton.OnCheckedChangeListener {
 
     @BindView(R.id.image_showcase) ImageView imageViewShowcase;
     @BindView(R.id.layer_showcase) View viewLayerShowcase;
@@ -84,17 +83,7 @@ public class MeasurementView<T extends Measurement> extends LinearLayout {
         imageViewCategory.setImageResource(PreferenceHelper.getInstance().getCategoryImageResourceId(category));
         textViewCategory.setText(PreferenceHelper.getInstance().getCategoryName(category));
         checkBoxPin.setChecked(PreferenceHelper.getInstance().isCategoryPinned(category));
-        checkBoxPin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                ViewHelper.showToast(getContext(),
-                        getContext().getString(isChecked ?
-                                R.string.category_pin_confirm :
-                                R.string.category_unpin_confirm),
-                        Toast.LENGTH_SHORT);
-                PreferenceHelper.getInstance().setCategoryPinned(category, isChecked);
-            }
-        });
+        checkBoxPin.setOnCheckedChangeListener(this);
 
         setOnTouchListener(new SwipeDismissTouchListener(this, null,
                 new SwipeDismissTouchListener.DismissCallbacks() {
@@ -142,12 +131,32 @@ public class MeasurementView<T extends Measurement> extends LinearLayout {
         }
     }
 
+    private void togglePinnedCategory(final boolean isPinned) {
+        int textResId = isPinned ? R.string.category_pin_confirm : R.string.category_unpin_confirm;
+        String confirmation = String.format(getContext().getString(textResId), category.toLocalizedString());
+        ViewHelper.showSnackbar(MeasurementView.this, confirmation, new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkBoxPin.setOnCheckedChangeListener(null);
+                checkBoxPin.setChecked(!isPinned);
+                PreferenceHelper.getInstance().setCategoryPinned(category, !isPinned);
+                checkBoxPin.setOnCheckedChangeListener(MeasurementView.this);
+            }
+        });
+        PreferenceHelper.getInstance().setCategoryPinned(category, isPinned);
+    }
+
     @SuppressWarnings("unused")
     @OnClick(R.id.button_delete)
     protected void remove() {
         if (hasMeasurementViewCallback()) {
             onCategoryRemovedListener.onRemove(category);
         }
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+        togglePinnedCategory(isChecked);
     }
 
     public interface OnCategoryRemovedListener {

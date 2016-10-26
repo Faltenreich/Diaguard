@@ -1,140 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:id="@+id/coordinator"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <include layout="@layout/toolbar" />
-
-        <android.support.v4.widget.NestedScrollView
-            android:id="@+id/activity_newevent_scrollview"
+        <LinearLayout
+            android:id="@+id/coordinator"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:transitionName="transitionEntry">
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <include layout="@layout/toolbar" />
+
+            <android.support.v4.widget.NestedScrollView
+                android:id="@+id/activity_newevent_scrollview"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:transitionName="transitionEntry">
 
-                <android.support.v7.widget.CardView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    card_view:cardElevation="3dp">
+                    android:orientation="vertical">
 
-                    <LinearLayout
+                    <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@android:color/white"
-                        android:orientation="vertical">
+                        card_view:cardElevation="3dp">
 
-                        <LinearLayout style="@style/LayoutRow">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/white"
+                            android:orientation="vertical">
 
-                            <com.faltenreich.diaguard.ui.view.TintImageView
-                                style="@style/LayoutRowImage"
-                                android:contentDescription="@string/date_select"
-                                android:src="@drawable/ic_time"
-                                app:tintColor="@color/gray_darker" />
+                            <LinearLayout style="@style/LayoutRow">
 
-                            <LinearLayout
-                                style="@style/LayoutRowItem"
-                                android:orientation="horizontal">
+                                <com.faltenreich.diaguard.ui.view.TintImageView
+                                    style="@style/LayoutRowImage"
+                                    android:contentDescription="@string/date_select"
+                                    android:src="@drawable/ic_time"
+                                    app:tintColor="@color/gray_darker" />
 
-                                <Button
-                                    android:id="@+id/button_date"
-                                    style="?android:attr/borderlessButtonStyle"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="@dimen/margin_between"
-                                    android:layout_marginRight="@dimen/margin_between" />
+                                <LinearLayout
+                                    style="@style/LayoutRowItem"
+                                    android:orientation="horizontal">
 
-                                <Button
-                                    android:id="@+id/button_time"
-                                    style="?android:attr/borderlessButtonStyle"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content" />
+                                    <Button
+                                        android:id="@+id/button_date"
+                                        style="?android:attr/borderlessButtonStyle"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/margin_between"
+                                        android:layout_marginRight="@dimen/margin_between" />
+
+                                    <Button
+                                        android:id="@+id/button_time"
+                                        style="?android:attr/borderlessButtonStyle"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content" />
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <View style="@style/LayoutRowSeparator" />
+
+                            <LinearLayout style="@style/LayoutRow">
+
+                                <com.faltenreich.diaguard.ui.view.TintImageView
+                                    style="@style/LayoutRowImage"
+                                    android:contentDescription="@string/note"
+                                    android:src="@drawable/ic_note"
+                                    app:tintColor="@color/gray_darker" />
+
+                                <EditText
+                                    android:id="@+id/edittext_notes"
+                                    style="@style/LayoutRowItem"
+                                    android:background="@android:color/transparent"
+                                    android:hint="@string/note"
+                                    android:inputType="textMultiLine|textCapSentences"
+                                    android:paddingLeft="@dimen/padding"
+                                    android:paddingStart="@dimen/padding" />
+
+                            </LinearLayout>
+
+                            <View style="@style/LayoutRowSeparator" />
+
+                            <LinearLayout style="@style/LayoutRow">
+
+                                <com.faltenreich.diaguard.ui.view.TintImageView
+                                    style="@style/LayoutRowImage"
+                                    android:contentDescription="@string/alarm"
+                                    android:src="@drawable/ic_alarm"
+                                    app:tintColor="@color/gray_darker" />
+
+                                <Spinner
+                                    android:id="@+id/spinner_alarm"
+                                    style="@style/LayoutRowItem" />
 
                             </LinearLayout>
 
                         </LinearLayout>
 
-                        <View style="@style/LayoutRowSeparator" />
+                    </android.support.v7.widget.CardView>
 
-                        <LinearLayout style="@style/LayoutRow">
+                    <com.faltenreich.diaguard.ui.view.entry.MeasurementListView
+                        android:id="@+id/layout_measurements"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="80dp"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:animateLayoutChanges="true"
+                        android:orientation="vertical" />
 
-                            <com.faltenreich.diaguard.ui.view.TintImageView
-                                style="@style/LayoutRowImage"
-                                android:contentDescription="@string/note"
-                                android:src="@drawable/ic_note"
-                                app:tintColor="@color/gray_darker" />
+                </LinearLayout>
 
-                            <EditText
-                                android:id="@+id/edittext_notes"
-                                style="@style/LayoutRowItem"
-                                android:background="@android:color/transparent"
-                                android:hint="@string/note"
-                                android:inputType="textMultiLine|textCapSentences"
-                                android:paddingLeft="@dimen/padding"
-                                android:paddingStart="@dimen/padding" />
+            </android.support.v4.widget.NestedScrollView>
 
-                        </LinearLayout>
+        </LinearLayout>
 
-                        <View style="@style/LayoutRowSeparator" />
+        <com.faltenreich.diaguard.ui.view.entry.MeasurementFloatingActionMenu
+            android:id="@+id/fab_menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom|end"
+            android:padding="@dimen/padding_end"
+            app:layout_behavior="com.faltenreich.diaguard.adapter.FloatingActionMenuBehavior"
+            app:menu_backgroundColor="@color/semitransparent"
+            fab:menu_colorNormal="@color/green"
+            fab:menu_colorPressed="@color/green_light"
+            fab:menu_colorRipple="@color/green_lighter" />
 
-                        <LinearLayout style="@style/LayoutRow">
-
-                            <com.faltenreich.diaguard.ui.view.TintImageView
-                                style="@style/LayoutRowImage"
-                                android:contentDescription="@string/alarm"
-                                android:src="@drawable/ic_alarm"
-                                app:tintColor="@color/gray_darker" />
-
-                            <Spinner
-                                android:id="@+id/spinner_alarm"
-                                style="@style/LayoutRowItem" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                </android.support.v7.widget.CardView>
-
-                <com.faltenreich.diaguard.ui.view.entry.MeasurementListView
-                    android:id="@+id/layout_measurements"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="80dp"
-                    android:layout_marginTop="@dimen/activity_vertical_margin"
-                    android:animateLayoutChanges="true"
-                    android:orientation="vertical" />
-
-            </LinearLayout>
-
-        </android.support.v4.widget.NestedScrollView>
-
-    </LinearLayout>
-
-    <com.faltenreich.diaguard.ui.view.entry.MeasurementFloatingActionMenu
-        android:id="@+id/fab_menu"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="bottom|end"
-        android:padding="@dimen/padding_end"
-        app:layout_behavior="com.faltenreich.diaguard.ui.behavior.Behavior"
-        fab:menu_colorNormal="@color/green"
-        fab:menu_colorPressed="@color/green_light"
-        fab:menu_colorRipple="@color/green_lighter"
-        app:menu_backgroundColor="@color/semitransparent" />
-
-</FrameLayout>
+</android.support.design.widget.CoordinatorLayout>

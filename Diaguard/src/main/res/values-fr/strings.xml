@@ -26,8 +26,8 @@
     <string name="categories_active">Catégories actives</string>
     <string name="category">Catégorie</string>
     <string name="category_pin">Catégorie de broche</string>
-    <string name="category_pin_confirm">Catégorie a été fixé</string>
-    <string name="category_unpin_confirm">Catégorie a été détaché</string>
+    <string name="category_pin_confirm">%s a été fixé</string>
+    <string name="category_unpin_confirm">%s a été détaché</string>
     <string name="cleanup">Nettoyer</string>
     <string name="cleanup_desc">Ceci va effacer toutes les entrées effectuées à la date sélectionnée et auparavant.</string>
     <string name="contact">Contact</string>

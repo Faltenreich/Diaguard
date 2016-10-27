@@ -3,28 +3,62 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:animateLayoutChanges="true">
 
-    <EditText
-        android:id="@+id/edittext_bolus"
-        android:inputType="numberDecimal"
-        android:background="@android:color/transparent"
-        style="@style/LayoutRow"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-    <View style="@style/LayoutRowSeparator"/>
+        <EditText
+            style="@style/MeasurementInput"
+            android:id="@+id/edittext_bolus"
+            android:hint="@string/bolus" />
 
-    <EditText
-        android:id="@+id/calculator_correction"
-        android:inputType="numberDecimal"
-        android:background="@android:color/transparent"
-        style="@style/LayoutRow"/>
+        <TextView
+            style="@style/MeasurementLabel"
+            android:id="@+id/insulin_bolus_label"
+            android:text="@string/bolus" />
 
-    <View style="@style/LayoutRowSeparator"/>
+    </LinearLayout>
 
-    <EditText
-        android:id="@+id/edittext_basal"
-        android:inputType="numberDecimal"
-        android:background="@android:color/transparent"
-        style="@style/LayoutRow"/>
+    <View style="@style/LayoutRowSeparator" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            style="@style/MeasurementInput"
+            android:id="@+id/calculator_correction"
+            android:hint="@string/correction" />
+
+        <TextView
+            style="@style/MeasurementLabel"
+            android:id="@+id/insulin_correction_label"
+            android:text="@string/correction" />
+
+    </LinearLayout>
+
+    <View style="@style/LayoutRowSeparator" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            style="@style/MeasurementInput"
+            android:id="@+id/edittext_basal"
+            android:hint="@string/basal" />
+
+        <TextView
+            style="@style/MeasurementLabel"
+            android:id="@+id/insulin_basal_label"
+            android:text="@string/basal" />
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.ui.view.entry;
 
 import android.content.Context;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
@@ -16,11 +17,11 @@ import butterknife.BindView;
  */
 public class MeasurementPressureView extends MeasurementAbstractView<Pressure> {
 
-    @BindView(R.id.edittext_systolic)
-    protected EditText editTextSystolic;
+    @BindView(R.id.edittext_systolic) EditText editTextSystolic;
+    @BindView(R.id.edittext_diastolic) EditText editTextDiastolic;
 
-    @BindView(R.id.edittext_diastolic)
-    protected EditText editTextDiastolic;
+    @BindView(R.id.pressure_systolic_label) TextView systolicLabel;
+    @BindView(R.id.pressure_diastolic_label) TextView diastolicLabel;
 
     public MeasurementPressureView(Context context) {
         super(context, Measurement.Category.PRESSURE);
@@ -68,5 +69,12 @@ public class MeasurementPressureView extends MeasurementAbstractView<Pressure> {
             return null;
         }
     }
-    
+
+    @Override
+    protected InputLabel[] getInputLabels() {
+        return new InputLabel[] {
+                new InputLabel(editTextSystolic, systolicLabel),
+                new InputLabel(editTextDiastolic, diastolicLabel)
+        };
+    }
 }

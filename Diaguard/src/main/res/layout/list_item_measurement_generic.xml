@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<EditText
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<EditText xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/edittext_value"
-    style="@style/Padding"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
-    android:gravity="center_vertical"
-    android:inputType="numberDecimal"
-    android:minHeight="@dimen/height_element" />
+    style="@style/MeasurementInput" />

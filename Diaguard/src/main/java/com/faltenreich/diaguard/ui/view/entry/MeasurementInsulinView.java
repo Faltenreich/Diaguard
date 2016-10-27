@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.ui.view.entry;
 
 import android.content.Context;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
@@ -17,14 +18,13 @@ import butterknife.BindView;
  */
 public class MeasurementInsulinView extends MeasurementAbstractView<Insulin> {
 
-    @BindView(R.id.edittext_bolus)
-    protected EditText editTextBolus;
+    @BindView(R.id.edittext_bolus) EditText editTextBolus;
+    @BindView(R.id.calculator_correction) EditText editTextCorrection;
+    @BindView(R.id.edittext_basal) EditText editTextBasal;
 
-    @BindView(R.id.calculator_correction)
-    protected EditText editTextCorrection;
-
-    @BindView(R.id.edittext_basal)
-    protected EditText editTextBasal;
+    @BindView(R.id.insulin_bolus_label) TextView bolusLabel;
+    @BindView(R.id.insulin_correction_label) TextView correctionLabel;
+    @BindView(R.id.insulin_basal_label) TextView basalLabel;
 
     public MeasurementInsulinView(Context context) {
         super(context, Measurement.Category.INSULIN);
@@ -41,9 +41,9 @@ public class MeasurementInsulinView extends MeasurementAbstractView<Insulin> {
 
     @Override
     protected void initLayout() {
-        editTextBolus.setHint(getContext().getString(R.string.bolus));
-        editTextCorrection.setHint(getContext().getString(R.string.correction));
-        editTextBasal.setHint(getContext().getString(R.string.basal));
+        editTextBolus.addTextChangedListener(this);
+        editTextCorrection.addTextChangedListener(this);
+        editTextBasal.addTextChangedListener(this);
     }
 
     @Override
@@ -99,5 +99,13 @@ public class MeasurementInsulinView extends MeasurementAbstractView<Insulin> {
             return null;
         }
     }
-    
+
+    @Override
+    protected InputLabel[] getInputLabels() {
+        return new InputLabel[] {
+                new InputLabel(editTextBolus, bolusLabel),
+                new InputLabel(editTextCorrection, correctionLabel),
+                new InputLabel(editTextBasal, basalLabel)
+        };
+    }
 }

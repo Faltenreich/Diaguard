@@ -45,6 +45,18 @@ public class FoodEatenDao extends BaseDao<FoodEaten> {
         }
     }
 
+    public long count(Food food) {
+        try {
+            return getDao().queryBuilder()
+                    .orderBy(FoodEaten.Column.CREATED_AT, false)
+                    .where().eq(FoodEaten.Column.FOOD, food)
+                    .countOf();
+        } catch (SQLException exception) {
+            Log.e(TAG, exception.getLocalizedMessage());
+            return 0;
+        }
+    }
+
     public List<FoodEaten> getAll(Food food) {
         try {
             return getDao().queryBuilder()

@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                card_view:cardElevation="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:orientation="vertical">
+
+                    <LinearLayout style="@style/LayoutRow">
+
+                        <com.faltenreich.diaguard.ui.view.TintImageView
+                            style="@style/LayoutRowImage"
+                            android:id="@+id/statistics_image_category"
+                            android:contentDescription="@string/category"
+                            android:src="@drawable/ic_list"
+                            app:tintColor="@color/gray_darker"/>
+
+                        <LinearLayout
+                            style="@style/LayoutRowItem"
+                            android:orientation="horizontal">
+
+                            <Spinner
+                                android:id="@+id/statistics_categories"
+                                style="@style/LayoutRowText"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <View style="@style/LayoutRowSeparator" />
+
+                    <LinearLayout style="@style/LayoutRow">
+
+                        <com.faltenreich.diaguard.ui.view.TintImageView
+                            style="@style/LayoutRowImage"
+                            android:contentDescription="@string/interval"
+                            android:src="@drawable/ic_time"
+                            app:tintColor="@color/gray_darker"/>
+
+                        <LinearLayout
+                            style="@style/LayoutRowItem"
+                            android:orientation="horizontal">
+
+                            <Spinner
+                                android:id="@+id/statistics_interval"
+                                style="@style/LayoutRowText" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <LinearLayout
+                style="@style/Padding"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <!-- Overview -->
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    card_view:cardCornerRadius="4dp"
+                    card_view:cardElevation="2dp"
+                    card_view:cardUseCompatPadding="true"
+                    android:transitionName="transitionOverview">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        style="@style/Padding">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/average"
+                            android:textColor="@color/green"
+                            android:textStyle="bold"
+                            style="@style/BoxRow"/>
+
+                        <TableLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TableRow style="@style/BoxRow">
+
+                                <TextView
+                                    android:id="@+id/statistics_avg_unit"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="3"/>
+
+                                <TextView android:id="@+id/statistics_avg_value"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:text="@string/placeholder"
+                                    android:textColor="@android:color/black"/>
+
+                            </TableRow>
+
+                            <TableRow style="@style/BoxRow">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="3"
+                                    android:text="@string/entry_count_per_day"/>
+
+                                <TextView android:id="@+id/statistics_measurement_count_avg"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:text="@string/placeholder"
+                                    android:textColor="@android:color/black"/>
+
+                            </TableRow>
+
+                            <TableRow style="@style/BoxRow"
+                                android:id="@+id/statistics_layout_hyper">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="3"
+                                    android:text="@string/hyper_per_day"/>
+
+                                <TextView android:id="@+id/statistics_avg_hyper"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:text="@string/placeholder"
+                                    android:textColor="@android:color/black"/>
+
+                            </TableRow>
+
+                            <TableRow style="@style/BoxRow"
+                                android:id="@+id/statistics_layout_hypo">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="3"
+                                    android:text="@string/hypo_per_day"/>
+
+                                <TextView android:id="@+id/statistics_avg_hypo"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:text="@string/placeholder"
+                                    android:textColor="@android:color/black"/>
+
+                            </TableRow>
+
+                        </TableLayout>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <!-- Trend -->
+                <android.support.v7.widget.CardView
+                    android:id="@+id/layout_trend"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    card_view:cardCornerRadius="4dp"
+                    card_view:cardElevation="2dp"
+                    card_view:cardUseCompatPadding="true"
+                    android:transitionName="transitionTrend">
+
+                    <LinearLayout
+                        style="@style/Padding"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/BoxRow"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="0dp"
+                            android:text="@string/trend"
+                            android:textColor="@color/green"
+                            android:textStyle="bold" />
+
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/statistics_chart_trend"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/line_chart_height_detailed"
+                            android:orientation="horizontal" />
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <!-- Distribution -->
+                <android.support.v7.widget.CardView
+                    android:id="@+id/layout_distribution"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    card_view:cardCornerRadius="4dp"
+                    card_view:cardElevation="2dp"
+                    card_view:cardUseCompatPadding="true"
+                    android:transitionName="transitionDistribution">
+
+                    <LinearLayout
+                        style="@style/Padding"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/BoxRow"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="0dp"
+                            android:text="@string/distribution"
+                            android:textColor="@color/green"
+                            android:textStyle="bold" />
+
+                        <com.github.mikephil.charting.charts.PieChart
+                            android:id="@+id/statistics_chart_distribution"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/pie_chart_height"
+                            android:orientation="horizontal" />
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

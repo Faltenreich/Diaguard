@@ -73,8 +73,10 @@ public class FoodFragment extends BaseFoodFragment {
         if (food != null) {
             Picasso.with(getContext()).load(food.getImageUrl()).into(image);
             collapsingToolbarLayout.setTitle(food.getName());
-            viewPager.setAdapter(new FoodPagerAdapter(getFragmentManager(), food));
+            FoodPagerAdapter adapter = new FoodPagerAdapter(getFragmentManager(), food);
+            viewPager.setAdapter(adapter);
             tabLayout.setupWithViewPager(viewPager);
+            tabLayout.setVisibility(adapter.getCount() > 1 ? View.VISIBLE : View.GONE);
         }
     }
 

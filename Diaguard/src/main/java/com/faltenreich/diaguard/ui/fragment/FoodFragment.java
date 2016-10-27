@@ -34,7 +34,7 @@ public class FoodFragment extends BaseFoodFragment {
     @BindView(R.id.food_tablayout) TabLayout tabLayout;
 
     public FoodFragment() {
-        super(R.layout.fragment_food, R.string.food);
+        super(R.layout.fragment_food, R.string.food, -1);
     }
 
     @Override
@@ -74,10 +74,26 @@ public class FoodFragment extends BaseFoodFragment {
         if (food != null) {
             Picasso.with(getContext()).load(food.getImageUrl()).into(image);
             collapsingToolbarLayout.setTitle(food.getName());
+
             FoodPagerAdapter adapter = new FoodPagerAdapter(getFragmentManager(), food);
             viewPager.setAdapter(adapter);
             tabLayout.setupWithViewPager(viewPager);
             tabLayout.setVisibility(adapter.getCount() > 1 ? View.VISIBLE : View.GONE);
+
+            /*
+            // Set tab icons
+            for (int position = 0; position < adapter.getCount(); position++) {
+                TabLayout.Tab tab = tabLayout.getTabAt(position);
+                if (tab != null) {
+                    Fragment fragment = adapter.getItem(position);
+                    if (fragment != null && fragment instanceof BaseFoodFragment) {
+                        BaseFoodFragment foodFragment = (BaseFoodFragment) fragment;
+                        tab.setIcon(foodFragment.getIcon());
+                        tab.setContentDescription(foodFragment.getTitle());
+                    }
+                }
+            }
+            */
         }
     }
 

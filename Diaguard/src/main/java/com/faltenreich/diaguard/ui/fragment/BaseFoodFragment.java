@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.ui.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -17,10 +18,12 @@ public abstract class BaseFoodFragment extends BaseFragment {
 
     public static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
 
+    private @DrawableRes int icon;
     private Food food;
 
-    public BaseFoodFragment(@LayoutRes int layoutResId, @StringRes int titleResId) {
+    public BaseFoodFragment(@LayoutRes int layoutResId, @StringRes int titleResId, @DrawableRes int icon) {
         super(layoutResId, titleResId);
+        this.icon = icon;
     }
 
     @Override
@@ -41,5 +44,9 @@ public abstract class BaseFoodFragment extends BaseFragment {
 
     protected Food getFood() {
         return food;
+    }
+
+    public @DrawableRes int getIcon() {
+        return icon;
     }
 }

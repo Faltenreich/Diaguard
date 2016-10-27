@@ -6,6 +6,9 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -22,7 +25,6 @@ import com.faltenreich.diaguard.ui.activity.FoodActivity;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * Created by Faltenreich on 27.09.2016.
@@ -51,6 +53,7 @@ public class FoodFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         checkIntents();
     }
 
@@ -64,6 +67,25 @@ public class FoodFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         update();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.food, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_edit:
+                return true;
+            case R.id.action_eat:
+                eatFood();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void checkIntents() {
@@ -102,9 +124,7 @@ public class FoodFragment extends BaseFragment {
         historyLayout.setVisibility(showHistory ? View.VISIBLE : View.GONE);
     }
 
-    @SuppressWarnings("unused")
-    @OnClick(R.id.food_fab)
-    public void createEntry() {
+    private void eatFood() {
         Intent intent = new Intent(getActivity(), EntryActivity.class);
         intent.putExtra(EntryActivity.EXTRA_FOOD, food.getId());
         startActivity(intent);

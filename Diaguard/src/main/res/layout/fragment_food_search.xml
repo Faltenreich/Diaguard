@@ -119,7 +119,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/padding_end"
-            android:src="@drawable/ic_action_new"
+            android:src="@drawable/fab_add"
             app:layout_behavior="com.faltenreich.diaguard.adapter.FloatingActionButtonBehavior"
             fab:fab_colorNormal="@color/green"
             fab:fab_colorPressed="@color/green_light"

@@ -176,8 +176,10 @@
 
     <style name="MeasurementInput" parent="LayoutRow">
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">@dimen/height_element</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:inputType">numberDecimal</item>
     </style>

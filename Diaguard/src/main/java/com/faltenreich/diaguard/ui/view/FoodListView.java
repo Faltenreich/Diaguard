@@ -118,15 +118,12 @@ public class FoodListView extends LinearLayout {
         foodList.setLayoutManager(new LinearLayoutManager(getContext()));
         foodList.addItemDecoration(new SimpleDividerItemDecoration(getContext()));
         foodList.setAdapter(adapter);
-
-        update();
     }
 
     public void setupWithMeal(Meal meal) {
         this.meal = meal;
         this.valueInput.setText(meal.getValuesForUI()[0]);
         addItems(meal.getFoodEaten());
-        update();
     }
 
     public boolean isValid() {
@@ -185,25 +182,31 @@ public class FoodListView extends LinearLayout {
     }
 
     public void addItem(FoodEaten foodEaten) {
-        adapter.addItem(foodEaten);
-        adapter.notifyItemInserted(this.adapter.getItemCount() - 1);
-        update();
+        if (foodEaten != null) {
+            adapter.addItem(foodEaten);
+            adapter.notifyItemInserted(this.adapter.getItemCount() - 1);
+            update();
+        }
     }
 
     public void addItem(Food food) {
-        FoodEaten foodEaten = new FoodEaten();
-        foodEaten.setFood(food);
-        foodEaten.setMeal(meal);
-        addItem(foodEaten);
+        if (food != null) {
+            FoodEaten foodEaten = new FoodEaten();
+            foodEaten.setFood(food);
+            foodEaten.setMeal(meal);
+            addItem(foodEaten);
+        }
     }
 
     public void addItems(ForeignCollection<FoodEaten> foodEatenList) {
-        int oldCount = adapter.getItemCount();
-        for (FoodEaten foodEaten : foodEatenList) {
-            adapter.addItem(foodEaten);
+        if (foodEatenList != null && foodEatenList.size() > 0) {
+            int oldCount = adapter.getItemCount();
+            for (FoodEaten foodEaten : foodEatenList) {
+                adapter.addItem(foodEaten);
+            }
+            adapter.notifyItemRangeInserted(oldCount, adapter.getItemCount());
+            update();
         }
-        adapter.notifyItemRangeInserted(oldCount, adapter.getItemCount());
-        update();
     }
 
     public void removeItem(int position) {

@@ -36,9 +36,7 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
 
     @Override
     protected void initLayout() {
-        if (food != null) {
-            foodList.addItem(food);
-        }
+        foodList.addItem(food);
     }
 
     @Override

@@ -40,7 +40,8 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/text_medium" />
+                android:textSize="@dimen/text_medium"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/food_list_value_calculated_point"
@@ -48,7 +49,8 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/text_medium"/>
+                android:textSize="@dimen/text_medium"
+                android:visibility="gone"/>
 
             <com.robinhood.ticker.TickerView
                 android:id="@+id/food_list_value_calculated_fractional"
@@ -56,7 +58,8 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/text_medium" />
+                android:textSize="@dimen/text_medium"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/food_list_value_sign"
@@ -69,7 +72,8 @@
                 android:gravity="center_vertical"
                 android:text="+"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/text_medium" />
+                android:textSize="@dimen/text_medium"
+                android:visibility="gone" />
 
             <EditText
                 android:id="@+id/food_list_value_input"
@@ -84,7 +88,8 @@
 
     <View
         android:id="@+id/food_list_separator"
-        style="@style/LayoutRowSeparator" />
+        style="@style/LayoutRowSeparator"
+        android:visibility="gone"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/food_list"

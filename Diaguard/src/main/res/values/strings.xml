@@ -60,6 +60,8 @@
     <string name="distribution">Distribution</string>
     <string name="drawer_close">Close Navigator</string>
     <string name="drawer_open">Open Navigator</string>
+    <string name="energy_acronym">kcal</string>
+    <string name="energy_acronym_2">kJ</string>
     <string name="entry">Entry</string>
     <string name="entry_added">Entry added</string>
     <string name="entry_count_per_day">Entries per day</string>
@@ -83,6 +85,7 @@
     <string name="format">Format</string>
     <string name="general">General</string>
     <string name="grams">Grams</string>
+    <string name="grams_acronym">g</string>
     <string name="hba1c">HbA1c</string>
     <string name="hba1c_estimated">Estimated HbA1c</string>
     <string name="hba1c_formula" translatable="false">HbA1c = 0,031 * %s 3-%s-%s + 2,393</string>

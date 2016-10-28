@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -231,21 +230,16 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         if (mode == Mode.SELECT) {
             finish();
         } else if (mode == Mode.READ) {
-            openFood(food, view);
+            openFood(food);
         }
     }
 
-    private void openFood(Food food, View view) {
+    private void openFood(Food food) {
         Events.unregister(this);
 
         Intent intent = new Intent(getContext(), FoodActivity.class);
         intent.putExtra(FoodFragment.EXTRA_FOOD_ID, food.getId());
-        ActivityOptionsCompat options =
-                ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        getActivity(),
-                        view,
-                        "transitionFood");
-        startActivity(intent, options);
+        startActivity(intent);
     }
 
     @Override

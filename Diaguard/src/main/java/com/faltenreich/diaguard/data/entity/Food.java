@@ -9,6 +9,8 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 
 import static com.faltenreich.diaguard.data.entity.Food.Column.FAT_SATURATED;
+import static com.faltenreich.diaguard.data.entity.Food.Column.PROTEINS;
+import static com.faltenreich.diaguard.data.entity.Food.Column.SUGAR;
 
 /**
  * Created by Faltenreich on 11.09.2016.
@@ -36,15 +38,15 @@ public class Food extends BaseServerEntity {
 
     public enum Nutrient {
 
-        CARBOHYDRATES(R.string.nutrient_carbohydrates),
         ENERGY(R.string.nutrient_energy),
         FAT(R.string.nutrient_fat),
         FAT_SATURATED(R.string.nutrient_fat_saturated),
+        CARBOHYDRATES(R.string.nutrient_carbohydrates),
+        SUGAR(R.string.nutrient_sugar),
         FIBER(R.string.nutrient_fiber),
         PROTEINS(R.string.nutrient_proteins),
         SALT(R.string.nutrient_salt),
-        SODIUM(R.string.nutrient_sodium),
-        SUGAR(R.string.nutrient_sugar);
+        SODIUM(R.string.nutrient_sodium);
 
         private int textResId;
 
@@ -54,6 +56,13 @@ public class Food extends BaseServerEntity {
 
         public String getLabel() {
             return DiaguardApplication.getContext().getString(textResId);
+        }
+
+        public @StringRes int getUnit() {
+            switch (this) {
+                case ENERGY: return R.string.energy_acronym;
+                default: return R.string.grams_acronym;
+            }
         }
 
         public float getValue(Food food) {
@@ -96,7 +105,7 @@ public class Food extends BaseServerEntity {
     @DatabaseField(columnName = Column.FIBER)
     private float fiber;
 
-    @DatabaseField(columnName = Column.PROTEINS)
+    @DatabaseField(columnName = PROTEINS)
     private float proteins;
 
     @DatabaseField(columnName = Column.SALT)
@@ -105,7 +114,7 @@ public class Food extends BaseServerEntity {
     @DatabaseField(columnName = Column.SODIUM)
     private float sodium;
 
-    @DatabaseField(columnName = Column.SUGAR)
+    @DatabaseField(columnName = SUGAR)
     private float sugar;
 
     @ForeignCollectionField(columnName = Column.FOOD_EATEN)

@@ -25,9 +25,6 @@ public class NutrientViewHolder extends BaseViewHolder<ListItemNutrient> {
     protected void bindData() {
         ListItemNutrient listItem = getListItem();
         label.setText(listItem.getLabel());
-        value.setText(Helper.parseFloat(listItem.getValue()));
-
-        boolean hasBackgroundColor = getAdapterPosition() % 2 == 0;
-        //setBackgroundColor(hasBackgroundColor ? R.color.light : android.R.color.transparent);
+        value.setText(listItem.getValue());
     }
 }

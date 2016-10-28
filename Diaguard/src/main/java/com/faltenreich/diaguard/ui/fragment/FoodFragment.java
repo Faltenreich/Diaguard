@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +19,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.FoodPagerAdapter;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -33,6 +35,8 @@ public class FoodFragment extends BaseFoodFragment {
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.food_image) ImageView image;
     @BindView(R.id.appbar) AppBarLayout appBarLayout;
+    @BindView(R.id.scrim_top) View scrimTop;
+    @BindView(R.id.scrim_bottom) View scrimBottom;
     @BindView(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingToolbarLayout;
     @BindView(R.id.food_viewpager) ViewPager viewPager;
     @BindView(R.id.food_tablayout) TabLayout tabLayout;
@@ -76,8 +80,26 @@ public class FoodFragment extends BaseFoodFragment {
     private void init() {
         Food food = getFood();
         if (food != null) {
-            appBarLayout.setExpanded(food.getFullImageUrl() != null);
-            Picasso.with(getContext()).load(food.getFullImageUrl()).into(image);
+            boolean isExpandable = food.getFullImageUrl() != null;
+            appBarLayout.setExpanded(isExpandable);
+            appBarLayout.setActivated(isExpandable);
+            AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) collapsingToolbarLayout.getLayoutParams();
+            params.height = isExpandable ?
+                    (int) getResources().getDimension(R.dimen.appbar_height) :
+                    CoordinatorLayout.LayoutParams.WRAP_CONTENT;
+
+            scrimTop.setVisibility(View.GONE);
+            scrimBottom.setVisibility(View.GONE);
+            Picasso.with(getContext()).load(food.getFullImageUrl()).into(image, new Callback() {
+                @Override
+                public void onSuccess() {
+                    scrimTop.setVisibility(View.VISIBLE);
+                    scrimBottom.setVisibility(View.VISIBLE);
+                }
+                @Override
+                public void onError() {
+                }
+            });
             collapsingToolbarLayout.setTitleEnabled(false);
             toolbar.setTitle(food.getName());
 

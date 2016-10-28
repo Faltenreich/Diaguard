@@ -30,5 +30,7 @@
     <dimen name="list_header_width">60dp</dimen>
     <dimen name="list_header_height">72dp</dimen>
     <dimen name="progress_circle_size">32dp</dimen>
+    <dimen name="appbar_height">220dp</dimen>
+    <dimen name="scrim_height">74dp</dimen>
 
 </resources>

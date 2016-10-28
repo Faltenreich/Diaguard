@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.faltenreich.diaguard.data.dao.FoodEatenDao;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.ui.fragment.BaseFoodFragment;
 import com.faltenreich.diaguard.ui.fragment.BaseFragment;
@@ -29,7 +28,6 @@ public class FoodPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     private void initWithFood(Food food) {
-
         Bundle bundle = new Bundle();
         bundle.putLong(BaseFoodFragment.EXTRA_FOOD_ID, food.getId());
 
@@ -39,12 +37,9 @@ public class FoodPagerAdapter extends FragmentStatePagerAdapter {
         nutrientsFragment.setArguments(bundle);
         fragments.add(new NutrientsFragment());
 
-        boolean hasHistory = FoodEatenDao.getInstance().count(food) > 0;
-        if (hasHistory) {
-            FoodHistoryFragment foodHistoryFragment = new FoodHistoryFragment();
-            foodHistoryFragment.setArguments(bundle);
-            fragments.add(foodHistoryFragment);
-        }
+        FoodHistoryFragment foodHistoryFragment = new FoodHistoryFragment();
+        foodHistoryFragment.setArguments(bundle);
+        fragments.add(foodHistoryFragment);
     }
 
     @Override

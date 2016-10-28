@@ -6,9 +6,9 @@ package com.faltenreich.diaguard.adapter.list;
 public class ListItemNutrient extends ListItem {
 
     private String label;
-    private float value;
+    private String value;
 
-    public ListItemNutrient(String label, float value) {
+    public ListItemNutrient(String label, String value) {
         this.label = label;
         this.value = value;
     }
@@ -21,11 +21,11 @@ public class ListItemNutrient extends ListItem {
         this.label = label;
     }
 
-    public float getValue() {
+    public String getValue() {
         return value;
     }
 
-    public void setValue(float value) {
+    public void setValue(String value) {
         this.value = value;
     }
 }

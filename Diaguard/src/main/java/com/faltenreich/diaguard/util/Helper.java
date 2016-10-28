@@ -131,4 +131,8 @@ public class Helper {
     public static float calculateHbA1c(float avgMgDl) {
         return 0.031f * avgMgDl + 2.393f;
     }
+
+    public static float parseKcalToKj(float kcal) {
+        return kcal * 4.184f;
+    }
 }

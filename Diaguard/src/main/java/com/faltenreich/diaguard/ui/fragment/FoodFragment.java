@@ -84,7 +84,6 @@ public class FoodFragment extends BaseFoodFragment {
             FoodPagerAdapter adapter = new FoodPagerAdapter(getFragmentManager(), food);
             viewPager.setAdapter(adapter);
             tabLayout.setupWithViewPager(viewPager);
-            tabLayout.setVisibility(adapter.getCount() > 1 ? View.VISIBLE : View.GONE);
 
             /*
             // Set tab icons

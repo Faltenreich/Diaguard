@@ -15,6 +15,9 @@ import static com.faltenreich.diaguard.data.entity.Food.Column.FAT_SATURATED;
  */
 public class Food extends BaseServerEntity {
 
+    private static final String IMAGE_SUFFIX = ".jpg";
+    private static final String KEYWORD_FULL_RESOLUTION = "full";
+
     public class Column extends BaseServerEntity.Column {
         public static final String NAME = "name";
         public static final String IMAGE_URL = "imageUrl";
@@ -118,6 +121,18 @@ public class Food extends BaseServerEntity {
 
     public String getImageUrl() {
         return imageUrl;
+    }
+
+    public String getFullImageUrl() {
+        if (imageUrl != null && imageUrl.endsWith(IMAGE_SUFFIX)) {
+            String fullImageUrl = imageUrl.substring(0, imageUrl.length() - IMAGE_SUFFIX.length());
+            int indexOfLastDot = fullImageUrl.lastIndexOf('.');
+            fullImageUrl = fullImageUrl.substring(0, indexOfLastDot + 1);
+            fullImageUrl = fullImageUrl + KEYWORD_FULL_RESOLUTION + IMAGE_SUFFIX;
+            return fullImageUrl;
+        } else {
+            return imageUrl;
+        }
     }
 
     public void setImageUrl(String imageUrl) {

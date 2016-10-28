@@ -3,9 +3,11 @@ package com.faltenreich.diaguard.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,7 +30,9 @@ public class FoodFragment extends BaseFoodFragment {
 
     public static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
 
+    @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.food_image) ImageView image;
+    @BindView(R.id.appbar) AppBarLayout appBarLayout;
     @BindView(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingToolbarLayout;
     @BindView(R.id.food_viewpager) ViewPager viewPager;
     @BindView(R.id.food_tablayout) TabLayout tabLayout;
@@ -72,8 +76,10 @@ public class FoodFragment extends BaseFoodFragment {
     private void init() {
         Food food = getFood();
         if (food != null) {
-            Picasso.with(getContext()).load(food.getImageUrl()).into(image);
-            collapsingToolbarLayout.setTitle(food.getName());
+            appBarLayout.setExpanded(food.getFullImageUrl() != null);
+            Picasso.with(getContext()).load(food.getFullImageUrl()).into(image);
+            collapsingToolbarLayout.setTitleEnabled(false);
+            toolbar.setTitle(food.getName());
 
             FoodPagerAdapter adapter = new FoodPagerAdapter(getFragmentManager(), food);
             viewPager.setAdapter(adapter);

@@ -48,8 +48,8 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="104dp"
-                android:minHeight="?attr/actionBarSize"
+                android:layout_height="96dp"
+                android:minHeight="@dimen/height_element"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 android:gravity="top"
                 app:layout_collapseMode="pin"
@@ -62,7 +62,7 @@
             <android.support.design.widget.TabLayout
                 android:id="@+id/food_tablayout"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="@dimen/height_element"
                 android:layout_gravity="bottom"
                 app:tabIndicatorHeight="2dp"
                 app:tabIndicatorColor="@android:color/white"/>

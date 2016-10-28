@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.ui.fragment.BaseFoodFragment;
 import com.faltenreich.diaguard.ui.fragment.BaseFragment;
+import com.faltenreich.diaguard.ui.fragment.FoodDetailFragment;
 import com.faltenreich.diaguard.ui.fragment.FoodHistoryFragment;
 import com.faltenreich.diaguard.ui.fragment.NutrientsFragment;
 
@@ -33,9 +34,13 @@ public class FoodPagerAdapter extends FragmentStatePagerAdapter {
 
         fragments = new ArrayList<>();
 
+        FoodDetailFragment detailFragment = new FoodDetailFragment();
+        detailFragment.setArguments(bundle);
+        fragments.add(detailFragment);
+
         NutrientsFragment nutrientsFragment = new NutrientsFragment();
         nutrientsFragment.setArguments(bundle);
-        fragments.add(new NutrientsFragment());
+        fragments.add(nutrientsFragment);
 
         FoodHistoryFragment foodHistoryFragment = new FoodHistoryFragment();
         foodHistoryFragment.setArguments(bundle);

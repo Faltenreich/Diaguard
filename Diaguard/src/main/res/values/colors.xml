@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
+
+    <color name="translucent_scrim_end">#58000000</color>
+    <color name="translucent_scrim_center">#3F000000</color>
 
     <color name="semitransparent">#ccf3f3f3</color>
     <color name="semitransparent_lighter">#11ffffff</color>

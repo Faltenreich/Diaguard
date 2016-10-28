@@ -122,6 +122,7 @@
     <string name="placeholder" translatable="false">-</string>
     <string name="pressure">Blood Pressure</string>
     <string name="pulse">Pulse</string>
+    <string name="recent">Recent</string>
     <string name="search_for">Search for</string>
     <string name="settings">Settings</string>
     <string name="sound">Sound</string>

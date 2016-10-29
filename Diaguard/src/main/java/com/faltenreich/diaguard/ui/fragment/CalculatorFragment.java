@@ -17,9 +17,11 @@ import android.widget.TextView;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
+import com.faltenreich.diaguard.data.dao.FoodEatenDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
+import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
@@ -294,9 +296,16 @@ public class CalculatorFragment extends BaseFragment {
 
         if (carbohydrates > 0) {
             Meal meal = new Meal();
-            meal.setCarbohydrates(carbohydrates);
+            meal.setCarbohydrates(PreferenceHelper.getInstance().formatCustomToDefaultUnit(
+                    Measurement.Category.MEAL,
+                    foodListView.getInputCarbohydrates()));
             meal.setEntry(entry);
             MeasurementDao.getInstance(Meal.class).createOrUpdate(meal);
+
+            for (FoodEaten foodEaten : foodListView.getFoodEatenList()) {
+                foodEaten.setMeal(meal);
+                FoodEatenDao.getInstance().createOrUpdate(foodEaten);
+            }
         }
 
         if (bolus > 0 || correction > 0) {

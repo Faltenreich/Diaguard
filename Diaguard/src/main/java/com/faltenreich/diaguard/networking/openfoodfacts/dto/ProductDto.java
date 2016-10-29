@@ -15,12 +15,24 @@ public class ProductDto extends NetworkDto {
     @SerializedName("product_name")
     public String name;
 
+    @SerializedName("generic_name")
+    public String fullName;
+
     @SerializedName("image_url")
     public String imageUrl;
 
     @SerializedName("brands")
     public String brand;
 
+    @SerializedName("ingredients_text")
+    public String ingredients;
+
+    @SerializedName("labels")
+    public String labels;
+
     @SerializedName("nutriments")
-    public NutrimentsDto nutriments;
+    public NutrientsDto nutrients;
+
+    @SerializedName("nutrient_levels")
+    public NutrientLevelsDto nutrientLevels;
 }

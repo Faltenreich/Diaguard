@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by Faltenreich on 23.09.2016.
  */
 
-public class NutrimentsDto extends NetworkDto {
+public class NutrientsDto extends NetworkDto {
 
     @SerializedName("carbohydrates_100g")
     public float carbohydrates;

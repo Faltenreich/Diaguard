@@ -252,6 +252,10 @@ public class PreferenceHelper {
         }
     }
 
+    public String getLabelForMealPer100g() {
+        return String.format("%s / 100g", getUnitAcronym(Measurement.Category.MEAL));
+    }
+
     public String[] getUnitsValues(Measurement.Category category) {
         String categoryName = category.name().toLowerCase();
         int resourceIdUnits = DiaguardApplication.getContext().getResources().getIdentifier(categoryName +

@@ -43,11 +43,11 @@
             android:textSize="@dimen/text_micro" />
 
         <TextView
+            android:id="@+id/food_search_unit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/padding_end"
             android:layout_marginStart="@dimen/padding_end"
-            android:text="@string/carbohydrates_per_100g"
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_micro" />
 

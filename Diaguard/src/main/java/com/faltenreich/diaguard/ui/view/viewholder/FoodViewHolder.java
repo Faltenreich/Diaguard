@@ -9,7 +9,6 @@ import com.faltenreich.diaguard.adapter.list.ListItemFood;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.ui.FoodSelectedEvent;
-import com.faltenreich.diaguard.util.Helper;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -35,7 +34,7 @@ public class FoodViewHolder extends BaseViewHolder<ListItemFood> implements View
         Picasso.with(getContext()).load(food.getImageUrl()).into(image);
         name.setText(food.getName());
         brand.setText(food.getBrand());
-        carbohydrates.setText(Helper.parseFloat(food.getCarbohydrates()));
+        carbohydrates.setText(food.getValueForUi());
     }
 
     @Override

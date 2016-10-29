@@ -4,6 +4,8 @@ import android.support.annotation.StringRes;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.util.Helper;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
@@ -234,6 +236,11 @@ public class Food extends BaseServerEntity {
 
     public void setFoodEaten(ForeignCollection<FoodEaten> foodEaten) {
         this.foodEaten = foodEaten;
+    }
+
+    public String getValueForUi() {
+        float valueFormatted = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.MEAL, carbohydrates);
+        return Helper.parseFloat(valueFormatted);
     }
 
     @Override

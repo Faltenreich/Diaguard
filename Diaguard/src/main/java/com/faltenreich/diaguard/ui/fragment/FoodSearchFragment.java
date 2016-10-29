@@ -19,6 +19,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.FoodAdapter;
 import com.faltenreich.diaguard.adapter.SimpleDividerItemDecoration;
 import com.faltenreich.diaguard.adapter.list.ListItemFood;
+import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.dao.FoodEatenDao;
 import com.faltenreich.diaguard.data.entity.Food;
@@ -55,6 +56,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     }
 
     @BindView(R.id.food_search_query) TextView queryTextView;
+    @BindView(R.id.food_search_unit) TextView unitTextView;
     @BindView(R.id.food_search_list) RecyclerView list;
     @BindView(R.id.food_search_progress) MaterialProgressBar progressBar;
     @BindView(R.id.search_view) SearchView searchView;
@@ -131,6 +133,8 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         list.addItemDecoration(new SimpleDividerItemDecoration(getContext()));
         adapter = new FoodAdapter(getContext());
         list.setAdapter(adapter);
+
+        unitTextView.setText(PreferenceHelper.getInstance().getLabelForMealPer100g());
 
         List<ListItemFood> foodList = new ArrayList<>();
 

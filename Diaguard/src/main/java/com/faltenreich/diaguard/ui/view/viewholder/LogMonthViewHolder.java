@@ -32,7 +32,7 @@ public class LogMonthViewHolder extends BaseViewHolder<ListItemMonth> {
         DateTime dateTime = getListItem().getDateTime();
         int resourceId = PreferenceHelper.getInstance().getMonthResourceId(dateTime);
         scrim.setVisibility(View.GONE);
-        Picasso.with(getContext()).load(resourceId).placeholder(R.color.gray_lighter).into(background, new Callback() {
+        Picasso.with(getContext()).load(resourceId).into(background, new Callback() {
             @Override
             public void onSuccess() {
                 scrim.setVisibility(View.VISIBLE);

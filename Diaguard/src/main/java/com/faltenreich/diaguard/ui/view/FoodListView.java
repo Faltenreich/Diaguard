@@ -34,6 +34,8 @@ import com.j256.ormlite.dao.ForeignCollection;
 import com.robinhood.ticker.TickerUtils;
 import com.robinhood.ticker.TickerView;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -232,6 +234,10 @@ public class FoodListView extends LinearLayout {
 
     public float getCalculatedCarbohydrates() {
         return adapter.getTotalCarbohydrates();
+    }
+
+    public List<FoodEaten> getFoodEatenList() {
+        return adapter.getItems();
     }
 
     @SuppressWarnings("unused")

@@ -160,19 +160,10 @@ public class PreferenceHelper {
                 "drawable", DiaguardApplication.getContext().getPackageName());
     }
 
-    public int getSeasonResourceId(DateTime daytime) {
+    public int getMonthResourceId(DateTime daytime) {
         int monthOfYear = daytime.monthOfYear().get();
-        String month;
-        if (monthOfYear == 12 || monthOfYear <= 2) {
-            month = "winter";
-        } else if (monthOfYear > 2 && monthOfYear <= 5) {
-            month = "spring";
-        } else if (monthOfYear > 5 && monthOfYear <= 8) {
-            month = "summer";
-        } else {
-            month = "fall";
-        }
-        return DiaguardApplication.getContext().getResources().getIdentifier("bg_" + month.toLowerCase(),
+        String identifier = String.format("bg_month_%d", monthOfYear - 1);
+        return DiaguardApplication.getContext().getResources().getIdentifier(identifier,
                 "drawable", DiaguardApplication.getContext().getPackageName());
     }
 

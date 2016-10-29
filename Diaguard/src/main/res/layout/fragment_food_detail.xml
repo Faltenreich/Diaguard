@@ -11,7 +11,27 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <org.apmem.tools.layouts.FlowLayout
+            android:id="@+id/food_labels"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_end" />
 
+        <TextView
+            android:id="@+id/food_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_end"
+            android:textSize="@dimen/text_medium"
+            android:textColor="@android:color/black"
+            android:text="Orange"/>
+
+        <TextView
+            android:id="@+id/food_ingredients"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:text="Bli Bla Blubb"/>
 
     </LinearLayout>
 

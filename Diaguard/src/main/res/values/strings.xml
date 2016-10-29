@@ -98,6 +98,7 @@
     <string name="impress">Impress</string>
     <string name="in">in</string>
     <string name="info" translatable="false">Info</string>
+    <string name="ingredients">Ingredients</string>
     <string name="insulin">Insulin</string>
     <string name="interval">Interval</string>
     <string name="latest">[value] [unit] ago</string>

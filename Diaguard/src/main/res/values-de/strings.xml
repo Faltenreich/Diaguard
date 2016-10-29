@@ -77,6 +77,7 @@
     <string name="import_">Backup wiederherstellen</string>
     <string name="impress">Impressum</string>
     <string name="in">in</string>
+    <string name="ingredients">Zutaten</string>
     <string name="insulin">Insulin</string>
     <string name="interval">Intervall</string>
     <string name="latest">Vor [value] [unit]</string>
@@ -106,6 +107,8 @@
     <string name="startscreen">Startbildschirm</string>
     <string name="statistics">Statistik</string>
     <string name="store_values">Eintragen</string>
+    <string name="sugar_level_moderate">Durchschnittlicher Zuckergehalt</string>
+    <string name="sugar_level_high">Hoher Zuckergehalt</string>
     <string name="systolic">Systolisch</string>
     <string name="target_area">Zielbereich</string>
     <string name="timeline">Tagebuch</string>

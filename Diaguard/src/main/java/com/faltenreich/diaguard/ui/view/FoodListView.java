@@ -102,24 +102,26 @@ public class FoodListView extends LinearLayout {
 
     private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_food_list, this);
-        ButterKnife.bind(this);
+        if (!isInEditMode()) {
+            ButterKnife.bind(this);
 
-        meal = new Meal();
+            meal = new Meal();
 
-        int visibility = showLabelIcon ? VISIBLE : GONE;
-        label.setVisibility(visibility);
-        icon.setVisibility(visibility);
+            int visibility = showLabelIcon ? VISIBLE : GONE;
+            label.setVisibility(visibility);
+            icon.setVisibility(visibility);
 
-        valueInput.setHint(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.MEAL));
-        valueCalculatedIntegral.setCharacterList(TickerUtils.getDefaultNumberList());
-        valueCalculatedFractional.setCharacterList(TickerUtils.getDefaultNumberList());
-        valueCalculatedIntegral.setAnimationDuration(ANIMATION_DURATION_IN_MILLIS);
-        valueCalculatedFractional.setAnimationDuration(ANIMATION_DURATION_IN_MILLIS);
+            valueInput.setHint(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.MEAL));
+            valueCalculatedIntegral.setCharacterList(TickerUtils.getDefaultNumberList());
+            valueCalculatedFractional.setCharacterList(TickerUtils.getDefaultNumberList());
+            valueCalculatedIntegral.setAnimationDuration(ANIMATION_DURATION_IN_MILLIS);
+            valueCalculatedFractional.setAnimationDuration(ANIMATION_DURATION_IN_MILLIS);
 
-        adapter = new FoodEditableAdapter(getContext());
-        foodList.setLayoutManager(new LinearLayoutManager(getContext()));
-        foodList.addItemDecoration(new SimpleDividerItemDecoration(getContext()));
-        foodList.setAdapter(adapter);
+            adapter = new FoodEditableAdapter(getContext());
+            foodList.setLayoutManager(new LinearLayoutManager(getContext()));
+            foodList.addItemDecoration(new SimpleDividerItemDecoration(getContext()));
+            foodList.setAdapter(adapter);
+        }
     }
 
     public void setupWithMeal(Meal meal) {

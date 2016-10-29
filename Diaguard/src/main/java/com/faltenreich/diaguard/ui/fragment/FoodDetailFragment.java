@@ -17,7 +17,7 @@ import butterknife.BindView;
 
 public class FoodDetailFragment extends BaseFoodFragment {
 
-    @BindView(R.id.food_name) TextView name;
+    @BindView(R.id.food_brand) TextView brand;
     @BindView(R.id.food_ingredients) TextView ingredients;
     @BindView(R.id.food_labels) ViewGroup labels;
 
@@ -34,19 +34,29 @@ public class FoodDetailFragment extends BaseFoodFragment {
     private void init() {
         Food food = getFood();
         if (food != null) {
-            name.setText(food.getFullName());
+            brand.setText(food.getBrand());
             ingredients.setText(String.format("%s: %s",
                     getString(R.string.ingredients),
                     food.getIngredients()));
 
-            switch (food.getSugarLevel()) {
-                case MODERATE:
-                    labels.addView(new FoodLabelView(getContext(), R.string.sugar_level_moderate, FoodLabelView.Type.WARNING));
-                    break;
-                case HIGH:
-                    labels.addView(new FoodLabelView(getContext(), R.string.sugar_level_high, FoodLabelView.Type.ERROR));
-                    break;
-                default:
+            if (food.getSugarLevel() != null) {
+                switch (food.getSugarLevel()) {
+                    case MODERATE:
+                        labels.addView(new FoodLabelView(
+                                getContext(),
+                                getString(R.string.sugar_level_moderate),
+                                FoodLabelView.Type.WARNING,
+                                R.drawable.ic_error));
+                        break;
+                    case HIGH:
+                        labels.addView(new FoodLabelView(
+                                getContext(),
+                                getString(R.string.sugar_level_high),
+                                FoodLabelView.Type.ERROR,
+                                R.drawable.ic_error));
+                        break;
+                    default:
+                }
             }
 
             if (food.getLabels() != null && food.getLabels().length() > 0) {

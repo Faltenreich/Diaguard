@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingBottom="@dimen/margin_between">
+
+    <com.faltenreich.diaguard.ui.view.TintImageView
+        android:id="@+id/food_icon"
+        android:layout_width="@dimen/size_image_small"
+        android:layout_height="@dimen/size_image_small"
+        app:tintColor="@color/gray"/>
 
     <TextView
         android:id="@+id/food_label"
-        style="@style/Padding"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_round_green"
-        android:textColor="@android:color/white"
-        android:layout_marginRight="@dimen/padding"
-        android:layout_marginEnd="@dimen/padding"
-        android:layout_marginBottom="@dimen/padding"/>
+        android:layout_marginStart="@dimen/margin_between"
+        android:layout_marginLeft="@dimen/margin_between"
+        android:textColor="@color/gray_dark"/>
 
 </LinearLayout>

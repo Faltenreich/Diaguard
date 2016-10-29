@@ -1,8 +1,9 @@
 package com.faltenreich.diaguard.ui.view;
 
 import android.content.Context;
+import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.StringRes;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
@@ -19,33 +20,39 @@ import butterknife.ButterKnife;
 
 public class FoodLabelView extends LinearLayout {
 
+    private static final @DrawableRes int DEFAULT_ICON_RES_ID = R.drawable.ic_info;
+
     public enum Type {
 
-        DEFAULT(R.drawable.bg_round_green),
-        WARNING(R.drawable.bg_round_yellow),
-        ERROR(R.drawable.bg_round_red);
+        DEFAULT(R.color.gray),
+        WARNING(R.color.orange),
+        ERROR(R.color.red);
 
-        public @DrawableRes int background;
+        public @ColorRes int color;
 
-        Type(@DrawableRes int background) {
-            this.background = background;
+        Type(@ColorRes int color) {
+            this.color = color;
         }
     }
 
     @BindView(R.id.food_label) TextView label;
+    @BindView(R.id.food_icon) TintImageView icon;
 
     private String text;
     private Type type;
+    private @DrawableRes int iconResId;
 
     public FoodLabelView(Context context) {
         super(context);
         this.type = Type.DEFAULT;
+        this.iconResId = DEFAULT_ICON_RES_ID;
         init();
     }
 
     public FoodLabelView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.type = Type.DEFAULT;
+        this.iconResId = DEFAULT_ICON_RES_ID;
         init();
     }
 
@@ -53,6 +60,7 @@ public class FoodLabelView extends LinearLayout {
         super(context);
         this.text = text;
         this.type = Type.DEFAULT;
+        this.iconResId = DEFAULT_ICON_RES_ID;
         init();
     }
 
@@ -60,20 +68,15 @@ public class FoodLabelView extends LinearLayout {
         super(context);
         this.text = text;
         this.type = type;
+        this.iconResId = DEFAULT_ICON_RES_ID;
         init();
     }
 
-    public FoodLabelView(Context context, @StringRes int textResId) {
+    public FoodLabelView(Context context, String text, Type type, @DrawableRes int iconResId) {
         super(context);
-        this.text = getContext().getString(textResId);
-        this.type = Type.DEFAULT;
-        init();
-    }
-
-    public FoodLabelView(Context context, @StringRes int textResId, Type type) {
-        super(context);
-        this.text = getContext().getString(textResId);
+        this.text = text;
         this.type = type;
+        this.iconResId = iconResId;
         init();
     }
 
@@ -87,6 +90,11 @@ public class FoodLabelView extends LinearLayout {
         super.onAttachedToWindow();
 
         label.setText(text);
-        label.setBackgroundResource(type.background);
+
+        icon.setImageResource(iconResId);
+
+        int color = ContextCompat.getColor(getContext(), type.color);
+        label.setTextColor(color);
+        icon.setTintColor(color);
     }
 }

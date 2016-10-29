@@ -21,7 +21,6 @@
     <string name="bolus_no2">Cependant, il est recommandé de consommer des hydrates de carbone rapides, afin d\'éviter des niveaux de glycémie trop bas.</string>
     <string name="calculator">Calculateur de bolus</string>
     <string name="cancel">Avorter</string>
-    <string name="carbohydrates_per_100g">Gluc/100g</string>
     <string name="categories">Catégories</string>
     <string name="categories_active">Catégories actives</string>
     <string name="category">Catégorie</string>

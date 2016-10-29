@@ -13,8 +13,6 @@ import java.util.List;
 
 public class FoodDao extends BaseServerDao<Food> {
 
-    private static final String TAG = FoodDao.class.getSimpleName();
-
     private static FoodDao instance;
 
     public static FoodDao getInstance() {

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.codetroopers.betterpickers.numberpicker.NumberPickerBuilder;
 import com.codetroopers.betterpickers.numberpicker.NumberPickerDialogFragment;
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.event.Events;
@@ -31,7 +32,7 @@ import butterknife.BindView;
 public class FoodEditViewHolder extends BaseViewHolder<FoodEaten> {
 
     @BindView(R.id.food_name) TextView name;
-    @BindView(R.id.food_carbohydrates) TextView carbohydrates;
+    @BindView(R.id.food_carbohydrates) TextView value;
     @BindView(R.id.food_amount) AppCompatButton amount;
     @BindView(R.id.food_delete) TintImageView delete;
 
@@ -45,7 +46,9 @@ public class FoodEditViewHolder extends BaseViewHolder<FoodEaten> {
         final Food food = foodEaten.getFood();
 
         this.name.setText(food.getName());
-        this.carbohydrates.setText(String.format("%s %s", Helper.parseFloat(food.getCarbohydrates()), getContext().getString(R.string.carbohydrates_per_100g)));
+        this.value.setText(String.format("%s %s",
+                food.getValueForUi(),
+                PreferenceHelper.getInstance().getLabelForMealPer100g()));
 
         this.amount.setOnClickListener(new View.OnClickListener() {
             @Override

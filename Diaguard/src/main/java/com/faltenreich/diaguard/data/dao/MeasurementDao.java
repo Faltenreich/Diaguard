@@ -148,8 +148,14 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
                 return insulin;
             case MEAL:
                 Meal meal = new Meal();
-                // TODO: Include carbohydrates from FoodEaten
-                meal.setCarbohydrates(function(SqlFunction.SUM, Meal.Column.CARBOHYDRATES, interval) / daysBetween);
+                float avg = function(SqlFunction.SUM, Meal.Column.CARBOHYDRATES, interval) / daysBetween;
+                float foodEatenSum = 0;
+                List<FoodEaten> foodEatenList = FoodEatenDao.getInstance().getAll(interval);
+                for (FoodEaten foodEaten : foodEatenList) {
+                    foodEatenSum += foodEaten.getCarbohydrates();
+                }
+                avg = avg + (foodEatenSum / daysBetween);
+                meal.setCarbohydrates(avg);
                 return meal;
             case ACTIVITY:
                 Activity activity = new Activity();

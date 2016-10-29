@@ -60,7 +60,7 @@ public class FoodFragment extends BaseFoodFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.food, menu);
-        menu.findItem(R.id.action_edit).setVisible(getFood().getServerId() != null);
+        menu.findItem(R.id.action_edit).setVisible(getFood().getServerId() == null);
         super.onCreateOptionsMenu(menu, inflater);
     }
 

@@ -5,6 +5,8 @@ import android.util.Log;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
+import com.faltenreich.diaguard.data.entity.FoodEaten;
+import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.ArrayUtils;
 import com.j256.ormlite.stmt.QueryBuilder;
@@ -99,6 +101,9 @@ public class EntryDao extends BaseDao<Entry> {
         }
     }
 
+    /**
+     * @return HashMap with non-null but zeroed and default values for given categories and time periods
+     */
     public LinkedHashMap<Measurement.Category, float[]> getAverageDataTable(DateTime day, Measurement.Category[] categories, int hoursToSkip) {
         LinkedHashMap<Measurement.Category, float[]> values = new LinkedHashMap<>();
         for (Measurement.Category category : categories) {
@@ -116,6 +121,11 @@ public class EntryDao extends BaseDao<Entry> {
                 int index = measurement.getEntry().getDate().hourOfDay().get() / hoursToSkip;
                 boolean valueIsSum = category != Measurement.Category.PRESSURE;
                 float value = valueIsSum ? ArrayUtils.sum(measurement.getValues()) : ArrayUtils.avg(measurement.getValues());
+                if (category == Measurement.Category.MEAL) {
+                    for (FoodEaten foodEaten : ((Meal)measurement).getFoodEaten()) {
+                        value += foodEaten.getCarbohydrates();
+                    }
+                }
                 float oldValue = values.get(category)[index];
                 // TODO: Divisor is not 2 but count
                 float newValue = valueIsAverage ?

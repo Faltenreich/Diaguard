@@ -2,9 +2,13 @@ package com.faltenreich.diaguard.data.dao;
 
 import android.util.Log;
 
+import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.data.entity.Meal;
+import com.j256.ormlite.stmt.QueryBuilder;
+
+import org.joda.time.Interval;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -75,6 +79,20 @@ public class FoodEatenDao extends BaseDao<FoodEaten> {
                     .orderBy(FoodEaten.Column.CREATED_AT, false)
                     .where().eq(FoodEaten.Column.MEAL, meal)
                     .query();
+        } catch (SQLException exception) {
+            Log.e(TAG, exception.getLocalizedMessage());
+            return new ArrayList<>();
+        }
+    }
+
+    public List<FoodEaten> getAll(Interval interval) {
+        try {
+            QueryBuilder<Entry, Long> queryBuilderEntry = EntryDao.getInstance().getQueryBuilder();
+            queryBuilderEntry
+                    .where().ge(Entry.Column.DATE, interval.getStart())
+                    .and().le(Entry.Column.DATE, interval.getEnd());
+            QueryBuilder<Meal, Long> queryBuilderMeal = MeasurementDao.getInstance(Meal.class).getQueryBuilder();
+            return getQueryBuilder().join(queryBuilderMeal.join(queryBuilderEntry)).query();
         } catch (SQLException exception) {
             Log.e(TAG, exception.getLocalizedMessage());
             return new ArrayList<>();

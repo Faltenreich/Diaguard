@@ -44,17 +44,21 @@ public class FoodDao extends BaseServerDao<Food> {
         }
         food.setServerId(serverId);
         food.setName(dto.name);
+        food.setFullName(dto.fullName);
         food.setImageUrl(dto.imageUrl);
         food.setBrand(dto.brand);
-        food.setCarbohydrates(dto.nutriments.carbohydrates);
-        food.setEnergy(dto.nutriments.energy);
-        food.setFat(dto.nutriments.fat);
-        food.setFatSaturated(dto.nutriments.fatSaturated);
-        food.setFiber(dto.nutriments.fiber);
-        food.setProteins(dto.nutriments.proteins);
-        food.setSalt(dto.nutriments.salt);
-        food.setSodium(dto.nutriments.sodium);
-        food.setSugar(dto.nutriments.sugar);
+        food.setIngredients(dto.ingredients);
+        food.setLabels(dto.labels);
+        food.setCarbohydrates(dto.nutrients.carbohydrates);
+        food.setEnergy(dto.nutrients.energy);
+        food.setFat(dto.nutrients.fat);
+        food.setFatSaturated(dto.nutrients.fatSaturated);
+        food.setFiber(dto.nutrients.fiber);
+        food.setProteins(dto.nutrients.proteins);
+        food.setSalt(dto.nutrients.salt);
+        food.setSodium(dto.nutrients.sodium);
+        food.setSugar(dto.nutrients.sugar);
+        food.setSugarLevel(dto.nutrientLevels.sugar);
         return food;
     }
 }

@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.util.Helper;
+import com.google.gson.annotations.SerializedName;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
@@ -13,6 +14,7 @@ import com.j256.ormlite.field.ForeignCollectionField;
 import static com.faltenreich.diaguard.data.entity.Food.Column.FAT_SATURATED;
 import static com.faltenreich.diaguard.data.entity.Food.Column.PROTEINS;
 import static com.faltenreich.diaguard.data.entity.Food.Column.SUGAR;
+import static com.faltenreich.diaguard.data.entity.Food.Column.SUGAR_LEVEL;
 
 /**
  * Created by Faltenreich on 11.09.2016.
@@ -24,8 +26,11 @@ public class Food extends BaseServerEntity {
 
     public class Column extends BaseServerEntity.Column {
         public static final String NAME = "name";
+        public static final String FULL_NAME = "fullName";
         public static final String IMAGE_URL = "imageUrl";
         public static final String BRAND = "brand";
+        public static final String INGREDIENTS = "ingredients";
+        public static final String LABELS = "labels";
         public static final String CARBOHYDRATES = "carbohydrates";
         public static final String ENERGY = "energy";
         public static final String FAT = "fat";
@@ -35,6 +40,7 @@ public class Food extends BaseServerEntity {
         public static final String SALT = "salt";
         public static final String SODIUM = "sodium";
         public static final String SUGAR = "sugar";
+        public static final String SUGAR_LEVEL = "sugarLevel";
         public static final String FOOD_EATEN = "foodEaten";
     }
 
@@ -83,14 +89,32 @@ public class Food extends BaseServerEntity {
         }
     }
 
+    public enum NutrientLevel {
+        @SerializedName("low")
+        LOW,
+        @SerializedName("moderate")
+        MODERATE,
+        @SerializedName("high")
+        HIGH
+    }
+
     @DatabaseField(columnName = Column.NAME)
     private String name;
+
+    @DatabaseField(columnName = Column.FULL_NAME)
+    private String fullName;
 
     @DatabaseField(columnName = Column.IMAGE_URL)
     private String imageUrl;
 
     @DatabaseField(columnName = Column.BRAND)
     private String brand;
+
+    @DatabaseField(columnName = Column.INGREDIENTS)
+    private String ingredients;
+
+    @DatabaseField(columnName = Column.LABELS)
+    private String labels;
 
     @DatabaseField(columnName = Column.CARBOHYDRATES)
     private float carbohydrates;
@@ -119,6 +143,9 @@ public class Food extends BaseServerEntity {
     @DatabaseField(columnName = SUGAR)
     private float sugar;
 
+    @DatabaseField(columnName = SUGAR_LEVEL)
+    private NutrientLevel sugarLevel;
+
     @ForeignCollectionField(columnName = Column.FOOD_EATEN)
     private ForeignCollection<FoodEaten> foodEaten;
 
@@ -128,6 +155,14 @@ public class Food extends BaseServerEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getImageUrl() {
@@ -156,6 +191,22 @@ public class Food extends BaseServerEntity {
 
     public void setBrand(String brand) {
         this.brand = brand;
+    }
+
+    public String getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(String ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public String getLabels() {
+        return labels;
+    }
+
+    public void setLabels(String labels) {
+        this.labels = labels;
     }
 
     public float getCarbohydrates() {
@@ -228,6 +279,14 @@ public class Food extends BaseServerEntity {
 
     public void setSugar(float sugar) {
         this.sugar = sugar;
+    }
+
+    public NutrientLevel getSugarLevel() {
+        return sugarLevel;
+    }
+
+    public void setSugarLevel(NutrientLevel sugarLevel) {
+        this.sugarLevel = sugarLevel;
     }
 
     public ForeignCollection<FoodEaten> getFoodEaten() {

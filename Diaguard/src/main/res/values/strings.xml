@@ -16,6 +16,8 @@
     <!-- GENERAL -->
 
     <string name="about">About</string>
+    <string name="acting_quick">Quick-acting</string>
+    <string name="acting_slow">Slow-acting</string>
     <string name="activity">Activity</string>
     <string name="all">All</string>
     <string name="alarm">Measure blood sugar</string>

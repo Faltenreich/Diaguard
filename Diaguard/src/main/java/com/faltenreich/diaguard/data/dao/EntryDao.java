@@ -39,6 +39,15 @@ public class EntryDao extends BaseDao<Entry> {
         super(Entry.class);
     }
 
+    @Override
+    public int delete(Entry entry) {
+        for (Measurement measurement : EntryDao.getInstance().getMeasurements(entry)) {
+            entry.getMeasurementCache().add(measurement);
+            MeasurementDao.getInstance(measurement.getClass()).delete(measurement);
+        }
+        return super.delete(entry);
+    }
+
     public List<Entry> getEntriesOfDay(DateTime day) {
         return getEntriesBetween(day, day);
     }

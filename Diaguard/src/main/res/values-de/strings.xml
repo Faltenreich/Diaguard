@@ -5,6 +5,8 @@
 
     <!-- GENERAL -->
     <string name="about">Über</string>
+    <string name="acting_quick">Schnell wirkend</string>
+    <string name="acting_slow">Langsam wirkend</string>
     <string name="activity">Aktivität</string>
     <string name="all">Alle</string>
     <string name="alarm">Blutzucker messen</string>

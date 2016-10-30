@@ -59,6 +59,23 @@ public class FoodDetailFragment extends BaseFoodFragment {
                 }
             }
 
+            if (food.getCarbohydrates() > 0) {
+                // TODO: Determine quick- and slow-acting sugar
+                if (false) {
+                    labels.addView(new FoodLabelView(
+                            getContext(),
+                            getString(R.string.acting_quick),
+                            FoodLabelView.Type.ERROR,
+                            R.drawable.ic_error));
+                } else if (false) {
+                    labels.addView(new FoodLabelView(
+                            getContext(),
+                            getString(R.string.acting_slow),
+                            FoodLabelView.Type.ERROR,
+                            R.drawable.ic_error));
+                }
+            }
+
             if (food.getLabels() != null && food.getLabels().length() > 0) {
                 for (String label : food.getLabels().split(",")) {
                     labels.addView(new FoodLabelView(getContext(), label));

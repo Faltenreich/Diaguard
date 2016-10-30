@@ -278,10 +278,6 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
     private void deleteEntry() {
         if (entry != null) {
-            for (Measurement measurement : EntryDao.getInstance().getMeasurements(entry)) {
-                entry.getMeasurementCache().add(measurement);
-                MeasurementDao.getInstance(measurement.getClass()).delete(measurement);
-            }
             EntryDao.getInstance().delete(entry);
             Events.post(new EntryDeletedEvent(entry));
             finish();

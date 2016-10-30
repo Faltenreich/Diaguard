@@ -24,7 +24,6 @@ import org.joda.time.DateTimeConstants;
 import org.joda.time.Interval;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -69,11 +68,10 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
         switch (object.getCategory()) {
             case MEAL:
                 Meal meal = (Meal) object;
-                List<FoodEaten> foodEatenCache = new ArrayList<>();
                 for (FoodEaten foodEaten : meal.getFoodEaten()) {
-                    foodEatenCache.add(foodEaten);
+                    meal.getFoodEatenCache().add(foodEaten);
+                    FoodEatenDao.getInstance().delete(foodEaten);
                 }
-                meal.setFoodEatenCache(foodEatenCache);
                 break;
         }
         return super.delete(object);

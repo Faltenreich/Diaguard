@@ -26,6 +26,11 @@ public abstract class BaseFoodFragment extends BaseFragment {
         this.icon = icon;
     }
 
+    public BaseFoodFragment(@LayoutRes int layoutResId, @StringRes int titleResId) {
+        super(layoutResId, titleResId);
+        this.icon = -1;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

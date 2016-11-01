@@ -30,6 +30,7 @@ import com.faltenreich.diaguard.event.networking.FoodSearchSucceededEvent;
 import com.faltenreich.diaguard.event.ui.FoodSelectedEvent;
 import com.faltenreich.diaguard.networking.openfoodfacts.OpenFoodFactsManager;
 import com.faltenreich.diaguard.ui.activity.FoodActivity;
+import com.faltenreich.diaguard.ui.activity.FoodEditActivity;
 import com.faltenreich.diaguard.ui.activity.FoodSearchActivity;
 import com.faltenreich.diaguard.util.NetworkingUtils;
 import com.lapism.searchview.SearchAdapter;
@@ -270,7 +271,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     @SuppressWarnings("unused")
     @OnClick(R.id.fab)
     public void createFood() {
-        // TODO
+        startActivity(new Intent(getContext(), FoodEditActivity.class));
     }
 
     @SuppressWarnings("unused")

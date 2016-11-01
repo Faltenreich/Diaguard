@@ -274,6 +274,12 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     }
 
     @SuppressWarnings("unused")
+    @OnClick(R.id.food_search_scanner)
+    public void openCamera() {
+        // TODO
+    }
+
+    @SuppressWarnings("unused")
     public void onEvent(FoodSelectedEvent event) {
         onFoodSelected(event.context, event.view);
     }

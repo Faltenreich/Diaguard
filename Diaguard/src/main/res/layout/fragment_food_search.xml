@@ -20,6 +20,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <com.faltenreich.diaguard.ui.view.TintImageView
+            android:id="@+id/food_search_scanner"
+            android:layout_width="@dimen/size_image_small"
+            android:layout_height="@dimen/size_image_small"
+            android:layout_gravity="center_vertical|end"
+            android:src="@drawable/ic_camera"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:layout_marginRight="62dp"
+            android:layout_marginEnd="62dp"
+            app:tintColor="@color/gray_darker"/>
+
     </FrameLayout>
 
     <LinearLayout

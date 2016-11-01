@@ -187,8 +187,9 @@ public class FoodListView extends LinearLayout {
 
     public void addItem(FoodEaten foodEaten) {
         if (foodEaten != null) {
-            adapter.addItem(foodEaten);
-            adapter.notifyItemInserted(this.adapter.getItemCount() - 1);
+            int position = 0;
+            adapter.addItem(position, foodEaten);
+            adapter.notifyItemInserted(position);
             update();
         }
     }

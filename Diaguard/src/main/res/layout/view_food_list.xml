@@ -86,6 +86,16 @@
 
     </LinearLayout>
 
+    <View style="@style/LayoutRowSeparator" />
+
+    <Button
+        android:id="@+id/food_list_button"
+        style="?attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/food_add"
+        android:textColor="@color/green" />
+
     <View
         android:id="@+id/food_list_separator"
         style="@style/LayoutRowSeparator"
@@ -96,15 +106,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:nestedScrollingEnabled="false" />
-
-    <View style="@style/LayoutRowSeparator" />
-
-    <Button
-        android:id="@+id/food_list_button"
-        style="?attr/borderlessButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/food_add"
-        android:textColor="@color/green" />
 
 </LinearLayout>

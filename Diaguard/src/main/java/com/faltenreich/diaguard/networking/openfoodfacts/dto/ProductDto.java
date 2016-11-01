@@ -35,4 +35,19 @@ public class ProductDto extends NetworkDto {
 
     @SerializedName("nutrient_levels")
     public NutrientLevelsDto nutrientLevels;
+
+    public boolean isValid() {
+        boolean hasName = name != null && name.length() > 0;
+        float nutrition = nutrients.carbohydrates +
+                nutrients.energy +
+                nutrients.fat +
+                nutrients.fatSaturated +
+                nutrients.fiber +
+                nutrients.proteins +
+                nutrients.salt +
+                nutrients.sodium +
+                nutrients.sugar;
+        boolean hasNutrition = nutrition > 0;
+        return hasName && hasNutrition;
+    }
 }

@@ -29,9 +29,11 @@ public class FoodDao extends BaseServerDao<Food> {
     public List<Food> createOrUpdate(SearchResponseDto dto) {
         List<Food> foodList = new ArrayList<>();
         for (ProductDto productDto : dto.products) {
-            Food food = parseFromDto(productDto);
-            createOrUpdate(food);
-            foodList.add(food);
+            if (productDto.isValid()) {
+                Food food = parseFromDto(productDto);
+                createOrUpdate(food);
+                foodList.add(food);
+            }
         }
         return foodList;
     }

@@ -66,6 +66,7 @@
     <string name="first_visit_desc">Ersten Wert eintragen</string>
     <string name="food">Lebensmittel</string>
     <string name="food_add">Lebensmittel hinzufügen</string>
+    <string name="food_new">Neues Lebensmittel</string>
     <string name="food_search">Nach Lebensmittel suchen</string>
     <string name="format">Format</string>
     <string name="general">Allgemein</string>

@@ -35,9 +35,7 @@ public class FoodDetailFragment extends BaseFoodFragment {
         Food food = getFood();
         if (food != null) {
             brand.setText(food.getBrand());
-            ingredients.setText(String.format("%s: %s",
-                    getString(R.string.ingredients),
-                    food.getIngredients()));
+            ingredients.setText(food.getIngredients());
 
             if (food.getSugarLevel() != null) {
                 switch (food.getSugarLevel()) {

@@ -49,7 +49,7 @@ public class FoodDao extends BaseServerDao<Food> {
         food.setFullName(dto.fullName);
         food.setImageUrl(dto.imageUrl);
         food.setBrand(dto.brand);
-        food.setIngredients(dto.ingredients);
+        food.setIngredients(dto.ingredients != null ? dto.ingredients.replaceAll("_", "") : null);
         food.setLabels(dto.labels);
         food.setCarbohydrates(dto.nutrients.carbohydrates);
         food.setEnergy(dto.nutrients.energy);

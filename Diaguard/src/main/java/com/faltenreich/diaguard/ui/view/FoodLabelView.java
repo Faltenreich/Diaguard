@@ -23,9 +23,9 @@ public class FoodLabelView extends LinearLayout {
     private static final @DrawableRes int DEFAULT_ICON_RES_ID = R.drawable.ic_info;
 
     public enum Type {
-        DEFAULT(R.color.gray_darker),
+        DEFAULT(android.R.color.black),
         WARNING(R.color.orange),
-        ERROR(R.color.red);
+        ERROR(R.color.red_dark);
 
         public @ColorRes int color;
 

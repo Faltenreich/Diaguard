@@ -17,6 +17,7 @@
     <string name="alarm_reminder">Erinnerung in</string>
     <string name="amount">Menge &#8230;</string>
     <string name="and_or">und/oder</string>
+    <string name="attributes">Kennzeichen</string>
     <string name="average">Durchschnitt</string>
     <string name="back">Zurück</string>
     <string name="backup">Backup anlegen</string>
@@ -27,6 +28,7 @@
     <string name="bolus">Bolus</string>
     <string name="bolus_no1">Es wird empfohlen, keinen Bolus zu verabreichen.</string>
     <string name="bolus_no2">Stattdessen sollten schnelle Kohlenhydrate konsumiert werden, um tiefere Blutzuckerlevel zu vermeiden.</string>
+    <string name="brand">Marke</string>
     <string name="calculator">Bolusrechner</string>
     <string name="cancel">Abbrechen</string>
     <string name="categories">Kategorien</string>

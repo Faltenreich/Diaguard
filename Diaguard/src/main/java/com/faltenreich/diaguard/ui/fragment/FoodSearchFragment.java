@@ -243,7 +243,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         Events.unregister(this);
 
         Intent intent = new Intent(getContext(), FoodActivity.class);
-        intent.putExtra(FoodFragment.EXTRA_FOOD_ID, food.getId());
+        intent.putExtra(BaseFoodFragment.EXTRA_FOOD_ID, food.getId());
         startActivity(intent);
     }
 

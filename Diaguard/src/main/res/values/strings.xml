@@ -114,6 +114,7 @@
     <string name="meal">Meal</string>
     <string name="measurement_latest">Latest</string>
     <string name="measurements">Measured</string>
+    <string name="name">Name</string>
     <string name="no_data">No data available</string>
     <string name="note">Note</string>
     <string name="note_append">Append notes</string>

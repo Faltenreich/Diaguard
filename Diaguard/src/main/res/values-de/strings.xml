@@ -93,6 +93,7 @@
     <string name="meal">Mahlzeit</string>
     <string name="measurement_latest">Zuletzt</string>
     <string name="measurements">Messungen</string>
+    <string name="name">Name</string>
     <string name="no_data">Keine Einträge vorhanden</string>
     <string name="note">Notiz</string>
     <string name="note_append">Notizen anhängen</string>

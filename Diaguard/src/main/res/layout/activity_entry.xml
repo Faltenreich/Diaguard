@@ -125,16 +125,16 @@
 
         </LinearLayout>
 
-        <com.faltenreich.diaguard.ui.view.entry.MeasurementFloatingActionMenu
-            android:id="@+id/fab_menu"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="bottom|end"
-            android:padding="@dimen/padding_end"
-            app:layout_behavior="com.faltenreich.diaguard.adapter.FloatingActionMenuBehavior"
-            app:menu_backgroundColor="@color/semitransparent"
-            fab:menu_colorNormal="@color/green"
-            fab:menu_colorPressed="@color/green_light"
-            fab:menu_colorRipple="@color/green_lighter" />
+    <com.faltenreich.diaguard.ui.view.entry.MeasurementFloatingActionMenu
+        android:id="@+id/fab_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom|end"
+        android:padding="@dimen/padding_end"
+        app:layout_behavior="com.faltenreich.diaguard.adapter.FloatingActionMenuBehavior"
+        app:menu_backgroundColor="@color/semitransparent"
+        fab:menu_colorNormal="@color/green"
+        fab:menu_colorPressed="@color/green_light"
+        fab:menu_colorRipple="@color/green_lighter" />
 
 </android.support.design.widget.CoordinatorLayout>

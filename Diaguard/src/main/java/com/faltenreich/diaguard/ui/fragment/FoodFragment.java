@@ -19,6 +19,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.FoodPagerAdapter;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
+import com.faltenreich.diaguard.ui.activity.FoodEditActivity;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -29,8 +30,6 @@ import butterknife.BindView;
  */
 
 public class FoodFragment extends BaseFoodFragment {
-
-    public static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.food_image) ImageView image;
@@ -60,7 +59,6 @@ public class FoodFragment extends BaseFoodFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.food, menu);
-        menu.findItem(R.id.action_edit).setVisible(getFood().getServerId() == null);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -68,6 +66,7 @@ public class FoodFragment extends BaseFoodFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_edit:
+                editFood();
                 return true;
             case R.id.action_eat:
                 eatFood();
@@ -126,7 +125,13 @@ public class FoodFragment extends BaseFoodFragment {
 
     private void eatFood() {
         Intent intent = new Intent(getActivity(), EntryActivity.class);
-        intent.putExtra(EntryActivity.EXTRA_FOOD, getFood().getId());
+        intent.putExtra(BaseFoodFragment.EXTRA_FOOD_ID, getFood().getId());
+        startActivity(intent);
+    }
+
+    private void editFood() {
+        Intent intent = new Intent(getActivity(), FoodEditActivity.class);
+        intent.putExtra(BaseFoodFragment.EXTRA_FOOD_ID, getFood().getId());
         startActivity(intent);
     }
 }

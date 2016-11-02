@@ -8,7 +8,6 @@ import android.support.annotation.StringRes;
 
 import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.entity.Food;
-import com.faltenreich.diaguard.ui.activity.FoodActivity;
 
 /**
  * Created by Faltenreich on 27.09.2016.
@@ -38,7 +37,7 @@ public abstract class BaseFoodFragment extends BaseFragment {
     }
 
     private void checkIntents() {
-        if (getActivity() instanceof FoodActivity && getActivity().getIntent() != null && getActivity().getIntent().getExtras() != null) {
+        if (getActivity().getIntent() != null && getActivity().getIntent().getExtras() != null) {
             Bundle extras = getActivity().getIntent().getExtras();
             if (extras.getLong(EXTRA_FOOD_ID) >= 0) {
                 long foodId = extras.getLong(EXTRA_FOOD_ID);

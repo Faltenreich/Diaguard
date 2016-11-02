@@ -29,6 +29,7 @@ import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.event.data.EntryUpdatedEvent;
+import com.faltenreich.diaguard.ui.fragment.BaseFoodFragment;
 import com.faltenreich.diaguard.ui.fragment.DatePickerFragment;
 import com.faltenreich.diaguard.ui.fragment.TimePickerFragment;
 import com.faltenreich.diaguard.ui.view.entry.MeasurementFloatingActionMenu;
@@ -52,7 +53,6 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
     public static final String EXTRA_ENTRY = "EXTRA_ENTRY";
     public static final String EXTRA_DATE = "EXTRA_DATE";
-    public static final String EXTRA_FOOD = "EXTRA_FOOD";
 
     @BindView(R.id.activity_newevent_scrollview) NestedScrollView scrollView;
     @BindView(R.id.fab_menu) MeasurementFloatingActionMenu fab;
@@ -140,9 +140,9 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
                     fab.restock();
                 }
 
-            } else if (extras.getSerializable(EXTRA_FOOD) != null) {
+            } else if (extras.getSerializable(BaseFoodFragment.EXTRA_FOOD_ID) != null) {
 
-                Food food = FoodDao.getInstance().get(extras.getLong(EXTRA_FOOD));
+                Food food = FoodDao.getInstance().get(extras.getLong(BaseFoodFragment.EXTRA_FOOD_ID));
                 layoutMeasurements.addMeasurement(food);
                 fab.ignore(Measurement.Category.MEAL);
                 fab.restock();

@@ -8,7 +8,6 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.StringRes;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,6 +97,15 @@ public abstract class BaseFragment extends Fragment {
 
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+        getActivity().setTitle(title);
+    }
+
+    public void setTitle(@StringRes int titleResId) {
+        setTitle(getString(titleResId));
     }
 
     public void startActivity(Intent intent, ActivityOptionsCompat options) {

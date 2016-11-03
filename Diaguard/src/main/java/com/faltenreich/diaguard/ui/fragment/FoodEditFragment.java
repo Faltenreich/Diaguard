@@ -66,10 +66,14 @@ public class FoodEditFragment extends BaseFoodFragment {
     private void init() {
         Food food = getFood();
         if (food != null) {
+            setTitle(R.string.food_edit);
+
             nameInput.setText(food.getName());
             brandInput.setText(food.getBrand());
             mealInput.setText(food.getValueForUi());
             ingredientsInput.setText(food.getIngredients());
+        } else {
+            setTitle(R.string.food_new);
         }
     }
 

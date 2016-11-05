@@ -1,7 +1,5 @@
 package com.faltenreich.diaguard.ui.fragment;
 
-import android.os.Bundle;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -26,8 +24,8 @@ public class FoodDetailFragment extends BaseFoodFragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onResume() {
+        super.onResume();
         init();
     }
 

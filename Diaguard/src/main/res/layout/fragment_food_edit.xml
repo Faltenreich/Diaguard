@@ -23,7 +23,7 @@
 
                 <com.faltenreich.diaguard.ui.view.TintImageView
                     style="@style/LayoutRowImage"
-                    android:src="@drawable/ic_category_meal"
+                    android:src="@drawable/ic_action_edit"
                     app:tintColor="@color/gray_darker" />
 
                 <EditText
@@ -72,6 +72,22 @@
             </LinearLayout>
 
             <View style="@style/LayoutRowSeparator" />
+
+            <LinearLayout style="@style/LayoutRow">
+
+                <com.faltenreich.diaguard.ui.view.TintImageView
+                    style="@style/LayoutRowImage"
+                    android:src="@drawable/ic_category_meal"
+                    app:tintColor="@color/gray_darker" />
+
+                <EditText
+                    android:id="@+id/food_edit_value"
+                    style="@style/LayoutRowItem"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/nutrient_carbohydrates"
+                    android:inputType="numberDecimal"/>
+
+            </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/food_edit_nutrients"

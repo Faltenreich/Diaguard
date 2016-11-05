@@ -10,11 +10,15 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.entity.Food;
+import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.data.FoodDeletedEvent;
 import com.faltenreich.diaguard.event.data.FoodSavedEvent;
+import com.faltenreich.diaguard.util.Helper;
+import com.faltenreich.diaguard.util.NumberUtils;
 
 import butterknife.BindView;
 
@@ -27,6 +31,7 @@ public class FoodEditFragment extends BaseFoodFragment {
     @BindView(R.id.food_edit_name) EditText nameInput;
     @BindView(R.id.food_edit_brand) EditText brandInput;
     @BindView(R.id.food_edit_ingredients) EditText ingredientsInput;
+    @BindView(R.id.food_edit_value) EditText valueInput;
     @BindView(R.id.food_edit_nutrients) RecyclerView nutrientList;
 
     public FoodEditFragment() {
@@ -74,6 +79,11 @@ public class FoodEditFragment extends BaseFoodFragment {
             nameInput.setText(food.getName());
             brandInput.setText(food.getBrand());
             ingredientsInput.setText(food.getIngredients());
+            valueInput.setText(Helper.parseFloat(
+                    PreferenceHelper.getInstance().formatDefaultToCustomUnit(
+                            Measurement.Category.MEAL,
+                            food.getCarbohydrates())));
+            valueInput.setHint(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.MEAL));
         }
     }
 
@@ -84,7 +94,8 @@ public class FoodEditFragment extends BaseFoodFragment {
             isValid = false;
         }
         // Check for carbohydrates
-        if (false) {
+        if (valueInput.getText().toString().length() == 0) {
+            valueInput.setError(getString(R.string.validator_value_empty));
             isValid = false;
         }
         return isValid;
@@ -99,6 +110,9 @@ public class FoodEditFragment extends BaseFoodFragment {
             food.setName(nameInput.getText().toString());
             food.setBrand(brandInput.getText().toString());
             food.setIngredients(ingredientsInput.getText().toString());
+            food.setCarbohydrates(PreferenceHelper.getInstance().formatCustomToDefaultUnit(
+                    Measurement.Category.MEAL,
+                    NumberUtils.parseNumber(valueInput.getText().toString())));
 
             FoodDao.getInstance().createOrUpdate(food);
             Events.post(new FoodSavedEvent(food));

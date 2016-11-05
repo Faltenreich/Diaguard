@@ -10,10 +10,13 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.entity.Food;
+import com.faltenreich.diaguard.event.Events;
+import com.faltenreich.diaguard.event.data.FoodDeletedEvent;
+import com.faltenreich.diaguard.event.data.FoodSavedEvent;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * Created by Faltenreich on 01.11.2016.
@@ -23,9 +26,8 @@ public class FoodEditFragment extends BaseFoodFragment {
 
     @BindView(R.id.food_edit_name) EditText nameInput;
     @BindView(R.id.food_edit_brand) EditText brandInput;
-    @BindView(R.id.food_edit_meal) EditText mealInput;
-    @BindView(R.id.food_edit_nutrients) RecyclerView nutrientList;
     @BindView(R.id.food_edit_ingredients) EditText ingredientsInput;
+    @BindView(R.id.food_edit_nutrients) RecyclerView nutrientList;
 
     public FoodEditFragment() {
         super(R.layout.fragment_food_edit, R.string.food_new);
@@ -46,6 +48,7 @@ public class FoodEditFragment extends BaseFoodFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.form_edit, menu);
+        menu.findItem(R.id.action_delete).setVisible(getFood() != null && !getFood().isSynchronized());
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -53,10 +56,10 @@ public class FoodEditFragment extends BaseFoodFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_delete:
-                // TODO
+                delete();
                 return true;
             case R.id.action_done:
-                // TODO
+                store();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -70,16 +73,46 @@ public class FoodEditFragment extends BaseFoodFragment {
 
             nameInput.setText(food.getName());
             brandInput.setText(food.getBrand());
-            mealInput.setText(food.getValueForUi());
             ingredientsInput.setText(food.getIngredients());
-        } else {
-            setTitle(R.string.food_new);
         }
     }
 
-    @SuppressWarnings("unused")
-    @OnClick(R.id.food_edit_add_nutrient)
-    public void addNutrient() {
+    private boolean isValid() {
+        boolean isValid = true;
+        if (nameInput.getText().toString().length() == 0) {
+            nameInput.setError(getString(R.string.validator_value_empty));
+            isValid = false;
+        }
+        // Check for carbohydrates
+        if (false) {
+            isValid = false;
+        }
+        return isValid;
+    }
 
+    private void store() {
+        if (isValid()) {
+            Food food = getFood();
+            if (food == null) {
+                food = new Food();
+            }
+            food.setName(nameInput.getText().toString());
+            food.setBrand(brandInput.getText().toString());
+            food.setIngredients(ingredientsInput.getText().toString());
+
+            FoodDao.getInstance().createOrUpdate(food);
+            Events.post(new FoodSavedEvent(food));
+
+            finish();
+        }
+    }
+
+    private void delete() {
+        Food food = getFood();
+        if (food != null) {
+            FoodDao.getInstance().delete(food);
+            Events.post(new FoodDeletedEvent(food));
+            finish();
+        }
     }
 }

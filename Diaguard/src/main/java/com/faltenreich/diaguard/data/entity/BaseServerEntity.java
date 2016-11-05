@@ -21,4 +21,8 @@ public class BaseServerEntity extends BaseEntity {
     public void setServerId(String serverId) {
         this.serverId = serverId;
     }
+
+    public boolean isSynchronized() {
+        return getServerId() != null;
+    }
 }

@@ -51,8 +51,8 @@ public class FoodFragment extends BaseFoodFragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onResume() {
+        super.onResume();
         init();
     }
 

@@ -36,6 +36,14 @@ public abstract class BaseFoodFragment extends BaseFragment {
         checkIntents();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (food != null) {
+            food = FoodDao.getInstance().get(food.getId());
+        }
+    }
+
     private void checkIntents() {
         if (getActivity().getIntent() != null && getActivity().getIntent().getExtras() != null) {
             Bundle extras = getActivity().getIntent().getExtras();

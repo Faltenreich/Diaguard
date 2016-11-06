@@ -72,6 +72,9 @@ public class FoodEditFragment extends BaseFoodFragment {
     }
 
     private void init() {
+        
+        valueInput.setHint(PreferenceHelper.getInstance().getUnitName(Measurement.Category.MEAL));
+
         Food food = getFood();
         if (food != null) {
             setTitle(R.string.food_edit);
@@ -83,7 +86,6 @@ public class FoodEditFragment extends BaseFoodFragment {
                     PreferenceHelper.getInstance().formatDefaultToCustomUnit(
                             Measurement.Category.MEAL,
                             food.getCarbohydrates())));
-            valueInput.setHint(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.MEAL));
         }
     }
 

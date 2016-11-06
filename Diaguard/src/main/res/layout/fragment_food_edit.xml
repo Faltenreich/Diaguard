@@ -84,7 +84,6 @@
                     android:id="@+id/food_edit_value"
                     style="@style/LayoutRowItem"
                     android:background="@android:color/transparent"
-                    android:hint="@string/nutrient_carbohydrates"
                     android:inputType="numberDecimal"/>
 
             </LinearLayout>

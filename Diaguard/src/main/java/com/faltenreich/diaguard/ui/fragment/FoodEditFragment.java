@@ -72,7 +72,7 @@ public class FoodEditFragment extends BaseFoodFragment {
     }
 
     private void init() {
-        
+
         valueInput.setHint(PreferenceHelper.getInstance().getUnitName(Measurement.Category.MEAL));
 
         Food food = getFood();

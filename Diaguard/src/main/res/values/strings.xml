@@ -123,7 +123,6 @@
     <string name="ok">OK</string>
     <string name="overview">Overview</string>
     <string name="per">per</string>
-    <string name="per_100g">per 100g</string>
     <string name="per_day">per day</string>
     <string name="permission_required_storage">Permission for storage access is missing</string>
     <string name="placeholder" translatable="false">-</string>

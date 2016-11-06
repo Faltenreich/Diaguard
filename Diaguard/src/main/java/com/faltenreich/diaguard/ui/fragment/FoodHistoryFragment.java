@@ -4,12 +4,16 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.FoodEatenAdapter;
 import com.faltenreich.diaguard.adapter.SimpleDividerItemDecoration;
 import com.faltenreich.diaguard.data.dao.FoodEatenDao;
 import com.faltenreich.diaguard.data.entity.Food;
+import com.faltenreich.diaguard.data.entity.FoodEaten;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -20,6 +24,7 @@ import butterknife.BindView;
 public class FoodHistoryFragment extends BaseFoodFragment {
 
     @BindView(R.id.food_list_history) RecyclerView historyList;
+    @BindView(R.id.food_list_placeholder) TextView placeholder;
 
     private FoodEatenAdapter historyAdapter;
 
@@ -51,7 +56,9 @@ public class FoodHistoryFragment extends BaseFoodFragment {
 
     private void update() {
         historyAdapter.clear();
-        historyAdapter.addItems(FoodEatenDao.getInstance().getAll(getFood()));
+        List<FoodEaten> foodEatenList = FoodEatenDao.getInstance().getAll(getFood());
+        historyAdapter.addItems(foodEatenList);
         historyAdapter.notifyDataSetChanged();
+        placeholder.setVisibility(foodEatenList.size() == 0 ? View.VISIBLE : View.GONE);
     }
 }

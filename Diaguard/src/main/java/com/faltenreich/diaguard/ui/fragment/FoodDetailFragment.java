@@ -4,8 +4,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Food;
+import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.view.FoodLabelView;
+import com.faltenreich.diaguard.util.Helper;
 
 import butterknife.BindView;
 
@@ -17,6 +20,7 @@ public class FoodDetailFragment extends BaseFoodFragment {
 
     @BindView(R.id.food_brand) TextView brand;
     @BindView(R.id.food_ingredients) TextView ingredients;
+    @BindView(R.id.food_value) TextView value;
     @BindView(R.id.food_labels) ViewGroup labels;
 
     public FoodDetailFragment() {
@@ -34,6 +38,12 @@ public class FoodDetailFragment extends BaseFoodFragment {
         if (food != null) {
             brand.setText(food.getBrand());
             ingredients.setText(food.getIngredients());
+
+            float mealValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(
+                    Measurement.Category.MEAL,
+                    food.getCarbohydrates());
+            String mealUnit = PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.MEAL);
+            value.setText(String.format("%s %s %s 100g", Helper.parseFloat(mealValue), mealUnit, getString(R.string.per)));
 
             if (food.getSugarLevel() != null) {
                 switch (food.getSugarLevel()) {

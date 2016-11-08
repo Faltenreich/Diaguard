@@ -116,32 +116,32 @@ public class Food extends BaseServerEntity {
     @DatabaseField(columnName = Column.LABELS)
     private String labels;
 
-    @DatabaseField(columnName = Column.CARBOHYDRATES)
-    private float carbohydrates;
+    @DatabaseField(columnName = Column.CARBOHYDRATES, defaultValue = "-1")
+    private Float carbohydrates;
 
-    @DatabaseField(columnName = Column.ENERGY)
-    private float energy;
+    @DatabaseField(columnName = Column.ENERGY, defaultValue = "-1")
+    private Float energy;
 
-    @DatabaseField(columnName = Column.FAT)
-    private float fat;
+    @DatabaseField(columnName = Column.FAT, defaultValue = "-1")
+    private Float fat;
 
-    @DatabaseField(columnName = FAT_SATURATED)
-    private float fatSaturated;
+    @DatabaseField(columnName = FAT_SATURATED, defaultValue = "-1")
+    private Float fatSaturated;
 
-    @DatabaseField(columnName = Column.FIBER)
-    private float fiber;
+    @DatabaseField(columnName = Column.FIBER, defaultValue = "-1")
+    private Float fiber;
 
-    @DatabaseField(columnName = PROTEINS)
-    private float proteins;
+    @DatabaseField(columnName = PROTEINS, defaultValue = "-1")
+    private Float proteins;
 
-    @DatabaseField(columnName = Column.SALT)
-    private float salt;
+    @DatabaseField(columnName = Column.SALT, defaultValue = "-1")
+    private Float salt;
 
-    @DatabaseField(columnName = Column.SODIUM)
-    private float sodium;
+    @DatabaseField(columnName = Column.SODIUM, defaultValue = "-1")
+    private Float sodium;
 
-    @DatabaseField(columnName = SUGAR)
-    private float sugar;
+    @DatabaseField(columnName = SUGAR, defaultValue = "-1")
+    private Float sugar;
 
     @DatabaseField(columnName = SUGAR_LEVEL)
     private NutrientLevel sugarLevel;

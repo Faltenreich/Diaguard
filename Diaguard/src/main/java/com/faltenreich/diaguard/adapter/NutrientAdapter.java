@@ -27,14 +27,17 @@ public class NutrientAdapter extends BaseAdapter<ListItemNutrient, NutrientViewH
         for (Food.Nutrient nutrient : Food.Nutrient.values()) {
             String label = nutrient.getLabel();
             float number = nutrient.getValue(food);
-            String value = String.format("%s %s",
-                    Helper.parseFloat(number),
-                    getContext().getString(nutrient.getUnit()));
-            if (nutrient == Food.Nutrient.ENERGY) {
-                value = String.format("%s %s (%s)",
-                        Helper.parseFloat(Helper.parseKcalToKj(number)),
-                        getContext().getString(R.string.energy_acronym_2),
-                        value);
+            String value = getContext().getString(R.string.placeholder);
+            if (number >= 0) {
+                value = String.format("%s %s",
+                        Helper.parseFloat(number),
+                        getContext().getString(nutrient.getUnit()));
+                if (nutrient == Food.Nutrient.ENERGY) {
+                    value = String.format("%s %s (%s)",
+                            Helper.parseFloat(Helper.parseKcalToKj(number)),
+                            getContext().getString(R.string.energy_acronym_2),
+                            value);
+                }
             }
             addItem(new ListItemNutrient(label, value));
         }

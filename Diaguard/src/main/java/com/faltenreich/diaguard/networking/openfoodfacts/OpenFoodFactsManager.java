@@ -1,13 +1,11 @@
 package com.faltenreich.diaguard.networking.openfoodfacts;
 
-import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.networking.FoodSearchFailedEvent;
 import com.faltenreich.diaguard.event.networking.FoodSearchSucceededEvent;
 import com.faltenreich.diaguard.networking.NetworkManager;
-import com.faltenreich.diaguard.networking.openfoodfacts.dto.ProductResponseDto;
 import com.faltenreich.diaguard.networking.openfoodfacts.dto.SearchResponseDto;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 
@@ -34,29 +32,11 @@ public class OpenFoodFactsManager extends NetworkManager<OpenFoodFactsService> {
         super(OpenFoodFactsService.class);
     }
 
-    public void getProduct(final String productId) {
-        execute(new OpenFoodFactsRequest<ProductResponseDto>(ProductResponseDto.class) {
-            @Override
-            public ProductResponseDto getResponse() {
-                return getService().getProduct(productId);
-            }
-            @Override
-            public void onSuccess(ProductResponseDto dto) {
-
-            }
-            @Override
-            public void onFailure(SpiceException spiceException) {
-
-            }
-        });
-    }
-
     public void search(final String query, final int page) {
         execute(new OpenFoodFactsRequest<SearchResponseDto>(SearchResponseDto.class) {
             @Override
             public SearchResponseDto getResponse() {
-                String country = PreferenceHelper.getInstance().getLocale().getDisplayCountry();
-                return getService().search(query, country, 1, PAGE_SIZE, page);
+                return getService().search(query, 1, PAGE_SIZE, page);
             }
             @Override
             public void onSuccess(SearchResponseDto dto) {

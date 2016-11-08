@@ -1,5 +1,5 @@
 #
-# generated on 2016/10/29 07:12:42
+# generated on 2016/11/08 11:47:19
 #
 # --table-start--
 dataClass=com.faltenreich.diaguard.data.entity.Entry
@@ -323,38 +323,47 @@ columnName=labels
 # --field-start--
 fieldName=carbohydrates
 columnName=carbohydrates
+defaultValue=-1
 # --field-end--
 # --field-start--
 fieldName=energy
 columnName=energy
+defaultValue=-1
 # --field-end--
 # --field-start--
 fieldName=fat
 columnName=fat
+defaultValue=-1
 # --field-end--
 # --field-start--
 fieldName=fatSaturated
 columnName=fatSaturated
+defaultValue=-1
 # --field-end--
 # --field-start--
 fieldName=fiber
 columnName=fiber
+defaultValue=-1
 # --field-end--
 # --field-start--
 fieldName=proteins
 columnName=proteins
+defaultValue=-1
 # --field-end--
 # --field-start--
 fieldName=salt
 columnName=salt
+defaultValue=-1
 # --field-end--
 # --field-start--
 fieldName=sodium
 columnName=sodium
+defaultValue=-1
 # --field-end--
 # --field-start--
 fieldName=sugar
 columnName=sugar
+defaultValue=-1
 # --field-end--
 # --field-start--
 fieldName=sugarLevel

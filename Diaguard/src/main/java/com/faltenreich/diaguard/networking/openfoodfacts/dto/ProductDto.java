@@ -38,16 +38,7 @@ public class ProductDto extends NetworkDto {
 
     public boolean isValid() {
         boolean hasName = name != null && name.length() > 0;
-        float nutrition = nutrients.carbohydrates +
-                nutrients.energy +
-                nutrients.fat +
-                nutrients.fatSaturated +
-                nutrients.fiber +
-                nutrients.proteins +
-                nutrients.salt +
-                nutrients.sodium +
-                nutrients.sugar;
-        boolean hasNutrition = nutrition > 0;
-        return hasName && hasNutrition;
+        boolean hasNutrients = nutrients.carbohydrates != null;
+        return hasName && hasNutrients;
     }
 }

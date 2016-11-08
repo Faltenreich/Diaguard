@@ -10,29 +10,29 @@ import com.google.gson.annotations.SerializedName;
 public class NutrientsDto extends NetworkDto {
 
     @SerializedName("carbohydrates_100g")
-    public float carbohydrates;
+    public Float carbohydrates;
 
     @SerializedName("energy_100g")
-    public float energy;
+    public Float energy;
 
     @SerializedName("fat_100g")
-    public float fat;
+    public Float fat;
 
     @SerializedName("saturated-fat_100g")
-    public float fatSaturated;
+    public Float fatSaturated;
 
     @SerializedName("fiber_100g")
-    public float fiber;
+    public Float fiber;
 
     @SerializedName("proteins_100g")
-    public float proteins;
+    public Float proteins;
 
     @SerializedName("salt_100g")
-    public float salt;
+    public Float salt;
 
     @SerializedName("sodium_100g")
-    public float sodium;
+    public Float sodium;
 
     @SerializedName("sugars_100g")
-    public float sugar;
+    public Float sugar;
 }

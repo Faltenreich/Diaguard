@@ -32,7 +32,9 @@ public class FoodViewHolder extends BaseViewHolder<ListItemFood> implements View
     @Override
     protected void bindData() {
         Food food = getListItem().getFood();
-        placeholder.setText(food.getName().substring(0, 1).toUpperCase());
+        placeholder.setText(food.getName() != null && food.getName().length() > 0 ?
+                food.getName().substring(0, 1).toUpperCase() :
+                null);
         Picasso.with(getContext()).load(food.getImageUrl()).into(image);
         name.setText(food.getName());
         brand.setText(food.getBrand());

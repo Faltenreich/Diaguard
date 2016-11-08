@@ -73,7 +73,7 @@ public class Food extends BaseServerEntity {
             }
         }
 
-        public float getValue(Food food) {
+        public Float getValue(Food food) {
             switch (this) {
                 case CARBOHYDRATES: return food.getCarbohydrates();
                 case ENERGY: return food.getEnergy();
@@ -84,7 +84,7 @@ public class Food extends BaseServerEntity {
                 case SALT: return food.getSalt();
                 case SODIUM: return food.getSodium();
                 case SUGAR: return food.getSugar();
-                default: return -1;
+                default: return null;
             }
         }
     }
@@ -209,75 +209,75 @@ public class Food extends BaseServerEntity {
         this.labels = labels;
     }
 
-    public float getCarbohydrates() {
+    public Float getCarbohydrates() {
         return carbohydrates;
     }
 
-    public void setCarbohydrates(float carbohydrates) {
+    public void setCarbohydrates(Float carbohydrates) {
         this.carbohydrates = carbohydrates;
     }
 
-    public float getEnergy() {
+    public Float getEnergy() {
         return energy;
     }
 
-    public void setEnergy(float energy) {
+    public void setEnergy(Float energy) {
         this.energy = energy;
     }
 
-    public float getFat() {
+    public Float getFat() {
         return fat;
     }
 
-    public void setFat(float fat) {
+    public void setFat(Float fat) {
         this.fat = fat;
     }
 
-    public float getFatSaturated() {
+    public Float getFatSaturated() {
         return fatSaturated;
     }
 
-    public void setFatSaturated(float fatSaturated) {
+    public void setFatSaturated(Float fatSaturated) {
         this.fatSaturated = fatSaturated;
     }
 
-    public float getFiber() {
+    public Float getFiber() {
         return fiber;
     }
 
-    public void setFiber(float fiber) {
+    public void setFiber(Float fiber) {
         this.fiber = fiber;
     }
 
-    public float getProteins() {
+    public Float getProteins() {
         return proteins;
     }
 
-    public void setProteins(float proteins) {
+    public void setProteins(Float proteins) {
         this.proteins = proteins;
     }
 
-    public float getSalt() {
+    public Float getSalt() {
         return salt;
     }
 
-    public void setSalt(float salt) {
+    public void setSalt(Float salt) {
         this.salt = salt;
     }
 
-    public float getSodium() {
+    public Float getSodium() {
         return sodium;
     }
 
-    public void setSodium(float sodium) {
+    public void setSodium(Float sodium) {
         this.sodium = sodium;
     }
 
-    public float getSugar() {
+    public Float getSugar() {
         return sugar;
     }
 
-    public void setSugar(float sugar) {
+    public void setSugar(Float sugar) {
         this.sugar = sugar;
     }
 
@@ -298,8 +298,12 @@ public class Food extends BaseServerEntity {
     }
 
     public String getValueForUi() {
-        float valueFormatted = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.MEAL, carbohydrates);
-        return Helper.parseFloat(valueFormatted);
+        if (carbohydrates != null) {
+            float valueFormatted = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.MEAL, carbohydrates);
+            return Helper.parseFloat(valueFormatted);
+        } else {
+            return "";
+        }
     }
 
     @Override

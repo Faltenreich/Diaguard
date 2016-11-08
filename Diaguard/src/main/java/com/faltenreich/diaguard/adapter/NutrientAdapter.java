@@ -26,9 +26,9 @@ public class NutrientAdapter extends BaseAdapter<ListItemNutrient, NutrientViewH
     private void init() {
         for (Food.Nutrient nutrient : Food.Nutrient.values()) {
             String label = nutrient.getLabel();
-            float number = nutrient.getValue(food);
+            Float number = nutrient.getValue(food);
             String value = getContext().getString(R.string.placeholder);
-            if (number >= 0) {
+            if (number != null && number >= 0) {
                 value = String.format("%s %s",
                         Helper.parseFloat(number),
                         getContext().getString(nutrient.getUnit()));

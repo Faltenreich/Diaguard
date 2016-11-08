@@ -1,9 +1,12 @@
 package com.faltenreich.diaguard.data.dao;
 
+import android.util.Log;
+
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.networking.openfoodfacts.dto.ProductDto;
 import com.faltenreich.diaguard.networking.openfoodfacts.dto.SearchResponseDto;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +15,8 @@ import java.util.List;
  */
 
 public class FoodDao extends BaseServerDao<Food> {
+
+    private static final String TAG = FoodDao.class.getSimpleName();
 
     private static FoodDao instance;
 
@@ -24,6 +29,18 @@ public class FoodDao extends BaseServerDao<Food> {
 
     private FoodDao() {
         super(Food.class);
+    }
+
+    @Override
+    public List<Food> getAll() {
+        try {
+            return getDao().queryBuilder()
+                    .orderBy(Food.Column.UPDATED_AT, false)
+                    .query();
+        } catch (SQLException exception) {
+            Log.e(TAG, exception.getLocalizedMessage());
+            return new ArrayList<>();
+        }
     }
 
     public List<Food> createOrUpdate(SearchResponseDto dto) {

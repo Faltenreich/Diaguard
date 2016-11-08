@@ -80,6 +80,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         setHasOptionsMenu(true);
         this.mode = Mode.READ;
         checkIntents();
+        PreferenceHelper.getInstance().getLocale();
     }
 
     @Override

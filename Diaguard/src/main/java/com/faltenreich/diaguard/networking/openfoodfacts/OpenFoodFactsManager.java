@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.networking.openfoodfacts;
 
+import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.event.Events;
@@ -54,7 +55,8 @@ public class OpenFoodFactsManager extends NetworkManager<OpenFoodFactsService> {
         execute(new OpenFoodFactsRequest<SearchResponseDto>(SearchResponseDto.class) {
             @Override
             public SearchResponseDto getResponse() {
-                return getService().search(query, "Deutschland", 1, PAGE_SIZE, page);
+                String country = PreferenceHelper.getInstance().getLocale().getDisplayCountry();
+                return getService().search(query, country, 1, PAGE_SIZE, page);
             }
             @Override
             public void onSuccess(SearchResponseDto dto) {

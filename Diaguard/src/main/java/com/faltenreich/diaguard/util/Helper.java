@@ -16,6 +16,9 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
@@ -27,8 +30,70 @@ public class Helper {
     private static final String TAG = Helper.class.getSimpleName();
     private static final String FORMAT_TIME = "HH:mm";
 
+    private static ArrayList<Locale> locales;
+
     public static Locale getLocale() {
         return DiaguardApplication.getContext().getResources().getConfiguration().locale;
+    }
+
+    public static Locale getLocaleForCountry(String countryCode) {
+        for (Locale locale : Locale.getAvailableLocales()) {
+            if (locale.getCountry().equals(countryCode)) {
+                return locale;
+            }
+        }
+        return getLocale();
+    }
+
+    public static Locale getLocaleForCountryName(String countryName) {
+        for (Locale locale : Locale.getAvailableLocales()) {
+            if (locale.getDisplayCountry().equals(countryName)) {
+                return locale;
+            }
+        }
+        return getLocale();
+    }
+
+    private static ArrayList<Locale> getAvailableLocales() {
+        if (locales == null) {
+            List<String> countryNames = new ArrayList<>();
+
+            for (Locale locale : Locale.getAvailableLocales()) {
+                String countryName = locale.getDisplayCountry();
+
+                if (countryName.trim().length() > 0 && !countryNames.contains(countryName)) {
+                    countryNames.add(countryName);
+                }
+            }
+
+            // TODO: Improve sorting
+            Collections.sort(countryNames);
+
+            locales = new ArrayList<>();
+            for (String countryName : countryNames) {
+                locales.add(getLocaleForCountryName(countryName));
+            }
+
+        }
+        return locales;
+    }
+
+    public static String[] getCountryNames() {
+        ArrayList<Locale> locales = getAvailableLocales();
+        ArrayList<String> countryNames = new ArrayList<>();
+        for (Locale locale : locales) {
+            countryNames.add(locale.getDisplayCountry());
+        }
+        return countryNames.toArray(new String[countryNames.size()]);
+    }
+
+    public static String[] getCountryCodes() {
+        ArrayList<Locale> locales = getAvailableLocales();
+        String[] countryCodes = new String[locales.size()];
+        for (int position = 0; position < locales.size(); position++) {
+            countryCodes[position] = locales.get(position).getCountry();
+        }
+        return countryCodes;
     }
 
     public static String parseFloat(float number) {

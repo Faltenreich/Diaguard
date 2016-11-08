@@ -8,7 +8,9 @@ import android.preference.PreferenceManager;
 import android.widget.ListAdapter;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.ui.activity.PreferenceActivity;
+import com.faltenreich.diaguard.ui.view.preferences.CountryPreference;
 
 import java.util.Map;
 
@@ -40,12 +42,16 @@ public class PreferenceFragment extends android.preference.PreferenceFragment {
         checkIntents();
     }
 
+    // TODO: BloodSugarPreference
     private void setSummary(String key) {
         Preference preference = findPreference(key);
-        // TODO: BloodSugarPreference
+
         if (preference instanceof ListPreference) {
             ListPreference listPreference = (ListPreference) preference;
             preference.setSummary(listPreference.getEntry());
+
+        } else if (preference instanceof CountryPreference) {
+            preference.setSummary(PreferenceHelper.getInstance().getLocale().getDisplayCountry());
         }
     }
 

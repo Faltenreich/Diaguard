@@ -58,6 +58,10 @@ public class PreferenceHelper {
         return countryCode != null ? Helper.getLocaleForCountry(countryCode) : Helper.getLocale();
     }
 
+    public void setCountry(String countryCode) {
+        sharedPreferences.edit().putString(Keys.COUNTRY_CODE, countryCode).apply();
+    }
+
     public long getAlarmStartInMillis() {
         return sharedPreferences.getLong(Keys.ALARM_START_IN_MILLIS, -1);
     }

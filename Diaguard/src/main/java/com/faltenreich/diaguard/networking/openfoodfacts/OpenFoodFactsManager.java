@@ -18,6 +18,8 @@ import java.util.List;
 
 public class OpenFoodFactsManager extends NetworkManager<OpenFoodFactsService> {
 
+    private static final int PAGE_SIZE = 50;
+
     private static OpenFoodFactsManager instance;
 
     public static OpenFoodFactsManager getInstance() {
@@ -48,11 +50,11 @@ public class OpenFoodFactsManager extends NetworkManager<OpenFoodFactsService> {
         });
     }
 
-    public void search(final String query) {
+    public void search(final String query, final int page) {
         execute(new OpenFoodFactsRequest<SearchResponseDto>(SearchResponseDto.class) {
             @Override
             public SearchResponseDto getResponse() {
-                return getService().search(query, "Deutschland", 1);
+                return getService().search(query, "Deutschland", 1, PAGE_SIZE, page);
             }
             @Override
             public void onSuccess(SearchResponseDto dto) {

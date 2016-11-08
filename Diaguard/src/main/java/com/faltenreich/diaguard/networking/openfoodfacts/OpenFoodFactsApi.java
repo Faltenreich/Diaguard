@@ -17,5 +17,5 @@ public interface OpenFoodFactsApi {
     ProductResponseDto getProduct(@Path("productId") String productId);
 
     @GET("/cgi/search.pl")
-    SearchResponseDto search(@Query("search_terms") String query, @Query("countries") String countries,@Query("json") int json);
+    SearchResponseDto search(@Query("search_terms") String query, @Query("countries") String countries, @Query("json") int json, @Query("page_size") int pageSize, @Query("page") int page);
 }

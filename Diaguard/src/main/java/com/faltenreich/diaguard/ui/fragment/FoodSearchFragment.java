@@ -167,7 +167,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
 
         } else {
             // Request interesting food items
-            OpenFoodFactsManager.getInstance().search("");
+            OpenFoodFactsManager.getInstance().search("", 0);
         }
     }
 
@@ -221,7 +221,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         adapter.clear();
         adapter.notifyDataSetChanged();
 
-        OpenFoodFactsManager.getInstance().search(query);
+        OpenFoodFactsManager.getInstance().search(query, 0);
     }
 
     private void showError(@DrawableRes int iconResId, @StringRes int textResId, @StringRes int descResId) {
@@ -272,12 +272,6 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     @OnClick(R.id.fab)
     public void createFood() {
         startActivity(new Intent(getContext(), FoodEditActivity.class));
-    }
-
-    @SuppressWarnings("unused")
-    @OnClick(R.id.food_search_scanner)
-    public void openCamera() {
-        // TODO
     }
 
     @SuppressWarnings("unused")

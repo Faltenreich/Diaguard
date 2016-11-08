@@ -55,6 +55,7 @@
     <string name="contact">Contact</string>
     <string name="correction">Correction</string>
     <string name="correction_value">Correction value</string>
+    <string name="country">Country</string>
     <string name="data">Data</string>
     <string name="date_select">Select date</string>
     <string name="day_next">Next day</string>

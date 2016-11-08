@@ -28,6 +28,10 @@
             android:entries="@array/categories"
             android:entryValues="@array/categories"/>
 
+        <com.faltenreich.diaguard.ui.view.preferences.CountryPreference
+            android:key="countryCode"
+            android:title="@string/country"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

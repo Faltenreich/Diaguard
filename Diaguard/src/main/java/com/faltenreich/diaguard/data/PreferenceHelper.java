@@ -18,6 +18,7 @@ import org.joda.time.DateTimeConstants;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Filip on 04.11.13.
@@ -36,6 +37,7 @@ public class PreferenceHelper {
         static final String INTERVAL_FACTOR_FOR_HOUR = "intervalFactor%d";
         final static String FACTOR_DEPRECATED = "factor_";
         final static String MEAL_IS_CALCULATED = "mealIsCalculated";
+        final static String COUNTRY_CODE = "countryCode";
     }
 
     private static PreferenceHelper instance;
@@ -50,6 +52,11 @@ public class PreferenceHelper {
     }
 
     // GENERAL
+
+    public Locale getLocale() {
+        String countryCode = sharedPreferences.getString(Keys.COUNTRY_CODE, null);
+        return countryCode != null ? Helper.getLocaleForCountry(countryCode) : Helper.getLocale();
+    }
 
     public long getAlarmStartInMillis() {
         return sharedPreferences.getLong(Keys.ALARM_START_IN_MILLIS, -1);

@@ -35,7 +35,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         initialize();
     }
 
@@ -45,6 +44,9 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initialize() {
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        PreferenceHelper.getInstance().init();
+
         drawerToggle = new ActionBarDrawerToggle(
                 this,
                 drawerLayout,

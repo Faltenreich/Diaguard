@@ -10,7 +10,7 @@ import retrofit.Endpoint;
 
 public class OpenFoodFactEndpoint implements Endpoint {
 
-    public static final String HOST_FORMAT = "http://%s.openfoodfacts.org";
+    public static final String HOST_FORMAT = "http://world-%s.openfoodfacts.org";
     public static final String HOST_DEFAULT = String.format(HOST_FORMAT, "world");
 
     @Override
@@ -24,7 +24,6 @@ public class OpenFoodFactEndpoint implements Endpoint {
     }
 
     private String getCountryCode() {
-        String countryCode = PreferenceHelper.getInstance().getLocale().getCountry();
-        return countryCode;
+        return PreferenceHelper.getInstance().getLocale().getCountry();
     }
 }

@@ -41,20 +41,34 @@ public class PreferenceHelper {
     }
 
     private static PreferenceHelper instance;
-    private static SharedPreferences sharedPreferences;
 
     public static PreferenceHelper getInstance() {
-        if(PreferenceHelper.instance == null) {
-            PreferenceHelper.instance = new PreferenceHelper();
-            PreferenceHelper.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(DiaguardApplication.getContext());
+        if (instance == null) {
+            instance = new PreferenceHelper();
         }
-        return PreferenceHelper.instance;
+        return instance;
+    }
+
+    private SharedPreferences sharedPreferences;
+
+    private PreferenceHelper() {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(DiaguardApplication.getContext());
+    }
+
+    public void init() {
+        if (getCountry() == null) {
+            setCountry(Helper.getLocale().getCountry());
+        }
     }
 
     // GENERAL
 
+    private String getCountry() {
+        return sharedPreferences.getString(Keys.COUNTRY_CODE, null);
+    }
+
     public Locale getLocale() {
-        String countryCode = sharedPreferences.getString(Keys.COUNTRY_CODE, null);
+        String countryCode = getCountry();
         return countryCode != null ? Helper.getLocaleForCountry(countryCode) : Helper.getLocale();
     }
 

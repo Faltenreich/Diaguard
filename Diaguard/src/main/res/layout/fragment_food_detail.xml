@@ -13,12 +13,12 @@
         <LinearLayout style="@style/LayoutRow">
 
             <com.faltenreich.diaguard.ui.view.TintImageView
-                style="@style/LayoutRowImage"
+                style="@style/LayoutRowImageMultiline"
                 android:src="@drawable/ic_business"
                 app:tintColor="@color/gray_darker" />
 
             <TextView
-                style="@style/LayoutRowItem"
+                style="@style/LayoutRowItemMultiline"
                 android:id="@+id/food_brand"
                 android:textColor="@android:color/black" />
 
@@ -29,14 +29,14 @@
         <LinearLayout style="@style/LayoutRow">
 
             <com.faltenreich.diaguard.ui.view.TintImageView
-                style="@style/LayoutRowImage"
+                style="@style/LayoutRowImageMultiline"
                 android:src="@drawable/ic_note"
-                app:tintColor="@color/gray_darker" />
+                app:tintColor="@color/gray_darker"/>
 
             <TextView
-                style="@style/LayoutRowItem"
+                style="@style/LayoutRowItemMultiline"
                 android:id="@+id/food_ingredients"
-                android:textColor="@android:color/black" />
+                android:textColor="@android:color/black"/>
 
         </LinearLayout>
 
@@ -59,10 +59,11 @@
         <View style="@style/LayoutRowSeparator" />
 
         <LinearLayout
-            style="@style/Padding"
             android:id="@+id/food_labels"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_between"
+            android:layout_marginBottom="@dimen/margin_between"
             android:orientation="vertical" />
 
     </LinearLayout>

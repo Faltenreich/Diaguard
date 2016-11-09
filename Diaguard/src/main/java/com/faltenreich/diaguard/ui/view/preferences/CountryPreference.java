@@ -34,10 +34,14 @@ public class CountryPreference extends Preference implements Preference.OnPrefer
         countryPicker.setListener(new CountryPickerListener() {
             @Override
             public void onSelectCountry(String name, String code, String dialCode, int flagDrawableResID) {
-                PreferenceHelper.getInstance().setCountry(code);
-                setSummary(name);
+                setCountry(code);
                 countryPicker.dismiss();
             }
         });
+    }
+
+    private void setCountry(String countryCode) {
+        PreferenceHelper.getInstance().setCountry(countryCode);
+        setSummary(countryCode);
     }
 }

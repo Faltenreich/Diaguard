@@ -133,9 +133,19 @@
         <item name="android:layout_marginEnd">@dimen/padding_end</item>
     </style>
 
+    <style name="LayoutRowImageMultiline" parent="LayoutRowImage">
+        <item name="android:layout_gravity">top</item>
+        <item name="android:layout_marginTop">11dp</item>
+    </style>
+
     <style name="LayoutRowItem">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="LayoutRowItemMultiline" parent="LayoutRowItem">
+        <item name="android:layout_marginTop">11dp</item>
+        <item name="android:layout_marginBottom">11dp</item>
     </style>
 
     <style name="LayoutRowSeparator">

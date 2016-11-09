@@ -36,7 +36,9 @@
             <TextView
                 style="@style/LayoutRowItemMultiline"
                 android:id="@+id/food_ingredients"
-                android:textColor="@android:color/black"/>
+                android:textColor="@android:color/black"
+                android:maxLines="3"
+                android:ellipsize="end"/>
 
         </LinearLayout>
 

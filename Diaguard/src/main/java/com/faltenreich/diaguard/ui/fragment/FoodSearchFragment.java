@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,22 +15,17 @@ import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.FoodAdapter;
-import com.faltenreich.diaguard.adapter.SimpleDividerItemDecoration;
-import com.faltenreich.diaguard.adapter.list.ListItemFood;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.FoodDao;
-import com.faltenreich.diaguard.data.dao.FoodEatenDao;
 import com.faltenreich.diaguard.data.entity.Food;
-import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.networking.FoodSearchFailedEvent;
 import com.faltenreich.diaguard.event.networking.FoodSearchSucceededEvent;
 import com.faltenreich.diaguard.event.ui.FoodSelectedEvent;
-import com.faltenreich.diaguard.networking.openfoodfacts.OpenFoodFactsManager;
 import com.faltenreich.diaguard.ui.activity.FoodActivity;
 import com.faltenreich.diaguard.ui.activity.FoodEditActivity;
 import com.faltenreich.diaguard.ui.activity.FoodSearchActivity;
-import com.faltenreich.diaguard.util.NetworkingUtils;
+import com.faltenreich.diaguard.ui.view.FoodRecyclerView;
 import com.lapism.searchview.SearchAdapter;
 import com.lapism.searchview.SearchItem;
 import com.lapism.searchview.SearchView;
@@ -58,7 +51,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
 
     @BindView(R.id.food_search_query) TextView queryTextView;
     @BindView(R.id.food_search_unit) TextView unitTextView;
-    @BindView(R.id.food_search_list) RecyclerView list;
+    @BindView(R.id.food_search_list) FoodRecyclerView list;
     @BindView(R.id.food_search_progress) MaterialProgressBar progressBar;
     @BindView(R.id.search_view) SearchView searchView;
 
@@ -69,6 +62,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
 
     private Mode mode;
     private FoodAdapter adapter;
+    private String query;
 
     public FoodSearchFragment() {
         super(R.layout.fragment_food_search, R.string.food);
@@ -85,8 +79,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initList();
-        initSearch();
+        init();
     }
 
     @Override
@@ -128,50 +121,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         }
     }
 
-    private void initList() {
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        list.setLayoutManager(layoutManager);
-        list.addItemDecoration(new SimpleDividerItemDecoration(getContext()));
-        adapter = new FoodAdapter(getContext());
-        list.setAdapter(adapter);
-
-        unitTextView.setText(PreferenceHelper.getInstance().getLabelForMealPer100g());
-
-        List<ListItemFood> foodList = new ArrayList<>();
-
-        List<FoodEaten> foodEatenList = FoodEatenDao.getInstance().getAllOrdered();
-        if (foodEatenList.size() > 0) {
-            queryTextView.setText(R.string.entry_latest);
-            for (FoodEaten foodEaten : foodEatenList) {
-                ListItemFood listItem = new ListItemFood(foodEaten.getFood(), foodEaten);
-                if (!foodList.contains(listItem)) {
-                    foodList.add(listItem);
-                }
-            }
-        }
-
-        List<Food> foodAllList = FoodDao.getInstance().getAll();
-        if (foodAllList.size() > 0) {
-            queryTextView.setText(R.string.food);
-            for (Food food : foodAllList) {
-                // Skip food that has been eaten before
-                ListItemFood listItem = new ListItemFood(food);
-                if (!foodList.contains(listItem)) {
-                    foodList.add(listItem);
-                }
-            }
-        }
-
-        if (foodList.size() > 0) {
-            updateList(foodList);
-
-        } else {
-            // Request interesting food items
-            OpenFoodFactsManager.getInstance().search("", 0);
-        }
-    }
-
-    private void initSearch() {
+    private void init() {
         searchView.setOnQueryTextListener(this);
         searchView.setOnMenuClickListener(this);
         searchView.setHint(R.string.food_search);
@@ -192,36 +142,8 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
             }
         });
         searchView.setAdapter(searchAdapter);
-    }
 
-    private void updateList(List<ListItemFood> foodList) {
-        if (foodList.size() > 0) {
-            emptyList.setVisibility(View.GONE);
-            adapter.clear();
-            adapter.addItems(foodList);
-            adapter.notifyDataSetChanged();
-        } else {
-            showError(R.drawable.ic_sad, R.string.error_no_data, R.string.error_no_data_desc);
-        }
-    }
-
-    private void tryQuery(String query) {
-        if (NetworkingUtils.isOnline()) {
-            query(query);
-        } else {
-            showError(R.drawable.ic_wifi_off, R.string.error_no_connection, R.string.error_no_connection_desc);
-        }
-    }
-
-    private void query(String query) {
-        queryTextView.setText(String.format("%s: \"%s\"", getString(R.string.search_for), query));
-        emptyList.setVisibility(View.GONE);
-        progressBar.setVisibility(View.VISIBLE);
-
-        adapter.clear();
-        adapter.notifyDataSetChanged();
-
-        OpenFoodFactsManager.getInstance().search(query, 0);
+        unitTextView.setText(PreferenceHelper.getInstance().getLabelForMealPer100g());
     }
 
     private void showError(@DrawableRes int iconResId, @StringRes int textResId, @StringRes int descResId) {
@@ -231,7 +153,11 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         emptyDescription.setText(descResId);
     }
 
-    private void onFoodSelected(Food food, View view) {
+    private void onError() {
+        showError(R.drawable.ic_wifi_off, R.string.error_no_connection, R.string.error_no_connection_desc);
+    }
+
+    private void onFoodSelected(Food food) {
         if (mode == Mode.SELECT) {
             finish();
         } else if (mode == Mode.READ) {
@@ -250,7 +176,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     @Override
     public boolean onQueryTextSubmit(String query) {
         searchView.close(true);
-        tryQuery(query);
+        list.search(query);
         return false;
     }
 
@@ -276,17 +202,12 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
 
     @SuppressWarnings("unused")
     public void onEvent(FoodSelectedEvent event) {
-        onFoodSelected(event.context, event.view);
+        onFoodSelected(event.context);
     }
 
     @SuppressWarnings("unused")
     public void onEvent(FoodSearchSucceededEvent event) {
         progressBar.setVisibility(View.GONE);
-        List<ListItemFood> foodList = new ArrayList<>();
-        for (Food food : event.context) {
-            foodList.add(new ListItemFood(food));
-        }
-        updateList(foodList);
     }
 
     @SuppressWarnings("unused")

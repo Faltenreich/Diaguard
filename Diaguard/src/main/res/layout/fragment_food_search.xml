@@ -73,7 +73,7 @@
                 app:mpb_useIntrinsicPadding="false"
                 android:visibility="gone"/>
 
-            <android.support.v7.widget.RecyclerView
+            <com.faltenreich.diaguard.ui.view.FoodRecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/food_search_list" />

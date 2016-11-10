@@ -20,6 +20,7 @@ import java.util.List;
 public abstract class BaseDao <T extends BaseEntity> {
 
     private static final String TAG = BaseDao.class.getSimpleName();
+    public static final long PAGE_SIZE = 50;
 
     private DatabaseHelper databaseHelper;
     private Class<T> clazz;

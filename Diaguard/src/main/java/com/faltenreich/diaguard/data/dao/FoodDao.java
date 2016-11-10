@@ -5,6 +5,7 @@ import android.util.Log;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.networking.openfoodfacts.dto.ProductDto;
 import com.faltenreich.diaguard.networking.openfoodfacts.dto.SearchResponseDto;
+import com.j256.ormlite.stmt.QueryBuilder;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -79,5 +80,21 @@ public class FoodDao extends BaseServerDao<Food> {
         food.setSugar(dto.nutrients.sugar);
         food.setSugarLevel(dto.nutrientLevels.sugar);
         return food;
+    }
+
+    public List<Food> search(String query, long page) {
+        try {
+            QueryBuilder<Food, Long> queryBuilder = getDao().queryBuilder()
+                    .offset(page * BaseDao.PAGE_SIZE)
+                    .limit(BaseDao.PAGE_SIZE)
+                    .orderBy(Food.Column.UPDATED_AT, false);
+            if (query != null && query.length() > 0) {
+                queryBuilder.where().like(Food.Column.NAME, query);
+            }
+            return queryBuilder.query();
+        } catch (SQLException exception) {
+            Log.e(TAG, exception.getLocalizedMessage());
+            return new ArrayList<>();
+        }
     }
 }

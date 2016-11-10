@@ -24,14 +24,22 @@ public abstract class NetworkRequest<DTO extends NetworkDto, API> extends Retrof
     }
 
     @Override
-    public void onRequestSuccess(DTO dto) {
-        onSuccess(dto);
+    public void onRequestSuccess(final DTO dto) {
+        new Thread(new Runnable() {
+            public void run() {
+                onSuccess(dto);
+            }
+        }).start();
     }
 
     @Override
-    public void onRequestFailure(SpiceException spiceException) {
-        Log.e(TAG, spiceException.getLocalizedMessage());
-        onFailure(spiceException);
+    public void onRequestFailure(final SpiceException spiceException) {
+        new Thread(new Runnable() {
+            public void run() {
+                Log.e(TAG, spiceException.getLocalizedMessage());
+                onFailure(spiceException);
+            }
+        }).start();
     }
 
     public abstract DTO getResponse();

@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.ui.view;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -88,13 +89,7 @@ public class FoodRecyclerView extends RecyclerView {
     }
 
     private void searchOffline() {
-        List<Food> foodList = FoodDao.getInstance().search(query, offlinePage);
-        if (foodList.size() > 0) {
-            offlinePage++;
-            addFood(foodList);
-        } else {
-            searchOnline();
-        }
+        new LoadDataTask().execute();
     }
 
     private void searchOnline() {
@@ -118,13 +113,34 @@ public class FoodRecyclerView extends RecyclerView {
     }
 
     @SuppressWarnings("unused")
-    public void onEvent(FoodSearchSucceededEvent event) {
+    public void onEventMainThread(FoodSearchSucceededEvent event) {
         onlinePage++;
         addFood(event.context);
     }
 
     @SuppressWarnings("unused")
-    public void onEvent(FoodSearchFailedEvent event) {
+    public void onEventMainThread(FoodSearchFailedEvent event) {
         // TODO
+    }
+
+    private class LoadDataTask extends AsyncTask<Void, Void, List<Food>> {
+
+        @Override
+        protected List<Food> doInBackground(Void... voids) {
+            return FoodDao.getInstance().search(query, offlinePage);
+        }
+
+        @Override
+        protected void onPostExecute(List<Food> foodList) {
+            super.onPostExecute(foodList);
+
+            if (foodList.size() > 0) {
+                offlinePage++;
+                addFood(foodList);
+
+            } else {
+                searchOnline();
+            }
+        }
     }
 }

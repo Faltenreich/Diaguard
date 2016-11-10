@@ -23,7 +23,7 @@ public abstract class NetworkManager <SERVICE extends SpiceService> {
         spiceManager.shouldStop();
     }
 
-    protected void execute(NetworkRequest request) {
+    protected void execute(final NetworkRequest request) {
         spiceManager.execute(request, request);
     }
 }

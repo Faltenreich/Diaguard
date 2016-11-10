@@ -14,13 +14,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.FoodAdapter;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.event.Events;
-import com.faltenreich.diaguard.event.networking.FoodSearchFailedEvent;
-import com.faltenreich.diaguard.event.networking.FoodSearchSucceededEvent;
+import com.faltenreich.diaguard.event.data.FoodQueryEndedEvent;
+import com.faltenreich.diaguard.event.data.FoodQueryStartedEvent;
 import com.faltenreich.diaguard.event.ui.FoodSelectedEvent;
 import com.faltenreich.diaguard.ui.activity.FoodActivity;
 import com.faltenreich.diaguard.ui.activity.FoodEditActivity;
@@ -61,8 +60,6 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     @BindView(R.id.food_search_empty_description) TextView emptyDescription;
 
     private Mode mode;
-    private FoodAdapter adapter;
-    private String query;
 
     public FoodSearchFragment() {
         super(R.layout.fragment_food_search, R.string.food);
@@ -172,11 +169,16 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         intent.putExtra(BaseFoodFragment.EXTRA_FOOD_ID, food.getId());
         startActivity(intent);
     }
+    private void query(String query) {
+        queryTextView.setText(String.format("%s: \"%s\"", getString(R.string.search_for), query));
+        emptyList.setVisibility(View.GONE);
+        list.search(query);
+    }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
         searchView.close(true);
-        list.search(query);
+        query(query);
         return false;
     }
 
@@ -201,17 +203,17 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     }
 
     @SuppressWarnings("unused")
-    public void onEvent(FoodSelectedEvent event) {
+    public void onEventMainThread(FoodSelectedEvent event) {
         onFoodSelected(event.context);
     }
 
     @SuppressWarnings("unused")
-    public void onEvent(FoodSearchSucceededEvent event) {
-        progressBar.setVisibility(View.GONE);
+    public void onEventMainThread(FoodQueryStartedEvent event) {
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @SuppressWarnings("unused")
-    public void onEvent(FoodSearchFailedEvent event) {
+    public void onEventMainThread(FoodQueryEndedEvent event) {
         progressBar.setVisibility(View.GONE);
     }
 }

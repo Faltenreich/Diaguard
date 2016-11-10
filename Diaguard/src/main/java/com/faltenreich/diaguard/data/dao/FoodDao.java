@@ -85,11 +85,14 @@ public class FoodDao extends BaseServerDao<Food> {
     public List<Food> search(String query, long page) {
         try {
             QueryBuilder<Food, Long> queryBuilder = getDao().queryBuilder()
+                    .orderBy(Food.Column.UPDATED_AT, false)
                     .offset(page * BaseDao.PAGE_SIZE)
-                    .limit(BaseDao.PAGE_SIZE)
-                    .orderBy(Food.Column.UPDATED_AT, false);
+                    .limit(BaseDao.PAGE_SIZE);
             if (query != null && query.length() > 0) {
-                queryBuilder.where().like(Food.Column.NAME, query);
+                String like = "%" + query + "%";
+                queryBuilder
+                        .where().like(Food.Column.NAME, like)
+                        .or().like(Food.Column.FULL_NAME, like);
             }
             return queryBuilder.query();
         } catch (SQLException exception) {

@@ -13,6 +13,8 @@ import com.faltenreich.diaguard.adapter.list.ListItemFood;
 import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.event.Events;
+import com.faltenreich.diaguard.event.data.FoodQueryEndedEvent;
+import com.faltenreich.diaguard.event.data.FoodQueryStartedEvent;
 import com.faltenreich.diaguard.event.networking.FoodSearchFailedEvent;
 import com.faltenreich.diaguard.event.networking.FoodSearchSucceededEvent;
 import com.faltenreich.diaguard.networking.openfoodfacts.OpenFoodFactsManager;
@@ -89,15 +91,19 @@ public class FoodRecyclerView extends RecyclerView {
     }
 
     private void searchOffline() {
+        Events.post(new FoodQueryStartedEvent());
         new LoadDataTask().execute();
     }
 
     private void searchOnline() {
+        Events.post(new FoodQueryStartedEvent());
         OpenFoodFactsManager.getInstance().search(query, onlinePage);
     }
 
     private void addItems(List<ListItemFood> foodList) {
-        if (foodList.size() > 0) {
+        boolean hasItems = foodList.size() > 0;
+        Events.post(new FoodQueryEndedEvent(hasItems));
+        if (hasItems) {
             int oldSize = adapter.getItemCount();
             adapter.addItems(foodList);
             adapter.notifyItemRangeInserted(oldSize, oldSize + foodList.size());
@@ -120,7 +126,7 @@ public class FoodRecyclerView extends RecyclerView {
 
     @SuppressWarnings("unused")
     public void onEventMainThread(FoodSearchFailedEvent event) {
-        // TODO
+        Events.post(new FoodQueryEndedEvent(false));
     }
 
     private class LoadDataTask extends AsyncTask<Void, Void, List<Food>> {

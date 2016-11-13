@@ -247,7 +247,7 @@ public class FoodListView extends LinearLayout {
     @OnClick(R.id.food_list_button)
     public void searchForFood() {
         Intent intent = new Intent(getContext(), FoodSearchActivity.class);
-        intent.putExtra(FoodSearchFragment.EXTRA_MODE, FoodSearchFragment.Mode.SELECT);
+        intent.putExtra(FoodSearchFragment.FINISH_ON_SELECTION, true);
         getContext().startActivity(intent);
     }
 

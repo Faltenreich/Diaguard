@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.ui.fragment;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
@@ -23,7 +24,6 @@ import com.faltenreich.diaguard.event.data.FoodQueryStartedEvent;
 import com.faltenreich.diaguard.event.ui.FoodSelectedEvent;
 import com.faltenreich.diaguard.ui.activity.FoodActivity;
 import com.faltenreich.diaguard.ui.activity.FoodEditActivity;
-import com.faltenreich.diaguard.ui.activity.FoodSearchActivity;
 import com.faltenreich.diaguard.ui.view.FoodRecyclerView;
 import com.lapism.searchview.SearchAdapter;
 import com.lapism.searchview.SearchItem;
@@ -41,12 +41,7 @@ import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
  */
 public class FoodSearchFragment extends BaseFragment implements SearchView.OnQueryTextListener, SearchView.OnMenuClickListener {
 
-    public static final String EXTRA_MODE = "EXTRA_MODE";
-
-    public enum Mode {
-        READ,
-        SELECT
-    }
+    public static final String FINISH_ON_SELECTION = "finishOnSelection";
 
     @BindView(R.id.food_search_query) TextView queryTextView;
     @BindView(R.id.food_search_unit) TextView unitTextView;
@@ -59,7 +54,8 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     @BindView(R.id.food_search_empty_text) TextView emptyText;
     @BindView(R.id.food_search_empty_description) TextView emptyDescription;
 
-    private Mode mode;
+    private boolean finishOnSelection;
+    private SearchAdapter searchAdapter;
 
     public FoodSearchFragment() {
         super(R.layout.fragment_food_search, R.string.food);
@@ -69,7 +65,6 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        this.mode = Mode.READ;
         checkIntents();
     }
 
@@ -110,11 +105,9 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     }
 
     private void checkIntents() {
-        if (getActivity() instanceof FoodSearchActivity && getActivity().getIntent() != null && getActivity().getIntent().getExtras() != null) {
+        if (getActivity().getIntent() != null && getActivity().getIntent().getExtras() != null) {
             Bundle extras = getActivity().getIntent().getExtras();
-            if (extras.get(EXTRA_MODE) != null && extras.get(EXTRA_MODE) instanceof Mode) {
-                this.mode = (Mode) extras.get(EXTRA_MODE);
-            }
+            finishOnSelection = extras.getBoolean(FINISH_ON_SELECTION);
         }
     }
 
@@ -123,12 +116,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         searchView.setOnMenuClickListener(this);
         searchView.setHint(R.string.food_search);
 
-        final List<Food> foodList = FoodDao.getInstance().getAll();
-        List<SearchItem> suggestions  = new ArrayList<>();
-        for (Food food : foodList) {
-            suggestions.add(new SearchItem(food.getName()));
-        }
-        final SearchAdapter searchAdapter = new SearchAdapter(getContext(), suggestions);
+        searchAdapter = new SearchAdapter(getContext());
         searchAdapter.addOnItemClickListener(new SearchAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -139,6 +127,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
             }
         });
         searchView.setAdapter(searchAdapter);
+        new SetSuggestionsTask().execute();
 
         unitTextView.setText(PreferenceHelper.getInstance().getLabelForMealPer100g());
     }
@@ -155,9 +144,9 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     }
 
     private void onFoodSelected(Food food) {
-        if (mode == Mode.SELECT) {
+        if (finishOnSelection) {
             finish();
-        } else if (mode == Mode.READ) {
+        } else {
             openFood(food);
         }
     }
@@ -215,5 +204,24 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     @SuppressWarnings("unused")
     public void onEventMainThread(FoodQueryEndedEvent event) {
         progressBar.setVisibility(View.GONE);
+    }
+
+    private class SetSuggestionsTask extends AsyncTask<Void, Void, ArrayList<SearchItem>> {
+
+        @Override
+        protected ArrayList<SearchItem> doInBackground(Void... voids) {
+            List<Food> foodList = FoodDao.getInstance().getAll();
+            ArrayList<SearchItem> suggestions  = new ArrayList<>();
+            for (Food food : foodList) {
+                suggestions.add(new SearchItem(food.getName()));
+            }
+            return suggestions;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<SearchItem> suggestions) {
+            super.onPostExecute(suggestions);
+            searchAdapter.setData(suggestions);
+        }
     }
 }

@@ -49,14 +49,8 @@ public class StickyHintInput extends LinearLayout implements TextWatcher {
     }
 
     private void update() {
-        int oldVisibility = label.getVisibility();
         boolean isVisible = input.getText().toString().length() > 0;
-        int newVisibility = isVisible ? VISIBLE : GONE;
-        if (oldVisibility != newVisibility) {
-            label.setVisibility(newVisibility);
-            label.setAlpha(isVisible ? 0f : 1f);
-            label.animate().alpha(isVisible ? 1f : 0f);
-        }
+        label.setVisibility(isVisible ? VISIBLE : GONE);
     }
 
     public EditText getEditText() {

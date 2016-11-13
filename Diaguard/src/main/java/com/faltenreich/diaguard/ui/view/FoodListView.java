@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -50,7 +49,8 @@ public class FoodListView extends LinearLayout {
 
     @BindView(R.id.food_list_icon) ImageView icon;
     @BindView(R.id.food_list_label) TextView label;
-    @BindView(R.id.food_list_value_input) EditText valueInput;
+    @BindView(R.id.food_list_value_input)
+    StickyHintInput valueInput;
     @BindView(R.id.food_list_value_calculated_integral) TickerView valueCalculatedIntegral;
     @BindView(R.id.food_list_value_calculated_point) TextView valueCalculatedPoint;
     @BindView(R.id.food_list_value_calculated_fractional) TickerView valueCalculatedFractional;
@@ -133,14 +133,14 @@ public class FoodListView extends LinearLayout {
     public boolean isValid() {
         boolean isValid = true;
 
-        String input = valueInput.getText().toString().trim();
+        String input = valueInput.getText().trim();
 
         if (StringUtils.isBlank(input) && adapter.getTotalCarbohydrates() == 0) {
             valueInput.setError(getContext().getString(R.string.validator_value_empty));
             isValid = false;
         } else {
             if (!StringUtils.isBlank(input)) {
-                isValid = PreferenceHelper.isValueValid(valueInput, Measurement.Category.MEAL);
+                isValid = PreferenceHelper.isValueValid(valueInput.getEditText(), Measurement.Category.MEAL);
             }
         }
         return isValid;
@@ -148,10 +148,10 @@ public class FoodListView extends LinearLayout {
 
     public Meal getMeal() {
         if (isValid()) {
-            meal.setValues(valueInput.getText().toString().length() > 0 ?
+            meal.setValues(valueInput.getText().length() > 0 ?
                     PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                             meal.getCategory(),
-                            NumberUtils.parseNumber(valueInput.getText().toString())) : 0);
+                            NumberUtils.parseNumber(valueInput.getText())) : 0);
             meal.setFoodEatenCache(adapter.getItems());
             return meal;
         } else {
@@ -231,7 +231,7 @@ public class FoodListView extends LinearLayout {
     }
 
     public float getInputCarbohydrates() {
-        float input = NumberUtils.parseNumber(valueInput.getText().toString());
+        float input = NumberUtils.parseNumber(valueInput.getText());
         return PreferenceHelper.getInstance().formatCustomToDefaultUnit(Measurement.Category.MEAL, input);
     }
 

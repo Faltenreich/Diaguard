@@ -7,9 +7,6 @@
     android:orientation="vertical">
 
     <LinearLayout
-        style="@style/Padding"
-        android:paddingTop="0dp"
-        android:paddingBottom="0dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="@dimen/height_element"
@@ -40,8 +37,10 @@
                 android:id="@+id/food_list_value_calculated_integral"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:gravity="center_vertical"
-                android:textColor="@android:color/black"
+                android:textColor="@color/gray_darker"
                 android:textSize="@dimen/text_medium"
                 android:visibility="gone" />
 
@@ -50,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:textColor="@android:color/black"
+                android:textColor="@color/gray_darker"
                 android:textSize="@dimen/text_medium"
                 android:visibility="gone"/>
 
@@ -59,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:textColor="@android:color/black"
+                android:textColor="@color/gray_darker"
                 android:textSize="@dimen/text_medium"
                 android:visibility="gone" />
 
@@ -67,25 +66,18 @@
                 android:id="@+id/food_list_value_sign"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/margin_between"
-                android:layout_marginLeft="@dimen/margin_between"
-                android:layout_marginRight="@dimen/margin_between"
-                android:layout_marginStart="@dimen/margin_between"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:gravity="center_vertical"
                 android:text="+"
-                android:textColor="@android:color/black"
+                android:textColor="@color/gray_darker"
                 android:textSize="@dimen/text_medium"
                 android:visibility="gone" />
 
-            <EditText
+            <com.faltenreich.diaguard.ui.view.StickyHintInput
                 android:id="@+id/food_list_value_input"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="@dimen/height_element"
-                android:paddingTop="@dimen/padding_input"
-                android:paddingBottom="@dimen/padding_input"
-                android:background="@android:color/transparent"
-                android:inputType="numberDecimal" />
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 

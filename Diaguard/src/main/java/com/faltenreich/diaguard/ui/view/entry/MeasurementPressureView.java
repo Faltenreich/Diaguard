@@ -1,13 +1,12 @@
 package com.faltenreich.diaguard.ui.view.entry;
 
 import android.content.Context;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Pressure;
+import com.faltenreich.diaguard.ui.view.StickyHintInput;
 import com.faltenreich.diaguard.util.NumberUtils;
 
 import butterknife.BindView;
@@ -17,11 +16,10 @@ import butterknife.BindView;
  */
 public class MeasurementPressureView extends MeasurementAbstractView<Pressure> {
 
-    @BindView(R.id.edittext_systolic) EditText editTextSystolic;
-    @BindView(R.id.edittext_diastolic) EditText editTextDiastolic;
-
-    @BindView(R.id.pressure_systolic_label) TextView systolicLabel;
-    @BindView(R.id.pressure_diastolic_label) TextView diastolicLabel;
+    @BindView(R.id.pressure_systolic)
+    StickyHintInput systolic;
+    @BindView(R.id.pressure_diastolic)
+    StickyHintInput diastolic;
 
     public MeasurementPressureView(Context context) {
         super(context, Measurement.Category.PRESSURE);
@@ -38,20 +36,19 @@ public class MeasurementPressureView extends MeasurementAbstractView<Pressure> {
 
     @Override
     protected void initLayout() {
-        editTextSystolic.setHint(getContext().getString(R.string.systolic));
-        editTextDiastolic.setHint(getContext().getString(R.string.diastolic));
+
     }
 
     @Override
     protected void setValues() {
-        editTextSystolic.setText(measurement.getValuesForUI()[0]);
-        editTextDiastolic.setText(measurement.getValuesForUI()[1]);
+        systolic.setText(measurement.getValuesForUI()[0]);
+        diastolic.setText(measurement.getValuesForUI()[1]);
     }
 
     @Override
     protected boolean isValid() {
-        return PreferenceHelper.isValueValid(editTextSystolic, Measurement.Category.PRESSURE) &&
-                PreferenceHelper.isValueValid(editTextDiastolic, Measurement.Category.PRESSURE);
+        return PreferenceHelper.isValueValid(systolic.getEditText(), Measurement.Category.PRESSURE) &&
+                PreferenceHelper.isValueValid(diastolic.getEditText(), Measurement.Category.PRESSURE);
     }
 
     @Override
@@ -60,21 +57,13 @@ public class MeasurementPressureView extends MeasurementAbstractView<Pressure> {
             measurement.setValues(
                     PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                             measurement.getCategory(),
-                            NumberUtils.parseNumber(editTextSystolic.getText().toString())),
+                            NumberUtils.parseNumber(systolic.getText())),
                     PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                             measurement.getCategory(),
-                            NumberUtils.parseNumber(editTextDiastolic.getText().toString())));
+                            NumberUtils.parseNumber(diastolic.getText())));
             return measurement;
         } else {
             return null;
         }
-    }
-
-    @Override
-    protected InputLabel[] getInputLabels() {
-        return new InputLabel[] {
-                new InputLabel(editTextSystolic, systolicLabel),
-                new InputLabel(editTextDiastolic, diastolicLabel)
-        };
     }
 }

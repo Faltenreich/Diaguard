@@ -15,7 +15,8 @@
     <dimen name="padding_end">16dp</dimen>
     <dimen name="padding_input">8dp</dimen>
     <dimen name="margin_between">8dp</dimen>
-    <dimen name="margin_between_big">22dp</dimen>
+    <dimen name="margin_between_large">12dp</dimen>
+    <dimen name="margin_between_larger">22dp</dimen>
     <dimen name="height_element">48dp</dimen>
     <dimen name="size_image_small">24dp</dimen>
     <dimen name="size_image">32dp</dimen>

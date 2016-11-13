@@ -11,7 +11,9 @@ import com.faltenreich.diaguard.adapter.FoodAdapter;
 import com.faltenreich.diaguard.adapter.SimpleDividerItemDecoration;
 import com.faltenreich.diaguard.adapter.list.ListItemFood;
 import com.faltenreich.diaguard.data.dao.FoodDao;
+import com.faltenreich.diaguard.data.dao.FoodEatenDao;
 import com.faltenreich.diaguard.data.entity.Food;
+import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.data.FoodQueryEndedEvent;
 import com.faltenreich.diaguard.event.data.FoodQueryStartedEvent;
@@ -133,20 +135,42 @@ public class FoodRecyclerView extends RecyclerView {
         Events.post(new FoodQueryEndedEvent(false));
     }
 
-    private class LoadDataTask extends AsyncTask<Void, Void, List<Food>> {
+    private class LoadDataTask extends AsyncTask<Void, Void, List<ListItemFood>> {
 
         @Override
-        protected List<Food> doInBackground(Void... voids) {
-            return FoodDao.getInstance().search(query, offlinePage);
+        protected List<ListItemFood> doInBackground(Void... voids) {
+            List<ListItemFood> foodList = new ArrayList<>();
+            boolean isInitial = adapter.getItemCount() == 0 && !(query != null && query.length() > 0);
+
+            if (isInitial) {
+                List<FoodEaten> foodEatenList = FoodEatenDao.getInstance().getAllOrdered();
+                for (FoodEaten foodEaten : foodEatenList) {
+                    ListItemFood listItem = new ListItemFood(foodEaten);
+                    if (!foodList.contains(listItem)) {
+                        foodList.add(listItem);
+                    }
+                }
+            }
+
+            List<Food> foodAllList = FoodDao.getInstance().search(query, offlinePage);
+            for (Food food : foodAllList) {
+                // Skip food that has been eaten before
+                ListItemFood listItem = new ListItemFood(food);
+                if (!foodList.contains(listItem)) {
+                    foodList.add(listItem);
+                }
+            }
+
+            return foodList;
         }
 
         @Override
-        protected void onPostExecute(List<Food> foodList) {
+        protected void onPostExecute(List<ListItemFood> foodList) {
             super.onPostExecute(foodList);
 
             if (foodList.size() > 0) {
                 offlinePage++;
-                addFood(foodList);
+                addItems(foodList);
 
             } else {
                 searchOnline();

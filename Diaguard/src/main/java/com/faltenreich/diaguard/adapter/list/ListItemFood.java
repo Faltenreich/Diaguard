@@ -11,13 +11,14 @@ public class ListItemFood extends ListItem {
     private Food food;
     private FoodEaten foodEaten;
 
-    public ListItemFood(Food food, FoodEaten foodEaten) {
-        this.food = food;
+    public ListItemFood(FoodEaten foodEaten) {
+        this.food = foodEaten.getFood();
         this.foodEaten = foodEaten;
     }
 
     public ListItemFood(Food food) {
-        this(food, null);
+        this.food = food;
+        this.foodEaten = null;
     }
 
     public Food getFood() {

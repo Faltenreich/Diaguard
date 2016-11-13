@@ -43,7 +43,7 @@
         android:id="@+id/dialog_calculator_result_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_between_big"
+        android:layout_marginTop="@dimen/margin_between_larger"
         android:orientation="vertical"
         android:visibility="gone">
 

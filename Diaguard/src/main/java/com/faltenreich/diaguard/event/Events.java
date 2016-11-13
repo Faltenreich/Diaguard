@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.event;
 
+import android.util.Log;
+
 import de.greenrobot.event.EventBus;
 
 /**
@@ -7,18 +9,22 @@ import de.greenrobot.event.EventBus;
  */
 public class Events {
 
+    private static final String TAG = Events.class.getSimpleName();
+
     private static EventBus getEventBus() {
         return EventBus.getDefault();
     }
 
     public static void register(Object object) {
         if (!isRegistered(object)) {
+            Log.d(TAG, "Registered " + object.getClass().getSimpleName());
             getEventBus().register(object);
         }
     }
 
     public static void unregister(Object object) {
         if (isRegistered(object)) {
+            Log.d(TAG, "Unregistered " + object.getClass().getSimpleName());
             getEventBus().unregister(object);
         }
     }
@@ -28,6 +34,7 @@ public class Events {
     }
 
     public static void post(BaseEvent event) {
+        Log.d(TAG, "Posted " + event.getClass().getSimpleName());
         getEventBus().post(event);
     }
 }

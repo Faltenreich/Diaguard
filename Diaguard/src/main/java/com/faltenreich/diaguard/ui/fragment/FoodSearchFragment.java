@@ -36,6 +36,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
+import static com.faltenreich.diaguard.R.id.food_search_list_empty;
+
 /**
  * Created by Faltenreich on 11.09.2016.
  */
@@ -49,7 +51,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     @BindView(R.id.food_search_progress) MaterialProgressBar progressBar;
     @BindView(R.id.search_view) SearchView searchView;
 
-    @BindView(R.id.food_search_list_empty) ViewGroup emptyList;
+    @BindView(food_search_list_empty) ViewGroup emptyList;
     @BindView(R.id.food_search_empty_icon) ImageView emptyIcon;
     @BindView(R.id.food_search_empty_text) TextView emptyText;
     @BindView(R.id.food_search_empty_description) TextView emptyDescription;
@@ -204,6 +206,9 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     @SuppressWarnings("unused")
     public void onEventMainThread(FoodQueryEndedEvent event) {
         progressBar.setVisibility(View.GONE);
+        if (list.getItemCount() == 0) {
+            showError(R.drawable.ic_sad, R.string.error_no_data, R.string.error_no_data_desc);
+        }
     }
 
     private class SetSuggestionsTask extends AsyncTask<Void, Void, ArrayList<SearchItem>> {

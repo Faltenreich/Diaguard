@@ -75,6 +75,10 @@ public class FoodRecyclerView extends RecyclerView {
         addOnScrollListener(listener);
     }
 
+    public int getItemCount() {
+        return adapter.getItemCount();
+    }
+
     public void clear() {
         int oldCount = adapter.getItemCount();
         adapter.clear();
@@ -102,12 +106,12 @@ public class FoodRecyclerView extends RecyclerView {
 
     private void addItems(List<ListItemFood> foodList) {
         boolean hasItems = foodList.size() > 0;
-        Events.post(new FoodQueryEndedEvent(hasItems));
         if (hasItems) {
             int oldSize = adapter.getItemCount();
             adapter.addItems(foodList);
             adapter.notifyItemRangeInserted(oldSize, oldSize + foodList.size());
         }
+        Events.post(new FoodQueryEndedEvent(hasItems));
     }
 
     private void addFood(List<Food> foodList) {

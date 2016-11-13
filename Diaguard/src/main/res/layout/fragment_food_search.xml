@@ -11,9 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include layout="@layout/toolbar"
+        <include
+            layout="@layout/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="64dp"/>
+            android:layout_height="64dp" />
 
         <com.lapism.searchview.SearchView
             android:id="@+id/search_view"
@@ -25,20 +26,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingStart="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingEnd="@dimen/activity_horizontal_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
         android:background="@color/green"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin">
 
         <TextView
-            android:id="@+id/food_search_query"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/entry_latest"
+            android:text="@string/food"
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_micro" />
 
@@ -69,32 +69,72 @@
                 android:layout_width="match_parent"
                 android:layout_height="4dp"
                 android:indeterminate="true"
+                android:visibility="gone"
                 app:mpb_progressStyle="horizontal"
-                app:mpb_useIntrinsicPadding="false"
-                android:visibility="gone"/>
+                app:mpb_useIntrinsicPadding="false" />
 
             <com.faltenreich.diaguard.ui.view.FoodRecyclerView
+                android:id="@+id/food_search_list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/food_search_list" />
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/food_search_query_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardCornerRadius="0dp"
+                app:cardElevation="8dp"
+                android:visibility="gone">
+
+                <LinearLayout
+                    style="@style/Padding"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_element"
+                    android:background="@android:color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/food_search_query"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@android:color/black" />
+
+                    <com.faltenreich.diaguard.ui.view.TintImageView
+                        android:id="@+id/food_search_query_clear"
+                        android:layout_width="@dimen/size_image_small"
+                        android:layout_height="@dimen/size_image_small"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:src="@drawable/ic_clear"
+                        app:tintColor="@color/gray_darker" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/food_search_list_empty"
+            style="@style/Padding"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:gravity="center"
-            android:visibility="gone"
-            style="@style/Padding">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <com.faltenreich.diaguard.ui.view.TintImageView
                 android:id="@+id/food_search_empty_icon"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:contentDescription="@null"
-                app:tintColor="@color/green"/>
+                app:tintColor="@color/green" />
 
             <TextView
                 android:id="@+id/food_search_empty_text"
@@ -102,14 +142,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_end"
                 android:gravity="center"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/food_search_empty_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_between"
-                android:gravity="center"/>
+                android:gravity="center" />
 
         </LinearLayout>
 
@@ -123,7 +163,7 @@
             app:layout_behavior="com.faltenreich.diaguard.adapter.FloatingActionButtonBehavior"
             fab:fab_colorNormal="@color/green"
             fab:fab_colorPressed="@color/green_light"
-            fab:fab_colorRipple="@color/green_lighter"/>
+            fab:fab_colorRipple="@color/green_lighter" />
 
     </android.support.design.widget.CoordinatorLayout>
 

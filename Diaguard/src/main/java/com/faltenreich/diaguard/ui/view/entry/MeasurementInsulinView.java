@@ -1,13 +1,12 @@
 package com.faltenreich.diaguard.ui.view.entry;
 
 import android.content.Context;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.ui.view.StickyHintInput;
 import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.StringUtils;
 
@@ -18,13 +17,12 @@ import butterknife.BindView;
  */
 public class MeasurementInsulinView extends MeasurementAbstractView<Insulin> {
 
-    @BindView(R.id.edittext_bolus) EditText editTextBolus;
-    @BindView(R.id.calculator_correction) EditText editTextCorrection;
-    @BindView(R.id.edittext_basal) EditText editTextBasal;
-
-    @BindView(R.id.insulin_bolus_label) TextView bolusLabel;
-    @BindView(R.id.insulin_correction_label) TextView correctionLabel;
-    @BindView(R.id.insulin_basal_label) TextView basalLabel;
+    @BindView(R.id.insulin_bolus)
+    StickyHintInput inputBolus;
+    @BindView(R.id.insulin_correction)
+    StickyHintInput inputCorrection;
+    @BindView(R.id.insulin_basal)
+    StickyHintInput inputBasal;
 
     public MeasurementInsulinView(Context context) {
         super(context, Measurement.Category.INSULIN);
@@ -41,38 +39,36 @@ public class MeasurementInsulinView extends MeasurementAbstractView<Insulin> {
 
     @Override
     protected void initLayout() {
-        editTextBolus.addTextChangedListener(this);
-        editTextCorrection.addTextChangedListener(this);
-        editTextBasal.addTextChangedListener(this);
+
     }
 
     @Override
     protected void setValues() {
-        editTextBolus.setText(measurement.getValuesForUI()[0]);
-        editTextCorrection.setText(measurement.getValuesForUI()[1]);
-        editTextBasal.setText(measurement.getValuesForUI()[2]);
+        inputBolus.setText(measurement.getValuesForUI()[0]);
+        inputCorrection.setText(measurement.getValuesForUI()[1]);
+        inputBasal.setText(measurement.getValuesForUI()[2]);
     }
 
     @Override
     protected boolean isValid() {
         boolean isValid = true;
 
-        String bolus = editTextBolus.getText().toString().trim();
-        String correction = editTextCorrection.getText().toString().trim();
-        String basal = editTextBasal.getText().toString().trim();
+        String bolus = inputBolus.getText().trim();
+        String correction = inputCorrection.getText().trim();
+        String basal = inputBasal.getText().trim();
 
         if (StringUtils.isBlank(bolus) && StringUtils.isBlank(correction) && StringUtils.isBlank(basal)) {
-            editTextBolus.setError(getContext().getString(R.string.validator_value_empty));
+            inputBolus.setError(getContext().getString(R.string.validator_value_empty));
             isValid = false;
         } else {
             if (!StringUtils.isBlank(bolus)) {
-                isValid = PreferenceHelper.isValueValid(editTextBolus, Measurement.Category.INSULIN);
+                isValid = PreferenceHelper.isValueValid(inputBolus.getEditText(), Measurement.Category.INSULIN);
             }
             if (!StringUtils.isBlank(correction)) {
-                isValid = PreferenceHelper.isValueValid(editTextCorrection, Measurement.Category.INSULIN);
+                isValid = PreferenceHelper.isValueValid(inputCorrection.getEditText(), Measurement.Category.INSULIN);
             }
             if (!StringUtils.isBlank(basal)) {
-                isValid = PreferenceHelper.isValueValid(editTextBasal, Measurement.Category.INSULIN);
+                isValid = PreferenceHelper.isValueValid(inputBasal.getEditText(), Measurement.Category.INSULIN);
             }
         }
         return isValid;
@@ -82,30 +78,21 @@ public class MeasurementInsulinView extends MeasurementAbstractView<Insulin> {
     public Measurement getMeasurement() {
         if (isValid()) {
             measurement.setValues(
-                    editTextBolus.getText().toString().length() > 0 ?
+                    inputBolus.getText().length() > 0 ?
                             PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                                     measurement.getCategory(),
-                                    NumberUtils.parseNumber(editTextBolus.getText().toString())) : 0,
-                    editTextCorrection.getText().toString().length() > 0 ?
+                                    NumberUtils.parseNumber(inputBolus.getText())) : 0,
+                    inputCorrection.getText().length() > 0 ?
                             PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                                     measurement.getCategory(),
-                                    NumberUtils.parseNumber(editTextCorrection.getText().toString())) : 0,
-                    editTextBasal.getText().toString().length() > 0 ?
+                                    NumberUtils.parseNumber(inputCorrection.getText())) : 0,
+                    inputBasal.getText().length() > 0 ?
                             PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                                     measurement.getCategory(),
-                                    NumberUtils.parseNumber(editTextBasal.getText().toString())) : 0);
+                                    NumberUtils.parseNumber(inputBasal.getText())) : 0);
             return measurement;
         } else {
             return null;
         }
-    }
-
-    @Override
-    protected InputLabel[] getInputLabels() {
-        return new InputLabel[] {
-                new InputLabel(editTextBolus, bolusLabel),
-                new InputLabel(editTextCorrection, correctionLabel),
-                new InputLabel(editTextBasal, basalLabel)
-        };
     }
 }

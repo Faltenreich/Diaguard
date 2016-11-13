@@ -6,59 +6,26 @@
     android:orientation="vertical"
     android:animateLayoutChanges="true">
 
-    <LinearLayout
+    <com.faltenreich.diaguard.ui.view.StickyHintInput
+        android:id="@+id/insulin_bolus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <EditText
-            style="@style/MeasurementInput"
-            android:id="@+id/edittext_bolus"
-            android:hint="@string/bolus" />
-
-        <TextView
-            style="@style/MeasurementLabel"
-            android:id="@+id/insulin_bolus_label"
-            android:text="@string/bolus" />
-
-    </LinearLayout>
+        android:hint="@string/bolus"/>
 
     <View style="@style/LayoutRowSeparator" />
 
-    <LinearLayout
+    <com.faltenreich.diaguard.ui.view.StickyHintInput
+        android:id="@+id/insulin_correction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <EditText
-            style="@style/MeasurementInput"
-            android:id="@+id/calculator_correction"
-            android:hint="@string/correction" />
-
-        <TextView
-            style="@style/MeasurementLabel"
-            android:id="@+id/insulin_correction_label"
-            android:text="@string/correction" />
-
-    </LinearLayout>
+        android:hint="@string/correction"/>
 
     <View style="@style/LayoutRowSeparator" />
 
-    <LinearLayout
+    <com.faltenreich.diaguard.ui.view.StickyHintInput
+        android:id="@+id/insulin_basal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <EditText
-            style="@style/MeasurementInput"
-            android:id="@+id/edittext_basal"
-            android:hint="@string/basal" />
-
-        <TextView
-            style="@style/MeasurementLabel"
-            android:id="@+id/insulin_basal_label"
-            android:text="@string/basal" />
-
-    </LinearLayout>
+        android:hint="@string/basal"/>
 
 </LinearLayout>

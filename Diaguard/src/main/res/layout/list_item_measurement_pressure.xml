@@ -5,40 +5,18 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <LinearLayout
+    <com.faltenreich.diaguard.ui.view.StickyHintInput
+        android:id="@+id/pressure_systolic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <EditText
-            style="@style/MeasurementInput"
-            android:id="@+id/edittext_systolic"
-            android:hint="@string/systolic" />
-
-        <TextView
-            style="@style/MeasurementLabel"
-            android:id="@+id/pressure_systolic_label"
-            android:text="@string/systolic" />
-
-    </LinearLayout>
+        android:hint="@string/systolic"/>
 
     <View style="@style/LayoutRowSeparator"/>
 
-    <LinearLayout
+    <com.faltenreich.diaguard.ui.view.StickyHintInput
+        android:id="@+id/pressure_diastolic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <EditText
-            style="@style/MeasurementInput"
-            android:id="@+id/edittext_diastolic"
-            android:hint="@string/diastolic" />
-
-        <TextView
-            style="@style/MeasurementLabel"
-            android:id="@+id/pressure_diastolic_label"
-            android:text="@string/diastolic" />
-
-    </LinearLayout>
+        android:hint="@string/diastolic"/>
 
 </LinearLayout>

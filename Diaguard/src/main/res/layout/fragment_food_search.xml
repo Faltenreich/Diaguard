@@ -73,11 +73,31 @@
                 app:mpb_progressStyle="horizontal"
                 app:mpb_useIntrinsicPadding="false" />
 
-            <com.faltenreich.diaguard.ui.view.FoodRecyclerView
-                android:id="@+id/food_search_list"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:layout_weight="1">
+
+                <com.faltenreich.diaguard.ui.view.FoodRecyclerView
+                    android:id="@+id/food_search_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <com.github.clans.fab.FloatingActionButton
+                    android:id="@+id/fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:layout_margin="@dimen/padding_end"
+                    android:src="@drawable/fab_add"
+                    app:layout_anchor="@id/food_search_list"
+                    app:layout_anchorGravity="bottom|right|end"
+                    app:layout_behavior="com.faltenreich.diaguard.adapter.FloatingActionButtonBehavior"
+                    fab:fab_colorNormal="@color/green"
+                    fab:fab_colorPressed="@color/green_light"
+                    fab:fab_colorRipple="@color/green_lighter" />
+
+            </FrameLayout>
 
 
             <android.support.v7.widget.CardView
@@ -152,18 +172,6 @@
                 android:gravity="center" />
 
         </LinearLayout>
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/padding_end"
-            android:src="@drawable/fab_add"
-            app:layout_behavior="com.faltenreich.diaguard.adapter.FloatingActionButtonBehavior"
-            fab:fab_colorNormal="@color/green"
-            fab:fab_colorPressed="@color/green_light"
-            fab:fab_colorRipple="@color/green_lighter" />
 
     </android.support.design.widget.CoordinatorLayout>
 

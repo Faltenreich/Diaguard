@@ -29,6 +29,7 @@ import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.ui.activity.PreferenceActivity;
 import com.faltenreich.diaguard.ui.view.FoodListView;
+import com.faltenreich.diaguard.ui.view.StickyHintInput;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.Validator;
@@ -47,7 +48,7 @@ public class CalculatorFragment extends BaseFragment {
     @BindView(R.id.calculator_target) EditText editTextTargetValue;
     @BindView(R.id.calculator_correction) EditText editTextCorrection;
     @BindView(R.id.calculator_food_list_view) FoodListView foodListView;
-    @BindView(R.id.calculator_factor) EditText editTextFactor;
+    @BindView(R.id.calculator_factor) StickyHintInput editTextFactor;
 
     public CalculatorFragment() {
         super(R.layout.fragment_calculator, R.string.calculator);
@@ -135,7 +136,7 @@ public class CalculatorFragment extends BaseFragment {
         // Meal
         if (foodListView.getTotalCarbohydrates() > 0) {
             // Factor
-            if (!Validator.validateEditTextFactor(getContext(), editTextFactor, false)) {
+            if (!Validator.validateEditTextFactor(getContext(), editTextFactor.getEditText(), false)) {
                 isValid = false;
             } else {
                 editTextFactor.setError(null);

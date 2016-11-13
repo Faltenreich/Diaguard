@@ -104,8 +104,6 @@
                 android:id="@+id/food_search_query_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clickable="true"
-                android:foreground="?android:attr/selectableItemBackground"
                 app:cardCornerRadius="0dp"
                 app:cardElevation="8dp"
                 android:visibility="gone">

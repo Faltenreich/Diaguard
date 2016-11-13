@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -9,77 +8,55 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/height_element"
         android:gravity="center_vertical"
+        android:minHeight="@dimen/height_element"
         android:orientation="horizontal">
 
-        <com.faltenreich.diaguard.ui.view.TintImageView
-            android:id="@+id/food_list_icon"
-            style="@style/LayoutRowImage"
-            android:src="@drawable/ic_category_meal"
-            app:tintColor="@color/gray_darker" />
+        <com.robinhood.ticker.TickerView
+            android:id="@+id/food_list_value_calculated_integral"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:gravity="center_vertical"
+            android:textColor="@color/gray_darker"
+            android:textSize="@dimen/text_medium"
+            android:visibility="gone" />
 
         <TextView
-            android:id="@+id/food_list_label"
-            android:layout_height="40dp"
-            android:gravity="center_vertical"
-            style="@style/LayoutRowLabel"
-            android:text="@string/meal" />
-
-        <LinearLayout
-            android:layout_width="0dp"
+            android:id="@+id/food_list_value_calculated_point"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="2"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:textColor="@color/gray_darker"
+            android:textSize="@dimen/text_medium"
+            android:visibility="gone" />
 
-            <com.robinhood.ticker.TickerView
-                android:id="@+id/food_list_value_calculated_integral"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:gravity="center_vertical"
-                android:textColor="@color/gray_darker"
-                android:textSize="@dimen/text_medium"
-                android:visibility="gone" />
+        <com.robinhood.ticker.TickerView
+            android:id="@+id/food_list_value_calculated_fractional"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:textColor="@color/gray_darker"
+            android:textSize="@dimen/text_medium"
+            android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/food_list_value_calculated_point"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:textColor="@color/gray_darker"
-                android:textSize="@dimen/text_medium"
-                android:visibility="gone"/>
+        <TextView
+            android:id="@+id/food_list_value_sign"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:gravity="center_vertical"
+            android:text="+"
+            android:textColor="@color/gray_darker"
+            android:textSize="@dimen/text_medium"
+            android:visibility="gone" />
 
-            <com.robinhood.ticker.TickerView
-                android:id="@+id/food_list_value_calculated_fractional"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:textColor="@color/gray_darker"
-                android:textSize="@dimen/text_medium"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/food_list_value_sign"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:gravity="center_vertical"
-                android:text="+"
-                android:textColor="@color/gray_darker"
-                android:textSize="@dimen/text_medium"
-                android:visibility="gone" />
-
-            <com.faltenreich.diaguard.ui.view.StickyHintInput
-                android:id="@+id/food_list_value_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        </LinearLayout>
+        <com.faltenreich.diaguard.ui.view.StickyHintInput
+            android:id="@+id/food_list_value_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
@@ -96,7 +73,7 @@
     <View
         android:id="@+id/food_list_separator"
         style="@style/LayoutRowSeparator"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/food_list"

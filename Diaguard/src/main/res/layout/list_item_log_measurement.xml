@@ -6,9 +6,10 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
+    android:layout_marginTop="@dimen/padding"
     android:layout_marginBottom="@dimen/padding"
-    android:layout_marginRight="@dimen/margin_between"
-    android:layout_marginEnd="@dimen/margin_between">
+    android:layout_marginRight="@dimen/margin_between_large"
+    android:layout_marginEnd="@dimen/margin_between_large">
 
     <com.faltenreich.diaguard.ui.view.TintImageView
         android:id="@+id/image"

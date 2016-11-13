@@ -22,13 +22,13 @@
             <LinearLayout style="@style/LayoutRow">
 
                 <com.faltenreich.diaguard.ui.view.TintImageView
-                    style="@style/LayoutRowImage"
+                    style="@style/LayoutRowImageMultiline"
                     android:src="@drawable/ic_action_edit"
                     app:tintColor="@color/gray_darker" />
 
                 <EditText
                     android:id="@+id/food_edit_name"
-                    style="@style/LayoutRowItem"
+                    style="@style/LayoutRowItemMultiline"
                     android:background="@android:color/transparent"
                     android:hint="@string/name"
                     android:inputType="text" />
@@ -40,13 +40,13 @@
             <LinearLayout style="@style/LayoutRow">
 
                 <com.faltenreich.diaguard.ui.view.TintImageView
-                    style="@style/LayoutRowImage"
+                    style="@style/LayoutRowImageMultiline"
                     android:src="@drawable/ic_business"
                     app:tintColor="@color/gray_darker" />
 
                 <EditText
                     android:id="@+id/food_edit_brand"
-                    style="@style/LayoutRowItem"
+                    style="@style/LayoutRowItemMultiline"
                     android:background="@android:color/transparent"
                     android:hint="@string/brand"
                     android:inputType="text" />
@@ -58,13 +58,13 @@
             <LinearLayout style="@style/LayoutRow">
 
                 <com.faltenreich.diaguard.ui.view.TintImageView
-                    style="@style/LayoutRowImage"
+                    style="@style/LayoutRowImageMultiline"
                     android:src="@drawable/ic_note"
                     app:tintColor="@color/gray_darker" />
 
                 <EditText
                     android:id="@+id/food_edit_ingredients"
-                    style="@style/LayoutRowItem"
+                    style="@style/LayoutRowItemMultiline"
                     android:background="@android:color/transparent"
                     android:hint="@string/ingredients"
                     android:inputType="textMultiLine|textCapSentences"/>

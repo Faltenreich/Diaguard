@@ -4,124 +4,151 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
     android:orientation="vertical">
 
     <include layout="@layout/toolbar" />
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout style="@style/LayoutRow">
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_end"
+                app:cardElevation="3dp">
 
-                <com.faltenreich.diaguard.ui.view.TintImageView
-                    style="@style/LayoutRowImage"
-                    android:src="@drawable/ic_category_bloodsugar"
-                    app:tintColor="@color/gray_darker" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:orientation="vertical">
 
-                <TextView
-                    style="@style/LayoutRowLabel"
-                    android:text="@string/bloodsugar" />
+                    <LinearLayout style="@style/LayoutRow">
 
-                <EditText
-                    android:id="@+id/calculator_bloodsugar"
-                    style="@style/LayoutRowTextLarge">
+                        <com.faltenreich.diaguard.ui.view.TintImageView
+                            style="@style/LayoutRowImage"
+                            android:src="@drawable/ic_category_bloodsugar"
+                            app:tintColor="@color/gray_darker" />
 
-                    <requestFocus />
-                </EditText>
+                        <TextView
+                            style="@style/LayoutRowLabel"
+                            android:text="@string/bloodsugar" />
 
-            </LinearLayout>
+                        <EditText
+                            android:id="@+id/calculator_bloodsugar"
+                            style="@style/LayoutRowTextLarge">
 
-            <View style="@style/LayoutRowSeparator" />
+                            <requestFocus />
+                        </EditText>
 
-            <LinearLayout style="@style/LayoutRow">
+                    </LinearLayout>
 
-                <com.faltenreich.diaguard.ui.view.TintImageView
-                    style="@style/LayoutRowImage"
-                    android:src="@drawable/ic_action_done"
-                    app:tintColor="@color/gray_darker" />
+                    <View style="@style/LayoutRowSeparator" />
 
-                <TextView
-                    style="@style/LayoutRowLabel"
-                    android:text="@string/pref_therapy_targets_target" />
+                    <LinearLayout style="@style/LayoutRow">
 
-                <EditText
-                    android:id="@+id/calculator_target"
-                    style="@style/LayoutRowTextLarge" />
+                        <com.faltenreich.diaguard.ui.view.TintImageView
+                            style="@style/LayoutRowImage"
+                            android:src="@drawable/ic_action_done"
+                            app:tintColor="@color/gray_darker" />
 
-            </LinearLayout>
+                        <TextView
+                            style="@style/LayoutRowLabel"
+                            android:text="@string/pref_therapy_targets_target" />
 
-            <View style="@style/LayoutRowSeparator" />
+                        <EditText
+                            android:id="@+id/calculator_target"
+                            style="@style/LayoutRowTextLarge" />
 
-            <LinearLayout style="@style/LayoutRow">
+                    </LinearLayout>
 
-                <com.faltenreich.diaguard.ui.view.TintImageView
-                    style="@style/LayoutRowImage"
-                    android:src="@drawable/ic_done_all"
-                    app:tintColor="@color/gray_darker" />
+                    <View style="@style/LayoutRowSeparator" />
 
-                <TextView
-                    style="@style/LayoutRowLabel"
-                    android:text="@string/correction_value" />
+                    <LinearLayout style="@style/LayoutRow">
 
-                <EditText
-                    android:id="@+id/calculator_correction"
-                    style="@style/LayoutRowTextLarge" />
+                        <com.faltenreich.diaguard.ui.view.TintImageView
+                            style="@style/LayoutRowImage"
+                            android:src="@drawable/ic_done_all"
+                            app:tintColor="@color/gray_darker" />
 
-            </LinearLayout>
+                        <TextView
+                            style="@style/LayoutRowLabel"
+                            android:text="@string/correction_value" />
 
-            <View style="@style/LayoutRowSeparator" />
+                        <EditText
+                            android:id="@+id/calculator_correction"
+                            style="@style/LayoutRowTextLarge" />
 
-            <LinearLayout style="@style/LayoutRow">
-
-                <com.faltenreich.diaguard.ui.view.TintImageView
-                    style="@style/LayoutRowImage"
-                    android:src="@drawable/ic_factor"
-                    app:tintColor="@color/gray_darker" />
-
-                <TextView
-                    style="@style/LayoutRowLabel"
-                    android:text="@string/factor" />
-
-                <LinearLayout style="@style/LayoutRowTextLarge">
-
-                    <EditText
-                        android:id="@+id/calculator_factor"
-                        style="@style/LayoutRowTextLarge"
-                        android:layout_margin="0dp"/>
-
-                    <com.faltenreich.diaguard.ui.view.TintImageView
-                        style="@style/LayoutRowImage"
-                        android:id="@+id/calculator_factor_edit_button"
-                        android:layout_width="@dimen/size_image_small"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/margin_between"
-                        android:layout_marginLeft="@dimen/margin_between"
-                        android:layout_marginRight="0dp"
-                        android:layout_marginEnd="0dp"
-                        android:src="@drawable/ic_settings"
-                        android:contentDescription="@string/note"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:clickable="true"
-                        app:tintColor="@color/gray"/>
+                    </LinearLayout>
 
                 </LinearLayout>
 
-            </LinearLayout>
+            </android.support.v7.widget.CardView>
 
-            <View style="@style/LayoutRowSeparator" />
+            <TextView
+                style="@style/Padding"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/meal"
+                android:textColor="@color/gray_darker" />
 
-            <com.faltenreich.diaguard.ui.view.FoodListView
-                android:id="@+id/calculator_food_list_view"
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:showLabelIcon="true"/>
+                android:layout_marginBottom="@dimen/padding_end"
+                app:cardElevation="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical">
+
+                        <com.faltenreich.diaguard.ui.view.StickyHintInput
+                            android:id="@+id/calculator_factor"
+                            style="@style/LayoutRowTextLarge"
+                            android:layout_margin="0dp"
+                            android:hint="@string/factor" />
+
+                        <com.faltenreich.diaguard.ui.view.TintImageView
+                            android:id="@+id/calculator_factor_edit_button"
+                            android:layout_width="@dimen/size_image_small"
+                            android:layout_height="@dimen/size_image_small"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                            android:layout_marginLeft="@dimen/margin_between"
+                            android:layout_marginRight="@dimen/activity_horizontal_margin"
+                            android:layout_marginStart="@dimen/margin_between"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:contentDescription="@string/note"
+                            android:src="@drawable/ic_settings"
+                            app:tintColor="@color/gray" />
+
+                    </LinearLayout>
+
+                    <View style="@style/LayoutRowSeparator" />
+
+                    <com.faltenreich.diaguard.ui.view.FoodListView
+                        android:id="@+id/calculator_food_list_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:showLabelIcon="true" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
 
         </LinearLayout>
 

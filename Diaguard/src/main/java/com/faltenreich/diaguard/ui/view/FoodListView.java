@@ -2,13 +2,11 @@ package com.faltenreich.diaguard.ui.view;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.TypedArray;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -47,10 +45,7 @@ public class FoodListView extends LinearLayout {
 
     private static final int ANIMATION_DURATION_IN_MILLIS = 750;
 
-    @BindView(R.id.food_list_icon) ImageView icon;
-    @BindView(R.id.food_list_label) TextView label;
-    @BindView(R.id.food_list_value_input)
-    StickyHintInput valueInput;
+    @BindView(R.id.food_list_value_input) StickyHintInput valueInput;
     @BindView(R.id.food_list_value_calculated_integral) TickerView valueCalculatedIntegral;
     @BindView(R.id.food_list_value_calculated_point) TextView valueCalculatedPoint;
     @BindView(R.id.food_list_value_calculated_fractional) TickerView valueCalculatedFractional;
@@ -59,8 +54,6 @@ public class FoodListView extends LinearLayout {
     @BindView(R.id.food_list) RecyclerView foodList;
 
     private FoodEditableAdapter adapter;
-
-    private boolean showLabelIcon;
     private Meal meal;
 
     public FoodListView(Context context) {
@@ -70,12 +63,12 @@ public class FoodListView extends LinearLayout {
 
     public FoodListView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(attrs);
+        init();
     }
 
     public FoodListView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(attrs);
+        init();
     }
 
     @Override
@@ -90,26 +83,12 @@ public class FoodListView extends LinearLayout {
         Events.unregister(this);
     }
 
-    private void init(AttributeSet attributeSet) {
-        TypedArray typedArray = getContext().obtainStyledAttributes(attributeSet, R.styleable.FoodListView);
-        try {
-            showLabelIcon = typedArray.getBoolean(R.styleable.FoodListView_showLabelIcon, false);
-        } finally {
-            typedArray.recycle();
-        }
-        init();
-    }
-
     private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_food_list, this);
         if (!isInEditMode()) {
             ButterKnife.bind(this);
 
             meal = new Meal();
-
-            int visibility = showLabelIcon ? VISIBLE : GONE;
-            label.setVisibility(visibility);
-            icon.setVisibility(visibility);
 
             valueInput.setHint(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.MEAL));
             valueCalculatedIntegral.setCharacterList(TickerUtils.getDefaultNumberList());

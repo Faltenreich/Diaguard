@@ -24,6 +24,8 @@ public class StickyHintInput extends LinearLayout implements TextWatcher {
     @BindView(R.id.input) EditText input;
     @BindView(R.id.label) TextView label;
 
+    private CharSequence hint;
+
     public StickyHintInput(Context context) {
         super(context);
         init();
@@ -31,13 +33,22 @@ public class StickyHintInput extends LinearLayout implements TextWatcher {
 
     public StickyHintInput(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(attrs);
+    }
 
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, new int[]{android.R.attr.hint});
-        CharSequence hint = typedArray.getText(0);
-        input.setHint(hint);
-        label.setText(hint);
-        typedArray.recycle();
+    public StickyHintInput(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        init(attrs);
+    }
+
+    private void init(AttributeSet attributeSet) {
+        TypedArray typedArray = getContext().obtainStyledAttributes(attributeSet, new int[]{android.R.attr.hint});
+        try {
+            hint = typedArray.getText(0);
+        } finally {
+            typedArray.recycle();
+        }
+        init();
     }
 
     private void init() {
@@ -45,6 +56,8 @@ public class StickyHintInput extends LinearLayout implements TextWatcher {
         if (!isInEditMode()) {
             ButterKnife.bind(this);
             input.addTextChangedListener(this);
+            input.setHint(hint);
+            label.setText(hint);
         }
     }
 

@@ -11,7 +11,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
@@ -44,11 +43,11 @@ import butterknife.OnClick;
  */
 public class CalculatorFragment extends BaseFragment {
 
-    @BindView(R.id.calculator_bloodsugar) EditText editTextBloodSugar;
-    @BindView(R.id.calculator_target) EditText editTextTargetValue;
-    @BindView(R.id.calculator_correction) EditText editTextCorrection;
+    @BindView(R.id.calculator_bloodsugar) StickyHintInput bloodSugarInput;
+    @BindView(R.id.calculator_target) StickyHintInput targetInput;
+    @BindView(R.id.calculator_correction) StickyHintInput correctionInput;
     @BindView(R.id.calculator_food_list_view) FoodListView foodListView;
-    @BindView(R.id.calculator_factor) StickyHintInput editTextFactor;
+    @BindView(R.id.calculator_factor) StickyHintInput factorInput;
 
     public CalculatorFragment() {
         super(R.layout.fragment_calculator, R.string.calculator);
@@ -90,11 +89,6 @@ public class CalculatorFragment extends BaseFragment {
     }
 
     private void initialize() {
-        String unitAcronym = PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BLOODSUGAR);
-        editTextTargetValue.setHint(unitAcronym);
-        editTextCorrection.setHint(unitAcronym);
-        editTextBloodSugar.setHint(unitAcronym);
-
         updateTargetValue();
         updateCorrectionValue();
     }
@@ -103,43 +97,43 @@ public class CalculatorFragment extends BaseFragment {
         float targetValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(
                 Measurement.Category.BLOODSUGAR,
                 PreferenceHelper.getInstance().getTargetValue());
-        editTextTargetValue.setText(Helper.parseFloat(targetValue));
+        targetInput.setText(Helper.parseFloat(targetValue));
     }
 
     private void updateCorrectionValue() {
         float correctionValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(
                 Measurement.Category.BLOODSUGAR,
                 PreferenceHelper.getInstance().getCorrectionValue());
-        editTextCorrection.setText(Helper.parseFloat(correctionValue));
+        correctionInput.setText(Helper.parseFloat(correctionValue));
     }
 
     private void updateFactor() {
         int hourOfDay = DateTime.now().getHourOfDay();
         float factor = PreferenceHelper.getInstance().getFactorForHour(hourOfDay);
-        editTextFactor.setText(factor >= 0 ? Helper.parseFloat(factor) : null);
+        factorInput.setText(factor >= 0 ? Helper.parseFloat(factor) : null);
     }
 
     private boolean inputIsValid() {
         boolean isValid = true;
 
         // Blood Sugar
-        if (!Validator.validateEditTextEvent(getContext(), editTextBloodSugar, Measurement.Category.BLOODSUGAR, false)) {
+        if (!Validator.validateEditTextEvent(getContext(), bloodSugarInput, Measurement.Category.BLOODSUGAR, false)) {
             isValid = false;
         }
-        if (!Validator.validateEditTextEvent(getContext(), editTextTargetValue, Measurement.Category.BLOODSUGAR, false)) {
+        if (!Validator.validateEditTextEvent(getContext(), targetInput, Measurement.Category.BLOODSUGAR, false)) {
             isValid = false;
         }
-        if (!Validator.validateEditTextEvent(getContext(), editTextCorrection, Measurement.Category.BLOODSUGAR, false)) {
+        if (!Validator.validateEditTextEvent(getContext(), correctionInput, Measurement.Category.BLOODSUGAR, false)) {
             isValid = false;
         }
 
         // Meal
         if (foodListView.getTotalCarbohydrates() > 0) {
             // Factor
-            if (!Validator.validateEditTextFactor(getContext(), editTextFactor.getEditText(), false)) {
+            if (!Validator.validateEditTextFactor(getContext(), factorInput.getEditText(), false)) {
                 isValid = false;
             } else {
-                editTextFactor.setError(null);
+                factorInput.setError(null);
             }
         }
 
@@ -151,26 +145,26 @@ public class CalculatorFragment extends BaseFragment {
             float currentBloodSugar =
                     PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                             Measurement.Category.BLOODSUGAR,
-                            NumberUtils.parseNumber(editTextBloodSugar.getText().toString()));
+                            NumberUtils.parseNumber(bloodSugarInput.getText().toString()));
             float targetBloodSugar =
-                    Validator.containsNumber(editTextTargetValue.getText().toString()) ?
+                    Validator.containsNumber(targetInput.getText().toString()) ?
                             PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                                     Measurement.Category.BLOODSUGAR,
-                                    NumberUtils.parseNumber(editTextTargetValue.getText().toString())) :
+                                    NumberUtils.parseNumber(targetInput.getText().toString())) :
                             PreferenceHelper.getInstance().getTargetValue();
             float correction =
-                    Validator.containsNumber(editTextCorrection.getText().toString()) ?
+                    Validator.containsNumber(correctionInput.getText().toString()) ?
                             PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                                     Measurement.Category.BLOODSUGAR,
-                                    NumberUtils.parseNumber(editTextCorrection.getText().toString())) :
+                                    NumberUtils.parseNumber(correctionInput.getText().toString())) :
                             PreferenceHelper.getInstance().getCorrectionValue();
             float meal = foodListView.getTotalCarbohydrates();
             float factor = 0;
             if (meal > 0) {
-                if (Validator.containsNumber(editTextFactor.getText().toString())) {
-                    factor = NumberUtils.parseNumber(editTextFactor.getText().toString());
-                } else if (Validator.containsNumber(editTextFactor.getHint().toString())) {
-                    factor = NumberUtils.parseNumber(editTextFactor.getHint().toString());
+                if (Validator.containsNumber(factorInput.getText().toString())) {
+                    factor = NumberUtils.parseNumber(factorInput.getText().toString());
+                } else if (Validator.containsNumber(factorInput.getHint().toString())) {
+                    factor = NumberUtils.parseNumber(factorInput.getHint().toString());
                 }
             }
 

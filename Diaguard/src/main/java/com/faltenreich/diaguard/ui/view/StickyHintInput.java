@@ -6,11 +6,13 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.util.ViewHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,6 +60,12 @@ public class StickyHintInput extends LinearLayout implements TextWatcher {
             input.addTextChangedListener(this);
             input.setHint(hint);
             label.setText(hint);
+            label.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ViewHelper.requestFocusShowKeyboard(input);
+                }
+            });
         }
     }
 

@@ -29,61 +29,64 @@
                     android:background="@android:color/white"
                     android:orientation="vertical">
 
-                    <LinearLayout style="@style/LayoutRow">
+                    <LinearLayout style="@style/LayoutRow"
+                        android:paddingEnd="@dimen/margin_between"
+                        android:paddingRight="@dimen/margin_between">
 
                         <com.faltenreich.diaguard.ui.view.TintImageView
                             style="@style/LayoutRowImage"
+                            android:layout_margin="0dp"
                             android:src="@drawable/ic_category_bloodsugar"
                             app:tintColor="@color/gray_darker" />
 
-                        <TextView
-                            style="@style/LayoutRowLabel"
-                            android:text="@string/bloodsugar" />
-
-                        <EditText
+                        <com.faltenreich.diaguard.ui.view.StickyHintInput
                             android:id="@+id/calculator_bloodsugar"
-                            style="@style/LayoutRowTextLarge">
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/bloodsugar">
 
                             <requestFocus />
-                        </EditText>
+                        </com.faltenreich.diaguard.ui.view.StickyHintInput>
 
                     </LinearLayout>
 
                     <View style="@style/LayoutRowSeparator" />
 
-                    <LinearLayout style="@style/LayoutRow">
+                    <LinearLayout style="@style/LayoutRow"
+                        android:paddingEnd="@dimen/margin_between"
+                        android:paddingRight="@dimen/margin_between">
 
                         <com.faltenreich.diaguard.ui.view.TintImageView
                             style="@style/LayoutRowImage"
+                            android:layout_margin="0dp"
                             android:src="@drawable/ic_action_done"
                             app:tintColor="@color/gray_darker" />
 
-                        <TextView
-                            style="@style/LayoutRowLabel"
-                            android:text="@string/pref_therapy_targets_target" />
-
-                        <EditText
+                        <com.faltenreich.diaguard.ui.view.StickyHintInput
                             android:id="@+id/calculator_target"
-                            style="@style/LayoutRowTextLarge" />
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/pref_therapy_targets_target" />
 
                     </LinearLayout>
 
                     <View style="@style/LayoutRowSeparator" />
 
-                    <LinearLayout style="@style/LayoutRow">
+                    <LinearLayout style="@style/LayoutRow"
+                        android:paddingEnd="@dimen/margin_between"
+                        android:paddingRight="@dimen/margin_between">
 
                         <com.faltenreich.diaguard.ui.view.TintImageView
                             style="@style/LayoutRowImage"
+                            android:layout_margin="0dp"
                             android:src="@drawable/ic_done_all"
                             app:tintColor="@color/gray_darker" />
 
-                        <TextView
-                            style="@style/LayoutRowLabel"
-                            android:text="@string/correction_value" />
-
-                        <EditText
+                        <com.faltenreich.diaguard.ui.view.StickyHintInput
                             android:id="@+id/calculator_correction"
-                            style="@style/LayoutRowTextLarge" />
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/correction_value" />
 
                     </LinearLayout>
 
@@ -110,15 +113,22 @@
                     android:background="@android:color/white"
                     android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical">
+                    <LinearLayout style="@style/LayoutRow"
+                        android:paddingEnd="0dp"
+                        android:paddingRight="0dp">
+
+                        <com.faltenreich.diaguard.ui.view.TintImageView
+                            style="@style/LayoutRowImage"
+                            android:layout_margin="0dp"
+                            android:src="@drawable/ic_factor"
+                            app:tintColor="@color/gray_darker" />
 
                         <com.faltenreich.diaguard.ui.view.StickyHintInput
                             android:id="@+id/calculator_factor"
-                            style="@style/LayoutRowTextLarge"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
                             android:layout_margin="0dp"
+                            android:layout_weight="1"
                             android:hint="@string/factor" />
 
                         <com.faltenreich.diaguard.ui.view.TintImageView
@@ -144,7 +154,7 @@
                         android:id="@+id/calculator_food_list_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:showLabelIcon="true" />
+                        app:showIcon="true" />
 
                 </LinearLayout>
 

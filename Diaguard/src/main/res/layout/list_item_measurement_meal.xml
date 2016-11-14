@@ -5,5 +5,4 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/list_item_measurement_meal_food_list"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:showLabelIcon="false"/>
+    android:layout_height="wrap_content"/>

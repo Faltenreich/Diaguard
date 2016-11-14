@@ -2,11 +2,13 @@ package com.faltenreich.diaguard.ui.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -45,6 +47,7 @@ public class FoodListView extends LinearLayout {
 
     private static final int ANIMATION_DURATION_IN_MILLIS = 750;
 
+    @BindView(R.id.food_list_icon) ImageView icon;
     @BindView(R.id.food_list_value_input) StickyHintInput valueInput;
     @BindView(R.id.food_list_value_calculated_integral) TickerView valueCalculatedIntegral;
     @BindView(R.id.food_list_value_calculated_point) TextView valueCalculatedPoint;
@@ -56,6 +59,8 @@ public class FoodListView extends LinearLayout {
     private FoodEditableAdapter adapter;
     private Meal meal;
 
+    private boolean showIcon;
+
     public FoodListView(Context context) {
         super(context);
         init();
@@ -63,11 +68,21 @@ public class FoodListView extends LinearLayout {
 
     public FoodListView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(attrs);
     }
 
     public FoodListView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(attrs);
+    }
+
+    private void init(AttributeSet attributeSet) {
+        TypedArray typedArray = getContext().obtainStyledAttributes(attributeSet, R.styleable.FoodListView);
+        try {
+            showIcon = typedArray.getBoolean(R.styleable.FoodListView_showIcon, false);
+        } finally {
+            typedArray.recycle();
+        }
         init();
     }
 
@@ -85,12 +100,14 @@ public class FoodListView extends LinearLayout {
 
     private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_food_list, this);
+
         if (!isInEditMode()) {
             ButterKnife.bind(this);
-
             meal = new Meal();
 
-            valueInput.setHint(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.MEAL));
+            icon.setVisibility(showIcon ? VISIBLE : GONE);
+
+            valueInput.setHint(PreferenceHelper.getInstance().getUnitName(Measurement.Category.MEAL));
             valueCalculatedIntegral.setCharacterList(TickerUtils.getDefaultNumberList());
             valueCalculatedFractional.setCharacterList(TickerUtils.getDefaultNumberList());
             valueCalculatedIntegral.setAnimationDuration(ANIMATION_DURATION_IN_MILLIS);

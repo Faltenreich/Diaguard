@@ -6,7 +6,7 @@
     </declare-styleable>
 
     <declare-styleable name="FoodListView">
-        <attr name="showLabelIcon" format="boolean"/>
+        <attr name="showIcon" format="boolean"/>
     </declare-styleable>
 
 </resources>

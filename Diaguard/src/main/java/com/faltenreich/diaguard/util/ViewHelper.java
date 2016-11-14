@@ -8,6 +8,7 @@ import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,7 +61,13 @@ public class ViewHelper {
         Toast.makeText(context, text, duration).show();
     }
 
-    public static int getDefaultTextColor() {
-        return new TextView(DiaguardApplication.getContext()).getTextColors().getDefaultColor();
+    public static int getDefaultTextColor(Context context) {
+        return new TextView(context).getTextColors().getDefaultColor();
+    }
+
+    public static void requestFocusShowKeyboard(View view) {
+        view.requestFocus();
+        InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
     }
 }

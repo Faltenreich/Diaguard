@@ -6,6 +6,7 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -54,6 +55,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     public static final String EXTRA_ENTRY = "EXTRA_ENTRY";
     public static final String EXTRA_DATE = "EXTRA_DATE";
 
+    @BindView(R.id.coordinator) CoordinatorLayout coordinatorLayout;
     @BindView(R.id.activity_newevent_scrollview) NestedScrollView scrollView;
     @BindView(R.id.fab_menu) MeasurementFloatingActionMenu fab;
     @BindView(R.id.layout_measurements) MeasurementListView layoutMeasurements;
@@ -87,8 +89,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             case R.id.action_delete:
                 deleteEntry();
                 return true;
-            case R.id.action_done:
-                submit();
+            case R.id.action_done:submit();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

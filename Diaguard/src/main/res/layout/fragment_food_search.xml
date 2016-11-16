@@ -83,58 +83,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
 
-                <com.github.clans.fab.FloatingActionButton
-                    android:id="@+id/fab"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|end"
-                    android:layout_margin="@dimen/padding_end"
-                    android:src="@drawable/fab_add"
-                    app:layout_anchor="@id/food_search_list"
-                    app:layout_anchorGravity="bottom|right|end"
-                    app:layout_behavior="com.faltenreich.diaguard.adapter.FloatingActionButtonBehavior"
-                    fab:fab_colorNormal="@color/green"
-                    fab:fab_colorPressed="@color/green_light"
-                    fab:fab_colorRipple="@color/green_lighter" />
-
             </FrameLayout>
-
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/food_search_query_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="0dp"
-                app:cardElevation="8dp"
-                android:visibility="gone">
-
-                <LinearLayout
-                    style="@style/Padding"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/height_element"
-                    android:background="@android:color/white"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/food_search_query"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textColor="@android:color/black" />
-
-                    <com.faltenreich.diaguard.ui.view.TintImageView
-                        android:id="@+id/food_search_query_clear"
-                        android:layout_width="@dimen/size_image_small"
-                        android:layout_height="@dimen/size_image_small"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:clickable="true"
-                        android:src="@drawable/ic_clear"
-                        app:tintColor="@color/gray_darker" />
-
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
 
         </LinearLayout>
 
@@ -170,6 +119,20 @@
                 android:gravity="center" />
 
         </LinearLayout>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/padding_end"
+            android:src="@drawable/fab_add"
+            app:layout_anchor="@id/food_search_list"
+            app:layout_anchorGravity="bottom|right|end"
+            app:layout_behavior="com.faltenreich.diaguard.adapter.FloatingActionButtonBehavior"
+            fab:fab_colorNormal="@color/green"
+            fab:fab_colorPressed="@color/green_light"
+            fab:fab_colorRipple="@color/green_lighter" />
 
     </android.support.design.widget.CoordinatorLayout>
 

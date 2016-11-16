@@ -76,7 +76,7 @@
         android:id="@+id/food_list_button"
         style="?attr/borderlessButtonStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/height_element"
         android:text="@string/food_add"
         android:textColor="@color/green" />
 

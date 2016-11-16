@@ -68,7 +68,7 @@ dependencies {
     compile 'org.apmem.tools:layouts:1.10@aar'
     compile 'me.zhanghai.android.materialprogressbar:library:1.1.6'
     compile 'me.grantland:autofittextview:0.2.1'
-    compile 'com.lapism:searchview:3.6.3'
+    compile 'com.lapism:searchview:4.0'
     compile 'com.mikhaellopez:circularimageview:3.0.2'
     compile 'com.code-troopers.betterpickers:library:3.0.1'
     compile 'com.robinhood.ticker:ticker:1.1.0'

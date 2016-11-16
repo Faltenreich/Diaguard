@@ -30,7 +30,7 @@ public class FoodSearchActivity extends BaseActivity {
             if (results != null && results.size() > 0) {
                 String voiceInput = results.get(0);
                 if (!TextUtils.isEmpty(voiceInput)) {
-                    searchView.setQuery(voiceInput);
+                    searchView.setQuery(voiceInput, true);
                 }
             }
         }

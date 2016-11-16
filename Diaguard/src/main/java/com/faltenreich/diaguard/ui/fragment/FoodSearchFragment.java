@@ -45,8 +45,6 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
 
     public static final String FINISH_ON_SELECTION = "finishOnSelection";
 
-    @BindView(R.id.food_search_query_layout) ViewGroup queryLayout;
-    @BindView(R.id.food_search_query) TextView queryTextView;
     @BindView(R.id.food_search_unit) TextView unitTextView;
     @BindView(R.id.food_search_list) FoodRecyclerView list;
     @BindView(R.id.food_search_progress) MaterialProgressBar progressBar;
@@ -125,7 +123,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
             public void onItemClick(View view, int position) {
                 TextView textView = (TextView) view.findViewById(R.id.textView_item_text);
                 String query = textView.getText().toString();
-                searchView.setQuery(query);
+                searchView.setQuery(query, true);
                 searchView.close(true);
             }
         });
@@ -158,8 +156,6 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         startActivity(intent);
     }
     private void query(String query) {
-        queryLayout.setVisibility(query != null && query.length() > 0 ? View.VISIBLE : View.GONE);
-        queryTextView.setText(String.format("%s: \"%s\"", getString(R.string.search_for), query));
         emptyList.setVisibility(View.GONE);
         list.search(query);
     }
@@ -192,8 +188,10 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     }
 
     @SuppressWarnings("unused")
-    @OnClick(R.id.food_search_query_clear)
+    @OnClick(R.id.imageView_clear)
     public void clearQuery() {
+        searchView.setTextOnly(null);
+        searchView.close(true);
         query(null);
     }
 

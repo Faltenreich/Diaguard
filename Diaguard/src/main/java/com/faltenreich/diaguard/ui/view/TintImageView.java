@@ -31,7 +31,7 @@ public class TintImageView extends ImageView {
         }
     }
 
-    public void setTintColor(@ColorInt int colorResourceId) {
-        setColorFilter(colorResourceId);
+    public void setTintColor(@ColorInt int color) {
+        setColorFilter(color);
     }
 }

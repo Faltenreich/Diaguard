@@ -117,6 +117,31 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         searchView.setOnMenuClickListener(this);
         searchView.setHint(R.string.food_search);
 
+        // TODO
+        /*
+        LinearLayout layout = (LinearLayout) searchView.findViewById(R.id.linearLayout);
+
+        TintImageView cameraIcon = new TintImageView(getContext());
+        cameraIcon.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        int vertical = getResources().getDimensionPixelSize(R.dimen.padding_large);
+        int horizontal = getResources().getDimensionPixelSize(R.dimen.padding);
+        cameraIcon.setPadding(horizontal, vertical, horizontal, vertical);
+
+        TypedValue typedValue = new TypedValue();
+        getContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackground, typedValue, true);
+        cameraIcon.setBackgroundResource(typedValue.resourceId);
+
+        cameraIcon.setImageResource(R.drawable.ic_camera);
+        cameraIcon.setTintColor(ContextCompat.getColor(getContext(), R.color.gray_darker));
+        cameraIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openScanner();
+            }
+        });
+        layout.addView(cameraIcon, layout.getChildCount() - 1);
+        */
+
         searchAdapter = new SearchAdapter(getContext());
         searchAdapter.addOnItemClickListener(new SearchAdapter.OnItemClickListener() {
             @Override
@@ -158,6 +183,10 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     private void query(String query) {
         emptyList.setVisibility(View.GONE);
         list.search(query);
+    }
+
+    private void openScanner() {
+
     }
 
     @Override

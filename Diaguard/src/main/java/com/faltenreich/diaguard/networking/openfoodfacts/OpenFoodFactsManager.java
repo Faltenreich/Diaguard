@@ -32,11 +32,12 @@ public class OpenFoodFactsManager extends NetworkManager<OpenFoodFactsService> {
         super(OpenFoodFactsService.class);
     }
 
-    public void search(final String query, final int page) {
+    public void search(String query, final int page) {
+        final String finalQuery = query != null ? query : "";
         execute(new OpenFoodFactsRequest<SearchResponseDto>(SearchResponseDto.class) {
             @Override
             public SearchResponseDto getResponse() {
-                return getService().search(query, 1, PAGE_SIZE, page);
+                return getService().search(finalQuery, 1, PAGE_SIZE, page);
             }
             @Override
             public void onSuccess(SearchResponseDto dto) {

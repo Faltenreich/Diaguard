@@ -1,7 +1,10 @@
 package com.faltenreich.diaguard.networking.openfoodfacts;
 
 import com.faltenreich.diaguard.networking.NetworkService;
-import com.faltenreich.diaguard.networking.NetworkTypeAdapter;
+import com.faltenreich.diaguard.networking.NetworkTypeDoubleAdapter;
+import com.faltenreich.diaguard.networking.NetworkTypeFloatAdapter;
+import com.faltenreich.diaguard.networking.NetworkTypeIntegerAdapter;
+import com.faltenreich.diaguard.networking.NetworkTypeStringAdapter;
 import com.google.gson.GsonBuilder;
 
 import retrofit.RestAdapter;
@@ -20,11 +23,13 @@ public class OpenFoodFactsService extends NetworkService<OpenFoodFactsApi> {
     @Override
     protected RestAdapter.Builder createRestAdapterBuilder() {
         RestAdapter.Builder builder = new RestAdapter.Builder();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(String.class, new NetworkTypeStringAdapter());
+        gsonBuilder.registerTypeAdapter(Float.class, new NetworkTypeFloatAdapter());
+        gsonBuilder.registerTypeAdapter(Double.class, new NetworkTypeDoubleAdapter());
+        gsonBuilder.registerTypeAdapter(Integer.class, new NetworkTypeIntegerAdapter());
+        builder.setConverter(new GsonConverter(gsonBuilder.create()));
         builder.setEndpoint(new OpenFoodFactEndpoint());
-        builder.setConverter(new GsonConverter(
-                new GsonBuilder().registerTypeAdapter(
-                        String.class,
-                        new NetworkTypeAdapter()).create()));
         return builder;
     }
 

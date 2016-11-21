@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 public class OpenFoodFactsDto extends NetworkDto {
 
     @SerializedName("status")
-    public int statusCode;
+    public Integer statusCode;
 
     @SerializedName("status_verbose")
     public String status;

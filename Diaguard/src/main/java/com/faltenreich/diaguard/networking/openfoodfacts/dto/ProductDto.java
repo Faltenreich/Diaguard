@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 public class ProductDto extends NetworkDto {
 
     @SerializedName("sortkey")
-    public int identifier;
+    public Integer identifier;
 
     @SerializedName("product_name")
     public String name;

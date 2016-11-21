@@ -11,25 +11,26 @@ import java.io.IOException;
  * Created by Faltenreich on 09.11.2016.
  */
 
-public class NetworkTypeAdapter extends TypeAdapter<String> {
+public class NetworkTypeIntegerAdapter extends TypeAdapter<Integer> {
+
+    private static String TAG = NetworkTypeIntegerAdapter.class.getSimpleName();
 
     @Override
-    public String read(JsonReader reader) throws IOException {
+    public Integer read(JsonReader reader) throws IOException {
         if (reader.peek() == JsonToken.NULL) {
             reader.nextNull();
             return null;
         } else {
-            String stringValue = reader.nextString();
-            return stringValue != null && stringValue.length() > 0 ? stringValue : null;
+            try {
+                return Integer.parseInt(reader.nextString());
+            } catch (NumberFormatException exception) {
+                return null;
+            }
         }
     }
 
     @Override
-    public void write(JsonWriter writer, String value) throws IOException {
-        if (value == null) {
-            writer.nullValue();
-            return;
-        }
+    public void write(JsonWriter writer, Integer value) throws IOException {
         writer.value(value);
     }
 }

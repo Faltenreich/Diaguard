@@ -6,7 +6,7 @@ import android.util.Log;
 import com.faltenreich.diaguard.data.DatabaseHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
-import com.faltenreich.diaguard.data.entity.CategoryDeprecated;
+import com.faltenreich.diaguard.data.entity.deprecated.CategoryDeprecated;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.Helper;

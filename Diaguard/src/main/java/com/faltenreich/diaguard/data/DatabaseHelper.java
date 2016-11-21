@@ -10,7 +10,7 @@ import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.Activity;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
-import com.faltenreich.diaguard.data.entity.CategoryDeprecated;
+import com.faltenreich.diaguard.data.entity.deprecated.CategoryDeprecated;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.FoodEaten;
@@ -46,7 +46,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public static final int DATABASE_VERSION_1_0 = 17;
     public static final int DATABASE_VERSION_1_1 = 18;
     public static final int DATABASE_VERSION_1_3 = 19;
-    public static final int DATABASE_VERSION_1_7 = 20;
+    public static final int DATABASE_VERSION_2_0 = 20;
 
     public static final Class[] tables = new Class[]{
             Entry.class,
@@ -67,7 +67,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     public static int getVersion() {
-        return DATABASE_VERSION_1_7;
+        return DATABASE_VERSION_2_0;
     }
 
     @Override
@@ -93,7 +93,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                     case DATABASE_VERSION_1_1:
                         upgradeToVersion19(sqLiteDatabase, connectionSource);
                         break;
-                    case DATABASE_VERSION_1_7:
+                    case DATABASE_VERSION_2_0:
                         upgradeToVersion20(sqLiteDatabase, connectionSource);
                         break;
                 }
@@ -102,8 +102,14 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
-    private void upgradeToVersion20(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource) {
-        // TODO
+    private void upgradeToVersion20(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource) {
+        try {
+            TableUtils.createTableIfNotExists(connectionSource, Food.class);
+            TableUtils.createTableIfNotExists(connectionSource, FoodEaten.class);
+        } catch (SQLException e) {
+            Log.e(TAG, e.getLocalizedMessage());
+        }
+        onCreate(sqliteDatabase, connectionSource);
     }
 
     private <M extends Measurement> void upgradeToVersion19(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource) {
@@ -186,7 +192,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private static final String NOTE = "note";
     private static final String VALUE = "value";
     private static final String ENTRY_ID = "entryId";
-    private static final String FOOD = "food";
     private static final String CARBOHYDRATES = "carbohydrates";
     private static final String NAME = "name";
     private static final String FOOD_ID = "foodId";
@@ -195,6 +200,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private static final String MEASUREMENT = "measurement";
     private static final String CATEGORY = "category";
     private static final String MEASUREMENT_ID = "measurementId";
+    private static final String FOOD = "food";
     private static final String FOOD_EATEN = "food_eaten";
 
     private void onCreateVersion17(SQLiteDatabase sqLiteDatabase) {

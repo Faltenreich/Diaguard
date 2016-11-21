@@ -1,4 +1,6 @@
-package com.faltenreich.diaguard.data.entity;
+package com.faltenreich.diaguard.data.entity.deprecated;
+
+import com.faltenreich.diaguard.data.entity.Measurement;
 
 /**
  * Created by Faltenreich on 05.04.2016.

@@ -93,7 +93,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                     case DATABASE_VERSION_1_1:
                         upgradeToVersion19(sqLiteDatabase, connectionSource);
                         break;
-                    case DATABASE_VERSION_2_0:
+                    case DATABASE_VERSION_1_3:
                         upgradeToVersion20(sqLiteDatabase, connectionSource);
                         break;
                 }

@@ -9,6 +9,7 @@ import com.j256.ormlite.stmt.QueryBuilder;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -46,11 +47,12 @@ public class FoodDao extends BaseServerDao<Food> {
 
     public List<Food> createOrUpdate(SearchResponseDto dto) {
         List<Food> foodList = new ArrayList<>();
+        Collections.reverse(dto.products);
         for (ProductDto productDto : dto.products) {
             if (productDto.isValid()) {
                 Food food = parseFromDto(productDto);
                 createOrUpdate(food);
-                foodList.add(food);
+                foodList.add(0, food);
             }
         }
         return foodList;

@@ -143,6 +143,10 @@ public class PreferenceHelper {
 
     // BLOOD SUGAR
 
+    public String getValueForKey(String key) {
+        return sharedPreferences.getString(key, null);
+    }
+
     public float getTargetValue() {
         return NumberUtils.parseNumber(sharedPreferences.getString("target",
                 DiaguardApplication.getContext().getString(R.string.pref_therapy_targets_target_default)));

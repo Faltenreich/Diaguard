@@ -22,20 +22,20 @@
             android:title="@string/vibration"
             android:defaultValue="true"/>
 
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/data">
+
         <com.faltenreich.diaguard.ui.view.preferences.CategoryPreference
             android:key="categories"
-            android:title="@string/categories_active"
+            android:title="@string/categories"
             android:entries="@array/categories"
             android:entryValues="@array/categories"/>
 
         <com.faltenreich.diaguard.ui.view.preferences.CountryPreference
             android:key="countryCode"
             android:title="@string/country"/>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/data">
 
         <com.faltenreich.diaguard.ui.view.preferences.BackupPreference
             android:key="backup"

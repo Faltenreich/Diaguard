@@ -5,6 +5,7 @@
 
     <!-- GENERAL -->
     <string name="about">Sur</string>
+    <string name="active">active</string>
     <string name="activity">Activité</string>
     <string name="alarm">Mesure de la glycémie</string>
     <string name="alarm_desc">%s depuis la dernière mesure</string>
@@ -22,7 +23,6 @@
     <string name="calculator">Calculateur de bolus</string>
     <string name="cancel">Avorter</string>
     <string name="categories">Catégories</string>
-    <string name="categories_active">Catégories actives</string>
     <string name="category">Catégorie</string>
     <string name="category_pin">Catégorie de broche</string>
     <string name="category_pin_confirm">%s a été fixé</string>

@@ -7,6 +7,7 @@
     <string name="about">Über</string>
     <string name="acting_quick">Schnell wirkend</string>
     <string name="acting_slow">Langsam wirkend</string>
+    <string name="active">aktiv</string>
     <string name="activity">Aktivität</string>
     <string name="all">Alle</string>
     <string name="alarm">Blutzucker messen</string>
@@ -32,7 +33,6 @@
     <string name="calculator">Bolusrechner</string>
     <string name="cancel">Abbrechen</string>
     <string name="categories">Kategorien</string>
-    <string name="categories_active">Aktive Kategorien</string>
     <string name="category">Kategorie</string>
     <string name="category_pin">Kategorie fixieren</string>
     <string name="category_pin_confirm">%s wurde fixiert</string>

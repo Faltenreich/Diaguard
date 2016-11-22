@@ -22,6 +22,7 @@ import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.data.FoodQueryEndedEvent;
 import com.faltenreich.diaguard.event.data.FoodQueryStartedEvent;
+import com.faltenreich.diaguard.event.data.FoodSavedEvent;
 import com.faltenreich.diaguard.event.ui.FoodSelectedEvent;
 import com.faltenreich.diaguard.ui.activity.FoodActivity;
 import com.faltenreich.diaguard.ui.activity.FoodEditActivity;
@@ -116,6 +117,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         searchView.setOnQueryTextListener(this);
         searchView.setOnMenuClickListener(this);
         searchView.setHint(R.string.food_search);
+        searchView.setArrowOnly(false);
 
         swipeRefreshLayout.setColorSchemeResources(R.color.green, R.color.green_light, R.color.green_lighter);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -126,7 +128,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
             }
         });
 
-        // TODO
+        // TODO: Road to barcode scanner
         /*
         LinearLayout layout = (LinearLayout) searchView.findViewById(R.id.linearLayout);
 
@@ -191,7 +193,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     }
     private void query(String query) {
         emptyList.setVisibility(View.GONE);
-        list.search(query);
+        list.newSearch(query);
     }
 
     @Override
@@ -245,6 +247,11 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         if (list.getItemCount() == 0) {
             showError(R.drawable.ic_sad, R.string.error_no_data, R.string.error_no_data_desc);
         }
+    }
+
+    @SuppressWarnings("unused")
+    public void onEventMainThread(FoodSavedEvent event) {
+        clearQuery();
     }
 
     private class SetSuggestionsTask extends AsyncTask<Void, Void, ArrayList<SearchItem>> {

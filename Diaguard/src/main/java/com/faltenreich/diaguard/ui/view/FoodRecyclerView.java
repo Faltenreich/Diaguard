@@ -50,7 +50,7 @@ public class FoodRecyclerView extends RecyclerView {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         Events.register(this);
-        search(null);
+        newSearch(null);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class FoodRecyclerView extends RecyclerView {
         EndlessRecyclerViewScrollListener listener = new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                searchOffline();
+                search();
             }
         };
         addOnScrollListener(listener);
@@ -87,13 +87,23 @@ public class FoodRecyclerView extends RecyclerView {
         adapter.notifyItemRangeRemoved(0, oldCount);
     }
 
-    public void search(String query) {
+    public void newSearch(String query) {
         this.query = query;
         this.offlinePage = 0;
         this.onlinePage = 0;
 
         clear();
-        searchOffline();
+        search();
+    }
+
+    private void search() {
+        // offlinePage gets invalid after online searches
+        boolean isSearchOnline = onlinePage > 0;
+        if (isSearchOnline) {
+            searchOnline();
+        } else {
+            searchOffline();
+        }
     }
 
     private void searchOffline() {

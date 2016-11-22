@@ -18,6 +18,7 @@
     <string name="about">About</string>
     <string name="acting_quick">Quick-acting</string>
     <string name="acting_slow">Slow-acting</string>
+    <string name="active">active</string>
     <string name="activity">Activity</string>
     <string name="all">All</string>
     <string name="alarm">Measure blood sugar</string>
@@ -45,7 +46,6 @@
     <string name="calculator">Calculator</string>
     <string name="cancel">Cancel</string>
     <string name="categories">Categories</string>
-    <string name="categories_active">Active Categories</string>
     <string name="category">Category</string>
     <string name="category_pin">Pin category</string>
     <string name="category_pin_confirm">%s has been pinned</string>

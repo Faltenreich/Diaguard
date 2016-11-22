@@ -58,34 +58,17 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <LinearLayout
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/food_search_swipe_refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <me.zhanghai.android.materialprogressbar.MaterialProgressBar
-                android:id="@+id/food_search_progress"
-                style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
+            <com.faltenreich.diaguard.ui.view.FoodRecyclerView
+                android:id="@+id/food_search_list"
                 android:layout_width="match_parent"
-                android:layout_height="4dp"
-                android:indeterminate="true"
-                android:visibility="gone"
-                app:mpb_progressStyle="horizontal"
-                app:mpb_useIntrinsicPadding="false" />
+                android:layout_height="match_parent"/>
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-
-                <com.faltenreich.diaguard.ui.view.FoodRecyclerView
-                    android:id="@+id/food_search_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-
-            </FrameLayout>
-
-        </LinearLayout>
+        </android.support.v4.widget.SwipeRefreshLayout>
 
         <LinearLayout
             android:id="@+id/food_search_list_empty"

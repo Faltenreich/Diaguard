@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -34,7 +35,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 import static com.faltenreich.diaguard.R.id.food_search_list_empty;
 
@@ -46,8 +46,8 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     public static final String FINISH_ON_SELECTION = "finishOnSelection";
 
     @BindView(R.id.food_search_unit) TextView unitTextView;
+    @BindView(R.id.food_search_swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.food_search_list) FoodRecyclerView list;
-    @BindView(R.id.food_search_progress) MaterialProgressBar progressBar;
     @BindView(R.id.search_view) SearchView searchView;
 
     @BindView(food_search_list_empty) ViewGroup emptyList;
@@ -117,6 +117,15 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         searchView.setOnMenuClickListener(this);
         searchView.setHint(R.string.food_search);
 
+        swipeRefreshLayout.setColorSchemeResources(R.color.green, R.color.green_light, R.color.green_lighter);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
+                query(searchView.getQuery().toString());
+            }
+        });
+
         // TODO
         /*
         LinearLayout layout = (LinearLayout) searchView.findViewById(R.id.linearLayout);
@@ -185,10 +194,6 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         list.search(query);
     }
 
-    private void openScanner() {
-
-    }
-
     @Override
     public boolean onQueryTextSubmit(String query) {
         searchView.close(true);
@@ -231,12 +236,12 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
 
     @SuppressWarnings("unused")
     public void onEventMainThread(FoodQueryStartedEvent event) {
-        progressBar.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setRefreshing(true);
     }
 
     @SuppressWarnings("unused")
     public void onEventMainThread(FoodQueryEndedEvent event) {
-        progressBar.setVisibility(View.GONE);
+        swipeRefreshLayout.setRefreshing(false);
         if (list.getItemCount() == 0) {
             showError(R.drawable.ic_sad, R.string.error_no_data, R.string.error_no_data_desc);
         }

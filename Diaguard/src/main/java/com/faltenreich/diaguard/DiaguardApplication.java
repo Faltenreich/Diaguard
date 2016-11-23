@@ -3,7 +3,9 @@ package com.faltenreich.diaguard;
 import android.app.Application;
 import android.content.Context;
 
+import com.faltenreich.diaguard.data.ImportHelper;
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.networking.openfoodfacts.OpenFoodFactsManager;
 
 import net.danlew.android.joda.JodaTimeAndroid;
@@ -18,10 +20,7 @@ public class DiaguardApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        context = getApplicationContext();
-        JodaTimeAndroid.init(this);
-        migrate();
-        OpenFoodFactsManager.getInstance().start();
+        init();
     }
 
     @Override
@@ -34,7 +33,13 @@ public class DiaguardApplication extends Application {
         return context;
     }
 
-    private void migrate() {
+    private void init() {
+        context = getApplicationContext();
+        JodaTimeAndroid.init(this);
+        if (FoodDao.getInstance().countAll() == 0) {
+            ImportHelper.importCommonFood(context, PreferenceHelper.getInstance().getLocale());
+        }
         PreferenceHelper.getInstance().migrateFactors();
+        OpenFoodFactsManager.getInstance().start();
     }
 }

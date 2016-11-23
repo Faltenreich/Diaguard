@@ -85,6 +85,7 @@
     <string name="first_visit_desc">Enter your first value</string>
     <string name="food">Food</string>
     <string name="food_add">Add food</string>
+    <string name="food_common">Common food</string>
     <string name="food_edit">Edit food</string>
     <string name="food_new">New food</string>
     <string name="food_search">Search for food</string>

@@ -41,6 +41,8 @@ public class Food extends BaseServerEntity {
         public static final String SODIUM = "sodium";
         public static final String SUGAR = "sugar";
         public static final String SUGAR_LEVEL = "sugarLevel";
+        public static final String COUNTRY_CODE = "countryCode";
+        public static final String LANGUAGE_CODE = "languageCode";
         public static final String FOOD_EATEN = "foodEaten";
     }
 
@@ -145,6 +147,12 @@ public class Food extends BaseServerEntity {
 
     @DatabaseField(columnName = SUGAR_LEVEL)
     private NutrientLevel sugarLevel;
+
+    @DatabaseField(columnName = Column.COUNTRY_CODE)
+    private String countryCode;
+
+    @DatabaseField(columnName = Column.LANGUAGE_CODE)
+    private String languageCode;
 
     @ForeignCollectionField(columnName = Column.FOOD_EATEN)
     private ForeignCollection<FoodEaten> foodEaten;
@@ -287,6 +295,22 @@ public class Food extends BaseServerEntity {
 
     public void setSugarLevel(NutrientLevel sugarLevel) {
         this.sugarLevel = sugarLevel;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
+
+    public String getLanguageCode() {
+        return languageCode;
+    }
+
+    public void setLanguageCode(String languageCode) {
+        this.languageCode = languageCode;
     }
 
     public ForeignCollection<FoodEaten> getFoodEaten() {

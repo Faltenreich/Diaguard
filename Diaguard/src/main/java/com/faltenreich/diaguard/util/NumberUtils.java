@@ -16,4 +16,12 @@ public class NumberUtils {
             return 0;
         }
     }
+
+    public static Float parseNullableNumber(String number) {
+        try {
+            return number != null ? Float.parseFloat(number.trim().replaceAll(",", ".")) : null;
+        } catch (NumberFormatException exception) {
+            return null;
+        }
+    }
 }

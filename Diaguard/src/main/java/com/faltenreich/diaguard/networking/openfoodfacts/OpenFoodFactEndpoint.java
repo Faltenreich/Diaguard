@@ -24,6 +24,6 @@ public class OpenFoodFactEndpoint implements Endpoint {
     }
 
     private String getCountryCode() {
-        return PreferenceHelper.getInstance().getLocale().getCountry();
+        return PreferenceHelper.getInstance().getCountryCode();
     }
 }

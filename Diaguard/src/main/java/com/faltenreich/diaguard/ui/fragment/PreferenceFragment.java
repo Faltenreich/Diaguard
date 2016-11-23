@@ -77,7 +77,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment {
             preference.setSummary(activeCategoriesCount + " " + getString(R.string.active));
 
         } else if (preference instanceof CountryPreference) {
-            preference.setSummary(PreferenceHelper.getInstance().getLocale().getDisplayCountry());
+            preference.setSummary(PreferenceHelper.getInstance().getCountryName());
 
         } else if (preference instanceof BloodSugarPreference) {
             String value = PreferenceHelper.getInstance().getValueForKey(preference.getKey());

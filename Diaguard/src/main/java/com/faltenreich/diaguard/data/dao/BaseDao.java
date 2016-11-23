@@ -13,6 +13,7 @@ import org.joda.time.DateTime;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 /**
  * Created by Faltenreich on 05.09.2015.
@@ -65,6 +66,15 @@ public abstract class BaseDao <T extends BaseEntity> {
         }
     }
 
+    public long countAll() {
+        try {
+            return getDao().queryBuilder().countOf();
+        } catch (SQLException exception) {
+            Log.e(TAG, exception.getMessage());
+            return 0;
+        }
+    }
+
     public T createOrUpdate(T object) {
         try {
             DateTime now = DateTime.now();
@@ -81,6 +91,22 @@ public abstract class BaseDao <T extends BaseEntity> {
         } catch (SQLException exception) {
             Log.e(TAG, String.format("Could not createOrUpdate %s", clazz.getSimpleName()));
             return null;
+        }
+    }
+
+    public void bulkCreateOrUpdate(final List<T> objects) {
+        try {
+            getDao().callBatchTasks(new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    for (T object : objects) {
+                        createOrUpdate(object);
+                    }
+                    return null;
+                }
+            });
+        } catch (Exception exception) {
+            Log.e(TAG, exception.getLocalizedMessage());
         }
     }
 

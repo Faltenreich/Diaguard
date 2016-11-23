@@ -91,4 +91,28 @@
         <copyright>Copyright 2014, Grantland Chew</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
+    <notice>
+        <name>CircularImageView</name>
+        <url>https://github.com/lopspower/CircularImageView</url>
+        <copyright>Copyright 2015, Mikhael Lopez</copyright>
+        <license>MIT License</license>
+    </notice>
+    <notice>
+        <name>BetterPickers</name>
+        <url>https://github.com/code-troopers/android-betterpickers</url>
+        <copyright>Copyright 2013, Derek Brameyer, Code-Troopers</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>Ticker</name>
+        <url>https://github.com/robinhood/ticker</url>
+        <copyright>Copyright 2016, Robinhood Markets, Inc.</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+    <notice>
+        <name>Country Picker for Android</name>
+        <url>https://github.com/mukeshsolanki/country-picker-android</url>
+        <copyright>Copyright 2016, Mukesh Solanki</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
 </notices>

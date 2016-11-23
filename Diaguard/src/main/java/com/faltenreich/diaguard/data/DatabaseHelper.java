@@ -104,7 +104,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private void upgradeToVersion20(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource) {
         try {
-            // TODO: Migrate Meal.class
             TableUtils.createTableIfNotExists(connectionSource, Food.class);
             TableUtils.createTableIfNotExists(connectionSource, FoodEaten.class);
         } catch (SQLException e) {

@@ -50,7 +50,8 @@ public class CsvImport extends AsyncTask<Void, Void, Void> {
                 while (nextLine != null) {
                     Entry entry = new Entry();
                     entry.setDate(DateTimeFormat.forPattern(Export.BACKUP_DATE_FORMAT).parseDateTime(nextLine[1]));
-                    entry.setNote(nextLine[2]);
+                    String note = nextLine[2];
+                    entry.setNote(note != null && note.length() > 0 ? note : null);
                     EntryDao.getInstance().createOrUpdate(entry);
                     try {
                         CategoryDeprecated categoryDeprecated = Helper.valueOf(CategoryDeprecated.class, nextLine[2]);
@@ -78,7 +79,8 @@ public class CsvImport extends AsyncTask<Void, Void, Void> {
                         if (key.equalsIgnoreCase(Entry.class.getSimpleName())) {
                             entry = new Entry();
                             entry.setDate(DateTimeFormat.forPattern(Export.BACKUP_DATE_FORMAT).parseDateTime(nextLine[1]));
-                            entry.setNote(nextLine[2]);
+                            String note = nextLine[2];
+                            entry.setNote(note != null && note.length() > 0 ? note : null);
                             entry = EntryDao.getInstance().createOrUpdate(entry);
                         } else if (key.equalsIgnoreCase(Measurement.class.getSimpleName()) && entry != null) {
                             try {
@@ -95,14 +97,15 @@ public class CsvImport extends AsyncTask<Void, Void, Void> {
                             }
                         }
                     }
-                } else if (databaseVersion == DatabaseHelper.DATABASE_VERSION_1_3) {
+                } else if (databaseVersion >= DatabaseHelper.DATABASE_VERSION_1_3) {
                     Entry entry = null;
                     while ((nextLine = reader.readNext()) != null) {
                         String key = nextLine[0];
                         if (key.equalsIgnoreCase(Entry.class.getSimpleName())) {
                             entry = new Entry();
                             entry.setDate(DateTimeFormat.forPattern(Export.BACKUP_DATE_FORMAT).parseDateTime(nextLine[1]));
-                            entry.setNote(nextLine[2]);
+                            String note = nextLine[2];
+                            entry.setNote(note != null && note.length() > 0 ? note : null);
                             entry = EntryDao.getInstance().createOrUpdate(entry);
                         } else if (key.equalsIgnoreCase(Measurement.class.getSimpleName()) && entry != null) {
                             try {

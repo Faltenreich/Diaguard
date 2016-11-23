@@ -1,5 +1,5 @@
 #
-# generated on 2016/11/08 01:12:09
+# generated on 2016/11/23 07:16:27
 #
 # --table-start--
 dataClass=com.faltenreich.diaguard.data.entity.Entry
@@ -368,6 +368,14 @@ defaultValue=-1
 # --field-start--
 fieldName=sugarLevel
 columnName=sugarLevel
+# --field-end--
+# --field-start--
+fieldName=countryCode
+columnName=countryCode
+# --field-end--
+# --field-start--
+fieldName=languageCode
+columnName=languageCode
 # --field-end--
 # --field-start--
 fieldName=foodEaten

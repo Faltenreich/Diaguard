@@ -72,6 +72,14 @@ public class PreferenceHelper {
         return countryCode != null ? Helper.getLocaleForCountry(countryCode) : Helper.getLocale();
     }
 
+    public String getCountryCode() {
+        return getLocale().getCountry();
+    }
+
+    public String getCountryName() {
+        return getLocale().getDisplayName();
+    }
+
     public void setCountry(String countryCode) {
         sharedPreferences.edit().putString(Keys.COUNTRY_CODE, countryCode).apply();
     }

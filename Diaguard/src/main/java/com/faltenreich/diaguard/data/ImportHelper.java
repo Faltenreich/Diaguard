@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -96,7 +97,9 @@ public class ImportHelper {
                     }
                 }
 
+                Collections.reverse(foodList);
                 FoodDao.getInstance().bulkCreateOrUpdate(foodList);
+
                 Log.i(TAG, String.format("Imported: %d common food items from csv table into database", foodList.size()));
 
             } catch (IOException exception) {

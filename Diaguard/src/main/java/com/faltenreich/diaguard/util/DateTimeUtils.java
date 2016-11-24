@@ -2,12 +2,14 @@ package com.faltenreich.diaguard.util;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
+import org.joda.time.format.DateTimeFormat;
 
 /**
  * Created by Faltenreich on 23.03.2016.
@@ -51,5 +53,11 @@ public class DateTimeUtils {
             return String.format("1 %s",
                     context.getString(R.string.minute));
         }
+    }
+
+    public static DateTime parseFromString(String text, String format) {
+        return TextUtils.isEmpty(text) && format.isEmpty() ?
+                DateTimeFormat.forPattern(format).parseDateTime(text) :
+                null;
     }
 }

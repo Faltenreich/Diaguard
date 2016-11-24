@@ -6,7 +6,10 @@ import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.networking.openfoodfacts.dto.ProductDto;
 import com.faltenreich.diaguard.networking.openfoodfacts.dto.SearchResponseDto;
+import com.faltenreich.diaguard.util.DateTimeUtils;
 import com.j256.ormlite.stmt.QueryBuilder;
+
+import org.joda.time.DateTime;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -82,29 +85,41 @@ public class FoodDao extends BaseServerDao<Food> {
 
     private Food parseFromDto(ProductDto dto) {
         String serverId = Integer.toString(dto.identifier);
+
         Food food = getByServerId(serverId);
-        if (food == null) {
+        boolean isNew = food == null;
+        if (isNew) {
             food = new Food();
         }
-        food.setServerId(serverId);
-        food.setName(dto.name);
-        food.setFullName(dto.fullName);
-        food.setImageUrl(dto.imageUrl);
-        food.setBrand(dto.brand);
-        food.setIngredients(dto.ingredients != null ? dto.ingredients.replaceAll("_", "") : null);
-        food.setLabels(dto.labels);
-        food.setCarbohydrates(dto.nutrients.carbohydrates);
-        food.setEnergy(dto.nutrients.energy);
-        food.setFat(dto.nutrients.fat);
-        food.setFatSaturated(dto.nutrients.fatSaturated);
-        food.setFiber(dto.nutrients.fiber);
-        food.setProteins(dto.nutrients.proteins);
-        food.setSalt(dto.nutrients.salt);
-        food.setSodium(dto.nutrients.sodium);
-        food.setSugar(dto.nutrients.sugar);
-        food.setSugarLevel(dto.nutrientLevels.sugar);
-        food.setCountryCode(PreferenceHelper.getInstance().getCountryCode());
-        food.setLanguageCode(food.getCountryCode());
+
+        if (isNew || needsUpdate(food, dto)) {
+            food.setServerId(serverId);
+            food.setName(dto.name);
+            food.setFullName(dto.fullName);
+            food.setImageUrl(dto.imageUrl);
+            food.setBrand(dto.brand);
+            food.setIngredients(dto.ingredients != null ? dto.ingredients.replaceAll("_", "") : null);
+            food.setLabels(dto.labels);
+            food.setCarbohydrates(dto.nutrients.carbohydrates);
+            food.setEnergy(dto.nutrients.energy);
+            food.setFat(dto.nutrients.fat);
+            food.setFatSaturated(dto.nutrients.fatSaturated);
+            food.setFiber(dto.nutrients.fiber);
+            food.setProteins(dto.nutrients.proteins);
+            food.setSalt(dto.nutrients.salt);
+            food.setSodium(dto.nutrients.sodium);
+            food.setSugar(dto.nutrients.sugar);
+            food.setSugarLevel(dto.nutrientLevels.sugar);
+            food.setCountryCode(PreferenceHelper.getInstance().getCountryCode());
+            food.setLanguageCode(food.getCountryCode());
+        }
+
         return food;
+    }
+
+    private boolean needsUpdate(Food food, ProductDto dto) {
+        String lastEditDateString = dto.lastEditDates != null && dto.lastEditDates.length > 0 ? dto.lastEditDates[0] : null;
+        DateTime lastEditDate = DateTimeUtils.parseFromString(lastEditDateString, ProductDto.DATE_FORMAT);
+        return lastEditDate != null && food.getUpdatedAt().isBefore(lastEditDate);
     }
 }

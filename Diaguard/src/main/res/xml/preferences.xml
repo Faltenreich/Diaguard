@@ -159,11 +159,11 @@
     <PreferenceCategory
         android:title="@string/about">
 
-        <com.faltenreich.diaguard.ui.view.preferences.LicensePreference
-            android:title="@string/licenses"/>
-
         <com.faltenreich.diaguard.ui.view.preferences.AboutPreference
             android:title="@string/impress"/>
+
+        <com.faltenreich.diaguard.ui.view.preferences.LicensePreference
+            android:title="@string/licenses"/>
 
         <Preference
             android:title="@string/version"

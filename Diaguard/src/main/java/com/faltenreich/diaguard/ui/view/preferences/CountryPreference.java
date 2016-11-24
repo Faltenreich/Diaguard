@@ -7,8 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 
 import com.faltenreich.diaguard.data.PreferenceHelper;
-import com.faltenreich.diaguard.ui.activity.PreferenceActivity;
-import com.faltenreich.diaguard.ui.fragment.PreferenceFragment;
 import com.mukesh.countrypicker.fragments.CountryPicker;
 import com.mukesh.countrypicker.interfaces.CountryPickerListener;
 
@@ -44,14 +42,6 @@ public class CountryPreference extends Preference implements Preference.OnPrefer
 
     private void setCountry(String countryCode) {
         PreferenceHelper.getInstance().setCountry(countryCode);
-
-        if (getContext() instanceof PreferenceActivity) {
-            PreferenceActivity activity = (PreferenceActivity) getContext();
-            
-            if (activity.getFragment() != null && activity.getFragment() instanceof PreferenceFragment) {
-                PreferenceFragment preferenceFragment = (PreferenceFragment)activity.getFragment();
-                preferenceFragment.onSharedPreferenceChanged(getSharedPreferences(), getKey());
-            }
-        }
+        setSummary(countryCode);
     }
 }

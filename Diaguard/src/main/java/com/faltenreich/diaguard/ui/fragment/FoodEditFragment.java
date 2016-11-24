@@ -15,7 +15,6 @@ import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.Events;
-import com.faltenreich.diaguard.event.data.FoodDeletedEvent;
 import com.faltenreich.diaguard.event.data.FoodSavedEvent;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
@@ -60,7 +59,7 @@ public class FoodEditFragment extends BaseFoodFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_delete:
-                delete();
+                deleteFood();
                 return true;
             case R.id.action_done:
                 store();
@@ -118,15 +117,6 @@ public class FoodEditFragment extends BaseFoodFragment {
             FoodDao.getInstance().createOrUpdate(food);
             Events.post(new FoodSavedEvent(food));
 
-            finish();
-        }
-    }
-
-    private void delete() {
-        Food food = getFood();
-        if (food != null) {
-            FoodDao.getInstance().delete(food);
-            Events.post(new FoodDeletedEvent(food));
             finish();
         }
     }

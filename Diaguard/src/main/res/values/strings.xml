@@ -60,10 +60,12 @@
     <string name="date_select">Select date</string>
     <string name="day_next">Next day</string>
     <string name="day_previous">Previous day</string>
+    <string name="delete">Delete</string>
     <string name="diastolic">Diastolic</string>
     <string name="distribution">Distribution</string>
     <string name="drawer_close">Close Navigator</string>
     <string name="drawer_open">Open Navigator</string>
+    <string name="edit">Edit</string>
     <string name="energy_acronym">kcal</string>
     <string name="energy_acronym_2">kJ</string>
     <string name="entry">Entry</string>

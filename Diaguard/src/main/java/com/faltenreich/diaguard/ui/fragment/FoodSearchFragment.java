@@ -269,7 +269,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         @Override
         protected void onPostExecute(ArrayList<SearchItem> suggestions) {
             super.onPostExecute(suggestions);
-            searchAdapter.setData(suggestions);
+            searchAdapter.setSuggestionsList(suggestions);
         }
     }
 }

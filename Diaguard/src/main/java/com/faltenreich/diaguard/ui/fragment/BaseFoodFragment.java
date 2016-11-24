@@ -8,6 +8,8 @@ import android.support.annotation.StringRes;
 
 import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.entity.Food;
+import com.faltenreich.diaguard.event.Events;
+import com.faltenreich.diaguard.event.data.FoodDeletedEvent;
 
 /**
  * Created by Faltenreich on 27.09.2016.
@@ -51,6 +53,15 @@ public abstract class BaseFoodFragment extends BaseFragment {
                 long foodId = extras.getLong(EXTRA_FOOD_ID);
                 this.food = FoodDao.getInstance().get(foodId);
             }
+        }
+    }
+
+    protected void deleteFood() {
+        Food food = getFood();
+        if (food != null) {
+            FoodDao.getInstance().delete(food);
+            Events.post(new FoodDeletedEvent(food));
+            finish();
         }
     }
 

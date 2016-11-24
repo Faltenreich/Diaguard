@@ -35,9 +35,11 @@
     <string name="date_select">DChoisissez une date</string>
     <string name="day_next">Suivant jour</string>
     <string name="day_previous">Jour précédent</string>
+    <string name="delete">Supprimer</string>
     <string name="distribution">Distribution</string>
     <string name="drawer_close">Fermer Navigator</string>
     <string name="drawer_open">Ouvrir Navigator</string>
+    <string name="edit">Modifiez</string>
     <string name="entry">Entrée</string>
     <string name="entry_added">Ajout d\'une entrée</string>
     <string name="entry_edit">Modifiez l\'entrée</string>

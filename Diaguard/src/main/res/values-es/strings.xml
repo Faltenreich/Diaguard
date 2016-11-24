@@ -36,10 +36,12 @@
     <string name="date_select">Seleccionar datos</string>
     <string name="day_next">Día siguiente</string>
     <string name="day_previous">Día anterior</string>
+    <string name="delete">Eliminar</string>
     <string name="diastolic">Diastólica</string>
     <string name="distribution">Distribución</string>
     <string name="drawer_close">Cerrar navegador</string>
     <string name="drawer_open">Abrir navegador</string>
+    <string name="edit">Editar</string>
     <string name="entry">Entrada</string>
     <string name="entry_added">Ha agregado una entrada</string>
     <string name="entry_count_per_day">Entrada por día</string>

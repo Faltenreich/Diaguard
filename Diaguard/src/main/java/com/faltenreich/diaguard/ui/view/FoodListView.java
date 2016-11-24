@@ -21,7 +21,6 @@ import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.Events;
-import com.faltenreich.diaguard.event.data.FoodDeletedEvent;
 import com.faltenreich.diaguard.event.ui.FoodEatenRemovedEvent;
 import com.faltenreich.diaguard.event.ui.FoodEatenUpdatedEvent;
 import com.faltenreich.diaguard.event.ui.FoodSelectedEvent;
@@ -39,8 +38,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static android.R.id.list;
 
 /**
  * Created by Faltenreich on 13.10.2016.

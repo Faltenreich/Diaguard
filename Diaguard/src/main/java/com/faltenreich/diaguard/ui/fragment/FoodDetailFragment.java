@@ -9,6 +9,8 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.event.Events;
+import com.faltenreich.diaguard.event.data.FoodDeletedEvent;
 import com.faltenreich.diaguard.ui.view.FoodLabelView;
 import com.faltenreich.diaguard.util.Helper;
 
@@ -32,7 +34,14 @@ public class FoodDetailFragment extends BaseFoodFragment {
     @Override
     public void onResume() {
         super.onResume();
+        Events.register(this);
         init();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Events.unregister(this);
     }
 
     private void init() {
@@ -98,6 +107,13 @@ public class FoodDetailFragment extends BaseFoodFragment {
                     labels.addView(new FoodLabelView(getContext(), label));
                 }
             }
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onEvent(FoodDeletedEvent event) {
+        if (getFood().equals(event.context)) {
+            finish();
         }
     }
 }

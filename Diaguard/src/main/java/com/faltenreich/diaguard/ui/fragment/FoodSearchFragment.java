@@ -20,6 +20,7 @@ import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.event.Events;
+import com.faltenreich.diaguard.event.data.FoodDeletedEvent;
 import com.faltenreich.diaguard.event.data.FoodQueryEndedEvent;
 import com.faltenreich.diaguard.event.data.FoodQueryStartedEvent;
 import com.faltenreich.diaguard.event.data.FoodSavedEvent;
@@ -27,6 +28,7 @@ import com.faltenreich.diaguard.event.ui.FoodSelectedEvent;
 import com.faltenreich.diaguard.ui.activity.FoodActivity;
 import com.faltenreich.diaguard.ui.activity.FoodEditActivity;
 import com.faltenreich.diaguard.ui.view.FoodRecyclerView;
+import com.faltenreich.diaguard.util.ViewHelper;
 import com.lapism.searchview.SearchAdapter;
 import com.lapism.searchview.SearchItem;
 import com.lapism.searchview.SearchView;
@@ -252,6 +254,18 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     @SuppressWarnings("unused")
     public void onEventMainThread(FoodSavedEvent event) {
         clearQuery();
+    }
+
+    @SuppressWarnings("unused")
+    public void onEvent(final FoodDeletedEvent event) {
+        ViewHelper.showSnackbar(getView(), getString(R.string.food_deleted), new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Food food = event.context;
+                FoodDao.getInstance().createOrUpdate(food);
+                Events.post(new FoodSavedEvent(food));
+            }
+        });
     }
 
     private class SetSuggestionsTask extends AsyncTask<Void, Void, ArrayList<SearchItem>> {

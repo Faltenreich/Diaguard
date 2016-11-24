@@ -25,7 +25,7 @@ import java.util.ArrayList;
 /**
  * Created by Faltenreich on 01.09.2016.
  */
-public class PreferenceFragment extends android.preference.PreferenceFragment {
+public class PreferenceFragment extends android.preference.PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     public static final String EXTRA_OPENING_PREFERENCE = "EXTRA_OPENING_PREFERENCE";
 
@@ -35,15 +35,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment {
         addPreferencesFromResource(R.xml.preferences);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        sharedPreferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                if (key.endsWith("_active")) {
-                    key = "categories";
-                }
-                setSummary(findPreference(key));
-            }
-        });
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 
         // Initialize summaries where making sense
         for (Preference preference : getPreferenceList(getPreferenceScreen(), new ArrayList<Preference>())) {
@@ -74,7 +66,11 @@ public class PreferenceFragment extends android.preference.PreferenceFragment {
 
         } else if (preference instanceof CategoryPreference) {
             int activeCategoriesCount = PreferenceHelper.getInstance().getActiveCategories().length;
-            preference.setSummary(activeCategoriesCount + " " + getString(R.string.active));
+            int categoriesTotalCount = Measurement.Category.values().length;
+            preference.setSummary(String.format("%d/%d %s",
+                    activeCategoriesCount,
+                    categoriesTotalCount,
+                    getString(R.string.active)));
 
         } else if (preference instanceof CountryPreference) {
             preference.setSummary(PreferenceHelper.getInstance().getCountryName());
@@ -116,5 +112,13 @@ public class PreferenceFragment extends android.preference.PreferenceFragment {
             }
         }
         return -1;
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.endsWith("_active")) {
+            key = "categories";
+        }
+        setSummary(findPreference(key));
     }
 }

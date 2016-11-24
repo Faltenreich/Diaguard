@@ -24,7 +24,6 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.event.data.EntryDeletedEvent;
-import com.faltenreich.diaguard.event.data.FoodDeletedEvent;
 import com.faltenreich.diaguard.event.data.FoodSavedEvent;
 import com.faltenreich.diaguard.ui.activity.BaseActivity;
 import com.faltenreich.diaguard.util.ViewHelper;
@@ -141,18 +140,6 @@ public abstract class BaseFragment extends Fragment {
                     MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
                 }
                 Events.post(new EntryAddedEvent(entry));
-            }
-        });
-    }
-
-    @SuppressWarnings("unused")
-    public void onEvent(final FoodDeletedEvent event) {
-        ViewHelper.showSnackbar(getView(), getString(R.string.food_deleted), new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Food food = event.context;
-                FoodDao.getInstance().createOrUpdate(food);
-                Events.post(new FoodSavedEvent(food));
             }
         });
     }

@@ -6,8 +6,7 @@
     <item android:id="@+id/action_delete"
         android:icon="@drawable/ic_action_delete"
         android:title="@string/entry_delete"
-        diaguard:showAsAction="ifRoom"
-        android:visible="false"/>
+        diaguard:showAsAction="ifRoom"/>
 
     <item android:id="@+id/action_done"
         android:icon="@drawable/ic_action_done"

@@ -16,12 +16,16 @@ import android.widget.TextView;
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.dao.EntryDao;
+import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.Entry;
+import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.event.data.EntryDeletedEvent;
+import com.faltenreich.diaguard.event.data.FoodDeletedEvent;
+import com.faltenreich.diaguard.event.data.FoodSavedEvent;
 import com.faltenreich.diaguard.ui.activity.BaseActivity;
 import com.faltenreich.diaguard.util.ViewHelper;
 
@@ -126,14 +130,12 @@ public abstract class BaseFragment extends Fragment {
 
     @CallSuper
     @SuppressWarnings("unused")
-    public void onEvent(EntryDeletedEvent event) {
-        // Show notification
-        final Entry entry = event.context;
+    public void onEvent(final EntryDeletedEvent event) {
         ViewHelper.showSnackbar(getView(), getString(R.string.entry_deleted), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Entry entry = event.context;
                 EntryDao.getInstance().createOrUpdate(entry);
-
                 for (Measurement measurement : entry.getMeasurementCache()) {
                     measurement.setEntry(entry);
                     MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
@@ -143,4 +145,15 @@ public abstract class BaseFragment extends Fragment {
         });
     }
 
+    @SuppressWarnings("unused")
+    public void onEvent(final FoodDeletedEvent event) {
+        ViewHelper.showSnackbar(getView(), getString(R.string.food_deleted), new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Food food = event.context;
+                FoodDao.getInstance().createOrUpdate(food);
+                Events.post(new FoodSavedEvent(food));
+            }
+        });
+    }
 }

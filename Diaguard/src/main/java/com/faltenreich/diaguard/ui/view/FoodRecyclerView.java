@@ -15,6 +15,7 @@ import com.faltenreich.diaguard.data.dao.FoodEatenDao;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.event.Events;
+import com.faltenreich.diaguard.event.data.FoodDeletedEvent;
 import com.faltenreich.diaguard.event.data.FoodQueryEndedEvent;
 import com.faltenreich.diaguard.event.data.FoodQueryStartedEvent;
 import com.faltenreich.diaguard.event.networking.FoodSearchFailedEvent;
@@ -134,6 +135,17 @@ public class FoodRecyclerView extends RecyclerView {
         addItems(foodItemList);
     }
 
+    private void removeItem(Food food) {
+        for (int position = 0; position < getItemCount(); position++) {
+            ListItemFood listItem = adapter.getItem(position);
+            if (listItem.getFood().equals(food)) {
+                adapter.removeItem(position);
+                adapter.notifyItemRemoved(position);
+                break;
+            }
+        }
+    }
+
     @SuppressWarnings("unused")
     public void onEventMainThread(FoodSearchSucceededEvent event) {
         onlinePage++;
@@ -143,6 +155,11 @@ public class FoodRecyclerView extends RecyclerView {
     @SuppressWarnings("unused")
     public void onEventMainThread(FoodSearchFailedEvent event) {
         Events.post(new FoodQueryEndedEvent(false));
+    }
+
+    @SuppressWarnings("unused")
+    public void onEvent(FoodDeletedEvent event) {
+        removeItem(event.context);
     }
 
     private class LoadDataTask extends AsyncTask<Void, Void, List<ListItemFood>> {

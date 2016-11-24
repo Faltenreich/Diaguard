@@ -9,6 +9,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class ProductDto extends NetworkDto {
 
+    public static final String DATE_FORMAT = "yyyy-MM-dd";
+
     @SerializedName("sortkey")
     public Integer identifier;
 
@@ -35,6 +37,9 @@ public class ProductDto extends NetworkDto {
 
     @SerializedName("nutrient_levels")
     public NutrientLevelsDto nutrientLevels;
+
+    @SerializedName("last_edit_dates_tags")
+    public String[] lastEditDates;
 
     public boolean isValid() {
         boolean hasName = name != null && name.length() > 0;

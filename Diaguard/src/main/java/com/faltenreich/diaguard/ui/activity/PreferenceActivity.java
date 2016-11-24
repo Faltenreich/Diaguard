@@ -3,7 +3,9 @@ package com.faltenreich.diaguard.ui.activity;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.app.Fragment;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.ui.fragment.PreferenceFragment;
@@ -12,10 +14,14 @@ import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.PermissionDeniedEvent;
 import com.faltenreich.diaguard.event.PermissionGrantedEvent;
 
+import static android.R.attr.fragment;
+
 /**
  * Created by Filip on 26.10.13.
  */
 public class PreferenceActivity extends BaseActivity {
+
+    private static final @IdRes int CONTENT_ID = R.id.content;
     
     public PreferenceActivity() {
         super(R.layout.activity_preferences);
@@ -24,7 +30,7 @@ public class PreferenceActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getFragmentManager().beginTransaction().replace(R.id.content, new PreferenceFragment()).commit();
+        getFragmentManager().beginTransaction().replace(CONTENT_ID, new PreferenceFragment()).commit();
     }
 
     @Override
@@ -37,5 +43,9 @@ public class PreferenceActivity extends BaseActivity {
                         new PermissionDeniedEvent(Manifest.permission.WRITE_EXTERNAL_STORAGE));
             }
         }
+    }
+
+    public Fragment getFragment() {
+        return getFragmentManager().findFragmentById(CONTENT_ID);
     }
 }

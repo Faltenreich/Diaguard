@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.ui.fragment;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -45,8 +46,9 @@ public class FoodDetailFragment extends BaseFoodFragment {
 
         Food food = getFood();
         if (food != null) {
-            brand.setText(food.getBrand());
-            ingredients.setText(food.getIngredients());
+            String placeholder = getString(R.string.placeholder);
+            brand.setText(TextUtils.isEmpty(food.getBrand()) ? placeholder : food.getBrand());
+            ingredients.setText(TextUtils.isEmpty(food.getIngredients()) ? placeholder : food.getIngredients());
 
             float mealValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(
                     Measurement.Category.MEAL,

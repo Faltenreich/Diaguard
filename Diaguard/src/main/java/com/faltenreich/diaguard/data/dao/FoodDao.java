@@ -38,8 +38,29 @@ public class FoodDao extends BaseServerDao<Food> {
     public List<Food> getAll() {
         try {
             return getDao().queryBuilder()
+                    .orderBy(Food.Column.NAME, true)
                     .orderBy(Food.Column.UPDATED_AT, false)
                     .query();
+        } catch (SQLException exception) {
+            Log.e(TAG, exception.getLocalizedMessage());
+            return new ArrayList<>();
+        }
+    }
+
+    public List<Food> search(String query, long page) {
+        try {
+            QueryBuilder<Food, Long> queryBuilder = getDao().queryBuilder()
+                    .orderBy(Food.Column.NAME, true)
+                    .orderBy(Food.Column.UPDATED_AT, false)
+                    .offset(page * BaseDao.PAGE_SIZE)
+                    .limit(BaseDao.PAGE_SIZE);
+            if (query != null && query.length() > 0) {
+                String like = "%" + query + "%";
+                queryBuilder
+                        .where().like(Food.Column.NAME, like)
+                        .or().like(Food.Column.FULL_NAME, like);
+            }
+            return queryBuilder.query();
         } catch (SQLException exception) {
             Log.e(TAG, exception.getLocalizedMessage());
             return new ArrayList<>();
@@ -85,24 +106,5 @@ public class FoodDao extends BaseServerDao<Food> {
         food.setCountryCode(PreferenceHelper.getInstance().getCountryCode());
         food.setLanguageCode(food.getCountryCode());
         return food;
-    }
-
-    public List<Food> search(String query, long page) {
-        try {
-            QueryBuilder<Food, Long> queryBuilder = getDao().queryBuilder()
-                    .orderBy(Food.Column.UPDATED_AT, false)
-                    .offset(page * BaseDao.PAGE_SIZE)
-                    .limit(BaseDao.PAGE_SIZE);
-            if (query != null && query.length() > 0) {
-                String like = "%" + query + "%";
-                queryBuilder
-                        .where().like(Food.Column.NAME, like)
-                        .or().like(Food.Column.FULL_NAME, like);
-            }
-            return queryBuilder.query();
-        } catch (SQLException exception) {
-            Log.e(TAG, exception.getLocalizedMessage());
-            return new ArrayList<>();
-        }
     }
 }

@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.data;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.DiaguardApplication;
@@ -17,6 +18,7 @@ import org.joda.time.DateTimeConstants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -30,6 +32,8 @@ import java.util.Locale;
  */
 public class PreferenceHelper {
 
+    private static final String INPUT_QUERIES_SEPARATOR = ";";
+
     private class Keys {
         static final String CATEGORY_PINNED = "categoryPinned%s";
         static final String ALARM_START_IN_MILLIS = "alarmStartInMillis";
@@ -38,6 +42,7 @@ public class PreferenceHelper {
         final static String FACTOR_DEPRECATED = "factor_";
         final static String MEAL_IS_CALCULATED = "mealIsCalculated";
         final static String COUNTRY_CODE = "countryCode";
+        final static String INPUT_QUERIES = "inputQueries";
     }
 
     private static PreferenceHelper instance;
@@ -147,6 +152,29 @@ public class PreferenceHelper {
 
     public boolean exportNotes() {
         return sharedPreferences.getBoolean("export_notes", true);
+    }
+
+    public void addInputQuery(String query) {
+        String inputQueries = getInputQueriesString();
+        if (inputQueries.length() > 0) {
+            inputQueries = inputQueries + INPUT_QUERIES_SEPARATOR;
+        }
+        sharedPreferences.edit().putString(Keys.INPUT_QUERIES, inputQueries + query).apply();
+    }
+
+    private String getInputQueriesString() {
+        return sharedPreferences.getString(Keys.INPUT_QUERIES, "");
+    }
+
+    public ArrayList<String> getInputQueries() {
+        ArrayList<String> inputQueries = new ArrayList<>();
+        for (String inputQuery : getInputQueriesString().split(INPUT_QUERIES_SEPARATOR)) {
+            if (!TextUtils.isEmpty(inputQuery)) {
+                inputQueries.removeAll(Collections.singleton(inputQuery));
+                inputQueries.add(0, inputQuery);
+            }
+        }
+        return inputQueries;
     }
 
     // BLOOD SUGAR

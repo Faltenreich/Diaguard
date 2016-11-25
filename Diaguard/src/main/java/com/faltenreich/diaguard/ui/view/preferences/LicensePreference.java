@@ -1,16 +1,12 @@
 package com.faltenreich.diaguard.ui.view.preferences;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.os.Build;
-import android.preference.DialogPreference;
 import android.preference.Preference;
 import android.util.AttributeSet;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.faltenreich.diaguard.R;
 
+import de.psdev.licensesdialog.LicenseResolver;
 import de.psdev.licensesdialog.LicensesDialog;
 
 /**

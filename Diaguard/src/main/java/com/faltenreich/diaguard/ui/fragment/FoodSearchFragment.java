@@ -34,7 +34,6 @@ import com.lapism.searchview.SearchItem;
 import com.lapism.searchview.SearchView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -201,6 +200,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     @Override
     public boolean onQueryTextSubmit(String query) {
         searchView.close(true);
+        PreferenceHelper.getInstance().addInputQuery(query);
         query(query);
         return false;
     }
@@ -268,22 +268,33 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         });
     }
 
-    private class SetSuggestionsTask extends AsyncTask<Void, Void, ArrayList<SearchItem>> {
+    private class SetSuggestionsTask extends AsyncTask<Void, Void, ArrayList<ArrayList<SearchItem>>> {
 
         @Override
-        protected ArrayList<SearchItem> doInBackground(Void... voids) {
-            List<Food> foodList = FoodDao.getInstance().getAll();
-            ArrayList<SearchItem> suggestions  = new ArrayList<>();
-            for (Food food : foodList) {
+        protected ArrayList<ArrayList<SearchItem>> doInBackground(Void... voids) {
+            ArrayList<ArrayList<SearchItem>> searchItems = new ArrayList<>();
+
+            ArrayList<SearchItem> suggestions = new ArrayList<>();
+            for (Food food : FoodDao.getInstance().getAll()) {
                 suggestions.add(new SearchItem(food.getName()));
             }
-            return suggestions;
+            searchItems.add(suggestions);
+
+            ArrayList<SearchItem> recent = new ArrayList<>();
+            for (String recentQuery : PreferenceHelper.getInstance().getInputQueries()) {
+                recent.add(new SearchItem(recentQuery));
+            }
+            searchItems.add(recent);
+
+            return searchItems;
         }
 
         @Override
-        protected void onPostExecute(ArrayList<SearchItem> suggestions) {
-            super.onPostExecute(suggestions);
-            searchAdapter.setSuggestionsList(suggestions);
+        protected void onPostExecute(ArrayList<ArrayList<SearchItem>> searchItems) {
+            super.onPostExecute(searchItems);
+
+            searchAdapter.setSuggestionsList(searchItems.get(0));
+            searchAdapter.setData(searchItems.get(1));
         }
     }
 }

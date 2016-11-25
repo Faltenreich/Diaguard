@@ -2,6 +2,18 @@
 
 <notices>
     <notice>
+        <name>Open Food Facts</name>
+        <url>http://world.openfoodfacts.org/terms-of-use</url>
+        <copyright>Copyright, Open Food Facts</copyright>
+        <license>Open Database License</license>
+    </notice>
+    <notice>
+        <name>Schweizer Nährwertdatenbank</name>
+        <url>http://naehrwertdaten.ch</url>
+        <copyright>Copyright, Bundesamt für Lebensmittel und Veterinärwesen BLV</copyright>
+        <license>ISC License</license>
+    </notice>
+    <notice>
         <name>Android Support</name>
         <url>http://developer.android.com/tools/support-library/index.html</url>
         <copyright>Copyright 2015, The Android Open Source Project</copyright>

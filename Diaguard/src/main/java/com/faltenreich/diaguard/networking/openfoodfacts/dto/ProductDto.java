@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.networking.openfoodfacts.dto;
 
 import com.faltenreich.diaguard.networking.NetworkDto;
+import com.faltenreich.diaguard.util.Helper;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -47,6 +48,7 @@ public class ProductDto extends NetworkDto {
     public boolean isValid() {
         boolean hasName = name != null && name.length() > 0;
         boolean hasNutrients = nutrients.carbohydrates != null;
-        return hasName && hasNutrients;
+        boolean isCurrentLanguage = Helper.isSystemLocale(languageCode);
+        return hasName && hasNutrients && isCurrentLanguage;
     }
 }

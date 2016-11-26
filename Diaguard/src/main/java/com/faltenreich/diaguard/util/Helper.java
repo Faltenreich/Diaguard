@@ -31,6 +31,17 @@ public class Helper {
         return DiaguardApplication.getContext().getResources().getConfiguration().locale;
     }
 
+    public static boolean isSystemLocale(String languageCode) {
+        return languageCode != null && isSystemLocale(new Locale(languageCode));
+    }
+
+    public static boolean isSystemLocale(Locale locale) {
+        Locale systemLocale = getLocale();
+        String systemLanguage = systemLocale != null ? systemLocale.getLanguage() : null;
+        String language = locale != null ? locale.getLanguage() : null;
+        return systemLanguage != null && language != null && systemLanguage.equals(language);
+    }
+
     public static String getLanguageCode() {
         return getLocale().getLanguage();
     }

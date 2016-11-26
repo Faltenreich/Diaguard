@@ -3,6 +3,8 @@ package com.faltenreich.diaguard.data.dao;
 import android.util.Log;
 
 import com.faltenreich.diaguard.data.entity.Food;
+import com.faltenreich.diaguard.event.Events;
+import com.faltenreich.diaguard.event.networking.FoodSearchSucceededEvent;
 import com.faltenreich.diaguard.networking.openfoodfacts.dto.ProductDto;
 import com.faltenreich.diaguard.networking.openfoodfacts.dto.SearchResponseDto;
 import com.faltenreich.diaguard.util.DateTimeUtils;
@@ -16,6 +18,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Faltenreich on 23.09.2016.
@@ -73,17 +76,16 @@ public class FoodDao extends BaseServerDao<Food> {
         }
     }
 
-    public List<Food> createOrUpdate(SearchResponseDto dto) {
+    public void createOrUpdate(SearchResponseDto dto) {
         List<Food> foodList = new ArrayList<>();
         Collections.reverse(dto.products);
         for (ProductDto productDto : dto.products) {
             if (productDto.isValid()) {
-                Food food = parseFromDto(productDto);
-                createOrUpdate(food);
-                foodList.add(0, food);
+                foodList.add(0, parseFromDto(productDto));
             }
         }
-        return foodList;
+        FoodDao.getInstance().bulkCreateOrUpdate(foodList);
+        Events.post(new FoodSearchSucceededEvent(foodList));
     }
 
     private Food parseFromDto(ProductDto dto) {
@@ -113,7 +115,7 @@ public class FoodDao extends BaseServerDao<Food> {
             food.setSodium(dto.nutrients.sodium);
             food.setSugar(dto.nutrients.sugar);
             food.setSugarLevel(dto.nutrientLevels.sugar);
-            food.setLanguageCode(dto.languageCode);
+            food.setLanguageCode(new Locale(dto.languageCode).getLanguage());
         }
 
         return food;

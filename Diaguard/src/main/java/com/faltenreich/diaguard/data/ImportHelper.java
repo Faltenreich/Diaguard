@@ -8,6 +8,7 @@ import android.util.Log;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.entity.Food;
+import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 import com.opencsv.CSVReader;
 
@@ -30,8 +31,11 @@ public class ImportHelper {
     private static final String FOOD_CSV_FILE_NAME = "food_common.csv";
     private static final char FOOD_CSV_FILE_SEPARATOR = ';';
 
-    public static void importCommonFood(Context context, Locale locale) {
-        new ImportFoodTask(context, locale).execute();
+    public static void validateImport(Context context) {
+        Locale locale = Helper.getLocale();
+        if (!PreferenceHelper.getInstance().didImportCommonFood(locale)) {
+            new ImportFoodTask(context, locale).execute();
+        }
     }
 
     private static class ImportFoodTask extends AsyncTask<Void, Void, Void> {
@@ -39,9 +43,6 @@ public class ImportHelper {
         private Context context;
         private Locale locale;
 
-        // TODO: Localization
-        // TODO: Bulk insert
-        // TODO: UTF-8
         ImportFoodTask(Context context, Locale locale) {
             this.context = context;
             this.locale = locale;
@@ -74,6 +75,7 @@ public class ImportHelper {
 
                     if (nextLine.length >= 13) {
                         Food food = new Food();
+
                         food.setName(nextLine[languageRow]);
                         food.setIngredients(food.getName());
                         food.setLabels(context.getString(R.string.food_common));
@@ -103,6 +105,12 @@ public class ImportHelper {
                 Log.e(TAG, exception.getLocalizedMessage());
             }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            PreferenceHelper.getInstance().setDidImportCommonFood(locale, true);
         }
     }
 }

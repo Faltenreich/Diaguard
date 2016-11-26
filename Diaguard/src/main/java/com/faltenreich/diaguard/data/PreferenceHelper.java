@@ -78,7 +78,8 @@ public class PreferenceHelper {
     }
 
     public String getCountryCode() {
-        return getLocale().getCountry();
+        String countryCode = getLocale().getCountry();
+        return countryCode;
     }
 
     public String getCountryName() {

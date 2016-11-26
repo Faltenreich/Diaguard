@@ -55,8 +55,6 @@
     <string name="contact">Contact</string>
     <string name="correction">Correction</string>
     <string name="correction_value">Correction value</string>
-    <string name="country">Country</string>
-    <string name="country_select">Select country</string>
     <string name="data">Data</string>
     <string name="date_select">Select date</string>
     <string name="day_next">Next day</string>
@@ -140,6 +138,8 @@
     <string name="startscreen">Start screen</string>
     <string name="statistics">Statistics</string>
     <string name="store_values">Store</string>
+    <string name="sugar_level_moderate">Moderate sugar level</string>
+    <string name="sugar_level_high">High sugar level</string>
     <string name="systolic">Systolic</string>
     <string name="target_area">Target area</string>
     <string name="timeline">Timeline</string>

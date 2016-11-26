@@ -42,8 +42,6 @@
     <string name="contact">Kontakt</string>
     <string name="correction">Korrektur</string>
     <string name="correction_value">Korrekturwert</string>
-    <string name="country">Land</string>
-    <string name="country_select">Land auswählen</string>
     <string name="data">Daten</string>
     <string name="date_select">Datum auswählen</string>
     <string name="day_next">Nächster Tag</string>

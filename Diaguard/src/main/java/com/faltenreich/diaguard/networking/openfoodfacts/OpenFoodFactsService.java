@@ -35,6 +35,6 @@ public class OpenFoodFactsService extends NetworkService<OpenFoodFactsApi> {
 
     @Override
     protected String getServerUrl() {
-        return OpenFoodFactEndpoint.HOST_DEFAULT;
+        return OpenFoodFactEndpoint.getHost();
     }
 }

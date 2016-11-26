@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.networking.openfoodfacts.OpenFoodFactsManager;
 import com.faltenreich.diaguard.ui.view.preferences.OpenDatabaseLicense;
+import com.faltenreich.diaguard.util.Helper;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
@@ -40,7 +41,7 @@ public class DiaguardApplication extends Application {
         context = getApplicationContext();
         JodaTimeAndroid.init(this);
         if (FoodDao.getInstance().countAll() == 0) {
-            ImportHelper.importCommonFood(context, PreferenceHelper.getInstance().getLocale());
+            ImportHelper.importCommonFood(context, Helper.getLocale());
         }
         LicenseResolver.registerLicense(new OpenDatabaseLicense());
         PreferenceHelper.getInstance().migrateFactors();

@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.networking.openfoodfacts;
 
-import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.util.Helper;
 
 import retrofit.Endpoint;
 
@@ -8,22 +8,21 @@ import retrofit.Endpoint;
  * Created by Faltenreich on 08.11.2016.
  */
 
-public class OpenFoodFactEndpoint implements Endpoint {
+class OpenFoodFactEndpoint implements Endpoint {
 
-    public static final String HOST_FORMAT = "http://world-%s.openfoodfacts.org";
-    public static final String HOST_DEFAULT = String.format(HOST_FORMAT, "world");
+    private static final String HOST_FORMAT = "http://world-%s.openfoodfacts.org";
 
     @Override
     public String getUrl() {
-        return String.format(HOST_FORMAT, getCountryCode());
+        return getHost();
     }
 
     @Override
     public String getName() {
-        return getCountryCode();
+        return getHost();
     }
 
-    private String getCountryCode() {
-        return PreferenceHelper.getInstance().getCountryCode();
+    static String getHost() {
+        return String.format(HOST_FORMAT, Helper.getCountryCode());
     }
 }

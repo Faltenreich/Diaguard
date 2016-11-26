@@ -31,13 +31,12 @@ public class Helper {
         return DiaguardApplication.getContext().getResources().getConfiguration().locale;
     }
 
-    public static Locale getLocaleForCountry(String countryCode) {
-        for (Locale locale : Locale.getAvailableLocales()) {
-            if (locale.getCountry().equals(countryCode)) {
-                return locale;
-            }
-        }
-        return getLocale();
+    public static String getLanguageCode() {
+        return getLocale().getLanguage();
+    }
+
+    public static String getCountryCode() {
+        return getLocale().getCountry();
     }
 
     public static String parseFloat(float number) {

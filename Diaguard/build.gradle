@@ -72,5 +72,4 @@ dependencies {
     compile 'com.mikhaellopez:circularimageview:3.0.2'
     compile 'com.code-troopers.betterpickers:library:3.0.1'
     compile 'com.robinhood.ticker:ticker:1.1.1'
-    compile 'com.github.mukeshsolanki:country-picker-android:1.1.6'
 }

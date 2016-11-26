@@ -23,6 +23,7 @@ public class FoodViewHolder extends BaseViewHolder<ListItemFood> implements View
     @BindView(R.id.food_name) TextView name;
     @BindView(R.id.food_brand) TextView brand;
     @BindView(R.id.food_carbohydrates) TextView carbohydrates;
+    @BindView(R.id.food_recent) ImageView recentIndicator;
 
     public FoodViewHolder(View view) {
         super(view);
@@ -40,6 +41,7 @@ public class FoodViewHolder extends BaseViewHolder<ListItemFood> implements View
         brand.setText(food.getBrand());
         brand.setVisibility(food.getBrand() != null && food.getBrand().length() > 0 ? View.VISIBLE : View.GONE);
         carbohydrates.setText(food.getValueForUi());
+        recentIndicator.setVisibility(getListItem().getFoodEaten() != null ? View.VISIBLE : View.GONE);
     }
 
     @Override

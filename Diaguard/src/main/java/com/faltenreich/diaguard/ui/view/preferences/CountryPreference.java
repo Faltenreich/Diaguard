@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 
+import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.ui.activity.PreferenceActivity;
 import com.faltenreich.diaguard.ui.fragment.PreferenceFragment;
@@ -30,7 +31,7 @@ public class CountryPreference extends Preference implements Preference.OnPrefer
     }
 
     private void showCountryPicker() {
-        final CountryPicker countryPicker = CountryPicker.newInstance("Select country");
+        final CountryPicker countryPicker = CountryPicker.newInstance(getContext().getString(R.string.country_select));
         FragmentManager fragmentManager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
         countryPicker.show(fragmentManager, CountryPicker.class.getSimpleName());
         countryPicker.setListener(new CountryPickerListener() {

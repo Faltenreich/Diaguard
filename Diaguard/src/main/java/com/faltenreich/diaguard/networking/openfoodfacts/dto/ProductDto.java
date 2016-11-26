@@ -14,6 +14,9 @@ public class ProductDto extends NetworkDto {
     @SerializedName("sortkey")
     public Integer identifier;
 
+    @SerializedName("lang")
+    public String languageCode;
+
     @SerializedName("product_name")
     public String name;
 

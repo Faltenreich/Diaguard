@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.data.dao;
 
 import android.util.Log;
 
-import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.networking.openfoodfacts.dto.ProductDto;
 import com.faltenreich.diaguard.networking.openfoodfacts.dto.SearchResponseDto;
@@ -52,6 +51,7 @@ public class FoodDao extends BaseServerDao<Food> {
 
     public List<Food> search(String query, long page) {
         try {
+
             QueryBuilder<Food, Long> queryBuilder = getDao().queryBuilder()
                     .orderBy(Food.Column.NAME, true)
                     .orderBy(Food.Column.UPDATED_AT, false)
@@ -110,8 +110,8 @@ public class FoodDao extends BaseServerDao<Food> {
             food.setSodium(dto.nutrients.sodium);
             food.setSugar(dto.nutrients.sugar);
             food.setSugarLevel(dto.nutrientLevels.sugar);
-            food.setCountryCode(PreferenceHelper.getInstance().getCountryCode());
-            food.setLanguageCode(food.getCountryCode());
+            food.setCountryCode(dto.languageCode);
+            food.setLanguageCode(dto.languageCode);
         }
 
         return food;

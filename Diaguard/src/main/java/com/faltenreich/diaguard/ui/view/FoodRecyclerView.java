@@ -21,6 +21,7 @@ import com.faltenreich.diaguard.event.data.FoodQueryStartedEvent;
 import com.faltenreich.diaguard.event.networking.FoodSearchFailedEvent;
 import com.faltenreich.diaguard.event.networking.FoodSearchSucceededEvent;
 import com.faltenreich.diaguard.networking.openfoodfacts.OpenFoodFactsManager;
+import com.faltenreich.diaguard.util.Helper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -135,10 +136,20 @@ public class FoodRecyclerView extends RecyclerView {
 
     private void addFood(List<Food> foodList) {
         List<ListItemFood> foodItemList = new ArrayList<>();
+
         for (Food food : foodList) {
-            foodItemList.add(new ListItemFood(food));
+            boolean isSameLanguage = Helper.isSystemLocale(food.getLanguageCode());
+            if (isSameLanguage) {
+                foodItemList.add(new ListItemFood(food));
+            }
         }
-        addItems(foodItemList);
+
+        boolean skipResponse = foodList.size() > 0 && foodItemList.size() == 0;
+        if (skipResponse) {
+            searchOnline();
+        } else {
+            addItems(foodItemList);
+        }
     }
 
     private void removeItem(Food food) {

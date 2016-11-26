@@ -20,8 +20,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import static com.faltenreich.diaguard.util.Helper.getLocale;
-
 /**
  * Created by Faltenreich on 22.11.2016.
  */
@@ -80,7 +78,6 @@ public class ImportHelper {
                         food.setIngredients(food.getName());
                         food.setLabels(context.getString(R.string.food_common));
                         food.setLanguageCode(systemLanguageCode);
-                        food.setLanguageCode(getLocale().getLanguage());
 
                         food.setCarbohydrates(NumberUtils.parseNullableNumber(nextLine[4]));
                         food.setEnergy(NumberUtils.parseNullableNumber(nextLine[5]));

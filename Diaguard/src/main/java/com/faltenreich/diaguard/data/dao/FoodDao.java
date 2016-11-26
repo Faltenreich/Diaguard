@@ -6,7 +6,9 @@ import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.networking.openfoodfacts.dto.ProductDto;
 import com.faltenreich.diaguard.networking.openfoodfacts.dto.SearchResponseDto;
 import com.faltenreich.diaguard.util.DateTimeUtils;
+import com.faltenreich.diaguard.util.Helper;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.Where;
 
 import org.joda.time.DateTime;
 
@@ -42,6 +44,7 @@ public class FoodDao extends BaseServerDao<Food> {
             return getDao().queryBuilder()
                     .orderBy(Food.Column.NAME, true)
                     .orderBy(Food.Column.UPDATED_AT, false)
+                    .where().eq(Food.Column.LANGUAGE_CODE, Helper.getLanguageCode())
                     .query();
         } catch (SQLException exception) {
             Log.e(TAG, exception.getLocalizedMessage());
@@ -51,16 +54,16 @@ public class FoodDao extends BaseServerDao<Food> {
 
     public List<Food> search(String query, long page) {
         try {
-
             QueryBuilder<Food, Long> queryBuilder = getDao().queryBuilder()
                     .orderBy(Food.Column.NAME, true)
                     .orderBy(Food.Column.UPDATED_AT, false)
                     .offset(page * BaseDao.PAGE_SIZE)
                     .limit(BaseDao.PAGE_SIZE);
+            Where where = queryBuilder.where().eq(Food.Column.LANGUAGE_CODE, Helper.getLanguageCode());
             if (query != null && query.length() > 0) {
                 String like = "%" + query + "%";
-                queryBuilder
-                        .where().like(Food.Column.NAME, like)
+                where
+                        .and().like(Food.Column.NAME, like)
                         .or().like(Food.Column.FULL_NAME, like);
             }
             return queryBuilder.query();
@@ -110,7 +113,6 @@ public class FoodDao extends BaseServerDao<Food> {
             food.setSodium(dto.nutrients.sodium);
             food.setSugar(dto.nutrients.sugar);
             food.setSugarLevel(dto.nutrientLevels.sugar);
-            food.setCountryCode(dto.languageCode);
             food.setLanguageCode(dto.languageCode);
         }
 

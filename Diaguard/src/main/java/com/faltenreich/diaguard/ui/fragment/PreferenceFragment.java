@@ -16,7 +16,6 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.activity.PreferenceActivity;
 import com.faltenreich.diaguard.ui.view.preferences.BloodSugarPreference;
 import com.faltenreich.diaguard.ui.view.preferences.CategoryPreference;
-import com.faltenreich.diaguard.ui.view.preferences.CountryPreference;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 
@@ -71,9 +70,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                     activeCategoriesCount,
                     categoriesTotalCount,
                     getString(R.string.active)));
-
-        } else if (preference instanceof CountryPreference) {
-            preference.setSummary(PreferenceHelper.getInstance().getCountryName());
 
         } else if (preference instanceof BloodSugarPreference) {
             String value = PreferenceHelper.getInstance().getValueForKey(preference.getKey());

@@ -33,10 +33,6 @@
             android:entries="@array/categories"
             android:entryValues="@array/categories"/>
 
-        <com.faltenreich.diaguard.ui.view.preferences.CountryPreference
-            android:key="countryCode"
-            android:title="@string/country"/>
-
         <com.faltenreich.diaguard.ui.view.preferences.BackupPreference
             android:key="backup"
             android:title="@string/backup"/>

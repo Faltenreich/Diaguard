@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by Filip on 04.11.13.
@@ -60,34 +59,10 @@ public class PreferenceHelper {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(DiaguardApplication.getContext());
     }
 
-    public void init() {
-        if (getCountry() == null) {
-            setCountry(Helper.getLocale().getCountry());
-        }
-    }
-
     // GENERAL
 
     private String getCountry() {
         return sharedPreferences.getString(Keys.COUNTRY_CODE, null);
-    }
-
-    public Locale getLocale() {
-        String countryCode = getCountry();
-        return countryCode != null ? Helper.getLocaleForCountry(countryCode) : Helper.getLocale();
-    }
-
-    public String getCountryCode() {
-        String countryCode = getLocale().getCountry();
-        return countryCode;
-    }
-
-    public String getCountryName() {
-        return getLocale().getDisplayName();
-    }
-
-    public void setCountry(String countryCode) {
-        sharedPreferences.edit().putString(Keys.COUNTRY_CODE, countryCode).apply();
     }
 
     public long getAlarmStartInMillis() {

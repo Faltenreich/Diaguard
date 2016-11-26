@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.networking.openfoodfacts;
 
+import android.util.Log;
+
 import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.networking.FoodSearchFailedEvent;
@@ -13,6 +15,8 @@ import com.octo.android.robospice.persistence.exception.SpiceException;
 
 public class OpenFoodFactsManager extends NetworkManager<OpenFoodFactsService> {
 
+    private static final String TAG = OpenFoodFactsManager.class.getSimpleName();
+    private static final int JSON = 1;
     private static final int PAGE_SIZE = 50;
 
     private static OpenFoodFactsManager instance;
@@ -28,15 +32,17 @@ public class OpenFoodFactsManager extends NetworkManager<OpenFoodFactsService> {
         super(OpenFoodFactsService.class);
     }
 
-    public void search(String query, final int page) {
+    public void search(final String query, final int page) {
         final String finalQuery = query != null ? query : "";
         execute(new OpenFoodFactsRequest<SearchResponseDto>(SearchResponseDto.class) {
             @Override
             public SearchResponseDto getResponse() {
-                return getService().search(finalQuery, 1, PAGE_SIZE, page);
+                // Paging of this api starts at page 1
+                return getService().search(finalQuery, JSON, PAGE_SIZE, page + 1);
             }
             @Override
             public void onSuccess(SearchResponseDto dto) {
+                Log.d(TAG, String.format("Received %d products for '%s' on page %d", dto.products.size(), query, page));
                 FoodDao.getInstance().createOrUpdate(dto);
             }
             @Override

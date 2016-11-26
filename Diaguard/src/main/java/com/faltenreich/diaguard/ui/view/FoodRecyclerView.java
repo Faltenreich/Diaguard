@@ -121,8 +121,14 @@ public class FoodRecyclerView extends RecyclerView {
         boolean hasItems = foodList.size() > 0;
         if (hasItems) {
             int oldSize = adapter.getItemCount();
-            adapter.addItems(foodList);
-            adapter.notifyItemRangeInserted(oldSize, oldSize + foodList.size());
+            int newCount = 0;
+            for (ListItemFood listItem : foodList) {
+                if (!adapter.getItems().contains(listItem)) {
+                    adapter.addItem(listItem);
+                    newCount++;
+                }
+            }
+            adapter.notifyItemRangeInserted(oldSize, newCount);
         }
         Events.post(new FoodQueryEndedEvent(hasItems));
     }

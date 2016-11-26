@@ -62,14 +62,20 @@ public class FoodDao extends BaseServerDao<Food> {
                     .orderBy(Food.Column.UPDATED_AT, false)
                     .offset(page * BaseDao.PAGE_SIZE)
                     .limit(BaseDao.PAGE_SIZE);
-            Where where = queryBuilder.where().eq(Food.Column.LANGUAGE_CODE, Helper.getLanguageCode());
-            if (query != null && query.length() > 0) {
+
+            Where<Food, Long> where = queryBuilder.where();
+            where.eq(Food.Column.LANGUAGE_CODE, Helper.getLanguageCode());
+
+            boolean hasQuery = query != null && query.length() > 0;
+            if (hasQuery) {
                 String like = "%" + query + "%";
-                where
-                        .and().like(Food.Column.NAME, like)
-                        .or().like(Food.Column.FULL_NAME, like);
+                where.like(Food.Column.NAME, like).or().like(Food.Column.FULL_NAME, like);
+                return where.and(where, where).query();
+
+            } else {
+                return where.query();
             }
-            return queryBuilder.query();
+            
         } catch (SQLException exception) {
             Log.e(TAG, exception.getLocalizedMessage());
             return new ArrayList<>();

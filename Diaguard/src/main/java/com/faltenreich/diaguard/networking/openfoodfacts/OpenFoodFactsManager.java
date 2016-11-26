@@ -1,15 +1,11 @@
 package com.faltenreich.diaguard.networking.openfoodfacts;
 
 import com.faltenreich.diaguard.data.dao.FoodDao;
-import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.networking.FoodSearchFailedEvent;
-import com.faltenreich.diaguard.event.networking.FoodSearchSucceededEvent;
 import com.faltenreich.diaguard.networking.NetworkManager;
 import com.faltenreich.diaguard.networking.openfoodfacts.dto.SearchResponseDto;
 import com.octo.android.robospice.persistence.exception.SpiceException;
-
-import java.util.List;
 
 /**
  * Created by Faltenreich on 23.09.2016.
@@ -41,8 +37,7 @@ public class OpenFoodFactsManager extends NetworkManager<OpenFoodFactsService> {
             }
             @Override
             public void onSuccess(SearchResponseDto dto) {
-                List<Food> foodList = FoodDao.getInstance().createOrUpdate(dto);
-                Events.post(new FoodSearchSucceededEvent(foodList));
+                FoodDao.getInstance().createOrUpdate(dto);
             }
             @Override
             public void onFailure(SpiceException spiceException) {

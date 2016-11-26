@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Filip on 04.11.13.
@@ -40,8 +41,8 @@ public class PreferenceHelper {
         static final String INTERVAL_FACTOR_FOR_HOUR = "intervalFactor%d";
         final static String FACTOR_DEPRECATED = "factor_";
         final static String MEAL_IS_CALCULATED = "mealIsCalculated";
-        final static String COUNTRY_CODE = "countryCode";
         final static String INPUT_QUERIES = "inputQueries";
+        final static String DID_IMPORT_COMMON_FOOD_FOR_LANGUAGE = "didImportCommonFoodForLanguage";
     }
 
     private static PreferenceHelper instance;
@@ -61,8 +62,12 @@ public class PreferenceHelper {
 
     // GENERAL
 
-    private String getCountry() {
-        return sharedPreferences.getString(Keys.COUNTRY_CODE, null);
+    boolean didImportCommonFood(Locale locale) {
+        return sharedPreferences.getBoolean(Keys.DID_IMPORT_COMMON_FOOD_FOR_LANGUAGE + locale.getLanguage(), false);
+    }
+
+    void  setDidImportCommonFood(Locale locale, boolean didImport) {
+        sharedPreferences.edit().putBoolean(Keys.DID_IMPORT_COMMON_FOOD_FOR_LANGUAGE + locale.getLanguage(), didImport).apply();
     }
 
     public long getAlarmStartInMillis() {

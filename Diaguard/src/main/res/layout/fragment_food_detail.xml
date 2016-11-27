@@ -65,9 +65,8 @@
                 android:layout_marginLeft="@dimen/padding_end"
                 android:layout_marginStart="@dimen/padding_end"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:src="@drawable/ic_action_new"
-                app:tintColor="@color/green"/>
+                android:src="@drawable/ic_arrow_up"
+                android:visibility="gone"/>
 
         </LinearLayout>
 

@@ -38,9 +38,6 @@ public class ProductDto extends NetworkDto {
     @SerializedName("nutriments")
     public NutrientsDto nutrients;
 
-    @SerializedName("nutrient_levels")
-    public NutrientLevelsDto nutrientLevels;
-
     @SerializedName("last_edit_dates_tags")
     public String[] lastEditDates;
 

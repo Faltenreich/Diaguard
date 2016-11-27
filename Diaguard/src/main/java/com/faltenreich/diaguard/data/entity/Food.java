@@ -7,7 +7,6 @@ import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.util.Helper;
-import com.google.gson.annotations.SerializedName;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
@@ -15,13 +14,14 @@ import com.j256.ormlite.field.ForeignCollectionField;
 import static com.faltenreich.diaguard.data.entity.Food.Column.FAT_SATURATED;
 import static com.faltenreich.diaguard.data.entity.Food.Column.PROTEINS;
 import static com.faltenreich.diaguard.data.entity.Food.Column.SUGAR;
-import static com.faltenreich.diaguard.data.entity.Food.Column.SUGAR_LEVEL;
 
 /**
  * Created by Faltenreich on 11.09.2016.
  */
 public class Food extends BaseServerEntity {
 
+    private static final float THRESHOLD_100G_SUGAR_LEVEL_HIGH = 10;
+    private static final float THRESHOLD_100G_SUGAR_LEVEL_MODERATE = 5;
     private static final String IMAGE_SUFFIX = ".jpg";
     private static final String KEYWORD_FULL_RESOLUTION = "full";
 
@@ -41,7 +41,6 @@ public class Food extends BaseServerEntity {
         public static final String SALT = "salt";
         public static final String SODIUM = "sodium";
         public static final String SUGAR = "sugar";
-        public static final String SUGAR_LEVEL = "sugarLevel";
         public static final String LANGUAGE_CODE = "languageCode";
         public static final String FOOD_EATEN = "foodEaten";
     }
@@ -93,11 +92,8 @@ public class Food extends BaseServerEntity {
 
     public enum NutrientLevel {
 
-        @SerializedName("low")
         LOW(R.color.green_light, R.string.sugar_level_low),
-        @SerializedName("moderate")
         MODERATE(R.color.yellow, R.string.sugar_level_moderate),
-        @SerializedName("high")
         HIGH(R.color.red, R.string.sugar_level_high);
 
         public @ColorRes int colorResId;
@@ -153,9 +149,6 @@ public class Food extends BaseServerEntity {
 
     @DatabaseField(columnName = SUGAR, defaultValue = "-1")
     private Float sugar;
-
-    @DatabaseField(columnName = SUGAR_LEVEL)
-    private NutrientLevel sugarLevel;
 
     @DatabaseField(columnName = Column.LANGUAGE_CODE)
     private String languageCode;
@@ -295,14 +288,6 @@ public class Food extends BaseServerEntity {
         this.sugar = sugar;
     }
 
-    public NutrientLevel getSugarLevel() {
-        return sugarLevel;
-    }
-
-    public void setSugarLevel(NutrientLevel sugarLevel) {
-        this.sugarLevel = sugarLevel;
-    }
-
     public String getLanguageCode() {
         return languageCode;
     }
@@ -325,6 +310,16 @@ public class Food extends BaseServerEntity {
             return Helper.parseFloat(valueFormatted);
         } else {
             return "";
+        }
+    }
+
+    public NutrientLevel getSugarLevel() {
+        if (getCarbohydrates() >= THRESHOLD_100G_SUGAR_LEVEL_HIGH) {
+            return NutrientLevel.HIGH;
+        } else if (getCarbohydrates() >= THRESHOLD_100G_SUGAR_LEVEL_MODERATE) {
+            return NutrientLevel.MODERATE;
+        } else {
+            return NutrientLevel.LOW;
         }
     }
 

@@ -124,6 +124,7 @@
     <string name="note">Note</string>
     <string name="note_append">Append notes</string>
     <string name="nutrients">Nutrients</string>
+    <string name="nutrients_per_100g">Nutrients per 100 g</string>
     <string name="ok">OK</string>
     <string name="overview">Overview</string>
     <string name="per">per</string>
@@ -138,6 +139,7 @@
     <string name="startscreen">Start screen</string>
     <string name="statistics">Statistics</string>
     <string name="store_values">Store</string>
+    <string name="sugar_level_low">Low sugar level</string>
     <string name="sugar_level_moderate">Moderate sugar level</string>
     <string name="sugar_level_high">High sugar level</string>
     <string name="systolic">Systolic</string>

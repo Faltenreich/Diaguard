@@ -49,7 +49,7 @@ public class FoodEaten extends BaseEntity {
     }
 
     public float getCarbohydrates() {
-        return getAmountInGrams() * getFood().getCarbohydrates() / 100;
+        return getFood() != null ? getAmountInGrams() * getFood().getCarbohydrates() / 100 : 0;
     }
 
     @Override

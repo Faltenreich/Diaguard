@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.data.dao;
 import android.util.Log;
 
 import com.faltenreich.diaguard.data.entity.Food;
+import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.networking.FoodSearchSucceededEvent;
 import com.faltenreich.diaguard.networking.openfoodfacts.dto.ProductDto;
@@ -53,6 +54,26 @@ public class FoodDao extends BaseServerDao<Food> {
             Log.e(TAG, exception.getLocalizedMessage());
             return new ArrayList<>();
         }
+    }
+
+    @Override
+    public int delete(Food object) {
+        List<FoodEaten> foodEatenList = FoodEatenDao.getInstance().getAll(object);
+        for (FoodEaten foodEaten : foodEatenList) {
+            FoodEatenDao.getInstance().delete(foodEaten);
+        }
+        return super.delete(object);
+    }
+
+    @Override
+    public int delete(List<Food> objects) {
+        for (Food food : objects) {
+            List<FoodEaten> foodEatenList = FoodEatenDao.getInstance().getAll(food);
+            for (FoodEaten foodEaten : foodEatenList) {
+                FoodEatenDao.getInstance().delete(foodEaten);
+            }
+        }
+        return super.delete(objects);
     }
 
     public List<Food> search(String query, long page) {

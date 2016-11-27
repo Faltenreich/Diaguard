@@ -52,6 +52,7 @@
     <string name="drawer_close">Navigator schließen</string>
     <string name="drawer_open">Navigator öffnen</string>
     <string name="edit">Bearbeiten</string>
+    <string name="entries">Entries</string>
     <string name="entry">Eintrag</string>
     <string name="entry_added">Eintrag hinzugefügt</string>
     <string name="entry_count_per_day">Einträge pro Tag</string>
@@ -111,7 +112,6 @@
     <string name="permission_required_storage">Berechtigung für Speicherzugriff fehlt</string>
     <string name="pressure">Blutdruck</string>
     <string name="pulse">Puls</string>
-    <string name="recent">Letzte</string>
     <string name="search">Suche &#8230;</string>
     <string name="settings">Einstellungen</string>
     <string name="sound">Töne</string>

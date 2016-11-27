@@ -33,6 +33,7 @@ import com.j256.ormlite.dao.ForeignCollection;
 import com.robinhood.ticker.TickerUtils;
 import com.robinhood.ticker.TickerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -131,13 +132,11 @@ public class FoodListView extends LinearLayout {
 
         String input = valueInput.getText().trim();
 
-        if (StringUtils.isBlank(input) && adapter.getTotalCarbohydrates() == 0) {
+        if (StringUtils.isBlank(input) && !adapter.hasInput()) {
             valueInput.setError(getContext().getString(R.string.validator_value_empty));
             isValid = false;
-        } else {
-            if (!StringUtils.isBlank(input)) {
-                isValid = PreferenceHelper.isValueValid(valueInput.getEditText(), Measurement.Category.MEAL);
-            }
+        } else if (!StringUtils.isBlank(input)) {
+            isValid = PreferenceHelper.isValueValid(valueInput.getEditText(), Measurement.Category.MEAL);
         }
         return isValid;
     }
@@ -148,7 +147,13 @@ public class FoodListView extends LinearLayout {
                     PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                             meal.getCategory(),
                             NumberUtils.parseNumber(valueInput.getText())) : 0);
-            meal.setFoodEatenCache(adapter.getItems());
+            List<FoodEaten> foodEatenCache = new ArrayList<>();
+            for (FoodEaten foodEaten : adapter.getItems()) {
+                if (foodEaten.getAmountInGrams() > 0) {
+                    foodEatenCache.add(foodEaten);
+                }
+            }
+            meal.setFoodEatenCache(foodEatenCache);
             return meal;
         } else {
             return null;
@@ -159,8 +164,7 @@ public class FoodListView extends LinearLayout {
         boolean hasFood = adapter.getItemCount() > 0;
         separator.setVisibility(hasFood ? VISIBLE : GONE);
 
-        float newValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.MEAL, adapter.getTotalCarbohydrates());
-        boolean hasFoodEaten = newValue > 0;
+        boolean hasFoodEaten = adapter.hasInput();
         valueCalculatedIntegral.setVisibility(hasFoodEaten ? VISIBLE : GONE);
         valueCalculatedPoint.setVisibility(hasFoodEaten ? VISIBLE : GONE);
         valueCalculatedPoint.setText(SystemUtils.getDecimalSeparator());

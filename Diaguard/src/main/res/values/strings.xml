@@ -67,6 +67,7 @@
     <string name="edit">Edit</string>
     <string name="energy_acronym">kcal</string>
     <string name="energy_acronym_2">kJ</string>
+    <string name="entries">Entries</string>
     <string name="entry">Entry</string>
     <string name="entry_added">Entry added</string>
     <string name="entry_count_per_day">Entries per day</string>
@@ -133,7 +134,6 @@
     <string name="placeholder" translatable="false">-</string>
     <string name="pressure">Blood Pressure</string>
     <string name="pulse">Pulse</string>
-    <string name="recent">Recent</string>
     <string name="settings">Settings</string>
     <string name="sound">Sound</string>
     <string name="startscreen">Start screen</string>

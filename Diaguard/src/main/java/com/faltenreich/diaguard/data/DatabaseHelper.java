@@ -104,14 +104,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private void upgradeToVersion20(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource) {
         try {
-            sqliteDatabase.execSQL("DROP TABLE IF EXISTS " + FOOD);
-            sqliteDatabase.execSQL("DROP TABLE IF EXISTS " + FOOD_EATEN);
             TableUtils.createTableIfNotExists(connectionSource, Food.class);
             TableUtils.createTableIfNotExists(connectionSource, FoodEaten.class);
         } catch (SQLException e) {
             Log.e(TAG, e.getLocalizedMessage());
         }
-        onCreate(sqliteDatabase, connectionSource);
     }
 
     private <M extends Measurement> void upgradeToVersion19(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource) {

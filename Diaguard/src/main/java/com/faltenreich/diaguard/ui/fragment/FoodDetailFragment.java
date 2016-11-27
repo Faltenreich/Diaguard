@@ -70,12 +70,9 @@ public class FoodDetailFragment extends BaseFoodFragment {
             String mealUnit = PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.MEAL);
             value.setText(String.format("%s %s %s 100g", Helper.parseFloat(mealValue), mealUnit, getString(R.string.per)));
 
-            boolean indicateSugarLevel = food.getSugarLevel() != null && food.getSugarLevel() != Food.NutrientLevel.LOW;
+            boolean indicateSugarLevel = food.getSugarLevel() != Food.NutrientLevel.LOW;
             sugarLevelIcon.setVisibility(indicateSugarLevel ? View.VISIBLE : View.GONE);
-            if (indicateSugarLevel) {
-                sugarLevelIcon.setImageResource(R.drawable.ic_arrow_up);
-                sugarLevelIcon.setTintColor(ContextCompat.getColor(getContext(), food.getSugarLevel().colorResId));
-            }
+            sugarLevelIcon.setTintColor(ContextCompat.getColor(getContext(), food.getSugarLevel().colorResId));
 
             if (food.getLabels() != null && food.getLabels().length() > 0) {
                 for (String label : food.getLabels().split(",")) {

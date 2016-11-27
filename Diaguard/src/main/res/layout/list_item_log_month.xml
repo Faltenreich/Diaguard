@@ -14,11 +14,9 @@
         android:scaleType="centerCrop"/>
 
     <View
-        android:id="@+id/scrim_top"
         android:layout_width="match_parent"
         android:layout_height="@dimen/scrim_height"
-        android:background="@drawable/scrim_top"
-        android:visibility="gone"/>
+        android:background="@drawable/scrim_top"/>
 
     <TextView
         android:id="@+id/month"

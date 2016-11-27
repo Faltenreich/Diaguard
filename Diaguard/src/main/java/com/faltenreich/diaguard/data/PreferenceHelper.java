@@ -213,6 +213,13 @@ public class PreferenceHelper {
                 "drawable", DiaguardApplication.getContext().getPackageName());
     }
 
+    public int getMonthSmallResourceId(DateTime daytime) {
+        int monthOfYear = daytime.monthOfYear().get();
+        String identifier = String.format("bg_month_%d_small", monthOfYear - 1);
+        return DiaguardApplication.getContext().getResources().getIdentifier(identifier,
+                "drawable", DiaguardApplication.getContext().getPackageName());
+    }
+
     public boolean isCategoryActive(Measurement.Category category) {
         return sharedPreferences.getBoolean(category.name() + CategoryPreference.ACTIVE, true);
     }

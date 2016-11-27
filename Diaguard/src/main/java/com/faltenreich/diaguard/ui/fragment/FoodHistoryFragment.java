@@ -29,7 +29,7 @@ public class FoodHistoryFragment extends BaseFoodFragment {
     private FoodEatenAdapter historyAdapter;
 
     public FoodHistoryFragment() {
-        super(R.layout.fragment_food_history, R.string.recent, R.drawable.ic_history);
+        super(R.layout.fragment_food_history, R.string.entries, R.drawable.ic_history);
     }
 
     @Override

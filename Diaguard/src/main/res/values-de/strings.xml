@@ -103,6 +103,7 @@
     <string name="note">Notiz</string>
     <string name="note_append">Notizen anhängen</string>
     <string name="nutrients">Nährstoffe</string>
+    <string name="nutrients_per_100g">Nährstoffe pro 100 g</string>
     <string name="ok">OK</string>
     <string name="overview">Übersicht</string>
     <string name="per">pro</string>
@@ -117,8 +118,9 @@
     <string name="startscreen">Startbildschirm</string>
     <string name="statistics">Statistik</string>
     <string name="store_values">Eintragen</string>
-    <string name="sugar_level_moderate">Durchschnittlicher Zuckergehalt</string>
-    <string name="sugar_level_high">Hoher Zuckergehalt</string>
+    <string name="sugar_level_low">Geringer Zuckeranteil</string>
+    <string name="sugar_level_moderate">Durchschnittlicher Zuckeranteil</string>
+    <string name="sugar_level_high">Hoher Zuckeranteil</string>
     <string name="systolic">Systolisch</string>
     <string name="target_area">Zielbereich</string>
     <string name="timeline">Tagebuch</string>

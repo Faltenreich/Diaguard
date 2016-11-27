@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.data.entity;
 
+import android.support.annotation.ColorRes;
 import android.support.annotation.StringRes;
 
 import com.faltenreich.diaguard.DiaguardApplication;
@@ -91,12 +92,21 @@ public class Food extends BaseServerEntity {
     }
 
     public enum NutrientLevel {
+
         @SerializedName("low")
-        LOW,
+        LOW(R.color.green_light, R.string.sugar_level_low),
         @SerializedName("moderate")
-        MODERATE,
+        MODERATE(R.color.yellow, R.string.sugar_level_moderate),
         @SerializedName("high")
-        HIGH
+        HIGH(R.color.red, R.string.sugar_level_high);
+
+        public @ColorRes int colorResId;
+        public @StringRes int descriptionResId;
+
+        NutrientLevel(@ColorRes int colorResId, @StringRes int descriptionResId) {
+            this.colorResId = colorResId;
+            this.descriptionResId = descriptionResId;
+        }
     }
 
     @DatabaseField(columnName = Column.NAME)

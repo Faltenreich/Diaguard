@@ -53,8 +53,21 @@
 
             <TextView
                 style="@style/LayoutRowItem"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:id="@+id/food_value"
                 android:textColor="@android:color/black" />
+
+            <com.faltenreich.diaguard.ui.view.TintImageView
+                android:id="@+id/food_sugar_level"
+                android:layout_width="@dimen/size_image"
+                android:layout_height="@dimen/size_image"
+                android:layout_marginLeft="@dimen/padding_end"
+                android:layout_marginStart="@dimen/padding_end"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:src="@drawable/ic_action_new"
+                app:tintColor="@color/green"/>
 
         </LinearLayout>
 

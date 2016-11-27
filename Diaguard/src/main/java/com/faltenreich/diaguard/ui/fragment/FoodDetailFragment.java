@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.ui.fragment;
 
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +13,12 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.data.FoodDeletedEvent;
 import com.faltenreich.diaguard.ui.view.FoodLabelView;
+import com.faltenreich.diaguard.ui.view.TintImageView;
 import com.faltenreich.diaguard.util.Helper;
+import com.faltenreich.diaguard.util.ViewHelper;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by Faltenreich on 28.10.2016.
@@ -26,6 +30,7 @@ public class FoodDetailFragment extends BaseFoodFragment {
     @BindView(R.id.food_ingredients) TextView ingredients;
     @BindView(R.id.food_value) TextView value;
     @BindView(R.id.food_labels) ViewGroup labels;
+    @BindView(R.id.food_sugar_level) TintImageView sugarLevelIcon;
 
     public FoodDetailFragment() {
         super(R.layout.fragment_food_detail, R.string.info, R.drawable.ic_category_meal);
@@ -65,41 +70,11 @@ public class FoodDetailFragment extends BaseFoodFragment {
             String mealUnit = PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.MEAL);
             value.setText(String.format("%s %s %s 100g", Helper.parseFloat(mealValue), mealUnit, getString(R.string.per)));
 
-            if (food.getSugarLevel() != null) {
-                switch (food.getSugarLevel()) {
-                    case MODERATE:
-                        labels.addView(new FoodLabelView(
-                                getContext(),
-                                getString(R.string.sugar_level_moderate),
-                                FoodLabelView.Type.WARNING,
-                                R.drawable.ic_error));
-                        break;
-                    case HIGH:
-                        labels.addView(new FoodLabelView(
-                                getContext(),
-                                getString(R.string.sugar_level_high),
-                                FoodLabelView.Type.ERROR,
-                                R.drawable.ic_error));
-                        break;
-                    default:
-                }
-            }
-
-            if (food.getCarbohydrates() > 0) {
-                // TODO: Determine quick- and slow-acting sugar
-                if (false) {
-                    labels.addView(new FoodLabelView(
-                            getContext(),
-                            getString(R.string.acting_quick),
-                            FoodLabelView.Type.ERROR,
-                            R.drawable.ic_error));
-                } else if (false) {
-                    labels.addView(new FoodLabelView(
-                            getContext(),
-                            getString(R.string.acting_slow),
-                            FoodLabelView.Type.ERROR,
-                            R.drawable.ic_error));
-                }
+            boolean indicateSugarLevel = food.getSugarLevel() != null && food.getSugarLevel() != Food.NutrientLevel.LOW;
+            sugarLevelIcon.setVisibility(indicateSugarLevel ? View.VISIBLE : View.GONE);
+            if (indicateSugarLevel) {
+                sugarLevelIcon.setImageResource(R.drawable.ic_arrow_up);
+                sugarLevelIcon.setTintColor(ContextCompat.getColor(getContext(), food.getSugarLevel().colorResId));
             }
 
             if (food.getLabels() != null && food.getLabels().length() > 0) {
@@ -107,6 +82,15 @@ public class FoodDetailFragment extends BaseFoodFragment {
                     labels.addView(new FoodLabelView(getContext(), label));
                 }
             }
+        }
+    }
+
+    @SuppressWarnings("unused")
+    @OnClick(R.id.food_sugar_level)
+    protected void showSugarLevelInfo() {
+        Food.NutrientLevel sugarLevel = getFood() != null ? getFood().getSugarLevel() : null;
+        if (sugarLevel != null) {
+            ViewHelper.showToast(getContext(), sugarLevel.descriptionResId);
         }
     }
 

@@ -25,7 +25,7 @@ public class FoodLabelView extends LinearLayout {
     public enum Type {
 
         DEFAULT(R.color.gray_darker),
-        WARNING(R.color.orange),
+        WARNING(R.color.yellow),
         ERROR(R.color.red_dark);
 
         public @ColorRes int color;

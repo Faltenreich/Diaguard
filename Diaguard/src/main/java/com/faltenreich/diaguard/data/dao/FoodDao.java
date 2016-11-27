@@ -120,7 +120,8 @@ public class FoodDao extends BaseServerDao<Food> {
             food.setSalt(dto.nutrients.salt);
             food.setSodium(dto.nutrients.sodium);
             food.setSugar(dto.nutrients.sugar);
-            food.setLanguageCode(new Locale(dto.languageCode).getLanguage());
+            Locale locale = dto.languageCode != null ? new Locale(dto.languageCode) : Helper.getLocale();
+            food.setLanguageCode(locale.getLanguage());
         }
 
         return food;

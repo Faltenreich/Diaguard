@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.ui.view.viewholder;
 
+import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,9 +31,11 @@ public class LogMonthViewHolder extends BaseViewHolder<ListItemMonth> {
     @Override
     public void bindData() {
         DateTime dateTime = getListItem().getDateTime();
-        int resourceId = PreferenceHelper.getInstance().getMonthResourceId(dateTime);
+        month.setText(dateTime.toString("MMMM YYYY"));
         scrim.setVisibility(View.GONE);
-        Picasso.with(getContext()).load(resourceId).into(background, new Callback() {
+
+        int resourceId = PreferenceHelper.getInstance().getMonthResourceId(dateTime);
+        Picasso.with(getContext()).load(resourceId).config(Bitmap.Config.RGB_565).into(background, new Callback() {
             @Override
             public void onSuccess() {
                 scrim.setVisibility(View.VISIBLE);
@@ -41,6 +44,5 @@ public class LogMonthViewHolder extends BaseViewHolder<ListItemMonth> {
             public void onError() {
             }
         });
-        month.setText(dateTime.toString("MMMM YYYY"));
     }
 }

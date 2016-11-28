@@ -79,12 +79,11 @@
             android:orientation="vertical"
             android:visibility="gone">
 
-            <com.faltenreich.diaguard.ui.view.TintImageView
+            <ImageView
                 android:id="@+id/food_search_empty_icon"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:contentDescription="@null"
-                app:tintColor="@color/gray_darker"
                 android:src="@drawable/ic_sad"/>
 
             <TextView

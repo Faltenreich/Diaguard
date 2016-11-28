@@ -29,6 +29,7 @@ import com.faltenreich.diaguard.event.ui.FoodSelectedEvent;
 import com.faltenreich.diaguard.ui.activity.FoodActivity;
 import com.faltenreich.diaguard.ui.activity.FoodEditActivity;
 import com.faltenreich.diaguard.ui.view.FoodRecyclerView;
+import com.faltenreich.diaguard.util.NetworkingUtils;
 import com.faltenreich.diaguard.util.ViewHelper;
 import com.lapism.searchview.SearchAdapter;
 import com.lapism.searchview.SearchItem;
@@ -172,12 +173,12 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         unitTextView.setText(PreferenceHelper.getInstance().getLabelForMealPer100g());
     }
 
-    private void showError(@DrawableRes int iconResId, @StringRes int textResId, @StringRes int descResId, boolean showButton) {
+    private void showError(@DrawableRes int iconResId, @StringRes int textResId, @StringRes int descResId, @StringRes int buttonTextResId) {
         emptyList.setVisibility(View.VISIBLE);
         emptyIcon.setImageResource(iconResId);
         emptyText.setText(textResId);
         emptyDescription.setText(descResId);
-        emptyButton.setVisibility(showButton ? View.VISIBLE : View.GONE);
+        emptyButton.setText(buttonTextResId);
     }
 
     private void onFoodSelected(Food food) {
@@ -226,6 +227,14 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         startActivity(new Intent(getContext(), FoodEditActivity.class));
     }
 
+    private void showEmptyList() {
+        if (NetworkingUtils.isOnline()) {
+            showError(R.drawable.ic_sad, R.string.error_no_data, R.string.error_no_data_desc, R.string.food_new_desc);
+        } else {
+            showError(R.drawable.ic_wifi, R.string.error_no_connection, R.string.error_no_connection_desc, R.string.try_again);
+        }
+    }
+
     @SuppressWarnings("unused")
     @OnClick(R.id.fab)
     public void onFabClick() {
@@ -235,7 +244,13 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     @SuppressWarnings("unused")
     @OnClick(R.id.food_search_empty_button)
     public void onEmptyButtonClick() {
-        createFood();
+        // Workaround since CONNECTIVITY_ACTION broadcasts cannot be caught since API level 24
+        boolean wasNetworkError = emptyText.getText().toString().equals(getString(R.string.error_no_connection));
+        if (wasNetworkError) {
+            query(searchView.getQuery().toString());
+        } else {
+            createFood();
+        }
     }
 
     @SuppressWarnings("unused")
@@ -260,7 +275,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     public void onEventMainThread(FoodQueryEndedEvent event) {
         swipeRefreshLayout.setRefreshing(false);
         if (list.getItemCount() == 0) {
-            showError(R.drawable.ic_sad, R.string.error_no_data, R.string.error_no_data_desc, true);
+            showEmptyList();
         }
     }
 

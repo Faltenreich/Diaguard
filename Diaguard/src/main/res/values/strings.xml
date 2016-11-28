@@ -16,8 +16,6 @@
     <!-- GENERAL -->
 
     <string name="about">About</string>
-    <string name="acting_quick">Quick-acting</string>
-    <string name="acting_slow">Slow-acting</string>
     <string name="active">active</string>
     <string name="activity">Activity</string>
     <string name="all">All</string>
@@ -28,8 +26,6 @@
     <string name="alarm_desc_first">Thought about yet?</string>
     <string name="alarm_reminder">Reminder in</string>
     <string name="amount">Amount &#8230;</string>
-    <string name="and_or">and/or</string>
-    <string name="attributes">Attributes</string>
     <string name="average">Average</string>
     <string name="average_symbol" translatable="false">Ø</string>
     <string name="back">Back</string>
@@ -65,8 +61,8 @@
     <string name="drawer_close">Close Navigator</string>
     <string name="drawer_open">Open Navigator</string>
     <string name="edit">Edit</string>
-    <string name="energy_acronym">kcal</string>
-    <string name="energy_acronym_2">kJ</string>
+    <string name="energy_acronym" translatable="false">kcal</string>
+    <string name="energy_acronym_2" translatable="false">kJ</string>
     <string name="entries">Entries</string>
     <string name="entry">Entry</string>
     <string name="entry_added">Entry added</string>
@@ -74,7 +70,6 @@
     <string name="entry_edit">Edit entry</string>
     <string name="entry_delete">Delete entry</string>
     <string name="entry_deleted">Entry deleted</string>
-    <string name="entry_latest">Latest entries</string>
     <string name="entry_new">New entry</string>
     <string name="export">Export</string>
     <string name="export_complete">Saved to %s</string>
@@ -91,12 +86,11 @@
     <string name="food_deleted">Food deleted</string>
     <string name="food_edit">Edit food</string>
     <string name="food_new">New food</string>
-    <string name="food_new_desc">Add a food</string>
     <string name="food_search">Search for food</string>
     <string name="format">Format</string>
     <string name="general">General</string>
     <string name="grams">Grams</string>
-    <string name="grams_acronym">g</string>
+    <string name="grams_acronym" translatable="false">g</string>
     <string name="hba1c">HbA1c</string>
     <string name="hba1c_estimated">Estimated HbA1c</string>
     <string name="hba1c_formula" translatable="false">HbA1c = 0,031 * %s 3-%s-%s + 2,393</string>
@@ -125,8 +119,8 @@
     <string name="no_data">No data available</string>
     <string name="note">Note</string>
     <string name="note_append">Append notes</string>
-    <string name="nutrients">Nutrients</string>
-    <string name="nutrients_per_100g">Nutrients per 100 g</string>
+    <string name="nutriments">Nutriments</string>
+    <string name="nutriments_per_100g">Nutriments per 100 g</string>
     <string name="ok">OK</string>
     <string name="overview">Overview</string>
     <string name="per">per</string>
@@ -153,7 +147,6 @@
     <string name="undo">Undo</string>
     <string name="units">Units</string>
     <string name="weight">Weight</string>
-    <string name="value">Value</string>
     <string name="version">Version</string>
     <string name="vibration">Vibration</string>
     <string name="change_none">Constant</string>
@@ -162,15 +155,15 @@
     <string name="change_every_second_hour">Changes every second hour</string>
     <string name="change_every_hour">Changes every hour</string>
 
-    <string name="nutrient_carbohydrates">Carbohydrates</string>
-    <string name="nutrient_energy">Energy</string>
-    <string name="nutrient_fat">Fat</string>
-    <string name="nutrient_fat_saturated">Saturated fat</string>
-    <string name="nutrient_fiber">Fiber</string>
-    <string name="nutrient_proteins">Proteins</string>
-    <string name="nutrient_salt">Salt</string>
-    <string name="nutrient_sodium">Sodium</string>
-    <string name="nutrient_sugar">Sugar</string>
+    <string name="carbohydrates">Carbohydrates</string>
+    <string name="energy">Energy</string>
+    <string name="fat">Fat</string>
+    <string name="fat_saturated">Saturated fat</string>
+    <string name="fiber">Fiber</string>
+    <string name="proteins">Proteins</string>
+    <string name="salt">Salt</string>
+    <string name="sodium">Sodium</string>
+    <string name="sugar">Sugar</string>
 
     <string-array name="time_rhythm">
         <item>@string/change_none</item>

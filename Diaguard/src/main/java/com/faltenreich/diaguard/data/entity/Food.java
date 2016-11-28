@@ -47,15 +47,15 @@ public class Food extends BaseServerEntity {
 
     public enum Nutrient {
 
-        ENERGY(R.string.nutrient_energy),
-        FAT(R.string.nutrient_fat),
-        FAT_SATURATED(R.string.nutrient_fat_saturated),
-        CARBOHYDRATES(R.string.nutrient_carbohydrates),
-        SUGAR(R.string.nutrient_sugar),
-        FIBER(R.string.nutrient_fiber),
-        PROTEINS(R.string.nutrient_proteins),
-        SALT(R.string.nutrient_salt),
-        SODIUM(R.string.nutrient_sodium);
+        ENERGY(R.string.energy),
+        FAT(R.string.fat),
+        FAT_SATURATED(R.string.fat_saturated),
+        CARBOHYDRATES(R.string.carbohydrates),
+        SUGAR(R.string.sugar),
+        FIBER(R.string.fiber),
+        PROTEINS(R.string.proteins),
+        SALT(R.string.salt),
+        SODIUM(R.string.sodium);
 
         private int textResId;
 

@@ -5,8 +5,6 @@
 
     <!-- GENERAL -->
     <string name="about">Über</string>
-    <string name="acting_quick">Schnell wirkend</string>
-    <string name="acting_slow">Langsam wirkend</string>
     <string name="active">aktiv</string>
     <string name="activity">Aktivität</string>
     <string name="all">Alle</string>
@@ -17,8 +15,6 @@
     <string name="alarm_desc_first">Schon dran gedacht?</string>
     <string name="alarm_reminder">Erinnerung in</string>
     <string name="amount">Menge &#8230;</string>
-    <string name="and_or">und/oder</string>
-    <string name="attributes">Kennzeichen</string>
     <string name="average">Durchschnitt</string>
     <string name="back">Zurück</string>
     <string name="backup">Backup anlegen</string>
@@ -59,7 +55,6 @@
     <string name="entry_edit">Eintrag bearbeiten</string>
     <string name="entry_delete">Eintrag löschen</string>
     <string name="entry_deleted">Eintrag gelöscht</string>
-    <string name="entry_latest">Letzte Einträge</string>
     <string name="entry_new">Neuer Eintrag</string>
     <string name="export">Export</string>
     <string name="export_complete">Gespeichert unter %s</string>
@@ -75,7 +70,6 @@
     <string name="food_deleted">Lebensmittel gelöscht</string>
     <string name="food_edit">Lebensmittel bearbeiten</string>
     <string name="food_new">Neues Lebensmittel</string>
-    <string name="food_new_desc">Füge ein Lebensmittel hinzu</string>
     <string name="food_search">Lebensmittel suchen</string>
     <string name="format">Format</string>
     <string name="general">Allgemein</string>
@@ -104,8 +98,8 @@
     <string name="no_data">Keine Einträge vorhanden</string>
     <string name="note">Notiz</string>
     <string name="note_append">Notizen anhängen</string>
-    <string name="nutrients">Nährstoffe</string>
-    <string name="nutrients_per_100g">Nährstoffe pro 100 g</string>
+    <string name="nutriments">Nährstoffe</string>
+    <string name="nutriments_per_100g">Nährstoffe pro 100 g</string>
     <string name="ok">OK</string>
     <string name="overview">Übersicht</string>
     <string name="per">pro</string>
@@ -113,7 +107,6 @@
     <string name="permission_required_storage">Berechtigung für Speicherzugriff fehlt</string>
     <string name="pressure">Blutdruck</string>
     <string name="pulse">Puls</string>
-    <string name="search">Suche &#8230;</string>
     <string name="settings">Einstellungen</string>
     <string name="sound">Töne</string>
     <string name="startscreen">Startbildschirm</string>
@@ -132,7 +125,6 @@
     <string name="undo">Rückgängig</string>
     <string name="units">Einheiten</string>
     <string name="weight">Gewicht</string>
-    <string name="value">Wert</string>
     <string name="version">Version</string>
     <string name="vibration">Vibration</string>
     <string name="change_none">Konstant</string>
@@ -141,15 +133,15 @@
     <string name="change_every_second_hour">Ändert sich jede zweite Stunde</string>
     <string name="change_every_hour">Ändert sich jede Stunde</string>
 
-    <string name="nutrient_carbohydrates">Kohlenhydrate</string>
-    <string name="nutrient_energy">Kalorien</string>
-    <string name="nutrient_fat">Fett</string>
-    <string name="nutrient_fat_saturated">Gesättigte Fettsäuren</string>
-    <string name="nutrient_fiber">Ballaststoffe</string>
-    <string name="nutrient_proteins">Eiweiß</string>
-    <string name="nutrient_salt">Salz</string>
-    <string name="nutrient_sodium">Natrium</string>
-    <string name="nutrient_sugar">Zucker</string>
+    <string name="carbohydrates">Kohlenhydrate</string>
+    <string name="energy">Kalorien</string>
+    <string name="fat">Fett</string>
+    <string name="fat_saturated">Gesättigte Fettsäuren</string>
+    <string name="fiber">Ballaststoffe</string>
+    <string name="proteins">Eiweiß</string>
+    <string name="salt">Salz</string>
+    <string name="sodium">Natrium</string>
+    <string name="sugar">Zucker</string>
 
     <string-array name="startscreens">
         <item>Übersicht</item>

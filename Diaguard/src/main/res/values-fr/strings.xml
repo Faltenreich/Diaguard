@@ -54,7 +54,7 @@
     <string name="factors">Facteurs unitaire de glucides</string>
     <string name="first_visit">Nouveau ici?</string>
     <string name="first_visit_desc">Ajouter la première valeur</string>
-    <string name="food_add">Ajouter la nourriture</string>
+    <string name="food_add">Ajouter l\'aliment</string>
     <string name="format">Format</string>
     <string name="general">Généralement</string>
     <string name="hba1c">HbA1c</string>
@@ -77,7 +77,6 @@
     <string name="ok">OK</string>
     <string name="overview">Aperçu</string>
     <string name="pulse">Impulsion</string>
-    <string name="recent">Récent</string>
     <string name="settings">Généraux</string>
     <string name="sound">Tones</string>
     <string name="startscreen">Page d\'accueil</string>
@@ -301,5 +300,34 @@
     <string name="permission_required_storage">L\'autorisation d\'accès au stockage est manquant</string>
     <string name="hba1c_estimated">HbA1c estimée</string>
     <string name="months">Mois</string>
+    <string name="brand">Marque</string>
+    <string name="entries">Entrées</string>
+    <string name="error_no_connection">Pas de connection?</string>
+    <string name="error_no_connection_desc">Aller en ligne pour obtenir plus d\'informations</string>
+    <string name="error_no_data">Rien trouvé</string>
+    <string name="error_no_data_desc">Essayez une autre requête pour améliorer vos résultats ou</string>
+    <string name="food">Aliment</string>
+    <string name="food_common">Alimentation commune</string>
+    <string name="food_deleted">Aliments supprimés</string>
+    <string name="food_edit">Modifier les aliments</string>
+    <string name="food_new">Nouvelle aliment</string>
+    <string name="food_search">Recherche de aliments</string>
+    <string name="ingredients">Ingrédients</string>
+    <string name="name">Nom</string>
+    <string name="nutriments">Nutriments</string>
+    <string name="nutriments_per_100g">Nutriments par 100 g</string>
+    <string name="proteins">Protéines</string>
+    <string name="salt">Sel</string>
+    <string name="sodium">Sodium</string>
+    <string name="sugar">Sucre</string>
+    <string name="sugar_level_high">Niveau de sucre élevé</string>
+    <string name="sugar_level_low">Niveau de sucre faible</string>
+    <string name="sugar_level_moderate">Niveau de sucre modéré</string>
+    <string name="try_again">Réessayer</string>
+    <string name="carbohydrates">Glucides</string>
+    <string name="energy">Calories</string>
+    <string name="fat">Graisse</string>
+    <string name="fat_saturated">Graisses saturées</string>
+    <string name="fiber">Fibra</string>
 
 </resources>

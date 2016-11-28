@@ -229,7 +229,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
 
     private void showEmptyList() {
         if (NetworkingUtils.isOnline()) {
-            showError(R.drawable.ic_sad, R.string.error_no_data, R.string.error_no_data_desc, R.string.food_new_desc);
+            showError(R.drawable.ic_sad, R.string.error_no_data, R.string.error_no_data_desc, R.string.food_add);
         } else {
             showError(R.drawable.ic_wifi, R.string.error_no_connection, R.string.error_no_connection_desc, R.string.try_again);
         }

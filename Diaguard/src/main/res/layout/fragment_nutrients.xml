@@ -9,7 +9,7 @@
         style="@style/Padding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/nutrients_per_100g"
+        android:text="@string/nutriments_per_100g"
         android:textColor="@color/gray_dark"
         android:layout_marginTop="6dp"/>
 

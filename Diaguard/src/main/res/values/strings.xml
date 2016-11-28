@@ -91,6 +91,7 @@
     <string name="food_deleted">Food deleted</string>
     <string name="food_edit">Edit food</string>
     <string name="food_new">New food</string>
+    <string name="food_new_desc">Add a food</string>
     <string name="food_search">Search for food</string>
     <string name="format">Format</string>
     <string name="general">General</string>
@@ -428,10 +429,10 @@
     <!-- ERRORS -->
 
     <string name="error_unexpected">Something went wrong</string>
-    <string name="error_no_connection">No connection</string>
-    <string name="error_no_connection_desc">Please establish a connection to the internet to get more information</string>
-    <string name="error_no_data">Nothing to show</string>
-    <string name="error_no_data_desc">Try another query to improve your results</string>
+    <string name="error_no_connection">No connection?</string>
+    <string name="error_no_connection_desc">Go online to get more information</string>
+    <string name="error_no_data">Gaping emptiness?</string>
+    <string name="error_no_data_desc">Try another query to improve your results or</string>
     <string name="error_no_mail">No app found to send E-Mail</string>
     <string name="error_no_app">No app found to open file</string>
     <string name="error_sd_card">SD card not available</string>

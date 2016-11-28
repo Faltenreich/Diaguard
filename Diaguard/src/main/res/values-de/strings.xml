@@ -75,6 +75,7 @@
     <string name="food_deleted">Lebensmittel gelöscht</string>
     <string name="food_edit">Lebensmittel bearbeiten</string>
     <string name="food_new">Neues Lebensmittel</string>
+    <string name="food_new_desc">Füge ein Lebensmittel hinzu</string>
     <string name="food_search">Lebensmittel suchen</string>
     <string name="format">Format</string>
     <string name="general">Allgemein</string>
@@ -294,6 +295,10 @@
 
     <!-- ERRORS -->
     <string name="error_unexpected">Etwas ist schief gelaufen</string>
+    <string name="error_no_connection">Keine Verbindung?</string>
+    <string name="error_no_connection_desc">Geh online, um mehr Informationen zu erhalten</string>
+    <string name="error_no_data">Gähnende Leere?</string>
+    <string name="error_no_data_desc">Versuche es mit einem anderen Suchbegriff oder</string>
     <string name="error_no_mail">Keine App zum Senden von E-Mails gefunden</string>
     <string name="error_no_app">Keine App zum Öffnen der Datei gefunden</string>
     <string name="error_sd_card">Speicherkarte nicht verfügbar</string>

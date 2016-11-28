@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -56,6 +57,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     @BindView(R.id.food_search_empty_icon) ImageView emptyIcon;
     @BindView(R.id.food_search_empty_text) TextView emptyText;
     @BindView(R.id.food_search_empty_description) TextView emptyDescription;
+    @BindView(R.id.food_search_empty_button) Button emptyButton;
 
     private boolean finishOnSelection;
     private SearchAdapter searchAdapter;
@@ -170,11 +172,12 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         unitTextView.setText(PreferenceHelper.getInstance().getLabelForMealPer100g());
     }
 
-    private void showError(@DrawableRes int iconResId, @StringRes int textResId, @StringRes int descResId) {
+    private void showError(@DrawableRes int iconResId, @StringRes int textResId, @StringRes int descResId, boolean showButton) {
         emptyList.setVisibility(View.VISIBLE);
         emptyIcon.setImageResource(iconResId);
         emptyText.setText(textResId);
         emptyDescription.setText(descResId);
+        emptyButton.setVisibility(showButton ? View.VISIBLE : View.GONE);
     }
 
     private void onFoodSelected(Food food) {
@@ -219,10 +222,20 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         }
     }
 
+    private void createFood() {
+        startActivity(new Intent(getContext(), FoodEditActivity.class));
+    }
+
     @SuppressWarnings("unused")
     @OnClick(R.id.fab)
-    public void createFood() {
-        startActivity(new Intent(getContext(), FoodEditActivity.class));
+    public void onFabClick() {
+        createFood();
+    }
+
+    @SuppressWarnings("unused")
+    @OnClick(R.id.food_search_empty_button)
+    public void onEmptyButtonClick() {
+        createFood();
     }
 
     @SuppressWarnings("unused")
@@ -247,7 +260,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     public void onEventMainThread(FoodQueryEndedEvent event) {
         swipeRefreshLayout.setRefreshing(false);
         if (list.getItemCount() == 0) {
-            showError(R.drawable.ic_sad, R.string.error_no_data, R.string.error_no_data_desc);
+            showError(R.drawable.ic_sad, R.string.error_no_data, R.string.error_no_data_desc, true);
         }
     }
 

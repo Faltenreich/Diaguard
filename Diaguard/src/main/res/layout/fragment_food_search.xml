@@ -84,22 +84,34 @@
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:contentDescription="@null"
-                app:tintColor="@color/green" />
+                app:tintColor="@color/gray_darker"
+                android:src="@drawable/ic_sad"/>
 
             <TextView
                 android:id="@+id/food_search_empty_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padding_end"
+                android:layout_marginTop="@dimen/margin_between_large"
                 android:gravity="center"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:text="@string/error_no_data"/>
 
             <TextView
                 android:id="@+id/food_search_empty_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_between"
-                android:gravity="center" />
+                android:gravity="center"
+                android:text="@string/error_no_data_desc"/>
+
+            <Button
+                android:id="@+id/food_search_empty_button"
+                style="?attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_between"
+                android:textColor="@color/green"
+                android:text="@string/food_new_desc"/>
 
         </LinearLayout>
 

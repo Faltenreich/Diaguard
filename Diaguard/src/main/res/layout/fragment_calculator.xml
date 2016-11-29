@@ -43,7 +43,8 @@
                             android:id="@+id/calculator_bloodsugar"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/bloodsugar">
+                            android:hint="@string/bloodsugar"
+                            android:inputType="numberDecimal">
 
                             <requestFocus />
                         </com.faltenreich.diaguard.ui.view.StickyHintInput>
@@ -66,7 +67,8 @@
                             android:id="@+id/calculator_target"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/pref_therapy_targets_target" />
+                            android:hint="@string/pref_therapy_targets_target"
+                            android:inputType="numberDecimal" />
 
                     </LinearLayout>
 
@@ -86,7 +88,8 @@
                             android:id="@+id/calculator_correction"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/correction_value" />
+                            android:hint="@string/correction_value"
+                            android:inputType="numberDecimal" />
 
                     </LinearLayout>
 
@@ -130,7 +133,8 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="0dp"
                             android:layout_weight="1"
-                            android:hint="@string/factor" />
+                            android:hint="@string/factor"
+                            android:inputType="numberDecimal" />
 
                         <com.faltenreich.diaguard.ui.view.TintImageView
                             android:id="@+id/calculator_factor_edit_button"

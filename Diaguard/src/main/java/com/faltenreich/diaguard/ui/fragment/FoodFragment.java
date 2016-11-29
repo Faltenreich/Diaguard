@@ -92,7 +92,7 @@ public class FoodFragment extends BaseFoodFragment {
 
             scrimTop.setVisibility(View.GONE);
             scrimBottom.setVisibility(View.GONE);
-            Picasso.with(getContext()).load(food.getFullImageUrl()).into(image, new Callback() {
+            Picasso.with(getContext()).load(food.getFullImageUrl()).fit().centerCrop().into(image, new Callback() {
                 @Override
                 public void onSuccess() {
                     scrimTop.setVisibility(View.VISIBLE);

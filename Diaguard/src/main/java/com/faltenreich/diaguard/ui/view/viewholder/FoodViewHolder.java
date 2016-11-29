@@ -36,7 +36,7 @@ public class FoodViewHolder extends BaseViewHolder<ListItemFood> implements View
         placeholder.setText(food.getName() != null && food.getName().length() > 0 ?
                 food.getName().substring(0, 1).toUpperCase() :
                 null);
-        Picasso.with(getContext()).load(food.getImageUrl()).into(image);
+        Picasso.with(getContext()).load(food.getImageUrl()).fit().centerCrop().into(image);
         name.setText(food.getName());
         brand.setText(food.getBrand());
         brand.setVisibility(food.getBrand() != null && food.getBrand().length() > 0 ? View.VISIBLE : View.GONE);

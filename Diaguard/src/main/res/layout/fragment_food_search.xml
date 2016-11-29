@@ -110,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_between"
                 android:textColor="@color/green"
-                android:text="@string/food_add"/>
+                android:text="@string/food_add_desc"/>
 
         </LinearLayout>
 

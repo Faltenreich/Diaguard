@@ -27,7 +27,6 @@ public class Food extends BaseServerEntity {
 
     public class Column extends BaseServerEntity.Column {
         public static final String NAME = "name";
-        public static final String FULL_NAME = "fullName";
         public static final String IMAGE_URL = "imageUrl";
         public static final String BRAND = "brand";
         public static final String INGREDIENTS = "ingredients";
@@ -108,9 +107,6 @@ public class Food extends BaseServerEntity {
     @DatabaseField(columnName = Column.NAME)
     private String name;
 
-    @DatabaseField(columnName = Column.FULL_NAME)
-    private String fullName;
-
     @DatabaseField(columnName = Column.IMAGE_URL)
     private String imageUrl;
 
@@ -162,14 +158,6 @@ public class Food extends BaseServerEntity {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
     }
 
     public String getImageUrl() {

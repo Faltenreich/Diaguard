@@ -1,5 +1,5 @@
 #
-# generated on 2016/11/27 02:11:35
+# generated on 2016/11/29 07:55:34
 #
 # --table-start--
 dataClass=com.faltenreich.diaguard.data.entity.Entry
@@ -299,10 +299,6 @@ tableName=food
 # --field-start--
 fieldName=name
 columnName=name
-# --field-end--
-# --field-start--
-fieldName=fullName
-columnName=fullName
 # --field-end--
 # --field-start--
 fieldName=imageUrl

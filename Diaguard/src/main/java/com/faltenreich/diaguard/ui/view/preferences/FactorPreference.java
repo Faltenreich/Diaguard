@@ -19,6 +19,8 @@ import com.faltenreich.diaguard.adapter.FactorAdapter;
 import com.faltenreich.diaguard.adapter.list.ListItemFactor;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.TimeInterval;
+import com.faltenreich.diaguard.event.Events;
+import com.faltenreich.diaguard.event.data.FactorChangedEvent;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -131,5 +133,7 @@ public class FactorPreference extends DialogPreference {
                 hoursIntoInterval++;
             }
         }
+
+        Events.post(new FactorChangedEvent());
     }
 }

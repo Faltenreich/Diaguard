@@ -48,6 +48,7 @@ import static com.faltenreich.diaguard.R.id.food_search_list_empty;
 public class FoodSearchFragment extends BaseFragment implements SearchView.OnQueryTextListener, SearchView.OnMenuClickListener {
 
     public static final String FINISH_ON_SELECTION = "finishOnSelection";
+    private static final int HISTORY_MAXIMUM_COUNT = 5;
 
     @BindView(R.id.food_search_unit) TextView unitTextView;
     @BindView(R.id.food_search_swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
@@ -118,10 +119,6 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     }
 
     private void init() {
-        searchView.setOnQueryTextListener(this);
-        searchView.setOnMenuClickListener(this);
-        searchView.setHint(R.string.food_search);
-        searchView.setArrowOnly(false);
 
         swipeRefreshLayout.setColorSchemeResources(R.color.green, R.color.green_light, R.color.green_lighter);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -156,6 +153,11 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         });
         layout.addView(cameraIcon, layout.getChildCount() - 1);
         */
+
+        searchView.setOnQueryTextListener(this);
+        searchView.setOnMenuClickListener(this);
+        searchView.setHint(R.string.food_search);
+        searchView.setArrowOnly(false);
 
         searchAdapter = new SearchAdapter(getContext());
         searchAdapter.addOnItemClickListener(new SearchAdapter.OnItemClickListener() {
@@ -296,33 +298,33 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         });
     }
 
-    private class SetSuggestionsTask extends AsyncTask<Void, Void, ArrayList<ArrayList<SearchItem>>> {
+    private class SetSuggestionsTask extends AsyncTask<Void, Void, ArrayList<SearchItem>> {
 
         @Override
-        protected ArrayList<ArrayList<SearchItem>> doInBackground(Void... voids) {
-            ArrayList<ArrayList<SearchItem>> searchItems = new ArrayList<>();
+        protected ArrayList<SearchItem> doInBackground(Void... voids) {
+            ArrayList<SearchItem> searchItems = new ArrayList<>();
 
-            ArrayList<SearchItem> suggestions = new ArrayList<>();
-            for (Food food : FoodDao.getInstance().getAll()) {
-                suggestions.add(new SearchItem(food.getName()));
-            }
-            searchItems.add(suggestions);
-
-            ArrayList<SearchItem> recent = new ArrayList<>();
+            int historySize = 0;
             for (String recentQuery : PreferenceHelper.getInstance().getInputQueries()) {
-                recent.add(new SearchItem(recentQuery));
+                if (historySize < HISTORY_MAXIMUM_COUNT) {
+                    searchItems.add(new SearchItem(R.drawable.ic_history, recentQuery));
+                    historySize++;
+                } else {
+                    break;
+                }
             }
-            searchItems.add(recent);
+
+            for (Food food : FoodDao.getInstance().getAll()) {
+                searchItems.add(new SearchItem(food.getName()));
+            }
 
             return searchItems;
         }
 
         @Override
-        protected void onPostExecute(ArrayList<ArrayList<SearchItem>> searchItems) {
+        protected void onPostExecute(ArrayList<SearchItem> searchItems) {
             super.onPostExecute(searchItems);
-
-            searchAdapter.setSuggestionsList(searchItems.get(0));
-            searchAdapter.setData(searchItems.get(1));
+            searchAdapter.setSuggestionsList(searchItems);
         }
     }
 }

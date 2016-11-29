@@ -26,12 +26,12 @@
                     android:src="@drawable/ic_action_edit"
                     app:tintColor="@color/gray_darker" />
 
-                <EditText
+                <com.faltenreich.diaguard.ui.view.StickyHintInput
                     android:id="@+id/food_edit_name"
-                    style="@style/LayoutRowItemMultiline"
-                    android:background="@android:color/transparent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:hint="@string/name"
-                    android:inputType="text" />
+                    android:inputType="text"/>
 
             </LinearLayout>
 
@@ -44,12 +44,12 @@
                     android:src="@drawable/ic_business"
                     app:tintColor="@color/gray_darker" />
 
-                <EditText
+                <com.faltenreich.diaguard.ui.view.StickyHintInput
                     android:id="@+id/food_edit_brand"
-                    style="@style/LayoutRowItemMultiline"
-                    android:background="@android:color/transparent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:hint="@string/brand"
-                    android:inputType="text" />
+                    android:inputType="text"/>
 
             </LinearLayout>
 
@@ -62,10 +62,10 @@
                     android:src="@drawable/ic_note"
                     app:tintColor="@color/gray_darker" />
 
-                <EditText
+                <com.faltenreich.diaguard.ui.view.StickyHintInput
                     android:id="@+id/food_edit_ingredients"
-                    style="@style/LayoutRowItemMultiline"
-                    android:background="@android:color/transparent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:hint="@string/ingredients"
                     android:inputType="textMultiLine|textCapSentences"/>
 
@@ -80,19 +80,13 @@
                     android:src="@drawable/ic_category_meal"
                     app:tintColor="@color/gray_darker" />
 
-                <EditText
+                <com.faltenreich.diaguard.ui.view.StickyHintInput
                     android:id="@+id/food_edit_value"
-                    style="@style/LayoutRowItem"
-                    android:background="@android:color/transparent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:inputType="numberDecimal"/>
 
             </LinearLayout>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/food_edit_nutrients"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"/>
 
         </LinearLayout>
 

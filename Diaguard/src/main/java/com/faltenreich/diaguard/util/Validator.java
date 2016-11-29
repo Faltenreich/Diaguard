@@ -7,7 +7,6 @@ import android.widget.EditText;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.ui.view.StickyHintInput;
 
 /**
  * Created by Filip on 05.11.13.
@@ -39,10 +38,6 @@ public class Validator {
             editText.setError(context.getString(R.string.validator_value_empty));
             return false;
         }
-    }
-
-    public static boolean validateEditTextEvent(Context context, StickyHintInput input, Measurement.Category category, boolean checkForHint) {
-        return validateEditTextEvent(context, input.getEditText(), category, checkForHint);
     }
 
     public static boolean validateEventValue(Context context, EditText editText, Measurement.Category category, String value) {

@@ -117,13 +117,13 @@ public class CalculatorFragment extends BaseFragment {
         boolean isValid = true;
 
         // Blood Sugar
-        if (!Validator.validateEditTextEvent(getContext(), bloodSugarInput, Measurement.Category.BLOODSUGAR, false)) {
+        if (!Validator.validateEditTextEvent(getContext(), bloodSugarInput.getEditText(), Measurement.Category.BLOODSUGAR, false)) {
             isValid = false;
         }
-        if (!Validator.validateEditTextEvent(getContext(), targetInput, Measurement.Category.BLOODSUGAR, false)) {
+        if (!Validator.validateEditTextEvent(getContext(), targetInput.getEditText(), Measurement.Category.BLOODSUGAR, false)) {
             isValid = false;
         }
-        if (!Validator.validateEditTextEvent(getContext(), correctionInput, Measurement.Category.BLOODSUGAR, false)) {
+        if (!Validator.validateEditTextEvent(getContext(), correctionInput.getEditText(), Measurement.Category.BLOODSUGAR, false)) {
             isValid = false;
         }
 

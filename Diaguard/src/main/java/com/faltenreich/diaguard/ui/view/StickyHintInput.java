@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.ui.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ public class StickyHintInput extends LinearLayout implements TextWatcher {
     @BindView(R.id.label) TextView label;
 
     private CharSequence hint;
+    private int inputType;
 
     public StickyHintInput(Context context) {
         super(context);
@@ -44,9 +46,11 @@ public class StickyHintInput extends LinearLayout implements TextWatcher {
     }
 
     private void init(AttributeSet attributeSet) {
-        TypedArray typedArray = getContext().obtainStyledAttributes(attributeSet, new int[]{android.R.attr.hint});
+        TypedArray typedArray = getContext().obtainStyledAttributes(attributeSet, new int[]{ android.R.attr.hint, android.R.attr.inputType });
         try {
             hint = typedArray.getText(0);
+            //noinspection ResourceType
+            inputType = typedArray.getInt(1, InputType.TYPE_NUMBER_FLAG_DECIMAL);
         } finally {
             typedArray.recycle();
         }
@@ -59,6 +63,7 @@ public class StickyHintInput extends LinearLayout implements TextWatcher {
             ButterKnife.bind(this);
             input.addTextChangedListener(this);
             input.setHint(hint);
+            input.setInputType(inputType);
             label.setText(hint);
             label.setOnClickListener(new OnClickListener() {
                 @Override

@@ -2,12 +2,10 @@ package com.faltenreich.diaguard.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
@@ -16,6 +14,7 @@ import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.data.FoodSavedEvent;
+import com.faltenreich.diaguard.ui.view.StickyHintInput;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 
@@ -27,11 +26,10 @@ import butterknife.BindView;
 
 public class FoodEditFragment extends BaseFoodFragment {
 
-    @BindView(R.id.food_edit_name) EditText nameInput;
-    @BindView(R.id.food_edit_brand) EditText brandInput;
-    @BindView(R.id.food_edit_ingredients) EditText ingredientsInput;
-    @BindView(R.id.food_edit_value) EditText valueInput;
-    @BindView(R.id.food_edit_nutrients) RecyclerView nutrientList;
+    @BindView(R.id.food_edit_name) StickyHintInput nameInput;
+    @BindView(R.id.food_edit_brand) StickyHintInput brandInput;
+    @BindView(R.id.food_edit_ingredients) StickyHintInput ingredientsInput;
+    @BindView(R.id.food_edit_value) StickyHintInput valueInput;
 
     public FoodEditFragment() {
         super(R.layout.fragment_food_edit, R.string.food_new);
@@ -90,12 +88,12 @@ public class FoodEditFragment extends BaseFoodFragment {
 
     private boolean isValid() {
         boolean isValid = true;
-        if (nameInput.getText().toString().length() == 0) {
+        if (nameInput.getText().length() == 0) {
             nameInput.setError(getString(R.string.validator_value_empty));
             isValid = false;
         }
         // Check for carbohydrates
-        if (valueInput.getText().toString().length() == 0) {
+        if (valueInput.getText().length() == 0) {
             valueInput.setError(getString(R.string.validator_value_empty));
             isValid = false;
         }
@@ -108,12 +106,13 @@ public class FoodEditFragment extends BaseFoodFragment {
             if (food == null) {
                 food = new Food();
             }
-            food.setName(nameInput.getText().toString());
-            food.setBrand(brandInput.getText().toString());
-            food.setIngredients(ingredientsInput.getText().toString());
+            food.setLanguageCode(Helper.getLanguageCode());
+            food.setName(nameInput.getText());
+            food.setBrand(brandInput.getText());
+            food.setIngredients(ingredientsInput.getText());
             food.setCarbohydrates(PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                     Measurement.Category.MEAL,
-                    NumberUtils.parseNumber(valueInput.getText().toString())));
+                    NumberUtils.parseNumber(valueInput.getText())));
 
             FoodDao.getInstance().createOrUpdate(food);
             Events.post(new FoodSavedEvent(food));

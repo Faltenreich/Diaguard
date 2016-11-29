@@ -66,7 +66,8 @@
         <com.faltenreich.diaguard.ui.view.StickyHintInput
             android:id="@+id/food_list_value_input"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal" />
 
     </LinearLayout>
 

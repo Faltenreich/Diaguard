@@ -10,7 +10,8 @@
         android:id="@+id/insulin_bolus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/bolus"/>
+        android:hint="@string/bolus"
+        android:inputType="numberDecimal"/>
 
     <View style="@style/LayoutRowSeparator" />
 
@@ -18,7 +19,8 @@
         android:id="@+id/insulin_correction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/correction"/>
+        android:hint="@string/correction"
+        android:inputType="numberDecimal"/>
 
     <View style="@style/LayoutRowSeparator" />
 
@@ -26,6 +28,7 @@
         android:id="@+id/insulin_basal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/basal"/>
+        android:hint="@string/basal"
+        android:inputType="numberDecimal"/>
 
 </LinearLayout>

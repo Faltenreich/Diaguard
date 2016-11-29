@@ -9,7 +9,8 @@
         android:id="@+id/pressure_systolic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/systolic"/>
+        android:hint="@string/systolic"
+        android:inputType="numberDecimal"/>
 
     <View style="@style/LayoutRowSeparator"/>
 
@@ -17,6 +18,7 @@
         android:id="@+id/pressure_diastolic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/diastolic"/>
+        android:hint="@string/diastolic"
+        android:inputType="numberDecimal"/>
 
 </LinearLayout>

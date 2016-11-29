@@ -57,6 +57,7 @@
     <string name="first_visit">Eres nuevo?</string>
     <string name="first_visit_desc">Ingresar los primeros valores</string>
     <string name="food_add">Añadir alimentos</string>
+    <string name="food_add_desc">Añadir alimentos</string>
     <string name="format">Formato</string>
     <string name="general">General</string>
     <string name="hba1c">HbA1c</string>

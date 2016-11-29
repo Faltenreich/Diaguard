@@ -55,6 +55,7 @@
     <string name="first_visit">Nouveau ici?</string>
     <string name="first_visit_desc">Ajouter la première valeur</string>
     <string name="food_add">Ajouter l\'aliment</string>
+    <string name="food_add_desc">Ajouter l\'aliment</string>
     <string name="format">Format</string>
     <string name="general">Généralement</string>
     <string name="hba1c">HbA1c</string>

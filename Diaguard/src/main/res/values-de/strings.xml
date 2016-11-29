@@ -66,6 +66,7 @@
     <string name="first_visit_desc">Ersten Wert eintragen</string>
     <string name="food">Lebensmittel</string>
     <string name="food_add">Lebensmittel hinzufügen</string>
+    <string name="food_add_desc">Neues Lebensmittel</string>
     <string name="food_common">Gewöhnliches Lebensmittel</string>
     <string name="food_deleted">Lebensmittel gelöscht</string>
     <string name="food_edit">Lebensmittel bearbeiten</string>
@@ -291,7 +292,7 @@
     <string name="error_no_connection">Keine Verbindung?</string>
     <string name="error_no_connection_desc">Geh online, um mehr Informationen zu erhalten</string>
     <string name="error_no_data">Gähnende Leere?</string>
-    <string name="error_no_data_desc">Versuche es mit einem anderen Suchbegriff oder</string>
+    <string name="error_no_data_desc">Versuche es mit einem anderen Suchbegriff oder erstelle ein</string>
     <string name="error_no_mail">Keine App zum Senden von E-Mails gefunden</string>
     <string name="error_no_app">Keine App zum Öffnen der Datei gefunden</string>
     <string name="error_sd_card">Speicherkarte nicht verfügbar</string>

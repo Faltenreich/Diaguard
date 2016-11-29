@@ -73,3 +73,49 @@
 ##---------------Begin: OpenCsv ----------
 -dontwarn com.opencsv.**
 ##---------------End: OpenCsv ----------
+
+##---------------Begin: RoboSpice ----------
+-keep class com.faltenreich.diaguard.networking.openfoodfacts.dto.**
+-keepclassmembers class com.faltenreich.diaguard.networking.openfoodfacts.** {
+  public void set*(***);
+  public *** get*();
+  public *** is*();
+}
+-keepclassmembers class com.faltenreich.diaguard.networking.openfoodfacts.dto.** {
+      public <fields>;
+}
+-dontwarn android.support.**
+-dontwarn com.sun.xml.internal.**
+-dontwarn com.sun.istack.internal.**
+-dontwarn org.codehaus.jackson.**
+-dontwarn org.springframework.**
+-dontwarn java.awt.**
+-dontwarn javax.security.**
+-dontwarn java.beans.**
+-dontwarn javax.xml.**
+-dontwarn java.util.**
+-dontwarn org.w3c.dom.**
+-dontwarn com.google.common.**
+-dontwarn com.octo.android.robospice.**
+##---------------End: RoboSpice ----------
+
+##---------------Begin: Retrofit ----------
+-keep class com.octo.android.robospice.retrofit.** { *; }
+-keepattributes *Annotation*,Signature
+-keep class retrofit.** { *; }
+-keepclasseswithmembers class * {
+    @retrofit.http.* <methods>;
+}
+-dontwarn rx.**
+-dontwarn com.squareup.okhttp.*
+-dontwarn retrofit.appengine.**
+##---------------End: Retrofit ----------
+
+##---------------Begin: Gson ----------
+-keepattributes Signature
+##---------------End: Gson ----------
+
+##---------------Begin: Apache Commons ----------
+-dontnote org.apache.commons.lang3.ObjectUtils
+-dontwarn org.apache.**
+##---------------End: Apache Commons ----------

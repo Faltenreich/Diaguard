@@ -73,3 +73,8 @@ dependencies {
     compile 'com.code-troopers.betterpickers:library:3.0.1'
     compile 'com.robinhood.ticker:ticker:1.1.1'
 }
+
+configurations {
+    all*.exclude group: 'commons-logging', module: 'commons-logging'
+    all*.exclude group: 'org.apache.commons', module: 'commons-io'
+}

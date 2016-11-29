@@ -20,9 +20,6 @@ public class ProductDto extends NetworkDto {
     @SerializedName("product_name")
     public String name;
 
-    @SerializedName("generic_name")
-    public String fullName;
-
     @SerializedName("image_url")
     public String imageUrl;
 

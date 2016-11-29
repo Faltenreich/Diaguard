@@ -11,7 +11,6 @@ import com.faltenreich.diaguard.networking.openfoodfacts.dto.SearchResponseDto;
 import com.faltenreich.diaguard.util.DateTimeUtils;
 import com.faltenreich.diaguard.util.Helper;
 import com.j256.ormlite.stmt.QueryBuilder;
-import com.j256.ormlite.stmt.Where;
 
 import org.joda.time.DateTime;
 
@@ -84,17 +83,17 @@ public class FoodDao extends BaseServerDao<Food> {
                     .offset(page * BaseDao.PAGE_SIZE)
                     .limit(BaseDao.PAGE_SIZE);
 
-            Where<Food, Long> where = queryBuilder.where();
-            where.eq(Food.Column.LANGUAGE_CODE, Helper.getLanguageCode());
-
             boolean hasQuery = query != null && query.length() > 0;
             if (hasQuery) {
-                String like = "%" + query + "%";
-                where.like(Food.Column.NAME, like).or().like(Food.Column.FULL_NAME, like);
-                return where.and(where, where).query();
+                return queryBuilder
+                        .where().eq(Food.Column.LANGUAGE_CODE, Helper.getLanguageCode())
+                        .and().like(Food.Column.NAME, "%" + query + "%")
+                        .query();
 
             } else {
-                return where.query();
+                return queryBuilder
+                        .where().eq(Food.Column.LANGUAGE_CODE, Helper.getLanguageCode())
+                        .query();
             }
             
         } catch (SQLException exception) {
@@ -127,7 +126,6 @@ public class FoodDao extends BaseServerDao<Food> {
         if (isNew || needsUpdate(food, dto)) {
             food.setServerId(serverId);
             food.setName(dto.name);
-            food.setFullName(dto.fullName);
             food.setImageUrl(dto.imageUrl);
             food.setBrand(dto.brand);
             food.setIngredients(dto.ingredients != null ? dto.ingredients.replaceAll("_", "") : null);

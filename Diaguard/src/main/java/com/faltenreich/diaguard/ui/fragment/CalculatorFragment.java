@@ -26,6 +26,7 @@ import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.data.EntryAddedEvent;
+import com.faltenreich.diaguard.event.data.FactorChangedEvent;
 import com.faltenreich.diaguard.ui.activity.PreferenceActivity;
 import com.faltenreich.diaguard.ui.view.FoodListView;
 import com.faltenreich.diaguard.ui.view.StickyHintInput;
@@ -68,7 +69,13 @@ public class CalculatorFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        updateFactor();
+        Events.register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Events.unregister(this);
     }
 
     @Override
@@ -91,6 +98,7 @@ public class CalculatorFragment extends BaseFragment {
     private void initialize() {
         updateTargetValue();
         updateCorrectionValue();
+        updateFactor();
     }
 
     private void updateTargetValue() {
@@ -320,5 +328,10 @@ public class CalculatorFragment extends BaseFragment {
         Intent intent = new Intent(getContext(), PreferenceActivity.class);
         intent.putExtra(PreferenceFragment.EXTRA_OPENING_PREFERENCE, getString(R.string.pref_factor));
         startActivity(intent);
+    }
+
+    @SuppressWarnings("unused")
+    public void onEvent(FactorChangedEvent event) {
+        updateFactor();
     }
 }

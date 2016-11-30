@@ -135,6 +135,7 @@
     <string name="change_every_hour">Ändert sich jede Stunde</string>
 
     <string name="carbohydrates">Kohlenhydrate</string>
+    <string name="carbohydrates_per_100g">Kohlenhydrate pro 100 g</string>
     <string name="energy">Kalorien</string>
     <string name="fat">Fett</string>
     <string name="fat_saturated">Gesättigte Fettsäuren</string>

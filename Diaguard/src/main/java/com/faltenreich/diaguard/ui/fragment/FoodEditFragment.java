@@ -29,7 +29,7 @@ public class FoodEditFragment extends BaseFoodFragment {
     @BindView(R.id.food_edit_name) StickyHintInput nameInput;
     @BindView(R.id.food_edit_brand) StickyHintInput brandInput;
     @BindView(R.id.food_edit_ingredients) StickyHintInput ingredientsInput;
-    @BindView(R.id.food_edit_value) StickyHintInput valueInput;
+    @BindView(R.id.food_edit_carbohydrates) StickyHintInput valueInput;
 
     public FoodEditFragment() {
         super(R.layout.fragment_food_edit, R.string.food_new);
@@ -69,9 +69,6 @@ public class FoodEditFragment extends BaseFoodFragment {
     }
 
     private void init() {
-
-        valueInput.setHint(PreferenceHelper.getInstance().getUnitName(Measurement.Category.MEAL));
-
         Food food = getFood();
         if (food != null) {
             setTitle(R.string.food_edit);
@@ -110,9 +107,7 @@ public class FoodEditFragment extends BaseFoodFragment {
             food.setName(nameInput.getText());
             food.setBrand(brandInput.getText());
             food.setIngredients(ingredientsInput.getText());
-            food.setCarbohydrates(PreferenceHelper.getInstance().formatCustomToDefaultUnit(
-                    Measurement.Category.MEAL,
-                    NumberUtils.parseNumber(valueInput.getText())));
+            food.setCarbohydrates(NumberUtils.parseNumber(valueInput.getText()));
 
             FoodDao.getInstance().createOrUpdate(food);
             Events.post(new FoodSavedEvent(food));

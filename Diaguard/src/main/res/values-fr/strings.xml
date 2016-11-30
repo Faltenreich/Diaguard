@@ -330,5 +330,6 @@
     <string name="fat">Graisse</string>
     <string name="fat_saturated">Graisses saturées</string>
     <string name="fiber">Fibra</string>
+    <string name="carbohydrates_per_100g">Glucides par 100 g</string>
 
 </resources>

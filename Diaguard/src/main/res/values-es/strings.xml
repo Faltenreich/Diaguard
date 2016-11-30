@@ -331,5 +331,6 @@
     <string name="fat">Grasa</string>
     <string name="fat_saturated">Grasa saturada</string>
     <string name="fiber">Fibra</string>
+    <string name="carbohydrates_per_100g">Carbohidratos por 100 g</string>
 
 </resources>

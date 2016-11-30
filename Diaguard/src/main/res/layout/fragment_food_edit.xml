@@ -81,9 +81,10 @@
                     app:tintColor="@color/gray_darker" />
 
                 <com.faltenreich.diaguard.ui.view.StickyHintInput
-                    android:id="@+id/food_edit_value"
+                    android:id="@+id/food_edit_carbohydrates"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="@string/carbohydrates_per_100g"
                     android:inputType="numberDecimal"/>
 
             </LinearLayout>

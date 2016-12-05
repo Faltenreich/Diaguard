@@ -292,7 +292,7 @@
         <item>0.0555</item>
     </string-array>
     <integer-array name="bloodsugar_extrema">
-        <item name="minimum">10</item>
+        <item name="minimum">1</item>
         <item name="maximum">1000</item>
     </integer-array>
 

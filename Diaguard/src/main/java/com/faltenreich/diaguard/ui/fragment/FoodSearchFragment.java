@@ -172,7 +172,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         searchView.setAdapter(searchAdapter);
         new SetSuggestionsTask().execute();
 
-        unitTextView.setText(PreferenceHelper.getInstance().getLabelForMealPer100g());
+        unitTextView.setText(PreferenceHelper.getInstance().getLabelForMealPer100g(getContext()));
     }
 
     private void showError(@DrawableRes int iconResId, @StringRes int textResId, @StringRes int descResId, @StringRes int buttonTextResId) {

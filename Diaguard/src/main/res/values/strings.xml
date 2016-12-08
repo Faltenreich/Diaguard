@@ -90,8 +90,8 @@
     <string name="food_search">Search for food</string>
     <string name="format">Format</string>
     <string name="general">General</string>
-    <string name="grams">Grams</string>
     <string name="grams_acronym" translatable="false">g</string>
+    <string name="grams_milliliters_acronym" translatable="false">g / ml</string>
     <string name="hba1c">HbA1c</string>
     <string name="hba1c_estimated">Estimated HbA1c</string>
     <string name="hba1c_formula" translatable="false">HbA1c = 0,031 * %s 3-%s-%s + 2,393</string>
@@ -121,7 +121,7 @@
     <string name="note">Note</string>
     <string name="note_append">Append notes</string>
     <string name="nutriments">Nutriments</string>
-    <string name="nutriments_per_100g">Nutriments per 100 g</string>
+    <string name="nutriments_per_100g">Nutriments per 100 g / ml</string>
     <string name="ok">OK</string>
     <string name="overview">Overview</string>
     <string name="per">per</string>
@@ -157,7 +157,7 @@
     <string name="change_every_hour">Changes every hour</string>
 
     <string name="carbohydrates">Carbohydrates</string>
-    <string name="carbohydrates_per_100g">Carbohydrates per 100 g</string>
+    <string name="carbohydrates_per_100g">Carbohydrates per 100 g / ml</string>
     <string name="energy">Energy</string>
     <string name="fat">Fat</string>
     <string name="fat_saturated">Saturated fat</string>

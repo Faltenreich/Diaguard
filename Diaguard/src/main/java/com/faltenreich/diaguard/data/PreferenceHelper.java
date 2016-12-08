@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.data;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
@@ -296,8 +297,8 @@ public class PreferenceHelper {
         }
     }
 
-    public String getLabelForMealPer100g() {
-        return String.format("%s / 100g", getUnitAcronym(Measurement.Category.MEAL));
+    public String getLabelForMealPer100g(Context context) {
+        return String.format("%s %s 100 g / ml", getUnitAcronym(Measurement.Category.MEAL), context.getString(R.string.per));
     }
 
     public String[] getUnitsValues(Measurement.Category category) {

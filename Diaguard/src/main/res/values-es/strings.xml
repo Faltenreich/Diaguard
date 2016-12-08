@@ -52,8 +52,8 @@
     <string name="export">Exportación</string>
     <string name="export_progress">PDF será creado</string>
     <string name="export_stamp">Informe generado en</string>
-    <string name="factor">Factor</string>
-    <string name="factors">Factores</string>
+    <string name="factor">Factor de carbohidratos</string>
+    <string name="factors">Factores de carbohidratos</string>
     <string name="first_visit">Eres nuevo?</string>
     <string name="first_visit_desc">Ingresar los primeros valores</string>
     <string name="food_add">Añadir alimentos</string>
@@ -73,6 +73,7 @@
     <string name="log">Protocolo</string>
     <string name="mail">E-Mail</string>
     <string name="meal">Alimento</string>
+    <string name="meal_optional">Alimento (Opcional)</string>
     <string name="measurements">Mediciones</string>
     <string name="no_data">No hay entradas para mostrar</string>
     <string name="note">Nota</string>

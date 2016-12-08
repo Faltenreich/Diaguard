@@ -50,8 +50,8 @@
     <string name="export">Exportation</string>
     <string name="export_progress">PDF est créé</string>
     <string name="export_stamp">Rapport généré sur</string>
-    <string name="factor">Facteur unitaire de glucides</string>
-    <string name="factors">Facteurs unitaire de glucides</string>
+    <string name="factor">Facteur de glucides</string>
+    <string name="factors">Facteurs de glucides</string>
     <string name="first_visit">Nouveau ici?</string>
     <string name="first_visit_desc">Ajouter la première valeur</string>
     <string name="food_add">Ajouter l\'aliment</string>
@@ -71,6 +71,7 @@
     <string name="log">Protocole</string>
     <string name="mail">E-Mail</string>
     <string name="meal">Repas</string>
+    <string name="meal_optional">Repas (Optionnel)</string>
     <string name="measurements">Mesures</string>
     <string name="no_data">Pas d\'entrées à imprimer</string>
     <string name="note">Remarque</string>

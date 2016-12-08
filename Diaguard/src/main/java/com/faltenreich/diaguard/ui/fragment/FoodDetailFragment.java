@@ -67,8 +67,7 @@ public class FoodDetailFragment extends BaseFoodFragment {
             float mealValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(
                     Measurement.Category.MEAL,
                     food.getCarbohydrates());
-            String mealUnit = PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.MEAL);
-            value.setText(String.format("%s %s %s 100g", Helper.parseFloat(mealValue), mealUnit, getString(R.string.per)));
+            value.setText(String.format("%s %s", Helper.parseFloat(mealValue), PreferenceHelper.getInstance().getLabelForMealPer100g(getContext())));
 
             boolean indicateSugarLevel = food.getSugarLevel() != Food.NutrientLevel.LOW;
             sugarLevelIcon.setVisibility(indicateSugarLevel ? View.VISIBLE : View.GONE);

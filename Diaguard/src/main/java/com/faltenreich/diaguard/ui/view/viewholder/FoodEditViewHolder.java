@@ -48,7 +48,7 @@ public class FoodEditViewHolder extends BaseViewHolder<FoodEaten> {
         this.name.setText(food.getName());
         this.value.setText(String.format("%s %s",
                 food.getValueForUi(),
-                PreferenceHelper.getInstance().getLabelForMealPer100g()));
+                PreferenceHelper.getInstance().getLabelForMealPer100g(getContext())));
 
         this.amount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +73,7 @@ public class FoodEditViewHolder extends BaseViewHolder<FoodEaten> {
         NumberPickerBuilder numberPicker = new NumberPickerBuilder()
                 .setFragmentManager(activity.getSupportFragmentManager())
                 .setStyleResId(R.style.NumberPicker)
-                .setLabelText(getContext().getString(R.string.grams))
+                .setLabelText(getContext().getString(R.string.grams_milliliters_acronym))
                 .setPlusMinusVisibility(View.GONE)
                 .setDecimalVisibility(View.GONE)
                 .setMaxNumber(BigDecimal.valueOf(10000))
@@ -97,7 +97,7 @@ public class FoodEditViewHolder extends BaseViewHolder<FoodEaten> {
         FoodEaten foodEaten = getListItem();
         boolean isSet = foodEaten.getAmountInGrams() > 0;
         String text = isSet ?
-                String.format("%s %s", Helper.parseFloat(getListItem().getAmountInGrams()), getContext().getString(R.string.grams)) :
+                String.format("%s %s", Helper.parseFloat(getListItem().getAmountInGrams()), getContext().getString(R.string.grams_milliliters_acronym)) :
                 getContext().getString(R.string.amount);
         int backgroundColor = isSet ? R.color.gray_light : R.color.green_light;
         int textColor = isSet ? android.R.color.black : android.R.color.white;

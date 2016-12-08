@@ -277,7 +277,6 @@
     <string name="about_legal_desc">Cette application ne remplace pas un médecin.</string>
 
     <string name="all">Tous</string>
-    <string name="grams">Gramme</string>
     <string name="backup_complete">Sauvegarde terminée</string>
     <string name="correction">Correction</string>
     <string name="diastolic">Diastolique</string>
@@ -316,7 +315,7 @@
     <string name="ingredients">Ingrédients</string>
     <string name="name">Nom</string>
     <string name="nutriments">Nutriments</string>
-    <string name="nutriments_per_100g">Nutriments par 100 g</string>
+    <string name="nutriments_per_100g">Nutriments par 100 g / ml</string>
     <string name="proteins">Protéines</string>
     <string name="salt">Sel</string>
     <string name="sodium">Sodium</string>
@@ -330,6 +329,6 @@
     <string name="fat">Graisse</string>
     <string name="fat_saturated">Graisses saturées</string>
     <string name="fiber">Fibra</string>
-    <string name="carbohydrates_per_100g">Glucides par 100 g</string>
+    <string name="carbohydrates_per_100g">Glucides par 100 g / ml</string>
 
 </resources>

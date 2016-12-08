@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.ui.fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -26,8 +25,6 @@ import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.data.EntryAddedEvent;
-import com.faltenreich.diaguard.event.data.FactorChangedEvent;
-import com.faltenreich.diaguard.ui.activity.PreferenceActivity;
 import com.faltenreich.diaguard.ui.view.FoodListView;
 import com.faltenreich.diaguard.ui.view.StickyHintInput;
 import com.faltenreich.diaguard.util.Helper;
@@ -37,7 +34,6 @@ import com.faltenreich.diaguard.util.Validator;
 import org.joda.time.DateTime;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * Created by Faltenreich on 10.09.2016.
@@ -64,18 +60,6 @@ public class CalculatorFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initialize();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Events.register(this);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Events.unregister(this);
     }
 
     @Override
@@ -320,18 +304,5 @@ public class CalculatorFragment extends BaseFragment {
         }
 
         Events.post(new EntryAddedEvent(entry));
-    }
-
-    @SuppressWarnings("unused")
-    @OnClick(R.id.calculator_factor_edit_button)
-    protected void openSettings(View view) {
-        Intent intent = new Intent(getContext(), PreferenceActivity.class);
-        intent.putExtra(PreferenceFragment.EXTRA_OPENING_PREFERENCE, getString(R.string.pref_factor));
-        startActivity(intent);
-    }
-
-    @SuppressWarnings("unused")
-    public void onEvent(FactorChangedEvent event) {
-        updateFactor();
     }
 }

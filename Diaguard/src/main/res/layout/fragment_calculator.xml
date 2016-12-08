@@ -129,27 +129,11 @@
 
                         <com.faltenreich.diaguard.ui.view.StickyHintInput
                             android:id="@+id/calculator_factor"
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="0dp"
-                            android:layout_weight="1"
                             android:hint="@string/factor"
                             android:inputType="numberDecimal" />
-
-                        <com.faltenreich.diaguard.ui.view.TintImageView
-                            android:id="@+id/calculator_factor_edit_button"
-                            android:layout_width="@dimen/size_image_small"
-                            android:layout_height="@dimen/size_image_small"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                            android:layout_marginLeft="@dimen/margin_between"
-                            android:layout_marginRight="@dimen/activity_horizontal_margin"
-                            android:layout_marginStart="@dimen/margin_between"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:clickable="true"
-                            android:contentDescription="@string/note"
-                            android:src="@drawable/ic_settings"
-                            app:tintColor="@color/gray" />
 
                     </LinearLayout>
 

@@ -76,8 +76,8 @@
     <string name="export_progress">PDF is being created</string>
     <string name="export_stamp">Report generated on</string>
     <string name="facebook" translatable="false">Facebook</string>
-    <string name="factor">Factor</string>
-    <string name="factors">Factors</string>
+    <string name="factor">Carbohydrate factor</string>
+    <string name="factors">Carbohydrate factors</string>
     <string name="first_visit">First visit?</string>
     <string name="first_visit_desc">Enter your first value</string>
     <string name="food">Food</string>
@@ -114,6 +114,7 @@
     <string name="log">Log</string>
     <string name="mail">E-Mail</string>
     <string name="meal">Meal</string>
+    <string name="meal_optional">Meal (Optional)</string>
     <string name="measurement_latest">Latest</string>
     <string name="measurements">Measured</string>
     <string name="name">Name</string>

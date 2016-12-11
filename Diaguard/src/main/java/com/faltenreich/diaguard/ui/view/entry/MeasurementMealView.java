@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.ui.view.FoodListView;
+import com.faltenreich.diaguard.ui.view.FoodInputView;
 
 import butterknife.BindView;
 
@@ -15,7 +15,8 @@ import butterknife.BindView;
  */
 public class MeasurementMealView extends MeasurementAbstractView<Meal> {
 
-    @BindView(R.id.list_item_measurement_meal_food_list) FoodListView foodList;
+    @BindView(R.id.list_item_measurement_meal_food_list)
+    FoodInputView foodList;
 
     public MeasurementMealView(Context context) {
         super(context, Measurement.Category.MEAL);

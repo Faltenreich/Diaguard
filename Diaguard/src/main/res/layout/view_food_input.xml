@@ -7,6 +7,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/food_input_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -14,7 +15,7 @@
         android:orientation="horizontal">
 
         <com.faltenreich.diaguard.ui.view.TintImageView
-            android:id="@+id/food_list_icon"
+            android:id="@+id/food_input_icon"
             android:layout_width="@dimen/size_image"
             android:layout_height="@dimen/size_image"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -23,7 +24,7 @@
             app:tintColor="@color/gray_darker" />
 
         <com.robinhood.ticker.TickerView
-            android:id="@+id/food_list_value_calculated_integral"
+            android:id="@+id/food_input_value_calculated_integral"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -34,7 +35,7 @@
             android:visibility="gone" />
 
         <TextView
-            android:id="@+id/food_list_value_calculated_point"
+            android:id="@+id/food_input_value_calculated_point"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
@@ -43,7 +44,7 @@
             android:visibility="gone" />
 
         <com.robinhood.ticker.TickerView
-            android:id="@+id/food_list_value_calculated_fractional"
+            android:id="@+id/food_input_value_calculated_fractional"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
@@ -52,7 +53,7 @@
             android:visibility="gone" />
 
         <TextView
-            android:id="@+id/food_list_value_sign"
+            android:id="@+id/food_input_value_sign"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -64,7 +65,7 @@
             android:visibility="gone" />
 
         <com.faltenreich.diaguard.ui.view.StickyHintInput
-            android:id="@+id/food_list_value_input"
+            android:id="@+id/food_input_value_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal" />
@@ -74,7 +75,7 @@
     <View style="@style/LayoutRowSeparator" />
 
     <Button
-        android:id="@+id/food_list_button"
+        android:id="@+id/food_input_button"
         style="?attr/borderlessButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_element"
@@ -82,12 +83,12 @@
         android:textColor="@color/green" />
 
     <View
-        android:id="@+id/food_list_separator"
+        android:id="@+id/food_input_separator"
         style="@style/LayoutRowSeparator"
         android:visibility="gone" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/food_list"
+        android:id="@+id/food_input_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:nestedScrollingEnabled="false" />

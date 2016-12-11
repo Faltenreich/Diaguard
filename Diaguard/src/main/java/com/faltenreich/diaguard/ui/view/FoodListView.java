@@ -1,66 +1,42 @@
 package com.faltenreich.diaguard.ui.view;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.TypedArray;
+import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.FoodEditableAdapter;
+import com.faltenreich.diaguard.adapter.EndlessRecyclerViewScrollListener;
+import com.faltenreich.diaguard.adapter.FoodAdapter;
 import com.faltenreich.diaguard.adapter.SimpleDividerItemDecoration;
-import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.adapter.list.ListItemFood;
+import com.faltenreich.diaguard.data.dao.FoodDao;
+import com.faltenreich.diaguard.data.dao.FoodEatenDao;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.FoodEaten;
-import com.faltenreich.diaguard.data.entity.Meal;
-import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.Events;
-import com.faltenreich.diaguard.event.ui.FoodEatenRemovedEvent;
-import com.faltenreich.diaguard.event.ui.FoodEatenUpdatedEvent;
-import com.faltenreich.diaguard.event.ui.FoodSelectedEvent;
-import com.faltenreich.diaguard.ui.activity.FoodSearchActivity;
-import com.faltenreich.diaguard.ui.fragment.FoodSearchFragment;
-import com.faltenreich.diaguard.util.NumberUtils;
-import com.faltenreich.diaguard.util.StringUtils;
-import com.faltenreich.diaguard.util.SystemUtils;
-import com.j256.ormlite.dao.ForeignCollection;
-import com.robinhood.ticker.TickerUtils;
-import com.robinhood.ticker.TickerView;
+import com.faltenreich.diaguard.event.data.FoodDeletedEvent;
+import com.faltenreich.diaguard.event.data.FoodQueryEndedEvent;
+import com.faltenreich.diaguard.event.data.FoodQueryStartedEvent;
+import com.faltenreich.diaguard.event.networking.FoodSearchFailedEvent;
+import com.faltenreich.diaguard.event.networking.FoodSearchSucceededEvent;
+import com.faltenreich.diaguard.networking.openfoodfacts.OpenFoodFactsManager;
+import com.faltenreich.diaguard.util.Helper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
- * Created by Faltenreich on 13.10.2016.
+ * Created by Faltenreich on 10.11.2016.
  */
 
-public class FoodListView extends LinearLayout {
+public class FoodListView extends RecyclerView {
 
-    private static final int ANIMATION_DURATION_IN_MILLIS = 750;
+    private FoodAdapter adapter;
+    private String query;
 
-    @BindView(R.id.food_list_icon) ImageView icon;
-    @BindView(R.id.food_list_value_input) StickyHintInput valueInput;
-    @BindView(R.id.food_list_value_calculated_integral) TickerView valueCalculatedIntegral;
-    @BindView(R.id.food_list_value_calculated_point) TextView valueCalculatedPoint;
-    @BindView(R.id.food_list_value_calculated_fractional) TickerView valueCalculatedFractional;
-    @BindView(R.id.food_list_value_sign) TextView valueSign;
-    @BindView(R.id.food_list_separator) View separator;
-    @BindView(R.id.food_list) RecyclerView foodList;
-
-    private FoodEditableAdapter adapter;
-    private Meal meal;
-
-    private boolean showIcon;
+    private int offlinePage;
+    private int onlinePage;
 
     public FoodListView(Context context) {
         super(context);
@@ -69,21 +45,6 @@ public class FoodListView extends LinearLayout {
 
     public FoodListView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(attrs);
-    }
-
-    public FoodListView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init(attrs);
-    }
-
-    private void init(AttributeSet attributeSet) {
-        TypedArray typedArray = getContext().obtainStyledAttributes(attributeSet, R.styleable.FoodListView);
-        try {
-            showIcon = typedArray.getBoolean(R.styleable.FoodListView_showIcon, false);
-        } finally {
-            typedArray.recycle();
-        }
         init();
     }
 
@@ -91,6 +52,7 @@ public class FoodListView extends LinearLayout {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         Events.register(this);
+        newSearch(null);
     }
 
     @Override
@@ -100,169 +62,163 @@ public class FoodListView extends LinearLayout {
     }
 
     private void init() {
-        LayoutInflater.from(getContext()).inflate(R.layout.view_food_list, this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        setLayoutManager(layoutManager);
 
-        if (!isInEditMode()) {
-            ButterKnife.bind(this);
-            meal = new Meal();
+        addItemDecoration(new SimpleDividerItemDecoration(getContext()));
 
-            icon.setVisibility(showIcon ? VISIBLE : GONE);
+        adapter = new FoodAdapter(getContext());
+        setAdapter(adapter);
 
-            valueInput.setHint(PreferenceHelper.getInstance().getUnitName(Measurement.Category.MEAL));
-            valueCalculatedIntegral.setCharacterList(TickerUtils.getDefaultNumberList());
-            valueCalculatedFractional.setCharacterList(TickerUtils.getDefaultNumberList());
-            valueCalculatedIntegral.setAnimationDuration(ANIMATION_DURATION_IN_MILLIS);
-            valueCalculatedFractional.setAnimationDuration(ANIMATION_DURATION_IN_MILLIS);
+        EndlessRecyclerViewScrollListener listener = new EndlessRecyclerViewScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                search();
+            }
+        };
+        addOnScrollListener(listener);
+    }
 
-            adapter = new FoodEditableAdapter(getContext());
-            foodList.setLayoutManager(new LinearLayoutManager(getContext()));
-            foodList.addItemDecoration(new SimpleDividerItemDecoration(getContext()));
-            foodList.setAdapter(adapter);
+    public int getItemCount() {
+        return adapter.getItemCount();
+    }
+
+    public void clear() {
+        int oldCount = adapter.getItemCount();
+        adapter.clear();
+        adapter.notifyItemRangeRemoved(0, oldCount);
+    }
+
+    public void newSearch(String query) {
+        this.query = query;
+        this.offlinePage = 0;
+        this.onlinePage = 0;
+
+        clear();
+        search();
+    }
+
+    private void search() {
+        // offlinePage gets invalid after online searches
+        boolean isSearchOnline = onlinePage > 0;
+        if (isSearchOnline) {
+            searchOnline();
+        } else {
+            searchOffline();
         }
     }
 
-    public void setupWithMeal(Meal meal) {
-        this.meal = meal;
-        this.valueInput.setText(meal.getValuesForUI()[0]);
-        addItems(meal.getFoodEaten());
+    private void searchOffline() {
+        Events.post(new FoodQueryStartedEvent());
+        new LoadDataTask().execute();
     }
 
-    public boolean isValid() {
-        boolean isValid = true;
-
-        String input = valueInput.getText().trim();
-
-        if (StringUtils.isBlank(input) && !adapter.hasInput()) {
-            valueInput.setError(getContext().getString(R.string.validator_value_empty));
-            isValid = false;
-        } else if (!StringUtils.isBlank(input)) {
-            isValid = PreferenceHelper.isValueValid(valueInput.getEditText(), Measurement.Category.MEAL);
-        }
-        return isValid;
+    private void searchOnline() {
+        Events.post(new FoodQueryStartedEvent());
+        OpenFoodFactsManager.getInstance().search(query, onlinePage);
     }
 
-    public Meal getMeal() {
-        if (isValid()) {
-            meal.setValues(valueInput.getText().length() > 0 ?
-                    PreferenceHelper.getInstance().formatCustomToDefaultUnit(
-                            meal.getCategory(),
-                            NumberUtils.parseNumber(valueInput.getText())) : 0);
-            List<FoodEaten> foodEatenCache = new ArrayList<>();
-            for (FoodEaten foodEaten : adapter.getItems()) {
-                if (foodEaten.getAmountInGrams() > 0) {
-                    foodEatenCache.add(foodEaten);
+    private void addItems(List<ListItemFood> foodList) {
+        boolean hasItems = foodList.size() > 0;
+        if (hasItems) {
+            int oldSize = adapter.getItemCount();
+            int newCount = 0;
+            for (ListItemFood listItem : foodList) {
+                if (!adapter.getItems().contains(listItem)) {
+                    adapter.addItem(listItem);
+                    newCount++;
                 }
             }
-            meal.setFoodEatenCache(foodEatenCache);
-            return meal;
-        } else {
-            return null;
+            adapter.notifyItemRangeInserted(oldSize, newCount);
         }
+        Events.post(new FoodQueryEndedEvent(hasItems));
     }
 
-    private void update() {
-        boolean hasFood = adapter.getItemCount() > 0;
-        separator.setVisibility(hasFood ? VISIBLE : GONE);
+    private void addFood(List<Food> foodList) {
+        List<ListItemFood> foodItemList = new ArrayList<>();
 
-        boolean hasFoodEaten = adapter.hasInput();
-        valueCalculatedIntegral.setVisibility(hasFoodEaten ? VISIBLE : GONE);
-        valueCalculatedPoint.setVisibility(hasFoodEaten ? VISIBLE : GONE);
-        valueCalculatedPoint.setText(SystemUtils.getDecimalSeparator());
-        valueCalculatedFractional.setVisibility(hasFoodEaten ? VISIBLE : GONE);
-        valueSign.setVisibility(hasFoodEaten ? VISIBLE : GONE);
-
-        float carbohydrates = adapter.getTotalCarbohydrates();
-        float meal = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.MEAL, carbohydrates);
-
-        int integral = (int) meal;
-        int fractional = Math.round((meal - integral) * 100);
-
-        String integralString = String.valueOf(integral);
-        // TODO: Trim ending zeros for fractional part
-        String fractionalString = String.valueOf(fractional);
-
-        valueCalculatedIntegral.setText(integralString, true);
-        valueCalculatedFractional.setText(fractionalString, true);
-    }
-
-    public void addItem(FoodEaten foodEaten) {
-        if (foodEaten != null) {
-            int position = 0;
-            adapter.addItem(position, foodEaten);
-            adapter.notifyItemInserted(position);
-            update();
-        }
-    }
-
-    public void addItem(Food food) {
-        if (food != null) {
-            FoodEaten foodEaten = new FoodEaten();
-            foodEaten.setFood(food);
-            foodEaten.setMeal(meal);
-            addItem(foodEaten);
-        }
-    }
-
-    public void addItems(ForeignCollection<FoodEaten> foodEatenList) {
-        if (foodEatenList != null && foodEatenList.size() > 0) {
-            int oldCount = adapter.getItemCount();
-            for (FoodEaten foodEaten : foodEatenList) {
-                adapter.addItem(foodEaten);
+        for (Food food : foodList) {
+            boolean isSameLanguage = Helper.isSystemLocale(food.getLanguageCode());
+            if (isSameLanguage) {
+                foodItemList.add(new ListItemFood(food));
             }
-            adapter.notifyItemRangeInserted(oldCount, adapter.getItemCount());
-            update();
+        }
+
+        boolean skipResponse = foodList.size() > 0 && foodItemList.size() == 0;
+        if (skipResponse) {
+            searchOnline();
+        } else {
+            addItems(foodItemList);
         }
     }
 
-    public void removeItem(int position) {
-        adapter.removeItem(position);
-        adapter.notifyItemRemoved(position);
-        update();
-    }
-
-    public void updateItem(FoodEaten foodEaten, int position) {
-        adapter.updateItem(position, foodEaten);
-        adapter.notifyItemChanged(position);
-        update();
-    }
-
-    public float getTotalCarbohydrates() {
-        return getInputCarbohydrates() + getCalculatedCarbohydrates();
-    }
-
-    public float getInputCarbohydrates() {
-        float input = NumberUtils.parseNumber(valueInput.getText());
-        return PreferenceHelper.getInstance().formatCustomToDefaultUnit(Measurement.Category.MEAL, input);
-    }
-
-    public float getCalculatedCarbohydrates() {
-        return adapter.getTotalCarbohydrates();
-    }
-
-    public List<FoodEaten> getFoodEatenList() {
-        return adapter.getItems();
+    private void removeItem(Food food) {
+        for (int position = 0; position < getItemCount(); position++) {
+            ListItemFood listItem = adapter.getItem(position);
+            if (listItem.getFood().equals(food)) {
+                adapter.removeItem(position);
+                adapter.notifyItemRemoved(position);
+                break;
+            }
+        }
     }
 
     @SuppressWarnings("unused")
-    @OnClick(R.id.food_list_button)
-    public void searchForFood() {
-        Intent intent = new Intent(getContext(), FoodSearchActivity.class);
-        intent.putExtra(FoodSearchFragment.FINISH_ON_SELECTION, true);
-        getContext().startActivity(intent);
+    public void onEventMainThread(FoodSearchSucceededEvent event) {
+        onlinePage++;
+        addFood(event.context);
     }
 
     @SuppressWarnings("unused")
-    public void onEvent(FoodSelectedEvent event) {
-        addItem(event.context);
+    public void onEventMainThread(FoodSearchFailedEvent event) {
+        Events.post(new FoodQueryEndedEvent(false));
     }
 
     @SuppressWarnings("unused")
-    public void onEvent(FoodEatenUpdatedEvent event) {
-        updateItem(event.context, event.position);
+    public void onEvent(FoodDeletedEvent event) {
+        removeItem(event.context);
     }
 
-    @SuppressWarnings("unused")
-    public void onEvent(FoodEatenRemovedEvent event) {
-        removeItem(event.position);
+    private class LoadDataTask extends AsyncTask<Void, Void, List<ListItemFood>> {
+
+        @Override
+        protected List<ListItemFood> doInBackground(Void... voids) {
+            List<ListItemFood> foodList = new ArrayList<>();
+            boolean isInitial = adapter.getItemCount() == 0 && !(query != null && query.length() > 0);
+
+            if (isInitial) {
+                List<FoodEaten> foodEatenList = FoodEatenDao.getInstance().getAllOrdered();
+                for (FoodEaten foodEaten : foodEatenList) {
+                    ListItemFood listItem = new ListItemFood(foodEaten);
+                    if (!foodList.contains(listItem)) {
+                        foodList.add(listItem);
+                    }
+                }
+            }
+
+            List<Food> foodAllList = FoodDao.getInstance().search(query, offlinePage);
+            for (Food food : foodAllList) {
+                // Skip food that has been eaten before
+                ListItemFood listItem = new ListItemFood(food);
+                if (!foodList.contains(listItem)) {
+                    foodList.add(listItem);
+                }
+            }
+
+            return foodList;
+        }
+
+        @Override
+        protected void onPostExecute(List<ListItemFood> foodList) {
+            super.onPostExecute(foodList);
+
+            if (foodList.size() > 0) {
+                offlinePage++;
+                addItems(foodList);
+
+            } else {
+                searchOnline();
+            }
+        }
     }
 }

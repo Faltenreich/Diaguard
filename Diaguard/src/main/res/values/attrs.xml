@@ -5,7 +5,7 @@
         <attr name="tintColor" format="color"/>
     </declare-styleable>
 
-    <declare-styleable name="FoodListView">
+    <declare-styleable name="FoodInputView">
         <attr name="showIcon" format="boolean"/>
     </declare-styleable>
 

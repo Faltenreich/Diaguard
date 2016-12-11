@@ -25,7 +25,7 @@ import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.data.EntryAddedEvent;
-import com.faltenreich.diaguard.ui.view.FoodListView;
+import com.faltenreich.diaguard.ui.view.FoodInputView;
 import com.faltenreich.diaguard.ui.view.StickyHintInput;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
@@ -43,7 +43,8 @@ public class CalculatorFragment extends BaseFragment {
     @BindView(R.id.calculator_bloodsugar) StickyHintInput bloodSugarInput;
     @BindView(R.id.calculator_target) StickyHintInput targetInput;
     @BindView(R.id.calculator_correction) StickyHintInput correctionInput;
-    @BindView(R.id.calculator_food_list_view) FoodListView foodListView;
+    @BindView(R.id.calculator_food_list_view)
+    FoodInputView foodInputView;
     @BindView(R.id.calculator_factor) StickyHintInput factorInput;
 
     public CalculatorFragment() {
@@ -120,7 +121,7 @@ public class CalculatorFragment extends BaseFragment {
         }
 
         // Meal
-        if (foodListView.getTotalCarbohydrates() > 0) {
+        if (foodInputView.getTotalCarbohydrates() > 0) {
             // Factor
             if (!Validator.validateEditTextFactor(getContext(), factorInput.getEditText(), false)) {
                 isValid = false;
@@ -150,7 +151,7 @@ public class CalculatorFragment extends BaseFragment {
                                     Measurement.Category.BLOODSUGAR,
                                     NumberUtils.parseNumber(correctionInput.getText().toString())) :
                             PreferenceHelper.getInstance().getCorrectionValue();
-            float meal = foodListView.getTotalCarbohydrates();
+            float meal = foodInputView.getTotalCarbohydrates();
             float factor = 0;
             if (meal > 0) {
                 if (Validator.containsNumber(factorInput.getText().toString())) {
@@ -285,11 +286,11 @@ public class CalculatorFragment extends BaseFragment {
             Meal meal = new Meal();
             meal.setCarbohydrates(PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                     Measurement.Category.MEAL,
-                    foodListView.getInputCarbohydrates()));
+                    foodInputView.getInputCarbohydrates()));
             meal.setEntry(entry);
             MeasurementDao.getInstance(Meal.class).createOrUpdate(meal);
 
-            for (FoodEaten foodEaten : foodListView.getFoodEatenList()) {
+            for (FoodEaten foodEaten : foodInputView.getFoodEatenList()) {
                 foodEaten.setMeal(meal);
                 FoodEatenDao.getInstance().createOrUpdate(foodEaten);
             }

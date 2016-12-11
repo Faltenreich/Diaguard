@@ -28,7 +28,7 @@ import com.faltenreich.diaguard.event.data.FoodSavedEvent;
 import com.faltenreich.diaguard.event.ui.FoodSelectedEvent;
 import com.faltenreich.diaguard.ui.activity.FoodActivity;
 import com.faltenreich.diaguard.ui.activity.FoodEditActivity;
-import com.faltenreich.diaguard.ui.view.FoodRecyclerView;
+import com.faltenreich.diaguard.ui.view.FoodListView;
 import com.faltenreich.diaguard.util.NetworkingUtils;
 import com.faltenreich.diaguard.util.ViewHelper;
 import com.lapism.searchview.SearchAdapter;
@@ -52,7 +52,8 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
 
     @BindView(R.id.food_search_unit) TextView unitTextView;
     @BindView(R.id.food_search_swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.food_search_list) FoodRecyclerView list;
+    @BindView(R.id.food_search_list)
+    FoodListView list;
     @BindView(R.id.search_view) SearchView searchView;
 
     @BindView(food_search_list_empty) ViewGroup emptyList;

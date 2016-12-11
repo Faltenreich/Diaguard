@@ -63,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.faltenreich.diaguard.ui.view.FoodRecyclerView
+            <com.faltenreich.diaguard.ui.view.FoodListView
                 android:id="@+id/food_search_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>

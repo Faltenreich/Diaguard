@@ -117,7 +117,6 @@
                     android:orientation="vertical">
 
                     <LinearLayout style="@style/LayoutRow"
-                        android:minHeight="@dimen/height_element"
                         android:paddingEnd="0dp"
                         android:paddingRight="0dp">
 
@@ -139,7 +138,7 @@
 
                     <View style="@style/LayoutRowSeparator" />
 
-                    <com.faltenreich.diaguard.ui.view.FoodListView
+                    <com.faltenreich.diaguard.ui.view.FoodInputView
                         android:id="@+id/calculator_food_list_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

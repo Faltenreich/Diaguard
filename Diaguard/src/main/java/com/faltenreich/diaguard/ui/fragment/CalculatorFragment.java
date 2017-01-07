@@ -284,9 +284,7 @@ public class CalculatorFragment extends BaseFragment {
 
         if (carbohydrates > 0) {
             Meal meal = new Meal();
-            meal.setCarbohydrates(PreferenceHelper.getInstance().formatCustomToDefaultUnit(
-                    Measurement.Category.MEAL,
-                    foodInputView.getInputCarbohydrates()));
+            meal.setCarbohydrates(foodInputView.getInputCarbohydrates());
             meal.setEntry(entry);
             MeasurementDao.getInstance(Meal.class).createOrUpdate(meal);
 

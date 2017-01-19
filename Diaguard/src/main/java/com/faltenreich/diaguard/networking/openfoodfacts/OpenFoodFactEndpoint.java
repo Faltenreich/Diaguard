@@ -10,7 +10,7 @@ import retrofit.Endpoint;
 
 class OpenFoodFactEndpoint implements Endpoint {
 
-    private static final String HOST_FORMAT = "http://world-%s.openfoodfacts.org";
+    private static final String HOST_FORMAT = "https://world-%s.openfoodfacts.org";
 
     @Override
     public String getUrl() {

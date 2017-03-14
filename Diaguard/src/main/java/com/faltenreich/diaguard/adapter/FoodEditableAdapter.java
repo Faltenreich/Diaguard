@@ -2,7 +2,10 @@ package com.faltenreich.diaguard.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.FoodEaten;
@@ -25,6 +28,7 @@ public class FoodEditableAdapter extends BaseAdapter<FoodEaten, FoodEditViewHold
     @Override
     public void onBindViewHolder(final FoodEditViewHolder holder, int position) {
         holder.bindData(getItem(position));
+        startAnimation(holder.itemView, position);
     }
 
     public float getTotalCarbohydrates() {
@@ -42,5 +46,10 @@ public class FoodEditableAdapter extends BaseAdapter<FoodEaten, FoodEditViewHold
             }
         }
         return false;
+    }
+
+    private void startAnimation(View view, int position) {
+        Animation animation = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in);
+        view.startAnimation(animation);
     }
 }

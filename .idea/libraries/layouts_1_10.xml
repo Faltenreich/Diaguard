@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="layouts-1.10">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/Diaguard/build/intermediates/exploded-aar/org.apmem.tools/layouts/1.10/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/Diaguard/build/intermediates/exploded-aar/org.apmem.tools/layouts/1.10/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/35c5ae28632a7ae0f1b1f568b23dfda1ccc1dc9f/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/35c5ae28632a7ae0f1b1f568b23dfda1ccc1dc9f/output/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

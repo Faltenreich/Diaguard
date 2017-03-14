@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="fab-1.6.4">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/Diaguard/build/intermediates/exploded-aar/com.github.clans/fab/1.6.4/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/Diaguard/build/intermediates/exploded-aar/com.github.clans/fab/1.6.4/res" />
+      <root url="file://$USER_HOME$/.android/build-cache/0bc3e76626f3a61d8c43697b1d64bbd3e5d4adb9/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/0bc3e76626f3a61d8c43697b1d64bbd3e5d4adb9/output/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

@@ -1,5 +1,5 @@
 #
-# generated on 2016/11/29 07:55:34
+# generated on 2017/03/15 10:13:21
 #
 # --table-start--
 dataClass=com.faltenreich.diaguard.data.entity.Entry
@@ -408,6 +408,36 @@ foreignAutoRefresh=true
 # --field-start--
 fieldName=food
 columnName=food
+foreign=true
+foreignAutoRefresh=true
+# --field-end--
+# --field-start--
+fieldName=id
+columnName=_id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=createdAt
+columnName=createdAt
+# --field-end--
+# --field-start--
+fieldName=updatedAt
+columnName=updatedAt
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.faltenreich.diaguard.data.entity.OxygenSaturation
+tableName=oxygensaturation
+# --table-fields-start--
+# --field-start--
+fieldName=percent
+columnName=percent
+# --field-end--
+# --field-start--
+fieldName=entry
+columnName=entry
 foreign=true
 foreignAutoRefresh=true
 # --field-end--

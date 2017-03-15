@@ -207,18 +207,6 @@
 
     <string name="dateformat_default">DD.MM.YYYY</string>
 
-    <!-- CATEGORIES -->
-    <string-array name="categories">
-        <item>Blutzucker</item>
-        <item>Insulin</item>
-        <item>Mahlzeit</item>
-        <item>Aktivität</item>
-        <item>HbA1c</item>
-        <item>Gewicht</item>
-        <item>Puls</item>
-        <item>Blutdruck</item>
-    </string-array>
-
     <string name="insulin_units_default">Insulineinheiten</string>
     <string-array name="insulin_units">
         <item>Insulineinheiten</item>
@@ -335,5 +323,7 @@
     <string name="style">Stil</string>
     <string name="chart_scatter">Streudiagramm</string>
     <string name="chart_line">Liniendiagramm</string>
+
+    <string name="oxygen_saturation">Sauerstoffsättigung</string>
 
 </resources>

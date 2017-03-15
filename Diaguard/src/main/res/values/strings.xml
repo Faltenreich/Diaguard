@@ -272,14 +272,15 @@
     <!-- CATEGORIES -->
 
     <string-array name="categories">
-        <item>Blood Sugar</item>
-        <item>Insulin</item>
-        <item>Meal</item>
-        <item>Activity</item>
-        <item>HbA1c</item>
-        <item>Weight</item>
-        <item>Pulse</item>
-        <item>Blood Pressure</item>
+        <item>@string/bloodsugar</item>
+        <item>@string/insulin</item>
+        <item>@string/meal</item>
+        <item>@string/activity</item>
+        <item>@string/hba1c</item>
+        <item>@string/weight</item>
+        <item>@string/pulse</item>
+        <item>@string/pressure</item>
+        <item>@string/oxygen_saturation</item>
     </string-array>
 
     <string name="bloodsugar_units_default" translatable="false">mmol/L</string>
@@ -412,6 +413,21 @@
         <item name="maximum">300</item>
     </integer-array>
 
+    <string name="oxygen_saturation_units_default">@string/oxygen_saturation</string>
+    <string-array name="oxygen_saturation_units">
+        <item>@string/oxygen_saturation_units_default</item>
+    </string-array>
+    <string-array name="oxygen_saturation_units_acronyms">
+        <item>SpO2</item>
+    </string-array>
+    <string-array name="oxygen_saturation_units_values" translatable="false">
+        <item>1</item>
+    </string-array>
+    <integer-array name="oxygen_saturation_extrema" translatable="false">
+        <item name="minimum">50</item>
+        <item name="maximum">100</item>
+    </integer-array>
+
     <!-- VALIDATORS -->
 
     <string name="validator_value_number">Only numbers are allowed</string>
@@ -482,5 +498,7 @@
         <item>0</item>
         <item>1</item>
     </string-array>
+
+    <string name="oxygen_saturation">Oxygen saturation</string>
 
 </resources>

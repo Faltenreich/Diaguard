@@ -31,9 +31,11 @@ public class TableCategoryHolder extends BaseViewHolder<ListItemCategoryValues> 
     public void bindData() {
         ListItemCategoryValues listItem = getListItem();
         Measurement.Category category = listItem.getCategory();
+
         int categoryImageResourceId = PreferenceHelper.getInstance().getCategoryImageResourceId(category);
-        
-        Picasso.with(getContext()).load(categoryImageResourceId).into(imageView);
+        if (categoryImageResourceId > 0) {
+            Picasso.with(getContext()).load(categoryImageResourceId).into(imageView);
+        }
 
         for (float value : listItem.getValues()) {
             TextView textView = (TextView) LayoutInflater.from(getContext()).inflate(R.layout.list_item_table_category_value, content, false);

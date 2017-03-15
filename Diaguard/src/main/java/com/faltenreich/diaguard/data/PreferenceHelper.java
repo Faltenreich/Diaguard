@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.DiaguardApplication;
@@ -13,6 +14,10 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.view.preferences.CategoryPreference;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarLineScatterCandleBubbleData;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.ScatterData;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -33,6 +38,7 @@ import java.util.Locale;
  */
 public class PreferenceHelper {
 
+    private static final String TAG = PreferenceHelper.class.getSimpleName();
     private static final String INPUT_QUERIES_SEPARATOR = ";";
 
     private class Keys {
@@ -44,6 +50,20 @@ public class PreferenceHelper {
         final static String MEAL_IS_CALCULATED = "mealIsCalculated";
         final static String INPUT_QUERIES = "inputQueries";
         final static String DID_IMPORT_COMMON_FOOD_FOR_LANGUAGE = "didImportCommonFoodForLanguage";
+        final static String CHART_STYLE = "chart_style";
+    }
+
+    public enum ChartStyle {
+
+        POINT(ScatterData.class),
+        LINE(LineData.class),
+        BAR(BarData.class);
+
+        public Class<? extends BarLineScatterCandleBubbleData> dataClass;
+
+        ChartStyle(Class<? extends BarLineScatterCandleBubbleData> dataClass) {
+            this.dataClass = dataClass;
+        }
     }
 
     private static PreferenceHelper instance;
@@ -90,6 +110,22 @@ public class PreferenceHelper {
 
     public boolean isVibrationAllowed() {
         return sharedPreferences.getBoolean("vibration", true);
+    }
+
+    public ChartStyle getChartStyle() {
+        String preference = sharedPreferences.getString(Keys.CHART_STYLE, null);
+        if (!TextUtils.isEmpty(preference)) {
+            try {
+                int chartStyle = Integer.valueOf(preference);
+                ChartStyle[] chartStyles = ChartStyle.values();
+                return chartStyle >= 0 && chartStyle < chartStyles.length ? chartStyles[chartStyle] : ChartStyle.POINT;
+            } catch (NumberFormatException exception) {
+                Log.e(TAG, exception.getMessage());
+            }
+        } else {
+            Log.e(TAG, "Failed to find shared preference for key: " + Keys.CHART_STYLE);
+        }
+        return ChartStyle.POINT;
     }
 
     public int[] getExtrema(Measurement.Category category) {

@@ -34,6 +34,15 @@ public class SystemUtils {
     public static final int NOTIFICATION_ID = 34248273;
     public static final int PERMISSION_WRITE_EXTERNAL_STORAGE = 123;
 
+    public static String getVersionCode(Context context) {
+        try {
+            return context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException exception) {
+            Log.e(TAG, exception.getMessage());
+            return null;
+        }
+    }
+
     public static void showNotification(@StringRes int titleResId, String message) {
         Context context = DiaguardApplication.getContext();
         String title = context.getString(titleResId);

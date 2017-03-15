@@ -31,6 +31,7 @@ class DayChartData extends CombinedData {
     private static final String DATA_SET_BLOODSUGAR = "bloodSugar";
     private static final String DATA_SET_BLOODSUGAR_HYPERGLYCEMIA = "hyperglycemia";
     private static final String DATA_SET_BLOODSUGAR_HYPOGLYCEMIA = "hypoglycemia";
+    private static final String DATA_SET_LINE = "line";
 
     private DayChart chart;
 
@@ -41,33 +42,29 @@ class DayChartData extends CombinedData {
     }
 
     private void setup() {
-        switch (chart.getChartStyle()) {
-            case POINT: setData(createScatterData()); break;
-            case LINE: setData(createLineData()); break;
-            default: Log.e(TAG, "Failed to setup due to unsupported chart style");
-        }
+        setData(createLineData());
+        setData(createScatterData());
     }
 
-    void addEntry(Entry entry) {
+    void addEntry(Entry entry, PreferenceHelper.ChartStyle chartStyle) {
         float yValue = entry.getVal();
         if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
             if (yValue > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
-                addEntry(DATA_SET_BLOODSUGAR_HYPERGLYCEMIA, entry);
+                addEntry(DATA_SET_BLOODSUGAR_HYPERGLYCEMIA, entry, chartStyle);
             } else if (yValue < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
-                addEntry(DATA_SET_BLOODSUGAR_HYPOGLYCEMIA, entry);
+                addEntry(DATA_SET_BLOODSUGAR_HYPOGLYCEMIA, entry, chartStyle);
             } else {
-                addEntry(DATA_SET_BLOODSUGAR, entry);
+                addEntry(DATA_SET_BLOODSUGAR, entry, chartStyle);
             }
         } else {
-            addEntry(DATA_SET_BLOODSUGAR, entry);
+            addEntry(DATA_SET_BLOODSUGAR, entry, chartStyle);
         }
     }
 
-    private void addEntry(String chartLabel, Entry entry) {
-        switch (chart.getChartStyle()) {
+    private void addEntry(String chartLabel, Entry entry, PreferenceHelper.ChartStyle chartStyle) {
+        switch (chartStyle) {
+            case LINE: chart.getLineData().addEntry(entry, 0);
             case POINT: chart.getScatterData().getDataSetByLabel(chartLabel, true).addEntry(entry); break;
-            case LINE: chart.getLineData().addEntry(entry, 0); break;
-            case BAR: // TODO
             default: Log.e(TAG, "Cannot add entry to unsupported chart style");
         }
     }
@@ -84,11 +81,7 @@ class DayChartData extends CombinedData {
 
     private LineData createLineData() {
         LineData lineData = new LineData();
-        lineData.addDataSet(createLineDataSet(DATA_SET_BLOODSUGAR, R.color.green));
-        if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
-            lineData.addDataSet(createLineDataSet(DATA_SET_BLOODSUGAR_HYPERGLYCEMIA, R.color.red));
-            lineData.addDataSet(createLineDataSet(DATA_SET_BLOODSUGAR_HYPOGLYCEMIA, R.color.blue));
-        }
+        lineData.addDataSet(createLineDataSet());
         return lineData;
     }
 
@@ -102,14 +95,13 @@ class DayChartData extends CombinedData {
         return dataSet;
     }
 
-    private LineDataSet createLineDataSet(String title, @ColorRes int colorResourceId) {
-        LineDataSet dataSet = new LineDataSet(new ArrayList<Entry>(), title);
-        int dataSetColor = ContextCompat.getColor(getContext(), colorResourceId);
-        dataSet.setColor(dataSetColor);
+    private LineDataSet createLineDataSet() {
+        LineDataSet dataSet = new LineDataSet(new ArrayList<Entry>(), DATA_SET_LINE);
+        dataSet.setColor(ContextCompat.getColor(getContext(), R.color.green));
         dataSet.setLineWidth(ChartHelper.LINE_WIDTH);
-        dataSet.setCircleColor(dataSetColor);
-        dataSet.setCircleRadius(ChartHelper.CIRCLE_SIZE);
+        dataSet.setDrawCircles(false);
         dataSet.setDrawValues(false);
+        dataSet.setDrawCubic(true);
         return dataSet;
     }
 }

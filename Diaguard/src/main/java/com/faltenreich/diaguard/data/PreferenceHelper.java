@@ -54,16 +54,8 @@ public class PreferenceHelper {
     }
 
     public enum ChartStyle {
-
-        POINT(ScatterData.class),
-        LINE(LineData.class),
-        BAR(BarData.class);
-
-        public Class<? extends BarLineScatterCandleBubbleData> dataClass;
-
-        ChartStyle(Class<? extends BarLineScatterCandleBubbleData> dataClass) {
-            this.dataClass = dataClass;
-        }
+        POINT,
+        LINE
     }
 
     private static PreferenceHelper instance;

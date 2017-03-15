@@ -332,4 +332,8 @@
     <string name="hba1c_estimated">Geschätzter HbA1c</string>
     <string name="months">Monate</string>
 
+    <string name="style">Stil</string>
+    <string name="chart_scatter">Streudiagramm</string>
+    <string name="chart_line">Liniendiagramm</string>
+
 </resources>

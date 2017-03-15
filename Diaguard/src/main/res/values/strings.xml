@@ -471,16 +471,17 @@
     <string name="about_legal">Legal</string>
     <string name="about_legal_desc">This app does not replace a doctor.</string>
 
-    <string name="chart_style">Timeline style</string>
+    <string name="style">Style</string>
+    <string name="chart_scatter">Scatter chart</string>
+    <string name="chart_line">Line chart</string>
+
     <string-array name="chart_style_entries">
-        <item>Points</item>
-        <item>Line</item>
-        <item>Bar</item>
+        <item>@string/chart_scatter</item>
+        <item>@string/chart_line</item>
     </string-array>
     <string-array name="chart_style_values">
         <item>0</item>
         <item>1</item>
-        <item>2</item>
     </string-array>
 
 </resources>

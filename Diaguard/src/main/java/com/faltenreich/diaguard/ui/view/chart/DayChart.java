@@ -33,7 +33,6 @@ public class DayChart extends CombinedChart {
     private static final float Y_MAX_VALUE_OFFSET = 20;
 
     private DateTime day;
-    private PreferenceHelper.ChartStyle chartStyle;
     private DayChartData data;
 
     public DayChart(Context context) {
@@ -49,7 +48,6 @@ public class DayChart extends CombinedChart {
     private void setup() {
         if (!isInEditMode()) {
             this.day = DateTime.now();
-            this.chartStyle = PreferenceHelper.getInstance().getChartStyle();
             ChartHelper.setChartDefaultStyle(this, Measurement.Category.BLOODSUGAR);
             int textColor = ContextCompat.getColor(getContext(), android.R.color.black);
             getAxisLeft().setTextColor(textColor);
@@ -65,10 +63,6 @@ public class DayChart extends CombinedChart {
     public void setDay(DateTime day) {
         this.day = day;
         new UpdateChartDataTask().execute();
-    }
-
-    public PreferenceHelper.ChartStyle getChartStyle() {
-        return chartStyle;
     }
 
     private class InitChartTask extends AsyncTask<Void, Void, DayChartData> {
@@ -128,6 +122,7 @@ public class DayChart extends CombinedChart {
 
         protected void onPostExecute(List<BloodSugar> bloodSugarList) {
             try {
+                PreferenceHelper.ChartStyle chartStyle = PreferenceHelper.getInstance().getChartStyle();
                 // Remove old entries
                 for (int position = 0; position < getData().getDataSetCount(); position++) {
                     getData().getDataSetByIndex(position).clear();
@@ -139,7 +134,9 @@ public class DayChart extends CombinedChart {
                     int xValue = entry.getDate().getMinuteOfDay();
                     float yValue = bloodSugar.getMgDl();
                     float yCustomValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, yValue);
-                    data.addEntry(new Entry(yCustomValue, xValue, entry));
+
+                    Entry chartEntry = new Entry(yCustomValue, xValue, entry);
+                    data.addEntry(chartEntry, chartStyle);
 
                     if (yValue > maxValue) {
                         maxValue = yValue;

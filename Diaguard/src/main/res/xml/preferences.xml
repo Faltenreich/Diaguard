@@ -22,13 +22,6 @@
             android:title="@string/vibration"
             android:defaultValue="true"/>
 
-        <ListPreference
-            android:key="chart_style"
-            android:title="@string/chart_style"
-            android:entries="@array/chart_style_entries"
-            android:entryValues="@array/chart_style_values"
-            android:defaultValue="0"/>
-
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -47,6 +40,18 @@
         <com.faltenreich.diaguard.ui.view.preferences.ImportPreference
             android:key="import"
             android:title="@string/import_"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/timeline">
+
+        <ListPreference
+            android:key="chart_style"
+            android:title="@string/style"
+            android:entries="@array/chart_style_entries"
+            android:entryValues="@array/chart_style_values"
+            android:defaultValue="0"/>
 
     </PreferenceCategory>
 

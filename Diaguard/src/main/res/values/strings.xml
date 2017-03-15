@@ -8,7 +8,6 @@
     <string name="app_homepage_short" translatable="false">diaguard.wordpress.com</string>
     <string name="app_mail" translatable="false">mailto:diaguard.de@gmail.com</string>
     <string name="app_mail_short" translatable="false">diaguard.de@gmail.com</string>
-    <string name="app_version" translatable="false">2.2</string>
 
     <!-- PREFERENCES -->
     <string name="pref_factor" translatable="false">pref_factor</string>

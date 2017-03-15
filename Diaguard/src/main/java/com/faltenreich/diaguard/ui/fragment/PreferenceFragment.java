@@ -18,6 +18,7 @@ import com.faltenreich.diaguard.ui.view.preferences.BloodSugarPreference;
 import com.faltenreich.diaguard.ui.view.preferences.CategoryPreference;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
+import com.faltenreich.diaguard.util.SystemUtils;
 
 import java.util.ArrayList;
 
@@ -41,6 +42,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             setSummary(preference);
         }
 
+        setVersionCode();
         checkIntents();
     }
 
@@ -90,6 +92,13 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             if (extras.getString(EXTRA_OPENING_PREFERENCE) != null) {
                 preopenPreference(extras.getString(EXTRA_OPENING_PREFERENCE));
             }
+        }
+    }
+
+    private void setVersionCode() {
+        Preference preference = findPreference("version");
+        if (preference != null) {
+            preference.setSummary(SystemUtils.getVersionCode(getActivity()));
         }
     }
 

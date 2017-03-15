@@ -17,6 +17,7 @@ import com.faltenreich.diaguard.data.entity.HbA1c;
 import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.data.entity.OxygenSaturation;
 import com.faltenreich.diaguard.data.entity.Pressure;
 import com.faltenreich.diaguard.data.entity.Pulse;
 import com.faltenreich.diaguard.data.entity.Weight;
@@ -47,6 +48,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public static final int DATABASE_VERSION_1_1 = 18;
     public static final int DATABASE_VERSION_1_3 = 19;
     public static final int DATABASE_VERSION_2_0 = 20;
+    public static final int DATABASE_VERSION_2_2 = 21;
 
     public static final Class[] tables = new Class[]{
             Entry.class,
@@ -59,7 +61,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             Pulse.class,
             Pressure.class,
             Food.class,
-            FoodEaten.class
+            FoodEaten.class,
+            OxygenSaturation.class
     };
 
     public DatabaseHelper(Context context) {
@@ -67,7 +70,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     public static int getVersion() {
-        return DATABASE_VERSION_2_0;
+        return DATABASE_VERSION_2_2;
     }
 
     @Override
@@ -96,9 +99,20 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                     case DATABASE_VERSION_1_3:
                         upgradeToVersion20(sqLiteDatabase, connectionSource);
                         break;
+                    case DATABASE_VERSION_2_0:
+                        upgradeToVersion21(sqLiteDatabase, connectionSource);
+                        break;
                 }
                 upgradeFromVersion++;
             }
+        }
+    }
+
+    private void upgradeToVersion21(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource) {
+        try {
+            TableUtils.createTableIfNotExists(connectionSource, OxygenSaturation.class);
+        } catch (SQLException e) {
+            Log.e(TAG, e.getLocalizedMessage());
         }
     }
 

@@ -14,10 +14,6 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.view.preferences.CategoryPreference;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarLineScatterCandleBubbleData;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.ScatterData;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;

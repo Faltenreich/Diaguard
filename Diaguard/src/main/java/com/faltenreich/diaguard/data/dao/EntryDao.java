@@ -121,12 +121,6 @@ public class EntryDao extends BaseDao<Entry> {
         for(Entry entry : getEntriesOfDay(day)) {
             for (Measurement measurement : getMeasurements(entry, categories)) {
                 Measurement.Category category = measurement.getCategory();
-                boolean valueIsAverage =
-                        category == Measurement.Category.BLOODSUGAR ||
-                                category == Measurement.Category.HBA1C ||
-                                category == Measurement.Category.WEIGHT ||
-                                category == Measurement.Category.PULSE ||
-                                category == Measurement.Category.PRESSURE;
                 int index = measurement.getEntry().getDate().hourOfDay().get() / hoursToSkip;
                 boolean valueIsSum = category != Measurement.Category.PRESSURE;
                 float value = valueIsSum ? ArrayUtils.sum(measurement.getValues()) : ArrayUtils.avg(measurement.getValues());
@@ -137,11 +131,11 @@ public class EntryDao extends BaseDao<Entry> {
                 }
                 float oldValue = values.get(category)[index];
                 // TODO: Divisor is not 2 but count
-                float newValue = valueIsAverage ?
+                float newValue = category.stackValues() ?
+                        oldValue + value :
                         oldValue > 0 ?
                                 (oldValue + value) / 2 :
-                                value :
-                        oldValue + value;
+                                value;
                 values.get(category)[index] = newValue;
             }
         }

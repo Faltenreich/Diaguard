@@ -12,6 +12,7 @@ import com.faltenreich.diaguard.data.entity.HbA1c;
 import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.data.entity.OxygenSaturation;
 import com.faltenreich.diaguard.data.entity.Pressure;
 import com.faltenreich.diaguard.data.entity.Pulse;
 import com.faltenreich.diaguard.data.entity.Weight;
@@ -176,6 +177,10 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
                 pressure.setSystolic(function(SqlFunction.AVG, Pressure.Column.SYSTOLIC, interval));
                 pressure.setDiastolic(function(SqlFunction.AVG, Pressure.Column.DIASTOLIC, interval));
                 return pressure;
+            case OXYGEN_SATURATION:
+                OxygenSaturation oxygenSaturation = new OxygenSaturation();
+                oxygenSaturation.setPercent(function(SqlFunction.AVG, OxygenSaturation.Column.PERCENT, interval));
+                return oxygenSaturation;
             default:
                 return null;
         }

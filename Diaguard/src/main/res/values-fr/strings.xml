@@ -160,18 +160,6 @@
 
     <string name="dateformat_default">DD.MM.YYYY</string>
 
-    <!-- CATEGORIES -->
-    <string-array name="categories">
-        <item>Glycémie</item>
-        <item>Insuline</item>
-        <item>Repas</item>
-        <item>Activité</item>
-        <item>HbA1c</item>
-        <item>Poids</item>
-        <item>Impulsion</item>
-        <item>Tension Artérielle</item>
-    </string-array>
-
     <string name="insulin_units_default">Unités d\'insuline</string>
     <string-array name="insulin_units">
         <item>Unités d\'insuline</item>
@@ -335,5 +323,7 @@
     <string name="style">Style</string>
     <string name="chart_scatter">Nuage de points</string>
     <string name="chart_line">Nuage de linéaire</string>
+
+    <string name="oxygen_saturation">Saturation en oxygène</string>
 
 </resources>

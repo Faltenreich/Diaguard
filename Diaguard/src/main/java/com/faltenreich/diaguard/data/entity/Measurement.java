@@ -25,7 +25,8 @@ public abstract class Measurement extends BaseEntity {
         HBA1C(HbA1c.class, 5, R.string.hba1c, false),
         WEIGHT(Weight.class, 6, R.string.weight, false),
         PULSE(Pulse.class, 7, R.string.pulse, false),
-        PRESSURE(Pressure.class, 8, R.string.pressure, false);
+        PRESSURE(Pressure.class, 8, R.string.pressure, false),
+        OXYGEN_SATURATION(OxygenSaturation.class, 9, R.string.oxygen_saturation, false);
 
         private Class clazz;
         private int maskId;

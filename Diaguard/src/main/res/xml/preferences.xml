@@ -22,6 +22,13 @@
             android:title="@string/vibration"
             android:defaultValue="true"/>
 
+        <ListPreference
+            android:key="chart_style"
+            android:title="@string/chart_style"
+            android:entries="@array/chart_style_entries"
+            android:entryValues="@array/chart_style_values"
+            android:defaultValue="0"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -58,7 +65,7 @@
             android:title="@string/meal"
             android:entries="@array/meal_units"
             android:entryValues="@array/meal_units_values"
-            android:defaultValue="0.1"/>
+            android:defaultValue="1"/>
 
         <ListPreference
             android:key="unit_hba1c"

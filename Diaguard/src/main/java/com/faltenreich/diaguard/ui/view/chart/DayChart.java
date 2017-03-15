@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.ui.view.chart;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.annotation.ColorRes;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -13,11 +12,8 @@ import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.ChartHelper;
-import com.github.mikephil.charting.charts.ScatterChart;
+import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.ScatterData;
-import com.github.mikephil.charting.data.ScatterDataSet;
-import com.github.mikephil.charting.interfaces.datasets.IScatterDataSet;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -28,39 +24,36 @@ import java.util.List;
 /**
  * Created by Filip on 07.07.2015.
  */
-public class DayChart extends ScatterChart {
+public class DayChart extends CombinedChart {
 
     private static final String TAG = DayChart.class.getSimpleName();
-
-    private static final String DATA_SET_BLOODSUGAR = "bloodSugar";
-    private static final String DATA_SET_BLOODSUGAR_HYPERGLYCEMIA = "hyperglycemia";
-    private static final String DATA_SET_BLOODSUGAR_HYPOGLYCEMIA = "hypoglycemia";
 
     private static final int LABELS_TO_SKIP = 2;
     private static final float Y_MAX_VALUE = 275;
     private static final float Y_MAX_VALUE_OFFSET = 20;
 
     private DateTime day;
+    private PreferenceHelper.ChartStyle chartStyle;
+    private DayChartData data;
 
     public DayChart(Context context) {
         super(context);
-        this.day = DateTime.now();
         setup();
     }
 
     public DayChart(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.day = DateTime.now();
         setup();
     }
 
     private void setup() {
         if (!isInEditMode()) {
+            this.day = DateTime.now();
+            this.chartStyle = PreferenceHelper.getInstance().getChartStyle();
             ChartHelper.setChartDefaultStyle(this, Measurement.Category.BLOODSUGAR);
             int textColor = ContextCompat.getColor(getContext(), android.R.color.black);
             getAxisLeft().setTextColor(textColor);
             getXAxis().setTextColor(textColor);
-
             new InitChartTask().execute();
         }
     }
@@ -74,18 +67,22 @@ public class DayChart extends ScatterChart {
         new UpdateChartDataTask().execute();
     }
 
-    private class InitChartTask extends AsyncTask<Void, Void, ScatterData> {
+    public PreferenceHelper.ChartStyle getChartStyle() {
+        return chartStyle;
+    }
 
-        protected ScatterData doInBackground(Void... params) {
+    private class InitChartTask extends AsyncTask<Void, Void, DayChartData> {
+
+        protected DayChartData doInBackground(Void... params) {
             List<String> xLabels = getXLabels();
-            List<IScatterDataSet> dataSets = getEmptyDataSets();
-            return new ScatterData(xLabels, dataSets);
+            return new DayChartData(DayChart.this, xLabels);
         }
 
         protected void onProgressUpdate(Void... progress) {
         }
 
-        protected void onPostExecute(ScatterData data) {
+        protected void onPostExecute(DayChartData data) {
+            DayChart.this.data = data;
             setData(data);
             setVisibleXRangeMaximum(DateTimeConstants.MINUTES_PER_DAY);
             getXAxis().setLabelsToSkip((DateTimeConstants.MINUTES_PER_HOUR * LABELS_TO_SKIP) - 1);
@@ -112,26 +109,6 @@ public class DayChart extends ScatterChart {
                 startTime = startTime.plusMinutes(1);
             }
             return xLabels;
-        }
-
-        private List<IScatterDataSet> getEmptyDataSets() {
-            List<IScatterDataSet> dataSets = new ArrayList<>();
-            dataSets.add(getDataSet(DATA_SET_BLOODSUGAR, R.color.green));
-            if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
-                dataSets.add(getDataSet(DATA_SET_BLOODSUGAR_HYPERGLYCEMIA, R.color.red));
-                dataSets.add(getDataSet(DATA_SET_BLOODSUGAR_HYPOGLYCEMIA, R.color.blue));
-            }
-            return dataSets;
-        }
-
-        private ScatterDataSet getDataSet(String title, @ColorRes int colorResourceId) {
-            ScatterDataSet dataSet = new ScatterDataSet(new ArrayList<Entry>(), title);
-            int dataSetColor = ContextCompat.getColor(getContext(), colorResourceId);
-            dataSet.setColor(dataSetColor);
-            dataSet.setScatterShapeSize(ChartHelper.SCATTER_SIZE);
-            dataSet.setScatterShape(ScatterShape.CIRCLE);
-            dataSet.setDrawValues(false);
-            return dataSet;
         }
     }
 
@@ -162,20 +139,7 @@ public class DayChart extends ScatterChart {
                     int xValue = entry.getDate().getMinuteOfDay();
                     float yValue = bloodSugar.getMgDl();
                     float yCustomValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, yValue);
-
-                    Entry chartEntry = new Entry(yCustomValue, xValue, entry);
-
-                    if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
-                        if (yValue > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
-                            getData().getDataSetByLabel(DATA_SET_BLOODSUGAR_HYPERGLYCEMIA, true).addEntry(chartEntry);
-                        } else if (yValue < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
-                            getData().getDataSetByLabel(DATA_SET_BLOODSUGAR_HYPOGLYCEMIA, true).addEntry(chartEntry);
-                        } else {
-                            getData().getDataSetByLabel(DATA_SET_BLOODSUGAR, true).addEntry(chartEntry);
-                        }
-                    } else {
-                        getData().getDataSetByLabel(DATA_SET_BLOODSUGAR, true).addEntry(chartEntry);
-                    }
+                    data.addEntry(new Entry(yCustomValue, xValue, entry));
 
                     if (yValue > maxValue) {
                         maxValue = yValue;

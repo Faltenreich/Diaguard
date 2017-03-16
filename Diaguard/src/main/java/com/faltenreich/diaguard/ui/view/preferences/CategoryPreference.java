@@ -3,19 +3,16 @@ package com.faltenreich.diaguard.ui.view.preferences;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.os.Build;
 import android.preference.DialogPreference;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.SparseBooleanArray;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.ViewHelper;
 
 /**
@@ -39,22 +36,16 @@ public class CategoryPreference extends DialogPreference {
         Activity activity = (Activity) getContext();
         listView = (ListView) view.findViewById(R.id.listview);
 
-        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(activity,
+        CategoryListAdapter adapter = new CategoryListAdapter(activity,
                 android.R.layout.simple_list_item_multiple_choice,
                 activity.getResources().getTextArray(R.array.categories));
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         listView.setAdapter(adapter);
 
-        if(Build.VERSION.SDK_INT <= 10) {
-            listView.setBackgroundColor(Color.WHITE);
-        }
-
         for(int item = 0; item < Measurement.Category.values().length; item++) {
             Measurement.Category category = Measurement.Category.values()[item];
             listView.setItemChecked(item, PreferenceHelper.getInstance().isCategoryActive(category));
         }
-
-        // TODO: Make Blood Sugar always active
     }
 
     @Override

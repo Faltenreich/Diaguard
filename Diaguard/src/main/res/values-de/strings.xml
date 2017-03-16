@@ -37,7 +37,8 @@
     <string name="cleanup_desc">Dies wird alle Einträge am und vor dem gewählten Datum dauerhaft löschen.</string>
     <string name="contact">Kontakt</string>
     <string name="correction">Korrektur</string>
-    <string name="correction_value">Korrekturwert</string>
+    <string name="correction_value">Korrekturfaktor</string>
+    <string name="correction_value_desc">1 IE Insulin senkt den Blutzucker um</string>
     <string name="data">Daten</string>
     <string name="date_select">Datum auswählen</string>
     <string name="day_next">Nächster Tag</string>
@@ -61,6 +62,7 @@
     <string name="export_progress">PDF wird erstellt</string>
     <string name="export_stamp">Bericht generiert am</string>
     <string name="factor">KE-Faktor</string>
+    <string name="factor_desc">Dient zur Berechnung der Insulinmenge für eine Mahlzeit</string>
     <string name="factors">KE-Faktoren</string>
     <string name="first_visit">Neu hier?</string>
     <string name="first_visit_desc">Ersten Wert eintragen</string>

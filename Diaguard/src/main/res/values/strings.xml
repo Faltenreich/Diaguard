@@ -413,11 +413,11 @@
         <item name="maximum">300</item>
     </integer-array>
 
-    <string name="oxygen_saturation_units_default">@string/oxygen_saturation</string>
-    <string-array name="oxygen_saturation_units">
+    <string name="oxygen_saturation_units_default" translatable="false">@string/oxygen_saturation</string>
+    <string-array name="oxygen_saturation_units" translatable="false">
         <item>@string/oxygen_saturation_units_default</item>
     </string-array>
-    <string-array name="oxygen_saturation_units_acronyms">
+    <string-array name="oxygen_saturation_units_acronyms" translatable="false">
         <item>SpO2</item>
     </string-array>
     <string-array name="oxygen_saturation_units_values" translatable="false">
@@ -490,11 +490,11 @@
     <string name="chart_scatter">Scatter chart</string>
     <string name="chart_line">Line chart</string>
 
-    <string-array name="chart_style_entries">
+    <string-array name="chart_style_entries" translatable="false">
         <item>@string/chart_scatter</item>
         <item>@string/chart_line</item>
     </string-array>
-    <string-array name="chart_style_values">
+    <string-array name="chart_style_values" translatable="false">
         <item>0</item>
         <item>1</item>
     </string-array>

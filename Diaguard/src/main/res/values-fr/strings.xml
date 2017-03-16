@@ -30,7 +30,7 @@
     <string name="cleanup">Nettoyer</string>
     <string name="cleanup_desc">Ceci va effacer toutes les entrées effectuées à la date sélectionnée et auparavant.</string>
     <string name="contact">Contact</string>
-    <string name="correction_value">Valeur de correction</string>
+    <string name="correction_value">Facteur de correction</string>
     <string name="data">Données</string>
     <string name="date_select">DChoisissez une date</string>
     <string name="day_next">Suivant jour</string>
@@ -325,5 +325,7 @@
     <string name="chart_line">Nuage de linéaire</string>
 
     <string name="oxygen_saturation">Saturation en oxygène</string>
+    <string name="factor_desc">Utilisé pour calculer la quantité d\'insuline pour un repas</string>
+    <string name="correction_value_desc">1 IE insuline diminue la glycémie en</string>
 
 </resources>

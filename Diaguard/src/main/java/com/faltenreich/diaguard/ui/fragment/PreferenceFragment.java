@@ -77,9 +77,11 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             String value = PreferenceHelper.getInstance().getValueForKey(preference.getKey());
             float number = NumberUtils.parseNumber(value);
             if (number > 0) {
+                int descriptionResId = getResources().getIdentifier(preference.getKey() + "_desc", "string", getActivity().getPackageName());
+                String description = descriptionResId > 0 ? getString(descriptionResId) + " " : "";
                 number = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, number);
                 value = Helper.parseFloat(number);
-                preference.setSummary(value + " " + PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BLOODSUGAR));
+                preference.setSummary(description + value + " " + PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BLOODSUGAR));
             } else {
                 preference.setSummary(null);
             }

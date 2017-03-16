@@ -107,7 +107,8 @@
 
         <com.faltenreich.diaguard.ui.view.preferences.FactorPreference
             android:key="@string/pref_factor"
-            android:title="@string/factors"/>
+            android:title="@string/factors"
+            android:summary="@string/factor_desc"/>
 
     </PreferenceCategory>
 

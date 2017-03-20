@@ -98,12 +98,10 @@
             android:defaultValue="120"
             android:inputType="number"/>
 
-        <com.faltenreich.diaguard.ui.view.preferences.BloodSugarPreference
+        <com.faltenreich.diaguard.ui.view.preferences.CorrectionPreference
             android:key="correction_value"
             android:title="@string/correction_value"
-            android:dialogTitle="@string/correction_value"
-            android:defaultValue="40"
-            android:inputType="number"/>
+            android:summary="@string/correction_value_desc"/>
 
         <com.faltenreich.diaguard.ui.view.preferences.FactorPreference
             android:key="@string/pref_factor"

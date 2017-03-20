@@ -94,9 +94,10 @@ public class CalculatorFragment extends BaseFragment {
     }
 
     private void updateCorrectionValue() {
+        int hourOfDay = DateTime.now().getHourOfDay();
         float correctionValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(
                 Measurement.Category.BLOODSUGAR,
-                PreferenceHelper.getInstance().getCorrectionValue());
+                PreferenceHelper.getInstance().getCorrectionForHour(hourOfDay));
         correctionInput.setText(Helper.parseFloat(correctionValue));
     }
 
@@ -135,6 +136,7 @@ public class CalculatorFragment extends BaseFragment {
 
     private void calculate() {
         if (inputIsValid()) {
+            int hourOfDay = DateTime.now().getHourOfDay();
             float currentBloodSugar =
                     PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                             Measurement.Category.BLOODSUGAR,
@@ -150,7 +152,7 @@ public class CalculatorFragment extends BaseFragment {
                             PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                                     Measurement.Category.BLOODSUGAR,
                                     NumberUtils.parseNumber(correctionInput.getText().toString())) :
-                            PreferenceHelper.getInstance().getCorrectionValue();
+                            PreferenceHelper.getInstance().getCorrectionForHour(hourOfDay);
             float meal = foodInputView.getTotalCarbohydrates();
             float factor = 0;
             if (meal > 0) {

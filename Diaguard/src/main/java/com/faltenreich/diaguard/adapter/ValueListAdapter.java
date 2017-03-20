@@ -7,16 +7,16 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.list.ListItemFactor;
+import com.faltenreich.diaguard.adapter.list.ListItemHourValue;
 import com.faltenreich.diaguard.ui.view.viewholder.FactorViewHolder;
 import com.faltenreich.diaguard.util.NumberUtils;
 
 /**
  * Created by Faltenreich on 04.09.2016.
  */
-public class FactorAdapter extends BaseAdapter<ListItemFactor, FactorViewHolder> {
+public class ValueListAdapter extends BaseAdapter<ListItemHourValue, FactorViewHolder> {
 
-    public FactorAdapter(Context context) {
+    public ValueListAdapter(Context context) {
         super(context);
     }
 
@@ -37,7 +37,7 @@ public class FactorAdapter extends BaseAdapter<ListItemFactor, FactorViewHolder>
             }
             @Override
             public void afterTextChanged(Editable editable) {
-                ListItemFactor preference = getItem(holder.getAdapterPosition());
+                ListItemHourValue preference = getItem(holder.getAdapterPosition());
                 try {
                     preference.setValue(NumberUtils.parseNumber(editable.toString()));
                 } catch (NumberFormatException exception) {

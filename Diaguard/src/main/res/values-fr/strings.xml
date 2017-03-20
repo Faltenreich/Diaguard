@@ -326,6 +326,6 @@
 
     <string name="oxygen_saturation">Saturation en oxygène</string>
     <string name="factor_desc">Utilisé pour calculer la quantité d\'insuline pour un repas</string>
-    <string name="correction_value_desc">1 IE insuline diminue la glycémie en</string>
+    <string name="correction_value_desc">Réduction de la glycémie d\'une</string>
 
 </resources>

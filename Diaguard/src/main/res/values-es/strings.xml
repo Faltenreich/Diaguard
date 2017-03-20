@@ -327,6 +327,6 @@
 
     <string name="oxygen_saturation">Saturación de oxígeno</string>
     <string name="factor_desc">Se usa para calcular la cantidad de insulina para una comida</string>
-    <string name="correction_value_desc">1 IE insulina disminuye el azúcar en la sangre</string>
+    <string name="correction_value_desc">La reducción de glucemia en un</string>
 
 </resources>

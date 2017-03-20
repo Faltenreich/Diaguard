@@ -50,7 +50,7 @@
     <string name="contact">Contact</string>
     <string name="correction">Correction</string>
     <string name="correction_value">Correction factor</string>
-    <string name="correction_value_desc">1 IE insulin reduces blood sugar by</string>
+    <string name="correction_value_desc">Blood sugar reduction by 1 IE insulin</string>
     <string name="data">Data</string>
     <string name="date_select">Select date</string>
     <string name="day_next">Next day</string>

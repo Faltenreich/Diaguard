@@ -43,7 +43,9 @@ public class PreferenceHelper {
         static final String INTERVAL_FACTOR = "intervalFactor";
         static final String INTERVAL_FACTOR_FOR_HOUR = "intervalFactor%d";
         final static String FACTOR_DEPRECATED = "factor_";
-        final static String MEAL_IS_CALCULATED = "mealIsCalculated";
+        static final String INTERVAL_CORRECTION = "intervalCorrection";
+        static final String INTERVAL_CORRECTION_FOR_HOUR = "intervalCorrection%d";
+        final static String CORRECTION_DEPRECATED = "correction_value";
         final static String INPUT_QUERIES = "inputQueries";
         final static String DID_IMPORT_COMMON_FOOD_FOR_LANGUAGE = "didImportCommonFoodForLanguage";
         final static String CHART_STYLE = "chart_style";
@@ -70,6 +72,11 @@ public class PreferenceHelper {
     }
 
     // GENERAL
+
+    public void migrate() {
+        migrateFactors();
+        migrateCorrection();
+    }
 
     boolean didImportCommonFood(Locale locale) {
         return sharedPreferences.getBoolean(Keys.DID_IMPORT_COMMON_FOOD_FOR_LANGUAGE + locale.getLanguage(), false);
@@ -208,10 +215,6 @@ public class PreferenceHelper {
                 DiaguardApplication.getContext().getString(R.string.pref_therapy_targets_hypoclycemia_default)));
     }
 
-    public float getCorrectionValue() {
-        return NumberUtils.parseNumber(sharedPreferences.getString("correction_value", "40"));
-    }
-
     // CATEGORIES
 
     public String getCategoryName(Measurement.Category category) {
@@ -269,14 +272,6 @@ public class PreferenceHelper {
 
     public void setCategoryPinned(Measurement.Category category, boolean isPinned) {
         sharedPreferences.edit().putBoolean(getCategoryPinnedName(category), isPinned).apply();
-    }
-
-    public boolean isMealCalculated() {
-        return sharedPreferences.getBoolean(Keys.MEAL_IS_CALCULATED, false);
-    }
-
-    public void setIsMealCalculated(boolean isMealCalculated) {
-        sharedPreferences.edit().putBoolean(Keys.MEAL_IS_CALCULATED, isMealCalculated).apply();
     }
 
     // UNITS
@@ -356,7 +351,7 @@ public class PreferenceHelper {
     public TimeInterval getFactorInterval() {
         int position = sharedPreferences.getInt(Keys.INTERVAL_FACTOR, TimeInterval.EVERY_SIX_HOURS.ordinal());
         TimeInterval[] timeIntervals = TimeInterval.values();
-        return position >= 0 && position < timeIntervals.length ? timeIntervals[position] : TimeInterval.EVERY_FOUR_HOURS;
+        return position >= 0 && position < timeIntervals.length ? timeIntervals[position] : TimeInterval.EVERY_SIX_HOURS;
     }
 
     public void setFactorInterval(TimeInterval interval) {
@@ -376,17 +371,52 @@ public class PreferenceHelper {
     /**
      * Used to migrate from static to dynamic factors
      */
-    public void migrateFactors() {
-        for (Daytime daytime : Daytime.values()) {
-            float factor = sharedPreferences.getFloat(Keys.FACTOR_DEPRECATED + daytime.toDeprecatedString(), -1);
-            if (factor >= 0) {
-                int step = 0;
-                while (step < Daytime.INTERVAL_LENGTH) {
-                    int hourOfDay = (daytime.startingHour + step) % DateTimeConstants.HOURS_PER_DAY;
-                    setFactorForHour(hourOfDay, factor);
-                    step++;
+    private void migrateFactors() {
+        if (getFactorForHour(0) < 0) {
+            for (Daytime daytime : Daytime.values()) {
+                float factor = sharedPreferences.getFloat(Keys.FACTOR_DEPRECATED + daytime.toDeprecatedString(), -1);
+                if (factor >= 0) {
+                    int step = 0;
+                    while (step < Daytime.INTERVAL_LENGTH) {
+                        int hourOfDay = (daytime.startingHour + step) % DateTimeConstants.HOURS_PER_DAY;
+                        setFactorForHour(hourOfDay, factor);
+                        step++;
+                    }
+                    sharedPreferences.edit().putFloat(Keys.FACTOR_DEPRECATED + daytime, -1).apply();
                 }
-                sharedPreferences.edit().putFloat(Keys.FACTOR_DEPRECATED + daytime, -1).apply();
+            }
+        }
+    }
+
+    // CORRECTION
+
+    public TimeInterval getCorrectionInterval() {
+        int position = sharedPreferences.getInt(Keys.INTERVAL_CORRECTION, TimeInterval.CONSTANT.ordinal());
+        TimeInterval[] timeIntervals = TimeInterval.values();
+        return position >= 0 && position < timeIntervals.length ? timeIntervals[position] : TimeInterval.CONSTANT;
+    }
+
+    public void setCorrectionInterval(TimeInterval interval) {
+        sharedPreferences.edit().putInt(Keys.INTERVAL_CORRECTION, interval.ordinal()).apply();
+    }
+
+    public float getCorrectionForHour(int hourOfDay) {
+        String key = String.format(Keys.INTERVAL_CORRECTION_FOR_HOUR, hourOfDay);
+        return sharedPreferences.getFloat(key, -1);
+    }
+
+    public void setCorrectionForHour(int hourOfDay, float factor) {
+        String key = String.format(Keys.INTERVAL_CORRECTION_FOR_HOUR, hourOfDay);
+        sharedPreferences.edit().putFloat(key, factor).apply();
+    }
+
+    private void migrateCorrection() {
+        if (getCorrectionForHour(0) < 0) {
+            float oldValue = NumberUtils.parseNumber(sharedPreferences.getString(Keys.CORRECTION_DEPRECATED, "40"));
+            int hourOfDay = 0;
+            while (hourOfDay < DateTimeConstants.HOURS_PER_DAY) {
+                setCorrectionForHour(hourOfDay, oldValue);
+                hourOfDay++;
             }
         }
     }

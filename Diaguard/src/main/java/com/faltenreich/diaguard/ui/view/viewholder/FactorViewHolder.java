@@ -5,7 +5,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.list.ListItemFactor;
+import com.faltenreich.diaguard.adapter.list.ListItemHourValue;
 import com.faltenreich.diaguard.data.Daytime;
 import com.faltenreich.diaguard.data.TimeInterval;
 import com.faltenreich.diaguard.util.Helper;
@@ -17,7 +17,7 @@ import butterknife.BindView;
 /**
  * Created by Faltenreich on 03.09.2016.
  */
-public class FactorViewHolder extends BaseViewHolder<ListItemFactor> {
+public class FactorViewHolder extends BaseViewHolder<ListItemHourValue> {
 
     @BindView(R.id.list_item_time_text)
     protected TextView time;
@@ -31,7 +31,7 @@ public class FactorViewHolder extends BaseViewHolder<ListItemFactor> {
 
     @Override
     protected void bindData() {
-        final ListItemFactor preference = getListItem();
+        final ListItemHourValue preference = getListItem();
 
         if (preference.getInterval() == TimeInterval.CONSTANT) {
             time.setVisibility(View.GONE);

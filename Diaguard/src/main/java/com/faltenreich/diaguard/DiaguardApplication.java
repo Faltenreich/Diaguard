@@ -40,7 +40,7 @@ public class DiaguardApplication extends Application {
         JodaTimeAndroid.init(this);
         ImportHelper.validateImport(this);
         LicenseResolver.registerLicense(new OpenDatabaseLicense());
-        PreferenceHelper.getInstance().migrateFactors();
+        PreferenceHelper.getInstance().migrate();
         OpenFoodFactsManager.getInstance().start();
     }
 }

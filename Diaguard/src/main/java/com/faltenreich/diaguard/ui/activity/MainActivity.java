@@ -140,7 +140,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -154,11 +154,9 @@ public class MainActivity extends BaseActivity {
                     drawerLayout.closeDrawer(GravityCompat.START);
                 }
                 return true;
-            case R.id.action_newevent:
-                startActivity(new Intent(this, EntryActivity.class));
-                return true;
+            default:
+                return false;
         }
-        return false;
     }
 
     @Override

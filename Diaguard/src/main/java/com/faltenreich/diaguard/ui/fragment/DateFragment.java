@@ -3,12 +3,14 @@ package com.faltenreich.diaguard.ui.fragment;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.widget.DatePicker;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.ui.view.DayOfMonthDrawable;
 
 import org.joda.time.DateTime;
@@ -42,9 +45,14 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     public void onViewCreated (View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setHasOptionsMenu(true);
         initialize();
     }
 
@@ -81,9 +89,20 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
         switch (item.getItemId()) {
             case R.id.action_today:
                 goToDay(DateTime.now());
-                break;
+                return true;
+            case R.id.action_newevent:
+                Intent intent = new Intent(getContext(), EntryActivity.class);
+                DateTime now = DateTime.now();
+                DateTime dateTime = day
+                        .withHourOfDay(now.getHourOfDay())
+                        .withMinuteOfHour(now.getMinuteOfHour())
+                        .withSecondOfMinute(now.getSecondOfMinute());
+                intent.putExtra(EntryActivity.EXTRA_DATE, dateTime);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return true;
     }
 
     @Override

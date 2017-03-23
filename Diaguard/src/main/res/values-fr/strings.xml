@@ -59,6 +59,7 @@
     <string name="format">Format</string>
     <string name="general">Généralement</string>
     <string name="hba1c">HbA1c</string>
+    <string name="home">Sommaire</string>
     <string name="homepage">Site web</string>
     <string name="hyper">Hyper</string>
     <string name="hypo">Hypo</string>
@@ -98,12 +99,6 @@
     <string name="change_every_four_hours">Cambia cada cuatro horas</string>
     <string name="change_every_second_hour">Cambia cada dos horas</string>
     <string name="change_every_hour">Cambia cada hora</string>
-
-    <string-array name="startscreens">
-        <item>Sommaire</item>
-        <item>Journal</item>
-        <item>Protocole</item>
-    </string-array>
 
     <!-- DATE -->
     <string name="calendarweek">Semaine</string>

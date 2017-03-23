@@ -96,6 +96,7 @@
     <string name="hba1c">HbA1c</string>
     <string name="hba1c_estimated">Estimated HbA1c</string>
     <string name="hba1c_formula" translatable="false">HbA1c = 0,031 * %s 3-%s-%s + 2,393</string>
+    <string name="home">Home</string>
     <string name="homepage">Website</string>
     <string name="hyper">Hyper</string>
     <string name="hyper_per_day">Hypers per day</string>
@@ -177,15 +178,17 @@
         <item>@string/change_every_hour</item>
     </string-array>
 
-    <string-array name="startscreens">
-        <item>Home</item>
-        <item>Timeline</item>
-        <item>Log</item>
+    <string-array name="startscreens" translatable="false">
+        <item>@string/home</item>
+        <item>@string/timeline</item>
+        <item>@string/log</item>
+        <item>@string/calculator</item>
     </string-array>
     <string-array name="startscreens_values" translatable="false">
         <item>0</item>
         <item>1</item>
         <item>2</item>
+        <item>3</item>
     </string-array>
 
     <!-- DATE -->

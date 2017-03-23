@@ -62,6 +62,12 @@ public class CalculatorFragment extends BaseFragment {
         update();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateToolbarTitle();
+    }
+
     private void update() {
         updateTargetValue();
         updateCorrectionValue();

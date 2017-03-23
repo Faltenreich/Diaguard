@@ -62,7 +62,7 @@ public class MainFragment extends BaseFragment {
     private Entry latestEntry;
 
     public MainFragment() {
-        super(R.layout.fragment_main);
+        super(R.layout.fragment_main, R.string.app_name);
     }
 
     @Override
@@ -76,6 +76,7 @@ public class MainFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         updateContent();
+        updateToolbarTitle();
     }
 
     @Override

@@ -94,37 +94,37 @@ public class MainActivity extends BaseActivity {
         if (menuItem != null) {
             switch (menuItem.getItemId()) {
                 case R.id.nav_home:
-                    replaceFragment(new MainFragment(), menuItem);
+                    replaceFragment(new MainFragment(), menuItem, false);
                     break;
                 case R.id.nav_timeline:
-                    replaceFragment(new ChartFragment(), menuItem);
+                    replaceFragment(new ChartFragment(), menuItem, false);
                     break;
                 case R.id.nav_log:
-                    replaceFragment(new LogFragment(), menuItem);
+                    replaceFragment(new LogFragment(), menuItem, false);
                     break;
                 case R.id.nav_calculator:
-                    replaceFragment(new CalculatorFragment(), menuItem);
+                    replaceFragment(new CalculatorFragment(), menuItem, false);
                     break;
                 case R.id.nav_food_database:
                     startActivity(new Intent(MainActivity.this, FoodSearchActivity.class));
                     break;
                 case R.id.nav_statistics:
-                    replaceFragment(new StatisticsFragment(), menuItem);
+                    replaceFragment(new StatisticsFragment(), menuItem, true);
                     break;
                 case R.id.nav_export:
-                    replaceFragment(new ExportFragment(), menuItem);
+                    replaceFragment(new ExportFragment(), menuItem, true);
                     break;
                 case R.id.nav_settings:
                     startActivity(new Intent(MainActivity.this, PreferenceActivity.class));
                     break;
                 default:
-                    replaceFragment(new MainFragment(), menuItem);
+                    replaceFragment(new MainFragment(), menuItem, false);
                     break;
             }
         }
     }
 
-    public void replaceFragment(Fragment fragment, MenuItem menuItem) {
+    public void replaceFragment(Fragment fragment, MenuItem menuItem, boolean addToBackStack) {
         Fragment activeFragment = getSupportFragmentManager().findFragmentById(R.id.container);
         boolean isActive = activeFragment != null && activeFragment.getClass() == fragment.getClass();
         if (!isActive) {
@@ -135,7 +135,13 @@ public class MainActivity extends BaseActivity {
             menuItem.setChecked(true);
 
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.container, fragment, fragment.toString());
+            String tag = fragment.getClass().getSimpleName();
+            if (addToBackStack) {
+                transaction.addToBackStack(tag);
+            } else {
+                getSupportFragmentManager().popBackStack();
+            }
+            transaction.replace(R.id.container, fragment, tag);
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             transaction.commit();
         }

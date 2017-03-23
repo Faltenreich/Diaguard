@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.IdRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -73,35 +74,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 drawerLayout.closeDrawers();
-                switch (menuItem.getItemId()) {
-                    case R.id.nav_home:
-                        replaceFragment(new MainFragment(), menuItem);
-                        break;
-                    case R.id.nav_timeline:
-                        replaceFragment(new ChartFragment(), menuItem);
-                        break;
-                    case R.id.nav_log:
-                        replaceFragment(new LogFragment(), menuItem);
-                        break;
-                    case R.id.nav_calculator:
-                        replaceFragment(new CalculatorFragment(), menuItem);
-                        break;
-                    case R.id.nav_food_database:
-                        startActivity(new Intent(MainActivity.this, FoodSearchActivity.class));
-                        break;
-                    case R.id.nav_statistics:
-                        replaceFragment(new StatisticsFragment(), menuItem);
-                        break;
-                    case R.id.nav_export:
-                        replaceFragment(new ExportFragment(), menuItem);
-                        break;
-                    case R.id.nav_settings:
-                        startActivity(new Intent(MainActivity.this, PreferenceActivity.class));
-                        break;
-                    default:
-                        replaceFragment(new MainFragment(), menuItem);
-                        break;
-                }
+                replaceFragment(menuItem);
                 return true;
             }
         });
@@ -109,26 +82,49 @@ public class MainActivity extends BaseActivity {
         // Setup start fragment
         int startScreen = PreferenceHelper.getInstance().getStartScreen();
         MenuItem menuItem = drawer.getMenu().getItem(startScreen);
-        switch (startScreen) {
-            case 0:
-                replaceFragment(new MainFragment(), menuItem);
-                break;
-            case 1:
-                replaceFragment(new ChartFragment(), menuItem);
-                break;
-            case 2:
-                replaceFragment(new LogFragment(), menuItem);
-                break;
-            case 3:
-                replaceFragment(new CalculatorFragment(), menuItem);
-                break;
-            default:
-                replaceFragment(new MainFragment(), menuItem);
-                break;
+        replaceFragment(menuItem);
+    }
+
+    public void replaceFragment(@IdRes int itemId) {
+        MenuItem menuItem = drawer.getMenu().findItem(itemId);
+        replaceFragment(menuItem);
+    }
+
+    private void replaceFragment(MenuItem menuItem) {
+        if (menuItem != null) {
+            switch (menuItem.getItemId()) {
+                case R.id.nav_home:
+                    replaceFragment(new MainFragment(), menuItem);
+                    break;
+                case R.id.nav_timeline:
+                    replaceFragment(new ChartFragment(), menuItem);
+                    break;
+                case R.id.nav_log:
+                    replaceFragment(new LogFragment(), menuItem);
+                    break;
+                case R.id.nav_calculator:
+                    replaceFragment(new CalculatorFragment(), menuItem);
+                    break;
+                case R.id.nav_food_database:
+                    startActivity(new Intent(MainActivity.this, FoodSearchActivity.class));
+                    break;
+                case R.id.nav_statistics:
+                    replaceFragment(new StatisticsFragment(), menuItem);
+                    break;
+                case R.id.nav_export:
+                    replaceFragment(new ExportFragment(), menuItem);
+                    break;
+                case R.id.nav_settings:
+                    startActivity(new Intent(MainActivity.this, PreferenceActivity.class));
+                    break;
+                default:
+                    replaceFragment(new MainFragment(), menuItem);
+                    break;
+            }
         }
     }
 
-    private void replaceFragment(Fragment fragment, MenuItem menuItem) {
+    public void replaceFragment(Fragment fragment, MenuItem menuItem) {
         Fragment activeFragment = getSupportFragmentManager().findFragmentById(R.id.container);
         boolean isActive = activeFragment != null && activeFragment.getClass() == fragment.getClass();
         if (!isActive) {

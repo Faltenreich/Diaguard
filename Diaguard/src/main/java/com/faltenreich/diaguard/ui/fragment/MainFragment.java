@@ -18,15 +18,15 @@ import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
-import com.faltenreich.diaguard.ui.activity.StatisticsActivity;
+import com.faltenreich.diaguard.ui.activity.MainActivity;
 import com.faltenreich.diaguard.util.AlarmUtils;
 import com.faltenreich.diaguard.util.ChartHelper;
 import com.faltenreich.diaguard.util.DateTimeUtils;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.TimeSpan;
 import com.faltenreich.diaguard.util.ViewHelper;
-import com.faltenreich.diaguard.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.util.thread.BaseAsyncTask;
 import com.faltenreich.diaguard.util.thread.UpdateLineChartTask;
 import com.github.mikephil.charting.charts.LineChart;
@@ -274,14 +274,10 @@ public class MainFragment extends BaseFragment {
         }, Measurement.Category.BLOODSUGAR, TimeSpan.WEEK, true, false).execute();
     }
 
-    private void openStatistics(View view, String transitionName) {
-        Intent intent = new Intent(getActivity(), StatisticsActivity.class);
-        ActivityOptionsCompat options =
-                ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        getActivity(),
-                        view,
-                        transitionName);
-        startActivity(intent, options);
+    private void openStatistics() {
+        if (getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).replaceFragment(R.id.nav_statistics);
+        }
     }
 
     // endregion
@@ -304,19 +300,19 @@ public class MainFragment extends BaseFragment {
     @SuppressWarnings("unused")
     @OnClick(R.id.layout_today)
     protected void openStatisticsToday(View view) {
-        startActivity(new Intent(getActivity(), StatisticsActivity.class));
+        openStatistics();
     }
 
     @SuppressWarnings("unused")
     @OnClick(R.id.layout_average)
     protected void openStatisticsAverage(View view) {
-        openStatistics(view, "transitionOverview");
+        openStatistics();
     }
 
     @SuppressWarnings("unused")
     @OnClick(R.id.layout_trend)
     protected void openTrend(View view) {
-        openStatistics(view, "transitionTrend");
+        openStatistics();
     }
 
     @SuppressWarnings("unused")

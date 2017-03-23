@@ -46,8 +46,8 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override

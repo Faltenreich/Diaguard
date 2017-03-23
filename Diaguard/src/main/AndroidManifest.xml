@@ -78,14 +78,6 @@
                 android:value=".ui.activity.MainActivity" />
         </activity>
         <activity
-            android:name=".ui.activity.ExportActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/export">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activity.MainActivity" />
-        </activity>
-        <activity
             android:name=".ui.activity.PreferenceActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/settings"

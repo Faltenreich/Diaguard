@@ -17,8 +17,10 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.ui.fragment.CalculatorFragment;
 import com.faltenreich.diaguard.ui.fragment.ChartFragment;
+import com.faltenreich.diaguard.ui.fragment.ExportFragment;
 import com.faltenreich.diaguard.ui.fragment.LogFragment;
 import com.faltenreich.diaguard.ui.fragment.MainFragment;
+import com.faltenreich.diaguard.ui.fragment.StatisticsFragment;
 
 import butterknife.BindView;
 
@@ -88,10 +90,10 @@ public class MainActivity extends BaseActivity {
                         startActivity(new Intent(MainActivity.this, FoodSearchActivity.class));
                         break;
                     case R.id.nav_statistics:
-                        startActivity(new Intent(MainActivity.this, StatisticsActivity.class));
+                        replaceFragment(new StatisticsFragment(), menuItem);
                         break;
                     case R.id.nav_export:
-                        startActivity(new Intent(MainActivity.this, ExportActivity.class));
+                        replaceFragment(new ExportFragment(), menuItem);
                         break;
                     case R.id.nav_settings:
                         startActivity(new Intent(MainActivity.this, PreferenceActivity.class));

@@ -6,11 +6,7 @@ import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -18,6 +14,7 @@ import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.event.Events;
@@ -46,7 +43,6 @@ public class ExportFragment extends BaseFragment implements FileListener {
 
     private static final int PADDING = (int) Helper.getDPI(R.dimen.padding);
 
-    @BindView(R.id.root) ViewGroup rootView;
     @BindView(R.id.button_datestart) Button buttonDateStart;
     @BindView(R.id.button_dateend) Button buttonDateEnd;
     @BindView(R.id.spinner_format) Spinner spinnerFormat;
@@ -79,29 +75,18 @@ public class ExportFragment extends BaseFragment implements FileListener {
         super.onResume();
         Events.register(this);
         initializeGUI();
+        updateToolbarTitle();
     }
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         Events.unregister(this);
+        super.onDestroy();
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.form, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_done:
-                exportIfInputIsValid();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    public String getTitle() {
+        return DiaguardApplication.getContext().getString(R.string.statistics);
     }
 
     public void initialize() {
@@ -127,17 +112,19 @@ public class ExportFragment extends BaseFragment implements FileListener {
         boolean isValid = true;
 
         if (dateStart.isAfter(dateEnd)) {
-            ViewHelper.showSnackbar(rootView, getString(R.string.validator_value_enddate));
+            ViewHelper.showSnackbar(getView(), getString(R.string.validator_value_enddate));
             isValid = false;
         } else if (categoryCheckBoxList.getSelectedCategories().length == 0) {
-            ViewHelper.showSnackbar(rootView, getString(R.string.validator_value_empty_list));
+            ViewHelper.showSnackbar(getView(), getString(R.string.validator_value_empty_list));
             isValid = false;
         }
 
         return isValid;
     }
 
-    private void exportIfInputIsValid() {
+    @SuppressWarnings("unused")
+    @OnClick(R.id.export_fab)
+    protected void exportIfInputIsValid() {
         if (validate()) {
             exportIfPermissionGranted();
         }
@@ -181,7 +168,7 @@ public class ExportFragment extends BaseFragment implements FileListener {
         try {
             FileUtils.openFile(file, mimeType, getContext());
         } catch (ActivityNotFoundException e) {
-            ViewHelper.showSnackbar(rootView, getString(R.string.error_no_app));
+            ViewHelper.showSnackbar(getView(), getString(R.string.error_no_app));
             Log.e("Open " + mimeType, e.getMessage());
         }
     }

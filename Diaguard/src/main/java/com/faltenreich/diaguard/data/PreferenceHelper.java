@@ -24,14 +24,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Created by Filip on 04.11.13.
- */
-
-/**
- * Parameters are of Default Value
- * Return Values are of Custom Value
- */
 public class PreferenceHelper {
 
     private static final String TAG = PreferenceHelper.class.getSimpleName();

@@ -61,6 +61,7 @@
     <string name="format">Formato</string>
     <string name="general">General</string>
     <string name="hba1c">HbA1c</string>
+    <string name="home">Resumen</string>
     <string name="homepage">Página web</string>
     <string name="hyper">Hiper</string>
     <string name="hypo">Hipo</string>
@@ -102,12 +103,6 @@
     <string name="change_every_four_hours">Change toutes les quatre heures</string>
     <string name="change_every_second_hour">Change toutes les deux heures</string>
     <string name="change_every_hour">Change toutes les heures</string>
-
-    <string-array name="startscreens">
-        <item>Resumen</item>
-        <item>Diario</item>
-        <item>Protocolo</item>
-    </string-array>
 
     <!-- DATE -->
     <string name="calendarweek">Calendario semanal</string>

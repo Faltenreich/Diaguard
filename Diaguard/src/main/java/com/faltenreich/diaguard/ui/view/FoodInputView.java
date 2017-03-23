@@ -164,15 +164,7 @@ public class FoodInputView extends LinearLayout {
     }
 
     private void update() {
-        boolean hasFood = adapter.getItemCount() > 0;
-        separator.setVisibility(hasFood ? VISIBLE : GONE);
-
-        boolean hasFoodEaten = adapter.hasInput();
-        valueCalculatedIntegral.setVisibility(hasFoodEaten ? VISIBLE : GONE);
-        valueCalculatedPoint.setVisibility(hasFoodEaten ? VISIBLE : GONE);
-        valueCalculatedPoint.setText(SystemUtils.getDecimalSeparator());
-        valueCalculatedFractional.setVisibility(hasFoodEaten ? VISIBLE : GONE);
-        valueSign.setVisibility(hasFoodEaten ? VISIBLE : GONE);
+        updateVisibility();
 
         float carbohydrates = adapter.getTotalCarbohydrates();
         float meal = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.MEAL, carbohydrates);
@@ -186,6 +178,20 @@ public class FoodInputView extends LinearLayout {
 
         valueCalculatedIntegral.setText(integralString, true);
         valueCalculatedFractional.setText(fractionalString, true);
+    }
+
+    private void updateVisibility() {
+        boolean hasFood = adapter.getItemCount() > 0;
+        separator.setVisibility(hasFood ? VISIBLE : GONE);
+
+        boolean hasFoodEaten = adapter.hasInput();
+        valueCalculatedIntegral.setVisibility(hasFoodEaten ? VISIBLE : GONE);
+        valueCalculatedPoint.setVisibility(hasFoodEaten ? VISIBLE : GONE);
+        valueCalculatedPoint.setText(SystemUtils.getDecimalSeparator());
+        valueCalculatedFractional.setVisibility(hasFoodEaten ? VISIBLE : GONE);
+        valueSign.setVisibility(hasFoodEaten ? VISIBLE : GONE);
+        valueCalculatedIntegral.setText(null);
+        valueCalculatedFractional.setText(null);
     }
 
     public void addItem(FoodEaten foodEaten) {
@@ -215,6 +221,13 @@ public class FoodInputView extends LinearLayout {
             adapter.notifyItemRangeInserted(oldCount, adapter.getItemCount());
             update();
         }
+    }
+
+    public void clear() {
+        int itemCount = adapter.getItemCount();
+        adapter.clear();
+        adapter.notifyItemRangeRemoved(0, itemCount);
+        updateVisibility();
     }
 
     public void removeItem(int position) {

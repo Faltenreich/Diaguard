@@ -15,6 +15,7 @@ import android.view.View;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.ui.fragment.CalculatorFragment;
 import com.faltenreich.diaguard.ui.fragment.ChartFragment;
 import com.faltenreich.diaguard.ui.fragment.LogFragment;
 import com.faltenreich.diaguard.ui.fragment.MainFragment;
@@ -63,7 +64,7 @@ public class MainActivity extends BaseActivity {
                 syncState();
             }
         };
-        drawerLayout.setDrawerListener(drawerToggle);
+        drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
         drawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -72,19 +73,16 @@ public class MainActivity extends BaseActivity {
                 drawerLayout.closeDrawers();
                 switch (menuItem.getItemId()) {
                     case R.id.nav_home:
-                        menuItem.setChecked(true);
-                        replaceFragment(new MainFragment());
+                        replaceFragment(new MainFragment(), menuItem);
                         break;
                     case R.id.nav_timeline:
-                        menuItem.setChecked(true);
-                        replaceFragment(new ChartFragment());
+                        replaceFragment(new ChartFragment(), menuItem);
                         break;
                     case R.id.nav_log:
-                        menuItem.setChecked(true);
-                        replaceFragment(new LogFragment());
+                        replaceFragment(new LogFragment(), menuItem);
                         break;
                     case R.id.nav_calculator:
-                        startActivity(new Intent(MainActivity.this, CalculatorActivity.class));
+                        replaceFragment(new CalculatorFragment(), menuItem);
                         break;
                     case R.id.nav_food_database:
                         startActivity(new Intent(MainActivity.this, FoodSearchActivity.class));
@@ -99,8 +97,7 @@ public class MainActivity extends BaseActivity {
                         startActivity(new Intent(MainActivity.this, PreferenceActivity.class));
                         break;
                     default:
-                        menuItem.setChecked(true);
-                        replaceFragment(new MainFragment());
+                        replaceFragment(new MainFragment(), menuItem);
                         break;
                 }
                 return true;
@@ -109,27 +106,36 @@ public class MainActivity extends BaseActivity {
 
         // Setup start fragment
         int startScreen = PreferenceHelper.getInstance().getStartScreen();
-        drawer.getMenu().getItem(startScreen).setChecked(true);
+        MenuItem menuItem = drawer.getMenu().getItem(startScreen);
         switch (startScreen) {
             case 0:
-                replaceFragment(new MainFragment());
+                replaceFragment(new MainFragment(), menuItem);
                 break;
             case 1:
-                replaceFragment(new ChartFragment());
+                replaceFragment(new ChartFragment(), menuItem);
                 break;
             case 2:
-                replaceFragment(new LogFragment());
+                replaceFragment(new LogFragment(), menuItem);
+                break;
+            case 3:
+                replaceFragment(new CalculatorFragment(), menuItem);
                 break;
             default:
-                replaceFragment(new MainFragment());
+                replaceFragment(new MainFragment(), menuItem);
                 break;
         }
     }
 
-    private void replaceFragment(Fragment fragment) {
+    private void replaceFragment(Fragment fragment, MenuItem menuItem) {
         Fragment activeFragment = getSupportFragmentManager().findFragmentById(R.id.container);
         boolean isActive = activeFragment != null && activeFragment.getClass() == fragment.getClass();
         if (!isActive) {
+            // First uncheck all, then check current Fragment
+            for (int index = 0; index < drawer.getMenu().size(); index++) {
+                drawer.getMenu().getItem(index).setChecked(false);
+            }
+            menuItem.setChecked(true);
+
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.container, fragment, fragment.toString());
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);

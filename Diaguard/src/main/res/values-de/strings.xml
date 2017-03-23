@@ -77,6 +77,7 @@
     <string name="format">Format</string>
     <string name="general">Allgemein</string>
     <string name="hba1c">HbA1c</string>
+    <string name="home">Übersicht</string>
     <string name="homepage">Website</string>
     <string name="hyper">Hyper</string>
     <string name="hyper_per_day">Hypers pro Tag</string>
@@ -146,12 +147,6 @@
     <string name="salt">Salz</string>
     <string name="sodium">Natrium</string>
     <string name="sugar">Zucker</string>
-
-    <string-array name="startscreens">
-        <item>Übersicht</item>
-        <item>Tagebuch</item>
-        <item>Protokoll</item>
-    </string-array>
 
     <!-- DATE -->
     <string name="calendarweek">Kalenderwoche</string>

@@ -2,12 +2,10 @@ package com.faltenreich.diaguard.ui.fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -25,6 +23,7 @@ import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.data.EntryAddedEvent;
+import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.ui.view.FoodInputView;
 import com.faltenreich.diaguard.ui.view.StickyHintInput;
 import com.faltenreich.diaguard.util.Helper;
@@ -34,6 +33,7 @@ import com.faltenreich.diaguard.util.Validator;
 import org.joda.time.DateTime;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by Faltenreich on 10.09.2016.
@@ -43,8 +43,7 @@ public class CalculatorFragment extends BaseFragment {
     @BindView(R.id.calculator_bloodsugar) StickyHintInput bloodSugarInput;
     @BindView(R.id.calculator_target) StickyHintInput targetInput;
     @BindView(R.id.calculator_correction) StickyHintInput correctionInput;
-    @BindView(R.id.calculator_food_list_view)
-    FoodInputView foodInputView;
+    @BindView(R.id.calculator_food_list_view) FoodInputView foodInputView;
     @BindView(R.id.calculator_factor) StickyHintInput factorInput;
 
     public CalculatorFragment() {
@@ -60,30 +59,21 @@ public class CalculatorFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initialize();
+        update();
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.form, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_done:
-                calculate();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private void initialize() {
+    private void update() {
         updateTargetValue();
         updateCorrectionValue();
         updateFactor();
+    }
+
+    private void clearInput() {
+        bloodSugarInput.setText(null);
+        targetInput.setText(null);
+        correctionInput.setText(null);
+        foodInputView.clear();
+        factorInput.setText(null);
     }
 
     private void updateTargetValue() {
@@ -134,7 +124,9 @@ public class CalculatorFragment extends BaseFragment {
         return isValid;
     }
 
-    private void calculate() {
+    @SuppressWarnings("unused")
+    @OnClick(R.id.calculator_fab)
+    protected void calculate() {
         if (inputIsValid()) {
             int hourOfDay = DateTime.now().getHourOfDay();
             float currentBloodSugar =
@@ -251,7 +243,6 @@ public class CalculatorFragment extends BaseFragment {
                 .setPositiveButton(R.string.store_values, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         storeValues(bloodSugar, meal, bolus, correction);
-                        finish();
                     }
                 })
                 .setNeutralButton(R.string.back, new DialogInterface.OnClickListener() {
@@ -305,5 +296,15 @@ public class CalculatorFragment extends BaseFragment {
         }
 
         Events.post(new EntryAddedEvent(entry));
+
+        openEntry(entry);
+        clearInput();
+        update();
+    }
+
+    private void openEntry(Entry entry) {
+        Intent intent = new Intent(getActivity(), EntryActivity.class);
+        intent.putExtra(EntryActivity.EXTRA_ENTRY, entry.getId());
+        startActivity(intent);
     }
 }

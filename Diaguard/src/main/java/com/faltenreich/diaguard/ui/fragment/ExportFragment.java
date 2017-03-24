@@ -14,7 +14,6 @@ import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.event.Events;
@@ -75,18 +74,12 @@ public class ExportFragment extends BaseFragment implements FileListener {
         super.onResume();
         Events.register(this);
         initializeGUI();
-        updateToolbarTitle();
     }
 
     @Override
     public void onDestroy() {
         Events.unregister(this);
         super.onDestroy();
-    }
-
-    @Override
-    public String getTitle() {
-        return DiaguardApplication.getContext().getString(R.string.statistics);
     }
 
     public void initialize() {

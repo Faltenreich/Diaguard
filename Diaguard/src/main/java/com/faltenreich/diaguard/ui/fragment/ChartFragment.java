@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.ui.fragment;
 
 import android.support.v4.app.Fragment;
 
-import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.ui.view.chart.ChartViewPager;
 import com.faltenreich.diaguard.util.ViewHelper;
@@ -21,12 +20,7 @@ public class ChartFragment extends DateFragment implements ChartViewPager.ChartV
     @BindView(R.id.viewpager) ChartViewPager viewPager;
 
     public ChartFragment() {
-        super(R.layout.fragment_chart);
-    }
-
-    @Override
-    public String getTitle() {
-        return DiaguardApplication.getContext().getString(R.string.timeline);
+        super(R.layout.fragment_chart, R.string.timeline);
     }
 
     @Override

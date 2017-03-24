@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,6 +18,7 @@ import android.view.View;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.ui.fragment.BaseFragment;
 import com.faltenreich.diaguard.ui.fragment.CalculatorFragment;
 import com.faltenreich.diaguard.ui.fragment.ChartFragment;
 import com.faltenreich.diaguard.ui.fragment.ExportFragment;
@@ -59,23 +62,46 @@ public class MainActivity extends BaseActivity {
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
                 invalidateOptionsMenu();
-                syncState();
             }
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 invalidateOptionsMenu();
-                syncState();
             }
         };
-        drawerLayout.addDrawerListener(drawerToggle);
+        drawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
-
         drawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 drawerLayout.closeDrawers();
                 replaceFragment(menuItem);
                 return true;
+            }
+        });
+        drawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (drawerToggle.isDrawerIndicatorEnabled()) {
+                    if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                    } else {
+                        drawerLayout.openDrawer(GravityCompat.START);
+                    }
+                } else {
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                    getSupportFragmentManager().popBackStackImmediate();
+                }
+            }
+        });
+
+        getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                drawerToggle.setDrawerIndicatorEnabled(getSupportFragmentManager().getBackStackEntryCount() == 0);
+                Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
+                if (fragment != null && fragment instanceof BaseFragment) {
+                    setTitle(((BaseFragment)fragment).getTitle());
+                }
             }
         });
 
@@ -124,7 +150,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public void replaceFragment(Fragment fragment, MenuItem menuItem, boolean addToBackStack) {
+    public void replaceFragment(BaseFragment fragment, MenuItem menuItem, boolean addToBackStack) {
         Fragment activeFragment = getSupportFragmentManager().findFragmentById(R.id.container);
         boolean isActive = activeFragment != null && activeFragment.getClass() == fragment.getClass();
         if (!isActive) {
@@ -136,14 +162,16 @@ public class MainActivity extends BaseActivity {
 
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             String tag = fragment.getClass().getSimpleName();
+            getSupportFragmentManager().popBackStackImmediate();
             if (addToBackStack) {
+                transaction.add(R.id.container, fragment, tag);
                 transaction.addToBackStack(tag);
             } else {
-                getSupportFragmentManager().popBackStack();
+                transaction.replace(R.id.container, fragment, tag);
             }
-            transaction.replace(R.id.container, fragment, tag);
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             transaction.commit();
+            setTitle(fragment.getTitle());
         }
     }
 
@@ -151,22 +179,6 @@ public class MainActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                if(!drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                    drawerLayout.openDrawer(GravityCompat.START);
-                }
-                else {
-                    drawerLayout.closeDrawer(GravityCompat.START);
-                }
-                return true;
-            default:
-                return false;
-        }
     }
 
     @Override

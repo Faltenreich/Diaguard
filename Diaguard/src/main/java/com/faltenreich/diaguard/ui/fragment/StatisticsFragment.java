@@ -84,7 +84,6 @@ public class StatisticsFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         updateContent();
-        updateToolbarTitle();
     }
 
     private void init() {

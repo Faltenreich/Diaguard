@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,8 +32,8 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
 
     private DateTime day;
 
-    public DateFragment(@LayoutRes int layoutResourceId) {
-        super(layoutResourceId);
+    public DateFragment(@LayoutRes int layoutResourceId, @StringRes int titleResourceId) {
+        super(layoutResourceId, titleResourceId);
     }
 
     public void setDay(DateTime day) {

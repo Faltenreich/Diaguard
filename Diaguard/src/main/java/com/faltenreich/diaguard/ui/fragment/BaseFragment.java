@@ -8,8 +8,6 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.StringRes;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,11 +39,6 @@ public abstract class BaseFragment extends Fragment {
 
     private BaseFragment() {
         // Forbidden
-    }
-
-    public BaseFragment(@LayoutRes int layoutResourceId) {
-        this();
-        this.layoutResourceId = layoutResourceId;
     }
 
     public BaseFragment(@LayoutRes int layoutResourceId, @StringRes int titleResourceId) {
@@ -117,13 +110,6 @@ public abstract class BaseFragment extends Fragment {
     public void setTitle(String title) {
         this.title = title;
         getActivity().setTitle(title);
-    }
-
-    public void updateToolbarTitle() {
-        if (getActivity() instanceof AppCompatActivity && ((AppCompatActivity)getActivity()).getSupportActionBar() != null) {
-            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-            actionBar.setTitle(title);
-        }
     }
 
     public void setTitle(@StringRes int titleResId) {

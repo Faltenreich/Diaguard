@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.SqlFunction;
@@ -76,12 +75,6 @@ public class MainFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         updateContent();
-        updateToolbarTitle();
-    }
-
-    @Override
-    public String getTitle() {
-        return DiaguardApplication.getContext().getString(R.string.app_name);
     }
 
     private void updateContent() {

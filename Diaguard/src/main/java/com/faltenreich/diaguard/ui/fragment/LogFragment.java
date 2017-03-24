@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.LogRecyclerAdapter;
 import com.faltenreich.diaguard.adapter.SafeLinearLayoutManager;
@@ -16,10 +15,10 @@ import com.faltenreich.diaguard.adapter.list.ListItemEmpty;
 import com.faltenreich.diaguard.adapter.list.ListItemEntry;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.entity.Entry;
-import com.faltenreich.diaguard.util.ViewHelper;
 import com.faltenreich.diaguard.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.event.data.EntryUpdatedEvent;
+import com.faltenreich.diaguard.util.ViewHelper;
 
 import org.joda.time.DateTime;
 
@@ -38,12 +37,7 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.OnAd
     private LinearLayoutManager listLayoutManager;
 
     public LogFragment() {
-        super(R.layout.fragment_log);
-    }
-
-    @Override
-    public String getTitle() {
-        return DiaguardApplication.getContext().getString(R.string.log);
+        super(R.layout.fragment_log, R.string.log);
     }
 
     protected void initialize() {

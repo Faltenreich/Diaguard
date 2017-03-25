@@ -25,6 +25,7 @@ import com.faltenreich.diaguard.ui.fragment.ExportFragment;
 import com.faltenreich.diaguard.ui.fragment.LogFragment;
 import com.faltenreich.diaguard.ui.fragment.MainFragment;
 import com.faltenreich.diaguard.ui.fragment.StatisticsFragment;
+import com.faltenreich.diaguard.util.SystemUtils;
 
 import butterknife.BindView;
 
@@ -154,6 +155,8 @@ public class MainActivity extends BaseActivity {
         Fragment activeFragment = getSupportFragmentManager().findFragmentById(R.id.container);
         boolean isActive = activeFragment != null && activeFragment.getClass() == fragment.getClass();
         if (!isActive) {
+            SystemUtils.hideKeyboard(this);
+
             // First uncheck all, then check current Fragment
             for (int index = 0; index < drawer.getMenu().size(); index++) {
                 drawer.getMenu().getItem(index).setChecked(false);

@@ -17,6 +17,8 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
@@ -102,5 +104,13 @@ public class SystemUtils {
 
     public static String getDecimalSeparator() {
         return String.valueOf(new DecimalFormat().getDecimalFormatSymbols().getDecimalSeparator());
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        View view = activity != null ? activity.getCurrentFocus() : null;
+        if (view != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 }

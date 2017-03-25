@@ -23,13 +23,38 @@ import com.faltenreich.diaguard.ui.fragment.CalculatorFragment;
 import com.faltenreich.diaguard.ui.fragment.ChartFragment;
 import com.faltenreich.diaguard.ui.fragment.ExportFragment;
 import com.faltenreich.diaguard.ui.fragment.LogFragment;
-import com.faltenreich.diaguard.ui.fragment.MainFragment;
 import com.faltenreich.diaguard.ui.fragment.StatisticsFragment;
 import com.faltenreich.diaguard.util.SystemUtils;
 
 import butterknife.BindView;
 
 public class MainActivity extends BaseActivity {
+
+    private enum MainFragmentType {
+        HOME(com.faltenreich.diaguard.ui.fragment.MainFragment.class, 0),
+        TIMELINE(ChartFragment.class, 1),
+        LOG(LogFragment.class, 2),
+        CALCULATOR(CalculatorFragment.class, 3),
+        STATISTICS(StatisticsFragment.class, 5),
+        EXPORT(ExportFragment.class, 6);
+
+        public Class<? extends BaseFragment> fragmentClass;
+        public int position;
+
+        MainFragmentType(Class<? extends BaseFragment> fragmentClass, int position) {
+            this.fragmentClass = fragmentClass;
+            this.position = position;
+        }
+
+        public static MainFragmentType valueOf(Class<? extends BaseFragment> fragmentClass) {
+            for (MainFragmentType mainFragmentType : MainFragmentType.values()) {
+                if (mainFragmentType.fragmentClass == fragmentClass) {
+                    return mainFragmentType;
+                }
+            }
+            return null;
+        }
+    }
 
     @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
     @BindView(R.id.navigation_drawer) NavigationView drawer;
@@ -101,7 +126,10 @@ public class MainActivity extends BaseActivity {
                 drawerToggle.setDrawerIndicatorEnabled(getSupportFragmentManager().getBackStackEntryCount() == 0);
                 Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
                 if (fragment != null && fragment instanceof BaseFragment) {
-                    setTitle(((BaseFragment)fragment).getTitle());
+                    BaseFragment baseFragment = (BaseFragment) fragment;
+                    setTitle(baseFragment.getTitle());
+                    MainFragmentType mainFragmentType = MainFragmentType.valueOf(baseFragment.getClass());
+                    select(mainFragmentType);
                 }
             }
         });
@@ -121,7 +149,7 @@ public class MainActivity extends BaseActivity {
         if (menuItem != null) {
             switch (menuItem.getItemId()) {
                 case R.id.nav_home:
-                    replaceFragment(new MainFragment(), menuItem, false);
+                    replaceFragment(new com.faltenreich.diaguard.ui.fragment.MainFragment(), menuItem, false);
                     break;
                 case R.id.nav_timeline:
                     replaceFragment(new ChartFragment(), menuItem, false);
@@ -145,7 +173,7 @@ public class MainActivity extends BaseActivity {
                     startActivity(new Intent(MainActivity.this, PreferenceActivity.class));
                     break;
                 default:
-                    replaceFragment(new MainFragment(), menuItem, false);
+                    replaceFragment(new com.faltenreich.diaguard.ui.fragment.MainFragment(), menuItem, false);
                     break;
             }
         }
@@ -157,11 +185,7 @@ public class MainActivity extends BaseActivity {
         if (!isActive) {
             SystemUtils.hideKeyboard(this);
 
-            // First uncheck all, then check current Fragment
-            for (int index = 0; index < drawer.getMenu().size(); index++) {
-                drawer.getMenu().getItem(index).setChecked(false);
-            }
-            menuItem.setChecked(true);
+            select(menuItem);
 
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             String tag = fragment.getClass().getSimpleName();
@@ -175,6 +199,26 @@ public class MainActivity extends BaseActivity {
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             transaction.commit();
             setTitle(fragment.getTitle());
+        }
+    }
+
+    private void select(MainFragmentType mainFragmentType) {
+        if (mainFragmentType != null) {
+            int position = mainFragmentType.position;
+            if (position < drawer.getMenu().size()) {
+                MenuItem menuItem = drawer.getMenu().getItem(position);
+                select(menuItem);
+            }
+        }
+    }
+
+    private void select(MenuItem menuItem) {
+        if (menuItem != null) {
+            // First uncheck all, then check current Fragment
+            for (int index = 0; index < drawer.getMenu().size(); index++) {
+                drawer.getMenu().getItem(index).setChecked(false);
+            }
+            menuItem.setChecked(true);
         }
     }
 

@@ -228,6 +228,7 @@ public class MainActivity extends BaseActivity {
 
         int oldVersionCode = PreferenceHelper.getInstance().getVersionCode();
         int currentVersionCode = SystemUtils.getVersionCode(this);
+        // TODO: Check if oldVersion > 0 to prevent changelogs on fresh install
         boolean isUpdate = oldVersionCode < currentVersionCode;
 
         if (isUpdate) {

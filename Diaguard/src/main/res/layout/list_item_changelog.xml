@@ -12,13 +12,12 @@
     android:paddingTop="@dimen/margin_between_large"
     android:gravity="center_vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <View
+        android:layout_width="6dp"
+        android:layout_height="6dp"
         android:layout_marginRight="@dimen/margin_between_large"
         android:layout_marginEnd="@dimen/margin_between_large"
-        android:textColor="@android:color/black"
-        android:text="+"/>
+        android:background="@drawable/circle_black"/>
 
     <TextView
         android:id="@+id/changelog_item_text"

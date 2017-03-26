@@ -1,8 +1,6 @@
 package com.faltenreich.diaguard.ui.view.viewholder;
 
 import android.content.Context;
-import android.support.annotation.ColorRes;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -40,10 +38,6 @@ public abstract class BaseViewHolder <T> extends RecyclerView.ViewHolder {
     public void bindData(T listItem) {
         this.listItem = listItem;
         bindData();
-    }
-
-    public void setBackgroundColor(@ColorRes int colorResourceId) {
-        getView().setBackgroundColor(ContextCompat.getColor(getContext(), colorResourceId));
     }
 
     protected abstract void bindData();

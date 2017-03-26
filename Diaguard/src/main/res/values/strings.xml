@@ -506,4 +506,10 @@
 
     <string name="oxygen_saturation">Oxygen saturation</string>
 
+    <string name="changelog_title">What\'s new</string>
+    <string-array name="changelog_16">
+        <item>The calculator can be selected as start screen</item>
+        <item>The correction factor can be adjusted individually for every hour of day</item>
+    </string-array>
+
 </resources>

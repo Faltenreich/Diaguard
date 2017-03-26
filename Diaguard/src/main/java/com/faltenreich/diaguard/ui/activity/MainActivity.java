@@ -20,6 +20,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.ui.fragment.BaseFragment;
 import com.faltenreich.diaguard.ui.fragment.CalculatorFragment;
+import com.faltenreich.diaguard.ui.fragment.ChangelogFragment;
 import com.faltenreich.diaguard.ui.fragment.ChartFragment;
 import com.faltenreich.diaguard.ui.fragment.ExportFragment;
 import com.faltenreich.diaguard.ui.fragment.LogFragment;
@@ -70,6 +71,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         initialize();
+        showChangelog();
     }
 
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -219,6 +221,28 @@ public class MainActivity extends BaseActivity {
                 drawer.getMenu().getItem(index).setChecked(false);
             }
             menuItem.setChecked(true);
+        }
+    }
+
+    private void showChangelog() {
+
+        int oldVersionCode = PreferenceHelper.getInstance().getVersionCode();
+        int currentVersionCode = SystemUtils.getVersionCode(this);
+        boolean isUpdate = oldVersionCode < currentVersionCode;
+
+        if (isUpdate) {
+            PreferenceHelper.getInstance().setVersionCode(currentVersionCode);
+
+            String[] changelog = PreferenceHelper.getInstance().getChangelog(this);
+            boolean hasChangelog = changelog != null && changelog.length > 0;
+
+            if (hasChangelog) {
+                ChangelogFragment fragment = new ChangelogFragment();
+                String tag = fragment.getClass().getSimpleName();
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.addToBackStack(tag);
+                fragment.show(fragmentTransaction, tag);
+            }
         }
     }
 

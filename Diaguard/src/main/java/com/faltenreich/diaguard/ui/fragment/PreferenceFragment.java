@@ -100,7 +100,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     private void setVersionCode() {
         Preference preference = findPreference("version");
         if (preference != null) {
-            preference.setSummary(SystemUtils.getVersionCode(getActivity()));
+            preference.setSummary(SystemUtils.getVersionName(getActivity()));
         }
     }
 

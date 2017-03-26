@@ -227,6 +227,7 @@ public class FoodInputView extends LinearLayout {
         int itemCount = adapter.getItemCount();
         adapter.clear();
         adapter.notifyItemRangeRemoved(0, itemCount);
+        valueInput.setText(null);
         updateVisibility();
     }
 

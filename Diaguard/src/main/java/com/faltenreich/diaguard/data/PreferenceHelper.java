@@ -8,12 +8,12 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.view.preferences.CategoryPreference;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
+import com.faltenreich.diaguard.util.SystemUtils;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -24,12 +24,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+import static com.faltenreich.diaguard.DiaguardApplication.getContext;
+
 public class PreferenceHelper {
 
     private static final String TAG = PreferenceHelper.class.getSimpleName();
     private static final String INPUT_QUERIES_SEPARATOR = ";";
 
     private class Keys {
+        static final String VERSION_CODE = "versionCode";
         static final String CATEGORY_PINNED = "categoryPinned%s";
         static final String ALARM_START_IN_MILLIS = "alarmStartInMillis";
         static final String INTERVAL_FACTOR = "intervalFactor";
@@ -60,7 +63,7 @@ public class PreferenceHelper {
     private SharedPreferences sharedPreferences;
 
     private PreferenceHelper() {
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(DiaguardApplication.getContext());
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
     }
 
     // GENERAL
@@ -68,6 +71,20 @@ public class PreferenceHelper {
     public void migrate() {
         migrateFactors();
         migrateCorrection();
+    }
+
+    public int getVersionCode() {
+        return sharedPreferences.getInt(Keys.VERSION_CODE, 0);
+    }
+
+    public void setVersionCode(int versionCode) {
+        sharedPreferences.edit().putInt(Keys.VERSION_CODE, versionCode).apply();
+    }
+
+    public String[] getChangelog(Context context) {
+        int versionCode = SystemUtils.getVersionCode(getContext());
+        int resourceId = context.getResources().getIdentifier("changelog_" + versionCode, "array", getContext().getPackageName());
+        return resourceId > 0 ? context.getResources().getStringArray(resourceId) : new String[] {};
     }
 
     boolean didImportCommonFood(Locale locale) {
@@ -116,14 +133,14 @@ public class PreferenceHelper {
     }
 
     public int[] getExtrema(Measurement.Category category) {
-        int resourceIdExtrema = DiaguardApplication.getContext().getResources().getIdentifier(category.name().toLowerCase() +
-                "_extrema", "array", DiaguardApplication.getContext().getPackageName());
+        int resourceIdExtrema = getContext().getResources().getIdentifier(category.name().toLowerCase() +
+                "_extrema", "array", getContext().getPackageName());
 
         if(resourceIdExtrema == 0) {
             throw new Resources.NotFoundException("Resource \"category_extrema\" not found: IntArray with event value extrema");
         }
 
-        return DiaguardApplication.getContext().getResources().getIntArray(resourceIdExtrema);
+        return getContext().getResources().getIntArray(resourceIdExtrema);
     }
 
     public boolean validateEventValue(Measurement.Category category, float value) {
@@ -190,7 +207,7 @@ public class PreferenceHelper {
 
     public float getTargetValue() {
         return NumberUtils.parseNumber(sharedPreferences.getString("target",
-                DiaguardApplication.getContext().getString(R.string.pref_therapy_targets_target_default)));
+                getContext().getString(R.string.pref_therapy_targets_target_default)));
     }
 
     public boolean limitsAreHighlighted() {
@@ -199,12 +216,12 @@ public class PreferenceHelper {
 
     public float getLimitHyperglycemia() {
         return NumberUtils.parseNumber(sharedPreferences.getString("hyperclycemia",
-                DiaguardApplication.getContext().getString(R.string.pref_therapy_targets_hyperclycemia_default)));
+                getContext().getString(R.string.pref_therapy_targets_hyperclycemia_default)));
     }
 
     public float getLimitHypoglycemia() {
         return NumberUtils.parseNumber(sharedPreferences.getString("hypoclycemia",
-                DiaguardApplication.getContext().getString(R.string.pref_therapy_targets_hypoclycemia_default)));
+                getContext().getString(R.string.pref_therapy_targets_hypoclycemia_default)));
     }
 
     // CATEGORIES
@@ -212,32 +229,32 @@ public class PreferenceHelper {
     public String getCategoryName(Measurement.Category category) {
         int position = Measurement.Category.valueOf(category.name()).ordinal();
         // TODO: Get resourceId by key
-        String[] categories = DiaguardApplication.getContext().getResources().getStringArray(R.array.categories);
+        String[] categories = getContext().getResources().getStringArray(R.array.categories);
         return categories[position];
     }
 
     public int getCategoryImageResourceId(Measurement.Category category) {
-        return DiaguardApplication.getContext().getResources().getIdentifier("ic_category_" + category.name().toLowerCase(),
-                "drawable", DiaguardApplication.getContext().getPackageName());
+        return getContext().getResources().getIdentifier("ic_category_" + category.name().toLowerCase(),
+                "drawable", getContext().getPackageName());
     }
 
     public int getShowcaseImageResourceId(Measurement.Category category) {
-        return DiaguardApplication.getContext().getResources().getIdentifier("ic_showcase_" + category.name().toLowerCase(),
-                "drawable", DiaguardApplication.getContext().getPackageName());
+        return getContext().getResources().getIdentifier("ic_showcase_" + category.name().toLowerCase(),
+                "drawable", getContext().getPackageName());
     }
 
     public int getMonthResourceId(DateTime daytime) {
         int monthOfYear = daytime.monthOfYear().get();
         String identifier = String.format("bg_month_%d", monthOfYear - 1);
-        return DiaguardApplication.getContext().getResources().getIdentifier(identifier,
-                "drawable", DiaguardApplication.getContext().getPackageName());
+        return getContext().getResources().getIdentifier(identifier,
+                "drawable", getContext().getPackageName());
     }
 
     public int getMonthSmallResourceId(DateTime daytime) {
         int monthOfYear = daytime.monthOfYear().get();
         String identifier = String.format("bg_month_%d_small", monthOfYear - 1);
-        return DiaguardApplication.getContext().getResources().getIdentifier(identifier,
-                "drawable", DiaguardApplication.getContext().getPackageName());
+        return getContext().getResources().getIdentifier(identifier,
+                "drawable", getContext().getPackageName());
     }
 
     public boolean isCategoryActive(Measurement.Category category) {
@@ -270,9 +287,9 @@ public class PreferenceHelper {
 
     public String[] getUnitsNames(Measurement.Category category) {
         String categoryName = category.name().toLowerCase();
-        int resourceIdUnits = DiaguardApplication.getContext().getResources().getIdentifier(categoryName +
-                "_units", "array", DiaguardApplication.getContext().getPackageName());
-        return DiaguardApplication.getContext().getResources().getStringArray(resourceIdUnits);
+        int resourceIdUnits = getContext().getResources().getIdentifier(categoryName +
+                "_units", "array", getContext().getPackageName());
+        return getContext().getResources().getStringArray(resourceIdUnits);
     }
 
     public String getUnitName(Measurement.Category category) {
@@ -283,12 +300,12 @@ public class PreferenceHelper {
 
     public String[] getUnitsAcronyms(Measurement.Category category) {
         String categoryName = category.name().toLowerCase();
-        int resourceIdUnits = DiaguardApplication.getContext().getResources().getIdentifier(categoryName +
-                "_units_acronyms", "array", DiaguardApplication.getContext().getPackageName());
+        int resourceIdUnits = getContext().getResources().getIdentifier(categoryName +
+                "_units_acronyms", "array", getContext().getPackageName());
         if(resourceIdUnits == 0)
             return null;
         else
-            return DiaguardApplication.getContext().getResources().getStringArray(resourceIdUnits);
+            return getContext().getResources().getStringArray(resourceIdUnits);
     }
 
     public String getUnitAcronym(Measurement.Category category) {
@@ -314,9 +331,9 @@ public class PreferenceHelper {
 
     public String[] getUnitsValues(Measurement.Category category) {
         String categoryName = category.name().toLowerCase();
-        int resourceIdUnits = DiaguardApplication.getContext().getResources().getIdentifier(categoryName +
-                "_units_values", "array", DiaguardApplication.getContext().getPackageName());
-        return DiaguardApplication.getContext().getResources().getStringArray(resourceIdUnits);
+        int resourceIdUnits = getContext().getResources().getIdentifier(categoryName +
+                "_units_values", "array", getContext().getPackageName());
+        return getContext().getResources().getStringArray(resourceIdUnits);
     }
 
     public float getUnitValue(Measurement.Category category) {

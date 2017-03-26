@@ -323,4 +323,10 @@
 
     <string name="oxygen_saturation">Sauerstoffsättigung</string>
 
+    <string name="changelog_title">Neu in dieser Version</string>
+    <string-array name="changelog_16">
+        <item>Der Bolusrechner kann als Startbildschirm ausgewählt werden</item>
+        <item>Der Korrekturfaktor kann einzeln für jede Stunde des Tages eingestellt werden</item>
+    </string-array>
+
 </resources>

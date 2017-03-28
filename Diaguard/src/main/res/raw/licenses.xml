@@ -122,9 +122,9 @@
         <license>Apache Software License 2.0</license>
     </notice>
     <notice>
-        <name>Country Picker for Android</name>
-        <url>https://github.com/mukeshsolanki/country-picker-android</url>
-        <copyright>Copyright 2016, Mukesh Solanki</copyright>
+        <name>SearchView</name>
+        <url>https://github.com/lapism/SearchView</url>
+        <copyright>Copyright 2016, Martin Lapiš</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
 </notices>

@@ -28,8 +28,7 @@ public class CategoryTable extends RecyclerView {
 
     private static final int SKIP_EVERY_X_HOUR = 2;
 
-    CategoryRecyclerAdapter adapter;
-
+    private CategoryRecyclerAdapter adapter;
     private DateTime day;
     private Measurement.Category[] categories;
 

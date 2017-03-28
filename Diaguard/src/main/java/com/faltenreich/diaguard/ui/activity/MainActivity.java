@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
@@ -101,7 +102,13 @@ public class MainActivity extends BaseActivity {
         drawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                drawerLayout.closeDrawers();
+                // Delay as workaround to smooth transition
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        drawerLayout.closeDrawers();
+                    }
+                }, 150);
                 replaceFragment(menuItem);
                 return true;
             }

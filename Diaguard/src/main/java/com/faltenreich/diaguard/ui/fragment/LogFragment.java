@@ -148,11 +148,12 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.OnAd
                 int entryPosition = listAdapter.getNextDateTimePosition(entry.getDate());
                 if (entryPosition >= 0) {
                     // Remove any existing empty view
-                    int emptyViewPosition = entryPosition - 1;
-                    if (listAdapter.getItem(emptyViewPosition) instanceof ListItemEmpty) {
-                        listAdapter.removeItem(emptyViewPosition);
-                        listAdapter.notifyItemRemoved(emptyViewPosition);
-                        entryPosition = emptyViewPosition;
+                    int previousPosition = entryPosition - 1;
+                    ListItemDate previousListItem = listAdapter.getItem(previousPosition);
+                    if (previousListItem instanceof ListItemEmpty && previousListItem.getDateTime().getDayOfYear() == entry.getDate().getDayOfYear()) {
+                        listAdapter.removeItem(previousPosition);
+                        listAdapter.notifyItemRemoved(previousPosition);
+                        entryPosition = previousPosition;
                     }
 
                     entry.setMeasurementCache(EntryDao.getInstance().getMeasurements(entry));

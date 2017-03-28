@@ -11,10 +11,11 @@
         android:textColor="@color/gray_dark"
         android:textSize="@dimen/text_large" />
 
-    <TextView
+    <me.grantland.widget.AutofitTextView
         android:id="@+id/weekday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/gray_dark" />
+        android:textColor="@color/gray_dark"
+        android:lines="1"/>
 
 </LinearLayout>

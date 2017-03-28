@@ -11,8 +11,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.transition.Fade;
-import android.transition.Transition;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -61,12 +59,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Transition fade = new Fade();
-            fade.excludeTarget(android.R.id.statusBarBackground, true);
-            fade.excludeTarget(android.R.id.navigationBarBackground, true);
-            fade.excludeTarget(R.id.toolbar, true);
-            getWindow().setExitTransition(fade);
-            getWindow().setEnterTransition(fade);
+            getWindow().setEnterTransition(null);
         }
     }
 

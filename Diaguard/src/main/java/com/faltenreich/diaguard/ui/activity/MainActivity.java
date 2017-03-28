@@ -231,12 +231,12 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    // Show changelog only for updated versions
     private void showChangelog() {
 
         int oldVersionCode = PreferenceHelper.getInstance().getVersionCode();
         int currentVersionCode = SystemUtils.getVersionCode(this);
-        // TODO: Check if oldVersion > 0 to prevent changelogs on fresh install
-        boolean isUpdate = oldVersionCode < currentVersionCode;
+        boolean isUpdate = oldVersionCode > 0 && oldVersionCode < currentVersionCode;
 
         if (isUpdate) {
             PreferenceHelper.getInstance().setVersionCode(currentVersionCode);

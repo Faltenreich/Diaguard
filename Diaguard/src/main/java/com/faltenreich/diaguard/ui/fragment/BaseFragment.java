@@ -25,7 +25,6 @@ import com.faltenreich.diaguard.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.ui.activity.BaseActivity;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
-import com.faltenreich.diaguard.util.SystemUtils;
 import com.faltenreich.diaguard.util.ViewHelper;
 
 import butterknife.ButterKnife;
@@ -119,6 +118,9 @@ public abstract class BaseFragment extends Fragment {
 
     public void startActivity(Intent intent, ActivityOptionsCompat options) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getActivity().getWindow().setExitTransition(null);
+            }
             getActivity().startActivity(intent, options.toBundle());
         } else {
             startActivity(intent);

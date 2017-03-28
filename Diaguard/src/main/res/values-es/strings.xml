@@ -324,4 +324,10 @@
     <string name="factor_desc">Se usa para calcular la cantidad de insulina para una comida</string>
     <string name="correction_value_desc">La reducción de glucemia en un</string>
 
+    <string name="changelog_title">Qué hay de nuevo</string>
+    <string-array name="changelog_16">
+        <item>La calculadora se puede seleccionar como pantalla de inicio</item>
+        <item>El factor de corrección se puede ajustar individualmente para cada hora del día</item>
+    </string-array>
+
 </resources>

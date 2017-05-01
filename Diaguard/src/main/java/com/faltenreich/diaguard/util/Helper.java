@@ -51,7 +51,9 @@ public class Helper {
     }
 
     public static String parseFloat(float number) {
-        return (number % 1 >= .1) ?
+        float digit = number % 1;
+        boolean showDigit = digit >= .1 || digit <= -.1;
+        return showDigit ?
                 parseFloatWithDigit(number) :
                 parseFloatWithoutDigit(number);
     }

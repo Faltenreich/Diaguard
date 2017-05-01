@@ -88,13 +88,13 @@ public class Insulin extends Measurement {
         stringBuilder.append(String.format(" %s", PreferenceHelper.getInstance().getUnitAcronym(getCategory())));
         stringBuilder.append(" (");
         boolean isFirstValue = true;
-        if (getBolus() > 0) {
+        if (getBolus() != 0) {
             stringBuilder.append(String.format("%s %s",
                     PreferenceHelper.getInstance().getMeasurementForUi(getCategory(), bolus),
                     DiaguardApplication.getContext().getString(R.string.bolus)));
             isFirstValue = false;
         }
-        if (getCorrection() > 0) {
+        if (getCorrection() != 0) {
             if (!isFirstValue) {
                 stringBuilder.append(", ");
             }
@@ -103,7 +103,7 @@ public class Insulin extends Measurement {
                     DiaguardApplication.getContext().getString(R.string.correction)));
             isFirstValue = false;
         }
-        if (getBasal() > 0) {
+        if (getBasal() != 0) {
             if (!isFirstValue) {
                 stringBuilder.append(", ");
             }

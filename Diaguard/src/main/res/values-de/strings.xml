@@ -61,7 +61,7 @@
     <string name="export_complete">Gespeichert unter %s</string>
     <string name="export_progress">PDF wird erstellt</string>
     <string name="export_stamp">Bericht generiert am</string>
-    <string name="factor">KE-Faktor</string>
+    <string name="factor">%s-Faktor</string>
     <string name="factor_desc">Dient zur Berechnung der Insulinmenge für eine Mahlzeit</string>
     <string name="factors">KE-Faktoren</string>
     <string name="first_visit">Neu hier?</string>

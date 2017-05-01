@@ -76,7 +76,7 @@
     <string name="export_progress">PDF is being created</string>
     <string name="export_stamp">Report generated on</string>
     <string name="facebook" translatable="false">Facebook</string>
-    <string name="factor">Carbohydrate factor</string>
+    <string name="factor">%s-Factor</string>
     <string name="factor_desc">Used to calculate the insulin amount for a meal</string>
     <string name="factors">Carbohydrate factors</string>
     <string name="first_visit">First visit?</string>

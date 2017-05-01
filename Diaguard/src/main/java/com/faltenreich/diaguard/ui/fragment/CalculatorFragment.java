@@ -95,6 +95,7 @@ public class CalculatorFragment extends BaseFragment {
         int hourOfDay = DateTime.now().getHourOfDay();
         float factor = PreferenceHelper.getInstance().getFactorForHour(hourOfDay);
         factorInput.setText(factor >= 0 ? Helper.parseFloat(factor) : null);
+        factorInput.setHint(PreferenceHelper.getInstance().getFactorAcronym(getContext()));
     }
 
     private boolean inputIsValid() {
@@ -132,30 +133,31 @@ public class CalculatorFragment extends BaseFragment {
             float currentBloodSugar =
                     PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                             Measurement.Category.BLOODSUGAR,
-                            NumberUtils.parseNumber(bloodSugarInput.getText().toString()));
+                            NumberUtils.parseNumber(bloodSugarInput.getText()));
             float targetBloodSugar =
-                    Validator.containsNumber(targetInput.getText().toString()) ?
+                    Validator.containsNumber(targetInput.getText()) ?
                             PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                                     Measurement.Category.BLOODSUGAR,
-                                    NumberUtils.parseNumber(targetInput.getText().toString())) :
+                                    NumberUtils.parseNumber(targetInput.getText())) :
                             PreferenceHelper.getInstance().getTargetValue();
             float correction =
-                    Validator.containsNumber(correctionInput.getText().toString()) ?
+                    Validator.containsNumber(correctionInput.getText()) ?
                             PreferenceHelper.getInstance().formatCustomToDefaultUnit(
                                     Measurement.Category.BLOODSUGAR,
-                                    NumberUtils.parseNumber(correctionInput.getText().toString())) :
+                                    NumberUtils.parseNumber(correctionInput.getText())) :
                             PreferenceHelper.getInstance().getCorrectionForHour(hourOfDay);
             float meal = foodInputView.getTotalCarbohydrates();
+            meal = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.MEAL, meal);
             float factor = 0;
             if (meal > 0) {
-                if (Validator.containsNumber(factorInput.getText().toString())) {
-                    factor = NumberUtils.parseNumber(factorInput.getText().toString());
-                } else if (Validator.containsNumber(factorInput.getHint().toString())) {
-                    factor = NumberUtils.parseNumber(factorInput.getHint().toString());
+                if (Validator.containsNumber(factorInput.getText())) {
+                    factor = NumberUtils.parseNumber(factorInput.getText());
+                } else if (Validator.containsNumber(factorInput.getHint())) {
+                    factor = NumberUtils.parseNumber(factorInput.getHint());
                 }
             }
 
-            float insulinBolus = (meal * factor) / 10;
+            float insulinBolus = meal * factor;
             float insulinCorrection = (currentBloodSugar - targetBloodSugar) / correction;
 
             StringBuilder builderFormula = new StringBuilder();
@@ -166,9 +168,10 @@ public class CalculatorFragment extends BaseFragment {
 
             if (insulinBolus > 0) {
                 String carbohydrateAcronym = getResources().getStringArray(R.array.meal_units_acronyms)[1];
+                String factorAcronym = PreferenceHelper.getInstance().getFactorAcronym(getContext());
                 builderFormula.append(String.format("%s * %s",
                         carbohydrateAcronym,
-                        getString(R.string.factor)));
+                        factorAcronym));
                 builderFormula.append(" + ");
 
                 builderFormulaContent.append(String.format("%s %s * %s",
@@ -242,7 +245,8 @@ public class CalculatorFragment extends BaseFragment {
                 })
                 .setPositiveButton(R.string.store_values, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        storeValues(bloodSugar, meal, bolus, correction);
+                        float carbohydrates = PreferenceHelper.getInstance().formatCustomToDefaultUnit(Measurement.Category.MEAL, meal);
+                        storeValues(bloodSugar, carbohydrates, bolus, correction);
                     }
                 })
                 .setNeutralButton(R.string.back, new DialogInterface.OnClickListener() {

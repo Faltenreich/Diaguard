@@ -50,7 +50,7 @@
     <string name="export">Exportation</string>
     <string name="export_progress">PDF est créé</string>
     <string name="export_stamp">Rapport généré sur</string>
-    <string name="factor">Facteur de glucides</string>
+    <string name="factor">Facteur de %s</string>
     <string name="factors">Facteurs de glucides</string>
     <string name="first_visit">Nouveau ici?</string>
     <string name="first_visit_desc">Ajouter la première valeur</string>

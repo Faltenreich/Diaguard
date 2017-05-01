@@ -325,6 +325,12 @@ public class PreferenceHelper {
         }
     }
 
+    public String getFactorAcronym(Context context) {
+        return String.format(
+                context.getString(R.string.factor),
+                PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.MEAL));
+    }
+
     public String getLabelForMealPer100g(Context context) {
         return String.format("%s %s 100 g / ml", getUnitAcronym(Measurement.Category.MEAL), context.getString(R.string.per));
     }
@@ -351,8 +357,8 @@ public class PreferenceHelper {
         return value * getUnitValue(category);
     }
 
-    public String getMeasurementForUi(Measurement.Category category, float defaultValue) {
-        return Helper.parseFloat(formatDefaultToCustomUnit(category, defaultValue));
+    public String getMeasurementForUi(Measurement.Category category, float value) {
+        return Helper.parseFloat(formatDefaultToCustomUnit(category, value));
     }
 
     // FACTORS

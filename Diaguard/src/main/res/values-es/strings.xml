@@ -52,7 +52,7 @@
     <string name="export">Exportación</string>
     <string name="export_progress">PDF será creado</string>
     <string name="export_stamp">Informe generado en</string>
-    <string name="factor">Factor de carbohidratos</string>
+    <string name="factor">Factor de %s</string>
     <string name="factors">Factores de carbohidratos</string>
     <string name="first_visit">Eres nuevo?</string>
     <string name="first_visit_desc">Ingresar los primeros valores</string>

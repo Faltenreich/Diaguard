@@ -29,13 +29,11 @@ public abstract class Measurement extends BaseEntity {
         OXYGEN_SATURATION(OxygenSaturation.class, 9, R.string.oxygen_saturation, false);
 
         private Class clazz;
-        private int maskId;
         private int stringResId;
         private boolean stackValues;
 
         Category(Class clazz, int maskId, @StringRes int stringResId, boolean stackValues) {
             this.clazz = clazz;
-            this.maskId = maskId;
             this.stringResId = stringResId;
             this.stackValues = stackValues;
         }
@@ -50,10 +48,6 @@ public abstract class Measurement extends BaseEntity {
 
         public boolean stackValues() {
             return stackValues;
-        }
-
-        public int getMaskId() {
-            return maskId;
         }
     }
 
@@ -75,7 +69,7 @@ public abstract class Measurement extends BaseEntity {
         String[] valuesForUI = new String[values.length];
         for (int position = 0; position < values.length; position++) {
             float value = values[position];
-            if (value > 0) {
+            if (value != 0) {
                 float valueFormatted = PreferenceHelper.getInstance().formatDefaultToCustomUnit(getCategory(), value);
                 valuesForUI[position] = Helper.parseFloat(valueFormatted);
             }

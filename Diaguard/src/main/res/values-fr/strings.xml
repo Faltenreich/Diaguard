@@ -50,8 +50,6 @@
     <string name="export">Exportation</string>
     <string name="export_progress">PDF est créé</string>
     <string name="export_stamp">Rapport généré sur</string>
-    <string name="factor">Facteur de %s</string>
-    <string name="factors">Facteurs de glucides</string>
     <string name="first_visit">Nouveau ici?</string>
     <string name="first_visit_desc">Ajouter la première valeur</string>
     <string name="food_add">Ajouter l\'aliment</string>
@@ -320,7 +318,6 @@
     <string name="chart_line">Nuage de linéaire</string>
 
     <string name="oxygen_saturation">Saturation en oxygène</string>
-    <string name="factor_desc">Utilisé pour calculer la quantité d\'insuline pour un repas</string>
     <string name="correction_value_desc">Réduction de la glycémie d\'une</string>
 
     <string name="changelog_title">Quoi de neuf</string>
@@ -328,5 +325,13 @@
         <item>La calculatrice peut être sélectionnée comme écran de démarrage</item>
         <item>Le facteur de correction peut être ajusté individuellement pour chaque heure de la journée</item>
     </string-array>
+
+    <string name="meal_factor">Repas-bol-facteur</string>
+    <string name="meal_factors">Repas-bol-facteurs</string>
+    <string name="meal_factor_desc">Utilisé pour calculer la quantité d\'insuline pour un repas</string>
+    <string name="unit_factor_carbohydrate_unit">Facteur de unités de glucides</string>
+    <string name="unit_factor_carbohydrates_unit_acronym">GU facteur</string>
+    <string name="unit_factor_bread_unit">Facteur de unités de pain</string>
+    <string name="unit_factor_bread_unit_acronym">PU facteur</string>
 
 </resources>

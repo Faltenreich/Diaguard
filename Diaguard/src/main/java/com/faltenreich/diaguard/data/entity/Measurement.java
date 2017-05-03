@@ -31,6 +31,7 @@ public abstract class Measurement extends BaseEntity {
         private Class clazz;
         private int stringResId;
         private boolean stackValues;
+        private int maskId;
 
         Category(Class clazz, int maskId, @StringRes int stringResId, boolean stackValues) {
             this.clazz = clazz;
@@ -48,6 +49,10 @@ public abstract class Measurement extends BaseEntity {
 
         public boolean stackValues() {
             return stackValues;
+        }
+
+        public int getMaskId() {
+            return maskId;
         }
     }
 

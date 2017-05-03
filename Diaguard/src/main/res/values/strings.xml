@@ -76,9 +76,6 @@
     <string name="export_progress">PDF is being created</string>
     <string name="export_stamp">Report generated on</string>
     <string name="facebook" translatable="false">Facebook</string>
-    <string name="factor">%s-Factor</string>
-    <string name="factor_desc">Used to calculate the insulin amount for a meal</string>
-    <string name="factors">Carbohydrate factors</string>
     <string name="first_visit">First visit?</string>
     <string name="first_visit_desc">Enter your first value</string>
     <string name="food">Food</string>
@@ -510,6 +507,23 @@
     <string-array name="changelog_16">
         <item>The calculator can be selected as start screen</item>
         <item>The correction factor can be adjusted individually for every hour of day</item>
+    </string-array>
+
+    <string name="meal_factor">Meal-bolus-factor</string>
+    <string name="meal_factors">Meal-bolus-factors</string>
+    <string name="meal_factor_desc">Used to calculate the insulin amount for a meal</string>
+    <string name="unit_factor_carbohydrate_unit">Carbohydrate unit factor</string>
+    <string name="unit_factor_carbohydrates_unit_acronym">CU factor</string>
+    <string name="unit_factor_bread_unit">Bread unit factor</string>
+    <string name="unit_factor_bread_unit_acronym">BU factor</string>
+
+    <string-array name="meal_factor_units_entries">
+        <item>@string/unit_factor_carbohydrates_unit_acronym</item>
+        <item>@string/unit_factor_bread_unit_acronym</item>
+    </string-array>
+    <string-array name="meal_factor_units_values">
+        <item>0</item>
+        <item>1</item>
     </string-array>
 
 </resources>

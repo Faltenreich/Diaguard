@@ -330,9 +330,7 @@
     <string name="meal_factor">Alimento-bolo-factor</string>
     <string name="meal_factors">Alimento-bolo-factors</string>
     <string name="meal_factor_desc">Se usa para calcular la cantidad de insulina para una comida</string>
-    <string name="unit_factor_carbohydrate_unit">Factor de unidades de carbohidratos</string>
-    <string name="unit_factor_carbohydrates_unit_acronym">CU factor</string>
-    <string name="unit_factor_bread_unit">Factor de unidades de pan</string>
-    <string name="unit_factor_bread_unit_acronym">PU factor</string>
+    <string name="unit_factor_carbohydrates_unit">CU factor</string>
+    <string name="unit_factor_bread_unit">PU factor</string>
 
 </resources>

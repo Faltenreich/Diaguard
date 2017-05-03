@@ -95,7 +95,7 @@ public class CalculatorFragment extends BaseFragment {
         int hourOfDay = DateTime.now().getHourOfDay();
         float factor = PreferenceHelper.getInstance().getFactorForHour(hourOfDay);
         factorInput.setText(factor >= 0 ? Helper.parseFloat(factor) : null);
-        factorInput.setHint(getString(PreferenceHelper.getInstance().getFactorUnit().acronymResId));
+        factorInput.setHint(getString(PreferenceHelper.getInstance().getFactorUnit().titleResId));
     }
 
     private boolean inputIsValid() {
@@ -180,7 +180,7 @@ public class CalculatorFragment extends BaseFragment {
 
             if (insulinBolus > 0) {
                 String carbohydrateAcronym = getResources().getStringArray(R.array.meal_units_acronyms)[1];
-                String factorAcronym = getString(PreferenceHelper.getInstance().getFactorUnit().acronymResId);
+                String factorAcronym = getString(PreferenceHelper.getInstance().getFactorUnit().titleResId);
                 builderFormula.append(String.format("%s * %s",
                         carbohydrateAcronym,
                         factorAcronym));

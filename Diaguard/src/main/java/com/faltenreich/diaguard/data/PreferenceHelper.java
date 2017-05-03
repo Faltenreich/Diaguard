@@ -54,27 +54,17 @@ public class PreferenceHelper {
 
     public enum FactorUnit {
 
-        CARBOHYDRATES_UNIT(0, R.string.unit_factor_carbohydrate_unit, R.string.unit_factor_carbohydrates_unit_acronym, .1f),
-        BREAD_UNITS(1, R.string.unit_factor_bread_unit, R.string.unit_factor_bread_unit_acronym, .0833f);
+        CARBOHYDRATES_UNIT(0, R.string.unit_factor_carbohydrates_unit, .1f),
+        BREAD_UNITS(1, R.string.unit_factor_bread_unit, .0833f);
 
         public int index;
         public @StringRes int titleResId;
-        public @StringRes int acronymResId;
         public float factor;
 
-        FactorUnit(int index, @StringRes int titleResId, @StringRes int acronymResId, float factor) {
+        FactorUnit(int index, @StringRes int titleResId, float factor) {
             this.index = index;
             this.titleResId = titleResId;
-            this.acronymResId = acronymResId;
             this.factor = factor;
-        }
-
-        public static String[] getTitles(Context context) {
-            String[] titles = new String[values().length];
-            for (int index = 0; index < values().length; index++) {
-                titles[index] = context.getString(values()[index].titleResId);
-            }
-            return titles;
         }
     }
 

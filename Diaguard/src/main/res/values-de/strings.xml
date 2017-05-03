@@ -61,9 +61,6 @@
     <string name="export_complete">Gespeichert unter %s</string>
     <string name="export_progress">PDF wird erstellt</string>
     <string name="export_stamp">Bericht generiert am</string>
-    <string name="factor">%s-Faktor</string>
-    <string name="factor_desc">Dient zur Berechnung der Insulinmenge für eine Mahlzeit</string>
-    <string name="factors">KE-Faktoren</string>
     <string name="first_visit">Neu hier?</string>
     <string name="first_visit_desc">Ersten Wert eintragen</string>
     <string name="food">Lebensmittel</string>
@@ -328,5 +325,13 @@
         <item>Der Bolusrechner kann als Startbildschirm ausgewählt werden</item>
         <item>Der Korrekturfaktor kann einzeln für jede Stunde des Tages eingestellt werden</item>
     </string-array>
+
+    <string name="meal_factor">Mahlzeit-Bolus-Faktor</string>
+    <string name="meal_factors">Mahlzeit-Bolus-Faktoren</string>
+    <string name="meal_factor_desc">Dienen zur Berechnung der Insulinmenge für eine Mahlzeit</string>
+    <string name="unit_factor_carbohydrate_unit">Kohlenhydrateinheiten-Faktor</string>
+    <string name="unit_factor_carbohydrates_unit_acronym">KE-Faktor</string>
+    <string name="unit_factor_bread_unit">Broteinheiten-Faktor</string>
+    <string name="unit_factor_bread_unit_acronym">BE-Faktor</string>
 
 </resources>

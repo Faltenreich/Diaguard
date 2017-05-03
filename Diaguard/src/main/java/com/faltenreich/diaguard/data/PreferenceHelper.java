@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
+import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
@@ -49,6 +50,32 @@ public class PreferenceHelper {
     public enum ChartStyle {
         POINT,
         LINE
+    }
+
+    public enum FactorUnit {
+
+        CARBOHYDRATES_UNIT(0, R.string.unit_factor_carbohydrate_unit, R.string.unit_factor_carbohydrates_unit_acronym, .1f),
+        BREAD_UNITS(1, R.string.unit_factor_bread_unit, R.string.unit_factor_bread_unit_acronym, .0833f);
+
+        public int index;
+        public @StringRes int titleResId;
+        public @StringRes int acronymResId;
+        public float factor;
+
+        FactorUnit(int index, @StringRes int titleResId, @StringRes int acronymResId, float factor) {
+            this.index = index;
+            this.titleResId = titleResId;
+            this.acronymResId = acronymResId;
+            this.factor = factor;
+        }
+
+        public static String[] getTitles(Context context) {
+            String[] titles = new String[values().length];
+            for (int index = 0; index < values().length; index++) {
+                titles[index] = context.getString(values()[index].titleResId);
+            }
+            return titles;
+        }
     }
 
     private static PreferenceHelper instance;
@@ -325,24 +352,22 @@ public class PreferenceHelper {
         }
     }
 
-    public String getFactorAcronym(Context context) {
-        return String.format(
-                context.getString(R.string.factor),
-                PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.MEAL));
-    }
-
     public String getLabelForMealPer100g(Context context) {
         return String.format("%s %s 100 g / ml", getUnitAcronym(Measurement.Category.MEAL), context.getString(R.string.per));
     }
 
-    public String[] getUnitsValues(Measurement.Category category) {
-        String categoryName = category.name().toLowerCase();
-        int resourceIdUnits = getContext().getResources().getIdentifier(categoryName +
+    private String[] getUnitsValues(String unitName) {
+        int resourceIdUnits = getContext().getResources().getIdentifier(unitName +
                 "_units_values", "array", getContext().getPackageName());
         return getContext().getResources().getStringArray(resourceIdUnits);
     }
 
-    public float getUnitValue(Measurement.Category category) {
+    private String[] getUnitsValues(Measurement.Category category) {
+        String categoryName = category.name().toLowerCase();
+        return getUnitsValues(categoryName);
+    }
+
+    private float getUnitValue(Measurement.Category category) {
         String sharedPref = sharedPreferences.
                 getString("unit_" + category.name().toLowerCase(), "1");
         String value = getUnitsValues(category)[Arrays.asList(getUnitsValues(category)).indexOf(sharedPref)];
@@ -401,6 +426,18 @@ public class PreferenceHelper {
                 }
             }
         }
+    }
+
+    public FactorUnit getFactorUnit() {
+        FactorUnit defaultValue = FactorUnit.CARBOHYDRATES_UNIT;
+        String value = sharedPreferences.getString("unit_meal_factor", "0");
+        int index = 0;
+        try {
+            index = Integer.parseInt(value);
+        } catch (NumberFormatException exception) {
+            Log.e(TAG, exception.getMessage());
+        }
+        return index >= 0 && index < FactorUnit.values().length ? FactorUnit.values()[index] : defaultValue;
     }
 
     // CORRECTION

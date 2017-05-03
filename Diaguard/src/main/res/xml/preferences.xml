@@ -73,6 +73,13 @@
             android:defaultValue="1"/>
 
         <ListPreference
+            android:key="unit_meal_factor"
+            android:title="@string/meal_factor"
+            android:entries="@array/meal_factor_units_entries"
+            android:entryValues="@array/meal_factor_units_values"
+            android:defaultValue="0"/>
+
+        <ListPreference
             android:key="unit_hba1c"
             android:title="@string/hba1c"
             android:entries="@array/hba1c_units"
@@ -105,8 +112,8 @@
 
         <com.faltenreich.diaguard.ui.view.preferences.FactorPreference
             android:key="@string/pref_factor"
-            android:title="@string/factors"
-            android:summary="@string/factor_desc"/>
+            android:title="@string/meal_factors"
+            android:summary="@string/meal_factor_desc"/>
 
     </PreferenceCategory>
 

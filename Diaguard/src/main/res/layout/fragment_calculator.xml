@@ -130,7 +130,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="0dp"
-                            android:hint="@string/factor"
+                            android:hint="@string/unit_factor_carbohydrates_unit_acronym"
                             android:inputType="numberDecimal" />
 
                     </LinearLayout>

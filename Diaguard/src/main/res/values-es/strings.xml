@@ -52,8 +52,6 @@
     <string name="export">Exportación</string>
     <string name="export_progress">PDF será creado</string>
     <string name="export_stamp">Informe generado en</string>
-    <string name="factor">Factor de %s</string>
-    <string name="factors">Factores de carbohidratos</string>
     <string name="first_visit">Eres nuevo?</string>
     <string name="first_visit_desc">Ingresar los primeros valores</string>
     <string name="food_add">Añadir alimentos</string>
@@ -321,7 +319,6 @@
     <string name="chart_line">Diagrama de líneas</string>
 
     <string name="oxygen_saturation">Saturación de oxígeno</string>
-    <string name="factor_desc">Se usa para calcular la cantidad de insulina para una comida</string>
     <string name="correction_value_desc">La reducción de glucemia en un</string>
 
     <string name="changelog_title">Qué hay de nuevo</string>
@@ -329,5 +326,13 @@
         <item>La calculadora se puede seleccionar como pantalla de inicio</item>
         <item>El factor de corrección se puede ajustar individualmente para cada hora del día</item>
     </string-array>
+
+    <string name="meal_factor">Alimento-bolo-factor</string>
+    <string name="meal_factors">Alimento-bolo-factors</string>
+    <string name="meal_factor_desc">Se usa para calcular la cantidad de insulina para una comida</string>
+    <string name="unit_factor_carbohydrate_unit">Factor de unidades de carbohidratos</string>
+    <string name="unit_factor_carbohydrates_unit_acronym">CU factor</string>
+    <string name="unit_factor_bread_unit">Factor de unidades de pan</string>
+    <string name="unit_factor_bread_unit_acronym">PU factor</string>
 
 </resources>

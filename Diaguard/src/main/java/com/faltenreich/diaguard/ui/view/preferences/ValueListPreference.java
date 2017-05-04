@@ -16,8 +16,6 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.ValueListAdapter;
 import com.faltenreich.diaguard.adapter.list.ListItemHourValue;
 import com.faltenreich.diaguard.data.TimeInterval;
-import com.faltenreich.diaguard.event.Events;
-import com.faltenreich.diaguard.event.data.FactorChangedEvent;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -124,7 +122,11 @@ abstract class ValueListPreference extends DialogPreference {
             }
         }
 
-        Events.post(new FactorChangedEvent());
+        onPreferenceUpdate();
+    }
+
+    protected void onPreferenceUpdate() {
+
     }
 
     protected abstract void setTimeInterval(TimeInterval interval);

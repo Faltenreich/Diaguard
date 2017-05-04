@@ -23,6 +23,10 @@ import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.data.EntryAddedEvent;
+import com.faltenreich.diaguard.event.preference.CorrectionFactorChangedEvent;
+import com.faltenreich.diaguard.event.preference.BloodSugarPreferenceChangedEvent;
+import com.faltenreich.diaguard.event.preference.MealFactorChangedEvent;
+import com.faltenreich.diaguard.event.preference.MealFactorUnitChangedEvent;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.ui.view.FoodInputView;
 import com.faltenreich.diaguard.ui.view.StickyHintInput;
@@ -62,10 +66,22 @@ public class CalculatorFragment extends BaseFragment {
         update();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Events.register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        Events.unregister(this);
+        super.onDestroy();
+    }
+
     private void update() {
         updateTargetValue();
         updateCorrectionValue();
-        updateFactor();
+        updateMealFactor();
     }
 
     private void clearInput() {
@@ -89,7 +105,7 @@ public class CalculatorFragment extends BaseFragment {
                         DateTime.now().getHourOfDay())));
     }
 
-    private void updateFactor() {
+    private void updateMealFactor() {
         int hourOfDay = DateTime.now().getHourOfDay();
         float factor = PreferenceHelper.getInstance().getFactorForHour(hourOfDay);
         factorInput.setText(factor >= 0 ? Helper.parseFloat(factor) : null);
@@ -321,5 +337,33 @@ public class CalculatorFragment extends BaseFragment {
         Intent intent = new Intent(getActivity(), EntryActivity.class);
         intent.putExtra(EntryActivity.EXTRA_ENTRY, entry.getId());
         startActivity(intent);
+    }
+
+    @SuppressWarnings("unused")
+    public void onEvent(BloodSugarPreferenceChangedEvent event) {
+        if (isAdded()) {
+            updateTargetValue();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onEvent(CorrectionFactorChangedEvent event) {
+        if (isAdded()) {
+            updateCorrectionValue();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onEvent(MealFactorChangedEvent event) {
+        if (isAdded()) {
+            updateMealFactor();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onEvent(MealFactorUnitChangedEvent event) {
+        if (isAdded()) {
+            updateMealFactor();
+        }
     }
 }

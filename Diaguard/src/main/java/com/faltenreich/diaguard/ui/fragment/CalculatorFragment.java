@@ -77,18 +77,16 @@ public class CalculatorFragment extends BaseFragment {
     }
 
     private void updateTargetValue() {
-        float targetValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(
+        targetInput.setText(PreferenceHelper.getInstance().getMeasurementForUi(
                 Measurement.Category.BLOODSUGAR,
-                PreferenceHelper.getInstance().getTargetValue());
-        targetInput.setText(Helper.parseFloat(targetValue));
+                PreferenceHelper.getInstance().getTargetValue()));
     }
 
     private void updateCorrectionValue() {
-        int hourOfDay = DateTime.now().getHourOfDay();
-        float correctionValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(
+        correctionInput.setText(PreferenceHelper.getInstance().getMeasurementForUi(
                 Measurement.Category.BLOODSUGAR,
-                PreferenceHelper.getInstance().getCorrectionForHour(hourOfDay));
-        correctionInput.setText(Helper.parseFloat(correctionValue));
+                PreferenceHelper.getInstance().getCorrectionForHour(
+                        DateTime.now().getHourOfDay())));
     }
 
     private void updateFactor() {
@@ -174,22 +172,20 @@ public class CalculatorFragment extends BaseFragment {
             float insulinBolus = carbohydrates * mealFactor * PreferenceHelper.getInstance().getFactorUnit().factor;
 
             StringBuilder builderFormula = new StringBuilder();
-            builderFormula.append(String.format("%s = ", getString(R.string.bolus)));
             StringBuilder builderFormulaContent = new StringBuilder();
-            builderFormulaContent.append(String.format("%s = ", getString(R.string.bolus)));
 
             if (insulinBolus > 0) {
-                String carbohydrateAcronym = getResources().getStringArray(R.array.meal_units_acronyms)[1];
+                String mealAcronym = PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.MEAL);
                 String factorAcronym = getString(PreferenceHelper.getInstance().getFactorUnit().titleResId);
                 builderFormula.append(String.format("%s * %s",
-                        carbohydrateAcronym,
+                        mealAcronym,
                         factorAcronym));
                 builderFormula.append(" + ");
 
                 builderFormulaContent.append(String.format("%s %s * %s",
-                        Helper.parseFloat(carbohydrates / 10),
-                        carbohydrateAcronym,
-                        mealFactor));
+                        PreferenceHelper.getInstance().getMeasurementForUi(Measurement.Category.MEAL, carbohydrates),
+                        mealAcronym,
+                        Helper.parseFloat(mealFactor)));
                 builderFormulaContent.append(" + ");
             }
 
@@ -200,12 +196,16 @@ public class CalculatorFragment extends BaseFragment {
 
             String bloodSugarUnit = PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BLOODSUGAR);
             builderFormulaContent.append(String.format("(%s %s - %s %s) / %s %s",
-                    Helper.parseFloat(bloodSugar), bloodSugarUnit,
-                    Helper.parseFloat(targetBloodSugar), bloodSugarUnit,
-                    Helper.parseFloat(correctionFactor), bloodSugarUnit));
+                    PreferenceHelper.getInstance().getMeasurementForUi(Measurement.Category.BLOODSUGAR, bloodSugar), bloodSugarUnit,
+                    PreferenceHelper.getInstance().getMeasurementForUi(Measurement.Category.BLOODSUGAR, targetBloodSugar), bloodSugarUnit,
+                    PreferenceHelper.getInstance().getMeasurementForUi(Measurement.Category.BLOODSUGAR, correctionFactor), bloodSugarUnit));
 
-            showResult(builderFormula.toString(), builderFormulaContent.toString(),
-                    bloodSugar, carbohydrates, insulinBolus, insulinCorrection);
+            builderFormula.append(String.format(" = %s", getString(R.string.bolus)));
+            builderFormulaContent.append(String.format(" = %s %s",
+                    Helper.parseFloat(insulinBolus + insulinCorrection),
+                    PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.INSULIN)));
+
+            showResult(builderFormula.toString(), builderFormulaContent.toString(), bloodSugar, carbohydrates, insulinBolus, insulinCorrection);
         }
     }
 

@@ -13,6 +13,8 @@ import android.widget.ListAdapter;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.event.Events;
+import com.faltenreich.diaguard.event.preference.MealFactorUnitChangedEvent;
 import com.faltenreich.diaguard.ui.activity.PreferenceActivity;
 import com.faltenreich.diaguard.ui.view.preferences.BloodSugarPreference;
 import com.faltenreich.diaguard.ui.view.preferences.CategoryPreference;
@@ -77,11 +79,13 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             String value = PreferenceHelper.getInstance().getValueForKey(preference.getKey());
             float number = NumberUtils.parseNumber(value);
             if (number > 0) {
-                int descriptionResId = getResources().getIdentifier(preference.getKey() + "_desc", "string", getActivity().getPackageName());
-                String description = descriptionResId > 0 ? getString(descriptionResId) + " " : "";
-                number = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, number);
-                value = Helper.parseFloat(number);
-                preference.setSummary(description + value + " " + PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BLOODSUGAR));
+                if (getActivity() != null) {
+                    int descriptionResId = getResources().getIdentifier(preference.getKey() + "_desc", "string", getActivity().getPackageName());
+                    String description = descriptionResId > 0 ? getString(descriptionResId) + " " : "";
+                    number = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, number);
+                    value = Helper.parseFloat(number);
+                    preference.setSummary(description + value + " " + PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BLOODSUGAR));
+                }
             } else {
                 preference.setSummary(null);
             }
@@ -125,6 +129,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.endsWith("_active")) {
             key = "categories";
+        }
+        if (key.equals("unit_meal_factor")) {
+            Events.post(new MealFactorUnitChangedEvent());
         }
         setSummary(findPreference(key));
     }

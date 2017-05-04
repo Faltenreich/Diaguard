@@ -6,6 +6,8 @@ import android.util.AttributeSet;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.TimeInterval;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.event.Events;
+import com.faltenreich.diaguard.event.preference.CorrectionFactorChangedEvent;
 
 /**
  * Created by Filip on 04.11.13.
@@ -36,5 +38,11 @@ public class CorrectionPreference extends ValueListPreference {
     protected float getValueForHour(int hourOfDay) {
         float value = PreferenceHelper.getInstance().getCorrectionForHour(hourOfDay);
         return PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, value);
+    }
+
+    @Override
+    protected void onPreferenceUpdate() {
+        super.onPreferenceUpdate();
+        Events.post(new CorrectionFactorChangedEvent());
     }
 }

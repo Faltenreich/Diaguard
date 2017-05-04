@@ -5,6 +5,8 @@ import android.util.AttributeSet;
 
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.TimeInterval;
+import com.faltenreich.diaguard.event.Events;
+import com.faltenreich.diaguard.event.preference.MealFactorChangedEvent;
 
 /**
  * Created by Filip on 04.11.13.
@@ -33,5 +35,11 @@ public class FactorPreference extends ValueListPreference {
     @Override
     protected float getValueForHour(int hourOfDay) {
         return PreferenceHelper.getInstance().getFactorForHour(hourOfDay);
+    }
+
+    @Override
+    protected void onPreferenceUpdate() {
+        super.onPreferenceUpdate();
+        Events.post(new MealFactorChangedEvent());
     }
 }

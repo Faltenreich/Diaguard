@@ -4,8 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.PreferenceManager;
@@ -15,8 +13,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.event.Events;
+import com.faltenreich.diaguard.event.preference.BloodSugarPreferenceChangedEvent;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.Validator;
@@ -44,8 +44,9 @@ public class BloodSugarPreference extends EditTextPreference {
         super.onBindDialogView(view);
 
         editTextValue = (EditText) view.findViewById(R.id.value);
-        if(editTextValue == null || editTextValue.getText() == null)
+        if(editTextValue == null || editTextValue.getText() == null) {
             throw new Resources.NotFoundException();
+        }
 
         float value = NumberUtils.parseNumber(sharedPreferences.getString(getKey(), ""));
         value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, value);
@@ -54,10 +55,6 @@ public class BloodSugarPreference extends EditTextPreference {
 
         TextView textViewUnit = (TextView) view.findViewById(R.id.unit);
         textViewUnit.setText(PreferenceHelper.getInstance().getUnitName(Measurement.Category.BLOODSUGAR));
-
-        if(Build.VERSION.SDK_INT <= 10) {
-            view.setBackgroundColor(Color.WHITE);
-        }
     }
 
     @Override
@@ -97,6 +94,8 @@ public class BloodSugarPreference extends EditTextPreference {
             value = PreferenceHelper.getInstance().formatCustomToDefaultUnit(Measurement.Category.BLOODSUGAR, value);
             editor.putString(getKey(), Float.toString(value));
             editor.commit();
+
+            Events.post(new BloodSugarPreferenceChangedEvent());
         }
     }
 }

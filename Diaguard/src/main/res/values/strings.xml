@@ -505,7 +505,7 @@
 
     <string name="changelog_title">What\'s new</string>
     <string-array name="changelog_18">
-        <item>The unit of the meal-bolus-factor is now customizable (Carb factor per default)</item>
+        <item>The unit of the meal-bolus-factor is now customizable (CU factor per default)</item>
         <item>Fixed miscalculation in bolus calculator when using carbohydrates as meal unit</item>
     </string-array>
 

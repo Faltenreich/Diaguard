@@ -519,7 +519,7 @@
         <item>@string/unit_factor_carbohydrates_unit</item>
         <item>@string/unit_factor_bread_unit</item>
     </string-array>
-    <string-array name="meal_factor_units_values">
+    <string-array name="meal_factor_units_values" translatable="false">
         <item>0</item>
         <item>1</item>
     </string-array>

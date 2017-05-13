@@ -41,4 +41,8 @@ public abstract class BaseViewHolder <T> extends RecyclerView.ViewHolder {
     }
 
     protected abstract void bindData();
+
+    public int getSwipeFlags() {
+        return 0;
+    }
 }

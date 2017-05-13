@@ -2,10 +2,12 @@ package com.faltenreich.diaguard.ui.fragment;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.adapter.ListSwipeHelper;
 import com.faltenreich.diaguard.adapter.LogRecyclerAdapter;
 import com.faltenreich.diaguard.adapter.SafeLinearLayoutManager;
 import com.faltenreich.diaguard.adapter.StickyHeaderDecoration;
@@ -49,6 +51,8 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.OnAd
         recyclerView.setAdapter(listAdapter);
         listDecoration = new StickyHeaderDecoration(listAdapter, true);
         recyclerView.addItemDecoration(listDecoration);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ListSwipeHelper(listAdapter));
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
         // Fragment updates
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

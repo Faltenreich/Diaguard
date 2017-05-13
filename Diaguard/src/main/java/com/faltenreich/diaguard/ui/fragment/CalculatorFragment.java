@@ -27,6 +27,7 @@ import com.faltenreich.diaguard.event.preference.CorrectionFactorChangedEvent;
 import com.faltenreich.diaguard.event.preference.BloodSugarPreferenceChangedEvent;
 import com.faltenreich.diaguard.event.preference.MealFactorChangedEvent;
 import com.faltenreich.diaguard.event.preference.MealFactorUnitChangedEvent;
+import com.faltenreich.diaguard.event.preference.UnitChangedEvent;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.ui.view.FoodInputView;
 import com.faltenreich.diaguard.ui.view.StickyHintInput;
@@ -364,6 +365,14 @@ public class CalculatorFragment extends BaseFragment {
     public void onEvent(MealFactorUnitChangedEvent event) {
         if (isAdded()) {
             updateMealFactor();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onEvent(UnitChangedEvent event) {
+        if (isAdded() && event.context != null && event.context == Measurement.Category.BLOODSUGAR) {
+            updateTargetValue();
+            updateCorrectionValue();
         }
     }
 }

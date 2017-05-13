@@ -15,6 +15,7 @@ import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.preference.MealFactorUnitChangedEvent;
+import com.faltenreich.diaguard.event.preference.UnitChangedEvent;
 import com.faltenreich.diaguard.ui.activity.PreferenceActivity;
 import com.faltenreich.diaguard.ui.view.preferences.BloodSugarPreference;
 import com.faltenreich.diaguard.ui.view.preferences.CategoryPreference;
@@ -132,6 +133,8 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         }
         if (key.equals("unit_meal_factor")) {
             Events.post(new MealFactorUnitChangedEvent());
+        } else if (key.equals("unit_bloodsugar")) {
+            Events.post(new UnitChangedEvent(Measurement.Category.BLOODSUGAR));
         }
         setSummary(findPreference(key));
     }

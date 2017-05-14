@@ -36,8 +36,8 @@ public class GoogleImageGrabber {
             FileWriter fileWriter = new FileWriter(FILE_OUTPUT_NAME);
             CSVWriter writer = new CSVWriter(fileWriter, Export.CSV_DELIMITER);
 
-            // Skip first line
             String[] lineIn = reader.readNext();
+            writer.writeNext(lineIn);
 
             while ((lineIn = reader.readNext()) != null) {
                 String name = lineIn[3].trim();

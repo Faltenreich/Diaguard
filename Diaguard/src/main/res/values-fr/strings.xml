@@ -321,9 +321,9 @@
     <string name="correction_value_desc">Réduction de la glycémie d\'une</string>
 
     <string name="changelog_title">Quoi de neuf</string>
-    <string-array name="changelog_18">
-        <item>L\'unité du repas-bol-factor est maintenant personnalisable (GU facteur par défaut)</item>
-        <item>Correction des erreurs de calcul dans la calculatrice en bolus lors de l\'utilisation de glucides comme unité de repas</item>
+    <string-array name="changelog_19">
+        <item>Les éléments de protocole peuvent maintenant être supprimés via swipe-to-delete</item>
+        <item>Le bolus de correction peut maintenant être négatif</item>
     </string-array>
 
     <string name="meal_factor">Repas-bol-facteur</string>

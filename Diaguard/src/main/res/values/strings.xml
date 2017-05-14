@@ -504,9 +504,9 @@
     <string name="oxygen_saturation">Oxygen saturation</string>
 
     <string name="changelog_title">What\'s new</string>
-    <string-array name="changelog_18">
-        <item>The unit of the meal-bolus-factor is now customizable (CU factor per default)</item>
-        <item>Fixed miscalculation in bolus calculator when using carbohydrates as meal unit</item>
+    <string-array name="changelog_19">
+        <item>Log items can now be deleted via swipe-to-delete</item>
+        <item>The Correction bolus may now be negative</item>
     </string-array>
 
     <string name="meal_factor">Meal-bolus-factor</string>

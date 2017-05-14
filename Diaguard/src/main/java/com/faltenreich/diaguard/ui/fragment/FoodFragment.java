@@ -9,6 +9,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -82,26 +83,30 @@ public class FoodFragment extends BaseFoodFragment {
     private void init() {
         Food food = getFood();
         if (food != null) {
-            boolean isExpandable = food.getFullImageUrl() != null;
-            appBarLayout.setExpanded(isExpandable);
-            appBarLayout.setActivated(isExpandable);
+            boolean hasImage = !TextUtils.isEmpty(food.getFullImageUrl());
+            appBarLayout.setExpanded(hasImage);
+            appBarLayout.setActivated(hasImage);
             AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) collapsingToolbarLayout.getLayoutParams();
-            params.height = isExpandable ?
+            params.height = hasImage ?
                     (int) getResources().getDimension(R.dimen.appbar_height) :
                     CoordinatorLayout.LayoutParams.WRAP_CONTENT;
 
             scrimTop.setVisibility(View.GONE);
             scrimBottom.setVisibility(View.GONE);
-            Picasso.with(getContext()).load(food.getFullImageUrl()).fit().centerCrop().into(image, new Callback() {
-                @Override
-                public void onSuccess() {
-                    scrimTop.setVisibility(View.VISIBLE);
-                    scrimBottom.setVisibility(View.VISIBLE);
-                }
-                @Override
-                public void onError() {
-                }
-            });
+            if (hasImage) {
+                Picasso.with(getContext()).load(food.getFullImageUrl()).fit().centerCrop().into(image, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        scrimTop.setVisibility(View.VISIBLE);
+                        scrimBottom.setVisibility(View.VISIBLE);
+                    }
+                    @Override
+                    public void onError() {
+                    }
+                });
+            } else {
+                image.setImageResource(0);
+            }
             collapsingToolbarLayout.setTitleEnabled(false);
             toolbar.setTitle(food.getName());
 

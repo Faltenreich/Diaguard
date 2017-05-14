@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.data.entity.BaseEntity;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.table.TableUtils;
 
 import org.joda.time.DateTime;
 
@@ -21,12 +22,13 @@ import java.util.concurrent.Callable;
 public abstract class BaseDao <T extends BaseEntity> {
 
     private static final String TAG = BaseDao.class.getSimpleName();
-    public static final long PAGE_SIZE = 50;
+
+    static final long PAGE_SIZE = 50;
 
     private DatabaseHelper databaseHelper;
     private Class<T> clazz;
 
-    protected BaseDao(Class<T> clazz) {
+    BaseDao(Class<T> clazz) {
         this.databaseHelper = OpenHelperManager.getHelper(DiaguardApplication.getContext(), DatabaseHelper.class);
         this.clazz = clazz;
     }
@@ -35,16 +37,16 @@ public abstract class BaseDao <T extends BaseEntity> {
         try {
             return databaseHelper.getDao(clazz);
         } catch (SQLException exception) {
-            Log.e(TAG, String.format("Could not retrieve Dao of class %s", clazz.getSimpleName()));
+            Log.e(TAG, exception.getMessage());
             return null;
         }
     }
 
-    protected QueryBuilder<T, Long> getQueryBuilder() {
+    QueryBuilder<T, Long> getQueryBuilder() {
         return getDao().queryBuilder();
     }
 
-    protected Class<T> getClazz() {
+    Class<T> getClazz() {
         return clazz;
     }
 
@@ -89,7 +91,7 @@ public abstract class BaseDao <T extends BaseEntity> {
             }
             return object;
         } catch (SQLException exception) {
-            Log.e(TAG, String.format("Could not createOrUpdate %s", clazz.getSimpleName()));
+            Log.e(TAG, exception.getMessage());
             return null;
         }
     }
@@ -110,11 +112,19 @@ public abstract class BaseDao <T extends BaseEntity> {
         }
     }
 
+    public void deleteAll() {
+        try {
+            TableUtils.clearTable(databaseHelper.getConnectionSource(), clazz);
+        } catch (SQLException exception) {
+            Log.e(TAG, exception.getMessage());
+        }
+    }
+
     public int delete(List<T> objects) {
         try {
             return getDao().delete(objects);
         } catch (SQLException exception) {
-            Log.e(TAG, "Could not delete list of objects");
+            Log.e(TAG, exception.getMessage());
             return 0;
         }
     }
@@ -123,7 +133,7 @@ public abstract class BaseDao <T extends BaseEntity> {
         try {
             return getDao().delete(object);
         } catch (SQLException exception) {
-            Log.e(TAG, String.format("Could not delete %s with id %d", clazz.getSimpleName(), object.getId()));
+            Log.e(TAG, exception.getMessage());
             return 0;
         }
     }

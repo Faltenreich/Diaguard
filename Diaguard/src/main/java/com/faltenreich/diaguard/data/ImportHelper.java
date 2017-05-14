@@ -8,9 +8,9 @@ import android.util.Log;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.entity.Food;
-import com.faltenreich.diaguard.networking.google.GoogleImageSearchManager;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
+import com.faltenreich.diaguard.util.export.Export;
 import com.opencsv.CSVReader;
 
 import java.io.BufferedReader;
@@ -30,7 +30,6 @@ public class ImportHelper {
 
     private static final String TAG = ImportHelper.class.getSimpleName();
     private static final String FOOD_CSV_FILE_NAME = "food_common.csv";
-    private static final char FOOD_CSV_FILE_SEPARATOR = ';';
 
     public static void validateFoodImport(Context context) {
         Locale locale = Helper.getLocale();
@@ -62,7 +61,7 @@ public class ImportHelper {
                 InputStream inputStream = assetManager.open(FOOD_CSV_FILE_NAME);
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                CSVReader reader = new CSVReader(bufferedReader, FOOD_CSV_FILE_SEPARATOR);
+                CSVReader reader = new CSVReader(bufferedReader, Export.CSV_DELIMITER);
 
                 // Detect language
                 String[] nextLine = reader.readNext();
@@ -80,7 +79,7 @@ public class ImportHelper {
                 List<Food> foodList = new ArrayList<>();
                 while ((nextLine = reader.readNext()) != null) {
 
-                    if (nextLine.length >= 13) {
+                    if (nextLine.length >= 14) {
                         Food food = new Food();
 
                         food.setName(nextLine[languageRow]);
@@ -97,7 +96,7 @@ public class ImportHelper {
                         food.setSalt(NumberUtils.parseNullableNumber(nextLine[10]));
                         food.setSodium(NumberUtils.parseNullableNumber(nextLine[11]));
                         food.setSugar(NumberUtils.parseNullableNumber(nextLine[12]));
-                        // TODO: Add image
+                        food.setImageUrl(nextLine[13]);
                         foodList.add(food);
 
                         Log.d(TAG, "Importing " + food.getName());
@@ -120,44 +119,5 @@ public class ImportHelper {
             super.onPostExecute(aVoid);
             PreferenceHelper.getInstance().setDidImportCommonFood(locale, true);
         }
-    }
-
-    public static void startImageGrabbing() {
-        grabImageForFood(0, FoodDao.getInstance().getAll(), new ImageGrabCallback() {
-            @Override
-            public void onComplete(List<Food> foods) {
-                Log.d(TAG, "Finished grabbing images for food");
-                // TODO
-            }
-        });
-    }
-
-    private static void grabImageForFood(final int position, final List<Food> foods, final ImageGrabCallback callback) {
-        final Food food = foods.get(position);
-        GoogleImageSearchManager.getInstance().search(food.getName(), new GoogleImageSearchManager.ImageGrabCallback() {
-            @Override
-            public void onSuccess(String url) {
-                Log.d(TAG, "Grabbed image for food: " + food.getName() + " (" + url + ")");
-                foods.get(position).setImageUrl(url);
-                if (position == foods.size() - 1) {
-                    callback.onComplete(foods);
-                } else {
-                    grabImageForFood(position + 1, foods, callback);
-                }
-            }
-            @Override
-            public void onError() {
-                Log.d(TAG, "Failed to grab image for food: " + food.getName());
-                if (position == foods.size() - 1) {
-                    callback.onComplete(foods);
-                } else {
-                    grabImageForFood(position + 1, foods, callback);
-                }
-            }
-        });
-    }
-
-    private interface ImageGrabCallback {
-        void onComplete(List<Food> foods);
     }
 }

@@ -321,9 +321,9 @@
     <string name="oxygen_saturation">Sauerstoffsättigung</string>
 
     <string name="changelog_title">Neu in dieser Version</string>
-    <string-array name="changelog_18">
-        <item>Die Einheit des Mahlzeit-Bolus-Faktor kann nun eingestellt werden (Standard: KE-Faktor)</item>
-        <item>Fehler behoben im Bolusrechner bei Verwendung von Kohlenhydraten als Einheit für Mahlzeiten</item>
+    <string-array name="changelog_19">
+        <item>Protokolleinträge können via Swipe-to-delete gelöscht werden</item>
+        <item>Korrekturboli dürfen negativ sein</item>
     </string-array>
 
     <string name="meal_factor">Mahlzeit-Bolus-Faktor</string>

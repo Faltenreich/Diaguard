@@ -322,9 +322,9 @@
     <string name="correction_value_desc">La reducción de glucemia en un</string>
 
     <string name="changelog_title">Qué hay de nuevo</string>
-    <string-array name="changelog_18">
-        <item>La Unidad de la alimento-bolo-factor es ahora personalizable (CU factor por defecto)</item>
-        <item>Error de cálculo fijado en la calculadora de bolo Al utilizar los carbohidratos como une comidas</item>
+    <string-array name="changelog_19">
+        <item>Los elementos de protocolo ahora se pueden eliminar mediante el borrado a borrar</item>
+        <item>El bolus de corrección puede ser negativo</item>
     </string-array>
 
     <string name="meal_factor">Alimento-bolo-factor</string>

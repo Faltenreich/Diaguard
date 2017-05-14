@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.data;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.faltenreich.diaguard.R;
@@ -96,7 +97,11 @@ public class ImportHelper {
                         food.setSalt(NumberUtils.parseNullableNumber(nextLine[10]));
                         food.setSodium(NumberUtils.parseNullableNumber(nextLine[11]));
                         food.setSugar(NumberUtils.parseNullableNumber(nextLine[12]));
-                        food.setImageUrl(nextLine[13]);
+
+                        if (!TextUtils.isEmpty(nextLine[13])) {
+                            food.setImageUrl(nextLine[13]);
+                        }
+
                         foodList.add(food);
 
                         Log.d(TAG, "Importing " + food.getName());
@@ -104,6 +109,7 @@ public class ImportHelper {
                 }
 
                 Collections.reverse(foodList);
+                FoodDao.getInstance().deleteAll();
                 FoodDao.getInstance().bulkCreateOrUpdate(foodList);
 
                 Log.i(TAG, String.format("Imported: %d common food items from csv table into database", foodList.size()));

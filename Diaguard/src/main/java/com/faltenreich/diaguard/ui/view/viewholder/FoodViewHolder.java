@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.ui.view.viewholder;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,7 +37,11 @@ public class FoodViewHolder extends BaseViewHolder<ListItemFood> implements View
         placeholder.setText(food.getName() != null && food.getName().length() > 0 ?
                 food.getName().substring(0, 1).toUpperCase() :
                 null);
-        Picasso.with(getContext()).load(food.getImageUrl()).fit().centerCrop().into(image);
+        if (!TextUtils.isEmpty(food.getImageUrl())) {
+            Picasso.with(getContext()).load(food.getImageUrl()).fit().centerCrop().into(image);
+        } else {
+            image.setImageResource(0);
+        }
         name.setText(food.getName());
         brand.setText(food.getBrand());
         brand.setVisibility(food.getBrand() != null && food.getBrand().length() > 0 ? View.VISIBLE : View.GONE);

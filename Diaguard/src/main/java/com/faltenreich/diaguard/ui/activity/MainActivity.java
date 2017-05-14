@@ -18,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.data.ImportHelper;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.ui.fragment.BaseFragment;
 import com.faltenreich.diaguard.ui.fragment.CalculatorFragment;
@@ -74,8 +73,6 @@ public class MainActivity extends BaseActivity {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         initialize();
         showChangelog();
-
-        ImportHelper.startImageGrabbing();
     }
 
     protected void onPostCreate(Bundle savedInstanceState) {

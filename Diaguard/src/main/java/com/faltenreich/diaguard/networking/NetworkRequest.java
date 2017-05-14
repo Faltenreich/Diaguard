@@ -10,7 +10,7 @@ import com.octo.android.robospice.request.retrofit.RetrofitSpiceRequest;
  * Created by Faltenreich on 23.09.2016.
  */
 
-public abstract class NetworkRequest<DTO extends NetworkDto, API> extends RetrofitSpiceRequest<DTO, API> implements RequestListener<DTO> {
+public abstract class NetworkRequest<DTO, API> extends RetrofitSpiceRequest<DTO, API> implements RequestListener<DTO> {
 
     private static final String TAG = NetworkRequest.class.getSimpleName();
 

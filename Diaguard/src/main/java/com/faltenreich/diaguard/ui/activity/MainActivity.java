@@ -19,6 +19,7 @@ import android.view.View;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.networking.google.GoogleImageSearchManager;
 import com.faltenreich.diaguard.ui.fragment.BaseFragment;
 import com.faltenreich.diaguard.ui.fragment.CalculatorFragment;
 import com.faltenreich.diaguard.ui.fragment.ChangelogFragment;
@@ -73,6 +74,8 @@ public class MainActivity extends BaseActivity {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         initialize();
         showChangelog();
+
+        GoogleImageSearchManager.getInstance().search("Agavensirup");
     }
 
     protected void onPostCreate(Bundle savedInstanceState) {

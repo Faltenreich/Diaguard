@@ -31,10 +31,16 @@ public class ImportHelper {
     private static final String FOOD_CSV_FILE_NAME = "food_common.csv";
     private static final char FOOD_CSV_FILE_SEPARATOR = ';';
 
-    public static void validateImport(Context context) {
+    public static void validateFoodImport(Context context) {
         Locale locale = Helper.getLocale();
         if (!PreferenceHelper.getInstance().didImportCommonFood(locale)) {
             new ImportFoodTask(context, locale).execute();
+        }
+    }
+
+    public static void validateFoodImageImport(Context context) {
+        if (PreferenceHelper.getInstance().getVersionCode() < 19) {
+            // TODO: Add images from csv to existing entities
         }
     }
 
@@ -90,6 +96,7 @@ public class ImportHelper {
                         food.setSalt(NumberUtils.parseNullableNumber(nextLine[10]));
                         food.setSodium(NumberUtils.parseNullableNumber(nextLine[11]));
                         food.setSugar(NumberUtils.parseNullableNumber(nextLine[12]));
+                        // TODO: Add image
                         foodList.add(food);
 
                         Log.d(TAG, "Importing " + food.getName());

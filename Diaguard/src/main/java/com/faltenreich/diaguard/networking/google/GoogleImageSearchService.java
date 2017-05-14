@@ -29,6 +29,7 @@ public class GoogleImageSearchService extends NetworkService<GoogleImageSearchAp
         GsonBuilder gsonBuilder = new GsonBuilder();
         builder.setConverter(new GsonConverter(gsonBuilder.create()));
         builder.setEndpoint(getServerUrl());
+        builder.setLogLevel(RestAdapter.LogLevel.NONE);
         return builder;
     }
 

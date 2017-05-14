@@ -8,6 +8,7 @@ import android.util.Log;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.entity.Food;
+import com.faltenreich.diaguard.networking.google.GoogleImageSearchManager;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 import com.opencsv.CSVReader;
@@ -119,5 +120,44 @@ public class ImportHelper {
             super.onPostExecute(aVoid);
             PreferenceHelper.getInstance().setDidImportCommonFood(locale, true);
         }
+    }
+
+    public static void startImageGrabbing() {
+        grabImageForFood(0, FoodDao.getInstance().getAll(), new ImageGrabCallback() {
+            @Override
+            public void onComplete(List<Food> foods) {
+                Log.d(TAG, "Finished grabbing images for food");
+                // TODO
+            }
+        });
+    }
+
+    private static void grabImageForFood(final int position, final List<Food> foods, final ImageGrabCallback callback) {
+        final Food food = foods.get(position);
+        GoogleImageSearchManager.getInstance().search(food.getName(), new GoogleImageSearchManager.ImageGrabCallback() {
+            @Override
+            public void onSuccess(String url) {
+                Log.d(TAG, "Grabbed image for food: " + food.getName() + " (" + url + ")");
+                foods.get(position).setImageUrl(url);
+                if (position == foods.size() - 1) {
+                    callback.onComplete(foods);
+                } else {
+                    grabImageForFood(position + 1, foods, callback);
+                }
+            }
+            @Override
+            public void onError() {
+                Log.d(TAG, "Failed to grab image for food: " + food.getName());
+                if (position == foods.size() - 1) {
+                    callback.onComplete(foods);
+                } else {
+                    grabImageForFood(position + 1, foods, callback);
+                }
+            }
+        });
+    }
+
+    private interface ImageGrabCallback {
+        void onComplete(List<Food> foods);
     }
 }

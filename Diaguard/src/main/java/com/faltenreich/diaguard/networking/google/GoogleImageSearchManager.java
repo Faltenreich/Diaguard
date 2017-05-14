@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.networking.google;
 
+import android.util.Log;
+
 import com.faltenreich.diaguard.networking.NetworkManager;
 import com.faltenreich.diaguard.networking.google.dto.GoogleImageDto;
 import com.google.gson.Gson;
@@ -34,7 +36,7 @@ public class GoogleImageSearchManager extends NetworkManager<GoogleImageSearchSe
         super(GoogleImageSearchService.class);
     }
 
-    public void search(final String query) {
+    public void search(final String query, final ImageGrabCallback callback) {
         execute(new GoogleImageSearchRequest<String>(String.class) {
             @Override
             public String getResponse() {
@@ -43,15 +45,26 @@ public class GoogleImageSearchManager extends NetworkManager<GoogleImageSearchSe
             }
             @Override
             public void onSuccess(String body) {
-                int jsonStart = body.indexOf(JSON_START);
-                int jsonEnd = body.indexOf(JSON_END, jsonStart);
-                String json = body.substring(jsonStart + JSON_START.length(), jsonEnd + JSON_END.length());
-                GoogleImageDto dto = new Gson().fromJson(json, GoogleImageDto.class);
+                try {
+                    int jsonStart = body.indexOf(JSON_START);
+                    int jsonEnd = body.indexOf(JSON_END, jsonStart);
+                    String json = body.substring(jsonStart + JSON_START.length(), jsonEnd + JSON_END.length());
+                    GoogleImageDto dto = new Gson().fromJson(json, GoogleImageDto.class);
+                    callback.onSuccess(dto.imageUrl);
+                } catch (Exception exception) {
+                    Log.e(TAG, exception.getMessage());
+                    callback.onError();
+                }
             }
             @Override
             public void onFailure(SpiceException spiceException) {
-
+                callback.onError();
             }
         });
+    }
+
+    public interface ImageGrabCallback {
+        void onSuccess(String url);
+        void onError();
     }
 }

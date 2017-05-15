@@ -65,7 +65,7 @@ public class UpdateLineChartTask extends BaseAsyncTask<Void, Void, LineData> {
                 for (Float avg : measurement.getValues()) {
                     if (NumberUtils.isValid(avg) && avg > 0) {
                         float customAvg = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, avg);
-                        entries.add(new com.github.mikephil.charting.data.Entry(customAvg, index));
+                        entries.add(new Entry(customAvg, index));
                         if (customAvg > highestValue) {
                             highestValue = customAvg;
                         }

@@ -75,6 +75,17 @@ public class FoodDao extends BaseServerDao<Food> {
         return super.delete(objects);
     }
 
+    public Food get(String name) {
+        try {
+            return getDao().queryBuilder()
+                    .where().eq(Food.Column.NAME, name)
+                    .queryForFirst();
+        } catch (SQLException exception) {
+            Log.e(TAG, exception.getLocalizedMessage());
+            return null;
+        }
+    }
+
     public List<Food> search(String query, long page) {
         try {
             QueryBuilder<Food, Long> queryBuilder = getDao().queryBuilder()

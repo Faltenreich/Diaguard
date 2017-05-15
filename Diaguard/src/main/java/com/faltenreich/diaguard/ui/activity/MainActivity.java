@@ -251,6 +251,9 @@ public class MainActivity extends BaseActivity {
                 fragmentTransaction.addToBackStack(tag);
                 fragment.show(fragmentTransaction, tag);
             }
+
+        } else if (oldVersionCode == 0) {
+            PreferenceHelper.getInstance().setVersionCode(currentVersionCode);
         }
     }
 

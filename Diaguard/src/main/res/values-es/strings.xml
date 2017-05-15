@@ -323,6 +323,7 @@
 
     <string name="changelog_title">Qué hay de nuevo</string>
     <string-array name="changelog_19">
+        <item>Se agregaron imágenes a los alimentos comunes</item>
         <item>Los elementos de protocolo ahora se pueden eliminar mediante el borrado a borrar</item>
         <item>El bolus de corrección puede ser negativo</item>
     </string-array>

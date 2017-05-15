@@ -34,15 +34,32 @@ public class ImportHelper {
 
     public static void validateFoodImport(Context context) {
         Locale locale = Helper.getLocale();
+        int versionCode = PreferenceHelper.getInstance().getVersionCode();
         if (!PreferenceHelper.getInstance().didImportCommonFood(locale)) {
             new ImportFoodTask(context, locale).execute();
+        } else if (versionCode > 0 && versionCode < 19) {
+            new UpdateFoodImagesTask(context, locale).execute();
         }
     }
 
-    public static void validateFoodImageImport(Context context) {
-        if (PreferenceHelper.getInstance().getVersionCode() < 19) {
-            // TODO: Add images from csv to existing entities
+    private static int getLanguageColumn(String languageCode, String[] row) {
+        int languageRow = 0;
+        for (int languagePosition = 1; languagePosition < 4; languagePosition++) {
+            String availableLanguageCode = row[languagePosition];
+            if (languageCode.startsWith(availableLanguageCode.substring(0, 1))) {
+                languageRow = languagePosition;
+                break;
+            }
         }
+        return languageRow;
+    }
+
+    private static CSVReader getCsvReader(Context context) throws IOException {
+        AssetManager assetManager = context.getAssets();
+        InputStream inputStream = assetManager.open(FOOD_CSV_FILE_NAME);
+        InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+        return new CSVReader(bufferedReader, Export.CSV_DELIMITER);
     }
 
     private static class ImportFoodTask extends AsyncTask<Void, Void, Void> {
@@ -58,25 +75,12 @@ public class ImportHelper {
         @Override
         protected Void doInBackground(Void... voids) {
             try {
-                AssetManager assetManager = context.getAssets();
-                InputStream inputStream = assetManager.open(FOOD_CSV_FILE_NAME);
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                CSVReader reader = new CSVReader(bufferedReader, Export.CSV_DELIMITER);
+                CSVReader reader = getCsvReader(context);
 
-                // Detect language
+                String languageCode = locale.getLanguage();
                 String[] nextLine = reader.readNext();
-                String systemLanguageCode = locale.getLanguage();
-                int languageRow = 0;
-                for (int languagePosition = 1; languagePosition < 4; languagePosition++) {
-                    String availableLanguageCode = nextLine[languagePosition];
-                    if (systemLanguageCode.startsWith(availableLanguageCode.substring(0, 1))) {
-                        languageRow = languagePosition;
-                        break;
-                    }
-                }
+                int languageRow = getLanguageColumn(languageCode, nextLine);
 
-                // Store common food in database
                 List<Food> foodList = new ArrayList<>();
                 while ((nextLine = reader.readNext()) != null) {
 
@@ -86,7 +90,7 @@ public class ImportHelper {
                         food.setName(nextLine[languageRow]);
                         food.setIngredients(food.getName());
                         food.setLabels(context.getString(R.string.food_common));
-                        food.setLanguageCode(systemLanguageCode);
+                        food.setLanguageCode(languageCode);
 
                         food.setCarbohydrates(NumberUtils.parseNullableNumber(nextLine[4]));
                         food.setEnergy(NumberUtils.parseNullableNumber(nextLine[5]));
@@ -112,7 +116,7 @@ public class ImportHelper {
                 FoodDao.getInstance().deleteAll();
                 FoodDao.getInstance().bulkCreateOrUpdate(foodList);
 
-                Log.i(TAG, String.format("Imported: %d common food items from csv table into database", foodList.size()));
+                Log.i(TAG, String.format("Imported %d common food items from csv table into database", foodList.size()));
 
             } catch (IOException exception) {
                 Log.e(TAG, exception.getLocalizedMessage());
@@ -124,6 +128,57 @@ public class ImportHelper {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             PreferenceHelper.getInstance().setDidImportCommonFood(locale, true);
+        }
+    }
+
+    private static class UpdateFoodImagesTask extends AsyncTask<Void, Void, Void> {
+
+        private Context context;
+        private Locale locale;
+
+        UpdateFoodImagesTask(Context context, Locale locale) {
+            this.context = context;
+            this.locale = locale;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                CSVReader reader = getCsvReader(context);
+
+                String languageCode = locale.getLanguage();
+                String[] nextLine = reader.readNext();
+                int languageRow = getLanguageColumn(languageCode, nextLine);
+
+                List<Food> foodList = new ArrayList<>();
+                while ((nextLine = reader.readNext()) != null) {
+
+                    if (nextLine.length >= 14) {
+                        String name = nextLine[languageRow];
+                        String imageUrl = nextLine[13];
+                        Food food = FoodDao.getInstance().get(name);
+                        if (food != null && !TextUtils.isEmpty(imageUrl)) {
+                            Log.d(TAG, "Updating food image:  " + name);
+                            food.setImageUrl(imageUrl);
+                            foodList.add(food);
+                        } else {
+                            Log.e(TAG, "Failed to update image: " + name);
+                        }
+                    }
+                }
+
+                FoodDao.getInstance().bulkCreateOrUpdate(foodList);
+                Log.i(TAG, String.format("Updated %d images for common food items", foodList.size()));
+
+            } catch (IOException exception) {
+                Log.e(TAG, exception.getLocalizedMessage());
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
         }
     }
 }

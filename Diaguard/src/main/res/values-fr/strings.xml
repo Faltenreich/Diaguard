@@ -322,6 +322,7 @@
 
     <string name="changelog_title">Quoi de neuf</string>
     <string-array name="changelog_19">
+        <item>Ajout d\'images aux aliments communs</item>
         <item>Les éléments de protocole peuvent maintenant être supprimés via swipe-to-delete</item>
         <item>Le bolus de correction peut maintenant être négatif</item>
     </string-array>

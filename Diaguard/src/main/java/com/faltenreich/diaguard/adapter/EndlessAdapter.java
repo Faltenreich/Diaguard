@@ -9,28 +9,28 @@ import com.faltenreich.diaguard.ui.view.viewholder.BaseViewHolder;
 /**
  * Created by Filip on 04.11.13.
  */
-public abstract class EndlessAdapter<L extends ListItemDate, VH extends BaseViewHolder<L>> extends BaseAdapter<L, VH> {
+abstract class EndlessAdapter<L extends ListItemDate, VH extends BaseViewHolder<L>> extends BaseAdapter<L, VH> {
 
-    public static final int VISIBLE_THRESHOLD = 5;
-    public static final int BULK_SIZE = 10;
+    private static final int VISIBLE_THRESHOLD = 5;
+    static final int BULK_SIZE = 10;
 
     private OnEndlessListener listener;
 
-    public EndlessAdapter(Context context) {
+    EndlessAdapter(Context context) {
         super(context);
     }
 
     @Override
-    public void onBindViewHolder(VH holder, final int position) {
+    public void onBindViewHolder(final VH holder, int position) {
         if (listener != null) {
             // Handler is required to make layout changes during scroll
             Handler handler = new Handler();
             Runnable runnable = new Runnable() {
                 public void run() {
                     if (listener != null) {
-                        if (position < VISIBLE_THRESHOLD) {
+                        if (holder.getAdapterPosition() < VISIBLE_THRESHOLD) {
                             listener.onLoadMore(Direction.UP);
-                        } else if (position > getItemCount() - VISIBLE_THRESHOLD) {
+                        } else if (holder.getAdapterPosition() > getItemCount() - VISIBLE_THRESHOLD) {
                             listener.onLoadMore(Direction.DOWN);
                         }
                     }
@@ -40,20 +40,20 @@ public abstract class EndlessAdapter<L extends ListItemDate, VH extends BaseView
         }
     }
 
-    public void setOnEndlessListener(OnEndlessListener listener) {
+    void setOnEndlessListener(OnEndlessListener listener) {
         this.listener = listener;
     }
 
-    public void removeOnEndlessListener() {
+    void removeOnEndlessListener() {
         this.listener = null;
     }
 
-    public enum Direction {
+    enum Direction {
         UP,
         DOWN
     }
 
-    public interface OnEndlessListener {
+    interface OnEndlessListener {
         void onLoadMore(Direction direction);
     }
 }

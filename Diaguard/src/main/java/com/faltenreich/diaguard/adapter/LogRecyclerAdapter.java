@@ -280,7 +280,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
 
         private DateTime startDate;
 
-        public SetupTask(DateTime startDate) {
+        SetupTask(DateTime startDate) {
             this.startDate = startDate;
         }
 
@@ -384,7 +384,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
             removePendingView(Direction.UP);
 
             addItems(0, listItems);
-            notifyItemRangeInserted(0, listItems.size() - 1);
+            notifyItemRangeInserted(0, listItems.size());
 
             listener.onOrderChanges();
 
@@ -445,7 +445,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
             removePendingView(Direction.DOWN);
 
             addItems(listItems);
-            notifyItemRangeInserted(getItemCount() - listItems.size(), getItemCount() - 1);
+            notifyItemRangeInserted(getItemCount() - 1 - listItems.size(), listItems.size());
             isLoadingNext = false;
 
             if (shouldLoadPrevious) {

@@ -86,12 +86,6 @@
         <license>MIT License</license>
     </notice>
     <notice>
-        <name>MaterialProgressBar</name>
-        <url>https://github.com/DreaminginCodeZH/MaterialProgressBar</url>
-        <copyright>Copyright 2015, Zhang Hai</copyright>
-        <license>Apache Software License 2.0</license>
-    </notice>
-    <notice>
         <name>Swipe-to-Dismiss</name>
         <url>https://github.com/romannurik/Android-SwipeToDismiss</url>
         <copyright>Copyright 2013, Roman Nurik</copyright>

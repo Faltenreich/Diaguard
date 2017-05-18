@@ -1,6 +1,9 @@
 buildscript {
     repositories {
         jcenter()
+        maven {
+            url "https://maven.google.com"
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.0'
@@ -18,7 +21,7 @@ repositories {
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    buildToolsVersion '25.0.3'
 
     defaultConfig {
         minSdkVersion 14
@@ -43,9 +46,9 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:design:25.2.0'
-    compile 'com.android.support:cardview-v7:25.2.0'
-    compile 'com.android.support:recyclerview-v7:25.2.0'
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:cardview-v7:25.3.1'
+    compile 'com.android.support:recyclerview-v7:25.3.1'
 
     compile 'com.j256.ormlite:ormlite-core:4.48'
     compile 'com.j256.ormlite:ormlite-android:4.48'
@@ -59,18 +62,23 @@ dependencies {
     compile 'com.octo.android.robospice:robospice-ormlite:1.4.14'
 
     compile 'org.apache.commons:commons-lang3:3.5'
-    compile 'de.psdev.licensesdialog:licensesdialog:1.8.1'
+    compile ('de.psdev.licensesdialog:licensesdialog:1.8.1') {
+        exclude group: 'com.android.support'
+    }
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.opencsv:opencsv:3.8'
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.5'
     compile 'com.github.clans:fab:1.6.4'
     compile 'com.fmsirvent:parallaxeverywhere:1.0.4'
     compile 'org.apmem.tools:layouts:1.10@aar'
-    compile 'me.zhanghai.android.materialprogressbar:library:1.3.0'
     compile 'me.grantland:autofittextview:0.2.1'
-    compile 'com.lapism:searchview:4.0'
+    compile ('com.lapism:searchview:4.0') {
+        exclude group: 'com.android.support'
+    }
     compile 'com.mikhaellopez:circularimageview:3.0.2'
-    compile 'com.code-troopers.betterpickers:library:3.0.1'
+    compile ('com.code-troopers.betterpickers:library:3.0.1') {
+        exclude group: 'com.android.support'
+    }
     compile 'com.robinhood.ticker:ticker:1.1.1'
 }
 

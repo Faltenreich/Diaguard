@@ -7,12 +7,18 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.FoodDao;
+import com.faltenreich.diaguard.data.dao.MeasurementDao;
+import com.faltenreich.diaguard.data.entity.BloodSugar;
+import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.export.Export;
 import com.opencsv.CSVReader;
+
+import org.joda.time.DateTime;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -60,6 +66,10 @@ public class ImportHelper {
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
         return new CSVReader(bufferedReader, Export.CSV_DELIMITER);
+    }
+
+    public static void createTestData() {
+        new CreateTestData().execute();
     }
 
     private static class ImportFoodTask extends AsyncTask<Void, Void, Void> {
@@ -174,6 +184,35 @@ public class ImportHelper {
                 Log.e(TAG, exception.getLocalizedMessage());
             }
             return null;
+        }
+    }
+
+    private static class CreateTestData extends AsyncTask<Void, Void, Void> {
+
+        private static final int DATA_COUNT = 5000;
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            for (int count = 0; count < DATA_COUNT; count++) {
+
+                Entry entry = new Entry();
+                entry.setDate(DateTime.now().minusHours(count));
+                EntryDao.getInstance().createOrUpdate(entry);
+
+                BloodSugar bloodSugar = new BloodSugar();
+                bloodSugar.setMgDl(100);
+                bloodSugar.setEntry(entry);
+                MeasurementDao.getInstance(BloodSugar.class).createOrUpdate(bloodSugar);
+
+                Log.d(TAG, "Created test data: " + count + "/" + DATA_COUNT);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Log.d(TAG, "Completed importing " + DATA_COUNT + " rows");
         }
     }
 }

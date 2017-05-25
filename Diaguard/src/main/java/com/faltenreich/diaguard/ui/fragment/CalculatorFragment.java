@@ -23,8 +23,8 @@ import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.data.EntryAddedEvent;
-import com.faltenreich.diaguard.event.preference.CorrectionFactorChangedEvent;
 import com.faltenreich.diaguard.event.preference.BloodSugarPreferenceChangedEvent;
+import com.faltenreich.diaguard.event.preference.CorrectionFactorChangedEvent;
 import com.faltenreich.diaguard.event.preference.MealFactorChangedEvent;
 import com.faltenreich.diaguard.event.preference.MealFactorUnitChangedEvent;
 import com.faltenreich.diaguard.event.preference.UnitChangedEvent;
@@ -35,6 +35,8 @@ import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.Validator;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.joda.time.DateTime;
 
 import butterknife.BindView;
@@ -340,35 +342,35 @@ public class CalculatorFragment extends BaseFragment {
         startActivity(intent);
     }
 
-    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(BloodSugarPreferenceChangedEvent event) {
         if (isAdded()) {
             updateTargetValue();
         }
     }
 
-    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(CorrectionFactorChangedEvent event) {
         if (isAdded()) {
             updateCorrectionValue();
         }
     }
 
-    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(MealFactorChangedEvent event) {
         if (isAdded()) {
             updateMealFactor();
         }
     }
 
-    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(MealFactorUnitChangedEvent event) {
         if (isAdded()) {
             updateMealFactor();
         }
     }
 
-    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(UnitChangedEvent event) {
         if (isAdded() && event.context != null && event.context == Measurement.Category.BLOODSUGAR) {
             updateTargetValue();

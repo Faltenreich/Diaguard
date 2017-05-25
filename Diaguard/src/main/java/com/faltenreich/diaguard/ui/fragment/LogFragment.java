@@ -22,6 +22,8 @@ import com.faltenreich.diaguard.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.event.data.EntryUpdatedEvent;
 import com.faltenreich.diaguard.util.ViewHelper;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.joda.time.DateTime;
 
 import butterknife.BindView;
@@ -144,7 +146,7 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.OnAd
         listDecoration.clearHeaderCache();
     }
 
-    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EntryAddedEvent event) {
         if (isAdded()) {
             Entry entry = event.context;
@@ -171,7 +173,7 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.OnAd
         }
     }
 
-    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EntryUpdatedEvent event) {
         if (isAdded()) {
             Entry entry = event.context;
@@ -190,7 +192,7 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.OnAd
         }
     }
 
-    @Override
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EntryDeletedEvent event) {
         super.onEvent(event);
 

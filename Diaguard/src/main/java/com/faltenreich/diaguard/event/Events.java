@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.event;
 
 import android.util.Log;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by Faltenreich on 01.01.2016.

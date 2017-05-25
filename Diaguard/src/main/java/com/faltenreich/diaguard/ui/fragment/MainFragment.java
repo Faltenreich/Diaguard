@@ -31,6 +31,8 @@ import com.faltenreich.diaguard.util.thread.UpdateLineChartTask;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.LineData;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.Interval;
@@ -275,7 +277,6 @@ public class MainFragment extends BaseFragment {
 
     // endregion
 
-    @SuppressWarnings("unused")
     @OnClick(R.id.layout_latest)
     protected void openEntry(View view) {
         Intent intent = new Intent(getActivity(), EntryActivity.class);
@@ -290,25 +291,21 @@ public class MainFragment extends BaseFragment {
         startActivity(intent, options);
     }
 
-    @SuppressWarnings("unused")
     @OnClick(R.id.layout_today)
     protected void openStatisticsToday(View view) {
         openStatistics();
     }
 
-    @SuppressWarnings("unused")
     @OnClick(R.id.layout_average)
     protected void openStatisticsAverage(View view) {
         openStatistics();
     }
 
-    @SuppressWarnings("unused")
     @OnClick(R.id.layout_trend)
     protected void openTrend(View view) {
         openStatistics();
     }
 
-    @SuppressWarnings("unused")
     @OnClick(R.id.layout_hba1c)
     protected void showHbA1cFormula(View view) {
         String formula = String.format(getString(R.string.hba1c_formula),
@@ -318,7 +315,7 @@ public class MainFragment extends BaseFragment {
         ViewHelper.showSnackbar(getView(), formula);
     }
 
-    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EntryAddedEvent event) {
         updateContent();
     }

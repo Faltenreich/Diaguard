@@ -35,6 +35,9 @@ import com.lapism.searchview.SearchAdapter;
 import com.lapism.searchview.SearchItem;
 import com.lapism.searchview.SearchView;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -238,13 +241,11 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         }
     }
 
-    @SuppressWarnings("unused")
     @OnClick(R.id.fab)
     public void onFabClick() {
         createFood();
     }
 
-    @SuppressWarnings("unused")
     @OnClick(R.id.food_search_empty_button)
     public void onEmptyButtonClick() {
         // Workaround since CONNECTIVITY_ACTION broadcasts cannot be caught since API level 24
@@ -256,7 +257,6 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         }
     }
 
-    @SuppressWarnings("unused")
     @OnClick(R.id.imageView_clear)
     public void clearQuery() {
         searchView.setTextOnly(null);
@@ -264,30 +264,30 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         query(null);
     }
 
-    @SuppressWarnings("unused")
-    public void onEventMainThread(FoodSelectedEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(FoodSelectedEvent event) {
         onFoodSelected(event.context);
     }
 
-    @SuppressWarnings("unused")
-    public void onEventMainThread(FoodQueryStartedEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(FoodQueryStartedEvent event) {
         swipeRefreshLayout.setRefreshing(true);
     }
 
-    @SuppressWarnings("unused")
-    public void onEventMainThread(FoodQueryEndedEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(FoodQueryEndedEvent event) {
         swipeRefreshLayout.setRefreshing(false);
         if (list.getItemCount() == 0) {
             showEmptyList();
         }
     }
 
-    @SuppressWarnings("unused")
-    public void onEventMainThread(FoodSavedEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(FoodSavedEvent event) {
         clearQuery();
     }
 
-    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(final FoodDeletedEvent event) {
         ViewHelper.showSnackbar(getView(), getString(R.string.food_deleted), new View.OnClickListener() {
             @Override

@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.ui.fragment;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.StringRes;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -26,6 +25,9 @@ import com.faltenreich.diaguard.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.ui.activity.BaseActivity;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.util.ViewHelper;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.ButterKnife;
 
@@ -135,8 +137,7 @@ public abstract class BaseFragment extends Fragment {
         void action();
     }
 
-    @CallSuper
-    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(final EntryDeletedEvent event) {
         ViewHelper.showSnackbar(getView(), getString(R.string.entry_deleted), new View.OnClickListener() {
             @Override

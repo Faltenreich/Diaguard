@@ -9,13 +9,16 @@ import android.util.AttributeSet;
 import android.widget.Toast;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.util.SystemUtils;
-import com.faltenreich.diaguard.util.ViewHelper;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.PermissionDeniedEvent;
 import com.faltenreich.diaguard.event.PermissionGrantedEvent;
+import com.faltenreich.diaguard.util.SystemUtils;
+import com.faltenreich.diaguard.util.ViewHelper;
 import com.faltenreich.diaguard.util.export.Export;
 import com.faltenreich.diaguard.util.export.FileListener;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 
@@ -72,7 +75,7 @@ public class BackupPreference extends Preference implements Preference.OnPrefere
         Toast.makeText(getContext(), confirmationText, Toast.LENGTH_LONG).show();
     }
 
-    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(PermissionGrantedEvent event) {
         if (event.context.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             createBackup();
@@ -80,7 +83,7 @@ public class BackupPreference extends Preference implements Preference.OnPrefere
         }
     }
 
-    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(PermissionDeniedEvent event) {
         if (event.context.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             ViewHelper.showToast(getContext(), R.string.permission_required_storage);

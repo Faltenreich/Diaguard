@@ -34,6 +34,9 @@ import com.j256.ormlite.dao.ForeignCollection;
 import com.robinhood.ticker.TickerUtils;
 import com.robinhood.ticker.TickerView;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -260,7 +263,6 @@ public class FoodInputView extends LinearLayout {
         return adapter.getItems();
     }
 
-    @SuppressWarnings("unused")
     @OnClick(R.id.food_input_button)
     public void searchForFood() {
         Intent intent = new Intent(getContext(), FoodSearchActivity.class);
@@ -268,17 +270,17 @@ public class FoodInputView extends LinearLayout {
         getContext().startActivity(intent);
     }
 
-    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FoodSelectedEvent event) {
         addItem(event.context);
     }
 
-    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FoodEatenUpdatedEvent event) {
         updateItem(event.context, event.position);
     }
 
-    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FoodEatenRemovedEvent event) {
         removeItem(event.position);
     }

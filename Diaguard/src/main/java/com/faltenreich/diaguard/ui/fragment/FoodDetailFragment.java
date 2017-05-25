@@ -17,6 +17,9 @@ import com.faltenreich.diaguard.ui.view.TintImageView;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.ViewHelper;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -81,7 +84,6 @@ public class FoodDetailFragment extends BaseFoodFragment {
         }
     }
 
-    @SuppressWarnings("unused")
     @OnClick(R.id.food_sugar_level)
     protected void showSugarLevelInfo() {
         Food.NutrientLevel sugarLevel = getFood() != null ? getFood().getSugarLevel() : null;
@@ -90,7 +92,7 @@ public class FoodDetailFragment extends BaseFoodFragment {
         }
     }
 
-    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FoodDeletedEvent event) {
         if (getFood().equals(event.context)) {
             finish();

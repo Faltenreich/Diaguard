@@ -23,6 +23,9 @@ import com.faltenreich.diaguard.event.networking.FoodSearchSucceededEvent;
 import com.faltenreich.diaguard.networking.openfoodfacts.OpenFoodFactsManager;
 import com.faltenreich.diaguard.util.Helper;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -163,18 +166,18 @@ public class FoodListView extends RecyclerView {
         }
     }
 
-    @SuppressWarnings("unused")
-    public void onEventMainThread(FoodSearchSucceededEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(FoodSearchSucceededEvent event) {
         onlinePage++;
         addFood(event.context);
     }
 
-    @SuppressWarnings("unused")
-    public void onEventMainThread(FoodSearchFailedEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(FoodSearchFailedEvent event) {
         Events.post(new FoodQueryEndedEvent(false));
     }
 
-    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FoodDeletedEvent event) {
         removeItem(event.context);
     }

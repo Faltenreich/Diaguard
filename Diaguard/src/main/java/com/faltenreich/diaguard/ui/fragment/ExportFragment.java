@@ -27,6 +27,8 @@ import com.faltenreich.diaguard.util.ViewHelper;
 import com.faltenreich.diaguard.util.export.Export;
 import com.faltenreich.diaguard.util.export.FileListener;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.joda.time.DateTime;
 
 import java.io.File;
@@ -190,14 +192,14 @@ public class ExportFragment extends BaseFragment implements FileListener {
         }).show(getFragmentManager());
     }
 
-    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(PermissionGrantedEvent event) {
         if (event.context.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             export();
         }
     }
 
-    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(PermissionDeniedEvent event) {
         if (event.context.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             ViewHelper.showToast(getContext(), R.string.permission_required_storage);

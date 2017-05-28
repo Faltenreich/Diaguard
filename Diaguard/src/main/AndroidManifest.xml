@@ -31,16 +31,22 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
         </activity>
+
         <activity
             android:name=".ui.activity.EntryActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/entry_new"
-            android:windowSoftInputMode="adjustResize|stateHidden">
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:exported="true">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity" />
         </activity>
+
         <activity
             android:name=".ui.activity.FoodSearchActivity"
             android:configChanges="orientation|screenSize"
@@ -50,6 +56,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity" />
         </activity>
+
         <activity
             android:name=".ui.activity.FoodActivity"
             android:configChanges="orientation|screenSize"
@@ -59,6 +66,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.FoodSearchActivity" />
         </activity>
+
         <activity
             android:name=".ui.activity.FoodEditActivity"
             android:configChanges="orientation|screenSize"
@@ -68,6 +76,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.FoodSearchActivity" />
         </activity>
+
         <activity
             android:name=".ui.activity.PreferenceActivity"
             android:configChanges="orientation|screenSize"

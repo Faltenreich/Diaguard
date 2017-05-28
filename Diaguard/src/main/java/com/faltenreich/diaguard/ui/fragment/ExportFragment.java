@@ -168,7 +168,6 @@ public class ExportFragment extends BaseFragment implements FileListener {
         }
     }
 
-    @SuppressWarnings("unused")
     @OnClick(R.id.button_datestart)
     public void showStartDatePicker() {
         DatePickerFragment.newInstance(dateStart, new DatePickerDialog.OnDateSetListener() {
@@ -180,7 +179,6 @@ public class ExportFragment extends BaseFragment implements FileListener {
         }).show(getFragmentManager());
     }
 
-    @SuppressWarnings("unused")
     @OnClick(R.id.button_dateend)
     public void showEndDatePicker() {
         DatePickerFragment.newInstance(dateEnd, new DatePickerDialog.OnDateSetListener() {

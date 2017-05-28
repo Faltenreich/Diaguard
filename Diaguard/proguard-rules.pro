@@ -14,9 +14,11 @@
 -keepclassmembers interface com.faltenreich.diaguard.data.entity.** { *; }
 
 ##---------------Begin: EventBus ----------
+-keepattributes *Annotation*
 -keepclassmembers class ** {
-    public void onEvent*(**);
+    @org.greenrobot.eventbus.Subscribe <methods>;
 }
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
 ##---------------End: EventBus ----------
 
 ##---------------Begin: ButterKnife ----------
@@ -27,7 +29,6 @@
 -keepclasseswithmembernames class * {
     @butterknife.* <fields>;
 }
-
 -keepclasseswithmembernames class * {
     @butterknife.* <methods>;
 }

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -108,50 +109,60 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         fab.setOnFabSelectedListener(this);
 
         checkIntents();
-
-        if (layoutMeasurements.getCount() == 0) {
-            layoutMeasurements.setOnCategoryEventListener(this);
-            for (Measurement.Category category : PreferenceHelper.getInstance().getActiveCategories()) {
-                if (PreferenceHelper.getInstance().isCategoryPinned(category)) {
-                    layoutMeasurements.addMeasurementAtEnd(category);
-                }
-            }
-        }
-
         setDateTime();
     }
 
     private void checkIntents() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-
             if (extras.getLong(EXTRA_ENTRY) != 0L) {
-
                 setTitle(getString(R.string.entry_edit));
-                entry = EntryDao.getInstance().get(extras.getLong(EXTRA_ENTRY));
-                if (entry != null) {
-                    time = entry.getDate();
-                    editTextNotes.setText(entry.getNote());
-
-                    List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
-                    layoutMeasurements.addMeasurements(measurements);
-                    for (Measurement measurement : measurements) {
-                        fab.ignore(measurement.getCategory());
-                    }
-                    fab.restock();
-                }
+                new FetchEntryTask(extras.getLong(EXTRA_ENTRY)).execute();
 
             } else if (extras.getSerializable(BaseFoodFragment.EXTRA_FOOD_ID) != null) {
-
                 Food food = FoodDao.getInstance().get(extras.getLong(BaseFoodFragment.EXTRA_FOOD_ID));
                 layoutMeasurements.addMeasurement(food);
                 fab.ignore(Measurement.Category.MEAL);
                 fab.restock();
+                initPinnedCategories();
 
             } else if (extras.getSerializable(EXTRA_DATE) != null) {
                 time = (DateTime) extras.getSerializable(EXTRA_DATE);
+                initPinnedCategories();
+            }
+        } else {
+            initPinnedCategories();
+        }
+    }
+
+    private void initPinnedCategories() {
+        layoutMeasurements.setOnCategoryEventListener(this);
+        // Add pinned categories only for new entry
+        if (entry == null) {
+            for (Measurement.Category category : PreferenceHelper.getInstance().getActiveCategories()) {
+                if (PreferenceHelper.getInstance().isCategoryPinned(category) && !layoutMeasurements.hasCategory(category)) {
+                    layoutMeasurements.addMeasurementAtEnd(category);
+                }
             }
         }
+    }
+
+    private void initEntry(Entry entry) {
+        if (entry != null) {
+            this.entry = entry;
+            this.time = entry.getDate();
+
+            editTextNotes.setText(entry.getNote());
+
+            List<Measurement> measurements = entry.getMeasurementCache();
+            layoutMeasurements.addMeasurements(measurements);
+
+            for (Measurement measurement : measurements) {
+                fab.ignore(measurement.getCategory());
+            }
+            fab.restock();
+        }
+        initPinnedCategories();
     }
 
     private void showDialogCategories() {
@@ -330,5 +341,30 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     public void onCategoryRemoved(Measurement.Category category) {
         fab.removeIgnore(category);
         fab.restock();
+    }
+
+    private class FetchEntryTask extends AsyncTask<Void, Void, Entry> {
+
+        private long entryId;
+
+        private FetchEntryTask(long entryId) {
+            this.entryId = entryId;
+        }
+
+        @Override
+        protected Entry doInBackground(Void... params) {
+            EntryDao dao = EntryDao.getInstance();
+            Entry entry = dao.get(entryId);
+            if (entry != null) {
+                entry.setMeasurementCache(dao.getMeasurements(entry));
+            }
+            return entry;
+        }
+
+        @Override
+        protected void onPostExecute(Entry entry) {
+            super.onPostExecute(entry);
+            initEntry(entry);
+        }
     }
 }

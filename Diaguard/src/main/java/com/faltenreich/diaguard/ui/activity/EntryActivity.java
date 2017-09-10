@@ -138,7 +138,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     private void initPinnedCategories() {
         layoutMeasurements.setOnCategoryEventListener(this);
         // Add pinned categories only for new entry
-        if (entry == null) {
+        if (layoutMeasurements.getChildCount() == 0) {
             for (Measurement.Category category : PreferenceHelper.getInstance().getActiveCategories()) {
                 if (PreferenceHelper.getInstance().isCategoryPinned(category) && !layoutMeasurements.hasCategory(category)) {
                     layoutMeasurements.addMeasurementAtEnd(category);
@@ -297,7 +297,6 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         }
     }
 
-    @SuppressWarnings("unused")
     @OnClick(R.id.button_date)
     public void showDatePicker() {
         DatePickerFragment.newInstance(time, new DatePickerDialog.OnDateSetListener() {
@@ -309,7 +308,6 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         }).show(getSupportFragmentManager());
     }
 
-    @SuppressWarnings("unused")
     @OnClick(R.id.button_time)
     public void showTimePicker() {
         TimePickerFragment.newInstance(time, new TimePickerDialog.OnTimeSetListener() {

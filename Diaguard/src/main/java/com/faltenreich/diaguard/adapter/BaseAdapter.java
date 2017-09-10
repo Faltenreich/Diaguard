@@ -11,6 +11,7 @@ import java.util.List;
 /**
  * Created by Filip on 04.11.13.
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class BaseAdapter<L, VH extends BaseViewHolder<L>> extends RecyclerView.Adapter<VH> {
 
     private Context context;
@@ -26,15 +27,15 @@ public abstract class BaseAdapter<L, VH extends BaseViewHolder<L>> extends Recyc
     }
 
     public L getItem(int position) {
-        return items.get(position);
+        return this.items.get(position);
     }
 
     public List<L> getItems() {
-        return items;
+        return this.items;
     }
 
     public int getItemPosition(L item) {
-        return items.indexOf(item);
+        return this.items.indexOf(item);
     }
 
     public void addItem(L item) {
@@ -62,7 +63,7 @@ public abstract class BaseAdapter<L, VH extends BaseViewHolder<L>> extends Recyc
     }
 
     public void updateItem(int position, L item) {
-        items.set(position, item);
+        this.items.set(position, item);
     }
 
     public void clear() {

@@ -213,10 +213,13 @@ public class StatisticsFragment extends BaseFragment {
             @Override
             public void onPostExecute(LineData lineData) {
                 boolean hasData = false;
-                for (ILineDataSet lineDataSet : lineData.getDataSets()) {
-                    if (lineDataSet.getEntryCount() > 0) {
-                        hasData = true;
-                        break;
+
+                if (lineData != null) {
+                    for (ILineDataSet lineDataSet : lineData.getDataSets()) {
+                        if (lineDataSet.getEntryCount() > 0) {
+                            hasData = true;
+                            break;
+                        }
                     }
                 }
 

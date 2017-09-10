@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.util.thread;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
@@ -28,6 +29,8 @@ import java.util.List;
  */
 
 public class UpdateLineChartTask extends BaseAsyncTask<Void, Void, LineData> {
+
+    private static final String TAG = UpdateLineChartTask.class.getSimpleName();
 
     private Measurement.Category category;
     private TimeSpan timeSpan;
@@ -110,6 +113,11 @@ public class UpdateLineChartTask extends BaseAsyncTask<Void, Void, LineData> {
             dataSets.add(dataSetMaximum);
         }
 
-        return new LineData(xLabels, dataSets);
+        try {
+            return new LineData(xLabels, dataSets);
+        } catch (IllegalArgumentException exception) {
+            Log.e(TAG, exception.getMessage());
+            return null;
+        }
     }
 }

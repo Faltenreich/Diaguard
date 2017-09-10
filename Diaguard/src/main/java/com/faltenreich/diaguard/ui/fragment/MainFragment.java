@@ -262,7 +262,9 @@ public class MainFragment extends BaseFragment {
             public void onPostExecute(LineData lineData) {
                 if(isAdded()) {
                     initializeChart();
-                    chart.setData(lineData);
+                    if (lineData != null) {
+                        chart.setData(lineData);
+                    }
                     chart.invalidate();
                 }
             }

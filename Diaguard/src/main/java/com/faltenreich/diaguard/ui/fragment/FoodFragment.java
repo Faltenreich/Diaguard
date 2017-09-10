@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -10,8 +9,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -42,13 +39,7 @@ public class FoodFragment extends BaseFoodFragment {
     @BindView(R.id.food_tablayout) TabLayout tabLayout;
 
     public FoodFragment() {
-        super(R.layout.fragment_food, R.string.food, -1);
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+        super(R.layout.fragment_food, R.string.food, -1, R.menu.food);
     }
 
     @Override
@@ -62,12 +53,6 @@ public class FoodFragment extends BaseFoodFragment {
     public void onResume() {
         super.onResume();
         update();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.food, menu);
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

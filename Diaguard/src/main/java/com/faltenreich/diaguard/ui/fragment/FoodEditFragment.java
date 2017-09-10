@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.ui.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -32,13 +31,7 @@ public class FoodEditFragment extends BaseFoodFragment {
     @BindView(R.id.food_edit_carbohydrates) StickyHintInput valueInput;
 
     public FoodEditFragment() {
-        super(R.layout.fragment_food_edit, R.string.food_new);
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+        super(R.layout.fragment_food_edit, R.string.food_new, R.menu.form_edit);
     }
 
     @Override
@@ -49,9 +42,8 @@ public class FoodEditFragment extends BaseFoodFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.form_edit, menu);
-        menu.findItem(R.id.action_delete).setVisible(getFood() != null);
         super.onCreateOptionsMenu(menu, inflater);
+        menu.findItem(R.id.action_delete).setVisible(getFood() != null);
     }
 
     @Override

@@ -7,4 +7,10 @@
         android:title="@string/today"
         diaguard:showAsAction="ifRoom"/>
 
+    <item android:id="@+id/action_newevent"
+        android:icon="@drawable/ic_action_new"
+        android:title="@string/entry_new"
+        android:orderInCategory="100"
+        diaguard:showAsAction="ifRoom"/>
+
 </menu>

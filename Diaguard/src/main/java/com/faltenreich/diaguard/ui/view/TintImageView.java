@@ -3,15 +3,15 @@ package com.faltenreich.diaguard.ui.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.ColorInt;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 import com.faltenreich.diaguard.R;
 
 /**
  * Created by Faltenreich on 17.09.2015.
  */
-public class TintImageView extends ImageView {
+public class TintImageView extends AppCompatImageView {
 
     public TintImageView(Context context) {
         super(context);

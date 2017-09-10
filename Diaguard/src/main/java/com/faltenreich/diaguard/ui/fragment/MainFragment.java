@@ -63,13 +63,12 @@ public class MainFragment extends BaseFragment {
     private Entry latestEntry;
 
     public MainFragment() {
-        super(R.layout.fragment_main, R.string.app_name);
+        super(R.layout.fragment_main, R.string.app_name, R.menu.main);
     }
 
     @Override
     public void onViewCreated (View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setHasOptionsMenu(true);
         initializeChart();
     }
 

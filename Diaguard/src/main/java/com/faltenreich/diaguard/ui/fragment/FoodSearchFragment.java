@@ -7,8 +7,6 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,13 +67,12 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     private SearchAdapter searchAdapter;
 
     public FoodSearchFragment() {
-        super(R.layout.fragment_food_search, R.string.food);
+        super(R.layout.fragment_food_search, R.string.food, R.menu.food_search);
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
         checkIntents();
     }
 
@@ -95,12 +92,6 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     public void onDestroy() {
         super.onDestroy();
         Events.unregister(this);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.food_search, menu);
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

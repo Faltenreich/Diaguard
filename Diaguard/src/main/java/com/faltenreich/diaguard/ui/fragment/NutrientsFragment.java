@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.ui.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -21,7 +22,13 @@ public class NutrientsFragment extends BaseFoodFragment {
     @BindView(R.id.food_list_nutrients) RecyclerView nutrientList;
 
     public NutrientsFragment() {
-        super(R.layout.fragment_nutrients, R.string.nutriments, R.drawable.ic_note);
+        super(R.layout.fragment_nutrients, R.string.nutriments, R.drawable.ic_note, -1);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(false);
     }
 
     @Override

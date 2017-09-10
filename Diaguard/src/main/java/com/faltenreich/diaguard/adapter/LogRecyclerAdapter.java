@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.adapter;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -33,6 +34,8 @@ import java.util.List;
 public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHolder<ListItemDate>>
         implements EndlessAdapter.OnEndlessListener, StickyHeaderAdapter<LogDayViewHolder> {
 
+    private static final String TAG = LogRecyclerAdapter.class.getSimpleName();
+
     private enum ViewType {
         MONTH,
         DAY,
@@ -61,7 +64,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
         int count = getItemCount();
         if (count > 0) {
             clear();
-            notifyItemRangeRemoved(0, count - 1);
+            notifyItemRangeRemoved(0, count);
         }
 
         new SetupTask(startDateTime).execute();
@@ -185,6 +188,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
             }
             if (position >= 0) {
                 removeItem(position);
+                notifyItemRemoved(position);
             }
         }
     }
@@ -319,8 +323,12 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
 
         @Override
         protected void onPostExecute(List<ListItemDate> listItems) {
+            if (listItems.size() > 0) {
+                Log.d(TAG, String.format("Appending %d initial items: %s - %s", listItems.size(), listItems.get(0).getDateTime(), listItems.get(listItems.size() - 1).getDateTime()));
+            }
+
             addItems(listItems);
-            notifyItemRangeInserted(getItemCount() - listItems.size(), getItemCount() - 1);
+            notifyItemRangeInserted(0, listItems.size());
 
             listener.onOrderChanges();
             listener.onSetupComplete(startDate);
@@ -383,6 +391,10 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
         protected void onPostExecute(List<ListItemDate> listItems) {
             removePendingView(Direction.UP);
 
+            if (listItems.size() > 0) {
+                Log.d(TAG, String.format("Appending %d previous items: %s - %s", listItems.size(), listItems.get(0).getDateTime(), listItems.get(listItems.size() - 1).getDateTime()));
+            }
+
             addItems(0, listItems);
             notifyItemRangeInserted(0, listItems.size());
 
@@ -444,8 +456,13 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
         protected void onPostExecute(List<ListItemDate> listItems) {
             removePendingView(Direction.DOWN);
 
+            if (listItems.size() > 0) {
+                Log.d(TAG, String.format("Appending %d next items: %s - %s", listItems.size(), listItems.get(0).getDateTime(), listItems.get(listItems.size() - 1).getDateTime()));
+            }
+
+            int oldCount = getItemCount();
             addItems(listItems);
-            notifyItemRangeInserted(getItemCount() - 1 - listItems.size(), listItems.size());
+            notifyItemRangeInserted(oldCount, listItems.size());
             isLoadingNext = false;
 
             if (shouldLoadPrevious) {

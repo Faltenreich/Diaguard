@@ -175,11 +175,13 @@ public class MainFragment extends BaseFragment {
             if (entriesWithBloodSugar != null) {
                 for (Entry entry : entriesWithBloodSugar) {
                     BloodSugar bloodSugar = (BloodSugar) MeasurementDao.getInstance(BloodSugar.class).getMeasurement(entry);
-                    float mgDl = bloodSugar.getMgDl();
-                    if (mgDl > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
-                        countHypers++;
-                    } else if (mgDl < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
-                        countHypos++;
+                    if (bloodSugar != null) {
+                        float mgDl = bloodSugar.getMgDl();
+                        if (mgDl > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
+                            countHypers++;
+                        } else if (mgDl < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
+                            countHypos++;
+                        }
                     }
                 }
             }
@@ -209,29 +211,27 @@ public class MainFragment extends BaseFragment {
                     Integer.toString(entriesWithBloodSugar != null ? entriesWithBloodSugar.size() : 0),
                     Integer.toString(countHypers),
                     Integer.toString(countHypos),
-                    avgDayCustom > 0 ? Helper.parseFloat(avgDayCustom) : getContext().getString(R.string.placeholder),
-                    avgWeekCustom > 0 ? Helper.parseFloat(avgWeekCustom) : getContext().getString(R.string.placeholder),
-                    avgMonthCustom > 0 ? Helper.parseFloat(avgMonthCustom) : getContext().getString(R.string.placeholder),
+                    avgDayCustom > 0 ? Helper.parseFloat(avgDayCustom) : getString(R.string.placeholder),
+                    avgWeekCustom > 0 ? Helper.parseFloat(avgWeekCustom) : getString(R.string.placeholder),
+                    avgMonthCustom > 0 ? Helper.parseFloat(avgMonthCustom) : getString(R.string.placeholder),
                     hbA1cCustom > 0 ? String.format("%s%s", Helper.parseFloat(hbA1cCustom), PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.HBA1C)) : getContext().getString(R.string.placeholder)
             };
         }
 
         protected void onPostExecute(String[] values) {
-            if(isAdded()) {
-                if (values.length == 7) {
-                    // Today
-                    textViewMeasurements.setText(values[0]);
-                    textViewHyperglycemia.setText(values[1]);
-                    textViewHypoglycemia.setText(values[2]);
+            if(isAdded() && values != null && values.length == 7) {
+                // Today
+                textViewMeasurements.setText(values[0]);
+                textViewHyperglycemia.setText(values[1]);
+                textViewHypoglycemia.setText(values[2]);
 
-                    // Averages
-                    textViewAverageDay.setText(values[3]);
-                    textViewAverageWeek.setText(values[4]);
-                    textViewAverageMonth.setText(values[5]);
+                // Averages
+                textViewAverageDay.setText(values[3]);
+                textViewAverageWeek.setText(values[4]);
+                textViewAverageMonth.setText(values[5]);
 
-                    // HbA1c
-                    textViewHbA1c.setText(values[6]);
-                }
+                // HbA1c
+                textViewHbA1c.setText(values[6]);
             }
         }
     }

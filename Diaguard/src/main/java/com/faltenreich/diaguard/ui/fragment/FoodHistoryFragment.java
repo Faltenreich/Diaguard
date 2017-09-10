@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.ui.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -29,7 +30,13 @@ public class FoodHistoryFragment extends BaseFoodFragment {
     private FoodEatenAdapter historyAdapter;
 
     public FoodHistoryFragment() {
-        super(R.layout.fragment_food_history, R.string.entries, R.drawable.ic_history);
+        super(R.layout.fragment_food_history, R.string.entries, R.drawable.ic_history, -1);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(false);
     }
 
     @Override

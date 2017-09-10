@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.ui.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,20 +57,13 @@ public class StatisticsFragment extends BaseFragment {
     @BindView(R.id.statistics_avg_value) TextView textViewAvgValue;
     @BindView(R.id.statistics_chart_trend) LineChart chartTrend;
     @BindView(R.id.layout_distribution) ViewGroup layoutDistribution;
-    @BindView(R.id.statistics_chart_distribution)
-    PieChart chartDistribution;
+    @BindView(R.id.statistics_chart_distribution) PieChart chartDistribution;
 
     private TimeSpan timeSpan;
     private Measurement.Category category;
 
     public StatisticsFragment() {
-        super(R.layout.fragment_statistics, R.string.statistics);
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+        super(R.layout.fragment_statistics, R.string.statistics, R.menu.main);
     }
 
     @Override
@@ -212,54 +204,56 @@ public class StatisticsFragment extends BaseFragment {
         new UpdateLineChartTask(getContext(), new BaseAsyncTask.OnAsyncProgressListener<LineData>() {
             @Override
             public void onPostExecute(LineData lineData) {
-                boolean hasData = false;
+                if (isAdded()) {
+                    boolean hasData = false;
 
-                if (lineData != null) {
-                    for (ILineDataSet lineDataSet : lineData.getDataSets()) {
-                        if (lineDataSet.getEntryCount() > 0) {
-                            hasData = true;
-                            break;
-                        }
-                    }
-                }
-
-                chartTrend.getAxisLeft().removeAllLimitLines();
-
-                ViewGroup.LayoutParams params = chartTrend.getLayoutParams();
-                params.height = hasData ? (int) getResources().getDimension(R.dimen.line_chart_height_detailed) : ViewGroup.LayoutParams.WRAP_CONTENT;
-                chartTrend.setLayoutParams(params);
-
-                if (hasData) {
-                    float yAxisMinValue = PreferenceHelper.getInstance().getExtrema(category)[0] * .9f;
-                    float yAxisMinCustomValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, yAxisMinValue);
-                    chartTrend.getAxisLeft().setAxisMinValue(yAxisMinCustomValue);
-
-                    float yAxisMaxCustomValue = lineData.getYMax();
-                    yAxisMaxCustomValue = yAxisMaxCustomValue > MIN_MAX_Y_VALUE ? yAxisMaxCustomValue : MIN_MAX_Y_VALUE;
-                    chartTrend.getAxisLeft().setAxisMaxValue(yAxisMaxCustomValue * 1.1f);
-
-                    if (category == Measurement.Category.BLOODSUGAR) {
-                        float targetValue = PreferenceHelper.getInstance().
-                                formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
-                                        PreferenceHelper.getInstance().getTargetValue());
-                        chartTrend.getAxisLeft().addLimitLine(ChartHelper.getLimitLine(getContext(), targetValue, R.color.green));
-
-                        if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
-                            float limitHypo = PreferenceHelper.getInstance().
-                                    formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
-                                            PreferenceHelper.getInstance().getLimitHypoglycemia());
-                            chartTrend.getAxisLeft().addLimitLine(ChartHelper.getLimitLine(getContext(), limitHypo, R.color.blue));
-                            float limitHyper = PreferenceHelper.getInstance().
-                                    formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
-                                            PreferenceHelper.getInstance().getLimitHyperglycemia());
-                            chartTrend.getAxisLeft().addLimitLine(ChartHelper.getLimitLine(getContext(), limitHyper, R.color.red));
+                    if (lineData != null) {
+                        for (ILineDataSet lineDataSet : lineData.getDataSets()) {
+                            if (lineDataSet.getEntryCount() > 0) {
+                                hasData = true;
+                                break;
+                            }
                         }
                     }
 
-                    chartTrend.setData(lineData);
-                    chartTrend.invalidate();
-                } else {
-                    chartTrend.clear();
+                    chartTrend.getAxisLeft().removeAllLimitLines();
+
+                    ViewGroup.LayoutParams params = chartTrend.getLayoutParams();
+                    params.height = hasData ? (int) getResources().getDimension(R.dimen.line_chart_height_detailed) : ViewGroup.LayoutParams.WRAP_CONTENT;
+                    chartTrend.setLayoutParams(params);
+
+                    if (hasData) {
+                        float yAxisMinValue = PreferenceHelper.getInstance().getExtrema(category)[0] * .9f;
+                        float yAxisMinCustomValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, yAxisMinValue);
+                        chartTrend.getAxisLeft().setAxisMinValue(yAxisMinCustomValue);
+
+                        float yAxisMaxCustomValue = lineData.getYMax();
+                        yAxisMaxCustomValue = yAxisMaxCustomValue > MIN_MAX_Y_VALUE ? yAxisMaxCustomValue : MIN_MAX_Y_VALUE;
+                        chartTrend.getAxisLeft().setAxisMaxValue(yAxisMaxCustomValue * 1.1f);
+
+                        if (category == Measurement.Category.BLOODSUGAR) {
+                            float targetValue = PreferenceHelper.getInstance().
+                                    formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
+                                            PreferenceHelper.getInstance().getTargetValue());
+                            chartTrend.getAxisLeft().addLimitLine(ChartHelper.getLimitLine(getContext(), targetValue, R.color.green));
+
+                            if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
+                                float limitHypo = PreferenceHelper.getInstance().
+                                        formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
+                                                PreferenceHelper.getInstance().getLimitHypoglycemia());
+                                chartTrend.getAxisLeft().addLimitLine(ChartHelper.getLimitLine(getContext(), limitHypo, R.color.blue));
+                                float limitHyper = PreferenceHelper.getInstance().
+                                        formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
+                                                PreferenceHelper.getInstance().getLimitHyperglycemia());
+                                chartTrend.getAxisLeft().addLimitLine(ChartHelper.getLimitLine(getContext(), limitHyper, R.color.red));
+                            }
+                        }
+
+                        chartTrend.setData(lineData);
+                        chartTrend.invalidate();
+                    } else {
+                        chartTrend.clear();
+                    }
                 }
             }
         }, category, timeSpan, false, true).execute();

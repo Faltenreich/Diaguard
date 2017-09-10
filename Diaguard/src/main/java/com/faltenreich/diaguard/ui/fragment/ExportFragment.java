@@ -56,13 +56,7 @@ public class ExportFragment extends BaseFragment implements FileListener {
     private DateTime dateEnd;
 
     public ExportFragment() {
-        super(R.layout.fragment_export, R.string.export);
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+        super(R.layout.fragment_export, R.string.export, R.menu.main);
     }
 
     @Override

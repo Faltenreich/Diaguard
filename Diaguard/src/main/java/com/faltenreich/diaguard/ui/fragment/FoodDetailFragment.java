@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.ui.fragment;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
@@ -35,7 +37,13 @@ public class FoodDetailFragment extends BaseFoodFragment {
     @BindView(R.id.food_sugar_level) TintImageView sugarLevelIcon;
 
     public FoodDetailFragment() {
-        super(R.layout.fragment_food_detail, R.string.info, R.drawable.ic_category_meal);
+        super(R.layout.fragment_food_detail, R.string.info, R.drawable.ic_category_meal, -1);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(false);
     }
 
     @Override

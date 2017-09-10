@@ -10,7 +10,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
@@ -33,7 +32,7 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
     private DateTime day;
 
     public DateFragment(@LayoutRes int layoutResourceId, @StringRes int titleResourceId) {
-        super(layoutResourceId, titleResourceId);
+        super(layoutResourceId, titleResourceId, R.menu.date);
         this.day = DateTime.now().withHourOfDay(0).withMinuteOfHour(0);
     }
 
@@ -44,12 +43,6 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
 
     public DateTime getDay() {
         return day;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
     }
 
     @Override
@@ -67,7 +60,6 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.date, menu);
 
         MenuItem menuItem = menu.findItem(R.id.action_today);
         if (menuItem != null) {

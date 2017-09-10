@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.ui.view.entry;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,7 +78,6 @@ public class MeasurementView<T extends Measurement> extends LinearLayout impleme
         ButterKnife.bind(this);
 
         imageViewShowcase.setImageResource(PreferenceHelper.getInstance().getShowcaseImageResourceId(category));
-        viewLayerShowcase.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.green));
         imageViewCategory.setImageResource(PreferenceHelper.getInstance().getCategoryImageResourceId(category));
         textViewCategory.setText(PreferenceHelper.getInstance().getCategoryName(category));
         checkBoxPin.setChecked(PreferenceHelper.getInstance().isCategoryPinned(category));

@@ -4,10 +4,14 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.MenuRes;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,17 +40,28 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseFragment extends Fragment {
 
-    private int layoutResourceId;
+    @LayoutRes private int layoutResourceId;
+    @StringRes private int titleResId;
+    @MenuRes private int menuResId;
+
     private String title;
 
     private BaseFragment() {
         // Forbidden
     }
 
-    public BaseFragment(@LayoutRes int layoutResourceId, @StringRes int titleResourceId) {
+    public BaseFragment(@LayoutRes int layoutResourceId, @StringRes int titleResourceId, @MenuRes int menuResId) {
         this();
         this.layoutResourceId = layoutResourceId;
+        this.titleResId = titleResourceId;
         this.title = DiaguardApplication.getContext().getString(titleResourceId);
+        this.menuResId = menuResId;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -88,6 +103,15 @@ public abstract class BaseFragment extends Fragment {
     public void onDestroy() {
         Events.unregister(this);
         super.onDestroy();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        if (menuResId >= 0) {
+            inflater.inflate(menuResId, menu);
+        }
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

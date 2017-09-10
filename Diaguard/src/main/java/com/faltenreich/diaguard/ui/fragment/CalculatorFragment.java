@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,13 +53,7 @@ public class CalculatorFragment extends BaseFragment {
     @BindView(R.id.calculator_factor) StickyHintInput factorInput;
 
     public CalculatorFragment() {
-        super(R.layout.fragment_calculator, R.string.calculator);
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+        super(R.layout.fragment_calculator, R.string.calculator, R.menu.main);
     }
 
     @Override
@@ -175,7 +168,6 @@ public class CalculatorFragment extends BaseFragment {
                 NumberUtils.parseNumber(factorInput.getHint());
     }
 
-    @SuppressWarnings("unused")
     @OnClick(R.id.calculator_fab)
     protected void calculate() {
 

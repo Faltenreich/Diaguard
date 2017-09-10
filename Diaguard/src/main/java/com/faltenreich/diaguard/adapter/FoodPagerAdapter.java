@@ -60,6 +60,6 @@ public class FoodPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         Fragment fragment = getItem(position);
-        return fragment instanceof BaseFragment ? ((BaseFragment)fragment).getTitle() : fragment.toString();
+        return fragment instanceof BaseFragment ? ((BaseFragment) fragment).getTitle() : fragment.toString();
     }
 }

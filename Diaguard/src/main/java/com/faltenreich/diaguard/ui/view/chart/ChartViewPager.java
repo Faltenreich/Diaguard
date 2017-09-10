@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import com.faltenreich.diaguard.adapter.ChartPagerAdapter;
 import com.faltenreich.diaguard.ui.fragment.ChartDayFragment;
@@ -15,8 +14,6 @@ import org.joda.time.DateTime;
  * Created by Faltenreich on 02.08.2015.
  */
 public class ChartViewPager extends ViewPager {
-
-    private static final String TAG = ChartViewPager.class.getSimpleName();
 
     private ChartPagerAdapter adapter;
     private OnPageChangeListener onPageChangeListener;

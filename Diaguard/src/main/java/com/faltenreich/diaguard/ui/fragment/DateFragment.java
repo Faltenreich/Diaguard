@@ -34,6 +34,7 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
 
     public DateFragment(@LayoutRes int layoutResourceId, @StringRes int titleResourceId) {
         super(layoutResourceId, titleResourceId);
+        this.day = DateTime.now().withHourOfDay(0).withMinuteOfHour(0);
     }
 
     public void setDay(DateTime day) {
@@ -54,13 +55,7 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
     @Override
     public void onViewCreated (View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initialize();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        goToDay(day);
+        updateLabels();
     }
 
     @Override
@@ -109,11 +104,6 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
     @Override
     public void action() {
         showDatePicker();
-    }
-
-    @CallSuper
-    protected void initialize() {
-        day = DateTime.now().withHourOfDay(0).withMinuteOfHour(0);
     }
 
     @CallSuper

@@ -1,12 +1,19 @@
 package com.faltenreich.diaguard.ui.fragment;
 
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.View;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.event.data.EntryAddedEvent;
+import com.faltenreich.diaguard.event.data.EntryDeletedEvent;
+import com.faltenreich.diaguard.event.data.EntryUpdatedEvent;
 import com.faltenreich.diaguard.ui.view.chart.ChartViewPager;
 import com.faltenreich.diaguard.util.ViewHelper;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
@@ -24,9 +31,10 @@ public class ChartFragment extends DateFragment implements ChartViewPager.ChartV
     }
 
     @Override
-    protected void initialize() {
-        super.initialize();
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         viewPager.setup(getChildFragmentManager(), this);
+        goToDay(getDay());
     }
 
     @Override
@@ -51,6 +59,28 @@ public class ChartFragment extends DateFragment implements ChartViewPager.ChartV
                     getDay().dayOfWeek().getAsText();
             String date = DateTimeFormat.mediumDate().print(getDay());
             getActionView().setText(String.format("%s, %s", weekDay, date));
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(EntryAddedEvent event) {
+        if (isAdded()) {
+            goToDay(event.context.getDate());
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(EntryDeletedEvent event) {
+        super.onEvent(event);
+        if (isAdded()) {
+            goToDay(event.context.getDate());
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(EntryUpdatedEvent event) {
+        if (isAdded()) {
+            goToDay(event.context.getDate());
         }
     }
 }

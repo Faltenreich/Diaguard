@@ -81,7 +81,6 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initialize() {
-
         drawerToggle = new ActionBarDrawerToggle(
                 this,
                 drawerLayout,

@@ -146,76 +146,95 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.OnAd
         listDecoration.clearHeaderCache();
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(EntryAddedEvent event) {
-        if (isAdded()) {
-            Entry entry = event.context;
-            if (entry != null) {
-                int entryPosition = listAdapter.getNextDateTimePosition(entry.getDate());
-                if (entryPosition >= 0) {
-                    // Remove any existing empty view
-                    int previousPosition = entryPosition - 1;
-                    ListItemDate previousListItem = listAdapter.getItem(previousPosition);
-                    if (previousListItem instanceof ListItemEmpty && previousListItem.getDateTime().getDayOfYear() == entry.getDate().getDayOfYear()) {
-                        listAdapter.removeItem(previousPosition);
-                        listAdapter.notifyItemRemoved(previousPosition);
-                        entryPosition = previousPosition;
+    private void addEntry(Entry entry) {
+        if (entry != null) {
+            DateTime date = entry.getDate();
+            int entryPosition = listAdapter.getNextDateTimePosition(date);
+            if (entryPosition >= 0) {
+
+                // Remove any existing empty view
+                int previousPosition = entryPosition - 1;
+                ListItemDate previousListItem = listAdapter.getItem(previousPosition);
+                if (previousListItem instanceof ListItemEmpty && previousListItem.getDateTime().getDayOfYear() == date.getDayOfYear()) {
+                    listAdapter.removeItem(previousPosition);
+                    listAdapter.notifyItemRemoved(previousPosition);
+                    entryPosition = previousPosition;
+                }
+
+                entry.setMeasurementCache(EntryDao.getInstance().getMeasurements(entry));
+                ListItemEntry listItemEntry = new ListItemEntry(entry);
+                listAdapter.addItem(entryPosition, listItemEntry);
+                listAdapter.notifyItemInserted(entryPosition);
+
+                updateHeaderSection(date);
+            }
+        }
+    }
+
+    private void removeEntry(Entry entry) {
+        if (entry != null) {
+            int position = listAdapter.getEntryPosition(entry);
+            if (position >= 0) {
+                removeEntry(position, entry.getDate());
+            }
+        }
+    }
+
+    private void removeEntry(int position, DateTime date) {
+        listAdapter.removeItem(position);
+
+        // Add empty view if there is no entry available anymore for this day
+        boolean hasNoMoreEntries = listAdapter.getFirstListItemEntryOfDayPosition(date) == -1;
+        if (hasNoMoreEntries) {
+            listAdapter.addItem(position, new ListItemEmpty(date));
+            listAdapter.notifyItemChanged(position);
+        } else {
+            listAdapter.notifyItemRemoved(position);
+        }
+
+        updateHeaderSection(date);
+    }
+
+    private void updateEntry(Entry entry, DateTime originalDate) {
+        if (entry != null) {
+            int originalPosition = listAdapter.getEntryPosition(entry);
+            if (originalPosition >= 0) {
+                int updatedPosition = listAdapter.getNextDateTimePosition(entry.getDate()) - 1;
+                if (originalPosition == updatedPosition) {
+                    ListItem listItem = listAdapter.getItem(originalPosition);
+                    if (listItem instanceof ListItemEntry) {
+                        ListItemEntry listItemEntry = (ListItemEntry) listItem;
+                        entry.setMeasurementCache(EntryDao.getInstance().getMeasurements(entry));
+                        listItemEntry.setEntry(entry);
+                        listAdapter.notifyItemChanged(originalPosition);
                     }
-
-                    entry.setMeasurementCache(EntryDao.getInstance().getMeasurements(entry));
-                    ListItemEntry listItemEntry = new ListItemEntry(entry);
-                    listAdapter.addItem(entryPosition, listItemEntry);
-                    listAdapter.notifyItemInserted(entryPosition);
-
-                    updateHeaderSection(entry.getDate());
+                } else {
+                    removeEntry(originalPosition, originalDate);
+                    addEntry(entry);
                 }
             }
         }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(EntryUpdatedEvent event) {
+    public void onEvent(EntryAddedEvent event) {
         if (isAdded()) {
-            Entry entry = event.context;
-            if (entry != null) {
-                int entryPosition = listAdapter.getEntryPosition(entry);
-                if (entryPosition >= 0) {
-                    ListItem listItem = listAdapter.getItem(entryPosition);
-                    if (listItem instanceof ListItemEntry) {
-                        ListItemEntry listItemEntry = (ListItemEntry) listItem;
-                        entry.setMeasurementCache(EntryDao.getInstance().getMeasurements(entry));
-                        listItemEntry.setEntry(event.context);
-                        listAdapter.notifyItemChanged(entryPosition);
-                    }
-                }
-            }
+            addEntry(event.context);
         }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EntryDeletedEvent event) {
         super.onEvent(event);
-
         if (isAdded()) {
-            final Entry entry = event.context;
-            if (entry != null) {
-                // Remove from list
-                int entryPosition = listAdapter.getEntryPosition(entry);
-                if (entryPosition >= 0) {
-                    listAdapter.removeItem(entryPosition);
-                    listAdapter.notifyItemRemoved(entryPosition);
+            removeEntry(event.context);
+        }
+    }
 
-                    // Add empty view if there is no entry available anymore for this day
-                    DateTime day = entry.getDate();
-                    boolean hasNoMoreEntries = listAdapter.getFirstListItemEntryOfDayPosition(day) == -1;
-                    if (hasNoMoreEntries) {
-                        listAdapter.addItem(entryPosition, new ListItemEmpty(day));
-                        listAdapter.notifyItemInserted(entryPosition);
-                    }
-
-                    listDecoration.clearHeaderCache();
-                }
-            }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(EntryUpdatedEvent event) {
+        if (isAdded()) {
+            updateEntry(event.context, event.originalDate);
         }
     }
 }

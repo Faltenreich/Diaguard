@@ -242,6 +242,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     private void submit() {
         if (inputIsValid()) {
             boolean isNewEntry = entry == null;
+            DateTime originalDate = isNewEntry ? null : entry.getDate();
             if (isNewEntry) {
                 entry = new Entry();
             }
@@ -270,7 +271,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
                 Toast.makeText(this, getString(R.string.entry_added), Toast.LENGTH_LONG).show();
                 Events.post(new EntryAddedEvent(entry));
             } else {
-                Events.post(new EntryUpdatedEvent(entry));
+                Events.post(new EntryUpdatedEvent(entry, originalDate));
             }
 
             finish();

@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.ui.fragment;
 
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -44,8 +45,9 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.OnAd
         super(R.layout.fragment_log, R.string.log);
     }
 
-    protected void initialize() {
-        super.initialize();
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         listLayoutManager = new SafeLinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(listLayoutManager);
@@ -78,6 +80,7 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.OnAd
         });
 
         progressBar.setVisibility(View.VISIBLE);
+        goToDay(getDay());
     }
 
     private DateTime getFirstVisibleDay() {

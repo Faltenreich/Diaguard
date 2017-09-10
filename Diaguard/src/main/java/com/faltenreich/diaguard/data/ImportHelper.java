@@ -208,11 +208,5 @@ public class ImportHelper {
             }
             return null;
         }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            Log.d(TAG, "Completed importing " + DATA_COUNT + " rows");
-        }
     }
 }

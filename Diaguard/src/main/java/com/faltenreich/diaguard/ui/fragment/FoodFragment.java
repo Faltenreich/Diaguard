@@ -52,9 +52,16 @@ public class FoodFragment extends BaseFoodFragment {
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        init();
+        update();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
-        init();
+        update();
     }
 
     @Override
@@ -108,7 +115,6 @@ public class FoodFragment extends BaseFoodFragment {
                 image.setImageResource(0);
             }
             collapsingToolbarLayout.setTitleEnabled(false);
-            toolbar.setTitle(food.getName());
 
             FoodPagerAdapter adapter = new FoodPagerAdapter(getFragmentManager(), food);
             viewPager.setAdapter(adapter);
@@ -129,6 +135,11 @@ public class FoodFragment extends BaseFoodFragment {
             }
             */
         }
+    }
+
+    private void update() {
+        Food food = getFood();
+        toolbar.setTitle(food != null ? food.getName() : null);
     }
 
     private void eatFood() {

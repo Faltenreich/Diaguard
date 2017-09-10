@@ -10,7 +10,6 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.data.FoodDeletedEvent;
 import com.faltenreich.diaguard.ui.view.FoodLabelView;
 import com.faltenreich.diaguard.ui.view.TintImageView;
@@ -42,18 +41,10 @@ public class FoodDetailFragment extends BaseFoodFragment {
     @Override
     public void onResume() {
         super.onResume();
-        Events.register(this);
         init();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Events.unregister(this);
-    }
-
     private void init() {
-
         ingredients.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,6 +67,7 @@ public class FoodDetailFragment extends BaseFoodFragment {
             sugarLevelIcon.setVisibility(indicateSugarLevel ? View.VISIBLE : View.GONE);
             sugarLevelIcon.setTintColor(ContextCompat.getColor(getContext(), food.getSugarLevel().colorResId));
 
+            labels.removeAllViews();
             if (food.getLabels() != null && food.getLabels().length() > 0) {
                 for (String label : food.getLabels().split(",")) {
                     labels.addView(new FoodLabelView(getContext(), label));

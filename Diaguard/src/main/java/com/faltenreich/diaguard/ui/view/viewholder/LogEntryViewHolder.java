@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.ui.view.viewholder;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -18,7 +17,6 @@ import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.ui.activity.BaseActivity;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.ui.view.TintImageView;
 
@@ -92,19 +90,7 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> implements
     public void onClick(View view) {
         Intent intent = new Intent(getContext(), EntryActivity.class);
         intent.putExtra(EntryActivity.EXTRA_ENTRY, getListItem().getEntry().getId());
-
-        if (getContext() instanceof BaseActivity) {
-            BaseActivity activity = (BaseActivity)getContext();
-            ActivityOptionsCompat options =
-                    ActivityOptionsCompat.makeSceneTransitionAnimation(
-                            activity,
-                            view,
-                            "transitionEntry");
-            activity.startActivity(intent, options);
-
-        } else {
-            getContext().startActivity(intent);
-        }
+        getContext().startActivity(intent);
     }
 
     @Override

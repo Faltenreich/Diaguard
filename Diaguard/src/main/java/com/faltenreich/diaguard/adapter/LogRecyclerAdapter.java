@@ -171,6 +171,13 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
         }
     }
 
+    private void addPendingView(Direction direction) {
+        int position = direction == Direction.UP ? 0 : getItemCount();
+        DateTime dateTime = getItem(direction == Direction.UP ? position : position - 1).getDateTime();
+        addItem(position, new ListItemPending(dateTime));
+        notifyItemInserted(position);
+    }
+
     private void removePendingView(Direction direction) {
         if (getItemCount() > 0) {
             int position = -1;
@@ -379,11 +386,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
-            DateTime dateTime = getItem(0).getDateTime();
-            addItem(0, new ListItemPending(dateTime));
-            notifyItemInserted(0);
-
+            addPendingView(Direction.UP);
             listener.onOrderChanges();
         }
 
@@ -446,10 +449,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
-            DateTime dateTime = getItem(getItemCount() - 1).getDateTime();
-            addItem(getItemCount(), new ListItemPending(dateTime));
-            notifyItemInserted(getItemCount());
+            addPendingView(Direction.DOWN);
         }
 
         @Override

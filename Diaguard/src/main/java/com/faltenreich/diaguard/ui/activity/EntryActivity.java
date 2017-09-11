@@ -105,14 +105,11 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerAlarm.setAdapter(adapter);
 
+        layoutMeasurements.setOnCategoryEventListener(this);
+
         fab.init();
         fab.setOnFabSelectedListener(this);
 
-        checkIntents();
-        setDateTime();
-    }
-
-    private void checkIntents() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             if (extras.getLong(EXTRA_ENTRY) != 0L) {
@@ -120,29 +117,28 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
                 new FetchEntryTask(extras.getLong(EXTRA_ENTRY)).execute();
 
             } else if (extras.getSerializable(BaseFoodFragment.EXTRA_FOOD_ID) != null) {
-                Food food = FoodDao.getInstance().get(extras.getLong(BaseFoodFragment.EXTRA_FOOD_ID));
-                layoutMeasurements.addMeasurement(food);
-                fab.ignore(Measurement.Category.MEAL);
-                fab.restock();
-                initPinnedCategories();
+                new FetchFoodTask(extras.getLong(BaseFoodFragment.EXTRA_FOOD_ID)).execute();
+                updateDateTime();
 
             } else if (extras.getSerializable(EXTRA_DATE) != null) {
                 time = (DateTime) extras.getSerializable(EXTRA_DATE);
                 initPinnedCategories();
+                updateDateTime();
+
+            } else {
+                updateDateTime();
             }
+
         } else {
             initPinnedCategories();
+            updateDateTime();
         }
     }
 
     private void initPinnedCategories() {
-        layoutMeasurements.setOnCategoryEventListener(this);
-        // Add pinned categories only for new entry
-        if (layoutMeasurements.getChildCount() == 0) {
-            for (Measurement.Category category : PreferenceHelper.getInstance().getActiveCategories()) {
-                if (PreferenceHelper.getInstance().isCategoryPinned(category) && !layoutMeasurements.hasCategory(category)) {
-                    layoutMeasurements.addMeasurementAtEnd(category);
-                }
+        for (Measurement.Category category : PreferenceHelper.getInstance().getActiveCategories()) {
+            if (PreferenceHelper.getInstance().isCategoryPinned(category) && !layoutMeasurements.hasCategory(category)) {
+                layoutMeasurements.addMeasurementAtEnd(category);
             }
         }
     }
@@ -161,8 +157,17 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
                 fab.ignore(measurement.getCategory());
             }
             fab.restock();
+
+            updateDateTime();
         }
-        initPinnedCategories();
+    }
+
+    private void initFood(Food food) {
+        if (food != null) {
+            layoutMeasurements.addMeasurement(food);
+            fab.ignore(Measurement.Category.MEAL);
+            fab.restock();
+        }
     }
 
     private void showDialogCategories() {
@@ -212,7 +217,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         dialog.show();
     }
 
-    private void setDateTime() {
+    private void updateDateTime() {
         buttonDate.setText(Helper.getDateFormat().print(time));
         buttonTime.setText(Helper.getTimeFormat().print(time));
     }
@@ -303,7 +308,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 time = time.withYear(year).withMonthOfYear(month + 1).withDayOfMonth(day);
-                setDateTime();
+                updateDateTime();
             }
         }).show(getSupportFragmentManager());
     }
@@ -314,7 +319,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 time = time.withHourOfDay(hourOfDay).withMinuteOfHour(minute);
-                setDateTime();
+                updateDateTime();
             }
         }).show(getSupportFragmentManager());
     }
@@ -363,6 +368,26 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         protected void onPostExecute(Entry entry) {
             super.onPostExecute(entry);
             initEntry(entry);
+        }
+    }
+
+    private class FetchFoodTask extends AsyncTask<Void, Void, Food> {
+
+        private long foodId;
+
+        private FetchFoodTask(long foodId) {
+            this.foodId = foodId;
+        }
+
+        @Override
+        protected Food doInBackground(Void... params) {
+            return FoodDao.getInstance().get(foodId);
+        }
+
+        @Override
+        protected void onPostExecute(Food food) {
+            super.onPostExecute(food);
+            initFood(food);
         }
     }
 }

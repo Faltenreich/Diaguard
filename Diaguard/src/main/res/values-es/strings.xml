@@ -298,7 +298,7 @@
     <string name="ingredients">Ingredientes</string>
     <string name="name">Nombre</string>
     <string name="nutriments">Nutrientes</string>
-    <string name="nutriments_per_100g">Nutrientes por 100 g / ml</string>
+    <string name="nutriments_per_100g">Nutrientes por 100 g</string>
     <string name="proteins">Proteínas</string>
     <string name="salt">Sal</string>
     <string name="sodium">Sodio</string>
@@ -312,7 +312,7 @@
     <string name="fat">Grasa</string>
     <string name="fat_saturated">Grasa saturada</string>
     <string name="fiber">Fibra</string>
-    <string name="carbohydrates_per_100g">Carbohidratos por 100 g / ml</string>
+    <string name="carbohydrates_per_100g">Carbohidratos por 100 g</string>
 
     <string name="style">Estilo</string>
     <string name="chart_scatter">Diagrama de dispersión</string>

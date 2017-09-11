@@ -343,7 +343,7 @@ public class PreferenceHelper {
     }
 
     public String getLabelForMealPer100g(Context context) {
-        return String.format("%s %s 100 g / ml", getUnitAcronym(Measurement.Category.MEAL), context.getString(R.string.per));
+        return String.format("%s %s 100 g", getUnitAcronym(Measurement.Category.MEAL), context.getString(R.string.per));
     }
 
     private String[] getUnitsValues(String unitName) {

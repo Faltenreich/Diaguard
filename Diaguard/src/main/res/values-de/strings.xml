@@ -100,7 +100,7 @@
     <string name="note">Notiz</string>
     <string name="note_append">Notizen anhängen</string>
     <string name="nutriments">Nährstoffe</string>
-    <string name="nutriments_per_100g">Nährstoffe pro 100 g / ml</string>
+    <string name="nutriments_per_100g">Nährstoffe pro 100 g</string>
     <string name="ok">OK</string>
     <string name="overview">Übersicht</string>
     <string name="per">pro</string>
@@ -135,7 +135,7 @@
     <string name="change_every_hour">Ändert sich jede Stunde</string>
 
     <string name="carbohydrates">Kohlenhydrate</string>
-    <string name="carbohydrates_per_100g">Kohlenhydrate pro 100 g / ml</string>
+    <string name="carbohydrates_per_100g">Kohlenhydrate pro 100 g</string>
     <string name="energy">Kalorien</string>
     <string name="fat">Fett</string>
     <string name="fat_saturated">Gesättigte Fettsäuren</string>

@@ -12,7 +12,7 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.ChartHelper;
 import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.TimeSpan;
-import com.faltenreich.diaguard.util.ViewHelper;
+import com.faltenreich.diaguard.util.ViewUtils;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -61,7 +61,7 @@ public class UpdateLineChartTask extends BaseAsyncTask<Void, Void, LineData> {
         int index = 0;
         while (!intervalStart.isAfter(endDateTime)) {
             DateTime intervalEnd = timeSpan.getNextInterval(intervalStart, 1).minusDays(1);
-            boolean showLabel = ViewHelper.isLargeScreen(getContext()) || timeSpan != TimeSpan.YEAR || index % 2 == 0;
+            boolean showLabel = ViewUtils.isLargeScreen(getContext()) || timeSpan != TimeSpan.YEAR || index % 2 == 0;
             xLabels.add(showLabel ? timeSpan.getLabel(intervalStart) : "");
             Measurement measurement = MeasurementDao.getInstance(category.toClass()).getAvgMeasurement(category, new Interval(intervalStart, intervalEnd));
             if (measurement != null) {

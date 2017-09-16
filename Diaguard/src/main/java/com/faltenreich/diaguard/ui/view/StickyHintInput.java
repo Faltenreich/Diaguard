@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.util.ViewHelper;
+import com.faltenreich.diaguard.util.ViewUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,7 +68,7 @@ public class StickyHintInput extends LinearLayout implements TextWatcher {
             label.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ViewHelper.requestFocusShowKeyboard(input);
+                    ViewUtils.requestFocusShowKeyboard(input);
                 }
             });
         }

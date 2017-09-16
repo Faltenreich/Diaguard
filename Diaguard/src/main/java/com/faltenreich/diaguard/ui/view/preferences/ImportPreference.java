@@ -18,7 +18,7 @@ import com.faltenreich.diaguard.event.PermissionGrantedEvent;
 import com.faltenreich.diaguard.util.FileUtils;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.SystemUtils;
-import com.faltenreich.diaguard.util.ViewHelper;
+import com.faltenreich.diaguard.util.ViewUtils;
 import com.faltenreich.diaguard.util.export.Export;
 import com.faltenreich.diaguard.util.export.FileListener;
 
@@ -66,7 +66,7 @@ public class ImportPreference extends Preference implements Preference.OnPrefere
             String errorMessage = String.format("%s %s",
                     getContext().getString(R.string.error_no_backups),
                     FileUtils.getPublicDirectory());
-            ViewHelper.showToast(getContext(), errorMessage);
+            ViewUtils.showToast(getContext(), errorMessage);
             return;
         }
 
@@ -133,7 +133,7 @@ public class ImportPreference extends Preference implements Preference.OnPrefere
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(PermissionDeniedEvent event) {
         if (event.context.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            ViewHelper.showToast(getContext(), R.string.permission_required_storage);
+            ViewUtils.showToast(getContext(), R.string.permission_required_storage);
             Events.unregister(this);
         }
     }

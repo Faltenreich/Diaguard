@@ -7,7 +7,6 @@ import android.support.v7.widget.AppCompatButton;
 import android.view.View;
 import android.widget.TextView;
 
-import com.codetroopers.betterpickers.numberpicker.NumberPickerBuilder;
 import com.codetroopers.betterpickers.numberpicker.NumberPickerDialogFragment;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
@@ -19,6 +18,7 @@ import com.faltenreich.diaguard.event.ui.FoodEatenUpdatedEvent;
 import com.faltenreich.diaguard.ui.view.TintImageView;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
+import com.faltenreich.diaguard.util.ViewUtils;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -70,27 +70,14 @@ public class FoodEditViewHolder extends BaseViewHolder<FoodEaten> {
     }
 
     private void showNumberPicker(AppCompatActivity activity) {
-        NumberPickerBuilder numberPicker = new NumberPickerBuilder()
-                .setFragmentManager(activity.getSupportFragmentManager())
-                .setStyleResId(R.style.NumberPicker)
-                .setLabelText(getContext().getString(R.string.grams_milliliters_acronym))
-                .setPlusMinusVisibility(View.GONE)
-                .setDecimalVisibility(View.GONE)
-                .setMaxNumber(BigDecimal.valueOf(10000))
-                .setMinNumber(BigDecimal.valueOf(1))
-                .addNumberPickerDialogHandler(new NumberPickerDialogFragment.NumberPickerDialogHandlerV2() {
-                    @Override
-                    public void onDialogNumberSet(int reference, BigInteger number, double decimal, boolean isNegative, BigDecimal fullNumber) {
-                        FoodEaten foodEaten = getListItem();
-                        foodEaten.setAmountInGrams(number.floatValue());
-                        Events.post(new FoodEatenUpdatedEvent(foodEaten, getAdapterPosition()));
-                    }
-                });
-        int currentAmount = getAmountFromButton();
-        if (currentAmount > 0) {
-            numberPicker.setCurrentNumber(currentAmount);
-        }
-        numberPicker.show();
+        ViewUtils.showNumberPicker(activity, R.string.grams_milliliters_acronym, getAmountFromButton(), 1, 10000, new NumberPickerDialogFragment.NumberPickerDialogHandlerV2() {
+            @Override
+            public void onDialogNumberSet(int reference, BigInteger number, double decimal, boolean isNegative, BigDecimal fullNumber) {
+                FoodEaten foodEaten = getListItem();
+                foodEaten.setAmountInGrams(number.floatValue());
+                Events.post(new FoodEatenUpdatedEvent(foodEaten, getAdapterPosition()));
+            }
+        });
     }
 
     private void updateUi() {

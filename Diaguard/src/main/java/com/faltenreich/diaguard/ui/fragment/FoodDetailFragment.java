@@ -16,7 +16,7 @@ import com.faltenreich.diaguard.event.data.FoodDeletedEvent;
 import com.faltenreich.diaguard.ui.view.FoodLabelView;
 import com.faltenreich.diaguard.ui.view.TintImageView;
 import com.faltenreich.diaguard.util.Helper;
-import com.faltenreich.diaguard.util.ViewHelper;
+import com.faltenreich.diaguard.util.ViewUtils;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -88,7 +88,7 @@ public class FoodDetailFragment extends BaseFoodFragment {
     protected void showSugarLevelInfo() {
         Food.NutrientLevel sugarLevel = getFood() != null ? getFood().getSugarLevel() : null;
         if (sugarLevel != null) {
-            ViewHelper.showToast(getContext(), sugarLevel.descriptionResId);
+            ViewUtils.showToast(getContext(), sugarLevel.descriptionResId);
         }
     }
 

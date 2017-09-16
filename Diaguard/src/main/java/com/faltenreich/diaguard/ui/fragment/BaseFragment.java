@@ -28,7 +28,7 @@ import com.faltenreich.diaguard.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.ui.activity.BaseActivity;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
-import com.faltenreich.diaguard.util.ViewHelper;
+import com.faltenreich.diaguard.util.ViewUtils;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -163,7 +163,7 @@ public abstract class BaseFragment extends Fragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(final EntryDeletedEvent event) {
-        ViewHelper.showSnackbar(getView(), getString(R.string.entry_deleted), new View.OnClickListener() {
+        ViewUtils.showSnackbar(getView(), getString(R.string.entry_deleted), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Entry entry = event.context;

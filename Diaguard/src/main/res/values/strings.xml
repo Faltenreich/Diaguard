@@ -23,7 +23,9 @@
     <string name="alarm_deleted">Removed reminder</string>
     <string name="alarm_desc">%s since the last measurement</string>
     <string name="alarm_desc_first">Thought about yet?</string>
-    <string name="alarm_reminder">Reminder in</string>
+    <string name="alarm_reminder">Reminder</string>
+    <string name="alarm_reminder_none">No reminder</string>
+    <string name="alarm_reminder_in">Reminder in</string>
     <string name="amount">Amount &#8230;</string>
     <string name="average">Average</string>
     <string name="average_symbol" translatable="false">Ø</string>
@@ -240,23 +242,6 @@
         <item>Evening</item>
         <item>Night</item>
     </string-array>
-
-    <string-array name="alarm_intervals">
-        <item>No reminder</item>
-        <item>In 30 minutes</item>
-        <item>In 1 hour</item>
-        <item>In 2 hours</item>
-        <item>In 4 hours</item>
-        <item>In 8 hours</item>
-    </string-array>
-    <integer-array name="alarm_intervals_values">
-        <item>0</item>
-        <item>30</item>
-        <item>60</item>
-        <item>120</item>
-        <item>240</item>
-        <item>480</item>
-    </integer-array>
 
     <string name="dateformat_default">YYYY-MM-DD</string>
     <string-array name="dateformat">

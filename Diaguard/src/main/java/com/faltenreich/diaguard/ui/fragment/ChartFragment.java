@@ -10,7 +10,7 @@ import com.faltenreich.diaguard.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.event.data.EntryUpdatedEvent;
 import com.faltenreich.diaguard.ui.view.chart.ChartViewPager;
-import com.faltenreich.diaguard.util.ViewHelper;
+import com.faltenreich.diaguard.util.ViewUtils;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -53,7 +53,7 @@ public class ChartFragment extends DateFragment implements ChartViewPager.ChartV
     @Override
     protected void updateLabels() {
         if (isAdded() && getActionView() != null) {
-            boolean showShortText = !ViewHelper.isLandscape(getActivity()) && !ViewHelper.isLargeScreen(getActivity());
+            boolean showShortText = !ViewUtils.isLandscape(getActivity()) && !ViewUtils.isLargeScreen(getActivity());
             String weekDay = showShortText ?
                     getDay().dayOfWeek().getAsShortText() :
                     getDay().dayOfWeek().getAsText();

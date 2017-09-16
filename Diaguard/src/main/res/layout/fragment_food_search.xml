@@ -2,7 +2,6 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -124,9 +123,9 @@
             app:layout_anchor="@id/food_search_list"
             app:layout_anchorGravity="bottom|right|end"
             app:layout_behavior="com.faltenreich.diaguard.adapter.FloatingActionButtonBehavior"
-            fab:fab_colorNormal="@color/green"
-            fab:fab_colorPressed="@color/green_light"
-            fab:fab_colorRipple="@color/green_lighter" />
+            app:fab_colorNormal="@color/green"
+            app:fab_colorPressed="@color/green_light"
+            app:fab_colorRipple="@color/green_lighter" />
 
     </android.support.design.widget.CoordinatorLayout>
 

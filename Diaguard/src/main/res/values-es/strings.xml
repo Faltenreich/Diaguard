@@ -10,6 +10,8 @@
     <string name="alarm">Medida de glucosa en sangre</string>
     <string name="alarm_desc">%s desde el último análisis</string>
     <string name="alarm_desc_first">Ha pensado en ello?</string>
+    <string name="alarm_reminder">Memoria</string>
+    <string name="alarm_reminder_none">No memoria</string>
     <string name="amount">Cantidad &#8230;</string>
     <string name="average">Promedio</string>
     <string name="back">Volver</string>
@@ -148,15 +150,6 @@
         <item>Noche</item>
     </string-array>
 
-    <string-array name="alarm_intervals">
-        <item>No Recordar</item>
-        <item>En 30 Minutos</item>
-        <item>En 1 Hora</item>
-        <item>En 2 Horas</item>
-        <item>En 4 Horas</item>
-        <item>En 8 Horas</item>
-    </string-array>
-
     <string name="dateformat_default">DD.MM.YYYY</string>
 
     <string name="insulin_units_default">Unidades de Insulina</string>
@@ -279,7 +272,7 @@
     <string name="year">Año</string>
     <string name="alarm_delete">Retire la memoria</string>
     <string name="alarm_deleted">Eliminado la memoria</string>
-    <string name="alarm_reminder">Memoria en</string>
+    <string name="alarm_reminder_in">Memoria en</string>
     <string name="permission_required_storage">El permiso para el acceso al almacenamiento no se encuentra</string>
     <string name="hba1c_estimated">HbA1c estimado</string>
     <string name="months">Mes</string>

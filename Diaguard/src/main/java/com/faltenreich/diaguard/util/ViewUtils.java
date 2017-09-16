@@ -7,18 +7,24 @@ import android.graphics.Point;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.codetroopers.betterpickers.numberpicker.NumberPickerBuilder;
+import com.codetroopers.betterpickers.numberpicker.NumberPickerDialogFragment;
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
+
+import java.math.BigDecimal;
 
 /**
  * Created by Filip on 10.12.13.
  */
-public class ViewHelper {
+@SuppressWarnings({"WeakerAccess", "unused"})
+public class ViewUtils {
 
     public static boolean isLargeScreen(Context context) {
         return context != null && (context.getResources().getConfiguration().screenLayout &
@@ -69,5 +75,19 @@ public class ViewHelper {
         view.requestFocus();
         InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+    }
+
+    public static void showNumberPicker(AppCompatActivity activity, @StringRes int labelResId, int initialValue, int minValue, int maxValue, NumberPickerDialogFragment.NumberPickerDialogHandlerV2 listener) {
+        NumberPickerBuilder numberPicker = new NumberPickerBuilder()
+                .setFragmentManager(activity.getSupportFragmentManager())
+                .setStyleResId(R.style.NumberPicker)
+                .setLabelText(activity.getString(labelResId))
+                .setPlusMinusVisibility(View.GONE)
+                .setDecimalVisibility(View.GONE)
+                .setMaxNumber(BigDecimal.valueOf(maxValue))
+                .setMinNumber(BigDecimal.valueOf(minValue))
+                .addNumberPickerDialogHandler(listener);
+        numberPicker.setCurrentNumber(initialValue);
+        numberPicker.show();
     }
 }

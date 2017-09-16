@@ -63,7 +63,7 @@ public class StatisticsFragment extends BaseFragment {
     private Measurement.Category category;
 
     public StatisticsFragment() {
-        super(R.layout.fragment_statistics, R.string.statistics, R.menu.main);
+        super(R.layout.fragment_statistics, R.string.statistics, -1);
     }
 
     @Override

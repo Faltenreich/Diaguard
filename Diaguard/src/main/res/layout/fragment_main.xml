@@ -1,5 +1,8 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -17,9 +20,9 @@
             android:layout_marginBottom="2dp"
             android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground"
-            card_view:cardCornerRadius="4dp"
-            card_view:cardElevation="2dp"
-            card_view:cardUseCompatPadding="true">
+            app:cardCornerRadius="4dp"
+            app:cardElevation="2dp"
+            app:cardUseCompatPadding="true">
 
             <LinearLayout
                 style="@style/Padding"
@@ -82,9 +85,9 @@
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:transitionName="transitionOverview"
-                card_view:cardCornerRadius="4dp"
-                card_view:cardElevation="2dp"
-                card_view:cardUseCompatPadding="true">
+                app:cardCornerRadius="4dp"
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     style="@style/Padding"
@@ -180,9 +183,9 @@
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:transitionName="transitionOverview"
-                card_view:cardCornerRadius="4dp"
-                card_view:cardElevation="2dp"
-                card_view:cardUseCompatPadding="true">
+                app:cardCornerRadius="4dp"
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     style="@style/Padding"
@@ -283,9 +286,9 @@
             android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:transitionName="transitionTrend"
-            card_view:cardCornerRadius="4dp"
-            card_view:cardElevation="2dp"
-            card_view:cardUseCompatPadding="true">
+            app:cardCornerRadius="4dp"
+            app:cardElevation="2dp"
+            app:cardUseCompatPadding="true">
 
             <LinearLayout
                 style="@style/Padding"

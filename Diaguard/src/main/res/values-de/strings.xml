@@ -13,7 +13,9 @@
     <string name="alarm_deleted">Erinnerung entfernt</string>
     <string name="alarm_desc">%s seit der letzten Messung</string>
     <string name="alarm_desc_first">Schon dran gedacht?</string>
-    <string name="alarm_reminder">Erinnerung in</string>
+    <string name="alarm_reminder">Erinnerung</string>
+    <string name="alarm_reminder_in">Erinnerung in</string>
+    <string name="alarm_reminder_none">Keine Erinnerung</string>
     <string name="amount">Menge &#8230;</string>
     <string name="average">Durchschnitt</string>
     <string name="back">Zurück</string>
@@ -188,15 +190,6 @@
         <item>Mittags</item>
         <item>Abends</item>
         <item>Nachts</item>
-    </string-array>
-
-    <string-array name="alarm_intervals">
-        <item>Keine Erinnerung</item>
-        <item>In 30 Minuten</item>
-        <item>In 1 Stunde</item>
-        <item>In 2 Stunden</item>
-        <item>In 4 Stunden</item>
-        <item>In 8 Stunden</item>
     </string-array>
 
     <string name="dateformat_default">DD.MM.YYYY</string>

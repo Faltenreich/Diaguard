@@ -28,7 +28,7 @@ import com.faltenreich.diaguard.ui.activity.FoodActivity;
 import com.faltenreich.diaguard.ui.activity.FoodEditActivity;
 import com.faltenreich.diaguard.ui.view.FoodListView;
 import com.faltenreich.diaguard.util.NetworkingUtils;
-import com.faltenreich.diaguard.util.ViewHelper;
+import com.faltenreich.diaguard.util.ViewUtils;
 import com.lapism.searchview.SearchAdapter;
 import com.lapism.searchview.SearchItem;
 import com.lapism.searchview.SearchView;
@@ -280,7 +280,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(final FoodDeletedEvent event) {
-        ViewHelper.showSnackbar(getView(), getString(R.string.food_deleted), new View.OnClickListener() {
+        ViewUtils.showSnackbar(getView(), getString(R.string.food_deleted), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Food food = event.context;

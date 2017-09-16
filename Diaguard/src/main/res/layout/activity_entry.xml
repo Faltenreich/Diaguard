@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/coordinator"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -31,7 +30,7 @@
                     <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        card_view:cardElevation="3dp">
+                        app:cardElevation="3dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -85,8 +84,8 @@
                                     android:background="@android:color/transparent"
                                     android:hint="@string/note"
                                     android:inputType="textMultiLine|textCapSentences"
-                                    android:paddingLeft="@dimen/padding"
-                                    android:paddingStart="@dimen/padding" />
+                                    android:paddingLeft="12dp"
+                                    android:paddingStart="12dp" />
 
                             </LinearLayout>
 
@@ -100,9 +99,14 @@
                                     android:src="@drawable/ic_alarm"
                                     app:tintColor="@color/gray_darker" />
 
-                                <Spinner
-                                    android:id="@+id/spinner_alarm"
-                                    style="@style/LayoutRowItem" />
+                                <Button
+                                    android:id="@+id/entry_button_alarm"
+                                    style="?android:attr/borderlessButtonStyle"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/alarm_reminder_none"
+                                    android:textAllCaps="false"
+                                    android:gravity="start|center_vertical"/>
 
                             </LinearLayout>
 
@@ -133,8 +137,8 @@
         android:padding="@dimen/padding_end"
         app:layout_behavior="com.faltenreich.diaguard.adapter.FloatingActionMenuBehavior"
         app:menu_backgroundColor="@color/semitransparent"
-        fab:menu_colorNormal="@color/green"
-        fab:menu_colorPressed="@color/green_light"
-        fab:menu_colorRipple="@color/green_lighter" />
+        app:menu_colorNormal="@color/green"
+        app:menu_colorPressed="@color/green_light"
+        app:menu_colorRipple="@color/green_lighter" />
 
 </android.support.design.widget.CoordinatorLayout>

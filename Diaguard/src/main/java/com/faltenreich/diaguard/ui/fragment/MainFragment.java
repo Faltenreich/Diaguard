@@ -25,7 +25,7 @@ import com.faltenreich.diaguard.util.ChartHelper;
 import com.faltenreich.diaguard.util.DateTimeUtils;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.TimeSpan;
-import com.faltenreich.diaguard.util.ViewHelper;
+import com.faltenreich.diaguard.util.ViewUtils;
 import com.faltenreich.diaguard.util.thread.BaseAsyncTask;
 import com.faltenreich.diaguard.util.thread.UpdateLineChartTask;
 import com.github.mikephil.charting.charts.LineChart;
@@ -92,7 +92,7 @@ public class MainFragment extends BaseFragment {
 
             layoutAlarm.setVisibility(View.VISIBLE);
             textViewAlarm.setText(String.format("%s %s",
-                    getString(R.string.alarm_reminder),
+                    getString(R.string.alarm_reminder_in),
                     DateTimeUtils.parseInterval(alarmIntervalInMillis)));
 
             buttonAlarmDelete.setOnClickListener(new View.OnClickListener() {
@@ -101,7 +101,7 @@ public class MainFragment extends BaseFragment {
                     AlarmUtils.stopAlarm();
                     updateReminder();
 
-                    ViewHelper.showSnackbar(getView(), getString(R.string.alarm_deleted), new View.OnClickListener() {
+                    ViewUtils.showSnackbar(getView(), getString(R.string.alarm_deleted), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             AlarmUtils.setAlarm(alarmIntervalInMillis);
@@ -313,7 +313,7 @@ public class MainFragment extends BaseFragment {
                 getString(R.string.average_symbol),
                 getString(R.string.months),
                 getString(R.string.bloodsugar));
-        ViewHelper.showSnackbar(getView(), formula);
+        ViewUtils.showSnackbar(getView(), formula);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

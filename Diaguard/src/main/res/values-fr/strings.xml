@@ -10,6 +10,8 @@
     <string name="alarm">Mesure de la glycémie</string>
     <string name="alarm_desc">%s depuis la dernière mesure</string>
     <string name="alarm_desc_first">Y avez-vous déjà pensé?</string>
+    <string name="alarm_reminder">Mémoire</string>
+    <string name="alarm_reminder_none">Pas de mémoire</string>
     <string name="amount">Quantité &#8230;</string>
     <string name="average">Moyenne</string>
     <string name="back">Arrière</string>
@@ -142,15 +144,6 @@
         <item>La nuit</item>
     </string-array>
 
-    <string-array name="alarm_intervals">
-        <item>Pas de mémoire</item>
-        <item>En 30 minutes</item>
-        <item>En 1 heure</item>
-        <item>En 2 heures</item>
-        <item>En 4 heures</item>
-        <item>En 8 heures</item>
-    </string-array>
-
     <string name="dateformat_default">DD.MM.YYYY</string>
 
     <string name="insulin_units_default">Unités d\'insuline</string>
@@ -278,7 +271,7 @@
     <string name="year">An</string>
     <string name="alarm_delete">Retirer la mémoire</string>
     <string name="alarm_deleted">Retiré la mémoire</string>
-    <string name="alarm_reminder">Mémoire pour</string>
+    <string name="alarm_reminder_in">Mémoire pour</string>
     <string name="permission_required_storage">L\'autorisation d\'accès au stockage est manquant</string>
     <string name="hba1c_estimated">HbA1c estimée</string>
     <string name="months">Mois</string>

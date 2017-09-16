@@ -21,7 +21,7 @@ import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.event.data.EntryUpdatedEvent;
-import com.faltenreich.diaguard.util.ViewHelper;
+import com.faltenreich.diaguard.util.ViewUtils;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -123,7 +123,7 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.OnAd
     protected void updateLabels() {
         if (getActionView() != null) {
             String format;
-            if (ViewHelper.isLandscape(getActivity()) || ViewHelper.isLargeScreen(getActivity())) {
+            if (ViewUtils.isLandscape(getActivity()) || ViewUtils.isLargeScreen(getActivity())) {
                 format = "MMMM YYYY";
             } else {
                 format = "MMM YYYY";

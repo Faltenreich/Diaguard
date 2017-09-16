@@ -11,14 +11,13 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.codetroopers.betterpickers.numberpicker.NumberPickerDialogFragment;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
@@ -37,12 +36,15 @@ import com.faltenreich.diaguard.ui.fragment.TimePickerFragment;
 import com.faltenreich.diaguard.ui.view.entry.MeasurementFloatingActionMenu;
 import com.faltenreich.diaguard.ui.view.entry.MeasurementListView;
 import com.faltenreich.diaguard.util.AlarmUtils;
+import com.faltenreich.diaguard.util.DateTimeUtils;
 import com.faltenreich.diaguard.util.Helper;
-import com.faltenreich.diaguard.util.ViewHelper;
+import com.faltenreich.diaguard.util.ViewUtils;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 
 import butterknife.BindView;
@@ -63,10 +65,11 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     @BindView(R.id.edittext_notes) EditText editTextNotes;
     @BindView(R.id.button_date) Button buttonDate;
     @BindView(R.id.button_time) Button buttonTime;
-    @BindView(R.id.spinner_alarm) Spinner spinnerAlarm;
+    @BindView(R.id.entry_button_alarm) Button buttonAlarm;
 
     private Entry entry;
     private DateTime time;
+    private int alarmInMinutes;
 
     public EntryActivity() {
         super(R.layout.activity_entry);
@@ -100,11 +103,6 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     public void initialize() {
         time = new DateTime();
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.alarm_intervals, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerAlarm.setAdapter(adapter);
-
         layoutMeasurements.setOnCategoryEventListener(this);
 
         fab.init();
@@ -133,6 +131,8 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             initPinnedCategories();
             updateDateTime();
         }
+
+        updateAlarm();
     }
 
     private void initPinnedCategories() {
@@ -222,6 +222,12 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         buttonTime.setText(Helper.getTimeFormat().print(time));
     }
 
+    private void updateAlarm() {
+        buttonAlarm.setText(alarmInMinutes > 0 ?
+                String.format("%s %s", getString(R.string.alarm_reminder_in), DateTimeUtils.parseInterval(alarmInMinutes * DateTimeConstants.MILLIS_PER_MINUTE)) :
+                getString(R.string.alarm_reminder_none));
+    }
+
     private void addMeasurementView(Measurement.Category category) {
         scrollView.smoothScrollTo(0, 0);
         layoutMeasurements.addMeasurement(category);
@@ -236,13 +242,13 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
         // Validate date
         if (time.isAfter(DateTime.now())) {
-            ViewHelper.showSnackbar(findViewById(android.R.id.content), getString(R.string.validator_value_infuture));
+            ViewUtils.showSnackbar(findViewById(android.R.id.content), getString(R.string.validator_value_infuture));
             inputIsValid = false;
         }
 
         // Check whether there are values to submit
         else if (layoutMeasurements.getMeasurements().size() == 0) {
-            ViewHelper.showSnackbar(findViewById(android.R.id.content), getString(R.string.validator_value_none));
+            ViewUtils.showSnackbar(findViewById(android.R.id.content), getString(R.string.validator_value_none));
             inputIsValid = false;
         } else {
             for (Measurement measurement : layoutMeasurements.getMeasurements()) {
@@ -278,9 +284,8 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
                 }
             }
 
-            if (spinnerAlarm.getSelectedItemPosition() > 0) {
-                int intervalInMinutes = getResources().getIntArray(R.array.alarm_intervals_values)[spinnerAlarm.getSelectedItemPosition()];
-                AlarmUtils.setAlarm(intervalInMinutes * DateTimeConstants.MILLIS_PER_MINUTE);
+            if (alarmInMinutes > 0) {
+                AlarmUtils.setAlarm(alarmInMinutes * DateTimeConstants.MILLIS_PER_MINUTE);
             }
 
             if (isNewEntry) {
@@ -322,6 +327,17 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
                 updateDateTime();
             }
         }).show(getSupportFragmentManager());
+    }
+
+    @OnClick(R.id.entry_button_alarm)
+    public void showAlarmPicker() {
+        ViewUtils.showNumberPicker(this, R.string.minutes, alarmInMinutes, 0, 10000, new NumberPickerDialogFragment.NumberPickerDialogHandlerV2() {
+            @Override
+            public void onDialogNumberSet(int reference, BigInteger number, double decimal, boolean isNegative, BigDecimal fullNumber) {
+                alarmInMinutes = number.intValue();
+                updateAlarm();
+            }
+        });
     }
 
     @Override

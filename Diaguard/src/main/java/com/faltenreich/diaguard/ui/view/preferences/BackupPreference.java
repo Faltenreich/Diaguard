@@ -13,7 +13,7 @@ import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.PermissionDeniedEvent;
 import com.faltenreich.diaguard.event.PermissionGrantedEvent;
 import com.faltenreich.diaguard.util.SystemUtils;
-import com.faltenreich.diaguard.util.ViewHelper;
+import com.faltenreich.diaguard.util.ViewUtils;
 import com.faltenreich.diaguard.util.export.Export;
 import com.faltenreich.diaguard.util.export.FileListener;
 
@@ -86,7 +86,7 @@ public class BackupPreference extends Preference implements Preference.OnPrefere
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(PermissionDeniedEvent event) {
         if (event.context.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            ViewHelper.showToast(getContext(), R.string.permission_required_storage);
+            ViewUtils.showToast(getContext(), R.string.permission_required_storage);
             Events.unregister(this);
         }
     }

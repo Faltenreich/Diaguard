@@ -19,7 +19,7 @@ import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Pressure;
-import com.faltenreich.diaguard.util.ViewHelper;
+import com.faltenreich.diaguard.util.ViewUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -132,7 +132,7 @@ public class MeasurementView<T extends Measurement> extends LinearLayout impleme
     private void togglePinnedCategory(final boolean isPinned) {
         int textResId = isPinned ? R.string.category_pin_confirm : R.string.category_unpin_confirm;
         String confirmation = String.format(getContext().getString(textResId), category.toLocalizedString());
-        ViewHelper.showSnackbar(MeasurementView.this, confirmation, new OnClickListener() {
+        ViewUtils.showSnackbar(MeasurementView.this, confirmation, new OnClickListener() {
             @Override
             public void onClick(View view) {
                 checkBoxPin.setOnCheckedChangeListener(null);

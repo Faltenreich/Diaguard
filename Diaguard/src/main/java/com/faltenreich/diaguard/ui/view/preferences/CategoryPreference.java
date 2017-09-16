@@ -13,7 +13,7 @@ import android.widget.ListView;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.util.ViewHelper;
+import com.faltenreich.diaguard.util.ViewUtils;
 
 /**
  * Created by Filip on 04.11.13.
@@ -63,7 +63,7 @@ public class CategoryPreference extends DialogPreference {
                 editor.apply();
             }
             else {
-                ViewHelper.showToast(getContext(), getContext().getString(R.string.validator_value_none));
+                ViewUtils.showToast(getContext(), getContext().getString(R.string.validator_value_none));
             }
         }
     }

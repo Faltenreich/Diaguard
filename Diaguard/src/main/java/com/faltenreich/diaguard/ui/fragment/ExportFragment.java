@@ -23,7 +23,7 @@ import com.faltenreich.diaguard.ui.view.CategoryCheckBoxList;
 import com.faltenreich.diaguard.util.FileUtils;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.SystemUtils;
-import com.faltenreich.diaguard.util.ViewHelper;
+import com.faltenreich.diaguard.util.ViewUtils;
 import com.faltenreich.diaguard.util.export.Export;
 import com.faltenreich.diaguard.util.export.FileListener;
 
@@ -56,7 +56,7 @@ public class ExportFragment extends BaseFragment implements FileListener {
     private DateTime dateEnd;
 
     public ExportFragment() {
-        super(R.layout.fragment_export, R.string.export, R.menu.main);
+        super(R.layout.fragment_export, R.string.export, -1);
     }
 
     @Override
@@ -101,10 +101,10 @@ public class ExportFragment extends BaseFragment implements FileListener {
         boolean isValid = true;
 
         if (dateStart.isAfter(dateEnd)) {
-            ViewHelper.showSnackbar(getView(), getString(R.string.validator_value_enddate));
+            ViewUtils.showSnackbar(getView(), getString(R.string.validator_value_enddate));
             isValid = false;
         } else if (categoryCheckBoxList.getSelectedCategories().length == 0) {
-            ViewHelper.showSnackbar(getView(), getString(R.string.validator_value_empty_list));
+            ViewUtils.showSnackbar(getView(), getString(R.string.validator_value_empty_list));
             isValid = false;
         }
 
@@ -157,7 +157,7 @@ public class ExportFragment extends BaseFragment implements FileListener {
         try {
             FileUtils.openFile(file, mimeType, getContext());
         } catch (ActivityNotFoundException e) {
-            ViewHelper.showSnackbar(getView(), getString(R.string.error_no_app));
+            ViewUtils.showSnackbar(getView(), getString(R.string.error_no_app));
             Log.e("Open " + mimeType, e.getMessage());
         }
     }
@@ -194,7 +194,7 @@ public class ExportFragment extends BaseFragment implements FileListener {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(PermissionDeniedEvent event) {
         if (event.context.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            ViewHelper.showToast(getContext(), R.string.permission_required_storage);
+            ViewUtils.showToast(getContext(), R.string.permission_required_storage);
         }
     }
 }

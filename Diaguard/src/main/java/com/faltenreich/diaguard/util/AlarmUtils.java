@@ -13,7 +13,6 @@ import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeConstants;
 import org.joda.time.Hours;
 import org.joda.time.Interval;
 import org.joda.time.Minutes;
@@ -24,7 +23,6 @@ import org.joda.time.Minutes;
 public class AlarmUtils {
 
     private static final int ALARM_ID = 34248273;
-    private static final int VIBRATION_DURATION_IN_MILLIS = DateTimeConstants.MILLIS_PER_SECOND;
 
     private static Context getContext() {
         return DiaguardApplication.getContext();
@@ -62,15 +60,7 @@ public class AlarmUtils {
 
     public static void executeAlarm() {
         PreferenceHelper.getInstance().setAlarmStartInMillis(-1);
-        SystemUtils.showNotification(R.string.alarm, getMessageForMeasurement());
-
-        if (PreferenceHelper.getInstance().isSoundAllowed()) {
-            SystemUtils.playSound();
-        }
-
-        if (PreferenceHelper.getInstance().isVibrationAllowed()) {
-            SystemUtils.vibrate(VIBRATION_DURATION_IN_MILLIS);
-        }
+        NotificationUtils.showNotification(R.string.alarm, getMessageForMeasurement());
     }
 
     private static String getMessageForMeasurement() {

@@ -23,6 +23,6 @@ class OpenFoodFactEndpoint implements Endpoint {
     }
 
     static String getHost() {
-        return String.format(HOST_FORMAT, Helper.getCountryCode());
+        return String.format(HOST_FORMAT, Helper.getLanguageCode());
     }
 }

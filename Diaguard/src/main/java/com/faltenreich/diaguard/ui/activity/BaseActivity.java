@@ -19,6 +19,7 @@ import com.faltenreich.diaguard.data.DatabaseHelper;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.PermissionDeniedEvent;
 import com.faltenreich.diaguard.event.PermissionGrantedEvent;
+import com.faltenreich.diaguard.networking.openfoodfacts.OpenFoodFactsManager;
 import com.faltenreich.diaguard.util.SystemUtils;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
@@ -50,6 +51,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(layoutResourceId);
         ButterKnife.bind(this);
+
+        OpenFoodFactsManager.getInstance().start();
 
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {

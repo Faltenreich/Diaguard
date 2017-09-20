@@ -7,6 +7,7 @@ import com.faltenreich.diaguard.data.ImportHelper;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.networking.openfoodfacts.OpenFoodFactsManager;
 import com.faltenreich.diaguard.ui.view.preferences.OpenDatabaseLicense;
+import com.faltenreich.diaguard.util.NotificationUtils;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
@@ -41,6 +42,6 @@ public class DiaguardApplication extends Application {
         ImportHelper.validateFoodImport(this);
         LicenseResolver.registerLicense(new OpenDatabaseLicense());
         PreferenceHelper.getInstance().migrate();
-        OpenFoodFactsManager.getInstance().start();
+        NotificationUtils.setupNotifications(this);
     }
 }

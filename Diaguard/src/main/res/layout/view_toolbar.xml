@@ -21,6 +21,8 @@
         android:textSize="@dimen/text_large"
         android:clickable="true"
         android:background="?android:attr/selectableItemBackground"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:lines="1"
+        android:ellipsize="end"/>
 
 </android.support.v7.widget.Toolbar>

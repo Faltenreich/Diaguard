@@ -75,6 +75,7 @@
     <string name="mail">E-Mail</string>
     <string name="meal">Alimento</string>
     <string name="meal_optional">Alimento (Opcional)</string>
+    <string name="measurement_add">Agregar medición</string>
     <string name="measurements">Mediciones</string>
     <string name="no_data">No hay entradas para mostrar</string>
     <string name="note">Nota</string>
@@ -83,6 +84,7 @@
     <string name="overview">Sobrevista</string>
     <string name="pulse">Pulso</string>
     <string name="pressure">Presión arterial</string>
+    <string name="remove_placeholder">Eliminar %s</string>
     <string name="settings">Configuración</string>
     <string name="sound">Sonido</string>
     <string name="startscreen">Pantalla de inicio</string>

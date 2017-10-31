@@ -73,6 +73,7 @@
     <string name="mail">E-Mail</string>
     <string name="meal">Repas</string>
     <string name="meal_optional">Repas (Optionnel)</string>
+    <string name="measurement_add">Ajouter une mesure</string>
     <string name="measurements">Mesures</string>
     <string name="no_data">Pas d\'entrées à imprimer</string>
     <string name="note">Remarque</string>
@@ -80,6 +81,7 @@
     <string name="ok">OK</string>
     <string name="overview">Aperçu</string>
     <string name="pulse">Impulsion</string>
+    <string name="remove_placeholder">Enlever %s</string>
     <string name="settings">Généraux</string>
     <string name="sound">Tones</string>
     <string name="startscreen">Page d\'accueil</string>

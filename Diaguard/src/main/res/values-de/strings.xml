@@ -95,6 +95,7 @@
     <string name="mail">E-Mail</string>
     <string name="meal">Mahlzeit</string>
     <string name="meal_optional">Mahlzeit (Optional)</string>
+    <string name="measurement_add">Messung hinzufügen</string>
     <string name="measurement_latest">Zuletzt</string>
     <string name="measurements">Messungen</string>
     <string name="name">Name</string>
@@ -110,6 +111,7 @@
     <string name="permission_required_storage">Berechtigung für Speicherzugriff fehlt</string>
     <string name="pressure">Blutdruck</string>
     <string name="pulse">Puls</string>
+    <string name="remove_placeholder">%s entfernen</string>
     <string name="settings">Einstellungen</string>
     <string name="sound">Töne</string>
     <string name="startscreen">Startbildschirm</string>

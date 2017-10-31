@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light">
+    android:background="@android:color/white">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
 
                 <com.faltenreich.diaguard.ui.view.TintImageView
                     style="@style/LayoutRowImage"
-                    android:contentDescription="@string/date_select"
+                    android:contentDescription="@null"
                     android:src="@drawable/ic_time"
                     app:tintColor="@color/gray_darker" />
 
@@ -32,7 +32,7 @@
                         android:id="@+id/button_datestart"
                         style="?android:attr/borderlessButtonStyle"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="match_parent" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -45,7 +45,7 @@
                         android:id="@+id/button_dateend"
                         style="?android:attr/borderlessButtonStyle"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="match_parent" />
 
                 </LinearLayout>
 
@@ -57,7 +57,7 @@
 
                 <com.faltenreich.diaguard.ui.view.TintImageView
                     style="@style/LayoutRowImage"
-                    android:contentDescription="@string/format"
+                    android:contentDescription="@null"
                     android:src="@drawable/ic_file"
                     app:tintColor="@color/gray_darker" />
 
@@ -80,7 +80,7 @@
 
                 <com.faltenreich.diaguard.ui.view.TintImageView
                     style="@style/LayoutRowImage"
-                    android:contentDescription="@string/note"
+                    android:contentDescription="@null"
                     android:src="@drawable/ic_note"
                     app:tintColor="@color/gray_darker" />
 
@@ -127,6 +127,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/padding_end"
         android:src="@drawable/ic_action_done"
+        android:contentDescription="@string/export"
         app:fab_colorNormal="@color/green"
         app:fab_colorPressed="@color/green_light"
         app:fab_colorRipple="@color/green_lighter"/>

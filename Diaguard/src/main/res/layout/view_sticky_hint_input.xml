@@ -29,6 +29,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_between"
         android:layout_marginStart="@dimen/margin_between"
+        android:clickable="false"
+        android:focusable="false"
         android:textSize="@dimen/text_small"
         android:visibility="gone"/>
 

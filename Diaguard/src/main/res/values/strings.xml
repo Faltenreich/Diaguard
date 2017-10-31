@@ -116,6 +116,7 @@
     <string name="mail">E-Mail</string>
     <string name="meal">Meal</string>
     <string name="meal_optional">Meal (Optional)</string>
+    <string name="measurement_add">Add measurement</string>
     <string name="measurement_latest">Latest</string>
     <string name="measurements">Measured</string>
     <string name="name">Name</string>
@@ -132,6 +133,7 @@
     <string name="placeholder" translatable="false">-</string>
     <string name="pressure">Blood Pressure</string>
     <string name="pulse">Pulse</string>
+    <string name="remove_placeholder">Remove %s</string>
     <string name="settings">Settings</string>
     <string name="sound">Sound</string>
     <string name="startscreen">Start screen</string>

@@ -45,12 +45,12 @@ public class FoodEditViewHolder extends BaseViewHolder<FoodEaten> {
         final FoodEaten foodEaten = getListItem();
         final Food food = foodEaten.getFood();
 
-        this.name.setText(food.getName());
-        this.value.setText(String.format("%s %s",
+        name.setText(food.getName());
+        value.setText(String.format("%s %s",
                 food.getValueForUi(),
                 PreferenceHelper.getInstance().getLabelForMealPer100g(getContext())));
 
-        this.amount.setOnClickListener(new View.OnClickListener() {
+        amount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (getContext() instanceof AppCompatActivity) {
@@ -59,12 +59,13 @@ public class FoodEditViewHolder extends BaseViewHolder<FoodEaten> {
             }
         });
 
-        this.delete.setOnClickListener(new View.OnClickListener() {
+        delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Events.post(new FoodEatenRemovedEvent(foodEaten, getAdapterPosition()));
             }
         });
+        delete.setContentDescription(String.format(getContext().getString(R.string.remove_placeholder), food.getName()));
 
         updateUi();
     }
@@ -80,17 +81,18 @@ public class FoodEditViewHolder extends BaseViewHolder<FoodEaten> {
         });
     }
 
+    @SuppressWarnings("RestrictedApi")
     private void updateUi() {
         FoodEaten foodEaten = getListItem();
         boolean isSet = foodEaten.getAmountInGrams() > 0;
         String text = isSet ?
                 String.format("%s %s", Helper.parseFloat(getListItem().getAmountInGrams()), getContext().getString(R.string.grams_milliliters_acronym)) :
                 getContext().getString(R.string.amount);
-        int backgroundColor = isSet ? R.color.gray_light : R.color.green_light;
+        int backgroundColor = isSet ? R.color.gray_light : R.color.green;
         int textColor = isSet ? android.R.color.black : android.R.color.white;
-        this.amount.setText(text);
-        this.amount.setSupportBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), backgroundColor)));
-        this.amount.setTextColor(ContextCompat.getColor(getContext(), textColor));
+        amount.setText(text);
+        amount.setSupportBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), backgroundColor)));
+        amount.setTextColor(ContextCompat.getColor(getContext(), textColor));
     }
 
     private int getAmountFromButton() {

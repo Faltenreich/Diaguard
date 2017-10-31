@@ -36,6 +36,7 @@ public class MeasurementView<T extends Measurement> extends LinearLayout impleme
     @BindView(R.id.category) TextView textViewCategory;
     @BindView(R.id.layout_content) ViewGroup content;
     @BindView(R.id.checkbox_pin) CheckBox checkBoxPin;
+    @BindView(R.id.button_delete) View buttonRemove;
 
     private Measurement.Category category;
     private OnCategoryRemovedListener onCategoryRemovedListener;
@@ -77,11 +78,13 @@ public class MeasurementView<T extends Measurement> extends LinearLayout impleme
         LayoutInflater.from(getContext()).inflate(R.layout.list_item_measurement, this);
         ButterKnife.bind(this);
 
+        String categoryName = PreferenceHelper.getInstance().getCategoryName(category);
         imageViewShowcase.setImageResource(PreferenceHelper.getInstance().getShowcaseImageResourceId(category));
         imageViewCategory.setImageResource(PreferenceHelper.getInstance().getCategoryImageResourceId(category));
-        textViewCategory.setText(PreferenceHelper.getInstance().getCategoryName(category));
+        textViewCategory.setText(categoryName);
         checkBoxPin.setChecked(PreferenceHelper.getInstance().isCategoryPinned(category));
         checkBoxPin.setOnCheckedChangeListener(this);
+        buttonRemove.setContentDescription(String.format(getContext().getString(R.string.remove_placeholder), categoryName));
 
         setOnTouchListener(new SwipeDismissTouchListener(this, null,
                 new SwipeDismissTouchListener.DismissCallbacks() {

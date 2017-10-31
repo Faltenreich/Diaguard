@@ -293,22 +293,22 @@ public class MainFragment extends BaseFragment {
     }
 
     @OnClick(R.id.layout_today)
-    protected void openStatisticsToday(View view) {
+    protected void openStatisticsToday() {
         openStatistics();
     }
 
     @OnClick(R.id.layout_average)
-    protected void openStatisticsAverage(View view) {
+    protected void openStatisticsAverage() {
         openStatistics();
     }
 
     @OnClick(R.id.layout_trend)
-    protected void openTrend(View view) {
+    protected void openTrend() {
         openStatistics();
     }
 
     @OnClick(R.id.layout_hba1c)
-    protected void showHbA1cFormula(View view) {
+    protected void showHbA1cFormula() {
         String formula = String.format(getString(R.string.hba1c_formula),
                 getString(R.string.average_symbol),
                 getString(R.string.months),

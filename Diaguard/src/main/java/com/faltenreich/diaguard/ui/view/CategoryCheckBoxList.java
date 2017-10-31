@@ -2,20 +2,16 @@ package com.faltenreich.diaguard.ui.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 
-import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.Helper;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -51,6 +47,7 @@ public class CategoryCheckBoxList extends LinearLayout {
         categories.put(category, isSelected);
 
         CheckBox checkBox = new CheckBox(getContext());
+        checkBox.setMinimumHeight((int) getResources().getDimension(R.dimen.height_element));
         checkBox.setText(category.toLocalizedString());
         checkBox.setChecked(categories.get(category));
         checkBox.setPadding(PADDING, PADDING, PADDING, PADDING);

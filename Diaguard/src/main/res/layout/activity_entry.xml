@@ -3,6 +3,7 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -42,7 +43,7 @@
 
                                 <com.faltenreich.diaguard.ui.view.TintImageView
                                     style="@style/LayoutRowImage"
-                                    android:contentDescription="@string/date_select"
+                                    android:contentDescription="@null"
                                     android:src="@drawable/ic_time"
                                     app:tintColor="@color/gray_darker" />
 
@@ -54,15 +55,17 @@
                                         android:id="@+id/button_date"
                                         style="?android:attr/borderlessButtonStyle"
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="match_parent"
                                         android:layout_marginEnd="@dimen/margin_between"
-                                        android:layout_marginRight="@dimen/margin_between" />
+                                        android:layout_marginRight="@dimen/margin_between"
+                                        tools:text="31.10.2017"/>
 
                                     <Button
                                         android:id="@+id/button_time"
                                         style="?android:attr/borderlessButtonStyle"
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content" />
+                                        android:layout_height="match_parent"
+                                        tools:text="17:17" />
 
                                 </LinearLayout>
 
@@ -74,7 +77,7 @@
 
                                 <com.faltenreich.diaguard.ui.view.TintImageView
                                     style="@style/LayoutRowImage"
-                                    android:contentDescription="@string/note"
+                                    android:contentDescription="@null"
                                     android:src="@drawable/ic_note"
                                     app:tintColor="@color/gray_darker" />
 
@@ -95,7 +98,7 @@
 
                                 <com.faltenreich.diaguard.ui.view.TintImageView
                                     style="@style/LayoutRowImage"
-                                    android:contentDescription="@string/alarm"
+                                    android:contentDescription="@null"
                                     android:src="@drawable/ic_alarm"
                                     app:tintColor="@color/gray_darker" />
 
@@ -103,7 +106,7 @@
                                     android:id="@+id/entry_button_alarm"
                                     style="?android:attr/borderlessButtonStyle"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
                                     android:text="@string/alarm_reminder_none"
                                     android:textAllCaps="false"
                                     android:gravity="start|center_vertical"/>
@@ -135,6 +138,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="bottom|end"
         android:padding="@dimen/padding_end"
+        android:contentDescription="@string/measurement_add"
         app:layout_behavior="com.faltenreich.diaguard.adapter.FloatingActionMenuBehavior"
         app:menu_backgroundColor="@color/semitransparent"
         app:menu_colorNormal="@color/green"

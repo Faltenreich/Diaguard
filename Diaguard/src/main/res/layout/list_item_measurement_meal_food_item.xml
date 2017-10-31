@@ -3,6 +3,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/Padding"
+    android:paddingRight="0dp"
+    android:paddingEnd="0dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:baselineAligned="false"
@@ -44,17 +46,17 @@
         android:textAllCaps="false"
         android:text="@string/amount"
         android:textColor="@android:color/white"
-        app:backgroundTint="@color/green_light"/>
+        app:backgroundTint="@color/green"/>
 
     <com.faltenreich.diaguard.ui.view.TintImageView
         android:id="@+id/food_delete"
-        android:layout_width="@dimen/size_image_small"
-        android:layout_height="@dimen/size_image_small"
-        android:layout_marginLeft="@dimen/margin_between"
-        android:layout_marginStart="@dimen/margin_between"
+        android:layout_width="@dimen/height_element"
+        android:layout_height="@dimen/height_element"
+        android:padding="@dimen/padding_large"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
+        android:focusable="true"
         android:src="@drawable/ic_delete"
-        app:tintColor="@color/gray_light"/>
+        app:tintColor="@color/gray_dark"/>
 
 </LinearLayout>

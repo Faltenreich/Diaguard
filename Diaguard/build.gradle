@@ -36,20 +36,20 @@ dependencies {
     compile "com.android.support:recyclerview-v7:${supportLibraryVersion}"
     compile "com.android.support:cardview-v7:${supportLibraryVersion}"
 
-    compile 'com.j256.ormlite:ormlite-core:4.48'
-    compile 'com.j256.ormlite:ormlite-android:4.48'
+    compile 'com.j256.ormlite:ormlite-core:5.0'
+    compile 'com.j256.ormlite:ormlite-android:5.0'
     compile 'net.danlew:android.joda:2.9.9'
     compile 'org.greenrobot:eventbus:3.0.0'
 
-    compile 'com.jakewharton:butterknife:8.6.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
     compile 'com.octo.android.robospice:robospice:1.4.14'
     compile 'com.octo.android.robospice:robospice-retrofit:1.4.14'
     compile 'com.octo.android.robospice:robospice-ormlite:1.4.14'
 
-    compile 'org.apache.commons:commons-lang3:3.5'
-    compile ('de.psdev.licensesdialog:licensesdialog:1.8.1') {
+    compile 'org.apache.commons:commons-text:1.1'
+    compile ('de.psdev.licensesdialog:licensesdialog:1.8.3') {
         exclude group: 'com.android.support'
     }
     compile 'com.squareup.picasso:picasso:2.5.2'
@@ -62,10 +62,10 @@ dependencies {
         exclude group: 'com.android.support'
     }
     compile 'com.mikhaellopez:circularimageview:3.0.2'
-    compile ('com.code-troopers.betterpickers:library:3.0.1') {
+    compile ('com.code-troopers.betterpickers:library:3.1.0') {
         exclude group: 'com.android.support'
     }
-    compile 'com.robinhood.ticker:ticker:1.1.1'
+    compile 'com.robinhood.ticker:ticker:1.2.1'
 }
 
 configurations {

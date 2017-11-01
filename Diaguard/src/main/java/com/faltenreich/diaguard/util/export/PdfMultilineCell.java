@@ -16,7 +16,7 @@ public class PdfMultilineCell extends Cell {
 
     private final int characterCount;
 
-    public PdfMultilineCell(Font font, String content, int characterCount) {
+    PdfMultilineCell(Font font, String content, int characterCount) {
         super(font, content);
         this.characterCount = characterCount;
     }
@@ -47,7 +47,7 @@ public class PdfMultilineCell extends Cell {
         page.setPenWidth(this.lineWidth);
 
         drawBorders(page, x, y, w, h);
-        drawText(page, x, y, w);
+        drawText(page, x, y);
     }
 
     private void drawBorders(
@@ -88,11 +88,7 @@ public class PdfMultilineCell extends Cell {
 
     }
 
-    private void drawText(
-            Page page,
-            float x,
-            float y,
-            float cell_w) throws IOException {
+    private void drawText(Page page, float x, float y) throws IOException {
 
         String wrappedText = WordUtils.wrap(super.getText(), this.characterCount);
         String[] lines = wrappedText.split(System.getProperty("line.separator"));

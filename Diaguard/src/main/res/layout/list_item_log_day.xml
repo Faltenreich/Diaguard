@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/InlineListSection"
     android:orientation="vertical">
 
@@ -11,11 +12,11 @@
         android:textColor="@color/gray_dark"
         android:textSize="@dimen/text_large" />
 
-    <me.grantland.widget.AutofitTextView
+    <TextView
         android:id="@+id/weekday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/gray_dark"
-        android:lines="1"/>
+        style="@style/NumberResizeable"/>
 
 </LinearLayout>

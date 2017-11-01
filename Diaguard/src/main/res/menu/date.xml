@@ -8,7 +8,7 @@
         diaguard:showAsAction="ifRoom"/>
 
     <item android:id="@+id/action_newevent"
-        android:icon="@drawable/ic_action_new"
+        android:icon="@drawable/ic_add"
         android:title="@string/entry_new"
         android:orderInCategory="100"
         diaguard:showAsAction="ifRoom"/>

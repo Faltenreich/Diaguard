@@ -21,10 +21,11 @@
 
             <LinearLayout style="@style/LayoutRow">
 
-                <com.faltenreich.diaguard.ui.view.TintImageView
+                <ImageView
                     style="@style/LayoutRowImageMultiline"
-                    android:src="@drawable/ic_action_edit"
-                    app:tintColor="@color/gray_darker" />
+                    android:contentDescription="@null"
+                    android:tint="@color/gray_darker"
+                    app:srcCompat="@drawable/ic_edit"/>
 
                 <com.faltenreich.diaguard.ui.view.StickyHintInput
                     android:id="@+id/food_edit_name"

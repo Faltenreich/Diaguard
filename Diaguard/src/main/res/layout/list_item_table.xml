@@ -3,6 +3,8 @@
 <!-- PaddingStart of ViewGroup and height of ImageView are used for offset calculations for DayChart.java -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/height_element"
     android:paddingLeft="@dimen/margin_between"
@@ -15,11 +17,13 @@
     android:showDividers="middle">
 
     <com.faltenreich.diaguard.ui.view.TintImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/list_item_chart_table_image"
         android:layout_width="@dimen/size_image"
         android:layout_height="@dimen/size_image"
-        app:tintColor="@color/gray_dark"/>
+        android:contentDescription="@null"
+        android:focusable="false"
+        app:tintColor="@color/gray_darker"
+        tools:src="@drawable/ic_category_bloodsugar"/>
 
     <LinearLayout
         android:id="@+id/list_item_chart_table_content"

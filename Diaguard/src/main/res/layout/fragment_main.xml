@@ -117,15 +117,15 @@
                                 android:layout_weight="3"
                                 android:text="@string/measurements" />
 
-                            <me.grantland.widget.AutofitTextView
+                            <TextView
                                 android:id="@+id/textview_measurements"
-                                style="@style/MainNumber"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="end"
+                                android:textColor="@android:color/black"
                                 tools:text="0"
-                                android:textColor="@android:color/black"/>
+                                style="@style/NumberResizeable"/>
 
                         </TableRow>
 
@@ -137,15 +137,15 @@
                                 android:layout_weight="3"
                                 android:text="@string/hyper" />
 
-                            <me.grantland.widget.AutofitTextView
+                            <TextView
                                 android:id="@+id/textview_hyperglycemia"
-                                style="@style/MainNumber"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="end"
+                                android:textColor="@android:color/black"
                                 tools:text="0"
-                                android:textColor="@android:color/black" />
+                                style="@style/NumberResizeable"/>
 
                         </TableRow>
 
@@ -157,15 +157,15 @@
                                 android:layout_weight="3"
                                 android:text="@string/hypo" />
 
-                            <me.grantland.widget.AutofitTextView
+                            <TextView
                                 android:id="@+id/textview_hypoglycemia"
-                                style="@style/MainNumber"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="end"
+                                android:textColor="@android:color/black"
                                 tools:text="0"
-                                android:textColor="@android:color/black" />
+                                style="@style/NumberResizeable"/>
 
                         </TableRow>
 
@@ -216,15 +216,15 @@
                                 android:layout_weight="3"
                                 android:text="@string/day" />
 
-                            <me.grantland.widget.AutofitTextView
+                            <TextView
                                 android:id="@+id/textview_avg_day"
-                                style="@style/MainNumber"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="end"
                                 android:text="@string/placeholder"
-                                android:textColor="@android:color/black" />
+                                android:textColor="@android:color/black"
+                                style="@style/NumberResizeable"/>
 
                         </TableRow>
 
@@ -236,15 +236,15 @@
                                 android:layout_weight="3"
                                 android:text="@string/week" />
 
-                            <me.grantland.widget.AutofitTextView
+                            <TextView
                                 android:id="@+id/textview_avg_week"
-                                style="@style/MainNumber"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="end"
                                 android:text="@string/placeholder"
-                                android:textColor="@android:color/black" />
+                                android:textColor="@android:color/black"
+                                style="@style/NumberResizeable"/>
 
                         </TableRow>
 
@@ -256,15 +256,15 @@
                                 android:layout_weight="3"
                                 android:text="@string/month" />
 
-                            <me.grantland.widget.AutofitTextView
+                            <TextView
                                 android:id="@+id/textview_avg_month"
-                                style="@style/MainNumber"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="end"
                                 android:text="@string/placeholder"
-                                android:textColor="@android:color/black" />
+                                android:textColor="@android:color/black"
+                                style="@style/NumberResizeable"/>
 
                         </TableRow>
 

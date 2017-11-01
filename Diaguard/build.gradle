@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
     buildToolsVersion '26.0.2'
 
     defaultConfig {
@@ -29,7 +29,7 @@ android {
     }
 }
 
-def supportLibraryVersion = '26.1.0'
+def supportLibraryVersion = '27.0.0'
 
 dependencies {
     compile "com.android.support:design:${supportLibraryVersion}"
@@ -58,7 +58,6 @@ dependencies {
     compile 'com.github.clans:fab:1.6.4'
     compile 'com.fmsirvent:parallaxeverywhere:1.0.4'
     compile 'org.apmem.tools:layouts:1.10@aar'
-    compile 'me.grantland:autofittextview:0.2.1'
     compile ('com.lapism:searchview:4.0') {
         exclude group: 'com.android.support'
     }

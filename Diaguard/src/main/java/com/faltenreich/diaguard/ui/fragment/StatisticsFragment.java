@@ -24,9 +24,11 @@ import com.faltenreich.diaguard.util.thread.UpdateLineChartTask;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import org.joda.time.DateTime;
@@ -103,7 +105,6 @@ public class StatisticsFragment extends BaseFragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 changeCategory(categories[position]);
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -122,7 +123,6 @@ public class StatisticsFragment extends BaseFragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 changeTimeInterval(timeSpans[position]);
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -145,7 +145,7 @@ public class StatisticsFragment extends BaseFragment {
     }
 
     private void updateViews() {
-        Interval interval = timeSpan.getPastInterval(DateTime.now());
+        Interval interval = timeSpan.getInterval(DateTime.now(), -1);
         long days = interval.toDuration().getStandardDays();
 
         imageViewCategory.setImageDrawable(ContextCompat.getDrawable(getContext(),
@@ -182,25 +182,32 @@ public class StatisticsFragment extends BaseFragment {
     private void initializeCharts() {
         ChartHelper.setChartDefaultStyle(chartTrend, category);
         chartTrend.setTouchEnabled(false);
-        chartTrend.getXAxis().setLabelsToSkip(0);
         chartTrend.getXAxis().setDrawAxisLine(true);
         chartTrend.getAxisLeft().setDrawAxisLine(false);
-        chartTrend.getAxisLeft().setLabelCount(5, false);
         chartTrend.getLegend().setEnabled(true);
-        chartTrend.getLegend().setPosition(Legend.LegendPosition.BELOW_CHART_RIGHT);
+        chartTrend.getLegend().setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        chartTrend.getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+        chartTrend.getXAxis().setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                int daysPast = -(timeSpan.stepsPerInterval - (int) value);
+                DateTime dateTime = timeSpan.getStep(DateTime.now(), daysPast);
+                return timeSpan.getLabel(dateTime);
+            }
+        });
 
         chartDistribution.setDrawHoleEnabled(false);
         chartDistribution.setUsePercentValues(true);
         chartDistribution.setDescription(null);
-        chartDistribution.setDrawSliceText(false);
+        chartDistribution.setDrawEntryLabels(false);
         chartDistribution.setNoDataText(getString(ChartHelper.NO_DATA_TEXT_RESOURCE_ID));
         chartDistribution.getPaint(Chart.PAINT_INFO).setColor(ContextCompat.getColor(getContext(), ChartHelper.NO_DATA_COLOR_RESOURCE_ID));
-        chartDistribution.getLegend().setPosition(Legend.LegendPosition.BELOW_CHART_RIGHT);
+        chartDistribution.getLegend().setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        chartDistribution.getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
     }
 
 
     private void updateCharts() {
-
         new UpdateLineChartTask(getContext(), new BaseAsyncTask.OnAsyncProgressListener<LineData>() {
             @Override
             public void onPostExecute(LineData lineData) {
@@ -250,6 +257,7 @@ public class StatisticsFragment extends BaseFragment {
                         }
 
                         chartTrend.setData(lineData);
+                        chartTrend.getXAxis().setAxisMaximum(timeSpan.stepsPerInterval);
                         chartTrend.invalidate();
                     } else {
                         chartTrend.clear();

@@ -3,9 +3,7 @@ package com.faltenreich.diaguard.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v7.widget.RecyclerView;
 
 import com.faltenreich.diaguard.ui.fragment.ChartDayFragment;
 
@@ -24,13 +22,15 @@ public class ChartPagerAdapter extends FragmentStatePagerAdapter {
 
     private List<ChartDayFragment> fragments;
 
-    public ChartPagerAdapter(FragmentManager fragmentManager, DateTime dateTime) {
+    public ChartPagerAdapter(FragmentManager fragmentManager, DateTime dateTime, RecyclerView.OnScrollListener onScrollListener) {
         super(fragmentManager);
 
         fragments = new ArrayList<>();
         for (int position = 0; position < ITEM_COUNT; position++) {
-            DateTime dateTimeOfFragment = dateTime.minusDays(getMiddle()).plusDays(position);
-            fragments.add(ChartDayFragment.createInstance(dateTimeOfFragment));
+            DateTime day = dateTime.minusDays(getMiddle()).plusDays(position);
+            ChartDayFragment fragment = ChartDayFragment.createInstance(day);
+            fragment.setOnScrollListener(onScrollListener);
+            fragments.add(fragment);
         }
     }
 

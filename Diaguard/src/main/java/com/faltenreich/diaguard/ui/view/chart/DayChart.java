@@ -32,6 +32,7 @@ import java.util.List;
  */
 public class DayChart extends CombinedChart implements OnChartValueSelectedListener {
 
+    private static final float TAP_THRESHOLD_IN_DP = 24;
     private static final float Y_MAX_VALUE = 275;
     private static final float Y_MAX_VALUE_OFFSET = 20;
 
@@ -73,6 +74,7 @@ public class DayChart extends CombinedChart implements OnChartValueSelectedListe
             setViewPortOffsets(leftOffset, 0, 0, bottomOffset);
 
             // setMarker(new ChartMarkerView(getContext()));
+            setMaxHighlightDistance(TAP_THRESHOLD_IN_DP);
             setOnChartValueSelectedListener(this);
 
             setDay(DateTime.now());

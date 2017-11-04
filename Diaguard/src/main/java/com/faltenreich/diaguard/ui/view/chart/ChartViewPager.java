@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.ui.view.chart;
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
 import com.faltenreich.diaguard.adapter.ChartPagerAdapter;
@@ -17,6 +18,7 @@ public class ChartViewPager extends ViewPager {
 
     private ChartPagerAdapter adapter;
     private OnPageChangeListener onPageChangeListener;
+    private int scrollOffset;
 
     public ChartViewPager(Context context) {
         super(context);
@@ -27,7 +29,15 @@ public class ChartViewPager extends ViewPager {
     }
 
     public void setup(final FragmentManager fragmentManager, final ChartViewPagerCallback callback) {
-        adapter = new ChartPagerAdapter(fragmentManager, DateTime.now());
+        adapter = new ChartPagerAdapter(fragmentManager, DateTime.now(), new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    scrollOffset = recyclerView.computeVerticalScrollOffset();
+                }
+            }
+        });
         setAdapter(adapter);
         setCurrentItem(adapter.getMiddle(), false);
 
@@ -44,6 +54,7 @@ public class ChartViewPager extends ViewPager {
                 public void onPageSelected(int position) {
                     if (position != adapter.getMiddle() && adapter.getItem(position) instanceof ChartDayFragment) {
                         ChartDayFragment fragment = (ChartDayFragment) adapter.getItem(position);
+                        fragment.scrollTo(scrollOffset);
                         callback.onDaySelected(fragment.getDay());
                     }
                 }

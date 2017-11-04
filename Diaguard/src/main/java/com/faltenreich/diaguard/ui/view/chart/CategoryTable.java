@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.ui.view.chart;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
@@ -52,6 +53,12 @@ public class CategoryTable extends RecyclerView {
         new UpdateDataTask().execute();
     }
 
+    public void scrollTo(int yOffset) {
+        int distance = yOffset - computeVerticalScrollOffset();
+        // Other scroll methods do not work in this case
+        scrollBy(0, distance);
+    }
+
     private void setup() {
         if (!isInEditMode()) {
             Measurement.Category[] activeCategories = PreferenceHelper.getInstance().getActiveCategories();
@@ -63,6 +70,7 @@ public class CategoryTable extends RecyclerView {
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class UpdateDataTask extends AsyncTask<Void, Void, List<ListItemCategoryValues>> {
 
         protected List<ListItemCategoryValues> doInBackground(Void... params) {
@@ -74,9 +82,10 @@ public class CategoryTable extends RecyclerView {
             return rowList;
         }
 
-        protected void onPostExecute(List<ListItemCategoryValues> measurements) {
+        protected void onPostExecute(List<ListItemCategoryValues> values) {
+            super.onPostExecute(values);
             adapter.clear();
-            adapter.addItems(measurements);
+            adapter.addItems(values);
             adapter.notifyDataSetChanged();
         }
     }

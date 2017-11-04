@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
@@ -22,8 +21,6 @@ import org.joda.time.DateTimeConstants;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.Nullable;
 
 /**
  * Created by Filip on 07.07.2015.
@@ -59,8 +56,7 @@ public class DayChart extends CombinedChart {
                 public String getFormattedValue(float value, AxisBase axis) {
                     int minute = (int) value;
                     int hour = minute / DateTimeConstants.MINUTES_PER_HOUR;
-                    Log.d(DayChart.class.getSimpleName(), "Print label for minute " + minute + ": " + hour);
-                    return Integer.toString(hour);
+                    return hour < DateTimeConstants.HOURS_PER_DAY ? Integer.toString(hour) : "";
                 }
             });
             getXAxis().setAxisMinimum(0);
@@ -94,7 +90,6 @@ public class DayChart extends CombinedChart {
             clear();
         }
 
-        @Nullable
         protected DayChartData doInBackground(Void... params) {
             List<BloodSugar> values = new ArrayList<>();
             List<Entry> entries = EntryDao.getInstance().getEntriesOfDay(day);
@@ -104,17 +99,18 @@ public class DayChart extends CombinedChart {
                     values.addAll(measurements);
                 }
             }
-            return values.size() > 0 ? new DayChartData(getContext(), values) : null;
+            return new DayChartData(getContext(), values);
         }
 
         @Override
-        protected void onPostExecute(@Nullable DayChartData data) {
+        protected void onPostExecute(DayChartData data) {
             super.onPostExecute(data);
-            if (data != null) {
-                setData(data);
-                float yAxisMaxValue = data.getYMax() > Y_MAX_VALUE ? data.getYMax() + Y_MAX_VALUE_OFFSET : Y_MAX_VALUE;
-                getAxisLeft().setAxisMaximum(PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, yAxisMaxValue));
-            }
+
+            float yAxisMaximum = data.getYMax() > Y_MAX_VALUE ? data.getYMax() + Y_MAX_VALUE_OFFSET : Y_MAX_VALUE;
+            yAxisMaximum = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, yAxisMaximum);
+            getAxisLeft().setAxisMaximum(yAxisMaximum);
+
+            setData(data);
             invalidate();
         }
     }

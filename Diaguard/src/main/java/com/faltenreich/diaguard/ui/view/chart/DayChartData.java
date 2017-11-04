@@ -50,12 +50,17 @@ class DayChartData extends CombinedData {
     }
 
     private void init() {
-        for (BloodSugar value : values) {
-            int xValue = value.getEntry().getDate().getMinuteOfDay();
-            float yValue = value.getMgDl();
-            yValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, yValue);
-            Entry chartEntry = new Entry(xValue, yValue, value.getEntry());
-            addEntry(chartEntry);
+        if (values.size() > 0) {
+            for (BloodSugar value : values) {
+                int xValue = value.getEntry().getDate().getMinuteOfDay();
+                float yValue = value.getMgDl();
+                yValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, yValue);
+                Entry chartEntry = new Entry(xValue, yValue, value.getEntry());
+                addEntry(chartEntry);
+            }
+        } else {
+            // Add fake entry to display empty chart
+            addEntry(new Entry(-1, 0));
         }
     }
 

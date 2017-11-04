@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.ui.view.chart;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -10,7 +11,6 @@ import android.util.AttributeSet;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
-import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * Created by Filip on 07.07.2015.
  */
-public class DayChart extends CombinedChart {
+public class DayChart extends CombinedChart implements OnChartValueSelectedListener {
 
     private static final float Y_MAX_VALUE = 275;
     private static final float Y_MAX_VALUE_OFFSET = 20;
@@ -73,19 +73,8 @@ public class DayChart extends CombinedChart {
             setViewPortOffsets(leftOffset, 0, 0, bottomOffset);
 
             // setMarker(new ChartMarkerView(getContext()));
-            setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
-                @Override
-                public void onValueSelected(com.github.mikephil.charting.data.Entry entry, Highlight h) {
-                    if (entry.getData() != null && entry.getData() instanceof Entry) {
-                        Intent intent = new Intent(getContext(), EntryActivity.class);
-                        intent.putExtra(EntryActivity.EXTRA_ENTRY, ((Entry) entry.getData()).getId());
-                        getContext().startActivity(intent);
-                    }
-                }
-                @Override
-                public void onNothingSelected() {
-                }
-            });
+            setOnChartValueSelectedListener(this);
+
             setDay(DateTime.now());
         }
     }
@@ -99,14 +88,30 @@ public class DayChart extends CombinedChart {
         new FetchDataTask().execute();
     }
 
+    @Override
+    public void onValueSelected(com.github.mikephil.charting.data.Entry entry, Highlight highlight) {
+        if (entry.getData() != null && entry.getData() instanceof Entry) {
+            Intent intent = new Intent(getContext(), EntryActivity.class);
+            intent.putExtra(EntryActivity.EXTRA_ENTRY, ((Entry) entry.getData()).getId());
+            getContext().startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onNothingSelected() {
+
+    }
+
+    @SuppressLint("StaticFieldLeak")
     private class FetchDataTask extends AsyncTask<Void, Void, DayChartData> {
 
         protected DayChartData doInBackground(Void... params) {
-            List<BloodSugar> values = new ArrayList<>();
+            List<Measurement> values = new ArrayList<>();
             List<Entry> entries = EntryDao.getInstance().getEntriesOfDay(day);
             if (entries != null && entries.size() > 0) {
                 for (com.faltenreich.diaguard.data.entity.Entry entry : entries) {
-                    List measurements = EntryDao.getInstance().getMeasurements(entry, new Measurement.Category[]{Measurement.Category.BLOODSUGAR});
+                    // TODO: Improve performance by using transaction / bulk fetch
+                    List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry, new Measurement.Category[] { Measurement.Category.BLOODSUGAR });
                     values.addAll(measurements);
                 }
             }

@@ -6,8 +6,8 @@ import android.support.v4.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
-import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.util.ArrayUtils;
 import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -39,9 +39,9 @@ class DayChartData extends CombinedData {
 
     private Context context;
     private PreferenceHelper.ChartStyle chartStyle;
-    private List<BloodSugar> values;
+    private List<Measurement> values;
 
-    DayChartData(Context context, List<BloodSugar> values) {
+    DayChartData(Context context, List<Measurement> values) {
         super();
         this.context = context;
         this.chartStyle = PreferenceHelper.getInstance().getChartStyle();
@@ -51,9 +51,9 @@ class DayChartData extends CombinedData {
 
     private void init() {
         if (values.size() > 0) {
-            for (BloodSugar value : values) {
+            for (Measurement value : values) {
                 int xValue = value.getEntry().getDate().getMinuteOfDay();
-                float yValue = value.getMgDl();
+                float yValue = ArrayUtils.sum(value.getValues());
                 yValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, yValue);
                 Entry chartEntry = new Entry(xValue, yValue, value.getEntry());
                 addEntry(chartEntry);

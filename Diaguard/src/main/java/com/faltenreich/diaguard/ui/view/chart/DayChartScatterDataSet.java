@@ -22,5 +22,6 @@ class DayChartScatterDataSet extends ScatterDataSet {
         setScatterShapeSize(SHAPE_SIZE);
         setScatterShape(ScatterChart.ScatterShape.CIRCLE);
         setDrawValues(false);
+        setDrawHighlightIndicators(false);
     }
 }

@@ -2,11 +2,14 @@
 
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    card_view:cardCornerRadius="4dp"
-    card_view:cardUseCompatPadding="true">
+    app:cardBackgroundColor="@color/green"
+    app:cardCornerRadius="4dp"
+    app:cardUseCompatPadding="true"
+    app:cardElevation="4dp">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -15,9 +18,11 @@
         style="@style/Padding">
 
         <TextView
-            android:id="@+id/textview_value"
+            android:id="@+id/marker_label"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            tools:text="190"/>
 
     </LinearLayout>
 

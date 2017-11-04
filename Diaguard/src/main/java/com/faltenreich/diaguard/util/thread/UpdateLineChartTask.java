@@ -12,7 +12,6 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.ChartHelper;
 import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.TimeSpan;
-import com.faltenreich.diaguard.util.ViewUtils;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -31,6 +30,7 @@ import java.util.List;
 public class UpdateLineChartTask extends BaseAsyncTask<Void, Void, LineData> {
 
     private static final String TAG = UpdateLineChartTask.class.getSimpleName();
+    private static final float CIRCLE_RADIUS = 4;
 
     private Measurement.Category category;
     private TimeSpan timeSpan;
@@ -49,33 +49,30 @@ public class UpdateLineChartTask extends BaseAsyncTask<Void, Void, LineData> {
 
     @Override
     protected LineData doInBackground(Void... params) {
+        List<Entry> entries = new ArrayList<>();
+
         DateTime endDateTime = DateTime.now().withTime(23, 59, 59, 999);
-        DateTime startDateTime = timeSpan.getPastInterval(endDateTime).getStart();
+        DateTime startDateTime = timeSpan.getInterval(endDateTime, -1).getStart();
         startDateTime = startDateTime.withTimeAtStartOfDay();
 
-        List<Entry> entries = new ArrayList<>();
-        ArrayList<String> xLabels = new ArrayList<>();
-
+        int index = 0;
         float highestValue = 0;
         DateTime intervalStart = startDateTime;
-        int index = 0;
         while (!intervalStart.isAfter(endDateTime)) {
-            DateTime intervalEnd = timeSpan.getNextInterval(intervalStart, 1).minusDays(1);
-            boolean showLabel = ViewUtils.isLargeScreen(getContext()) || timeSpan != TimeSpan.YEAR || index % 2 == 0;
-            xLabels.add(showLabel ? timeSpan.getLabel(intervalStart) : "");
+            DateTime intervalEnd = timeSpan.getStep(intervalStart, 1).minusDays(1);
             Measurement measurement = MeasurementDao.getInstance(category.toClass()).getAvgMeasurement(category, new Interval(intervalStart, intervalEnd));
             if (measurement != null) {
                 for (Float avg : measurement.getValues()) {
                     if (NumberUtils.isValid(avg) && avg > 0) {
-                        float customAvg = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, avg);
-                        entries.add(new Entry(customAvg, index));
-                        if (customAvg > highestValue) {
-                            highestValue = customAvg;
+                        float yValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, avg);
+                        entries.add(new Entry(index, yValue));
+                        if (yValue > highestValue) {
+                            highestValue = yValue;
                         }
                     }
                 }
             }
-            intervalStart = timeSpan.getNextInterval(intervalStart, 1);
+            intervalStart = timeSpan.getStep(intervalStart, 1);
             index++;
         }
 
@@ -88,7 +85,7 @@ public class UpdateLineChartTask extends BaseAsyncTask<Void, Void, LineData> {
         dataSet.setColor(dataSetColor);
         dataSet.setLineWidth(fillDrawing ? 0 : ChartHelper.LINE_WIDTH);
         dataSet.setCircleColor(dataSetColor);
-        dataSet.setCircleRadius(ChartHelper.CIRCLE_SIZE);
+        dataSet.setCircleRadius(CIRCLE_RADIUS);
         dataSet.setDrawCircles(entries.size() <= 1);
         dataSet.setDrawValues(false);
         dataSet.setDrawFilled(fillDrawing);
@@ -107,14 +104,14 @@ public class UpdateLineChartTask extends BaseAsyncTask<Void, Void, LineData> {
                 }
             }
             List<com.github.mikephil.charting.data.Entry> entriesMaximum = new ArrayList<>();
-            entriesMaximum.add(new com.github.mikephil.charting.data.Entry(highestValue, xLabels.size()));
+            entriesMaximum.add(new com.github.mikephil.charting.data.Entry(-1, highestValue));
             LineDataSet dataSetMaximum = new LineDataSet(entriesMaximum, "Maximum");
             dataSetMaximum.setColor(Color.TRANSPARENT);
             dataSets.add(dataSetMaximum);
         }
 
         try {
-            return new LineData(xLabels, dataSets);
+            return new LineData(dataSets);
         } catch (IllegalArgumentException exception) {
             Log.e(TAG, exception.getMessage());
             return null;

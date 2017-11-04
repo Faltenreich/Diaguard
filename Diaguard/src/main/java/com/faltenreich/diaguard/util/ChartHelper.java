@@ -10,10 +10,10 @@ import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.formatter.YAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
 /**
  * Created by Filip on 30.06.2015.
@@ -23,11 +23,10 @@ public class ChartHelper {
     public static final int NO_DATA_TEXT_RESOURCE_ID = R.string.no_data;
     public static final int NO_DATA_COLOR_RESOURCE_ID = R.color.gray_darker;
 
-    public static final float VIEW_PORT_OFFSET = 10;
-    public static final float TEXT_SIZE = 14;
-    public static final float SCATTER_SIZE = 14;
-    public static final float CIRCLE_SIZE = 4;
     public static final float LINE_WIDTH = 2;
+
+    private static final float VIEW_PORT_OFFSET = 10;
+    private static final float TEXT_SIZE = 14;
 
     public static void setChartDefaultStyle(BarLineChartBase chart, final Measurement.Category category) {
         Context context = chart.getContext();
@@ -55,6 +54,7 @@ public class ChartHelper {
         chart.getXAxis().setDrawAxisLine(false);
         chart.getXAxis().setGridColor(gridColor);
         chart.getXAxis().setTextColor(textColor);
+        chart.getXAxis().setAxisMinimum(1);
         chart.getAxisRight().setEnabled(false);
         chart.getAxisLeft().setDrawAxisLine(false);
         chart.getAxisLeft().setGridColor(gridColor);
@@ -62,10 +62,10 @@ public class ChartHelper {
         chart.getAxisLeft().setDrawLimitLinesBehindData(true);
         float yAxisMinValue = PreferenceHelper.getInstance().getExtrema(category)[0] * .9f;
         float yAxisMinCustomValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, yAxisMinValue);
-        chart.getAxisLeft().setAxisMinValue(yAxisMinCustomValue);
-        chart.getAxisLeft().setValueFormatter(new YAxisValueFormatter() {
+        chart.getAxisLeft().setAxisMinimum(yAxisMinCustomValue);
+        chart.getAxisLeft().setValueFormatter(new IAxisValueFormatter() {
             @Override
-            public String getFormattedValue(float value, YAxis axis) {
+            public String getFormattedValue(float value, AxisBase axis) {
                 return Helper.parseFloat(value);
             }
         });

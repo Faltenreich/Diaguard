@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 import org.joda.time.Interval;
 
 /**
@@ -13,16 +14,18 @@ import org.joda.time.Interval;
  */
 public enum TimeSpan {
 
-    WEEK(R.string.week, R.string.day),
-    MONTH(R.string.month, R.string.calendarweek),
-    YEAR(R.string.year, R.string.month);
+    WEEK(R.string.week, R.string.day, DateTimeConstants.DAYS_PER_WEEK),
+    MONTH(R.string.month, R.string.calendarweek, 4),
+    YEAR(R.string.year, R.string.month, 12);
 
     private int intervalStringResId;
     private int subIntervalStringResId;
+    public int stepsPerInterval;
 
-    TimeSpan(@StringRes int intervalStringResId, @StringRes int subIntervalStringResId) {
+    TimeSpan(@StringRes int intervalStringResId, @StringRes int subIntervalStringResId, int stepsPerInterval) {
         this.intervalStringResId = intervalStringResId;
         this.subIntervalStringResId = subIntervalStringResId;
+        this.stepsPerInterval = stepsPerInterval;
     }
 
     public String toIntervalLabel() {
@@ -33,42 +36,29 @@ public enum TimeSpan {
         return DiaguardApplication.getContext().getString(subIntervalStringResId);
     }
 
-    public Interval getPastInterval(DateTime end) {
+    public Interval getInterval(DateTime dateTime, int add) {
         switch (this) {
             case WEEK:
-                return new Interval(end.minusWeeks(1), end);
+                return new Interval(dateTime.plusWeeks(add), dateTime);
             case MONTH:
-                return new Interval(end.minusMonths(1), end);
+                return new Interval(dateTime.plusMonths(add), dateTime);
             case YEAR:
-                return new Interval(end.minusYears(1), end);
+                return new Interval(dateTime.plusYears(add), dateTime);
             default:
-                return new Interval(end.minusWeeks(1), end);
+                throw new IllegalArgumentException("Unknown enum value: " + this.toString());
         }
     }
 
-    public Interval getUpcomingInterval(DateTime start) {
+    public DateTime getStep(DateTime dateTime, int add) {
         switch (this) {
             case WEEK:
-                return new Interval(start, start.plusWeeks(1));
+                return dateTime.plusDays(add);
             case MONTH:
-                return new Interval(start, start.plusMonths(1));
+                return dateTime.plusWeeks(add);
             case YEAR:
-                return new Interval(start, start.plusYears(1));
+                return dateTime.plusMonths(add);
             default:
-                return new Interval(start, start.plusWeeks(1));
-        }
-    }
-
-    public DateTime getNextInterval(DateTime dateTime, int step) {
-        switch (this) {
-            case WEEK:
-                return dateTime.plusDays(step);
-            case MONTH:
-                return dateTime.plusWeeks(step);
-            case YEAR:
-                return dateTime.plusMonths(step);
-            default:
-                return dateTime.plusDays(step);
+                throw new IllegalArgumentException("Unknown enum value: " + this.toString());
         }
     }
 

@@ -29,7 +29,9 @@ import com.faltenreich.diaguard.util.ViewUtils;
 import com.faltenreich.diaguard.util.thread.BaseAsyncTask;
 import com.faltenreich.diaguard.util.thread.UpdateLineChartTask;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -240,6 +242,7 @@ public class MainFragment extends BaseFragment {
     // region Charting
 
     private void initializeChart() {
+        final TimeSpan timeSpan = TimeSpan.WEEK;
         ChartHelper.setChartDefaultStyle(chart, Measurement.Category.BLOODSUGAR);
         chart.setTouchEnabled(false);
         chart.getAxisLeft().setDrawAxisLine(false);
@@ -247,19 +250,27 @@ public class MainFragment extends BaseFragment {
         chart.getAxisLeft().setDrawLabels(false);
         chart.getXAxis().setDrawGridLines(false);
         chart.getXAxis().setTextColor(ContextCompat.getColor(getContext(), R.color.gray_dark));
-        chart.getXAxis().setLabelsToSkip(0);
         chart.getAxisLeft().removeAllLimitLines();
         float targetValue = PreferenceHelper.getInstance().
                 formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
                         PreferenceHelper.getInstance().getTargetValue());
         chart.getAxisLeft().addLimitLine(ChartHelper.getLimitLine(getContext(), targetValue, R.color.gray_light));
+        chart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                int daysPast = -(timeSpan.stepsPerInterval - (int) value);
+                DateTime dateTime = timeSpan.getStep(DateTime.now(), daysPast);
+                return timeSpan.getLabel(dateTime);
+            }
+        });
+        chart.getXAxis().setAxisMaximum(timeSpan.stepsPerInterval);
     }
 
     private void updateChart() {
         new UpdateLineChartTask(getContext(), new BaseAsyncTask.OnAsyncProgressListener<LineData>() {
             @Override
             public void onPostExecute(LineData lineData) {
-                if(isAdded()) {
+                if (isAdded()) {
                     initializeChart();
                     if (lineData != null) {
                         chart.setData(lineData);

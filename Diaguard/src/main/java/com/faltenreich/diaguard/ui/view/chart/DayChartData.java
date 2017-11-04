@@ -1,24 +1,21 @@
 package com.faltenreich.diaguard.ui.view.chart;
 
+import android.content.Context;
 import android.support.annotation.ColorRes;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
-import com.faltenreich.diaguard.util.ChartHelper;
-import com.github.mikephil.charting.charts.ScatterChart;
+import com.faltenreich.diaguard.data.entity.BloodSugar;
+import com.faltenreich.diaguard.data.entity.Measurement;
 import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.ScatterData;
-import com.github.mikephil.charting.data.ScatterDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.IScatterDataSet;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static com.faltenreich.diaguard.DiaguardApplication.getContext;
 
 /**
  * Created by Faltenreich on 15.03.2017
@@ -26,82 +23,107 @@ import static com.faltenreich.diaguard.DiaguardApplication.getContext;
 
 class DayChartData extends CombinedData {
 
-    private static final String TAG = DayChartData.class.getSimpleName();
+    private enum DataSetType {
+        TARGET("target", R.color.green),
+        HYPER("hyperglycemia", R.color.red),
+        HYPO("hypoglycemia", R.color.blue);
 
-    private static final String DATA_SET_BLOODSUGAR = "bloodSugar";
-    private static final String DATA_SET_BLOODSUGAR_HYPERGLYCEMIA = "hyperglycemia";
-    private static final String DATA_SET_BLOODSUGAR_HYPOGLYCEMIA = "hypoglycemia";
-    private static final String DATA_SET_LINE = "line";
+        public String label;
+        public @ColorRes int colorResId;
 
-    private DayChart chart;
-
-    DayChartData(DayChart chart, List<String> xLabels) {
-        super(xLabels);
-        this.chart = chart;
-        setup();
-    }
-
-    private void setup() {
-        setData(createLineData());
-        setData(createScatterData());
-    }
-
-    void addEntry(Entry entry, PreferenceHelper.ChartStyle chartStyle) {
-        float yValue = entry.getVal();
-        if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
-            if (yValue > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
-                addEntry(DATA_SET_BLOODSUGAR_HYPERGLYCEMIA, entry, chartStyle);
-            } else if (yValue < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
-                addEntry(DATA_SET_BLOODSUGAR_HYPOGLYCEMIA, entry, chartStyle);
-            } else {
-                addEntry(DATA_SET_BLOODSUGAR, entry, chartStyle);
-            }
-        } else {
-            addEntry(DATA_SET_BLOODSUGAR, entry, chartStyle);
+        DataSetType(String label, @ColorRes int colorResId) {
+            this.label = label;
+            this.colorResId = colorResId;
         }
     }
 
-    private void addEntry(String chartLabel, Entry entry, PreferenceHelper.ChartStyle chartStyle) {
-        switch (chartStyle) {
-            case LINE: chart.getLineData().addEntry(entry, 0);
-            case POINT: chart.getScatterData().getDataSetByLabel(chartLabel, true).addEntry(entry); break;
-            default: Log.e(TAG, "Cannot add entry to unsupported chart style");
+    private Context context;
+    private PreferenceHelper.ChartStyle chartStyle;
+    private List<BloodSugar> values;
+
+    DayChartData(Context context, List<BloodSugar> values) {
+        super();
+        this.context = context;
+        this.chartStyle = PreferenceHelper.getInstance().getChartStyle();
+        this.values = values;
+        init();
+    }
+
+    private void init() {
+        for (BloodSugar value : values) {
+            int xValue = value.getEntry().getDate().getMinuteOfDay();
+            float yValue = value.getMgDl();
+            yValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, yValue);
+            Entry chartEntry = new Entry(xValue, yValue, value.getEntry());
+            addEntry(chartEntry);
         }
     }
 
-    private ScatterData createScatterData() {
-        ScatterData scatterData = new ScatterData();
-        scatterData.addDataSet(createScatterDataSet(DATA_SET_BLOODSUGAR, R.color.green));
-        if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
-            scatterData.addDataSet(createScatterDataSet(DATA_SET_BLOODSUGAR_HYPERGLYCEMIA, R.color.red));
-            scatterData.addDataSet(createScatterDataSet(DATA_SET_BLOODSUGAR_HYPOGLYCEMIA, R.color.blue));
+    @Override
+    public LineData getLineData() {
+        LineData lineData = super.getLineData();
+        if (lineData == null) {
+            lineData = new LineData();
+            setData(lineData);
+        }
+        return lineData;
+    }
+
+    @Override
+    public ScatterData getScatterData() {
+        ScatterData scatterData = super.getScatterData();
+        if (scatterData == null) {
+            scatterData = new ScatterData();
+            setData(scatterData);
         }
         return scatterData;
     }
 
-    private LineData createLineData() {
-        LineData lineData = new LineData();
-        lineData.addDataSet(createLineDataSet());
-        return lineData;
+    private ILineDataSet getLineDataSet() {
+        if (getLineData().getDataSetCount() == 0) {
+            DataSetType type = DataSetType.TARGET;
+            ILineDataSet dataSet = new DayChartLineDataSet(type.label, ContextCompat.getColor(context, type.colorResId));
+            getLineData().addDataSet(dataSet);
+            return dataSet;
+        } else {
+            return getLineData().getDataSetByIndex(0);
+        }
     }
 
-    private ScatterDataSet createScatterDataSet(String title, @ColorRes int colorResourceId) {
-        ScatterDataSet dataSet = new ScatterDataSet(new ArrayList<Entry>(), title);
-        int dataSetColor = ContextCompat.getColor(getContext(), colorResourceId);
-        dataSet.setColor(dataSetColor);
-        dataSet.setScatterShapeSize(ChartHelper.SCATTER_SIZE);
-        dataSet.setScatterShape(ScatterChart.ScatterShape.CIRCLE);
-        dataSet.setDrawValues(false);
+    private IScatterDataSet getScatterDataSet(DataSetType type) {
+        IScatterDataSet dataSet = getScatterData().getDataSetByLabel(type.label, true);
+        if (dataSet == null) {
+            dataSet = new DayChartScatterDataSet(type.label, ContextCompat.getColor(context, type.colorResId));
+            getScatterData().addDataSet(dataSet);
+        }
         return dataSet;
     }
 
-    private LineDataSet createLineDataSet() {
-        LineDataSet dataSet = new LineDataSet(new ArrayList<Entry>(), DATA_SET_LINE);
-        dataSet.setColor(ContextCompat.getColor(getContext(), R.color.green));
-        dataSet.setLineWidth(ChartHelper.LINE_WIDTH);
-        dataSet.setDrawCircles(false);
-        dataSet.setDrawValues(false);
-        dataSet.setDrawCubic(true);
-        return dataSet;
+    private void addEntry(Entry entry, DataSetType type) {
+        switch (chartStyle) {
+            case LINE:
+                getLineDataSet().addEntry(entry);
+                // No break, because points are added as well for line charts
+            case POINT:
+                getScatterDataSet(type).addEntry(entry);
+                break;
+            default:
+                throw new IllegalArgumentException("Failed to add entry to chart style " + chartStyle);
+        }
+    }
+
+    private void addEntry(Entry entry) {
+        float yValue = entry.getY();
+        if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
+            if (yValue > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
+                addEntry(entry, DataSetType.HYPER);
+            } else if (yValue < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
+                addEntry(entry, DataSetType.HYPO);
+            } else {
+                addEntry(entry, DataSetType.TARGET);
+            }
+        } else {
+            addEntry(entry, DataSetType.TARGET);
+        }
     }
 }

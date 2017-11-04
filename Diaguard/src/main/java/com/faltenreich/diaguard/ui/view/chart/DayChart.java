@@ -1,7 +1,9 @@
 package com.faltenreich.diaguard.ui.view.chart;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.annotation.ColorInt;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 
@@ -11,10 +13,13 @@ import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.util.ChartHelper;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -27,8 +32,6 @@ import java.util.List;
  */
 public class DayChart extends CombinedChart {
 
-
-    private static final int X_INDICES = DateTimeConstants.HOURS_PER_DAY / 2;
     private static final float Y_MAX_VALUE = 275;
     private static final float Y_MAX_VALUE_OFFSET = 20;
 
@@ -48,7 +51,7 @@ public class DayChart extends CombinedChart {
         if (!isInEditMode()) {
             ChartHelper.setChartDefaultStyle(this, Measurement.Category.BLOODSUGAR);
 
-            int textColor = ContextCompat.getColor(getContext(), android.R.color.black);
+            @ColorInt int textColor = ContextCompat.getColor(getContext(), android.R.color.black);
             getAxisLeft().setTextColor(textColor);
             getXAxis().setTextColor(textColor);
             getXAxis().setValueFormatter(new IAxisValueFormatter() {
@@ -69,6 +72,20 @@ public class DayChart extends CombinedChart {
             float bottomOffset = getContext().getResources().getDimension(R.dimen.chart_offset_bottom);
             setViewPortOffsets(leftOffset, 0, 0, bottomOffset);
 
+            // setMarker(new ChartMarkerView(getContext()));
+            setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+                @Override
+                public void onValueSelected(com.github.mikephil.charting.data.Entry entry, Highlight h) {
+                    if (entry.getData() != null && entry.getData() instanceof Entry) {
+                        Intent intent = new Intent(getContext(), EntryActivity.class);
+                        intent.putExtra(EntryActivity.EXTRA_ENTRY, ((Entry) entry.getData()).getId());
+                        getContext().startActivity(intent);
+                    }
+                }
+                @Override
+                public void onNothingSelected() {
+                }
+            });
             setDay(DateTime.now());
         }
     }
@@ -83,12 +100,6 @@ public class DayChart extends CombinedChart {
     }
 
     private class FetchDataTask extends AsyncTask<Void, Void, DayChartData> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            clear();
-        }
 
         protected DayChartData doInBackground(Void... params) {
             List<BloodSugar> values = new ArrayList<>();
@@ -106,11 +117,14 @@ public class DayChart extends CombinedChart {
         protected void onPostExecute(DayChartData data) {
             super.onPostExecute(data);
 
-            float yAxisMaximum = data.getYMax() > Y_MAX_VALUE ? data.getYMax() + Y_MAX_VALUE_OFFSET : Y_MAX_VALUE;
+            clear();
+            setData(data);
+
+            float yAxisMaximum = PreferenceHelper.getInstance().formatCustomToDefaultUnit(Measurement.Category.BLOODSUGAR, data.getYMax());
+            yAxisMaximum = yAxisMaximum > Y_MAX_VALUE ? yAxisMaximum + Y_MAX_VALUE_OFFSET : Y_MAX_VALUE;
             yAxisMaximum = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, yAxisMaximum);
             getAxisLeft().setAxisMaximum(yAxisMaximum);
 
-            setData(data);
             invalidate();
         }
     }

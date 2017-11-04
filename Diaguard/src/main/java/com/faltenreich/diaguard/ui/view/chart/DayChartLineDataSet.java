@@ -20,5 +20,6 @@ class DayChartLineDataSet extends LineDataSet {
         setLineWidth(ChartHelper.LINE_WIDTH);
         setDrawCircles(false);
         setDrawValues(false);
+        setDrawHighlightIndicators(false);
     }
 }

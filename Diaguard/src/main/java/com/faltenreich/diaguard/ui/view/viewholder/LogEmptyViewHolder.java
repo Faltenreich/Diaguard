@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.ui.view.viewholder;
 
-import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -30,14 +29,12 @@ public class LogEmptyViewHolder extends BaseViewHolder<ListItemEmpty> implements
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(getContext(), EntryActivity.class);
         DateTime now = DateTime.now();
         DateTime dateTime = getListItem().getDateTime()
                 .withHourOfDay(now.hourOfDay().get())
                 .withMinuteOfHour(now.minuteOfHour().get())
                 .withSecondOfMinute(now.secondOfMinute().get())
                 .withMillisOfSecond(now.millisOfSecond().get());
-        intent.putExtra(EntryActivity.EXTRA_DATE, dateTime);
-        getContext().startActivity(intent);
+        EntryActivity.show(getContext(), dateTime);
     }
 }

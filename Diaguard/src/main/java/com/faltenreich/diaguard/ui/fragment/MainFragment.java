@@ -1,9 +1,8 @@
 package com.faltenreich.diaguard.ui.fragment;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.ActivityOptionsCompat;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +68,7 @@ public class MainFragment extends BaseFragment {
     }
 
     @Override
-    public void onViewCreated (View view, Bundle savedInstanceState) {
+    public void onViewCreated (@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initializeChart();
     }
@@ -283,7 +282,7 @@ public class MainFragment extends BaseFragment {
 
     private void openStatistics() {
         if (getActivity() instanceof MainActivity) {
-            ((MainActivity) getActivity()).replaceFragment(R.id.nav_statistics);
+            ((MainActivity) getActivity()).showFragment(R.id.nav_statistics);
         }
     }
 
@@ -291,16 +290,7 @@ public class MainFragment extends BaseFragment {
 
     @OnClick(R.id.layout_latest)
     protected void openEntry(View view) {
-        Intent intent = new Intent(getActivity(), EntryActivity.class);
-        if (latestEntry != null) {
-            intent.putExtra(EntryActivity.EXTRA_ENTRY, latestEntry.getId());
-        }
-        ActivityOptionsCompat options =
-                ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        getActivity(),
-                        view,
-                        "transitionEntry");
-        startActivity(intent, options);
+        EntryActivity.show(getContext(), latestEntry);
     }
 
     @OnClick(R.id.layout_today)

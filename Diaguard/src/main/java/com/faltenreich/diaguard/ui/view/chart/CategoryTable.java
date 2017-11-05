@@ -54,9 +54,8 @@ public class CategoryTable extends RecyclerView {
     }
 
     public void scrollTo(int yOffset) {
-        int distance = yOffset - computeVerticalScrollOffset();
         // Other scroll methods do not work in this case
-        scrollBy(0, distance);
+        scrollBy(0, yOffset - computeVerticalScrollOffset());
     }
 
     private void setup() {
@@ -84,6 +83,8 @@ public class CategoryTable extends RecyclerView {
 
         protected void onPostExecute(List<ListItemCategoryValues> values) {
             super.onPostExecute(values);
+
+            // Other notify methods lead to rendering issues on view paging
             adapter.clear();
             adapter.addItems(values);
             adapter.notifyDataSetChanged();

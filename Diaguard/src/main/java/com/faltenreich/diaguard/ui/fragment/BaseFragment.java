@@ -5,10 +5,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.MenuRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,6 +30,7 @@ import com.faltenreich.diaguard.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.ui.activity.BaseActivity;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
+import com.faltenreich.diaguard.ui.activity.MainActivity;
 import com.faltenreich.diaguard.util.ViewUtils;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -65,14 +68,14 @@ public abstract class BaseFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(layoutResourceId, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
 
     @Override
-    public void onViewCreated (View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         if (getActivity() instanceof BaseActivity) {
@@ -118,7 +121,7 @@ public abstract class BaseFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_newevent:
-                startActivity(new Intent(getContext(), EntryActivity.class));
+                EntryActivity.show(getContext());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -126,7 +129,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public TextView getActionView() {
-        return ((BaseActivity) getActivity()).getActionView();
+        return getActivity() != null && getActivity() instanceof BaseActivity ? ((BaseActivity) getActivity()).getActionView() : null;
     }
 
     public String getTitle() {
@@ -135,26 +138,41 @@ public abstract class BaseFragment extends Fragment {
 
     public void setTitle(String title) {
         this.title = title;
-        getActivity().setTitle(title);
+        if (getActivity() != null) {
+            getActivity().setTitle(title);
+        }
     }
 
     public void setTitle(@StringRes int titleResId) {
         setTitle(getString(titleResId));
     }
 
+    public void startFragment(BaseFragment fragment) {
+        if (getActivity() != null && getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).showFragment(fragment, null, true);
+        }
+    }
+
     public void startActivity(Intent intent, ActivityOptionsCompat options) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && getActivity() != null) {
                 getActivity().getWindow().setExitTransition(null);
             }
-            getActivity().startActivity(intent, options.toBundle());
+            startActivity(intent, options.toBundle());
         } else {
             startActivity(intent);
         }
     }
 
     protected void finish() {
-        getActivity().finish();
+        if (getActivity() != null) {
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            if (fragmentManager.getBackStackEntryCount() > 0) {
+                fragmentManager.popBackStackImmediate();
+            } else {
+                getActivity().finish();
+            }
+        }
     }
 
     interface ToolbarCallback {

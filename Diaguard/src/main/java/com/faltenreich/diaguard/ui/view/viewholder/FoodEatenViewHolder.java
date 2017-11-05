@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.ui.view.viewholder;
 
-import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -43,8 +42,6 @@ public class FoodEatenViewHolder extends BaseViewHolder<FoodEaten> implements Vi
 
     @Override
     public void onClick(View view) {
-        Intent intent = new Intent(getContext(), EntryActivity.class);
-        intent.putExtra(EntryActivity.EXTRA_ENTRY, getListItem().getMeal().getEntry().getId());
-        getContext().startActivity(intent);
+        EntryActivity.show(getContext(), getListItem().getMeal().getEntry());
     }
 }

@@ -2,8 +2,8 @@ package com.faltenreich.diaguard.ui.fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +57,7 @@ public class CalculatorFragment extends BaseFragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         update();
     }
@@ -329,9 +329,7 @@ public class CalculatorFragment extends BaseFragment {
     }
 
     private void openEntry(Entry entry) {
-        Intent intent = new Intent(getActivity(), EntryActivity.class);
-        intent.putExtra(EntryActivity.EXTRA_ENTRY, entry.getId());
-        startActivity(intent);
+        EntryActivity.show(getContext(), entry);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

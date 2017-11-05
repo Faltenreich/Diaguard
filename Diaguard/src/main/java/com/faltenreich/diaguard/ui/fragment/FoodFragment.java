@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -43,7 +44,7 @@ public class FoodFragment extends BaseFoodFragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         init();
         update();
@@ -128,9 +129,7 @@ public class FoodFragment extends BaseFoodFragment {
     }
 
     private void eatFood() {
-        Intent intent = new Intent(getActivity(), EntryActivity.class);
-        intent.putExtra(BaseFoodFragment.EXTRA_FOOD_ID, getFood().getId());
-        startActivity(intent);
+        EntryActivity.show(getContext(), getFood());
     }
 
     private void editFood() {

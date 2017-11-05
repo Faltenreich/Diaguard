@@ -67,13 +67,17 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
     public static void show(Context context, Entry entry) {
         Intent intent = new Intent(context, EntryActivity.class);
-        intent.putExtra(EXTRA_ENTRY_ID, entry.getId());
+        if (entry != null) {
+            intent.putExtra(EXTRA_ENTRY_ID, entry.getId());
+        }
         context.startActivity(intent);
     }
 
     public static void show(Context context, Food food) {
         Intent intent = new Intent(context, EntryActivity.class);
-        intent.putExtra(BaseFoodFragment.EXTRA_FOOD_ID, food.getId());
+        if (food != null) {
+            intent.putExtra(BaseFoodFragment.EXTRA_FOOD_ID, food.getId());
+        }
         context.startActivity(intent);
     }
 
@@ -97,6 +101,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     private DateTime time;
 
     private Entry entry;
+    private Measurement.Category[] activeCategories;
     private int alarmInMinutes;
 
     public EntryActivity() {
@@ -132,6 +137,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
     private void init() {
         time = new DateTime();
+        activeCategories = PreferenceHelper.getInstance().getActiveCategories();
 
         Bundle arguments = getIntent().getExtras();
         if (arguments != null) {
@@ -154,16 +160,17 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             new FetchEntryTask(entryId).execute();
         } else if (foodId > 0) {
             new FetchFoodTask(foodId).execute();
+            updateDateTime();
         } else {
             initPinnedCategories();
+            updateDateTime();
         }
 
-        updateDateTime();
         updateAlarm();
     }
 
     private void initPinnedCategories() {
-        for (Measurement.Category category : PreferenceHelper.getInstance().getActiveCategories()) {
+        for (Measurement.Category category : activeCategories) {
             if (PreferenceHelper.getInstance().isCategoryPinned(category) && !layoutMeasurements.hasCategory(category)) {
                 layoutMeasurements.addMeasurementAtEnd(category);
             }
@@ -174,19 +181,21 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         if (entry != null) {
             this.entry = entry;
             this.time = entry.getDate();
-
             editTextNotes.setText(entry.getNote());
 
             List<Measurement> measurements = entry.getMeasurementCache();
             layoutMeasurements.addMeasurements(measurements);
 
             for (Measurement measurement : measurements) {
+                layoutMeasurements.addMeasurement(measurement);
                 fab.ignore(measurement.getCategory());
             }
             fab.restock();
 
-            updateDateTime();
+        } else {
+            initPinnedCategories();
         }
+        updateDateTime();
     }
 
     private void initFood(Food food) {
@@ -198,8 +207,6 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     }
 
     private void showDialogCategories() {
-        final Measurement.Category[] activeCategories = PreferenceHelper.getInstance().getActiveCategories();
-
         String[] categoryNames = new String[activeCategories.length];
         boolean[] visibleCategoriesOld = new boolean[activeCategories.length];
         for (int position = 0; position < activeCategories.length; position++) {

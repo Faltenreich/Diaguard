@@ -27,9 +27,9 @@ import java.util.List;
  * Created by Faltenreich on 16.03.2016.
  */
 
-public class UpdateLineChartTask extends BaseAsyncTask<Void, Void, LineData> {
+public class MeasurementAverageTask extends BaseAsyncTask<Void, Void, LineData> {
 
-    private static final String TAG = UpdateLineChartTask.class.getSimpleName();
+    private static final String TAG = MeasurementAverageTask.class.getSimpleName();
     private static final float CIRCLE_RADIUS = 4;
 
     private Measurement.Category category;
@@ -38,7 +38,7 @@ public class UpdateLineChartTask extends BaseAsyncTask<Void, Void, LineData> {
     private boolean forceDrawing;
     private boolean fillDrawing;
 
-    public UpdateLineChartTask(Context context, OnAsyncProgressListener<LineData> onAsyncProgressListener, Measurement.Category category, TimeSpan timeSpan, boolean forceDrawing, boolean fillDrawing) {
+    public MeasurementAverageTask(Context context, OnAsyncProgressListener<LineData> onAsyncProgressListener, Measurement.Category category, TimeSpan timeSpan, boolean forceDrawing, boolean fillDrawing) {
         super(context, onAsyncProgressListener);
         this.category = category;
         this.timeSpan = timeSpan;
@@ -90,7 +90,7 @@ public class UpdateLineChartTask extends BaseAsyncTask<Void, Void, LineData> {
             dataSets.add(dataSet);
         }
 
-        // FIXME: Workaround to set visible area
+        // Workaround to set visible area
         if (forceDrawing) {
             if (category == Measurement.Category.BLOODSUGAR) {
                 float targetValue = PreferenceHelper.getInstance().

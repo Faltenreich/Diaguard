@@ -3,14 +3,16 @@ package com.faltenreich.diaguard.ui.activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -55,10 +57,33 @@ import butterknife.OnClick;
  */
 public class EntryActivity extends BaseActivity implements MeasurementFloatingActionMenu.OnFabSelectedListener, MeasurementListView.OnCategoryEventListener {
 
-    public static final String EXTRA_ENTRY = "EXTRA_ENTRY";
-    public static final String EXTRA_DATE = "EXTRA_DATE";
+    public static final String EXTRA_ENTRY_ID = "entryId";
+    public static final String EXTRA_DATE = "date";
 
-    @BindView(R.id.coordinator) CoordinatorLayout coordinatorLayout;
+    public static void show(Context context) {
+        Intent intent = new Intent(context, EntryActivity.class);
+        context.startActivity(intent);
+    }
+
+    public static void show(Context context, Entry entry) {
+        Intent intent = new Intent(context, EntryActivity.class);
+        intent.putExtra(EXTRA_ENTRY_ID, entry.getId());
+        context.startActivity(intent);
+    }
+
+    public static void show(Context context, Food food) {
+        Intent intent = new Intent(context, EntryActivity.class);
+        intent.putExtra(BaseFoodFragment.EXTRA_FOOD_ID, food.getId());
+        context.startActivity(intent);
+    }
+
+    public static void show(Context context, DateTime dateTime) {
+        Intent intent = new Intent(context, EntryActivity.class);
+        intent.putExtra(EXTRA_DATE, dateTime);
+        context.startActivity(intent);
+    }
+
+    @BindView(android.R.id.content) View contentView;
     @BindView(R.id.activity_newevent_scrollview) NestedScrollView scrollView;
     @BindView(R.id.fab_menu) MeasurementFloatingActionMenu fab;
     @BindView(R.id.layout_measurements) MeasurementListView layoutMeasurements;
@@ -67,23 +92,28 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     @BindView(R.id.button_time) Button buttonTime;
     @BindView(R.id.entry_button_alarm) Button buttonAlarm;
 
-    private Entry entry;
+    private long entryId;
+    private long foodId;
     private DateTime time;
+
+    private Entry entry;
     private int alarmInMinutes;
 
     public EntryActivity() {
         super(R.layout.activity_entry);
     }
 
-    public void onCreate(Bundle savedInstanceState) {
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initialize();
+        init();
+        initLayout();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.form_edit, menu);
-        menu.findItem(R.id.action_delete).setVisible(entry != null);
+        menu.findItem(R.id.action_delete).setVisible(entryId > 0);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -100,38 +130,35 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         }
     }
 
-    public void initialize() {
+    private void init() {
         time = new DateTime();
 
+        Bundle arguments = getIntent().getExtras();
+        if (arguments != null) {
+            entryId = arguments.getLong(EXTRA_ENTRY_ID);
+            foodId = arguments.getLong(BaseFoodFragment.EXTRA_FOOD_ID);
+            if (arguments.get(EXTRA_DATE) != null) {
+                time = (DateTime) arguments.getSerializable(EXTRA_DATE);
+            }
+        }
+    }
+
+    private void initLayout() {
         layoutMeasurements.setOnCategoryEventListener(this);
 
         fab.init();
         fab.setOnFabSelectedListener(this);
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            if (extras.getLong(EXTRA_ENTRY) != 0L) {
-                setTitle(getString(R.string.entry_edit));
-                new FetchEntryTask(extras.getLong(EXTRA_ENTRY)).execute();
-
-            } else if (extras.getSerializable(BaseFoodFragment.EXTRA_FOOD_ID) != null) {
-                new FetchFoodTask(extras.getLong(BaseFoodFragment.EXTRA_FOOD_ID)).execute();
-                updateDateTime();
-
-            } else if (extras.getSerializable(EXTRA_DATE) != null) {
-                time = (DateTime) extras.getSerializable(EXTRA_DATE);
-                initPinnedCategories();
-                updateDateTime();
-
-            } else {
-                updateDateTime();
-            }
-
+        if (entryId > 0) {
+            setTitle(getString(R.string.entry_edit));
+            new FetchEntryTask(entryId).execute();
+        } else if (foodId > 0) {
+            new FetchFoodTask(foodId).execute();
         } else {
             initPinnedCategories();
-            updateDateTime();
         }
 
+        updateDateTime();
         updateAlarm();
     }
 
@@ -242,13 +269,13 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
         // Validate date
         if (time.isAfter(DateTime.now())) {
-            ViewUtils.showSnackbar(findViewById(android.R.id.content), getString(R.string.validator_value_infuture));
+            ViewUtils.showSnackbar(contentView, getString(R.string.validator_value_infuture));
             inputIsValid = false;
         }
 
         // Check whether there are values to submit
         else if (layoutMeasurements.getMeasurements().size() == 0) {
-            ViewUtils.showSnackbar(findViewById(android.R.id.content), getString(R.string.validator_value_none));
+            ViewUtils.showSnackbar(contentView, getString(R.string.validator_value_none));
             inputIsValid = false;
         } else {
             for (Measurement measurement : layoutMeasurements.getMeasurements()) {

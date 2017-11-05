@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.ui.view.chart;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.ColorInt;
 import android.support.v4.content.ContextCompat;
@@ -93,9 +92,7 @@ public class DayChart extends CombinedChart implements OnChartValueSelectedListe
     @Override
     public void onValueSelected(com.github.mikephil.charting.data.Entry entry, Highlight highlight) {
         if (entry.getData() != null && entry.getData() instanceof Entry) {
-            Intent intent = new Intent(getContext(), EntryActivity.class);
-            intent.putExtra(EntryActivity.EXTRA_ENTRY, ((Entry) entry.getData()).getId());
-            getContext().startActivity(intent);
+            EntryActivity.show(getContext(), (Entry) entry.getData());
         }
     }
 

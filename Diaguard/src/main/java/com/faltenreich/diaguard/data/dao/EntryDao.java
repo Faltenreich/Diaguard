@@ -118,6 +118,7 @@ public class EntryDao extends BaseDao<Entry> {
         for (Measurement.Category category : categories) {
             values.put(category, new float[DateTimeConstants.HOURS_PER_DAY / hoursToSkip]);
         }
+        // TODO: Improve nested fetch operations
         for(Entry entry : getEntriesOfDay(day)) {
             for (Measurement measurement : getMeasurements(entry, categories)) {
                 Measurement.Category category = measurement.getCategory();

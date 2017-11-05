@@ -3,13 +3,13 @@ package com.faltenreich.diaguard.ui.fragment;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
@@ -46,7 +46,7 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
     }
 
     @Override
-    public void onViewCreated (View view, Bundle savedInstanceState) {
+    public void onViewCreated (@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         updateLabels();
     }
@@ -79,14 +79,12 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
                 goToDay(DateTime.now());
                 return true;
             case R.id.action_newevent:
-                Intent intent = new Intent(getContext(), EntryActivity.class);
                 DateTime now = DateTime.now();
                 DateTime dateTime = day
                         .withHourOfDay(now.getHourOfDay())
                         .withMinuteOfHour(now.getMinuteOfHour())
                         .withSecondOfMinute(now.getSecondOfMinute());
-                intent.putExtra(EntryActivity.EXTRA_DATE, dateTime);
-                startActivity(intent);
+                EntryActivity.show(getContext(), dateTime);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

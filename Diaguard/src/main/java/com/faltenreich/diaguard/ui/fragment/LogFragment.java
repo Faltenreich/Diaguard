@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.ui.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -46,7 +47,7 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.OnAd
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         listLayoutManager = new SafeLinearLayoutManager(getActivity());

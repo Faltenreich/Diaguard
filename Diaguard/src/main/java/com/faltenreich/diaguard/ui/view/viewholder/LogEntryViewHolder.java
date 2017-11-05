@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.ui.view.viewholder;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -51,46 +50,45 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> implements
             note.setVisibility(View.GONE);
         }
 
-        LayoutInflater inflate = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        for (Measurement measurement : entry.getMeasurementCache()) {
-            Measurement.Category category = measurement.getCategory();
-            View viewMeasurement = inflate.inflate(R.layout.list_item_log_measurement, measurements, false);
-            TintImageView categoryImage = (TintImageView) viewMeasurement.findViewById(R.id.image);
-            int imageResourceId = PreferenceHelper.getInstance().getCategoryImageResourceId(category);
-            categoryImage.setImageDrawable(ContextCompat.getDrawable(getContext(), imageResourceId));
-            categoryImage.setTintColor(ContextCompat.getColor(getContext(), R.color.gray_dark));
-            TextView value = (TextView) viewMeasurement.findViewById(R.id.value);
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (inflater != null) {
+            for (Measurement measurement : entry.getMeasurementCache()) {
+                Measurement.Category category = measurement.getCategory();
+                View viewMeasurement = inflater.inflate(R.layout.list_item_log_measurement, measurements, false);
+                TintImageView categoryImage = viewMeasurement.findViewById(R.id.image);
+                int imageResourceId = PreferenceHelper.getInstance().getCategoryImageResourceId(category);
+                categoryImage.setImageDrawable(ContextCompat.getDrawable(getContext(), imageResourceId));
+                categoryImage.setTintColor(ContextCompat.getColor(getContext(), R.color.gray_dark));
+                TextView value = viewMeasurement.findViewById(R.id.value);
 
-            switch (category) {
-                case INSULIN:
-                    value.setText(((Insulin) measurement).toStringDetail());
-                    break;
-                case BLOODSUGAR:
-                    BloodSugar bloodSugar = (BloodSugar) measurement;
-                    if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
-                        int backgroundColor = ContextCompat.getColor(getContext(), R.color.green);
-                        if (bloodSugar.getMgDl() > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
-                            backgroundColor = ContextCompat.getColor(getContext(), R.color.red);
-                        } else if (bloodSugar.getMgDl() < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
-                            backgroundColor = ContextCompat.getColor(getContext(), R.color.blue);
+                switch (category) {
+                    case INSULIN:
+                        value.setText(((Insulin) measurement).toStringDetail());
+                        break;
+                    case BLOODSUGAR:
+                        BloodSugar bloodSugar = (BloodSugar) measurement;
+                        if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
+                            int backgroundColor = ContextCompat.getColor(getContext(), R.color.green);
+                            if (bloodSugar.getMgDl() > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
+                                backgroundColor = ContextCompat.getColor(getContext(), R.color.red);
+                            } else if (bloodSugar.getMgDl() < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
+                                backgroundColor = ContextCompat.getColor(getContext(), R.color.blue);
+                            }
+                            categoryImage.setTintColor(backgroundColor);
                         }
-                        categoryImage.setTintColor(backgroundColor);
-                    }
-                default:
-                    value.setText(String.format("%s %s",
-                            measurement.toString(),
-                            PreferenceHelper.getInstance().getUnitAcronym(category)));
+                    default:
+                        value.setText(String.format("%s %s",
+                                measurement.toString(),
+                                PreferenceHelper.getInstance().getUnitAcronym(category)));
+                }
+                measurements.addView(viewMeasurement);
             }
-
-            measurements.addView(viewMeasurement);
         }
     }
 
     @Override
     public void onClick(View view) {
-        Intent intent = new Intent(getContext(), EntryActivity.class);
-        intent.putExtra(EntryActivity.EXTRA_ENTRY, getListItem().getEntry().getId());
-        getContext().startActivity(intent);
+        EntryActivity.show(getContext(), getListItem().getEntry());
     }
 
     @Override

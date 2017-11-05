@@ -107,7 +107,7 @@ public class MainActivity extends BaseActivity {
                         drawerLayout.closeDrawers();
                     }
                 }, 150);
-                replaceFragment(menuItem);
+                showFragment(menuItem);
                 return true;
             }
         });
@@ -144,49 +144,49 @@ public class MainActivity extends BaseActivity {
         // Setup start fragment
         int startScreen = PreferenceHelper.getInstance().getStartScreen();
         MenuItem menuItem = drawer.getMenu().getItem(startScreen);
-        replaceFragment(menuItem);
+        showFragment(menuItem);
     }
 
-    public void replaceFragment(@IdRes int itemId) {
+    public void showFragment(@IdRes int itemId) {
         MenuItem menuItem = drawer.getMenu().findItem(itemId);
-        replaceFragment(menuItem);
+        showFragment(menuItem);
     }
 
-    private void replaceFragment(MenuItem menuItem) {
+    private void showFragment(MenuItem menuItem) {
         if (menuItem != null) {
             switch (menuItem.getItemId()) {
                 case R.id.nav_home:
-                    replaceFragment(new com.faltenreich.diaguard.ui.fragment.MainFragment(), menuItem, false);
+                    showFragment(new com.faltenreich.diaguard.ui.fragment.MainFragment(), menuItem, false);
                     break;
                 case R.id.nav_timeline:
-                    replaceFragment(new ChartFragment(), menuItem, false);
+                    showFragment(new ChartFragment(), menuItem, false);
                     break;
                 case R.id.nav_log:
-                    replaceFragment(new LogFragment(), menuItem, false);
+                    showFragment(new LogFragment(), menuItem, false);
                     break;
                 case R.id.nav_calculator:
-                    replaceFragment(new CalculatorFragment(), menuItem, false);
+                    showFragment(new CalculatorFragment(), menuItem, false);
                     break;
                 case R.id.nav_food_database:
                     startActivity(new Intent(MainActivity.this, FoodSearchActivity.class));
                     break;
                 case R.id.nav_statistics:
-                    replaceFragment(new StatisticsFragment(), menuItem, true);
+                    showFragment(new StatisticsFragment(), menuItem, true);
                     break;
                 case R.id.nav_export:
-                    replaceFragment(new ExportFragment(), menuItem, true);
+                    showFragment(new ExportFragment(), menuItem, true);
                     break;
                 case R.id.nav_settings:
                     startActivity(new Intent(MainActivity.this, PreferenceActivity.class));
                     break;
                 default:
-                    replaceFragment(new com.faltenreich.diaguard.ui.fragment.MainFragment(), menuItem, false);
+                    showFragment(new com.faltenreich.diaguard.ui.fragment.MainFragment(), menuItem, false);
                     break;
             }
         }
     }
 
-    public void replaceFragment(BaseFragment fragment, MenuItem menuItem, boolean addToBackStack) {
+    public void showFragment(BaseFragment fragment, MenuItem menuItem, boolean addToBackStack) {
         Fragment activeFragment = getSupportFragmentManager().findFragmentById(R.id.container);
         boolean isActive = activeFragment != null && activeFragment.getClass() == fragment.getClass();
         if (!isActive) {

@@ -37,6 +37,7 @@ public class TableCategoryHolder extends BaseViewHolder<ListItemCategoryValues> 
             Picasso.with(getContext()).load(categoryImageResourceId).into(imageView);
         }
 
+        // TODO: Improve performance with changing layout
         for (float value : listItem.getValues()) {
             TextView textView = (TextView) LayoutInflater.from(getContext()).inflate(R.layout.list_item_table_category_value, content, false);
             if (value > 0) {

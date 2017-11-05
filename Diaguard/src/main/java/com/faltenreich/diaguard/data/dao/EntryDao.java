@@ -118,10 +118,9 @@ public class EntryDao extends BaseDao<Entry> {
         for (Measurement.Category category : categories) {
             values.put(category, new float[DateTimeConstants.HOURS_PER_DAY / hoursToSkip]);
         }
-        // TODO: Improve nested fetch operations
-        for(Entry entry : getEntriesOfDay(day)) {
-            for (Measurement measurement : getMeasurements(entry, categories)) {
-                Measurement.Category category = measurement.getCategory();
+        for (Measurement.Category category : categories) {
+            List<Measurement> measurements = MeasurementDao.getInstance(category.toClass()).getMeasurements(day);
+            for (Measurement measurement : measurements) {
                 int index = measurement.getEntry().getDate().hourOfDay().get() / hoursToSkip;
                 boolean valueIsSum = category != Measurement.Category.PRESSURE;
                 float value = valueIsSum ? ArrayUtils.sum(measurement.getValues()) : ArrayUtils.avg(measurement.getValues());

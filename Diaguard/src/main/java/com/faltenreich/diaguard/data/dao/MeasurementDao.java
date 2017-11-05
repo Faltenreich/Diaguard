@@ -19,12 +19,15 @@ import com.faltenreich.diaguard.data.entity.Weight;
 import com.faltenreich.diaguard.util.NumberUtils;
 import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.table.DatabaseTableConfig;
 
+import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.Interval;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -79,13 +82,11 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
     }
 
     private void createOrUpdate(Meal meal) {
-
         for (FoodEaten foodEatenOld : FoodEatenDao.getInstance().getAll(meal)) {
             if (!meal.getFoodEatenCache().contains(foodEatenOld)) {
                 FoodEatenDao.getInstance().delete(foodEatenOld);
             }
         }
-
         for (FoodEaten foodEaten : meal.getFoodEatenCache()) {
             foodEaten.setMeal(meal);
             FoodEatenDao.getInstance().createOrUpdate(foodEaten);
@@ -192,6 +193,25 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
         } catch (SQLException exception) {
             Log.e(TAG, String.format("Could not fetch measurement of category '%s'", getClazz().toString()));
             return null;
+        }
+    }
+
+    public List<M> getMeasurements(DateTime day) {
+        try {
+            DateTime start = day.withTimeAtStartOfDay();
+            DateTime end = day.withTime(DateTimeConstants.HOURS_PER_DAY - 1,
+                    DateTimeConstants.MINUTES_PER_HOUR - 1,
+                    DateTimeConstants.SECONDS_PER_MINUTE - 1,
+                    DateTimeConstants.MILLIS_PER_SECOND - 1);
+            QueryBuilder<M, Long> measurementQb = getDao().queryBuilder();
+            QueryBuilder<Entry, Long> entryQb = EntryDao.getInstance().getQueryBuilder();
+            entryQb
+                    .orderBy(Entry.Column.DATE, true)
+                    .where().gt(Entry.Column.DATE, start).and().lt(Entry.Column.DATE, end);
+            return measurementQb.join(entryQb).query();
+        } catch (SQLException exception) {
+            Log.e(TAG, exception.getMessage());
+            return new ArrayList<>();
         }
     }
 

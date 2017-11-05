@@ -13,6 +13,7 @@ import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Food;
+import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.export.Export;
@@ -194,7 +195,6 @@ public class ImportHelper {
         @Override
         protected Void doInBackground(Void... params) {
             for (int count = 0; count < DATA_COUNT; count++) {
-
                 Entry entry = new Entry();
                 entry.setDate(DateTime.now().minusHours(count));
                 EntryDao.getInstance().createOrUpdate(entry);
@@ -203,6 +203,11 @@ public class ImportHelper {
                 bloodSugar.setMgDl(100);
                 bloodSugar.setEntry(entry);
                 MeasurementDao.getInstance(BloodSugar.class).createOrUpdate(bloodSugar);
+
+                Meal meal = new Meal();
+                meal.setCarbohydrates(20);
+                meal.setEntry(entry);
+                MeasurementDao.getInstance(Meal.class).createOrUpdate(meal);
 
                 Log.d(TAG, "Created test data: " + count + "/" + DATA_COUNT);
             }

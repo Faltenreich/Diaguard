@@ -198,7 +198,7 @@ public class MainFragment extends BaseFragment {
     }
 
     private void updateChart() {
-        new MeasurementAverageTask(getContext(), new BaseAsyncTask.OnAsyncProgressListener<LineData>() {
+        new MeasurementAverageTask(getContext(), Measurement.Category.BLOODSUGAR, TimeSpan.WEEK, true, false, new BaseAsyncTask.OnAsyncProgressListener<LineData>() {
             @Override
             public void onPostExecute(LineData lineData) {
                 if (isAdded()) {
@@ -209,7 +209,7 @@ public class MainFragment extends BaseFragment {
                     chart.invalidate();
                 }
             }
-        }, Measurement.Category.BLOODSUGAR, TimeSpan.WEEK, true, false).execute();
+        }).execute();
     }
 
     private void openStatistics() {

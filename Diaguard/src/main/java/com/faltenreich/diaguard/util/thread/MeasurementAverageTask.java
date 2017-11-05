@@ -38,7 +38,7 @@ public class MeasurementAverageTask extends BaseAsyncTask<Void, Void, LineData> 
     private boolean forceDrawing;
     private boolean fillDrawing;
 
-    public MeasurementAverageTask(Context context, OnAsyncProgressListener<LineData> onAsyncProgressListener, Measurement.Category category, TimeSpan timeSpan, boolean forceDrawing, boolean fillDrawing) {
+    public MeasurementAverageTask(Context context, Measurement.Category category, TimeSpan timeSpan, boolean forceDrawing, boolean fillDrawing, OnAsyncProgressListener<LineData> onAsyncProgressListener) {
         super(context, onAsyncProgressListener);
         this.category = category;
         this.timeSpan = timeSpan;

@@ -21,7 +21,7 @@ import java.util.List;
  * Created by Faltenreich on 15.03.2017
  */
 
-class DayChartData extends CombinedData {
+public class DayChartData extends CombinedData {
 
     private enum DataSetType {
         TARGET("target", R.color.green),
@@ -41,7 +41,7 @@ class DayChartData extends CombinedData {
     private PreferenceHelper.ChartStyle chartStyle;
     private List<Measurement> values;
 
-    DayChartData(Context context, List<Measurement> values) {
+    public DayChartData(Context context, List<Measurement> values) {
         super();
         this.context = context;
         this.chartStyle = PreferenceHelper.getInstance().getChartStyle();

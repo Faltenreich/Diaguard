@@ -22,11 +22,11 @@ import java.util.List;
  * Created by Faltenreich on 16.03.2016.
  */
 
-public class UpdateBloodSugarPieChartTask extends BaseAsyncTask<Void, Void, PieData> {
+public class BloodSugarDistributionTask extends BaseAsyncTask<Void, Void, PieData> {
 
     private TimeSpan timeSpan;
 
-    public UpdateBloodSugarPieChartTask(Context context, OnAsyncProgressListener<PieData> onAsyncProgressListener, TimeSpan timeSpan) {
+    public BloodSugarDistributionTask(Context context, OnAsyncProgressListener<PieData> onAsyncProgressListener, TimeSpan timeSpan) {
         super(context, onAsyncProgressListener);
         this.timeSpan = timeSpan;
     }

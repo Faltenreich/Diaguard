@@ -20,8 +20,8 @@ import com.faltenreich.diaguard.util.ChartHelper;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.TimeSpan;
 import com.faltenreich.diaguard.util.thread.BaseAsyncTask;
-import com.faltenreich.diaguard.util.thread.UpdateBloodSugarPieChartTask;
-import com.faltenreich.diaguard.util.thread.UpdateLineChartTask;
+import com.faltenreich.diaguard.util.thread.BloodSugarDistributionTask;
+import com.faltenreich.diaguard.util.thread.MeasurementAverageTask;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -209,7 +209,7 @@ public class StatisticsFragment extends BaseFragment {
 
 
     private void updateCharts() {
-        new UpdateLineChartTask(getContext(), new BaseAsyncTask.OnAsyncProgressListener<LineData>() {
+        new MeasurementAverageTask(getContext(), new BaseAsyncTask.OnAsyncProgressListener<LineData>() {
             @Override
             public void onPostExecute(LineData lineData) {
                 if (isAdded()) {
@@ -270,15 +270,17 @@ public class StatisticsFragment extends BaseFragment {
         if (category == Measurement.Category.BLOODSUGAR) {
             layoutDistribution.setVisibility(View.VISIBLE);
 
-            new UpdateBloodSugarPieChartTask(getContext(), new BaseAsyncTask.OnAsyncProgressListener<PieData>() {
+            new BloodSugarDistributionTask(getContext(), new BaseAsyncTask.OnAsyncProgressListener<PieData>() {
                 @Override
                 public void onPostExecute(PieData pieData) {
-                    boolean hasData = pieData.getDataSet().getEntryCount() > 0;
-                    chartDistribution.setData(hasData ? pieData : null);
-                    ViewGroup.LayoutParams params = chartDistribution.getLayoutParams();
-                    params.height = hasData ? (int) getResources().getDimension(R.dimen.pie_chart_height) : ViewGroup.LayoutParams.WRAP_CONTENT;
-                    chartDistribution.setLayoutParams(params);
-                    chartDistribution.invalidate();
+                    if (isAdded()) {
+                        boolean hasData = pieData.getDataSet().getEntryCount() > 0;
+                        chartDistribution.setData(hasData ? pieData : null);
+                        ViewGroup.LayoutParams params = chartDistribution.getLayoutParams();
+                        params.height = hasData ? (int) getResources().getDimension(R.dimen.pie_chart_height) : ViewGroup.LayoutParams.WRAP_CONTENT;
+                        chartDistribution.setLayoutParams(params);
+                        chartDistribution.invalidate();
+                    }
                 }
             }, timeSpan).execute();
         } else {

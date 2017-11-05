@@ -1,19 +1,19 @@
 package com.faltenreich.diaguard.ui.view.chart;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.support.annotation.ColorInt;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
-import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.util.ChartHelper;
+import com.faltenreich.diaguard.util.thread.BaseAsyncTask;
+import com.faltenreich.diaguard.util.thread.BloodSugarDayTask;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
@@ -22,9 +22,6 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Filip on 07.07.2015.
@@ -80,13 +77,32 @@ public class DayChart extends CombinedChart implements OnChartValueSelectedListe
         }
     }
 
+    private void update() {
+        new BloodSugarDayTask(getContext(), new BaseAsyncTask.OnAsyncProgressListener<DayChartData>() {
+            @Override
+            public void onPostExecute(DayChartData data) {
+                if (ViewCompat.isAttachedToWindow(DayChart.this)) {
+                    clear();
+                    setData(data);
+
+                    float yAxisMaximum = PreferenceHelper.getInstance().formatCustomToDefaultUnit(Measurement.Category.BLOODSUGAR, data.getYMax());
+                    yAxisMaximum = yAxisMaximum > Y_MAX_VALUE ? yAxisMaximum + Y_MAX_VALUE_OFFSET : Y_MAX_VALUE;
+                    yAxisMaximum = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, yAxisMaximum);
+                    getAxisLeft().setAxisMaximum(yAxisMaximum);
+
+                    invalidate();
+                }
+            }
+        }, day).execute();
+    }
+
     public DateTime getDay() {
         return day;
     }
 
     public void setDay(DateTime day) {
         this.day = day;
-        new FetchDataTask().execute();
+        update();
     }
 
     @Override
@@ -99,37 +115,5 @@ public class DayChart extends CombinedChart implements OnChartValueSelectedListe
     @Override
     public void onNothingSelected() {
 
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    private class FetchDataTask extends AsyncTask<Void, Void, DayChartData> {
-
-        protected DayChartData doInBackground(Void... params) {
-            List<Measurement> values = new ArrayList<>();
-            List<Entry> entries = EntryDao.getInstance().getEntriesOfDay(day);
-            if (entries != null && entries.size() > 0) {
-                for (com.faltenreich.diaguard.data.entity.Entry entry : entries) {
-                    // TODO: Improve performance by using transaction / bulk fetch
-                    List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry, new Measurement.Category[] { Measurement.Category.BLOODSUGAR });
-                    values.addAll(measurements);
-                }
-            }
-            return new DayChartData(getContext(), values);
-        }
-
-        @Override
-        protected void onPostExecute(DayChartData data) {
-            super.onPostExecute(data);
-
-            clear();
-            setData(data);
-
-            float yAxisMaximum = PreferenceHelper.getInstance().formatCustomToDefaultUnit(Measurement.Category.BLOODSUGAR, data.getYMax());
-            yAxisMaximum = yAxisMaximum > Y_MAX_VALUE ? yAxisMaximum + Y_MAX_VALUE_OFFSET : Y_MAX_VALUE;
-            yAxisMaximum = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, yAxisMaximum);
-            getAxisLeft().setAxisMaximum(yAxisMaximum);
-
-            invalidate();
-        }
     }
 }

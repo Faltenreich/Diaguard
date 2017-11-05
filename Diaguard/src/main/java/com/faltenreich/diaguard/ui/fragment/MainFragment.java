@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.ui.fragment;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -10,7 +9,6 @@ import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
-import com.faltenreich.diaguard.data.SqlFunction;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
@@ -26,7 +24,8 @@ import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.TimeSpan;
 import com.faltenreich.diaguard.util.ViewUtils;
 import com.faltenreich.diaguard.util.thread.BaseAsyncTask;
-import com.faltenreich.diaguard.util.thread.UpdateLineChartTask;
+import com.faltenreich.diaguard.util.thread.DashboardTask;
+import com.faltenreich.diaguard.util.thread.MeasurementAverageTask;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.data.LineData;
@@ -36,10 +35,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
-import org.joda.time.Interval;
 import org.joda.time.Minutes;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -159,86 +155,22 @@ public class MainFragment extends BaseFragment {
         }
     }
 
-    // region Dashboard
-
     private void updateDashboard() {
-        new UpdateDashboardTask().execute();
-    }
-
-    private class UpdateDashboardTask extends AsyncTask<Void, Void, String[]> {
-
-        protected String[] doInBackground(Void... params) {
-            int countHypers = 0;
-            int countHypos = 0;
-
-            List<Entry> entriesWithBloodSugar = EntryDao.getInstance().getAllWithMeasurementFromToday(BloodSugar.class);
-            if (entriesWithBloodSugar != null) {
-                for (Entry entry : entriesWithBloodSugar) {
-                    BloodSugar bloodSugar = (BloodSugar) MeasurementDao.getInstance(BloodSugar.class).getMeasurement(entry);
-                    if (bloodSugar != null) {
-                        float mgDl = bloodSugar.getMgDl();
-                        if (mgDl > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
-                            countHypers++;
-                        } else if (mgDl < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
-                            countHypos++;
-                        }
-                    }
+        new DashboardTask(getContext(), new BaseAsyncTask.OnAsyncProgressListener<String[]>() {
+            @Override
+            public void onPostExecute(String[] values) {
+                if (isAdded() && values != null && values.length == 7) {
+                    textViewMeasurements.setText(values[0]);
+                    textViewHyperglycemia.setText(values[1]);
+                    textViewHypoglycemia.setText(values[2]);
+                    textViewAverageDay.setText(values[3]);
+                    textViewAverageWeek.setText(values[4]);
+                    textViewAverageMonth.setText(values[5]);
+                    textViewHbA1c.setText(values[6]);
                 }
             }
-            DateTime now = DateTime.now();
-            Interval intervalDay = new Interval(now, now);
-            Interval intervalWeek = new Interval(new DateTime(now.minusWeeks(1)), now);
-            Interval intervalMonth = new Interval(new DateTime(now.minusMonths(1)), now);
-            Interval intervalQuarter = new Interval(new DateTime(now.minusMonths(3)), now);
-
-            float avgDay = MeasurementDao.getInstance(BloodSugar.class).function(SqlFunction.AVG, BloodSugar.Column.MGDL, intervalDay);
-            float avgDayCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, avgDay);
-
-            float avgWeek = MeasurementDao.getInstance(BloodSugar.class).function(SqlFunction.AVG, BloodSugar.Column.MGDL, intervalWeek);
-            float avgWeekCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, avgWeek);
-
-            float avgMonth = MeasurementDao.getInstance(BloodSugar.class).function(SqlFunction.AVG, BloodSugar.Column.MGDL, intervalMonth);
-            float avgMonthCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, avgMonth);
-
-            float avgQuarter = MeasurementDao.getInstance(BloodSugar.class).function(SqlFunction.AVG, BloodSugar.Column.MGDL, intervalQuarter);
-            float hbA1cCustom = 0;
-            if (avgQuarter > 0) {
-                float hbA1c = Helper.calculateHbA1c(avgQuarter);
-                hbA1cCustom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.HBA1C, hbA1c);
-            }
-
-            return new String[] {
-                    Integer.toString(entriesWithBloodSugar != null ? entriesWithBloodSugar.size() : 0),
-                    Integer.toString(countHypers),
-                    Integer.toString(countHypos),
-                    avgDayCustom > 0 ? Helper.parseFloat(avgDayCustom) : getString(R.string.placeholder),
-                    avgWeekCustom > 0 ? Helper.parseFloat(avgWeekCustom) : getString(R.string.placeholder),
-                    avgMonthCustom > 0 ? Helper.parseFloat(avgMonthCustom) : getString(R.string.placeholder),
-                    hbA1cCustom > 0 ? String.format("%s%s", Helper.parseFloat(hbA1cCustom), PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.HBA1C)) : getContext().getString(R.string.placeholder)
-            };
-        }
-
-        protected void onPostExecute(String[] values) {
-            if(isAdded() && values != null && values.length == 7) {
-                // Today
-                textViewMeasurements.setText(values[0]);
-                textViewHyperglycemia.setText(values[1]);
-                textViewHypoglycemia.setText(values[2]);
-
-                // Averages
-                textViewAverageDay.setText(values[3]);
-                textViewAverageWeek.setText(values[4]);
-                textViewAverageMonth.setText(values[5]);
-
-                // HbA1c
-                textViewHbA1c.setText(values[6]);
-            }
-        }
+        }).execute();
     }
-
-    // endregion
-
-    // region Charting
 
     private void initializeChart() {
         final TimeSpan timeSpan = TimeSpan.WEEK;
@@ -266,11 +198,11 @@ public class MainFragment extends BaseFragment {
     }
 
     private void updateChart() {
-        new UpdateLineChartTask(getContext(), new BaseAsyncTask.OnAsyncProgressListener<LineData>() {
+        new MeasurementAverageTask(getContext(), new BaseAsyncTask.OnAsyncProgressListener<LineData>() {
             @Override
             public void onPostExecute(LineData lineData) {
                 if (isAdded()) {
-                    initializeChart();
+                    chart.clear();
                     if (lineData != null) {
                         chart.setData(lineData);
                     }
@@ -285,8 +217,6 @@ public class MainFragment extends BaseFragment {
             ((MainActivity) getActivity()).showFragment(R.id.nav_statistics);
         }
     }
-
-    // endregion
 
     @OnClick(R.id.layout_latest)
     protected void openEntry(View view) {

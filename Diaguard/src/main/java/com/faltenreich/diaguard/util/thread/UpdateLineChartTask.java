@@ -77,20 +77,18 @@ public class UpdateLineChartTask extends BaseAsyncTask<Void, Void, LineData> {
         }
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        String dataSetName = String.format("%s %s %s",
-                PreferenceHelper.getInstance().getUnitName(category),
-                getContext().getString(R.string.per),
-                timeSpan.toSubIntervalLabel());
-        LineDataSet dataSet = new LineDataSet(entries, dataSetName);
-        dataSet.setColor(dataSetColor);
-        dataSet.setLineWidth(fillDrawing ? 0 : ChartHelper.LINE_WIDTH);
-        dataSet.setCircleColor(dataSetColor);
-        dataSet.setCircleRadius(CIRCLE_RADIUS);
-        dataSet.setDrawCircles(entries.size() <= 1);
-        dataSet.setDrawValues(false);
-        dataSet.setDrawFilled(fillDrawing);
-        dataSet.setFillColor(dataSetColor);
-        dataSets.add(dataSet);
+        if (entries.size() > 0) {
+            LineDataSet dataSet = new LineDataSet(entries, "Blood sugar average per day");
+            dataSet.setColor(dataSetColor);
+            dataSet.setLineWidth(fillDrawing ? 0 : ChartHelper.LINE_WIDTH);
+            dataSet.setCircleColor(dataSetColor);
+            dataSet.setCircleRadius(CIRCLE_RADIUS);
+            dataSet.setDrawCircles(entries.size() <= 1);
+            dataSet.setDrawValues(false);
+            dataSet.setDrawFilled(fillDrawing);
+            dataSet.setFillColor(dataSetColor);
+            dataSets.add(dataSet);
+        }
 
         // FIXME: Workaround to set visible area
         if (forceDrawing) {
@@ -105,7 +103,7 @@ public class UpdateLineChartTask extends BaseAsyncTask<Void, Void, LineData> {
             }
             List<com.github.mikephil.charting.data.Entry> entriesMaximum = new ArrayList<>();
             entriesMaximum.add(new com.github.mikephil.charting.data.Entry(-1, highestValue));
-            LineDataSet dataSetMaximum = new LineDataSet(entriesMaximum, "Maximum");
+            LineDataSet dataSetMaximum = new LineDataSet(entriesMaximum, "Fake");
             dataSetMaximum.setColor(Color.TRANSPARENT);
             dataSets.add(dataSetMaximum);
         }

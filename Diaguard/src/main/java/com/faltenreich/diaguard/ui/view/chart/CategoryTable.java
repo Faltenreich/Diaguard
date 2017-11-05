@@ -1,33 +1,27 @@
 package com.faltenreich.diaguard.ui.view.chart;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
 import com.faltenreich.diaguard.adapter.CategoryRecyclerAdapter;
-import com.faltenreich.diaguard.adapter.list.ListItemCategoryValues;
 import com.faltenreich.diaguard.adapter.SimpleDividerItemDecoration;
+import com.faltenreich.diaguard.adapter.list.ListItemCategoryValues;
 import com.faltenreich.diaguard.data.PreferenceHelper;
-import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.util.thread.BaseAsyncTask;
+import com.faltenreich.diaguard.util.thread.TimelineTableTask;
 
 import org.joda.time.DateTime;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Faltenreich on 15.12.2015.
  */
 public class CategoryTable extends RecyclerView {
-
-    private static final int SKIP_EVERY_X_HOUR = 2;
 
     private CategoryRecyclerAdapter adapter;
     private DateTime day;
@@ -48,9 +42,21 @@ public class CategoryTable extends RecyclerView {
         setup();
     }
 
+    private void update() {
+        new TimelineTableTask(getContext(), day, categories, new BaseAsyncTask.OnAsyncProgressListener<List<ListItemCategoryValues>>() {
+            @Override
+            public void onPostExecute(List<ListItemCategoryValues> values) {
+                // Other notify methods lead to rendering issues on view paging
+                adapter.clear();
+                adapter.addItems(values);
+                adapter.notifyDataSetChanged();
+            }
+        }).execute();
+    }
+
     public void setDay(DateTime day) {
         this.day = day;
-        new UpdateDataTask().execute();
+        update();
     }
 
     public void scrollTo(int yOffset) {
@@ -66,28 +72,6 @@ public class CategoryTable extends RecyclerView {
             setLayoutManager(new LinearLayoutManager(getContext()));
             adapter = new CategoryRecyclerAdapter(getContext());
             setAdapter(adapter);
-        }
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    private class UpdateDataTask extends AsyncTask<Void, Void, List<ListItemCategoryValues>> {
-
-        protected List<ListItemCategoryValues> doInBackground(Void... params) {
-            LinkedHashMap<Measurement.Category, float[]> values = EntryDao.getInstance().getAverageDataTable(day, categories, SKIP_EVERY_X_HOUR);
-            List<ListItemCategoryValues> rowList = new ArrayList<>();
-            for (Map.Entry<Measurement.Category, float[]> mapEntry : values.entrySet()) {
-                rowList.add(new ListItemCategoryValues(mapEntry.getKey(), mapEntry.getValue()));
-            }
-            return rowList;
-        }
-
-        protected void onPostExecute(List<ListItemCategoryValues> values) {
-            super.onPostExecute(values);
-
-            // Other notify methods lead to rendering issues on view paging
-            adapter.clear();
-            adapter.addItems(values);
-            adapter.notifyDataSetChanged();
         }
     }
 }

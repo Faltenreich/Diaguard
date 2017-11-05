@@ -26,7 +26,7 @@ public class BloodSugarDistributionTask extends BaseAsyncTask<Void, Void, PieDat
 
     private TimeSpan timeSpan;
 
-    public BloodSugarDistributionTask(Context context, OnAsyncProgressListener<PieData> onAsyncProgressListener, TimeSpan timeSpan) {
+    public BloodSugarDistributionTask(Context context, TimeSpan timeSpan, OnAsyncProgressListener<PieData> onAsyncProgressListener) {
         super(context, onAsyncProgressListener);
         this.timeSpan = timeSpan;
     }

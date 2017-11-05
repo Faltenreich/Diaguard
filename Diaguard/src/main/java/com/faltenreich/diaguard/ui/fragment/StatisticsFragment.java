@@ -209,7 +209,7 @@ public class StatisticsFragment extends BaseFragment {
 
 
     private void updateCharts() {
-        new MeasurementAverageTask(getContext(), new BaseAsyncTask.OnAsyncProgressListener<LineData>() {
+        new MeasurementAverageTask(getContext(), category, timeSpan, false, true, new BaseAsyncTask.OnAsyncProgressListener<LineData>() {
             @Override
             public void onPostExecute(LineData lineData) {
                 if (isAdded()) {
@@ -265,12 +265,12 @@ public class StatisticsFragment extends BaseFragment {
                     }
                 }
             }
-        }, category, timeSpan, false, true).execute();
+        }).execute();
 
         if (category == Measurement.Category.BLOODSUGAR) {
             layoutDistribution.setVisibility(View.VISIBLE);
 
-            new BloodSugarDistributionTask(getContext(), new BaseAsyncTask.OnAsyncProgressListener<PieData>() {
+            new BloodSugarDistributionTask(getContext(), timeSpan, new BaseAsyncTask.OnAsyncProgressListener<PieData>() {
                 @Override
                 public void onPostExecute(PieData pieData) {
                     if (isAdded()) {
@@ -282,7 +282,7 @@ public class StatisticsFragment extends BaseFragment {
                         chartDistribution.invalidate();
                     }
                 }
-            }, timeSpan).execute();
+            }).execute();
         } else {
             layoutDistribution.setVisibility(View.GONE);
         }

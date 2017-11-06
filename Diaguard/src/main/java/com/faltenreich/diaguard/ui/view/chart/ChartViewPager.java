@@ -65,6 +65,8 @@ public class ChartViewPager extends ViewPager {
                         int currentItem = getCurrentItem();
                         int targetItem = adapter.getMiddle();
 
+                        ((ChartDayFragment) adapter.getItem(currentItem)).update();
+
                         if (currentItem != targetItem) {
                             switch (currentItem) {
                                 case 0:

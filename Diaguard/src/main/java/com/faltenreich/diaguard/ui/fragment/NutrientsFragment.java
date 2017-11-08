@@ -9,7 +9,7 @@ import android.view.View;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.NutrientAdapter;
-import com.faltenreich.diaguard.adapter.SimpleDividerItemDecoration;
+import com.faltenreich.diaguard.adapter.LinearDividerItemDecoration;
 import com.faltenreich.diaguard.data.entity.Food;
 
 import butterknife.BindView;
@@ -42,7 +42,7 @@ public class NutrientsFragment extends BaseFoodFragment {
         Food food = getFood();
         if (food != null) {
             nutrientList.setLayoutManager(new LinearLayoutManager(getContext()));
-            nutrientList.addItemDecoration(new SimpleDividerItemDecoration(getContext()));
+            nutrientList.addItemDecoration(new LinearDividerItemDecoration(getContext()));
             nutrientList.setAdapter(new NutrientAdapter(getContext(), food));
         }
     }

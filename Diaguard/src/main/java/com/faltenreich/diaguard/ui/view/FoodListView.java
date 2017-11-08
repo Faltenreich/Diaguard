@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 
 import com.faltenreich.diaguard.adapter.EndlessRecyclerViewScrollListener;
 import com.faltenreich.diaguard.adapter.FoodAdapter;
-import com.faltenreich.diaguard.adapter.SimpleDividerItemDecoration;
+import com.faltenreich.diaguard.adapter.LinearDividerItemDecoration;
 import com.faltenreich.diaguard.adapter.list.ListItemFood;
 import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.dao.FoodEatenDao;
@@ -68,7 +68,7 @@ public class FoodListView extends RecyclerView {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         setLayoutManager(layoutManager);
 
-        addItemDecoration(new SimpleDividerItemDecoration(getContext()));
+        addItemDecoration(new LinearDividerItemDecoration(getContext()));
 
         adapter = new FoodAdapter(getContext());
         setAdapter(adapter);

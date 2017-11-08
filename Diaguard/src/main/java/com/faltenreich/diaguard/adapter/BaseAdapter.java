@@ -34,6 +34,14 @@ public abstract class BaseAdapter<L, VH extends BaseViewHolder<L>> extends Recyc
         return this.items;
     }
 
+    public boolean setItem(L item, int position) {
+        if (position >= 0 && position < items.size()) {
+            items.set(position, item);
+            return true;
+        }
+        return false;
+    }
+
     public int getItemPosition(L item) {
         return this.items.indexOf(item);
     }

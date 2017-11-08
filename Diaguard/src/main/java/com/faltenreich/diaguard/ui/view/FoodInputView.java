@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.FoodEditableAdapter;
-import com.faltenreich.diaguard.adapter.SimpleDividerItemDecoration;
+import com.faltenreich.diaguard.adapter.LinearDividerItemDecoration;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.FoodEaten;
@@ -122,7 +122,7 @@ public class FoodInputView extends LinearLayout {
 
             adapter = new FoodEditableAdapter(getContext());
             foodList.setLayoutManager(new LinearLayoutManager(getContext()));
-            foodList.addItemDecoration(new SimpleDividerItemDecoration(getContext()));
+            foodList.addItemDecoration(new LinearDividerItemDecoration(getContext()));
             foodList.setAdapter(adapter);
         }
     }

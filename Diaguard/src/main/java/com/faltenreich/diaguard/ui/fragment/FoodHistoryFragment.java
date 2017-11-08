@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.FoodEatenAdapter;
-import com.faltenreich.diaguard.adapter.SimpleDividerItemDecoration;
+import com.faltenreich.diaguard.adapter.LinearDividerItemDecoration;
 import com.faltenreich.diaguard.data.dao.FoodEatenDao;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.FoodEaten;
@@ -56,7 +56,7 @@ public class FoodHistoryFragment extends BaseFoodFragment {
         Food food = getFood();
         if (food != null) {
             historyList.setLayoutManager(new LinearLayoutManager(getContext()));
-            historyList.addItemDecoration(new SimpleDividerItemDecoration(getContext()));
+            historyList.addItemDecoration(new LinearDividerItemDecoration(getContext()));
             historyAdapter = new FoodEatenAdapter(getContext());
             historyList.setAdapter(historyAdapter);
         }

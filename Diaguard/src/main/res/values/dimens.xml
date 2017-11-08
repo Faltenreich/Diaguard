@@ -20,8 +20,8 @@
     <dimen name="margin_between_larger">22dp</dimen>
     <dimen name="height_element">48dp</dimen>
     <dimen name="height_element_large">54dp</dimen>
-    <dimen name="size_image_small">24dp</dimen>
     <dimen name="size_image_smaller">18dp</dimen>
+    <dimen name="size_image_small">24dp</dimen>
     <dimen name="size_image">32dp</dimen>
     <dimen name="size_image_big">64dp</dimen>
 

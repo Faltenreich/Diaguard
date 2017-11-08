@@ -12,11 +12,12 @@ import com.faltenreich.diaguard.R;
 /**
  * Created by Faltenreich on 17.12.2015.
  */
-public class SimpleDividerItemDecoration extends RecyclerView.ItemDecoration {
-    private Drawable mDivider;
+public class LinearDividerItemDecoration extends RecyclerView.ItemDecoration {
 
-    public SimpleDividerItemDecoration(Context context) {
-        mDivider = ContextCompat.getDrawable(context, R.drawable.line_divider);
+    private Drawable drawable;
+
+    public LinearDividerItemDecoration(Context context) {
+        drawable = ContextCompat.getDrawable(context, R.drawable.line_divider);
     }
 
     @Override
@@ -25,16 +26,16 @@ public class SimpleDividerItemDecoration extends RecyclerView.ItemDecoration {
         int right = parent.getWidth() - parent.getPaddingRight();
 
         int childCount = parent.getChildCount();
-        for (int i = 0; i < childCount; i++) {
-            View child = parent.getChildAt(i);
+        for (int index = 0; index < childCount; index++) {
+            View child = parent.getChildAt(index);
 
             RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
 
             int top = child.getBottom() + params.bottomMargin;
-            int bottom = top + mDivider.getIntrinsicHeight();
+            int bottom = top + drawable.getIntrinsicHeight();
 
-            mDivider.setBounds(left, top, right, bottom);
-            mDivider.draw(c);
+            drawable.setBounds(left, top, right, bottom);
+            drawable.draw(c);
         }
     }
 }

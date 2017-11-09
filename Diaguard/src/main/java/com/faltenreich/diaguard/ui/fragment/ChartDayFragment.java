@@ -5,15 +5,18 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.CategoryRecyclerAdapter;
-import com.faltenreich.diaguard.adapter.list.ListItemCategory;
+import com.faltenreich.diaguard.adapter.CategoryImageListAdapter;
+import com.faltenreich.diaguard.adapter.CategoryValueListAdapter;
+import com.faltenreich.diaguard.adapter.list.ListItemCategoryImage;
 import com.faltenreich.diaguard.adapter.list.ListItemCategoryValue;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
@@ -39,14 +42,19 @@ public class ChartDayFragment extends Fragment {
     public static final String EXTRA_DATE_TIME = "EXTRA_DATE_TIME";
 
     @BindView(R.id.day_chart) DayChart dayChart;
-    @BindView(R.id.category_table) RecyclerView categoryTable;
+    @BindView(R.id.scroll_view) NestedScrollView scrollView;
+    // TODO: Merge both lists into one with pimped GridLayoutManager
+    @BindView(R.id.category_table_images) RecyclerView imageTable;
+    @BindView(R.id.category_table_values) RecyclerView valueTable;
 
     private DateTime day;
-    private RecyclerView.OnScrollListener onScrollListener;
-    private CategoryRecyclerAdapter adapter;
+    private NestedScrollView.OnScrollChangeListener onScrollListener;
+    private CategoryImageListAdapter imageAdapter;
+    private CategoryValueListAdapter valueAdapter;
     private Measurement.Category[] categories;
-    private List<ListItemCategory> tableValues;
     private boolean isVisible;
+
+    private List<ListItemCategoryValue> temp;
 
     public static ChartDayFragment createInstance(DateTime dateTime) {
         ChartDayFragment fragment = new ChartDayFragment();
@@ -91,29 +99,38 @@ public class ChartDayFragment extends Fragment {
     private void init() {
         Measurement.Category[] activeCategories = PreferenceHelper.getInstance().getActiveCategories();
         categories = Arrays.copyOfRange(activeCategories, 1, activeCategories.length);
-        adapter = new CategoryRecyclerAdapter(getContext());
+        imageAdapter = new CategoryImageListAdapter(getContext());
+        valueAdapter = new CategoryValueListAdapter(getContext());
     }
 
     private void initLayout() {
-        categoryTable.setLayoutManager(new GridLayoutManager(getContext(), (DateTimeConstants.HOURS_PER_DAY / 2) + 1));
-        categoryTable.setAdapter(adapter);
-        categoryTable.addOnScrollListener(onScrollListener);
+        imageTable.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        imageTable.setAdapter(imageAdapter);
+        imageTable.setNestedScrollingEnabled(false);
+
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), DateTimeConstants.HOURS_PER_DAY / 2);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        valueTable.setLayoutManager(layoutManager);
+        valueTable.setAdapter(valueAdapter);
+        valueTable.setNestedScrollingEnabled(false);
         setDay(day);
+
+        scrollView.setOnScrollChangeListener(onScrollListener);
     }
 
     private void invalidate() {
         if (dayChart != null) {
             dayChart.setDay(day);
         }
-        if (categoryTable != null) {
-            new TimelineTableTask(getContext(), day, categories, new BaseAsyncTask.OnAsyncProgressListener<List<ListItemCategory>>() {
+        if (valueTable != null) {
+            new TimelineTableTask(getContext(), day, categories, new BaseAsyncTask.OnAsyncProgressListener<List<ListItemCategoryValue>>() {
                 @Override
-                public void onPostExecute(List<ListItemCategory> values) {
-                    tableValues = values;
+                public void onPostExecute(List<ListItemCategoryValue> values) {
+                    temp = values;
                     if (isVisible) {
                         // Update only onPageChanged to improve performance
                         update();
-                    } else if (adapter.getItemCount() == 0) {
+                    } else if (valueAdapter.getItemCount() == 0) {
                         // Delay updating invisible fragments onStart to improve performance
                         new Handler().postDelayed(new Runnable() {
                             @Override
@@ -128,23 +145,28 @@ public class ChartDayFragment extends Fragment {
     }
 
     public void update() {
-        if (isAdded() && tableValues != null) {
-            if (adapter.getItemCount() > 0) {
-                for (int index = 0; index < tableValues.size(); index++) {
-                    ListItemCategory listItem = tableValues.get(index);
-                    RecyclerView.ViewHolder viewHolder = categoryTable.findViewHolderForAdapterPosition(index);
-                    if (listItem instanceof ListItemCategoryValue && viewHolder != null && viewHolder instanceof CategoryValueViewHolder) {
-                        adapter.setItem(listItem, index);
+        if (isAdded() && temp != null) {
+            if (valueAdapter.getItemCount() > 0) {
+                for (int index = 0; index < temp.size(); index++) {
+                    ListItemCategoryValue listItem = temp.get(index);
+                    RecyclerView.ViewHolder viewHolder = valueTable.findViewHolderForAdapterPosition(index);
+                    if (viewHolder != null && viewHolder instanceof CategoryValueViewHolder) {
+                        valueAdapter.setItem(listItem, index);
                         // We access the ViewHolder directly for better performance compared to notifyItem(Range)Changed
                         CategoryValueViewHolder categoryValueViewHolder = (CategoryValueViewHolder) viewHolder;
-                        categoryValueViewHolder.setListItem((ListItemCategoryValue) listItem);
+                        categoryValueViewHolder.setListItem(listItem);
                         ((CategoryValueViewHolder) viewHolder).bindData();
                     }
                 }
             } else {
+                for (Measurement.Category category : categories) {
+                    imageAdapter.addItem(new ListItemCategoryImage(category));
+                }
+                imageAdapter.notifyDataSetChanged();
+
                 // Other notify methods lead to rendering issues on view paging
-                adapter.addItems(tableValues);
-                adapter.notifyDataSetChanged();
+                valueAdapter.addItems(temp);
+                valueAdapter.notifyDataSetChanged();
             }
         }
     }
@@ -160,13 +182,13 @@ public class ChartDayFragment extends Fragment {
         }
     }
 
-    public void setOnScrollListener(RecyclerView.OnScrollListener onScrollListener) {
+    public void setOnScrollListener(NestedScrollView.OnScrollChangeListener onScrollListener) {
         this.onScrollListener = onScrollListener;
     }
 
     public void scrollTo(int yOffset) {
         if (isAdded()) {
-            categoryTable.scrollBy(0, yOffset - categoryTable.computeVerticalScrollOffset());
+            scrollView.scrollBy(0, yOffset - valueTable.computeVerticalScrollOffset());
         }
     }
 }

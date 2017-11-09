@@ -47,6 +47,7 @@
         <item name="android:ellipsize">end</item>
         <item name="autoSizeTextType">uniform</item>
         <item name="autoSizeMinTextSize">8sp</item>
+        <item name="autoSizeMaxTextSize">@dimen/text_small</item>
     </style>
 
     <style name="BoxRow">

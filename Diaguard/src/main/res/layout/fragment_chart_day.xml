@@ -22,11 +22,31 @@
 
     </android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/category_table"
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        tools:listItem="@layout/list_item_table_category_value"/>
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/category_table_images"
+                android:layout_width="@dimen/chart_offset_left"
+                android:layout_height="match_parent"
+                tools:listItem="@layout/list_item_table_category_image"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/category_table_values"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listItem="@layout/list_item_table_category_value"/>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
 
 </LinearLayout>

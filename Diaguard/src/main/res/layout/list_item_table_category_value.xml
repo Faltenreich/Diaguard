@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="@dimen/table_row_height">
 
     <View
         android:id="@+id/category_divider_vertical"
@@ -14,12 +14,13 @@
 
     <TextView
         android:id="@+id/category_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_toRightOf="@+id/category_divider_vertical"
         android:layout_toEndOf="@+id/category_divider_vertical"
         android:gravity="center"
         android:textColor="@android:color/black"
+        android:textSize="@dimen/text_small"
         tools:text="98"
         style="@style/NumberResizeable"/>
 

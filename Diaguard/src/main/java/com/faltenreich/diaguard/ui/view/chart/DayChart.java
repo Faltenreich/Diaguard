@@ -64,8 +64,7 @@ public class DayChart extends CombinedChart implements OnChartValueSelectedListe
             getXAxis().setLabelCount((DateTimeConstants.HOURS_PER_DAY / 2) + 1, true);
 
             // Offsets are calculated manually
-            float leftOffset = getContext().getResources().getDimension(R.dimen.size_image) +
-                    getContext().getResources().getDimension(R.dimen.margin_between);
+            float leftOffset = getContext().getResources().getDimension(R.dimen.chart_offset_left);
             float bottomOffset = getContext().getResources().getDimension(R.dimen.chart_offset_bottom);
             setViewPortOffsets(leftOffset, 0, 0, bottomOffset);
 

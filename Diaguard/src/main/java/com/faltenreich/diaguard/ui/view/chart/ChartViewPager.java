@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.ui.view.chart;
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.widget.NestedScrollView;
 import android.util.AttributeSet;
 
 import com.faltenreich.diaguard.adapter.ChartPagerAdapter;
@@ -29,13 +29,10 @@ public class ChartViewPager extends ViewPager {
     }
 
     public void setup(final FragmentManager fragmentManager, final ChartViewPagerCallback callback) {
-        adapter = new ChartPagerAdapter(fragmentManager, DateTime.now(), new RecyclerView.OnScrollListener() {
+        adapter = new ChartPagerAdapter(fragmentManager, DateTime.now(), new NestedScrollView.OnScrollChangeListener() {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    scrollOffset = recyclerView.computeVerticalScrollOffset();
-                }
+            public void onScrollChange(NestedScrollView view, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                scrollOffset = scrollY;
             }
         });
         setAdapter(adapter);

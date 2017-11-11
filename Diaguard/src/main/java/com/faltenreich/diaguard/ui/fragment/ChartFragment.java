@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.event.data.EntryUpdatedEvent;
+import com.faltenreich.diaguard.event.preference.UnitChangedEvent;
 import com.faltenreich.diaguard.ui.view.chart.ChartViewPager;
 import com.faltenreich.diaguard.util.ViewUtils;
 
@@ -82,6 +83,13 @@ public class ChartFragment extends DateFragment implements ChartViewPager.ChartV
     public void onEvent(EntryUpdatedEvent event) {
         if (isAdded()) {
             goToDay(event.context.getDate());
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(UnitChangedEvent event) {
+        if (isAdded()) {
+            goToDay(getDay());
         }
     }
 }

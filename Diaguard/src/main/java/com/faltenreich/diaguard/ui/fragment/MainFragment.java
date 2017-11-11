@@ -15,6 +15,7 @@ import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.data.EntryAddedEvent;
+import com.faltenreich.diaguard.event.preference.UnitChangedEvent;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.ui.activity.MainActivity;
 import com.faltenreich.diaguard.util.AlarmUtils;
@@ -250,5 +251,12 @@ public class MainFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EntryAddedEvent event) {
         updateContent();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(UnitChangedEvent event) {
+        if (isAdded()) {
+            updateContent();
+        }
     }
 }

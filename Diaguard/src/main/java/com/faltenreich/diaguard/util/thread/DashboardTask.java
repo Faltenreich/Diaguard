@@ -74,7 +74,7 @@ public class DashboardTask extends BaseAsyncTask<Void, Void, String[]> {
                 avgDayCustom > 0 ? Helper.parseFloat(avgDayCustom) : getContext().getString(R.string.placeholder),
                 avgWeekCustom > 0 ? Helper.parseFloat(avgWeekCustom) : getContext().getString(R.string.placeholder),
                 avgMonthCustom > 0 ? Helper.parseFloat(avgMonthCustom) : getContext().getString(R.string.placeholder),
-                hbA1cCustom > 0 ? String.format("%s%s", Helper.parseFloat(hbA1cCustom), PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.HBA1C)) : getContext().getString(R.string.placeholder)
+                hbA1cCustom > 0 ? String.format("%s %s", Helper.parseFloat(hbA1cCustom), PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.HBA1C)) : getContext().getString(R.string.placeholder)
         };
     }
 }

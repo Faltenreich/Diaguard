@@ -16,6 +16,8 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Locale;
 import java.util.Random;
 
@@ -60,7 +62,9 @@ public class Helper {
     }
 
     private static String parseFloatWithDigit(float number) {
-        return String.format(getLocale(), "%.1f", number);
+        DecimalFormat format = new DecimalFormat(".#");
+        format.setRoundingMode(RoundingMode.DOWN);
+        return format.format(number);
     }
 
     private static String parseFloatWithoutDigit(float number) {

@@ -373,7 +373,8 @@ public class PreferenceHelper {
     }
 
     public String getMeasurementForUi(Measurement.Category category, float value) {
-        return Helper.parseFloat(formatDefaultToCustomUnit(category, value));
+        float customValue = formatDefaultToCustomUnit(category, value);
+        return Helper.parseFloat(customValue);
     }
 
     // FACTORS

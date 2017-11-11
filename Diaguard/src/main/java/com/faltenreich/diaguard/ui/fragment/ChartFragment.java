@@ -67,7 +67,7 @@ public class ChartFragment extends DateFragment implements ChartViewPager.ChartV
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EntryAddedEvent event) {
         if (isAdded()) {
-            goToDay(event.context.getDate());
+            goToDay(getDay());
         }
     }
 
@@ -75,14 +75,14 @@ public class ChartFragment extends DateFragment implements ChartViewPager.ChartV
     public void onEvent(EntryDeletedEvent event) {
         super.onEvent(event);
         if (isAdded()) {
-            goToDay(event.context.getDate());
+            goToDay(getDay());
         }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EntryUpdatedEvent event) {
         if (isAdded()) {
-            goToDay(event.context.getDate());
+            goToDay(getDay());
         }
     }
 

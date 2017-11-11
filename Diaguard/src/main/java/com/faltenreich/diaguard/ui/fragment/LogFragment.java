@@ -22,6 +22,7 @@ import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.event.data.EntryUpdatedEvent;
+import com.faltenreich.diaguard.event.preference.UnitChangedEvent;
 import com.faltenreich.diaguard.util.ViewUtils;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -251,6 +252,14 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.OnAd
     public void onEvent(EntryUpdatedEvent event) {
         if (isAdded()) {
             updateEntry(event.context, event.originalDate);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(UnitChangedEvent event) {
+        if (isAdded()) {
+            progressBar.setVisibility(View.VISIBLE);
+            listAdapter.setup(getDay());
         }
     }
 }

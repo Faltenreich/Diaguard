@@ -17,7 +17,7 @@ import butterknife.BindView;
 public class MeasurementGenericView <T extends Measurement> extends MeasurementAbstractView<T> {
 
     @BindView(R.id.value)
-    StickyHintInput value;
+    StickyHintInput inputView;
 
     @Deprecated
     public MeasurementGenericView(Context context) {
@@ -39,23 +39,23 @@ public class MeasurementGenericView <T extends Measurement> extends MeasurementA
 
     @Override
     protected void initLayout() {
-        value.setHint(PreferenceHelper.getInstance().getUnitAcronym(measurement.getCategory()));
+        inputView.setHint(PreferenceHelper.getInstance().getUnitAcronym(measurement.getCategory()));
     }
 
     @Override
     protected void setValues() {
-        value.setText(measurement.getValuesForUI()[0]);
+        inputView.setText(measurement.getValuesForUI()[0]);
     }
 
     @Override
     protected boolean isValid() {
         boolean isValid;
-        String input = value.getText();
+        String input = inputView.getText();
         if (StringUtils.isBlank(input)) {
-            value.setError(getContext().getString(R.string.validator_value_empty));
+            inputView.setError(getContext().getString(R.string.validator_value_empty));
             isValid = false;
         } else {
-            isValid = PreferenceHelper.isValueValid(value.getEditText(), measurement.getCategory());
+            isValid = PreferenceHelper.isValueValid(inputView.getEditText(), measurement.getCategory());
         }
         return isValid;
     }
@@ -63,10 +63,9 @@ public class MeasurementGenericView <T extends Measurement> extends MeasurementA
     @Override
     public Measurement getMeasurement() {
         if (isValid()) {
-            measurement.setValues(
-                    PreferenceHelper.getInstance().formatCustomToDefaultUnit(
-                            measurement.getCategory(),
-                            NumberUtils.parseNumber(value.getText())));
+            float value = NumberUtils.parseNumber(inputView.getText());
+            value = PreferenceHelper.getInstance().formatCustomToDefaultUnit(measurement.getCategory(), value);
+            measurement.setValues(value);
             return measurement;
         } else {
             return null;

@@ -22,6 +22,7 @@ import java.util.Random;
 /**
  * Created by Filip on 10.12.13.
  */
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class Helper {
 
     private static final String TAG = Helper.class.getSimpleName();
@@ -52,17 +53,17 @@ public class Helper {
 
     public static String parseFloat(float number) {
         float digit = number % 1;
-        boolean showDigit = digit >= .1 || digit <= -.1;
+        boolean showDigit = digit > .0 || digit < -.0;
         return showDigit ?
                 parseFloatWithDigit(number) :
                 parseFloatWithoutDigit(number);
     }
 
-    public static String parseFloatWithDigit(float number) {
+    private static String parseFloatWithDigit(float number) {
         return String.format(getLocale(), "%.1f", number);
     }
 
-    public static String parseFloatWithoutDigit(float number) {
+    private static String parseFloatWithoutDigit(float number) {
         return String.format(getLocale(), "%d", (int) number);
     }
 

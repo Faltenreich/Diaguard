@@ -131,10 +131,22 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         if (key.endsWith("_active")) {
             key = "categories";
         }
-        if (key.equals("unit_meal_factor")) {
-            Events.post(new MealFactorUnitChangedEvent());
-        } else if (key.equals("unit_bloodsugar")) {
-            Events.post(new UnitChangedEvent(Measurement.Category.BLOODSUGAR));
+        switch (key) {
+            case "unit_bloodsugar":
+                Events.post(new UnitChangedEvent(Measurement.Category.BLOODSUGAR));
+                break;
+            case "unit_meal":
+                Events.post(new UnitChangedEvent(Measurement.Category.MEAL));
+                break;
+            case "unit_meal_factor":
+                Events.post(new MealFactorUnitChangedEvent());
+                break;
+            case "unit_hba1c":
+                Events.post(new UnitChangedEvent(Measurement.Category.HBA1C));
+                break;
+            case "unit_weight":
+                Events.post(new UnitChangedEvent(Measurement.Category.WEIGHT));
+                break;
         }
         setSummary(findPreference(key));
     }

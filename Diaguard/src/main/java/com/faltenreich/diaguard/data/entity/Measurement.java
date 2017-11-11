@@ -39,7 +39,7 @@ public abstract class Measurement extends BaseEntity {
             this.stackValues = stackValues;
         }
 
-        public Class toClass() {
+        public <M extends Measurement> Class<M> toClass() {
             return clazz;
         }
 

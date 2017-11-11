@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.util;
 
+import java.util.List;
+
 /**
  * Created by Faltenreich on 18.10.2015.
  */
@@ -13,7 +15,31 @@ public class ArrayUtils {
         return sum;
     }
 
+    public static long sum(Long[] array) {
+        long sum = 0L;
+        for (long number : array) {
+            sum += number;
+        }
+        return sum;
+    }
+
     public static float sum(float[] array) {
+        float sum = 0f;
+        for (float number : array) {
+            sum += number;
+        }
+        return sum;
+    }
+
+    public static float sum(Float[] array) {
+        float sum = 0f;
+        for (float number : array) {
+            sum += number;
+        }
+        return sum;
+    }
+
+    public static float sum(List<Float> array) {
         float sum = 0f;
         for (float number : array) {
             sum += number;
@@ -31,6 +57,10 @@ public class ArrayUtils {
 
     public static float avg(float[] avg) {
         return sum(avg) / avg.length;
+    }
+
+    public static float avg(List<Float> avg) {
+        return sum(avg) / avg.size();
     }
 
     public static String[] toStringArray(float[] array) {

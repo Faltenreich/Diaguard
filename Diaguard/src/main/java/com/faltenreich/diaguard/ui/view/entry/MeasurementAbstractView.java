@@ -44,7 +44,8 @@ public abstract class MeasurementAbstractView <T extends Measurement> extends Li
     public MeasurementAbstractView(Context context, Measurement.Category category) {
         super(context);
         try {
-            Constructor<T> constructor = category.toClass().getConstructor();
+            Class<T> clazz = category.toClass();
+            Constructor<T> constructor = clazz.getConstructor();
             measurement = constructor.newInstance();
         } catch (Exception exception) {
             Log.e(TAG, String.format("Could not get newInstance for %s", category.toClass().getSimpleName()));

@@ -114,29 +114,41 @@ public class EntryDao extends BaseDao<Entry> {
      * @return HashMap with non-null but zeroed and default values for given categories and time periods
      */
     public LinkedHashMap<Measurement.Category, float[]> getAverageDataTable(DateTime day, Measurement.Category[] categories, int hoursToSkip) {
+        int indices = DateTimeConstants.HOURS_PER_DAY / hoursToSkip;
+
+        // Key: Category, Value: Fixed-size array of values per hour-index
         LinkedHashMap<Measurement.Category, float[]> values = new LinkedHashMap<>();
         for (Measurement.Category category : categories) {
-            values.put(category, new float[DateTimeConstants.HOURS_PER_DAY / hoursToSkip]);
+            values.put(category, new float[indices]);
         }
+
         for (Measurement.Category category : categories) {
+            // Key: Hour-index, Value: Values of hour-index
+            LinkedHashMap<Integer, List<Float>> valuesOfHours = new LinkedHashMap<>();
+            for (int index = 0; index < indices; index++) {
+                valuesOfHours.put(index, new ArrayList<Float>());
+            }
+
             List<Measurement> measurements = MeasurementDao.getInstance(category.toClass()).getMeasurements(day);
             for (Measurement measurement : measurements) {
                 int index = measurement.getEntry().getDate().hourOfDay().get() / hoursToSkip;
-                boolean valueIsSum = category != Measurement.Category.PRESSURE;
-                float value = valueIsSum ? ArrayUtils.sum(measurement.getValues()) : ArrayUtils.avg(measurement.getValues());
+                float value = category.stackValues() ? ArrayUtils.sum(measurement.getValues()) : ArrayUtils.avg(measurement.getValues());
                 if (category == Measurement.Category.MEAL) {
                     for (FoodEaten foodEaten : ((Meal)measurement).getFoodEaten()) {
                         value += foodEaten.getCarbohydrates();
                     }
                 }
-                float oldValue = values.get(category)[index];
-                // TODO: Divisor is not 2 but count
-                float newValue = category.stackValues() ?
-                        oldValue + value :
-                        oldValue > 0 ?
-                                (oldValue + value) / 2 :
-                                value;
-                values.get(category)[index] = newValue;
+
+                List<Float> valuesOfHour = valuesOfHours.get(index);
+                if (valuesOfHour == null) {
+                    valuesOfHours.put(index, new ArrayList<Float>());
+                }
+                valuesOfHours.get(index).add(value);
+            }
+            for (int index = 0; index < indices; index++) {
+                List<Float> valuesOfHour = valuesOfHours.get(index);
+                float value = category.stackValues() ? ArrayUtils.sum(valuesOfHour) : ArrayUtils.avg(valuesOfHour);
+                values.get(category)[index] = value;
             }
         }
         return values;
@@ -144,10 +156,15 @@ public class EntryDao extends BaseDao<Entry> {
 
     public long count(Measurement.Category category, DateTime start, DateTime end) {
         try {
-            return join(category.toClass())
-                    .where().ge(Entry.Column.DATE, start)
-                    .and().le(Entry.Column.DATE, end)
-                    .countOf();
+            QueryBuilder<Entry, Long> queryBuilder = join(category.toClass());
+            if (queryBuilder != null) {
+                return queryBuilder
+                        .where().ge(Entry.Column.DATE, start)
+                        .and().le(Entry.Column.DATE, end)
+                        .countOf();
+            } else {
+                return -1;
+            }
         } catch (SQLException exception) {
             Log.e(TAG, exception.getMessage());
             return -1;

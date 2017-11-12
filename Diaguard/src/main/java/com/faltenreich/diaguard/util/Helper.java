@@ -16,8 +16,6 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.Locale;
 import java.util.Random;
 
@@ -53,18 +51,34 @@ public class Helper {
         return getLocale().getCountry();
     }
 
+    // https://stackoverflow.com/questions/8911356/whats-the-best-practice-to-round-a-float-to-2-decimals/45772416#45772416
+    @SuppressWarnings("SameParameterValue")
+    private static float round(float value, int scale) {
+        int pow = 10;
+        for (int i = 1; i < scale; i++) {
+            pow *= 10;
+        }
+        float tmp = value * pow;
+        float tmpSub = tmp - (int) tmp;
+
+        return ( (float) ( (int) (
+                value >= 0
+                        ? (tmpSub >= 0.5f ? tmp + 1 : tmp)
+                        : (tmpSub >= -0.5f ? tmp : tmp - 1)
+        ) ) ) / pow;
+    }
+
     public static String parseFloat(float number) {
-        float digit = number % 1;
+        float rounded = round(number, 1);
+        float digit = rounded % 1;
         boolean showDigit = digit > .0 || digit < -.0;
         return showDigit ?
-                parseFloatWithDigit(number) :
-                parseFloatWithoutDigit(number);
+                parseFloatWithDigit(rounded) :
+                parseFloatWithoutDigit(rounded);
     }
 
     private static String parseFloatWithDigit(float number) {
-        DecimalFormat format = new DecimalFormat(".#");
-        format.setRoundingMode(RoundingMode.DOWN);
-        return format.format(number);
+        return String.format(getLocale(), "%.1f", number);
     }
 
     private static String parseFloatWithoutDigit(float number) {

@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/fragment_log_list"
+        android:id="@+id/log_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <ProgressBar
         style="?android:attr/progressBarStyleLarge"
-        android:id="@+id/fragment_log_progressbar"
+        android:id="@+id/log_progressbar"
         android:layout_width="@dimen/progress_circle_size"
         android:layout_height="@dimen/progress_circle_size"
         android:layout_gravity="center"

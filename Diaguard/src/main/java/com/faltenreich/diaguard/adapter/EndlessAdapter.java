@@ -9,10 +9,9 @@ import com.faltenreich.diaguard.ui.view.viewholder.BaseViewHolder;
 /**
  * Created by Filip on 04.11.13.
  */
-abstract class EndlessAdapter<L extends ListItemDate, VH extends BaseViewHolder<L>> extends BaseAdapter<L, VH> {
+public abstract class EndlessAdapter<L extends ListItemDate, VH extends BaseViewHolder<L>> extends BaseAdapter<L, VH> {
 
-    private static final int VISIBLE_THRESHOLD = 5;
-    static final int BULK_SIZE = 10;
+    static final int VISIBLE_THRESHOLD = 5;
 
     private OnEndlessListener listener;
 
@@ -29,9 +28,9 @@ abstract class EndlessAdapter<L extends ListItemDate, VH extends BaseViewHolder<
                 public void run() {
                     if (listener != null) {
                         if (holder.getAdapterPosition() < VISIBLE_THRESHOLD) {
-                            listener.onLoadMore(Direction.UP);
+                            listener.onLoadMore(false);
                         } else if (holder.getAdapterPosition() > getItemCount() - VISIBLE_THRESHOLD) {
-                            listener.onLoadMore(Direction.DOWN);
+                            listener.onLoadMore(true);
                         }
                     }
                 }
@@ -48,12 +47,7 @@ abstract class EndlessAdapter<L extends ListItemDate, VH extends BaseViewHolder<
         this.listener = null;
     }
 
-    enum Direction {
-        UP,
-        DOWN
-    }
-
     interface OnEndlessListener {
-        void onLoadMore(Direction direction);
+        void onLoadMore(boolean scrollingDown);
     }
 }

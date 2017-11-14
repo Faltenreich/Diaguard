@@ -36,8 +36,8 @@ import butterknife.BindView;
  */
 public class LogFragment extends DateFragment implements LogRecyclerAdapter.OnAdapterChangesListener {
 
-    @BindView(R.id.fragment_log_list) RecyclerView recyclerView;
-    @BindView(R.id.fragment_log_progressbar) ProgressBar progressBar;
+    @BindView(R.id.log_list) RecyclerView recyclerView;
+    @BindView(R.id.log_progressbar) ProgressBar progressBar;
 
     private LogRecyclerAdapter listAdapter;
     private StickyHeaderDecoration listDecoration;
@@ -142,11 +142,9 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.OnAd
     }
 
     @Override
-    public void onSetupComplete(DateTime dateTime) {
-        if (isAdded()) {
-            progressBar.setVisibility(View.GONE);
-            goToDay(dateTime);
-        }
+    public void onSetupEnd() {
+        progressBar.setVisibility(View.GONE);
+        goToDay(getDay());
     }
 
     private void updateHeaderSection(DateTime dateTime) {

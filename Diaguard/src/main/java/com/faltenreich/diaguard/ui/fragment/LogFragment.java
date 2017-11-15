@@ -81,7 +81,6 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.OnAd
             }
         });
 
-        progressBar.setVisibility(View.VISIBLE);
         goToDay(getDay());
     }
 

@@ -43,10 +43,6 @@ public abstract class EndlessAdapter<L extends ListItemDate, VH extends BaseView
         this.listener = listener;
     }
 
-    void removeOnEndlessListener() {
-        this.listener = null;
-    }
-
     interface OnEndlessListener {
         void onLoadMore(boolean scrollingDown);
     }

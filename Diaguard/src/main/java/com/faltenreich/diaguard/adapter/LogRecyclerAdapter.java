@@ -354,7 +354,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
                     listItems.add(scrollingDown ? listItems.size() - 1 : 0, new ListItemMonth(date));
                 }
 
-                loadMore = listItems.size() < (VISIBLE_THRESHOLD * 2);
+                loadMore = listItems.size() < (EndlessAdapter.BULK_SIZE);
                 date = scrollingDown ? date.plusDays(1) : date.minusDays(1);
             }
 

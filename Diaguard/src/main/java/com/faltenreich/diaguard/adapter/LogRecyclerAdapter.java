@@ -63,8 +63,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
         }
 
         isInitializing = true;
-        shouldLoadPrevious = true;
-        fetchData(startDate, true);
+        fetchData(startDate, false);
     }
 
     /**
@@ -248,9 +247,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
     }
 
     private void fetchData(DateTime date, boolean scrollingDown) {
-        if (!isInitializing) {
-            addPendingView(scrollingDown);
-        }
+        addPendingView(scrollingDown);
         listener.onOrderChanges();
 
         if (scrollingDown) {
@@ -259,12 +256,10 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
             isLoadingPrevious = true;
         }
 
-        new FetchDataTask(date, scrollingDown, new OnAsyncTaskListener<List<ListItemDate>>() {
+        new FetchDataTask(date, scrollingDown, isInitializing, new OnAsyncTaskListener<List<ListItemDate>>() {
             @Override
             public void onFinish(List<ListItemDate> result, boolean scrollingDown) {
-                if (!isInitializing) {
-                    removePendingView(scrollingDown);
-                }
+                removePendingView(scrollingDown);
 
                 int itemCount = getItemCount();
                 int index = scrollingDown ? itemCount : 0;
@@ -299,16 +294,31 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
 
         private DateTime startDate;
         private boolean scrollingDown;
+        private boolean isInitializing;
         private OnAsyncTaskListener<List<ListItemDate>> listener;
 
-        FetchDataTask(DateTime startDate, boolean scrollingDown, OnAsyncTaskListener<List<ListItemDate>> listener) {
+        FetchDataTask(DateTime startDate, boolean scrollingDown, boolean isInitializing, OnAsyncTaskListener<List<ListItemDate>> listener) {
             this.startDate = startDate;
             this.scrollingDown = scrollingDown;
+            this.isInitializing = isInitializing;
             this.listener = listener;
         }
 
         @Override
         protected List<ListItemDate> doInBackground(Void... params) {
+            List<ListItemDate> listItems = getListItems(startDate, scrollingDown);
+            if (isInitializing) {
+                listItems.addAll(getListItems(startDate.plusDays(1), !scrollingDown));
+            }
+            return listItems;
+        }
+
+        @Override
+        protected void onPostExecute(List<ListItemDate> result) {
+            listener.onFinish(result, scrollingDown);
+        }
+
+        private List<ListItemDate> getListItems(DateTime startDate, boolean scrollingDown) {
             List<ListItemDate> listItems = new ArrayList<>();
             DateTime date = startDate;
             boolean loadMore = true;
@@ -349,11 +359,6 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
             }
 
             return listItems;
-        }
-
-        @Override
-        protected void onPostExecute(List<ListItemDate> result) {
-            listener.onFinish(result, scrollingDown);
         }
     }
 

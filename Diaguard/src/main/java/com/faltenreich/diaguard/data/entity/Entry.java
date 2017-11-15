@@ -56,6 +56,7 @@ public class Entry extends BaseEntity {
         this.measurements = measurements;
     }
 
+    // TODO: Get rid of measurementCache (Currently required to enable lazy loading for generic measurements
     public List<Measurement> getMeasurementCache() {
         if (measurementCache == null) {
             measurementCache = new ArrayList<>();

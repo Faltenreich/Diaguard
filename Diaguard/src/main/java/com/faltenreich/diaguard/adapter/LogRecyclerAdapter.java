@@ -33,8 +33,6 @@ import java.util.List;
 public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHolder<ListItemDate>>
         implements EndlessAdapter.OnEndlessListener, StickyHeaderAdapter<LogDayViewHolder> {
 
-    private static final String TAG = LogRecyclerAdapter.class.getSimpleName();
-
     private enum ViewType {
         MONTH,
         DAY,
@@ -50,6 +48,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
     private boolean isLoadingNext;
     private boolean shouldLoadPrevious;
     private boolean shouldLoadNext;
+    private boolean isInitializing;
 
     public LogRecyclerAdapter(Context context, OnAdapterChangesListener listener) {
         super(context);
@@ -63,8 +62,9 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
             notifyItemRangeRemoved(0, count);
         }
 
+        isInitializing = true;
         shouldLoadPrevious = true;
-        new FetchDataTask(true, startDate, 0).execute();
+        fetchData(startDate, true);
     }
 
     /**
@@ -157,16 +157,6 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
         }
     }
 
-    private List<Entry> fetchData(DateTime day) {
-        List<Entry> entriesOfDay = EntryDao.getInstance().getEntriesOfDay(day);
-        // TODO: Get rid of measurementCache (Currently required to enable lazy loading for generic measurements
-        for (Entry entry : entriesOfDay) {
-            List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
-            entry.setMeasurementCache(measurements);
-        }
-        return entriesOfDay;
-    }
-
     @Override
     public int getItemViewType(int position) {
         if (getItemCount() == 0) {
@@ -253,20 +243,68 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
         } else {
             DateTime date = getItem(scrollingDown ? getItemCount() - 1 : 0).getDateTime();
             date = scrollingDown ? date.plusDays(1) : date.minusDays(1);
-            new FetchDataTask(scrollingDown, date, getItemCount()).execute();
+            fetchData(date, scrollingDown);
         }
     }
 
-    private class FetchDataTask extends AsyncTask<Void, Integer, List<ListItemDate>> {
+    private void fetchData(DateTime date, boolean scrollingDown) {
+        if (!isInitializing) {
+            addPendingView(scrollingDown);
+        }
+        listener.onOrderChanges();
 
-        private boolean scrollingDown;
+        if (scrollingDown) {
+            isLoadingNext = true;
+        } else {
+            isLoadingPrevious = true;
+        }
+
+        new FetchDataTask(date, scrollingDown, new OnAsyncTaskListener<List<ListItemDate>>() {
+            @Override
+            public void onFinish(List<ListItemDate> result, boolean scrollingDown) {
+                if (!isInitializing) {
+                    removePendingView(scrollingDown);
+                }
+
+                int itemCount = getItemCount();
+                int index = scrollingDown ? itemCount : 0;
+                addItems(index, result);
+                notifyItemRangeInserted(index, result.size());
+                itemCount += result.size();
+
+                if (scrollingDown) {
+                    isLoadingNext = false;
+                } else {
+                    isLoadingPrevious = false;
+                }
+
+                if (shouldLoadPrevious) {
+                    shouldLoadPrevious = false;
+                    fetchData(getItem(0).getDateTime().minusDays(1), false);
+
+                } else if (shouldLoadNext) {
+                    shouldLoadNext = false;
+                    fetchData(getItem(itemCount - 1).getDateTime().plusDays(1), true);
+
+                } else if (isInitializing) {
+                    isInitializing = false;
+                    setOnEndlessListener(LogRecyclerAdapter.this);
+                    listener.onSetupEnd();
+                }
+            }
+        }).execute();
+    }
+
+    private static class FetchDataTask extends AsyncTask<Void, Integer, List<ListItemDate>> {
+
         private DateTime startDate;
-        private int initialCount;
+        private boolean scrollingDown;
+        private OnAsyncTaskListener<List<ListItemDate>> listener;
 
-        FetchDataTask(boolean scrollingDown, DateTime startDate, int initialCount) {
-            this.scrollingDown = scrollingDown;
+        FetchDataTask(DateTime startDate, boolean scrollingDown, OnAsyncTaskListener<List<ListItemDate>> listener) {
             this.startDate = startDate;
-            this.initialCount = initialCount;
+            this.scrollingDown = scrollingDown;
+            this.listener = listener;
         }
 
         @Override
@@ -276,20 +314,25 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
             boolean loadMore = true;
 
             while (loadMore) {
-                List<Entry> entries = fetchData(date);
+                List<Entry> entries = EntryDao.getInstance().getEntriesOfDay(date);
+                for (Entry entry : entries) {
+                    List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
+                    entry.setMeasurementCache(measurements);
+                }
 
                 if (entries.size() > 0) {
                     ListItemEntry firstListItemEntryOfDay = null;
 
-                    for (Entry entry : entries) {
+                    for (int entryIndex = 0; entryIndex < entries.size(); entryIndex++) {
+                        Entry entry = entries.get(entryIndex);
                         ListItemEntry listItemEntry = new ListItemEntry(entry);
 
-                        if (entries.indexOf(entry) == 0) {
+                        if (entryIndex == 0) {
                             firstListItemEntryOfDay = listItemEntry;
                         }
 
                         listItemEntry.setFirstListItemEntryOfDay(firstListItemEntryOfDay);
-                        listItems.add(scrollingDown ? listItems.size() : 0, new ListItemEntry(entry));
+                        listItems.add(scrollingDown ? listItems.size() : entryIndex, listItemEntry);
                     }
 
                 } else {
@@ -301,7 +344,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
                     listItems.add(scrollingDown ? listItems.size() - 1 : 0, new ListItemMonth(date));
                 }
 
-                loadMore = (listItems.size() - initialCount) < (VISIBLE_THRESHOLD * 2);
+                loadMore = listItems.size() < (VISIBLE_THRESHOLD * 2);
                 date = scrollingDown ? date.plusDays(1) : date.minusDays(1);
             }
 
@@ -309,52 +352,17 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
         }
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            if (scrollingDown) {
-                isLoadingNext = true;
-            } else {
-                isLoadingPrevious = true;
-            }
-
-            listener.onOrderChanges();
-            addPendingView(scrollingDown);
-        }
-
-        @Override
-        protected void onPostExecute(List<ListItemDate> listItems) {
-            removePendingView(scrollingDown);
-
-            int itemCount = getItemCount();
-            int index = scrollingDown ? itemCount : 0;
-            addItems(index, listItems);
-            notifyItemRangeInserted(index, listItems.size());
-            itemCount += listItems.size();
-
-            if (scrollingDown) {
-                isLoadingNext = false;
-            } else {
-                isLoadingPrevious = false;
-            }
-
-            if (shouldLoadPrevious) {
-                shouldLoadPrevious = false;
-                new FetchDataTask(false, getItem(0).getDateTime().minusDays(1), initialCount).execute();
-
-            } else if (shouldLoadNext) {
-                shouldLoadNext = false;
-                new FetchDataTask(true, getItem(itemCount - 1).getDateTime().plusDays(1), initialCount).execute();
-
-            } else if (initialCount == 0) {
-                setOnEndlessListener(LogRecyclerAdapter.this);
-                listener.onSetupEnd();
-            }
+        protected void onPostExecute(List<ListItemDate> result) {
+            listener.onFinish(result, scrollingDown);
         }
     }
 
     public interface OnAdapterChangesListener {
         void onOrderChanges();
         void onSetupEnd();
+    }
+
+    private interface OnAsyncTaskListener<T> {
+        void onFinish(T result, boolean scrollingDown);
     }
 }

@@ -1,7 +1,5 @@
 package com.faltenreich.diaguard.adapter.list;
 
-import android.support.annotation.NonNull;
-
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
@@ -22,6 +20,6 @@ public abstract class ListItemDate extends ListItem {
 
     @Override
     public String toString() {
-        return DateTimeFormat.mediumDate().print(dateTime);
+        return DateTimeFormat.mediumDateTime().print(dateTime);
     }
 }

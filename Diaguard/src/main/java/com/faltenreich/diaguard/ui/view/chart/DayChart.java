@@ -71,6 +71,7 @@ public class DayChart extends CombinedChart implements OnChartValueSelectedListe
             // setMarker(new ChartMarkerView(getContext()));
             setMaxHighlightDistance(TAP_THRESHOLD_IN_DP);
             setOnChartValueSelectedListener(this);
+            setDragEnabled(false);
 
             setDay(DateTime.now());
         }

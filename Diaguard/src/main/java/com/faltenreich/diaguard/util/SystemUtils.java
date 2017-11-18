@@ -20,6 +20,7 @@ import java.text.DecimalFormat;
 /**
  * Created by Faltenreich on 26.06.2016.
  */
+@SuppressWarnings("WeakerAccess")
 public class SystemUtils {
 
     private static final String TAG = SystemUtils.class.getSimpleName();
@@ -60,7 +61,9 @@ public class SystemUtils {
 
     public static void vibrate(int timeInMilliseconds) {
         Vibrator vibrator = (Vibrator) DiaguardApplication.getContext().getSystemService(Context.VIBRATOR_SERVICE);
-        vibrator.vibrate(timeInMilliseconds);
+        if (vibrator != null) {
+            vibrator.vibrate(timeInMilliseconds);
+        }
     }
 
     public static boolean canWriteExternalStorage(Activity activity) {
@@ -82,7 +85,9 @@ public class SystemUtils {
         View view = activity != null ? activity.getCurrentFocus() : null;
         if (view != null) {
             InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            if (inputMethodManager != null) {
+                inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
         }
     }
 }

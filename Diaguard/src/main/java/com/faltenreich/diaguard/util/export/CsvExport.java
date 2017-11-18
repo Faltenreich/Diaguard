@@ -35,7 +35,7 @@ public class CsvExport extends AsyncTask<Void, String, File> {
     private Measurement.Category[] categories;
     private FileListener listener;
 
-    public CsvExport(boolean isBackup, DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories) {
+    CsvExport(boolean isBackup, DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories) {
         this.isBackup = isBackup;
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;

@@ -49,6 +49,9 @@
     <init>(long);
     long getMillis();
 }
+-dontwarn com.j256.ormlite.android.**
+-dontwarn com.j256.ormlite.logger.**
+-dontwarn com.j256.ormlite.misc.**
 ##---------------End: OrmLite ----------
 
 ##---------------Begin: JodaTime ----------

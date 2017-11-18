@@ -235,10 +235,12 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
 
     @Override
     public void onLoadMore(boolean scrollingDown) {
-        if (isLoadingPrevious) {
-            shouldLoadPrevious = true;
-        } else if (isLoadingNext) {
-            shouldLoadNext = true;
+        if (isLoadingPrevious || isLoadingNext) {
+            if (scrollingDown) {
+                shouldLoadNext = true;
+            } else {
+                shouldLoadPrevious = true;
+            }
         } else {
             DateTime date = getItem(scrollingDown ? getItemCount() - 1 : 0).getDateTime();
             date = scrollingDown ? date.plusDays(1) : date.minusDays(1);
@@ -248,7 +250,6 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
 
     private void fetchData(DateTime date, boolean scrollingDown) {
         addPendingView(scrollingDown);
-        listener.onOrderChanges();
 
         if (scrollingDown) {
             isLoadingNext = true;
@@ -267,9 +268,12 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
                 notifyItemRangeInserted(index, result.size());
                 itemCount += result.size();
 
+                listener.onOrderChanges();
+
                 if (scrollingDown) {
                     isLoadingNext = false;
                 } else {
+                    notifyItemRangeChanged(0, result.size());
                     isLoadingPrevious = false;
                 }
 
@@ -308,7 +312,9 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
         protected List<ListItemDate> doInBackground(Void... params) {
             List<ListItemDate> listItems = getListItems(startDate, scrollingDown);
             if (isInitializing) {
-                listItems.addAll(getListItems(startDate.plusDays(1), !scrollingDown));
+                boolean newIsScrollingDown = !scrollingDown;
+                int index = newIsScrollingDown ? listItems.size() : 0;
+                listItems.addAll(index, getListItems(newIsScrollingDown ? startDate.plusDays(1) : startDate.minusDays(1), newIsScrollingDown));
             }
             return listItems;
         }

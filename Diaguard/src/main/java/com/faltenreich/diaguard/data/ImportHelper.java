@@ -20,11 +20,13 @@ import com.faltenreich.diaguard.util.export.Export;
 import com.opencsv.CSVReader;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,10 +36,15 @@ import java.util.Locale;
  * Created by Faltenreich on 22.11.2016.
  */
 
+@SuppressWarnings("unused")
 public class ImportHelper {
 
     private static final String TAG = ImportHelper.class.getSimpleName();
     private static final String FOOD_CSV_FILE_NAME = "food_common.csv";
+
+    public static void createTestData() {
+        new CreateTestData().execute();
+    }
 
     public static void validateFoodImport(Context context) {
         Locale locale = Helper.getLocale();
@@ -69,24 +76,20 @@ public class ImportHelper {
         return new CSVReader(bufferedReader, Export.CSV_DELIMITER);
     }
 
-    public static void createTestData() {
-        new CreateTestData().execute();
-    }
-
     private static class ImportFoodTask extends AsyncTask<Void, Void, Void> {
 
-        private Context context;
+        private WeakReference<Context> context;
         private Locale locale;
 
         ImportFoodTask(Context context, Locale locale) {
-            this.context = context;
+            this.context = new WeakReference<>(context);
             this.locale = locale;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
             try {
-                CSVReader reader = getCsvReader(context);
+                CSVReader reader = getCsvReader(context.get());
 
                 String languageCode = locale.getLanguage();
                 String[] nextLine = reader.readNext();
@@ -100,7 +103,7 @@ public class ImportHelper {
 
                         food.setName(nextLine[languageRow]);
                         food.setIngredients(food.getName());
-                        food.setLabels(context.getString(R.string.food_common));
+                        food.setLabels(context.get().getString(R.string.food_common));
                         food.setLanguageCode(languageCode);
 
                         food.setCarbohydrates(NumberUtils.parseNullableNumber(nextLine[4]));
@@ -144,18 +147,18 @@ public class ImportHelper {
 
     private static class UpdateFoodImagesTask extends AsyncTask<Void, Void, Void> {
 
-        private Context context;
+        private WeakReference<Context> context;
         private Locale locale;
 
         UpdateFoodImagesTask(Context context, Locale locale) {
-            this.context = context;
+            this.context = new WeakReference<>(context);
             this.locale = locale;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
             try {
-                CSVReader reader = getCsvReader(context);
+                CSVReader reader = getCsvReader(context.get());
 
                 String languageCode = locale.getLanguage();
                 String[] nextLine = reader.readNext();
@@ -190,13 +193,15 @@ public class ImportHelper {
 
     private static class CreateTestData extends AsyncTask<Void, Void, Void> {
 
-        private static final int DATA_COUNT = 5000;
+        private static final int DATA_COUNT = 200;
 
         @Override
         protected Void doInBackground(Void... params) {
             for (int count = 0; count < DATA_COUNT; count++) {
+                DateTime dateTime = DateTime.now().minusDays(count);
                 Entry entry = new Entry();
-                entry.setDate(DateTime.now().minusHours(count));
+                entry.setDate(dateTime);
+                entry.setNote(DateTimeFormat.mediumDateTime().print(dateTime));
                 EntryDao.getInstance().createOrUpdate(entry);
 
                 BloodSugar bloodSugar = new BloodSugar();
@@ -209,7 +214,7 @@ public class ImportHelper {
                 meal.setEntry(entry);
                 MeasurementDao.getInstance(Meal.class).createOrUpdate(meal);
 
-                Log.d(TAG, "Created test data: " + count + "/" + DATA_COUNT);
+                Log.d(TAG, "Created test data: " + (count + 1) + "/" + DATA_COUNT);
             }
             return null;
         }

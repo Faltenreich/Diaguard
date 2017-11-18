@@ -12,7 +12,7 @@ import com.faltenreich.diaguard.ui.view.viewholder.BaseViewHolder;
 public abstract class EndlessAdapter<L extends ListItemDate, VH extends BaseViewHolder<L>> extends BaseAdapter<L, VH> {
 
     private static final int VISIBLE_THRESHOLD = 5;
-    static final int BULK_SIZE = (int) (VISIBLE_THRESHOLD * 1.5f);
+    static final int BULK_SIZE = VISIBLE_THRESHOLD * 2;
 
     private OnEndlessListener listener;
 

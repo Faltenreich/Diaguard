@@ -16,7 +16,8 @@ import butterknife.BindView;
  */
 public class CategoryValueViewHolder extends BaseViewHolder<ListItemCategoryValue> {
 
-    @BindView(R.id.category_value) TextView textView;
+    @BindView(R.id.category_value_1) TextView textViewOne;
+    @BindView(R.id.category_value_2) TextView textViewTwo;
 
     public CategoryValueViewHolder(View view) {
         super(view);
@@ -25,13 +26,22 @@ public class CategoryValueViewHolder extends BaseViewHolder<ListItemCategoryValu
     @Override
     public void bindData() {
         ListItemCategoryValue listItem = getListItem();
-        if (listItem.getValue() > 0) {
-            Measurement.Category category = listItem.getCategory();
-            float value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, listItem.getValue());
+        Measurement.Category category = listItem.getCategory();
+        if (listItem.getValueOne() > 0) {
+            float value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, listItem.getValueOne());
             String valueForUi = Helper.parseFloat(value);
-            textView.setText(valueForUi);
+            textViewOne.setText(valueForUi);
         } else {
-            textView.setText(null);
+            textViewOne.setText(null);
+        }
+        if (listItem.getValueTwo() > 0) {
+            textViewTwo.setVisibility(View.VISIBLE);
+            float value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, listItem.getValueTwo());
+            String valueForUi = Helper.parseFloat(value);
+            textViewTwo.setText(valueForUi);
+        } else {
+            textViewTwo.setVisibility(View.GONE);
+            textViewTwo.setText(null);
         }
     }
 }

@@ -2,12 +2,14 @@ package com.faltenreich.diaguard.data.dao;
 
 import android.util.Log;
 
+import com.faltenreich.diaguard.adapter.list.ListItemCategoryValue;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.data.entity.Pressure;
 import com.faltenreich.diaguard.util.ArrayUtils;
 import com.j256.ormlite.stmt.QueryBuilder;
 
@@ -113,41 +115,54 @@ public class EntryDao extends BaseDao<Entry> {
     /**
      * @return HashMap with non-null but zeroed and default values for given categories and time periods
      */
-    public LinkedHashMap<Measurement.Category, float[]> getAverageDataTable(DateTime day, Measurement.Category[] categories, int hoursToSkip) {
+    public LinkedHashMap<Measurement.Category, ListItemCategoryValue[]> getAverageDataTable(DateTime day, Measurement.Category[] categories, int hoursToSkip) {
         int indices = DateTimeConstants.HOURS_PER_DAY / hoursToSkip;
 
         // Key: Category, Value: Fixed-size array of values per hour-index
-        LinkedHashMap<Measurement.Category, float[]> values = new LinkedHashMap<>();
+        LinkedHashMap<Measurement.Category, ListItemCategoryValue[]> values = new LinkedHashMap<>();
         for (Measurement.Category category : categories) {
-            values.put(category, new float[indices]);
+            values.put(category, new ListItemCategoryValue[indices]);
         }
 
         for (Measurement.Category category : categories) {
             // Key: Hour-index, Value: Values of hour-index
-            LinkedHashMap<Integer, List<Float>> valuesOfHours = new LinkedHashMap<>();
+            LinkedHashMap<Integer, List<ListItemCategoryValue>> valuesOfHours = new LinkedHashMap<>();
             for (int index = 0; index < indices; index++) {
-                valuesOfHours.put(index, new ArrayList<Float>());
+                valuesOfHours.put(index, new ArrayList<ListItemCategoryValue>());
             }
 
             List<Measurement> measurements = MeasurementDao.getInstance(category.toClass()).getMeasurements(day);
             for (Measurement measurement : measurements) {
                 int index = measurement.getEntry().getDate().hourOfDay().get() / hoursToSkip;
-                float value = category.stackValues() ? ArrayUtils.sum(measurement.getValues()) : ArrayUtils.avg(measurement.getValues());
-                if (category == Measurement.Category.MEAL) {
-                    for (FoodEaten foodEaten : ((Meal)measurement).getFoodEaten()) {
-                        value += foodEaten.getCarbohydrates();
+                ListItemCategoryValue item = new ListItemCategoryValue(category);
+
+                if (category == Measurement.Category.PRESSURE) {
+                    Pressure pressure = (Pressure) measurement;
+                    item.setValueOne(pressure.getSystolic());
+                    item.setValueTwo(pressure.getDiastolic());
+
+                } else {
+                    // Average for stacked values like insulin
+                    float value = category.stackValues() ? ArrayUtils.sum(measurement.getValues()) : ArrayUtils.avg(measurement.getValues());
+                    if (category == Measurement.Category.MEAL) {
+                        for (FoodEaten foodEaten : ((Meal)measurement).getFoodEaten()) {
+                            value += foodEaten.getCarbohydrates();
+                        }
                     }
+                    item.setValueOne(value);
                 }
 
-                List<Float> valuesOfHour = valuesOfHours.get(index);
+                List<ListItemCategoryValue> valuesOfHour = valuesOfHours.get(index);
                 if (valuesOfHour == null) {
-                    valuesOfHours.put(index, new ArrayList<Float>());
+                    valuesOfHours.put(index, new ArrayList<ListItemCategoryValue>());
                 }
-                valuesOfHours.get(index).add(value);
+                valuesOfHours.get(index).add(item);
             }
+
+            // Average for old values
             for (int index = 0; index < indices; index++) {
-                List<Float> valuesOfHour = valuesOfHours.get(index);
-                float value = category.stackValues() ? ArrayUtils.sum(valuesOfHour) : ArrayUtils.avg(valuesOfHour);
+                List<ListItemCategoryValue> valuesOfHour = valuesOfHours.get(index);
+                ListItemCategoryValue value = category.stackValues() ? ArrayUtils.sum(category, valuesOfHour) : ArrayUtils.avg(category, valuesOfHour);
                 values.get(category)[index] = value;
             }
         }

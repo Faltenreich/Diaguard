@@ -1,5 +1,8 @@
 package com.faltenreich.diaguard.util;
 
+import com.faltenreich.diaguard.adapter.list.ListItemCategoryValue;
+import com.faltenreich.diaguard.data.entity.Measurement;
+
 import java.util.List;
 
 /**
@@ -55,12 +58,26 @@ public class ArrayUtils {
         return sum;
     }
 
+    public static ListItemCategoryValue sum(Measurement.Category category, List<ListItemCategoryValue> items) {
+        ListItemCategoryValue item = new ListItemCategoryValue(category);
+        for (ListItemCategoryValue value : items) {
+            item.setValueOne(item.getValueOne() + value.getValueOne());
+            item.setValueTwo(item.getValueTwo() + value.getValueTwo());
+        }
+        return item;
+    }
+
     public static float avg(float[] avg) {
         return sum(avg) / avg.length;
     }
 
     public static float avg(List<Float> avg) {
         return sum(avg) / avg.size();
+    }
+
+    public static ListItemCategoryValue avg(Measurement.Category category, List<ListItemCategoryValue> items) {
+        ListItemCategoryValue item = sum(category, items);
+        return new ListItemCategoryValue(category, item.getValueOne() / items.size(), item.getValueTwo() / items.size());
     }
 
     public static String[] toStringArray(float[] array) {

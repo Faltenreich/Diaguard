@@ -98,7 +98,6 @@ public class PdfTable extends Table {
             String label = category.toLocalizedString();
             int backgroundColor = row % 2 == 0 ? ALTERNATING_ROW_COLOR : Color.white;
             if (category == Measurement.Category.PRESSURE) {
-                // FIXME: Second row breaks height calculation (wtf)
                 data.add(getRowForValues(items, 0, label + " " + DiaguardApplication.getContext().getString(R.string.systolic_acronym), backgroundColor));
                 data.add(getRowForValues(items, 1, label + " " + DiaguardApplication.getContext().getString(R.string.diastolic_acronym), backgroundColor));
             } else {

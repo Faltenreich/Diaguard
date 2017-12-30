@@ -9,6 +9,7 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,11 +33,9 @@ public class TimelineTableTask extends BaseAsyncTask<Void, Void, List<ListItemCa
 
     protected List<ListItemCategoryValue> doInBackground(Void... params) {
         List<ListItemCategoryValue> listItems = new ArrayList<>();
-        LinkedHashMap<Measurement.Category, float[]> values = EntryDao.getInstance().getAverageDataTable(day, categories, SKIP_EVERY_X_HOUR);
-        for (Map.Entry<Measurement.Category, float[]> mapEntry : values.entrySet()) {
-            for (float value : mapEntry.getValue()) {
-                listItems.add(new ListItemCategoryValue(mapEntry.getKey(), value));
-            }
+        LinkedHashMap<Measurement.Category, ListItemCategoryValue[]> values = EntryDao.getInstance().getAverageDataTable(day, categories, SKIP_EVERY_X_HOUR);
+        for (Map.Entry<Measurement.Category, ListItemCategoryValue[]> mapEntry : values.entrySet()) {
+            Collections.addAll(listItems, mapEntry.getValue());
         }
         return listItems;
     }

@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.adapter.list.ListItemCategoryValue;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.entity.Entry;
@@ -34,7 +35,7 @@ public class PdfTable extends Table {
 
     private static final String TAG = PdfTable.class.getSimpleName();
 
-    private static final int ALTERNATING_ROW_COLOR = ContextCompat.getColor(DiaguardApplication.getContext(), R.color.gray_lighter);
+    private static final int ALTERNATING_ROW_COLOR = ContextCompat.getColor(DiaguardApplication.getContext(), R.color.light);
     private static final float LABEL_WIDTH = 120;
     private static final int HOURS_TO_SKIP = 2;
 
@@ -47,7 +48,9 @@ public class PdfTable extends Table {
     private Font fontNormal;
     private Font fontBold;
 
-    public PdfTable(PDF pdf, PdfPage page, DateTime day, Measurement.Category[] categories, boolean exportNotes) {
+    private int rows;
+
+    PdfTable(PDF pdf, PdfPage page, DateTime day, Measurement.Category[] categories, boolean exportNotes) {
         super();
         this.pdf = pdf;
         this.page = page;
@@ -62,18 +65,22 @@ public class PdfTable extends Table {
             fontNormal = new Font(pdf, CoreFont.HELVETICA);
             fontBold = new Font(pdf, CoreFont.HELVETICA_BOLD);
             setData(getData());
-        } catch (Exception e) {
-            Log.e(TAG, "Failed to init");
+        } catch (Exception exception) {
+            Log.e(TAG, exception.getMessage());
         }
+    }
+
+    private float getCellWidth() {
+        return (page.getWidth() - LABEL_WIDTH) / (DateTimeConstants.HOURS_PER_DAY / 2);
     }
 
     public float getHeight() {
         float height = 0;
-        for (int row = 0; row < getRowsRendered(); row++) {
+        for (int row = 0; row < rows; row++) {
             try {
                 height += getRowAtIndex(row).get(0).getHeight();
-            } catch (Exception e) {
-                Log.e(TAG, "Failed to calculate height of row");
+            } catch (Exception exception) {
+                Log.e(TAG, exception.getMessage());
             }
         }
         return height;
@@ -82,14 +89,21 @@ public class PdfTable extends Table {
     private List<List<Cell>> getData() {
         List<List<Cell>> data = new ArrayList<>();
 
-        data.add(getHeader());
+        data.add(getRowForHeader());
 
-        LinkedHashMap<Measurement.Category, float[]> values = EntryDao.getInstance().getAverageDataTable(day, categories, HOURS_TO_SKIP);
+        LinkedHashMap<Measurement.Category, ListItemCategoryValue[]> values = EntryDao.getInstance().getAverageDataTable(day, categories, HOURS_TO_SKIP);
         int row = 0;
         for (Measurement.Category category : values.keySet()) {
-            boolean rowIsAlternating = row % 2 == 0;
-            int backgroundColor = rowIsAlternating ? ALTERNATING_ROW_COLOR : Color.white;
-            data.add(getRow(category, values.get(category), backgroundColor));
+            ListItemCategoryValue[] items = values.get(category);
+            String label = category.toLocalizedString();
+            int backgroundColor = row % 2 == 0 ? ALTERNATING_ROW_COLOR : Color.white;
+            if (category == Measurement.Category.PRESSURE) {
+                // FIXME: Second row breaks height calculation (wtf)
+                data.add(getRowForValues(items, 0, label + " " + DiaguardApplication.getContext().getString(R.string.systolic_acronym), backgroundColor));
+                data.add(getRowForValues(items, 1, label + " " + DiaguardApplication.getContext().getString(R.string.diastolic_acronym), backgroundColor));
+            } else {
+                data.add(getRowForValues(items, 0, label, backgroundColor));
+            }
             row++;
         }
 
@@ -97,21 +111,19 @@ public class PdfTable extends Table {
             List<Entry> entriesWithNotes = EntryDao.getInstance().getAllWithNotes(day);
             if (entriesWithNotes.size() > 0) {
                 for (Entry entry : entriesWithNotes) {
-                    data.add(getNote(entry,
+                    data.add(getRowForNote(entry,
                             entriesWithNotes.indexOf(entry) == 0,
                             entriesWithNotes.indexOf(entry) == entriesWithNotes.size() - 1));
                 }
             }
         }
 
+        rows = data.size();
+
         return data;
     }
 
-    private float getCellWidth() {
-        return (page.getWidth() - LABEL_WIDTH) / (DateTimeConstants.HOURS_PER_DAY / 2);
-    }
-
-    private List<Cell> getHeader() {
+    private List<Cell> getRowForHeader() {
         List<Cell> cells = new ArrayList<>();
 
         String weekDay = DateTimeFormat.forPattern("E").print(day);
@@ -133,17 +145,19 @@ public class PdfTable extends Table {
         return cells;
     }
 
-    private List<Cell> getRow(Measurement.Category category, float[] values, int backgroundColor) {
+    private List<Cell> getRowForValues(ListItemCategoryValue[] items, int valueIndex, String label, int backgroundColor) {
         List<Cell> cells = new ArrayList<>();
 
-        Cell cell = new Cell(fontNormal, category.toLocalizedString());
+        Cell cell = new Cell(fontNormal, label);
         cell.setBgColor(backgroundColor);
         cell.setFgColor(Color.gray);
         cell.setWidth(LABEL_WIDTH);
         cell.setNoBorders();
         cells.add(cell);
 
-        for (float value : values) {
+        for (ListItemCategoryValue item : items) {
+            Measurement.Category category = item.getCategory();
+            float value = valueIndex == 0 ? item.getValueOne() : item.getValueTwo();
             int textColor = Color.black;
             if (category == Measurement.Category.BLOODSUGAR && PreferenceHelper.getInstance().limitsAreHighlighted()) {
                 if (value > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
@@ -165,7 +179,7 @@ public class PdfTable extends Table {
         return cells;
     }
 
-    private List<Cell> getNote(Entry entry, boolean isFirst, boolean isLast) {
+    private List<Cell> getRowForNote(Entry entry, boolean isFirst, boolean isLast) {
         ArrayList<Cell> cells = new ArrayList<>();
 
         Cell cell = new Cell(fontNormal, Helper.getTimeFormat().print(entry.getDate()));

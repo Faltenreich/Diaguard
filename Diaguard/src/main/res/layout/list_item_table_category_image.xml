@@ -16,7 +16,7 @@
         android:paddingStart="10dp"
         android:paddingLeft="10dp"
         android:contentDescription="@null"
-        android:focusable="false"
+        android:background="?attr/selectableItemBackgroundBorderless"
         app:tintColor="@color/gray_darker"
         tools:src="@drawable/ic_category_bloodsugar"
         tools:ignore="RtlSymmetry"/>

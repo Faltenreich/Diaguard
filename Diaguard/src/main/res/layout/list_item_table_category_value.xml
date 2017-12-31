@@ -19,7 +19,8 @@
         android:layout_toRightOf="@+id/category_divider_vertical"
         android:layout_toEndOf="@+id/category_divider_vertical"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="?attr/selectableItemBackgroundBorderless">
 
         <TextView
             android:id="@+id/category_value_1"

@@ -18,6 +18,7 @@ import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.interfaces.datasets.IScatterDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import org.joda.time.DateTime;
@@ -85,11 +86,19 @@ public class DayChart extends CombinedChart implements OnChartValueSelectedListe
                     clear();
                     setData(data);
 
-                    float yAxisMaximum = PreferenceHelper.getInstance().formatCustomToDefaultUnit(Measurement.Category.BLOODSUGAR, data.getYMax());
-                    yAxisMaximum = yAxisMaximum > Y_MAX_VALUE ? yAxisMaximum + Y_MAX_VALUE_OFFSET : Y_MAX_VALUE;
-                    yAxisMaximum = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, yAxisMaximum);
-                    getAxisLeft().setAxisMaximum(yAxisMaximum);
+                    // Identify max value manually because data.getYMax does not work when combining scatter with line chart
+                    float yAxisMaximum = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, Y_MAX_VALUE);
+                    for (int datasetIndex = 0; datasetIndex < data.getScatterData().getDataSetCount(); datasetIndex++) {
+                        IScatterDataSet dataSet = data.getScatterData().getDataSetByIndex(datasetIndex);
+                        for (int entryIndex = 0; entryIndex < dataSet.getEntryCount(); entryIndex++) {
+                            float entryValue = dataSet.getEntryForIndex(entryIndex).getY();
+                            if (entryValue > yAxisMaximum) {
+                                yAxisMaximum = entryValue;
+                            }
+                        }
+                    }
 
+                    getAxisLeft().setAxisMaximum(yAxisMaximum + Y_MAX_VALUE_OFFSET);
                     invalidate();
                 }
             }

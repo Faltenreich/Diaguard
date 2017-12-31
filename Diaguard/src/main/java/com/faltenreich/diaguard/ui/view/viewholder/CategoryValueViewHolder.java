@@ -48,6 +48,8 @@ public class CategoryValueViewHolder extends BaseViewHolder<ListItemCategoryValu
             textViewTwo.setVisibility(View.GONE);
             textViewTwo.setText(null);
         }
+        boolean isClickable = listItem.getValueOne() > 0 || listItem.getValueTwo() > 0;
+        container.setClickable(isClickable);
     }
 
     @Override

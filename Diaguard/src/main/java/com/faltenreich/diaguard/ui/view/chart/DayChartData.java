@@ -98,7 +98,7 @@ public class DayChartData extends CombinedData {
     private IScatterDataSet getScatterDataSet(DataSetType type) {
         IScatterDataSet dataSet = getScatterData().getDataSetByLabel(type.label, true);
         if (dataSet == null) {
-            dataSet = new DayChartScatterDataSet(type.label, ContextCompat.getColor(context, type.colorResId));
+            dataSet = new DayChartScatterDataSet(context, type.label, ContextCompat.getColor(context, type.colorResId));
             getScatterData().addDataSet(dataSet);
         }
         return dataSet;

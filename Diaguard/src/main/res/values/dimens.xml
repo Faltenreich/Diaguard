@@ -27,6 +27,7 @@
     <dimen name="size_image">32dp</dimen>
     <dimen name="size_image_big">64dp</dimen>
 
+    <dimen name="chart_scatter_size">12dp</dimen>
     <dimen name="chart_offset_left">44dp</dimen>
     <dimen name="chart_offset_bottom">24dp</dimen>
     <dimen name="table_row_height">40dp</dimen>

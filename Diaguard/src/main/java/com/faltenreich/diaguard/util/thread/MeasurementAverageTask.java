@@ -30,7 +30,7 @@ import java.util.List;
 public class MeasurementAverageTask extends BaseAsyncTask<Void, Void, LineData> {
 
     private static final String TAG = MeasurementAverageTask.class.getSimpleName();
-    private static final float CIRCLE_RADIUS = 4;
+    private static final float CIRCLE_RADIUS = 5;
 
     private Measurement.Category category;
     private TimeSpan timeSpan;

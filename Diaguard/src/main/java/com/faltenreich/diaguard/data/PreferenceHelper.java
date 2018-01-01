@@ -358,18 +358,31 @@ public class PreferenceHelper {
     }
 
     private float getUnitValue(Measurement.Category category) {
-        String sharedPref = sharedPreferences.
-                getString("unit_" + category.name().toLowerCase(), "1");
+        String sharedPref = sharedPreferences.getString("unit_" + category.name().toLowerCase(), "1");
         String value = getUnitsValues(category)[Arrays.asList(getUnitsValues(category)).indexOf(sharedPref)];
         return NumberUtils.parseNumber(value);
     }
 
     public float formatCustomToDefaultUnit(Measurement.Category category, float value) {
-        return value / getUnitValue(category);
+        switch (category) {
+            case HBA1C:
+                // Workaround for calculating HbA1c with formula
+                float unitValue = getUnitValue(category);
+                return unitValue != 1 ? (value * 0.0915f) + 2.15f : value;
+            default:
+                return value / getUnitValue(category);
+        }
     }
 
     public float formatDefaultToCustomUnit(Measurement.Category category, float value) {
-        return value * getUnitValue(category);
+        switch (category) {
+            case HBA1C:
+                // Workaround for calculating HbA1c with formula
+                float unitValue = getUnitValue(category);
+                return unitValue != 1 ? (value - 2.15f) / 0.0915f : value;
+            default:
+                return value * getUnitValue(category);
+        }
     }
 
     public String getMeasurementForUi(Measurement.Category category, float value) {

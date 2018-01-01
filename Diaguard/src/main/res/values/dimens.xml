@@ -18,6 +18,8 @@
     <dimen name="margin_between">8dp</dimen>
     <dimen name="margin_between_large">12dp</dimen>
     <dimen name="margin_between_larger">22dp</dimen>
+    <dimen name="margin_cardview_horizontal">-4dp</dimen>
+    <dimen name="margin_cardview_vertical">-6dp</dimen>
     <dimen name="height_element">48dp</dimen>
     <dimen name="height_element_large">54dp</dimen>
     <dimen name="size_image_smaller">18dp</dimen>

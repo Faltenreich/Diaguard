@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <dimen name="margin_cardview_horizontal">0dp</dimen>
+    <dimen name="margin_cardview_vertical">0dp</dimen>
+
+</resources>

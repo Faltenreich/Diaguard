@@ -2,7 +2,6 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,8 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1.3"
-        app:cardCornerRadius="0dp"
-        app:cardElevation="4dp">
+        style="@style/CardViewNoMargin">
 
         <com.faltenreich.diaguard.ui.view.chart.DayChart
             android:id="@+id/day_chart"

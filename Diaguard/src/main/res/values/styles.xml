@@ -191,4 +191,14 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <style name="CardViewNoMargin">
+        <item name="android:layout_marginLeft">@dimen/margin_cardview_horizontal</item>
+        <item name="android:layout_marginStart">@dimen/margin_cardview_horizontal</item>
+        <item name="android:layout_marginRight">@dimen/margin_cardview_horizontal</item>
+        <item name="android:layout_marginEnd">@dimen/margin_cardview_horizontal</item>
+        <item name="android:layout_marginTop">@dimen/margin_cardview_vertical</item>
+        <item name="cardCornerRadius">0dp</item>
+        <item name="cardElevation">4dp</item>
+    </style>
+
 </resources>

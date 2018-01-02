@@ -14,14 +14,11 @@ public class DatabaseConfigUtil extends OrmLiteConfigUtil {
     private static final String fullConfigPath = projectRoot + configPath;
 
     public static void main(String[] args) throws IOException, SQLException {
-
         File configFile = new File(fullConfigPath);
-
-        if(configFile.exists()) {
+        if (configFile.exists()) {
             configFile.delete();
             configFile = new File(fullConfigPath);
         }
-
         writeConfigFile(configFile, DatabaseHelper.tables);
     }
 }

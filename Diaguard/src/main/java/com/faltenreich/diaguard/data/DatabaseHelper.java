@@ -11,6 +11,7 @@ import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.Activity;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
+import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.data.entity.HbA1c;
@@ -20,6 +21,7 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.OxygenSaturation;
 import com.faltenreich.diaguard.data.entity.Pressure;
 import com.faltenreich.diaguard.data.entity.Pulse;
+import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.data.entity.Weight;
 import com.faltenreich.diaguard.data.entity.deprecated.CategoryDeprecated;
 import com.faltenreich.diaguard.util.Helper;
@@ -49,6 +51,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public static final int DATABASE_VERSION_1_3 = 19;
     public static final int DATABASE_VERSION_2_0 = 20;
     public static final int DATABASE_VERSION_2_2 = 21;
+    public static final int DATABASE_VERSION_2_5 = 22;
 
     public static final Class[] tables = new Class[]{
             Entry.class,
@@ -62,7 +65,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             Pressure.class,
             Food.class,
             FoodEaten.class,
-            OxygenSaturation.class
+            OxygenSaturation.class,
+            Tag.class,
+            EntryTag.class
     };
 
     public DatabaseHelper(Context context) {
@@ -70,7 +75,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     public static int getVersion() {
-        return DATABASE_VERSION_2_2;
+        return DATABASE_VERSION_2_5;
     }
 
     @Override
@@ -97,10 +102,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                         upgradeToVersion19(sqLiteDatabase, connectionSource);
                         break;
                     case DATABASE_VERSION_1_3:
-                        upgradeToVersion20(sqLiteDatabase, connectionSource);
+                        upgradeToVersion20(connectionSource);
                         break;
                     case DATABASE_VERSION_2_0:
-                        upgradeToVersion21(sqLiteDatabase, connectionSource);
+                        upgradeToVersion21(connectionSource);
+                        break;
+                    case DATABASE_VERSION_2_2:
+                        upgradeToVersion22(connectionSource);
                         break;
                 }
                 upgradeFromVersion++;
@@ -108,7 +116,16 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
-    private void upgradeToVersion21(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource) {
+    private void upgradeToVersion22(ConnectionSource connectionSource) {
+        try {
+            TableUtils.createTableIfNotExists(connectionSource, Tag.class);
+            TableUtils.createTableIfNotExists(connectionSource, EntryTag.class);
+        } catch (SQLException e) {
+            Log.e(TAG, e.getLocalizedMessage());
+        }
+    }
+
+    private void upgradeToVersion21(ConnectionSource connectionSource) {
         try {
             TableUtils.createTableIfNotExists(connectionSource, OxygenSaturation.class);
         } catch (SQLException e) {
@@ -116,7 +133,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
-    private void upgradeToVersion20(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource) {
+    private void upgradeToVersion20(ConnectionSource connectionSource) {
         try {
             TableUtils.createTableIfNotExists(connectionSource, Food.class);
             TableUtils.createTableIfNotExists(connectionSource, FoodEaten.class);

@@ -5,10 +5,10 @@ android {
     buildToolsVersion '26.0.2'
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 26
-        versionCode 23
-        versionName "2.4.1"
+        versionCode 24
+        versionName "2.5"
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -32,40 +32,41 @@ android {
 def supportLibraryVersion = '27.0.2'
 
 dependencies {
-    compile "com.android.support:design:${supportLibraryVersion}"
-    compile "com.android.support:recyclerview-v7:${supportLibraryVersion}"
-    compile "com.android.support:cardview-v7:${supportLibraryVersion}"
+    implementation "com.android.support:design:${supportLibraryVersion}"
+    implementation "com.android.support:recyclerview-v7:${supportLibraryVersion}"
+    implementation "com.android.support:cardview-v7:${supportLibraryVersion}"
 
-    compile 'com.j256.ormlite:ormlite-core:5.0'
-    compile 'com.j256.ormlite:ormlite-android:5.0'
-    compile 'net.danlew:android.joda:2.9.9'
-    compile 'org.greenrobot:eventbus:3.0.0'
+    implementation 'com.j256.ormlite:ormlite-core:5.0'
+    implementation 'com.j256.ormlite:ormlite-android:5.0'
+    implementation 'net.danlew:android.joda:2.9.9'
+    implementation 'org.greenrobot:eventbus:3.0.0'
 
-    compile 'com.jakewharton:butterknife:8.8.1'
+    implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
-    compile 'com.octo.android.robospice:robospice:1.4.14'
-    compile 'com.octo.android.robospice:robospice-retrofit:1.4.14'
-    compile 'com.octo.android.robospice:robospice-ormlite:1.4.14'
+    implementation 'com.octo.android.robospice:robospice:1.4.14'
+    implementation 'com.octo.android.robospice:robospice-retrofit:1.4.14'
+    implementation 'com.octo.android.robospice:robospice-ormlite:1.4.14'
 
-    compile 'org.apache.commons:commons-text:1.1'
-    compile ('de.psdev.licensesdialog:licensesdialog:1.8.3') {
+    implementation 'org.apache.commons:commons-text:1.1'
+    implementation ('de.psdev.licensesdialog:licensesdialog:1.8.3') {
         exclude group: 'com.android.support'
     }
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.opencsv:opencsv:3.8'
-    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
-    compile 'com.github.clans:fab:1.6.4'
-    compile 'com.fmsirvent:parallaxeverywhere:1.0.4'
-    compile 'org.apmem.tools:layouts:1.10@aar'
-    compile ('com.lapism:searchview:4.0') {
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.opencsv:opencsv:3.8'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    implementation 'com.github.clans:fab:1.6.4'
+    implementation 'com.fmsirvent:parallaxeverywhere:1.0.4'
+    implementation 'org.apmem.tools:layouts:1.10@aar'
+    implementation ('com.lapism:searchview:4.0') {
         exclude group: 'com.android.support'
     }
-    compile 'com.mikhaellopez:circularimageview:3.0.2'
-    compile ('com.code-troopers.betterpickers:library:3.1.0') {
+    implementation 'com.mikhaellopez:circularimageview:3.0.2'
+    implementation ('com.code-troopers.betterpickers:library:3.1.0') {
         exclude group: 'com.android.support'
     }
-    compile 'com.robinhood.ticker:ticker:1.2.1'
+    implementation 'com.robinhood.ticker:ticker:1.2.1'
+    implementation 'com.github.pchmn:MaterialChipsInput:1.0.8'
 }
 
 configurations {

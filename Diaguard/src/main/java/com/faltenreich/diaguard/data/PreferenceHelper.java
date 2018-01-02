@@ -44,6 +44,7 @@ public class PreferenceHelper {
         final static String CORRECTION_DEPRECATED = "correction_value";
         final static String INPUT_QUERIES = "inputQueries";
         final static String DID_IMPORT_COMMON_FOOD_FOR_LANGUAGE = "didImportCommonFoodForLanguage";
+        final static String DID_IMPORT_TAGS_FOR_LANGUAGE = "didImportTagsForLanguage";
         final static String CHART_STYLE = "chart_style";
     }
 
@@ -110,6 +111,14 @@ public class PreferenceHelper {
 
     void  setDidImportCommonFood(Locale locale, boolean didImport) {
         sharedPreferences.edit().putBoolean(Keys.DID_IMPORT_COMMON_FOOD_FOR_LANGUAGE + locale.getLanguage(), didImport).apply();
+    }
+
+    boolean didImportTags(Locale locale) {
+        return sharedPreferences.getBoolean(Keys.DID_IMPORT_TAGS_FOR_LANGUAGE + locale.getLanguage(), false);
+    }
+
+    void  setDidImportTags(Locale locale, boolean didImport) {
+        sharedPreferences.edit().putBoolean(Keys.DID_IMPORT_TAGS_FOR_LANGUAGE + locale.getLanguage(), didImport).apply();
     }
 
     public long getAlarmStartInMillis() {

@@ -79,7 +79,7 @@
                                     style="@style/LayoutRowImage"
                                     android:contentDescription="@null"
                                     android:src="@drawable/ic_note"
-                                    app:tintColor="@color/gray_darker" />
+                                    app:tintColor="@color/gray_darker"/>
 
                                 <EditText
                                     android:id="@+id/edittext_notes"
@@ -88,7 +88,30 @@
                                     android:hint="@string/note"
                                     android:inputType="textMultiLine|textCapSentences"
                                     android:paddingLeft="12dp"
-                                    android:paddingStart="12dp" />
+                                    android:paddingStart="12dp"
+                                    tools:ignore="RtlSymmetry"/>
+
+                            </LinearLayout>
+
+                            <View style="@style/LayoutRowSeparator" />
+
+                            <LinearLayout style="@style/LayoutRow">
+
+                                <ImageView
+                                    style="@style/LayoutRowImage"
+                                    android:contentDescription="@null"
+                                    android:tint="@color/gray_darker"
+                                    app:srcCompat="@drawable/ic_tag"/>
+
+                                <com.pchmn.materialchips.ChipsInput
+                                    android:id="@+id/entry_tags"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:paddingLeft="12dp"
+                                    android:paddingStart="12dp"
+                                    app:hint="@string/tag_hint"
+                                    app:chip_deletable="true"
+                                    tools:ignore="RtlSymmetry"/>
 
                             </LinearLayout>
 

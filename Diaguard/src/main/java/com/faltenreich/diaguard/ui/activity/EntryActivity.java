@@ -25,9 +25,11 @@ import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
+import com.faltenreich.diaguard.data.dao.TagDao;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.event.data.EntryDeletedEvent;
@@ -41,12 +43,15 @@ import com.faltenreich.diaguard.util.AlarmUtils;
 import com.faltenreich.diaguard.util.DateTimeUtils;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.ViewUtils;
+import com.pchmn.materialchips.ChipsInput;
+import com.pchmn.materialchips.model.Chip;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -95,6 +100,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     @BindView(R.id.button_date) Button buttonDate;
     @BindView(R.id.button_time) Button buttonTime;
     @BindView(R.id.entry_button_alarm) Button buttonAlarm;
+    @BindView(R.id.entry_tags) ChipsInput tagsView;
 
     private long entryId;
     private long foodId;
@@ -166,6 +172,8 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             updateDateTime();
         }
 
+        new FetchTagsTask().execute();
+
         updateAlarm();
     }
 
@@ -204,6 +212,14 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             fab.ignore(Measurement.Category.MEAL);
             fab.restock();
         }
+    }
+
+    private void initTags(List<Tag> tags) {
+        List<Chip> chips = new ArrayList<>();
+        for (Tag tag : tags) {
+            chips.add(new Chip(tag.getName(), null));
+        }
+        tagsView.setFilterableList(chips);
     }
 
     private void showDialogCategories() {
@@ -438,6 +454,20 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         protected void onPostExecute(Food food) {
             super.onPostExecute(food);
             initFood(food);
+        }
+    }
+
+    private class FetchTagsTask extends AsyncTask<Void, Void, List<Tag>> {
+
+        @Override
+        protected List<Tag> doInBackground(Void... params) {
+            return TagDao.getInstance().getAll();
+        }
+
+        @Override
+        protected void onPostExecute(List<Tag> tags) {
+            super.onPostExecute(tags);
+            initTags(tags);
         }
     }
 }

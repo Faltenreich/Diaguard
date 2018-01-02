@@ -1,5 +1,5 @@
 #
-# generated on 2017/03/15 10:13:21
+# generated on 2018/01/02 08:02:06
 #
 # --table-start--
 dataClass=com.faltenreich.diaguard.data.entity.Entry
@@ -46,6 +46,7 @@ fieldName=entry
 columnName=entry
 foreign=true
 foreignAutoRefresh=true
+maxForeignAutoRefreshLevel=2
 # --field-end--
 # --field-start--
 fieldName=id
@@ -84,6 +85,7 @@ fieldName=entry
 columnName=entry
 foreign=true
 foreignAutoRefresh=true
+maxForeignAutoRefreshLevel=2
 # --field-end--
 # --field-start--
 fieldName=id
@@ -118,6 +120,7 @@ fieldName=entry
 columnName=entry
 foreign=true
 foreignAutoRefresh=true
+maxForeignAutoRefreshLevel=2
 # --field-end--
 # --field-start--
 fieldName=id
@@ -152,6 +155,7 @@ fieldName=entry
 columnName=entry
 foreign=true
 foreignAutoRefresh=true
+maxForeignAutoRefreshLevel=2
 # --field-end--
 # --field-start--
 fieldName=id
@@ -182,6 +186,7 @@ fieldName=entry
 columnName=entry
 foreign=true
 foreignAutoRefresh=true
+maxForeignAutoRefreshLevel=2
 # --field-end--
 # --field-start--
 fieldName=id
@@ -212,6 +217,7 @@ fieldName=entry
 columnName=entry
 foreign=true
 foreignAutoRefresh=true
+maxForeignAutoRefreshLevel=2
 # --field-end--
 # --field-start--
 fieldName=id
@@ -241,6 +247,7 @@ fieldName=entry
 columnName=entry
 foreign=true
 foreignAutoRefresh=true
+maxForeignAutoRefreshLevel=2
 # --field-end--
 # --field-start--
 fieldName=id
@@ -275,6 +282,7 @@ fieldName=entry
 columnName=entry
 foreign=true
 foreignAutoRefresh=true
+maxForeignAutoRefreshLevel=2
 # --field-end--
 # --field-start--
 fieldName=id
@@ -404,12 +412,14 @@ fieldName=meal
 columnName=meal
 foreign=true
 foreignAutoRefresh=true
+maxForeignAutoRefreshLevel=2
 # --field-end--
 # --field-start--
 fieldName=food
 columnName=food
 foreign=true
 foreignAutoRefresh=true
+maxForeignAutoRefreshLevel=2
 # --field-end--
 # --field-start--
 fieldName=id
@@ -440,6 +450,65 @@ fieldName=entry
 columnName=entry
 foreign=true
 foreignAutoRefresh=true
+maxForeignAutoRefreshLevel=2
+# --field-end--
+# --field-start--
+fieldName=id
+columnName=_id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=createdAt
+columnName=createdAt
+# --field-end--
+# --field-start--
+fieldName=updatedAt
+columnName=updatedAt
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.faltenreich.diaguard.data.entity.Tag
+tableName=tag
+# --table-fields-start--
+# --field-start--
+fieldName=name
+columnName=name
+# --field-end--
+# --field-start--
+fieldName=id
+columnName=_id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=createdAt
+columnName=createdAt
+# --field-end--
+# --field-start--
+fieldName=updatedAt
+columnName=updatedAt
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.faltenreich.diaguard.data.entity.EntryTag
+tableName=entrytag
+# --table-fields-start--
+# --field-start--
+fieldName=entry
+columnName=entry
+foreign=true
+foreignAutoRefresh=true
+maxForeignAutoRefreshLevel=2
+# --field-end--
+# --field-start--
+fieldName=tag
+columnName=tag
+foreign=true
+foreignAutoRefresh=true
+maxForeignAutoRefreshLevel=2
 # --field-end--
 # --field-start--
 fieldName=id

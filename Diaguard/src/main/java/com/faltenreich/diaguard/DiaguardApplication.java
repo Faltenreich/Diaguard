@@ -39,7 +39,7 @@ public class DiaguardApplication extends Application {
     private void init() {
         context = getApplicationContext();
         JodaTimeAndroid.init(this);
-        ImportHelper.validateFoodImport(this);
+        ImportHelper.validateImports(this);
         LicenseResolver.registerLicense(new OpenDatabaseLicense());
         PreferenceHelper.getInstance().migrate();
         NotificationUtils.setupNotifications(this);

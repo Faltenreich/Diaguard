@@ -10,10 +10,12 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
+import com.faltenreich.diaguard.data.dao.TagDao;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.Meal;
+import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.export.Export;
@@ -36,18 +38,23 @@ import java.util.Locale;
  * Created by Faltenreich on 22.11.2016.
  */
 
-@SuppressWarnings("unused")
 public class ImportHelper {
 
     private static final String TAG = ImportHelper.class.getSimpleName();
     private static final String FOOD_CSV_FILE_NAME = "food_common.csv";
+    private static final String TAGS_CSV_FILE_NAME = "tags.csv";
 
     public static void createTestData() {
         new CreateTestData().execute();
     }
 
-    public static void validateFoodImport(Context context) {
+    public static void validateImports(Context context) {
         Locale locale = Helper.getLocale();
+        validateTagImport(context, locale);
+        validateFoodImport(context, locale);
+    }
+
+    private static void validateFoodImport(Context context, Locale locale) {
         int versionCode = PreferenceHelper.getInstance().getVersionCode();
         if (!PreferenceHelper.getInstance().didImportCommonFood(locale)) {
             new ImportFoodTask(context, locale).execute();
@@ -56,21 +63,27 @@ public class ImportHelper {
         }
     }
 
+    private static void validateTagImport(Context context, Locale locale) {
+        if (!PreferenceHelper.getInstance().didImportTags(locale)) {
+            new ImportTagsTask(context, locale).execute();
+        }
+    }
+
     private static int getLanguageColumn(String languageCode, String[] row) {
-        int languageRow = 0;
-        for (int languagePosition = 1; languagePosition < 4; languagePosition++) {
-            String availableLanguageCode = row[languagePosition];
+        int languageColumn = 0;
+        for (int column = 0; column < 4; column++) {
+            String availableLanguageCode = row[column];
             if (languageCode.startsWith(availableLanguageCode.substring(0, 1))) {
-                languageRow = languagePosition;
+                languageColumn = column;
                 break;
             }
         }
-        return languageRow;
+        return languageColumn;
     }
 
-    private static CSVReader getCsvReader(Context context) throws IOException {
+    private static CSVReader getCsvReader(Context context, String fileName) throws IOException {
         AssetManager assetManager = context.getAssets();
-        InputStream inputStream = assetManager.open(FOOD_CSV_FILE_NAME);
+        InputStream inputStream = assetManager.open(fileName);
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
         return new CSVReader(bufferedReader, Export.CSV_DELIMITER);
@@ -89,7 +102,7 @@ public class ImportHelper {
         @Override
         protected Void doInBackground(Void... voids) {
             try {
-                CSVReader reader = getCsvReader(context.get());
+                CSVReader reader = getCsvReader(context.get(), FOOD_CSV_FILE_NAME);
 
                 String languageCode = locale.getLanguage();
                 String[] nextLine = reader.readNext();
@@ -121,8 +134,6 @@ public class ImportHelper {
                         }
 
                         foodList.add(food);
-
-                        Log.d(TAG, "Importing " + food.getName());
                     }
                 }
 
@@ -130,7 +141,7 @@ public class ImportHelper {
                 FoodDao.getInstance().deleteAll();
                 FoodDao.getInstance().bulkCreateOrUpdate(foodList);
 
-                Log.i(TAG, String.format("Imported %d common food items from csv table into database", foodList.size()));
+                Log.i(TAG, String.format("Imported %d common food items from csv", foodList.size()));
 
             } catch (IOException exception) {
                 Log.e(TAG, exception.getLocalizedMessage());
@@ -158,7 +169,7 @@ public class ImportHelper {
         @Override
         protected Void doInBackground(Void... voids) {
             try {
-                CSVReader reader = getCsvReader(context.get());
+                CSVReader reader = getCsvReader(context.get(), FOOD_CSV_FILE_NAME);
 
                 String languageCode = locale.getLanguage();
                 String[] nextLine = reader.readNext();
@@ -188,6 +199,52 @@ public class ImportHelper {
                 Log.e(TAG, exception.getLocalizedMessage());
             }
             return null;
+        }
+    }
+
+    private static class ImportTagsTask extends AsyncTask<Void, Void, Void> {
+
+        private WeakReference<Context> context;
+        private Locale locale;
+
+        ImportTagsTask(Context context, Locale locale) {
+            this.context = new WeakReference<>(context);
+            this.locale = locale;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                CSVReader reader = getCsvReader(context.get(), TAGS_CSV_FILE_NAME);
+
+                String languageCode = locale.getLanguage();
+                String[] nextLine = reader.readNext();
+                int languageRow = getLanguageColumn(languageCode, nextLine);
+
+                List<Tag> tags = new ArrayList<>();
+                while ((nextLine = reader.readNext()) != null) {
+                    if (nextLine.length >= 4) {
+                        Tag tag = new Tag();
+                        tag.setName(nextLine[languageRow]);
+                        tags.add(tag);
+                    }
+                }
+
+                TagDao.getInstance().deleteAll();
+                TagDao.getInstance().bulkCreateOrUpdate(tags);
+
+                Log.i(TAG, String.format("Imported %d tags from csv", tags.size()));
+
+            } catch (IOException exception) {
+                Log.e(TAG, exception.getLocalizedMessage());
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            PreferenceHelper.getInstance().setDidImportTags(locale, true);
         }
     }
 

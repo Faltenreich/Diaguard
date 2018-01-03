@@ -23,10 +23,12 @@ import com.codetroopers.betterpickers.numberpicker.NumberPickerDialogFragment;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
+import com.faltenreich.diaguard.data.dao.EntryTagDao;
 import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.dao.TagDao;
 import com.faltenreich.diaguard.data.entity.Entry;
+import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Tag;
@@ -107,6 +109,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     private DateTime time;
 
     private Entry entry;
+    private List<EntryTag> entryTags;
     private Measurement.Category[] activeCategories;
     private int alarmInMinutes;
 
@@ -185,10 +188,12 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         }
     }
 
-    private void initEntry(Entry entry) {
+    private void initEntry(Entry entry, List<EntryTag> entryTags) {
         if (entry != null) {
             this.entry = entry;
+            this.entryTags = entryTags;
             this.time = entry.getDate();
+
             editTextNotes.setText(entry.getNote());
 
             List<Measurement> measurements = entry.getMeasurementCache();
@@ -199,6 +204,11 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
                 fab.ignore(measurement.getCategory());
             }
             fab.restock();
+
+            for (EntryTag entryTag : entryTags) {
+                Tag tag = entryTag.getTag();
+                tagsView.addChip(new Chip(tag, tag.getName(), null));
+            }
 
         } else {
             initPinnedCategories();
@@ -214,10 +224,10 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         }
     }
 
-    private void initTags(List<Tag> tags) {
+    private void initTagSuggestions(List<Tag> tags) {
         List<Chip> chips = new ArrayList<>();
         for (Tag tag : tags) {
-            chips.add(new Chip(tag.getName(), null));
+            chips.add(new Chip(tag, tag.getName(), null));
         }
         tagsView.setFilterableList(chips);
     }
@@ -324,7 +334,6 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             EntryDao.getInstance().createOrUpdate(entry);
 
             for (Measurement.Category category : Measurement.Category.values()) {
-
                 if (layoutMeasurements.hasCategory(category)) {
                     Measurement measurement = layoutMeasurements.getMeasurement(category);
                     measurement.setEntry(entry);
@@ -336,6 +345,24 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
             if (alarmInMinutes > 0) {
                 AlarmUtils.setAlarm(alarmInMinutes * DateTimeConstants.MILLIS_PER_MINUTE);
+            }
+
+            // TODO: Delete distinct
+            if (entryTags != null && entryTags.size() > 0) {
+                EntryTagDao.getInstance().delete(entryTags);
+            }
+
+            List<Chip> chips = (List<Chip>) tagsView.getSelectedChipList();
+            if (chips != null && chips.size() > 0) {
+                List<EntryTag> entryTags = new ArrayList<>();
+                for (Chip chip : chips) {
+                    Tag tag = (Tag) chip.getId();
+                    EntryTag entryTag = new EntryTag();
+                    entryTag.setEntry(entry);
+                    entryTag.setTag(tag);
+                    entryTags.add(entryTag);
+                }
+                EntryTagDao.getInstance().bulkCreateOrUpdate(entryTags);
             }
 
             if (isNewEntry) {
@@ -412,28 +439,31 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         fab.restock();
     }
 
-    private class FetchEntryTask extends AsyncTask<Void, Void, Entry> {
+    private class FetchEntryTask extends AsyncTask<Void, Void, Void> {
 
         private long entryId;
+        private Entry entry;
+        private List<EntryTag> entryTags;
 
         private FetchEntryTask(long entryId) {
             this.entryId = entryId;
         }
 
         @Override
-        protected Entry doInBackground(Void... params) {
+        protected Void doInBackground(Void... params) {
             EntryDao dao = EntryDao.getInstance();
-            Entry entry = dao.get(entryId);
+            entry = dao.get(entryId);
             if (entry != null) {
                 entry.setMeasurementCache(dao.getMeasurements(entry));
+                entryTags = EntryTagDao.getInstance().getAll(entry);
             }
-            return entry;
+            return null;
         }
 
         @Override
-        protected void onPostExecute(Entry entry) {
-            super.onPostExecute(entry);
-            initEntry(entry);
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            initEntry(entry, entryTags);
         }
     }
 
@@ -467,7 +497,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         @Override
         protected void onPostExecute(List<Tag> tags) {
             super.onPostExecute(tags);
-            initTags(tags);
+            initTagSuggestions(tags);
         }
     }
 }

@@ -47,6 +47,7 @@ public class EntryDao extends BaseDao<Entry> {
             entry.getMeasurementCache().add(measurement);
             MeasurementDao.getInstance(measurement.getClass()).delete(measurement);
         }
+        EntryTagDao.getInstance().delete(EntryTagDao.getInstance().getAll(entry));
         return super.delete(entry);
     }
 

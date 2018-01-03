@@ -103,16 +103,33 @@
                                     android:tint="@color/gray_darker"
                                     app:srcCompat="@drawable/ic_tag"/>
 
-                                <com.pchmn.materialchips.ChipsInput
-                                    android:id="@+id/entry_tags"
+                                <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:paddingLeft="12dp"
-                                    android:paddingStart="12dp"
-                                    app:hint="@string/tag_hint"
-                                    app:chip_deletable="true"
-                                    app:chip_hasAvatarIcon="false"
-                                    tools:ignore="RtlSymmetry"/>
+                                    android:orientation="vertical">
+
+                                    <AutoCompleteTextView
+                                        android:id="@+id/entry_tags_input"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/height_element"
+                                        android:paddingLeft="12dp"
+                                        android:paddingStart="12dp"
+                                        android:background="@android:color/transparent"
+                                        android:hint="@string/tag_hint"
+                                        android:lines="1"
+                                        android:inputType="text"
+                                        android:imeOptions="actionDone"
+                                        tools:ignore="RtlSymmetry"/>
+
+                                    <org.apmem.tools.layouts.FlowLayout
+                                        android:id="@+id/entry_tags"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:paddingLeft="12dp"
+                                        android:paddingStart="12dp"
+                                        tools:ignore="RtlSymmetry"/>
+
+                                </LinearLayout>
 
                             </LinearLayout>
 

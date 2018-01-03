@@ -8,6 +8,8 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.ListAdapter;
 
 import com.faltenreich.diaguard.R;
@@ -39,6 +41,11 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         // Initialize summaries where making sense
         for (Preference preference : getPreferenceList(getPreferenceScreen(), new ArrayList<Preference>())) {
@@ -63,7 +70,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     }
 
     private void setSummary(Preference preference) {
-
         if (preference instanceof ListPreference) {
             ListPreference listPreference = (ListPreference) preference;
             preference.setSummary(listPreference.getEntry());
@@ -148,6 +154,8 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                 Events.post(new UnitChangedEvent(Measurement.Category.WEIGHT));
                 break;
         }
-        setSummary(findPreference(key));
+        if (isAdded()) {
+            setSummary(findPreference(key));
+        }
     }
 }

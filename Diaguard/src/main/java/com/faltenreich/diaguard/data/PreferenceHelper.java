@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.ui.view.preferences.CategoryPreference;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.SystemUtils;
@@ -46,6 +45,9 @@ public class PreferenceHelper {
         final static String DID_IMPORT_COMMON_FOOD_FOR_LANGUAGE = "didImportCommonFoodForLanguage";
         final static String DID_IMPORT_TAGS_FOR_LANGUAGE = "didImportTagsForLanguage";
         final static String CHART_STYLE = "chart_style";
+        final static String CATEGORY_ACTIVE = "_active";
+        final static String CATEGORY_ACTIVE_FOR_EXPORT = "_active_for_export";
+        final static String EXPORT_NOTES = "export_notes";
     }
 
     public enum ChartStyle {
@@ -195,11 +197,11 @@ public class PreferenceHelper {
     }
 
     public void setExportNotes(boolean exportNotes) {
-        sharedPreferences.edit().putBoolean("export_notes", exportNotes).apply();
+        sharedPreferences.edit().putBoolean(Keys.EXPORT_NOTES, exportNotes).apply();
     }
 
     public boolean exportNotes() {
-        return sharedPreferences.getBoolean("export_notes", true);
+        return sharedPreferences.getBoolean(Keys.EXPORT_NOTES, true);
     }
 
     public void addInputQuery(String query) {
@@ -284,7 +286,19 @@ public class PreferenceHelper {
     }
 
     public boolean isCategoryActive(Measurement.Category category) {
-        return sharedPreferences.getBoolean(category.name() + CategoryPreference.ACTIVE, true);
+        return sharedPreferences.getBoolean(category.name() + Keys.CATEGORY_ACTIVE, true);
+    }
+
+    public void setIsCategoryActive(Measurement.Category category, boolean isActive) {
+        sharedPreferences.edit().putBoolean(category.name() + Keys.CATEGORY_ACTIVE, isActive).apply();
+    }
+
+    public boolean isCategoryActiveForExport(Measurement.Category category) {
+        return sharedPreferences.getBoolean(category.name() + Keys.CATEGORY_ACTIVE_FOR_EXPORT, isCategoryActive(category));
+    }
+
+    public void setIsCategoryActiveForExport(Measurement.Category category, boolean isActive) {
+        sharedPreferences.edit().putBoolean(category.name() + Keys.CATEGORY_ACTIVE_FOR_EXPORT, isActive).apply();
     }
 
     public Measurement.Category[] getActiveCategories() {

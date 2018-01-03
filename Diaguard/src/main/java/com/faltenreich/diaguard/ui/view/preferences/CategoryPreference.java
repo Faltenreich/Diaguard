@@ -2,9 +2,7 @@ package com.faltenreich.diaguard.ui.view.preferences;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.preference.DialogPreference;
-import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.SparseBooleanArray;
 import android.view.View;
@@ -21,6 +19,7 @@ import com.faltenreich.diaguard.util.ViewUtils;
 public class CategoryPreference extends DialogPreference {
 
     public final static String ACTIVE = "_active";
+    public final static String ACTIVE_FOR_EXPORT = "_active_for_export";
 
     private ListView listView;
 
@@ -34,7 +33,7 @@ public class CategoryPreference extends DialogPreference {
         super.onBindDialogView(view);
 
         Activity activity = (Activity) getContext();
-        listView = (ListView) view.findViewById(R.id.listview);
+        listView = view.findViewById(R.id.listview);
 
         CategoryListAdapter adapter = new CategoryListAdapter(activity,
                 android.R.layout.simple_list_item_multiple_choice,
@@ -55,14 +54,13 @@ public class CategoryPreference extends DialogPreference {
         if (positiveResult) {
             SparseBooleanArray checkedItems = listView.getCheckedItemPositions();
 
-            if(checkedItems != null && checkedItems.indexOfValue(true) != -1) {
-                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                for (int item = 0; item < checkedItems.size(); item++)
-                    editor.putBoolean(Measurement.Category.values()[item].name() + ACTIVE, checkedItems.valueAt(item));
-                editor.apply();
-            }
-            else {
+            if (checkedItems != null && checkedItems.indexOfValue(true) != -1) {
+                for (int item = 0; item < checkedItems.size(); item++) {
+                    Measurement.Category category = Measurement.Category.values()[item];
+                    boolean isChecked = checkedItems.valueAt(item);
+                    PreferenceHelper.getInstance().setIsCategoryActive(category, isChecked);
+                }
+            } else {
                 ViewUtils.showToast(getContext(), getContext().getString(R.string.validator_value_none));
             }
         }

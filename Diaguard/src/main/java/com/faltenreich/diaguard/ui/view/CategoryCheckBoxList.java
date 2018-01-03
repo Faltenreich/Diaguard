@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.ui.view;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.util.AttributeSet;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -43,7 +44,7 @@ public class CategoryCheckBoxList extends LinearLayout {
                 boolean isActive = PreferenceHelper.getInstance().isCategoryActiveForExport(category);
                 categories.put(category, isActive);
 
-                CheckBox checkBox = new CheckBox(getContext());
+                CheckBox checkBox = new AppCompatCheckBox(getContext());
                 checkBox.setMinimumHeight((int) getResources().getDimension(R.dimen.height_element));
                 checkBox.setText(category.toLocalizedString());
                 checkBox.setChecked(isActive);

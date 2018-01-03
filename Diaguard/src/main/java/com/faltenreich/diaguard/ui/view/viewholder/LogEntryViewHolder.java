@@ -14,10 +14,14 @@ import com.faltenreich.diaguard.adapter.list.ListItemEntry;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
+import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.ui.view.TintImageView;
+import com.pchmn.materialchips.ChipView;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -30,6 +34,7 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> implements
     @BindView(R.id.time) TextView time;
     @BindView(R.id.note) TextView note;
     @BindView(R.id.measurements) public ViewGroup measurements;
+    @BindView(R.id.entry_tags) ViewGroup tagsView;
 
     public LogEntryViewHolder(View view) {
         super(view);
@@ -40,6 +45,7 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> implements
         cardView.setOnClickListener(this);
 
         Entry entry = getListItem().getEntry();
+        List<EntryTag> entryTags = getListItem().getEntryTags();
 
         time.setText(entry.getDate().toString("HH:mm"));
 
@@ -48,6 +54,22 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> implements
             note.setText(entry.getNote());
         } else {
             note.setVisibility(View.GONE);
+        }
+
+        tagsView.setVisibility(entryTags.size() > 0 ? View.VISIBLE : View.GONE);
+        tagsView.removeAllViews();
+        int margin = (int) getContext().getResources().getDimension(R.dimen.padding);
+        for (EntryTag entryTag : entryTags) {
+            ChipView chipView = new ChipView(getContext());
+            chipView.setLabel(entryTag.getTag().getName());
+            chipView.setPadding(0, 0, margin, margin);
+            chipView.setOnChipClicked(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // TODO: Search for tag
+                }
+            });
+            tagsView.addView(chipView);
         }
 
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);

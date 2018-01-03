@@ -22,8 +22,10 @@ import android.widget.TextView;
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.dao.EntryDao;
+import com.faltenreich.diaguard.data.dao.EntryTagDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.Entry;
+import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.data.EntryAddedEvent;
@@ -190,7 +192,11 @@ public abstract class BaseFragment extends Fragment {
                     measurement.setEntry(entry);
                     MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
                 }
-                Events.post(new EntryAddedEvent(entry));
+                for (EntryTag entryTag : event.entryTags) {
+                    entryTag.setEntry(entry);
+                    EntryTagDao.getInstance().createOrUpdate(entryTag);
+                }
+                Events.post(new EntryAddedEvent(entry, event.entryTags));
             }
         });
     }

@@ -36,9 +36,10 @@ public class ListSwipeHelper extends ItemTouchHelper.Callback {
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
         Object item = adapter.getItem(viewHolder.getAdapterPosition());
         if (item instanceof ListItemEntry) {
-            Entry entry = ((ListItemEntry) item).getEntry();
+            ListItemEntry listItem = (ListItemEntry) item;
+            Entry entry = listItem.getEntry();
             EntryDao.getInstance().delete(entry);
-            Events.post(new EntryDeletedEvent(entry));
+            Events.post(new EntryDeletedEvent(entry, listItem.getEntryTags()));
         }
     }
 }

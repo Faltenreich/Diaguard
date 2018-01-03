@@ -321,7 +321,7 @@ public class CalculatorFragment extends BaseFragment {
             MeasurementDao.getInstance(Insulin.class).createOrUpdate(insulin);
         }
 
-        Events.post(new EntryAddedEvent(entry));
+        Events.post(new EntryAddedEvent(entry, null));
 
         openEntry(entry);
         clearInput();

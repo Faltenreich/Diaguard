@@ -10,12 +10,17 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -45,7 +50,7 @@ import com.faltenreich.diaguard.util.AlarmUtils;
 import com.faltenreich.diaguard.util.DateTimeUtils;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.ViewUtils;
-import com.pchmn.materialchips.ChipsInput;
+import com.pchmn.materialchips.ChipView;
 import com.pchmn.materialchips.model.Chip;
 
 import org.joda.time.DateTime;
@@ -102,7 +107,8 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     @BindView(R.id.button_date) Button buttonDate;
     @BindView(R.id.button_time) Button buttonTime;
     @BindView(R.id.entry_button_alarm) Button buttonAlarm;
-    @BindView(R.id.entry_tags) ChipsInput tagsView;
+    @BindView(R.id.entry_tags_input) AutoCompleteTextView tagsInput;
+    @BindView(R.id.entry_tags) ViewGroup tagsView;
 
     private long entryId;
     private long foodId;
@@ -164,6 +170,21 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         fab.init();
         fab.setOnFabSelectedListener(this);
 
+        // TODO: Set ArrayAdapter for AutoCompleteTextView
+        tagsInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int action, KeyEvent keyEvent) {
+                if (action == EditorInfo.IME_ACTION_DONE) {
+                    Tag tag = new Tag();
+                    tag.setName(textView.getText().toString());
+                    addTag(tag);
+                    textView.setText(null);
+                    return true;
+                }
+                return false;
+            }
+        });
+
         if (entryId > 0) {
             setTitle(getString(R.string.entry_edit));
             new FetchEntryTask(entryId).execute();
@@ -206,8 +227,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             fab.restock();
 
             for (EntryTag entryTag : entryTags) {
-                Tag tag = entryTag.getTag();
-                tagsView.addChip(new Chip(tag, tag.getName(), null));
+                addTag(entryTag.getTag());
             }
 
         } else {
@@ -229,7 +249,29 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         for (Tag tag : tags) {
             chips.add(new Chip(tag, tag.getName(), null));
         }
-        tagsView.setFilterableList(chips);
+        // TODO
+    }
+
+    private void addTag(Tag tag) {
+        int margin = (int) getResources().getDimension(R.dimen.margin_between);
+        final ChipView chipView = new ChipView(this);
+        chipView.setTag(tag);
+        chipView.setLabel(tag.getName());
+        chipView.setDeletable(true);
+        chipView.setOnDeleteClicked(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tagsView.removeView(chipView);
+            }
+        });
+        chipView.setPadding(0, 0, margin, margin);
+        chipView.setOnChipClicked(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tagsView.removeView(chipView);
+            }
+        });
+        tagsView.addView(chipView);
     }
 
     private void showDialogCategories() {
@@ -353,17 +395,17 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             }
 
             List<EntryTag> entryTags = new ArrayList<>();
-            List<Chip> chips = (List<Chip>) tagsView.getSelectedChipList();
-            if (chips != null && chips.size() > 0) {
-                for (Chip chip : chips) {
-                    Tag tag = (Tag) chip.getId();
+            for (int index = 0; index < tagsView.getChildCount(); index++) {
+                View view = tagsView.getChildAt(index);
+                if (view.getTag() instanceof Tag) {
+                    Tag tag = (Tag) view.getTag();
                     EntryTag entryTag = new EntryTag();
                     entryTag.setEntry(entry);
                     entryTag.setTag(tag);
                     entryTags.add(entryTag);
                 }
-                EntryTagDao.getInstance().bulkCreateOrUpdate(entryTags);
             }
+            EntryTagDao.getInstance().bulkCreateOrUpdate(entryTags);
 
             if (isNewEntry) {
                 Toast.makeText(this, getString(R.string.entry_added), Toast.LENGTH_LONG).show();

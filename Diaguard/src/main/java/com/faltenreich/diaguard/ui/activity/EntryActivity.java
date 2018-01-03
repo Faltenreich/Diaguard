@@ -352,9 +352,9 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
                 EntryTagDao.getInstance().delete(entryTags);
             }
 
+            List<EntryTag> entryTags = new ArrayList<>();
             List<Chip> chips = (List<Chip>) tagsView.getSelectedChipList();
             if (chips != null && chips.size() > 0) {
-                List<EntryTag> entryTags = new ArrayList<>();
                 for (Chip chip : chips) {
                     Tag tag = (Tag) chip.getId();
                     EntryTag entryTag = new EntryTag();
@@ -367,9 +367,9 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
             if (isNewEntry) {
                 Toast.makeText(this, getString(R.string.entry_added), Toast.LENGTH_LONG).show();
-                Events.post(new EntryAddedEvent(entry));
+                Events.post(new EntryAddedEvent(entry, entryTags));
             } else {
-                Events.post(new EntryUpdatedEvent(entry, originalDate));
+                Events.post(new EntryUpdatedEvent(entry, entryTags, originalDate));
             }
 
             finish();
@@ -379,7 +379,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     private void deleteEntry() {
         if (entry != null) {
             EntryDao.getInstance().delete(entry);
-            Events.post(new EntryDeletedEvent(entry));
+            Events.post(new EntryDeletedEvent(entry, entryTags));
             finish();
         }
     }

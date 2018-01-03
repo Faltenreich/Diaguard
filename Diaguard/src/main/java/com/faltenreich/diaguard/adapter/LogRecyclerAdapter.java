@@ -13,7 +13,9 @@ import com.faltenreich.diaguard.adapter.list.ListItemEntry;
 import com.faltenreich.diaguard.adapter.list.ListItemMonth;
 import com.faltenreich.diaguard.adapter.list.ListItemPending;
 import com.faltenreich.diaguard.data.dao.EntryDao;
+import com.faltenreich.diaguard.data.dao.EntryTagDao;
 import com.faltenreich.diaguard.data.entity.Entry;
+import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.view.viewholder.BaseViewHolder;
 import com.faltenreich.diaguard.ui.view.viewholder.LogDayViewHolder;
@@ -341,7 +343,8 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
 
                     for (int entryIndex = 0; entryIndex < entries.size(); entryIndex++) {
                         Entry entry = entries.get(entryIndex);
-                        ListItemEntry listItemEntry = new ListItemEntry(entry);
+                        List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(entry);
+                        ListItemEntry listItemEntry = new ListItemEntry(entry, entryTags);
 
                         if (entryIndex == 0) {
                             firstListItemEntryOfDay = listItemEntry;

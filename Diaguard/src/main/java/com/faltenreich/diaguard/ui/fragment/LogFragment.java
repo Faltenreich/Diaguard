@@ -18,7 +18,9 @@ import com.faltenreich.diaguard.adapter.list.ListItemDate;
 import com.faltenreich.diaguard.adapter.list.ListItemEmpty;
 import com.faltenreich.diaguard.adapter.list.ListItemEntry;
 import com.faltenreich.diaguard.data.dao.EntryDao;
+import com.faltenreich.diaguard.data.dao.EntryTagDao;
 import com.faltenreich.diaguard.data.entity.Entry;
+import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.event.data.EntryUpdatedEvent;
@@ -28,6 +30,8 @@ import com.faltenreich.diaguard.util.ViewUtils;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.joda.time.DateTime;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -160,7 +164,7 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.OnAd
         listDecoration.clearHeaderCache();
     }
 
-    private void addEntry(Entry entry) {
+    private void addEntry(Entry entry, List<EntryTag> entryTags) {
         if (entry != null) {
             DateTime date = entry.getDate();
             int position = listAdapter.getNextDateTimePosition(date);
@@ -176,7 +180,8 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.OnAd
                 }
 
                 entry.setMeasurementCache(EntryDao.getInstance().getMeasurements(entry));
-                ListItemEntry listItemEntry = new ListItemEntry(entry);
+
+                ListItemEntry listItemEntry = new ListItemEntry(entry, entryTags);
                 listAdapter.addItem(position, listItemEntry);
                 listAdapter.notifyItemInserted(position);
 
@@ -209,7 +214,7 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.OnAd
         updateHeaderSection(date);
     }
 
-    private void updateEntry(Entry entry, DateTime originalDate) {
+    private void updateEntry(Entry entry, List<EntryTag> entryTags, DateTime originalDate) {
         if (entry != null) {
             int originalPosition = listAdapter.getEntryPosition(entry);
             if (originalPosition >= 0) {
@@ -220,11 +225,12 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.OnAd
                         ListItemEntry listItemEntry = (ListItemEntry) listItem;
                         entry.setMeasurementCache(EntryDao.getInstance().getMeasurements(entry));
                         listItemEntry.setEntry(entry);
+                        listItemEntry.setEntryTags(EntryTagDao.getInstance().getAll(entry));
                         listAdapter.notifyItemChanged(originalPosition);
                     }
                 } else {
                     removeEntry(originalPosition, originalDate);
-                    addEntry(entry);
+                    addEntry(entry, entryTags);
                 }
             }
         }
@@ -233,7 +239,7 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.OnAd
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EntryAddedEvent event) {
         if (isAdded()) {
-            addEntry(event.context);
+            addEntry(event.context, event.entryTags);
         }
     }
 
@@ -248,7 +254,7 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.OnAd
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EntryUpdatedEvent event) {
         if (isAdded()) {
-            updateEntry(event.context, event.originalDate);
+            updateEntry(event.context, event.entryTags, event.originalDate);
         }
     }
 

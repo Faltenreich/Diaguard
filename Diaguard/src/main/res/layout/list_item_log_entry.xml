@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="2dp"
@@ -13,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
+        android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
         card_view:cardCornerRadius="4dp"
         card_view:cardElevation="2dp"
@@ -29,22 +33,28 @@
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_between"/>
+                tools:text="19:05"/>
 
             <TextView
                 android:id="@+id/note"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_between"
+                android:layout_marginTop="@dimen/margin_between"
                 android:visibility="gone" />
 
             <org.apmem.tools.layouts.FlowLayout
-                xmlns:flow="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/measurements"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/margin_between"
                 android:gravity="fill_horizontal"
-                flow:weightDefault="1.0"/>
+                app:weightDefault="1.0"/>
+
+            <org.apmem.tools.layouts.FlowLayout
+                android:id="@+id/entry_tags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_between"/>
 
         </LinearLayout>
 

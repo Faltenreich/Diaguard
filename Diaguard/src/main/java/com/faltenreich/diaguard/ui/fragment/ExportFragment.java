@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -61,16 +62,23 @@ public class ExportFragment extends BaseFragment implements FileListener {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        init();
+
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initialize();
+        initLayout();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         Events.register(this);
-        initializeGUI();
+        update();
     }
 
     @Override
@@ -79,23 +87,26 @@ public class ExportFragment extends BaseFragment implements FileListener {
         super.onDestroy();
     }
 
-    public void initialize() {
+    public void init() {
         dateEnd = DateTime.now();
         dateStart = dateEnd.withDayOfMonth(1);
     }
 
-    public void initializeGUI() {
-        buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
-        buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
+    public void initLayout() {
         progressDialog = new ProgressDialog(getContext());
         checkBoxNotes.setPadding(PADDING, PADDING, PADDING, PADDING);
-        checkBoxNotes.setChecked(PreferenceHelper.getInstance().exportNotes());
         checkBoxNotes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 PreferenceHelper.getInstance().setExportNotes(isChecked);
             }
         });
+    }
+
+    private void update() {
+        buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
+        buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
+        checkBoxNotes.setChecked(PreferenceHelper.getInstance().exportNotes());
     }
 
     private boolean validate() {

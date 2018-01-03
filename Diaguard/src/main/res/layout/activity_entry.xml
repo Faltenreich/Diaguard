@@ -111,6 +111,7 @@
                                     android:paddingStart="12dp"
                                     app:hint="@string/tag_hint"
                                     app:chip_deletable="true"
+                                    app:chip_hasAvatarIcon="false"
                                     tools:ignore="RtlSymmetry"/>
 
                             </LinearLayout>

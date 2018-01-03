@@ -122,7 +122,11 @@ public abstract class BaseDao <T extends BaseEntity> {
 
     public int delete(List<T> objects) {
         try {
-            return getDao().delete(objects);
+            if (objects != null && objects.size() > 0) {
+                return getDao().delete(objects);
+            } else {
+                return 0;
+            }
         } catch (SQLException exception) {
             Log.e(TAG, exception.getMessage());
             return 0;
@@ -131,7 +135,11 @@ public abstract class BaseDao <T extends BaseEntity> {
 
     public int delete(T object) {
         try {
-            return getDao().delete(object);
+            if (object != null) {
+                return getDao().delete(object);
+            } else {
+                return 0;
+            }
         } catch (SQLException exception) {
             Log.e(TAG, exception.getMessage());
             return 0;

@@ -13,6 +13,7 @@ import com.faltenreich.diaguard.util.Helper;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,41 +38,35 @@ public class CategoryCheckBoxList extends LinearLayout {
     private void init() {
         if (!isInEditMode()) {
             this.categories = new LinkedHashMap<>();
-            for (Measurement.Category category : Measurement.Category.values()) {
-                addCategory(category, PreferenceHelper.getInstance().isCategoryActive(category));
+
+            for (final Measurement.Category category : PreferenceHelper.getInstance().getActiveCategories()) {
+                boolean isActive = PreferenceHelper.getInstance().isCategoryActiveForExport(category);
+                categories.put(category, isActive);
+
+                CheckBox checkBox = new CheckBox(getContext());
+                checkBox.setMinimumHeight((int) getResources().getDimension(R.dimen.height_element));
+                checkBox.setText(category.toLocalizedString());
+                checkBox.setChecked(isActive);
+                checkBox.setPadding(PADDING, PADDING, PADDING, PADDING);
+                checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        categories.put(category, isChecked);
+                    }
+                });
+
+                addView(checkBox);
             }
         }
     }
 
-    private void addCategory(final Measurement.Category category, boolean isSelected) {
-        categories.put(category, isSelected);
-
-        CheckBox checkBox = new CheckBox(getContext());
-        checkBox.setMinimumHeight((int) getResources().getDimension(R.dimen.height_element));
-        checkBox.setText(category.toLocalizedString());
-        checkBox.setChecked(categories.get(category));
-        checkBox.setPadding(PADDING, PADDING, PADDING, PADDING);
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                categories.put(category, isChecked);
-            }
-        });
-
-        addView(checkBox);
-    }
-
-    public boolean isSelected(Measurement.Category category) {
-        return categories.get(category);
-    }
-
-    public Measurement.Category[] getSelectedCategories() {
+    public List<Measurement.Category> getSelectedCategories() {
         ArrayList<Measurement.Category> selectedCategories = new ArrayList<>();
         for (Map.Entry<Measurement.Category, Boolean> mapEntry : categories.entrySet()) {
             if (mapEntry.getValue()) {
                 selectedCategories.add(mapEntry.getKey());
             }
         }
-        return selectedCategories.toArray(new Measurement.Category[selectedCategories.size()]);
+        return selectedCategories;
     }
 }

@@ -11,13 +11,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.PermissionDeniedEvent;
 import com.faltenreich.diaguard.event.PermissionGrantedEvent;
@@ -34,6 +34,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.joda.time.DateTime;
 
 import java.io.File;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -65,7 +66,6 @@ public class ExportFragment extends BaseFragment implements FileListener {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
-
     }
 
     @Override
@@ -95,12 +95,6 @@ public class ExportFragment extends BaseFragment implements FileListener {
     public void initLayout() {
         progressDialog = new ProgressDialog(getContext());
         checkBoxNotes.setPadding(PADDING, PADDING, PADDING, PADDING);
-        checkBoxNotes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                PreferenceHelper.getInstance().setExportNotes(isChecked);
-            }
-        });
     }
 
     private void update() {
@@ -115,7 +109,7 @@ public class ExportFragment extends BaseFragment implements FileListener {
         if (dateStart.isAfter(dateEnd)) {
             ViewUtils.showSnackbar(getView(), getString(R.string.validator_value_enddate));
             isValid = false;
-        } else if (categoryCheckBoxList.getSelectedCategories().length == 0) {
+        } else if (categoryCheckBoxList.getSelectedCategories().size() == 0) {
             ViewUtils.showSnackbar(getView(), getString(R.string.validator_value_empty_list));
             isValid = false;
         }
@@ -145,10 +139,19 @@ public class ExportFragment extends BaseFragment implements FileListener {
         progressDialog.setCancelable(false);
         progressDialog.show();
 
+        List<Measurement.Category> categories = categoryCheckBoxList.getSelectedCategories();
+        Measurement.Category[] categoryArray = categories.toArray(new Measurement.Category[categories.size()]);
+
+        PreferenceHelper.getInstance().setExportNotes(checkBoxNotes.isChecked());
+
         if (spinnerFormat.getSelectedItemPosition() == 0) {
-            Export.exportPdf(this, dateStart, dateEnd, categoryCheckBoxList.getSelectedCategories());
+            for (Measurement.Category category : Measurement.Category.values()) {
+                boolean isActive = categories.contains(category);
+                PreferenceHelper.getInstance().setIsCategoryActiveForExport(category, isActive);
+            }
+            Export.exportPdf(this, dateStart, dateEnd, categoryArray);
         } else if (spinnerFormat.getSelectedItemPosition() == 1) {
-            Export.exportCsv(this, false, dateStart, dateEnd, categoryCheckBoxList.getSelectedCategories());
+            Export.exportCsv(this, false, dateStart, dateEnd, categoryArray);
         }
     }
 

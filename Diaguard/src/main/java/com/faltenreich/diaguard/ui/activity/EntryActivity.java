@@ -53,7 +53,6 @@ import com.faltenreich.diaguard.util.DateTimeUtils;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.ViewUtils;
 import com.pchmn.materialchips.ChipView;
-import com.pchmn.materialchips.model.Chip;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -121,6 +120,8 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     private Measurement.Category[] activeCategories;
     private int alarmInMinutes;
 
+    private TagAutoCompleteAdapter adapter;
+
     public EntryActivity() {
         super(R.layout.activity_entry);
     }
@@ -171,45 +172,6 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
         fab.init();
         fab.setOnFabSelectedListener(this);
-
-        List<Tag> tags = TagDao.getInstance().getAll();
-        final TagAutoCompleteAdapter adapter = new TagAutoCompleteAdapter(this, tags);
-        tagsInput.setAdapter(adapter);
-        tagsInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int action, KeyEvent keyEvent) {
-                if (action == EditorInfo.IME_ACTION_DONE) {
-                    Tag tag = new Tag();
-                    tag.setName(textView.getText().toString());
-                    addTag(tag);
-                    textView.setText(null);
-                    return true;
-                }
-                return false;
-            }
-        });
-        tagsInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (hasFocus) {
-                    tagsInput.showDropDown();
-                }
-            }
-        });
-        tagsInput.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                tagsInput.showDropDown();
-            }
-        });
-        tagsInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Tag tag = adapter.getItem(position);
-                addTag(tag);
-                tagsInput.setText(null);
-            }
-        });
 
         if (entryId > 0) {
             setTitle(getString(R.string.entry_edit));
@@ -271,11 +233,44 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     }
 
     private void initTagSuggestions(List<Tag> tags) {
-        List<Chip> chips = new ArrayList<>();
-        for (Tag tag : tags) {
-            chips.add(new Chip(tag, tag.getName(), null));
-        }
-        // TODO
+        adapter = new TagAutoCompleteAdapter(this, tags);
+        tagsInput.setAdapter(adapter);
+        tagsInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int action, KeyEvent keyEvent) {
+                if (action == EditorInfo.IME_ACTION_DONE) {
+                    Tag tag = new Tag();
+                    tag.setId(-1);
+                    tag.setName(textView.getText().toString());
+                    addTag(tag);
+                    textView.setText(null);
+                    return true;
+                }
+                return false;
+            }
+        });
+        tagsInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    tagsInput.showDropDown();
+                }
+            }
+        });
+        tagsInput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tagsInput.showDropDown();
+            }
+        });
+        tagsInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Tag tag = adapter.getItem(position);
+                addTag(tag);
+                tagsInput.setText(null);
+            }
+        });
     }
 
     private void addTag(Tag tag) {
@@ -425,6 +420,9 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
                 View view = tagsView.getChildAt(index);
                 if (view.getTag() instanceof Tag) {
                     Tag tag = (Tag) view.getTag();
+                    if (tag.getId() < 0) {
+                        tag = TagDao.getInstance().createOrUpdate(tag);
+                    }
                     EntryTag entryTag = new EntryTag();
                     entryTag.setEntry(entry);
                     entryTag.setTag(tag);

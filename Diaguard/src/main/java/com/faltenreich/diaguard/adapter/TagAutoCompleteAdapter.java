@@ -92,9 +92,11 @@ public class TagAutoCompleteAdapter extends ArrayAdapter<Tag> {
                 if (filterResults != null && filterResults.count > 0) {
                     results = (List<Tag>) filterResults.values;
                     notifyDataSetChanged();
+                    /* TODO: Find way to prevent showing all tags on IME_ACTION_DONE
                 } else if (TextUtils.isEmpty(constraint)) {
                     results = tags;
                     notifyDataSetChanged();
+                    */
                 } else {
                     notifyDataSetInvalidated();
                 }

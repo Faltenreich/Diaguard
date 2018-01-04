@@ -76,14 +76,16 @@
                             <LinearLayout style="@style/LayoutRow">
 
                                 <com.faltenreich.diaguard.ui.view.TintImageView
-                                    style="@style/LayoutRowImage"
+                                    style="@style/LayoutRowImageMultiline"
                                     android:contentDescription="@null"
                                     android:src="@drawable/ic_note"
                                     app:tintColor="@color/gray_darker"/>
 
                                 <EditText
                                     android:id="@+id/edittext_notes"
-                                    style="@style/LayoutRowItem"
+                                    style="@style/LayoutRowItemMultiline"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
                                     android:background="@android:color/transparent"
                                     android:hint="@string/note"
                                     android:inputType="textMultiLine|textCapSentences"
@@ -98,7 +100,7 @@
                             <LinearLayout style="@style/LayoutRow">
 
                                 <ImageView
-                                    style="@style/LayoutRowImage"
+                                    style="@style/LayoutRowImageMultiline"
                                     android:contentDescription="@null"
                                     android:tint="@color/gray_darker"
                                     app:srcCompat="@drawable/ic_tag"/>
@@ -111,7 +113,7 @@
                                     <AutoCompleteTextView
                                         android:id="@+id/entry_tags_input"
                                         android:layout_width="match_parent"
-                                        android:layout_height="@dimen/height_element"
+                                        android:layout_height="@dimen/height_element_large"
                                         android:paddingLeft="12dp"
                                         android:paddingStart="12dp"
                                         android:background="@android:color/transparent"
@@ -119,6 +121,7 @@
                                         android:lines="1"
                                         android:inputType="text"
                                         android:imeOptions="actionDone"
+                                        android:completionThreshold="0"
                                         tools:ignore="RtlSymmetry"/>
 
                                     <org.apmem.tools.layouts.FlowLayout

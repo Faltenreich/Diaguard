@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 
 import com.codetroopers.betterpickers.numberpicker.NumberPickerDialogFragment;
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.adapter.TagAutoCompleteAdapter;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.EntryTagDao;
@@ -170,7 +172,9 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         fab.init();
         fab.setOnFabSelectedListener(this);
 
-        // TODO: Set ArrayAdapter for AutoCompleteTextView
+        List<Tag> tags = TagDao.getInstance().getAll();
+        final TagAutoCompleteAdapter adapter = new TagAutoCompleteAdapter(this, tags);
+        tagsInput.setAdapter(adapter);
         tagsInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int action, KeyEvent keyEvent) {
@@ -182,6 +186,28 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
                     return true;
                 }
                 return false;
+            }
+        });
+        tagsInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    tagsInput.showDropDown();
+                }
+            }
+        });
+        tagsInput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tagsInput.showDropDown();
+            }
+        });
+        tagsInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Tag tag = adapter.getItem(position);
+                addTag(tag);
+                tagsInput.setText(null);
             }
         });
 

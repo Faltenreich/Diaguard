@@ -455,35 +455,13 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
     private void trySubmit() {
         if (inputIsValid()) {
-            if (!TextUtils.isEmpty(tagsInput.getText().toString())) {
-                requestTagsInput();
-            } else {
-                submit();
+            //
+            String missingTag = tagsInput.getText().toString();
+            if (!TextUtils.isEmpty(missingTag)) {
+                addTag(missingTag);
             }
+            submit();
         }
-    }
-
-    private void requestTagsInput() {
-        final String tagName = tagsInput.getText().toString();
-        final String message = String.format(getString(R.string.tag_request_desc), tagName);
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.tag_request_title)
-                .setMessage(message)
-                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        addTag(tagName);
-                        submit();
-                    }
-                })
-                .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        submit();
-                    }
-                })
-                .create()
-                .show();
     }
 
     private void submit() {

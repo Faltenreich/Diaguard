@@ -514,12 +514,7 @@
         <item>1</item>
     </string-array>
 
-    <string name="tag_hint">Emotions</string>
-    <string name="tag_add">Add emotion</string>
-    <string name="tag_request_title">Unchecked emotion</string>
-    <string name="tag_request_desc">Have you forgotten one emotion (%s)?</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
+    <string name="tag_hint">How do you feel?</string>
     <string name="search">Search</string>
     <string name="search_hint">Notes, emotions, &#8230;</string>
 

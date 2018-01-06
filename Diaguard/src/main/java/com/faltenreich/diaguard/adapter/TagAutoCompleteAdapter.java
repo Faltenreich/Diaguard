@@ -29,7 +29,7 @@ public class TagAutoCompleteAdapter extends ArrayAdapter<Tag> {
     private List<Tag> results;
 
     public TagAutoCompleteAdapter(@NonNull Context context, List<Tag> tags) {
-        super(context, -1);
+        super(context, -1, tags);
         this.tags = new HashMap<>();
         for (Tag tag : tags) {
             this.tags.put(tag, true);
@@ -98,13 +98,24 @@ public class TagAutoCompleteAdapter extends ArrayAdapter<Tag> {
                     notifyDataSetChanged();
                 } else if (TextUtils.isEmpty(constraint)) {
                     results = new ArrayList<>();
-                    results.addAll(tags.keySet());
+                    for (Map.Entry<Tag, Boolean> entry : tags.entrySet()) {
+                        if (entry.getValue()) {
+                            results.add(entry.getKey());
+                        }
+                    }
                     notifyDataSetChanged();
                 } else {
                     notifyDataSetInvalidated();
                 }
             }
         };
+    }
+
+    public void setTag(Tag tag, boolean enable) {
+        if (tags.containsKey(tag)) {
+            // FIXME: notifyDataSetChanged does not work
+            tags.put(tag, enable);
+        }
     }
 
     public Tag findTag(String name) {

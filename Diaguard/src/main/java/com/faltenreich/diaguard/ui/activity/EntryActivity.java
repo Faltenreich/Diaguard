@@ -320,7 +320,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         }
     }
 
-    private void addTag(Tag tag) {
+    private void addTag(final Tag tag) {
         int margin = (int) getResources().getDimension(R.dimen.margin_between);
         final ChipView chipView = new ChipView(this);
         chipView.setTag(tag);
@@ -329,19 +329,33 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         chipView.setOnDeleteClicked(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tagsView.removeView(chipView);
+                removeTag(tag, chipView);
             }
         });
         chipView.setPadding(0, 0, margin, margin);
         chipView.setOnChipClicked(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tagsView.removeView(chipView);
+                removeTag(tag, chipView);
             }
         });
         tagsView.addView(chipView);
 
-        // Dismiss dropdown after adding tag
+        tagAdapter.setTag(tag, false);
+        dismissTagDropDown();
+    }
+
+    private void removeTag(Tag tag, View view) {
+        tagAdapter.setTag(tag, true);
+        tagsView.removeView(view);
+
+        // Workaround: Force notifyDataSetChanged
+        tagsInput.setText(tagsInput.getText().toString());
+        dismissTagDropDown();
+    }
+
+    private void dismissTagDropDown() {
+        // Workaround
         tagsInput.post(new Runnable() {
             @Override
             public void run() {

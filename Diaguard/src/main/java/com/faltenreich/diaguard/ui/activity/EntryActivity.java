@@ -124,7 +124,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     private Measurement.Category[] activeCategories;
     private int alarmInMinutes;
 
-    private TagAutoCompleteAdapter adapter;
+    private TagAutoCompleteAdapter tagAdapter;
     private float tagsInputButtonSize;
 
     public EntryActivity() {
@@ -242,8 +242,8 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     }
 
     private void initTags(List<Tag> tags) {
-        adapter = new TagAutoCompleteAdapter(this, tags);
-        tagsInput.setAdapter(adapter);
+        tagAdapter = new TagAutoCompleteAdapter(this, tags);
+        tagsInput.setAdapter(tagAdapter);
         tagsInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
@@ -282,16 +282,18 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         tagsInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Tag tag = adapter.getItem(position);
-                addTag(tag);
                 tagsInput.setText(null);
+                Tag tag = tagAdapter.getItem(position);
+                addTag(tag);
             }
         });
     }
 
     private void invalidateTagsInputButton() {
+        String input = tagsInput.getText().toString();
         boolean isShown = tagsInputButton.getTranslationX() < tagsInputButtonSize;
-        boolean shouldShow = !TextUtils.isEmpty(tagsInput.getText().toString());
+        // Workaround since AutoCompleteTextView gets automatically filled on item selected
+        boolean shouldShow = !TextUtils.isEmpty(input) && !input.startsWith("com.faltenreich.diaguard.");
 
         if (isShown && !shouldShow) {
             ViewUtils.rollIn(tagsInputButton, tagsInputButtonSize, false);
@@ -307,10 +309,15 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     }
 
     private void addTag(String name) {
-        Tag tag = new Tag();
-        tag.setId(-1);
-        tag.setName(name);
-        addTag(tag);
+        Tag tag = tagAdapter.findTag(name);
+        if (tag != null) {
+            addTag(tag);
+        } else {
+            tag = new Tag();
+            tag.setId(-1);
+            tag.setName(name);
+            addTag(tag);
+        }
     }
 
     private void addTag(Tag tag) {
@@ -333,6 +340,14 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             }
         });
         tagsView.addView(chipView);
+
+        // Dismiss dropdown after adding tag
+        tagsInput.post(new Runnable() {
+            @Override
+            public void run() {
+                tagsInput.dismissDropDown();
+            }
+        });
     }
 
     private void showDialogCategories() {

@@ -15,7 +15,9 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Tag;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Faltenreich on 04.01.2018
@@ -23,12 +25,15 @@ import java.util.List;
 
 public class TagAutoCompleteAdapter extends ArrayAdapter<Tag> {
 
-    private List<Tag> tags;
+    private HashMap<Tag, Boolean> tags;
     private List<Tag> results;
 
     public TagAutoCompleteAdapter(@NonNull Context context, List<Tag> tags) {
         super(context, -1);
-        this.tags = tags;
+        this.tags = new HashMap<>();
+        for (Tag tag : tags) {
+            this.tags.put(tag, true);
+        }
         this.results = tags;
     }
 
@@ -74,12 +79,11 @@ public class TagAutoCompleteAdapter extends ArrayAdapter<Tag> {
                 FilterResults filterResults = new FilterResults();
                 List<Tag> suggestions = new ArrayList<>();
                 if (!TextUtils.isEmpty(constraint)) {
-                    for (int position = 0; position < tags.size(); position++) {
-                        Tag tag = tags.get(position);
+                    for (Map.Entry<Tag, Boolean> entry : tags.entrySet()) {
+                        Tag tag = entry.getKey();
                         if (tag != null && tag.getName().contains(constraint)) {
                             suggestions.add(tag);
                         }
-
                     }
                 }
                 filterResults.values = suggestions;
@@ -92,15 +96,23 @@ public class TagAutoCompleteAdapter extends ArrayAdapter<Tag> {
                 if (filterResults != null && filterResults.count > 0) {
                     results = (List<Tag>) filterResults.values;
                     notifyDataSetChanged();
-                    /* TODO: Find way to prevent showing all tags on IME_ACTION_DONE
                 } else if (TextUtils.isEmpty(constraint)) {
-                    results = tags;
+                    results = new ArrayList<>();
+                    results.addAll(tags.keySet());
                     notifyDataSetChanged();
-                    */
                 } else {
                     notifyDataSetInvalidated();
                 }
             }
         };
+    }
+
+    public Tag findTag(String name) {
+        for (Tag tag : tags.keySet()) {
+            if (tag.getName().equalsIgnoreCase(name)) {
+                return tag;
+            }
+        }
+        return null;
     }
 }

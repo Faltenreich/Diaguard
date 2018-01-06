@@ -328,4 +328,11 @@
     <string name="unit_factor_carbohydrates_unit">KE-Faktor</string>
     <string name="unit_factor_bread_unit">BE-Faktor</string>
 
+    <string name="tag_hint">Emotionen</string>
+    <string name="tag_add">Emotion hinzufügen</string>
+    <string name="tag_request_title">Nicht eingetragene Emotion</string>
+    <string name="tag_request_desc">Hast Du eine Emotion vergessen (%s)?</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+
 </resources>

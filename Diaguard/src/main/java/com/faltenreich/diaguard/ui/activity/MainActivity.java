@@ -165,14 +165,14 @@ public class MainActivity extends BaseActivity {
                 case R.id.nav_log:
                     showFragment(new LogFragment(), menuItem, false);
                     break;
-                case R.id.nav_search:
-                    showFragment(new SearchFragment(), menuItem, false);
-                    break;
                 case R.id.nav_calculator:
                     showFragment(new CalculatorFragment(), menuItem, false);
                     break;
                 case R.id.nav_food_database:
                     startActivity(new Intent(MainActivity.this, FoodSearchActivity.class));
+                    break;
+                case R.id.nav_search:
+                    showFragment(new SearchFragment(), menuItem, true);
                     break;
                 case R.id.nav_statistics:
                     showFragment(new StatisticsFragment(), menuItem, true);

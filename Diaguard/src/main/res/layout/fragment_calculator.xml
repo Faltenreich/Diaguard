@@ -44,7 +44,6 @@
                             android:layout_height="wrap_content"
                             android:hint="@string/bloodsugar"
                             android:inputType="numberDecimal">
-
                             <requestFocus />
                         </com.faltenreich.diaguard.ui.view.StickyHintInput>
 

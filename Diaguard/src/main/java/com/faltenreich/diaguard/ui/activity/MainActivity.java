@@ -24,6 +24,7 @@ import com.faltenreich.diaguard.ui.fragment.ChangelogFragment;
 import com.faltenreich.diaguard.ui.fragment.ChartFragment;
 import com.faltenreich.diaguard.ui.fragment.ExportFragment;
 import com.faltenreich.diaguard.ui.fragment.LogFragment;
+import com.faltenreich.diaguard.ui.fragment.SearchFragment;
 import com.faltenreich.diaguard.ui.fragment.StatisticsFragment;
 import com.faltenreich.diaguard.util.SystemUtils;
 
@@ -163,6 +164,9 @@ public class MainActivity extends BaseActivity {
                     break;
                 case R.id.nav_log:
                     showFragment(new LogFragment(), menuItem, false);
+                    break;
+                case R.id.nav_search:
+                    showFragment(new SearchFragment(), menuItem, false);
                     break;
                 case R.id.nav_calculator:
                     showFragment(new CalculatorFragment(), menuItem, false);

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/CardViewNoMargin">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout style="@style/LayoutRow">
+
+                <com.faltenreich.diaguard.ui.view.TintImageView
+                    style="@style/LayoutRowImage"
+                    android:contentDescription="@null"
+                    app:srcCompat="@drawable/ic_search"
+                    app:tintColor="@color/gray_darker"/>
+
+                <EditText
+                    android:id="@+id/search_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/search_hint"
+                    android:background="@android:color/transparent"/>
+
+            </LinearLayout>
+
+            <View style="@style/LayoutRowSeparator" />
+
+            <LinearLayout style="@style/LayoutRow">
+
+                <com.faltenreich.diaguard.ui.view.TintImageView
+                    style="@style/LayoutRowImage"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_time"
+                    app:tintColor="@color/gray_darker" />
+
+                <LinearLayout
+                    style="@style/LayoutRowItem"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/button_datestart"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="@dimen/padding"
+                        android:text="@string/hyphen" />
+
+                    <Button
+                        android:id="@+id/button_dateend"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View style="@style/LayoutRowSeparator" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/search_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

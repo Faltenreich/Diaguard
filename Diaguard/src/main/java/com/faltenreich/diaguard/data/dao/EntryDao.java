@@ -256,4 +256,16 @@ public class EntryDao extends BaseDao<Entry> {
             return new ArrayList<>();
         }
     }
+
+    public List<Entry> getAllForQuery(String query) {
+        try {
+            return getDao().queryBuilder()
+                    .orderBy(Entry.Column.DATE, true)
+                    .where().like(Entry.Column.NOTE, "%" + query + "%")
+                    .query();
+        } catch (SQLException exception) {
+            Log.e(TAG, exception.getMessage());
+            return new ArrayList<>();
+        }
+    }
 }

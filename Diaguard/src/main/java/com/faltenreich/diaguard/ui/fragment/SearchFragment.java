@@ -37,7 +37,7 @@ public class SearchFragment extends BaseFragment {
     private SearchAdapter listAdapter;
 
     public SearchFragment() {
-        super(R.layout.fragment_search, R.string.search, R.menu.main);
+        super(R.layout.fragment_search, R.string.search, -1);
     }
 
     @Override

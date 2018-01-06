@@ -10,6 +10,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -109,6 +112,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     @BindView(R.id.button_time) Button buttonTime;
     @BindView(R.id.entry_button_alarm) Button buttonAlarm;
     @BindView(R.id.entry_tags_input) AutoCompleteTextView tagsInput;
+    @BindView(R.id.entry_tags_input_button) View tagsInputButton;
     @BindView(R.id.entry_tags) ViewGroup tagsView;
 
     private long entryId;
@@ -121,6 +125,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     private int alarmInMinutes;
 
     private TagAutoCompleteAdapter adapter;
+    private float tagsInputButtonSize;
 
     public EntryActivity() {
         super(R.layout.activity_entry);
@@ -146,7 +151,8 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             case R.id.action_delete:
                 deleteEntry();
                 return true;
-            case R.id.action_done:submit();
+            case R.id.action_done:
+                trySubmit();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -172,6 +178,9 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
         fab.init();
         fab.setOnFabSelectedListener(this);
+
+        tagsInputButtonSize = getResources().getDimension(R.dimen.size_image) + getResources().getDimension(R.dimen.activity_horizontal_margin);
+        tagsInputButton.animate().translationX(tagsInputButtonSize).rotation(180).setDuration(0).start();
 
         if (entryId > 0) {
             setTitle(getString(R.string.entry_edit));
@@ -232,17 +241,24 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         }
     }
 
-    private void initTagSuggestions(List<Tag> tags) {
+    private void initTags(List<Tag> tags) {
         adapter = new TagAutoCompleteAdapter(this, tags);
         tagsInput.setAdapter(adapter);
+        tagsInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void afterTextChanged(Editable editable) {
+                invalidateTagsInputButton();
+            }
+        });
         tagsInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int action, KeyEvent keyEvent) {
                 if (action == EditorInfo.IME_ACTION_DONE) {
-                    Tag tag = new Tag();
-                    tag.setId(-1);
-                    tag.setName(textView.getText().toString());
-                    addTag(tag);
+                    addTag(textView.getText().toString());
                     textView.setText(null);
                     return true;
                 }
@@ -271,6 +287,30 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
                 tagsInput.setText(null);
             }
         });
+    }
+
+    private void invalidateTagsInputButton() {
+        boolean isShown = tagsInputButton.getTranslationX() < tagsInputButtonSize;
+        boolean shouldShow = !TextUtils.isEmpty(tagsInput.getText().toString());
+
+        if (isShown && !shouldShow) {
+            ViewUtils.rollIn(tagsInputButton, tagsInputButtonSize, false);
+        } else if (!isShown && shouldShow) {
+            ViewUtils.rollIn(tagsInputButton, 0, true);
+        }
+    }
+
+    @OnClick(R.id.entry_tags_input_button)
+    protected void addTag() {
+        addTag(tagsInput.getText().toString());
+        tagsInput.setText(null);
+    }
+
+    private void addTag(String name) {
+        Tag tag = new Tag();
+        tag.setId(-1);
+        tag.setName(name);
+        addTag(tag);
     }
 
     private void addTag(Tag tag) {
@@ -384,62 +424,93 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         return inputIsValid;
     }
 
-    private void submit() {
+    private void trySubmit() {
         if (inputIsValid()) {
-            boolean isNewEntry = entry == null;
-            DateTime originalDate = isNewEntry ? null : entry.getDate();
-            if (isNewEntry) {
-                entry = new Entry();
-            }
-
-            entry.setDate(time);
-            entry.setNote(editTextNotes.length() > 0 ? editTextNotes.getText().toString() : null);
-            EntryDao.getInstance().createOrUpdate(entry);
-
-            for (Measurement.Category category : Measurement.Category.values()) {
-                if (layoutMeasurements.hasCategory(category)) {
-                    Measurement measurement = layoutMeasurements.getMeasurement(category);
-                    measurement.setEntry(entry);
-                    MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
-                } else {
-                    MeasurementDao.getInstance(category.toClass()).deleteMeasurements(entry);
-                }
-            }
-
-            if (alarmInMinutes > 0) {
-                AlarmUtils.setAlarm(alarmInMinutes * DateTimeConstants.MILLIS_PER_MINUTE);
-            }
-
-            // TODO: Delete distinct
-            if (entryTags != null && entryTags.size() > 0) {
-                EntryTagDao.getInstance().delete(entryTags);
-            }
-
-            List<EntryTag> entryTags = new ArrayList<>();
-            for (int index = 0; index < tagsView.getChildCount(); index++) {
-                View view = tagsView.getChildAt(index);
-                if (view.getTag() instanceof Tag) {
-                    Tag tag = (Tag) view.getTag();
-                    if (tag.getId() < 0) {
-                        tag = TagDao.getInstance().createOrUpdate(tag);
-                    }
-                    EntryTag entryTag = new EntryTag();
-                    entryTag.setEntry(entry);
-                    entryTag.setTag(tag);
-                    entryTags.add(entryTag);
-                }
-            }
-            EntryTagDao.getInstance().bulkCreateOrUpdate(entryTags);
-
-            if (isNewEntry) {
-                Toast.makeText(this, getString(R.string.entry_added), Toast.LENGTH_LONG).show();
-                Events.post(new EntryAddedEvent(entry, entryTags));
+            if (!TextUtils.isEmpty(tagsInput.getText().toString())) {
+                requestTagsInput();
             } else {
-                Events.post(new EntryUpdatedEvent(entry, entryTags, originalDate));
+                submit();
             }
-
-            finish();
         }
+    }
+
+    private void requestTagsInput() {
+        final String tagName = tagsInput.getText().toString();
+        final String message = String.format(getString(R.string.tag_request_desc), tagName);
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.tag_request_title)
+                .setMessage(message)
+                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        addTag(tagName);
+                        submit();
+                    }
+                })
+                .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        submit();
+                    }
+                })
+                .create()
+                .show();
+    }
+
+    private void submit() {
+        boolean isNewEntry = entry == null;
+        DateTime originalDate = isNewEntry ? null : entry.getDate();
+        if (isNewEntry) {
+            entry = new Entry();
+        }
+
+        entry.setDate(time);
+        entry.setNote(editTextNotes.length() > 0 ? editTextNotes.getText().toString() : null);
+        EntryDao.getInstance().createOrUpdate(entry);
+
+        for (Measurement.Category category : Measurement.Category.values()) {
+            if (layoutMeasurements.hasCategory(category)) {
+                Measurement measurement = layoutMeasurements.getMeasurement(category);
+                measurement.setEntry(entry);
+                MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
+            } else {
+                MeasurementDao.getInstance(category.toClass()).deleteMeasurements(entry);
+            }
+        }
+
+        if (alarmInMinutes > 0) {
+            AlarmUtils.setAlarm(alarmInMinutes * DateTimeConstants.MILLIS_PER_MINUTE);
+        }
+
+        // TODO: Delete distinct
+        if (entryTags != null && entryTags.size() > 0) {
+            EntryTagDao.getInstance().delete(entryTags);
+        }
+
+        List<EntryTag> entryTags = new ArrayList<>();
+        for (int index = 0; index < tagsView.getChildCount(); index++) {
+            View view = tagsView.getChildAt(index);
+            if (view.getTag() instanceof Tag) {
+                Tag tag = (Tag) view.getTag();
+                if (tag.getId() < 0) {
+                    tag = TagDao.getInstance().createOrUpdate(tag);
+                }
+                EntryTag entryTag = new EntryTag();
+                entryTag.setEntry(entry);
+                entryTag.setTag(tag);
+                entryTags.add(entryTag);
+            }
+        }
+        EntryTagDao.getInstance().bulkCreateOrUpdate(entryTags);
+
+        if (isNewEntry) {
+            Toast.makeText(this, getString(R.string.entry_added), Toast.LENGTH_LONG).show();
+            Events.post(new EntryAddedEvent(entry, entryTags));
+        } else {
+            Events.post(new EntryUpdatedEvent(entry, entryTags, originalDate));
+        }
+
+        finish();
     }
 
     private void deleteEntry() {
@@ -563,7 +634,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         @Override
         protected void onPostExecute(List<Tag> tags) {
             super.onPostExecute(tags);
-            initTagSuggestions(tags);
+            initTags(tags);
         }
     }
 }

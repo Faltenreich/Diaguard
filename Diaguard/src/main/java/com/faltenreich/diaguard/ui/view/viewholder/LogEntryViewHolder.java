@@ -74,6 +74,7 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> implements
 
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (inflater != null) {
+            measurements.removeAllViews();
             for (Measurement measurement : entry.getMeasurementCache()) {
                 Measurement.Category category = measurement.getCategory();
                 View viewMeasurement = inflater.inflate(R.layout.list_item_log_measurement, measurements, false);

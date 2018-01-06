@@ -328,5 +328,6 @@
     <string name="meal_factor_desc">Se usa para calcular la cantidad de insulina para una comida</string>
     <string name="unit_factor_carbohydrates_unit">CU factor</string>
     <string name="unit_factor_bread_unit">PU factor</string>
+    <string name="search">Busca</string>
 
 </resources>

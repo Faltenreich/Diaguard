@@ -334,5 +334,7 @@
     <string name="tag_request_desc">Hast Du eine Emotion vergessen (%s)?</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
+    <string name="search">Suche</string>
+    <string name="search_hint">Notizen, Emotionen, &#8230;</string>
 
 </resources>

@@ -520,5 +520,7 @@
     <string name="tag_request_desc">Have you forgotten one emotion (%s)?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="search">Search</string>
+    <string name="search_hint">Notes, emotions, &#8230;</string>
 
 </resources>

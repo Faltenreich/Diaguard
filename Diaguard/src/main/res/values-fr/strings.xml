@@ -327,5 +327,6 @@
     <string name="meal_factor_desc">Utilisé pour calculer la quantité d\'insuline pour un repas</string>
     <string name="unit_factor_carbohydrates_unit">GU facteur</string>
     <string name="unit_factor_bread_unit">PU facteur</string>
+    <string name="search">Recherche</string>
 
 </resources>

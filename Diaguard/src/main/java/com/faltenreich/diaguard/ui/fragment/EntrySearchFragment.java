@@ -4,11 +4,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
-import android.widget.EditText;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.SafeLinearLayoutManager;
@@ -16,9 +13,12 @@ import com.faltenreich.diaguard.adapter.SearchAdapter;
 import com.faltenreich.diaguard.adapter.list.ListItemEntry;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.EntryTagDao;
+import com.faltenreich.diaguard.data.dao.TagDao;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.data.entity.Tag;
+import com.lapism.searchview.SearchView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,42 +29,53 @@ import butterknife.BindView;
  * Created by Faltenreich on 06.01.2018
  */
 
-public class SearchFragment extends BaseFragment {
+public class EntrySearchFragment extends BaseFragment implements SearchView.OnQueryTextListener, SearchView.OnMenuClickListener {
 
-    @BindView(R.id.search_input) EditText input;
+    public static final String EXTRA_TAG_ID = "tagId";
+
+    @BindView(R.id.search_view) SearchView searchView;
     @BindView(R.id.search_list) RecyclerView list;
 
     private SearchAdapter listAdapter;
 
-    public SearchFragment() {
-        super(R.layout.fragment_search, R.string.search, -1);
+    public EntrySearchFragment() {
+        super(R.layout.fragment_entry_search, R.string.search, -1);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         init();
+        initLayout();
     }
 
     private void init() {
+        if (getArguments() != null) {
+            long tagId = getArguments().getLong(EXTRA_TAG_ID, -1);
+            if (tagId >= 0) {
+                new SetupTask(tagId, new SetupListener() {
+                    @Override
+                    public void onSetupFinished(Tag tag) {
+                        searchView.setQuery(tag.getName(), true);
+                    }
+                }).execute();
+            }
+        }
+    }
+
+    private void initLayout() {
         list.setLayoutManager(new SafeLinearLayoutManager(getActivity()));
         listAdapter = new SearchAdapter(getContext());
         list.setAdapter(listAdapter);
 
-        input.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-            @Override
-            public void afterTextChanged(Editable editable) {
-                search();
-            }
-        });
+        searchView.setOnQueryTextListener(this);
+        searchView.setOnMenuClickListener(this);
+        searchView.setArrowOnly(false);
+
+        searchView.open(true);
     }
 
-    private void search() {
-        String query = input.getText().toString();
+    private void query(String query) {
         if (!TextUtils.isEmpty(query)) {
             new SearchTask(query, new SearchListener() {
                 @Override
@@ -77,6 +88,50 @@ public class SearchFragment extends BaseFragment {
         } else {
             listAdapter.clear();
             listAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        searchView.close(true);
+        query(query);
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        query(newText);
+        return false;
+    }
+
+    @Override
+    public void onMenuClick() {
+        if (searchView.isSearchOpen()) {
+            searchView.close(true);
+        } else {
+            finish();
+        }
+    }
+
+    private static class SetupTask extends AsyncTask<Void, Void, Tag> {
+
+        private long tagId;
+        private SetupListener listener;
+
+        private SetupTask(long tagId, SetupListener listener) {
+            this.tagId = tagId;
+            this.listener = listener;
+        }
+
+        @Override
+        protected Tag doInBackground(Void... params) {
+            return TagDao.getInstance().get(tagId);
+        }
+
+        @Override
+        protected void onPostExecute(Tag tag) {
+            super.onPostExecute(tag);
+            listener.onSetupFinished(tag);
         }
     }
 
@@ -108,6 +163,10 @@ public class SearchFragment extends BaseFragment {
             super.onPostExecute(listItems);
             listener.onSearchFinished(listItems);
         }
+    }
+
+    private interface SetupListener {
+        void onSetupFinished(Tag tag);
     }
 
     private interface SearchListener {

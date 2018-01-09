@@ -6,10 +6,12 @@ import com.faltenreich.diaguard.adapter.list.ListItemCategoryValue;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
+import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Pressure;
+import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.util.ArrayUtils;
 import com.j256.ormlite.stmt.QueryBuilder;
 
@@ -259,10 +261,18 @@ public class EntryDao extends BaseDao<Entry> {
 
     public List<Entry> getAllForQuery(String query) {
         try {
-            return getDao().queryBuilder()
+
+            QueryBuilder<Entry, Long> entryQueryBuilder = getDao().queryBuilder();
+            entryQueryBuilder
                     .orderBy(Entry.Column.DATE, true)
-                    .where().like(Entry.Column.NOTE, "%" + query + "%")
-                    .query();
+                    .where().like(Entry.Column.NOTE, "%" + query + "%");
+
+            QueryBuilder<Tag, Long> tagQueryBuilder = TagDao.getInstance().getQueryBuilder();
+            tagQueryBuilder.where().like(Tag.Column.NAME, "%" + query + "%");
+
+            QueryBuilder<EntryTag, Long> entryTagQueryBuilder = EntryTagDao.getInstance().getQueryBuilder().join(tagQueryBuilder);
+
+            return getDao().queryBuilder().join(entryTagQueryBuilder).query();
         } catch (SQLException exception) {
             Log.e(TAG, exception.getMessage());
             return new ArrayList<>();

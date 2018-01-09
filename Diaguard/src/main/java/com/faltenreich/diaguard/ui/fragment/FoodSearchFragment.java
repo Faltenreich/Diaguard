@@ -54,8 +54,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
 
     @BindView(R.id.food_search_unit) TextView unitTextView;
     @BindView(R.id.food_search_swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.food_search_list)
-    FoodListView list;
+    @BindView(R.id.food_search_list) FoodListView list;
     @BindView(R.id.search_view) SearchView searchView;
 
     @BindView(food_search_list_empty) ViewGroup emptyList;
@@ -115,7 +114,6 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     }
 
     private void init() {
-
         swipeRefreshLayout.setColorSchemeResources(R.color.green, R.color.green_light, R.color.green_lighter);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

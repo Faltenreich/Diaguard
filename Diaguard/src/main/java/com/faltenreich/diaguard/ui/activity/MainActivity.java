@@ -24,7 +24,6 @@ import com.faltenreich.diaguard.ui.fragment.ChangelogFragment;
 import com.faltenreich.diaguard.ui.fragment.ChartFragment;
 import com.faltenreich.diaguard.ui.fragment.ExportFragment;
 import com.faltenreich.diaguard.ui.fragment.LogFragment;
-import com.faltenreich.diaguard.ui.fragment.SearchFragment;
 import com.faltenreich.diaguard.ui.fragment.StatisticsFragment;
 import com.faltenreich.diaguard.util.SystemUtils;
 
@@ -172,7 +171,7 @@ public class MainActivity extends BaseActivity {
                     startActivity(new Intent(MainActivity.this, FoodSearchActivity.class));
                     break;
                 case R.id.nav_search:
-                    showFragment(new SearchFragment(), menuItem, true);
+                    startActivity(new Intent(MainActivity.this, EntrySearchActivity.class));
                     break;
                 case R.id.nav_statistics:
                     showFragment(new StatisticsFragment(), menuItem, true);

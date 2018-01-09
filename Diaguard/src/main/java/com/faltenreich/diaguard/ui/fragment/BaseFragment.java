@@ -149,7 +149,7 @@ public abstract class BaseFragment extends Fragment {
         setTitle(getString(titleResId));
     }
 
-    public void startFragment(BaseFragment fragment) {
+    public void showFragment(BaseFragment fragment) {
         if (getActivity() != null && getActivity() instanceof MainActivity) {
             ((MainActivity) getActivity()).showFragment(fragment, null, true);
         }

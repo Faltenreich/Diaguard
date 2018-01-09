@@ -17,6 +17,9 @@ import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.data.entity.Tag;
+import com.faltenreich.diaguard.event.Events;
+import com.faltenreich.diaguard.event.ui.TagSelectedEvent;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.ui.view.TintImageView;
 import com.pchmn.materialchips.ChipView;
@@ -60,13 +63,14 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> implements
         tagsView.removeAllViews();
         int margin = (int) getContext().getResources().getDimension(R.dimen.padding);
         for (EntryTag entryTag : entryTags) {
+            final Tag tag = entryTag.getTag();
             ChipView chipView = new ChipView(getContext());
-            chipView.setLabel(entryTag.getTag().getName());
+            chipView.setLabel(tag.getName());
             chipView.setPadding(0, 0, margin, margin);
             chipView.setOnChipClicked(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // TODO: Search for tag
+                    Events.post(new TagSelectedEvent(tag));
                 }
             });
             tagsView.addView(chipView);

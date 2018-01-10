@@ -187,13 +187,13 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             new FetchEntryTask(entryId).execute();
         } else if (foodId > 0) {
             new FetchFoodTask(foodId).execute();
+            new FetchTagsTask().execute();
             updateDateTime();
         } else {
+            new FetchTagsTask().execute();
             initPinnedCategories();
             updateDateTime();
         }
-
-        new FetchTagsTask().execute();
 
         updateAlarm();
     }
@@ -222,14 +222,10 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
                 fab.ignore(measurement.getCategory());
             }
             fab.restock();
-
-            for (EntryTag entryTag : entryTags) {
-                addTag(entryTag.getTag());
-            }
-
         } else {
             initPinnedCategories();
         }
+        new FetchTagsTask().execute();
         updateDateTime();
     }
 
@@ -287,6 +283,12 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
                 addTag(tag);
             }
         });
+
+        if (entryTags != null) {
+            for (EntryTag entryTag : entryTags) {
+                addTag(entryTag.getTag());
+            }
+        }
     }
 
     private void invalidateTagsInputButton() {

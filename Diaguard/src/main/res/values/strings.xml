@@ -514,8 +514,7 @@
         <item>1</item>
     </string-array>
 
-    <string name="tag_hint">How do you feel?</string>
+    <string name="tag_hint">Mood, activity, &#8230;</string>
     <string name="search">Search</string>
-    <string name="search_hint">Notes, emotions, &#8230;</string>
 
 </resources>

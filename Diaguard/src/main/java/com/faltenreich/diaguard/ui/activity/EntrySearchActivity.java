@@ -9,7 +9,7 @@ import com.faltenreich.diaguard.ui.fragment.EntrySearchFragment;
 
 public class EntrySearchActivity extends BaseSearchActivity {
 
-    public static Intent getIntent(Context context, Tag tag) {
+    public static Intent newInstance(Context context, Tag tag) {
         Intent intent = new Intent(context, EntrySearchActivity.class);
         intent.putExtra(EntrySearchFragment.EXTRA_TAG_ID, tag.getId());
         return intent;

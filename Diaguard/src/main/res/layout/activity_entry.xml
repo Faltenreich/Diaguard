@@ -97,12 +97,11 @@
 
                             <View style="@style/LayoutRowSeparator" />
 
-                            <LinearLayout style="@style/LayoutRow"
-                                android:paddingRight="0dp"
-                                android:paddingEnd="0dp">
+                            <LinearLayout style="@style/LayoutRow">
 
                                 <ImageView
                                     style="@style/LayoutRowImageMultiline"
+                                    android:padding="2dp"
                                     android:contentDescription="@null"
                                     android:tint="@color/gray_darker"
                                     app:srcCompat="@drawable/ic_tag"/>
@@ -112,40 +111,19 @@
                                     android:layout_height="wrap_content"
                                     android:orientation="vertical">
 
-                                    <LinearLayout
+                                    <AutoCompleteTextView
+                                        android:id="@+id/entry_tags_input"
                                         android:layout_width="match_parent"
                                         android:layout_height="@dimen/height_element_large"
-                                        android:gravity="center">
-
-                                        <AutoCompleteTextView
-                                            android:id="@+id/entry_tags_input"
-                                            android:layout_width="0dp"
-                                            android:layout_height="match_parent"
-                                            android:layout_weight="1"
-                                            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                                            android:layout_marginRight="@dimen/activity_horizontal_margin"
-                                            android:paddingLeft="12dp"
-                                            android:paddingStart="12dp"
-                                            android:background="@android:color/transparent"
-                                            android:hint="@string/tag_hint"
-                                            android:lines="1"
-                                            android:inputType="text"
-                                            android:imeOptions="actionDone"
-                                            android:completionThreshold="0"
-                                            tools:ignore="RtlSymmetry" />
-
-                                        <ImageView
-                                            android:id="@+id/entry_tags_input_button"
-                                            android:layout_width="@dimen/size_image"
-                                            android:layout_height="@dimen/size_image"
-                                            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                                            android:layout_marginRight="@dimen/activity_horizontal_margin"
-                                            android:contentDescription="@null"
-                                            android:background="?attr/selectableItemBackgroundBorderless"
-                                            android:tint="@color/green"
-                                            app:srcCompat="@drawable/ic_add_circle"/>
-
-                                    </LinearLayout>
+                                        android:paddingLeft="12dp"
+                                        android:paddingStart="12dp"
+                                        android:background="@android:color/transparent"
+                                        android:hint="@string/tag_hint"
+                                        android:lines="1"
+                                        android:inputType="text"
+                                        android:imeOptions="actionDone"
+                                        android:completionThreshold="0"
+                                        tools:ignore="RtlSymmetry"/>
 
                                     <org.apmem.tools.layouts.FlowLayout
                                         android:id="@+id/entry_tags"

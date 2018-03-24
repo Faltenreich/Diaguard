@@ -10,9 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -112,7 +110,6 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     @BindView(R.id.button_time) Button buttonTime;
     @BindView(R.id.entry_button_alarm) Button buttonAlarm;
     @BindView(R.id.entry_tags_input) AutoCompleteTextView tagsInput;
-    @BindView(R.id.entry_tags_input_button) View tagsInputButton;
     @BindView(R.id.entry_tags) ViewGroup tagsView;
 
     private long entryId;
@@ -125,7 +122,6 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     private int alarmInMinutes;
 
     private TagAutoCompleteAdapter tagAdapter;
-    private float tagsInputButtonSize;
 
     public EntryActivity() {
         super(R.layout.activity_entry);
@@ -178,9 +174,6 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
         fab.init();
         fab.setOnFabSelectedListener(this);
-
-        tagsInputButtonSize = getResources().getDimension(R.dimen.size_image) + getResources().getDimension(R.dimen.activity_horizontal_margin);
-        tagsInputButton.animate().translationX(tagsInputButtonSize).rotation(180).setDuration(0).start();
 
         if (entryId > 0) {
             setTitle(getString(R.string.entry_edit));
@@ -240,16 +233,6 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     private void initTags(List<Tag> tags) {
         tagAdapter = new TagAutoCompleteAdapter(this, tags);
         tagsInput.setAdapter(tagAdapter);
-        tagsInput.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-            @Override
-            public void afterTextChanged(Editable editable) {
-                invalidateTagsInputButton();
-            }
-        });
         tagsInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int action, KeyEvent keyEvent) {
@@ -289,25 +272,6 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
                 addTag(entryTag.getTag());
             }
         }
-    }
-
-    private void invalidateTagsInputButton() {
-        String input = tagsInput.getText().toString();
-        boolean isShown = tagsInputButton.getTranslationX() < tagsInputButtonSize;
-        // Workaround since AutoCompleteTextView gets automatically filled on item selected
-        boolean shouldShow = !TextUtils.isEmpty(input) && !input.startsWith("com.faltenreich.diaguard.");
-
-        if (isShown && !shouldShow) {
-            ViewUtils.rollIn(tagsInputButton, tagsInputButtonSize, false);
-        } else if (!isShown && shouldShow) {
-            ViewUtils.rollIn(tagsInputButton, 0, true);
-        }
-    }
-
-    @OnClick(R.id.entry_tags_input_button)
-    protected void addTag() {
-        addTag(tagsInput.getText().toString());
-        tagsInput.setText(null);
     }
 
     private void addTag(String name) {

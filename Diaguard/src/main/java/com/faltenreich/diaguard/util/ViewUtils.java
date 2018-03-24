@@ -26,7 +26,7 @@ import java.math.BigDecimal;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class ViewUtils {
 
-    private static final int ANIMATION_ROLL_DURATION = 600;
+    private static final int ANIMATION_ROLL_DURATION = 400;
 
     public static boolean isLargeScreen(Context context) {
         return context != null && (context.getResources().getConfiguration().screenLayout &
@@ -93,9 +93,5 @@ public class ViewUtils {
                 .addNumberPickerDialogHandler(listener);
         numberPicker.setCurrentNumber(initialValue);
         numberPicker.show();
-    }
-
-    public static void rollIn(View view, float x, boolean rollIn) {
-        view.animate().translationX(x).rotation(rollIn ? 0 : 180).setDuration(ANIMATION_ROLL_DURATION).start();
     }
 }

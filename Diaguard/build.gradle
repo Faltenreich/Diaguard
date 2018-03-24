@@ -29,7 +29,7 @@ android {
     }
 }
 
-def supportLibraryVersion = '27.0.2'
+def supportLibraryVersion = '27.1.0'
 
 dependencies {
     implementation "com.android.support:design:${supportLibraryVersion}"

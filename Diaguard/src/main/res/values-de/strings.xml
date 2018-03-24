@@ -328,8 +328,7 @@
     <string name="unit_factor_carbohydrates_unit">KE-Faktor</string>
     <string name="unit_factor_bread_unit">BE-Faktor</string>
 
-    <string name="tag_hint">Wie fühlst Du Dich?</string>
+    <string name="tag_hint">Stimmung, Aktivität, &#8230;</string>
     <string name="search">Suche</string>
-    <string name="search_hint">Notizen, Emotionen, &#8230;</string>
 
 </resources>

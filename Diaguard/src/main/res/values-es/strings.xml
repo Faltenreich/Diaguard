@@ -329,5 +329,6 @@
     <string name="unit_factor_carbohydrates_unit">CU factor</string>
     <string name="unit_factor_bread_unit">PU factor</string>
     <string name="search">Busca</string>
+    <string name="tag_hint">Talante, actividad, &#8230;</string>
 
 </resources>

@@ -21,7 +21,7 @@
             android:id="@+id/search_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:search_hint="@string/search_hint"
+            app:search_hint="@string/tag_hint"
             app:search_shadow="false"/>
 
     </FrameLayout>

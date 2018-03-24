@@ -328,5 +328,6 @@
     <string name="unit_factor_carbohydrates_unit">GU facteur</string>
     <string name="unit_factor_bread_unit">PU facteur</string>
     <string name="search">Recherche</string>
+    <string name="tag_hint">Ambiance, activité, &#8230;</string>
 
 </resources>

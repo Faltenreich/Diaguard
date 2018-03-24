@@ -271,7 +271,7 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.OnAd
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(TagSelectedEvent event) {
         if (isAdded()) {
-            startActivity(EntrySearchActivity.getIntent(getContext(), event.context));
+            startActivity(EntrySearchActivity.newInstance(getContext(), event.context));
         }
     }
 }

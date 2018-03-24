@@ -75,33 +75,9 @@
 
                             <LinearLayout style="@style/LayoutRow">
 
-                                <com.faltenreich.diaguard.ui.view.TintImageView
-                                    style="@style/LayoutRowImageMultiline"
-                                    android:contentDescription="@null"
-                                    android:src="@drawable/ic_note"
-                                    app:tintColor="@color/gray_darker"/>
-
-                                <EditText
-                                    android:id="@+id/edittext_notes"
-                                    style="@style/LayoutRowItemMultiline"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:background="@android:color/transparent"
-                                    android:hint="@string/note"
-                                    android:inputType="textMultiLine|textCapSentences"
-                                    android:paddingLeft="12dp"
-                                    android:paddingStart="12dp"
-                                    tools:ignore="RtlSymmetry"/>
-
-                            </LinearLayout>
-
-                            <View style="@style/LayoutRowSeparator" />
-
-                            <LinearLayout style="@style/LayoutRow">
-
                                 <ImageView
                                     style="@style/LayoutRowImageMultiline"
-                                    android:padding="2dp"
+                                    android:padding="4dp"
                                     android:contentDescription="@null"
                                     android:tint="@color/gray_darker"
                                     app:srcCompat="@drawable/ic_tag"/>
@@ -134,6 +110,30 @@
                                         tools:ignore="RtlSymmetry"/>
 
                                 </LinearLayout>
+
+                            </LinearLayout>
+
+                            <View style="@style/LayoutRowSeparator" />
+
+                            <LinearLayout style="@style/LayoutRow">
+
+                                <com.faltenreich.diaguard.ui.view.TintImageView
+                                    style="@style/LayoutRowImageMultiline"
+                                    android:contentDescription="@null"
+                                    android:src="@drawable/ic_note"
+                                    app:tintColor="@color/gray_darker"/>
+
+                                <EditText
+                                    android:id="@+id/edittext_notes"
+                                    style="@style/LayoutRowItemMultiline"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@android:color/transparent"
+                                    android:hint="@string/note"
+                                    android:inputType="textMultiLine|textCapSentences"
+                                    android:paddingLeft="12dp"
+                                    android:paddingStart="12dp"
+                                    tools:ignore="RtlSymmetry"/>
 
                             </LinearLayout>
 

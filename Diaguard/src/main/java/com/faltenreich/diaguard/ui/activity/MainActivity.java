@@ -107,8 +107,7 @@ public class MainActivity extends BaseActivity {
                         drawerLayout.closeDrawers();
                     }
                 }, 150);
-                showFragment(menuItem);
-                return true;
+                return showFragment(menuItem);
             }
         });
         drawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
@@ -152,7 +151,7 @@ public class MainActivity extends BaseActivity {
         showFragment(menuItem);
     }
 
-    private void showFragment(MenuItem menuItem) {
+    private boolean showFragment(MenuItem menuItem) {
         if (menuItem != null) {
             switch (menuItem.getItemId()) {
                 case R.id.nav_home:
@@ -172,7 +171,7 @@ public class MainActivity extends BaseActivity {
                     break;
                 case R.id.nav_search:
                     startActivity(new Intent(MainActivity.this, EntrySearchActivity.class));
-                    break;
+                    return false; // Prevent selection
                 case R.id.nav_statistics:
                     showFragment(new StatisticsFragment(), menuItem, true);
                     break;
@@ -187,6 +186,7 @@ public class MainActivity extends BaseActivity {
                     break;
             }
         }
+        return true;
     }
 
     public void showFragment(BaseFragment fragment, MenuItem menuItem, boolean addToBackStack) {

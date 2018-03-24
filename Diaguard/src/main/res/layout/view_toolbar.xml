@@ -3,13 +3,15 @@
 <android.support.v7.widget.Toolbar
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:background="?attr/colorPrimary"
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
     app:navigationContentDescription="@string/abc_action_bar_up_description"
-    app:contentInsetStartWithNavigation="0dp">
+    app:contentInsetStartWithNavigation="0dp"
+    tools:title="@string/app_name">
 
     <TextView
         android:id="@+id/action"

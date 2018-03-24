@@ -7,6 +7,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
@@ -33,6 +34,7 @@ import butterknife.BindView;
  */
 public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> implements View.OnClickListener {
 
+    @BindView(R.id.root_layout) LinearLayout rootLayout;
     @BindView(R.id.cardview) CardView cardView;
     @BindView(R.id.time) TextView time;
     @BindView(R.id.note) TextView note;

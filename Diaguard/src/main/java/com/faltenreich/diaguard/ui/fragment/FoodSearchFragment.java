@@ -73,13 +73,13 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        checkIntents();
+        init();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        init();
+        initLayout();
     }
 
     @Override
@@ -106,14 +106,14 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         }
     }
 
-    private void checkIntents() {
-        if (getActivity().getIntent() != null && getActivity().getIntent().getExtras() != null) {
+    private void init() {
+        if (getActivity() != null && getActivity().getIntent() != null && getActivity().getIntent().getExtras() != null) {
             Bundle extras = getActivity().getIntent().getExtras();
             finishOnSelection = extras.getBoolean(FINISH_ON_SELECTION);
         }
     }
 
-    private void init() {
+    private void initLayout() {
         swipeRefreshLayout.setColorSchemeResources(R.color.green, R.color.green_light, R.color.green_lighter);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -122,31 +122,6 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
                 query(searchView.getQuery().toString());
             }
         });
-
-        // TODO: Road to barcode scanner
-        /*
-        LinearLayout layout = (LinearLayout) searchView.findViewById(R.id.linearLayout);
-
-        TintImageView cameraIcon = new TintImageView(getContext());
-        cameraIcon.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        int vertical = getResources().getDimensionPixelSize(R.dimen.padding_large);
-        int horizontal = getResources().getDimensionPixelSize(R.dimen.padding);
-        cameraIcon.setPadding(horizontal, vertical, horizontal, vertical);
-
-        TypedValue typedValue = new TypedValue();
-        getContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackground, typedValue, true);
-        cameraIcon.setBackgroundResource(typedValue.resourceId);
-
-        cameraIcon.setImageResource(R.drawable.ic_camera);
-        cameraIcon.setTintColor(ContextCompat.getColor(getContext(), R.color.gray_darker));
-        cameraIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openScanner();
-            }
-        });
-        layout.addView(cameraIcon, layout.getChildCount() - 1);
-        */
 
         searchView.setOnQueryTextListener(this);
         searchView.setOnMenuClickListener(this);
@@ -157,7 +132,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         searchAdapter.addOnItemClickListener(new SearchAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                TextView textView = (TextView) view.findViewById(R.id.textView_item_text);
+                TextView textView = view.findViewById(R.id.textView_item_text);
                 String query = textView.getText().toString();
                 searchView.setQuery(query, true);
                 searchView.close(true);

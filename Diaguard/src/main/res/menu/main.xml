@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:diaguard="http://schemas.android.com/apk/res-auto">
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/action_newevent"
-        android:icon="@drawable/ic_add"
-        android:title="@string/entry_new"
-        android:orderInCategory="100"
-        diaguard:showAsAction="ifRoom"/>
+    <item android:id="@+id/action_search_open"
+        android:icon="@drawable/ic_search"
+        android:title="@string/search"
+        app:showAsAction="ifRoom|collapseActionView"/>
 
 </menu>

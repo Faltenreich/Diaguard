@@ -14,7 +14,6 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -31,7 +30,6 @@ import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.ui.activity.BaseActivity;
-import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.ui.activity.MainActivity;
 import com.faltenreich.diaguard.util.ViewUtils;
 
@@ -117,17 +115,6 @@ public abstract class BaseFragment extends Fragment {
             inflater.inflate(menuResId, menu);
         }
         super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_newevent:
-                EntryActivity.show(getContext());
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     public TextView getActionView() {

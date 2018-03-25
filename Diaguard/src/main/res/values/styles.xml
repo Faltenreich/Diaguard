@@ -25,13 +25,6 @@
         <item name="spinBars">true</item>
         <item name="color">@android:color/white</item>
     </style>
-
-    <style name="NavigationDrawer">
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_width">@dimen/navigation_drawer_width</item>
-        <item name="android:background">@android:color/white</item>
-        <item name="android:layout_gravity">start</item>
-    </style>
     
     <style name="Padding">
         <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>

@@ -21,13 +21,14 @@ import android.widget.DatePicker;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.ui.view.DayOfMonthDrawable;
+import com.faltenreich.diaguard.ui.view.MainButtonAction;
 
 import org.joda.time.DateTime;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public abstract class DateFragment extends BaseFragment implements BaseFragment.ToolbarCallback {
+public abstract class DateFragment extends BaseFragment implements BaseFragment.ToolbarCallback, MainButtonAction {
 
     private DateTime day;
 
@@ -78,14 +79,6 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
             case R.id.action_today:
                 goToDay(DateTime.now());
                 return true;
-            case R.id.action_newevent:
-                DateTime now = DateTime.now();
-                DateTime dateTime = day
-                        .withHourOfDay(now.getHourOfDay())
-                        .withMinuteOfHour(now.getMinuteOfHour())
-                        .withSecondOfMinute(now.getSecondOfMinute());
-                EntryActivity.show(getContext(), dateTime);
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -94,6 +87,16 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
     @Override
     public void action() {
         showDatePicker();
+    }
+
+    @Override
+    public void onMainButtonClick() {
+        DateTime now = DateTime.now();
+        DateTime dateTime = day
+                .withHourOfDay(now.getHourOfDay())
+                .withMinuteOfHour(now.getMinuteOfHour())
+                .withSecondOfMinute(now.getSecondOfMinute());
+        EntryActivity.show(getContext(), dateTime);
     }
 
     @CallSuper

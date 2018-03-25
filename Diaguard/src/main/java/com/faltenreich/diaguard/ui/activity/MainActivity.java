@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,6 +26,7 @@ import com.faltenreich.diaguard.ui.fragment.ChartFragment;
 import com.faltenreich.diaguard.ui.fragment.ExportFragment;
 import com.faltenreich.diaguard.ui.fragment.LogFragment;
 import com.faltenreich.diaguard.ui.fragment.StatisticsFragment;
+import com.faltenreich.diaguard.ui.view.MainButtonAction;
 import com.faltenreich.diaguard.util.SystemUtils;
 
 import butterknife.BindView;
@@ -59,6 +61,7 @@ public class MainActivity extends BaseActivity {
 
     @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
     @BindView(R.id.navigation_drawer) NavigationView drawer;
+    @BindView(R.id.fab) FloatingActionButton fab;
 
     private ActionBarDrawerToggle drawerToggle;
 
@@ -130,12 +133,16 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onBackStackChanged() {
                 drawerToggle.setDrawerIndicatorEnabled(getSupportFragmentManager().getBackStackEntryCount() == 0);
-                Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
-                if (fragment != null && fragment instanceof BaseFragment) {
-                    BaseFragment baseFragment = (BaseFragment) fragment;
-                    setTitle(baseFragment.getTitle());
-                    MainFragmentType mainFragmentType = MainFragmentType.valueOf(baseFragment.getClass());
-                    select(mainFragmentType);
+                invalidateLayout();
+            }
+        });
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = getVisibleFragment();
+                if (fragment instanceof MainButtonAction) {
+                    ((MainButtonAction) fragment).onMainButtonClick();
                 }
             }
         });
@@ -144,6 +151,22 @@ public class MainActivity extends BaseActivity {
         int startScreen = PreferenceHelper.getInstance().getStartScreen();
         MenuItem menuItem = drawer.getMenu().getItem(startScreen);
         showFragment(menuItem);
+    }
+
+    private Fragment getVisibleFragment() {
+        return getSupportFragmentManager().findFragmentById(R.id.container);
+    }
+
+    private void invalidateLayout() {
+        Fragment fragment = getVisibleFragment();
+        if (fragment != null && fragment instanceof BaseFragment) {
+            BaseFragment baseFragment = (BaseFragment) fragment;
+            setTitle(baseFragment.getTitle());
+            MainFragmentType mainFragmentType = MainFragmentType.valueOf(baseFragment.getClass());
+            select(mainFragmentType);
+
+            fab.setVisibility(fragment instanceof MainButtonAction ? View.VISIBLE : View.GONE);
+        }
     }
 
     public void showFragment(@IdRes int itemId) {

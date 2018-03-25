@@ -113,19 +113,6 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.OnAd
         }
     }
 
-    private void goToEntry(Entry entry) {
-        super.goToDay(entry.getDate());
-
-        int position = listAdapter.getEntryPosition(entry);
-        if (position >= 0) {
-            recyclerView.scrollToPosition(position);
-        } else {
-            // TODO: Remember entry to select afterwards
-            progressBar.setVisibility(View.VISIBLE);
-            listAdapter.setup(entry.getDate());
-        }
-    }
-
     @Override
     protected void updateLabels() {
         if (getActionView() != null) {

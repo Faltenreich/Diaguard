@@ -18,6 +18,7 @@ import com.faltenreich.diaguard.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.event.preference.UnitChangedEvent;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.ui.activity.MainActivity;
+import com.faltenreich.diaguard.ui.view.MainButtonAction;
 import com.faltenreich.diaguard.util.AlarmUtils;
 import com.faltenreich.diaguard.util.ChartHelper;
 import com.faltenreich.diaguard.util.DateTimeUtils;
@@ -41,7 +42,7 @@ import org.joda.time.Minutes;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class MainFragment extends BaseFragment {
+public class MainFragment extends BaseFragment implements MainButtonAction {
 
     @BindView(R.id.chart) LineChart chart;
     @BindView(R.id.layout_alarm) ViewGroup layoutAlarm;
@@ -246,6 +247,11 @@ public class MainFragment extends BaseFragment {
                 getString(R.string.months),
                 getString(R.string.bloodsugar));
         ViewUtils.showSnackbar(getView(), formula);
+    }
+
+    @Override
+    public void onMainButtonClick() {
+        EntryActivity.show(getContext());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

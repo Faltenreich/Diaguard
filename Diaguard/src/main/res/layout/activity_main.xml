@@ -1,31 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <include layout="@layout/view_toolbar"/>
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            layout="@layout/view_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|enterAlways|snap"/>
+
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <!-- Main layout -->
         <FrameLayout
-            android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
 
-        <!-- Navigation drawer -->
+            <FrameLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="@dimen/padding_end"
+                android:src="@drawable/ic_add"
+                app:fabSize="normal"
+                app:layout_anchor="@id/coordinatorLayout"
+                app:layout_anchorGravity="bottom|end|right"/>
+
+        </FrameLayout>
+
         <android.support.design.widget.NavigationView
             android:id="@+id/navigation_drawer"
+            android:layout_height="match_parent"
+            android:layout_width="@dimen/navigation_drawer_width"
+            android:background="@android:color/white"
+            android:layout_gravity="start"
             app:menu="@menu/navigation"
-            app:headerLayout="@layout/view_empty"
-            style="@style/NavigationDrawer" />
+            app:headerLayout="@layout/view_empty"/>
 
     </android.support.v4.widget.DrawerLayout>
 
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

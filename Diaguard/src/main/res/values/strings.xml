@@ -400,7 +400,7 @@
         <item>1</item>
     </string-array>
     <integer-array name="pressure_extrema" translatable="false">
-        <item name="minimum">50</item>
+        <item name="minimum">20</item>
         <item name="maximum">300</item>
     </integer-array>
 

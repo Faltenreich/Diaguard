@@ -367,11 +367,11 @@
     </string-array>
     <string-array name="weight_units_values" translatable="false">
         <item>1</item>
-        <item>0.45359237</item>
+        <item>2.20462262185</item>
     </string-array>
     <integer-array name="weight_extrema" translatable="false">
         <item name="minimum">20</item>
-        <item name="maximum">500</item>
+        <item name="maximum">800</item>
     </integer-array>
 
     <string name="pulse_units_default">Beats per Minutes</string>

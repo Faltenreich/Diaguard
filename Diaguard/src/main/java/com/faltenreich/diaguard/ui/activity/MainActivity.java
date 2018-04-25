@@ -19,7 +19,6 @@ import android.view.View;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.ui.fragment.BaseFragment;
-import com.faltenreich.diaguard.ui.fragment.CalculatorFragment;
 import com.faltenreich.diaguard.ui.fragment.ChangelogFragment;
 import com.faltenreich.diaguard.ui.fragment.ChartFragment;
 import com.faltenreich.diaguard.ui.fragment.ExportFragment;
@@ -31,11 +30,10 @@ import butterknife.BindView;
 
 public class MainActivity extends BaseActivity {
 
-    private enum MainFragmentType {
+    public enum MainFragmentType {
         HOME(com.faltenreich.diaguard.ui.fragment.MainFragment.class, 0),
         TIMELINE(ChartFragment.class, 1),
         LOG(LogFragment.class, 2),
-        CALCULATOR(CalculatorFragment.class, 3),
         STATISTICS(StatisticsFragment.class, 5),
         EXPORT(ExportFragment.class, 6);
 
@@ -50,6 +48,15 @@ public class MainActivity extends BaseActivity {
         public static MainFragmentType valueOf(Class<? extends BaseFragment> fragmentClass) {
             for (MainFragmentType mainFragmentType : MainFragmentType.values()) {
                 if (mainFragmentType.fragmentClass == fragmentClass) {
+                    return mainFragmentType;
+                }
+            }
+            return null;
+        }
+
+        public static MainFragmentType valueOf(int position) {
+            for (MainFragmentType mainFragmentType : MainFragmentType.values()) {
+                if (mainFragmentType.position == position) {
                     return mainFragmentType;
                 }
             }
@@ -165,7 +172,7 @@ public class MainActivity extends BaseActivity {
                     showFragment(new LogFragment(), menuItem, false);
                     break;
                 case R.id.nav_calculator:
-                    showFragment(new CalculatorFragment(), menuItem, false);
+                    explainMissingCalculator();
                     break;
                 case R.id.nav_food_database:
                     startActivity(new Intent(MainActivity.this, FoodSearchActivity.class));
@@ -207,6 +214,10 @@ public class MainActivity extends BaseActivity {
             transaction.commit();
             setTitle(fragment.getTitle());
         }
+    }
+
+    private void explainMissingCalculator() {
+        // TODO
     }
 
     private void select(MainFragmentType mainFragmentType) {

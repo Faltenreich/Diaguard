@@ -185,13 +185,11 @@
         <item>@string/home</item>
         <item>@string/timeline</item>
         <item>@string/log</item>
-        <item>@string/calculator</item>
     </string-array>
     <string-array name="startscreens_values" translatable="false">
         <item>0</item>
         <item>1</item>
         <item>2</item>
-        <item>3</item>
     </string-array>
 
     <!-- DATE -->

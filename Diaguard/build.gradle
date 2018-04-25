@@ -6,9 +6,9 @@ android {
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 26
-        versionCode 24
-        versionName "2.4.2"
+        targetSdkVersion 27
+        versionCode 25
+        versionName "2.4.2.094156800"
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -29,7 +29,7 @@ android {
     }
 }
 
-def supportLibraryVersion = '27.1.0'
+def supportLibraryVersion = '27.1.1'
 
 dependencies {
     implementation "com.android.support:design:${supportLibraryVersion}"

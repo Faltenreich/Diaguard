@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.ui.activity.MainActivity;
 import com.faltenreich.diaguard.ui.view.preferences.CategoryPreference;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
@@ -88,6 +89,7 @@ public class PreferenceHelper {
     public void migrate() {
         migrateFactors();
         migrateCorrection();
+        migrateStartScreen();
     }
 
     public int getVersionCode() {
@@ -123,6 +125,18 @@ public class PreferenceHelper {
     public int getStartScreen() {
         String startScreen = sharedPreferences.getString("startscreen", "0");
         return Integer.parseInt(startScreen);
+    }
+
+    public void setStartScreen(int startScreen) {
+        sharedPreferences.edit().putString("startscreen", Integer.toString(startScreen)).apply();
+    }
+
+    private void migrateStartScreen() {
+        int startScreen = getStartScreen();
+        MainActivity.MainFragmentType mainFragmentType = MainActivity.MainFragmentType.valueOf(startScreen);
+        if (mainFragmentType == null) {
+            setStartScreen(0);
+        }
     }
 
     public boolean isSoundAllowed() {

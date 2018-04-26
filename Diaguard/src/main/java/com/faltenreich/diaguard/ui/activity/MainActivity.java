@@ -19,6 +19,7 @@ import android.view.View;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.ui.fragment.BaseFragment;
+import com.faltenreich.diaguard.ui.fragment.CalculatorMissingFragment;
 import com.faltenreich.diaguard.ui.fragment.ChangelogFragment;
 import com.faltenreich.diaguard.ui.fragment.ChartFragment;
 import com.faltenreich.diaguard.ui.fragment.ExportFragment;
@@ -217,7 +218,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void explainMissingCalculator() {
-        // TODO
+        new CalculatorMissingFragment().show(getSupportFragmentManager(), null);
     }
 
     private void select(MainFragmentType mainFragmentType) {
@@ -259,6 +260,10 @@ public class MainActivity extends BaseActivity {
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.addToBackStack(tag);
                 fragment.show(fragmentTransaction, tag);
+            }
+
+            if (currentVersionCode == 25) {
+                explainMissingCalculator();
             }
 
         } else if (oldVersionCode == 0) {

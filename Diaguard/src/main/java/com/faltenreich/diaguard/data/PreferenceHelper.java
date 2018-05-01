@@ -28,6 +28,7 @@ import java.util.Locale;
 
 import static com.faltenreich.diaguard.DiaguardApplication.getContext;
 
+@SuppressWarnings("WeakerAccess")
 public class PreferenceHelper {
 
     private static final String TAG = PreferenceHelper.class.getSimpleName();

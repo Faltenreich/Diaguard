@@ -513,7 +513,7 @@
     </string-array>
 
     <string name="calculator_missing">Where is the calculator?</string>
-    <string name="calculator_missing_desc">The calculator had to be removed by reason of the law.</string>
+    <string name="calculator_missing_desc">The calculator had to be removed due to legal reasons concerning medical products.</string>
     <string name="calculator_more_info">More info</string>
 
 </resources>

@@ -19,6 +19,20 @@ android {
         }
     }
 
+    flavorDimensions "version"
+    productFlavors {
+        beta {
+            dimension "version"
+            applicationId "com.faltenreich.diaguard.beta"
+            buildConfigField "boolean", "isCalculatorEnabled", "true"
+        }
+        store {
+            dimension "version"
+            applicationId "com.faltenreich.diaguard"
+            buildConfigField "boolean", "isCalculatorEnabled", "false"
+        }
+    }
+
     packagingOptions {
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/NOTICE.txt'

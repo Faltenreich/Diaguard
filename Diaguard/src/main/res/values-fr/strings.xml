@@ -328,4 +328,8 @@
     <string name="unit_factor_carbohydrates_unit">GU facteur</string>
     <string name="unit_factor_bread_unit">PU facteur</string>
 
+    <string name="calculator_missing">Où est la calculateur?</string>
+    <string name="calculator_missing_desc">La calculateur a été retirée pour des raisons juridiques concernant les produits médicaux.</string>
+    <string name="calculator_more_info">Plus d\'infos</string>
+
 </resources>

@@ -13,13 +13,12 @@ import com.faltenreich.diaguard.util.WebUtils;
 
 public class CalculatorMissingFragment extends DialogFragment {
 
-    // TODO: Update url when multi-language blog post is out
-    private static final String URL = "https://diaguard.wordpress.com/2018/04/26/diaguard-ohne-bolusrechner";
+    private static final String URL = "https://diaguard.wordpress.com/2018/05/01/diaguard-2-4-3";
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return new AlertDialog.Builder(getContext())
+        Dialog dialog = new AlertDialog.Builder(getContext())
                 .setTitle(R.string.calculator_missing)
                 .setMessage(R.string.calculator_missing_desc)
                 .setNegativeButton(R.string.calculator_more_info, new DialogInterface.OnClickListener() {
@@ -35,5 +34,7 @@ public class CalculatorMissingFragment extends DialogFragment {
                     }
                 })
                 .create();
+        dialog.setCanceledOnTouchOutside(false);
+        return dialog;
     }
 }

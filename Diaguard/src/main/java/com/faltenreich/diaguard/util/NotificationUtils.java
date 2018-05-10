@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
 import android.support.annotation.StringRes;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
@@ -44,16 +45,18 @@ public class NotificationUtils {
         }
     }
 
-    static void showNotification(@StringRes int titleResId, String message) {
+    public static void showNotification(@StringRes int titleResId, String message) {
         Context context = DiaguardApplication.getContext();
         String title = context.getString(titleResId);
         NotificationCompat.Builder builder =
-                new NotificationCompat.Builder(context)
+                new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
                         .setSmallIcon(R.drawable.ic_notification)
                         .setContentTitle(title)
                         .setContentText(message)
                         .setTicker(title)
-                        .setChannelId(NOTIFICATION_CHANNEL_ID);
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                        .setSound(PreferenceHelper.getInstance().isSoundAllowed() ? RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION) : null)
+                        .setVibrate(shouldNotificationVibrate(context) && PreferenceHelper.getInstance().isVibrationAllowed() ? new long[] { VIBRATION_DURATION_IN_MILLIS } : null);
         Intent resultIntent = new Intent(context, EntryActivity.class);
 
         // Put target activity on back stack on top of its parent to guarantee correct back navigation
@@ -65,17 +68,9 @@ public class NotificationUtils {
 
         // Notification will dismiss when be clicked on
         Notification notification = builder.build();
-        notification.flags = Notification.DEFAULT_LIGHTS | Notification.FLAG_AUTO_CANCEL | Notification.FLAG_ONLY_ALERT_ONCE;
+        notification.flags = Notification.FLAG_ONLY_ALERT_ONCE | Notification.FLAG_AUTO_CANCEL;
 
         NotificationManager notificationManager = getNotificationManager(context);
         notificationManager.notify(NOTIFICATION_ID, notification);
-
-        if (PreferenceHelper.getInstance().isSoundAllowed()) {
-            SystemUtils.playSound();
-        }
-
-        if (shouldNotificationVibrate(context) && PreferenceHelper.getInstance().isVibrationAllowed()) {
-            SystemUtils.vibrate(VIBRATION_DURATION_IN_MILLIS);
-        }
     }
 }

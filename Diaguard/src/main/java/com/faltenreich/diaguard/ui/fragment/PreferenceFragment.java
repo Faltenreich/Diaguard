@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.widget.ListAdapter;
 
+import com.faltenreich.diaguard.BuildConfig;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
@@ -45,7 +46,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             setSummary(preference);
         }
 
-        setVersionCode();
+        initPreferences();
         checkIntents();
     }
 
@@ -62,8 +63,23 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         return list;
     }
 
-    private void setSummary(Preference preference) {
+    private void initPreferences() {
+        if (!BuildConfig.isCalculatorEnabled) {
+            Preference categoryPreferenceLimits = findPreference("limits");
+            if (categoryPreferenceLimits != null && categoryPreferenceLimits instanceof PreferenceCategory) {
+                PreferenceCategory category = (PreferenceCategory) categoryPreferenceLimits;
+                category.removePreference(findPreference("correction_value"));
+                category.removePreference(findPreference("pref_factor"));
+            }
+            Preference categoryPreferenceUnits = findPreference("units");
+            if (categoryPreferenceUnits != null && categoryPreferenceUnits instanceof PreferenceCategory) {
+                PreferenceCategory category = (PreferenceCategory) categoryPreferenceUnits;
+                category.removePreference(findPreference("unit_meal_factor"));
+            }
+        }
+    }
 
+    private void setSummary(Preference preference) {
         if (preference instanceof ListPreference) {
             ListPreference listPreference = (ListPreference) preference;
             preference.setSummary(listPreference.getEntry());
@@ -90,6 +106,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             } else {
                 preference.setSummary(null);
             }
+
+        } else if (preference.getKey() != null && preference.getKey().equals("version")) {
+            preference.setSummary(SystemUtils.getVersionName(getActivity()));
         }
     }
 
@@ -99,13 +118,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             if (extras.getString(EXTRA_OPENING_PREFERENCE) != null) {
                 preopenPreference(extras.getString(EXTRA_OPENING_PREFERENCE));
             }
-        }
-    }
-
-    private void setVersionCode() {
-        Preference preference = findPreference("version");
-        if (preference != null) {
-            preference.setSummary(SystemUtils.getVersionName(getActivity()));
         }
     }
 

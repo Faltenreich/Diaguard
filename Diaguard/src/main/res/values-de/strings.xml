@@ -330,5 +330,8 @@
 
     <string name="tag_hint">Stimmung, Aktivität, &#8230;</string>
     <string name="search">Suche</string>
+    <string name="calculator_missing">Wo ist der Bolusrechner?</string>
+    <string name="calculator_missing_desc">Der Bolusrechner musste aufgrund des Medizinproduktegesetzes entfernt werden.</string>
+    <string name="calculator_more_info">Mehr dazu</string>
 
 </resources>

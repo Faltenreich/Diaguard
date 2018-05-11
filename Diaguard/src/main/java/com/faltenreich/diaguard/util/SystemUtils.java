@@ -4,16 +4,11 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.media.MediaPlayer;
-import android.media.RingtoneManager;
-import android.os.Vibrator;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-
-import com.faltenreich.diaguard.DiaguardApplication;
 
 import java.text.DecimalFormat;
 
@@ -42,27 +37,6 @@ public class SystemUtils {
         } catch (PackageManager.NameNotFoundException exception) {
             Log.e(TAG, exception.getMessage());
             return -1;
-        }
-    }
-
-    public static void playSound() {
-        try {
-            MediaPlayer mediaPlayer = MediaPlayer.create(
-                    DiaguardApplication.getContext().getApplicationContext(),
-                    RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-            if (mediaPlayer != null) {
-                mediaPlayer.setLooping(false);
-                mediaPlayer.start();
-            }
-        } catch (IllegalArgumentException e) {
-            Log.e(TAG, e.getMessage());
-        }
-    }
-
-    public static void vibrate(int timeInMilliseconds) {
-        Vibrator vibrator = (Vibrator) DiaguardApplication.getContext().getSystemService(Context.VIBRATOR_SERVICE);
-        if (vibrator != null) {
-            vibrator.vibrate(timeInMilliseconds);
         }
     }
 

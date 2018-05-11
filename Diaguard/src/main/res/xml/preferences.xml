@@ -56,6 +56,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="units"
         android:title="@string/units">
 
         <ListPreference
@@ -96,28 +97,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/pref_therapy_targets">
-
-        <com.faltenreich.diaguard.ui.view.preferences.BloodSugarPreference
-            android:key="target"
-            android:title="@string/pref_therapy_targets_target"
-            android:dialogTitle="@string/pref_therapy_targets_target"
-            android:defaultValue="120"
-            android:inputType="number"/>
-
-        <com.faltenreich.diaguard.ui.view.preferences.CorrectionPreference
-            android:key="correction_value"
-            android:title="@string/correction_value"
-            android:summary="@string/correction_value_desc"/>
-
-        <com.faltenreich.diaguard.ui.view.preferences.FactorPreference
-            android:key="@string/pref_factor"
-            android:title="@string/meal_factors"
-            android:summary="@string/meal_factor_desc"/>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
+        android:key="limits"
         android:title="@string/pref_therapy_limits">
 
         <CheckBoxPreference
@@ -138,6 +118,23 @@
             android:dialogTitle="@string/pref_therapy_targets_hypoclycemia"
             android:defaultValue="60"
             android:inputType="number"/>
+
+        <com.faltenreich.diaguard.ui.view.preferences.BloodSugarPreference
+            android:key="target"
+            android:title="@string/pref_therapy_targets_target"
+            android:dialogTitle="@string/pref_therapy_targets_target"
+            android:defaultValue="120"
+            android:inputType="number"/>
+
+        <com.faltenreich.diaguard.ui.view.preferences.CorrectionPreference
+            android:key="correction_value"
+            android:title="@string/correction_value"
+            android:summary="@string/correction_value_desc"/>
+
+        <com.faltenreich.diaguard.ui.view.preferences.FactorPreference
+            android:key="@string/pref_factor"
+            android:title="@string/meal_factors"
+            android:summary="@string/meal_factor_desc"/>
 
     </PreferenceCategory>
 

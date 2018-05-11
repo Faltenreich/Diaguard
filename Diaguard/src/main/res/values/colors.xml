@@ -2,6 +2,7 @@
 
 <resources>
 
+    <color name="primary">@color/green</color>
     <color name="translucent_scrim_end">#58000000</color>
     <color name="translucent_scrim_center">#3F000000</color>
 

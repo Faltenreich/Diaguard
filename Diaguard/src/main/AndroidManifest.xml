@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.faltenreich.diaguard">
 
@@ -40,7 +41,7 @@
             android:windowSoftInputMode="adjustResize|stateHidden"
             android:exported="true">
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
+                android:name=".ui.activity.EntryActivity"
                 android:value=".ui.activity.MainActivity" />
         </activity>
 
@@ -60,7 +61,7 @@
             android:label="@string/food"
             android:windowSoftInputMode="adjustResize|stateHidden">
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
+                android:name=".ui.activity.FoodSearchActivity"
                 android:value=".ui.activity.MainActivity" />
         </activity>
 
@@ -70,7 +71,7 @@
             android:label="@string/food"
             android:windowSoftInputMode="adjustResize|stateHidden">
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
+                android:name=".ui.activity.FoodActivity"
                 android:value=".ui.activity.FoodSearchActivity" />
         </activity>
 
@@ -80,7 +81,7 @@
             android:label="@string/food_new"
             android:windowSoftInputMode="adjustResize|stateHidden">
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
+                android:name=".ui.activity.FoodEditActivity"
                 android:value=".ui.activity.FoodSearchActivity" />
         </activity>
 
@@ -90,7 +91,7 @@
             android:label="@string/settings"
             android:windowSoftInputMode="adjustPan">
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
+                android:name=".ui.activity.PreferenceActivity"
                 android:value=".ui.activity.MainActivity" />
         </activity>
 

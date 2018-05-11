@@ -331,4 +331,8 @@
     <string name="search">Busca</string>
     <string name="tag_hint">Talante, actividad, &#8230;</string>
 
+    <string name="calculator_missing">Dónde está la calcular?</string>
+    <string name="calculator_missing_desc">La calcular se ha eliminado debido a razones legales relacionadas con productos médicos.</string>
+    <string name="calculator_more_info">Más info</string>
+
 </resources>

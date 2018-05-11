@@ -185,13 +185,11 @@
         <item>@string/home</item>
         <item>@string/timeline</item>
         <item>@string/log</item>
-        <item>@string/calculator</item>
     </string-array>
     <string-array name="startscreens_values" translatable="false">
         <item>0</item>
         <item>1</item>
         <item>2</item>
-        <item>3</item>
     </string-array>
 
     <!-- DATE -->
@@ -367,11 +365,11 @@
     </string-array>
     <string-array name="weight_units_values" translatable="false">
         <item>1</item>
-        <item>0.45359237</item>
+        <item>2.20462262185</item>
     </string-array>
     <integer-array name="weight_extrema" translatable="false">
         <item name="minimum">20</item>
-        <item name="maximum">500</item>
+        <item name="maximum">800</item>
     </integer-array>
 
     <string name="pulse_units_default">Beats per Minutes</string>
@@ -400,7 +398,7 @@
         <item>1</item>
     </string-array>
     <integer-array name="pressure_extrema" translatable="false">
-        <item name="minimum">20</item>
+        <item name="minimum">10</item>
         <item name="maximum">300</item>
     </integer-array>
 
@@ -516,5 +514,8 @@
 
     <string name="tag_hint">Mood, activity, &#8230;</string>
     <string name="search">Search</string>
+    <string name="calculator_missing">Where is the calculator?</string>
+    <string name="calculator_missing_desc">The calculator had to be removed due to legal reasons concerning medical products.</string>
+    <string name="calculator_more_info">More info</string>
 
 </resources>

@@ -8,10 +8,9 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
-import android.support.annotation.Nullable;
-import android.view.View;
 import android.widget.ListAdapter;
 
+import com.faltenreich.diaguard.BuildConfig;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
@@ -41,18 +40,13 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
 
         // Initialize summaries where making sense
         for (Preference preference : getPreferenceList(getPreferenceScreen(), new ArrayList<Preference>())) {
             setSummary(preference);
         }
 
-        setVersionCode();
+        initPreferences();
         checkIntents();
     }
 
@@ -67,6 +61,22 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             list.add(preference);
         }
         return list;
+    }
+
+    private void initPreferences() {
+        if (!BuildConfig.isCalculatorEnabled) {
+            Preference categoryPreferenceLimits = findPreference("limits");
+            if (categoryPreferenceLimits != null && categoryPreferenceLimits instanceof PreferenceCategory) {
+                PreferenceCategory category = (PreferenceCategory) categoryPreferenceLimits;
+                category.removePreference(findPreference("correction_value"));
+                category.removePreference(findPreference("pref_factor"));
+            }
+            Preference categoryPreferenceUnits = findPreference("units");
+            if (categoryPreferenceUnits != null && categoryPreferenceUnits instanceof PreferenceCategory) {
+                PreferenceCategory category = (PreferenceCategory) categoryPreferenceUnits;
+                category.removePreference(findPreference("unit_meal_factor"));
+            }
+        }
     }
 
     private void setSummary(Preference preference) {
@@ -96,6 +106,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             } else {
                 preference.setSummary(null);
             }
+
+        } else if (preference.getKey() != null && preference.getKey().equals("version")) {
+            preference.setSummary(SystemUtils.getVersionName(getActivity()));
         }
     }
 
@@ -105,13 +118,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             if (extras.getString(EXTRA_OPENING_PREFERENCE) != null) {
                 preopenPreference(extras.getString(EXTRA_OPENING_PREFERENCE));
             }
-        }
-    }
-
-    private void setVersionCode() {
-        Preference preference = findPreference("version");
-        if (preference != null) {
-            preference.setSummary(SystemUtils.getVersionName(getActivity()));
         }
     }
 
@@ -154,8 +160,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                 Events.post(new UnitChangedEvent(Measurement.Category.WEIGHT));
                 break;
         }
-        if (isAdded()) {
-            setSummary(findPreference(key));
-        }
+        setSummary(findPreference(key));
     }
 }

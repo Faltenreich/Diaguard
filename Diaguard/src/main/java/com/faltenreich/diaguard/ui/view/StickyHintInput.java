@@ -8,7 +8,6 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,13 +17,9 @@ import com.faltenreich.diaguard.util.ViewUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by Faltenreich on 13.11.2016.
- */
-
 public class StickyHintInput extends LinearLayout implements TextWatcher {
 
-    @BindView(R.id.input) EditText input;
+    @BindView(R.id.input) LocalizedNumberEditText input;
     @BindView(R.id.label) TextView label;
 
     private CharSequence hint;
@@ -49,7 +44,6 @@ public class StickyHintInput extends LinearLayout implements TextWatcher {
         TypedArray typedArray = getContext().obtainStyledAttributes(attributeSet, new int[]{ android.R.attr.hint, android.R.attr.inputType });
         try {
             hint = typedArray.getText(0);
-            //noinspection ResourceType
             inputType = typedArray.getInt(1, InputType.TYPE_NUMBER_FLAG_DECIMAL);
         } finally {
             typedArray.recycle();
@@ -79,7 +73,7 @@ public class StickyHintInput extends LinearLayout implements TextWatcher {
         label.setVisibility(isVisible ? VISIBLE : GONE);
     }
 
-    public EditText getEditText() {
+    public LocalizedNumberEditText getInputView() {
         return input;
     }
 
@@ -88,7 +82,7 @@ public class StickyHintInput extends LinearLayout implements TextWatcher {
     }
 
     public String getText() {
-        return input.getText().toString();
+        return input.getNonLocalizedText();
     }
 
     public void setText(String text) {

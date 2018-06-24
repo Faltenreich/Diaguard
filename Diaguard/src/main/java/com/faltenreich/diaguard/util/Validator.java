@@ -2,11 +2,11 @@ package com.faltenreich.diaguard.util;
 
 import android.content.Context;
 import android.text.Editable;
-import android.widget.EditText;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.ui.view.LocalizedNumberEditText;
 
 /**
  * Created by Filip on 05.11.13.
@@ -17,7 +17,7 @@ public class Validator {
         return input.matches(".*\\d.*");
     }
 
-    public static boolean validateEditTextEvent(Context context, EditText editText, Measurement.Category category, boolean checkForHint) {
+    public static boolean validateEditTextEvent(Context context, LocalizedNumberEditText editText, Measurement.Category category, boolean checkForHint) {
         String value = editText.getText().toString();
 
         if (value.length() > 0) {
@@ -40,7 +40,7 @@ public class Validator {
         }
     }
 
-    public static boolean validateEventValue(Context context, EditText editText, Measurement.Category category, String value) {
+    private static boolean validateEventValue(Context context, LocalizedNumberEditText editText, Measurement.Category category, String value) {
         editText.setError(null);
 
         boolean isValid = true;
@@ -58,7 +58,7 @@ public class Validator {
         return isValid;
     }
 
-    public static boolean validateEditTextFactor(Context context, EditText editText, boolean canBeEmpty) {
+    public static boolean validateEditTextFactor(Context context, LocalizedNumberEditText editText, boolean canBeEmpty) {
         Editable editable = editText.getText();
 
         if (editable == null) {
@@ -86,7 +86,7 @@ public class Validator {
         }
     }
 
-    public static boolean validateFactor(Context context, EditText editText, String value) {
+    private static boolean validateFactor(Context context, LocalizedNumberEditText editText, String value) {
         if (!containsNumber(value)) {
             editText.setError(context.getString(R.string.validator_value_number));
             return false;

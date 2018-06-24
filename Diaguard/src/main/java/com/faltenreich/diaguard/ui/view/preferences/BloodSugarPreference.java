@@ -9,7 +9,6 @@ import android.preference.EditTextPreference;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
@@ -17,6 +16,7 @@ import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.preference.BloodSugarPreferenceChangedEvent;
+import com.faltenreich.diaguard.ui.view.LocalizedNumberEditText;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.Validator;
@@ -29,7 +29,7 @@ public class BloodSugarPreference extends EditTextPreference {
     private Context context;
     private SharedPreferences sharedPreferences;
 
-    private EditText editTextValue;
+    private LocalizedNumberEditText editTextValue;
 
     public BloodSugarPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -43,7 +43,7 @@ public class BloodSugarPreference extends EditTextPreference {
     public void onBindDialogView(View view) {
         super.onBindDialogView(view);
 
-        editTextValue = (EditText) view.findViewById(R.id.value);
+        editTextValue = view.findViewById(R.id.value);
         if(editTextValue == null || editTextValue.getText() == null) {
             throw new Resources.NotFoundException();
         }

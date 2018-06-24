@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.DigitsKeyListener;
+import android.text.method.KeyListener;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.util.NumberUtils;
 
 import java.text.DecimalFormatSymbols;
 
@@ -21,9 +23,12 @@ import java.text.DecimalFormatSymbols;
 
 public class LocalizedNumberEditText extends AppCompatEditText implements TextWatcher {
 
+    private static final String TAG = LocalizedNumberEditText.class.getSimpleName();
     private static final Character DEFAULT_SEPARATOR = '.';
     private static final Character LOCALIZED_SEPARATOR = DecimalFormatSymbols.getInstance().getDecimalSeparator();
-    private static final String ACCEPTED_CHARACTERS = String.format("0123456789%s%s", DEFAULT_SEPARATOR, LOCALIZED_SEPARATOR);
+    private static final String ACCEPTED_CHARACTERS = String.format("0123456789%s%s", LOCALIZED_SEPARATOR, DEFAULT_SEPARATOR);
+
+    private final KeyListener keyListener = DigitsKeyListener.getInstance(ACCEPTED_CHARACTERS);
 
     private boolean restrictToLocalizedSeparator = false;
 
@@ -50,10 +55,14 @@ public class LocalizedNumberEditText extends AppCompatEditText implements TextWa
 
     /**
      *
-     * @return The input number if available, otherwise -1
+     * @return The input number if available, otherwise null
      */
-    public float getNumber() {
-        return LocalizedNumberEditTextUtils.parseNumber(getNonLocalizedText());
+    public Float getNumber() {
+        return NumberUtils.parseNullableNumber(getNonLocalizedText());
+    }
+
+    public boolean hasNumber() {
+        return getNumber() != null;
     }
 
     /**
@@ -80,18 +89,18 @@ public class LocalizedNumberEditText extends AppCompatEditText implements TextWa
 
     private void initLayout() {
         removeTextChangedListener(this);
-        if (needsInputValidation()) {
-            setKeyListener(DigitsKeyListener.getInstance(ACCEPTED_CHARACTERS));
+        if (LocalizedNumberEditTextUtils.isInputTypeNumberDecimal(getInputType())) {
+            super.setKeyListener(keyListener);
             addTextChangedListener(this);
         }
     }
 
-    private boolean isInputTypeNumberDecimal() {
-        return (getInputType() & InputType.TYPE_NUMBER_FLAG_DECIMAL) == InputType.TYPE_NUMBER_FLAG_DECIMAL;
-    }
-
-    private boolean needsInputValidation() {
-        return isInputTypeNumberDecimal() && LOCALIZED_SEPARATOR != DEFAULT_SEPARATOR;
+    private void invalidateText(String text) {
+        String localized = stripUnnecessarySeparators(invalidateSeparators(text));
+        if (!localized.equals(text)) {
+            setText(localized);
+            setSelection(localized.length());
+        }
     }
 
     private String invalidateSeparators(String text) {
@@ -116,8 +125,16 @@ public class LocalizedNumberEditText extends AppCompatEditText implements TextWa
     @Override
     public void setInputType(int type) {
         super.setInputType(type);
-        // TextView.setInputType() updates the key listener, so we force re-update it afterwards
-        initLayout();
+        if (LocalizedNumberEditTextUtils.isInputTypeNumberDecimal(type) && LOCALIZED_SEPARATOR != DEFAULT_SEPARATOR) {
+            Log.w(TAG, "Workaround: Calling setRawInputType() and setKeyListener() as well in order to keep functionality");
+            super.setKeyListener(keyListener);
+            setRawInputType(type);
+        }
+    }
+
+    @Override
+    public void setKeyListener(KeyListener keyListener) {
+        Log.e(TAG, "Calling setKeyListener() is prohibited, since LocalizedEditText relies on its own key listener");
     }
 
     @Override
@@ -127,12 +144,8 @@ public class LocalizedNumberEditText extends AppCompatEditText implements TextWa
 
     @Override
     public void onTextChanged(CharSequence text, int start, int before, int count) {
-        if (needsInputValidation()) {
-            String localized = stripUnnecessarySeparators(invalidateSeparators(text.toString()));
-            if (!localized.equals(text.toString())) {
-                setText(localized);
-                setSelection(localized.length());
-            }
+        if (LocalizedNumberEditTextUtils.isInputTypeNumberDecimal(getInputType())) {
+            invalidateText(text.toString());
         }
     }
 

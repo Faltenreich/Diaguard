@@ -1,14 +1,8 @@
 package com.faltenreich.diaguard.ui.view;
 
-public class LocalizedNumberEditTextUtils {
+import android.text.InputType;
 
-    public static float parseNumber(String number) {
-        try {
-            return Float.parseFloat(number.trim().replaceAll(",", "."));
-        } catch (NumberFormatException exception) {
-            return -1;
-        }
-    }
+public class LocalizedNumberEditTextUtils {
 
     public static int countOccurrences(String target, Character... characters) {
         int count = 0;
@@ -25,5 +19,9 @@ public class LocalizedNumberEditTextUtils {
     public static int firstIndexOfOrLastIndex(String text, Character character) {
         int index = text.indexOf(character);
         return index >= 0 ? index : text.length() - 1;
+    }
+
+    public static boolean isInputTypeNumberDecimal(int inputType) {
+        return (inputType & InputType.TYPE_NUMBER_FLAG_DECIMAL) == InputType.TYPE_NUMBER_FLAG_DECIMAL;
     }
 }

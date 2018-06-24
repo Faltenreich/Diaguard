@@ -49,18 +49,24 @@ public class LocalizedNumberEditText extends AppCompatEditText implements TextWa
         initLayout();
     }
 
+    /**
+     * @return The input with all of its localized separators replaced by the default separator
+     */
     public String getNonLocalizedText() {
         return getText().toString().replace(LOCALIZED_SEPARATOR, DEFAULT_SEPARATOR);
     }
 
     /**
      *
-     * @return The input number if available, otherwise null
+     * @return The input as number if available, otherwise null
      */
     public Float getNumber() {
         return NumberUtils.parseNullableNumber(getNonLocalizedText());
     }
 
+    /**
+     * @return True if the input can be casted to a Float
+     */
     public boolean hasNumber() {
         return getNumber() != null;
     }
@@ -96,10 +102,12 @@ public class LocalizedNumberEditText extends AppCompatEditText implements TextWa
     }
 
     private void invalidateText(String text) {
-        String localized = stripUnnecessarySeparators(invalidateSeparators(text));
-        if (!localized.equals(text)) {
-            setText(localized);
-            setSelection(localized.length());
+        if (LocalizedNumberEditTextUtils.isInputTypeNumberDecimal(getInputType())) {
+            String localized = stripUnnecessarySeparators(invalidateSeparators(text));
+            if (!localized.equals(text)) {
+                setText(localized);
+                setSelection(localized.length());
+            }
         }
     }
 
@@ -125,8 +133,9 @@ public class LocalizedNumberEditText extends AppCompatEditText implements TextWa
     @Override
     public void setInputType(int type) {
         super.setInputType(type);
+
         if (LocalizedNumberEditTextUtils.isInputTypeNumberDecimal(type) && LOCALIZED_SEPARATOR != DEFAULT_SEPARATOR) {
-            Log.w(TAG, "Workaround: Calling setRawInputType() and setKeyListener() as well in order to keep functionality");
+            Log.w(TAG, "Setting raw input type and key listener as well in order to keep functionality");
             super.setKeyListener(keyListener);
             setRawInputType(type);
         }
@@ -134,23 +143,19 @@ public class LocalizedNumberEditText extends AppCompatEditText implements TextWa
 
     @Override
     public void setKeyListener(KeyListener keyListener) {
-        Log.e(TAG, "Calling setKeyListener() is prohibited, since LocalizedEditText relies on its own key listener");
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence text, int start, int count, int after) {
-
+        throw new UnsupportedOperationException("Calling setKeyListener() is prohibited, since LocalizedEditText relies on its own key listener");
     }
 
     @Override
     public void onTextChanged(CharSequence text, int start, int before, int count) {
-        if (LocalizedNumberEditTextUtils.isInputTypeNumberDecimal(getInputType())) {
-            invalidateText(text.toString());
-        }
+        invalidateText(text.toString());
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence text, int start, int count, int after) {
     }
 
     @Override
     public void afterTextChanged(Editable editable) {
-
     }
 }

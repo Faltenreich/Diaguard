@@ -7,7 +7,7 @@
     android:gravity="center_horizontal"
     android:paddingTop="5dp">
 
-    <EditText
+    <com.faltenreich.diaguard.ui.view.LocalizedNumberEditText
         android:id="@+id/value"
         android:layout_height="wrap_content"
         android:layout_width="125dp"

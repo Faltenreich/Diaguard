@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="@dimen/height_element"
@@ -12,7 +13,7 @@
     android:paddingEnd="@dimen/activity_horizontal_margin"
     android:gravity="center_vertical">
 
-    <EditText
+    <com.faltenreich.diaguard.ui.view.LocalizedNumberEditText
         android:id="@+id/input"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

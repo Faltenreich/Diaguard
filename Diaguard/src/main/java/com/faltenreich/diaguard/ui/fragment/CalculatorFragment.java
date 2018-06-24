@@ -105,20 +105,20 @@ public class CalculatorFragment extends BaseFragment {
         boolean isValid = true;
 
         // Blood Sugar
-        if (!Validator.validateEditTextEvent(getContext(), bloodSugarInput.getEditText(), Measurement.Category.BLOODSUGAR, false)) {
+        if (!Validator.validateEditTextEvent(getContext(), bloodSugarInput.getInputView(), Measurement.Category.BLOODSUGAR, false)) {
             isValid = false;
         }
-        if (!Validator.validateEditTextEvent(getContext(), targetInput.getEditText(), Measurement.Category.BLOODSUGAR, false)) {
+        if (!Validator.validateEditTextEvent(getContext(), targetInput.getInputView(), Measurement.Category.BLOODSUGAR, false)) {
             isValid = false;
         }
-        if (!Validator.validateEditTextEvent(getContext(), correctionInput.getEditText(), Measurement.Category.BLOODSUGAR, false)) {
+        if (!Validator.validateEditTextEvent(getContext(), correctionInput.getInputView(), Measurement.Category.BLOODSUGAR, false)) {
             isValid = false;
         }
 
         // Meal
         if (foodInputView.getTotalCarbohydrates() > 0) {
             // Factor
-            if (!Validator.validateEditTextFactor(getContext(), factorInput.getEditText(), false)) {
+            if (!Validator.validateEditTextFactor(getContext(), factorInput.getInputView(), false)) {
                 isValid = false;
             } else {
                 factorInput.setError(null);

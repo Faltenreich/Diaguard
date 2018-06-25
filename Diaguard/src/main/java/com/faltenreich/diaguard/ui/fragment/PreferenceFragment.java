@@ -17,7 +17,6 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.preference.MealFactorUnitChangedEvent;
 import com.faltenreich.diaguard.event.preference.UnitChangedEvent;
-import com.faltenreich.diaguard.ui.activity.PreferenceActivity;
 import com.faltenreich.diaguard.ui.view.preferences.BloodSugarPreference;
 import com.faltenreich.diaguard.ui.view.preferences.CategoryPreference;
 import com.faltenreich.diaguard.util.Helper;
@@ -80,40 +79,42 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     }
 
     private void setSummary(Preference preference) {
-        if (preference instanceof ListPreference) {
-            ListPreference listPreference = (ListPreference) preference;
-            preference.setSummary(listPreference.getEntry());
+        if (isAdded()) {
+            if (preference instanceof ListPreference) {
+                ListPreference listPreference = (ListPreference) preference;
+                preference.setSummary(listPreference.getEntry());
 
-        } else if (preference instanceof CategoryPreference) {
-            int activeCategoriesCount = PreferenceHelper.getInstance().getActiveCategories().length;
-            int categoriesTotalCount = Measurement.Category.values().length;
-            preference.setSummary(String.format("%d/%d %s",
-                    activeCategoriesCount,
-                    categoriesTotalCount,
-                    getString(R.string.active)));
+            } else if (preference instanceof CategoryPreference) {
+                int activeCategoriesCount = PreferenceHelper.getInstance().getActiveCategories().length;
+                int categoriesTotalCount = Measurement.Category.values().length;
+                preference.setSummary(String.format("%d/%d %s",
+                        activeCategoriesCount,
+                        categoriesTotalCount,
+                        getString(R.string.active)));
 
-        } else if (preference instanceof BloodSugarPreference) {
-            String value = PreferenceHelper.getInstance().getValueForKey(preference.getKey());
-            float number = NumberUtils.parseNumber(value);
-            if (number > 0) {
-                if (getActivity() != null) {
-                    int descriptionResId = getResources().getIdentifier(preference.getKey() + "_desc", "string", getActivity().getPackageName());
-                    String description = descriptionResId > 0 ? getString(descriptionResId) + " " : "";
-                    number = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, number);
-                    value = Helper.parseFloat(number);
-                    preference.setSummary(description + value + " " + PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BLOODSUGAR));
+            } else if (preference instanceof BloodSugarPreference) {
+                String value = PreferenceHelper.getInstance().getValueForKey(preference.getKey());
+                float number = NumberUtils.parseNumber(value);
+                if (number > 0) {
+                    if (getActivity() != null) {
+                        int descriptionResId = getResources().getIdentifier(preference.getKey() + "_desc", "string", getActivity().getPackageName());
+                        String description = descriptionResId > 0 ? getString(descriptionResId) + " " : "";
+                        number = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, number);
+                        value = Helper.parseFloat(number);
+                        preference.setSummary(description + value + " " + PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.BLOODSUGAR));
+                    }
+                } else {
+                    preference.setSummary(null);
                 }
-            } else {
-                preference.setSummary(null);
-            }
 
-        } else if (preference.getKey() != null && preference.getKey().equals("version")) {
-            preference.setSummary(SystemUtils.getVersionName(getActivity()));
+            } else if (preference.getKey() != null && preference.getKey().equals("version")) {
+                preference.setSummary(SystemUtils.getVersionName(getActivity()));
+            }
         }
     }
 
     private void checkIntents() {
-        if (getActivity() instanceof PreferenceActivity && getActivity().getIntent() != null && getActivity().getIntent().getExtras() != null) {
+        if (getActivity() != null && getActivity().getIntent() != null && getActivity().getIntent().getExtras() != null) {
             Bundle extras = getActivity().getIntent().getExtras();
             if (extras.getString(EXTRA_OPENING_PREFERENCE) != null) {
                 preopenPreference(extras.getString(EXTRA_OPENING_PREFERENCE));

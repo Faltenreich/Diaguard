@@ -30,7 +30,7 @@ import org.joda.time.DateTimeConstants;
 public class DayChart extends CombinedChart implements OnChartValueSelectedListener {
 
     private static final float TAP_THRESHOLD_IN_DP = 24;
-    private static final float Y_MAX_VALUE = 275;
+    private static final float Y_MAX_VALUE_DEFAULT = 200;
     private static final float Y_MAX_VALUE_OFFSET = 20;
 
     private DateTime day;
@@ -87,7 +87,7 @@ public class DayChart extends CombinedChart implements OnChartValueSelectedListe
                     setData(data);
 
                     // Identify max value manually because data.getYMax does not work when combining scatter with line chart
-                    float yAxisMaximum = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, Y_MAX_VALUE);
+                    float yAxisMaximum = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, Y_MAX_VALUE_DEFAULT);
                     for (int datasetIndex = 0; datasetIndex < data.getScatterData().getDataSetCount(); datasetIndex++) {
                         IScatterDataSet dataSet = data.getScatterData().getDataSetByIndex(datasetIndex);
                         for (int entryIndex = 0; entryIndex < dataSet.getEntryCount(); entryIndex++) {

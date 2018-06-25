@@ -12,7 +12,9 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.Helper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,8 +39,11 @@ public class CategoryCheckBoxList extends LinearLayout {
     private void init() {
         if (!isInEditMode()) {
             this.categories = new LinkedHashMap<>();
-            for (Measurement.Category category : Measurement.Category.values()) {
-                addCategory(category, PreferenceHelper.getInstance().isCategoryActive(category));
+            Measurement.Category[] activeCategories = PreferenceHelper.getInstance().getActiveCategories();
+            List<Measurement.Category> selectedCategories = Arrays.asList(PreferenceHelper.getInstance().getExportCategories());
+            for (Measurement.Category category : activeCategories) {
+                boolean isSelected = selectedCategories.contains(category);
+                addCategory(category, isSelected);
             }
         }
     }
@@ -59,10 +64,6 @@ public class CategoryCheckBoxList extends LinearLayout {
         });
 
         addView(checkBox);
-    }
-
-    public boolean isSelected(Measurement.Category category) {
-        return categories.get(category);
     }
 
     public Measurement.Category[] getSelectedCategories() {

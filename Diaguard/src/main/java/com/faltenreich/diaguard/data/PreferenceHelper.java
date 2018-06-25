@@ -47,6 +47,8 @@ public class PreferenceHelper {
         final static String INPUT_QUERIES = "inputQueries";
         final static String DID_IMPORT_COMMON_FOOD_FOR_LANGUAGE = "didImportCommonFoodForLanguage";
         final static String CHART_STYLE = "chart_style";
+        final static String EXPORT_NOTES = "export_notes";
+        final static String EXPORT_CATEGORIES = "exportCategories";
     }
 
     public enum ChartStyle {
@@ -201,11 +203,21 @@ public class PreferenceHelper {
     }
 
     public void setExportNotes(boolean exportNotes) {
-        sharedPreferences.edit().putBoolean("export_notes", exportNotes).apply();
+        sharedPreferences.edit().putBoolean(Keys.EXPORT_NOTES, exportNotes).apply();
     }
 
     public boolean exportNotes() {
-        return sharedPreferences.getBoolean("export_notes", true);
+        return sharedPreferences.getBoolean(Keys.EXPORT_NOTES, true);
+    }
+
+    public void setExportCategories(Measurement.Category[] categories) {
+        String preference = Measurement.Category.serialize(categories);
+        sharedPreferences.edit().putString(Keys.EXPORT_CATEGORIES, preference).apply();
+    }
+
+    public Measurement.Category[] getExportCategories() {
+        String preference = sharedPreferences.getString(Keys.EXPORT_CATEGORIES, Measurement.Category.serialize(Measurement.Category.values()));
+        return Measurement.Category.deserialize(preference);
     }
 
     public void addInputQuery(String query) {

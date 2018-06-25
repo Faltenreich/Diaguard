@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.PermissionDeniedEvent;
 import com.faltenreich.diaguard.event.PermissionGrantedEvent;
@@ -70,7 +71,7 @@ public class ExportFragment extends BaseFragment implements FileListener {
     public void onResume() {
         super.onResume();
         Events.register(this);
-        initializeGUI();
+        initializeLayout();
     }
 
     @Override
@@ -84,10 +85,12 @@ public class ExportFragment extends BaseFragment implements FileListener {
         dateStart = dateEnd.withDayOfMonth(1);
     }
 
-    public void initializeGUI() {
+    public void initializeLayout() {
         buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
         buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
+
         progressDialog = new ProgressDialog(getContext());
+
         checkBoxNotes.setPadding(PADDING, PADDING, PADDING, PADDING);
         checkBoxNotes.setChecked(PreferenceHelper.getInstance().exportNotes());
         checkBoxNotes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -134,10 +137,13 @@ public class ExportFragment extends BaseFragment implements FileListener {
         progressDialog.setCancelable(false);
         progressDialog.show();
 
+        Measurement.Category[] selectedCategories = categoryCheckBoxList.getSelectedCategories();
+        PreferenceHelper.getInstance().setExportCategories(selectedCategories);
+
         if (spinnerFormat.getSelectedItemPosition() == 0) {
-            Export.exportPdf(this, dateStart, dateEnd, categoryCheckBoxList.getSelectedCategories());
+            Export.exportPdf(this, dateStart, dateEnd, selectedCategories);
         } else if (spinnerFormat.getSelectedItemPosition() == 1) {
-            Export.exportCsv(this, false, dateStart, dateEnd, categoryCheckBoxList.getSelectedCategories());
+            Export.exportCsv(this, false, dateStart, dateEnd, selectedCategories);
         }
     }
 

@@ -55,7 +55,7 @@ public class CategoryPreference extends DialogPreference {
         if (positiveResult) {
             SparseBooleanArray checkedItems = listView.getCheckedItemPositions();
 
-            if(checkedItems != null && checkedItems.indexOfValue(true) != -1) {
+            if (checkedItems != null && checkedItems.indexOfValue(true) != -1) {
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 for (int item = 0; item < checkedItems.size(); item++)
@@ -63,7 +63,7 @@ public class CategoryPreference extends DialogPreference {
                 editor.apply();
             }
             else {
-                ViewUtils.showToast(getContext(), getContext().getString(R.string.validator_value_none));
+                ViewUtils.showToast(getContext(), R.string.validator_value_none);
             }
         }
     }

@@ -20,10 +20,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 
-/**
- * Created by Faltenreich on 28.10.2016.
- */
-
 public class FoodDetailFragment extends BaseFoodFragment {
 
     @BindView(R.id.food_brand) TextView brand;

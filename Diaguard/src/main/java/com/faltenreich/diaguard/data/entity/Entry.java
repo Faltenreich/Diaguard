@@ -10,9 +10,6 @@ import org.joda.time.DateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Filip on 09.08.2014.
- */
 @DatabaseTable
 public class Entry extends BaseEntity {
 

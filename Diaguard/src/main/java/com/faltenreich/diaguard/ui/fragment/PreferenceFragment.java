@@ -79,7 +79,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     }
 
     private void setSummary(Preference preference) {
-        if (isAdded()) {
+        if (isAdded() && preference != null) {
             if (preference instanceof ListPreference) {
                 ListPreference listPreference = (ListPreference) preference;
                 preference.setSummary(listPreference.getEntry());

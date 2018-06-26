@@ -13,9 +13,6 @@ import com.j256.ormlite.field.DatabaseField;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Filip on 11.05.2015.
- */
 public abstract class Measurement extends BaseEntity {
 
     private static final String TAG = Measurement.class.getSimpleName();

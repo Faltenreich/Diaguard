@@ -14,14 +14,12 @@ import static com.faltenreich.diaguard.data.entity.Food.Column.FAT_SATURATED;
 import static com.faltenreich.diaguard.data.entity.Food.Column.PROTEINS;
 import static com.faltenreich.diaguard.data.entity.Food.Column.SUGAR;
 
-/**
- * Created by Faltenreich on 11.09.2016.
- */
 public class Food extends BaseServerEntity {
 
     private static final String IMAGE_SUFFIX = ".jpg";
     private static final String KEYWORD_FULL_RESOLUTION = "full";
 
+    @SuppressWarnings("WeakerAccess")
     public class Column extends BaseServerEntity.Column {
         public static final String NAME = "name";
         public static final String IMAGE_URL = "imageUrl";

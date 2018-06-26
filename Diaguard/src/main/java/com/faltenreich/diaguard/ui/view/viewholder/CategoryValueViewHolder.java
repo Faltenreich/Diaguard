@@ -13,9 +13,6 @@ import com.faltenreich.diaguard.util.ViewUtils;
 
 import butterknife.BindView;
 
-/**
- * Created by Faltenreich on 17.10.2015.
- */
 public class CategoryValueViewHolder extends BaseViewHolder<ListItemCategoryValue> implements View.OnClickListener {
 
     @BindView(R.id.category_value_container) ViewGroup container;

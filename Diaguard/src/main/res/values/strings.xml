@@ -140,9 +140,6 @@
     <string name="startscreen">Start screen</string>
     <string name="statistics">Statistics</string>
     <string name="store_values">Store</string>
-    <string name="sugar_level_low">Low sugar level</string>
-    <string name="sugar_level_moderate">Moderate sugar level</string>
-    <string name="sugar_level_high">High sugar level</string>
     <string name="systolic">Systolic</string>
     <string name="systolic_acronym" translatable="false">syst.</string>
     <string name="target_area">Target area</string>

@@ -298,9 +298,6 @@
     <string name="salt">Sal</string>
     <string name="sodium">Sodio</string>
     <string name="sugar">Azúcar</string>
-    <string name="sugar_level_high">Nivel alto de azúcar</string>
-    <string name="sugar_level_low">Nivel bajo de azúcar</string>
-    <string name="sugar_level_moderate">Nivel moderado de azúcar</string>
     <string name="try_again">Inténtalo de nuevo</string>
     <string name="carbohydrates">Carbohidratos</string>
     <string name="energy">Calorías</string>

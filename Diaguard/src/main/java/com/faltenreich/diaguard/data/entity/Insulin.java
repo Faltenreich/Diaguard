@@ -7,9 +7,6 @@ import com.faltenreich.diaguard.util.Helper;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-/**
- * Created by Filip on 11.05.2015.
- */
 @DatabaseTable
 public class Insulin extends Measurement {
 

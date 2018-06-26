@@ -15,9 +15,6 @@ import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.ViewUtils;
 
-/**
- * Created by Filip on 04.11.13.
- */
 public class CategoryPreference extends DialogPreference {
 
     public final static String ACTIVE = "_active";

@@ -4,9 +4,6 @@ import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-/**
- * Created by Filip on 09.08.2014.
- */
 @DatabaseTable
 public class BloodSugar extends Measurement {
 

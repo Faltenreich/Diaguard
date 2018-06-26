@@ -4,11 +4,6 @@ import com.j256.ormlite.field.DatabaseField;
 
 import org.joda.time.DateTime;
 
-import java.util.Objects;
-
-/**
- * Created by Filip on 13.08.2014.
- */
 public abstract class BaseEntity {
 
     public class Column {

@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.ui.view.viewholder;
 
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.list.ListItemCategoryImage;
@@ -34,6 +33,6 @@ public class CategoryImageViewHolder extends BaseViewHolder<ListItemCategoryImag
 
     @Override
     public void onClick(View view) {
-        ViewUtils.showToast(getContext(), getListItem().getCategory().toLocalizedString(), Toast.LENGTH_SHORT);
+        ViewUtils.showToast(getContext(), getListItem().getCategory().toLocalizedString());
     }
 }

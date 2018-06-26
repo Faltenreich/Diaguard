@@ -56,15 +56,11 @@ public class ViewUtils {
     }
 
     public static void showToast(Context context, String text) {
-        showToast(context, text, Toast.LENGTH_LONG);
+        Toast.makeText(context, text, Toast.LENGTH_LONG).show();
     }
 
     public static void showToast(Context context, @StringRes int stringResId) {
-        showToast(context, context.getString(stringResId), Toast.LENGTH_SHORT);
-    }
-
-    public static void showToast(Context context, String text, int duration) {
-        Toast.makeText(context, text, duration).show();
+        showToast(context, context.getString(stringResId));
     }
 
     public static int getDefaultTextColor(Context context) {

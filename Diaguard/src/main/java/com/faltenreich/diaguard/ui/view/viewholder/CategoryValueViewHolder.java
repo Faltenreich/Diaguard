@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.ui.view.viewholder;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.list.ListItemCategoryValue;
@@ -57,6 +56,6 @@ public class CategoryValueViewHolder extends BaseViewHolder<ListItemCategoryValu
         // TODO: Use Measurement.toString() instead
         Measurement.Category category = getListItem().getCategory();
         String unitAcronym = PreferenceHelper.getInstance().getUnitName(category);
-        ViewUtils.showToast(getContext(), unitAcronym, Toast.LENGTH_SHORT);
+        ViewUtils.showToast(getContext(), unitAcronym);
     }
 }

@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.ui.view.preferences;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.DialogPreference;
@@ -15,9 +14,6 @@ import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.ViewUtils;
 
-/**
- * Created by Filip on 04.11.13.
- */
 public class CategoryPreference extends DialogPreference {
 
     public final static String ACTIVE = "_active";
@@ -33,12 +29,10 @@ public class CategoryPreference extends DialogPreference {
     protected void onBindDialogView(View view) {
         super.onBindDialogView(view);
 
-        Activity activity = (Activity) getContext();
-        listView = (ListView) view.findViewById(R.id.listview);
-
-        CategoryListAdapter adapter = new CategoryListAdapter(activity,
+        listView = view.findViewById(R.id.listview);
+        CategoryListAdapter adapter = new CategoryListAdapter(getContext(),
                 android.R.layout.simple_list_item_multiple_choice,
-                activity.getResources().getTextArray(R.array.categories));
+                getContext().getResources().getTextArray(R.array.categories));
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         listView.setAdapter(adapter);
 

@@ -5,7 +5,7 @@ android {
     buildToolsVersion '27.0.3'
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 27
         versionCode 29
         versionName "3.0"
@@ -74,6 +74,8 @@ dependencies {
     implementation 'com.mikhaellopez:circularimageview:3.0.2'
     implementation ('com.code-troopers.betterpickers:library:3.1.0') { exclude group: 'com.android.support' }
     implementation 'com.robinhood.ticker:ticker:1.2.1'
+    implementation 'com.github.pchmn:MaterialChipsInput:1.0.8'
+    implementation ('com.github.ozodrukh:CircularReveal:2.0.1@aar') { transitive = true }
 }
 
 configurations {

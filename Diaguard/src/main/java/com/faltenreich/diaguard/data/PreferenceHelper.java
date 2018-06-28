@@ -120,6 +120,14 @@ public class PreferenceHelper {
         sharedPreferences.edit().putBoolean(Keys.DID_IMPORT_COMMON_FOOD_FOR_LANGUAGE + locale.getLanguage(), didImport).apply();
     }
 
+    boolean didImportTags(Locale locale) {
+        return sharedPreferences.getBoolean(Keys.DID_IMPORT_TAGS_FOR_LANGUAGE + locale.getLanguage(), false);
+    }
+
+    void  setDidImportTags(Locale locale, boolean didImport) {
+        sharedPreferences.edit().putBoolean(Keys.DID_IMPORT_TAGS_FOR_LANGUAGE + locale.getLanguage(), didImport).apply();
+    }
+
     public long getAlarmStartInMillis() {
         return sharedPreferences.getLong(Keys.ALARM_START_IN_MILLIS, -1);
     }

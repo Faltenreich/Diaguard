@@ -29,11 +29,7 @@ import org.joda.time.DateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Filip on 04.11.13.
- */
-public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHolder<ListItemDate>>
-        implements EndlessAdapter.OnEndlessListener, StickyHeaderAdapter<LogDayViewHolder> {
+public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHolder<ListItemDate>> implements EndlessAdapter.OnEndlessListener, StickyHeaderAdapter<LogDayViewHolder> {
 
     private enum ViewType {
         MONTH,
@@ -44,7 +40,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
         PENDING
     }
 
-    private OnAdapterChangesListener listener;
+    private LogListListener listener;
 
     private boolean isLoadingPrevious;
     private boolean isLoadingNext;
@@ -52,7 +48,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
     private boolean shouldLoadNext;
     private boolean isInitializing;
 
-    public LogRecyclerAdapter(Context context, OnAdapterChangesListener listener) {
+    public LogRecyclerAdapter(Context context, LogListListener listener) {
         super(context);
         this.listener = listener;
     }
@@ -184,7 +180,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
             case MONTH:
                 return new LogMonthViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_log_month, parent, false));
             case ENTRY:
-                return new LogEntryViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_log_entry, parent, false));
+                return new LogEntryViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_log_entry, parent, false), listener);
             case EMPTY:
                 return new LogEmptyViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_log_empty, parent, false));
             case PENDING:
@@ -371,7 +367,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
         }
     }
 
-    public interface OnAdapterChangesListener {
+    public interface LogListListener extends SearchAdapter.OnSearchItemClickListener {
         void onOrderChanges();
         void onSetupEnd();
     }

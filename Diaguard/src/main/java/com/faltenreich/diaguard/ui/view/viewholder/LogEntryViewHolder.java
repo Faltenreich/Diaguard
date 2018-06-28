@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.adapter.SearchAdapter;
 import com.faltenreich.diaguard.adapter.list.ListItemEntry;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
@@ -19,9 +20,6 @@ import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Tag;
-import com.faltenreich.diaguard.event.Events;
-import com.faltenreich.diaguard.event.ui.TagSelectedEvent;
-import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.ui.view.TintImageView;
 import com.pchmn.materialchips.ChipView;
 
@@ -29,7 +27,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> implements View.OnClickListener {
+public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> {
 
     @BindView(R.id.root_layout) LinearLayout rootLayout;
     @BindView(R.id.cardview) CardView cardView;
@@ -38,13 +36,21 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> implements
     @BindView(R.id.measurements) public ViewGroup measurements;
     @BindView(R.id.entry_tags) ViewGroup tagsView;
 
-    public LogEntryViewHolder(View view) {
+    private SearchAdapter.OnSearchItemClickListener listener;
+
+    public LogEntryViewHolder(View view, SearchAdapter.OnSearchItemClickListener listener) {
         super(view);
+        this.listener = listener;
     }
 
     @Override
     public void bindData() {
-        cardView.setOnClickListener(this);
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onItemClicked(getListItem());
+            }
+        });
 
         Entry entry = getListItem().getEntry();
         List<EntryTag> entryTags = getListItem().getEntryTags();
@@ -69,7 +75,7 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> implements
             chipView.setOnChipClicked(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Events.post(new TagSelectedEvent(tag));
+                    listener.onTagClicked(tag);
                 }
             });
             tagsView.addView(chipView);
@@ -110,11 +116,6 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> implements
                 measurements.addView(viewMeasurement);
             }
         }
-    }
-
-    @Override
-    public void onClick(View view) {
-        EntryActivity.show(getContext(), getListItem().getEntry());
     }
 
     @Override

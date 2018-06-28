@@ -117,9 +117,6 @@
     <string name="startscreen">Startbildschirm</string>
     <string name="statistics">Statistik</string>
     <string name="store_values">Eintragen</string>
-    <string name="sugar_level_low">Geringer Zuckeranteil</string>
-    <string name="sugar_level_moderate">Durchschnittlicher Zuckeranteil</string>
-    <string name="sugar_level_high">Hoher Zuckeranteil</string>
     <string name="systolic">Systolisch</string>
     <string name="target_area">Zielbereich</string>
     <string name="timeline">Tagebuch</string>

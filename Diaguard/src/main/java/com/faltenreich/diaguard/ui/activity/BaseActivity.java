@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.ui.activity;
 import android.Manifest;
 import android.animation.Animator;
 import android.app.SearchManager;
+import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -116,9 +117,15 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private void init() {
         OpenFoodFactsManager.getInstance().start();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setEnterTransition(null);
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            getWindow().getDecorView().setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS);
+        }
+
         initToolbar();
         initSearchBar();
     }

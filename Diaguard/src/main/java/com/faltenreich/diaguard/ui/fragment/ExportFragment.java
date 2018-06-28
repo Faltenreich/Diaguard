@@ -6,11 +6,11 @@ import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -34,7 +34,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.joda.time.DateTime;
 
 import java.io.File;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -63,22 +62,16 @@ public class ExportFragment extends BaseFragment implements FileListener {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        init();
-    }
-
-    @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initLayout();
+        initialize();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         Events.register(this);
-        update();
+        initializeLayout();
     }
 
     @Override
@@ -87,20 +80,23 @@ public class ExportFragment extends BaseFragment implements FileListener {
         super.onDestroy();
     }
 
-    public void init() {
+    public void initialize() {
         dateEnd = DateTime.now();
         dateStart = dateEnd.withDayOfMonth(1);
     }
 
-    public void initLayout() {
-        progressDialog = new ProgressDialog(getContext());
-        checkBoxNotes.setPadding(PADDING, PADDING, PADDING, PADDING);
-    }
-
-    private void update() {
+    public void initializeLayout() {
         buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
         buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
+        progressDialog = new ProgressDialog(getContext());
+        checkBoxNotes.setPadding(PADDING, PADDING, PADDING, PADDING);
         checkBoxNotes.setChecked(PreferenceHelper.getInstance().exportNotes());
+        checkBoxNotes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                PreferenceHelper.getInstance().setExportNotes(isChecked);
+            }
+        });
     }
 
     private boolean validate() {
@@ -109,7 +105,7 @@ public class ExportFragment extends BaseFragment implements FileListener {
         if (dateStart.isAfter(dateEnd)) {
             ViewUtils.showSnackbar(getView(), getString(R.string.validator_value_enddate));
             isValid = false;
-        } else if (categoryCheckBoxList.getSelectedCategories().size() == 0) {
+        } else if (categoryCheckBoxList.getSelectedCategories().length == 0) {
             ViewUtils.showSnackbar(getView(), getString(R.string.validator_value_empty_list));
             isValid = false;
         }
@@ -139,19 +135,13 @@ public class ExportFragment extends BaseFragment implements FileListener {
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        List<Measurement.Category> categories = categoryCheckBoxList.getSelectedCategories();
-        Measurement.Category[] categoryArray = categories.toArray(new Measurement.Category[categories.size()]);
-
-        PreferenceHelper.getInstance().setExportNotes(checkBoxNotes.isChecked());
+        Measurement.Category[] selectedCategories = categoryCheckBoxList.getSelectedCategories();
+        PreferenceHelper.getInstance().setExportCategories(selectedCategories);
 
         if (spinnerFormat.getSelectedItemPosition() == 0) {
-            for (Measurement.Category category : Measurement.Category.values()) {
-                boolean isActive = categories.contains(category);
-                PreferenceHelper.getInstance().setIsCategoryActiveForExport(category, isActive);
-            }
-            Export.exportPdf(this, dateStart, dateEnd, categoryArray);
+            Export.exportPdf(this, dateStart, dateEnd, selectedCategories);
         } else if (spinnerFormat.getSelectedItemPosition() == 1) {
-            Export.exportCsv(this, false, dateStart, dateEnd, categoryArray);
+            Export.exportCsv(this, false, dateStart, dateEnd, selectedCategories);
         }
     }
 

@@ -6,9 +6,6 @@ import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-/**
- * Created by Filip on 11.05.2015.
- */
 @DatabaseTable
 public class Pressure extends Measurement {
 

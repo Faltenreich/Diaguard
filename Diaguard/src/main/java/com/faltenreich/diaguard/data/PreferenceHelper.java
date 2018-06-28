@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.activity.MainActivity;
+import com.faltenreich.diaguard.ui.view.preferences.CategoryPreference;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.SystemUtils;
@@ -46,10 +47,11 @@ public class PreferenceHelper {
         final static String INPUT_QUERIES = "inputQueries";
         final static String DID_IMPORT_COMMON_FOOD_FOR_LANGUAGE = "didImportCommonFoodForLanguage";
         final static String CHART_STYLE = "chart_style";
-        final static String DID_IMPORT_TAGS_FOR_LANGUAGE = "didImportTagsForLanguage";
         final static String CATEGORY_ACTIVE = "_active";
         final static String CATEGORY_ACTIVE_FOR_EXPORT = "_active_for_export";
         final static String EXPORT_NOTES = "export_notes";
+        final static String EXPORT_CATEGORIES = "exportCategories";
+        final static String DID_IMPORT_TAGS_FOR_LANGUAGE = "didImportTagsForLanguage";
     }
 
     public enum ChartStyle {
@@ -116,14 +118,6 @@ public class PreferenceHelper {
 
     void  setDidImportCommonFood(Locale locale, boolean didImport) {
         sharedPreferences.edit().putBoolean(Keys.DID_IMPORT_COMMON_FOOD_FOR_LANGUAGE + locale.getLanguage(), didImport).apply();
-    }
-
-    boolean didImportTags(Locale locale) {
-        return sharedPreferences.getBoolean(Keys.DID_IMPORT_TAGS_FOR_LANGUAGE + locale.getLanguage(), false);
-    }
-
-    void  setDidImportTags(Locale locale, boolean didImport) {
-        sharedPreferences.edit().putBoolean(Keys.DID_IMPORT_TAGS_FOR_LANGUAGE + locale.getLanguage(), didImport).apply();
     }
 
     public long getAlarmStartInMillis() {
@@ -212,11 +206,21 @@ public class PreferenceHelper {
     }
 
     public void setExportNotes(boolean exportNotes) {
-        sharedPreferences.edit().putBoolean(Keys.EXPORT_NOTES, exportNotes).apply();
+        sharedPreferences.edit().putBoolean("export_notes", exportNotes).apply();
     }
 
     public boolean exportNotes() {
         return sharedPreferences.getBoolean(Keys.EXPORT_NOTES, true);
+    }
+
+    public void setExportCategories(Measurement.Category[] categories) {
+        String preference = Measurement.Category.serialize(categories);
+        sharedPreferences.edit().putString(Keys.EXPORT_CATEGORIES, preference).apply();
+    }
+
+    public Measurement.Category[] getExportCategories() {
+        String preference = sharedPreferences.getString(Keys.EXPORT_CATEGORIES, Measurement.Category.serialize(Measurement.Category.values()));
+        return Measurement.Category.deserialize(preference);
     }
 
     public void addInputQuery(String query) {
@@ -301,23 +305,11 @@ public class PreferenceHelper {
     }
 
     public boolean isCategoryActive(Measurement.Category category) {
-        return sharedPreferences.getBoolean(category.name() + Keys.CATEGORY_ACTIVE, true);
-    }
-
-    public void setIsCategoryActive(Measurement.Category category, boolean isActive) {
-        sharedPreferences.edit().putBoolean(category.name() + Keys.CATEGORY_ACTIVE, isActive).apply();
-    }
-
-    public boolean isCategoryActiveForExport(Measurement.Category category) {
-        return sharedPreferences.getBoolean(category.name() + Keys.CATEGORY_ACTIVE_FOR_EXPORT, isCategoryActive(category));
-    }
-
-    public void setIsCategoryActiveForExport(Measurement.Category category, boolean isActive) {
-        sharedPreferences.edit().putBoolean(category.name() + Keys.CATEGORY_ACTIVE_FOR_EXPORT, isActive).apply();
+        return sharedPreferences.getBoolean(category.name() + CategoryPreference.ACTIVE, true);
     }
 
     public Measurement.Category[] getActiveCategories() {
-        List<Measurement.Category> activeCategories = new ArrayList<>();
+        List<Measurement.Category> activeCategories = new ArrayList<Measurement.Category>();
         for(int item = 0; item < Measurement.Category.values().length; item++) {
             if (isCategoryActive(Measurement.Category.values()[item])) {
                 activeCategories.add(Measurement.Category.values()[item]);

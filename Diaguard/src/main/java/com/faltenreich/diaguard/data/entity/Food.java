@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.data.entity;
 
-import android.support.annotation.ColorRes;
 import android.support.annotation.StringRes;
 
 import com.faltenreich.diaguard.DiaguardApplication;
@@ -15,16 +14,12 @@ import static com.faltenreich.diaguard.data.entity.Food.Column.FAT_SATURATED;
 import static com.faltenreich.diaguard.data.entity.Food.Column.PROTEINS;
 import static com.faltenreich.diaguard.data.entity.Food.Column.SUGAR;
 
-/**
- * Created by Faltenreich on 11.09.2016.
- */
 public class Food extends BaseServerEntity {
 
-    private static final float THRESHOLD_100G_SUGAR_LEVEL_HIGH = 10;
-    private static final float THRESHOLD_100G_SUGAR_LEVEL_MODERATE = 5;
     private static final String IMAGE_SUFFIX = ".jpg";
     private static final String KEYWORD_FULL_RESOLUTION = "full";
 
+    @SuppressWarnings("WeakerAccess")
     public class Column extends BaseServerEntity.Column {
         public static final String NAME = "name";
         public static final String IMAGE_URL = "imageUrl";
@@ -86,21 +81,6 @@ public class Food extends BaseServerEntity {
                 case SUGAR: return food.getSugar();
                 default: return null;
             }
-        }
-    }
-
-    public enum NutrientLevel {
-
-        LOW(R.color.green_light, R.string.sugar_level_low),
-        MODERATE(R.color.yellow, R.string.sugar_level_moderate),
-        HIGH(R.color.red, R.string.sugar_level_high);
-
-        public @ColorRes int colorResId;
-        public @StringRes int descriptionResId;
-
-        NutrientLevel(@ColorRes int colorResId, @StringRes int descriptionResId) {
-            this.colorResId = colorResId;
-            this.descriptionResId = descriptionResId;
         }
     }
 
@@ -298,16 +278,6 @@ public class Food extends BaseServerEntity {
             return Helper.parseFloat(valueFormatted);
         } else {
             return "";
-        }
-    }
-
-    public NutrientLevel getSugarLevel() {
-        if (getCarbohydrates() >= THRESHOLD_100G_SUGAR_LEVEL_HIGH) {
-            return NutrientLevel.HIGH;
-        } else if (getCarbohydrates() >= THRESHOLD_100G_SUGAR_LEVEL_MODERATE) {
-            return NutrientLevel.MODERATE;
-        } else {
-            return NutrientLevel.LOW;
         }
     }
 

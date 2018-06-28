@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.ui.fragment;
 
+import android.app.DatePickerDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.SafeLinearLayoutManager;
@@ -20,12 +23,16 @@ import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
+import com.faltenreich.diaguard.util.Helper;
 import com.lapism.searchview.SearchView;
+
+import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class EntrySearchFragment extends BaseFragment implements SearchView.OnQueryTextListener, SearchView.OnMenuClickListener {
 
@@ -33,9 +40,14 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
 
     @BindView(R.id.search_view) SearchView searchView;
     @BindView(R.id.search_list) RecyclerView list;
+    @BindView(R.id.button_datestart) Button buttonDateStart;
+    @BindView(R.id.button_dateend) Button buttonDateEnd;
 
     private SearchAdapter listAdapter;
     private long tagId = -1;
+    private DateTime dateStart;
+    private DateTime dateEnd;
+    private Measurement.Category[] categories;
 
     public EntrySearchFragment() {
         super(R.layout.fragment_entry_search, R.string.search, -1);
@@ -135,6 +147,35 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
         } else {
             finish();
         }
+    }
+
+    @OnClick(R.id.button_datestart)
+    public void showStartDatePicker() {
+        // TODO: Reset via cancel
+        DatePickerFragment.newInstance(dateStart, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int day) {
+                dateStart = DateTime.now().withYear(year).withMonthOfYear(month + 1).withDayOfMonth(day);
+                buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
+            }
+        }).show(getFragmentManager());
+    }
+
+    @OnClick(R.id.button_dateend)
+    public void showEndDatePicker() {
+        // TODO: Reset via cancel
+        DatePickerFragment.newInstance(dateEnd, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int day) {
+                dateEnd = DateTime.now().withYear(year).withMonthOfYear(month + 1).withDayOfMonth(day);
+                buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
+            }
+        }).show(getFragmentManager());
+    }
+
+    @OnClick(R.id.button_categories)
+    public void showCategoryPicker() {
+        // TODO: Show dialog with categories
     }
 
     private static class SetupTask extends AsyncTask<Void, Void, Tag> {

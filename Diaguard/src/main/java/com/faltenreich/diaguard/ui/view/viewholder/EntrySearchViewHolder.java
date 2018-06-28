@@ -6,9 +6,6 @@ import com.faltenreich.diaguard.util.Helper;
 
 import org.joda.time.DateTime;
 
-/**
- * Created by Faltenreich on 17.10.2015.
- */
 public class EntrySearchViewHolder extends LogEntryViewHolder {
 
     public EntrySearchViewHolder(View view) {

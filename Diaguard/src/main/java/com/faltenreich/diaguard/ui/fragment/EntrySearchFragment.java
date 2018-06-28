@@ -19,16 +19,16 @@ import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Tag;
+import com.faltenreich.diaguard.event.ui.TagSelectedEvent;
 import com.lapism.searchview.SearchView;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-
-/**
- * Created by Faltenreich on 06.01.2018
- */
 
 public class EntrySearchFragment extends BaseFragment implements SearchView.OnQueryTextListener, SearchView.OnMenuClickListener {
 
@@ -124,6 +124,13 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
             searchView.close(true);
         } else {
             finish();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(TagSelectedEvent event) {
+        if (isAdded()) {
+            searchView.setQuery(event.context.getName(), true);
         }
     }
 

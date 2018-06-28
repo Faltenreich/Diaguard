@@ -9,9 +9,4 @@
         android:title="@string/today"
         app:showAsAction="ifRoom"/>
 
-    <item android:id="@+id/action_search_open"
-        android:icon="@drawable/ic_search"
-        android:title="@string/search"
-        app:showAsAction="ifRoom|collapseActionView"/>
-
 </menu>

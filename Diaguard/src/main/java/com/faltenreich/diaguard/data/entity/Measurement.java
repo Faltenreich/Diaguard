@@ -1,6 +1,8 @@
 package com.faltenreich.diaguard.data.entity;
 
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.util.Log;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
@@ -8,10 +10,12 @@ import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.util.Helper;
 import com.j256.ormlite.field.DatabaseField;
 
-/**
- * Created by Filip on 11.05.2015.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Measurement extends BaseEntity {
+
+    private static final String TAG = Measurement.class.getSimpleName();
 
     public class Column extends BaseEntity.Column {
         public static final String ENTRY = "entry";
@@ -31,10 +35,11 @@ public abstract class Measurement extends BaseEntity {
         private Class clazz;
         private int stringResId;
         private boolean stackValues;
-        private int maskId;
+        private int stableId;
 
-        Category(Class clazz, int maskId, @StringRes int stringResId, boolean stackValues) {
+        Category(Class clazz, int stableId, @StringRes int stringResId, boolean stackValues) {
             this.clazz = clazz;
+            this.stableId = stableId;
             this.stringResId = stringResId;
             this.stackValues = stackValues;
         }
@@ -51,8 +56,53 @@ public abstract class Measurement extends BaseEntity {
             return stackValues;
         }
 
-        public int getMaskId() {
-            return maskId;
+        public int getStableId() {
+            return stableId;
+        }
+
+        public static Category fromStableId(int stableId) {
+            for (Category category : values()) {
+                if (category.stableId == stableId) {
+                    return category;
+                }
+            }
+            return null;
+        }
+
+        @Nullable
+        public static String serialize(@Nullable Category[] categories) {
+            if (categories != null) {
+                StringBuilder stringBuilder = new StringBuilder();
+                for (Measurement.Category category : categories) {
+                    stringBuilder.append(category.getStableId());
+                    stringBuilder.append(';');
+                }
+                return stringBuilder.toString();
+            } else {
+                return null;
+            }
+        }
+
+        @Nullable
+        public static Category[] deserialize(@Nullable String string) {
+            if (string != null) {
+                String[] ids = string.split(";");
+                List<Category> categories = new ArrayList<>();
+                for (String id : ids) {
+                    try {
+                        int stableId = Integer.parseInt(id);
+                        Category category = Measurement.Category.fromStableId(stableId);
+                        if (category != null) {
+                            categories.add(category);
+                        }
+                    } catch (NumberFormatException exception) {
+                        Log.e(TAG, exception.getMessage());
+                    }
+                }
+                return categories.toArray(new Category[categories.size()]);
+            } else {
+                return null;
+            }
         }
     }
 

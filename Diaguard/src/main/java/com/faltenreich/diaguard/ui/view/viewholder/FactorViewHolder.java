@@ -1,13 +1,13 @@
 package com.faltenreich.diaguard.ui.view.viewholder;
 
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.list.ListItemHourValue;
 import com.faltenreich.diaguard.data.Daytime;
 import com.faltenreich.diaguard.data.TimeInterval;
+import com.faltenreich.diaguard.ui.view.LocalizedNumberEditText;
 import com.faltenreich.diaguard.util.Helper;
 
 import org.joda.time.DateTimeConstants;
@@ -23,7 +23,7 @@ public class FactorViewHolder extends BaseViewHolder<ListItemHourValue> {
     protected TextView time;
 
     @BindView(R.id.list_item_time_value)
-    public EditText value;
+    public LocalizedNumberEditText value;
 
     public FactorViewHolder(View view) {
         super(view);

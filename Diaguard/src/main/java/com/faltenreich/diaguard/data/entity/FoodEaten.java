@@ -4,9 +4,6 @@ import com.j256.ormlite.field.DatabaseField;
 
 import org.joda.time.format.DateTimeFormat;
 
-/**
- * Created by Faltenreich on 11.09.2016.
- */
 public class FoodEaten extends BaseEntity {
 
     public class Column extends BaseEntity.Column {

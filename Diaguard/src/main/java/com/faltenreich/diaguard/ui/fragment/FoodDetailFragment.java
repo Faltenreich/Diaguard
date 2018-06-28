@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,19 +13,12 @@ import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.data.FoodDeletedEvent;
 import com.faltenreich.diaguard.ui.view.FoodLabelView;
-import com.faltenreich.diaguard.ui.view.TintImageView;
 import com.faltenreich.diaguard.util.Helper;
-import com.faltenreich.diaguard.util.ViewUtils;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
-import butterknife.OnClick;
-
-/**
- * Created by Faltenreich on 28.10.2016.
- */
 
 public class FoodDetailFragment extends BaseFoodFragment {
 
@@ -34,7 +26,6 @@ public class FoodDetailFragment extends BaseFoodFragment {
     @BindView(R.id.food_ingredients) TextView ingredients;
     @BindView(R.id.food_value) TextView value;
     @BindView(R.id.food_labels) ViewGroup labels;
-    @BindView(R.id.food_sugar_level) TintImageView sugarLevelIcon;
 
     public FoodDetailFragment() {
         super(R.layout.fragment_food_detail, R.string.info, R.drawable.ic_category_meal, -1);
@@ -71,24 +62,12 @@ public class FoodDetailFragment extends BaseFoodFragment {
                     food.getCarbohydrates());
             value.setText(String.format("%s %s", Helper.parseFloat(mealValue), PreferenceHelper.getInstance().getLabelForMealPer100g(getContext())));
 
-            boolean indicateSugarLevel = food.getSugarLevel() != Food.NutrientLevel.LOW;
-            sugarLevelIcon.setVisibility(indicateSugarLevel ? View.VISIBLE : View.GONE);
-            sugarLevelIcon.setTintColor(ContextCompat.getColor(getContext(), food.getSugarLevel().colorResId));
-
             labels.removeAllViews();
             if (food.getLabels() != null && food.getLabels().length() > 0) {
                 for (String label : food.getLabels().split(",")) {
                     labels.addView(new FoodLabelView(getContext(), label));
                 }
             }
-        }
-    }
-
-    @OnClick(R.id.food_sugar_level)
-    protected void showSugarLevelInfo() {
-        Food.NutrientLevel sugarLevel = getFood() != null ? getFood().getSugarLevel() : null;
-        if (sugarLevel != null) {
-            ViewUtils.showToast(getContext(), sugarLevel.descriptionResId);
         }
     }
 

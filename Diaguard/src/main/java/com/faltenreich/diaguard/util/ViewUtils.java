@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.util;
 
-import android.animation.Animator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -10,7 +9,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,17 +20,8 @@ import com.faltenreich.diaguard.R;
 
 import java.math.BigDecimal;
 
-import io.codetail.animation.ViewAnimationUtils;
-
-/**
- * Created by Filip on 10.12.13.
- */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class ViewUtils {
-
-    private static final int ANIMATION_ROLL_DURATION = 400;
-    private static final int REVEAL_DURATION = 800;
-    private static final int UNREVEAL_DURATION = 600;
 
     public static boolean isLargeScreen(Context context) {
         return context != null && (context.getResources().getConfiguration().screenLayout &
@@ -64,15 +53,11 @@ public class ViewUtils {
     }
 
     public static void showToast(Context context, String text) {
-        showToast(context, text, Toast.LENGTH_LONG);
+        Toast.makeText(context, text, Toast.LENGTH_LONG).show();
     }
 
     public static void showToast(Context context, @StringRes int stringResId) {
-        showToast(context, context.getString(stringResId), Toast.LENGTH_SHORT);
-    }
-
-    public static void showToast(Context context, String text, int duration) {
-        Toast.makeText(context, text, duration).show();
+        showToast(context, context.getString(stringResId));
     }
 
     public static int getDefaultTextColor(Context context) {
@@ -99,25 +84,5 @@ public class ViewUtils {
                 .addNumberPickerDialogHandler(listener);
         numberPicker.setCurrentNumber(initialValue);
         numberPicker.show();
-    }
-
-    public static void reveal(final View view, int positionX, int positionY, final boolean reveal, int duration, Animator.AnimatorListener listener) {
-        int radius = (int) Math.hypot(view.getWidth(), view.getHeight());
-        int startRadius = reveal ? 0 : radius;
-        int endRadius = reveal ? radius : 0;
-
-        Animator animator = ViewAnimationUtils.createCircularReveal(view, positionX, positionY, startRadius, endRadius);
-        animator.setInterpolator(new AccelerateInterpolator());
-        animator.setDuration(duration);
-
-        if (listener != null) {
-            animator.addListener(listener);
-        }
-
-        animator.start();
-    }
-
-    public static void reveal(View view, int positionX, int positionY, boolean reveal, Animator.AnimatorListener listener) {
-        reveal(view, positionX, positionY, reveal, reveal ? REVEAL_DURATION : UNREVEAL_DURATION, listener);
     }
 }

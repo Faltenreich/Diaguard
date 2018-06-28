@@ -15,9 +15,10 @@
     <application
         android:name=".DiaguardApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+        <receiver android:name=".util.AlarmBroadcastReceiver" />
 
         <activity
             android:name=".ui.activity.MainActivity"
@@ -42,16 +43,6 @@
             android:exported="true">
             <meta-data
                 android:name=".ui.activity.EntryActivity"
-                android:value=".ui.activity.MainActivity" />
-        </activity>
-
-        <activity
-            android:name=".ui.activity.EntrySearchActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/search"
-            android:windowSoftInputMode="adjustResize">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity" />
         </activity>
 
@@ -95,12 +86,6 @@
                 android:value=".ui.activity.MainActivity" />
         </activity>
 
-        <service
-            android:name=".networking.openfoodfacts.OpenFoodFactsService"
-            android:exported="false" />
-
-        <receiver android:name=".util.AlarmBroadcastReceiver" />
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -110,6 +95,12 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"/>
         </provider>
+
+        <receiver android:name=".util.AlarmBroadcastReceiver" />
+
+        <service
+            android:name=".networking.openfoodfacts.OpenFoodFactsService"
+            android:exported="false" />
 
         <meta-data android:name="android.max_aspect" android:value="2.1"/>
 

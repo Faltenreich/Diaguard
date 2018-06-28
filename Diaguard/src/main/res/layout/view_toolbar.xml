@@ -1,49 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<io.codetail.widget.RevealFrameLayout
+<android.support.v7.widget.Toolbar
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/toolbar_container"
+    android:id="@+id/toolbar"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="?attr/actionBarSize"
+    android:background="?attr/colorPrimary"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    app:navigationContentDescription="@string/abc_action_bar_up_description"
+    app:contentInsetStartWithNavigation="0dp"
+    tools:title="@string/app_name">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:navigationContentDescription="@string/abc_action_bar_up_description"
-        app:contentInsetStartWithNavigation="0dp"
-        tools:title="@string/app_name">
-
-        <TextView
-            android:id="@+id/toolbar_title"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="@dimen/padding"
-            android:gravity="center_vertical"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_large"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?android:attr/selectableItemBackground"
-            android:visibility="gone"
-            android:lines="1"
-            android:ellipsize="end"/>
-
-    </android.support.v7.widget.Toolbar>
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_search"
+    <TextView
+        android:id="@+id/action"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        android:background="@android:color/white"
-        android:visibility="invisible"
-        app:navigationContentDescription="@string/abc_action_bar_up_description"
-        app:contentInsetStartWithNavigation="0dp"/>
+        android:padding="@dimen/padding"
+        android:gravity="center_vertical"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_large"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:visibility="gone"
+        android:lines="1"
+        android:ellipsize="end"/>
 
-</io.codetail.widget.RevealFrameLayout>
+</android.support.v7.widget.Toolbar>

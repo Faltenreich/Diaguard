@@ -29,9 +29,6 @@ import java.util.List;
 
 import butterknife.BindView;
 
-/**
- * Created by Faltenreich on 17.10.2015.
- */
 public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> implements View.OnClickListener {
 
     @BindView(R.id.root_layout) LinearLayout rootLayout;

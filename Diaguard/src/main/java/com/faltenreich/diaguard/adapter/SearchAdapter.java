@@ -9,10 +9,6 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.list.ListItemEntry;
 import com.faltenreich.diaguard.ui.view.viewholder.EntrySearchViewHolder;
 
-/**
- * Created by Faltenreich on 06.01.2018
- */
-
 public class SearchAdapter extends BaseAdapter<ListItemEntry, EntrySearchViewHolder> {
 
     public SearchAdapter(Context context) {

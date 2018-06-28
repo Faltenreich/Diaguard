@@ -42,5 +42,6 @@
     <dimen name="progress_circle_size">32dp</dimen>
     <dimen name="appbar_height">220dp</dimen>
     <dimen name="scrim_height">74dp</dimen>
+    <dimen name="fab_offset">80dp</dimen>
 
 </resources>

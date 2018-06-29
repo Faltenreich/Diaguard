@@ -198,10 +198,17 @@ public class PreferenceHelper {
     }
 
     public static boolean isValueValid(TextView textView, Measurement.Category category) {
+        return isValueValid(textView, category, false);
+    }
+
+    public static boolean isValueValid(TextView textView, Measurement.Category category, boolean allowNegativeValues) {
         boolean isValid = true;
         textView.setError(null);
         try {
             float value = PreferenceHelper.getInstance().formatCustomToDefaultUnit(category, NumberUtils.parseNumber(textView.getText().toString()));
+            if (allowNegativeValues) {
+                value = Math.abs(value);
+            }
             if (!PreferenceHelper.getInstance().validateEventValue(category, value)) {
                 textView.setError(textView.getContext().getString(R.string.validator_value_unrealistic));
                 isValid = false;

@@ -185,7 +185,6 @@ public class StatisticsFragment extends BaseFragment {
         chartTrend.setTouchEnabled(false);
         chartTrend.getXAxis().setDrawAxisLine(true);
         chartTrend.getAxisLeft().setDrawAxisLine(false);
-        chartTrend.getLegend().setEnabled(true);
         chartTrend.getLegend().setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
         chartTrend.getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
         chartTrend.getXAxis().setValueFormatter(new IAxisValueFormatter() {

@@ -26,7 +26,7 @@ public class LocalizedNumberEditText extends AppCompatEditText implements TextWa
     private static final String TAG = LocalizedNumberEditText.class.getSimpleName();
     private static final Character DEFAULT_SEPARATOR = '.';
     private static final Character LOCALIZED_SEPARATOR = DecimalFormatSymbols.getInstance().getDecimalSeparator();
-    private static final String ACCEPTED_CHARACTERS = String.format("0123456789%s%s", LOCALIZED_SEPARATOR, DEFAULT_SEPARATOR);
+    private static final String ACCEPTED_CHARACTERS = String.format("-0123456789%s%s", LOCALIZED_SEPARATOR, DEFAULT_SEPARATOR);
 
     private final KeyListener keyListener = DigitsKeyListener.getInstance(ACCEPTED_CHARACTERS);
 

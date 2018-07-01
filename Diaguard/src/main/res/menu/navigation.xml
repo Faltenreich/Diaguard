@@ -17,11 +17,6 @@
             android:id="@+id/nav_log"
             android:icon="@drawable/ic_log"
             android:title="@string/log" />
-
-        <item
-            android:id="@+id/nav_search"
-            android:title="@string/search"
-            android:icon="@drawable/ic_search"/>
     </group>
 
     <group

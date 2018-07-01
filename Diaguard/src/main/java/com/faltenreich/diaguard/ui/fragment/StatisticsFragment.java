@@ -257,6 +257,7 @@ public class StatisticsFragment extends BaseFragment {
                         }
 
                         chartTrend.setData(lineData);
+                        chartTrend.getXAxis().setAxisMinimum(0);
                         chartTrend.getXAxis().setAxisMaximum(timeSpan.stepsPerInterval);
                         chartTrend.invalidate();
                     } else {

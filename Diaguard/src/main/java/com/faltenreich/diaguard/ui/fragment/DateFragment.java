@@ -11,7 +11,6 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
-import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,9 +24,6 @@ import com.faltenreich.diaguard.ui.view.MainButtonAction;
 
 import org.joda.time.DateTime;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public abstract class DateFragment extends BaseFragment implements BaseFragment.ToolbarCallback, MainButtonAction {
 
     private DateTime day;

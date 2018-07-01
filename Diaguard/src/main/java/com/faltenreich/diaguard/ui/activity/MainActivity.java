@@ -88,9 +88,21 @@ public class MainActivity extends BaseActivity {
         showChangelog();
     }
 
+    @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         drawerToggle.syncState();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                startActivity(new Intent(MainActivity.this, EntrySearchActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void initialize() {
@@ -207,9 +219,6 @@ public class MainActivity extends BaseActivity {
                 case R.id.nav_food_database:
                     startActivity(new Intent(MainActivity.this, FoodSearchActivity.class));
                     break;
-                case R.id.nav_search:
-                    startActivity(new Intent(MainActivity.this, EntrySearchActivity.class));
-                    return false; // Prevent selection
                 case R.id.nav_statistics:
                     showFragment(new StatisticsFragment(), menuItem, true);
                     break;

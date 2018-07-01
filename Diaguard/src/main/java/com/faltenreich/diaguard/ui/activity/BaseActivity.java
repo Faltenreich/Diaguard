@@ -23,9 +23,6 @@ import com.faltenreich.diaguard.util.SystemUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by Filip on 27.05.2015.
- */
 public abstract class BaseActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar) Toolbar toolbar;

@@ -11,6 +11,7 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.support.design.widget.FloatingActionButton;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -86,7 +87,7 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
     }
 
     @Override
-    public void onMainButtonClick() {
+    public void onMainButtonClick(FloatingActionButton fab) {
         DateTime now = DateTime.now();
         DateTime dateTime = day
                 .withHourOfDay(now.getHourOfDay())

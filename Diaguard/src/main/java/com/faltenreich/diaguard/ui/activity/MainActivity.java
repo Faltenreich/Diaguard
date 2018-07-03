@@ -162,10 +162,10 @@ public class MainActivity extends BaseActivity {
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 Fragment fragment = getVisibleFragment();
                 if (fragment instanceof MainButtonAction) {
-                    ((MainButtonAction) fragment).onMainButtonClick();
+                    ((MainButtonAction) fragment).onMainButtonClick(fab);
                 }
             }
         });

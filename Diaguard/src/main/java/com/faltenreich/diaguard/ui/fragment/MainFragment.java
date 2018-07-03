@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
@@ -250,8 +251,8 @@ public class MainFragment extends BaseFragment implements MainButtonAction {
     }
 
     @Override
-    public void onMainButtonClick() {
-        EntryActivity.show(getContext());
+    public void onMainButtonClick(FloatingActionButton fab) {
+        EntryActivity.show(getContext(), EntryActivity.class, fab);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

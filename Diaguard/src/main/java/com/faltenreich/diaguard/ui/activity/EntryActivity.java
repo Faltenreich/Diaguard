@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
 import android.text.TextUtils;
@@ -52,6 +53,7 @@ import com.faltenreich.diaguard.ui.view.entry.MeasurementListView;
 import com.faltenreich.diaguard.util.AlarmUtils;
 import com.faltenreich.diaguard.util.DateTimeUtils;
 import com.faltenreich.diaguard.util.Helper;
+import com.faltenreich.diaguard.util.Vector2D;
 import com.faltenreich.diaguard.util.ViewUtils;
 import com.pchmn.materialchips.ChipView;
 
@@ -71,24 +73,38 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     public static final String EXTRA_ENTRY_ID = "entryId";
     public static final String EXTRA_DATE = "date";
 
-    public static void show(Context context, Entry entry) {
+    private static Intent getIntent(Context context, @Nullable View source) {
         Intent intent = new Intent(context, EntryActivity.class);
+        if (source != null) {
+            Vector2D position = ViewUtils.getPositionOnScreen(source);
+            intent.putExtra(BaseActivity.ARGUMENT_REVEAL_X, position.x + (source.getWidth() / 2));
+            intent.putExtra(BaseActivity.ARGUMENT_REVEAL_Y, position.y + (source.getHeight() / 2));
+        }
+        return intent;
+    }
+
+    public static void show(Context context,  @Nullable View source) {
+        context.startActivity(getIntent(context, source));
+    }
+
+    public static void show(Context context, @Nullable View source, @Nullable Entry entry) {
+        Intent intent = getIntent(context, source);
         if (entry != null) {
             intent.putExtra(EXTRA_ENTRY_ID, entry.getId());
         }
         context.startActivity(intent);
     }
 
-    public static void show(Context context, Food food) {
-        Intent intent = new Intent(context, EntryActivity.class);
+    public static void show(Context context, @Nullable View source, @Nullable Food food) {
+        Intent intent = getIntent(context, source);
         if (food != null) {
             intent.putExtra(BaseFoodFragment.EXTRA_FOOD_ID, food.getId());
         }
         context.startActivity(intent);
     }
 
-    public static void show(Context context, DateTime dateTime) {
-        Intent intent = new Intent(context, EntryActivity.class);
+    public static void show(Context context, @Nullable View source, @NonNull DateTime dateTime) {
+        Intent intent = getIntent(context, source);
         intent.putExtra(EXTRA_DATE, dateTime);
         context.startActivity(intent);
     }

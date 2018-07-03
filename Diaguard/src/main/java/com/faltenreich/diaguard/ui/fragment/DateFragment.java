@@ -93,7 +93,7 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
                 .withHourOfDay(now.getHourOfDay())
                 .withMinuteOfHour(now.getMinuteOfHour())
                 .withSecondOfMinute(now.getSecondOfMinute());
-        EntryActivity.show(getContext(), dateTime);
+        EntryActivity.show(getContext(), fab, dateTime);
     }
 
     @CallSuper

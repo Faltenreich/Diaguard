@@ -117,7 +117,7 @@ public class DayChart extends CombinedChart implements OnChartValueSelectedListe
     @Override
     public void onValueSelected(com.github.mikephil.charting.data.Entry entry, Highlight highlight) {
         if (entry.getData() != null && entry.getData() instanceof Entry) {
-            EntryActivity.show(getContext(), (Entry) entry.getData());
+            EntryActivity.show(getContext(), null, (Entry) entry.getData());
         }
     }
 

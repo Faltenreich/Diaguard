@@ -223,7 +223,7 @@ public class MainFragment extends BaseFragment implements MainButtonAction {
 
     @OnClick(R.id.layout_latest)
     protected void openEntry(View view) {
-        EntryActivity.show(getContext(), latestEntry);
+        EntryActivity.show(getContext(), view, latestEntry);
     }
 
     @OnClick(R.id.layout_today)
@@ -252,7 +252,9 @@ public class MainFragment extends BaseFragment implements MainButtonAction {
 
     @Override
     public void onMainButtonClick(FloatingActionButton fab) {
-        EntryActivity.show(getContext(), EntryActivity.class, fab);
+        if (getContext() != null) {
+            EntryActivity.show(getContext(), fab);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

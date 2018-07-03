@@ -3,8 +3,7 @@ package com.faltenreich.diaguard.ui.activity;
 import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.content.Context;
-import android.content.Intent;
+import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,10 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
@@ -27,7 +24,6 @@ import com.faltenreich.diaguard.event.PermissionDeniedEvent;
 import com.faltenreich.diaguard.event.PermissionGrantedEvent;
 import com.faltenreich.diaguard.networking.openfoodfacts.OpenFoodFactsManager;
 import com.faltenreich.diaguard.util.SystemUtils;
-import com.faltenreich.diaguard.util.Vector2D;
 import com.faltenreich.diaguard.util.ViewUtils;
 
 import butterknife.BindView;
@@ -35,16 +31,8 @@ import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    public static void show(Context context, Class<? extends BaseActivity> clazz, View from) {
-        Intent intent = new Intent(context, clazz);
-        Vector2D position = ViewUtils.getPositionOnScreen(from);
-        intent.putExtra(BaseActivity.ARGUMENT_REVEAL_X, position.x);
-        intent.putExtra(BaseActivity.ARGUMENT_REVEAL_Y, position.y);
-        context.startActivity(intent);
-    }
-
-    private static final String ARGUMENT_REVEAL_X = "revealX";
-    private static final String ARGUMENT_REVEAL_Y = "revealY";
+    static final String ARGUMENT_REVEAL_X = "revealX";
+    static final String ARGUMENT_REVEAL_Y = "revealY";
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @Nullable @BindView(R.id.action) TextView actionView;
@@ -139,15 +127,12 @@ public abstract class BaseActivity extends AppCompatActivity {
                     ViewTreeObserver viewTreeObserver = rootLayout.getViewTreeObserver();
                     if (viewTreeObserver.isAlive()) {
                         viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
                             @Override
                             public void onGlobalLayout() {
                                 rootLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                                float finalRadius = (float) (Math.max(rootLayout.getWidth(), rootLayout.getHeight()) * 1.1);
-                                Animator animation = ViewAnimationUtils.createCircularReveal(rootLayout, revealX, revealY, 0, finalRadius);
-                                animation.setDuration(400);
-                                animation.setInterpolator(new AccelerateInterpolator());
                                 rootLayout.setVisibility(View.VISIBLE);
-                                animation.start();
+                                ViewUtils.reveal(rootLayout, revealX, revealY, true, null);
                             }
                         });
                     }
@@ -162,17 +147,13 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void unreveal() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && rootLayout != null && revealX >= 0 && revealY >= 0) {
-            float finalRadius = (float) (Math.max(rootLayout.getWidth(), rootLayout.getHeight()) * 1.1);
-            Animator animation = ViewAnimationUtils.createCircularReveal(rootLayout, revealX, revealY, finalRadius, 0);
-            animation.setDuration(400);
-            animation.addListener(new AnimatorListenerAdapter() {
+            ViewUtils.reveal(rootLayout, revealX, revealY, false, new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     rootLayout.setVisibility(View.INVISIBLE);
                     BaseActivity.super.finish();
                 }
             });
-            animation.start();
         } else {
             super.finish();
         }

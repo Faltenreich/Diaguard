@@ -28,13 +28,13 @@ public class LogEmptyViewHolder extends BaseViewHolder<ListItemEmpty> implements
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View view) {
         DateTime now = DateTime.now();
         DateTime dateTime = getListItem().getDateTime()
                 .withHourOfDay(now.hourOfDay().get())
                 .withMinuteOfHour(now.minuteOfHour().get())
                 .withSecondOfMinute(now.secondOfMinute().get())
                 .withMillisOfSecond(now.millisOfSecond().get());
-        EntryActivity.show(getContext(), dateTime);
+        EntryActivity.show(getContext(), view, dateTime);
     }
 }

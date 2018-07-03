@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -79,6 +80,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             Vector2D position = ViewUtils.getPositionOnScreen(source);
             intent.putExtra(BaseActivity.ARGUMENT_REVEAL_X, position.x + (source.getWidth() / 2));
             intent.putExtra(BaseActivity.ARGUMENT_REVEAL_Y, position.y + (source.getHeight() / 2));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         }
         return intent;
     }
@@ -160,6 +162,14 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            overridePendingTransition(0, 0);
         }
     }
 

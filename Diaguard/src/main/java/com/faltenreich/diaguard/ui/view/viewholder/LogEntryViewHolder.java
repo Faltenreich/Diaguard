@@ -20,6 +20,7 @@ import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Tag;
+import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.ui.view.TintImageView;
 import com.pchmn.materialchips.ChipView;
 
@@ -48,7 +49,7 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> {
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onItemClicked(getListItem());
+                EntryActivity.show(getContext(), view, getListItem().getEntry());
             }
         });
 

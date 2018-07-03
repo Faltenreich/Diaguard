@@ -31,7 +31,6 @@ public class SearchAdapter extends BaseAdapter<ListItemEntry, EntrySearchViewHol
     }
 
     public interface OnSearchItemClickListener {
-        void onItemClicked(ListItemEntry listItem);
         void onTagClicked(Tag tag);
     }
 }

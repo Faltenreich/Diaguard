@@ -26,7 +26,6 @@ import com.faltenreich.diaguard.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.event.data.EntryUpdatedEvent;
 import com.faltenreich.diaguard.event.preference.UnitChangedEvent;
-import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.ui.activity.EntrySearchActivity;
 import com.faltenreich.diaguard.util.ViewUtils;
 
@@ -138,13 +137,6 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.LogL
     public void onSetupEnd() {
         progressBar.setVisibility(View.GONE);
         goToDay(getDay());
-    }
-
-    @Override
-    public void onItemClicked(ListItemEntry listItem) {
-        if (isAdded()) {
-            EntryActivity.show(getContext(), listItem.getEntry());
-        }
     }
 
     @Override

@@ -22,7 +22,6 @@ import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Tag;
-import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.util.Helper;
 import com.lapism.searchview.SearchView;
 
@@ -76,12 +75,6 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
     private void initLayout() {
         list.setLayoutManager(new SafeLinearLayoutManager(getActivity()));
         listAdapter = new SearchAdapter(getContext(), new SearchAdapter.OnSearchItemClickListener() {
-            @Override
-            public void onItemClicked(ListItemEntry listItem) {
-                if (isAdded()) {
-                    EntryActivity.show(getContext(), listItem.getEntry());
-                }
-            }
             @Override
             public void onTagClicked(Tag tag) {
                 if (isAdded()) {

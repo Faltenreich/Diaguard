@@ -66,7 +66,7 @@ public class FoodFragment extends BaseFoodFragment {
                 editFood();
                 return true;
             case R.id.action_eat:
-                eatFood();
+                eatFood(item.getActionView());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -128,8 +128,8 @@ public class FoodFragment extends BaseFoodFragment {
         toolbar.setTitle(food != null ? food.getName() : null);
     }
 
-    private void eatFood() {
-        EntryActivity.show(getContext(), getFood());
+    private void eatFood(View view) {
+        EntryActivity.show(getContext(), view, getFood());
     }
 
     private void editFood() {

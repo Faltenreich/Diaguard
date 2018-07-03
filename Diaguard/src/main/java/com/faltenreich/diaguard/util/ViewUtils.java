@@ -114,4 +114,10 @@ public class ViewUtils {
     public static void reveal(View view, int positionX, int positionY, boolean reveal, Animator.AnimatorListener listener) {
         reveal(view, positionX, positionY, reveal, reveal ? REVEAL_DURATION : UNREVEAL_DURATION, listener);
     }
+
+    public static Vector2D getPositionOnScreen(View view) {
+        int[] screenLocation = new int[2];
+        view.getLocationOnScreen(screenLocation);
+        return new Vector2D(screenLocation[0], screenLocation[1]);
+    }
 }

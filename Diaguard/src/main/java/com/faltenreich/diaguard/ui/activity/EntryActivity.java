@@ -66,18 +66,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-/**
- * Created by Filip on 19.10.13.
- */
 public class EntryActivity extends BaseActivity implements MeasurementFloatingActionMenu.OnFabSelectedListener, MeasurementListView.OnCategoryEventListener {
 
     public static final String EXTRA_ENTRY_ID = "entryId";
     public static final String EXTRA_DATE = "date";
-
-    public static void show(Context context) {
-        Intent intent = new Intent(context, EntryActivity.class);
-        context.startActivity(intent);
-    }
 
     public static void show(Context context, Entry entry) {
         Intent intent = new Intent(context, EntryActivity.class);

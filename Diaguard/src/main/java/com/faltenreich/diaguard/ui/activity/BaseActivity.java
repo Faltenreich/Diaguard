@@ -7,6 +7,7 @@ import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,7 +23,6 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.PermissionDeniedEvent;
 import com.faltenreich.diaguard.event.PermissionGrantedEvent;
-import com.faltenreich.diaguard.networking.openfoodfacts.OpenFoodFactsManager;
 import com.faltenreich.diaguard.util.SystemUtils;
 import com.faltenreich.diaguard.util.ViewUtils;
 
@@ -61,12 +61,17 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             reveal();
+        } else {
+            onViewShown();
         }
     }
 
-    @Override
-    public void finish() {
-        unreveal();
+    /**
+     * Called after the activity is created and its view revealed
+     */
+    @CallSuper
+    protected void onViewShown() {
+
     }
 
     @Override
@@ -78,10 +83,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    public @Nullable TextView getActionView() {
-        return actionView;
     }
 
     @Override
@@ -97,9 +98,16 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    private void init() {
-        OpenFoodFactsManager.getInstance().start();
+    @Override
+    public void finish() {
+        unreveal();
+    }
 
+    public @Nullable TextView getActionView() {
+        return actionView;
+    }
+
+    private void init() {
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
@@ -132,16 +140,26 @@ public abstract class BaseActivity extends AppCompatActivity {
                             public void onGlobalLayout() {
                                 rootLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                                 rootLayout.setVisibility(View.VISIBLE);
-                                ViewUtils.reveal(rootLayout, revealX, revealY, true, null);
+                                ViewUtils.reveal(rootLayout, revealX, revealY, true, new AnimatorListenerAdapter() {
+                                    @Override
+                                    public void onAnimationEnd(Animator animation) {
+                                        super.onAnimationEnd(animation);
+                                        onViewShown();
+                                    }
+                                });
                             }
                         });
                     }
                 } else {
                     rootLayout.setVisibility(View.VISIBLE);
+                    onViewShown();
                 }
             } else {
                 rootLayout.setVisibility(View.VISIBLE);
+                onViewShown();
             }
+        } else {
+            onViewShown();
         }
     }
 

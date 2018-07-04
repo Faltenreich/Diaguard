@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +28,7 @@ import com.faltenreich.diaguard.util.ViewUtils;
 import com.faltenreich.diaguard.util.thread.BaseAsyncTask;
 import com.faltenreich.diaguard.util.thread.DashboardTask;
 import com.faltenreich.diaguard.util.thread.MeasurementAverageTask;
+import com.github.clans.fab.FloatingActionButton;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.data.LineData;

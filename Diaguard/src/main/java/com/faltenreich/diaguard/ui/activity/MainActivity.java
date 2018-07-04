@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -31,6 +30,7 @@ import com.faltenreich.diaguard.ui.fragment.MainFragment;
 import com.faltenreich.diaguard.ui.fragment.StatisticsFragment;
 import com.faltenreich.diaguard.ui.view.MainButtonAction;
 import com.faltenreich.diaguard.util.SystemUtils;
+import com.github.clans.fab.FloatingActionButton;
 
 import butterknife.BindView;
 

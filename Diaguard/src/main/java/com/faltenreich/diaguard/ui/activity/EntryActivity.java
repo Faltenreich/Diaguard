@@ -141,6 +141,11 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
+    }
+
+    @Override
+    protected void onViewShown() {
+        super.onViewShown();
         initLayout();
     }
 

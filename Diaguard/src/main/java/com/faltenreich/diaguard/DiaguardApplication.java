@@ -43,5 +43,6 @@ public class DiaguardApplication extends Application {
         LicenseResolver.registerLicense(new OpenDatabaseLicense());
         PreferenceHelper.getInstance().migrate();
         NotificationUtils.setupNotifications(this);
+        OpenFoodFactsManager.getInstance().start();
     }
 }

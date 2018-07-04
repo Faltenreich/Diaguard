@@ -28,7 +28,7 @@ import java.math.BigDecimal;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class ViewUtils {
 
-    private static final int REVEAL_DURATION = 400;
+    private static final int REVEAL_DURATION = 300;
     private static final int UNREVEAL_DURATION = 300;
 
     public static boolean isLargeScreen(Context context) {

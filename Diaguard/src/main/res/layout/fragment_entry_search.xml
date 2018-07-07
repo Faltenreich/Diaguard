@@ -81,7 +81,7 @@
                 <com.faltenreich.diaguard.ui.view.TintImageView
                     style="@style/LayoutRowImage"
                     android:contentDescription="@null"
-                    android:src="@drawable/ic_add"
+                    android:src="@drawable/fab_add"
                     app:tintColor="@color/gray_darker" />
 
                 <Button

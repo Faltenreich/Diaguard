@@ -10,9 +10,6 @@ import android.text.format.DateFormat;
 
 import org.joda.time.DateTime;
 
-/**
- * Created by Filip on 23.10.13.
- */
 public class TimePickerFragment extends DialogFragment {
 
     private static final String TIME_PICKER_FRAGMENT_DATE = "TIME_PICKER_FRAGMENT_DATE";

@@ -421,14 +421,8 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     private boolean inputIsValid() {
         boolean inputIsValid = true;
 
-        // Validate date
-        if (time.isAfter(DateTime.now())) {
-            ViewUtils.showSnackbar(contentView, getString(R.string.validator_value_infuture));
-            inputIsValid = false;
-        }
-
         // Check whether there are values to submit
-        else if (layoutMeasurements.getMeasurements().size() == 0) {
+        if (layoutMeasurements.getMeasurements().size() == 0) {
             ViewUtils.showSnackbar(contentView, getString(R.string.validator_value_none));
             inputIsValid = false;
         } else {

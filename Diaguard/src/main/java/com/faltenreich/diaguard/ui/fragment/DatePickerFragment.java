@@ -9,9 +9,6 @@ import android.support.v4.app.FragmentManager;
 
 import org.joda.time.DateTime;
 
-/**
- * Created by Filip on 23.10.13.
- */
 public class DatePickerFragment extends DialogFragment {
 
     private static final String DATE_PICKER_FRAGMENT_DATE = "DATE_PICKER_FRAGMENT_DATE";
@@ -34,7 +31,7 @@ public class DatePickerFragment extends DialogFragment {
     @Override
     @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        DateTime date = (DateTime) getArguments().getSerializable(DATE_PICKER_FRAGMENT_DATE);
+        DateTime date = getArguments() != null ? (DateTime) getArguments().getSerializable(DATE_PICKER_FRAGMENT_DATE) : null;
         if (date == null) {
             date = new DateTime();
         }
@@ -44,7 +41,9 @@ public class DatePickerFragment extends DialogFragment {
         int month = date.getMonthOfYear() - 1;
         int day = date.getDayOfMonth();
 
-        return new DatePickerDialog(getActivity(), listener, year, month, day);
+        DatePickerDialog dialog = new DatePickerDialog(getActivity(), listener, year, month, day);
+        dialog.getDatePicker().setMaxDate(DateTime.now().getMillis());
+        return dialog;
     }
 
     public void show(FragmentManager manager) {

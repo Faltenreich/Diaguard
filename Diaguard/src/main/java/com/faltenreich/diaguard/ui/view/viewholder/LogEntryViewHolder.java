@@ -76,7 +76,7 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> {
             chipView.setOnChipClicked(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.onTagClicked(tag);
+                    listener.onTagClicked(tag, view);
                 }
             });
             tagsView.addView(chipView);

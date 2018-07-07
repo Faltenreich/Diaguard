@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -85,7 +84,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         return intent;
     }
 
-    public static void show(Context context,  @Nullable View source) {
+    public static void show(Context context, @Nullable View source) {
         context.startActivity(getIntent(context, source));
     }
 
@@ -146,7 +145,12 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     @Override
     protected void onViewShown() {
         super.onViewShown();
-        initLayout();
+
+        layoutMeasurements.setOnCategoryEventListener(this);
+        fab.init();
+        fab.setOnFabSelectedListener(this);
+        
+        fetchData();
     }
 
     @Override
@@ -170,16 +174,8 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            overridePendingTransition(0, 0);
-        }
-    }
-
     private void init() {
-        time = new DateTime();
+        time = DateTime.now();
         activeCategories = PreferenceHelper.getInstance().getActiveCategories();
 
         Bundle arguments = getIntent().getExtras();
@@ -190,28 +186,27 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
                 time = (DateTime) arguments.getSerializable(EXTRA_DATE);
             }
         }
-    }
-
-    private void initLayout() {
-        layoutMeasurements.setOnCategoryEventListener(this);
-
-        fab.init();
-        fab.setOnFabSelectedListener(this);
 
         if (entryId > 0) {
             setTitle(getString(R.string.entry_edit));
+        } else if (foodId > 0) {
+            updateDateTime();
+        } else {
+            updateDateTime();
+        }
+        updateAlarm();
+    }
+
+    private void fetchData() {
+        if (entryId > 0) {
             new FetchEntryTask(entryId).execute();
         } else if (foodId > 0) {
             new FetchFoodTask(foodId).execute();
             new FetchTagsTask().execute();
-            updateDateTime();
         } else {
             new FetchTagsTask().execute();
             initPinnedCategories();
-            updateDateTime();
         }
-
-        updateAlarm();
     }
 
     private void initPinnedCategories() {

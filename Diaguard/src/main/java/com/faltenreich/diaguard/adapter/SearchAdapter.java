@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.faltenreich.diaguard.R;
@@ -31,6 +32,6 @@ public class SearchAdapter extends BaseAdapter<ListItemEntry, EntrySearchViewHol
     }
 
     public interface OnSearchItemClickListener {
-        void onTagClicked(Tag tag);
+        void onTagClicked(Tag tag, View view);
     }
 }

@@ -76,7 +76,7 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
         list.setLayoutManager(new SafeLinearLayoutManager(getActivity()));
         listAdapter = new SearchAdapter(getContext(), new SearchAdapter.OnSearchItemClickListener() {
             @Override
-            public void onTagClicked(Tag tag) {
+            public void onTagClicked(Tag tag, View view) {
                 if (isAdded()) {
                     searchView.setQuery(tag.getName(), true);
                 }

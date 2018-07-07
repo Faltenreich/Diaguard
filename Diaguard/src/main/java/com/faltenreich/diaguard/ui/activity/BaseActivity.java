@@ -75,6 +75,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && revealX >= 0 && revealY >= 0) {
+            overridePendingTransition(0, 0);
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -126,36 +134,30 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     private void reveal() {
-        if (rootLayout != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                revealX = getIntent().getIntExtra(ARGUMENT_REVEAL_X, -1);
-                revealY = getIntent().getIntExtra(ARGUMENT_REVEAL_Y, -1);
-                if (revealX >= 0 && revealY >= 0) {
-                    rootLayout.setVisibility(View.INVISIBLE);
-                    ViewTreeObserver viewTreeObserver = rootLayout.getViewTreeObserver();
-                    if (viewTreeObserver.isAlive()) {
-                        viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-                            @Override
-                            public void onGlobalLayout() {
-                                rootLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                                rootLayout.setVisibility(View.VISIBLE);
-                                ViewUtils.reveal(rootLayout, revealX, revealY, true, new AnimatorListenerAdapter() {
-                                    @Override
-                                    public void onAnimationEnd(Animator animation) {
-                                        super.onAnimationEnd(animation);
-                                        onViewShown();
-                                    }
-                                });
-                            }
-                        });
-                    }
-                } else {
-                    rootLayout.setVisibility(View.VISIBLE);
-                    onViewShown();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            revealX = getIntent().getIntExtra(ARGUMENT_REVEAL_X, -1);
+            revealY = getIntent().getIntExtra(ARGUMENT_REVEAL_Y, -1);
+            if (revealX >= 0 && revealY >= 0) {
+                rootLayout.setVisibility(View.INVISIBLE); // Fail fast and early
+                ViewTreeObserver viewTreeObserver = rootLayout.getViewTreeObserver();
+                if (viewTreeObserver.isAlive()) {
+                    viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+                        @Override
+                        public void onGlobalLayout() {
+                            rootLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                            rootLayout.setVisibility(View.VISIBLE);
+                            ViewUtils.reveal(rootLayout, revealX, revealY, true, new AnimatorListenerAdapter() {
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    super.onAnimationEnd(animation);
+                                    onViewShown();
+                                }
+                            });
+                        }
+                    });
                 }
             } else {
-                rootLayout.setVisibility(View.VISIBLE);
                 onViewShown();
             }
         } else {

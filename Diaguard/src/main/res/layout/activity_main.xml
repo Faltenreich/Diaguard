@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:layout_margin="@dimen/fab_margin"
-                android:src="@drawable/ic_add"
+                android:src="@drawable/fab_add"
                 app:fab_colorNormal="@color/green"
                 app:fab_colorPressed="@color/green_light"
                 app:fab_colorRipple="@color/green_lighter"/>

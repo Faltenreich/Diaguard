@@ -186,7 +186,7 @@
         android:padding="@dimen/padding_end"
         android:contentDescription="@string/measurement_add"
         app:layout_behavior="com.faltenreich.diaguard.adapter.FloatingActionMenuBehavior"
-        app:menu_icon="@drawable/ic_add"
+        app:menu_icon="@drawable/fab_add"
         app:menu_backgroundColor="@color/semitransparent"
         app:menu_colorNormal="@color/green"
         app:menu_colorPressed="@color/green_light"

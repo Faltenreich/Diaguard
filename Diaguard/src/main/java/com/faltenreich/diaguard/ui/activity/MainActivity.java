@@ -123,6 +123,7 @@ public class MainActivity extends BaseActivity {
         };
         drawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
+        drawer.getMenu().findItem(R.id.nav_calculator).setVisible(BuildConfig.isCalculatorEnabled);
         drawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {

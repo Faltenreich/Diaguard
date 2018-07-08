@@ -12,6 +12,8 @@ import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.util.ChartHelper;
+import com.faltenreich.diaguard.util.Vector2D;
+import com.faltenreich.diaguard.util.ViewUtils;
 import com.faltenreich.diaguard.util.thread.BaseAsyncTask;
 import com.faltenreich.diaguard.util.thread.BloodSugarDayTask;
 import com.github.mikephil.charting.charts.CombinedChart;
@@ -117,7 +119,9 @@ public class DayChart extends CombinedChart implements OnChartValueSelectedListe
     @Override
     public void onValueSelected(com.github.mikephil.charting.data.Entry entry, Highlight highlight) {
         if (entry.getData() != null && entry.getData() instanceof Entry) {
-            EntryActivity.show(getContext(), null, (Entry) entry.getData());
+            Vector2D viewPosition = ViewUtils.getPositionOnScreen(this);
+            Vector2D entryPositionOnScreen = new Vector2D(viewPosition.x + (int) highlight.getXPx(), viewPosition.y + (int) highlight.getYPx());
+            EntryActivity.show(getContext(), entryPositionOnScreen, (Entry) entry.getData());
         }
     }
 

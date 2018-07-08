@@ -123,7 +123,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
     private long entryId;
     private long foodId;
-    private DateTime time;
+    private DateTime time = DateTime.now();
 
     private Entry entry;
     private List<EntryTag> entryTags;
@@ -175,9 +175,6 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     }
 
     private void init() {
-        time = DateTime.now();
-        activeCategories = PreferenceHelper.getInstance().getActiveCategories();
-
         Bundle arguments = getIntent().getExtras();
         if (arguments != null) {
             entryId = arguments.getLong(EXTRA_ENTRY_ID);
@@ -189,15 +186,14 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
         if (entryId > 0) {
             setTitle(getString(R.string.entry_edit));
-        } else if (foodId > 0) {
-            updateDateTime();
-        } else {
-            updateDateTime();
         }
+        updateDateTime();
         updateAlarm();
     }
 
     private void fetchData() {
+        activeCategories = PreferenceHelper.getInstance().getActiveCategories();
+
         if (entryId > 0) {
             new FetchEntryTask(entryId).execute();
         } else if (foodId > 0) {

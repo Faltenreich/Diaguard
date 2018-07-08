@@ -322,7 +322,7 @@ public class CalculatorFragment extends BaseFragment {
     }
 
     private void openEntry(Entry entry) {
-        EntryActivity.show(getContext(), null, entry);
+        EntryActivity.show(getContext(), (View) null, entry);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -12,9 +12,6 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Faltenreich on 24.09.2015.
- */
 public class MeasurementListView extends LinearLayout implements MeasurementView.OnCategoryRemovedListener {
 
     private ArrayList<Measurement.Category> categories;
@@ -38,6 +35,10 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
         this.categories = new ArrayList<>();
     }
 
+    private void addMeasurementView(View view, int position) {
+        addView(view, position);
+    }
+
     public boolean hasCategory(Measurement.Category category) {
         return categories.indexOf(category) != -1;
     }
@@ -47,7 +48,7 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
             categories.add(0, category);
             MeasurementView measurementView = new MeasurementView(getContext(), category);
             measurementView.setOnCategoryRemovedListener(this);
-            addView(measurementView, 0);
+            addMeasurementView(measurementView, 0);
             if (callback != null) {
                 callback.onCategoryAdded(category);
             }
@@ -61,7 +62,7 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
                 categories.add(position, category);
                 MeasurementView measurementView = new MeasurementView(getContext(), category);
                 measurementView.setOnCategoryRemovedListener(this);
-                addView(measurementView, position);
+                addMeasurementView(measurementView, position);
                 if (callback != null) {
                     callback.onCategoryAdded(category);
                 }
@@ -77,7 +78,7 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
             categories.add(0, category);
             MeasurementView<Measurement> measurementView = new MeasurementView<>(getContext(), measurement);
             measurementView.setOnCategoryRemovedListener(this);
-            addView(measurementView, 0);
+            addMeasurementView(measurementView, 0);
             if (callback != null) {
                 callback.onCategoryAdded(category);
             }
@@ -90,7 +91,7 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
             categories.add(0, category);
             MeasurementView<Measurement> measurementView = new MeasurementView<>(getContext(), food);
             measurementView.setOnCategoryRemovedListener(this);
-            addView(measurementView, 0);
+            addMeasurementView(measurementView, 0);
             if (callback != null) {
                 callback.onCategoryAdded(category);
             }

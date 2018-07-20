@@ -22,6 +22,8 @@ import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.PermissionDeniedEvent;
 import com.faltenreich.diaguard.event.PermissionGrantedEvent;
 import com.faltenreich.diaguard.ui.view.CategoryCheckBoxList;
+import com.faltenreich.diaguard.ui.view.MainButton;
+import com.faltenreich.diaguard.ui.view.MainButtonProperties;
 import com.faltenreich.diaguard.util.FileUtils;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.SystemUtils;
@@ -42,7 +44,7 @@ import butterknife.OnClick;
  * Created by Faltenreich on 27.10.2016.
  */
 
-public class ExportFragment extends BaseFragment implements FileListener {
+public class ExportFragment extends BaseFragment implements FileListener, MainButton {
 
     private static final int PADDING = (int) Helper.getDPI(R.dimen.padding);
 
@@ -113,9 +115,7 @@ public class ExportFragment extends BaseFragment implements FileListener {
         return isValid;
     }
 
-    @SuppressWarnings("unused")
-    @OnClick(R.id.export_fab)
-    protected void exportIfInputIsValid() {
+    private void exportIfInputIsValid() {
         if (validate()) {
             exportIfPermissionGranted();
         }
@@ -165,6 +165,16 @@ public class ExportFragment extends BaseFragment implements FileListener {
             ViewUtils.showSnackbar(getView(), getString(R.string.error_no_app));
             Log.e("Open " + mimeType, e.getMessage());
         }
+    }
+
+    @Override
+    public MainButtonProperties getMainButtonProperties() {
+        return MainButtonProperties.confirmButton(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                exportIfInputIsValid();
+            }
+        });
     }
 
     @OnClick(R.id.button_datestart)

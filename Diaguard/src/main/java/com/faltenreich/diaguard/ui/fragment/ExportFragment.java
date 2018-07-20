@@ -1,17 +1,16 @@
 package com.faltenreich.diaguard.ui.fragment;
 
 import android.Manifest;
-import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -176,10 +175,10 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
 
     @OnClick(R.id.button_datestart)
     public void showStartDatePicker() {
-        DatePickerFragment.newInstance(dateStart, null, dateEnd, new DatePickerDialog.OnDateSetListener() {
+        DatePickerFragment.newInstance(dateStart, null, dateEnd, new DatePickerListener() {
             @Override
-            public void onDateSet(DatePicker view, int year, int month, int day) {
-                dateStart = dateStart.withYear(year).withMonthOfYear(month + 1).withDayOfMonth(day);
+            public void onDatePicked(@Nullable DateTime dateTime) {
+                dateStart = dateTime;
                 buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
             }
         }).show(getFragmentManager());
@@ -187,10 +186,10 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
 
     @OnClick(R.id.button_dateend)
     public void showEndDatePicker() {
-        DatePickerFragment.newInstance(dateEnd, dateStart, null, new DatePickerDialog.OnDateSetListener() {
+        DatePickerFragment.newInstance(dateEnd, dateStart, null, new DatePickerListener() {
             @Override
-            public void onDateSet(DatePicker view, int year, int month, int day) {
-                dateEnd = dateEnd.withYear(year).withMonthOfYear(month + 1).withDayOfMonth(day);
+            public void onDatePicked(@Nullable DateTime dateTime) {
+                dateEnd = dateTime;
                 buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
             }
         }).show(getFragmentManager());

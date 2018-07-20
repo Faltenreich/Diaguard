@@ -20,12 +20,12 @@ import android.widget.DatePicker;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.ui.view.DayOfMonthDrawable;
-import com.faltenreich.diaguard.ui.view.MainButtonAction;
-import com.github.clans.fab.FloatingActionButton;
+import com.faltenreich.diaguard.ui.view.MainButton;
+import com.faltenreich.diaguard.ui.view.MainButtonProperties;
 
 import org.joda.time.DateTime;
 
-public abstract class DateFragment extends BaseFragment implements BaseFragment.ToolbarCallback, MainButtonAction {
+public abstract class DateFragment extends BaseFragment implements BaseFragment.ToolbarCallback, MainButton {
 
     private DateTime day;
 
@@ -87,13 +87,18 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
     }
 
     @Override
-    public void onMainButtonClick(FloatingActionButton fab) {
-        DateTime now = DateTime.now();
-        DateTime dateTime = day
-                .withHourOfDay(now.getHourOfDay())
-                .withMinuteOfHour(now.getMinuteOfHour())
-                .withSecondOfMinute(now.getSecondOfMinute());
-        EntryActivity.show(getContext(), fab, dateTime);
+    public MainButtonProperties getMainButtonProperties() {
+        return MainButtonProperties.addButton(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DateTime now = DateTime.now();
+                DateTime dateTime = day
+                        .withHourOfDay(now.getHourOfDay())
+                        .withMinuteOfHour(now.getMinuteOfHour())
+                        .withSecondOfMinute(now.getSecondOfMinute());
+                EntryActivity.show(getContext(), view, dateTime);
+            }
+        });
     }
 
     @CallSuper

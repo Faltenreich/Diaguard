@@ -18,7 +18,8 @@ import com.faltenreich.diaguard.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.event.preference.UnitChangedEvent;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.ui.activity.MainActivity;
-import com.faltenreich.diaguard.ui.view.MainButtonAction;
+import com.faltenreich.diaguard.ui.view.MainButton;
+import com.faltenreich.diaguard.ui.view.MainButtonProperties;
 import com.faltenreich.diaguard.util.AlarmUtils;
 import com.faltenreich.diaguard.util.ChartHelper;
 import com.faltenreich.diaguard.util.DateTimeUtils;
@@ -28,7 +29,6 @@ import com.faltenreich.diaguard.util.ViewUtils;
 import com.faltenreich.diaguard.util.thread.BaseAsyncTask;
 import com.faltenreich.diaguard.util.thread.DashboardTask;
 import com.faltenreich.diaguard.util.thread.MeasurementAverageTask;
-import com.github.clans.fab.FloatingActionButton;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.data.LineData;
@@ -43,7 +43,7 @@ import org.joda.time.Minutes;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class MainFragment extends BaseFragment implements MainButtonAction {
+public class MainFragment extends BaseFragment implements MainButton {
 
     @BindView(R.id.chart) LineChart chart;
     @BindView(R.id.layout_alarm) ViewGroup layoutAlarm;
@@ -251,10 +251,15 @@ public class MainFragment extends BaseFragment implements MainButtonAction {
     }
 
     @Override
-    public void onMainButtonClick(FloatingActionButton fab) {
-        if (getContext() != null) {
-            EntryActivity.show(getContext(), fab);
-        }
+    public MainButtonProperties getMainButtonProperties() {
+        return MainButtonProperties.addButton(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (getContext() != null) {
+                    EntryActivity.show(getContext(), view);
+                }
+            }
+        });
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

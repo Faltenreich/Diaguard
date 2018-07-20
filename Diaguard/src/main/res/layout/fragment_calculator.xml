@@ -1,164 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout
+<android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:ignore="RtlSymmetry">
 
-    <android.support.v4.widget.NestedScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="80dp">
 
-        <LinearLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingBottom="80dp">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_end"
+            style="@style/CardViewNoMargin">
 
-            <android.support.v7.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/padding_end"
-                style="@style/CardViewNoMargin">
+                android:background="@android:color/white"
+                android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/white"
-                    android:orientation="vertical">
+                <LinearLayout style="@style/LayoutRow"
+                    android:paddingEnd="@dimen/margin_between"
+                    android:paddingRight="@dimen/margin_between">
 
-                    <LinearLayout style="@style/LayoutRow"
-                        android:paddingEnd="@dimen/margin_between"
-                        android:paddingRight="@dimen/margin_between">
+                    <com.faltenreich.diaguard.ui.view.TintImageView
+                        style="@style/LayoutRowImage"
+                        android:layout_margin="0dp"
+                        android:src="@drawable/ic_category_bloodsugar"
+                        app:tintColor="@color/gray_darker" />
 
-                        <com.faltenreich.diaguard.ui.view.TintImageView
-                            style="@style/LayoutRowImage"
-                            android:layout_margin="0dp"
-                            android:src="@drawable/ic_category_bloodsugar"
-                            app:tintColor="@color/gray_darker" />
-
-                        <com.faltenreich.diaguard.ui.view.StickyHintInput
-                            android:id="@+id/calculator_bloodsugar"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/bloodsugar"
-                            android:inputType="numberDecimal">
-                            <requestFocus />
-                        </com.faltenreich.diaguard.ui.view.StickyHintInput>
-
-                    </LinearLayout>
-
-                    <View style="@style/LayoutRowSeparator" />
-
-                    <LinearLayout style="@style/LayoutRow"
-                        android:paddingEnd="@dimen/margin_between"
-                        android:paddingRight="@dimen/margin_between">
-
-                        <com.faltenreich.diaguard.ui.view.TintImageView
-                            style="@style/LayoutRowImage"
-                            android:layout_margin="0dp"
-                            android:src="@drawable/ic_action_done"
-                            app:tintColor="@color/gray_darker" />
-
-                        <com.faltenreich.diaguard.ui.view.StickyHintInput
-                            android:id="@+id/calculator_target"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/pref_therapy_targets_target"
-                            android:inputType="numberDecimal" />
-
-                    </LinearLayout>
-
-                    <View style="@style/LayoutRowSeparator" />
-
-                    <LinearLayout style="@style/LayoutRow"
-                        android:paddingEnd="@dimen/margin_between"
-                        android:paddingRight="@dimen/margin_between">
-
-                        <com.faltenreich.diaguard.ui.view.TintImageView
-                            style="@style/LayoutRowImage"
-                            android:layout_margin="0dp"
-                            android:src="@drawable/ic_done_all"
-                            app:tintColor="@color/gray_darker" />
-
-                        <com.faltenreich.diaguard.ui.view.StickyHintInput
-                            android:id="@+id/calculator_correction"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/correction_value"
-                            android:inputType="numberDecimal" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
-            <TextView
-                style="@style/Padding"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/meal_optional"
-                android:textColor="@color/gray_darker" />
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/padding_end"
-                style="@style/CardViewNoMargin">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/white"
-                    android:orientation="vertical">
-
-                    <LinearLayout style="@style/LayoutRow"
-                        android:paddingEnd="0dp"
-                        android:paddingRight="0dp">
-
-                        <com.faltenreich.diaguard.ui.view.TintImageView
-                            style="@style/LayoutRowImage"
-                            android:layout_margin="0dp"
-                            android:src="@drawable/ic_factor"
-                            app:tintColor="@color/gray_darker" />
-
-                        <com.faltenreich.diaguard.ui.view.StickyHintInput
-                            android:id="@+id/calculator_factor"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="0dp"
-                            android:hint="@string/unit_factor_carbohydrates_unit"
-                            android:inputType="numberDecimal" />
-
-                    </LinearLayout>
-
-                    <View style="@style/LayoutRowSeparator" />
-
-                    <com.faltenreich.diaguard.ui.view.FoodInputView
-                        android:id="@+id/calculator_food_list_view"
+                    <com.faltenreich.diaguard.ui.view.StickyHintInput
+                        android:id="@+id/calculator_bloodsugar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:showIcon="true" />
+                        android:hint="@string/bloodsugar"
+                        android:inputType="numberDecimal">
+                        <requestFocus />
+                    </com.faltenreich.diaguard.ui.view.StickyHintInput>
 
                 </LinearLayout>
 
-            </android.support.v7.widget.CardView>
+                <View style="@style/LayoutRowSeparator" />
 
-        </LinearLayout>
+                <LinearLayout style="@style/LayoutRow"
+                    android:paddingEnd="@dimen/margin_between"
+                    android:paddingRight="@dimen/margin_between">
 
-    </android.support.v4.widget.NestedScrollView>
+                    <com.faltenreich.diaguard.ui.view.TintImageView
+                        style="@style/LayoutRowImage"
+                        android:layout_margin="0dp"
+                        android:src="@drawable/ic_action_done"
+                        app:tintColor="@color/gray_darker" />
 
-    <com.github.clans.fab.FloatingActionButton
-        android:id="@+id/calculator_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_action_done"
-        app:fab_colorNormal="@color/green"
-        app:fab_colorPressed="@color/green_light"
-        app:fab_colorRipple="@color/green_lighter"/>
+                    <com.faltenreich.diaguard.ui.view.StickyHintInput
+                        android:id="@+id/calculator_target"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/pref_therapy_targets_target"
+                        android:inputType="numberDecimal" />
 
-</FrameLayout>
+                </LinearLayout>
+
+                <View style="@style/LayoutRowSeparator" />
+
+                <LinearLayout style="@style/LayoutRow"
+                    android:paddingEnd="@dimen/margin_between"
+                    android:paddingRight="@dimen/margin_between">
+
+                    <com.faltenreich.diaguard.ui.view.TintImageView
+                        style="@style/LayoutRowImage"
+                        android:layout_margin="0dp"
+                        android:src="@drawable/ic_done_all"
+                        app:tintColor="@color/gray_darker" />
+
+                    <com.faltenreich.diaguard.ui.view.StickyHintInput
+                        android:id="@+id/calculator_correction"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/correction_value"
+                        android:inputType="numberDecimal" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            style="@style/Padding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/meal_optional"
+            android:textColor="@color/gray_darker" />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_end"
+            style="@style/CardViewNoMargin">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+                <LinearLayout style="@style/LayoutRow"
+                    android:paddingEnd="0dp"
+                    android:paddingRight="0dp">
+
+                    <com.faltenreich.diaguard.ui.view.TintImageView
+                        style="@style/LayoutRowImage"
+                        android:layout_margin="0dp"
+                        android:src="@drawable/ic_factor"
+                        app:tintColor="@color/gray_darker" />
+
+                    <com.faltenreich.diaguard.ui.view.StickyHintInput
+                        android:id="@+id/calculator_factor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="0dp"
+                        android:hint="@string/unit_factor_carbohydrates_unit"
+                        android:inputType="numberDecimal" />
+
+                </LinearLayout>
+
+                <View style="@style/LayoutRowSeparator" />
+
+                <com.faltenreich.diaguard.ui.view.FoodInputView
+                    android:id="@+id/calculator_food_list_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:showIcon="true" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

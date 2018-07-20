@@ -1,138 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@android:color/white">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+        <LinearLayout style="@style/LayoutRow">
 
-            <LinearLayout style="@style/LayoutRow">
-
-                <com.faltenreich.diaguard.ui.view.TintImageView
-                    style="@style/LayoutRowImage"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_time"
-                    app:tintColor="@color/gray_darker" />
-
-                <LinearLayout
-                    style="@style/LayoutRowItem"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/button_datestart"
-                        style="?android:attr/borderlessButtonStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        tools:text="21.06.2018"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_margin="@dimen/padding"
-                        android:text="@string/hyphen" />
-
-                    <Button
-                        android:id="@+id/button_dateend"
-                        style="?android:attr/borderlessButtonStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        tools:text="28.06.2018"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <View style="@style/LayoutRowSeparator" />
-
-            <LinearLayout style="@style/LayoutRow">
-
-                <com.faltenreich.diaguard.ui.view.TintImageView
-                    style="@style/LayoutRowImage"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_file"
-                    app:tintColor="@color/gray_darker" />
-
-                <LinearLayout
-                    style="@style/LayoutRowItem"
-                    android:orientation="horizontal">
-
-                    <Spinner
-                        android:id="@+id/spinner_format"
-                        style="@style/LayoutRowText"
-                        android:entries="@array/formats" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <View style="@style/LayoutRowSeparator" />
-
-            <LinearLayout style="@style/LayoutRow">
-
-                <com.faltenreich.diaguard.ui.view.TintImageView
-                    style="@style/LayoutRowImage"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_note"
-                    app:tintColor="@color/gray_darker" />
-
-                <LinearLayout
-                    style="@style/LayoutRowItem"
-                    android:orientation="horizontal">
-
-                    <CheckBox
-                        android:id="@+id/checkbox_note"
-                        style="@style/LayoutRowText"
-                        android:text="@string/note_append" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <View style="@style/LayoutRowSeparator" />
+            <com.faltenreich.diaguard.ui.view.TintImageView
+                style="@style/LayoutRowImage"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_time"
+                app:tintColor="@color/gray_darker" />
 
             <LinearLayout
-                style="@style/LayoutRow"
-                android:layout_height="wrap_content"
-                android:gravity="top"
-                android:paddingBottom="@dimen/margin_between"
-                android:paddingTop="@dimen/margin_between">
+                style="@style/LayoutRowItem"
+                android:orientation="horizontal">
 
-                <View style="@style/LayoutRowImage" />
+                <Button
+                    android:id="@+id/button_datestart"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    tools:text="21.06.2018"/>
 
-                <com.faltenreich.diaguard.ui.view.CategoryCheckBoxList
-                    android:id="@+id/export_list_categories"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical" />
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="@dimen/padding"
+                    android:text="@string/hyphen" />
+
+                <Button
+                    android:id="@+id/button_dateend"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    tools:text="28.06.2018"/>
 
             </LinearLayout>
 
         </LinearLayout>
 
-    </ScrollView>
+        <View style="@style/LayoutRowSeparator" />
 
-    <com.github.clans.fab.FloatingActionButton
-        android:id="@+id/export_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_action_done"
-        android:contentDescription="@string/export"
-        app:fab_colorNormal="@color/green"
-        app:fab_colorPressed="@color/green_light"
-        app:fab_colorRipple="@color/green_lighter"/>
+        <LinearLayout style="@style/LayoutRow">
 
-</FrameLayout>
+            <com.faltenreich.diaguard.ui.view.TintImageView
+                style="@style/LayoutRowImage"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_file"
+                app:tintColor="@color/gray_darker" />
+
+            <LinearLayout
+                style="@style/LayoutRowItem"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/spinner_format"
+                    style="@style/LayoutRowText"
+                    android:entries="@array/formats" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View style="@style/LayoutRowSeparator" />
+
+        <LinearLayout style="@style/LayoutRow">
+
+            <com.faltenreich.diaguard.ui.view.TintImageView
+                style="@style/LayoutRowImage"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_note"
+                app:tintColor="@color/gray_darker" />
+
+            <LinearLayout
+                style="@style/LayoutRowItem"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/checkbox_note"
+                    style="@style/LayoutRowText"
+                    android:text="@string/note_append" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View style="@style/LayoutRowSeparator" />
+
+        <LinearLayout
+            style="@style/LayoutRow"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:paddingBottom="@dimen/margin_between"
+            android:paddingTop="@dimen/margin_between">
+
+            <View style="@style/LayoutRowImage" />
+
+            <com.faltenreich.diaguard.ui.view.CategoryCheckBoxList
+                android:id="@+id/export_list_categories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

@@ -162,7 +162,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         layoutMeasurements.setOnCategoryEventListener(this);
         fab.init();
         fab.setOnFabSelectedListener(this);
-        
+
         fetchData();
     }
 

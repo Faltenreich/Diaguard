@@ -100,6 +100,10 @@ public abstract class BaseFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Events.register(this);
+
+        if (getActivity() instanceof OnFragmentChangeListener) {
+            ((OnFragmentChangeListener) getActivity()).onFragmentChanged(this);
+        }
     }
 
     @Override

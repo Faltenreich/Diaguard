@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,16 +26,18 @@ import com.faltenreich.diaguard.ui.fragment.CalculatorMissingFragment;
 import com.faltenreich.diaguard.ui.fragment.ChangelogFragment;
 import com.faltenreich.diaguard.ui.fragment.ChartFragment;
 import com.faltenreich.diaguard.ui.fragment.ExportFragment;
+import com.faltenreich.diaguard.ui.fragment.OnFragmentChangeListener;
 import com.faltenreich.diaguard.ui.fragment.LogFragment;
 import com.faltenreich.diaguard.ui.fragment.MainFragment;
 import com.faltenreich.diaguard.ui.fragment.StatisticsFragment;
-import com.faltenreich.diaguard.ui.view.MainButtonAction;
+import com.faltenreich.diaguard.ui.view.MainButton;
+import com.faltenreich.diaguard.ui.view.MainButtonProperties;
 import com.faltenreich.diaguard.util.SystemUtils;
 import com.github.clans.fab.FloatingActionButton;
 
 import butterknife.BindView;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements OnFragmentChangeListener {
 
     public enum MainFragmentType {
         HOME(com.faltenreich.diaguard.ui.fragment.MainFragment.class, 0),
@@ -105,6 +108,11 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onFragmentChanged(Fragment fragment) {
+        invalidateLayout();
+    }
+
     private void initialize() {
         drawerToggle = new ActionBarDrawerToggle(
                 this,
@@ -161,16 +169,6 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Fragment fragment = getVisibleFragment();
-                if (fragment instanceof MainButtonAction) {
-                    ((MainButtonAction) fragment).onMainButtonClick(fab);
-                }
-            }
-        });
-
         // Setup start fragment
         int startScreen = PreferenceHelper.getInstance().getStartScreen();
         MenuItem menuItem = drawer.getMenu().getItem(startScreen);
@@ -188,9 +186,15 @@ public class MainActivity extends BaseActivity {
             setTitle(baseFragment.getTitle());
             MainFragmentType mainFragmentType = MainFragmentType.valueOf(baseFragment.getClass());
             select(mainFragmentType);
-
-            fab.setVisibility(fragment instanceof MainButtonAction ? View.VISIBLE : View.GONE);
+            invalidateMainButton(fragment instanceof MainButton ? (MainButton) fragment : null);
         }
+    }
+
+    private void invalidateMainButton(@Nullable MainButton mainButton) {
+        MainButtonProperties properties = mainButton != null ? mainButton.getMainButtonProperties() : null;
+        fab.setVisibility(properties != null ? View.VISIBLE : View.GONE);
+        fab.setImageResource(properties != null ? properties.getIconDrawableResId() : android.R.color.transparent);
+        fab.setOnClickListener(properties != null ? properties.getOnClickListener() : null);
     }
 
     public void showFragment(@IdRes int itemId) {

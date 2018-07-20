@@ -27,6 +27,8 @@ import com.faltenreich.diaguard.event.preference.MealFactorUnitChangedEvent;
 import com.faltenreich.diaguard.event.preference.UnitChangedEvent;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.ui.view.FoodInputView;
+import com.faltenreich.diaguard.ui.view.MainButton;
+import com.faltenreich.diaguard.ui.view.MainButtonProperties;
 import com.faltenreich.diaguard.ui.view.StickyHintInput;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
@@ -37,12 +39,11 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.joda.time.DateTime;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * Created by Faltenreich on 10.09.2016.
  */
-public class CalculatorFragment extends BaseFragment {
+public class CalculatorFragment extends BaseFragment implements MainButton {
 
     @BindView(R.id.calculator_bloodsugar) StickyHintInput bloodSugarInput;
     @BindView(R.id.calculator_target) StickyHintInput targetInput;
@@ -161,9 +162,7 @@ public class CalculatorFragment extends BaseFragment {
                 NumberUtils.parseNumber(factorInput.getHint());
     }
 
-    @OnClick(R.id.calculator_fab)
-    protected void calculate() {
-
+    private void calculate() {
         if (inputIsValid()) {
 
             float bloodSugar = getBloodSugar();
@@ -323,6 +322,16 @@ public class CalculatorFragment extends BaseFragment {
 
     private void openEntry(Entry entry) {
         EntryActivity.show(getContext(), (View) null, entry);
+    }
+
+    @Override
+    public MainButtonProperties getMainButtonProperties() {
+        return MainButtonProperties.confirmButton(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calculate();
+            }
+        });
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.ui.activity;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,7 +20,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -47,6 +45,7 @@ import com.faltenreich.diaguard.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.event.data.EntryUpdatedEvent;
 import com.faltenreich.diaguard.ui.fragment.BaseFoodFragment;
 import com.faltenreich.diaguard.ui.fragment.DatePickerFragment;
+import com.faltenreich.diaguard.ui.fragment.DatePickerListener;
 import com.faltenreich.diaguard.ui.fragment.TimePickerFragment;
 import com.faltenreich.diaguard.ui.view.entry.MeasurementFloatingActionMenu;
 import com.faltenreich.diaguard.ui.view.entry.MeasurementListView;
@@ -517,10 +516,10 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
     @OnClick(R.id.button_date)
     public void showDatePicker() {
-        DatePickerFragment.newInstance(time, new DatePickerDialog.OnDateSetListener() {
+        DatePickerFragment.newInstance(time, new DatePickerListener() {
             @Override
-            public void onDateSet(DatePicker view, int year, int month, int day) {
-                time = time.withYear(year).withMonthOfYear(month + 1).withDayOfMonth(day);
+            public void onDatePicked(@Nullable DateTime dateTime) {
+                time = dateTime;
                 updateDateTime();
             }
         }).show(getSupportFragmentManager());

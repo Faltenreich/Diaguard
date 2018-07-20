@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.ui.fragment;
 
 
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.drawable.LayerDrawable;
@@ -10,12 +9,12 @@ import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.DatePicker;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
@@ -115,10 +114,10 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
     }
 
     private void showDatePicker() {
-        DatePickerFragment.newInstance(day, new DatePickerDialog.OnDateSetListener() {
+        DatePickerFragment.newInstance(day, new DatePickerListener() {
             @Override
-            public void onDateSet(DatePicker view, int year, int month, int day) {
-                goToDay(DateTime.now().withYear(year).withMonthOfYear(month + 1).withDayOfMonth(day));
+            public void onDatePicked(@Nullable DateTime dateTime) {
+                goToDay(dateTime);
             }
         }).show(getActivity().getSupportFragmentManager());
     }

@@ -145,7 +145,7 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
     @OnClick(R.id.button_datestart)
     public void showStartDatePicker() {
         // TODO: Reset via cancel
-        DatePickerFragment.newInstance(dateStart, new DatePickerDialog.OnDateSetListener() {
+        DatePickerFragment.newInstance(dateStart, null, dateEnd, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 dateStart = DateTime.now().withYear(year).withMonthOfYear(month + 1).withDayOfMonth(day);
@@ -157,7 +157,7 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
     @OnClick(R.id.button_dateend)
     public void showEndDatePicker() {
         // TODO: Reset via cancel
-        DatePickerFragment.newInstance(dateEnd, new DatePickerDialog.OnDateSetListener() {
+        DatePickerFragment.newInstance(dateEnd, dateStart, null, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 dateEnd = DateTime.now().withYear(year).withMonthOfYear(month + 1).withDayOfMonth(day);

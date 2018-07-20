@@ -3,13 +3,16 @@ package com.faltenreich.diaguard.ui.fragment;
 import android.app.DatePickerDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.SafeLinearLayoutManager;
@@ -41,6 +44,8 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
     @BindView(R.id.search_list) RecyclerView list;
     @BindView(R.id.button_datestart) Button buttonDateStart;
     @BindView(R.id.button_dateend) Button buttonDateEnd;
+    @BindView(R.id.dateSeparator) TextView dateSeparatorView;
+    @BindView(R.id.button_categories) Button buttonCategories;
 
     private SearchAdapter listAdapter;
     private long tagId = -1;
@@ -89,6 +94,17 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
         searchView.setArrowOnly(false);
 
         searchView.open(true);
+
+        invalidateLayout();
+    }
+
+    private void invalidateLayout() {
+        @ColorInt int colorActive = ContextCompat.getColor(getContext(), android.R.color.black);
+        @ColorInt int colorInactive = ContextCompat.getColor(getContext(), R.color.gray);
+        buttonDateStart.setTextColor(dateStart != null ? colorActive : colorInactive);
+        buttonDateEnd.setTextColor(dateEnd != null ? colorActive : colorInactive);
+        dateSeparatorView.setTextColor(dateStart != null && dateEnd != null ? colorActive : colorInactive);
+        buttonCategories.setTextColor(categories != null ? colorActive : colorInactive);
     }
 
     private void preFillQuery() {
@@ -150,6 +166,7 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 dateStart = DateTime.now().withYear(year).withMonthOfYear(month + 1).withDayOfMonth(day);
                 buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
+                invalidateLayout();
             }
         }).show(getFragmentManager());
     }
@@ -162,6 +179,7 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 dateEnd = DateTime.now().withYear(year).withMonthOfYear(month + 1).withDayOfMonth(day);
                 buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
+                invalidateLayout();
             }
         }).show(getFragmentManager());
     }
@@ -169,6 +187,7 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
     @OnClick(R.id.button_categories)
     public void showCategoryPicker() {
         // TODO: Show dialog with categories
+        // invalidateLayout();
     }
 
     private static class SetupTask extends AsyncTask<Void, Void, Tag> {

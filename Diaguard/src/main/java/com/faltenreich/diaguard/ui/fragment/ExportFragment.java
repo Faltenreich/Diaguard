@@ -104,10 +104,7 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
     private boolean validate() {
         boolean isValid = true;
 
-        if (dateStart.isAfter(dateEnd)) {
-            ViewUtils.showSnackbar(getView(), getString(R.string.validator_value_enddate));
-            isValid = false;
-        } else if (categoryCheckBoxList.getSelectedCategories().length == 0) {
+        if (categoryCheckBoxList.getSelectedCategories().length == 0) {
             ViewUtils.showSnackbar(getView(), getString(R.string.validator_value_empty_list));
             isValid = false;
         }
@@ -179,7 +176,7 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
 
     @OnClick(R.id.button_datestart)
     public void showStartDatePicker() {
-        DatePickerFragment.newInstance(dateStart, new DatePickerDialog.OnDateSetListener() {
+        DatePickerFragment.newInstance(dateStart, null, dateEnd, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 dateStart = dateStart.withYear(year).withMonthOfYear(month + 1).withDayOfMonth(day);
@@ -190,7 +187,7 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
 
     @OnClick(R.id.button_dateend)
     public void showEndDatePicker() {
-        DatePickerFragment.newInstance(dateEnd, new DatePickerDialog.OnDateSetListener() {
+        DatePickerFragment.newInstance(dateEnd, dateStart, null, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 dateEnd = dateEnd.withYear(year).withMonthOfYear(month + 1).withDayOfMonth(day);

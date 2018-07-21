@@ -25,6 +25,7 @@
     <string name="calculator">Calculateur de bolus</string>
     <string name="cancel">Avorter</string>
     <string name="categories">Catégories</string>
+    <string name="categories_select">Sélectionner des catégories</string>
     <string name="category">Catégorie</string>
     <string name="category_pin">Catégorie de broche</string>
     <string name="category_pin_confirm">%s a été fixé</string>

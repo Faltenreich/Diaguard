@@ -31,6 +31,7 @@
     <string name="calculator">Bolusrechner</string>
     <string name="cancel">Abbrechen</string>
     <string name="categories">Kategorien</string>
+    <string name="categories_select">Kategorien auswählen</string>
     <string name="category">Kategorie</string>
     <string name="category_pin">Kategorie fixieren</string>
     <string name="category_pin_confirm">%s wurde fixiert</string>

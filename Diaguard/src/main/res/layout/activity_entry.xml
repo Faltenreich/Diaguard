@@ -137,9 +137,11 @@
 
                             </LinearLayout>
 
-                            <View style="@style/LayoutRowSeparator" />
+                            <View style="@style/LayoutRowSeparator"
+                                android:id="@+id/entry_alarm_separator"/>
 
-                            <LinearLayout style="@style/LayoutRow">
+                            <LinearLayout style="@style/LayoutRow"
+                                android:id="@+id/entry_alarm_container">
 
                                 <com.faltenreich.diaguard.ui.view.TintImageView
                                     style="@style/LayoutRowImage"

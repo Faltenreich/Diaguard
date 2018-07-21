@@ -75,6 +75,7 @@ public class CategoryPickerFragment extends DialogFragment {
             checkedItems[index] = categoryMap.get(category);
         }
         return new AlertDialog.Builder(getContext())
+                .setTitle(R.string.categories_select)
                 .setMultiChoiceItems(titles, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {

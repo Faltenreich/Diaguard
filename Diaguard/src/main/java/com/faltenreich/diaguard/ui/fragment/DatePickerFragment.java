@@ -20,8 +20,6 @@ public class DatePickerFragment extends DialogFragment {
     private static final String DATE_PICKER_FRAGMENT_DATE_MIN = "DATE_PICKER_FRAGMENT_DATE_MIN";
     private static final String DATE_PICKER_FRAGMENT_DATE_MAX = "DATE_PICKER_FRAGMENT_DATE_MAX";
 
-    private DatePickerListener listener;
-
     public static DatePickerFragment newInstance(@Nullable DateTime selectedDateTime, @Nullable DateTime minDateTime, @Nullable DateTime maxDateTime, DatePickerListener listener) {
         DatePickerFragment fragment = new DatePickerFragment();
         fragment.setOnDateSetListener(listener);
@@ -36,6 +34,8 @@ public class DatePickerFragment extends DialogFragment {
     public static DatePickerFragment newInstance(DateTime selectedDateTime, DatePickerListener listener) {
         return newInstance(selectedDateTime, null, null, listener);
     }
+
+    private DatePickerListener listener;
 
     @Override
     @NonNull
@@ -82,4 +82,9 @@ public class DatePickerFragment extends DialogFragment {
     public void show(FragmentManager manager) {
         super.show(manager, DatePickerFragment.class.getSimpleName());
     }
+
+    public interface DatePickerListener {
+        void onDatePicked(@Nullable DateTime dateTime);
+    }
+
 }

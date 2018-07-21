@@ -175,7 +175,7 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
 
     @OnClick(R.id.button_datestart)
     public void showStartDatePicker() {
-        DatePickerFragment.newInstance(dateStart, null, dateEnd, new DatePickerListener() {
+        DatePickerFragment.newInstance(dateStart, null, dateEnd, new DatePickerFragment.DatePickerListener() {
             @Override
             public void onDatePicked(@Nullable DateTime dateTime) {
                 dateStart = dateTime;
@@ -186,7 +186,7 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
 
     @OnClick(R.id.button_dateend)
     public void showEndDatePicker() {
-        DatePickerFragment.newInstance(dateEnd, dateStart, null, new DatePickerListener() {
+        DatePickerFragment.newInstance(dateEnd, dateStart, null, new DatePickerFragment.DatePickerListener() {
             @Override
             public void onDatePicked(@Nullable DateTime dateTime) {
                 dateEnd = dateTime;

@@ -45,7 +45,6 @@ import com.faltenreich.diaguard.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.event.data.EntryUpdatedEvent;
 import com.faltenreich.diaguard.ui.fragment.BaseFoodFragment;
 import com.faltenreich.diaguard.ui.fragment.DatePickerFragment;
-import com.faltenreich.diaguard.ui.fragment.DatePickerListener;
 import com.faltenreich.diaguard.ui.fragment.TimePickerFragment;
 import com.faltenreich.diaguard.ui.view.entry.MeasurementFloatingActionMenu;
 import com.faltenreich.diaguard.ui.view.entry.MeasurementListView;
@@ -516,7 +515,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
     @OnClick(R.id.button_date)
     public void showDatePicker() {
-        DatePickerFragment.newInstance(time, new DatePickerListener() {
+        DatePickerFragment.newInstance(time, new DatePickerFragment.DatePickerListener() {
             @Override
             public void onDatePicked(@Nullable DateTime dateTime) {
                 time = dateTime;

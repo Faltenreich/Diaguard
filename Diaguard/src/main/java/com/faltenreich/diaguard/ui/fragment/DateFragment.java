@@ -114,7 +114,7 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
     }
 
     private void showDatePicker() {
-        DatePickerFragment.newInstance(day, new DatePickerListener() {
+        DatePickerFragment.newInstance(day, new DatePickerFragment.DatePickerListener() {
             @Override
             public void onDatePicked(@Nullable DateTime dateTime) {
                 goToDay(dateTime);

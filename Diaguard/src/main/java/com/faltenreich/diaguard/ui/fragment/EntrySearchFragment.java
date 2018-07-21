@@ -100,13 +100,26 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
         if (getContext() != null) {
             @ColorInt int colorActive = ContextCompat.getColor(getContext(), android.R.color.black);
             @ColorInt int colorInactive = ContextCompat.getColor(getContext(), R.color.gray);
-            buttonDateStart.setTextColor(dateStart != null ? colorActive : colorInactive);
-            buttonDateEnd.setTextColor(dateEnd != null ? colorActive : colorInactive);
-            dateSeparatorView.setTextColor(dateStart != null && dateEnd != null ? colorActive : colorInactive);
-            buttonCategories.setTextColor(categories != null ? colorActive : colorInactive);
 
+            buttonDateStart.setTextColor(dateStart != null ? colorActive : colorInactive);
             buttonDateStart.setText(dateStart != null ? Helper.getDateFormat().print(dateStart) : getString(R.string.datestart));
+            buttonDateEnd.setTextColor(dateEnd != null ? colorActive : colorInactive);
             buttonDateEnd.setText(dateEnd != null ? Helper.getDateFormat().print(dateEnd) : getString(R.string.dateend));
+            dateSeparatorView.setTextColor(dateStart != null && dateEnd != null ? colorActive : colorInactive);
+
+            String buttonCategoryText;
+            if (categories != null && categories.length > 0) {
+                String[] categoryNames = new String[categories.length];
+                for (int index = 0; index < categories.length; index ++) {
+                    Measurement.Category category = categories[index];
+                    categoryNames[index] = category.toLocalizedString();
+                }
+                buttonCategoryText = TextUtils.join(", ", categoryNames);
+            } else {
+                buttonCategoryText = getString(R.string.categories);
+            }
+            buttonCategories.setTextColor(categories != null ? colorActive : colorInactive);
+            buttonCategories.setText(buttonCategoryText);
         }
     }
 
@@ -163,7 +176,7 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
 
     @OnClick(R.id.button_datestart)
     public void showStartDatePicker() {
-        DatePickerFragment.newInstance(dateStart, null, dateEnd, new DatePickerListener() {
+        DatePickerFragment.newInstance(dateStart, null, dateEnd, new DatePickerFragment.DatePickerListener() {
             @Override
             public void onDatePicked(@Nullable DateTime dateTime) {
                 dateStart = dateTime;
@@ -174,7 +187,7 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
 
     @OnClick(R.id.button_dateend)
     public void showEndDatePicker() {
-        DatePickerFragment.newInstance(dateEnd, dateStart, null, new DatePickerListener() {
+        DatePickerFragment.newInstance(dateEnd, dateStart, null, new DatePickerFragment.DatePickerListener() {
             @Override
             public void onDatePicked(@Nullable DateTime dateTime) {
                 dateEnd = dateTime;
@@ -185,8 +198,13 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
 
     @OnClick(R.id.button_categories)
     public void showCategoryPicker() {
-        // TODO: Show dialog with categories
-        // invalidateLayout();
+        CategoryPickerFragment.newInstance(categories, new CategoryPickerFragment.OnCategorySelectedListener() {
+            @Override
+            public void onCategoriesSelected(@Nullable Measurement.Category[] categories) {
+                EntrySearchFragment.this.categories = categories;
+                invalidateLayout();
+            }
+        }).show(getFragmentManager());
     }
 
     private static class SetupTask extends AsyncTask<Void, Void, Tag> {

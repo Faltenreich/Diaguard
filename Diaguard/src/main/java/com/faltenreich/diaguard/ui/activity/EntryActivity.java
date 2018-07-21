@@ -129,6 +129,8 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     @BindView(R.id.button_date) Button buttonDate;
     @BindView(R.id.button_time) Button buttonTime;
     @BindView(R.id.entry_button_alarm) Button buttonAlarm;
+    @BindView(R.id.entry_alarm_separator) View separatorAlarm;
+    @BindView(R.id.entry_alarm_container) ViewGroup containerAlarm;
     @BindView(R.id.entry_tags_input) AutoCompleteTextView tagsInput;
     @BindView(R.id.entry_tags) ViewGroup tagsView;
 
@@ -151,11 +153,6 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
-    }
-
-    @Override
-    protected void onViewShown() {
-        super.onViewShown();
 
         layoutMeasurements.setOnCategoryEventListener(this);
         fab.init();
@@ -197,6 +194,11 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
         if (entryId > 0) {
             setTitle(getString(R.string.entry_edit));
+            separatorAlarm.setVisibility(View.GONE);
+            containerAlarm.setVisibility(View.GONE);
+        } else {
+            separatorAlarm.setVisibility(View.VISIBLE);
+            containerAlarm.setVisibility(View.VISIBLE);
         }
         updateDateTime();
         updateAlarm();

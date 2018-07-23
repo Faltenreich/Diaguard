@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.data.dao;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.faltenreich.diaguard.adapter.list.ListItemCategoryValue;
@@ -14,7 +16,9 @@ import com.faltenreich.diaguard.data.entity.Pressure;
 import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.util.ArrayUtils;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.Where;
 
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 
@@ -259,20 +263,53 @@ public class EntryDao extends BaseDao<Entry> {
         }
     }
 
-    public List<Entry> getAllForQuery(String query) {
+    @NonNull
+    public List<Entry> search(@Nullable String query, @Nullable DateTime dateStart, @Nullable DateTime dateEnd) {
         try {
-
+            int queryCount = 0;
             QueryBuilder<Entry, Long> entryQueryBuilder = getDao().queryBuilder();
-            entryQueryBuilder
-                    .orderBy(Entry.Column.DATE, true)
-                    .where().like(Entry.Column.NOTE, "%" + query + "%");
+            entryQueryBuilder.orderBy(Entry.Column.DATE, true);
+            QueryBuilder<EntryTag, Long> entryTagQueryBuilder = null;
 
-            QueryBuilder<Tag, Long> tagQueryBuilder = TagDao.getInstance().getQueryBuilder();
-            tagQueryBuilder.where().like(Tag.Column.NAME, "%" + query + "%");
+            boolean filterByQuery = StringUtils.isNotBlank(query);
+            boolean filterByDateStart = dateStart != null;
+            boolean filterByDateEnd = dateEnd != null;
+            boolean filter = filterByQuery || filterByDateStart || filterByDateEnd;
 
-            QueryBuilder<EntryTag, Long> entryTagQueryBuilder = EntryTagDao.getInstance().getQueryBuilder().join(tagQueryBuilder);
+            if (filter) {
+                Where<Entry, Long> where = entryQueryBuilder.where();
+                if (filterByQuery) {
+                    query = "%" + query + "%";
+                    where.like(Entry.Column.NOTE, query);
 
-            return getDao().queryBuilder().join(entryTagQueryBuilder).query();
+                    QueryBuilder<Tag, Long> tagQueryBuilder = TagDao.getInstance().getQueryBuilder();
+                    tagQueryBuilder.where().like(Tag.Column.NAME, query);
+                    entryTagQueryBuilder = EntryTagDao.getInstance().getQueryBuilder().join(tagQueryBuilder);
+
+                    queryCount++;
+                }
+
+                if (filterByDateStart) {
+                    if (queryCount == 0) {
+                        where.ge(Entry.Column.DATE, dateStart);
+                    } else {
+                        where.and().ge(Entry.Column.DATE, dateStart);
+                    }
+                    queryCount++;
+                }
+
+                if (filterByDateEnd) {
+                    if (queryCount == 0) {
+                        where.le(Entry.Column.DATE, dateEnd);
+                    } else {
+                        where.and().le(Entry.Column.DATE, dateEnd);
+                    }
+                }
+            }
+
+            // TODO: Fix join for EntryTags
+            return entryTagQueryBuilder != null ? entryQueryBuilder.query() : entryQueryBuilder.query();
+
         } catch (SQLException exception) {
             Log.e(TAG, exception.getMessage());
             return new ArrayList<>();

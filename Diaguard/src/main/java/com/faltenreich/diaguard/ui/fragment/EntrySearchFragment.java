@@ -26,6 +26,7 @@ import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.util.Helper;
 import com.lapism.searchview.SearchView;
 
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
@@ -136,9 +137,10 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
         }
     }
 
-    private void query(String query) {
-        if (!TextUtils.isEmpty(query)) {
-            new SearchTask(query, new SearchListener() {
+    private void search() {
+        String query = searchView.getQuery().toString();
+        if (StringUtils.isNotBlank(query) || dateStart != null || dateEnd != null || categories != null) {
+            new SearchTask(searchView.getQuery().toString(), dateStart, dateEnd, categories, new SearchListener() {
                 @Override
                 public void onSearchFinished(List<ListItemEntry> listItems) {
                     listAdapter.clear();
@@ -155,13 +157,13 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
     @Override
     public boolean onQueryTextSubmit(String query) {
         searchView.close(true);
-        query(query);
+        search();
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        query(newText);
+        search();
         return false;
     }
 
@@ -181,6 +183,7 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
             public void onDatePicked(@Nullable DateTime dateTime) {
                 dateStart = dateTime;
                 invalidateLayout();
+                search();
             }
         }).show(getFragmentManager());
     }
@@ -192,6 +195,7 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
             public void onDatePicked(@Nullable DateTime dateTime) {
                 dateEnd = dateTime;
                 invalidateLayout();
+                search();
             }
         }).show(getFragmentManager());
     }
@@ -203,6 +207,7 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
             public void onCategoriesSelected(@Nullable Measurement.Category[] categories) {
                 EntrySearchFragment.this.categories = categories;
                 invalidateLayout();
+                search();
             }
         }).show(getFragmentManager());
     }
@@ -232,22 +237,30 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
     private static class SearchTask extends AsyncTask<Void, Void, List<ListItemEntry>> {
 
         private String query;
+        private DateTime dateStart;
+        private DateTime dateEnd;
+        private Measurement.Category[] categories;
         private SearchListener listener;
 
-        private SearchTask(String query, SearchListener listener) {
+        private SearchTask(String query, DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories, SearchListener listener) {
             this.query = query;
+            this.dateStart = dateStart;
+            this.dateEnd = dateEnd;
+            this.categories = categories;
             this.listener = listener;
         }
 
         @Override
         protected List<ListItemEntry> doInBackground(Void... voids) {
             List<ListItemEntry> listItems = new ArrayList<>();
-            List<Entry> entries = EntryDao.getInstance().getAllForQuery(query);
+            List<Entry> entries = EntryDao.getInstance().search(query, dateStart, dateEnd);
             for (Entry entry : entries) {
-                List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
-                entry.setMeasurementCache(measurements);
-                List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(entry);
-                listItems.add(new ListItemEntry(entry, entryTags));
+                List<Measurement> measurements = categories != null ? EntryDao.getInstance().getMeasurements(entry, categories) : EntryDao.getInstance().getMeasurements(entry);
+                if (measurements.size() > 0) {
+                    entry.setMeasurementCache(measurements);
+                    List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(entry);
+                    listItems.add(new ListItemEntry(entry, entryTags));
+                }
             }
             return listItems;
         }

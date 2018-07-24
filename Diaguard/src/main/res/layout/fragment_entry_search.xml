@@ -7,100 +7,23 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/CardViewNoMargin">
+        android:layout_height="wrap_content">
 
-        <LinearLayout
+        <include
+            layout="@layout/view_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"/>
+
+        <com.lapism.searchview.SearchView
+            android:id="@+id/search_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            app:search_hint="@string/search_hint"
+            app:search_shadow="false"/>
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <include
-                    layout="@layout/view_toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="64dp"/>
-
-                <com.lapism.searchview.SearchView
-                    android:id="@+id/search_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:search_hint="@string/search_hint"
-                    app:search_shadow="false"/>
-
-            </FrameLayout>
-
-            <LinearLayout style="@style/LayoutRow">
-
-                <com.faltenreich.diaguard.ui.view.TintImageView
-                    style="@style/LayoutRowImage"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_time"
-                    app:tintColor="@color/gray_darker" />
-
-                <LinearLayout
-                    style="@style/LayoutRowItem"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/button_datestart"
-                        style="?android:attr/borderlessButtonStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@string/datestart"
-                        android:textAllCaps="false"/>
-
-                    <TextView
-                        android:id="@+id/dateSeparator"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_margin="@dimen/padding"
-                        android:text="@string/hyphen" />
-
-                    <Button
-                        android:id="@+id/button_dateend"
-                        style="?android:attr/borderlessButtonStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@string/dateend"
-                        android:textAllCaps="false"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <View style="@style/LayoutRowSeparator" />
-
-            <LinearLayout style="@style/LayoutRow">
-
-                <com.faltenreich.diaguard.ui.view.TintImageView
-                    style="@style/LayoutRowImage"
-                    android:contentDescription="@null"
-                    android:src="@drawable/fab_add"
-                    app:tintColor="@color/gray_darker" />
-
-                <Button
-                    android:id="@+id/button_categories"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textAllCaps="false"
-                    android:maxLines="2"
-                    android:ellipsize="end"
-                    android:gravity="start|center_vertical"
-                    android:text="@string/categories"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </android.support.v7.widget.CardView>
+    </FrameLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/search_list"

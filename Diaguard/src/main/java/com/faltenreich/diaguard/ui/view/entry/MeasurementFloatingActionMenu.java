@@ -63,8 +63,6 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
                 }
             }
         });
-
-        restock();
     }
 
     public void ignore(Measurement.Category category) {

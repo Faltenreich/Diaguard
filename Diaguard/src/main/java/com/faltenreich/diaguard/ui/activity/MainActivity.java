@@ -290,7 +290,6 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
 
     // Show changelog only for updated versions
     private void showChangelog() {
-
         int oldVersionCode = PreferenceHelper.getInstance().getVersionCode();
         int currentVersionCode = SystemUtils.getVersionCode(this);
         boolean isUpdate = oldVersionCode > 0 && oldVersionCode < currentVersionCode;

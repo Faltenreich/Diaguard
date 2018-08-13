@@ -129,7 +129,6 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     @BindView(R.id.button_date) Button buttonDate;
     @BindView(R.id.button_time) Button buttonTime;
     @BindView(R.id.entry_button_alarm) Button buttonAlarm;
-    @BindView(R.id.entry_alarm_separator) View separatorAlarm;
     @BindView(R.id.entry_alarm_container) ViewGroup containerAlarm;
     @BindView(R.id.entry_tags_input) AutoCompleteTextView tagsInput;
     @BindView(R.id.entry_tags) ViewGroup tagsView;
@@ -153,11 +152,9 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
-
         layoutMeasurements.setOnCategoryEventListener(this);
         fab.init();
         fab.setOnFabSelectedListener(this);
-
         fetchData();
     }
 
@@ -194,12 +191,11 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
         if (entryId > 0) {
             setTitle(getString(R.string.entry_edit));
-            separatorAlarm.setVisibility(View.GONE);
             containerAlarm.setVisibility(View.GONE);
         } else {
-            separatorAlarm.setVisibility(View.VISIBLE);
             containerAlarm.setVisibility(View.VISIBLE);
         }
+
         updateDateTime();
         updateAlarm();
     }
@@ -209,9 +205,11 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
         if (entryId > 0) {
             new FetchEntryTask(entryId).execute();
+            fab.restock();
         } else if (foodId > 0) {
             new FetchFoodTask(foodId).execute();
             new FetchTagsTask().execute();
+            fab.restock();
         } else {
             new FetchTagsTask().execute();
             initPinnedCategories();
@@ -460,7 +458,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
         entry.setDate(time);
         entry.setNote(editTextNotes.length() > 0 ? editTextNotes.getText().toString() : null);
-        EntryDao.getInstance().createOrUpdate(entry);
+        entry = EntryDao.getInstance().createOrUpdate(entry);
 
         for (Measurement.Category category : Measurement.Category.values()) {
             if (layoutMeasurements.hasCategory(category)) {

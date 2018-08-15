@@ -156,6 +156,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         fab.init();
         fab.setOnFabSelectedListener(this);
         fetchData();
+        fab.restock();
     }
 
     @Override
@@ -205,11 +206,9 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
         if (entryId > 0) {
             new FetchEntryTask(entryId).execute();
-            fab.restock();
         } else if (foodId > 0) {
             new FetchFoodTask(foodId).execute();
             new FetchTagsTask().execute();
-            fab.restock();
         } else {
             new FetchTagsTask().execute();
             initPinnedCategories();

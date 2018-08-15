@@ -43,11 +43,11 @@
 
                             <LinearLayout style="@style/LayoutRow">
 
-                                <com.faltenreich.diaguard.ui.view.TintImageView
+                                <ImageView
                                     style="@style/LayoutRowImage"
                                     android:contentDescription="@null"
                                     android:src="@drawable/ic_time"
-                                    app:tintColor="@color/gray_darker" />
+                                    android:tint="@color/gray_darker"/>
 
                                 <LinearLayout
                                     style="@style/LayoutRowItem"
@@ -115,11 +115,11 @@
 
                             <LinearLayout style="@style/LayoutRow">
 
-                                <com.faltenreich.diaguard.ui.view.TintImageView
+                                <ImageView
                                     style="@style/LayoutRowImageMultiline"
                                     android:contentDescription="@null"
                                     android:src="@drawable/ic_note"
-                                    app:tintColor="@color/gray_darker"/>
+                                    android:tint="@color/gray_darker"/>
 
                                 <EditText
                                     android:id="@+id/edittext_notes"
@@ -138,11 +138,11 @@
                             <LinearLayout style="@style/LayoutRow"
                                 android:id="@+id/entry_alarm_container">
 
-                                <com.faltenreich.diaguard.ui.view.TintImageView
+                                <ImageView
                                     style="@style/LayoutRowImage"
                                     android:contentDescription="@null"
                                     android:src="@drawable/ic_alarm"
-                                    app:tintColor="@color/gray_darker" />
+                                    android:tint="@color/gray_darker"/>
 
                                 <Button
                                     android:id="@+id/entry_button_alarm"

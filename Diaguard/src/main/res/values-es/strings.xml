@@ -331,5 +331,6 @@
     <string name="calculator_missing">Dónde está la calcular?</string>
     <string name="calculator_missing_desc">La calcular se ha eliminado debido a razones legales relacionadas con productos médicos.</string>
     <string name="calculator_more_info">Más info</string>
+    <string name="no_results_found">No se encontraron resultados</string>
 
 </resources>

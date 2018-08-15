@@ -33,6 +33,7 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
 
     @BindView(R.id.search_view) SearchView searchView;
     @BindView(R.id.search_list) RecyclerView list;
+    @BindView(R.id.search_list_empty) View listEmptyView;
 
     private SearchAdapter listAdapter;
     private long tagId = -1;
@@ -62,6 +63,8 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
     }
 
     private void initLayout() {
+        listEmptyView.setVisibility(View.VISIBLE);
+
         list.setLayoutManager(new SafeLinearLayoutManager(getActivity()));
         listAdapter = new SearchAdapter(getContext(), new SearchAdapter.OnSearchItemClickListener() {
             @Override
@@ -76,8 +79,6 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
         searchView.setOnQueryTextListener(this);
         searchView.setOnMenuClickListener(this);
         searchView.setArrowOnly(false);
-
-        searchView.open(true);
     }
 
     private void preFillQuery() {
@@ -102,11 +103,13 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
                     listAdapter.clear();
                     listAdapter.addItems(listItems);
                     listAdapter.notifyDataSetChanged();
+                    listEmptyView.setVisibility(listItems.size() > 0 ? View.GONE : View.VISIBLE);
                 }
             }).execute();
         } else {
             listAdapter.clear();
             listAdapter.notifyDataSetChanged();
+            listEmptyView.setVisibility(View.VISIBLE);
         }
     }
 

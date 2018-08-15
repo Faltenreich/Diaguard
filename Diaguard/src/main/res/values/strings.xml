@@ -515,5 +515,6 @@
     <string name="calculator_missing">Where is the calculator?</string>
     <string name="calculator_missing_desc">The calculator had to be removed due to legal reasons concerning medical products.</string>
     <string name="calculator_more_info">More info</string>
+    <string name="no_results_found">No results found</string>
 
 </resources>

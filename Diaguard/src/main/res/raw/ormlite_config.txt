@@ -1,5 +1,5 @@
 #
-# generated on 2018/01/02 08:02:06
+# generated on 2018/08/15 07:08:02
 #
 # --table-start--
 dataClass=com.faltenreich.diaguard.data.entity.Entry
@@ -472,6 +472,10 @@ columnName=updatedAt
 dataClass=com.faltenreich.diaguard.data.entity.Tag
 tableName=tag
 # --table-fields-start--
+# --field-start--
+fieldName=key
+columnName=key
+# --field-end--
 # --field-start--
 fieldName=name
 columnName=name

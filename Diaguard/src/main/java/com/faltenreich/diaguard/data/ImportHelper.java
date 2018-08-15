@@ -34,10 +34,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Created by Faltenreich on 22.11.2016.
- */
-
 public class ImportHelper {
 
     private static final String TAG = ImportHelper.class.getSimpleName();
@@ -225,6 +221,7 @@ public class ImportHelper {
                 while ((nextLine = reader.readNext()) != null) {
                     if (nextLine.length >= 4) {
                         Tag tag = new Tag();
+                        tag.setKey(nextLine[0]);
                         tag.setName(nextLine[languageRow]);
                         tags.add(tag);
                     }

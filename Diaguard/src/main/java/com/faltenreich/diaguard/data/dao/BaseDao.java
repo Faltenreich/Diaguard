@@ -13,6 +13,7 @@ import com.j256.ormlite.table.TableUtils;
 import org.joda.time.DateTime;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -64,7 +65,7 @@ public abstract class BaseDao <T extends BaseEntity> {
             return getDao().queryBuilder().query();
         } catch (SQLException exception) {
             Log.e(TAG, exception.getMessage());
-            return null;
+            return new ArrayList<>();
         }
     }
 

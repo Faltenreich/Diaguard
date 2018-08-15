@@ -19,10 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Faltenreich on 04.01.2018
- */
-
 public class TagAutoCompleteAdapter extends ArrayAdapter<Tag> {
 
     private HashMap<Tag, Boolean> tags;
@@ -81,7 +77,7 @@ public class TagAutoCompleteAdapter extends ArrayAdapter<Tag> {
                 if (!TextUtils.isEmpty(constraint)) {
                     for (Map.Entry<Tag, Boolean> entry : tags.entrySet()) {
                         Tag tag = entry.getKey();
-                        if (tag != null && tag.getName().contains(constraint)) {
+                        if (tag != null && tag.getName().toLowerCase().contains(constraint.toString().toLowerCase())) {
                             suggestions.add(tag);
                         }
                     }

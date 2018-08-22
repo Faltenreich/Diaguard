@@ -1,11 +1,9 @@
 key;en;de;fr;es
-woke_up;woke up;aufgewacht;se réveilla;despertó
-breakfast;Breakfast;Frühstück;Petit déjeuner;Desayuno
-lunch;Lunch;Mittagessen;Déjeuner;Almuerzo
-dinner;Dinner;Abendessen;Dîner;Cena
-bedtime;Bedtime;Schlafenszeit;Heure du coucher;Hora de acostarse
-sport;Sport;Sport;Sport;Deporte
-good_mood;In a good mood;Gut drauf;De bonne humeur;De buen humor
-excited;Excited;Aufgeregt;Excité;Excitado
-sick;Sick;Krank;Malade;Enfermo
-tired;Tired;Müde;Fatigué;Cansado
+just_woke_up;just woke up;gerade aufgewacht;juste réveillé;recién desperté
+falling_asleep;falling asleep;einschlafen;s'endormir;quedarse dormido
+happy;happy;glücklich;content;contento
+excited;excited;aufgeregt;excité;excitado
+tired;tired;müde;fatigué;cansado
+sick;sick;krank;malade;enfermo
+sport_before;before the sport;vor dem Sport;avant le sport;antes del deporte
+sport_after;after the sport;nach dem Sport;après le sport;después del deporte

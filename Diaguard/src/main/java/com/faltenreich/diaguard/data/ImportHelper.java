@@ -221,7 +221,6 @@ public class ImportHelper {
                 while ((nextLine = reader.readNext()) != null) {
                     if (nextLine.length >= 4) {
                         Tag tag = new Tag();
-                        tag.setKey(nextLine[0]);
                         tag.setName(nextLine[languageRow]);
                         tags.add(tag);
                     }

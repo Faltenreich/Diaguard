@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -51,6 +50,7 @@ import com.faltenreich.diaguard.ui.view.entry.MeasurementListView;
 import com.faltenreich.diaguard.util.AlarmUtils;
 import com.faltenreich.diaguard.util.DateTimeUtils;
 import com.faltenreich.diaguard.util.Helper;
+import com.faltenreich.diaguard.util.StringUtils;
 import com.faltenreich.diaguard.util.Vector2D;
 import com.faltenreich.diaguard.util.ViewUtils;
 import com.pchmn.materialchips.ChipView;
@@ -133,6 +133,8 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     @BindView(R.id.entry_tags_input) AutoCompleteTextView tagsInput;
     @BindView(R.id.entry_tags) ViewGroup tagsView;
 
+    private MenuItem submitMenuItem;
+
     private long entryId;
     private long foodId;
     private DateTime time = DateTime.now();
@@ -163,6 +165,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.form_edit, menu);
         menu.findItem(R.id.action_delete).setVisible(entryId > 0);
+        submitMenuItem = menu.findItem(R.id.action_done);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -295,6 +298,12 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             for (EntryTag entryTag : entryTags) {
                 addTag(entryTag.getTag());
             }
+        }
+    }
+
+    private void toggleSubmitButton(boolean isEnabled) {
+        if (submitMenuItem != null) {
+            submitMenuItem.setEnabled(isEnabled);
         }
     }
 
@@ -438,14 +447,18 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     }
 
     private void trySubmit() {
+        toggleSubmitButton(false);
+
         if (inputIsValid()) {
-            //
+            // Convenience: Accept tag that hasn't been submitted by user
             String missingTag = tagsInput.getText().toString();
-            if (!TextUtils.isEmpty(missingTag)) {
+            if (!StringUtils.isBlank(missingTag)) {
                 addTag(missingTag);
             }
             submit();
         }
+
+        toggleSubmitButton(true);
     }
 
     private void submit() {

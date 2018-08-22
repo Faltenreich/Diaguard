@@ -498,6 +498,10 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
                 Tag tag = (Tag) view.getTag();
                 if (tag.getId() < 0) {
                     tag = TagDao.getInstance().createOrUpdate(tag);
+                    Tag legacy = TagDao.getInstance().getByName(tag.getName());
+                    if (legacy != null) {
+                        tag.setId(legacy.getId());
+                    }
                 }
                 EntryTag entryTag = new EntryTag();
                 entryTag.setEntry(entry);
@@ -632,7 +636,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
         @Override
         protected List<Tag> doInBackground(Void... params) {
-            return TagDao.getInstance().getAll();
+            return TagDao.getInstance().getRecent();
         }
 
         @Override

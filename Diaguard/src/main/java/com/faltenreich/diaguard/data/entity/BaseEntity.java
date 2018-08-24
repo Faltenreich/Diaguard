@@ -49,4 +49,13 @@ public abstract class BaseEntity {
     public boolean equals(Object object) {
         return this.getClass().equals(object.getClass()) && this.getId() == ((BaseEntity) object).getId();
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 1;
+        hash = hash * 17 + (int) id;
+        hash = hash * 31 + createdAt.hashCode();
+        hash = hash * 13 + updatedAt.hashCode();
+        return hash;
+    }
 }

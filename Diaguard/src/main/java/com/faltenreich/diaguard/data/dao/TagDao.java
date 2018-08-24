@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.data.dao;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.faltenreich.diaguard.data.entity.BaseEntity;
 import com.faltenreich.diaguard.data.entity.Tag;
 
 import java.sql.SQLException;
@@ -28,8 +29,7 @@ public class TagDao extends BaseDao<Tag> {
 
     public List<Tag> getRecent() {
         try {
-            // TODO: Limit twenty and sort by EntryTagDao.updatedAt and then by updatedAt
-            return getDao().queryBuilder().query();
+            return getDao().queryBuilder().orderBy(BaseEntity.Column.UPDATED_AT, false).limit(20L).query();
         } catch (SQLException exception) {
             Log.e(TAG, exception.getMessage());
             return new ArrayList<>();

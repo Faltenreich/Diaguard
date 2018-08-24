@@ -154,11 +154,8 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
-        layoutMeasurements.setOnCategoryEventListener(this);
-        fab.init();
-        fab.setOnFabSelectedListener(this);
+        initLayout();
         fetchData();
-        fab.restock();
     }
 
     @Override
@@ -192,6 +189,12 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
                 time = (DateTime) arguments.getSerializable(EXTRA_DATE);
             }
         }
+        activeCategories = PreferenceHelper.getInstance().getActiveCategories();
+    }
+
+    private void initLayout() {
+        updateDateTime();
+        updateAlarm();
 
         if (entryId > 0) {
             setTitle(getString(R.string.entry_edit));
@@ -200,65 +203,17 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             containerAlarm.setVisibility(View.VISIBLE);
         }
 
-        updateDateTime();
-        updateAlarm();
-    }
+        layoutMeasurements.setOnCategoryEventListener(this);
 
-    private void fetchData() {
-        activeCategories = PreferenceHelper.getInstance().getActiveCategories();
+        fab.init();
+        fab.setOnFabSelectedListener(this);
+        fab.restock();
 
-        if (entryId > 0) {
-            new FetchEntryTask(entryId).execute();
-        } else if (foodId > 0) {
-            new FetchFoodTask(foodId).execute();
-            new FetchTagsTask().execute();
-        } else {
-            new FetchTagsTask().execute();
-            initPinnedCategories();
+        if (entryId <= 0 && foodId <= 0) {
+            addPinnedCategories();
         }
-    }
 
-    private void initPinnedCategories() {
-        for (Measurement.Category category : activeCategories) {
-            if (PreferenceHelper.getInstance().isCategoryPinned(category) && !layoutMeasurements.hasCategory(category)) {
-                layoutMeasurements.addMeasurementAtEnd(category);
-            }
-        }
-    }
-
-    private void initEntry(Entry entry, List<EntryTag> entryTags) {
-        if (entry != null) {
-            this.entry = entry;
-            this.entryTags = entryTags;
-            this.time = entry.getDate();
-
-            editTextNotes.setText(entry.getNote());
-
-            List<Measurement> measurements = entry.getMeasurementCache();
-            layoutMeasurements.addMeasurements(measurements);
-
-            for (Measurement measurement : measurements) {
-                layoutMeasurements.addMeasurement(measurement);
-                fab.ignore(measurement.getCategory());
-            }
-            fab.restock();
-        } else {
-            initPinnedCategories();
-        }
-        new FetchTagsTask().execute();
-        updateDateTime();
-    }
-
-    private void initFood(Food food) {
-        if (food != null) {
-            layoutMeasurements.addMeasurement(food);
-            fab.ignore(Measurement.Category.MEAL);
-            fab.restock();
-        }
-    }
-
-    private void initTags(List<Tag> tags) {
-        tagAdapter = new TagAutoCompleteAdapter(this, tags);
+        tagAdapter = new TagAutoCompleteAdapter(this);
         tagsInput.setAdapter(tagAdapter);
         tagsInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -293,12 +248,52 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
                 addTag(tag);
             }
         });
+    }
 
-        if (entryTags != null) {
-            for (EntryTag entryTag : entryTags) {
-                addTag(entryTag.getTag());
+    private void fetchData() {
+        if (entryId > 0) {
+            new FetchEntryTask(entryId).execute();
+        } else if (foodId > 0) {
+            new FetchFoodTask(foodId).execute();
+        }
+        new FetchTagsTask().execute();
+    }
+
+    private void addPinnedCategories() {
+        for (Measurement.Category category : activeCategories) {
+            if (PreferenceHelper.getInstance().isCategoryPinned(category) && !layoutMeasurements.hasCategory(category)) {
+                layoutMeasurements.addMeasurementAtEnd(category);
             }
         }
+    }
+
+    private void initEntry(Entry entry, List<EntryTag> entryTags) {
+        if (entry != null) {
+            this.entry = entry;
+            this.entryTags = entryTags;
+            this.time = entry.getDate();
+
+            editTextNotes.setText(entry.getNote());
+
+            List<Measurement> measurements = entry.getMeasurementCache();
+            layoutMeasurements.addMeasurements(measurements);
+
+            for (Measurement measurement : measurements) {
+                layoutMeasurements.addMeasurement(measurement);
+                fab.ignore(measurement.getCategory());
+            }
+            fab.restock();
+
+            if (entryTags != null) {
+                for (EntryTag entryTag : entryTags) {
+                    addTag(entryTag.getTag());
+                }
+            }
+        } else {
+            addPinnedCategories();
+        }
+        new FetchTagsTask().execute();
+        updateDateTime();
     }
 
     private void toggleSubmitButton(boolean isEnabled) {
@@ -308,7 +303,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     }
 
     private void addTag(String name) {
-        Tag tag = tagAdapter.findTag(name);
+        Tag tag = tagAdapter.find(name);
         if (tag != null) {
             addTag(tag);
         } else {
@@ -340,12 +335,12 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         });
         tagsView.addView(chipView);
 
-        tagAdapter.setTag(tag, false);
+        tagAdapter.set(tag, false);
         dismissTagDropDown();
     }
 
     private void removeTag(Tag tag, View view) {
-        tagAdapter.setTag(tag, true);
+        tagAdapter.set(tag, true);
         tagsView.removeView(view);
 
         // Workaround: Force notifyDataSetChanged
@@ -633,7 +628,11 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         @Override
         protected void onPostExecute(Food food) {
             super.onPostExecute(food);
-            initFood(food);
+            if (food != null) {
+                layoutMeasurements.addMeasurement(food);
+                fab.ignore(Measurement.Category.MEAL);
+                fab.restock();
+            }
         }
     }
 
@@ -647,7 +646,8 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         @Override
         protected void onPostExecute(List<Tag> tags) {
             super.onPostExecute(tags);
-            initTags(tags);
+            tagAdapter.addAll(tags);
+            tagAdapter.notifyDataSetChanged();
         }
     }
 }

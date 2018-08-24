@@ -15,6 +15,8 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Tag;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,13 +26,10 @@ public class TagAutoCompleteAdapter extends ArrayAdapter<Tag> {
     private HashMap<Tag, Boolean> tags;
     private List<Tag> results;
 
-    public TagAutoCompleteAdapter(@NonNull Context context, List<Tag> tags) {
-        super(context, -1, tags);
+    public TagAutoCompleteAdapter(@NonNull Context context) {
+        super(context, -1);
         this.tags = new HashMap<>();
-        for (Tag tag : tags) {
-            this.tags.put(tag, true);
-        }
-        this.results = tags;
+        this.results = new ArrayList<>();
     }
 
     @Override
@@ -107,14 +106,34 @@ public class TagAutoCompleteAdapter extends ArrayAdapter<Tag> {
         };
     }
 
-    public void setTag(Tag tag, boolean enable) {
-        if (tags.containsKey(tag)) {
-            // FIXME: notifyDataSetChanged does not work
-            tags.put(tag, enable);
+    @Override
+    public void add(@Nullable Tag tag) {
+        if (!tags.containsKey(tag)) {
+            tags.put(tag, true);
+            results.add(tag);
         }
     }
 
-    public Tag findTag(String name) {
+    @Override
+    public void addAll(@NonNull Collection<? extends Tag> collection) {
+        for (Tag tag : collection) {
+            add(tag);
+        }
+    }
+
+    @Override
+    public void addAll(Tag... items) {
+        addAll(Arrays.asList(items));
+    }
+
+    public void set(Tag tag, boolean enable) {
+        if (enable && !results.contains(tag)) {
+            results.add(tag);
+        }
+        tags.put(tag, enable);
+    }
+
+    public Tag find(String name) {
         for (Tag tag : tags.keySet()) {
             if (tag.getName().equalsIgnoreCase(name)) {
                 return tag;

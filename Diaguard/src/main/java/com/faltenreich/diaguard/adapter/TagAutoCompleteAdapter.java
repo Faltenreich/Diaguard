@@ -17,6 +17,8 @@ import com.faltenreich.diaguard.data.entity.Tag;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,23 +26,38 @@ import java.util.Map;
 public class TagAutoCompleteAdapter extends ArrayAdapter<Tag> {
 
     private HashMap<Tag, Boolean> tags;
-    private List<Tag> results;
 
     public TagAutoCompleteAdapter(@NonNull Context context) {
         super(context, -1);
         this.tags = new HashMap<>();
-        this.results = new ArrayList<>();
+    }
+
+    private List<Tag> getResults() {
+        List<Tag> results = new ArrayList<>();
+        for (Map.Entry<Tag, Boolean> entry : tags.entrySet()) {
+            if (entry.getValue()) {
+                results.add(entry.getKey());
+            }
+        }
+        Collections.sort(results, new Comparator<Tag>() {
+            @Override
+            public int compare(Tag lhs, Tag rhs) {
+                // Sort descending by updatedAt
+                return rhs.getUpdatedAt().compareTo(lhs.getUpdatedAt());
+            }
+        });
+        return results;
     }
 
     @Override
     public int getCount() {
-        return results.size();
+        return getResults().size();
     }
 
     @Nullable
     @Override
     public Tag getItem(int position) {
-        return results.get(position);
+        return getResults().get(position);
     }
 
     @Override
@@ -88,30 +105,14 @@ public class TagAutoCompleteAdapter extends ArrayAdapter<Tag> {
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults filterResults) {
-                if (filterResults != null && filterResults.count > 0) {
-                    results = (List<Tag>) filterResults.values;
-                    notifyDataSetChanged();
-                } else if (TextUtils.isEmpty(constraint)) {
-                    results = new ArrayList<>();
-                    for (Map.Entry<Tag, Boolean> entry : tags.entrySet()) {
-                        if (entry.getValue()) {
-                            results.add(entry.getKey());
-                        }
-                    }
-                    notifyDataSetChanged();
-                } else {
-                    notifyDataSetInvalidated();
-                }
+                notifyDataSetChanged();
             }
         };
     }
 
     @Override
     public void add(@Nullable Tag tag) {
-        if (!tags.containsKey(tag)) {
-            tags.put(tag, true);
-            results.add(tag);
-        }
+        set(tag, !tags.containsKey(tag) || tags.get(tag));
     }
 
     @Override
@@ -127,9 +128,6 @@ public class TagAutoCompleteAdapter extends ArrayAdapter<Tag> {
     }
 
     public void set(Tag tag, boolean enable) {
-        if (enable && !results.contains(tag)) {
-            results.add(tag);
-        }
         tags.put(tag, enable);
     }
 

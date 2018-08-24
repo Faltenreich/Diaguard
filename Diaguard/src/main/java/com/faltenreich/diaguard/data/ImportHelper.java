@@ -227,6 +227,7 @@ public class ImportHelper {
                 }
 
                 TagDao.getInstance().deleteAll();
+                Collections.reverse(tags);
                 TagDao.getInstance().bulkCreateOrUpdate(tags);
 
                 Log.i(TAG, String.format("Imported %d tags from csv", tags.size()));

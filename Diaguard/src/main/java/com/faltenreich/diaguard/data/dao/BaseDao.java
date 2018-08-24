@@ -98,18 +98,20 @@ public abstract class BaseDao <T extends BaseEntity> {
     }
 
     public void bulkCreateOrUpdate(final List<T> objects) {
-        try {
-            getDao().callBatchTasks(new Callable<Void>() {
-                @Override
-                public Void call() throws Exception {
-                    for (T object : objects) {
-                        createOrUpdate(object);
+        if (objects != null && objects.size() > 0) {
+            try {
+                getDao().callBatchTasks(new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        for (T object : objects) {
+                            createOrUpdate(object);
+                        }
+                        return null;
                     }
-                    return null;
-                }
-            });
-        } catch (Exception exception) {
-            Log.e(TAG, exception.getLocalizedMessage());
+                });
+            } catch (Exception exception) {
+                Log.e(TAG, exception.getLocalizedMessage());
+            }
         }
     }
 

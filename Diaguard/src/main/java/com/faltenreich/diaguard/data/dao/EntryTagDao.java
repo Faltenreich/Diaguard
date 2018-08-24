@@ -29,7 +29,7 @@ public class EntryTagDao extends BaseDao<EntryTag> {
     public List<EntryTag> getAll(Entry entry) {
         try {
             return getDao().queryBuilder()
-                    .orderBy(EntryTag.Column.CREATED_AT, false)
+                    .orderBy(EntryTag.Column.UPDATED_AT, false)
                     .where().eq(EntryTag.Column.ENTRY, entry)
                     .query();
         } catch (SQLException exception) {

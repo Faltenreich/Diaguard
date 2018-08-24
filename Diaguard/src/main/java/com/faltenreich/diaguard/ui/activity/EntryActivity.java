@@ -491,6 +491,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             EntryTagDao.getInstance().delete(entryTags);
         }
 
+        List<Tag> tags = new ArrayList<>();
         List<EntryTag> entryTags = new ArrayList<>();
         for (int index = 0; index < tagsView.getChildCount(); index++) {
             View view = tagsView.getChildAt(index);
@@ -503,12 +504,16 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
                         tag.setId(legacy.getId());
                     }
                 }
+                tag.setUpdatedAt(DateTime.now());
+                tags.add(tag);
+
                 EntryTag entryTag = new EntryTag();
                 entryTag.setEntry(entry);
                 entryTag.setTag(tag);
                 entryTags.add(entryTag);
             }
         }
+        TagDao.getInstance().bulkCreateOrUpdate(tags);
         EntryTagDao.getInstance().bulkCreateOrUpdate(entryTags);
 
         if (isNewEntry) {

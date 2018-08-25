@@ -108,7 +108,6 @@
     <string name="overview">Übersicht</string>
     <string name="per">pro</string>
     <string name="per_day">pro Tag</string>
-    <string name="permission_required_storage">Berechtigung für Speicherzugriff fehlt</string>
     <string name="pressure">Blutdruck</string>
     <string name="pulse">Puls</string>
     <string name="remove_placeholder">%s entfernen</string>

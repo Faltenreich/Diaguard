@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.ui.activity;
 
-import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -26,12 +25,15 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.FileProvidedEvent;
 import com.faltenreich.diaguard.event.FileProvidedFailedEvent;
-import com.faltenreich.diaguard.event.PermissionDeniedEvent;
-import com.faltenreich.diaguard.event.PermissionGrantedEvent;
-import com.faltenreich.diaguard.util.FileUtils;
-import com.faltenreich.diaguard.util.SystemUtils;
+import com.faltenreich.diaguard.event.PermissionRequestEvent;
+import com.faltenreich.diaguard.event.PermissionResponseEvent;
 import com.faltenreich.diaguard.util.ViewUtils;
-import com.faltenreich.diaguard.util.export.Export;
+import com.faltenreich.diaguard.util.permission.Permission;
+import com.faltenreich.diaguard.util.permission.PermissionManager;
+import com.faltenreich.diaguard.util.permission.PermissionUseCase;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -83,7 +85,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * Called after the activity is created and its view revealed
+     * Called after the activity is created and its view fully revealed
      */
     @CallSuper
     protected void onViewShown() {
@@ -91,7 +93,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        Events.register(this);
+    }
+
+    @Override
     protected void onPause() {
+        Events.unregister(this);
         super.onPause();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && revealX >= 0 && revealY >= 0) {
             overridePendingTransition(0, 0);
@@ -110,21 +119,16 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
-        boolean permissionGranted = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
-        switch (requestCode) {
-            case SystemUtils.REQUEST_CODE_EXPORT:
-                Events.post(permissionGranted ?
-                        new PermissionGrantedEvent(Manifest.permission.WRITE_EXTERNAL_STORAGE) :
-                        new PermissionDeniedEvent(Manifest.permission.WRITE_EXTERNAL_STORAGE));
-                break;
-            case SystemUtils.REQUEST_CODE_BACKUP_READ:
-                if (permissionGranted) {
-                    importBackup();
-                } else {
-                    ViewUtils.showToast(this, R.string.permission_required_storage);
+    public void onRequestPermissionsResult(int requestCode, @NonNull String codes[], @NonNull int[] grantResults) {
+        PermissionUseCase useCase = PermissionUseCase.fromRequestCode(requestCode);
+        if (useCase != null) {
+            for (String code : codes) {
+                Permission permission = Permission.fromCode(code);
+                if (permission != null) {
+                    boolean isGranted = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    Events.post(new PermissionResponseEvent(permission, useCase, isGranted));
                 }
-                break;
+            }
         }
     }
 
@@ -184,7 +188,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             revealX = getIntent().getIntExtra(ARGUMENT_REVEAL_X, -1);
             revealY = getIntent().getIntExtra(ARGUMENT_REVEAL_Y, -1);
-            if (revealX >= 0 && revealY >= 0) {
+            if (rootLayout != null && revealX >= 0 && revealY >= 0) {
                 rootLayout.setVisibility(View.INVISIBLE); // Fail fast and early
                 ViewTreeObserver viewTreeObserver = rootLayout.getViewTreeObserver();
                 if (viewTreeObserver.isAlive()) {
@@ -226,11 +230,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public void importBackup() {
-        if (SystemUtils.canWriteExternalStorage(this)) {
-            FileUtils.searchFiles(this, Export.CSV_MIME_TYPE, BaseActivity.REQUEST_CODE_BACKUP_IMPORT);
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(PermissionRequestEvent event) {
+        if (PermissionManager.getInstance().hasPermission(this, event.context)) {
+            Events.post(new PermissionResponseEvent(event.context, event.useCase, true));
         } else {
-            SystemUtils.requestPermissionWriteExternalStorage(this, SystemUtils.REQUEST_CODE_BACKUP_READ);
+            PermissionManager.getInstance().requestPermission(this, event.context, event.useCase);
         }
     }
 }

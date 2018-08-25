@@ -6,20 +6,21 @@ import android.util.Log;
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.DatabaseHelper;
-import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
+import com.faltenreich.diaguard.data.dao.FoodDao;
+import com.faltenreich.diaguard.data.dao.TagDao;
 import com.faltenreich.diaguard.data.entity.Entry;
+import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.util.Helper;
+import com.faltenreich.diaguard.data.entity.Tag;
 import com.opencsv.CSVWriter;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -55,12 +56,22 @@ public class CsvExport extends AsyncTask<Void, String, File> {
             FileWriter fileWriter = new FileWriter(file);
             CSVWriter writer = new CSVWriter(fileWriter, Export.CSV_DELIMITER);
 
-            // Meta information to detect the data scheme in future iterations
             if (isBackup) {
+                // Meta information to detect the data scheme in future iterations
                 String[] meta = new String[]{
                         Export.CSV_KEY_META,
                         Integer.toString(DatabaseHelper.getVersion())};
                 writer.writeNext(meta);
+
+                List<Tag> tags = TagDao.getInstance().getAll();
+                for (Tag tag : tags) {
+                    writer.writeNext(ArrayUtils.add(tag.getValuesForBackup(), 0, tag.getKeyForBackup()));
+                }
+
+                List<Food> foods = FoodDao.getInstance().getAllFromUser();
+                for (Food food: foods) {
+                    writer.writeNext(ArrayUtils.add(food.getValuesForBackup(), 0, food.getKeyForBackup()));
+                }
             }
 
             List<Entry> entries = dateStart != null && dateEnd != null ?
@@ -73,38 +84,13 @@ public class CsvExport extends AsyncTask<Void, String, File> {
                         position,
                         entries.size()));
 
-                List<String> entryValues = new ArrayList<>();
-                if (isBackup) {
-                    entryValues.add(Entry.class.getSimpleName().toLowerCase());
-                    entryValues.add(DateTimeFormat.forPattern(Export.BACKUP_DATE_FORMAT).print(entry.getDate()));
-                } else {
-                    entryValues.add(String.format("%s %s",
-                            Helper.getDateFormat().print(entry.getDate()),
-                            Helper.getTimeFormat().print(entry.getDate())));
-                }
-                entryValues.add(entry.getNote());
-                writer.writeNext(entryValues.toArray(new String[entryValues.size()]));
+                writer.writeNext(isBackup ? ArrayUtils.add(entry.getValuesForBackup(), 0, entry.getKeyForBackup()) : entry.getValuesForExport());
 
-                List<Measurement> measurements = categories != null ?
-                        EntryDao.getInstance().getMeasurements(entry, categories) :
-                        EntryDao.getInstance().getMeasurements(entry);
+                List<Measurement> measurements = categories != null ? EntryDao.getInstance().getMeasurements(entry, categories) : EntryDao.getInstance().getMeasurements(entry);
                 for (Measurement measurement : measurements) {
-                    List<String> measurementValues = new ArrayList<>();
-                    if (isBackup) {
-                        measurementValues.add(Measurement.class.getSimpleName().toLowerCase());
-                        measurementValues.add(measurement.getCategory().name().toLowerCase());
-                        for (float value : measurement.getValues()) {
-                            measurementValues.add(Float.toString(value));
-                        }
-                    } else {
-                        measurementValues.add(measurement.getCategory().toLocalizedString());
-                        for (float value : measurement.getValues()) {
-                            measurementValues.add(Float.toString(PreferenceHelper.getInstance().
-                                    formatDefaultToCustomUnit(measurement.getCategory(), value)));
-                        }
-                    }
-                    writer.writeNext(measurementValues.toArray(new String[measurementValues.size()]));
+                    writer.writeNext(isBackup ? ArrayUtils.add(measurement.getValuesForBackup(), 0, measurement.getKeyForBackup()) : measurement.getValuesForExport());
                 }
+
                 position++;
             }
 

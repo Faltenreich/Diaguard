@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.data.dao;
 
 import android.util.Log;
 
+import com.faltenreich.diaguard.data.entity.BaseServerEntity;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.event.Events;
@@ -48,6 +49,29 @@ public class FoodDao extends BaseServerDao<Food> {
                     .orderBy(Food.Column.NAME, true)
                     .orderBy(Food.Column.UPDATED_AT, false)
                     .where().eq(Food.Column.LANGUAGE_CODE, Helper.getLanguageCode())
+                    .query();
+        } catch (SQLException exception) {
+            Log.e(TAG, exception.getLocalizedMessage());
+            return new ArrayList<>();
+        }
+    }
+
+    public List<Food> getAllFromUser() {
+        try {
+            return getDao().queryBuilder()
+                    .orderBy(Food.Column.NAME, true)
+                    .orderBy(Food.Column.UPDATED_AT, false)
+                    .where().eq(Food.Column.LANGUAGE_CODE, Helper.getLanguageCode())
+                    .and().isNull(BaseServerEntity.Column.SERVER_ID)
+                    .and().eq(Food.Column.ENERGY, -1)
+                    .and().eq(Food.Column.FAT, -1)
+                    .and().eq(Food.Column.FAT_SATURATED, -1)
+                    .and().eq(Food.Column.FIBER, -1)
+                    .and().eq(Food.Column.PROTEINS, -1)
+                    .and().eq(Food.Column.SALT, -1)
+                    .and().eq(Food.Column.SODIUM, -1)
+                    .and().eq(Food.Column.SUGAR, -1)
+                    .and().eq(Food.Column.FAT, -1)
                     .query();
         } catch (SQLException exception) {
             Log.e(TAG, exception.getLocalizedMessage());

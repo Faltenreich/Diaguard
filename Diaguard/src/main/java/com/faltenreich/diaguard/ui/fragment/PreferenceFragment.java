@@ -219,6 +219,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FileProvidedFailedEvent event) {
-        // TODO
+        Toast.makeText(getActivity(), getActivity().getString(R.string.error_unexpected), Toast.LENGTH_SHORT).show();
     }
 }

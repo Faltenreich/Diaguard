@@ -127,7 +127,7 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
         if (SystemUtils.canWriteExternalStorage(getActivity())) {
             export();
         } else {
-            SystemUtils.requestPermissionWriteExternalStorage(getActivity());
+            SystemUtils.requestPermissionWriteExternalStorage(getActivity(), SystemUtils.REQUEST_CODE_EXPORT);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.util;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +10,6 @@ import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
 
 import com.faltenreich.diaguard.R;
 
@@ -82,7 +82,7 @@ public class FileUtils {
         context.startActivity(Intent.createChooser(intent, context.getString(R.string.backup)));
     }
 
-    public static void searchFiles(AppCompatActivity activity, String mimeType, int requestCode) {
+    public static void searchFiles(Activity activity, String mimeType, int requestCode) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType(mimeType);
         activity.startActivityForResult(intent, requestCode);

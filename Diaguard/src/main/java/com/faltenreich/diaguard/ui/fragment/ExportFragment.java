@@ -160,9 +160,12 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
-        String confirmationText = String.format(getString(R.string.export_complete), file.getAbsolutePath());
-        Toast.makeText(getContext(), confirmationText, Toast.LENGTH_LONG).show();
-        openFile(file, mimeType);
+        if (file != null) {
+            Toast.makeText(getContext(), String.format(getString(R.string.export_complete), file.getAbsolutePath()), Toast.LENGTH_LONG).show();
+            openFile(file, mimeType);
+        } else {
+            Toast.makeText(getContext(), getString(R.string.error_unexpected), Toast.LENGTH_LONG).show();
+        }
     }
 
     private void openFile(File file, String mimeType) {

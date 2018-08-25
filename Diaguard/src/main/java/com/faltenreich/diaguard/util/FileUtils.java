@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 
@@ -74,7 +75,7 @@ public class FileUtils {
         // TODO: revokeUriPermission onResult
     }
 
-    public static void shareFile(Context context, File file, String mimeType) {
+    public static void shareFile(@NonNull Context context, @NonNull File file, String mimeType) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType(mimeType);
         intent.putExtra(Intent.EXTRA_STREAM, getUriForFile(context, file));

@@ -10,14 +10,14 @@ import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.dao.FoodEatenDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.dao.TagDao;
+import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.data.entity.Meal;
+import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.data.entity.deprecated.CategoryDeprecated;
-import com.faltenreich.diaguard.data.entity.Entry;
-import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 import com.opencsv.CSVReader;
@@ -26,11 +26,10 @@ import org.joda.time.format.DateTimeFormat;
 
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CsvImport extends AsyncTask<Void, Void, Void> {
+public class CsvImport extends AsyncTask<Void, Void, Boolean> {
 
     private static final String TAG = CsvImport.class.getSimpleName();
 
@@ -46,7 +45,7 @@ public class CsvImport extends AsyncTask<Void, Void, Void> {
     }
 
     @Override
-    protected Void doInBackground(Void... params) {
+    protected Boolean doInBackground(Void... params) {
         try {
             CSVReader reader = new CSVReader(new FileReader(file), Export.CSV_DELIMITER);
             String[] nextLine = reader.readNext();
@@ -242,20 +241,22 @@ public class CsvImport extends AsyncTask<Void, Void, Void> {
                 }
                 else {
                     Log.e(TAG, "Unsupported database version: " + databaseVersion);
+                    return false;
                 }
             }
             reader.close();
-        } catch (IOException ex) {
-            Log.e(TAG, ex.getMessage());
-        }
+            return true;
 
-        return null;
+        } catch (Exception exception) {
+            Log.e(TAG, exception.getMessage());
+            return false;
+        }
     }
 
     @Override
-    protected void onPostExecute(Void result) {
+    protected void onPostExecute(Boolean success) {
         if (listener != null) {
-            listener.onComplete(file, Export.CSV_MIME_TYPE);
+            listener.onComplete(success ? file : null, Export.CSV_MIME_TYPE);
         }
     }
 }

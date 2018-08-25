@@ -5,7 +5,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -23,24 +22,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.event.Events;
+import com.faltenreich.diaguard.event.FileProvidedEvent;
+import com.faltenreich.diaguard.event.FileProvidedFailedEvent;
 import com.faltenreich.diaguard.event.PermissionDeniedEvent;
 import com.faltenreich.diaguard.event.PermissionGrantedEvent;
-import com.faltenreich.diaguard.util.FileUtils;
 import com.faltenreich.diaguard.util.SystemUtils;
 import com.faltenreich.diaguard.util.ViewUtils;
-import com.faltenreich.diaguard.util.export.Export;
-import com.faltenreich.diaguard.util.export.FileListener;
 
-import java.io.File;
+import java.io.FileNotFoundException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public abstract class BaseActivity extends AppCompatActivity implements FileListener {
+public abstract class BaseActivity extends AppCompatActivity {
 
     private static final String TAG = BaseActivity.class.getSimpleName();
 
@@ -57,8 +54,6 @@ public abstract class BaseActivity extends AppCompatActivity implements FileList
     @Nullable
     @BindView(R.id.root)
     ViewGroup rootLayout;
-
-    private ProgressDialog progressDialog;
 
     private int layoutResourceId;
     private int revealX;
@@ -136,13 +131,20 @@ public abstract class BaseActivity extends AppCompatActivity implements FileList
                 switch (resultCode) {
                     case Activity.RESULT_OK:
                         if (data != null && data.getData() != null) {
-                            importBackup(data.getData());
+                            try {
+                                Uri uri = data.getData();
+                                getContentResolver().openFileDescriptor(uri, "r");
+                                Events.post(new FileProvidedEvent(uri));
+                            } catch (Exception exception) {
+                                Log.e(TAG, exception.getMessage());
+                                Events.post(new FileProvidedFailedEvent());
+                            }
                         } else {
-                            // TODO
+                            Events.post(new FileProvidedFailedEvent());
                         }
                         break;
                     default:
-                        // TODO
+                        Events.post(new FileProvidedFailedEvent());
                         break;
                 }
                 break;
@@ -224,35 +226,5 @@ public abstract class BaseActivity extends AppCompatActivity implements FileList
         } else {
             super.finish();
         }
-    }
-
-    public void searchForBackup() {
-        FileUtils.searchFiles(this, Export.CSV_MIME_TYPE, BaseActivity.REQUEST_CODE_BACKUP_IMPORT);
-        // TODO: Fallback if searchFiles() fails
-    }
-
-    private void importBackup(Uri uri) {
-        showProgressDialog();
-        File file = new File(uri.getPath());
-        Export.importCsv(this, file);
-    }
-
-    private void showProgressDialog() {
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage(getString(R.string.backup_import));
-        progressDialog.setIndeterminate(true);
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-    }
-
-    @Override
-    public void onProgress(String message) {
-        progressDialog.setMessage(message);
-    }
-
-    @Override
-    public void onComplete(File file, String mimeType) {
-        progressDialog.dismiss();
-        Toast.makeText(this, getString(R.string.backup_complete), Toast.LENGTH_SHORT).show();
     }
 }

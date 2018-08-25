@@ -89,7 +89,6 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
     public void initializeLayout() {
         buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
         buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
-        progressDialog = new ProgressDialog(getContext());
         checkBoxNotes.setPadding(PADDING, PADDING, PADDING, PADDING);
         checkBoxNotes.setChecked(PreferenceHelper.getInstance().exportNotes());
         checkBoxNotes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -126,6 +125,7 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
     }
 
     private void export() {
+        progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage(getString(R.string.export_progress));
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
@@ -143,12 +143,16 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
 
     @Override
     public void onProgress(String message) {
-        progressDialog.setMessage(message);
+        if (progressDialog != null) {
+            progressDialog.setMessage(message);
+        }
     }
 
     @Override
     public void onComplete(File file, String mimeType) {
-        progressDialog.dismiss();
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
         String confirmationText = String.format(getString(R.string.export_complete), file.getAbsolutePath());
         Toast.makeText(getContext(), confirmationText, Toast.LENGTH_LONG).show();
         openFile(file, mimeType);

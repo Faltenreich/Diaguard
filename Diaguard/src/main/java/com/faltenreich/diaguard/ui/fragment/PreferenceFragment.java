@@ -10,6 +10,7 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.support.annotation.Nullable;
 import android.widget.ListAdapter;
 import android.widget.Toast;
 
@@ -20,15 +21,19 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.FileProvidedEvent;
 import com.faltenreich.diaguard.event.FileProvidedFailedEvent;
+import com.faltenreich.diaguard.event.PermissionResponseEvent;
 import com.faltenreich.diaguard.event.preference.MealFactorUnitChangedEvent;
 import com.faltenreich.diaguard.event.preference.UnitChangedEvent;
+import com.faltenreich.diaguard.ui.activity.BaseActivity;
 import com.faltenreich.diaguard.ui.view.preferences.BloodSugarPreference;
 import com.faltenreich.diaguard.ui.view.preferences.CategoryPreference;
+import com.faltenreich.diaguard.util.FileUtils;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.SystemUtils;
 import com.faltenreich.diaguard.util.export.Export;
 import com.faltenreich.diaguard.util.export.FileListener;
+import com.faltenreich.diaguard.util.permission.Permission;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -36,7 +41,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.io.File;
 import java.util.ArrayList;
 
-public class PreferenceFragment extends android.preference.PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener, FileListener {
+public class PreferenceFragment extends android.preference.PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     public static final String EXTRA_OPENING_PREFERENCE = "EXTRA_OPENING_PREFERENCE";
 
@@ -186,30 +191,59 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         setSummary(findPreference(key));
     }
 
+    private void createBackup() {
+        showProgressDialog();
+        Export.exportCsv(new FileListener() {
+            @Override
+            public void onProgress(String message) {
+                showProgressMessage(message);
+            }
+            @Override
+            public void onComplete(@Nullable File file, String mimeType) {
+                dismissProgressDialog();
+                if (file != null) {
+                    FileUtils.shareFile(getActivity(), file, mimeType);
+                } else {
+                    Toast.makeText(getActivity(), getActivity().getString(R.string.error_unexpected), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, true);
+    }
+
     private void importBackup(Uri uri) {
+        showProgressDialog();
+        Export.importCsv(new FileListener() {
+            @Override
+            public void onProgress(String message) {
+                showProgressMessage(message);
+            }
+            @Override
+            public void onComplete(@Nullable File file, String mimeType) {
+                dismissProgressDialog();
+                int messageResId = file != null ? R.string.backup_complete : R.string.error_unexpected;
+                Toast.makeText(getActivity(), getActivity().getString(messageResId), Toast.LENGTH_SHORT).show();
+            }
+        }, new File(uri.getPath()));
+    }
+
+    private void showProgressDialog() {
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage(getString(R.string.backup_import));
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
         progressDialog.show();
-        File file = new File(uri.getPath());
-        Export.importCsv(this, file);
     }
 
-    @Override
-    public void onProgress(String message) {
+    private void showProgressMessage(String message) {
         if (progressDialog != null) {
             progressDialog.setMessage(message);
         }
     }
 
-    @Override
-    public void onComplete(File file, String mimeType) {
+    private void dismissProgressDialog() {
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
-        int messageResId = file != null ? R.string.backup_complete : R.string.error_unexpected;
-        Toast.makeText(getActivity(), getActivity().getString(messageResId), Toast.LENGTH_SHORT).show();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -220,5 +254,19 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FileProvidedFailedEvent event) {
         Toast.makeText(getActivity(), getActivity().getString(R.string.error_unexpected), Toast.LENGTH_SHORT).show();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(PermissionResponseEvent event) {
+        if (event.context == Permission.WRITE_EXTERNAL_STORAGE && event.isGranted) {
+            switch (event.useCase) {
+                case BACKUP_WRITE:
+                    createBackup();
+                    break;
+                case BACKUP_READ:
+                    FileUtils.searchFiles(getActivity(), Export.CSV_MIME_TYPE, BaseActivity.REQUEST_CODE_BACKUP_IMPORT);
+                    break;
+            }
+        }
     }
 }

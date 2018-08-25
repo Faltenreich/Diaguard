@@ -267,7 +267,6 @@
     <string name="alarm_delete">Retirer la mémoire</string>
     <string name="alarm_deleted">Retiré la mémoire</string>
     <string name="alarm_reminder_in">Mémoire pour</string>
-    <string name="permission_required_storage">L\'autorisation d\'accès au stockage est manquant</string>
     <string name="hba1c_estimated">HbA1c estimée</string>
     <string name="months">Mois</string>
     <string name="brand">Marque</string>

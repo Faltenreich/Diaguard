@@ -4,7 +4,10 @@ import android.content.Context;
 import android.preference.Preference;
 import android.util.AttributeSet;
 
-import com.faltenreich.diaguard.ui.activity.BaseActivity;
+import com.faltenreich.diaguard.event.Events;
+import com.faltenreich.diaguard.event.PermissionRequestEvent;
+import com.faltenreich.diaguard.util.permission.Permission;
+import com.faltenreich.diaguard.util.permission.PermissionUseCase;
 
 public class ImportPreference extends Preference implements Preference.OnPreferenceClickListener {
 
@@ -15,9 +18,7 @@ public class ImportPreference extends Preference implements Preference.OnPrefere
 
     @Override
     public boolean onPreferenceClick(Preference preference) {
-        if (getContext() instanceof BaseActivity) {
-            ((BaseActivity) getContext()).importBackup();
-        }
+        Events.post(new PermissionRequestEvent(Permission.WRITE_EXTERNAL_STORAGE, PermissionUseCase.BACKUP_READ));
         return true;
     }
 }

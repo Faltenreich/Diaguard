@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.ui.fragment;
 
-import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.os.Bundle;
@@ -18,17 +17,18 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.Events;
-import com.faltenreich.diaguard.event.PermissionDeniedEvent;
-import com.faltenreich.diaguard.event.PermissionGrantedEvent;
+import com.faltenreich.diaguard.event.PermissionRequestEvent;
+import com.faltenreich.diaguard.event.PermissionResponseEvent;
 import com.faltenreich.diaguard.ui.view.CategoryCheckBoxList;
 import com.faltenreich.diaguard.ui.view.MainButton;
 import com.faltenreich.diaguard.ui.view.MainButtonProperties;
 import com.faltenreich.diaguard.util.FileUtils;
 import com.faltenreich.diaguard.util.Helper;
-import com.faltenreich.diaguard.util.SystemUtils;
 import com.faltenreich.diaguard.util.ViewUtils;
 import com.faltenreich.diaguard.util.export.Export;
 import com.faltenreich.diaguard.util.export.FileListener;
+import com.faltenreich.diaguard.util.permission.Permission;
+import com.faltenreich.diaguard.util.permission.PermissionUseCase;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -119,15 +119,7 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
 
     private void exportIfInputIsValid() {
         if (validate()) {
-            exportIfPermissionGranted();
-        }
-    }
-
-    private void exportIfPermissionGranted() {
-        if (SystemUtils.canWriteExternalStorage(getActivity())) {
-            export();
-        } else {
-            SystemUtils.requestPermissionWriteExternalStorage(getActivity(), SystemUtils.REQUEST_CODE_EXPORT);
+            Events.post(new PermissionRequestEvent(Permission.WRITE_EXTERNAL_STORAGE, PermissionUseCase.EXPORT));
         }
     }
 
@@ -210,16 +202,9 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(PermissionGrantedEvent event) {
-        if (event.context.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+    public void onEvent(PermissionResponseEvent event) {
+        if (event.context == Permission.WRITE_EXTERNAL_STORAGE && event.useCase == PermissionUseCase.EXPORT && event.isGranted) {
             export();
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(PermissionDeniedEvent event) {
-        if (event.context.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            ViewUtils.showToast(getContext(), R.string.permission_required_storage);
         }
     }
 }

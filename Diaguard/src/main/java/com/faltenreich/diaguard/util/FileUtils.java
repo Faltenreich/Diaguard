@@ -72,14 +72,13 @@ public class FileUtils {
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         grantUriPermission(uri, intent, context);
         context.startActivity(intent);
-        // TODO: revokeUriPermission onResult
     }
 
     public static void shareFile(@NonNull Context context, @NonNull File file, String mimeType) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType(mimeType);
         intent.putExtra(Intent.EXTRA_STREAM, getUriForFile(context, file));
-        context.startActivity(Intent.createChooser(intent, context.getString(R.string.backup)));
+        context.startActivity(Intent.createChooser(intent, context.getString(R.string.backup_store)));
     }
 
     public static void searchFiles(Activity activity, String mimeType, int requestCode) {

@@ -50,6 +50,8 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
             CSVReader reader = new CSVReader(new FileReader(file), Export.CSV_DELIMITER);
             String[] nextLine = reader.readNext();
 
+            // TODO: Validate format of file
+
             // First version without meta information (1.0)
             if (!nextLine[0].equals(Export.CSV_KEY_META)) {
                 while (nextLine != null) {

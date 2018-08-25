@@ -21,6 +21,7 @@
     <string name="backup">Backup anlegen</string>
     <string name="backup_complete">Backup abgeschlossen</string>
     <string name="backup_import">Backup wird eingespielt &#8230;</string>
+    <string name="backup_store">Backup sichern</string>
     <string name="backup_title">Backup wählen</string>
     <string name="bloodsugar">Blutzucker</string>
     <string name="bolus">Bolus</string>

@@ -30,6 +30,7 @@
     <string name="backup">Backup</string>
     <string name="backup_complete">Backup complete</string>
     <string name="backup_import">Backup is being restored &#8230;</string>
+    <string name="backup_store">Store backup</string>
     <string name="backup_title">Choose backup</string>
     <string name="basal" translatable="false">Basal</string>
     <string name="bloodsugar">Blood Sugar</string>

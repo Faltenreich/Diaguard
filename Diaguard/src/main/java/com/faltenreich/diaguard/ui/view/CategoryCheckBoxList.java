@@ -22,7 +22,7 @@ import java.util.Map;
  */
 public class CategoryCheckBoxList extends LinearLayout {
 
-    private static final int PADDING = (int) Helper.getDPI(R.dimen.padding);
+    private static final int PADDING = (int) Helper.getDPI(R.dimen.margin_between);
 
     private LinkedHashMap<Measurement.Category, Boolean> categories;
 

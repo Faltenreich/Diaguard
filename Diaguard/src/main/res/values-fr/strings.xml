@@ -326,6 +326,7 @@
     <string name="unit_factor_bread_unit">PU facteur</string>
     <string name="search">Recherche</string>
     <string name="tag_hint">Ambiance, activité, &#8230;</string>
+    <string name="tags_append">Ajouter des ambiances, des activités, &#8230;</string>
 
     <string name="calculator_missing">Où est la calculateur?</string>
     <string name="calculator_missing_desc">La calculateur a été retirée pour des raisons juridiques concernant les produits médicaux.</string>

@@ -36,15 +36,17 @@ public class PdfExport extends AsyncTask<Void, String, File> {
     private DateTime dateEnd;
     private Measurement.Category[] categories;
     private boolean exportNotes;
+    private boolean exportTags;
 
     private Font fontNormal;
     private Font fontBold;
 
-    PdfExport(DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories, boolean exportNotes) {
+    PdfExport(DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories, boolean exportNotes, boolean exportTags) {
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
         this.categories = categories;
         this.exportNotes = exportNotes;
+        this.exportTags = exportTags;
     }
 
     public void setListener(FileListener listener) {
@@ -88,10 +90,10 @@ public class PdfExport extends AsyncTask<Void, String, File> {
                     currentPosition = drawWeekBar(page, dateIteration);
                 }
 
-                PdfTable table = new PdfTable(pdf, page, dateIteration, categories, exportNotes);
+                PdfTable table = new PdfTable(pdf, page, dateIteration, categories, exportNotes, exportTags);
 
                 // Page break
-                if (page == null || (currentPosition.getY() + table.getHeight() + PADDING_PARAGRAPH) > page.getEndPoint().getY()) {
+                if ((currentPosition.getY() + table.getHeight() + PADDING_PARAGRAPH) > page.getEndPoint().getY()) {
                     page = new PdfPage(pdf);
                     currentPosition = drawWeekBar(page, dateIteration);
                 }

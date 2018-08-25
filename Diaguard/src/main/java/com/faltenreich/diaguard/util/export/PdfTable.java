@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.util.export;
 
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.faltenreich.diaguard.DiaguardApplication;
@@ -8,9 +9,12 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.list.ListItemCategoryValue;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
+import com.faltenreich.diaguard.data.dao.EntryTagDao;
 import com.faltenreich.diaguard.data.entity.Entry;
+import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.Helper;
+import com.faltenreich.diaguard.util.StringUtils;
 import com.pdfjet.Align;
 import com.pdfjet.Border;
 import com.pdfjet.Cell;
@@ -44,19 +48,21 @@ public class PdfTable extends Table {
     private DateTime day;
     private Measurement.Category[] categories;
     private boolean exportNotes;
+    private boolean exportTags;
 
     private Font fontNormal;
     private Font fontBold;
 
     private int rows;
 
-    PdfTable(PDF pdf, PdfPage page, DateTime day, Measurement.Category[] categories, boolean exportNotes) {
+    PdfTable(PDF pdf, PdfPage page, DateTime day, Measurement.Category[] categories, boolean exportNotes, boolean exportTags) {
         super();
         this.pdf = pdf;
         this.page = page;
         this.day = day;
         this.categories = categories;
         this.exportNotes = exportNotes;
+        this.exportTags = exportTags;
         init();
     }
 
@@ -106,19 +112,33 @@ public class PdfTable extends Table {
             row++;
         }
 
-        if (exportNotes) {
-            List<Entry> entriesWithNotes = EntryDao.getInstance().getAllWithNotes(day);
-            if (entriesWithNotes.size() > 0) {
-                for (Entry entry : entriesWithNotes) {
-                    data.add(getRowForNote(entry,
-                            entriesWithNotes.indexOf(entry) == 0,
-                            entriesWithNotes.indexOf(entry) == entriesWithNotes.size() - 1));
+        if (exportNotes || exportTags) {
+            List<PdfNote> notes = new ArrayList<>();
+            List<Entry> entries = EntryDao.getInstance().getEntriesOfDay(day);
+            for (Entry entry : entries) {
+                List<String> notesOfDay = new ArrayList<>();
+                if (exportNotes && !StringUtils.isBlank(entry.getNote())) {
+                    notesOfDay.add(entry.getNote());
                 }
+                if (exportTags) {
+                    List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(entry);
+                    for (EntryTag entryTag : entryTags) {
+                        notesOfDay.add(entryTag.getTag().getName());
+                    }
+                }
+                if (!notesOfDay.isEmpty()) {
+                    String note = TextUtils.join(", ", notesOfDay);
+                    notes.add(new PdfNote(entry.getDate(), note));
+                }
+
+            }
+
+            for (PdfNote note : notes) {
+                data.add(getRowForNote(note, notes.indexOf(note) == 0, notes.indexOf(note) == notes.size() - 1));
             }
         }
 
         rows = data.size();
-
         return data;
     }
 
@@ -178,10 +198,10 @@ public class PdfTable extends Table {
         return cells;
     }
 
-    private List<Cell> getRowForNote(Entry entry, boolean isFirst, boolean isLast) {
+    private List<Cell> getRowForNote(PdfNote note, boolean isFirst, boolean isLast) {
         ArrayList<Cell> cells = new ArrayList<>();
 
-        Cell cell = new Cell(fontNormal, Helper.getTimeFormat().print(entry.getDate()));
+        Cell cell = new Cell(fontNormal, Helper.getTimeFormat().print(note.getDateTime()));
         cell.setFgColor(Color.gray);
         cell.setWidth(LABEL_WIDTH);
         cell.setNoBorders();
@@ -195,7 +215,7 @@ public class PdfTable extends Table {
 
         cells.add(cell);
 
-        PdfMultilineCell multilineCell = new PdfMultilineCell(fontNormal, entry.getNote(), 55);
+        PdfMultilineCell multilineCell = new PdfMultilineCell(fontNormal, note.getNote(), 55);
         multilineCell.setFgColor(Color.gray);
         multilineCell.setWidth(page.getWidth() - LABEL_WIDTH);
         multilineCell.setNoBorders();

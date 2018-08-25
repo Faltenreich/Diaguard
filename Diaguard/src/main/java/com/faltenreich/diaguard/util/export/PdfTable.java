@@ -125,6 +125,7 @@ public class PdfTable extends Table {
                     for (EntryTag entryTag : entryTags) {
                         notesOfDay.add(entryTag.getTag().getName());
                     }
+                    
                 }
                 if (!notesOfDay.isEmpty()) {
                     String note = TextUtils.join(", ", notesOfDay);

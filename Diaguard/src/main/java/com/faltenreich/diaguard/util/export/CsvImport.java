@@ -30,9 +30,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Faltenreich on 21.10.2015.
- */
 public class CsvImport extends AsyncTask<Void, Void, Void> {
 
     private static final String TAG = CsvImport.class.getSimpleName();
@@ -40,7 +37,7 @@ public class CsvImport extends AsyncTask<Void, Void, Void> {
     private File file;
     private FileListener listener;
 
-    public CsvImport(File file) {
+    CsvImport(File file) {
         this.file = file;
     }
 
@@ -66,7 +63,7 @@ public class CsvImport extends AsyncTask<Void, Void, Void> {
                         CategoryDeprecated categoryDeprecated = Helper.valueOf(CategoryDeprecated.class, nextLine[2]);
                         Measurement.Category category = categoryDeprecated.toUpdate();
                         Measurement measurement = (Measurement) category.toClass().newInstance();
-                        measurement.setValues(new float[]{NumberUtils.parseNumber(nextLine[0])});
+                        measurement.setValues(NumberUtils.parseNumber(nextLine[0]));
                         measurement.setEntry(entry);
                         MeasurementDao.getInstance(category.toClass()).createOrUpdate(measurement);
                     } catch (InstantiationException e) {
@@ -95,7 +92,7 @@ public class CsvImport extends AsyncTask<Void, Void, Void> {
                             try {
                                 CategoryDeprecated categoryDeprecated = Helper.valueOf(CategoryDeprecated.class, nextLine[2]);
                                 Measurement.Category category = categoryDeprecated.toUpdate();
-                                Measurement measurement = (Measurement) category.toClass().newInstance();
+                                Measurement measurement = category.toClass().newInstance();
                                 measurement.setValues(new float[]{NumberUtils.parseNumber(nextLine[1])});
                                 measurement.setEntry(entry);
                                 MeasurementDao.getInstance(category.toClass()).createOrUpdate(measurement);
@@ -119,7 +116,7 @@ public class CsvImport extends AsyncTask<Void, Void, Void> {
                         } else if (key.equalsIgnoreCase(Measurement.BACKUP_KEY) && entry != null) {
                             try {
                                 Measurement.Category category = Helper.valueOf(Measurement.Category.class, nextLine[1]);
-                                Measurement measurement = (Measurement) category.toClass().newInstance();
+                                Measurement measurement = category.toClass().newInstance();
 
                                 List<Float> valueList = new ArrayList<>();
                                 for (int position = 2; position < nextLine.length; position++) {
@@ -174,7 +171,6 @@ public class CsvImport extends AsyncTask<Void, Void, Void> {
                                 break;
                             case Entry.BACKUP_KEY:
                                 lastMeal = null;
-
                                 if (nextLine.length >= 3) {
                                     lastEntry = new Entry();
                                     lastEntry.setDate(DateTimeFormat.forPattern(Export.BACKUP_DATE_FORMAT).parseDateTime(nextLine[1]));
@@ -184,40 +180,42 @@ public class CsvImport extends AsyncTask<Void, Void, Void> {
                                     break;
                                 }
                             case Measurement.BACKUP_KEY:
-                                if (lastEntry != null) {
-                                    try {
-                                        Measurement.Category category = Helper.valueOf(Measurement.Category.class, nextLine[1]);
-                                        Measurement measurement = category.toClass().newInstance();
+                                if (lastEntry != null && nextLine.length >= 3) {
+                                    Measurement.Category category = Helper.valueOf(Measurement.Category.class, nextLine[1]);
+                                    if (category != null) {
+                                        try {
+                                            Measurement measurement = category.toClass().newInstance();
 
-                                        List<Float> valueList = new ArrayList<>();
-                                        for (int position = 2; position < nextLine.length; position++) {
-                                            String valueString = nextLine[position];
-                                            try {
-                                                valueList.add(NumberUtils.parseNumber(valueString));
-                                            } catch (NumberFormatException e) {
-                                                Log.e(TAG, e.getMessage());
+                                            List<Float> valueList = new ArrayList<>();
+                                            for (int position = 2; position < nextLine.length; position++) {
+                                                String valueString = nextLine[position];
+                                                try {
+                                                    valueList.add(NumberUtils.parseNumber(valueString));
+                                                } catch (NumberFormatException e) {
+                                                    Log.e(TAG, e.getMessage());
+                                                }
                                             }
-                                        }
-                                        float[] values = new float[valueList.size()];
-                                        for (int position = 0; position < valueList.size(); position++) {
-                                            values[position] = valueList.get(position);
-                                        }
-                                        measurement.setValues(values);
-                                        measurement.setEntry(lastEntry);
-                                        MeasurementDao.getInstance(category.toClass()).createOrUpdate(measurement);
+                                            float[] values = new float[valueList.size()];
+                                            for (int position = 0; position < valueList.size(); position++) {
+                                                values[position] = valueList.get(position);
+                                            }
+                                            measurement.setValues(values);
+                                            measurement.setEntry(lastEntry);
+                                            MeasurementDao.getInstance(category.toClass()).createOrUpdate(measurement);
 
-                                        if (measurement instanceof Meal) {
-                                            lastMeal = (Meal) measurement;
+                                            if (measurement instanceof Meal) {
+                                                lastMeal = (Meal) measurement;
+                                            }
+                                        } catch (InstantiationException e) {
+                                            Log.e(TAG, e.getMessage());
+                                        } catch (IllegalAccessException e) {
+                                            Log.e(TAG, e.getMessage());
                                         }
-                                    } catch (InstantiationException e) {
-                                        Log.e(TAG, e.getMessage());
-                                    } catch (IllegalAccessException e) {
-                                        Log.e(TAG, e.getMessage());
                                     }
                                 }
                                 break;
                             case EntryTag.BACKUP_KEY:
-                                if (lastEntry != null) {
+                                if (lastEntry != null && nextLine.length >= 2) {
                                     Tag tag = TagDao.getInstance().getByName(nextLine[1]);
                                     if (tag != null) {
                                         EntryTag entryTag = new EntryTag();
@@ -228,7 +226,7 @@ public class CsvImport extends AsyncTask<Void, Void, Void> {
                                 }
                                 break;
                             case FoodEaten.BACKUP_KEY:
-                                if (lastMeal != null) {
+                                if (lastMeal != null && nextLine.length >= 3) {
                                     Food food = FoodDao.getInstance().get(nextLine[1]);
                                     if (food != null) {
                                         FoodEaten foodEaten = new FoodEaten();

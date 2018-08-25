@@ -19,6 +19,8 @@ import java.util.List;
 
 public abstract class Measurement extends BaseEntity implements Backupable, Exportable {
 
+    public static final String BACKUP_KEY = "measurement";
+
     private static final String TAG = Measurement.class.getSimpleName();
 
     public class Column extends BaseEntity.Column {
@@ -144,7 +146,7 @@ public abstract class Measurement extends BaseEntity implements Backupable, Expo
 
     @Override
     public String getKeyForBackup() {
-        return "measurement";
+        return BACKUP_KEY;
     }
 
     @Override

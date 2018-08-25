@@ -18,6 +18,8 @@ import java.util.List;
 @DatabaseTable
 public class Entry extends BaseEntity implements Backupable, Exportable {
 
+    public static final String BACKUP_KEY = "entry";
+
     public class Column extends BaseEntity.Column {
         public static final String DATE = "date";
         public static final String NOTE = "note";
@@ -72,7 +74,7 @@ public class Entry extends BaseEntity implements Backupable, Exportable {
 
     @Override
     public String getKeyForBackup() {
-        return "entry";
+        return BACKUP_KEY;
     }
 
     @Override

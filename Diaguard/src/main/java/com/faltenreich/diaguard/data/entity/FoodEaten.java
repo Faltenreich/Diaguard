@@ -7,6 +7,8 @@ import org.joda.time.format.DateTimeFormat;
 
 public class FoodEaten extends BaseEntity implements Backupable {
 
+    public static final String BACKUP_KEY = "foodEaten";
+
     public class Column extends BaseEntity.Column {
         public static final String AMOUNT_IN_GRAMS = "amountInGrams";
         public static final String MEAL = "meal";
@@ -57,7 +59,7 @@ public class FoodEaten extends BaseEntity implements Backupable {
 
     @Override
     public String getKeyForBackup() {
-        return "foodEaten";
+        return BACKUP_KEY;
     }
 
     @Override

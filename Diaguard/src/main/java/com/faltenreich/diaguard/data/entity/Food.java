@@ -17,6 +17,8 @@ import static com.faltenreich.diaguard.data.entity.Food.Column.SUGAR;
 
 public class Food extends BaseServerEntity implements Backupable {
 
+    public static final String BACKUP_KEY = "food";
+
     private static final String IMAGE_SUFFIX = ".jpg";
     private static final String KEYWORD_FULL_RESOLUTION = "full";
 
@@ -283,12 +285,12 @@ public class Food extends BaseServerEntity implements Backupable {
 
     @Override
     public String getKeyForBackup() {
-        return "food";
+        return BACKUP_KEY;
     }
 
     @Override
     public String[] getValuesForBackup() {
-        return new String[]{name, imageUrl, brand, ingredients, labels, Float.toString(carbohydrates)};
+        return new String[]{name, brand, ingredients, Float.toString(carbohydrates)};
     }
 
     @Override

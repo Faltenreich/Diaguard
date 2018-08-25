@@ -8,6 +8,8 @@ import com.j256.ormlite.field.DatabaseField;
  */
 public class EntryTag extends BaseEntity implements Backupable {
 
+    public static final String BACKUP_KEY = "entryTag";
+
     public class Column extends BaseEntity.Column {
         public static final String ENTRY = "entry";
         public static final String TAG = "tag";
@@ -37,7 +39,7 @@ public class EntryTag extends BaseEntity implements Backupable {
 
     @Override
     public String getKeyForBackup() {
-        return "entryTag";
+        return BACKUP_KEY;
     }
 
     @Override

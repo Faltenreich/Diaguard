@@ -93,7 +93,7 @@ public class CsvExport extends AsyncTask<Void, String, File> {
                 List<Measurement> measurements = categories != null ? EntryDao.getInstance().getMeasurements(entry, categories) : EntryDao.getInstance().getMeasurements(entry);
                 for (Measurement measurement : measurements) {
                     writer.writeNext(isBackup ? ArrayUtils.add(measurement.getValuesForBackup(), 0, measurement.getKeyForBackup()) : measurement.getValuesForExport());
-                    
+
                     if (isBackup && measurement instanceof Meal) {
                         Meal meal = (Meal) measurement;
                         for (FoodEaten foodEaten : meal.getFoodEaten()) {

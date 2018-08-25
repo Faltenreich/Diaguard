@@ -7,10 +7,14 @@ import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.DatabaseHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
+import com.faltenreich.diaguard.data.dao.EntryTagDao;
 import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.dao.TagDao;
 import com.faltenreich.diaguard.data.entity.Entry;
+import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.Food;
+import com.faltenreich.diaguard.data.entity.FoodEaten;
+import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Tag;
 import com.opencsv.CSVWriter;
@@ -89,6 +93,20 @@ public class CsvExport extends AsyncTask<Void, String, File> {
                 List<Measurement> measurements = categories != null ? EntryDao.getInstance().getMeasurements(entry, categories) : EntryDao.getInstance().getMeasurements(entry);
                 for (Measurement measurement : measurements) {
                     writer.writeNext(isBackup ? ArrayUtils.add(measurement.getValuesForBackup(), 0, measurement.getKeyForBackup()) : measurement.getValuesForExport());
+                    
+                    if (isBackup && measurement instanceof Meal) {
+                        Meal meal = (Meal) measurement;
+                        for (FoodEaten foodEaten : meal.getFoodEaten()) {
+                            writer.writeNext(ArrayUtils.add(foodEaten.getValuesForBackup(), 0, foodEaten.getKeyForBackup()));
+                        }
+                    }
+                }
+
+                if (isBackup) {
+                    List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(entry);
+                    for (EntryTag entryTag : entryTags) {
+                        writer.writeNext(ArrayUtils.add(entryTag.getValuesForBackup(), 0, entryTag.getKeyForBackup()));
+                    }
                 }
 
                 position++;

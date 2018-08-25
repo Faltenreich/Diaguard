@@ -54,8 +54,12 @@ public abstract class BaseEntity {
     public int hashCode() {
         int hash = 1;
         hash = hash * 17 + (int) id;
-        hash = hash * 31 + createdAt.hashCode();
-        hash = hash * 13 + updatedAt.hashCode();
+        if (createdAt != null) {
+            hash = hash * 31 + createdAt.hashCode();
+        }
+        if (updatedAt != null) {
+            hash = hash * 13 + updatedAt.hashCode();
+        }
         return hash;
     }
 }

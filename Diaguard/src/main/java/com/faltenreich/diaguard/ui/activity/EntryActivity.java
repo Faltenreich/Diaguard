@@ -426,10 +426,12 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     private boolean inputIsValid() {
         boolean inputIsValid = true;
 
-        // Check whether there are values to submit
         if (layoutMeasurements.getMeasurements().size() == 0) {
-            ViewUtils.showSnackbar(contentView, getString(R.string.validator_value_none));
-            inputIsValid = false;
+            // Allow entries with no measurements but with a note or tag
+            if (StringUtils.isBlank(editTextNotes.getText().toString()) && tagsView.getChildCount() == 0) {
+                ViewUtils.showSnackbar(contentView, getString(R.string.validator_value_none));
+                inputIsValid = false;
+            }
         } else {
             for (Measurement measurement : layoutMeasurements.getMeasurements()) {
                 if (measurement == null) {
@@ -444,12 +446,13 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     private void trySubmit() {
         toggleSubmitButton(false);
 
+        // Convenience: Accept tag that hasn't been submitted by user
+        String missingTag = tagsInput.getText().toString();
+        if (!StringUtils.isBlank(missingTag)) {
+            addTag(missingTag);
+        }
+
         if (inputIsValid()) {
-            // Convenience: Accept tag that hasn't been submitted by user
-            String missingTag = tagsInput.getText().toString();
-            if (!StringUtils.isBlank(missingTag)) {
-                addTag(missingTag);
-            }
             submit();
         }
 

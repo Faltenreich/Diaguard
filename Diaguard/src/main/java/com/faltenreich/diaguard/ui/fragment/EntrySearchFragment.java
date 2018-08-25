@@ -15,8 +15,6 @@ import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.EntryTagDao;
 import com.faltenreich.diaguard.data.dao.TagDao;
 import com.faltenreich.diaguard.data.entity.Entry;
-import com.faltenreich.diaguard.data.entity.EntryTag;
-import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Tag;
 import com.lapism.searchview.SearchView;
 
@@ -172,12 +170,8 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
             List<ListItemEntry> listItems = new ArrayList<>();
             List<Entry> entries = EntryDao.getInstance().search(query);
             for (Entry entry : entries) {
-                List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
-                if (measurements.size() > 0) {
-                    entry.setMeasurementCache(measurements);
-                    List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(entry);
-                    listItems.add(new ListItemEntry(entry, entryTags));
-                }
+                entry.setMeasurementCache(EntryDao.getInstance().getMeasurements(entry));
+                listItems.add(new ListItemEntry(entry, EntryTagDao.getInstance().getAll(entry)));
             }
             return listItems;
         }

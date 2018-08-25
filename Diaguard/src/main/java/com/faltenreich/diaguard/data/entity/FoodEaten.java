@@ -1,10 +1,11 @@
 package com.faltenreich.diaguard.data.entity;
 
+import com.faltenreich.diaguard.data.Backupable;
 import com.j256.ormlite.field.DatabaseField;
 
 import org.joda.time.format.DateTimeFormat;
 
-public class FoodEaten extends BaseEntity {
+public class FoodEaten extends BaseEntity implements Backupable {
 
     public class Column extends BaseEntity.Column {
         public static final String AMOUNT_IN_GRAMS = "amountInGrams";
@@ -52,5 +53,15 @@ public class FoodEaten extends BaseEntity {
     @Override
     public String toString() {
         return String.format("%s: %f grams (updated: %s)", food.getName(), amountInGrams, DateTimeFormat.mediumDateTime().print(getUpdatedAt()));
+    }
+
+    @Override
+    public String getKeyForBackup() {
+        return "foodEaten";
+    }
+
+    @Override
+    public String[] getValuesForBackup() {
+        return new String[]{food.getName(), Float.toString(amountInGrams)};
     }
 }

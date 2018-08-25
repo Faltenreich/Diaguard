@@ -1,11 +1,12 @@
 package com.faltenreich.diaguard.data.entity;
 
+import com.faltenreich.diaguard.data.Backupable;
 import com.j256.ormlite.field.DatabaseField;
 
 /**
  * Created by Faltenreich on 11.09.2016.
  */
-public class EntryTag extends BaseEntity {
+public class EntryTag extends BaseEntity implements Backupable {
 
     public class Column extends BaseEntity.Column {
         public static final String ENTRY = "entry";
@@ -32,5 +33,15 @@ public class EntryTag extends BaseEntity {
 
     public void setTag(Tag tag) {
         this.tag = tag;
+    }
+
+    @Override
+    public String getKeyForBackup() {
+        return "entryTag";
+    }
+
+    @Override
+    public String[] getValuesForBackup() {
+        return new String[]{tag.getName()};
     }
 }

@@ -510,6 +510,7 @@
     </string-array>
 
     <string name="tag_hint">Mood, activity, &#8230;</string>
+    <string name="tags_append">Append moods, activities, &#8230;</string>
     <string name="search">Search</string>
     <string name="search_hint">Notes, moods, activities, &#8230;</string>
     <string name="calculator_missing">Where is the calculator?</string>

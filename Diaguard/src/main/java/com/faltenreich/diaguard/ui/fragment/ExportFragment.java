@@ -51,6 +51,7 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
     @BindView(R.id.button_dateend) Button buttonDateEnd;
     @BindView(R.id.spinner_format) Spinner spinnerFormat;
     @BindView(R.id.checkbox_note) CheckBox checkBoxNotes;
+    @BindView(R.id.checkbox_tags) CheckBox checkBoxTags;
     @BindView(R.id.export_list_categories) CategoryCheckBoxList categoryCheckBoxList;
 
     private ProgressDialog progressDialog;
@@ -89,12 +90,18 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
     public void initializeLayout() {
         buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
         buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
-        checkBoxNotes.setPadding(PADDING, PADDING, PADDING, PADDING);
         checkBoxNotes.setChecked(PreferenceHelper.getInstance().exportNotes());
         checkBoxNotes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 PreferenceHelper.getInstance().setExportNotes(isChecked);
+            }
+        });
+        checkBoxTags.setChecked(PreferenceHelper.getInstance().exportTags());
+        checkBoxTags.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                PreferenceHelper.getInstance().setExportTags(isChecked);
             }
         });
     }

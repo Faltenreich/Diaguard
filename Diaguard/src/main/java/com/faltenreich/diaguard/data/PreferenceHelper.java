@@ -50,6 +50,7 @@ public class PreferenceHelper {
         final static String CATEGORY_ACTIVE = "_active";
         final static String CATEGORY_ACTIVE_FOR_EXPORT = "_active_for_export";
         final static String EXPORT_NOTES = "export_notes";
+        final static String EXPORT_TAGS = "export_tags";
         final static String EXPORT_CATEGORIES = "exportCategories";
         final static String DID_IMPORT_TAGS_FOR_LANGUAGE = "didImportTagsForLanguage";
     }
@@ -221,11 +222,19 @@ public class PreferenceHelper {
     }
 
     public void setExportNotes(boolean exportNotes) {
-        sharedPreferences.edit().putBoolean("export_notes", exportNotes).apply();
+        sharedPreferences.edit().putBoolean(Keys.EXPORT_NOTES, exportNotes).apply();
     }
 
     public boolean exportNotes() {
         return sharedPreferences.getBoolean(Keys.EXPORT_NOTES, true);
+    }
+
+    public void setExportTags(boolean exportTags) {
+        sharedPreferences.edit().putBoolean(Keys.EXPORT_TAGS, exportTags).apply();
+    }
+
+    public boolean exportTags() {
+        return sharedPreferences.getBoolean(Keys.EXPORT_TAGS, true);
     }
 
     public void setExportCategories(Measurement.Category[] categories) {

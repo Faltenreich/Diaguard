@@ -54,7 +54,7 @@ public class Export {
     public static final String CSV_KEY_META = "meta";
 
     public static void exportPdf(FileListener listener, @NonNull DateTime dateStart, @NonNull DateTime dateEnd, @NonNull Measurement.Category[] categories) {
-        PdfExport pdfExport = new PdfExport(dateStart, dateEnd, categories, PreferenceHelper.getInstance().exportNotes());
+        PdfExport pdfExport = new PdfExport(dateStart, dateEnd, categories, PreferenceHelper.getInstance().exportNotes(), PreferenceHelper.getInstance().exportTags());
         pdfExport.setListener(listener);
         pdfExport.execute();
     }

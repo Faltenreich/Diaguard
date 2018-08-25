@@ -1,17 +1,22 @@
 package com.faltenreich.diaguard.data.entity;
 
+import com.faltenreich.diaguard.data.Backupable;
+import com.faltenreich.diaguard.data.Exportable;
+import com.faltenreich.diaguard.util.Helper;
+import com.faltenreich.diaguard.util.export.Export;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @DatabaseTable
-public class Entry extends BaseEntity {
+public class Entry extends BaseEntity implements Backupable, Exportable {
 
     public class Column extends BaseEntity.Column {
         public static final String DATE = "date";
@@ -63,5 +68,20 @@ public class Entry extends BaseEntity {
 
     public void setMeasurementCache(List<Measurement> measurementCache) {
         this.measurementCache = measurementCache;
+    }
+
+    @Override
+    public String getKeyForBackup() {
+        return "entry";
+    }
+
+    @Override
+    public String[] getValuesForBackup() {
+        return new String[]{DateTimeFormat.forPattern(Export.BACKUP_DATE_FORMAT).print(date), note};
+    }
+
+    @Override
+    public String[] getValuesForExport() {
+        return new String[]{String.format("%s %s", Helper.getDateFormat().print(date), Helper.getTimeFormat().print(date)).toLowerCase(), note};
     }
 }

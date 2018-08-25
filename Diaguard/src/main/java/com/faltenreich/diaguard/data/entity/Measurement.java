@@ -6,14 +6,18 @@ import android.util.Log;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.data.Backupable;
+import com.faltenreich.diaguard.data.Exportable;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.util.Helper;
 import com.j256.ormlite.field.DatabaseField;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Measurement extends BaseEntity {
+public abstract class Measurement extends BaseEntity implements Backupable, Exportable {
 
     private static final String TAG = Measurement.class.getSimpleName();
 
@@ -137,4 +141,24 @@ public abstract class Measurement extends BaseEntity {
 
     @SuppressWarnings("unchecked")
     public abstract void setValues(float... values);
+
+    @Override
+    public String getKeyForBackup() {
+        return "measurement";
+    }
+
+    @Override
+    public String[] getValuesForBackup() {
+        float[] values = getValues();
+        String[] valuesForBackup = new String[values.length];
+        for (int index = 0; index < values.length; index++) {
+            valuesForBackup[index] = Float.toString(values[index]);
+        }
+        return ArrayUtils.addAll(new String[]{getCategory().name().toLowerCase()}, valuesForBackup);
+    }
+
+    @Override
+    public String[] getValuesForExport() {
+        return ArrayUtils.addAll(new String[]{getCategory().name().toLowerCase()}, getValuesForUI());
+    }
 }

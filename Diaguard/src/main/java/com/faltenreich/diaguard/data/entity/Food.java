@@ -4,6 +4,7 @@ import android.support.annotation.StringRes;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.data.Backupable;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.util.Helper;
 import com.j256.ormlite.dao.ForeignCollection;
@@ -14,7 +15,7 @@ import static com.faltenreich.diaguard.data.entity.Food.Column.FAT_SATURATED;
 import static com.faltenreich.diaguard.data.entity.Food.Column.PROTEINS;
 import static com.faltenreich.diaguard.data.entity.Food.Column.SUGAR;
 
-public class Food extends BaseServerEntity {
+public class Food extends BaseServerEntity implements Backupable {
 
     private static final String IMAGE_SUFFIX = ".jpg";
     private static final String KEYWORD_FULL_RESOLUTION = "full";
@@ -40,7 +41,6 @@ public class Food extends BaseServerEntity {
     }
 
     public enum Nutrient {
-
         ENERGY(R.string.energy),
         FAT(R.string.fat),
         FAT_SATURATED(R.string.fat_saturated),
@@ -279,6 +279,16 @@ public class Food extends BaseServerEntity {
         } else {
             return "";
         }
+    }
+
+    @Override
+    public String getKeyForBackup() {
+        return "food";
+    }
+
+    @Override
+    public String[] getValuesForBackup() {
+        return new String[]{name, imageUrl, brand, ingredients, labels, Float.toString(carbohydrates)};
     }
 
     @Override

@@ -94,7 +94,6 @@ public class PdfTable extends Table {
 
     private List<List<Cell>> getData() {
         List<List<Cell>> data = new ArrayList<>();
-
         data.add(getRowForHeader());
 
         LinkedHashMap<Measurement.Category, ListItemCategoryValue[]> values = EntryDao.getInstance().getAverageDataTable(day, categories, HOURS_TO_SKIP);
@@ -125,7 +124,6 @@ public class PdfTable extends Table {
                     for (EntryTag entryTag : entryTags) {
                         notesOfDay.add(entryTag.getTag().getName());
                     }
-                    
                 }
                 if (!notesOfDay.isEmpty()) {
                     String note = TextUtils.join(", ", notesOfDay);
@@ -133,7 +131,6 @@ public class PdfTable extends Table {
                 }
 
             }
-
             for (PdfNote note : notes) {
                 data.add(getRowForNote(note, notes.indexOf(note) == 0, notes.indexOf(note) == notes.size() - 1));
             }

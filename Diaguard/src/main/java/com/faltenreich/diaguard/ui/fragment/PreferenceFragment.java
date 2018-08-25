@@ -1,6 +1,8 @@
 package com.faltenreich.diaguard.ui.fragment;
 
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -9,12 +11,15 @@ import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.widget.ListAdapter;
+import android.widget.Toast;
 
 import com.faltenreich.diaguard.BuildConfig;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.Events;
+import com.faltenreich.diaguard.event.FileProvidedEvent;
+import com.faltenreich.diaguard.event.FileProvidedFailedEvent;
 import com.faltenreich.diaguard.event.preference.MealFactorUnitChangedEvent;
 import com.faltenreich.diaguard.event.preference.UnitChangedEvent;
 import com.faltenreich.diaguard.ui.view.preferences.BloodSugarPreference;
@@ -22,15 +27,20 @@ import com.faltenreich.diaguard.ui.view.preferences.CategoryPreference;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.SystemUtils;
+import com.faltenreich.diaguard.util.export.Export;
+import com.faltenreich.diaguard.util.export.FileListener;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.io.File;
 import java.util.ArrayList;
 
-/**
- * Created by Faltenreich on 01.09.2016.
- */
-public class PreferenceFragment extends android.preference.PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class PreferenceFragment extends android.preference.PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener, FileListener {
 
     public static final String EXTRA_OPENING_PREFERENCE = "EXTRA_OPENING_PREFERENCE";
+
+    private ProgressDialog progressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,6 +57,18 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
         initPreferences();
         checkIntents();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Events.register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        Events.unregister(this);
+        super.onDestroy();
     }
 
     private ArrayList<Preference> getPreferenceList(Preference preference, ArrayList<Preference> list) {
@@ -162,5 +184,41 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                 break;
         }
         setSummary(findPreference(key));
+    }
+
+    private void importBackup(Uri uri) {
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage(getString(R.string.backup_import));
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        File file = new File(uri.getPath());
+        Export.importCsv(this, file);
+    }
+
+    @Override
+    public void onProgress(String message) {
+        if (progressDialog != null) {
+            progressDialog.setMessage(message);
+        }
+    }
+
+    @Override
+    public void onComplete(File file, String mimeType) {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+        int messageResId = file != null ? R.string.backup_complete : R.string.error_unexpected;
+        Toast.makeText(getActivity(), getActivity().getString(messageResId), Toast.LENGTH_SHORT).show();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(FileProvidedEvent event) {
+        importBackup(event.context);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(FileProvidedFailedEvent event) {
+        // TODO
     }
 }

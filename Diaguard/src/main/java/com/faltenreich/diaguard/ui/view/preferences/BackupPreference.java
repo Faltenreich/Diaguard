@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.preference.Preference;
 import android.util.AttributeSet;
+import android.widget.Toast;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.event.Events;
@@ -75,7 +76,11 @@ public class BackupPreference extends Preference implements Preference.OnPrefere
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
-        FileUtils.shareFile(getContext(), file, mimeType);
+        if (file != null) {
+            FileUtils.shareFile(getContext(), file, mimeType);
+        } else {
+            Toast.makeText(getContext(), getContext().getString(R.string.error_unexpected), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.util.export;
 
+import android.support.annotation.Nullable;
+
 import java.io.File;
 
 /**
@@ -7,5 +9,5 @@ import java.io.File;
  */
 public interface FileListener {
     void onProgress(String message);
-    void onComplete(File file, String mimeType);
+    void onComplete(@Nullable File file, String mimeType);
 }

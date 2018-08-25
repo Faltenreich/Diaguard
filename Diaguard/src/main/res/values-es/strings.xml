@@ -18,6 +18,7 @@
     <string name="backup">Copia de seguridad</string>
     <string name="backup_import"> La copia de seguridad se registrará  &#8230;</string>
     <string name="backup_complete">Se creará la copia de seguridad</string>
+    <string name="backup_store">Guardar copia de seguridad</string>
     <string name="backup_title">Seleccionar copia de seguridad</string>
     <string name="bloodsugar">Glicemia</string>
     <string name="bolus">Bolo</string>

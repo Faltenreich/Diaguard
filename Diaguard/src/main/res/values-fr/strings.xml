@@ -17,6 +17,7 @@
     <string name="back">Arrière</string>
     <string name="backup">Sauvegarde</string>
     <string name="backup_import">Sauvegarde est charger &#8230;</string>
+    <string name="backup_store">Sauvegarde du magasin</string>
     <string name="backup_title">Sélectionnez sauvegarde</string>
     <string name="bloodsugar">Glycémie</string>
     <string name="bolus">Bol</string>

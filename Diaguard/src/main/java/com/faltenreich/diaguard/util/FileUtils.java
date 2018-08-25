@@ -8,6 +8,9 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AppCompatActivity;
+
+import com.faltenreich.diaguard.R;
 
 import java.io.File;
 import java.util.List;
@@ -42,14 +45,8 @@ public class FileUtils {
         return directory;
     }
 
-    public static void openFile(File file, String mimeType, Context context) throws ActivityNotFoundException {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        Uri uri = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".provider", file);
-        intent.setDataAndType(uri, mimeType);
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        grantUriPermission(uri, intent, context);
-        context.startActivity(intent);
-        // TODO: revokeUriPermission onResult
+    private static Uri getUriForFile(Context context, File file) {
+        return FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".provider", file);
     }
 
     private static List<ResolveInfo> getSupportingApps(Intent intent, Context context) {
@@ -65,5 +62,28 @@ public class FileUtils {
 
     private static void revokeUriPermission(Uri uri, Context context) {
         context.revokeUriPermission(uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+    }
+
+    public static void openFile(File file, String mimeType, Context context) throws ActivityNotFoundException {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri uri = getUriForFile(context, file);
+        intent.setDataAndType(uri, mimeType);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        grantUriPermission(uri, intent, context);
+        context.startActivity(intent);
+        // TODO: revokeUriPermission onResult
+    }
+
+    public static void shareFile(Context context, File file, String mimeType) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType(mimeType);
+        intent.putExtra(Intent.EXTRA_STREAM, getUriForFile(context, file));
+        context.startActivity(Intent.createChooser(intent, context.getString(R.string.backup)));
+    }
+
+    public static void searchFiles(AppCompatActivity activity, String mimeType, int requestCode) {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType(mimeType);
+        activity.startActivityForResult(intent, requestCode);
     }
 }

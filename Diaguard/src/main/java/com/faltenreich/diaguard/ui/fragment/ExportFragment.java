@@ -45,7 +45,7 @@ import butterknife.OnClick;
 
 public class ExportFragment extends BaseFragment implements FileListener, MainButton {
 
-    private static final int PADDING = (int) Helper.getDPI(R.dimen.padding);
+    private static final String TAG = ExportFragment.class.getSimpleName();
 
     @BindView(R.id.button_datestart) Button buttonDateStart;
     @BindView(R.id.button_dateend) Button buttonDateEnd;
@@ -168,9 +168,9 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
     private void openFile(File file, String mimeType) {
         try {
             FileUtils.openFile(file, mimeType, getContext());
-        } catch (ActivityNotFoundException e) {
+        } catch (ActivityNotFoundException exception) {
+            Log.e(TAG, exception.getMessage());
             ViewUtils.showSnackbar(getView(), getString(R.string.error_no_app));
-            Log.e("Open " + mimeType, e.getMessage());
         }
     }
 

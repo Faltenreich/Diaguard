@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingTranslation">
 
-    <!-- GENERAL -->
     <string name="about">Über</string>
     <string name="active">aktiv</string>
     <string name="activity">Aktivität</string>
@@ -276,17 +275,10 @@
     <!-- SETTINGS -->
     <string name="pref_therapy_targets">Zielwerte</string>
     <string name="pref_therapy_targets_target">Zielwert</string>
-
     <string name="pref_therapy_limits">Grenzwerte</string>
     <string name="pref_therapy_targets_highlight">Grenzbereiche hervorheben?</string>
     <string name="pref_therapy_targets_hyperclycemia">Grenze für Überzuckerung</string>
     <string name="pref_therapy_targets_hypoclycemia">Grenze für Unterzuckerung</string>
-
-    <string name="pref_data_cleanup_confirm_title">Einträge löschen?</string>
-    <string name="pref_data_cleanup_confirm_message">Einträge wären betroffen</string>
-    <string name="pref_data_cleanup_return">Einträge wurden gelöscht</string>
-    <string name="pref_data_export_info">Jeder Export wird lokal auf der Speicherkarte abgelegt und kann zusätzlich via E-Mail versendet werden.</string>
-    <string name="pref_data_export_mail_message">Meine Daten im Anhang gesendet via Diaguard</string>
 
     <!-- ABOUT -->
     <string name="about_dev">Entwickler</string>

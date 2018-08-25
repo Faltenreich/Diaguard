@@ -9,9 +9,6 @@
     <string name="app_mail" translatable="false">mailto:diaguard.de@gmail.com</string>
     <string name="app_mail_short" translatable="false">diaguard.de@gmail.com</string>
 
-    <!-- PREFERENCES -->
-    <string name="pref_factor" translatable="false">pref_factor</string>
-
     <!-- GENERAL -->
 
     <string name="about">About</string>
@@ -416,7 +413,6 @@
     </integer-array>
 
     <!-- VALIDATORS -->
-
     <string name="validator_value_number">Only numbers are allowed</string>
     <string name="validator_value_infuture">Event cannot take place in the future</string>
     <string name="validator_value_empty">Please enter a value</string>
@@ -425,7 +421,6 @@
     <string name="validator_value_unrealistic">Unrealistic value</string>
 
     <!-- ERRORS -->
-
     <string name="error_unexpected">Something went wrong</string>
     <string name="error_no_connection">No connection?</string>
     <string name="error_no_connection_desc">Go online to get more information</string>
@@ -437,7 +432,7 @@
     <string name="error_no_backups">No backups found at</string>
 
     <!-- SETTINGS -->
-
+    <string name="pref_factor" translatable="false">pref_factor</string>
     <string name="pref_therapy_targets">Target values</string>
     <string name="pref_therapy_targets_target">Target value</string>
     <string name="pref_therapy_targets_target_default" translatable="false">120.0</string>
@@ -447,13 +442,6 @@
     <string name="pref_therapy_targets_hyperclycemia_default" translatable="false">180.0</string>
     <string name="pref_therapy_targets_hypoclycemia">Limit for hypoclycemia</string>
     <string name="pref_therapy_targets_hypoclycemia_default" translatable="false">60.0</string>
-
-    <string name="pref_data_cleanup_confirm_title">Delete entries?</string>
-    <string name="pref_data_cleanup_confirm_message">entries would be affected</string>
-    <string name="pref_data_cleanup_return">entries have been deleted</string>
-
-    <string name="pref_data_export_info">Every export will be stored locally on the SD card and can be sent via E-Mail, too.</string>
-    <string name="pref_data_export_mail_message">My data as attachment sent from Diaguard</string>
 
     <!-- ABOUT -->
     <string name="about_dev">Developer</string>

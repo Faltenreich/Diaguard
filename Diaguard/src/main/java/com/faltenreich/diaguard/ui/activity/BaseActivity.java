@@ -4,7 +4,11 @@ import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
@@ -13,30 +17,48 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.PermissionDeniedEvent;
 import com.faltenreich.diaguard.event.PermissionGrantedEvent;
+import com.faltenreich.diaguard.util.FileUtils;
 import com.faltenreich.diaguard.util.SystemUtils;
 import com.faltenreich.diaguard.util.ViewUtils;
+import com.faltenreich.diaguard.util.export.Export;
+import com.faltenreich.diaguard.util.export.FileListener;
+
+import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity implements FileListener {
+
+    private static final String TAG = BaseActivity.class.getSimpleName();
+
+    public static final int REQUEST_CODE_BACKUP_IMPORT = 25151;
 
     static final String ARGUMENT_REVEAL_X = "revealX";
     static final String ARGUMENT_REVEAL_Y = "revealY";
 
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @Nullable @BindView(R.id.action) TextView actionView;
-    @Nullable @BindView(R.id.root) ViewGroup rootLayout;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @Nullable
+    @BindView(R.id.action)
+    TextView actionView;
+    @Nullable
+    @BindView(R.id.root)
+    ViewGroup rootLayout;
+
+    private ProgressDialog progressDialog;
 
     private int layoutResourceId;
     private int revealX;
@@ -107,11 +129,36 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_CODE_BACKUP_IMPORT:
+                switch (resultCode) {
+                    case Activity.RESULT_OK:
+                        if (data != null && data.getData() != null) {
+                            importBackup(data.getData());
+                        } else {
+                            // TODO
+                        }
+                        break;
+                    default:
+                        // TODO
+                        break;
+                }
+                break;
+            default:
+                Log.d(TAG, "Ignoring unknown result with request code" + requestCode);
+                break;
+        }
+    }
+
+    @Override
     public void finish() {
         unreveal();
     }
 
-    public @Nullable TextView getActionView() {
+    public @Nullable
+    TextView getActionView() {
         return actionView;
     }
 
@@ -177,5 +224,35 @@ public abstract class BaseActivity extends AppCompatActivity {
         } else {
             super.finish();
         }
+    }
+
+    public void searchForBackup() {
+        FileUtils.searchFiles(this, Export.CSV_MIME_TYPE, BaseActivity.REQUEST_CODE_BACKUP_IMPORT);
+        // TODO: Fallback if searchFiles() fails
+    }
+
+    private void importBackup(Uri uri) {
+        showProgressDialog();
+        File file = new File(uri.getPath());
+        Export.importCsv(this, file);
+    }
+
+    private void showProgressDialog() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getString(R.string.backup_import));
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
+    @Override
+    public void onProgress(String message) {
+        progressDialog.setMessage(message);
+    }
+
+    @Override
+    public void onComplete(File file, String mimeType) {
+        progressDialog.dismiss();
+        Toast.makeText(this, getString(R.string.backup_complete), Toast.LENGTH_SHORT).show();
     }
 }

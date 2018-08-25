@@ -225,17 +225,10 @@
     <!-- SETTINGS -->
     <string name="pref_therapy_targets">Les valeurs cibles</string>
     <string name="pref_therapy_targets_target">Valeur cible</string>
-
     <string name="pref_therapy_limits">Limites</string>
     <string name="pref_therapy_targets_highlight">Mettez en surbrillance les zones frontalières?</string>
     <string name="pref_therapy_targets_hyperclycemia">Limite d\'hyperglycémie</string>
     <string name="pref_therapy_targets_hypoclycemia">Limite d\'hypoglycémie</string>
-
-    <string name="pref_data_cleanup_confirm_title">Supprimer des entrées?</string>
-    <string name="pref_data_cleanup_confirm_message">entrées seraient touchés</string>
-    <string name="pref_data_cleanup_return">entrées ont été supprimés</string>
-    <string name="pref_data_export_info">Chaque exportation est enrégistrée localement sur la carte mémoire. En plus, elle peut être envoyée par mail.</string>
-    <string name="pref_data_export_mail_message">Mes données attachées ont été envoyées par Diaguard</string>
 
     <!-- ABOUT -->
     <string name="about_dev">Développeur</string>

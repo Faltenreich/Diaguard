@@ -6,12 +6,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.preference.Preference;
 import android.util.AttributeSet;
-import android.widget.Toast;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.PermissionDeniedEvent;
 import com.faltenreich.diaguard.event.PermissionGrantedEvent;
+import com.faltenreich.diaguard.util.FileUtils;
 import com.faltenreich.diaguard.util.SystemUtils;
 import com.faltenreich.diaguard.util.ViewUtils;
 import com.faltenreich.diaguard.util.export.Export;
@@ -65,14 +65,17 @@ public class BackupPreference extends Preference implements Preference.OnPrefere
 
     @Override
     public void onProgress(String message) {
-        progressDialog.setMessage(message);
+        if (progressDialog != null) {
+            progressDialog.setMessage(message);
+        }
     }
 
     @Override
     public void onComplete(File file, String mimeType) {
-        progressDialog.dismiss();
-        String confirmationText = String.format(getContext().getString(R.string.export_complete), file.getAbsolutePath());
-        Toast.makeText(getContext(), confirmationText, Toast.LENGTH_LONG).show();
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+        FileUtils.shareFile(getContext(), file, mimeType);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

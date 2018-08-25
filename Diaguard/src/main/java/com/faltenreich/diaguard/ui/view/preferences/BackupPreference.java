@@ -23,9 +23,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 
-/**
- * Created by Filip on 04.11.13.
- */
 public class BackupPreference extends Preference implements Preference.OnPreferenceClickListener, FileListener {
 
     private ProgressDialog progressDialog;
@@ -47,7 +44,7 @@ public class BackupPreference extends Preference implements Preference.OnPrefere
             createBackup();
         } else {
             Events.register(this);
-            SystemUtils.requestPermissionWriteExternalStorage(activity);
+            SystemUtils.requestPermissionWriteExternalStorage(activity, SystemUtils.REQUEST_CODE_BACKUP_WRITE);
         }
     }
 

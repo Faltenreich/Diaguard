@@ -7,7 +7,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
@@ -29,10 +28,10 @@ import com.faltenreich.diaguard.event.FileProvidedEvent;
 import com.faltenreich.diaguard.event.FileProvidedFailedEvent;
 import com.faltenreich.diaguard.event.PermissionDeniedEvent;
 import com.faltenreich.diaguard.event.PermissionGrantedEvent;
+import com.faltenreich.diaguard.util.FileUtils;
 import com.faltenreich.diaguard.util.SystemUtils;
 import com.faltenreich.diaguard.util.ViewUtils;
-
-import java.io.FileNotFoundException;
+import com.faltenreich.diaguard.util.export.Export;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -112,14 +111,20 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        boolean permissionGranted = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
         switch (requestCode) {
-            case SystemUtils.PERMISSION_WRITE_EXTERNAL_STORAGE: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Events.post(new PermissionGrantedEvent(Manifest.permission.WRITE_EXTERNAL_STORAGE));
+            case SystemUtils.REQUEST_CODE_EXPORT:
+                Events.post(permissionGranted ?
+                        new PermissionGrantedEvent(Manifest.permission.WRITE_EXTERNAL_STORAGE) :
+                        new PermissionDeniedEvent(Manifest.permission.WRITE_EXTERNAL_STORAGE));
+                break;
+            case SystemUtils.REQUEST_CODE_BACKUP_READ:
+                if (permissionGranted) {
+                    importBackup();
                 } else {
-                    Events.post(new PermissionDeniedEvent(Manifest.permission.WRITE_EXTERNAL_STORAGE));
+                    ViewUtils.showToast(this, R.string.permission_required_storage);
                 }
-            }
+                break;
         }
     }
 
@@ -131,20 +136,13 @@ public abstract class BaseActivity extends AppCompatActivity {
                 switch (resultCode) {
                     case Activity.RESULT_OK:
                         if (data != null && data.getData() != null) {
-                            try {
-                                Uri uri = data.getData();
-                                getContentResolver().openFileDescriptor(uri, "r");
-                                Events.post(new FileProvidedEvent(uri));
-                            } catch (Exception exception) {
-                                Log.e(TAG, exception.getMessage());
-                                Events.post(new FileProvidedFailedEvent());
-                            }
+                            Events.post(new FileProvidedEvent(data.getData()));
                         } else {
                             Events.post(new FileProvidedFailedEvent());
                         }
                         break;
                     default:
-                        Events.post(new FileProvidedFailedEvent());
+                        // Ignore
                         break;
                 }
                 break;
@@ -225,6 +223,14 @@ public abstract class BaseActivity extends AppCompatActivity {
             });
         } else {
             super.finish();
+        }
+    }
+
+    public void importBackup() {
+        if (SystemUtils.canWriteExternalStorage(this)) {
+            FileUtils.searchFiles(this, Export.CSV_MIME_TYPE, BaseActivity.REQUEST_CODE_BACKUP_IMPORT);
+        } else {
+            SystemUtils.requestPermissionWriteExternalStorage(this, SystemUtils.REQUEST_CODE_BACKUP_READ);
         }
     }
 }

@@ -1,24 +1,12 @@
 package com.faltenreich.diaguard.ui.activity;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
-import android.app.Fragment;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.ui.fragment.PreferenceFragment;
-import com.faltenreich.diaguard.util.SystemUtils;
-import com.faltenreich.diaguard.event.Events;
-import com.faltenreich.diaguard.event.PermissionDeniedEvent;
-import com.faltenreich.diaguard.event.PermissionGrantedEvent;
 
-import static android.R.attr.fragment;
-
-/**
- * Created by Filip on 26.10.13.
- */
 public class PreferenceActivity extends BaseActivity {
 
     private static final @IdRes int CONTENT_ID = R.id.content;
@@ -31,18 +19,6 @@ public class PreferenceActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getFragmentManager().beginTransaction().replace(CONTENT_ID, new PreferenceFragment()).commit();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case SystemUtils.PERMISSION_WRITE_EXTERNAL_STORAGE: {
-                boolean permissionGranted = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                Events.post(permissionGranted ?
-                        new PermissionGrantedEvent(Manifest.permission.WRITE_EXTERNAL_STORAGE) :
-                        new PermissionDeniedEvent(Manifest.permission.WRITE_EXTERNAL_STORAGE));
-            }
-        }
     }
 
     public Fragment getFragment() {

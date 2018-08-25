@@ -20,7 +20,9 @@ public class SystemUtils {
 
     private static final String TAG = SystemUtils.class.getSimpleName();
 
-    public static final int PERMISSION_WRITE_EXTERNAL_STORAGE = 123;
+    public static final int REQUEST_CODE_EXPORT = 123;
+    public static final int REQUEST_CODE_BACKUP_WRITE = 124;
+    public static final int REQUEST_CODE_BACKUP_READ = 125;
 
     public static String getVersionName(Context context) {
         try {
@@ -45,10 +47,8 @@ public class SystemUtils {
         return filePermission == PackageManager.PERMISSION_GRANTED;
     }
 
-    public static void requestPermissionWriteExternalStorage(Activity activity) {
-        ActivityCompat.requestPermissions(activity,
-                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                PERMISSION_WRITE_EXTERNAL_STORAGE);
+    public static void requestPermissionWriteExternalStorage(Activity activity, int requestCode) {
+        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, requestCode);
     }
 
     public static String getDecimalSeparator() {

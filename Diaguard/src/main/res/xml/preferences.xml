@@ -33,11 +33,11 @@
             android:entries="@array/categories"
             android:entryValues="@array/categories"/>
 
-        <com.faltenreich.diaguard.ui.view.preferences.BackupPreference
+        <com.faltenreich.diaguard.ui.view.preferences.BackupExportPreference
             android:key="backup"
             android:title="@string/backup"/>
 
-        <com.faltenreich.diaguard.ui.view.preferences.ImportPreference
+        <com.faltenreich.diaguard.ui.view.preferences.BackupImportPreference
             android:key="import"
             android:title="@string/import_"/>
 

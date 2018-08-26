@@ -55,7 +55,6 @@ public class PdfExport extends AsyncTask<Void, String, File> {
 
     @Override
     protected File doInBackground(Void... params) {
-
         File file = Export.getExportFile(Export.FileType.PDF);
         try {
             Point currentPosition;

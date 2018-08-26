@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.util.export;
 
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
@@ -55,13 +54,17 @@ public class Export {
     public static final char CSV_DELIMITER = ';';
     public static final String CSV_KEY_META = "meta";
 
-    public static void exportPdf( @NonNull DateTime dateStart, @NonNull DateTime dateEnd, @NonNull Measurement.Category[] categories, FileListener listener) {
+    public static void exportPdf(DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories, FileListener listener) {
+        dateStart = dateStart != null ? dateStart.withTimeAtStartOfDay() : null;
+        dateEnd = dateEnd != null ? dateEnd.withTimeAtStartOfDay() : null;
         PdfExport pdfExport = new PdfExport(dateStart, dateEnd, categories, PreferenceHelper.getInstance().exportNotes(), PreferenceHelper.getInstance().exportTags());
         pdfExport.setListener(listener);
         pdfExport.execute();
     }
 
     public static void exportCsv(boolean isBackup, DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories, FileListener listener) {
+        dateStart = dateStart != null ? dateStart.withTimeAtStartOfDay() : null;
+        dateEnd = dateEnd != null ? dateEnd.withTimeAtStartOfDay() : null;
         CsvExport csvExport = new CsvExport(isBackup, dateStart, dateEnd, categories);
         csvExport.setListener(listener);
         csvExport.execute();

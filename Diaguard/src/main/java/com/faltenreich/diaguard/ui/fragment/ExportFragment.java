@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.ui.fragment;
 
-import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,6 +23,7 @@ import com.faltenreich.diaguard.ui.view.MainButton;
 import com.faltenreich.diaguard.ui.view.MainButtonProperties;
 import com.faltenreich.diaguard.util.FileUtils;
 import com.faltenreich.diaguard.util.Helper;
+import com.faltenreich.diaguard.util.ProgressComponent;
 import com.faltenreich.diaguard.util.ViewUtils;
 import com.faltenreich.diaguard.util.export.Export;
 import com.faltenreich.diaguard.util.export.FileListener;
@@ -54,7 +54,7 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
     @BindView(R.id.checkbox_tags) CheckBox checkBoxTags;
     @BindView(R.id.export_list_categories) CategoryCheckBoxList categoryCheckBoxList;
 
-    private ProgressDialog progressDialog;
+    private ProgressComponent progressComponent = new ProgressComponent();
 
     private DateTime dateStart;
     private DateTime dateEnd;
@@ -124,11 +124,8 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
     }
 
     private void export() {
-        progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage(getString(R.string.export_progress));
-        progressDialog.setIndeterminate(true);
-        progressDialog.setCancelable(false);
-        progressDialog.show();
+        progressComponent.show(getContext());
+        progressComponent.setMessage(getString(R.string.export_progress));
 
         Measurement.Category[] selectedCategories = categoryCheckBoxList.getSelectedCategories();
         PreferenceHelper.getInstance().setExportCategories(selectedCategories);
@@ -142,22 +139,23 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
 
     @Override
     public void onProgress(String message) {
-        if (progressDialog != null) {
-            progressDialog.setMessage(message);
-        }
+        progressComponent.setMessage(message);
     }
 
     @Override
     public void onSuccess(File file, String mimeType) {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
+        progressComponent.dismiss();
+        if (file != null) {
+            Toast.makeText(getContext(), String.format(getString(R.string.export_complete), file.getAbsolutePath()), Toast.LENGTH_LONG).show();
+            openFile(file, mimeType);
+        } else {
+            onError();
         }
-        Toast.makeText(getContext(), String.format(getString(R.string.export_complete), file.getAbsolutePath()), Toast.LENGTH_LONG).show();
-        openFile(file, mimeType);
     }
 
     @Override
     public void onError() {
+        progressComponent.dismiss();
         Toast.makeText(getContext(), getString(R.string.error_unexpected), Toast.LENGTH_LONG).show();
     }
 

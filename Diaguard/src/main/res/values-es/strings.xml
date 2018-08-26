@@ -257,6 +257,7 @@
     <string name="validator_value_empty_list"> Al menos una categoría se debe seleccionar</string>
     <string name="correction">Corrección</string>
     <string name="error_unexpected">Algo salió mal</string>
+    <string name="error_import">Formato de archivo inválido</string>
     <string name="export_complete">Memorizar bajo %s</string>
     <string name="import_"> Restaurar copia de seguridad</string>
     <string name="interval">Intervalo</string>

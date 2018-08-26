@@ -194,6 +194,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     private void createBackup() {
         progressComponent.show(getActivity());
         Export.exportCsv(true, new FileListener() {
+
             @Override
             public void onProgress(String message) {
                 progressComponent.setMessage(message);
@@ -220,6 +221,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     private void importBackup(Uri uri) {
         progressComponent.show(getActivity());
         Export.importCsv(getActivity(), uri, new FileListener() {
+
             @Override
             public void onProgress(String message) {
                 progressComponent.setMessage(message);
@@ -234,7 +236,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             @Override
             public void onError() {
                 progressComponent.dismiss();
-                Toast.makeText(getActivity(), getActivity().getString(R.string.error_unexpected), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getActivity().getString(R.string.error_import), Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -51,7 +51,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public static final int DATABASE_VERSION_1_3 = 19;
     public static final int DATABASE_VERSION_2_0 = 20;
     public static final int DATABASE_VERSION_2_2 = 21;
-    public static final int DATABASE_VERSION_2_5 = 22;
+    public static final int DATABASE_VERSION_3_0 = 22;
 
     public static final Class[] tables = new Class[]{
             Entry.class,
@@ -75,7 +75,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     public static int getVersion() {
-        return DATABASE_VERSION_2_5;
+        return DATABASE_VERSION_3_0;
     }
 
     @Override

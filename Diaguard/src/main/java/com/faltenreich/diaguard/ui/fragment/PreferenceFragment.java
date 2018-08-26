@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.ui.fragment;
 
-import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,6 +29,7 @@ import com.faltenreich.diaguard.ui.view.preferences.CategoryPreference;
 import com.faltenreich.diaguard.util.FileUtils;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
+import com.faltenreich.diaguard.util.ProgressComponent;
 import com.faltenreich.diaguard.util.SystemUtils;
 import com.faltenreich.diaguard.util.export.Export;
 import com.faltenreich.diaguard.util.export.FileListener;
@@ -45,7 +45,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
     public static final String EXTRA_OPENING_PREFERENCE = "EXTRA_OPENING_PREFERENCE";
 
-    private ProgressDialog progressDialog;
+    private ProgressComponent progressComponent = new ProgressComponent();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -192,66 +192,51 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     }
 
     private void createBackup() {
-        showProgressDialog();
+        progressComponent.show(getActivity());
         Export.exportCsv(true, new FileListener() {
             @Override
             public void onProgress(String message) {
-                showProgressMessage(message);
+                progressComponent.setMessage(message);
             }
 
             @Override
             public void onSuccess(@Nullable File file, String mimeType) {
-                dismissProgressDialog();
-                FileUtils.shareFile(getActivity(), file, mimeType);
+                progressComponent.dismiss();
+                if (file != null) {
+                    FileUtils.shareFile(getActivity(), file, mimeType);
+                } else {
+                    onError();
+                }
             }
 
             @Override
             public void onError() {
+                progressComponent.dismiss();
                 Toast.makeText(getActivity(), getActivity().getString(R.string.error_unexpected), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void importBackup(Uri uri) {
-        showProgressDialog();
+        progressComponent.show(getActivity());
         Export.importCsv(getActivity(), uri, new FileListener() {
             @Override
             public void onProgress(String message) {
-                showProgressMessage(message);
+                progressComponent.setMessage(message);
             }
 
             @Override
             public void onSuccess(@Nullable File file, String mimeType) {
-                dismissProgressDialog();
+                progressComponent.dismiss();
                 Toast.makeText(getActivity(), getActivity().getString(R.string.backup_complete), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError() {
-                dismissProgressDialog();
+                progressComponent.dismiss();
                 Toast.makeText(getActivity(), getActivity().getString(R.string.error_unexpected), Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private void showProgressDialog() {
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage(getString(R.string.backup_import));
-        progressDialog.setIndeterminate(true);
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-    }
-
-    private void showProgressMessage(String message) {
-        if (progressDialog != null) {
-            progressDialog.setMessage(message);
-        }
-    }
-
-    private void dismissProgressDialog() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

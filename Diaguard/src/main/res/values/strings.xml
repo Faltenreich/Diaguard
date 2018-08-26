@@ -430,6 +430,7 @@
     <string name="error_no_app">No app found to open file</string>
     <string name="error_sd_card">SD card not available</string>
     <string name="error_no_backups">No backups found at</string>
+    <string name="error_import">Invalid file format</string>
 
     <!-- SETTINGS -->
     <string name="pref_factor" translatable="false">pref_factor</string>

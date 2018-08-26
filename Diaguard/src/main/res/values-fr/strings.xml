@@ -252,6 +252,7 @@
     <string name="correction">Correction</string>
     <string name="diastolic">Diastolique</string>
     <string name="error_unexpected">Quelque chose a mal tourné</string>
+    <string name="error_import">Format de fichier invalide</string>
     <string name="export_complete">Sauvé sous %s</string>
     <string name="import_">Restaurer la sauvegarde</string>
     <string name="interval">Intervalle</string>

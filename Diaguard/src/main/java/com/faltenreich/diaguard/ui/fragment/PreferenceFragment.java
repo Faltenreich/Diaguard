@@ -193,37 +193,45 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
     private void createBackup() {
         showProgressDialog();
-        Export.exportCsv(new FileListener() {
+        Export.exportCsv(true, new FileListener() {
             @Override
             public void onProgress(String message) {
                 showProgressMessage(message);
             }
+
             @Override
-            public void onComplete(@Nullable File file, String mimeType) {
+            public void onSuccess(@Nullable File file, String mimeType) {
                 dismissProgressDialog();
-                if (file != null) {
-                    FileUtils.shareFile(getActivity(), file, mimeType);
-                } else {
-                    Toast.makeText(getActivity(), getActivity().getString(R.string.error_unexpected), Toast.LENGTH_SHORT).show();
-                }
+                FileUtils.shareFile(getActivity(), file, mimeType);
             }
-        }, true);
+
+            @Override
+            public void onError() {
+                Toast.makeText(getActivity(), getActivity().getString(R.string.error_unexpected), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void importBackup(Uri uri) {
         showProgressDialog();
-        Export.importCsv(new FileListener() {
+        Export.importCsv(getActivity(), uri, new FileListener() {
             @Override
             public void onProgress(String message) {
                 showProgressMessage(message);
             }
+
             @Override
-            public void onComplete(@Nullable File file, String mimeType) {
+            public void onSuccess(@Nullable File file, String mimeType) {
                 dismissProgressDialog();
-                int messageResId = file != null ? R.string.backup_complete : R.string.error_unexpected;
-                Toast.makeText(getActivity(), getActivity().getString(messageResId), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getActivity().getString(R.string.backup_complete), Toast.LENGTH_SHORT).show();
             }
-        }, new File(uri.getPath()));
+
+            @Override
+            public void onError() {
+                dismissProgressDialog();
+                Toast.makeText(getActivity(), getActivity().getString(R.string.error_unexpected), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void showProgressDialog() {

@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.util.export;
 
+import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.faltenreich.diaguard.DiaguardApplication;
@@ -53,24 +55,24 @@ public class Export {
     public static final char CSV_DELIMITER = ';';
     public static final String CSV_KEY_META = "meta";
 
-    public static void exportPdf(FileListener listener, @NonNull DateTime dateStart, @NonNull DateTime dateEnd, @NonNull Measurement.Category[] categories) {
+    public static void exportPdf( @NonNull DateTime dateStart, @NonNull DateTime dateEnd, @NonNull Measurement.Category[] categories, FileListener listener) {
         PdfExport pdfExport = new PdfExport(dateStart, dateEnd, categories, PreferenceHelper.getInstance().exportNotes(), PreferenceHelper.getInstance().exportTags());
         pdfExport.setListener(listener);
         pdfExport.execute();
     }
 
-    public static void exportCsv(FileListener listener, boolean isBackup, DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories) {
+    public static void exportCsv(boolean isBackup, DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories, FileListener listener) {
         CsvExport csvExport = new CsvExport(isBackup, dateStart, dateEnd, categories);
         csvExport.setListener(listener);
         csvExport.execute();
     }
 
-    public static void exportCsv(FileListener listener, boolean isBackup) {
-        exportCsv(listener, isBackup, null, null, null);
+    public static void exportCsv(boolean isBackup, FileListener listener) {
+        exportCsv(isBackup, null, null, null, listener);
     }
 
-    public static void importCsv(FileListener listener, File file) {
-        CsvImport csvImport = new CsvImport(file);
+    public static void importCsv(Context context, Uri uri, FileListener listener) {
+        CsvImport csvImport = new CsvImport(context, uri);
         csvImport.setListener(listener);
         csvImport.execute();
     }

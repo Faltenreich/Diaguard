@@ -9,5 +9,6 @@ import java.io.File;
  */
 public interface FileListener {
     void onProgress(String message);
-    void onComplete(@Nullable File file, String mimeType);
+    void onSuccess(@Nullable File file, String mimeType);
+    void onError();
 }

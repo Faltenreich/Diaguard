@@ -134,9 +134,9 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
         PreferenceHelper.getInstance().setExportCategories(selectedCategories);
 
         if (spinnerFormat.getSelectedItemPosition() == 0) {
-            Export.exportPdf(this, dateStart, dateEnd, selectedCategories);
+            Export.exportPdf(dateStart, dateEnd, selectedCategories, this);
         } else if (spinnerFormat.getSelectedItemPosition() == 1) {
-            Export.exportCsv(this, false, dateStart, dateEnd, selectedCategories);
+            Export.exportCsv(false, dateStart, dateEnd, selectedCategories, this);
         }
     }
 
@@ -148,16 +148,17 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
     }
 
     @Override
-    public void onComplete(File file, String mimeType) {
+    public void onSuccess(File file, String mimeType) {
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
-        if (file != null) {
-            Toast.makeText(getContext(), String.format(getString(R.string.export_complete), file.getAbsolutePath()), Toast.LENGTH_LONG).show();
-            openFile(file, mimeType);
-        } else {
-            Toast.makeText(getContext(), getString(R.string.error_unexpected), Toast.LENGTH_LONG).show();
-        }
+        Toast.makeText(getContext(), String.format(getString(R.string.export_complete), file.getAbsolutePath()), Toast.LENGTH_LONG).show();
+        openFile(file, mimeType);
+    }
+
+    @Override
+    public void onError() {
+        Toast.makeText(getContext(), getString(R.string.error_unexpected), Toast.LENGTH_LONG).show();
     }
 
     private void openFile(File file, String mimeType) {

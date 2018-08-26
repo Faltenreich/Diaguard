@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.util.export;
 
+import android.content.Context;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -24,8 +26,9 @@ import com.opencsv.CSVReader;
 
 import org.joda.time.format.DateTimeFormat;
 
-import java.io.File;
-import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,11 +36,13 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
 
     private static final String TAG = CsvImport.class.getSimpleName();
 
-    private File file;
+    private WeakReference<Context> context;
+    private Uri uri;
     private FileListener listener;
 
-    CsvImport(File file) {
-        this.file = file;
+    CsvImport(Context context, Uri uri) {
+        this.context = new WeakReference<>(context);
+        this.uri = uri;
     }
 
     public void setListener(FileListener listener) {
@@ -47,7 +52,8 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... params) {
         try {
-            CSVReader reader = new CSVReader(new FileReader(file), Export.CSV_DELIMITER);
+            InputStream inputStream = context.get().getContentResolver().openInputStream(uri);
+            CSVReader reader = new CSVReader(new InputStreamReader(inputStream), Export.CSV_DELIMITER);
             String[] nextLine = reader.readNext();
 
             // TODO: Validate format of file
@@ -63,7 +69,7 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
                     try {
                         CategoryDeprecated categoryDeprecated = Helper.valueOf(CategoryDeprecated.class, nextLine[2]);
                         Measurement.Category category = categoryDeprecated.toUpdate();
-                        Measurement measurement = (Measurement) category.toClass().newInstance();
+                        Measurement measurement = category.toClass().newInstance();
                         measurement.setValues(NumberUtils.parseNumber(nextLine[0]));
                         measurement.setEntry(entry);
                         MeasurementDao.getInstance(category.toClass()).createOrUpdate(measurement);
@@ -258,7 +264,11 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean success) {
         if (listener != null) {
-            listener.onComplete(success ? file : null, Export.CSV_MIME_TYPE);
+            if (success) {
+                listener.onSuccess(null, Export.CSV_MIME_TYPE);
+            } else {
+                listener.onError();
+            }
         }
     }
 }

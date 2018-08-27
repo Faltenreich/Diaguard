@@ -89,7 +89,6 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     @CallSuper
     protected void onViewShown() {
-
     }
 
     @Override
@@ -102,9 +101,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onPause() {
         Events.unregister(this);
         super.onPause();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && revealX >= 0 && revealY >= 0) {
-            overridePendingTransition(0, 0);
-        }
     }
 
     @Override
@@ -189,7 +185,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             revealX = getIntent().getIntExtra(ARGUMENT_REVEAL_X, -1);
             revealY = getIntent().getIntExtra(ARGUMENT_REVEAL_Y, -1);
             if (rootLayout != null && revealX >= 0 && revealY >= 0) {
-                rootLayout.setVisibility(View.INVISIBLE); // Fail fast and early
+                rootLayout.setVisibility(View.INVISIBLE);
                 ViewTreeObserver viewTreeObserver = rootLayout.getViewTreeObserver();
                 if (viewTreeObserver.isAlive()) {
                     viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {

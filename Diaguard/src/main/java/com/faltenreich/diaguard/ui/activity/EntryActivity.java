@@ -205,12 +205,11 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
         layoutMeasurements.setOnCategoryEventListener(this);
 
-        fab.init();
         fab.setOnFabSelectedListener(this);
-        fab.restock();
 
         if (entryId <= 0 && foodId <= 0) {
             addPinnedCategories();
+            fab.restock();
         }
 
         tagAdapter = new TagAutoCompleteAdapter(this);
@@ -274,15 +273,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             this.time = entry.getDate();
 
             editTextNotes.setText(entry.getNote());
-
-            List<Measurement> measurements = entry.getMeasurementCache();
-            layoutMeasurements.addMeasurements(measurements);
-
-            for (Measurement measurement : measurements) {
-                layoutMeasurements.addMeasurement(measurement);
-                fab.ignore(measurement.getCategory());
-            }
-            fab.restock();
+            layoutMeasurements.addMeasurements(entry.getMeasurementCache());
 
             if (entryTags != null) {
                 for (EntryTag entryTag : entryTags) {

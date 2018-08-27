@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.event.BackupImportedEvent;
 import com.faltenreich.diaguard.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.event.data.EntryUpdatedEvent;
@@ -84,6 +85,13 @@ public class ChartFragment extends DateFragment implements ChartViewPager.ChartV
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(UnitChangedEvent event) {
+        if (isAdded()) {
+            goToDay(getDay());
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(BackupImportedEvent event) {
         if (isAdded()) {
             goToDay(getDay());
         }

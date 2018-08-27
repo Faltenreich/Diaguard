@@ -17,6 +17,7 @@ import com.faltenreich.diaguard.BuildConfig;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.event.BackupImportedEvent;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.FileProvidedEvent;
 import com.faltenreich.diaguard.event.FileProvidedFailedEvent;
@@ -231,6 +232,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             public void onSuccess(@Nullable File file, String mimeType) {
                 progressComponent.dismiss();
                 Toast.makeText(getActivity(), getActivity().getString(R.string.backup_complete), Toast.LENGTH_SHORT).show();
+                Events.post(new BackupImportedEvent());
             }
 
             @Override

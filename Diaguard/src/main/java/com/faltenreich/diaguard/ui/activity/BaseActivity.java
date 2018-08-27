@@ -219,6 +219,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 public void onAnimationEnd(Animator animation) {
                     rootLayout.setVisibility(View.INVISIBLE);
                     BaseActivity.super.finish();
+                    overridePendingTransition(0, 0);
                 }
             });
         } else {

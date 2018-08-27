@@ -80,26 +80,6 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
         }
     }
 
-    @Override
-    public void action() {
-        showDatePicker();
-    }
-
-    @Override
-    public MainButtonProperties getMainButtonProperties() {
-        return MainButtonProperties.addButton(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DateTime now = DateTime.now();
-                DateTime dateTime = day
-                        .withHourOfDay(now.getHourOfDay())
-                        .withMinuteOfHour(now.getMinuteOfHour())
-                        .withSecondOfMinute(now.getSecondOfMinute());
-                EntryActivity.show(getContext(), view, dateTime);
-            }
-        });
-    }
-
     @CallSuper
     protected void goToDay(DateTime day) {
         this.day = day;
@@ -120,6 +100,23 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
                 goToDay(dateTime);
             }
         }).show(getActivity().getSupportFragmentManager());
+    }
+
+    @Override
+    public void action() {
+        showDatePicker();
+    }
+
+    @Override
+    public MainButtonProperties getMainButtonProperties() {
+        return MainButtonProperties.addButton(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (getContext() != null && isAdded()) {
+                    EntryActivity.show(getContext(), view);
+                }
+            }
+        });
     }
 
     protected abstract void updateLabels();

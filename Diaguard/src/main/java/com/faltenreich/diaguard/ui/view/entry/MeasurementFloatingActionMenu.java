@@ -28,28 +28,20 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
 
     public MeasurementFloatingActionMenu(Context context) {
         super(context);
+        init();
     }
 
     public MeasurementFloatingActionMenu(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
+        init();
     }
 
-    public void init() {
+    private void init() {
         categoriesToSkip = new ArrayList<>();
+        enableCloseOnClickOutside();
+    }
 
-        // TODO: Execute changes when menu has closed instead of immediately
-        /*
-        setOnMenuToggleListener(new OnMenuToggleListener() {
-            @Override
-            public void onMenuToggle(boolean opened) {
-                if (!isOpened()) {
-                    restock();
-                }
-            }
-        });
-        */
-
-        // Close FAB on click outside
+    private void enableCloseOnClickOutside() {
         setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -122,9 +114,6 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
                 category.toLocalizedString(),
                 PreferenceHelper.getInstance().getCategoryImageResourceId(category),
                 R.color.green);
-
-        addMenuButton(fab);
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,6 +123,7 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
                 }
             }
         });
+        addMenuButton(fab);
     }
 
     private FloatingActionButton getFloatingActionButton(String text, int imageResourceId, int colorResId) {

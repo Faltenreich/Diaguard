@@ -22,6 +22,7 @@ import com.faltenreich.diaguard.data.dao.EntryTagDao;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.Tag;
+import com.faltenreich.diaguard.event.BackupImportedEvent;
 import com.faltenreich.diaguard.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.event.data.EntryUpdatedEvent;
@@ -56,7 +57,11 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.LogL
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initLayout();
+        goToDay(getDay());
+    }
 
+    private void initLayout() {
         listLayoutManager = new SafeLinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(listLayoutManager);
         listAdapter = new LogRecyclerAdapter(getActivity(), this);
@@ -86,8 +91,6 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.LogL
                 }
             }
         });
-
-        goToDay(getDay());
     }
 
     private DateTime getFirstVisibleDay() {
@@ -256,6 +259,14 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.LogL
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(UnitChangedEvent event) {
+        if (isAdded()) {
+            progressBar.setVisibility(View.VISIBLE);
+            listAdapter.setup(getDay());
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(BackupImportedEvent event) {
         if (isAdded()) {
             progressBar.setVisibility(View.VISIBLE);
             listAdapter.setup(getDay());

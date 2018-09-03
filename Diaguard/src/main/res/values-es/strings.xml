@@ -321,12 +321,13 @@
     <string name="unit_factor_carbohydrates_unit">CU factor</string>
     <string name="unit_factor_bread_unit">PU factor</string>
     <string name="search">Busca</string>
-    <string name="tag_hint">Talante, actividad, &#8230;</string>
-    <string name="tags_append">Añadir estados de ánimo, actividades, &#8230;</string>
+    <string name="tags">Categorías</string>
+    <string name="tags_append">Adjuntar categoría</string>
 
     <string name="calculator_missing">Dónde está la calcular?</string>
     <string name="calculator_missing_desc">La calcular se ha eliminado debido a razones legales relacionadas con productos médicos.</string>
     <string name="calculator_more_info">Más info</string>
     <string name="no_results_found">No se encontraron resultados</string>
+    <string name="search_hint">Notas, categorías, …</string>
 
 </resources>

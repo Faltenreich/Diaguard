@@ -498,10 +498,10 @@
         <item>1</item>
     </string-array>
 
-    <string name="tag_hint">Mood, activity, &#8230;</string>
-    <string name="tags_append">Append moods, activities, &#8230;</string>
+    <string name="tags">Tags</string>
+    <string name="tags_append">Append tags</string>
     <string name="search">Search</string>
-    <string name="search_hint">Notes, moods, activities, &#8230;</string>
+    <string name="search_hint">Notes, tags, …</string>
     <string name="calculator_missing">Where is the calculator?</string>
     <string name="calculator_missing_desc">The calculator had to be removed due to legal reasons concerning medical products.</string>
     <string name="calculator_more_info">More info</string>

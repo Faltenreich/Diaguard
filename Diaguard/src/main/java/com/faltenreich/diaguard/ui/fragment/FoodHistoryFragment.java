@@ -25,13 +25,13 @@ import butterknife.BindView;
 
 public class FoodHistoryFragment extends BaseFoodFragment {
 
-    @BindView(R.id.food_list_history) RecyclerView historyList;
-    @BindView(R.id.food_list_placeholder) TextView placeholder;
+    @BindView(R.id.list) RecyclerView historyList;
+    @BindView(R.id.list_placeholder) TextView placeholder;
 
     private FoodEatenAdapter historyAdapter;
 
     public FoodHistoryFragment() {
-        super(R.layout.fragment_food_history, R.string.entries, R.drawable.ic_history, -1);
+        super(R.layout.fragment_list, R.string.entries, R.drawable.ic_history, -1);
     }
 
     @Override

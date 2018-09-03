@@ -89,6 +89,16 @@
         </activity>
 
         <activity
+            android:name=".ui.activity.TagsActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/tags"
+            android:windowSoftInputMode="adjustResize|stateHidden">
+            <meta-data
+                android:name=".ui.activity.TagsActivity"
+                android:value=".ui.activity.EntryActivity" />
+        </activity>
+
+        <activity
             android:name=".ui.activity.PreferenceActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/settings"

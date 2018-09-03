@@ -69,7 +69,7 @@ public class TagAutoCompleteAdapter extends ArrayAdapter<Tag> {
     @Override
     public View getView(int position, @Nullable View view, @NonNull ViewGroup parent) {
         if (view == null) {
-            view = LayoutInflater.from(getContext()).inflate(R.layout.list_item_tag, parent, false);
+            view = LayoutInflater.from(getContext()).inflate(R.layout.list_item_tag_preview, parent, false);
         }
         TextView characterView = view.findViewById(R.id.tag_character);
         TextView nameView = view.findViewById(R.id.tag_name);

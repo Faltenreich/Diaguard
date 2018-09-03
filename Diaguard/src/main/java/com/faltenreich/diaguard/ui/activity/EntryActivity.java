@@ -558,7 +558,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
     @OnClick(R.id.entry_tags_button)
     public void openTags() {
-
+        startActivity(new Intent(this, TagsActivity.class));
     }
 
     @Override

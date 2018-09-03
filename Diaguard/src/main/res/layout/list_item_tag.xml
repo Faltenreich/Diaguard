@@ -1,7 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/height_element"
+    android:gravity="center_vertical"
+    android:divider="@drawable/divider_large"
+    android:showDividers="middle"
+    android:background="?attr/selectableItemBackground"
+    style="@style/Padding">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tag_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            tools:text="Tag"/>
+
+        <TextView
+            android:id="@+id/tag_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding"
+            android:textColor="@color/gray_dark"
+            android:textSize="@dimen/text_micro"
+            tools:text="@string/found_n_times"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/tag_button_delete"
+        android:layout_width="@dimen/size_image"
+        android:layout_height="@dimen/size_image"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_delete"
+        android:tint="@color/gray"
+        android:contentDescription="@string/delete"/>
 
 </LinearLayout>

@@ -327,5 +327,7 @@
     <string name="calculator_more_info">Plus d\'infos</string>
     <string name="no_results_found">Aucun résultat trouvé</string>
     <string name="search_hint">Notes, catégories, …</string>
+    <string name="tag_delete">Supprimer la catégorie</string>
+    <string name="tag_delete_confirmation">%d entrées perdent cette catégorie</string>
 
 </resources>

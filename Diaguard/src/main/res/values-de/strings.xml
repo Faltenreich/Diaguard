@@ -326,5 +326,7 @@
     <string name="calculator_missing_desc">Der Bolusrechner musste aufgrund des Medizinproduktegesetzes entfernt werden.</string>
     <string name="calculator_more_info">Mehr dazu</string>
     <string name="no_results_found">Keine Ergebnisse gefunden</string>
+    <string name="tag_delete">Kategorie löschen</string>
+    <string name="tag_delete_confirmation">%d Einträge verlieren diese Kategorie</string>
 
 </resources>

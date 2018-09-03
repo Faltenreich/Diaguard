@@ -31,4 +31,8 @@ public class Tag extends BaseEntity implements Backupable {
     public String[] getValuesForBackup() {
         return new String[]{name};
     }
+
+    public String getCharacter() {
+        return name.substring(0, 1).toUpperCase();
+    }
 }

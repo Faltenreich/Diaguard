@@ -556,6 +556,11 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         });
     }
 
+    @OnClick(R.id.entry_tags_button)
+    public void openTags() {
+
+    }
+
     @Override
     public void onCategorySelected(@Nullable Measurement.Category category) {
         addMeasurementView(category);

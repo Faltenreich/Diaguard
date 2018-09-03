@@ -319,12 +319,13 @@
     <string name="unit_factor_carbohydrates_unit">GU facteur</string>
     <string name="unit_factor_bread_unit">PU facteur</string>
     <string name="search">Recherche</string>
-    <string name="tag_hint">Ambiance, activité, &#8230;</string>
-    <string name="tags_append">Ajouter des ambiances, des activités, &#8230;</string>
+    <string name="tags">Catégories</string>
+    <string name="tags_append">Ajouter une catégorie</string>
 
     <string name="calculator_missing">Où est la calculateur?</string>
     <string name="calculator_missing_desc">La calculateur a été retirée pour des raisons juridiques concernant les produits médicaux.</string>
     <string name="calculator_more_info">Plus d\'infos</string>
     <string name="no_results_found">Aucun résultat trouvé</string>
+    <string name="search_hint">Notes, catégories, …</string>
 
 </resources>

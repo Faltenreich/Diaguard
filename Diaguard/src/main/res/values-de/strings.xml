@@ -318,10 +318,10 @@
     <string name="unit_factor_carbohydrates_unit">KE-Faktor</string>
     <string name="unit_factor_bread_unit">BE-Faktor</string>
 
-    <string name="tag_hint">Stimmung, Aktivität, &#8230;</string>
-    <string name="tags_append">Stimmungen, Aktivitäten, usw. anhängen</string>
+    <string name="tags">Kategorien</string>
+    <string name="tags_append">Kategorien anhängen</string>
     <string name="search">Suche</string>
-    <string name="search_hint">Notizen, Stimmungen, Aktivitäten, &#8230;</string>
+    <string name="search_hint">Notizen, Kategorien, …</string>
     <string name="calculator_missing">Wo ist der Bolusrechner?</string>
     <string name="calculator_missing_desc">Der Bolusrechner musste aufgrund des Medizinproduktegesetzes entfernt werden.</string>
     <string name="calculator_more_info">Mehr dazu</string>

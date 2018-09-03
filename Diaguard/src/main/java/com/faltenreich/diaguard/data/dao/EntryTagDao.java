@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.EntryTag;
+import com.faltenreich.diaguard.data.entity.Tag;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -35,6 +36,30 @@ public class EntryTagDao extends BaseDao<EntryTag> {
         } catch (SQLException exception) {
             Log.e(TAG, exception.getLocalizedMessage());
             return new ArrayList<>();
+        }
+    }
+
+    public List<EntryTag> getAll(Tag tag) {
+        try {
+            return getDao().queryBuilder()
+                    .orderBy(EntryTag.Column.UPDATED_AT, false)
+                    .where().eq(EntryTag.Column.TAG, tag)
+                    .query();
+        } catch (SQLException exception) {
+            Log.e(TAG, exception.getLocalizedMessage());
+            return new ArrayList<>();
+        }
+    }
+
+    public long count(Tag tag) {
+        try {
+            return getDao().queryBuilder()
+                    .orderBy(EntryTag.Column.UPDATED_AT, false)
+                    .where().eq(EntryTag.Column.TAG, tag)
+                    .countOf();
+        } catch (SQLException exception) {
+            Log.e(TAG, exception.getLocalizedMessage());
+            return 0;
         }
     }
 }

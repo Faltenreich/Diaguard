@@ -76,7 +76,7 @@ public class TagAutoCompleteAdapter extends ArrayAdapter<Tag> {
 
         Tag tag = getItem(position);
         if (tag != null && !TextUtils.isEmpty(tag.getName())) {
-            characterView.setText(tag.getName().substring(0, 1).toUpperCase());
+            characterView.setText(tag.getCharacter());
             nameView.setText(tag.getName());
         }
         return view;

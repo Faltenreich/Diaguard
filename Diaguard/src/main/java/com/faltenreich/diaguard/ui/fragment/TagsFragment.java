@@ -11,8 +11,11 @@ import android.view.View;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.LinearDividerItemDecoration;
 import com.faltenreich.diaguard.adapter.TagListAdapter;
+import com.faltenreich.diaguard.data.async.DataLoader;
+import com.faltenreich.diaguard.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.data.dao.EntryTagDao;
 import com.faltenreich.diaguard.data.dao.TagDao;
+import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.ui.activity.EntrySearchActivity;
 
@@ -52,12 +55,6 @@ public class TagsFragment extends BaseFragment implements TagListAdapter.TagList
         placeholder.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
     }
 
-    private void loadTags() {
-        // TODO: Make asynchronous
-        List<Tag> tags = TagDao.getInstance().getAll();
-        setTags(tags);
-    }
-
     private void setTags(List<Tag> tags) {
         listAdapter.clear();
         listAdapter.addItems(tags);
@@ -65,35 +62,70 @@ public class TagsFragment extends BaseFragment implements TagListAdapter.TagList
         invalidateLayout();
     }
 
-    private void deleteTag(Tag tag) {
-        // TODO: Delete tag
-        listAdapter.notifyDataSetChanged();
-        invalidateLayout();
+    private void loadTags() {
+        DataLoader.getInstance().load(getContext(), new DataLoaderListener<List<Tag>>() {
+            @Override
+            public List<Tag> onShouldLoad() {
+                return TagDao.getInstance().getAll();
+            }
+            @Override
+            public void onDidLoad(List<Tag> data) {
+                setTags(data);
+            }
+        });
+    }
+
+    private void confirmTagDeletion(final Tag tag) {
+        DataLoader.getInstance().load(getContext(), new DataLoaderListener<Long>() {
+            @Override
+            public Long onShouldLoad() {
+                return EntryTagDao.getInstance().count(tag);
+            }
+            @Override
+            public void onDidLoad(Long data) {
+                new AlertDialog.Builder(getContext())
+                        .setTitle(R.string.tag_delete)
+                        .setMessage(String.format(getString(R.string.tag_delete_confirmation), data))
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                deleteTag(tag);
+                            }
+                        })
+                        .create()
+                        .show();
+            }
+        });
+    }
+
+    private void deleteTag(final Tag tag) {
+        DataLoader.getInstance().load(getContext(), new DataLoaderListener<Void>() {
+            @Override
+            public Void onShouldLoad() {
+                List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(tag);
+                EntryTagDao.getInstance().delete(entryTags);
+                TagDao.getInstance().delete(tag);
+                return null;
+            }
+            @Override
+            public void onDidLoad(Void data) {
+                loadTags();
+            }
+        });
     }
 
     @Override
     public void onTagSelected(Tag tag, View view) {
-        EntrySearchActivity.show(getContext(), tag, view);
+        EntrySearchActivity.show(getContext(), tag, null);
     }
 
     @Override
-    public void onTagDeleted(final Tag tag, View view) {
-        long entryTagCount = EntryTagDao.getInstance().count(tag);
-        new AlertDialog.Builder(getContext())
-                .setTitle(R.string.tag_delete)
-                .setMessage(String.format(getString(R.string.tag_delete_confirmation), entryTagCount))
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                })
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        deleteTag(tag);
-                    }
-                })
-                .create()
-                .show();
+    public void onTagDeleted(Tag tag, View view) {
+        confirmTagDeletion(tag);
     }
 }

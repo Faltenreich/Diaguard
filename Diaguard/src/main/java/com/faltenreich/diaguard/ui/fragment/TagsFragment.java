@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.EditText;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.LinearDividerItemDecoration;
@@ -18,10 +19,12 @@ import com.faltenreich.diaguard.data.dao.TagDao;
 import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.ui.activity.EntrySearchActivity;
+import com.faltenreich.diaguard.util.SystemUtils;
 
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class TagsFragment extends BaseFragment implements TagListAdapter.TagListener {
 
@@ -31,7 +34,7 @@ public class TagsFragment extends BaseFragment implements TagListAdapter.TagList
     private TagListAdapter listAdapter;
 
     public TagsFragment() {
-        super(R.layout.fragment_list, R.string.tags, -1);
+        super(R.layout.fragment_tags, R.string.tags, -1);
     }
 
     @Override
@@ -119,6 +122,51 @@ public class TagsFragment extends BaseFragment implements TagListAdapter.TagList
         });
     }
 
+    private void showDialogForNewTag() {
+        final EditText editText = new EditText(getContext());
+        new AlertDialog.Builder(getContext())
+                .setTitle(R.string.tag_new)
+                .setView(editText)
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        createTag(editText.getText().toString());
+                    }
+                })
+                .create()
+                .show();
+    }
+
+    private void createTag(final String name) {
+        DataLoader.getInstance().load(getContext(), new DataLoaderListener<Boolean>() {
+            @Override
+            public Boolean onShouldLoad() {
+                // TODO: Check for empty and duplicate tags
+                boolean isValid = true;
+                if (isValid) {
+                    Tag tag = new Tag();
+                    tag.setName(name);
+                    TagDao.getInstance().createOrUpdate(tag);
+                }
+                return isValid;
+            }
+            @Override
+            public void onDidLoad(Boolean isValid) {
+                if (isValid) {
+                    loadTags();
+                    SystemUtils.hideKeyboard(getActivity());
+                } else {
+                    // TODO: Do not dismiss dialog
+                }
+            }
+        });
+    }
+
     @Override
     public void onTagSelected(Tag tag, View view) {
         EntrySearchActivity.show(getContext(), tag, null);
@@ -127,5 +175,10 @@ public class TagsFragment extends BaseFragment implements TagListAdapter.TagList
     @Override
     public void onTagDeleted(Tag tag, View view) {
         confirmTagDeletion(tag);
+    }
+
+    @OnClick(R.id.fab)
+    public void onFabClick() {
+        showDialogForNewTag();
     }
 }

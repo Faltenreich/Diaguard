@@ -328,5 +328,6 @@
     <string name="no_results_found">Keine Ergebnisse gefunden</string>
     <string name="tag_delete">Kategorie löschen</string>
     <string name="tag_delete_confirmation">%d Einträge verlieren diese Kategorie</string>
+    <string name="tag_new">Neue Kategorie</string>
 
 </resources>

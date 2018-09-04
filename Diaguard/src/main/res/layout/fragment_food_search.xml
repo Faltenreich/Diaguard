@@ -126,7 +126,7 @@
             app:layout_behavior="com.faltenreich.diaguard.adapter.FloatingActionButtonBehavior"
             app:fab_colorNormal="@color/green"
             app:fab_colorPressed="@color/green_light"
-            app:fab_colorRipple="@color/green_lighter" />
+            app:fab_colorRipple="@color/green_lighter"/>
 
     </android.support.design.widget.CoordinatorLayout>
 

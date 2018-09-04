@@ -331,5 +331,6 @@
     <string name="search_hint">Notas, categorías, …</string>
     <string name="tag_delete">Eliminar categoría</string>
     <string name="tag_delete_confirmation">%d entradas pierden esta categoría</string>
+    <string name="tag_new">Nueva categoría</string>
 
 </resources>

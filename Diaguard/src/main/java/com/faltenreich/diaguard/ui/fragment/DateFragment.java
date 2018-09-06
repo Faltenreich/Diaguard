@@ -112,8 +112,8 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
         return MainButtonProperties.addButton(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (getContext() != null && isAdded()) {
-                    EntryActivity.show(getContext(), view);
+                if (getContext() != null) {
+                    EntryActivity.show(getContext());
                 }
             }
         });

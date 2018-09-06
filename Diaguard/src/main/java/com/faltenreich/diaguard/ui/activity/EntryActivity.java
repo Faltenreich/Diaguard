@@ -87,6 +87,10 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         return getIntent(context, source);
     }
 
+    public static void show(Context context) {
+        context.startActivity(getIntent(context, (View) null));
+    }
+
     public static void show(Context context, @Nullable View source) {
         context.startActivity(getIntent(context, source));
     }

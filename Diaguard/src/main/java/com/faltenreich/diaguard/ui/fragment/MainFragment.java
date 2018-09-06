@@ -256,7 +256,7 @@ public class MainFragment extends BaseFragment implements MainButton {
             @Override
             public void onClick(View view) {
                 if (getContext() != null) {
-                    EntryActivity.show(getContext(), view);
+                    EntryActivity.show(getContext());
                 }
             }
         });

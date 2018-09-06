@@ -9,13 +9,12 @@ import com.faltenreich.diaguard.data.async.DataLoader;
 import com.faltenreich.diaguard.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.data.dao.TagDao;
 import com.faltenreich.diaguard.data.entity.Tag;
-import com.faltenreich.diaguard.ui.view.DialogButton;
 import com.faltenreich.diaguard.util.StringUtils;
 import com.faltenreich.diaguard.util.SystemUtils;
 
 import butterknife.BindView;
 
-public class TagFragment extends BaseDialogFragment {
+public class TagFragment extends BinaryDialogFragment {
 
     @BindView(R.id.input) EditText editText;
 
@@ -28,38 +27,52 @@ public class TagFragment extends BaseDialogFragment {
         DataLoader.getInstance().load(getContext(), new DataLoaderListener<TagError>() {
             @Override
             public TagError onShouldLoad() {
-                if (StringUtils.isBlank(name)) {
-                    return TagError.EMPTY;
-                } else if (TagDao.getInstance().getByName(name) != null) {
-                    return TagError.DUPLICATE;
-                } else {
-                    Tag tag = new Tag();
-                    tag.setName(name);
-                    TagDao.getInstance().createOrUpdate(tag);
-                    return null;
+                TagError error = findError(name);
+                if (error == null) {
+                    submit(name);
                 }
+                return error;
             }
             @Override
-            public void onDidLoad(TagError tagError) {
-                if (tagError == null) {
-                    SystemUtils.hideKeyboard(getActivity());
-                    dismiss();
+            public void onDidLoad(TagError error) {
+                if (error == null) {
+                    onSuccess();
                 } else {
-                    editText.setError(getString(tagError.textResId));
+                    onError(error);
                 }
             }
         });
     }
 
     @Nullable
+    private TagError findError(String name) {
+        if (StringUtils.isBlank(name)) {
+            return TagError.EMPTY;
+        } else if (TagDao.getInstance().getByName(name) != null) {
+            return TagError.DUPLICATE;
+        } else {
+            return null;
+        }
+    }
+
+    private void submit(String name) {
+        Tag tag = new Tag();
+        tag.setName(name);
+        TagDao.getInstance().createOrUpdate(tag);
+    }
+
+    private void onSuccess() {
+        SystemUtils.hideKeyboard(getActivity());
+        dismiss();
+    }
+
+    private void onError(TagError error) {
+        editText.setError(getString(error.textResId));
+    }
+
     @Override
-    protected DialogButton createPositiveButton() {
-        return new DialogButton(android.R.string.ok, new DialogButton.DialogButtonListener() {
-            @Override
-            public void onClick() {
-                trySubmit();
-            }
-        });
+    void onPositiveButtonClick() {
+        trySubmit();
     }
 
     private enum TagError {

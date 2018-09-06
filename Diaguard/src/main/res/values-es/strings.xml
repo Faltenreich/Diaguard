@@ -321,6 +321,7 @@
     <string name="unit_factor_carbohydrates_unit">CU factor</string>
     <string name="unit_factor_bread_unit">PU factor</string>
     <string name="search">Busca</string>
+    <string name="tag">Categoría</string>
     <string name="tags">Categorías</string>
     <string name="tags_append">Adjuntar categoría</string>
 

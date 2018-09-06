@@ -23,5 +23,5 @@ abstract class BinaryDialogFragment extends BaseDialogFragment {
         });
     }
 
-    abstract void onPositiveButtonClick();
+    protected abstract void onPositiveButtonClick();
 }

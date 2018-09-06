@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.faltenreich.diaguard.data.dao.TagDao;
 import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.ui.activity.EntrySearchActivity;
+import com.faltenreich.diaguard.util.SystemUtils;
 
 import java.util.List;
 
@@ -120,6 +122,23 @@ public class TagsFragment extends BaseFragment implements TagListAdapter.TagList
         });
     }
 
+    private void createTag() {
+        if (getFragmentManager() != null) {
+            TagFragment fragment = new TagFragment();
+            fragment.setListener(new TagFragment.TagListener() {
+                @Override
+                public void onResult(@Nullable Tag tag) {
+                    // FIXME: hideKeyboard() does not work (because it switches inputType?)
+                    SystemUtils.hideKeyboard(getActivity());
+                    if (tag != null) {
+                        loadTags();
+                    }
+                }
+            });
+            fragment.show(getFragmentManager(), null);
+        }
+    }
+
     @Override
     public void onTagSelected(Tag tag, View view) {
         EntrySearchActivity.show(getContext(), tag, null);
@@ -132,8 +151,6 @@ public class TagsFragment extends BaseFragment implements TagListAdapter.TagList
 
     @OnClick(R.id.fab)
     public void onFabClick() {
-        if (getFragmentManager() != null) {
-            new TagFragment().show(getFragmentManager(), null);
-        }
+        createTag();
     }
 }

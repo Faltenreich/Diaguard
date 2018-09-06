@@ -333,5 +333,6 @@
     <string name="tag_delete">Eliminar categoría</string>
     <string name="tag_delete_confirmation">%d entradas pierden esta categoría</string>
     <string name="tag_new">Nueva categoría</string>
+    <string name="tag_duplicate">La categoría ya está disponible</string>
 
 </resources>

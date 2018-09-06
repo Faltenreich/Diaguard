@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.ui.fragment;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -17,8 +16,6 @@ import com.faltenreich.diaguard.ui.view.DialogButton;
 import butterknife.ButterKnife;
 
 abstract class BaseDialogFragment extends DialogFragment {
-
-    protected View contentView;
 
     @StringRes private int titleResId;
     @StringRes private int messageResId;
@@ -94,33 +91,46 @@ abstract class BaseDialogFragment extends DialogFragment {
     }
 
     private void initButtons(AlertDialog.Builder builder) {
+        // Listeners are set later on / after Dialog.show() in order to override default behavior (like dismiss after button click)
         positiveButton = createPositiveButton();
         if (positiveButton != null) {
-            builder.setPositiveButton(positiveButton.getLabelResId(), new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(positiveButton.getLabelResId(), null);
+        }
+        negativeButton = createNegativeButton();
+        if (negativeButton != null) {
+            builder.setNegativeButton(negativeButton.getLabelResId(), null);
+        }
+        neutralButton = createNeutralButton();
+        if (neutralButton != null) {
+            builder.setNeutralButton(neutralButton.getLabelResId(), null);
+        }
+    }
+
+    private void invalidateButtons(AlertDialog alertDialog) {
+        if (positiveButton != null) {
+            alertDialog.getButton(Dialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(View view) {
                     if (positiveButton.getListener() != null) {
                         positiveButton.getListener().onClick();
                     }
                 }
             });
         }
-        negativeButton = createNegativeButton();
         if (negativeButton != null) {
-            builder.setNegativeButton(negativeButton.getLabelResId(), new DialogInterface.OnClickListener() {
+            alertDialog.getButton(Dialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(View view) {
                     if (negativeButton.getListener() != null) {
                         negativeButton.getListener().onClick();
                     }
                 }
             });
         }
-        neutralButton = createNeutralButton();
         if (neutralButton != null) {
-            builder.setNeutralButton(neutralButton.getLabelResId(), new DialogInterface.OnClickListener() {
+            alertDialog.getButton(Dialog.BUTTON_NEUTRAL).setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(View view) {
                     if (neutralButton.getListener() != null) {
                         neutralButton.getListener().onClick();
                     }
@@ -129,21 +139,9 @@ abstract class BaseDialogFragment extends DialogFragment {
         }
     }
 
-    private void invalidateButtons(AlertDialog alertDialog) {
-        if (positiveButton != null) {
-            positiveButton.setButton(alertDialog.getButton(Dialog.BUTTON_POSITIVE));
-        }
-        if (negativeButton != null) {
-            negativeButton.setButton(alertDialog.getButton(Dialog.BUTTON_NEGATIVE));
-        }
-        if (neutralButton != null) {
-            neutralButton.setButton(alertDialog.getButton(Dialog.BUTTON_NEUTRAL));
-        }
-    }
-
     private void initContentView(AlertDialog.Builder builder) {
         if (layoutResId >= 0) {
-            contentView = LayoutInflater.from(getContext()).inflate(layoutResId, null);
+            View contentView = LayoutInflater.from(getContext()).inflate(layoutResId, null);
             if (contentView != null) {
                 builder.setView(contentView);
                 ButterKnife.bind(this, contentView);

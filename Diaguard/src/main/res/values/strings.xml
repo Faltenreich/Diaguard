@@ -498,6 +498,7 @@
         <item>1</item>
     </string-array>
 
+    <string name="tag">Tag</string>
     <string name="tags">Tags</string>
     <string name="tags_append">Append tags</string>
     <string name="search">Search</string>

@@ -318,6 +318,7 @@
     <string name="unit_factor_carbohydrates_unit">KE-Faktor</string>
     <string name="unit_factor_bread_unit">BE-Faktor</string>
 
+    <string name="tag">Kategorie</string>
     <string name="tags">Kategorien</string>
     <string name="tags_append">Kategorien anhängen</string>
     <string name="search">Suche</string>

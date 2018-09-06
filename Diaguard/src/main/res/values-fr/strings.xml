@@ -319,6 +319,7 @@
     <string name="unit_factor_carbohydrates_unit">GU facteur</string>
     <string name="unit_factor_bread_unit">PU facteur</string>
     <string name="search">Recherche</string>
+    <string name="tag">Catégories</string>
     <string name="tags">Catégories</string>
     <string name="tags_append">Ajouter une catégorie</string>
 

@@ -62,9 +62,7 @@ abstract class BaseDialogFragment extends DialogFragment {
     }
 
     @Nullable
-    protected DialogButton createPositiveButton() {
-        return new DialogButton(android.R.string.ok);
-    }
+    abstract protected DialogButton createPositiveButton();
 
     @Nullable
     protected DialogButton createNegativeButton() {

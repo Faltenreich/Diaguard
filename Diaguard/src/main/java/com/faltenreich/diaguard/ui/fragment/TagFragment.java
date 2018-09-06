@@ -10,7 +10,6 @@ import com.faltenreich.diaguard.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.data.dao.TagDao;
 import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.util.StringUtils;
-import com.faltenreich.diaguard.util.SystemUtils;
 
 import butterknife.BindView;
 
@@ -18,27 +17,37 @@ public class TagFragment extends BinaryDialogFragment {
 
     @BindView(R.id.input) EditText editText;
 
+    private TagListener listener;
+
     public TagFragment() {
         super(R.string.tag_new, R.layout.dialog_input);
     }
 
+    public void setListener(TagListener listener) {
+        this.listener = listener;
+    }
+
     private void trySubmit() {
         final String name = editText.getText().toString();
-        DataLoader.getInstance().load(getContext(), new DataLoaderListener<TagError>() {
+        DataLoader.getInstance().load(getContext(), new DataLoaderListener<TagResult>() {
             @Override
-            public TagError onShouldLoad() {
+            public TagResult onShouldLoad() {
+                Tag tag = null;
                 TagError error = findError(name);
                 if (error == null) {
-                    submit(name);
+                    tag = createTag(name);
                 }
-                return error;
+                return new TagResult(tag, error);
             }
             @Override
-            public void onDidLoad(TagError error) {
-                if (error == null) {
-                    onSuccess();
+            public void onDidLoad(TagResult result) {
+                if (listener != null) {
+                    listener.onResult(result.tag);
+                }
+                if (result.tag != null) {
+                    dismiss();
                 } else {
-                    onError(error);
+                    editText.setError(getString(result.error != null ? result.error.textResId : R.string.error_unexpected));
                 }
             }
         });
@@ -55,23 +64,15 @@ public class TagFragment extends BinaryDialogFragment {
         }
     }
 
-    private void submit(String name) {
+    private Tag createTag(String name) {
         Tag tag = new Tag();
         tag.setName(name);
         TagDao.getInstance().createOrUpdate(tag);
-    }
-
-    private void onSuccess() {
-        SystemUtils.hideKeyboard(getActivity());
-        dismiss();
-    }
-
-    private void onError(TagError error) {
-        editText.setError(getString(error.textResId));
+        return tag;
     }
 
     @Override
-    void onPositiveButtonClick() {
+    protected void onPositiveButtonClick() {
         trySubmit();
     }
 
@@ -84,5 +85,19 @@ public class TagFragment extends BinaryDialogFragment {
         TagError(@StringRes int textResId) {
             this.textResId = textResId;
         }
+    }
+
+    private class TagResult {
+        @Nullable private Tag tag;
+        @Nullable private TagError error;
+
+        private TagResult(@Nullable Tag tag, @Nullable TagError error) {
+            this.tag = tag;
+            this.error = error;
+        }
+    }
+
+    public interface TagListener {
+        void onResult(@Nullable Tag tag);
     }
 }

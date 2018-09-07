@@ -27,6 +27,16 @@ public class TagDao extends BaseDao<Tag> {
         super(Tag.class);
     }
 
+    @Override
+    public List<Tag> getAll() {
+        try {
+            return getDao().queryBuilder().orderBy(BaseEntity.Column.UPDATED_AT, false).query();
+        } catch (SQLException exception) {
+            Log.e(TAG, exception.getMessage());
+            return new ArrayList<>();
+        }
+    }
+
     public List<Tag> getRecent() {
         try {
             return getDao().queryBuilder().orderBy(BaseEntity.Column.UPDATED_AT, false).limit(20L).query();

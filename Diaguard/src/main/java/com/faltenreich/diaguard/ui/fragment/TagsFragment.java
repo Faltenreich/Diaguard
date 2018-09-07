@@ -19,7 +19,6 @@ import com.faltenreich.diaguard.data.dao.TagDao;
 import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.ui.activity.EntrySearchActivity;
-import com.faltenreich.diaguard.util.SystemUtils;
 
 import java.util.List;
 
@@ -128,8 +127,6 @@ public class TagsFragment extends BaseFragment implements TagListAdapter.TagList
             fragment.setListener(new TagFragment.TagListener() {
                 @Override
                 public void onResult(@Nullable Tag tag) {
-                    // FIXME: hideKeyboard() does not work (because it switches inputType?)
-                    SystemUtils.hideKeyboard(getActivity());
                     if (tag != null) {
                         loadTags();
                     }

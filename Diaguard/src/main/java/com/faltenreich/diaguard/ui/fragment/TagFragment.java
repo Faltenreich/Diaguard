@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.data.dao.TagDao;
 import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.util.StringUtils;
+import com.faltenreich.diaguard.util.ViewUtils;
 
 import butterknife.BindView;
 
@@ -21,6 +22,12 @@ public class TagFragment extends BinaryDialogFragment {
 
     public TagFragment() {
         super(R.string.tag_new, R.layout.dialog_input);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        ViewUtils.showKeyboard(editText);
     }
 
     public void setListener(TagListener listener) {
@@ -45,6 +52,7 @@ public class TagFragment extends BinaryDialogFragment {
                     listener.onResult(result.tag);
                 }
                 if (result.tag != null) {
+                    ViewUtils.hideKeyboard(editText);
                     dismiss();
                 } else {
                     editText.setError(getString(result.error != null ? result.error.textResId : R.string.error_unexpected));

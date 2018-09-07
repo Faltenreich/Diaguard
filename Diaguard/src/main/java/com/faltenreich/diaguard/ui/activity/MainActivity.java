@@ -33,6 +33,7 @@ import com.faltenreich.diaguard.ui.fragment.StatisticsFragment;
 import com.faltenreich.diaguard.ui.view.MainButton;
 import com.faltenreich.diaguard.ui.view.MainButtonProperties;
 import com.faltenreich.diaguard.util.SystemUtils;
+import com.faltenreich.diaguard.util.ViewUtils;
 import com.github.clans.fab.FloatingActionButton;
 
 import butterknife.BindView;
@@ -245,7 +246,7 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
         Fragment activeFragment = getSupportFragmentManager().findFragmentById(R.id.container);
         boolean isActive = activeFragment != null && activeFragment.getClass() == fragment.getClass();
         if (!isActive) {
-            SystemUtils.hideKeyboard(this);
+            ViewUtils.hideKeyboard(this);
 
             select(menuItem);
 

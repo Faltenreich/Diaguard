@@ -46,7 +46,9 @@ abstract class BaseDialogFragment extends DialogFragment {
             initTexts(builder);
             initButtons(builder);
             initContentView(builder);
-            return builder.create();
+            Dialog dialog = builder.create();
+            dialog.setCanceledOnTouchOutside(false);
+            return dialog;
         } else {
             return super.onCreateDialog(savedInstanceState);
         }

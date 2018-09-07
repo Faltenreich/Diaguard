@@ -62,7 +62,7 @@ public class StickyHintInput extends LinearLayout implements TextWatcher {
             label.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ViewUtils.requestFocusShowKeyboard(input);
+                    ViewUtils.showKeyboard(input);
                 }
             });
         }

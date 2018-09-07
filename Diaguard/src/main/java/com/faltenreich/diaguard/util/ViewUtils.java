@@ -31,6 +31,32 @@ public class ViewUtils {
     private static final int REVEAL_DURATION = 400;
     private static final int UNREVEAL_DURATION = 300;
 
+    public static void showKeyboard(View view) {
+        view.requestFocus();
+        InputMethodManager inputMethodManager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (inputMethodManager != null) {
+            inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+        }
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        View view = activity != null ? activity.getCurrentFocus() : null;
+        if (view != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (inputMethodManager != null) {
+                inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }
+    }
+
+    public static void hideKeyboard(View view) {
+        view.requestFocus();
+        InputMethodManager inputMethodManager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (inputMethodManager != null) {
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
     public static boolean isLargeScreen(Context context) {
         return context != null && (context.getResources().getConfiguration().screenLayout &
                 Configuration.SCREENLAYOUT_SIZE_MASK) >=
@@ -70,14 +96,6 @@ public class ViewUtils {
 
     public static int getDefaultTextColor(Context context) {
         return new TextView(context).getTextColors().getDefaultColor();
-    }
-
-    public static void requestFocusShowKeyboard(View view) {
-        view.requestFocus();
-        InputMethodManager inputMethodManager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (inputMethodManager != null) {
-            inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
-        }
     }
 
     public static void showNumberPicker(AppCompatActivity activity, @StringRes int labelResId, int initialValue, int minValue, int maxValue, NumberPickerDialogFragment.NumberPickerDialogHandlerV2 listener) {

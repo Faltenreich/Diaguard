@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.ui.fragment;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +10,8 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.SafeLinearLayoutManager;
 import com.faltenreich.diaguard.adapter.SearchAdapter;
 import com.faltenreich.diaguard.adapter.list.ListItemEntry;
+import com.faltenreich.diaguard.data.async.DataLoader;
+import com.faltenreich.diaguard.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.EntryTagDao;
 import com.faltenreich.diaguard.data.dao.TagDao;
@@ -81,29 +82,43 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
 
     private void preFillQuery() {
         if (tagId >= 0) {
-            new SetupTask(tagId, new SetupListener() {
+            DataLoader.getInstance().load(getContext(), new DataLoaderListener<Tag>() {
                 @Override
-                public void onSetupFinished(Tag tag) {
+                public Tag onShouldLoad() {
+                    return TagDao.getInstance().get(tagId);
+                }
+                @Override
+                public void onDidLoad(Tag tag) {
                     if (tag != null) {
                         searchView.setQuery(tag.getName(), true);
                     }
                 }
-            }).execute();
+            });
         }
     }
 
     private void search() {
-        String query = searchView.getQuery().toString();
+        final String query = searchView.getQuery().toString();
         if (StringUtils.isNotBlank(query)) {
-            new SearchTask(searchView.getQuery().toString(), new SearchListener() {
+            DataLoader.getInstance().load(getContext(), new DataLoaderListener<List<ListItemEntry>>() {
                 @Override
-                public void onSearchFinished(List<ListItemEntry> listItems) {
+                public List<ListItemEntry> onShouldLoad() {
+                    List<ListItemEntry> listItems = new ArrayList<>();
+                    List<Entry> entries = EntryDao.getInstance().search(query);
+                    for (Entry entry : entries) {
+                        entry.setMeasurementCache(EntryDao.getInstance().getMeasurements(entry));
+                        listItems.add(new ListItemEntry(entry, EntryTagDao.getInstance().getAll(entry)));
+                    }
+                    return listItems;
+                }
+                @Override
+                public void onDidLoad(List<ListItemEntry> listItems) {
                     listAdapter.clear();
                     listAdapter.addItems(listItems);
                     listAdapter.notifyDataSetChanged();
                     listEmptyView.setVisibility(listItems.size() > 0 ? View.GONE : View.VISIBLE);
                 }
-            }).execute();
+            });
         } else {
             listAdapter.clear();
             listAdapter.notifyDataSetChanged();
@@ -133,61 +148,4 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
         }
     }
 
-    private static class SetupTask extends AsyncTask<Void, Void, Tag> {
-
-        private long tagId;
-        private SetupListener listener;
-
-        private SetupTask(long tagId, SetupListener listener) {
-            this.tagId = tagId;
-            this.listener = listener;
-        }
-
-        @Override
-        protected Tag doInBackground(Void... params) {
-            return TagDao.getInstance().get(tagId);
-        }
-
-        @Override
-        protected void onPostExecute(Tag tag) {
-            super.onPostExecute(tag);
-            listener.onSetupFinished(tag);
-        }
-    }
-
-    private static class SearchTask extends AsyncTask<Void, Void, List<ListItemEntry>> {
-
-        private String query;
-        private SearchListener listener;
-
-        private SearchTask(String query, SearchListener listener) {
-            this.query = query;
-            this.listener = listener;
-        }
-
-        @Override
-        protected List<ListItemEntry> doInBackground(Void... voids) {
-            List<ListItemEntry> listItems = new ArrayList<>();
-            List<Entry> entries = EntryDao.getInstance().search(query);
-            for (Entry entry : entries) {
-                entry.setMeasurementCache(EntryDao.getInstance().getMeasurements(entry));
-                listItems.add(new ListItemEntry(entry, EntryTagDao.getInstance().getAll(entry)));
-            }
-            return listItems;
-        }
-
-        @Override
-        protected void onPostExecute(List<ListItemEntry> listItems) {
-            super.onPostExecute(listItems);
-            listener.onSearchFinished(listItems);
-        }
-    }
-
-    private interface SetupListener {
-        void onSetupFinished(Tag tag);
-    }
-
-    private interface SearchListener {
-        void onSearchFinished(List<ListItemEntry> listItems);
-    }
 }

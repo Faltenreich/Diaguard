@@ -319,18 +319,18 @@
     <string name="unit_factor_carbohydrates_unit">GU facteur</string>
     <string name="unit_factor_bread_unit">PU facteur</string>
     <string name="search">Recherche</string>
-    <string name="tag">Catégories</string>
-    <string name="tags">Catégories</string>
-    <string name="tags_append">Ajouter une catégorie</string>
+    <string name="tag">Mot-clé</string>
+    <string name="tags">Mot-clés</string>
+    <string name="tags_append">Ajouter une mot-clé</string>
 
     <string name="calculator_missing">Où est la calculateur?</string>
     <string name="calculator_missing_desc">La calculateur a été retirée pour des raisons juridiques concernant les produits médicaux.</string>
     <string name="calculator_more_info">Plus d\'infos</string>
     <string name="no_results_found">Aucun résultat trouvé</string>
     <string name="search_hint">Notes, catégories, …</string>
-    <string name="tag_delete">Supprimer la catégorie</string>
-    <string name="tag_delete_confirmation">%d entrées perdent cette catégorie</string>
-    <string name="tag_new">Nouvelle catégorie</string>
-    <string name="tag_duplicate">La catégorie est déjà disponible</string>
+    <string name="tag_delete">Supprimer la mot-clé</string>
+    <string name="tag_delete_confirmation">%d entrées perdent cette mot-clé</string>
+    <string name="tag_new">Nouvelle mot-clé</string>
+    <string name="tag_duplicate">Le mot-clé est déjà disponible</string>
 
 </resources>

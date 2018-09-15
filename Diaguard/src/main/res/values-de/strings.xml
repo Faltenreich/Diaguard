@@ -318,18 +318,18 @@
     <string name="unit_factor_carbohydrates_unit">KE-Faktor</string>
     <string name="unit_factor_bread_unit">BE-Faktor</string>
 
-    <string name="tag">Kategorie</string>
-    <string name="tags">Kategorien</string>
-    <string name="tags_append">Kategorien anhängen</string>
+    <string name="tag">Stichwort</string>
+    <string name="tags">Stichwörter</string>
+    <string name="tags_append">Stichwort anhängen</string>
     <string name="search">Suche</string>
-    <string name="search_hint">Notizen, Kategorien, …</string>
+    <string name="search_hint">Notizen, Stichwörter, …</string>
     <string name="calculator_missing">Wo ist der Bolusrechner?</string>
     <string name="calculator_missing_desc">Der Bolusrechner musste aufgrund des Medizinproduktegesetzes entfernt werden.</string>
     <string name="calculator_more_info">Mehr dazu</string>
     <string name="no_results_found">Keine Ergebnisse gefunden</string>
-    <string name="tag_delete">Kategorie löschen</string>
-    <string name="tag_delete_confirmation">%d Einträge verlieren diese Kategorie</string>
-    <string name="tag_new">Neue Kategorie</string>
-    <string name="tag_duplicate">Kategorie ist bereits verfügbar</string>
+    <string name="tag_delete">Stichwort löschen</string>
+    <string name="tag_delete_confirmation">%d Einträge verlieren dieses Stichwort</string>
+    <string name="tag_new">Neues Stichwort</string>
+    <string name="tag_duplicate">Stichwort ist bereits verfügbar</string>
 
 </resources>

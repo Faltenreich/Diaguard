@@ -321,7 +321,7 @@ public class CalculatorFragment extends BaseFragment implements MainButton {
     }
 
     private void openEntry(Entry entry) {
-        EntryActivity.show(getContext(), (View) null, entry);
+        EntryActivity.show(getContext(), entry);
     }
 
     @Override

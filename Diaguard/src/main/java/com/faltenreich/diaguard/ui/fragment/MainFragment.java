@@ -223,7 +223,7 @@ public class MainFragment extends BaseFragment implements MainButton {
 
     @OnClick(R.id.layout_latest)
     protected void openEntry(View view) {
-        EntryActivity.show(getContext(), view, latestEntry);
+        EntryActivity.show(getContext(), latestEntry);
     }
 
     @OnClick(R.id.layout_today)

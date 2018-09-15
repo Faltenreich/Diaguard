@@ -49,7 +49,7 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> {
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EntryActivity.show(getContext(), view, getListItem().getEntry());
+                EntryActivity.show(getContext(), getListItem().getEntry());
             }
         });
 

@@ -129,7 +129,7 @@ public class FoodFragment extends BaseFoodFragment {
     }
 
     private void eatFood(View view) {
-        EntryActivity.show(getContext(), view, getFood());
+        EntryActivity.show(getContext(), getFood());
     }
 
     private void editFood() {

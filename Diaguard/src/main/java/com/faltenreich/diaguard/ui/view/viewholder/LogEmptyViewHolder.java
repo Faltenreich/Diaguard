@@ -35,6 +35,6 @@ public class LogEmptyViewHolder extends BaseViewHolder<ListItemEmpty> implements
                 .withMinuteOfHour(now.minuteOfHour().get())
                 .withSecondOfMinute(now.secondOfMinute().get())
                 .withMillisOfSecond(now.millisOfSecond().get());
-        EntryActivity.show(getContext(), view, dateTime);
+        EntryActivity.show(getContext(), dateTime);
     }
 }

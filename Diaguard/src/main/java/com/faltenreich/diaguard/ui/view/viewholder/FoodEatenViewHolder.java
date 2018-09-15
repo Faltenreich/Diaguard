@@ -42,6 +42,6 @@ public class FoodEatenViewHolder extends BaseViewHolder<FoodEaten> implements Vi
 
     @Override
     public void onClick(View view) {
-        EntryActivity.show(getContext(), view, getListItem().getMeal().getEntry());
+        EntryActivity.show(getContext(), getListItem().getMeal().getEntry());
     }
 }

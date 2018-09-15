@@ -10,7 +10,6 @@
     android:gravity="center_vertical"
     android:divider="@drawable/divider_large"
     android:showDividers="middle"
-    android:background="?attr/selectableItemBackground"
     style="@style/Padding">
 
     <LinearLayout

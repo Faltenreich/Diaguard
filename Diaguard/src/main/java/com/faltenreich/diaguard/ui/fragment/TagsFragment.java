@@ -18,7 +18,6 @@ import com.faltenreich.diaguard.data.dao.EntryTagDao;
 import com.faltenreich.diaguard.data.dao.TagDao;
 import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.Tag;
-import com.faltenreich.diaguard.ui.activity.EntrySearchActivity;
 
 import java.util.List;
 
@@ -151,11 +150,6 @@ public class TagsFragment extends BaseFragment implements TagListAdapter.TagList
             });
             fragment.show(getFragmentManager(), null);
         }
-    }
-
-    @Override
-    public void onTagSelected(Tag tag, View view) {
-        EntrySearchActivity.show(getContext(), tag, null);
     }
 
     @Override

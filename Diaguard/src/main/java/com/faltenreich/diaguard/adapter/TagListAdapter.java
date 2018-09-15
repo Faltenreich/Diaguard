@@ -31,14 +31,6 @@ public class TagListAdapter extends BaseAdapter<Tag, TagViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull final TagViewHolder holder, int position) {
         holder.bindData(getItem(position));
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (listener != null) {
-                    listener.onTagSelected(getItem(holder.getAdapterPosition()), view);
-                }
-            }
-        });
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,7 +42,6 @@ public class TagListAdapter extends BaseAdapter<Tag, TagViewHolder> {
     }
 
     public interface TagListener {
-        void onTagSelected(Tag tag, View view);
         void onTagDeleted(Tag tag, View view);
     }
 }

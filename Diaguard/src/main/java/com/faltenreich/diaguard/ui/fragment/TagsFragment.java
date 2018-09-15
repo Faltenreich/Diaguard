@@ -77,6 +77,21 @@ public class TagsFragment extends BaseFragment implements TagListAdapter.TagList
         });
     }
 
+    private void addTag(Tag tag) {
+        int position = 0;
+        list.scrollToPosition(position);
+        listAdapter.addItem(position, tag);
+        listAdapter.notifyItemInserted(position);
+    }
+
+    private void removeTag(Tag tag) {
+        int position = listAdapter.getItemPosition(tag);
+        if (position >= 0) {
+            listAdapter.removeItem(position);
+            listAdapter.notifyItemRemoved(position);
+        }
+    }
+
     private void confirmTagDeletion(final Tag tag) {
         DataLoader.getInstance().load(getContext(), new DataLoaderListener<Long>() {
             @Override
@@ -106,17 +121,19 @@ public class TagsFragment extends BaseFragment implements TagListAdapter.TagList
     }
 
     private void deleteTag(final Tag tag) {
-        DataLoader.getInstance().load(getContext(), new DataLoaderListener<Void>() {
+        DataLoader.getInstance().load(getContext(), new DataLoaderListener<Tag>() {
             @Override
-            public Void onShouldLoad() {
+            public Tag onShouldLoad() {
                 List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(tag);
                 EntryTagDao.getInstance().delete(entryTags);
-                TagDao.getInstance().delete(tag);
-                return null;
+                int result = TagDao.getInstance().delete(tag);
+                return result > 0 ? tag : null;
             }
             @Override
-            public void onDidLoad(Void data) {
-                loadTags();
+            public void onDidLoad(@Nullable Tag result) {
+                if (result != null) {
+                    removeTag(result);
+                }
             }
         });
     }
@@ -126,9 +143,9 @@ public class TagsFragment extends BaseFragment implements TagListAdapter.TagList
             TagFragment fragment = new TagFragment();
             fragment.setListener(new TagFragment.TagListener() {
                 @Override
-                public void onResult(@Nullable Tag tag) {
-                    if (tag != null) {
-                        loadTags();
+                public void onResult(@Nullable Tag result) {
+                    if (result != null) {
+                        addTag(result);
                     }
                 }
             });

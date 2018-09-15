@@ -33,6 +33,14 @@
             android:entries="@array/categories"
             android:entryValues="@array/categories"/>
 
+        <Preference
+            android:title="@string/tags">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetPackage="@string/package_name"
+                android:targetClass="com.faltenreich.diaguard.ui.activity.TagsActivity"/>
+        </Preference>
+
         <com.faltenreich.diaguard.ui.view.preferences.BackupExportPreference
             android:key="backup"
             android:title="@string/backup"/>

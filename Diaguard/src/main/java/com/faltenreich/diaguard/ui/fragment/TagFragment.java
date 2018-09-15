@@ -9,12 +9,13 @@ import com.faltenreich.diaguard.data.async.DataLoader;
 import com.faltenreich.diaguard.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.data.dao.TagDao;
 import com.faltenreich.diaguard.data.entity.Tag;
+import com.faltenreich.diaguard.ui.view.DialogButton;
 import com.faltenreich.diaguard.util.StringUtils;
 import com.faltenreich.diaguard.util.ViewUtils;
 
 import butterknife.BindView;
 
-public class TagFragment extends BinaryDialogFragment {
+public class TagFragment extends BaseDialogFragment {
 
     @BindView(R.id.input) EditText editText;
 
@@ -79,9 +80,27 @@ public class TagFragment extends BinaryDialogFragment {
         return tag;
     }
 
+    @Nullable
     @Override
-    protected void onPositiveButtonClick() {
-        trySubmit();
+    protected DialogButton createNegativeButton() {
+        return new DialogButton(android.R.string.cancel, new DialogButton.DialogButtonListener() {
+            @Override
+            public void onClick() {
+                ViewUtils.hideKeyboard(editText);
+                dismiss();
+            }
+        });
+    }
+
+    @Nullable
+    @Override
+    protected DialogButton createPositiveButton() {
+        return new DialogButton(android.R.string.ok, new DialogButton.DialogButtonListener() {
+            @Override
+            public void onClick() {
+                trySubmit();
+            }
+        });
     }
 
     private enum TagError {

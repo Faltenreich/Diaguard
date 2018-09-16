@@ -61,6 +61,12 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.LogL
         goToDay(getDay());
     }
 
+    @Override
+    public String getTitle() {
+        String format = ViewUtils.isLandscape(getActivity()) || ViewUtils.isLargeScreen(getActivity()) ? "MMMM YYYY" : "MMM YYYY";
+        return getDay().toString(format);
+    }
+
     private void initLayout() {
         listLayoutManager = new SafeLinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(listLayoutManager);
@@ -113,19 +119,6 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.LogL
         } else {
             progressBar.setVisibility(View.VISIBLE);
             listAdapter.setup(dateTime);
-        }
-    }
-
-    @Override
-    protected void updateLabels() {
-        if (getTitleView() != null) {
-            String format;
-            if (ViewUtils.isLandscape(getActivity()) || ViewUtils.isLargeScreen(getActivity())) {
-                format = "MMMM YYYY";
-            } else {
-                format = "MMM YYYY";
-            }
-            getTitleView().setText(getDay().toString(format));
         }
     }
 

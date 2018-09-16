@@ -33,15 +33,6 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
         this.day = DateTime.now().withHourOfDay(0).withMinuteOfHour(0);
     }
 
-    public void setDay(DateTime day) {
-        this.day = day;
-        updateLabels();
-    }
-
-    public DateTime getDay() {
-        return day;
-    }
-
     @Override
     public void onViewCreated (@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -78,6 +69,15 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void setDay(DateTime day) {
+        this.day = day;
+        updateLabels();
+    }
+
+    public DateTime getDay() {
+        return day;
     }
 
     @CallSuper
@@ -121,5 +121,9 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
         });
     }
 
-    protected abstract void updateLabels();
+    protected void updateLabels() {
+        if (getActivity() instanceof OnFragmentChangeListener) {
+            ((OnFragmentChangeListener) getActivity()).onFragmentChanged(this);
+        }
+    }
 }

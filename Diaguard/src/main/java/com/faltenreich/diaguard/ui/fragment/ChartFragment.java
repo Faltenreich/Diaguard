@@ -37,6 +37,16 @@ public class ChartFragment extends DateFragment implements ChartViewPager.ChartV
     }
 
     @Override
+    public String getTitle() {
+        boolean showShortText = !ViewUtils.isLandscape(getActivity()) && !ViewUtils.isLargeScreen(getActivity());
+        String weekDay = showShortText ?
+                getDay().dayOfWeek().getAsShortText() :
+                getDay().dayOfWeek().getAsText();
+        String date = DateTimeFormat.mediumDate().print(getDay());
+        return String.format("%s, %s", weekDay, date);
+    }
+
+    @Override
     protected void goToDay(DateTime day) {
         super.goToDay(day);
         viewPager.setDay(day);
@@ -46,18 +56,6 @@ public class ChartFragment extends DateFragment implements ChartViewPager.ChartV
     public void onDaySelected(DateTime day) {
         if (day != null) {
             setDay(day);
-        }
-    }
-
-    @Override
-    protected void updateLabels() {
-        if (isAdded() && getTitleView() != null) {
-            boolean showShortText = !ViewUtils.isLandscape(getActivity()) && !ViewUtils.isLargeScreen(getActivity());
-            String weekDay = showShortText ?
-                    getDay().dayOfWeek().getAsShortText() :
-                    getDay().dayOfWeek().getAsText();
-            String date = DateTimeFormat.mediumDate().print(getDay());
-            getTitleView().setText(String.format("%s, %s", weekDay, date));
         }
     }
 

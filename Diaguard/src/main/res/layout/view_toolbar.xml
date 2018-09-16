@@ -19,7 +19,6 @@
         android:gravity="center_vertical"
         android:textColor="@android:color/white"
         android:textSize="@dimen/text_medium"
-        android:clickable="true"
         android:focusable="true"
         android:background="?android:attr/selectableItemBackground"
         android:lines="1"

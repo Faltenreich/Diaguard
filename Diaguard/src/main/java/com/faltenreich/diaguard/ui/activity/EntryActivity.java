@@ -516,8 +516,10 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         DatePickerFragment.newInstance(time, new DatePickerFragment.DatePickerListener() {
             @Override
             public void onDatePicked(@Nullable DateTime dateTime) {
-                time = dateTime;
-                updateDateTime();
+                if (dateTime != null) {
+                    time = dateTime;
+                    updateDateTime();
+                }
             }
         }).show(getSupportFragmentManager());
     }

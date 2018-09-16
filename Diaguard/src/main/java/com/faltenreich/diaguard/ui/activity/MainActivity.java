@@ -261,7 +261,6 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
             }
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             transaction.commit();
-            setTitle(fragment.getTitle());
         }
     }
 

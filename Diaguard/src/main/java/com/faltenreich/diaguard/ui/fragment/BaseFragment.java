@@ -17,7 +17,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.dao.EntryDao;
@@ -31,6 +30,7 @@ import com.faltenreich.diaguard.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.ui.activity.BaseActivity;
 import com.faltenreich.diaguard.ui.activity.MainActivity;
+import com.faltenreich.diaguard.ui.view.ToolbarBehavior;
 import com.faltenreich.diaguard.util.ViewUtils;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -38,10 +38,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.ButterKnife;
 
-/**
- * Created by Filip on 26.06.2015.
- */
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment implements ToolbarBehavior {
 
     @LayoutRes private int layoutResourceId;
     @StringRes private int titleResId;
@@ -78,7 +75,7 @@ public abstract class BaseFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        View titleView = getTitleView();
+        View titleView = getActivity() != null && getActivity() instanceof BaseActivity ? ((BaseActivity) getActivity()).getTitleView() : null;
         if (titleView != null) {
             if (this instanceof ToolbarCallback) {
                 titleView.setClickable(true);
@@ -119,10 +116,7 @@ public abstract class BaseFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    public TextView getTitleView() {
-        return getActivity() != null && getActivity() instanceof BaseActivity ? ((BaseActivity) getActivity()).getTitleView() : null;
-    }
-
+    @Override
     public String getTitle() {
         return title;
     }

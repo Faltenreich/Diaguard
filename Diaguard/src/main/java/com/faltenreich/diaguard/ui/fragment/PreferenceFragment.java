@@ -42,6 +42,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.io.File;
 import java.util.ArrayList;
 
+// android.support.v7.preference has currently an incompatible API
 public class PreferenceFragment extends android.preference.PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     public static final String EXTRA_OPENING_PREFERENCE = "EXTRA_OPENING_PREFERENCE";

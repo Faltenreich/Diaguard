@@ -51,13 +51,13 @@ public class ChartFragment extends DateFragment implements ChartViewPager.ChartV
 
     @Override
     protected void updateLabels() {
-        if (isAdded() && getActionView() != null) {
+        if (isAdded() && getTitleView() != null) {
             boolean showShortText = !ViewUtils.isLandscape(getActivity()) && !ViewUtils.isLargeScreen(getActivity());
             String weekDay = showShortText ?
                     getDay().dayOfWeek().getAsShortText() :
                     getDay().dayOfWeek().getAsText();
             String date = DateTimeFormat.mediumDate().print(getDay());
-            getActionView().setText(String.format("%s, %s", weekDay, date));
+            getTitleView().setText(String.format("%s, %s", weekDay, date));
         }
     }
 

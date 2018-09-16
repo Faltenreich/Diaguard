@@ -71,19 +71,24 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
         }
     }
 
-    public void setDay(DateTime day) {
-        this.day = day;
-        updateLabels();
+    protected DateTime getDay() {
+        return day;
     }
 
-    public DateTime getDay() {
-        return day;
+    protected void setDay(DateTime day) {
+        this.day = day;
     }
 
     @CallSuper
     protected void goToDay(DateTime day) {
-        this.day = day;
+        setDay(day);
         updateLabels();
+    }
+
+    protected void updateLabels() {
+        if (getActivity() instanceof OnFragmentChangeListener) {
+            ((OnFragmentChangeListener) getActivity()).onFragmentChanged(this);
+        }
     }
 
     private void setTodayIcon(LayerDrawable icon, Context context) {
@@ -119,11 +124,5 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
                 }
             }
         });
-    }
-
-    protected void updateLabels() {
-        if (getActivity() instanceof OnFragmentChangeListener) {
-            ((OnFragmentChangeListener) getActivity()).onFragmentChanged(this);
-        }
     }
 }

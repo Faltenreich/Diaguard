@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
+import android.support.annotation.ColorRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,6 +28,7 @@ import com.faltenreich.diaguard.event.FileProvidedEvent;
 import com.faltenreich.diaguard.event.FileProvidedFailedEvent;
 import com.faltenreich.diaguard.event.PermissionRequestEvent;
 import com.faltenreich.diaguard.event.PermissionResponseEvent;
+import com.faltenreich.diaguard.util.SystemUtils;
 import com.faltenreich.diaguard.util.ViewUtils;
 import com.faltenreich.diaguard.util.permission.Permission;
 import com.faltenreich.diaguard.util.permission.PermissionManager;
@@ -47,14 +49,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     static final String ARGUMENT_REVEAL_X = "revealX";
     static final String ARGUMENT_REVEAL_Y = "revealY";
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @Nullable
-    @BindView(R.id.action)
-    TextView actionView;
-    @Nullable
-    @BindView(R.id.root)
-    ViewGroup rootLayout;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.toolbar_title) TextView toolbarTitleView;
+    @Nullable @BindView(R.id.root) ViewGroup rootLayout;
 
     private int layoutResourceId;
     private int revealX;
@@ -157,9 +154,29 @@ public abstract class BaseActivity extends AppCompatActivity {
         unreveal();
     }
 
-    public @Nullable
-    TextView getActionView() {
-        return actionView;
+    @Nullable
+    public TextView getTitleView() {
+        return toolbarTitleView;
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        if (toolbarTitleView != null) {
+            toolbarTitleView.setText(title);
+        } else {
+            super.setTitle(title);
+        }
+    }
+
+    @Override
+    public void setTitle(int titleId) {
+        setTitle(getString(titleId));
+    }
+
+    public void setToolbarBackgroundColor(@ColorRes int colorResId) {
+        if (toolbar != null) {
+            toolbar.setBackgroundResource(colorResId);
+        }
     }
 
     private void init() {
@@ -170,6 +187,8 @@ public abstract class BaseActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
         }
+
+        setTitle(SystemUtils.getLabelForActivity(this));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setEnterTransition(null);

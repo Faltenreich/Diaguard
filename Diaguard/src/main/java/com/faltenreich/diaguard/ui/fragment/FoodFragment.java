@@ -8,7 +8,6 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,7 +29,6 @@ import butterknife.BindView;
 
 public class FoodFragment extends BaseFoodFragment {
 
-    @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.food_image) ImageView image;
     @BindView(R.id.appbar) AppBarLayout appBarLayout;
     @BindView(R.id.scrim_top) View scrimTop;
@@ -74,6 +72,8 @@ public class FoodFragment extends BaseFoodFragment {
     }
 
     private void init() {
+        setToolbarBackgroundColor(android.R.color.transparent);
+
         Food food = getFood();
         if (food != null) {
             boolean hasImage = !TextUtils.isEmpty(food.getFullImageUrl());
@@ -125,7 +125,7 @@ public class FoodFragment extends BaseFoodFragment {
 
     private void update() {
         Food food = getFood();
-        toolbar.setTitle(food != null ? food.getName() : null);
+        setTitle(food != null ? food.getName() : null);
     }
 
     private void eatFood(View view) {

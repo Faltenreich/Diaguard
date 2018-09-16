@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.ui.fragment;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.ColorRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.MenuRes;
 import android.support.annotation.NonNull;
@@ -18,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.EntryTagDao;
@@ -53,17 +53,17 @@ public abstract class BaseFragment extends Fragment {
         // Forbidden
     }
 
-    public BaseFragment(@LayoutRes int layoutResourceId, @StringRes int titleResourceId, @MenuRes int menuResId) {
+    public BaseFragment(@LayoutRes int layoutResourceId, @StringRes int titleResId, @MenuRes int menuResId) {
         this();
         this.layoutResourceId = layoutResourceId;
-        this.titleResId = titleResourceId;
-        this.title = DiaguardApplication.getContext().getString(titleResourceId);
+        this.titleResId = titleResId;
         this.menuResId = menuResId;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.title = getString(titleResId);
         setHasOptionsMenu(true);
     }
 
@@ -78,20 +78,18 @@ public abstract class BaseFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (getActivity() instanceof BaseActivity) {
-            View actionView = getActionView();
-            if (actionView != null) {
-                if (this instanceof ToolbarCallback) {
-                    actionView.setVisibility(View.VISIBLE);
-                    actionView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            ((ToolbarCallback) BaseFragment.this).action();
-                        }
-                    });
-                } else {
-                    actionView.setVisibility(View.GONE);
-                }
+        View titleView = getTitleView();
+        if (titleView != null) {
+            if (this instanceof ToolbarCallback) {
+                titleView.setClickable(true);
+                titleView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ((ToolbarCallback) BaseFragment.this).action();
+                    }
+                });
+            } else {
+                titleView.setClickable(false);
             }
         }
     }
@@ -121,8 +119,8 @@ public abstract class BaseFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    public TextView getActionView() {
-        return getActivity() != null && getActivity() instanceof BaseActivity ? ((BaseActivity) getActivity()).getActionView() : null;
+    public TextView getTitleView() {
+        return getActivity() != null && getActivity() instanceof BaseActivity ? ((BaseActivity) getActivity()).getTitleView() : null;
     }
 
     public String getTitle() {
@@ -138,6 +136,12 @@ public abstract class BaseFragment extends Fragment {
 
     public void setTitle(@StringRes int titleResId) {
         setTitle(getString(titleResId));
+    }
+
+    public void setToolbarBackgroundColor(@ColorRes int colorResId) {
+        if (getActivity() != null && getActivity() instanceof BaseActivity) {
+            ((BaseActivity) getActivity()).setToolbarBackgroundColor(colorResId);
+        }
     }
 
     public void showFragment(BaseFragment fragment) {

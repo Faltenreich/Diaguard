@@ -45,24 +45,12 @@
                 android:background="@drawable/scrim_bottom"
                 android:visibility="gone"/>
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="96dp"
-                android:minHeight="@dimen/height_element"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                android:gravity="top"
-                app:layout_collapseMode="pin"
-                app:navigationContentDescription="@string/abc_action_bar_up_description"
-                app:navigationIcon="?attr/homeAsUpIndicator"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:contentInsetStartWithNavigation="0dp"
-                app:titleMarginTop="13dp"/>
+            <include layout="@layout/view_toolbar"/>
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/food_tablayout"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/height_element"
+                android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="bottom"
                 app:tabIndicatorHeight="2dp"
                 app:tabIndicatorColor="@android:color/white"/>

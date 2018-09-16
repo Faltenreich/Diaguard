@@ -223,7 +223,7 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
                     }
                     break;
                 case R.id.nav_food_database:
-                    startActivity(new Intent(MainActivity.this, FoodSearchActivity.class));
+                    startActivity(new Intent(this, FoodSearchActivity.class));
                     break;
                 case R.id.nav_statistics:
                     showFragment(new StatisticsFragment(), menuItem, true);
@@ -232,7 +232,7 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
                     showFragment(new ExportFragment(), menuItem, true);
                     break;
                 case R.id.nav_settings:
-                    startActivity(new Intent(MainActivity.this, PreferenceActivity.class));
+                    startActivity(new Intent(this, PreferenceActivity.class));
                     break;
                 default:
                     showFragment(new MainFragment(), menuItem, false);

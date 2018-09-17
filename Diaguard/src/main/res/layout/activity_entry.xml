@@ -197,7 +197,7 @@
         android:paddingEnd="24dp"
         android:paddingBottom="90dp"
         android:contentDescription="@string/measurement_add"
-        app:layout_behavior="com.faltenreich.diaguard.adapter.FloatingViewBehavior"
+        app:layout_behavior="com.faltenreich.diaguard.adapter.StepAsideBehavior"
         app:menu_fab_size="mini"
         app:menu_backgroundColor="@color/semitransparent"
         app:menu_icon="@drawable/ic_add_dark"
@@ -212,7 +212,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_action_done"
-        app:layout_behavior="com.faltenreich.diaguard.adapter.FloatingViewBehavior"
+        app:layout_behavior="com.faltenreich.diaguard.adapter.StepAsideBehavior"
         app:fab_colorNormal="@color/green"
         app:fab_colorPressed="@color/green"
         app:fab_colorRipple="@color/green_light"/>

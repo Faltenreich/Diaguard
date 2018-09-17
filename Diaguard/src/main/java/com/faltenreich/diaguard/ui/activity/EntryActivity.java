@@ -102,7 +102,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         context.startActivity(intent);
     }
 
-    @BindView(android.R.id.content) View contentView;
+    @BindView(R.id.root) View rootView;
     @BindView(R.id.activity_newevent_scrollview) NestedScrollView scrollView;
     @BindView(R.id.fab) FloatingActionButton fab;
     @BindView(R.id.fab_menu) MeasurementFloatingActionMenu fabMenu;
@@ -402,7 +402,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         if (layoutMeasurements.getMeasurements().size() == 0) {
             // Allow entries with no measurements but with a note or tag
             if (StringUtils.isBlank(editTextNotes.getText().toString()) && tagsView.getChildCount() == 0) {
-                ViewUtils.showSnackbar(contentView, getString(R.string.validator_value_none));
+                ViewUtils.showSnackbar(rootView, getString(R.string.validator_value_none));
                 inputIsValid = false;
             }
         } else {

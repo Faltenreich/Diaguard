@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import com.codetroopers.betterpickers.numberpicker.NumberPickerBuilder;
 import com.codetroopers.betterpickers.numberpicker.NumberPickerDialogFragment;
-import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 
 import java.math.BigDecimal;
@@ -74,15 +73,18 @@ public class ViewUtils {
         return false;
     }
 
+    private static Snackbar createSnackbar(View parentView, String text) {
+        return Snackbar.make(parentView, text, Snackbar.LENGTH_LONG);
+    }
+
     public static void showSnackbar(View parentView, String text) {
-        Snackbar.make(parentView, text, Snackbar.LENGTH_LONG).show();
+        createSnackbar(parentView, text).show();
     }
 
     public static void showSnackbar(View parentView, String text, View.OnClickListener onClickListener) {
-        int actionTextColor = ContextCompat.getColor(DiaguardApplication.getContext(), R.color.green_light);
-        Snackbar.make(parentView, text, Snackbar.LENGTH_LONG)
+        createSnackbar(parentView, text)
                 .setAction(R.string.undo, onClickListener)
-                .setActionTextColor(actionTextColor)
+                .setActionTextColor(ContextCompat.getColor(parentView.getContext(), R.color.green_light))
                 .show();
     }
 

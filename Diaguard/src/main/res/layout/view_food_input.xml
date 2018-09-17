@@ -5,7 +5,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:showDividers="middle"
+    android:divider="@drawable/line_divider">
 
     <LinearLayout
         android:id="@+id/food_input_row"
@@ -73,8 +75,6 @@
 
     </LinearLayout>
 
-    <View style="@style/LayoutRowSeparator" />
-
     <Button
         android:id="@+id/food_input_button"
         style="?attr/borderlessButtonStyle"
@@ -82,11 +82,6 @@
         android:layout_height="@dimen/height_element"
         android:text="@string/food_add"
         android:textColor="@color/green" />
-
-    <View
-        android:id="@+id/food_input_separator"
-        style="@style/LayoutRowSeparator"
-        android:visibility="gone" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/food_input_list"

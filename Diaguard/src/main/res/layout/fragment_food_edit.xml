@@ -17,7 +17,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:showDividers="middle"
+            android:divider="@drawable/line_divider">
 
             <LinearLayout style="@style/LayoutRow">
 
@@ -36,8 +38,6 @@
 
             </LinearLayout>
 
-            <View style="@style/LayoutRowSeparator" />
-
             <LinearLayout style="@style/LayoutRow">
 
                 <com.faltenreich.diaguard.ui.view.TintImageView
@@ -54,8 +54,6 @@
 
             </LinearLayout>
 
-            <View style="@style/LayoutRowSeparator" />
-
             <LinearLayout style="@style/LayoutRow">
 
                 <com.faltenreich.diaguard.ui.view.TintImageView
@@ -71,8 +69,6 @@
                     android:inputType="textMultiLine|textCapSentences"/>
 
             </LinearLayout>
-
-            <View style="@style/LayoutRowSeparator" />
 
             <LinearLayout style="@style/LayoutRow">
 

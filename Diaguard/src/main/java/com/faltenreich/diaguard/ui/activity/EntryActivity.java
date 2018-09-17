@@ -53,6 +53,7 @@ import com.faltenreich.diaguard.util.DateTimeUtils;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.StringUtils;
 import com.faltenreich.diaguard.util.ViewUtils;
+import com.github.clans.fab.FloatingActionButton;
 import com.pchmn.materialchips.ChipView;
 
 import org.joda.time.DateTime;
@@ -103,7 +104,8 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
     @BindView(android.R.id.content) View contentView;
     @BindView(R.id.activity_newevent_scrollview) NestedScrollView scrollView;
-    @BindView(R.id.fab_menu) MeasurementFloatingActionMenu fab;
+    @BindView(R.id.fab) FloatingActionButton fab;
+    @BindView(R.id.fab_menu) MeasurementFloatingActionMenu fabMenu;
     @BindView(R.id.layout_measurements) MeasurementListView layoutMeasurements;
     @BindView(R.id.edittext_notes) EditText editTextNotes;
     @BindView(R.id.button_date) Button buttonDate;
@@ -112,8 +114,6 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     @BindView(R.id.entry_alarm_container) ViewGroup containerAlarm;
     @BindView(R.id.entry_tags_input) AutoCompleteTextView tagsInput;
     @BindView(R.id.entry_tags) ViewGroup tagsView;
-
-    private MenuItem submitMenuItem;
 
     private long entryId;
     private long foodId;
@@ -142,7 +142,6 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.form_edit, menu);
         menu.findItem(R.id.action_delete).setVisible(entryId > 0);
-        submitMenuItem = menu.findItem(R.id.action_done);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -151,9 +150,6 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         switch (item.getItemId()) {
             case R.id.action_delete:
                 deleteEntry();
-                return true;
-            case R.id.action_done:
-                trySubmit();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -185,11 +181,11 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
         layoutMeasurements.setOnCategoryEventListener(this);
 
-        fab.setOnFabSelectedListener(this);
+        fabMenu.setOnFabSelectedListener(this);
 
         if (entryId <= 0 && foodId <= 0) {
             addPinnedCategories();
-            fab.restock();
+            fabMenu.restock();
         }
 
         tagAdapter = new TagAutoCompleteAdapter(this);
@@ -276,9 +272,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     }
 
     private void toggleSubmitButton(boolean isEnabled) {
-        if (submitMenuItem != null) {
-            submitMenuItem.setEnabled(isEnabled);
-        }
+        fab.setEnabled(isEnabled);
     }
 
     private void addTag(String name) {
@@ -422,7 +416,8 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         return inputIsValid;
     }
 
-    private void trySubmit() {
+    @OnClick(R.id.fab)
+    public void trySubmit() {
         toggleSubmitButton(false);
 
         // Convenience: Accept tag that hasn't been submitted by user
@@ -563,14 +558,14 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
     @Override
     public void onCategoryAdded(Measurement.Category category) {
-        fab.ignore(category);
-        fab.restock();
+        fabMenu.ignore(category);
+        fabMenu.restock();
     }
 
     @Override
     public void onCategoryRemoved(Measurement.Category category) {
-        fab.removeIgnore(category);
-        fab.restock();
+        fabMenu.removeIgnore(category);
+        fabMenu.restock();
     }
 
     private class FetchEntryTask extends AsyncTask<Void, Void, Void> {
@@ -619,8 +614,8 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             super.onPostExecute(food);
             if (food != null) {
                 layoutMeasurements.addMeasurement(food);
-                fab.ignore(Measurement.Category.MEAL);
-                fab.restock();
+                fabMenu.ignore(Measurement.Category.MEAL);
+                fabMenu.restock();
             }
         }
     }

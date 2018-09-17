@@ -19,6 +19,7 @@ import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by Faltenreich on 01.11.2016.
@@ -53,9 +54,6 @@ public class FoodEditFragment extends BaseFoodFragment {
             case R.id.action_delete:
                 deleteFood();
                 return true;
-            case R.id.action_done:
-                store();
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -89,7 +87,8 @@ public class FoodEditFragment extends BaseFoodFragment {
         return isValid;
     }
 
-    private void store() {
+    @OnClick(R.id.fab)
+    public void store() {
         if (isValid()) {
             Food food = getFood();
             if (food == null) {

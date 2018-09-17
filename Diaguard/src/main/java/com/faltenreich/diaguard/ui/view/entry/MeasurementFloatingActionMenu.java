@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.ui.view.entry;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -9,7 +8,7 @@ import android.view.View;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.util.Helper;
+import com.faltenreich.diaguard.ui.view.FloatingActionButtonFactory;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
@@ -90,7 +89,8 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
                 position++;
             }
 
-            FloatingActionButton fabAll = getFloatingActionButton(
+            FloatingActionButton fabAll = FloatingActionButtonFactory.createFloatingActionButton(
+                    getContext(),
                     getContext().getString(R.string.all),
                     R.drawable.ic_other,
                     android.R.color.white);
@@ -110,7 +110,8 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
     }
 
     public void addMenuButton(final Measurement.Category category) {
-        FloatingActionButton fab = getFloatingActionButton(
+        FloatingActionButton fab = FloatingActionButtonFactory.createFloatingActionButton(
+                getContext(),
                 category.toLocalizedString(),
                 PreferenceHelper.getInstance().getCategoryImageResourceId(category),
                 R.color.green);
@@ -124,19 +125,6 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
             }
         });
         addMenuButton(fab);
-    }
-
-    private FloatingActionButton getFloatingActionButton(String text, int imageResourceId, int colorResId) {
-        FloatingActionButton floatingActionButton = new FloatingActionButton(getContext());
-        floatingActionButton.setButtonSize(FloatingActionButton.SIZE_MINI);
-        floatingActionButton.setLabelText(text);
-        floatingActionButton.setImageResource(imageResourceId);
-        floatingActionButton.setColorNormalResId(colorResId);
-        float brighteningPercentage = colorResId == android.R.color.white ? .9f : 1.2f;
-        int colorHighlight = Helper.colorBrighten(ContextCompat.getColor(getContext(), colorResId), brighteningPercentage);
-        floatingActionButton.setColorPressed(colorHighlight);
-        floatingActionButton.setColorRipple(colorHighlight);
-        return floatingActionButton;
     }
 
     public void setOnFabSelectedListener(OnFabSelectedListener onFabSelectedListener) {

@@ -48,7 +48,7 @@ public abstract class BaseFoodFragment extends BaseFragment {
     }
 
     private void checkIntents() {
-        if (getActivity().getIntent() != null && getActivity().getIntent().getExtras() != null) {
+        if (getActivity() != null && getActivity().getIntent() != null && getActivity().getIntent().getExtras() != null) {
             Bundle extras = getActivity().getIntent().getExtras();
             if (extras.getLong(EXTRA_FOOD_ID) >= 0) {
                 long foodId = extras.getLong(EXTRA_FOOD_ID);

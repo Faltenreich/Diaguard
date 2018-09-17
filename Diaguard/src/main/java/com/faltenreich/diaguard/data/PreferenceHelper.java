@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.ui.activity.MainActivity;
+import com.faltenreich.diaguard.ui.view.MainFragmentType;
 import com.faltenreich.diaguard.ui.view.preferences.CategoryPreference;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
@@ -148,8 +148,7 @@ public class PreferenceHelper {
 
     private void migrateStartScreen() {
         int startScreen = getStartScreen();
-        MainActivity.MainFragmentType mainFragmentType = MainActivity.MainFragmentType.valueOf(startScreen);
-        if (mainFragmentType == null) {
+        if (MainFragmentType.valueOf(startScreen) == null) {
             setStartScreen(0);
         }
     }

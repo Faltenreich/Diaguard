@@ -32,6 +32,8 @@ import com.faltenreich.diaguard.ui.fragment.OnFragmentChangeListener;
 import com.faltenreich.diaguard.ui.fragment.StatisticsFragment;
 import com.faltenreich.diaguard.ui.view.MainButton;
 import com.faltenreich.diaguard.ui.view.MainButtonProperties;
+import com.faltenreich.diaguard.ui.view.MainFragmentType;
+import com.faltenreich.diaguard.ui.view.ToolbarBehavior;
 import com.faltenreich.diaguard.util.SystemUtils;
 import com.faltenreich.diaguard.util.ViewUtils;
 import com.github.clans.fab.FloatingActionButton;
@@ -39,40 +41,6 @@ import com.github.clans.fab.FloatingActionButton;
 import butterknife.BindView;
 
 public class MainActivity extends BaseActivity implements OnFragmentChangeListener {
-
-    public enum MainFragmentType {
-        HOME(com.faltenreich.diaguard.ui.fragment.MainFragment.class, 0),
-        TIMELINE(ChartFragment.class, 1),
-        LOG(LogFragment.class, 2),
-        STATISTICS(StatisticsFragment.class, 5),
-        EXPORT(ExportFragment.class, 6);
-
-        public Class<? extends BaseFragment> fragmentClass;
-        public int position;
-
-        MainFragmentType(Class<? extends BaseFragment> fragmentClass, int position) {
-            this.fragmentClass = fragmentClass;
-            this.position = position;
-        }
-
-        public static MainFragmentType valueOf(Class<? extends BaseFragment> fragmentClass) {
-            for (MainFragmentType mainFragmentType : MainFragmentType.values()) {
-                if (mainFragmentType.fragmentClass == fragmentClass) {
-                    return mainFragmentType;
-                }
-            }
-            return null;
-        }
-
-        public static MainFragmentType valueOf(int position) {
-            for (MainFragmentType mainFragmentType : MainFragmentType.values()) {
-                if (mainFragmentType.position == position) {
-                    return mainFragmentType;
-                }
-            }
-            return null;
-        }
-    }
 
     @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
     @BindView(R.id.navigation_drawer) NavigationView drawer;
@@ -176,18 +144,18 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
         showFragment(menuItem);
     }
 
-    private Fragment getVisibleFragment() {
-        return getSupportFragmentManager().findFragmentById(R.id.container);
+    private void invalidateLayout() {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
+        if (fragment != null) {
+            invalidateToolbar(fragment instanceof ToolbarBehavior ? (ToolbarBehavior) fragment : null);
+            invalidateMainButton(fragment instanceof MainButton ? (MainButton) fragment : null);
+            invalidateNavigationDrawer(fragment);
+        }
     }
 
-    private void invalidateLayout() {
-        Fragment fragment = getVisibleFragment();
-        if (fragment != null && fragment instanceof BaseFragment) {
-            BaseFragment baseFragment = (BaseFragment) fragment;
-            setTitle(baseFragment.getTitle());
-            MainFragmentType mainFragmentType = MainFragmentType.valueOf(baseFragment.getClass());
-            select(mainFragmentType);
-            invalidateMainButton(fragment instanceof MainButton ? (MainButton) fragment : null);
+    private void invalidateToolbar(@Nullable ToolbarBehavior toolbarBehavior) {
+        if (toolbarBehavior != null) {
+            setTitle(toolbarBehavior.getTitle());
         }
     }
 
@@ -196,6 +164,17 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
         fab.setVisibility(properties != null ? View.VISIBLE : View.GONE);
         fab.setImageResource(properties != null ? properties.getIconDrawableResId() : android.R.color.transparent);
         fab.setOnClickListener(properties != null ? properties.getOnClickListener() : null);
+    }
+
+    private void invalidateNavigationDrawer(Fragment fragment) {
+        MainFragmentType mainFragmentType = MainFragmentType.valueOf(fragment.getClass());
+        if (mainFragmentType != null) {
+            int position = mainFragmentType.position;
+            if (position < drawer.getMenu().size()) {
+                MenuItem menuItem = drawer.getMenu().getItem(position);
+                selectNavigationDrawerMenuItem(menuItem);
+            }
+        }
     }
 
     public void showFragment(@IdRes int itemId) {
@@ -248,7 +227,7 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
         if (!isActive) {
             ViewUtils.hideKeyboard(this);
 
-            select(menuItem);
+            selectNavigationDrawerMenuItem(menuItem);
 
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             String tag = fragment.getClass().getSimpleName();
@@ -268,17 +247,7 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
         new CalculatorMissingFragment().show(getSupportFragmentManager(), null);
     }
 
-    private void select(MainFragmentType mainFragmentType) {
-        if (mainFragmentType != null) {
-            int position = mainFragmentType.position;
-            if (position < drawer.getMenu().size()) {
-                MenuItem menuItem = drawer.getMenu().getItem(position);
-                select(menuItem);
-            }
-        }
-    }
-
-    private void select(MenuItem menuItem) {
+    private void selectNavigationDrawerMenuItem(MenuItem menuItem) {
         if (menuItem != null) {
             // First uncheck all, then check current Fragment
             for (int index = 0; index < drawer.getMenu().size(); index++) {

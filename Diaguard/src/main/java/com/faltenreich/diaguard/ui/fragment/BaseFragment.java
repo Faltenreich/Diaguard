@@ -18,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.EntryTagDao;
@@ -41,7 +42,6 @@ import butterknife.ButterKnife;
 public abstract class BaseFragment extends Fragment implements ToolbarBehavior {
 
     @LayoutRes private int layoutResourceId;
-    @StringRes private int titleResId;
     @MenuRes private int menuResId;
 
     private String title;
@@ -53,14 +53,17 @@ public abstract class BaseFragment extends Fragment implements ToolbarBehavior {
     public BaseFragment(@LayoutRes int layoutResourceId, @StringRes int titleResId, @MenuRes int menuResId) {
         this();
         this.layoutResourceId = layoutResourceId;
-        this.titleResId = titleResId;
+        this.title = DiaguardApplication.getContext().getString(titleResId);
         this.menuResId = menuResId;
+    }
+
+    public BaseFragment(@LayoutRes int layoutResourceId, @StringRes int titleResId) {
+        this(layoutResourceId, titleResId, -1);
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.title = getString(titleResId);
         setHasOptionsMenu(true);
     }
 

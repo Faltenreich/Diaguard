@@ -7,10 +7,10 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.ui.fragment.BaseFoodFragment;
-import com.faltenreich.diaguard.ui.fragment.BaseFragment;
 import com.faltenreich.diaguard.ui.fragment.FoodDetailFragment;
 import com.faltenreich.diaguard.ui.fragment.FoodHistoryFragment;
 import com.faltenreich.diaguard.ui.fragment.NutrientsFragment;
+import com.faltenreich.diaguard.ui.view.ToolbarBehavior;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +60,6 @@ public class FoodPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         Fragment fragment = getItem(position);
-        return fragment instanceof BaseFragment ? ((BaseFragment) fragment).getTitle() : fragment.toString();
+        return fragment instanceof ToolbarBehavior ? ((ToolbarBehavior) fragment).getTitle() : fragment.toString();
     }
 }

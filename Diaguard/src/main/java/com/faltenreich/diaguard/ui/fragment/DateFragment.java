@@ -5,10 +5,8 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.view.Menu;
@@ -31,12 +29,6 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
     public DateFragment(@LayoutRes int layoutResourceId, @StringRes int titleResourceId) {
         super(layoutResourceId, titleResourceId, R.menu.date);
         this.day = DateTime.now().withHourOfDay(0).withMinuteOfHour(0);
-    }
-
-    @Override
-    public void onViewCreated (@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        updateLabels();
     }
 
     @Override

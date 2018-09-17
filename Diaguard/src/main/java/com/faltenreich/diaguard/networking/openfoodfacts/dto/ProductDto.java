@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.networking.openfoodfacts.dto;
 
 import com.faltenreich.diaguard.networking.NetworkDto;
+import com.faltenreich.diaguard.util.StringUtils;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -39,8 +40,8 @@ public class ProductDto extends NetworkDto {
     public String[] lastEditDates;
 
     public boolean isValid() {
-        boolean hasName = name != null && name.length() > 0;
-        boolean hasNutrients = nutrients.carbohydrates != null;
+        boolean hasName = !StringUtils.isBlank(name);
+        boolean hasNutrients = nutrients != null && nutrients.carbohydrates != null;
         return hasName && hasNutrients;
     }
 }

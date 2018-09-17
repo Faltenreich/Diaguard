@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:animateLayoutChanges="true">
+    android:showDividers="middle"
+    android:divider="@drawable/line_divider">
 
     <com.faltenreich.diaguard.ui.view.StickyHintInput
         android:id="@+id/insulin_bolus"
@@ -13,16 +14,12 @@
         android:hint="@string/bolus"
         android:inputType="numberDecimal"/>
 
-    <View style="@style/LayoutRowSeparator" />
-
     <com.faltenreich.diaguard.ui.view.StickyHintInput
         android:id="@+id/insulin_correction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/correction"
         android:inputType="numberDecimal|numberSigned"/>
-
-    <View style="@style/LayoutRowSeparator" />
 
     <com.faltenreich.diaguard.ui.view.StickyHintInput
         android:id="@+id/insulin_basal"

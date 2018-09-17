@@ -46,6 +46,5 @@ public class SystemUtils {
             Log.e(TAG, exception.getMessage());
             return null;
         }
-
     }
 }

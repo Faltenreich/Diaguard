@@ -56,6 +56,7 @@ public class ChartFragment extends DateFragment implements ChartViewPager.ChartV
     public void onDaySelected(DateTime day) {
         if (day != null) {
             setDay(day);
+            updateLabels();
         }
     }
 

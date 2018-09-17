@@ -60,7 +60,7 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
     private DateTime dateEnd;
 
     public ExportFragment() {
-        super(R.layout.fragment_export, R.string.export, -1);
+        super(R.layout.fragment_export, R.string.export);
     }
 
     @Override

@@ -38,7 +38,7 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
     private long tagId = -1;
 
     public EntrySearchFragment() {
-        super(R.layout.fragment_entry_search, R.string.search, -1);
+        super(R.layout.fragment_entry_search, R.string.search);
     }
 
     @Override

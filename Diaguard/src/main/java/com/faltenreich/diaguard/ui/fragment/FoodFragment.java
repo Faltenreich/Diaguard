@@ -49,6 +49,12 @@ public class FoodFragment extends BaseFoodFragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        setToolbarBackgroundColor(android.R.color.transparent);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         update();
@@ -72,8 +78,6 @@ public class FoodFragment extends BaseFoodFragment {
     }
 
     private void init() {
-        setToolbarBackgroundColor(android.R.color.transparent);
-
         Food food = getFood();
         if (food != null) {
             boolean hasImage = !TextUtils.isEmpty(food.getFullImageUrl());

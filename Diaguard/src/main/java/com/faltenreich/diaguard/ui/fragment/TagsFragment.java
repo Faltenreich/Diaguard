@@ -32,7 +32,7 @@ public class TagsFragment extends BaseFragment implements TagListAdapter.TagList
     private TagListAdapter listAdapter;
 
     public TagsFragment() {
-        super(R.layout.fragment_tags, R.string.tags, -1);
+        super(R.layout.fragment_tags, R.string.tags);
     }
 
     @Override

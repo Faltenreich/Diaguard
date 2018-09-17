@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 @SuppressWarnings({"unused", "WeakerAccess"})
+// TODO: Degrade SlideOutBehavior to StepAsideBehavior on-the-fly
 public class SlideOutBehavior extends StepAsideBehavior {
 
     public SlideOutBehavior(Context context, AttributeSet attrs) {

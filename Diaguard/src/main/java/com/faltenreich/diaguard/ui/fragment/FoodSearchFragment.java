@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -67,7 +66,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     private SearchAdapter searchAdapter;
 
     public FoodSearchFragment() {
-        super(R.layout.fragment_food_search, R.string.food, R.menu.food_search);
+        super(R.layout.fragment_food_search, R.string.food);
     }
 
     @Override
@@ -92,18 +91,6 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     public void onDestroy() {
         super.onDestroy();
         Events.unregister(this);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_search: {
-                searchView.open(true);
-                return true;
-            }
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     private void init() {

@@ -123,7 +123,7 @@
             android:src="@drawable/fab_add"
             app:layout_anchor="@id/food_search_list"
             app:layout_anchorGravity="bottom|right|end"
-            app:layout_behavior="com.faltenreich.diaguard.adapter.FloatingViewBehavior"
+            app:layout_behavior="com.faltenreich.diaguard.adapter.SlideOutBehavior"
             app:fab_colorNormal="@color/green"
             app:fab_colorPressed="@color/green_light"
             app:fab_colorRipple="@color/green_lighter"/>

@@ -1,25 +1,21 @@
 package com.faltenreich.diaguard.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
-
-import com.github.clans.fab.FloatingActionButton;
 
 import java.util.List;
 
-@SuppressWarnings("unused")
-public class FloatingViewBehavior extends CoordinatorLayout.Behavior<View> {
+@SuppressWarnings({"unused", "WeakerAccess"})
+public class StepAsideBehavior extends CoordinatorLayout.Behavior<View> {
 
     private float snackbarTranslation;
 
-    public FloatingViewBehavior(Context context, AttributeSet attrs) {
+    public StepAsideBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -37,19 +33,6 @@ public class FloatingViewBehavior extends CoordinatorLayout.Behavior<View> {
         return false;
     }
 
-    @Override
-    public boolean onStartNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull View child, @NonNull View directTargetChild, @NonNull View target, int axes, int type) {
-        return axes == ViewCompat.SCROLL_AXIS_VERTICAL || super.onStartNestedScroll(coordinatorLayout, child, directTargetChild, target, axes, type);
-    }
-
-    @Override
-    public void onNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull View child, @NonNull View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int type) {
-        super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type);
-        if (child instanceof FloatingActionButton) {
-            translateWithScrollView(coordinatorLayout, child, dyConsumed);
-        }
-    }
-
     private void translateWithSnackbar(CoordinatorLayout parent, View child, Snackbar.SnackbarLayout snackbarLayout) {
         float translationY = 0.0F;
         List dependencies = parent.getDependencies(child);
@@ -60,7 +43,6 @@ public class FloatingViewBehavior extends CoordinatorLayout.Behavior<View> {
                 translationY = Math.min(translationY, view.getTranslationY() - (float) view.getHeight());
             } else if (view instanceof RecyclerView) {
                 RecyclerView recyclerView = (RecyclerView) view;
-                Log.d("Test", "Scroll offset: " + recyclerView.getScrollY());
             }
         }
         if (translationY != snackbarTranslation) {
@@ -71,22 +53,6 @@ public class FloatingViewBehavior extends CoordinatorLayout.Behavior<View> {
                 child.setTranslationY(translationY);
             }
             snackbarTranslation = translationY;
-        }
-    }
-
-    private void translateWithScrollView(CoordinatorLayout parent, View child, float dyConsumed) {
-        FloatingActionButton fab = (FloatingActionButton) child;
-        if (dyConsumed > 0 && child.getVisibility() == View.VISIBLE) {
-            fab.hide(true);
-        } else if (dyConsumed < 0 && child.getVisibility() != View.VISIBLE) {
-            for (int i = 0; i < parent.getChildCount(); i++) {
-                if (parent.getChildAt(i) instanceof Snackbar.SnackbarLayout) {
-                    fab.show(true);
-                    return;
-                }
-            }
-            child.setTranslationY(0.0f);
-            fab.show(true);
         }
     }
 }

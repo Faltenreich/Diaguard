@@ -10,7 +10,6 @@
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="@dimen/fab_offset"
         android:clipToPadding="false"/>
 
     <TextView
@@ -28,6 +27,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/fab_add"
+        app:layout_behavior="com.faltenreich.diaguard.adapter.SlideOutBehavior"
         app:fab_colorNormal="@color/green"
         app:fab_colorPressed="@color/green_light"
         app:fab_colorRipple="@color/green_lighter"/>

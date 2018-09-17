@@ -28,8 +28,8 @@ public class EntrySearchActivity extends BaseSearchActivity {
         context.startActivity(getIntent(context, source));
     }
 
-    public static void show(Context context, Tag tag, @Nullable View source) {
-        Intent intent = getIntent(context, source);
+    public static void show(Context context, Tag tag) {
+        Intent intent = getIntent(context, null);
         intent.putExtra(EntrySearchFragment.EXTRA_TAG_ID, tag.getId());
         context.startActivity(intent);
     }

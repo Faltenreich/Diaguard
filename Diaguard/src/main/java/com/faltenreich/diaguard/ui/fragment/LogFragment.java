@@ -138,7 +138,7 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.LogL
     @Override
     public void onTagClicked(Tag tag, View view) {
         if (isAdded()) {
-            EntrySearchActivity.show(getContext(), tag, view);
+            EntrySearchActivity.show(getContext(), tag);
         }
     }
 

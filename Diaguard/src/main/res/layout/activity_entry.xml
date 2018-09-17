@@ -195,7 +195,7 @@
         android:layout_gravity="bottom|end"
         android:padding="@dimen/padding_end"
         android:contentDescription="@string/measurement_add"
-        app:menu_icon="@drawable/ic_add_gray"
+        app:menu_icon="@drawable/fab_add_gray"
         app:menu_backgroundColor="@color/semitransparent"
         app:menu_colorNormal="@android:color/white"
         app:menu_colorPressed="@color/light"

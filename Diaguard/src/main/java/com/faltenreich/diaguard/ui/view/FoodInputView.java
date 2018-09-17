@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -59,7 +58,6 @@ public class FoodInputView extends LinearLayout {
     @BindView(R.id.food_input_value_calculated_point) TextView valueCalculatedPoint;
     @BindView(R.id.food_input_value_calculated_fractional) TickerView valueCalculatedFractional;
     @BindView(R.id.food_input_value_sign) TextView valueSign;
-    @BindView(R.id.food_input_separator) View separator;
     @BindView(R.id.food_input_list) RecyclerView foodList;
 
     private FoodEditableAdapter adapter;
@@ -184,9 +182,6 @@ public class FoodInputView extends LinearLayout {
     }
 
     private void updateVisibility() {
-        boolean hasFood = adapter.getItemCount() > 0;
-        separator.setVisibility(hasFood ? VISIBLE : GONE);
-
         boolean hasFoodEaten = adapter.hasInput();
         valueCalculatedIntegral.setVisibility(hasFoodEaten ? VISIBLE : GONE);
         valueCalculatedPoint.setVisibility(hasFoodEaten ? VISIBLE : GONE);

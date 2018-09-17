@@ -149,12 +149,6 @@
         <item name="android:layout_marginBottom">11dp</item>
     </style>
 
-    <style name="LayoutRowSeparator">
-        <item name="android:layout_height">1dp</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:background">@color/gray_light</item>
-    </style>
-
     <style name="InlineListSection" parent="Padding">
         <item name="android:layout_width">@dimen/list_header_width</item>
         <item name="android:layout_height">@dimen/list_header_height</item>

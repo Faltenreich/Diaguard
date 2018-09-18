@@ -15,13 +15,30 @@
 
     <style name="AppTheme.Transparent" parent="AppTheme"/>
 
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="FloatingActionButton">
+        <item name="android:layout_margin">@dimen/fab_margin</item>
+        <item name="menu_fab_size">normal</item>
+        <item name="fab_colorNormal">@color/green</item>
+        <item name="fab_colorPressed">@color/green_lighter</item>
+        <item name="fab_colorRipple">@color/green_lighter</item>
+    </style>
+
+    <style name="FloatingActionMenu">
+        <item name="menu_fab_size">mini</item>
+        <item name="menu_backgroundColor">@color/semitransparent</item>
+        <item name="menu_colorNormal">@android:color/white</item>
+        <item name="menu_colorPressed">@color/gray_light</item>
+        <item name="menu_colorRipple">@color/gray_light</item>
+    </style>
+
     <style name="WhiteCheckBox">
         <item name="colorAccent">@android:color/white</item>
         <item name="colorControlNormal">@android:color/white</item>
     </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="NavigationDrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>

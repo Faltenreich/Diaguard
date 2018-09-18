@@ -189,6 +189,7 @@
         </LinearLayout>
 
     <com.faltenreich.diaguard.ui.view.entry.MeasurementFloatingActionMenu
+        style="@style/FloatingActionMenu"
         android:id="@+id/fab_menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -198,23 +199,16 @@
         android:paddingBottom="90dp"
         android:contentDescription="@string/measurement_add"
         app:layout_behavior="com.faltenreich.diaguard.adapter.StepAsideBehavior"
-        app:menu_fab_size="mini"
-        app:menu_backgroundColor="@color/semitransparent"
         app:menu_icon="@drawable/ic_add_dark"
-        app:menu_colorNormal="@color/gray_lighter"
-        app:menu_colorPressed="@color/gray_light"
-        app:menu_colorRipple="@color/gray_light"/>
+        tools:ignore="RtlSymmetry" />
 
     <com.github.clans.fab.FloatingActionButton
+        style="@style/FloatingActionButton"
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_action_done"
-        app:layout_behavior="com.faltenreich.diaguard.adapter.StepAsideBehavior"
-        app:fab_colorNormal="@color/green"
-        app:fab_colorPressed="@color/green"
-        app:fab_colorRipple="@color/green_light"/>
+        app:layout_behavior="com.faltenreich.diaguard.adapter.StepAsideBehavior"/>
 
 </android.support.design.widget.CoordinatorLayout>

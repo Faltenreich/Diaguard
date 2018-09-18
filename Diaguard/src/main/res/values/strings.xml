@@ -511,5 +511,6 @@
     <string name="tag_delete_confirmation">%d entries will lose this tag</string>
     <string name="tag_new">New tag</string>
     <string name="tag_duplicate">Tag is already available</string>
+    <string name="food_append">Append food</string>
 
 </resources>

@@ -332,5 +332,6 @@
     <string name="tag_delete_confirmation">%d entrées perdent cette mot-clé</string>
     <string name="tag_new">Nouvelle mot-clé</string>
     <string name="tag_duplicate">Le mot-clé est déjà disponible</string>
+    <string name="food_append">Ajouter l\'aliment</string>
 
 </resources>

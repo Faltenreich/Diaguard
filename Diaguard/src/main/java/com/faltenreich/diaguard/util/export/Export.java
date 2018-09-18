@@ -24,13 +24,13 @@ public class Export {
 
     public static final String BACKUP_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
-    public static final String FILE_BACKUP_1_1_PREFIX = "backup";
-    public static final String FILE_BACKUP_1_1_DATE_FORMAT = "yyyyMMddHHmmss";
-    public static final String FILE_BACKUP_1_1_REGEX = "backup[0-9]{14}.csv";
+    private static final String FILE_BACKUP_1_1_PREFIX = "backup";
+    private static final String FILE_BACKUP_1_1_DATE_FORMAT = "yyyyMMddHHmmss";
+    private static final String FILE_BACKUP_1_1_REGEX = "backup[0-9]{14}.csv";
 
-    public static final String FILE_BACKUP_1_3_PREFIX = "diaguard_backup_";
-    public static final String FILE_BACKUP_1_3_DATE_FORMAT = "yyyyMMddHHmmss";
-    public static final String FILE_BACKUP_1_3_REGEX = "diaguard_backup_[0-9]{14}.csv";
+    private static final String FILE_BACKUP_1_3_PREFIX = "diaguard_backup_";
+    private static final String FILE_BACKUP_1_3_DATE_FORMAT = "yyyyMMddHHmmss";
+    private static final String FILE_BACKUP_1_3_REGEX = "diaguard_backup_[0-9]{14}.csv";
 
     public enum FileType {
         CSV,
@@ -54,10 +54,10 @@ public class Export {
     public static final char CSV_DELIMITER = ';';
     public static final String CSV_KEY_META = "meta";
 
-    public static void exportPdf(DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories, FileListener listener) {
+    public static void exportPdf(Context context, DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories, FileListener listener) {
         dateStart = dateStart != null ? dateStart.withTimeAtStartOfDay() : null;
         dateEnd = dateEnd != null ? dateEnd.withTimeAtStartOfDay() : null;
-        PdfExport pdfExport = new PdfExport(dateStart, dateEnd, categories, PreferenceHelper.getInstance().exportNotes(), PreferenceHelper.getInstance().exportTags());
+        PdfExport pdfExport = new PdfExport(context, dateStart, dateEnd, categories, PreferenceHelper.getInstance().exportNotes(), PreferenceHelper.getInstance().exportTags(), PreferenceHelper.getInstance().exportFood());
         pdfExport.setListener(listener);
         pdfExport.execute();
     }

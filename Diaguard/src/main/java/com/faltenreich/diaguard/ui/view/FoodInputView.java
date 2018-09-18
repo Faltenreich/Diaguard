@@ -140,7 +140,7 @@ public class FoodInputView extends LinearLayout {
             valueInput.setError(getContext().getString(R.string.validator_value_empty));
             isValid = false;
         } else if (!StringUtils.isBlank(input)) {
-            isValid = PreferenceHelper.isValueValid(valueInput.getInputView(), Measurement.Category.MEAL);
+            isValid = PreferenceHelper.getInstance().isValueValid(valueInput.getInputView(), Measurement.Category.MEAL);
         }
         return isValid;
     }

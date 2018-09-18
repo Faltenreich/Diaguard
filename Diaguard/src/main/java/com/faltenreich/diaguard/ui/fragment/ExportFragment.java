@@ -139,7 +139,7 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
         PreferenceHelper.getInstance().setExportCategories(selectedCategories);
 
         if (spinnerFormat.getSelectedItemPosition() == 0) {
-            Export.exportPdf(dateStart, dateEnd, selectedCategories, this);
+            Export.exportPdf(getContext(), dateStart, dateEnd, selectedCategories, this);
         } else if (spinnerFormat.getSelectedItemPosition() == 1) {
             Export.exportCsv(false, dateStart, dateEnd, selectedCategories, this);
         }

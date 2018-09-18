@@ -102,6 +102,7 @@
     <string name="name">Name</string>
     <string name="no_data">Keine Einträge vorhanden</string>
     <string name="note">Notiz</string>
+    <string name="notes">Notizen</string>
     <string name="note_append">Notizen anhängen</string>
     <string name="nutriments">Nährstoffe</string>
     <string name="nutriments_per_100g">Nährstoffe pro 100 g</string>

@@ -62,13 +62,13 @@ public class MeasurementInsulinView extends MeasurementAbstractView<Insulin> {
             isValid = false;
         } else {
             if (!StringUtils.isBlank(bolus)) {
-                isValid = PreferenceHelper.isValueValid(inputBolus.getInputView(), Measurement.Category.INSULIN);
+                isValid = PreferenceHelper.getInstance().isValueValid(inputBolus.getInputView(), Measurement.Category.INSULIN);
             }
             if (!StringUtils.isBlank(correction)) {
-                isValid = PreferenceHelper.isValueValid(inputCorrection.getInputView(), Measurement.Category.INSULIN, true);
+                isValid = PreferenceHelper.getInstance().isValueValid(inputCorrection.getInputView(), Measurement.Category.INSULIN, true);
             }
             if (!StringUtils.isBlank(basal)) {
-                isValid = PreferenceHelper.isValueValid(inputBasal.getInputView(), Measurement.Category.INSULIN);
+                isValid = PreferenceHelper.getInstance().isValueValid(inputBasal.getInputView(), Measurement.Category.INSULIN);
             }
         }
         return isValid;

@@ -1,5 +1,8 @@
 package com.faltenreich.diaguard.util.export;
 
+import android.content.Context;
+import android.support.annotation.ColorInt;
+import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
@@ -28,6 +31,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.format.DateTimeFormat;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -38,32 +42,44 @@ import java.util.List;
 public class PdfTable extends Table {
 
     private static final String TAG = PdfTable.class.getSimpleName();
-
-    private static final int ALTERNATING_ROW_COLOR = ContextCompat.getColor(DiaguardApplication.getContext(), R.color.light);
     private static final float LABEL_WIDTH = 120;
     private static final int HOURS_TO_SKIP = 2;
 
+    private WeakReference<Context> contextReference;
     private PDF pdf;
     private PdfPage page;
     private DateTime day;
     private Measurement.Category[] categories;
     private boolean exportNotes;
     private boolean exportTags;
+    private boolean exportFood;
 
     private Font fontNormal;
     private Font fontBold;
+    @ColorInt private int alternatingRowColor;
+    @ColorInt private int hyperglycemiaColor;
+    @ColorInt private int hypoglycemiaColor;
 
     private int rows;
 
-    PdfTable(PDF pdf, PdfPage page, DateTime day, Measurement.Category[] categories, boolean exportNotes, boolean exportTags) {
+    PdfTable(Context context, PDF pdf, PdfPage page, DateTime day, Measurement.Category[] categories, boolean exportNotes, boolean exportTags, boolean exportFood) {
         super();
+        this.contextReference = new WeakReference<>(context);
         this.pdf = pdf;
         this.page = page;
         this.day = day;
         this.categories = categories;
         this.exportNotes = exportNotes;
         this.exportTags = exportTags;
+        this.exportFood = exportFood;
+        this.alternatingRowColor = ContextCompat.getColor(context, R.color.light);
+        this.hyperglycemiaColor = ContextCompat.getColor(context, R.color.red);
+        this.hypoglycemiaColor = ContextCompat.getColor(context, R.color.blue);
         init();
+    }
+
+    private Context getContext() {
+        return contextReference.get();
     }
 
     private void init() {
@@ -101,7 +117,7 @@ public class PdfTable extends Table {
         for (Measurement.Category category : values.keySet()) {
             ListItemCategoryValue[] items = values.get(category);
             String label = category.toLocalizedString();
-            int backgroundColor = row % 2 == 0 ? ALTERNATING_ROW_COLOR : Color.white;
+            int backgroundColor = row % 2 == 0 ? alternatingRowColor : Color.white;
             if (category == Measurement.Category.PRESSURE) {
                 data.add(getRowForValues(items, 0, label + " " + DiaguardApplication.getContext().getString(R.string.systolic_acronym), backgroundColor));
                 data.add(getRowForValues(items, 1, label + " " + DiaguardApplication.getContext().getString(R.string.diastolic_acronym), backgroundColor));
@@ -113,8 +129,8 @@ public class PdfTable extends Table {
 
         if (exportNotes || exportTags) {
             List<PdfNote> notes = new ArrayList<>();
-            List<Entry> entries = EntryDao.getInstance().getEntriesOfDay(day);
-            for (Entry entry : entries) {
+            List<PdfNote> foodEaten = new ArrayList<>();
+            for (Entry entry : EntryDao.getInstance().getEntriesOfDay(day)) {
                 List<String> notesOfDay = new ArrayList<>();
                 if (exportNotes && !StringUtils.isBlank(entry.getNote())) {
                     notesOfDay.add(entry.getNote());
@@ -129,10 +145,22 @@ public class PdfTable extends Table {
                     String note = TextUtils.join(", ", notesOfDay);
                     notes.add(new PdfNote(entry.getDate(), note));
                 }
+                if (exportFood) {
+                    // TODO
+                }
 
             }
-            for (PdfNote note : notes) {
-                data.add(getRowForNote(note, notes.indexOf(note) == 0, notes.indexOf(note) == notes.size() - 1));
+            if (notes.size() > 0) {
+                data.add(getRowForLabel(R.string.notes));
+                for (PdfNote note : notes) {
+                    data.add(getRowForNote(note));
+                }
+            }
+            if (foodEaten.size() > 0) {
+                data.add(getRowForLabel(R.string.food));
+                for (PdfNote note : foodEaten) {
+                    data.add(getRowForNote(note));
+                }
             }
         }
 
@@ -178,9 +206,9 @@ public class PdfTable extends Table {
             int textColor = Color.black;
             if (category == Measurement.Category.BLOODSUGAR && PreferenceHelper.getInstance().limitsAreHighlighted()) {
                 if (value > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
-                    textColor = ContextCompat.getColor(DiaguardApplication.getContext(), R.color.red);
+                    textColor = hyperglycemiaColor;
                 } else if (value < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
-                    textColor = ContextCompat.getColor(DiaguardApplication.getContext(), R.color.blue);
+                    textColor = hypoglycemiaColor;
                 }
             }
             float customValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, value);
@@ -196,7 +224,18 @@ public class PdfTable extends Table {
         return cells;
     }
 
-    private List<Cell> getRowForNote(PdfNote note, boolean isFirst, boolean isLast) {
+    private List<Cell> getRowForLabel(@StringRes int labelResId) {
+        List<Cell> cells = new ArrayList<>();
+        Cell cell = new Cell(fontBold, getContext().getString(labelResId));
+        cell.setWidth(page.getWidth());
+        cell.setFgColor(Color.gray);
+        cell.setNoBorders();
+        cell.setBorder(Border.TOP, true);
+        cells.add(cell);
+        return cells;
+    }
+
+    private List<Cell> getRowForNote(PdfNote note) {
         ArrayList<Cell> cells = new ArrayList<>();
 
         Cell cell = new Cell(fontNormal, Helper.getTimeFormat().print(note.getDateTime()));
@@ -204,26 +243,12 @@ public class PdfTable extends Table {
         cell.setWidth(LABEL_WIDTH);
         cell.setNoBorders();
 
-        if (isFirst) {
-            cell.setBorder(Border.TOP, true);
-        }
-        if (isLast) {
-            cell.setBorder(Border.BOTTOM, true);
-        }
-
         cells.add(cell);
 
         PdfMultilineCell multilineCell = new PdfMultilineCell(fontNormal, note.getNote(), 55);
         multilineCell.setFgColor(Color.gray);
         multilineCell.setWidth(page.getWidth() - LABEL_WIDTH);
         multilineCell.setNoBorders();
-
-        if (isFirst) {
-            multilineCell.setBorder(Border.TOP, true);
-        }
-        if (isLast) {
-            multilineCell.setBorder(Border.BOTTOM, true);
-        }
 
         cells.add(multilineCell);
         return cells;

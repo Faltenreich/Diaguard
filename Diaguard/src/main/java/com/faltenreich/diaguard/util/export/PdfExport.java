@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.util.export;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -20,6 +21,7 @@ import org.joda.time.format.DateTimeFormat;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.lang.ref.WeakReference;
 
 /**
  * Created by Faltenreich on 18.10.2015.
@@ -31,22 +33,31 @@ public class PdfExport extends AsyncTask<Void, String, File> {
     private static final float PADDING_PARAGRAPH = 20;
     private static final float PADDING_LINE = 3;
 
-    private FileListener listener;
+    private WeakReference<Context> contextReference;
     private DateTime dateStart;
     private DateTime dateEnd;
     private Measurement.Category[] categories;
     private boolean exportNotes;
     private boolean exportTags;
+    private boolean exportFood;
+
+    private FileListener listener;
 
     private Font fontNormal;
     private Font fontBold;
 
-    PdfExport(DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories, boolean exportNotes, boolean exportTags) {
+    PdfExport(Context context, DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories, boolean exportNotes, boolean exportTags, boolean exportFood) {
+        this.contextReference = new WeakReference<>(context);
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
         this.categories = categories;
         this.exportNotes = exportNotes;
         this.exportTags = exportTags;
+        this.exportFood = exportFood;
+    }
+
+    private Context getContext() {
+        return contextReference.get();
     }
 
     public void setListener(FileListener listener) {
@@ -61,7 +72,7 @@ public class PdfExport extends AsyncTask<Void, String, File> {
 
             PDF pdf = new PDF(new FileOutputStream(file));
             pdf.setTitle(String.format("%s %s",
-                    DiaguardApplication.getContext().getString(R.string.app_name),
+                    getContext().getString(R.string.app_name),
                     DiaguardApplication.getContext().getString(R.string.export)));
             pdf.setSubject(String.format("%s %s: %s - %s",
                     DiaguardApplication.getContext().getString(R.string.app_name),
@@ -89,7 +100,7 @@ public class PdfExport extends AsyncTask<Void, String, File> {
                     currentPosition = drawWeekBar(page, dateIteration);
                 }
 
-                PdfTable table = new PdfTable(pdf, page, dateIteration, categories, exportNotes, exportTags);
+                PdfTable table = new PdfTable(getContext(), pdf, page, dateIteration, categories, exportNotes, exportTags, exportFood);
 
                 // Page break
                 if ((currentPosition.getY() + table.getHeight() + PADDING_PARAGRAPH) > page.getEndPoint().getY()) {

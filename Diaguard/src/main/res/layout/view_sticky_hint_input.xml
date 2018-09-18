@@ -2,6 +2,7 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="@dimen/height_element"
@@ -11,7 +12,7 @@
     android:paddingStart="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingEnd="@dimen/activity_horizontal_margin"
-    android:gravity="center_vertical">
+    android:gravity="top">
 
     <com.faltenreich.diaguard.ui.view.LocalizedNumberEditText
         android:id="@+id/input"
@@ -22,7 +23,8 @@
         android:paddingTop="@dimen/padding_input"
         android:paddingBottom="@dimen/padding_input"
         android:background="@android:color/transparent"
-        android:inputType="numberDecimal"/>
+        android:inputType="numberDecimal"
+        tools:text="20"/>
 
     <TextView
         android:id="@+id/label"
@@ -33,6 +35,8 @@
         android:clickable="false"
         android:focusable="false"
         android:textSize="@dimen/text_small"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        tools:visibility="visible"
+        tools:text="Label"/>
 
 </LinearLayout>

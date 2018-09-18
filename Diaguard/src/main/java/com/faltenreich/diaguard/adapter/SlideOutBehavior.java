@@ -9,11 +9,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 @SuppressWarnings({"unused", "WeakerAccess"})
-// TODO: Degrade SlideOutBehavior to StepAsideBehavior on-the-fly
 public class SlideOutBehavior extends StepAsideBehavior {
+
+    private boolean slideOut = true;
 
     public SlideOutBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
+    }
+
+    public boolean isSlideOut() {
+        return slideOut;
+    }
+
+    public void setSlideOut(boolean slideOut) {
+        this.slideOut = slideOut;
     }
 
     @Override
@@ -24,7 +33,9 @@ public class SlideOutBehavior extends StepAsideBehavior {
     @Override
     public void onNestedPreScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull View child, @NonNull View target, int dx, int dy, @NonNull int[] consumed, int type) {
         super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed, type);
-        translateWithScrollView(child, dy);
+        if (slideOut) {
+            translateWithScrollView(child, dy);
+        }
     }
 
     private void translateWithScrollView(View child, float dy) {

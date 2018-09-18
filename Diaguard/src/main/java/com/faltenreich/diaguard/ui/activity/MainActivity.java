@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,6 +20,7 @@ import android.view.View;
 
 import com.faltenreich.diaguard.BuildConfig;
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.adapter.SlideOutBehavior;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.ui.fragment.BaseFragment;
 import com.faltenreich.diaguard.ui.fragment.CalculatorFragment;
@@ -164,6 +166,19 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
         fab.setVisibility(properties != null ? View.VISIBLE : View.GONE);
         fab.setImageResource(properties != null ? properties.getIconDrawableResId() : android.R.color.transparent);
         fab.setOnClickListener(properties != null ? properties.getOnClickListener() : null);
+        if (properties != null) {
+            CoordinatorLayout.Behavior behavior = ViewUtils.getBehavior(fab);
+            if (behavior instanceof SlideOutBehavior) {
+                ((SlideOutBehavior) behavior).setSlideOut(properties.slideOut());
+            }
+        }
+    }
+
+    private void resetMainButton() {
+        if (fab.getTranslationY() != 0) {
+            fab.animate().cancel();
+            fab.animate().translationY(0).start();
+        }
     }
 
     private void invalidateNavigationDrawer(Fragment fragment) {
@@ -196,7 +211,7 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
                     break;
                 case R.id.nav_calculator:
                     if (BuildConfig.isCalculatorEnabled) {
-                        showFragment(new CalculatorFragment(), menuItem, false);
+                        showFragment(new CalculatorFragment(), menuItem, true);
                     } else {
                         explainMissingCalculator();
                     }
@@ -226,7 +241,7 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
         boolean isActive = activeFragment != null && activeFragment.getClass() == fragment.getClass();
         if (!isActive) {
             ViewUtils.hideKeyboard(this);
-
+            resetMainButton();
             selectNavigationDrawerMenuItem(menuItem);
 
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

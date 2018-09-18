@@ -259,7 +259,7 @@ public class MainFragment extends BaseFragment implements MainButton {
                     EntryActivity.show(getContext());
                 }
             }
-        });
+        }, false);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

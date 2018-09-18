@@ -6,8 +6,10 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.annotation.StringRes;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -141,5 +143,13 @@ public class ViewUtils {
         int[] screenLocation = new int[2];
         view.getLocationOnScreen(screenLocation);
         return new Vector2D(screenLocation[0], screenLocation[1]);
+    }
+
+    @Nullable
+    public static CoordinatorLayout.Behavior getBehavior(View view) {
+        if (view.getLayoutParams() instanceof CoordinatorLayout.LayoutParams) {
+            return  ((CoordinatorLayout.LayoutParams) view.getLayoutParams()).getBehavior();
+        }
+        return null;
     }
 }

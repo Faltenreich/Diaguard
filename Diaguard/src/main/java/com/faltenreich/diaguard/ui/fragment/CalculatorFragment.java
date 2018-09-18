@@ -52,7 +52,7 @@ public class CalculatorFragment extends BaseFragment implements MainButton {
     @BindView(R.id.calculator_factor) StickyHintInput factorInput;
 
     public CalculatorFragment() {
-        super(R.layout.fragment_calculator, R.string.calculator, R.menu.main);
+        super(R.layout.fragment_calculator, R.string.calculator);
     }
 
     @Override
@@ -331,7 +331,7 @@ public class CalculatorFragment extends BaseFragment implements MainButton {
             public void onClick(View v) {
                 calculate();
             }
-        });
+        }, false);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -194,8 +194,11 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             @Override
             public boolean onEditorAction(TextView textView, int action, KeyEvent keyEvent) {
                 if (action == EditorInfo.IME_ACTION_DONE) {
-                    addTag(textView.getText().toString());
-                    textView.setText(null);
+                    String name = textView.getText().toString().trim();
+                    if (!StringUtils.isBlank(name)) {
+                        addTag(textView.getText().toString());
+                        textView.setText(null);
+                    }
                     return true;
                 }
                 return false;
@@ -204,9 +207,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         tagsInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if (hasFocus) {
-                    tagsInput.showDropDown();
-                }
+                if (hasFocus) tagsInput.showDropDown();
             }
         });
         tagsInput.setOnClickListener(new View.OnClickListener() {

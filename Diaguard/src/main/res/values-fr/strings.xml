@@ -79,7 +79,7 @@
     <string name="measurements">Mesures</string>
     <string name="no_data">Pas d\'entrées à imprimer</string>
     <string name="note">Remarque</string>
-    <string name="note_append">Joindre des remarques</string>
+    <string name="note_append">Ajouter des remarques</string>
     <string name="ok">OK</string>
     <string name="overview">Aperçu</string>
     <string name="pulse">Impulsion</string>
@@ -321,7 +321,7 @@
     <string name="search">Recherche</string>
     <string name="tag">Mot-clé</string>
     <string name="tags">Mot-clés</string>
-    <string name="tags_append">Ajouter une mot-clé</string>
+    <string name="tags_append">Ajouter des mot-clés</string>
 
     <string name="calculator_missing">Où est la calculateur?</string>
     <string name="calculator_missing_desc">La calculateur a été retirée pour des raisons juridiques concernant les produits médicaux.</string>

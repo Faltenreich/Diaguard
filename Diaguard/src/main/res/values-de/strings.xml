@@ -320,7 +320,7 @@
 
     <string name="tag">Stichwort</string>
     <string name="tags">Stichwörter</string>
-    <string name="tags_append">Stichwort anhängen</string>
+    <string name="tags_append">Stichwörter anhängen</string>
     <string name="search">Suche</string>
     <string name="search_hint">Notizen, Stichwörter, …</string>
     <string name="calculator_missing">Wo ist der Bolusrechner?</string>

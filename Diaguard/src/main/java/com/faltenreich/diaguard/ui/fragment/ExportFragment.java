@@ -175,7 +175,7 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
             public void onClick(View view) {
                 exportIfInputIsValid();
             }
-        });
+        }, false);
     }
 
     @OnClick(R.id.button_datestart)

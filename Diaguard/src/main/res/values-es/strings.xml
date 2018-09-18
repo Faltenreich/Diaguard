@@ -323,7 +323,7 @@
     <string name="search">Busca</string>
     <string name="tag">Palabra clave</string>
     <string name="tags">Palabras clave</string>
-    <string name="tags_append">Adjuntar palabra clave</string>
+    <string name="tags_append">Adjuntar palabras clave</string>
 
     <string name="calculator_missing">Dónde está la calcular?</string>
     <string name="calculator_missing_desc">La calcular se ha eliminado debido a razones legales relacionadas con productos médicos.</string>

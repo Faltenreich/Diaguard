@@ -13,8 +13,13 @@ import com.faltenreich.diaguard.adapter.list.ListItemCategoryValue;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.EntryTagDao;
+import com.faltenreich.diaguard.data.dao.FoodEatenDao;
+import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.EntryTag;
+import com.faltenreich.diaguard.data.entity.Food;
+import com.faltenreich.diaguard.data.entity.FoodEaten;
+import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.StringUtils;
@@ -127,45 +132,62 @@ public class PdfTable extends Table {
             row++;
         }
 
-        if (exportNotes || exportTags) {
+        if (exportNotes || exportTags || exportFood) {
             List<PdfNote> notes = new ArrayList<>();
-            List<PdfNote> foodEaten = new ArrayList<>();
             for (Entry entry : EntryDao.getInstance().getEntriesOfDay(day)) {
-                List<String> notesOfDay = new ArrayList<>();
+                List<String> entryNotesAndTagsOfDay = new ArrayList<>();
+                List<String> foodOfDay = new ArrayList<>();
                 if (exportNotes && !StringUtils.isBlank(entry.getNote())) {
-                    notesOfDay.add(entry.getNote());
+                    entryNotesAndTagsOfDay.add(entry.getNote());
                 }
                 if (exportTags) {
                     List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(entry);
                     for (EntryTag entryTag : entryTags) {
-                        notesOfDay.add(entryTag.getTag().getName());
+                        entryNotesAndTagsOfDay.add(entryTag.getTag().getName());
                     }
                 }
-                if (!notesOfDay.isEmpty()) {
-                    String note = TextUtils.join(", ", notesOfDay);
-                    notes.add(new PdfNote(entry.getDate(), note));
-                }
                 if (exportFood) {
-                    // TODO
+                    Meal meal = (Meal) MeasurementDao.getInstance(Meal.class).getMeasurement(entry);
+                    if (meal != null) {
+                        for (FoodEaten foodEaten : FoodEatenDao.getInstance().getAll(meal)) {
+                            Food food = foodEaten.getFood();
+                            int amountEaten = (int) foodEaten.getAmountInGrams();
+                            if (food != null && amountEaten > 0) {
+                                String foodNote = String.format("%dg %s", amountEaten, food.getName());
+                                foodOfDay.add(foodNote);
+                            }
+                        }
+                    }
                 }
-
+                boolean hasEntryNotesAndTags = !entryNotesAndTagsOfDay.isEmpty();
+                boolean hasFood = !foodOfDay.isEmpty();
+                boolean hasAny = hasEntryNotesAndTags || hasFood;
+                if (hasAny) {
+                    boolean hasBoth = hasEntryNotesAndTags && hasFood;
+                    String notesOfDay = hasBoth ?
+                            // Break line for succeeding food
+                            TextUtils.join("\n", new String[] { getNotesAsString(entryNotesAndTagsOfDay), getNotesAsString(foodOfDay) }) :
+                            hasEntryNotesAndTags ?
+                                    getNotesAsString(entryNotesAndTagsOfDay) :
+                                    getNotesAsString(foodOfDay);
+                    notes.add(new PdfNote(entry.getDate(), notesOfDay));
+                }
             }
             if (notes.size() > 0) {
-                data.add(getRowForLabel(R.string.notes));
                 for (PdfNote note : notes) {
-                    data.add(getRowForNote(note));
-                }
-            }
-            if (foodEaten.size() > 0) {
-                data.add(getRowForLabel(R.string.food));
-                for (PdfNote note : foodEaten) {
-                    data.add(getRowForNote(note));
+                    boolean isFirst = notes.indexOf(note) == 0;
+                    boolean isLast = notes.indexOf(note) == notes.size() - 1;
+                    data.add(getRowForNote(note, isFirst, isLast));
                 }
             }
         }
 
         rows = data.size();
         return data;
+    }
+
+    private String getNotesAsString(List<String> notes) {
+        return TextUtils.join(", ", notes);
     }
 
     private List<Cell> getRowForHeader() {
@@ -235,7 +257,7 @@ public class PdfTable extends Table {
         return cells;
     }
 
-    private List<Cell> getRowForNote(PdfNote note) {
+    private List<Cell> getRowForNote(PdfNote note, boolean isFirst, boolean isLast) {
         ArrayList<Cell> cells = new ArrayList<>();
 
         Cell cell = new Cell(fontNormal, Helper.getTimeFormat().print(note.getDateTime()));
@@ -243,12 +265,26 @@ public class PdfTable extends Table {
         cell.setWidth(LABEL_WIDTH);
         cell.setNoBorders();
 
+        if (isFirst) {
+            cell.setBorder(Border.TOP, true);
+        }
+        if (isLast) {
+            cell.setBorder(Border.BOTTOM, true);
+        }
+
         cells.add(cell);
 
         PdfMultilineCell multilineCell = new PdfMultilineCell(fontNormal, note.getNote(), 55);
         multilineCell.setFgColor(Color.gray);
         multilineCell.setWidth(page.getWidth() - LABEL_WIDTH);
         multilineCell.setNoBorders();
+
+        if (isFirst) {
+            multilineCell.setBorder(Border.TOP, true);
+        }
+        if (isLast) {
+            multilineCell.setBorder(Border.BOTTOM, true);
+        }
 
         cells.add(multilineCell);
         return cells;

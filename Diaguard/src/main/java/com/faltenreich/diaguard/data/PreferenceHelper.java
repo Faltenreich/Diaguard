@@ -198,11 +198,11 @@ public class PreferenceHelper {
         return value > extrema[0] && value < extrema[1];
     }
 
-    public static boolean isValueValid(TextView textView, Measurement.Category category) {
+    public boolean isValueValid(TextView textView, Measurement.Category category) {
         return isValueValid(textView, category, false);
     }
 
-    public static boolean isValueValid(TextView textView, Measurement.Category category, boolean allowNegativeValues) {
+    public boolean isValueValid(TextView textView, Measurement.Category category, boolean allowNegativeValues) {
         boolean isValid = true;
         textView.setError(null);
         try {

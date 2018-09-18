@@ -47,8 +47,8 @@ public class MeasurementPressureView extends MeasurementAbstractView<Pressure> {
 
     @Override
     protected boolean isValid() {
-        return PreferenceHelper.isValueValid(systolic.getInputView(), Measurement.Category.PRESSURE) &&
-                PreferenceHelper.isValueValid(diastolic.getInputView(), Measurement.Category.PRESSURE);
+        return PreferenceHelper.getInstance().isValueValid(systolic.getInputView(), Measurement.Category.PRESSURE) &&
+                PreferenceHelper.getInstance().isValueValid(diastolic.getInputView(), Measurement.Category.PRESSURE);
     }
 
     @Override

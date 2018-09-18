@@ -121,6 +121,29 @@
 
         </LinearLayout>
 
+        <LinearLayout style="@style/LayoutRow">
+
+            <com.faltenreich.diaguard.ui.view.TintImageView
+                style="@style/LayoutRowImage"
+                android:contentDescription="@null"
+                app:srcCompat="@drawable/ic_category_meal"
+                app:tintColor="@color/gray_darker" />
+
+            <LinearLayout
+                style="@style/LayoutRowItem"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/checkbox_food"
+                    style="@style/LayoutRowText"
+                    android:paddingStart="@dimen/margin_between"
+                    android:paddingLeft="@dimen/margin_between"
+                    android:text="@string/food_append"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
         <LinearLayout
             style="@style/LayoutRow"
             android:layout_height="wrap_content"

@@ -331,5 +331,6 @@
     <string name="tag_delete_confirmation">%d Einträge verlieren dieses Stichwort</string>
     <string name="tag_new">Neues Stichwort</string>
     <string name="tag_duplicate">Stichwort ist bereits verfügbar</string>
+    <string name="food_append">Lebensmittel anhängen</string>
 
 </resources>

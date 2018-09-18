@@ -50,19 +50,21 @@ public class CategoryCheckBoxList extends LinearLayout {
 
     private void addCategory(final Measurement.Category category, boolean isSelected) {
         categories.put(category, isSelected);
-
-        CheckBox checkBox = new CheckBox(getContext());
-        checkBox.setMinimumHeight((int) getResources().getDimension(R.dimen.height_element));
-        checkBox.setText(category.toLocalizedString());
-        checkBox.setChecked(categories.get(category));
-        checkBox.setPadding(PADDING, PADDING, PADDING, PADDING);
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        addCheckBox(category.toLocalizedString(), categories.get(category), new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 categories.put(category, isChecked);
             }
         });
+    }
 
+    private void addCheckBox(String text, boolean isChecked, CompoundButton.OnCheckedChangeListener listener) {
+        CheckBox checkBox = new CheckBox(getContext());
+        checkBox.setMinimumHeight((int) getResources().getDimension(R.dimen.height_element));
+        checkBox.setText(text);
+        checkBox.setChecked(isChecked);
+        checkBox.setPadding(PADDING, PADDING, PADDING, PADDING);
+        checkBox.setOnCheckedChangeListener(listener);
         addView(checkBox);
     }
 

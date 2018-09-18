@@ -52,6 +52,7 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
     @BindView(R.id.spinner_format) Spinner spinnerFormat;
     @BindView(R.id.checkbox_note) CheckBox checkBoxNotes;
     @BindView(R.id.checkbox_tags) CheckBox checkBoxTags;
+    @BindView(R.id.checkbox_food) CheckBox checkBoxFood;
     @BindView(R.id.export_list_categories) CategoryCheckBoxList categoryCheckBoxList;
 
     private ProgressComponent progressComponent = new ProgressComponent();
@@ -102,6 +103,13 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 PreferenceHelper.getInstance().setExportTags(isChecked);
+            }
+        });
+        checkBoxFood.setChecked(PreferenceHelper.getInstance().exportFood());
+        checkBoxFood.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                PreferenceHelper.getInstance().setExportFood(isChecked);
             }
         });
     }

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -224,14 +223,6 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
                 addTag(tag);
             }
         });
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            tagsInput.setOnDismissListener(new AutoCompleteTextView.OnDismissListener() {
-                @Override
-                public void onDismiss() {
-                    ViewUtils.hideKeyboard(tagsInput);
-                }
-            });
-        }
     }
 
     private void fetchData() {

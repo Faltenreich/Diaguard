@@ -5,7 +5,6 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,6 +27,8 @@ import com.codetroopers.betterpickers.numberpicker.NumberPickerDialogFragment;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.TagAutoCompleteAdapter;
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.data.async.DataLoader;
+import com.faltenreich.diaguard.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.EntryTagDao;
 import com.faltenreich.diaguard.data.dao.FoodDao;
@@ -227,11 +228,61 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
     private void fetchData() {
         if (entryId > 0) {
-            new FetchEntryTask(entryId).execute();
+            fetchEntry(entryId);
         } else if (foodId > 0) {
-            new FetchFoodTask(foodId).execute();
+            fetchFood(foodId);
         }
-        new FetchTagsTask().execute();
+        fetchTags();
+    }
+
+    private void fetchEntry(final long id) {
+        DataLoader.getInstance().load(this, new DataLoaderListener<List<Tag>>() {
+            @Override
+            public List<Tag> onShouldLoad() {
+                EntryDao dao = EntryDao.getInstance();
+                entry = dao.get(id);
+                if (entry != null) {
+                    entry.setMeasurementCache(dao.getMeasurements(entry));
+                    entryTags = EntryTagDao.getInstance().getAll(entry);
+                }
+                return null;
+            }
+            @Override
+            public void onDidLoad(List<Tag> data) {
+                initEntry(entry, entryTags);
+            }
+        });
+    }
+
+    private void fetchFood(final long id) {
+        DataLoader.getInstance().load(this, new DataLoaderListener<Food>() {
+            @Override
+            public Food onShouldLoad() {
+                return FoodDao.getInstance().get(id);
+            }
+            @Override
+            public void onDidLoad(Food food) {
+                if (food != null) {
+                    layoutMeasurements.addMeasurement(food);
+                    fabMenu.ignore(Measurement.Category.MEAL);
+                    fabMenu.restock();
+                }
+            }
+        });
+    }
+
+    private void fetchTags() {
+        DataLoader.getInstance().load(this, new DataLoaderListener<List<Tag>>() {
+            @Override
+            public List<Tag> onShouldLoad() {
+                return TagDao.getInstance().getRecent();
+            }
+            @Override
+            public void onDidLoad(List<Tag> tags) {
+                tagAdapter.addAll(tags);
+                tagAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private void addPinnedCategories() {
@@ -259,7 +310,6 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         } else {
             addPinnedCategories();
         }
-        new FetchTagsTask().execute();
         updateDateTime();
     }
 
@@ -533,11 +583,6 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         });
     }
 
-    @OnClick(R.id.entry_tags_button)
-    public void openTags() {
-        startActivity(new Intent(this, TagsActivity.class));
-    }
-
     @Override
     public void onCategorySelected(@Nullable Measurement.Category category) {
         addMeasurementView(category);
@@ -558,72 +603,5 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     public void onCategoryRemoved(Measurement.Category category) {
         fabMenu.removeIgnore(category);
         fabMenu.restock();
-    }
-
-    private class FetchEntryTask extends AsyncTask<Void, Void, Void> {
-
-        private long entryId;
-        private Entry entry;
-        private List<EntryTag> entryTags;
-
-        private FetchEntryTask(long entryId) {
-            this.entryId = entryId;
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            EntryDao dao = EntryDao.getInstance();
-            entry = dao.get(entryId);
-            if (entry != null) {
-                entry.setMeasurementCache(dao.getMeasurements(entry));
-                entryTags = EntryTagDao.getInstance().getAll(entry);
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            initEntry(entry, entryTags);
-        }
-    }
-
-    private class FetchFoodTask extends AsyncTask<Void, Void, Food> {
-
-        private long foodId;
-
-        private FetchFoodTask(long foodId) {
-            this.foodId = foodId;
-        }
-
-        @Override
-        protected Food doInBackground(Void... params) {
-            return FoodDao.getInstance().get(foodId);
-        }
-
-        @Override
-        protected void onPostExecute(Food food) {
-            super.onPostExecute(food);
-            if (food != null) {
-                layoutMeasurements.addMeasurement(food);
-                fabMenu.ignore(Measurement.Category.MEAL);
-                fabMenu.restock();
-            }
-        }
-    }
-
-    private class FetchTagsTask extends AsyncTask<Void, Void, List<Tag>> {
-
-        @Override
-        protected List<Tag> doInBackground(Void... params) {
-            return TagDao.getInstance().getRecent();
-        }
-
-        @Override
-        protected void onPostExecute(List<Tag> tags) {
-            super.onPostExecute(tags);
-            tagAdapter.addAll(tags);
-            tagAdapter.notifyDataSetChanged();
-        }
     }
 }

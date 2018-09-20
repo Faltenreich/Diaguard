@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Tag;
 
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -43,7 +45,9 @@ public class TagAutoCompleteAdapter extends ArrayAdapter<Tag> {
             @Override
             public int compare(Tag lhs, Tag rhs) {
                 // Sort descending by updatedAt
-                return rhs.getUpdatedAt().compareTo(lhs.getUpdatedAt());
+                DateTime rhsDateTime = rhs != null ? rhs.getUpdatedAt() : DateTime.now();
+                DateTime lhsDateTime = rhs != null ? lhs.getUpdatedAt() : DateTime.now();
+                return rhsDateTime.compareTo(lhsDateTime);
             }
         });
         return results;

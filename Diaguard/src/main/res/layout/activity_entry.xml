@@ -81,39 +81,20 @@
                                     android:layout_height="wrap_content"
                                     android:orientation="vertical">
 
-                                    <LinearLayout
+                                    <AutoCompleteTextView
+                                        android:id="@+id/entry_tags_input"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:orientation="horizontal"
-                                        android:gravity="center_vertical">
-
-                                        <AutoCompleteTextView
-                                            android:id="@+id/entry_tags_input"
-                                            android:layout_width="0dp"
-                                            android:layout_height="@dimen/height_element_large"
-                                            android:layout_weight="1"
-                                            android:paddingLeft="12dp"
-                                            android:paddingStart="12dp"
-                                            android:background="@android:color/transparent"
-                                            android:hint="@string/tags"
-                                            android:lines="1"
-                                            android:inputType="text"
-                                            android:imeOptions="actionDone"
-                                            android:completionThreshold="0"
-                                            tools:ignore="RtlSymmetry"/>
-
-                                        <ImageButton
-                                            android:id="@+id/entry_tags_button"
-                                            android:layout_width="@dimen/size_image"
-                                            android:layout_height="@dimen/size_image"
-                                            android:layout_marginStart="@dimen/margin_between"
-                                            android:layout_marginLeft="@dimen/margin_between"
-                                            android:contentDescription="@null"
-                                            android:tint="@color/green"
-                                            android:background="?attr/selectableItemBackgroundBorderless"
-                                            app:srcCompat="@drawable/ic_search"/>
-
-                                    </LinearLayout>
+                                        android:layout_height="@dimen/height_element_large"
+                                        android:layout_weight="1"
+                                        android:paddingLeft="12dp"
+                                        android:paddingStart="12dp"
+                                        android:background="@android:color/transparent"
+                                        android:hint="@string/tags"
+                                        android:lines="1"
+                                        android:inputType="text"
+                                        android:imeOptions="actionDone"
+                                        android:completionThreshold="0"
+                                        tools:ignore="RtlSymmetry"/>
 
                                     <org.apmem.tools.layouts.FlowLayout
                                         android:id="@+id/entry_tags"

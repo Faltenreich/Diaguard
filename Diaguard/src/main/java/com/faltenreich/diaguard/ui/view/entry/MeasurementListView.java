@@ -73,12 +73,16 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
     }
 
     public void addMeasurement(Measurement measurement) {
+        addMeasurement(0, measurement);
+    }
+
+    public void addMeasurement(int index, Measurement measurement) {
         Measurement.Category category = measurement.getCategory();
         if (!hasCategory(category)) {
-            categories.add(0, category);
+            categories.add(index, category);
             MeasurementView<Measurement> measurementView = new MeasurementView<>(getContext(), measurement);
             measurementView.setOnCategoryRemovedListener(this);
-            addMeasurementView(measurementView, 0);
+            addMeasurementView(measurementView, index);
             if (callback != null) {
                 callback.onCategoryAdded(category);
             }
@@ -100,7 +104,7 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
 
     public void addMeasurements(List<Measurement> measurements) {
         for (Measurement measurement : measurements) {
-            addMeasurement(measurement);
+            addMeasurement(categories.size(), measurement);
         }
     }
 

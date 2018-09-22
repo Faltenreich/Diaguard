@@ -188,7 +188,7 @@ public abstract class BaseFragment extends Fragment implements ToolbarBehavior {
                     entryTag.setEntry(entry);
                     EntryTagDao.getInstance().createOrUpdate(entryTag);
                 }
-                Events.post(new EntryAddedEvent(entry, event.entryTags));
+                Events.post(new EntryAddedEvent(entry, event.entryTags, event.foodEatenList));
             }
         });
     }

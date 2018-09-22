@@ -15,8 +15,7 @@ import butterknife.BindView;
  */
 public class MeasurementMealView extends MeasurementAbstractView<Meal> {
 
-    @BindView(R.id.list_item_measurement_meal_food_list)
-    FoodInputView foodList;
+    @BindView(R.id.list_item_measurement_meal_food_list) FoodInputView foodInputView;
 
     public MeasurementMealView(Context context) {
         super(context, Measurement.Category.MEAL);
@@ -37,21 +36,21 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
 
     @Override
     protected void initLayout() {
-        foodList.addItem(food);
+        foodInputView.addItem(food);
     }
 
     @Override
     protected void setValues() {
-        foodList.setupWithMeal(measurement);
+        foodInputView.setupWithMeal(measurement);
     }
 
     @Override
     protected boolean isValid() {
-        return foodList.isValid();
+        return foodInputView.isValid();
     }
 
     @Override
     public Measurement getMeasurement() {
-        return foodList.getMeal();
+        return foodInputView.getMeal();
     }
 }

@@ -38,6 +38,9 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 
 /**
@@ -293,13 +296,15 @@ public class CalculatorFragment extends BaseFragment implements MainButton {
         bloodSugar.setEntry(entry);
         MeasurementDao.getInstance(BloodSugar.class).createOrUpdate(bloodSugar);
 
+        List<FoodEaten> foodEatenList = new ArrayList<>();
         if (carbohydrates > 0) {
+            foodEatenList.addAll(foodInputView.getFoodEatenList());
             Meal meal = new Meal();
             meal.setCarbohydrates(foodInputView.getInputCarbohydrates());
             meal.setEntry(entry);
             MeasurementDao.getInstance(Meal.class).createOrUpdate(meal);
 
-            for (FoodEaten foodEaten : foodInputView.getFoodEatenList()) {
+            for (FoodEaten foodEaten : foodEatenList) {
                 foodEaten.setMeal(meal);
                 FoodEatenDao.getInstance().createOrUpdate(foodEaten);
             }
@@ -313,7 +318,7 @@ public class CalculatorFragment extends BaseFragment implements MainButton {
             MeasurementDao.getInstance(Insulin.class).createOrUpdate(insulin);
         }
 
-        Events.post(new EntryAddedEvent(entry, null));
+        Events.post(new EntryAddedEvent(entry, null, foodEatenList));
 
         openEntry(entry);
         clearInput();

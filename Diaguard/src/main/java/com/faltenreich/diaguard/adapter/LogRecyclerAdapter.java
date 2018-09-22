@@ -14,8 +14,11 @@ import com.faltenreich.diaguard.adapter.list.ListItemMonth;
 import com.faltenreich.diaguard.adapter.list.ListItemPending;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.EntryTagDao;
+import com.faltenreich.diaguard.data.dao.FoodEatenDao;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.EntryTag;
+import com.faltenreich.diaguard.data.entity.FoodEaten;
+import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.view.viewholder.BaseViewHolder;
 import com.faltenreich.diaguard.ui.view.viewholder.LogDayViewHolder;
@@ -199,7 +202,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
     @Override
     public void onViewRecycled(BaseViewHolder holder) {
         if (holder instanceof LogEntryViewHolder) {
-            ((LogEntryViewHolder)holder).measurements.removeAllViews();
+            ((LogEntryViewHolder)holder).measurementsLayout.removeAllViews();
         }
         super.onViewRecycled(holder);
     }
@@ -340,7 +343,13 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
                     for (int entryIndex = 0; entryIndex < entries.size(); entryIndex++) {
                         Entry entry = entries.get(entryIndex);
                         List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(entry);
-                        ListItemEntry listItemEntry = new ListItemEntry(entry, entryTags);
+                        List<FoodEaten> foodEaten = new ArrayList<>();
+                        for (Measurement measurement : entry.getMeasurementCache()) {
+                            if (measurement instanceof Meal) {
+                                foodEaten.addAll(FoodEatenDao.getInstance().getAll((Meal) measurement));
+                            }
+                        }
+                        ListItemEntry listItemEntry = new ListItemEntry(entry, entryTags, foodEaten);
 
                         if (entryIndex == 0) {
                             firstListItemEntryOfDay = listItemEntry;

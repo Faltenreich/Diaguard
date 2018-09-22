@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.data.entity;
 
+import android.support.annotation.Nullable;
+
 import com.faltenreich.diaguard.data.Backupable;
 import com.j256.ormlite.field.DatabaseField;
 
@@ -50,6 +52,16 @@ public class FoodEaten extends BaseEntity implements Backupable {
 
     public float getCarbohydrates() {
         return getFood() != null ? getAmountInGrams() * getFood().getCarbohydrates() / 100 : 0;
+    }
+
+    @Nullable
+    public String print() {
+        int amountEaten = (int) getAmountInGrams();
+        if (food != null && amountEaten > 0) {
+            return String.format("%dg %s", amountEaten, food.getName());
+        } else {
+            return null;
+        }
     }
 
     @Override

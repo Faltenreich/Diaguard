@@ -39,7 +39,7 @@ public class ListSwipeHelper extends ItemTouchHelper.Callback {
             ListItemEntry listItem = (ListItemEntry) item;
             Entry entry = listItem.getEntry();
             EntryDao.getInstance().delete(entry);
-            Events.post(new EntryDeletedEvent(entry, listItem.getEntryTags()));
+            Events.post(new EntryDeletedEvent(entry, listItem.getEntryTags(), listItem.getFoodEatenList()));
         }
     }
 }

@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.adapter.list;
 
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.EntryTag;
+import com.faltenreich.diaguard.data.entity.FoodEaten;
 
 import java.util.List;
 
@@ -13,11 +14,13 @@ public class ListItemEntry extends ListItemDate {
     private ListItemEntry firstListItemEntryOfDay;
     private Entry entry;
     private List<EntryTag> entryTags;
+    private List<FoodEaten> foodEatenList;
 
-    public ListItemEntry(Entry entry, List<EntryTag> entryTags) {
+    public ListItemEntry(Entry entry, List<EntryTag> entryTags, List<FoodEaten> foodEatenList) {
         super(entry.getDate());
         this.entry = entry;
         this.entryTags = entryTags;
+        this.foodEatenList = foodEatenList;
     }
 
     public ListItemEntry getFirstListItemEntryOfDay() {
@@ -42,5 +45,13 @@ public class ListItemEntry extends ListItemDate {
 
     public void setEntryTags(List<EntryTag> entryTags) {
         this.entryTags = entryTags;
+    }
+
+    public List<FoodEaten> getFoodEatenList() {
+        return foodEatenList;
+    }
+
+    public void setFoodEatenList(List<FoodEaten> foodEatenList) {
+        this.foodEatenList = foodEatenList;
     }
 }

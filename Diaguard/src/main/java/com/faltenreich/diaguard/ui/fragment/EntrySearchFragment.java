@@ -14,8 +14,13 @@ import com.faltenreich.diaguard.data.async.DataLoader;
 import com.faltenreich.diaguard.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.EntryTagDao;
+import com.faltenreich.diaguard.data.dao.FoodEatenDao;
 import com.faltenreich.diaguard.data.dao.TagDao;
 import com.faltenreich.diaguard.data.entity.Entry;
+import com.faltenreich.diaguard.data.entity.EntryTag;
+import com.faltenreich.diaguard.data.entity.FoodEaten;
+import com.faltenreich.diaguard.data.entity.Meal;
+import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Tag;
 import com.lapism.searchview.SearchView;
 
@@ -106,8 +111,16 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
                     List<ListItemEntry> listItems = new ArrayList<>();
                     List<Entry> entries = EntryDao.getInstance().search(query);
                     for (Entry entry : entries) {
-                        entry.setMeasurementCache(EntryDao.getInstance().getMeasurements(entry));
-                        listItems.add(new ListItemEntry(entry, EntryTagDao.getInstance().getAll(entry)));
+                        List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
+                        entry.setMeasurementCache(measurements);
+                        List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(entry);
+                        List<FoodEaten> foodEatenList = new ArrayList<>();
+                        for (Measurement measurement : measurements) {
+                            if (measurement instanceof Meal) {
+                                foodEatenList.addAll(FoodEatenDao.getInstance().getAll((Meal) measurement));
+                            }
+                        }
+                        listItems.add(new ListItemEntry(entry, entryTags, foodEatenList));
                     }
                     return listItems;
                 }

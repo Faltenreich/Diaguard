@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.event.data;
 
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.EntryTag;
+import com.faltenreich.diaguard.data.entity.FoodEaten;
 
 import org.joda.time.DateTime;
 
@@ -14,8 +15,8 @@ public class EntryUpdatedEvent extends BaseEntryEvent {
 
     public DateTime originalDate;
 
-    public EntryUpdatedEvent(Entry entry, List<EntryTag> entryTags, DateTime originalDate) {
-        super(entry, entryTags);
+    public EntryUpdatedEvent(Entry entry, List<EntryTag> entryTags, DateTime originalDate, List<FoodEaten> foodEatenList) {
+        super(entry, entryTags, foodEatenList);
         this.originalDate = originalDate;
     }
 }

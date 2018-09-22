@@ -76,12 +76,13 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/food_input_button"
         style="?attr/borderlessButtonStyle"
+        android:id="@+id/food_input_button"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_element"
         android:text="@string/food_add"
-        android:textColor="@color/green" />
+        android:textColor="@color/green"
+        android:textAllCaps="false"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/food_input_list"

@@ -57,6 +57,6 @@
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/ic_delete"
-        app:tintColor="@color/gray_dark"/>
+        app:tintColor="@color/gray"/>
 
 </LinearLayout>

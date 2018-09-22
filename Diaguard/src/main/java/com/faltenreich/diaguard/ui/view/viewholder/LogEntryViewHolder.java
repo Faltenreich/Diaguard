@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
@@ -33,7 +32,7 @@ import butterknife.BindView;
 
 public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> {
 
-    @BindView(R.id.root_layout) LinearLayout rootLayout;
+    @BindView(R.id.root_layout) ViewGroup rootLayout;
     @BindView(R.id.cardview) CardView cardView;
     @BindView(R.id.date_time_view) TextView dateTimeView;
     @BindView(R.id.note_view) TextView noteView;
@@ -81,7 +80,7 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> {
             }
             if (foodNotes.size() > 0) {
                 foodView.setVisibility(View.VISIBLE);
-                foodView.setText(TextUtils.join(", ", foodNotes));
+                foodView.setText(TextUtils.join("\n", foodNotes));
             } else {
                 foodView.setVisibility(View.GONE);
             }

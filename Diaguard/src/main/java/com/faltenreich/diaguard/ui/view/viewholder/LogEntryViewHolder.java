@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.EntryTag;
+import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Tag;
@@ -24,6 +26,7 @@ import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.ui.view.TintImageView;
 import com.pchmn.materialchips.ChipView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -32,9 +35,10 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> {
 
     @BindView(R.id.root_layout) LinearLayout rootLayout;
     @BindView(R.id.cardview) CardView cardView;
-    @BindView(R.id.time) TextView time;
-    @BindView(R.id.note) TextView note;
-    @BindView(R.id.measurements) public ViewGroup measurements;
+    @BindView(R.id.date_time_view) TextView dateTimeView;
+    @BindView(R.id.note_view) TextView noteView;
+    @BindView(R.id.food_view) TextView foodView;
+    @BindView(R.id.measurements_layout) public ViewGroup measurementsLayout;
     @BindView(R.id.entry_tags) ViewGroup tagsView;
 
     private SearchAdapter.OnSearchItemClickListener listener;
@@ -46,23 +50,43 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> {
 
     @Override
     public void bindData() {
+        final ListItemEntry listItem = getListItem();
+        final Entry entry = listItem.getEntry();
+        final List<EntryTag> entryTags = listItem.getEntryTags();
+        final List<FoodEaten> foodEatenList = listItem.getFoodEatenList();
+
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EntryActivity.show(getContext(), getListItem().getEntry());
+                EntryActivity.show(getContext(), entry);
             }
         });
 
-        Entry entry = getListItem().getEntry();
-        List<EntryTag> entryTags = getListItem().getEntryTags();
-
-        time.setText(entry.getDate().toString("HH:mm"));
+        dateTimeView.setText(entry.getDate().toString("HH:mm"));
 
         if (entry.getNote() != null && entry.getNote().length() > 0) {
-            note.setVisibility(View.VISIBLE);
-            note.setText(entry.getNote());
+            noteView.setVisibility(View.VISIBLE);
+            noteView.setText(entry.getNote());
         } else {
-            note.setVisibility(View.GONE);
+            noteView.setVisibility(View.GONE);
+        }
+
+        if (foodEatenList != null && foodEatenList.size() > 0) {
+            List<String> foodNotes = new ArrayList<>();
+            for (FoodEaten foodEaten : foodEatenList) {
+                String foodEatenAsString = foodEaten.print();
+                if (foodEatenAsString != null) {
+                    foodNotes.add(foodEatenAsString);
+                }
+            }
+            if (foodNotes.size() > 0) {
+                foodView.setVisibility(View.VISIBLE);
+                foodView.setText(TextUtils.join(", ", foodNotes));
+            } else {
+                foodView.setVisibility(View.GONE);
+            }
+        } else {
+            foodView.setVisibility(View.GONE);
         }
 
         tagsView.setVisibility(entryTags.size() > 0 ? View.VISIBLE : View.GONE);
@@ -84,10 +108,10 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> {
 
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (inflater != null) {
-            measurements.removeAllViews();
+            measurementsLayout.removeAllViews();
             for (Measurement measurement : entry.getMeasurementCache()) {
                 Measurement.Category category = measurement.getCategory();
-                View viewMeasurement = inflater.inflate(R.layout.list_item_log_measurement, measurements, false);
+                View viewMeasurement = inflater.inflate(R.layout.list_item_log_measurement, measurementsLayout, false);
                 TintImageView categoryImage = viewMeasurement.findViewById(R.id.image);
                 int imageResourceId = PreferenceHelper.getInstance().getCategoryImageResourceId(category);
                 categoryImage.setImageDrawable(ContextCompat.getDrawable(getContext(), imageResourceId));
@@ -114,7 +138,7 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> {
                                 measurement.toString(),
                                 PreferenceHelper.getInstance().getUnitAcronym(category)));
                 }
-                measurements.addView(viewMeasurement);
+                measurementsLayout.addView(viewMeasurement);
             }
         }
     }

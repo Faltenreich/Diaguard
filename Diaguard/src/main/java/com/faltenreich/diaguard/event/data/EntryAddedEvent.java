@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.event.data;
 
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.EntryTag;
+import com.faltenreich.diaguard.data.entity.FoodEaten;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  */
 public class EntryAddedEvent extends BaseEntryEvent {
 
-    public EntryAddedEvent(Entry entry, List<EntryTag> entryTags) {
-        super(entry, entryTags);
+    public EntryAddedEvent(Entry entry, List<EntryTag> entryTags, List<FoodEaten> foodEatenList) {
+        super(entry, entryTags, foodEatenList);
     }
 }

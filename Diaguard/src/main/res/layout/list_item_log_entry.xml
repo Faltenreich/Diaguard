@@ -30,21 +30,31 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/time"
+                android:id="@+id/date_time_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="19:05"/>
 
             <TextView
-                android:id="@+id/note"
+                android:id="@+id/note_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_between"
                 android:visibility="gone"
+                tools:visibility="visible"
                 tools:text="Note"/>
 
+            <TextView
+                android:id="@+id/food_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_between"
+                android:visibility="gone"
+                tools:visibility="visible"
+                tools:text="Food"/>
+
             <org.apmem.tools.layouts.FlowLayout
-                android:id="@+id/measurements"
+                android:id="@+id/measurements_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/margin_between"

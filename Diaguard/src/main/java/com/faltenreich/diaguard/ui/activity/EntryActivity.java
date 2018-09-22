@@ -37,6 +37,8 @@ import com.faltenreich.diaguard.data.dao.TagDao;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.Food;
+import com.faltenreich.diaguard.data.entity.FoodEaten;
+import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.event.Events;
@@ -48,6 +50,7 @@ import com.faltenreich.diaguard.ui.fragment.DatePickerFragment;
 import com.faltenreich.diaguard.ui.fragment.TimePickerFragment;
 import com.faltenreich.diaguard.ui.view.entry.MeasurementFloatingActionMenu;
 import com.faltenreich.diaguard.ui.view.entry.MeasurementListView;
+import com.faltenreich.diaguard.ui.view.entry.MeasurementView;
 import com.faltenreich.diaguard.util.AlarmUtils;
 import com.faltenreich.diaguard.util.DateTimeUtils;
 import com.faltenreich.diaguard.util.Helper;
@@ -486,18 +489,16 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         entry.setNote(editTextNotes.length() > 0 ? editTextNotes.getText().toString() : null);
         entry = EntryDao.getInstance().createOrUpdate(entry);
 
+        entry.getMeasurementCache().clear();
         for (Measurement.Category category : Measurement.Category.values()) {
             if (layoutMeasurements.hasCategory(category)) {
                 Measurement measurement = layoutMeasurements.getMeasurement(category);
                 measurement.setEntry(entry);
                 MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
+                entry.getMeasurementCache().add(measurement);
             } else {
                 MeasurementDao.getInstance(category.toClass()).deleteMeasurements(entry);
             }
-        }
-
-        if (alarmInMinutes > 0) {
-            AlarmUtils.setAlarm(alarmInMinutes * DateTimeConstants.MILLIS_PER_MINUTE);
         }
 
         // TODO: Delete distinct
@@ -530,11 +531,16 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         TagDao.getInstance().bulkCreateOrUpdate(tags);
         EntryTagDao.getInstance().bulkCreateOrUpdate(entryTags);
 
+        List<FoodEaten> foodEatenList = getFoodEaten();
         if (isNewEntry) {
             Toast.makeText(this, getString(R.string.entry_added), Toast.LENGTH_LONG).show();
-            Events.post(new EntryAddedEvent(entry, entryTags));
+            Events.post(new EntryAddedEvent(entry, entryTags, foodEatenList));
         } else {
-            Events.post(new EntryUpdatedEvent(entry, entryTags, originalDate));
+            Events.post(new EntryUpdatedEvent(entry, entryTags, originalDate, foodEatenList));
+        }
+
+        if (alarmInMinutes > 0) {
+            AlarmUtils.setAlarm(alarmInMinutes * DateTimeConstants.MILLIS_PER_MINUTE);
         }
 
         finish();
@@ -543,9 +549,23 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     private void deleteEntry() {
         if (entry != null) {
             EntryDao.getInstance().delete(entry);
-            Events.post(new EntryDeletedEvent(entry, entryTags));
+            Events.post(new EntryDeletedEvent(entry, entryTags, getFoodEaten()));
             finish();
         }
+    }
+
+    private List<FoodEaten> getFoodEaten() {
+        for (int index = 0; index < layoutMeasurements.getChildCount(); index++) {
+            View view = layoutMeasurements.getChildAt(index);
+            if (view instanceof MeasurementView) {
+                MeasurementView measurementView = ((MeasurementView) view);
+                Measurement measurement = measurementView.getMeasurement();
+                if (measurement instanceof Meal) {
+                    return ((Meal) measurement).getFoodEatenCache();
+                }
+            }
+        }
+        return new ArrayList<>();
     }
 
     @OnClick(R.id.button_date)

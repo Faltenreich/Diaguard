@@ -17,7 +17,6 @@ import com.faltenreich.diaguard.data.dao.FoodEatenDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.EntryTag;
-import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
@@ -150,10 +149,8 @@ public class PdfTable extends Table {
                     Meal meal = (Meal) MeasurementDao.getInstance(Meal.class).getMeasurement(entry);
                     if (meal != null) {
                         for (FoodEaten foodEaten : FoodEatenDao.getInstance().getAll(meal)) {
-                            Food food = foodEaten.getFood();
-                            int amountEaten = (int) foodEaten.getAmountInGrams();
-                            if (food != null && amountEaten > 0) {
-                                String foodNote = String.format("%dg %s", amountEaten, food.getName());
+                            String foodNote = foodEaten.print();
+                            if (foodNote != null) {
                                 foodOfDay.add(foodNote);
                             }
                         }

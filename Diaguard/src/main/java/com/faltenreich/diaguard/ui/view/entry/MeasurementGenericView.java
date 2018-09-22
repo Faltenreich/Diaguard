@@ -16,8 +16,7 @@ import butterknife.BindView;
  */
 public class MeasurementGenericView <T extends Measurement> extends MeasurementAbstractView<T> {
 
-    @BindView(R.id.value)
-    StickyHintInput inputView;
+    @BindView(R.id.value) StickyHintInput inputView;
 
     @Deprecated
     public MeasurementGenericView(Context context) {

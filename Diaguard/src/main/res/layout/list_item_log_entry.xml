@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -69,10 +69,10 @@
                     android:background="@color/background"
                     android:visibility="gone"
                     tools:visibility="visible"
-                    tools:text="Food"/>
+                    tools:text="Food 1\nFood 2"/>
 
             </LinearLayout>
 
     </android.support.v7.widget.CardView>
 
-</LinearLayout>
+</FrameLayout>

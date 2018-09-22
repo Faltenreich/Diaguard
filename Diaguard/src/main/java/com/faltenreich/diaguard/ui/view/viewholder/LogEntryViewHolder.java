@@ -109,36 +109,42 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (inflater != null) {
             measurementsLayout.removeAllViews();
-            for (Measurement measurement : entry.getMeasurementCache()) {
-                Measurement.Category category = measurement.getCategory();
-                View viewMeasurement = inflater.inflate(R.layout.list_item_log_measurement, measurementsLayout, false);
-                TintImageView categoryImage = viewMeasurement.findViewById(R.id.image);
-                int imageResourceId = PreferenceHelper.getInstance().getCategoryImageResourceId(category);
-                categoryImage.setImageDrawable(ContextCompat.getDrawable(getContext(), imageResourceId));
-                categoryImage.setTintColor(ContextCompat.getColor(getContext(), R.color.gray_dark));
-                TextView value = viewMeasurement.findViewById(R.id.value);
+            List<Measurement> measurements = entry.getMeasurementCache();
+            if (measurements.size() > 0) {
+                measurementsLayout.setVisibility(View.VISIBLE);
+                for (Measurement measurement : measurements) {
+                    Measurement.Category category = measurement.getCategory();
+                    View viewMeasurement = inflater.inflate(R.layout.list_item_log_measurement, measurementsLayout, false);
+                    TintImageView categoryImage = viewMeasurement.findViewById(R.id.image);
+                    int imageResourceId = PreferenceHelper.getInstance().getCategoryImageResourceId(category);
+                    categoryImage.setImageDrawable(ContextCompat.getDrawable(getContext(), imageResourceId));
+                    categoryImage.setTintColor(ContextCompat.getColor(getContext(), R.color.gray_dark));
+                    TextView value = viewMeasurement.findViewById(R.id.value);
 
-                switch (category) {
-                    case INSULIN:
-                        value.setText(((Insulin) measurement).toStringDetail());
-                        break;
-                    case BLOODSUGAR:
-                        BloodSugar bloodSugar = (BloodSugar) measurement;
-                        if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
-                            int backgroundColor = ContextCompat.getColor(getContext(), R.color.green);
-                            if (bloodSugar.getMgDl() > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
-                                backgroundColor = ContextCompat.getColor(getContext(), R.color.red);
-                            } else if (bloodSugar.getMgDl() < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
-                                backgroundColor = ContextCompat.getColor(getContext(), R.color.blue);
+                    switch (category) {
+                        case INSULIN:
+                            value.setText(((Insulin) measurement).toStringDetail());
+                            break;
+                        case BLOODSUGAR:
+                            BloodSugar bloodSugar = (BloodSugar) measurement;
+                            if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
+                                int backgroundColor = ContextCompat.getColor(getContext(), R.color.green);
+                                if (bloodSugar.getMgDl() > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
+                                    backgroundColor = ContextCompat.getColor(getContext(), R.color.red);
+                                } else if (bloodSugar.getMgDl() < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
+                                    backgroundColor = ContextCompat.getColor(getContext(), R.color.blue);
+                                }
+                                categoryImage.setTintColor(backgroundColor);
                             }
-                            categoryImage.setTintColor(backgroundColor);
-                        }
-                    default:
-                        value.setText(String.format("%s %s",
-                                measurement.toString(),
-                                PreferenceHelper.getInstance().getUnitAcronym(category)));
+                        default:
+                            value.setText(String.format("%s %s",
+                                    measurement.toString(),
+                                    PreferenceHelper.getInstance().getUnitAcronym(category)));
+                    }
+                    measurementsLayout.addView(viewMeasurement);
                 }
-                measurementsLayout.addView(viewMeasurement);
+            } else {
+                measurementsLayout.setVisibility(View.GONE);
             }
         }
     }

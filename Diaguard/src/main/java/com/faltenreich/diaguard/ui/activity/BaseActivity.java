@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -29,6 +30,7 @@ import com.faltenreich.diaguard.event.FileProvidedFailedEvent;
 import com.faltenreich.diaguard.event.PermissionRequestEvent;
 import com.faltenreich.diaguard.event.PermissionResponseEvent;
 import com.faltenreich.diaguard.util.SystemUtils;
+import com.faltenreich.diaguard.util.Vector2D;
 import com.faltenreich.diaguard.util.ViewUtils;
 import com.faltenreich.diaguard.util.permission.Permission;
 import com.faltenreich.diaguard.util.permission.PermissionManager;
@@ -48,6 +50,17 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     static final String ARGUMENT_REVEAL_X = "revealX";
     static final String ARGUMENT_REVEAL_Y = "revealY";
+
+    protected static <T extends BaseActivity> Intent getIntent(Class<T> clazz, Context context, @Nullable View source) {
+        Intent intent = new Intent(context, clazz);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && source != null) {
+            Vector2D position = ViewUtils.getPositionOnScreen(source);
+            intent.putExtra(BaseActivity.ARGUMENT_REVEAL_X, position.x + (source.getWidth() / 2));
+            intent.putExtra(BaseActivity.ARGUMENT_REVEAL_Y, position.y + (source.getHeight() / 2));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        }
+        return intent;
+    }
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.toolbar_title) TextView toolbarTitleView;

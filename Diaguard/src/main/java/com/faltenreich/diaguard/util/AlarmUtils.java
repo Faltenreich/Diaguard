@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
@@ -40,9 +41,15 @@ public class AlarmUtils {
     public static void setAlarm(long intervalInMillis) {
         long alarmStartInMillis = System.currentTimeMillis() + intervalInMillis;
         PreferenceHelper.getInstance().setAlarmStartInMillis(alarmStartInMillis);
-        getAlarmManager().set(AlarmManager.RTC_WAKEUP,
-                alarmStartInMillis,
-                getPendingIntent());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getAlarmManager().setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,
+                    alarmStartInMillis,
+                    getPendingIntent());
+        } else {
+            getAlarmManager().set(AlarmManager.RTC_WAKEUP,
+                    alarmStartInMillis,
+                    getPendingIntent());
+        }
     }
 
     public static long getAlarmInMillis() {

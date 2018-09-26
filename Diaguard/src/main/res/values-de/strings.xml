@@ -319,19 +319,19 @@
     <string name="unit_factor_carbohydrates_unit">KE-Faktor</string>
     <string name="unit_factor_bread_unit">BE-Faktor</string>
 
-    <string name="tag">Stichwort</string>
-    <string name="tags">Stichwörter</string>
-    <string name="tags_append">Stichwörter anhängen</string>
+    <string name="tag">Stimmung</string>
+    <string name="tags">Stimmungen</string>
+    <string name="tags_append">Stimmungen anhängen</string>
     <string name="search">Suche</string>
-    <string name="search_hint">Notizen, Stichwörter, …</string>
+    <string name="search_hint">Notizen, Stimmungen, …</string>
     <string name="calculator_missing">Wo ist der Bolusrechner?</string>
     <string name="calculator_missing_desc">Der Bolusrechner musste aufgrund des Medizinproduktegesetzes entfernt werden.</string>
     <string name="calculator_more_info">Mehr dazu</string>
     <string name="no_results_found">Keine Ergebnisse gefunden</string>
-    <string name="tag_delete">Stichwort löschen</string>
-    <string name="tag_delete_confirmation">%d Einträge verlieren dieses Stichwort</string>
-    <string name="tag_new">Neues Stichwort</string>
-    <string name="tag_duplicate">Stichwort ist bereits verfügbar</string>
+    <string name="tag_delete">Stimmung löschen</string>
+    <string name="tag_delete_confirmation">%d Einträge verlieren diese Stimmung</string>
+    <string name="tag_new">Neue Stimmung</string>
+    <string name="tag_duplicate">Stimmung ist bereits verfügbar</string>
     <string name="food_append">Lebensmittel anhängen</string>
 
 </resources>

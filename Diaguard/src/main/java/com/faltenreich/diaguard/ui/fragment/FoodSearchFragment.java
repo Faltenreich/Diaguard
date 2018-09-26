@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.ui.fragment;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
@@ -16,6 +15,8 @@ import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.data.async.DataLoader;
+import com.faltenreich.diaguard.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.event.Events;
@@ -37,6 +38,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -49,7 +51,6 @@ import static com.faltenreich.diaguard.R.id.food_search_list_empty;
 public class FoodSearchFragment extends BaseFragment implements SearchView.OnQueryTextListener, SearchView.OnMenuClickListener {
 
     public static final String FINISH_ON_SELECTION = "finishOnSelection";
-    private static final int HISTORY_MAXIMUM_COUNT = 5;
 
     @BindView(R.id.food_search_unit) TextView unitTextView;
     @BindView(R.id.food_search_swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
@@ -101,6 +102,8 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     }
 
     private void initLayout() {
+        unitTextView.setText(PreferenceHelper.getInstance().getLabelForMealPer100g(getContext()));
+
         swipeRefreshLayout.setColorSchemeResources(R.color.green, R.color.green_light, R.color.green_lighter);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -126,9 +129,25 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
             }
         });
         searchView.setAdapter(searchAdapter);
-        new SetSuggestionsTask().execute();
 
-        unitTextView.setText(PreferenceHelper.getInstance().getLabelForMealPer100g(getContext()));
+        initSuggestions();
+    }
+
+    private void initSuggestions() {
+        DataLoader.getInstance().load(getContext(), new DataLoaderListener<List<SearchItem>>() {
+            @Override
+            public List<SearchItem> onShouldLoad() {
+                ArrayList<SearchItem> searchItems = new ArrayList<>();
+                for (String recentQuery : PreferenceHelper.getInstance().getInputQueries()) {
+                    searchItems.add(new SearchItem(R.drawable.ic_history, recentQuery));
+                }
+                return searchItems;
+            }
+            @Override
+            public void onDidLoad(List<SearchItem> searchItems) {
+                searchAdapter.setSuggestionsList(searchItems);
+            }
+        });
     }
 
     private void showError(@DrawableRes int iconResId, @StringRes int textResId, @StringRes int descResId, @StringRes int buttonTextResId) {
@@ -249,35 +268,5 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
                 Events.post(new FoodSavedEvent(food));
             }
         });
-    }
-
-    private class SetSuggestionsTask extends AsyncTask<Void, Void, ArrayList<SearchItem>> {
-
-        @Override
-        protected ArrayList<SearchItem> doInBackground(Void... voids) {
-            ArrayList<SearchItem> searchItems = new ArrayList<>();
-
-            int historySize = 0;
-            for (String recentQuery : PreferenceHelper.getInstance().getInputQueries()) {
-                if (historySize < HISTORY_MAXIMUM_COUNT) {
-                    searchItems.add(new SearchItem(R.drawable.ic_history, recentQuery));
-                    historySize++;
-                } else {
-                    break;
-                }
-            }
-
-            for (Food food : FoodDao.getInstance().getAll()) {
-                searchItems.add(new SearchItem(food.getName()));
-            }
-
-            return searchItems;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<SearchItem> searchItems) {
-            super.onPostExecute(searchItems);
-            searchAdapter.setSuggestionsList(searchItems);
-        }
     }
 }

@@ -86,7 +86,7 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
 
         searchView.setOnQueryTextListener(this);
         searchView.setOnMenuClickListener(this);
-        searchView.setArrowOnly(false);
+        searchView.setArrowOnly(true);
     }
 
     private void preFillQuery() {
@@ -166,11 +166,6 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
 
     @Override
     public void onMenuClick() {
-        if (searchView.isSearchOpen()) {
-            searchView.close(true);
-        } else {
-            finish();
-        }
+        finish();
     }
-
 }

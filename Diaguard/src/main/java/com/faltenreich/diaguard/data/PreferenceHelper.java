@@ -33,6 +33,7 @@ public class PreferenceHelper {
 
     private static final String TAG = PreferenceHelper.class.getSimpleName();
     private static final String INPUT_QUERIES_SEPARATOR = ";";
+    private static final int INPUT_QUERIES_MAXIMUM_COUNT = 10;
 
     private class Keys {
         static final String VERSION_CODE = "versionCode";
@@ -47,8 +48,6 @@ public class PreferenceHelper {
         final static String INPUT_QUERIES = "inputQueries";
         final static String DID_IMPORT_COMMON_FOOD_FOR_LANGUAGE = "didImportCommonFoodForLanguage";
         final static String CHART_STYLE = "chart_style";
-        final static String CATEGORY_ACTIVE = "_active";
-        final static String CATEGORY_ACTIVE_FOR_EXPORT = "_active_for_export";
         final static String EXPORT_NOTES = "export_notes";
         final static String EXPORT_TAGS = "export_tags";
         final static String EXPORT_FOOD = "export_food";
@@ -260,7 +259,16 @@ public class PreferenceHelper {
         if (inputQueries.length() > 0) {
             inputQueries = inputQueries + INPUT_QUERIES_SEPARATOR;
         }
-        sharedPreferences.edit().putString(Keys.INPUT_QUERIES, inputQueries + query).apply();
+        inputQueries = inputQueries + query;
+        // Prevent history from gaining weight
+        String[] inputQueriesArray = inputQueries.split(INPUT_QUERIES_SEPARATOR);
+        if (inputQueriesArray.length > INPUT_QUERIES_MAXIMUM_COUNT) {
+            int endIndex = inputQueriesArray.length;
+            int startIndex = endIndex - INPUT_QUERIES_MAXIMUM_COUNT;
+            String[] newInputQueries = Arrays.copyOfRange(inputQueriesArray, startIndex, endIndex);
+            inputQueries = TextUtils.join(INPUT_QUERIES_SEPARATOR, newInputQueries);
+        }
+        sharedPreferences.edit().putString(Keys.INPUT_QUERIES, inputQueries).apply();
     }
 
     private String getInputQueriesString() {

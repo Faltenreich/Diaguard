@@ -1,10 +1,12 @@
 package com.faltenreich.diaguard.ui.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.EditText;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.SafeLinearLayoutManager;
@@ -22,6 +24,7 @@ import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Tag;
+import com.faltenreich.diaguard.util.ViewUtils;
 import com.lapism.searchview.SearchView;
 
 import org.apache.commons.lang3.StringUtils;
@@ -36,6 +39,7 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
     public static final String EXTRA_TAG_ID = "tagId";
 
     @BindView(R.id.search_view) SearchView searchView;
+    @BindView(R.id.searchEditText_input) EditText searchInput;
     @BindView(R.id.search_list) RecyclerView list;
     @BindView(R.id.search_list_empty) View listEmptyView;
 
@@ -99,6 +103,14 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
                     }
                 }
             });
+        } else {
+            // Workaround to focus EditText onViewCreated
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ViewUtils.showKeyboard(searchInput);
+                }
+            }, 500);
         }
     }
 

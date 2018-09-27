@@ -38,6 +38,7 @@ import butterknife.BindView;
 public class EntrySearchFragment extends BaseFragment implements SearchView.OnQueryTextListener, SearchView.OnMenuClickListener {
 
     private static final String TAG = EntrySearchFragment.class.getSimpleName();
+    private static final int SEARCH_INPUT_DELAY_IN_MILLIS = 1000;
     private static final int PAGE_SIZE = 25;
 
     public static final String EXTRA_TAG_ID = "tagId";
@@ -183,9 +184,16 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
     }
 
     @Override
-    public boolean onQueryTextChange(String newText) {
-        // TODO: Add delay to reduce obsolete searches
-        newSearch();
+    public boolean onQueryTextChange(final String newText) {
+        // Delay search in order to reduce obsolete searches
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (newText.equals(searchView.getQuery().toString())) {
+                    newSearch();
+                }
+            }
+        }, SEARCH_INPUT_DELAY_IN_MILLIS);
         return false;
     }
 

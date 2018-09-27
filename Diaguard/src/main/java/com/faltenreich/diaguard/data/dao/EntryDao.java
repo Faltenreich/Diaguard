@@ -263,7 +263,7 @@ public class EntryDao extends BaseDao<Entry> {
     }
 
     @NonNull
-    public List<Entry> search(@NonNull String query) {
+    public List<Entry> search(@NonNull String query, int page, int pageSize) {
         try {
             query = "%" + query + "%";
 
@@ -271,7 +271,10 @@ public class EntryDao extends BaseDao<Entry> {
             tagQueryBuilder.where().like(Tag.Column.NAME, query);
             QueryBuilder<EntryTag, Long> entryTagQueryBuilder = EntryTagDao.getInstance().getQueryBuilder().join(tagQueryBuilder);
 
-            QueryBuilder<Entry, Long> entryQueryBuilder = getDao().queryBuilder().orderBy(Entry.Column.DATE, false);
+            QueryBuilder<Entry, Long> entryQueryBuilder = getDao().queryBuilder()
+                    .offset((long) (page * pageSize))
+                    .limit((long) pageSize)
+                    .orderBy(Entry.Column.DATE, false);
             entryQueryBuilder.where().like(Entry.Column.NOTE, query);
 
             // FIXME: Merge two queries to one

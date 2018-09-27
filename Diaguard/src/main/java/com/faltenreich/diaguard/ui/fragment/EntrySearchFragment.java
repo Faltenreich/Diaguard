@@ -38,6 +38,7 @@ import butterknife.BindView;
 public class EntrySearchFragment extends BaseFragment implements SearchView.OnQueryTextListener, SearchView.OnMenuClickListener {
 
     private static final String TAG = EntrySearchFragment.class.getSimpleName();
+    private static final int PAGE_SIZE = 25;
 
     public static final String EXTRA_TAG_ID = "tagId";
 
@@ -49,6 +50,7 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
 
     private SearchAdapter listAdapter;
     private long tagId = -1;
+    private int currentPage = 0;
 
     public EntrySearchFragment() {
         super(R.layout.fragment_entry_search, R.string.search);
@@ -118,65 +120,72 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
         }
     }
 
-    private void search() {
-        final String query = searchView.getQuery().toString();
-        if (StringUtils.isNotBlank(query)) {
+    private void newSearch() {
+        listAdapter.clear();
+        listAdapter.notifyDataSetChanged();
+        currentPage = 0;
+
+        if (StringUtils.isNotBlank(searchView.getQuery().toString())) {
             progressView.setVisibility(View.VISIBLE);
             listEmptyView.setVisibility(View.GONE);
-
-            DataLoader.getInstance().load(getContext(), new DataLoaderListener<List<ListItemEntry>>() {
-                @Override
-                public List<ListItemEntry> onShouldLoad() {
-                    List<ListItemEntry> listItems = new ArrayList<>();
-                    // TODO: Add paging to improve performance on large data sets
-                    List<Entry> entries = EntryDao.getInstance().search(query);
-                    for (Entry entry : entries) {
-                        List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
-                        entry.setMeasurementCache(measurements);
-                        List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(entry);
-                        List<FoodEaten> foodEatenList = new ArrayList<>();
-                        for (Measurement measurement : measurements) {
-                            if (measurement instanceof Meal) {
-                                foodEatenList.addAll(FoodEatenDao.getInstance().getAll((Meal) measurement));
-                            }
-                        }
-                        listItems.add(new ListItemEntry(entry, entryTags, foodEatenList));
-                    }
-                    return listItems;
-                }
-                @Override
-                public void onDidLoad(List<ListItemEntry> listItems) {
-                    String currentQuery = searchView.getQuery().toString();
-                    if (query.equals(currentQuery)) {
-                        progressView.setVisibility(View.GONE);
-                        listEmptyView.setVisibility(listItems.size() > 0 ? View.GONE : View.VISIBLE);
-
-                        listAdapter.clear();
-                        listAdapter.addItems(listItems);
-                        listAdapter.notifyDataSetChanged();
-                    } else {
-                        Log.d(TAG, "Dropping obsolete result for \'" + query + "\' (is now: \'" + currentQuery + "\'");
-                    }
-                }
-            });
+            continueSearch();
         } else {
-            listAdapter.clear();
-            listAdapter.notifyDataSetChanged();
             listEmptyView.setVisibility(View.VISIBLE);
         }
+    }
+
+    // TODO: Continue search on list scroll
+    private void continueSearch() {
+        final String query = searchView.getQuery().toString();
+        DataLoader.getInstance().load(getContext(), new DataLoaderListener<List<ListItemEntry>>() {
+            @Override
+            public List<ListItemEntry> onShouldLoad() {
+                List<ListItemEntry> listItems = new ArrayList<>();
+                List<Entry> entries = EntryDao.getInstance().search(query, currentPage, PAGE_SIZE);
+                for (Entry entry : entries) {
+                    List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
+                    entry.setMeasurementCache(measurements);
+                    List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(entry);
+                    List<FoodEaten> foodEatenList = new ArrayList<>();
+                    for (Measurement measurement : measurements) {
+                        if (measurement instanceof Meal) {
+                            foodEatenList.addAll(FoodEatenDao.getInstance().getAll((Meal) measurement));
+                        }
+                    }
+                    listItems.add(new ListItemEntry(entry, entryTags, foodEatenList));
+                }
+                return listItems;
+            }
+            @Override
+            public void onDidLoad(List<ListItemEntry> listItems) {
+                String currentQuery = searchView.getQuery().toString();
+                if (query.equals(currentQuery)) {
+                    progressView.setVisibility(View.GONE);
+                    listEmptyView.setVisibility(listItems.size() > 0 ? View.GONE : View.VISIBLE);
+
+                    currentPage++;
+
+                    int oldCount = listAdapter.getItemCount();
+                    listAdapter.addItems(listItems);
+                    listAdapter.notifyItemRangeInserted(oldCount, listItems.size());
+                } else {
+                    Log.d(TAG, "Dropping obsolete result for \'" + query + "\' (is now: \'" + currentQuery + "\'");
+                }
+            }
+        });
     }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
         searchView.close(true);
-        search();
+        newSearch();
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
         // TODO: Add delay to reduce obsolete searches
-        search();
+        newSearch();
         return false;
     }
 

@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -36,12 +37,15 @@ import butterknife.BindView;
 
 public class EntrySearchFragment extends BaseFragment implements SearchView.OnQueryTextListener, SearchView.OnMenuClickListener {
 
+    private static final String TAG = EntrySearchFragment.class.getSimpleName();
+
     public static final String EXTRA_TAG_ID = "tagId";
 
     @BindView(R.id.search_view) SearchView searchView;
     @BindView(R.id.searchEditText_input) EditText searchInput;
     @BindView(R.id.search_list) RecyclerView list;
     @BindView(R.id.search_list_empty) View listEmptyView;
+    @BindView(R.id.search_list_progress) View progressView;
 
     private SearchAdapter listAdapter;
     private long tagId = -1;
@@ -117,10 +121,14 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
     private void search() {
         final String query = searchView.getQuery().toString();
         if (StringUtils.isNotBlank(query)) {
+            progressView.setVisibility(View.VISIBLE);
+            listEmptyView.setVisibility(View.GONE);
+
             DataLoader.getInstance().load(getContext(), new DataLoaderListener<List<ListItemEntry>>() {
                 @Override
                 public List<ListItemEntry> onShouldLoad() {
                     List<ListItemEntry> listItems = new ArrayList<>();
+                    // TODO: Add paging to improve performance on large data sets
                     List<Entry> entries = EntryDao.getInstance().search(query);
                     for (Entry entry : entries) {
                         List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
@@ -138,10 +146,17 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
                 }
                 @Override
                 public void onDidLoad(List<ListItemEntry> listItems) {
-                    listAdapter.clear();
-                    listAdapter.addItems(listItems);
-                    listAdapter.notifyDataSetChanged();
-                    listEmptyView.setVisibility(listItems.size() > 0 ? View.GONE : View.VISIBLE);
+                    String currentQuery = searchView.getQuery().toString();
+                    if (query.equals(currentQuery)) {
+                        progressView.setVisibility(View.GONE);
+                        listEmptyView.setVisibility(listItems.size() > 0 ? View.GONE : View.VISIBLE);
+
+                        listAdapter.clear();
+                        listAdapter.addItems(listItems);
+                        listAdapter.notifyDataSetChanged();
+                    } else {
+                        Log.d(TAG, "Dropping obsolete result for \'" + query + "\' (is now: \'" + currentQuery + "\'");
+                    }
                 }
             });
         } else {
@@ -160,6 +175,7 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
 
     @Override
     public boolean onQueryTextChange(String newText) {
+        // TODO: Add delay to reduce obsolete searches
         search();
         return false;
     }

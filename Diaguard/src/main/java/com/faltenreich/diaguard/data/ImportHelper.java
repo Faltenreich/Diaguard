@@ -22,7 +22,6 @@ import com.faltenreich.diaguard.util.export.Export;
 import com.opencsv.CSVReader;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -247,7 +246,7 @@ public class ImportHelper {
 
     private static class CreateTestData extends AsyncTask<Void, Void, Void> {
 
-        private static final int DATA_COUNT = 200;
+        private static final int DATA_COUNT = 1000;
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -255,7 +254,7 @@ public class ImportHelper {
                 DateTime dateTime = DateTime.now().minusDays(count);
                 Entry entry = new Entry();
                 entry.setDate(dateTime);
-                entry.setNote(DateTimeFormat.mediumDateTime().print(dateTime));
+                entry.setNote("Test");
                 EntryDao.getInstance().createOrUpdate(entry);
 
                 BloodSugar bloodSugar = new BloodSugar();

@@ -16,6 +16,9 @@ import android.widget.Toast;
 import com.faltenreich.diaguard.BuildConfig;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.data.async.DataLoader;
+import com.faltenreich.diaguard.data.async.DataLoaderListener;
+import com.faltenreich.diaguard.data.dao.TagDao;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.BackupImportedEvent;
 import com.faltenreich.diaguard.event.Events;
@@ -57,11 +60,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 
-        // Initialize summaries where making sense
-        for (Preference preference : getPreferenceList(getPreferenceScreen(), new ArrayList<Preference>())) {
-            setSummary(preference);
-        }
-
         initPreferences();
         checkIntents();
     }
@@ -70,6 +68,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     public void onResume() {
         super.onResume();
         Events.register(this);
+        setSummaries();
     }
 
     @Override
@@ -107,7 +106,13 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         }
     }
 
-    private void setSummary(Preference preference) {
+    private void setSummaries() {
+        for (Preference preference : getPreferenceList(getPreferenceScreen(), new ArrayList<Preference>())) {
+            setSummary(preference);
+        }
+    }
+
+    private void setSummary(final Preference preference) {
         if (isAdded() && preference != null) {
             if (preference instanceof ListPreference) {
                 ListPreference listPreference = (ListPreference) preference;
@@ -136,8 +141,22 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                     preference.setSummary(null);
                 }
 
-            } else if (preference.getKey() != null && preference.getKey().equals("version")) {
-                preference.setSummary(SystemUtils.getVersionName(getActivity()));
+            } else if (preference.getKey() != null) {
+                String key = preference.getKey();
+                if (key.equals("version")) {
+                    preference.setSummary(SystemUtils.getVersionName(getActivity()));
+                } else if (key.equals("tags")) {
+                    DataLoader.getInstance().load(preference.getContext(), new DataLoaderListener<Long>() {
+                        @Override
+                        public Long onShouldLoad() {
+                            return TagDao.getInstance().countAll();
+                        }
+                        @Override
+                        public void onDidLoad(Long count) {
+                            preference.setSummary(String.format(getString(R.string.available_placeholder), count));
+                        }
+                    });
+                }
             }
         }
     }

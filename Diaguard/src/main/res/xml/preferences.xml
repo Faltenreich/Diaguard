@@ -34,6 +34,7 @@
             android:entryValues="@array/categories"/>
 
         <Preference
+            android:key="tags"
             android:title="@string/tags">
             <intent
                 android:action="android.intent.action.VIEW"

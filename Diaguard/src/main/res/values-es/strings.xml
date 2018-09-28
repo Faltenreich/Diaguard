@@ -336,5 +336,6 @@
     <string name="tag_new">Nueva palabra clave</string>
     <string name="tag_duplicate">La palabra clave ya está disponible</string>
     <string name="food_append">Adjuntar alimentos</string>
+    <string name="available_placeholder">%d disponible</string>
 
 </resources>

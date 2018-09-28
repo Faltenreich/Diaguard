@@ -513,5 +513,6 @@
     <string name="tag_new">New tag</string>
     <string name="tag_duplicate">Tag is already available</string>
     <string name="food_append">Append food</string>
+    <string name="available_placeholder">%d available</string>
 
 </resources>

@@ -19,17 +19,22 @@ import com.faltenreich.diaguard.adapter.CategoryValueListAdapter;
 import com.faltenreich.diaguard.adapter.list.ListItemCategoryImage;
 import com.faltenreich.diaguard.adapter.list.ListItemCategoryValue;
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.data.async.DataLoader;
+import com.faltenreich.diaguard.data.async.DataLoaderListener;
+import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.view.chart.DayChart;
 import com.faltenreich.diaguard.ui.view.viewholder.CategoryValueViewHolder;
-import com.faltenreich.diaguard.util.thread.BaseAsyncTask;
-import com.faltenreich.diaguard.util.thread.TimelineTableTask;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +45,7 @@ import butterknife.ButterKnife;
 public class ChartDayFragment extends Fragment {
 
     public static final String EXTRA_DATE_TIME = "EXTRA_DATE_TIME";
+    private static final int SKIP_EVERY_X_HOUR = 2;
 
     @BindView(R.id.day_chart) DayChart dayChart;
     @BindView(R.id.scroll_view) NestedScrollView scrollView;
@@ -123,9 +129,18 @@ public class ChartDayFragment extends Fragment {
             dayChart.setDay(day);
         }
         if (valueTable != null) {
-            new TimelineTableTask(getContext(), day, categories, new BaseAsyncTask.OnAsyncProgressListener<List<ListItemCategoryValue>>() {
+            DataLoader.getInstance().load(getContext(), new DataLoaderListener<List<ListItemCategoryValue>>() {
                 @Override
-                public void onPostExecute(List<ListItemCategoryValue> values) {
+                public List<ListItemCategoryValue> onShouldLoad() {
+                    List<ListItemCategoryValue> listItems = new ArrayList<>();
+                    LinkedHashMap<Measurement.Category, ListItemCategoryValue[]> values = EntryDao.getInstance().getAverageDataTable(day, categories, SKIP_EVERY_X_HOUR);
+                    for (Map.Entry<Measurement.Category, ListItemCategoryValue[]> mapEntry : values.entrySet()) {
+                        Collections.addAll(listItems, mapEntry.getValue());
+                    }
+                    return listItems;
+                }
+                @Override
+                public void onDidLoad(List<ListItemCategoryValue> values) {
                     temp = values;
                     if (isVisible) {
                         // Update only onPageChanged to improve performance
@@ -140,7 +155,7 @@ public class ChartDayFragment extends Fragment {
                         }, 500);
                     }
                 }
-            }).execute();
+            });
         }
     }
 

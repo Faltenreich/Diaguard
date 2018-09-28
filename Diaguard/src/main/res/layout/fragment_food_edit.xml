@@ -8,95 +8,111 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingBottom="80dp">
+        android:orientation="vertical">
 
         <include layout="@layout/view_toolbar" />
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="80dp">
 
-            <android.support.v7.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/CardViewNoMargin">
+                android:orientation="vertical">
 
-                <LinearLayout
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/CardViewNoMargin">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:showDividers="middle"
+                        android:divider="@drawable/line_divider">
+
+                        <LinearLayout style="@style/LayoutRow">
+
+                            <ImageView
+                                style="@style/LayoutRowImageMultiline"
+                                android:contentDescription="@null"
+                                android:tint="@color/gray_darker"
+                                app:srcCompat="@drawable/ic_edit"/>
+
+                            <com.faltenreich.diaguard.ui.view.StickyHintInput
+                                android:id="@+id/food_edit_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/name"
+                                android:inputType="textMultiLine|textCapSentences"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout style="@style/LayoutRow">
+
+                            <com.faltenreich.diaguard.ui.view.TintImageView
+                                style="@style/LayoutRowImageMultiline"
+                                android:src="@drawable/ic_business"
+                                app:tintColor="@color/gray_darker" />
+
+                            <com.faltenreich.diaguard.ui.view.StickyHintInput
+                                android:id="@+id/food_edit_brand"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/brand"
+                                android:inputType="textMultiLine|textCapSentences"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout style="@style/LayoutRow">
+
+                            <com.faltenreich.diaguard.ui.view.TintImageView
+                                style="@style/LayoutRowImageMultiline"
+                                android:src="@drawable/ic_note"
+                                app:tintColor="@color/gray_darker" />
+
+                            <com.faltenreich.diaguard.ui.view.StickyHintInput
+                                android:id="@+id/food_edit_ingredients"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/ingredients"
+                                android:inputType="textMultiLine|textCapSentences"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout style="@style/LayoutRow">
+
+                            <com.faltenreich.diaguard.ui.view.TintImageView
+                                style="@style/LayoutRowImage"
+                                android:src="@drawable/ic_category_meal"
+                                app:tintColor="@color/gray_darker" />
+
+                            <com.faltenreich.diaguard.ui.view.StickyHintInput
+                                android:id="@+id/food_edit_carbohydrates"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/carbohydrates_per_100g"
+                                android:inputType="numberDecimal"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <com.faltenreich.diaguard.ui.view.NutrientInputLayout
+                    android:id="@+id/food_edit_nutrient_input_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:showDividers="middle"
-                    android:divider="@drawable/line_divider">
+                    android:divider="@drawable/line_divider"/>
 
-                    <LinearLayout style="@style/LayoutRow">
-
-                        <ImageView
-                            style="@style/LayoutRowImageMultiline"
-                            android:contentDescription="@null"
-                            android:tint="@color/gray_darker"
-                            app:srcCompat="@drawable/ic_edit"/>
-
-                        <com.faltenreich.diaguard.ui.view.StickyHintInput
-                            android:id="@+id/food_edit_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/name"
-                            android:inputType="textMultiLine|textCapSentences"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout style="@style/LayoutRow">
-
-                        <com.faltenreich.diaguard.ui.view.TintImageView
-                            style="@style/LayoutRowImageMultiline"
-                            android:src="@drawable/ic_business"
-                            app:tintColor="@color/gray_darker" />
-
-                        <com.faltenreich.diaguard.ui.view.StickyHintInput
-                            android:id="@+id/food_edit_brand"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/brand"
-                            android:inputType="textMultiLine|textCapSentences"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout style="@style/LayoutRow">
-
-                        <com.faltenreich.diaguard.ui.view.TintImageView
-                            style="@style/LayoutRowImageMultiline"
-                            android:src="@drawable/ic_note"
-                            app:tintColor="@color/gray_darker" />
-
-                        <com.faltenreich.diaguard.ui.view.StickyHintInput
-                            android:id="@+id/food_edit_ingredients"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/ingredients"
-                            android:inputType="textMultiLine|textCapSentences"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout style="@style/LayoutRow">
-
-                        <com.faltenreich.diaguard.ui.view.TintImageView
-                            style="@style/LayoutRowImage"
-                            android:src="@drawable/ic_category_meal"
-                            app:tintColor="@color/gray_darker" />
-
-                        <com.faltenreich.diaguard.ui.view.StickyHintInput
-                            android:id="@+id/food_edit_carbohydrates"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/carbohydrates_per_100g"
-                            android:inputType="numberDecimal"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
+            </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>
 

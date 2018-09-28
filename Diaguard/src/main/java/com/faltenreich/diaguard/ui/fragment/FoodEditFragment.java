@@ -14,6 +14,7 @@ import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.data.FoodSavedEvent;
+import com.faltenreich.diaguard.ui.view.NutrientInputLayout;
 import com.faltenreich.diaguard.ui.view.StickyHintInput;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
@@ -31,6 +32,7 @@ public class FoodEditFragment extends BaseFoodFragment {
     @BindView(R.id.food_edit_brand) StickyHintInput brandInput;
     @BindView(R.id.food_edit_ingredients) StickyHintInput ingredientsInput;
     @BindView(R.id.food_edit_carbohydrates) StickyHintInput valueInput;
+    @BindView(R.id.food_edit_nutrient_input_layout) NutrientInputLayout nutrientInputLayout;
 
     public FoodEditFragment() {
         super(R.layout.fragment_food_edit, R.string.food_new, R.menu.form_edit);
@@ -71,6 +73,12 @@ public class FoodEditFragment extends BaseFoodFragment {
                             Measurement.Category.MEAL,
                             food.getCarbohydrates())));
         }
+        for (Food.Nutrient nutrient : Food.Nutrient.values()) {
+            // Carbohydrates are processed separately
+            if (nutrient != Food.Nutrient.CARBOHYDRATES) {
+                nutrientInputLayout.addNutrient(nutrient, food != null ? nutrient.getValue(food) : null);
+            }
+        }
     }
 
     private boolean isValid() {
@@ -99,6 +107,8 @@ public class FoodEditFragment extends BaseFoodFragment {
             food.setBrand(brandInput.getText());
             food.setIngredients(ingredientsInput.getText());
             food.setCarbohydrates(NumberUtils.parseNumber(valueInput.getText()));
+
+            // TODO: Store other nutrients
 
             FoodDao.getInstance().createOrUpdate(food);
             Events.post(new FoodSavedEvent(food));

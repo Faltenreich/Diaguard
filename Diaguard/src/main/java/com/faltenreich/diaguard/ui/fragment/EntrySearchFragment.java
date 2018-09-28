@@ -10,8 +10,9 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.adapter.EndlessAdapter;
 import com.faltenreich.diaguard.adapter.SafeLinearLayoutManager;
-import com.faltenreich.diaguard.adapter.SearchAdapter;
+import com.faltenreich.diaguard.adapter.EntrySearchAdapter;
 import com.faltenreich.diaguard.adapter.list.ListItemEntry;
 import com.faltenreich.diaguard.data.async.DataLoader;
 import com.faltenreich.diaguard.data.async.DataLoaderListener;
@@ -49,7 +50,7 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
     @BindView(R.id.search_list_empty) View listEmptyView;
     @BindView(R.id.search_list_progress) View progressView;
 
-    private SearchAdapter listAdapter;
+    private EntrySearchAdapter listAdapter;
     private long tagId = -1;
     private int currentPage = 0;
 
@@ -81,11 +82,19 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
         listEmptyView.setVisibility(View.VISIBLE);
 
         list.setLayoutManager(new SafeLinearLayoutManager(getActivity()));
-        listAdapter = new SearchAdapter(getContext(), new SearchAdapter.OnSearchItemClickListener() {
+        listAdapter = new EntrySearchAdapter(getContext(), new EntrySearchAdapter.OnSearchItemClickListener() {
             @Override
             public void onTagClicked(Tag tag, View view) {
                 if (isAdded()) {
                     searchView.setQuery(tag.getName(), true);
+                }
+            }
+        });
+        listAdapter.setOnEndlessListener(new EndlessAdapter.OnEndlessListener() {
+            @Override
+            public void onLoadMore(boolean scrollingDown) {
+                if (scrollingDown) {
+                    continueSearch();
                 }
             }
         });
@@ -122,8 +131,11 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
     }
 
     private void newSearch() {
-        listAdapter.clear();
-        listAdapter.notifyDataSetChanged();
+        int oldCount = listAdapter.getItemCount();
+        if (oldCount > 0) {
+            listAdapter.clear();
+            listAdapter.notifyItemRangeRemoved(0, oldCount);
+        }
         currentPage = 0;
 
         if (StringUtils.isNotBlank(searchView.getQuery().toString())) {
@@ -135,7 +147,6 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
         }
     }
 
-    // TODO: Continue search on list scroll
     private void continueSearch() {
         final String query = searchView.getQuery().toString();
         DataLoader.getInstance().load(getContext(), new DataLoaderListener<List<ListItemEntry>>() {

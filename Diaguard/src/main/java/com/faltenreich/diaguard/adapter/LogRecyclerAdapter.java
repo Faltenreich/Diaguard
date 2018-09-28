@@ -376,7 +376,7 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
         }
     }
 
-    public interface LogListListener extends SearchAdapter.OnSearchItemClickListener {
+    public interface LogListListener extends EntrySearchAdapter.OnSearchItemClickListener {
         void onOrderChanges();
         void onSetupEnd();
     }

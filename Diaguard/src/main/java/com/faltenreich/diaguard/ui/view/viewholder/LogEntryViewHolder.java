@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.SearchAdapter;
+import com.faltenreich.diaguard.adapter.EntrySearchAdapter;
 import com.faltenreich.diaguard.adapter.list.ListItemEntry;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
@@ -40,9 +40,9 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> {
     @BindView(R.id.measurements_layout) public ViewGroup measurementsLayout;
     @BindView(R.id.entry_tags) ViewGroup tagsView;
 
-    private SearchAdapter.OnSearchItemClickListener listener;
+    private EntrySearchAdapter.OnSearchItemClickListener listener;
 
-    public LogEntryViewHolder(View view, SearchAdapter.OnSearchItemClickListener listener) {
+    public LogEntryViewHolder(View view, EntrySearchAdapter.OnSearchItemClickListener listener) {
         super(view);
         this.listener = listener;
     }

@@ -333,5 +333,6 @@
     <string name="tag_new">Neue Stimmung</string>
     <string name="tag_duplicate">Stimmung ist bereits verfügbar</string>
     <string name="food_append">Lebensmittel anhängen</string>
+    <string name="available_placeholder">%d verfügbar</string>
 
 </resources>

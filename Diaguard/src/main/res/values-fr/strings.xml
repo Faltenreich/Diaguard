@@ -334,5 +334,6 @@
     <string name="tag_new">Nouvelle mot-clé</string>
     <string name="tag_duplicate">Le mot-clé est déjà disponible</string>
     <string name="food_append">Ajouter l\'aliment</string>
+    <string name="available_placeholder">%d disponible</string>
 
 </resources>

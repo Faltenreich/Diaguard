@@ -2,14 +2,14 @@ package com.faltenreich.diaguard.ui.view.viewholder;
 
 import android.view.View;
 
-import com.faltenreich.diaguard.adapter.SearchAdapter;
+import com.faltenreich.diaguard.adapter.EntrySearchAdapter;
 import com.faltenreich.diaguard.util.Helper;
 
 import org.joda.time.DateTime;
 
 public class EntrySearchViewHolder extends LogEntryViewHolder {
 
-    public EntrySearchViewHolder(View view, SearchAdapter.OnSearchItemClickListener listener) {
+    public EntrySearchViewHolder(View view, EntrySearchAdapter.OnSearchItemClickListener listener) {
         super(view, listener);
     }
 

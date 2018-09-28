@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.adapter;
 
 import android.content.Context;
 import android.os.Handler;
+import android.support.annotation.CallSuper;
 
 import com.faltenreich.diaguard.adapter.list.ListItemDate;
 import com.faltenreich.diaguard.ui.view.viewholder.BaseViewHolder;
@@ -20,6 +21,7 @@ public abstract class EndlessAdapter<L extends ListItemDate, VH extends BaseView
         super(context);
     }
 
+    @CallSuper
     @Override
     public void onBindViewHolder(final VH holder, int position) {
         if (listener != null) {
@@ -40,11 +42,11 @@ public abstract class EndlessAdapter<L extends ListItemDate, VH extends BaseView
         }
     }
 
-    void setOnEndlessListener(OnEndlessListener listener) {
+    public void setOnEndlessListener(OnEndlessListener listener) {
         this.listener = listener;
     }
 
-    interface OnEndlessListener {
+    public interface OnEndlessListener {
         void onLoadMore(boolean scrollingDown);
     }
 }

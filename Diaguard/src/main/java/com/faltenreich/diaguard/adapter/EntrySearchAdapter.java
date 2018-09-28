@@ -11,11 +11,11 @@ import com.faltenreich.diaguard.adapter.list.ListItemEntry;
 import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.ui.view.viewholder.EntrySearchViewHolder;
 
-public class SearchAdapter extends BaseAdapter<ListItemEntry, EntrySearchViewHolder> {
+public class EntrySearchAdapter extends EndlessAdapter<ListItemEntry, EntrySearchViewHolder> {
 
     private OnSearchItemClickListener listener;
 
-    public SearchAdapter(Context context, OnSearchItemClickListener listener) {
+    public EntrySearchAdapter(Context context, OnSearchItemClickListener listener) {
         super(context);
         this.listener = listener;
     }
@@ -28,6 +28,7 @@ public class SearchAdapter extends BaseAdapter<ListItemEntry, EntrySearchViewHol
 
     @Override
     public void onBindViewHolder(@NonNull EntrySearchViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
         holder.bindData(getItem(position));
     }
 

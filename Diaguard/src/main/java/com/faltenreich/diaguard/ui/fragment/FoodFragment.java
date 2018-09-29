@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -81,13 +80,6 @@ public class FoodFragment extends BaseFoodFragment {
         Food food = getFood();
         if (food != null) {
             boolean hasImage = !TextUtils.isEmpty(food.getFullImageUrl());
-            appBarLayout.setExpanded(hasImage);
-            appBarLayout.setActivated(hasImage);
-            AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) collapsingToolbarLayout.getLayoutParams();
-            params.height = hasImage ?
-                    (int) getResources().getDimension(R.dimen.appbar_height) :
-                    CoordinatorLayout.LayoutParams.WRAP_CONTENT;
-
             scrimTop.setVisibility(View.GONE);
             scrimBottom.setVisibility(View.GONE);
             if (hasImage) {

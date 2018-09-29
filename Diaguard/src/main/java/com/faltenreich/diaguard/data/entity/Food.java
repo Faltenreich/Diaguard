@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.data.entity;
 
 import android.support.annotation.StringRes;
+import android.util.Log;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
@@ -82,6 +83,21 @@ public class Food extends BaseServerEntity implements Backupable {
                 case SODIUM: return food.getSodium();
                 case SUGAR: return food.getSugar();
                 default: return null;
+            }
+        }
+
+        public void applyValue(Food food, float value) {
+            switch (this) {
+                case CARBOHYDRATES: food.setCarbohydrates(value); break;
+                case ENERGY: food.setEnergy(value); break;
+                case FAT: food.setFat(value); break;
+                case FAT_SATURATED: food.setFatSaturated(value); break;
+                case FIBER: food.setFiber(value); break;
+                case PROTEINS: food.setProteins(value); break;
+                case SALT: food.setSalt(value); break;
+                case SODIUM: food.setSodium(value); break;
+                case SUGAR: food.setSugar(value); break;
+                default: Log.e(Nutrient.class.getSimpleName(), "Unsupported nutrient for applyValue(): " + this);
             }
         }
     }

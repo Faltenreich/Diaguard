@@ -19,6 +19,8 @@ import com.faltenreich.diaguard.ui.view.StickyHintInput;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -64,6 +66,7 @@ public class FoodEditFragment extends BaseFoodFragment {
     private void init() {
         Food food = getFood();
         if (food != null) {
+            // FIXME: Title gets overwritten afterwards
             setTitle(R.string.food_edit);
             nameInput.setText(food.getName());
             brandInput.setText(food.getBrand());
@@ -108,7 +111,11 @@ public class FoodEditFragment extends BaseFoodFragment {
             food.setIngredients(ingredientsInput.getText());
             food.setCarbohydrates(NumberUtils.parseNumber(valueInput.getText()));
 
-            // TODO: Store other nutrients
+            for (Map.Entry<Food.Nutrient, Float> entry : nutrientInputLayout.getValues().entrySet()) {
+                Food.Nutrient nutrient = entry.getKey();
+                Float value = entry.getValue();
+                nutrient.applyValue(food, value != null ? value : -1);
+            }
 
             FoodDao.getInstance().createOrUpdate(food);
             Events.post(new FoodSavedEvent(food));

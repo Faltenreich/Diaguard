@@ -13,14 +13,13 @@ import com.faltenreich.diaguard.util.Helper;
 public class NutrientInputView extends StickyHintInput {
 
     private Food.Nutrient nutrient;
+    private Float initialValue;
 
     public NutrientInputView(Context context, @NonNull Food.Nutrient nutrient, @Nullable Float value) {
         super(context);
         this.nutrient = nutrient;
+        this.initialValue = value;
         init();
-        if (value != null) {
-            setValue(value);
-        }
     }
 
     @NonNull
@@ -38,7 +37,9 @@ public class NutrientInputView extends StickyHintInput {
     }
 
     private void init() {
-        // TODO: Fix input type
         setHint(String.format("%s %s 100g", nutrient.getLabel(), getContext().getString(R.string.per)));
+        if (initialValue != null && initialValue >= 0) {
+            setValue(initialValue);
+        }
     }
 }

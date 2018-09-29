@@ -19,11 +19,13 @@ import butterknife.ButterKnife;
 
 public class StickyHintInput extends LinearLayout implements TextWatcher {
 
+    private static final int INPUT_TYPE_DEFAULT = InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED;
+
     @BindView(R.id.input) LocalizedNumberEditText input;
     @BindView(R.id.label) TextView label;
 
     private CharSequence hint;
-    private int inputType;
+    private int inputType = INPUT_TYPE_DEFAULT;
 
     public StickyHintInput(Context context) {
         super(context);
@@ -44,7 +46,7 @@ public class StickyHintInput extends LinearLayout implements TextWatcher {
         TypedArray typedArray = getContext().obtainStyledAttributes(attributeSet, new int[]{ android.R.attr.hint, android.R.attr.inputType });
         try {
             hint = typedArray.getText(0);
-            inputType = typedArray.getInt(1, InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            inputType = typedArray.getInt(1, INPUT_TYPE_DEFAULT);
         } finally {
             typedArray.recycle();
         }

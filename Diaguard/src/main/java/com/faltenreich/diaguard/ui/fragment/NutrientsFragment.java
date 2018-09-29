@@ -8,9 +8,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.NutrientAdapter;
 import com.faltenreich.diaguard.adapter.LinearDividerItemDecoration;
+import com.faltenreich.diaguard.adapter.NutrientAdapter;
+import com.faltenreich.diaguard.adapter.list.ListItemNutrient;
 import com.faltenreich.diaguard.data.entity.Food;
+import com.faltenreich.diaguard.util.Helper;
 
 import butterknife.BindView;
 
@@ -21,6 +23,8 @@ import butterknife.BindView;
 public class NutrientsFragment extends BaseFoodFragment {
 
     @BindView(R.id.food_list_nutrients) RecyclerView nutrientList;
+
+    private NutrientAdapter listAdapter;
 
     public NutrientsFragment() {
         super(R.layout.fragment_food_nutrients, R.string.nutriments, R.drawable.ic_note, -1);
@@ -38,12 +42,41 @@ public class NutrientsFragment extends BaseFoodFragment {
         init();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        update();
+    }
+
     private void init() {
-        Food food = getFood();
-        if (food != null) {
-            nutrientList.setLayoutManager(new LinearLayoutManager(getContext()));
-            nutrientList.addItemDecoration(new LinearDividerItemDecoration(getContext()));
-            nutrientList.setAdapter(new NutrientAdapter(getContext(), food));
+        nutrientList.setLayoutManager(new LinearLayoutManager(getContext()));
+        nutrientList.addItemDecoration(new LinearDividerItemDecoration(getContext()));
+        listAdapter = new NutrientAdapter(getContext());
+        nutrientList.setAdapter(listAdapter);
+    }
+
+    private void update() {
+        if (getContext() != null) {
+            Food food = getFood();
+            listAdapter.clear();
+            for (Food.Nutrient nutrient : Food.Nutrient.values()) {
+                String label = nutrient.getLabel();
+                Float number = nutrient.getValue(food);
+                String value = getContext().getString(R.string.placeholder);
+                if (number != null && number >= 0) {
+                    value = String.format("%s %s",
+                            Helper.parseFloat(number),
+                            getContext().getString(nutrient.getUnit()));
+                    if (nutrient == Food.Nutrient.ENERGY) {
+                        value = String.format("%s %s (%s)",
+                                Helper.parseFloat(Helper.parseKcalToKj(number)),
+                                getContext().getString(R.string.energy_acronym_2),
+                                value);
+                    }
+                }
+                listAdapter.addItem(new ListItemNutrient(label, value));
+            }
+            listAdapter.notifyDataSetChanged();
         }
     }
 }

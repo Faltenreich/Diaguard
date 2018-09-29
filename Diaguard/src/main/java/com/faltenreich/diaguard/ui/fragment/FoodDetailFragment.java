@@ -64,9 +64,12 @@ public class FoodDetailFragment extends BaseFoodFragment {
 
             labels.removeAllViews();
             if (food.getLabels() != null && food.getLabels().length() > 0) {
+                labels.setVisibility(View.VISIBLE);
                 for (String label : food.getLabels().split(",")) {
                     labels.addView(new FoodLabelView(getContext(), label));
                 }
+            } else {
+                labels.setVisibility(View.GONE);
             }
         }
     }

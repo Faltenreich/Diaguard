@@ -44,11 +44,11 @@ public class Food extends BaseServerEntity implements Backupable {
     }
 
     public enum Nutrient {
+        CARBOHYDRATES(R.string.carbohydrates),
+        SUGAR(R.string.sugar),
         ENERGY(R.string.energy),
         FAT(R.string.fat),
         FAT_SATURATED(R.string.fat_saturated),
-        CARBOHYDRATES(R.string.carbohydrates),
-        SUGAR(R.string.sugar),
         FIBER(R.string.fiber),
         PROTEINS(R.string.proteins),
         SALT(R.string.salt),

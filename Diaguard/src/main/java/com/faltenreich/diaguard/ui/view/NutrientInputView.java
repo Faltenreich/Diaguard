@@ -5,7 +5,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.util.Helper;
 
@@ -37,7 +36,7 @@ public class NutrientInputView extends StickyHintInput {
     }
 
     private void init() {
-        setHint(String.format("%s %s 100g", nutrient.getLabel(), getContext().getString(R.string.per)));
+        setHint(nutrient.getLabel());
         if (initialValue != null && initialValue >= 0) {
             setValue(initialValue);
         }

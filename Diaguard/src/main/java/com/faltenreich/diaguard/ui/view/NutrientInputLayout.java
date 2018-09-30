@@ -48,4 +48,17 @@ public class NutrientInputLayout extends LinearLayout {
         }
         return values;
     }
+
+    public NutrientInputView getInputView(Food.Nutrient nutrient) {
+        for (int index = 0; index < getChildCount(); index++) {
+            View view = getChildAt(index);
+            if (view instanceof NutrientInputView) {
+                NutrientInputView nutrientInputView = (NutrientInputView) view;
+                if (nutrientInputView.getNutrient() == nutrient) {
+                    return nutrientInputView;
+                }
+            }
+        }
+        return null;
+    }
 }

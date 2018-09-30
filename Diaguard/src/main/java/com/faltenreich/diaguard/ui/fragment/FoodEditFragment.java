@@ -8,16 +8,15 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.entity.Food;
-import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.data.FoodSavedEvent;
 import com.faltenreich.diaguard.ui.view.NutrientInputLayout;
+import com.faltenreich.diaguard.ui.view.NutrientInputView;
 import com.faltenreich.diaguard.ui.view.StickyHintInput;
 import com.faltenreich.diaguard.util.Helper;
-import com.faltenreich.diaguard.util.NumberUtils;
+import com.faltenreich.diaguard.util.ViewUtils;
 
 import java.util.Map;
 
@@ -33,7 +32,6 @@ public class FoodEditFragment extends BaseFoodFragment {
     @BindView(R.id.food_edit_name) StickyHintInput nameInput;
     @BindView(R.id.food_edit_brand) StickyHintInput brandInput;
     @BindView(R.id.food_edit_ingredients) StickyHintInput ingredientsInput;
-    @BindView(R.id.food_edit_carbohydrates) StickyHintInput valueInput;
     @BindView(R.id.food_edit_nutrient_input_layout) NutrientInputLayout nutrientInputLayout;
 
     public FoodEditFragment() {
@@ -71,16 +69,9 @@ public class FoodEditFragment extends BaseFoodFragment {
             nameInput.setText(food.getName());
             brandInput.setText(food.getBrand());
             ingredientsInput.setText(food.getIngredients());
-            valueInput.setText(Helper.parseFloat(
-                    PreferenceHelper.getInstance().formatDefaultToCustomUnit(
-                            Measurement.Category.MEAL,
-                            food.getCarbohydrates())));
         }
         for (Food.Nutrient nutrient : Food.Nutrient.values()) {
-            // Carbohydrates are processed separately
-            if (nutrient != Food.Nutrient.CARBOHYDRATES) {
-                nutrientInputLayout.addNutrient(nutrient, food != null ? nutrient.getValue(food) : null);
-            }
+            nutrientInputLayout.addNutrient(nutrient, food != null ? nutrient.getValue(food) : null);
         }
     }
 
@@ -90,10 +81,18 @@ public class FoodEditFragment extends BaseFoodFragment {
             nameInput.setError(getString(R.string.validator_value_empty));
             isValid = false;
         }
+
         // Check for carbohydrates
-        if (valueInput.getText().length() == 0) {
-            valueInput.setError(getString(R.string.validator_value_empty));
+        NutrientInputView carbohydratesInputView = nutrientInputLayout.getInputView(Food.Nutrient.CARBOHYDRATES);
+        if (carbohydratesInputView == null) {
+            ViewUtils.showSnackbar(getView(), getString(R.string.validator_value_empty_carbohydrates));
             isValid = false;
+        } else  {
+            Float value = carbohydratesInputView.getValue();
+            if (value == null || value < 0) {
+                carbohydratesInputView.setError(getString(R.string.validator_value_empty));
+                isValid = false;
+            }
         }
         return isValid;
     }
@@ -109,7 +108,6 @@ public class FoodEditFragment extends BaseFoodFragment {
             food.setName(nameInput.getText());
             food.setBrand(brandInput.getText());
             food.setIngredients(ingredientsInput.getText());
-            food.setCarbohydrates(NumberUtils.parseNumber(valueInput.getText()));
 
             for (Map.Entry<Food.Nutrient, Float> entry : nutrientInputLayout.getValues().entrySet()) {
                 Food.Nutrient nutrient = entry.getKey();

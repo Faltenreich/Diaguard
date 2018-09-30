@@ -217,6 +217,7 @@
     <string name="validator_value_empty">Véuillez saisir une valeur s.v.p.</string>
     <string name="validator_value_none">Votre saisie ne contient pas d\'événements</string>
     <string name="validator_value_unrealistic">Cette valeur n\'est pas réaliste</string>
+    <string name="validator_value_empty_carbohydrates">Véuillez saisir des glucides</string>
 
     <!-- ERRORS -->
     <string name="error_no_mail">Aucune application pour envoyer des mails n\'a été trouvée</string>

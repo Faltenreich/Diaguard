@@ -10,18 +10,20 @@ import android.view.View;
 
 import com.faltenreich.diaguard.R;
 
-public class LinearDividerItemDecoration extends RecyclerView.ItemDecoration {
+public class TimelineGridDividerItemDecoration extends RecyclerView.ItemDecoration {
 
     private Drawable divider;
 
-    public LinearDividerItemDecoration(Context context) {
+    public TimelineGridDividerItemDecoration(Context context) {
         divider = ContextCompat.getDrawable(context, R.drawable.line_divider);
     }
 
     @Override
     public void onDrawOver(@NonNull Canvas canvas, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         int left = parent.getPaddingLeft();
+        int top = parent.getPaddingTop();
         int right = parent.getWidth() - parent.getPaddingRight();
+        int bottom = parent.getHeight() - parent.getPaddingBottom();
 
         int childCount = parent.getChildCount();
         for (int index = 0; index < childCount; index++) {
@@ -29,10 +31,16 @@ public class LinearDividerItemDecoration extends RecyclerView.ItemDecoration {
 
             RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
 
-            int top = child.getBottom() + params.bottomMargin;
-            int bottom = top + divider.getIntrinsicHeight();
+            int childTop = child.getBottom() + params.bottomMargin;
+            int childBottom = childTop + divider.getIntrinsicHeight();
 
-            divider.setBounds(left, top, right, bottom);
+            divider.setBounds(left, childTop, right, childBottom);
+            divider.draw(canvas);
+
+            int childLeft = child.getLeft() + params.leftMargin;
+            int childRight = childLeft + divider.getIntrinsicWidth();
+
+            divider.setBounds(childLeft, top, childRight, bottom);
             divider.draw(canvas);
         }
     }

@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.ui.view.viewholder;
 
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
@@ -15,37 +14,38 @@ import butterknife.BindView;
 
 public class CategoryValueViewHolder extends BaseViewHolder<ListItemCategoryValue> implements View.OnClickListener {
 
-    @BindView(R.id.category_value_container) ViewGroup container;
-    @BindView(R.id.category_value_1) TextView textViewOne;
-    @BindView(R.id.category_value_2) TextView textViewTwo;
+    @BindView(R.id.category_value) TextView valueView;
 
     public CategoryValueViewHolder(View view) {
         super(view);
-        container.setOnClickListener(this);
+        valueView.setOnClickListener(this);
     }
 
     @Override
     public void bindData() {
+        valueView.setLines(1);
         ListItemCategoryValue listItem = getListItem();
         Measurement.Category category = listItem.getCategory();
+        StringBuilder stringBuilder = new StringBuilder();
         if (listItem.getValueOne() > 0) {
             float value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, listItem.getValueOne());
-            String valueForUi = Helper.parseFloat(value);
-            textViewOne.setText(valueForUi);
-        } else {
-            textViewOne.setText(null);
+            stringBuilder.append(Helper.parseFloat(value));
         }
         if (listItem.getValueTwo() > 0) {
-            textViewTwo.setVisibility(View.VISIBLE);
+            if (stringBuilder.length() > 0) {
+                stringBuilder.append("\n");
+                valueView.setLines(2);
+            }
             float value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, listItem.getValueTwo());
-            String valueForUi = Helper.parseFloat(value);
-            textViewTwo.setText(valueForUi);
-        } else {
-            textViewTwo.setVisibility(View.GONE);
-            textViewTwo.setText(null);
+            stringBuilder.append(Helper.parseFloat(value));
         }
-        boolean isClickable = listItem.getValueOne() > 0 || listItem.getValueTwo() > 0;
-        container.setClickable(isClickable);
+        if (stringBuilder.length() > 0) {
+            valueView.setText(stringBuilder.toString());
+            valueView.setClickable(true);
+        } else {
+            valueView.setText(null);
+            valueView.setClickable(false);
+        }
     }
 
     @Override

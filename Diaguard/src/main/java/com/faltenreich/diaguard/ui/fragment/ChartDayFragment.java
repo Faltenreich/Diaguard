@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.CategoryImageListAdapter;
 import com.faltenreich.diaguard.adapter.CategoryValueListAdapter;
+import com.faltenreich.diaguard.adapter.LinearDividerItemDecoration;
+import com.faltenreich.diaguard.adapter.TimelineGridDividerItemDecoration;
 import com.faltenreich.diaguard.adapter.list.ListItemCategoryImage;
 import com.faltenreich.diaguard.adapter.list.ListItemCategoryValue;
 import com.faltenreich.diaguard.data.PreferenceHelper;
@@ -112,12 +114,14 @@ public class ChartDayFragment extends Fragment {
 
     private void initLayout() {
         imageTable.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        imageTable.addItemDecoration(new LinearDividerItemDecoration(getContext()));
         imageTable.setAdapter(imageAdapter);
         imageTable.setNestedScrollingEnabled(false);
 
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), DateTimeConstants.HOURS_PER_DAY / 2);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         valueTable.setLayoutManager(layoutManager);
+        valueTable.addItemDecoration(new TimelineGridDividerItemDecoration(getContext()));
         valueTable.setAdapter(valueAdapter);
         valueTable.setNestedScrollingEnabled(false);
 

@@ -45,6 +45,12 @@ public class FoodEditFragment extends BaseFoodFragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        setTitle(getTitle());
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.findItem(R.id.action_delete).setVisible(getFood() != null);
@@ -61,11 +67,14 @@ public class FoodEditFragment extends BaseFoodFragment {
         }
     }
 
+    @Override
+    public String getTitle() {
+        return getString(getFood() != null ? R.string.food_edit : R.string.food_new);
+    }
+
     private void init() {
         Food food = getFood();
         if (food != null) {
-            // FIXME: Title gets overwritten afterwards
-            setTitle(R.string.food_edit);
             nameInput.setText(food.getName());
             brandInput.setText(food.getBrand());
             ingredientsInput.setText(food.getIngredients());

@@ -18,7 +18,7 @@
         android:padding="@dimen/margin_between"
         android:gravity="center_vertical"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/text_medium"
+        android:textSize="@dimen/text_large"
         android:focusable="true"
         android:background="?android:attr/selectableItemBackground"
         android:lines="1"

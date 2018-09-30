@@ -39,7 +39,7 @@
             android:layout_weight="1"
             android:text="@string/food"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/text_micro" />
+            android:textSize="@dimen/text_small" />
 
         <TextView
             android:id="@+id/food_search_unit"
@@ -48,7 +48,7 @@
             android:layout_marginLeft="@dimen/padding_end"
             android:layout_marginStart="@dimen/padding_end"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/text_micro" />
+            android:textSize="@dimen/text_small" />
 
     </LinearLayout>
 

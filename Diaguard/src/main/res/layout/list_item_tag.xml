@@ -3,14 +3,14 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/PaddingLarge"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="@dimen/height_element"
+    android:minHeight="@dimen/height_element_large"
     android:gravity="center_vertical"
     android:divider="@drawable/divider_large"
-    android:showDividers="middle"
-    style="@style/Padding">
+    android:showDividers="middle">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -23,16 +23,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
+            android:textSize="@dimen/text_medium"
             tools:text="Tag"/>
 
         <TextView
             android:id="@+id/tag_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding"
             android:textColor="@color/gray_dark"
-            android:textSize="@dimen/text_micro"
-            tools:text="@string/found_n_times"/>
+            android:textSize="@dimen/text_small"
+            tools:text="10 entries"/>
 
     </LinearLayout>
 

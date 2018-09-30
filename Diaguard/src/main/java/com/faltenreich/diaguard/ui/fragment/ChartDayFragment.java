@@ -94,6 +94,7 @@ public class ChartDayFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initLayout();
+        setDay(day);
     }
 
     @Override
@@ -119,7 +120,6 @@ public class ChartDayFragment extends Fragment {
         valueTable.setLayoutManager(layoutManager);
         valueTable.setAdapter(valueAdapter);
         valueTable.setNestedScrollingEnabled(false);
-        setDay(day);
 
         scrollView.setOnScrollChangeListener(onScrollListener);
     }
@@ -147,16 +147,20 @@ public class ChartDayFragment extends Fragment {
                         update();
                     } else if (valueAdapter.getItemCount() == 0) {
                         // Delay updating invisible fragments onStart to improve performance
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                update();
-                            }
-                        }, 500);
+                        updateDelayed(500);
                     }
                 }
             });
         }
+    }
+
+    private void updateDelayed(int delayMillis) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                update();
+            }
+        }, delayMillis);
     }
 
     public void update() {
@@ -165,7 +169,7 @@ public class ChartDayFragment extends Fragment {
                 for (int index = 0; index < temp.size(); index++) {
                     ListItemCategoryValue listItem = temp.get(index);
                     RecyclerView.ViewHolder viewHolder = valueTable.findViewHolderForAdapterPosition(index);
-                    if (viewHolder != null && viewHolder instanceof CategoryValueViewHolder) {
+                    if (viewHolder instanceof CategoryValueViewHolder) {
                         valueAdapter.setItem(listItem, index);
                         // We access the ViewHolder directly for better performance compared to notifyItem(Range)Changed
                         CategoryValueViewHolder categoryValueViewHolder = (CategoryValueViewHolder) viewHolder;

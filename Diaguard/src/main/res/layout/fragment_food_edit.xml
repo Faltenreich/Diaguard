@@ -84,25 +84,17 @@
 
                         </LinearLayout>
 
-                        <LinearLayout style="@style/LayoutRow">
-
-                            <com.faltenreich.diaguard.ui.view.TintImageView
-                                style="@style/LayoutRowImage"
-                                android:src="@drawable/ic_category_meal"
-                                app:tintColor="@color/gray_darker" />
-
-                            <com.faltenreich.diaguard.ui.view.StickyHintInput
-                                android:id="@+id/food_edit_carbohydrates"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="@string/carbohydrates_per_100g"
-                                android:inputType="numberDecimal"/>
-
-                        </LinearLayout>
-
                     </LinearLayout>
 
                 </android.support.v7.widget.CardView>
+
+                <TextView
+                    style="@style/Padding"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/nutriments_per_100g"
+                    android:textColor="@android:color/black"
+                    android:layout_marginTop="6dp"/>
 
                 <com.faltenreich.diaguard.ui.view.NutrientInputLayout
                     android:id="@+id/food_edit_nutrient_input_layout"

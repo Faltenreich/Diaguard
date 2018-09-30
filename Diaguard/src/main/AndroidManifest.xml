@@ -84,11 +84,7 @@
             android:name=".ui.activity.FoodEditActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/food_new"
-            android:windowSoftInputMode="adjustResize|stateHidden">
-            <meta-data
-                android:name=".ui.activity.FoodEditActivity"
-                android:value=".ui.activity.FoodSearchActivity" />
-        </activity>
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
 
         <activity
             android:name=".ui.activity.TagsActivity"

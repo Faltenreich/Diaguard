@@ -46,6 +46,7 @@ public class ViewUtils {
         if (inputMethodManager != null) {
             inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
+        view.clearFocus();
     }
 
     public static void hideKeyboard(Activity activity) {

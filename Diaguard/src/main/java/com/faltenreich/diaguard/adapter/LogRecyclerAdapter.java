@@ -45,11 +45,11 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
 
     private LogListListener listener;
 
+    private boolean isInitializing;
     private boolean isLoadingPrevious;
     private boolean isLoadingNext;
     private boolean shouldLoadPrevious;
     private boolean shouldLoadNext;
-    private boolean isInitializing;
 
     public LogRecyclerAdapter(Context context, LogListListener listener) {
         super(context);
@@ -274,7 +274,6 @@ public class LogRecyclerAdapter extends EndlessAdapter<ListItemDate, BaseViewHol
                 if (scrollingDown) {
                     isLoadingNext = false;
                 } else {
-                    notifyItemRangeChanged(0, result.size());
                     isLoadingPrevious = false;
                 }
 

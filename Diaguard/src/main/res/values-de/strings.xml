@@ -297,7 +297,7 @@
     <string name="about_code">Ehrenkodex</string>
     <string name="about_code_desc">Die App entspricht in allen Qualitätskriterien dem HealthOn-App-Ehrenkodex für vertrauensvolle Gesundheitsinformationen in Apps.</string>
     <string name="about_legal">Rechtliches</string>
-    <string name="about_legal_desc">Diese App ersetzt keinen Diabetesberater oder Arzt.</string>
+    <string name="about_legal_desc">Der Hersteller der App übernimmt keinerlei Gewähr für die Aktualität, Korrektheit, Vollständigkeit oder Qualität der bereitgestellten Informationen. Haftungsansprüche gegen den Hersteller, welche sich auf Schäden materieller oder ideeller Art beziehen, die durch die Nutzung oder Nichtnutzung der App verursacht wurden, sind grundsätzlich ausgeschlossen. Diese App dient einzig der Dokumenation und ersetzt keinen Diabetesberater oder Arzt.</string>
     <string name="hba1c_estimated">Geschätzter HbA1c</string>
     <string name="months">Monate</string>
 

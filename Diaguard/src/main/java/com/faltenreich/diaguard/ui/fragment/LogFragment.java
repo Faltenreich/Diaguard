@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.ui.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -58,7 +59,14 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.LogL
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initLayout();
-        goToDay(getDay());
+
+        // Fake delay for smoother fragment transitions
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                goToDay(getDay());
+            }
+        }, 350);
     }
 
     @Override
@@ -80,7 +88,7 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.LogL
         // Fragment updates
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
                 DateTime firstVisibleDay = getFirstVisibleDay();
@@ -251,7 +259,7 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.LogL
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(UnitChangedEvent event) {
+    public void onEvent(@SuppressWarnings("unused") UnitChangedEvent event) {
         if (isAdded()) {
             progressBar.setVisibility(View.VISIBLE);
             listAdapter.setup(getDay());
@@ -259,7 +267,7 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.LogL
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(BackupImportedEvent event) {
+    public void onEvent(@SuppressWarnings("unused") BackupImportedEvent event) {
         if (isAdded()) {
             progressBar.setVisibility(View.VISIBLE);
             listAdapter.setup(getDay());

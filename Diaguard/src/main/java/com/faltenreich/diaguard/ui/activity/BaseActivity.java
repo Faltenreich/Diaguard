@@ -203,10 +203,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         setTitle(SystemUtils.getLabelForActivity(this));
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setEnterTransition(null);
-        }
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             getWindow().getDecorView().setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS);
         }
@@ -244,7 +240,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected void unreveal() {
+    private void unreveal() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && rootLayout != null && revealX >= 0 && revealY >= 0) {
             ViewUtils.reveal(rootLayout, revealX, revealY, false, new AnimatorListenerAdapter() {
                 @Override

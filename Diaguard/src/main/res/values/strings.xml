@@ -461,7 +461,7 @@
     <string name="about_code_desc">The app meets all quality criteria of HealthOn App Code of Ethics for trustworthy health information.</string>
     <string name="about_code_url" translatable="false">https://www.healthon.de/de/diaguard-diabetes</string>
     <string name="about_legal">Legal</string>
-    <string name="about_legal_desc">This app does not replace a doctor.</string>
+    <string name="about_legal_desc">The manufacturer of the app assumes no responsibility for the topicality, correctness, completeness or quality of the information provided. Liability claims against the manufacturer, which relate to material or immaterial nature, caused by the use or non-use of the app are excluded. This app is for documentation purposes only and does not replace a diabetes consultant or doctor.</string>
 
     <string name="style">Style</string>
     <string name="chart_scatter">Scatter chart</string>

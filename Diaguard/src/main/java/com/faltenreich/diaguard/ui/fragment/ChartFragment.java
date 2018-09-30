@@ -33,7 +33,6 @@ public class ChartFragment extends DateFragment implements ChartViewPager.ChartV
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewPager.setup(getChildFragmentManager(), this);
-        goToDay(getDay());
     }
 
     @Override

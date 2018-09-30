@@ -93,16 +93,18 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> {
         int margin = (int) getContext().getResources().getDimension(R.dimen.padding);
         for (EntryTag entryTag : entryTags) {
             final Tag tag = entryTag.getTag();
-            ChipView chipView = new ChipView(getContext());
-            chipView.setLabel(tag.getName());
-            chipView.setPadding(0, 0, margin, margin);
-            chipView.setOnChipClicked(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    listener.onTagClicked(tag, view);
-                }
-            });
-            tagsView.addView(chipView);
+            if (tag != null) {
+                ChipView chipView = new ChipView(getContext());
+                chipView.setLabel(tag.getName());
+                chipView.setPadding(0, 0, margin, margin);
+                chipView.setOnChipClicked(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        listener.onTagClicked(tag, view);
+                    }
+                });
+                tagsView.addView(chipView);
+            }
         }
 
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);

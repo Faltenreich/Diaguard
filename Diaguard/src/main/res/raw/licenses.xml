@@ -115,4 +115,10 @@
         <copyright>Copyright 2016, Martin Lapiš</copyright>
         <license>Apache Software License 2.0</license>
     </notice>
+    <notice>
+        <name>MaterialChipsInput</name>
+        <url>https://github.com/pchmn/MaterialChipsInput</url>
+        <copyright>Copyright 2017, pchmn</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
 </notices>

@@ -115,7 +115,10 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
                 @Override
                 public void onDidLoad(Tag tag) {
                     if (tag != null) {
-                        searchView.setQuery(tag.getName(), true);
+                        searchView.setOnQueryTextListener(null);
+                        searchView.setQuery(tag.getName(), false);
+                        searchView.setOnQueryTextListener(EntrySearchFragment.this);
+                        newSearch();
                     }
                 }
             });
@@ -189,8 +192,7 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        searchView.close(true);
-        newSearch();
+        // Handled in onQueryTextChange()
         return false;
     }
 

@@ -281,7 +281,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                     createBackup();
                     break;
                 case BACKUP_READ:
-                    FileUtils.searchFiles(getActivity(), Export.CSV_MIME_TYPE, BaseActivity.REQUEST_CODE_BACKUP_IMPORT);
+                    FileUtils.searchFiles(getActivity(), Export.CSV_IMPORT_MIME_TYPE, BaseActivity.REQUEST_CODE_BACKUP_IMPORT);
                     break;
             }
         }

@@ -83,7 +83,8 @@ public class FileUtils {
 
     public static void searchFiles(Activity activity, String mimeType, int requestCode) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType(mimeType);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("text/*"); // Workaround: text/csv does not work for several apps
         activity.startActivityForResult(intent, requestCode);
     }
 }

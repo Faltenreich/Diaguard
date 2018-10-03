@@ -26,7 +26,8 @@
                 android:showDividers="middle"
                 android:divider="@drawable/line_divider">
 
-                <LinearLayout style="@style/LayoutRow">
+                <LinearLayout style="@style/LayoutRow"
+                    android:background="@android:color/white">
 
                     <ImageView
                         style="@style/LayoutRowImageMultiline"
@@ -43,7 +44,8 @@
 
                 </LinearLayout>
 
-                <LinearLayout style="@style/LayoutRow">
+                <LinearLayout style="@style/LayoutRow"
+                    android:background="@android:color/white">
 
                     <com.faltenreich.diaguard.ui.view.TintImageView
                         style="@style/LayoutRowImageMultiline"
@@ -59,7 +61,8 @@
 
                 </LinearLayout>
 
-                <LinearLayout style="@style/LayoutRow">
+                <LinearLayout style="@style/LayoutRow"
+                    android:background="@android:color/white">
 
                     <com.faltenreich.diaguard.ui.view.TintImageView
                         style="@style/LayoutRowImageMultiline"
@@ -79,7 +82,7 @@
                     style="@style/Padding"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/gray_lighter"
+                    android:background="@color/gray_light"
                     android:text="@string/nutriments_per_100g"/>
 
                 <com.faltenreich.diaguard.ui.view.NutrientInputLayout

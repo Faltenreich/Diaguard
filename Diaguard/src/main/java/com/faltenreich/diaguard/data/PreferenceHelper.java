@@ -241,7 +241,7 @@ public class PreferenceHelper {
     }
 
     public boolean exportFood() {
-        return sharedPreferences.getBoolean(Keys.EXPORT_FOOD, false);
+        return sharedPreferences.getBoolean(Keys.EXPORT_FOOD, true);
     }
 
     public void setExportCategories(Measurement.Category[] categories) {

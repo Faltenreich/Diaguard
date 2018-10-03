@@ -78,9 +78,7 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
     }
 
     protected void updateLabels() {
-        if (getActivity() instanceof OnFragmentChangeListener) {
-            ((OnFragmentChangeListener) getActivity()).onFragmentChanged(this);
-        }
+        setTitle(getTitle());
     }
 
     private void setTodayIcon(LayerDrawable icon, Context context) {

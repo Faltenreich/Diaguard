@@ -9,7 +9,7 @@ import com.faltenreich.diaguard.networking.NetworkResponse;
 import com.faltenreich.diaguard.networking.NetworkService;
 import com.faltenreich.diaguard.networking.openfoodfacts.dto.SearchResponseDto;
 
-public class OpenFoodFactsService extends NetworkService<OpenFoodFactsApi> {
+public class OpenFoodFactsService extends NetworkService<OpenFoodFactsServer> {
 
     private static final String TAG = OpenFoodFactsService.class.getSimpleName();
     private static final int JSON = 1;
@@ -24,12 +24,8 @@ public class OpenFoodFactsService extends NetworkService<OpenFoodFactsApi> {
         return instance;
     }
 
-    public OpenFoodFactsService() {
-        super();
-    }
-
-    public void init(OpenFoodFactsServer server) {
-        super.init(server);
+    private OpenFoodFactsService() {
+        super(new OpenFoodFactsServer());
     }
 
     public void search(final String query, final int page) {

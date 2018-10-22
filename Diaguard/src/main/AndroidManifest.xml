@@ -118,10 +118,6 @@
 
         <receiver android:name=".util.AlarmBroadcastReceiver" />
 
-        <service
-            android:name=".networking.openfoodfacts.OpenFoodFactsService"
-            android:exported="false" />
-
         <meta-data android:name="android.max_aspect" android:value="2.1"/>
 
     </application>

@@ -1,14 +1,13 @@
 package com.faltenreich.diaguard.networking.openfoodfacts;
 
-import com.faltenreich.diaguard.networking.NetworkService;
-import com.faltenreich.diaguard.networking.NetworkTypeDoubleAdapter;
-import com.faltenreich.diaguard.networking.NetworkTypeFloatAdapter;
-import com.faltenreich.diaguard.networking.NetworkTypeIntegerAdapter;
-import com.faltenreich.diaguard.networking.NetworkTypeStringAdapter;
-import com.google.gson.GsonBuilder;
+import android.util.Log;
 
-import retrofit.RestAdapter;
-import retrofit.converter.GsonConverter;
+import com.faltenreich.diaguard.data.dao.FoodDao;
+import com.faltenreich.diaguard.event.Events;
+import com.faltenreich.diaguard.event.networking.FoodSearchFailedEvent;
+import com.faltenreich.diaguard.networking.NetworkResponse;
+import com.faltenreich.diaguard.networking.NetworkService;
+import com.faltenreich.diaguard.networking.openfoodfacts.dto.SearchResponseDto;
 
 /**
  * Created by Faltenreich on 23.09.2016.
@@ -16,25 +15,40 @@ import retrofit.converter.GsonConverter;
 
 public class OpenFoodFactsService extends NetworkService<OpenFoodFactsApi> {
 
+    private static final String TAG = OpenFoodFactsService.class.getSimpleName();
+    private static final int JSON = 1;
+    private static final int PAGE_SIZE = 50;
+
+    private static OpenFoodFactsService instance;
+
+    public static OpenFoodFactsService getInstance() {
+        if (instance == null) {
+            instance = new OpenFoodFactsService();
+        }
+        return instance;
+    }
+
     public OpenFoodFactsService() {
-        super(OpenFoodFactsApi.class);
+        super();
     }
 
-    @Override
-    protected RestAdapter.Builder createRestAdapterBuilder() {
-        RestAdapter.Builder builder = new RestAdapter.Builder();
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(String.class, new NetworkTypeStringAdapter());
-        gsonBuilder.registerTypeAdapter(Float.class, new NetworkTypeFloatAdapter());
-        gsonBuilder.registerTypeAdapter(Double.class, new NetworkTypeDoubleAdapter());
-        gsonBuilder.registerTypeAdapter(Integer.class, new NetworkTypeIntegerAdapter());
-        builder.setConverter(new GsonConverter(gsonBuilder.create()));
-        builder.setEndpoint(new OpenFoodFactEndpoint());
-        return builder;
+    public void init(OpenFoodFactsServer server) {
+        super.init(server);
     }
 
-    @Override
-    protected String getServerUrl() {
-        return OpenFoodFactEndpoint.getHost();
+    public void search(final String query, final int page) {
+        // Paging of this api starts at page 1
+        execute(server.api.search(query != null ? query : "", JSON, PAGE_SIZE, page + 1), new NetworkResponseListener<SearchResponseDto>() {
+            @Override
+            public void onResponse(NetworkResponse<SearchResponseDto> response) {
+                SearchResponseDto dto = response.getData();
+                Log.d(TAG, String.format("Received %d products for '%s' on page %d", dto != null ? dto.products.size() : 0, query, page));
+                FoodDao.getInstance().createOrUpdate(dto);
+            }
+            @Override
+            public void onError(NetworkResponse<SearchResponseDto> response) {
+                Events.post(new FoodSearchFailedEvent());
+            }
+        });
     }
 }

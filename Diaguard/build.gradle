@@ -60,9 +60,8 @@ dependencies {
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
-    implementation 'com.octo.android.robospice:robospice:1.4.14'
-    implementation 'com.octo.android.robospice:robospice-retrofit:1.4.14'
-    implementation 'com.octo.android.robospice:robospice-ormlite:1.4.14'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.google.code.gson:gson:2.8.5'
 
     implementation 'org.apache.commons:commons-text:1.1'
     implementation ('de.psdev.licensesdialog:licensesdialog:1.8.3') { exclude group: 'com.android.support' }

@@ -1,7 +1,7 @@
 /**
  *  Point.java
  *
-Copyright (c) 2014, Innovatics Inc.
+Copyright (c) 2018, Innovatics Inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -566,8 +566,10 @@ public class Point implements Drawable {
      *  Draws this point on the specified page.
      *
      *  @param page the page to draw this point on.
+     *  @return x and y coordinates of the bottom right corner of this component.
+     *  @throws Exception
      */
-    public void drawOn(Page page) throws Exception {
+    public float[] drawOn(Page page) throws Exception {
         page.setPenWidth(lineWidth);
         page.setLinePattern(linePattern);
 
@@ -583,6 +585,8 @@ public class Point implements Drawable {
         page.drawPoint(this);
         x -= box_x;
         y -= box_y;
+
+        return new float[] {x + box_x + r, y + box_y + r};
     }
 
 }   // End of Point.java

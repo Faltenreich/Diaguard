@@ -58,22 +58,22 @@ Test input:
                 0x18171615, 0x1c1b1a19, 0x201f1e1d, 0x6b206574};
 
 The expected output:
-0xb9a205a3,
-0x0695e150,
-0xaa94881a,
-0xadb7b12c,
-0x798942d4,
-0x26107016,
-0x64edb1a4,
-0x2d27173f,
-0xb1c7f1fa,
-0x62066edc,
-0xe035fa23,
-0xc4496f04,
-0x2131e6b3,
-0x810bde28,
-0xf62cb407,
-0x6bdede3d.
+0xb9a205a3
+0x0695e150
+0xaa94881a
+0xadb7b12c
+0x798942d4
+0x26107016
+0x64edb1a4
+0x2d27173f
+0xb1c7f1fa
+0x62066edc
+0xe035fa23
+0xc4496f04
+0x2131e6b3
+0x810bde28
+0xf62cb407
+0x6bdede3d
 */
 
         int[] a_in = new int[16];
@@ -88,7 +88,6 @@ The expected output:
         for (int i = 0; i < 128; i += 8) { 
             a_in[i/8] = (int) Long.parseLong(buf.substring(i, i + 8), 16);
         }
-
 
         id = bin2hex(salsa20_word_specification(a_in));
         // System.out.println(id);
@@ -151,11 +150,10 @@ The expected output:
             buf.append(table.charAt(a>>12 & 0x0000000f));
             buf.append(table.charAt(a>> 8 & 0x0000000f));
             buf.append(table.charAt(a>> 4 & 0x0000000f));
-            buf.append(table.charAt(a & 0x0000000f));
+            buf.append(table.charAt(a     & 0x0000000f));
         }
 
         return buf.substring(0, 32);
-
     }
 
 

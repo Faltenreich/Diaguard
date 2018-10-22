@@ -1,7 +1,7 @@
 /**
- *  TextAlign.java
+ *  ClockWise.java
  *
-Copyright (c) 2014, Innovatics Inc.
+Copyright (c) 2018, Innovatics Inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -31,12 +31,17 @@ package com.pdfjet;
 
 
 /**
- *  Used to specify the vertical text alignment in the TextBox class.
- *
+ *  Used to specify the check mark in CheckBox.
  *
  */
-public class TextAlign {
-    public static final int TOP    = 0;
-    public static final int BOTTOM = 1;
-    public static final int CENTER = 2;
+public class ClockWise {
+    public static final int degrees_0 = 0;
+    public static final int degrees_90 = 90;
+    public static final int degrees_180 = 180;
+    public static final int degrees_270 = 270;
+
+    public static final int _0_degrees = 0;
+    public static final int _90_degrees = 90;
+    public static final int _180_degrees = 180;
+    public static final int _270_degrees = 270;
 }

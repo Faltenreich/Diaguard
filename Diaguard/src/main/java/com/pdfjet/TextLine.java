@@ -1,7 +1,7 @@
 /**
  *  TextLine.java
  *
-Copyright (c) 2014, Innovatics Inc.
+Copyright (c) 2018, Innovatics Inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -274,6 +274,16 @@ public class TextLine implements Drawable {
      */
     public float getDestinationY() {
         return y - font.getSize();
+    }
+
+
+    /**
+     * Returns the y coordinate of the destination.
+     * 
+     * @return the y coordinate of the destination.
+     */
+    public float getY() {
+        return getDestinationY();
     }
 
 
@@ -591,9 +601,11 @@ public class TextLine implements Drawable {
      *  Draws this text line on the specified page.
      *
      *  @param page the page to draw this text line on.
+     *  @return x and y coordinates of the bottom right corner of this component.
+     *  @throws Exception
      */
-    public void drawOn(Page page) throws Exception {
-        drawOn(page, true);
+    public float[] drawOn(Page page) throws Exception {
+        return drawOn(page, true);
     }
 
 
@@ -603,8 +615,10 @@ public class TextLine implements Drawable {
      *  @param page the page to draw this text line on.
      *  @param draw if draw is false - no action is performed.
      */
-    protected void drawOn(Page page, boolean draw) throws Exception {
-        if (page == null || !draw || str == null || str.equals("")) return;
+    protected float[] drawOn(Page page, boolean draw) throws Exception {
+        if (page == null || !draw || str == null || str.equals("")) {
+            return new float[] {x, y};
+        }
 
         page.setTextDirection(degrees);
 
@@ -621,11 +635,11 @@ public class TextLine implements Drawable {
         }
         page.addEMC();
 
+        double radians = Math.PI * degrees / 180.0;
         if (underline) {
             page.setPenWidth(font.underlineThickness);
             page.setPenColor(color);
             float lineLength = font.stringWidth(str);
-            double radians = Math.PI * degrees / 180.0;
             double x_adjust = font.underlinePosition * Math.sin(radians);
             double y_adjust = font.underlinePosition * Math.cos(radians);
             double x2 = x + lineLength * Math.cos(radians);
@@ -641,7 +655,6 @@ public class TextLine implements Drawable {
             page.setPenWidth(font.underlineThickness);
             page.setPenColor(color);
             float lineLength = font.stringWidth(str);
-            double radians = Math.PI * degrees / 180.0;
             double x_adjust = ( font.body_height / 4.0 ) * Math.sin(radians);
             double y_adjust = ( font.body_height / 4.0 ) * Math.cos(radians);
             double x2 = x + lineLength * Math.cos(radians);
@@ -665,8 +678,13 @@ public class TextLine implements Drawable {
                     uriAltDescription,
                     uriActualText));
         }
-
         page.setTextDirection(0);
+
+        float len = font.stringWidth(str);
+        double x_max = Math.max((double) x, x + len*Math.cos(radians));
+        double y_max = Math.max((double) y, y - len*Math.sin(radians));
+
+        return new float[] {(float) x_max, (float) y_max};
     }
 
 }   // End of TextLine.java

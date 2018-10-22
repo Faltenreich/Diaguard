@@ -1,7 +1,7 @@
 /**
  *  CompositeTextLine.java
  *
-Copyright (c) 2014, Innovatics Inc.
+Copyright (c) 2018, Innovatics Inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -9,7 +9,7 @@ are permitted provided that the following conditions are met:
 
     * Redistributions of source code must retain the above copyright notice,
       this list of conditions and the following disclaimer.
- 
+
     * Redistributions in binary form must reproduce the above copyright notice,
       this list of conditions and the following disclaimer in the documentation
       and / or other materials provided with the distribution.
@@ -29,7 +29,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /*
  *  This class was designed and implemented by Jon T. Swanson, Ph.D.
- *  
+ *
  *  Refactored and integrated into the project by Eugene Dragoev - 2nd June 2012.
  */
 
@@ -57,13 +57,13 @@ public class CompositeTextLine implements Drawable {
     // Subscript and Superscript size factors
     private float subscript_size_factor    = 0.583f;
     private float superscript_size_factor  = 0.583f;
-    
+
     // Subscript and Superscript positions in relation to the base font
     private float superscript_position = 0.350f;
     private float subscript_position   = 0.141f;
-    
-    private float fontSize = 12f;
-    
+
+    private float fontSize = 0f;
+
 
     public CompositeTextLine(float x, float y) {
         position[X] = x;
@@ -102,7 +102,7 @@ public class CompositeTextLine implements Drawable {
         this.superscript_size_factor = superscript;
     }
 
-    
+
     /**
      *  Gets the superscript factor for this text line.
      *
@@ -141,7 +141,7 @@ public class CompositeTextLine implements Drawable {
     public void setSuperscriptPosition(float superscript_position) {
         this.superscript_position = superscript_position;
     }
-    
+
 
     /**
      *  Gets the superscript position for this text line.
@@ -162,7 +162,7 @@ public class CompositeTextLine implements Drawable {
         this.subscript_position = subscript_position;
     }
 
-    
+
     /**
      *  Gets the subscript position for this text line.
      *
@@ -172,7 +172,7 @@ public class CompositeTextLine implements Drawable {
         return subscript_position;
     }
 
-    
+
     /**
      *  Add a new text line.
      *
@@ -185,20 +185,26 @@ public class CompositeTextLine implements Drawable {
      */
     public void addComponent(TextLine component) {
         if (component.getTextEffect() == Effect.SUPERSCRIPT) {
-            component.getFont().setSize(fontSize * superscript_size_factor);
-            component.setPosition(
+            if (fontSize > 0f) {
+                component.getFont().setSize(fontSize * superscript_size_factor);
+            }
+            component.setLocation(
                     current[X],
                     current[Y] - fontSize * superscript_position);
         }
         else if (component.getTextEffect() == Effect.SUBSCRIPT) {
-            component.getFont().setSize(fontSize * subscript_size_factor);
-            component.setPosition(
+            if (fontSize > 0f) {
+                component.getFont().setSize(fontSize * subscript_size_factor);
+            }
+            component.setLocation(
                     current[X],
                     current[Y] + fontSize * subscript_position);
         }
         else {
-            component.getFont().setSize(fontSize);
-            component.setPosition(current[X], current[Y]);
+            if (fontSize > 0f) {
+                component.getFont().setSize(fontSize);
+            }
+            component.setLocation(current[X], current[Y]);
         }
         current[X] += component.getWidth();
         textLines.add(component);
@@ -213,7 +219,7 @@ public class CompositeTextLine implements Drawable {
      *  @param y the y coordinate.
      */
     public void setPosition(double x, double y) {
-        setPosition((float) x, (float) y);        
+        setPosition((float) x, (float) y);
     }
 
 
@@ -242,25 +248,23 @@ public class CompositeTextLine implements Drawable {
         current[X]  = x;
         current[Y]  = y;
 
-        if (textLines == null)
+        if (textLines == null || textLines.size() == 0) {
             return;
-        int size = textLines.size();
-        if (size == 0)
-            return;
+        }
 
         for (TextLine component : textLines) {
             if (component.getTextEffect() == Effect.SUPERSCRIPT) {
-                component.setPosition(
-                        current[X], 
+                component.setLocation(
+                        current[X],
                         current[Y] - fontSize * superscript_position);
             }
             else if (component.getTextEffect() == Effect.SUBSCRIPT) {
-                component.setPosition(
-                        current[X], 
+                component.setLocation(
+                        current[X],
                         current[Y] + fontSize * subscript_position);
             }
             else {
-                component.setPosition(current[X], current[Y]);
+                component.setLocation(current[X], current[Y]);
             }
             current[X] += component.getWidth();
         }
@@ -284,13 +288,12 @@ public class CompositeTextLine implements Drawable {
      *  @return the text line at the specified index.
      */
     public TextLine getTextLine(int index) {
-        if (textLines == null)
+        if (textLines == null || textLines.size() == 0) {
             return null;
-        int size = textLines.size();
-        if (size == 0)
+        }
+        if (index < 0 || index > textLines.size() - 1) {
             return null;
-        if (index < 0 || index > size - 1)
-            return null;
+        }
         return textLines.get(index);
     }
 
@@ -366,12 +369,19 @@ public class CompositeTextLine implements Drawable {
      *  Draws this line on the specified page.
      *
      *  @param page the page to draw this line on.
+     *  @return x and y coordinates of the bottom right corner of this component.
+     *  @throws Exception
      */
-    public void drawOn(Page page) throws Exception {
+    public float[] drawOn(Page page) throws Exception {
+        float x_max = 0f;
+        float y_max = 0f;
         // Loop through all the text lines and draw them on the page
         for (TextLine textLine : textLines) {
-            textLine.drawOn(page);
+            float[] xy = textLine.drawOn(page);
+            x_max = Math.max(x_max, xy[0]);
+            y_max = Math.max(y_max, xy[1]);
         }
+        return new float[] {x_max, y_max};
     }
 
 }

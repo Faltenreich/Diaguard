@@ -1,7 +1,7 @@
 /**
  *  Field.java
  *
-Copyright (c) 2014, Innovatics Inc.
+Copyright (c) 2018, Innovatics Inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -39,11 +39,17 @@ public class Field {
     String[] values;
     String[] altDescription;
     String[] actualText;
+    boolean format = false;
 
 
     public Field(float x, String[] values) {
+        this(x, values, false);
+    }
+
+    public Field(float x, String[] values, boolean format) {
         this.x = x;
         this.values = values;
+        this.format = format;
         if (values != null) {
             this.altDescription = new String[values.length];
             this.actualText     = new String[values.length];

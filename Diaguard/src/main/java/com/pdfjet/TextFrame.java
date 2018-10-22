@@ -1,5 +1,5 @@
 /**
- *  Text.java
+ *  TextFrame.java
  *
 Copyright (c) 2018, Innovatics Inc.
 All rights reserved.
@@ -33,9 +33,10 @@ import java.util.*;
 
 
 /**
- *  Please see Example_45
+ *  Please see Example_47
+ *
  */
-public class Text {
+public class TextFrame {
 
     private List<Paragraph> paragraphs;
     private Font font;
@@ -43,6 +44,7 @@ public class Text {
     private float x;
     private float y;
     private float w;
+    private float h;
     private float x_text;
     private float y_text;
     private float leading;
@@ -52,38 +54,46 @@ public class Text {
     private float spaceBetweenTextLines;
 
 
-    public Text(List<Paragraph> paragraphs) throws Exception {
-        this.paragraphs = paragraphs;
-        this.font = paragraphs.get(0).list.get(0).getFont();
-        this.fallbackFont = paragraphs.get(0).list.get(0).getFallbackFont();
-        this.leading = font.getBodyHeight();
-        this.paragraphLeading = 2*leading;
-        this.beginParagraphPoints = new ArrayList<float[]>();
-        this.endParagraphPoints = new ArrayList<float[]>();
-        this.spaceBetweenTextLines = font.stringWidth(fallbackFont, Single.space);
+    public TextFrame(List<Paragraph> paragraphs) throws Exception {
+        if (paragraphs != null) {
+            this.paragraphs = paragraphs;
+            this.font = paragraphs.get(0).list.get(0).getFont();
+            this.fallbackFont = paragraphs.get(0).list.get(0).getFallbackFont();
+            this.leading = font.getBodyHeight();
+            this.paragraphLeading = 2*leading;
+            this.beginParagraphPoints = new ArrayList<float[]>();
+            this.endParagraphPoints = new ArrayList<float[]>();
+            this.spaceBetweenTextLines = font.stringWidth(fallbackFont, Single.space);
+        }
     }
 
 
-    public Text setLocation(float x, float y) {
+    public TextFrame setLocation(float x, float y) {
         this.x = x;
         this.y = y;
         return this;
     }
 
 
-    public Text setWidth(float w) {
+    public TextFrame setWidth(float w) {
         this.w = w;
         return this;
     }
 
 
-    public Text setLeading(float leading) {
+    public TextFrame setHeight(float h) {
+        this.h = h;
+        return this;
+    }
+
+
+    public TextFrame setLeading(float leading) {
         this.leading = leading;
         return this;
     }
 
 
-    public Text setParagraphLeading(float paragraphLeading) {
+    public TextFrame setParagraphLeading(float paragraphLeading) {
         this.paragraphLeading = paragraphLeading;
         return this;
     }
@@ -99,73 +109,97 @@ public class Text {
     }
 
 
-    public Text setSpaceBetweenTextLines(float spaceBetweenTextLines) {
+    public TextFrame setSpaceBetweenTextLines(float spaceBetweenTextLines) {
         this.spaceBetweenTextLines = spaceBetweenTextLines;
         return this;
     }
 
 
-    public float[] drawOn(Page page) throws Exception {
+    public List<Paragraph> getParagraphs() {
+        return this.paragraphs;
+    }
+
+
+    public TextFrame drawOn(Page page) throws Exception {
         return drawOn(page, true);
     }
 
 
-    public float[] drawOn(Page page, boolean draw) throws Exception {
+    public TextFrame drawOn(Page page, boolean draw) throws Exception {
         this.x_text = x;
         this.y_text = y + font.getAscent();
-        for (Paragraph paragraph : paragraphs) {
-            int numberOfTextLines = paragraph.list.size();
+
+        Paragraph paragraph = null;
+        for (int i = 0; i < paragraphs.size(); i++) {
+            paragraph = paragraphs.get(i);
+
             StringBuilder buf = new StringBuilder();
-            for (int i = 0; i < numberOfTextLines; i++) {
-                TextLine textLine = paragraph.list.get(i);
+            for (TextLine textLine : paragraph.list) {
                 buf.append(textLine.getText());
+                buf.append(Single.space);
             }
-            for (int i = 0; i < numberOfTextLines; i++) {
-                TextLine textLine = paragraph.list.get(i);
-                if (i == 0) {
+
+            int numOfTextLines = paragraph.list.size();
+            for (int j = 0; j < numOfTextLines; j++) {
+                TextLine textLine1 = paragraph.list.get(j);
+                if (j == 0) {
                     beginParagraphPoints.add(new float[] { x_text, y_text });
                 }
-                textLine.setAltDescription((i == 0) ? buf.toString() : Single.space);
-                textLine.setActualText((i == 0) ? buf.toString() : Single.space);
-                float[] point = drawTextLine(
-                        page, x_text, y_text, textLine, draw);
-                if (i == (numberOfTextLines - 1)) {
-                    endParagraphPoints.add(new float[] { point[0], point[1] });
+                textLine1.setAltDescription((j == 0) ? buf.toString() : Single.space);
+                textLine1.setActualText((j == 0) ? buf.toString() : Single.space);
+
+                TextLine textLine2 = drawTextLine(
+                        page, x_text, y_text, textLine1, draw);
+                if (!textLine2.getText().equals("")) {
+                    List<Paragraph> theRest = new ArrayList<Paragraph>();
+                    Paragraph paragraph2 = new Paragraph(textLine2);
+                    j++;
+                    while (j < numOfTextLines) {
+                        paragraph2.add(paragraph.list.get(j));
+                        j++;
+                    }
+                    theRest.add(paragraph2);
+                    i++;
+                    while (i < paragraphs.size()) {
+                        theRest.add(paragraphs.get(i));
+                        i++;
+                    }
+                    return new TextFrame(theRest);
                 }
-                x_text = point[0];
-                if (textLine.getTrailingSpace()) {
+
+                if (j == (numOfTextLines - 1)) {
+                    endParagraphPoints.add(new float[] { textLine2.x, textLine2.y });
+                }
+                x_text = textLine2.x;
+                if (textLine1.getTrailingSpace()) {
                     x_text += spaceBetweenTextLines;
                 }
-                y_text = point[1];
+                y_text = textLine2.y;
             }
             x_text = x;
             y_text += paragraphLeading;
         }
-        return new float[] { x_text, y_text + font.getDescent() };
+
+        TextFrame textFrame = new TextFrame(null);
+        textFrame.setLocation(x_text, y_text + font.getDescent());
+        return textFrame;
     }
 
 
-    public float[] drawTextLine(
+    public TextLine drawTextLine(
             Page page,
             float x_text,
             float y_text,
             TextLine textLine,
             boolean draw) throws Exception {
 
+        TextLine textLine2 = null;
         Font font = textLine.getFont();
         Font fallbackFont = textLine.getFallbackFont();
         int color = textLine.getColor();
 
-        String[] tokens = null;
-        String str = textLine.getText();
-        if (stringIsCJK(str)) {
-            tokens = tokenizeCJK(str, this.w);
-        }
-        else {
-            tokens = str.split("\\s+");
-        }
-
         StringBuilder buf = new StringBuilder();
+        String[] tokens = textLine.getText().split("\\s+");
         boolean firstTextSegment = true;
         for (int i = 0; i < tokens.length; i++) {
             String token = (i == 0) ? tokens[i] : (Single.space + tokens[i]);
@@ -192,6 +226,18 @@ public class Text {
                 y_text += leading;
                 buf.setLength(0);
                 buf.append(tokens[i]);
+
+                if (y_text + font.getDescent() > (y + h)) {
+                    i++;
+                    while (i < tokens.length) {
+                        buf.append(Single.space);
+                        buf.append(tokens[i]);
+                        i++;
+                    }
+                    textLine2 = new TextLine(font, buf.toString());
+                    textLine2.setLocation(x, y_text);
+                    return textLine2;
+                }
             }
         }
         if (draw) {
@@ -209,46 +255,9 @@ public class Text {
             firstTextSegment = false;
         }
 
-        return new float[] { x_text, y_text };
+        textLine2 = new TextLine(font, "");
+        textLine2.setLocation(x_text, y_text);
+        return textLine2;
     }
 
-
-    private boolean stringIsCJK(String str) {
-        // CJK Unified Ideographs Range: 4E00–9FD5
-        // Hiragana Range: 3040–309F
-        // Katakana Range: 30A0–30FF
-        // Hangul Jamo Range: 1100–11FF
-        int numOfCJK = 0;
-        for (int i = 0; i < str.length(); i++) {
-            char ch = str.charAt(i);
-            if ((ch >= 0x4E00 && ch <= 0x9FD5) ||
-                    (ch >= 0x3040 && ch <= 0x309F) ||
-                    (ch >= 0x30A0 && ch <= 0x30FF) ||
-                    (ch >= 0x1100 && ch <= 0x11FF)) {
-                numOfCJK += 1;
-            }
-        }
-        return (numOfCJK > (str.length() / 2));
-    }
-
-
-    private String[] tokenizeCJK(String str, float textWidth) {
-        List<String> list = new ArrayList<String>();
-        StringBuilder buf = new StringBuilder();
-        for (int i = 0; i < str.length(); i++) {
-            char ch = str.charAt(i);
-            if (font.stringWidth(fallbackFont, buf.toString()) < textWidth) {
-                buf.append(ch);
-            }
-            else {
-                list.add(buf.toString());
-                buf.setLength(0);
-            }
-        }
-        if (buf.toString().length() > 0) {
-            list.add(buf.toString());
-        }
-        return list.toArray(new String[list.size()]);
-    }
-
-}   // End of Text.java
+}   // End of TextFrame.java

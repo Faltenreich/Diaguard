@@ -1,7 +1,7 @@
 /**
  *  Path.java
  *
-Copyright (c) 2014, Innovatics Inc.
+Copyright (c) 2018, Innovatics Inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -9,7 +9,7 @@ are permitted provided that the following conditions are met:
 
     * Redistributions of source code must retain the above copyright notice,
       this list of conditions and the following disclaimer.
- 
+
     * Redistributions in binary form must reproduce the above copyright notice,
       this list of conditions and the following disclaimer in the documentation
       and / or other materials provided with the distribution.
@@ -204,7 +204,7 @@ public class Path implements Drawable {
         placeIn(box, 0.0f, 0.0f);
     }
 
-    
+
     /**
      *  Places the path inside the spacified box at coordinates (x_offset, y_offset) of the top left corner.
      *
@@ -236,6 +236,12 @@ public class Path implements Drawable {
     }
 
 
+    public void setLocation(float x, float y) {
+        box_x += x;
+        box_y += y;
+    }
+
+
     /**
      *  Scales the path using the specified factor.
      *
@@ -258,12 +264,12 @@ public class Path implements Drawable {
             point.y *= factor;
         }
     }
-    
+
 
     /**
      * Returns a list containing the start point, first control point, second control point and the end point of elliptical curve segment.
      * Please see Example_18.
-     * 
+     *
      * @param x the x coordinate of the center of the ellipse.
      * @param y the y coordinate of the center of the ellipse.
      * @param r1 the horizontal radius of the ellipse.
@@ -315,8 +321,10 @@ public class Path implements Drawable {
      *  Draws this path on the page using the current selected color, pen width, line pattern and line join style.
      *
      *  @param page the page to draw this path on.
+     *  @return x and y coordinates of the bottom right corner of this component.
+     *  @throws Exception
      */
-    public void drawOn(Page page) throws Exception {
+    public float[] drawOn(Page page) throws Exception {
         if (fill_shape) {
             page.setBrushColor(color);
         }
@@ -346,11 +354,17 @@ public class Path implements Drawable {
             }
         }
 
+        float x_max = 0f;
+        float y_max = 0f;
         for (int i = 0; i < points.size(); i++) {
             Point point = points.get(i);
+            if (point.x > x_max) { x_max = point.x; }
+            if (point.y > y_max) { y_max = point.y; }
             point.x -= box_x;
             point.y -= box_y;
         }
+
+        return new float[] {x_max, y_max};
     }
 
 }   // End of Path.java

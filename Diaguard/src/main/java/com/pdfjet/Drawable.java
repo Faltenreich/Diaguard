@@ -1,7 +1,7 @@
 /**
  *  Drawable.java
  *
-Copyright (c) 2014, Innovatics Inc.
+Copyright (c) 2018, Innovatics Inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -36,10 +36,12 @@ package com.pdfjet;
 public interface Drawable {
 
     /**
-     * Draw the component implementing this interface on the PDF page.
+     *  Draw the component implementing this interface on the PDF page.
      *
-     * @param page the page to draw on.
-     * @throws Exception
+     *  @param page the page to draw on.
+     *  @return x and y coordinates of the bottom right corner of this component.
+     *  @throws Exception
      */
-    public void drawOn(Page page) throws Exception;
+    public float[] drawOn(Page page) throws Exception;
+
 }

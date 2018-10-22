@@ -1,7 +1,7 @@
 /**
  *  TextBox.java
  *
-Copyright (c) 2015, Innovatics Inc.
+Copyright (c) 2018, Innovatics Inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -9,7 +9,7 @@ are permitted provided that the following conditions are met:
 
     * Redistributions of source code must retain the above copyright notice,
       this list of conditions and the following disclaimer.
- 
+
     * Redistributions in binary form must reproduce the above copyright notice,
       this list of conditions and the following disclaimer in the documentation
       and / or other materials provided with the distribution.
@@ -32,18 +32,18 @@ import java.util.*;
 
 /**
  *  A box containing line-wrapped text.
- *  
+ *
  *  <p>Defaults:<br />
  *  x = 0f<br />
  *  y = 0f<br />
  *  width = 300f<br />
- *  height = 200f<br />
+ *  height = 0f<br />
  *  alignment = Align.LEFT<br />
  *  valign = Align.TOP<br />
  *  spacing = 3f<br />
  *  margin = 1f<br />
  *  </p>
- *  
+ *
  *  This class was originally developed by Ronald Bourret.
  *  It was completely rewritten in 2013 by Eugene Dragoev.
  */
@@ -56,12 +56,12 @@ public class TextBox implements Drawable {
     protected float y;
 
     protected float width = 300f;
-    protected float height = 200f;
+    protected float height = 0f;
     protected float spacing = 3f;
     protected float margin = 1f;
     private float lineWidth = 0f;
 
-    private int background = Color.white;
+    private int background = Color.transparent;
     private int pen = Color.black;
     private int brush = Color.black;
     private int valign = 0;
@@ -94,6 +94,18 @@ public class TextBox implements Drawable {
      */
     public TextBox(Font font) {
         this.font = font;
+    }
+
+
+    /**
+     *  Creates a text box and sets the font.
+     *
+     *  @param text the text.
+     *  @param font the font.
+     */
+    public TextBox(Font font, String text) {
+        this.font = font;
+        this.text = text;
     }
 
 
@@ -198,7 +210,7 @@ public class TextBox implements Drawable {
         this.x = x;
         this.y = y;
     }
-    
+
 
     /**
      *  Gets the x coordinate where this text box will be drawn on the page.
@@ -207,7 +219,7 @@ public class TextBox implements Drawable {
      */
     public float getX() {
         return x;
-    }    
+    }
 
 
     /**
@@ -217,7 +229,7 @@ public class TextBox implements Drawable {
      */
     public float getY() {
         return y;
-    }    
+    }
 
 
     /**
@@ -269,7 +281,7 @@ public class TextBox implements Drawable {
         this.height = height;
     }
 
-    
+
     /**
      *  Returns the text box height.
      *
@@ -299,7 +311,7 @@ public class TextBox implements Drawable {
         this.margin = margin;
     }
 
-    
+
     /**
      *  Returns the text box margin.
      *
@@ -597,7 +609,7 @@ public class TextBox implements Drawable {
 
     /**
      *  Whether the text will be underlined.
-     *  
+     *
      *  @return whether the text will be underlined
      */
     public boolean getUnderline() {
@@ -636,10 +648,15 @@ public class TextBox implements Drawable {
     }
 
 
+    public Font getFallbackFont() {
+        return this.fallbackFont;
+    }
+
+
     /**
      *  Sets the vertical alignment of the text in this TextBox.
      *
-     *  @param alignment - valid values are TextAlign.TOP, TextAlign.BOTTOM and TextAlign.CENTER
+     *  @param alignment - valid values areAlign.TOP, Align.BOTTOM and Align.CENTER
      */
     public void setVerticalAlignment(int alignment) {
         this.valign = alignment;
@@ -656,16 +673,33 @@ public class TextBox implements Drawable {
     }
 
 
+    public Map<String, Integer> getTextColors() {
+        return this.colors;
+    }
+
+
     /**
      *  Draws this text box on the specified page.
      *
+     *  @param page the Page where the TextBox is to be drawn.
+     *  @return x and y coordinates of the bottom right corner of this component.
+     *  @throws Exception
      */
-    public void drawOn(Page page) throws Exception {
-        if (getBgColor() != Color.white) {
-            drawBackground(page);
-        }
-        drawBorders(page);
-        drawText(page);
+    public float[] drawOn(Page page) throws Exception {
+        return drawOn(page, true);
+    }
+
+
+    /**
+     *  Draws this text box on the specified page.
+     *
+     *  @param page the Page where the TextBox is to be drawn.
+     *  @param draw flag specifying if this component should actually be drawn on the page.
+     *  @return x and y coordinates of the bottom right corner of this component.
+     *  @throws Exception
+     */
+    public float[] drawOn(Page page, boolean draw) throws Exception {
+        return drawTextAndBorders(page, draw);
     }
 
 
@@ -710,106 +744,165 @@ public class TextBox implements Drawable {
     }
 
 
-    private void drawText(Page page) throws Exception {
- 
-        page.setPenColor(this.pen);
-        page.setBrushColor(this.brush);
-        page.setPenWidth(this.font.underlineThickness);
- 
-        float textAreaWidth = width - 2*margin;
+    private float[] drawTextAndBorders(Page page, boolean draw) throws Exception {
+
+        float textAreaWidth = width - (font.stringWidth("w") + 2*margin);
         List<String> list = new ArrayList<String>();
         StringBuilder buf = new StringBuilder();
-        String[] lines = text.split("\n");
-        for (String line : lines) {
+        String[] lines = text.split("\\r?\\n");
+        for (int i = 0; i < lines.length; i++) {
+            String line = lines[i];
             if (font.stringWidth(line) < textAreaWidth) {
                 list.add(line);
             }
             else {
+                String str = null;
                 buf.setLength(0);
- 
-                String[] tokens = line.split("\\s+");
-                for (String token : tokens) {
-                    if (font.stringWidth(buf.toString() + " " + token) < textAreaWidth) {
-                        buf.append(" " + token);
-                    }
-                    else {
-                        list.add(buf.toString().trim());
+                for (int j = 0; j < line.length(); j++) {
+                    buf.append(line.charAt(j));
+                    str = buf.toString();
+                    if (font.stringWidth(str) > textAreaWidth) {
+                        if ((str.charAt(str.length() - 1) == ' ') ||
+                                str.split("\\s+").length <= 1) {
+                            list.add(str);
+                        }
+                        else {
+                            list.add(str.substring(0, str.lastIndexOf(' ')));
+                            while (line.charAt(j) != ' ') { j -= 1; }
+                        }
                         buf.setLength(0);
-                        buf.append(token);
                     }
                 }
- 
-                if (!buf.toString().trim().equals("")) {
-                    list.add(buf.toString().trim());
+                if (!str.equals("")) {
+                    list.add(str);
                 }
             }
         }
         lines = list.toArray(new String[] {} );
- 
+
         float lineHeight = font.getBodyHeight() + spacing;
         float x_text;
         float y_text = y + font.ascent + margin;
-        if (valign == TextAlign.BOTTOM) {
-            y_text += height - lines.length*lineHeight;
+
+        if (draw) {
+            if (getBgColor() != Color.transparent) {
+                this.height = lines.length * lineHeight;
+                drawBackground(page);
+            }
+            page.setPenColor(this.pen);
+            page.setBrushColor(this.brush);
+            page.setPenWidth(this.font.underlineThickness);
         }
-        else if (valign == TextAlign.CENTER) {
-            y_text += (height - lines.length*lineHeight)/2;
-        }
- 
-        for (int i = 0; i < lines.length; i++) {
- 
-            if (getTextAlignment() == Align.RIGHT) {
-                x_text = (x + width) - (font.stringWidth(lines[i]) + margin);
+
+        if (height > 0f) {
+
+            if (valign == Align.BOTTOM) {
+                y_text += height - lines.length*lineHeight;
             }
-            else if (getTextAlignment() == Align.CENTER) {
-                x_text = x + (width - font.stringWidth(lines[i]))/2;
-            }
-            else {
-                // Align.LEFT
-                x_text = x + margin;
-            }
- 
-            if (y_text + font.getBodyHeight() + spacing + font.getDescent() >= y + height
-                    && i < (lines.length - 1)) {
-                String str = lines[i];
-                int index = str.lastIndexOf(' ');
-                if (index != -1) {
-                    lines[i] = str.substring(0, index) + " ...";
-                }
-                else {
-                    lines[i] = str + " ...";
-                }
+            else if (valign == Align.CENTER) {
+                y_text += (height - lines.length*lineHeight)/2;
             }
 
-            if (y_text + font.getDescent() < y + height) {
-                if (fallbackFont == null) {
-                    if (colors == null) {
-                        page.drawString(font, lines[i], x_text, y_text);
-                    }
-                    else {
-                        page.drawString(font, lines[i], x_text, y_text, colors);
-                    }
+            for (int i = 0; i < lines.length; i++) {
+
+                if (getTextAlignment() == Align.RIGHT) {
+                    x_text = (x + width) - (font.stringWidth(lines[i]) + margin);
+                }
+                else if (getTextAlignment() == Align.CENTER) {
+                    x_text = x + (width - font.stringWidth(lines[i]))/2;
                 }
                 else {
-                    page.drawString(font, fallbackFont, lines[i], x_text, y_text);
+                    // Align.LEFT
+                    x_text = x + margin;
                 }
- 
-                float lineLength = font.stringWidth(lines[i]);
-                if (getUnderline()) {
-                    float y_adjust = font.underlinePosition;
-                    page.moveTo(x_text, y_text + y_adjust);
-                    page.lineTo(x_text + lineLength, y_text + y_adjust);
-                    page.strokePath();
+
+                if (y_text + font.getBodyHeight() + spacing + font.getDescent() >= y + height
+                        && i < (lines.length - 1)) {
+                    String str = lines[i];
+                    int index = str.lastIndexOf(' ');
+                    if (index != -1) {
+                        lines[i] = str.substring(0, index) + " ...";
+                    }
+                    else {
+                        lines[i] = str + " ...";
+                    }
                 }
-                if (getStrikeout()) {
-                    float y_adjust = font.body_height/4;
-                    page.moveTo(x_text, y_text - y_adjust);
-                    page.lineTo(x_text + lineLength, y_text - y_adjust);
-                    page.strokePath();
+
+                if (y_text + font.getDescent() < y + height) {
+                    if (draw) {
+                        drawText(page, font, fallbackFont, lines[i], x_text, y_text, colors);
+                    }
+                    y_text += font.getBodyHeight() + spacing;
                 }
- 
+
+            }
+
+        }
+        else {
+
+            for (int i = 0; i < lines.length; i++) {
+
+                if (getTextAlignment() == Align.RIGHT) {
+                    x_text = (x + width) - (font.stringWidth(lines[i]) + margin);
+                }
+                else if (getTextAlignment() == Align.CENTER) {
+                    x_text = x + (width - font.stringWidth(lines[i]))/2;
+                }
+                else {
+                    // Align.LEFT
+                    x_text = x + margin;
+                }
+
+                if (draw) {
+                    drawText(page, font, fallbackFont, lines[i], x_text, y_text, colors);
+                }
+
                 y_text += font.getBodyHeight() + spacing;
             }
+
+            height = y_text - (y + font.ascent + margin);
+        }
+
+        if (draw) {
+            drawBorders(page);
+        }
+
+        return new float[] {x + width, y + height};
+    }
+
+
+    private void drawText(
+            Page page,
+            Font font,
+            Font fallbackFont,
+            String text,
+            float x_text,
+            float y_text,
+            Map<String, Integer> colors) throws Exception {
+        if (fallbackFont == null) {
+            if (colors == null) {
+                page.drawString(font, text, x_text, y_text);
+            }
+            else {
+                page.drawString(font, text, x_text, y_text, colors);
+            }
+        }
+        else {
+            page.drawString(font, fallbackFont, text, x_text, y_text);
+        }
+
+        float lineLength = font.stringWidth(text);
+        if (getUnderline()) {
+            float y_adjust = font.underlinePosition;
+            page.moveTo(x_text, y_text + y_adjust);
+            page.lineTo(x_text + lineLength, y_text + y_adjust);
+            page.strokePath();
+        }
+        if (getStrikeout()) {
+            float y_adjust = font.body_height/4;
+            page.moveTo(x_text, y_text - y_adjust);
+            page.lineTo(x_text + lineLength, y_text - y_adjust);
+            page.strokePath();
         }
     }
 

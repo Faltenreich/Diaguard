@@ -1,7 +1,7 @@
 /**
  *  PDF.java
  *
-Copyright (c) 2015, Innovatics Inc.
+Copyright (c) 2018, Innovatics Inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -48,34 +48,38 @@ public class PDF {
     protected List<Font> fonts = new ArrayList<Font>();
     protected List<Image> images = new ArrayList<Image>();
     protected List<Page> pages = new ArrayList<Page>();
-    protected HashMap<String, Destination> destinations = new HashMap<String, Destination>();
+    protected Map<String, Destination> destinations = new HashMap<String, Destination>();
     protected List<OptionalContentGroup> groups = new ArrayList<OptionalContentGroup>();
+    protected Map<String, Integer> states = new HashMap<String, Integer>();
     protected static final DecimalFormat df = new DecimalFormat("0.###", new DecimalFormatSymbols(Locale.US));
     protected int compliance = 0;
-
-    private static final int CR_LF = 0;
-    private static final int CR = 1;
-    private static final int LF = 2;
+    protected List<EmbeddedFile> embeddedFiles = new ArrayList<EmbeddedFile>();
 
     private OutputStream os = null;
     private List<Integer> objOffset = new ArrayList<Integer>();
-    private String producer = "PDFjet v5.53 (http://pdfjet.com)";
-    private String creationDate;
-    private String createDate;
     private String title = "";
-    private String subject = "";
     private String author = "";
+    private String subject = "";
+    private String keywords = "";
+    private String creator = "";
+    private String producer = "PDFjet v5.97 (http://pdfjet.com)";
+    private String creationDate;
+    private String modDate;
+    private String createDate;
     private int byte_count = 0;
-    private int endOfLine = CR_LF;
     private int pagesObjNumber = -1;
     private String pageLayout = null;
     private String pageMode = null;
     private String language = "en-US";
 
+    protected Bookmark toc = null;
+    protected List<String> importedFonts = new ArrayList<String>();
+    protected String extGState = "";
+
 
     /**
      * The default constructor - use when reading PDF files.
-     * 
+     *
      * @throws Exception
      */
     public PDF() throws Exception {
@@ -136,6 +140,7 @@ public class PDF {
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMddHHmmss");
         SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         creationDate = sdf1.format(date);
+        modDate = sdf1.format(date);
         createDate = sdf2.format(date);
 
         append("%PDF-1.5\n");
@@ -189,7 +194,7 @@ public class PDF {
             sb.append("<rdf:Description rdf:about=\"\" xmlns:pdf=\"http://ns.adobe.com/pdf/1.3/\" pdf:Producer=\"");
             sb.append(producer);
             sb.append("\">\n</rdf:Description>\n");
-    
+
             sb.append("<rdf:Description rdf:about=\"\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\">\n");
             sb.append("  <dc:format>application/pdf</dc:format>\n");
             sb.append("  <dc:title><rdf:Alt><rdf:li xml:lang=\"x-default\">");
@@ -202,7 +207,7 @@ public class PDF {
             sb.append(subject);
             sb.append("</rdf:li></rdf:Alt></dc:description>\n");
             sb.append("</rdf:Description>\n");
-    
+
             sb.append("<rdf:Description rdf:about=\"\" xmlns:pdfaid=\"http://www.aiim.org/pdfa/ns/id/\">\n");
             sb.append("  <pdfaid:part>1</pdfaid:part>\n");
             sb.append("  <pdfaid:conformance>B</pdfaid:conformance>\n");
@@ -213,7 +218,7 @@ public class PDF {
                 sb.append("  <pdfuaid:part>1</pdfuaid:part>\n");
                 sb.append("</rdf:Description>\n");
             }
-    
+
             sb.append("<rdf:Description rdf:about=\"\" xmlns:xmp=\"http://ns.adobe.com/xap/1.0/\">\n");
             sb.append("<xmp:CreateDate>");
             sb.append(createDate + "Z");
@@ -294,11 +299,22 @@ public class PDF {
         newobj();
         append("<<\n");
 
-        if (!fonts.isEmpty()) {
+        if (!extGState.equals("")) {
+            append(extGState);
+        }
+        if (fonts.size() > 0 || importedFonts.size() > 0) {
             append("/Font\n");
             append("<<\n");
-            for (int i = 0; i < fonts.size(); i++) {
-                Font font = fonts.get(i);
+            for (String token : importedFonts) {
+                append(token);
+                if (token.equals("R")) {
+                    append('\n');
+                }
+                else {
+                    append(' ');
+                }
+            }
+            for (Font font : fonts) {
                 append("/F");
                 append(font.objNumber);
                 append(' ');
@@ -308,7 +324,7 @@ public class PDF {
             append(">>\n");
         }
 
-        if (!images.isEmpty()) {
+        if (images.size() > 0) {
             append("/XObject\n");
             append("<<\n");
             for (int i = 0; i < images.size(); i++) {
@@ -322,7 +338,7 @@ public class PDF {
             append(">>\n");
         }
 
-        if (!groups.isEmpty()) {
+        if (groups.size() > 0) {
             append("/Properties\n");
             append("<<\n");
             for (int i = 0; i < groups.size(); i++) {
@@ -332,6 +348,19 @@ public class PDF {
                 append(' ');
                 append(ocg.objNumber);
                 append(" 0 R\n");
+            }
+            append(">>\n");
+        }
+
+        // String state = "/CA 0.5 /ca 0.5";
+        if (states.size() > 0) {
+            append("/ExtGState <<\n");
+            for (String state : states.keySet()) {
+                append("/GS");
+                append(states.get(state));
+                append(" << ");
+                append(state);
+                append(" >>\n");
             }
             append(">>\n");
         }
@@ -369,20 +398,29 @@ public class PDF {
         // Add the info object
         newobj();
         append("<<\n");
-        append("/Title (");
-        append(title);
-        append(")\n");
-        append("/Subject (");
-        append(subject);
-        append(")\n");
-        append("/Author (");
-        append(author);
-        append(")\n");
+        append("/Title <");
+        append(toHex(title));
+        append(">\n");
+        append("/Author <");
+        append(toHex(author));
+        append(">\n");
+        append("/Subject <");
+        append(toHex(subject));
+        append(">\n");
+        append("/Keywords <");
+        append(toHex(keywords));
+        append(">\n");
+        append("/Creator <");
+        append(toHex(creator));
+        append(">\n");
         append("/Producer (");
         append(producer);
         append(")\n");
         append("/CreationDate (D:");
         append(creationDate);
+        append("Z)\n");
+        append("/ModDate (D:");
+        append(modDate);
         append("Z)\n");
         append(">>\n");
         endobj();
@@ -454,12 +492,12 @@ public class PDF {
                     append(element.language);
                     append(")\n");
                 }
-                append("/Alt (");
-                append(escapeSpecialCharacters(element.altDescription));
-                append(")\n");
-                append("/ActualText (");
-                append(escapeSpecialCharacters(element.actualText));
-                append(")\n");
+                append("/Alt <");
+                append(toHex(element.altDescription));
+                append(">\n");
+                append("/ActualText <");
+                append(toHex(element.actualText));
+                append(">\n");
                 append(">>\n");
                 endobj();
             }
@@ -467,17 +505,13 @@ public class PDF {
     }
 
 
-    private String escapeSpecialCharacters(String str) {
-        if (str == null) {
-            return "";
-        }
+    private String toHex(String str) {
         StringBuilder buf = new StringBuilder();
-        for (int i = 0; i < str.length(); i++) {
-            char ch = str.charAt(i);
-            if (ch == '(' || ch == ')' || ch == '\\') {
-                buf.append('\\');
+        if (str != null) {
+            buf.append("FEFF");
+            for (int i = 0; i < str.length(); i++) {
+                buf.append(String.format("%04X", str.codePointAt(i)));
             }
-            buf.append(ch);
         }
         return buf.toString();
     }
@@ -521,7 +555,8 @@ public class PDF {
     }
 
 
-    private int addRootObject(int structTreeRootObjNumber) throws Exception {
+    private int addRootObject(
+            int structTreeRootObjNumber, int outlineDictNumber) throws Exception {
         // Add the root object
         newobj();
         append("<<\n");
@@ -567,6 +602,12 @@ public class PDF {
             append("/OutputIntents [");
             append(outputIntentObjNumber);
             append(" 0 R]\n");
+        }
+
+        if (outlineDictNumber > 0) {
+            append("/Outlines ");
+            append(outlineDictNumber);
+            append(" 0 R\n");
         }
 
         append(">>\n");
@@ -702,7 +743,7 @@ public class PDF {
     }
 
 /*
-Use this method on systems that don't have Deflater stream or when troubleshooting.
+    // Use this method on systems that don't have Deflater stream or when troubleshooting.
     private void addPageContent(Page page) throws Exception {
         newobj();
         append("<<\n");
@@ -717,6 +758,26 @@ Use this method on systems that don't have Deflater stream or when troubleshooti
         page.buf = null;    // Release the page content memory!
         page.contents.add(objNumber);
     }
+
+
+    private void addPageContent(Page page) throws Exception {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        new LZWEncode(page.buf.toByteArray(), baos);
+        page.buf = null;    // Release the page content memory!
+
+        newobj();
+        append("<<\n");
+        append("/Filter /LZWDecode\n");
+        append("/Length ");
+        append(baos.size());
+        append("\n");
+        append(">>\n");
+        append("stream\n");
+        append(baos);
+        append("\nendstream\n");
+        endobj();
+        page.contents.add(objNumber);
+    }
 */
 
     private int addAnnotationObject(Annotation annot, int index)
@@ -725,7 +786,24 @@ Use this method on systems that don't have Deflater stream or when troubleshooti
         annot.objNumber = objNumber;
         append("<<\n");
         append("/Type /Annot\n");
-        append("/Subtype /Link\n");
+        if (annot.fileAttachment != null) {
+            append("/Subtype /FileAttachment\n");
+            append("/T (");
+            append(annot.fileAttachment.title);
+            append(")\n");
+            append("/Contents (");
+            append(annot.fileAttachment.contents);
+            append(")\n");
+            append("/FS ");
+            append(annot.fileAttachment.embeddedFile.objNumber);
+            append(" 0 R\n");
+            append("/Name /");
+            append(annot.fileAttachment.icon);
+            append("\n");
+        }
+        else {
+            append("/Subtype /Link\n");
+        }
         append("/Rect [");
         append(annot.x1);
         append(' ');
@@ -794,55 +872,36 @@ Use this method on systems that don't have Deflater stream or when troubleshooti
 
     private void addOCProperties() throws Exception {
         if (!groups.isEmpty()) {
+            StringBuilder buf = new StringBuilder();
+            for (OptionalContentGroup ocg : this.groups) {
+                buf.append(' ');
+                buf.append(ocg.objNumber);
+                buf.append(" 0 R");
+            }
+
             append("/OCProperties\n");
             append("<<\n");
             append("/OCGs [");
-            for (OptionalContentGroup ocg : this.groups) {
-                append(' ');
-                append(ocg.objNumber);
-                append(" 0 R");
-            }
+            append(buf.toString());
             append(" ]\n");
             append("/D <<\n");
-            append("/BaseState /OFF\n");
-            append("/ON [");
-            for (OptionalContentGroup ocg : this.groups) {
-                if (ocg.visible) {
-                    append(' ');
-                    append(ocg.objNumber);
-                    append(" 0 R");
-                }
-            }
-            append(" ]\n");
 
             append("/AS [\n");
+            append("<< /Event /View /Category [/View] /OCGs [");
+            append(buf.toString());
+            append(" ] >>\n");
             append("<< /Event /Print /Category [/Print] /OCGs [");
-            for (OptionalContentGroup ocg : this.groups) {
-                if (ocg.printable) {
-                    append(' ');
-                    append(ocg.objNumber);
-                    append(" 0 R");
-                }
-            }
+            append(buf.toString());
             append(" ] >>\n");
             append("<< /Event /Export /Category [/Export] /OCGs [");
-            for (OptionalContentGroup ocg : this.groups) {
-                if (ocg.exportable) {
-                    append(' ');
-                    append(ocg.objNumber);
-                    append(" 0 R");
-                }
-            }
+            append(buf.toString());
             append(" ] >>\n");
             append("]\n");
 
             append("/Order [[ ()");
-            for (OptionalContentGroup ocg : this.groups) {
-                append(' ');
-                append(ocg.objNumber);
-                append(" 0 R");
-            }
+            append(buf.toString());
             append(" ]]\n");
+
             append(">>\n");
             append(">>\n");
         }
@@ -889,8 +948,18 @@ Use this method on systems that don't have Deflater stream or when troubleshooti
             addNumsParentTree();
         }
 
+        int outlineDictNum = 0;
+        if (toc != null && toc.getChildren() != null) {
+            List<Bookmark> list = toc.toArrayList();
+            outlineDictNum = addOutlineDict(toc);
+            for (int i = 1; i < list.size(); i++) {
+                Bookmark bookmark = list.get(i);
+                addOutlineItem(outlineDictNum, i, bookmark);
+            }
+        }
+
         int infoObjNumber = addInfoObject();
-        int rootObjNumber = addRootObject(structTreeRootObjNumber);
+        int rootObjNumber = addRootObject(structTreeRootObjNumber, outlineDictNum);
 
         int startxref = byte_count;
 
@@ -954,6 +1023,15 @@ Use this method on systems that don't have Deflater stream or when troubleshooti
 
 
     /**
+     *  Set the "Author" document property of the PDF file.
+     *  @param author The author of this document.
+     */
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+
+    /**
      *  Set the "Subject" document property of the PDF file.
      *  @param subject The subject of this document.
      */
@@ -962,12 +1040,13 @@ Use this method on systems that don't have Deflater stream or when troubleshooti
     }
 
 
-    /**
-     *  Set the "Author" document property of the PDF file.
-     *  @param author The author of this document.
-     */
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
+    }
+
+
+    public void setCreator(String creator) {
+        this.creator = creator;
     }
 
 
@@ -1067,22 +1146,25 @@ Use this method on systems that don't have Deflater stream or when troubleshooti
             }
 
             if (obj.getValue("/Type").equals("/ObjStm")) {
-                int n = Integer.valueOf(obj.getValue("/N"));
                 int first = Integer.valueOf(obj.getValue("/First"));
                 PDFobj o2 = getObject(obj.data, 0, first);
-                for (int i = 0; i < o2.dict.size(); i += 2) {
-                    int num = Integer.valueOf(o2.dict.get(i));
+                int count = o2.dict.size();
+                for (int i = 0; i < count; i += 2) {
+                    String num = o2.dict.get(i);
                     int off = Integer.valueOf(o2.dict.get(i + 1));
                     int end = obj.data.length;
-                    if (i <= o2.dict.size() - 4) {
+                    if (i <= count - 4) {
                         end = first + Integer.valueOf(o2.dict.get(i + 3));
                     }
                     PDFobj o3 = getObject(obj.data, first + off, end);
                     o3.dict.add(0, "obj");
                     o3.dict.add(0, "0");
-                    o3.dict.add(0, Integer.toString(num));
-                    pdfObjects.put(num, o3);
+                    o3.dict.add(0, num);
+                    pdfObjects.put(Integer.valueOf(num), o3);
                 }
+            }
+            else if (obj.getValue("/Type").equals("/XRef")) {
+                // Skip the stream XRef object.
             }
             else {
                 pdfObjects.put(obj.number, obj);
@@ -1093,23 +1175,25 @@ Use this method on systems that don't have Deflater stream or when troubleshooti
     }
 
 
-    private boolean process(PDFobj obj, StringBuilder buf, int off) {
-        String token = buf.toString().trim();
-        if (!token.equals("")) {
-            obj.dict.add(token);
+    private boolean process(
+            PDFobj obj, StringBuilder sb1, byte[] buf, int off) {
+        String str = sb1.toString().trim();
+        if (!str.equals("")) {
+            obj.dict.add(str);
         }
-        buf.setLength(0);
-        if (token.equals("stream") ||
-                token.equals("endobj") ||
-                token.equals("startxref")) {
-            if (token.equals("stream")) {
-                if (endOfLine == CR_LF) {
-                    obj.stream_offset = off + 1;
-                }
-                else if (endOfLine == CR || endOfLine == LF) {
-                    obj.stream_offset = off;
-                }
+        sb1.setLength(0);
+
+        if (str.equals("endobj")) {
+            return true;
+        }
+        else if (str.equals("stream")) {
+            obj.stream_offset = off;
+            if (buf[off] == '\n') {
+                obj.stream_offset += 1;
             }
+            return true;
+        }
+        else if (str.equals("startxref")) {
             return true;
         }
         return false;
@@ -1133,7 +1217,7 @@ Use this method on systems that don't have Deflater stream or when troubleshooti
             char c2 = (char) buf[off++];
             if (c2 == '(') {
                 if (p == 0) {
-                    done = process(obj, token, off);
+                    done = process(obj, token, buf, off);
                 }
                 if (!done) {
                     token.append(c2);
@@ -1144,7 +1228,7 @@ Use this method on systems that don't have Deflater stream or when troubleshooti
                 token.append(c2);
                 --p;
                 if (p == 0) {
-                    done = process(obj, token, off);
+                    done = process(obj, token, buf, off);
                 }
             }
             else if (c2 == 0x00         // Null
@@ -1153,13 +1237,13 @@ Use this method on systems that don't have Deflater stream or when troubleshooti
                     || c2 == 0x0C       // Form Feed
                     || c2 == 0x0D       // Carriage Return (CR)
                     || c2 == 0x20) {    // Space
-                done = process(obj, token, off);
+                done = process(obj, token, buf, off);
                 if (!done) {
                     c1 = ' ';
                 }
             }
             else if (c2 == '/') {
-                done = process(obj, token, off);
+                done = process(obj, token, buf, off);
                 if (!done) {
                     token.append(c2);
                     c1 = c2;
@@ -1167,7 +1251,7 @@ Use this method on systems that don't have Deflater stream or when troubleshooti
             }
             else if (c2 == '<' || c2 == '>' || c2 == '%') {
                 if (c2 != c1) {
-                    done = process(obj, token, off);
+                    done = process(obj, token, buf, off);
                     if (!done) {
                         token.append(c2);
                         c1 = c2;
@@ -1175,14 +1259,14 @@ Use this method on systems that don't have Deflater stream or when troubleshooti
                 }
                 else {
                     token.append(c2);
-                    done = process(obj, token, off);
+                    done = process(obj, token, buf, off);
                     if (!done) {
                         c1 = ' ';
                     }
                 }
             }
             else if (c2 == '[' || c2 == ']' || c2 == '{' || c2 == '}') {
-                done = process(obj, token, off);
+                done = process(obj, token, buf, off);
                 if (!done) {
                     obj.dict.add(String.valueOf(c2));
                     c1 = c2;
@@ -1330,26 +1414,17 @@ Use this method on systems that don't have Deflater stream or when troubleshooti
                     buf[i + 7] == 'e' &&
                     buf[i + 8] == 'f') {
 
-                if (buf[i + 9] == 0x0D) {
-                    if (buf[i + 10] == 0x0A) {
-                        endOfLine = CR_LF;
-                    }
-                    else {
-                        endOfLine = CR;
-                    }
+                int j = i + 10;
+                if (buf[i + 9] == '\r' && buf[i + 10] == '\n') {
+                    j = i + 11;
                 }
-                else if (buf[i + 9] == 0x0A) {
-                    endOfLine = LF;
-                }
-
-                int j = (endOfLine == CR_LF) ? (i + 11) : (i + 10);
 
                 char ch = (char) buf[j];
                 while (ch == ' ' || Character.isDigit(ch)) {
                     sb.append(ch);
                     ch = (char) buf[++j];
                 }
-        
+
                 break;
             }
         }
@@ -1358,90 +1433,170 @@ Use this method on systems that don't have Deflater stream or when troubleshooti
     }
 
 
-    public void addObjects(Map<Integer, PDFobj> objects) throws Exception {
-        for (PDFobj obj : objects.values()) {
-            if (obj.getValue("/Type").equals("/Pages") && obj.getValue("/Parent").equals("")) {
-                this.pagesObjNumber = Integer.valueOf(obj.dict.get(0));
+    public int addOutlineDict(Bookmark toc) throws Exception {
+        int numOfChildren = getNumOfChildren(0, toc);
+        newobj();
+        append("<<\n");
+        append("/Type /Outlines\n");
+        append("/First ");
+        append(objNumber + 1);
+        append(" 0 R\n");
+        append("/Last ");
+        append(objNumber + numOfChildren);
+        append(" 0 R\n");
+        append("/Count ");
+        append(numOfChildren);
+        append("\n");
+        append(">>\n");
+        endobj();
+        return objNumber;
+    }
+
+
+    public void addOutlineItem(int parent, int i, Bookmark bm1) throws Exception {
+
+        int prev = (bm1.getPrevBookmark() == null) ? 0 : parent + (i - 1);
+        int next = (bm1.getNextBookmark() == null) ? 0 : parent + (i + 1);
+
+        int first = 0;
+        int last  = 0;
+        int count = 0;
+        if (bm1.getChildren() != null && bm1.getChildren().size() > 0) {
+            first = parent + bm1.getFirstChild().objNumber;
+            last  = parent + bm1.getLastChild().objNumber;
+            count = (-1) * getNumOfChildren(0, bm1);
+        }
+
+        newobj();
+        append("<<\n");
+        append("/Title <");
+        append(toHex(bm1.getTitle()));
+        append(">\n");
+        append("/Parent ");
+        append(parent);
+        append(" 0 R\n");
+        if (prev > 0) {
+            append("/Prev ");
+            append(prev);
+            append(" 0 R\n");
+        }
+        if (next > 0) {
+            append("/Next ");
+            append(next);
+            append(" 0 R\n");
+        }
+        if (first > 0) {
+            append("/First ");
+            append(first);
+            append(" 0 R\n");
+        }
+        if (last > 0) {
+            append("/Last ");
+            append(last);
+            append(" 0 R\n");
+        }
+        if (count != 0) {
+            append("/Count ");
+            append(count);
+            append("\n");
+        }
+        append("/F 4\n");       // No Zoom
+        append("/Dest [");
+        append(bm1.getDestination().pageObjNumber);
+        append(" 0 R /XYZ 0 ");
+        append(bm1.getDestination().yPosition);
+        append(" 0]\n");
+        append(">>\n");
+        endobj();
+    }
+
+
+    private int getNumOfChildren(int numOfChildren, Bookmark bm1) {
+        List<Bookmark> children = bm1.getChildren();
+        if (children != null) {
+            for (Bookmark bm2 : children) {
+                numOfChildren = getNumOfChildren(++numOfChildren, bm2);
             }
         }
- 
-        int maxObjNumber = Collections.max(objects.keySet());
+        return numOfChildren;
+    }
 
-        for (int i = 1; i < maxObjNumber; i++) {
-            if (objects.get(i) == null) {
-                PDFobj obj = new PDFobj();
-                obj.number = i;
-                objects.put(obj.number, obj);
+
+    public void removePages(
+            Set<Integer> pageNumbers,
+            Map<Integer, PDFobj> objects) throws Exception {
+        Set<Integer> pageObjectNumbers = new HashSet<Integer>();
+        List<String> temp = new ArrayList<String>();
+        PDFobj pages = getPagesObject(objects);
+        List<String> dict = pages.getDict();
+        for (int i = 0; i < dict.size(); i++) {
+            if (dict.get(i).equals("/Kids")) {
+                temp.add(dict.get(i++));
+                temp.add(dict.get(i++));
+                int pageNumber = 1;
+                while (!dict.get(i).equals("]")) {
+                    if (!pageNumbers.contains(pageNumber)) {
+                        temp.add(dict.get(i++));
+                        temp.add(dict.get(i++));
+                        temp.add(dict.get(i++));
+                    }
+                    else {
+                        pageObjectNumbers.add(
+                                Integer.valueOf(dict.get(i++)));
+                        i++;
+                        i++;
+                    }
+                    pageNumber++;
+                }
+                temp.add(dict.get(i));
+            }
+            else if (dict.get(i).equals("/Count")) {
+                temp.add(dict.get(i++));
+                int count = Integer.valueOf(dict.get(i)) - pageNumbers.size();
+                temp.add(String.valueOf(count));
+            }
+            else {
+                temp.add(dict.get(i));
             }
         }
-
-        for (PDFobj obj : objects.values()) {
-            objNumber = obj.number;
-            objOffset.add(byte_count);
-
-            if (obj.offset == 0) {
-                append(obj.number);
-                append(" 0 obj\n");
-                if (obj.dict != null) {
-                    for (int i = 0; i < obj.dict.size(); i++) {
-                        append(obj.dict.get(i));
-                        append(' ');
-                    }
-                }
-                if (obj.stream != null) {
-                    append("<< /Length ");
-                    append(obj.stream.length);
-                    append(" >>");
-                    append("\nstream\n");
-                    for (int i = 0; i < obj.stream.length; i++) {
-                        append(obj.stream[i]);
-                    }
-                    append("\nendstream\n");
-                }
-                append("endobj\n");
-                continue;
-            }
-
-            int n = obj.dict.size();
-            String token = null;
-            for (int i = 0; i < n; i++) {
-                token = obj.dict.get(i);
-                append(token);
-                if (i < (n - 1)) {
-                    append(' ');
-                }
-                else {
-                    append('\n');
-                }
-            }
-
-            if (obj.stream != null) {
-                for (int i = 0; i < obj.stream.length; i++) {
-                    append(obj.stream[i]);
-                }
-                append("\nendstream\n");
-            }
-
-            if (!token.equals("endobj")) {
-                append("endobj\n");
-            }
+        pages.setDict(temp);
+        Iterator<Integer> iter = pageObjectNumbers.iterator();
+        while (iter.hasNext()) {
+            objects.remove(iter.next());
         }
     }
 
 
-    public List<PDFobj> getPageObjects(Map<Integer, PDFobj> objects) throws Exception {
-        List<PDFobj> pages = new ArrayList<PDFobj>();
+    public void addObjects(Map<Integer, PDFobj> objects) throws Exception {
+        this.pagesObjNumber = Integer.valueOf(getPagesObject(objects).dict.get(0));
+        addObjectsToPDF(objects);
+    }
+
+
+    public PDFobj getPagesObject(
+            Map<Integer, PDFobj> objects) throws Exception {
         for (PDFobj obj : objects.values()) {
-            if (obj.getValue("/Type").equals("/Pages") && obj.getValue("/Parent").equals("")) {
-                getPageObjects(obj, objects, pages);
+            if (obj.getValue("/Type").equals("/Pages") &&
+                    obj.getValue("/Parent").equals("")) {
+                return obj;
             }
         }
+        return null;
+    }
+
+
+    public List<PDFobj> getPageObjects(
+            Map<Integer, PDFobj> objects) throws Exception {
+        List<PDFobj> pages = new ArrayList<PDFobj>();
+        getPageObjects(getPagesObject(objects), objects, pages);
         return pages;
     }
 
 
-    private void getPageObjects(PDFobj pdfObj, Map<Integer, PDFobj> objects, List<PDFobj> pages)
-            throws Exception {
+    private void getPageObjects(
+            PDFobj pdfObj,
+            Map<Integer, PDFobj> objects,
+            List<PDFobj> pages) throws Exception {
         List<Integer> kids = pdfObj.getObjectNumbers("/Kids");
         for (Integer number : kids) {
             PDFobj obj =  objects.get(number);
@@ -1464,6 +1619,223 @@ Use this method on systems that don't have Deflater stream or when troubleshooti
             }
         }
         return isPage;
+    }
+
+
+    private String getExtGState(
+            PDFobj resources, Map<Integer, PDFobj> objects) {
+        StringBuilder buf = new StringBuilder();
+        List<String> dict = resources.getDict();
+        int level = 0;
+        for (int i = 0; i < dict.size(); i++) {
+            if (dict.get(i).equals("/ExtGState")) {
+                buf.append("/ExtGState << ");
+                ++i;
+                ++level;
+                while (level > 0) {
+                    String token = dict.get(++i);
+                    if (token.equals("<<")) {
+                        ++level;
+                    }
+                    else if (token.equals(">>")) {
+                        --level;
+                    }
+                    buf.append(token);
+                    if (level > 0) {
+                        buf.append(' ');
+                    }
+                    else {
+                        buf.append('\n');
+                    }
+                }
+                break;
+            }
+        }
+        return buf.toString();
+    }
+
+
+    private List<String> removeTheNameEntry(List<String> dict) {
+        List<String> cleanDict = new ArrayList<String>();
+        for (int i = 0; i < dict.size(); i++) {
+            if (dict.get(i).equals("/Name")) {
+                i += 1;
+            }
+            else {
+                cleanDict.add(dict.get(i));
+            }
+        }
+        return cleanDict;
+    }
+
+
+    private List<PDFobj> getFontObjects(
+            PDFobj resources, Map<Integer, PDFobj> objects) {
+        List<PDFobj> fonts = new ArrayList<PDFobj>();
+        List<String> dict = resources.getDict();
+        for (int i = 0; i < dict.size(); i++) {
+            if (dict.get(i).equals("/Font")) {
+                if (!dict.get(i + 2).equals(">>")) {
+                    PDFobj fontObj = objects.get(Integer.valueOf(dict.get(i + 3)));
+                    fontObj.setDict(removeTheNameEntry(fontObj.getDict()));
+                    fonts.add(fontObj);
+                }
+            }
+        }
+
+        if (fonts.size() == 0) {
+            return null;
+        }
+
+        int i = 4;
+        while (true) {
+            if (dict.get(i).equals("/Font")) {
+                i += 2;
+                break;
+            }
+            i += 1;
+        }
+        while (!dict.get(i).equals(">>")) {
+            importedFonts.add(dict.get(i));
+            i += 1;
+        }
+
+        return fonts;
+    }
+
+
+    private List<PDFobj> getDescendantFonts(
+            PDFobj font, Map<Integer, PDFobj> objects) {
+        List<PDFobj> descendantFonts = new ArrayList<PDFobj>();
+        List<String> dict = font.getDict();
+        for (int i = 0; i < dict.size(); i++) {
+            if (dict.get(i).equals("/DescendantFonts")) {
+                if (!dict.get(i + 2).equals("]")) {
+                    descendantFonts.add(objects.get(Integer.valueOf(dict.get(i + 2))));
+                }
+            }
+        }
+        return descendantFonts;
+    }
+
+
+    private PDFobj getObject(
+            String name, PDFobj obj, Map<Integer, PDFobj> objects) {
+        List<String> dict = obj.getDict();
+        for (int i = 0; i < dict.size(); i++) {
+            if (dict.get(i).equals(name)) {
+                return objects.get(Integer.valueOf(dict.get(i + 1)));
+            }
+        }
+        return null;
+    }
+
+
+    public void addResourceObjects(Map<Integer, PDFobj> objects) throws Exception {
+        Map<Integer, PDFobj> resources = new TreeMap<Integer, PDFobj>();
+
+        List<PDFobj> pages = getPageObjects(objects);
+        for (PDFobj page : pages) {
+            PDFobj resObj = page.getResourcesObject(objects);
+            List<PDFobj> fonts = getFontObjects(resObj, objects);
+            if (fonts != null) {
+                for (PDFobj font : fonts) {
+                    resources.put(font.getNumber(), font);
+                    PDFobj obj = getObject("/ToUnicode", font, objects);
+                    if (obj != null) {
+                        resources.put(obj.getNumber(), obj);
+                    }
+                    List<PDFobj> descendantFonts = getDescendantFonts(font, objects);
+                    for (PDFobj descendantFont : descendantFonts) {
+                        resources.put(descendantFont.getNumber(), descendantFont);
+                        obj = getObject("/FontDescriptor", descendantFont, objects);
+                        resources.put(obj.getNumber(), obj);
+                        obj = getObject("/FontFile2", obj, objects);
+                        resources.put(obj.getNumber(), obj);
+                    }
+                }
+            }
+            extGState = getExtGState(resObj, objects);
+        }
+
+        if (resources.size() > 0) {
+            addObjectsToPDF(resources);
+        }
+    }
+
+
+    private void addObjectsToPDF(Map<Integer, PDFobj> objects) throws Exception {
+
+        int maxObjNumber = Collections.max(objects.keySet());
+        for (int i = 1; i <= maxObjNumber; i++) {
+            if (objects.get(i) == null) {
+                PDFobj obj = new PDFobj();
+                obj.setNumber(i);
+                objects.put(obj.number, obj);
+            }
+        }
+
+        for (PDFobj obj : objects.values()) {
+            objNumber = obj.number;
+            objOffset.add(byte_count);
+
+            if (obj.offset == 0) {
+                append(obj.number);
+                append(" 0 obj\n");
+                if (obj.dict != null) {
+                    for (int i = 0; i < obj.dict.size(); i++) {
+                        append(obj.dict.get(i));
+                        append(' ');
+                    }
+                }
+                if (obj.stream != null) {
+                    if (obj.dict.size() == 0) {
+                        append("<< /Length ");
+                        append(obj.stream.length);
+                        append(" >>");
+                    }
+                    append("\nstream\n");
+                    for (int i = 0; i < obj.stream.length; i++) {
+                        append(obj.stream[i]);
+                    }
+                    append("\nendstream\n");
+                }
+                append("endobj\n");
+            }
+            else {
+                boolean link = false;
+                int n = obj.dict.size();
+                String token = null;
+                for (int i = 0; i < n; i++) {
+                    token = obj.dict.get(i);
+                    append(token);
+                    if (token.startsWith("(http:")) {
+                        link = true;
+                    }
+                    else if (link == true && token.endsWith(")")) {
+                        link = false;
+                    }
+                    if (i < (n - 1)) {
+                        if (!link) {
+                            append(' ');
+                        }
+                    }
+                    else {
+                        append('\n');
+                    }
+                }
+                if (obj.stream != null) {
+                    for (int i = 0; i < obj.stream.length; i++) {
+                        append(obj.stream[i]);
+                    }
+                    append("\nendstream\n");
+                }
+                if (!token.equals("endobj")) {
+                    append("endobj\n");
+                }
+            }
+        }
+
     }
 
 }   // End of PDF.java

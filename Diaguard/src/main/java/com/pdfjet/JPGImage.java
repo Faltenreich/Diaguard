@@ -68,8 +68,6 @@ class JPGImage {
     int colorComponents;
     byte[] data;
 
-    private InputStream stream;
-
 
     public JPGImage(InputStream inputStream) throws Exception {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -81,11 +79,6 @@ class JPGImage {
         inputStream.close();
         data = baos.toByteArray();
         readJPGImage(new ByteArrayInputStream(data));
-    }
-
-
-    protected InputStream getInputStream() {
-        return this.stream;
     }
 
 

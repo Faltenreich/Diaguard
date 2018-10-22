@@ -1,7 +1,7 @@
 /**
  *  Form.java
  *
-Copyright (c) 2014, Innovatics Inc.
+Copyright (c) 2018, Innovatics Inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -9,7 +9,7 @@ are permitted provided that the following conditions are met:
 
     * Redistributions of source code must retain the above copyright notice,
       this list of conditions and the following disclaimer.
- 
+
     * Redistributions in binary form must reproduce the above copyright notice,
       this list of conditions and the following disclaimer in the documentation
       and / or other materials provided with the distribution.
@@ -34,7 +34,7 @@ import java.util.*;
 /**
  *  Please see Example_45
  */
-public class Form {
+public class Form implements Drawable {
 
     private List<Field> fields;
     private float x;
@@ -54,11 +54,6 @@ public class Form {
     public Form(List<Field> fields) {
         this.fields = fields;
         this.endOfLinePoints = new ArrayList<float[]>();
-        for (Field field : fields) {
-            if (field.x == 0f) {
-                numberOfRows += field.values.length;
-            }
-        }
     }
 
 
@@ -122,7 +117,29 @@ public class Form {
     }
 
 
+    /**
+     *  Draws this Form on the specified page.
+     *
+     *  @param page the page to draw this form on.
+     *  @return x and y coordinates of the bottom right corner of this component.
+     *  @throws Exception
+     */
     public float[] drawOn(Page page) throws Exception {
+        for (Field field : fields) {
+            if (field.format) {
+                field.values = format(field.values[0], field.values[1], this.f2, this.rowLength);
+                field.altDescription = new String[field.values.length];
+                field.actualText = new String[field.values.length];
+                for (int i = 0; i < field.values.length; i++) {
+                    field.altDescription[i] = field.values[i];
+                    field.actualText[i] = field.values[i];
+                }
+            }
+            if (field.x == 0f) {
+                numberOfRows += field.values.length;
+            }
+        }
+
         if (numberOfRows == 0) {
             return new float[] { x, y };
         }
@@ -172,6 +189,52 @@ public class Form {
         }
 
         return new float[] { x + rowLength, y + boxHeight };
+    }
+
+
+    public static String[] format(String title, String text, Font font, float width) {
+
+        String[] original = text.split("\\r?\\n");
+        List<String> lines = new ArrayList<String>();
+        StringBuilder buf = new StringBuilder();
+        for (int i = 0; i < original.length; i++) {
+            String line = original[i];
+            if (font.stringWidth(line) < width) {
+                lines.add(line);
+                continue;
+            }
+
+            buf.setLength(0);
+            for (int j = 0; j < line.length(); j++) {
+                buf.append(line.charAt(j));
+                if (font.stringWidth(buf.toString()) > (width - font.stringWidth("   "))) {
+                    while (j > 0 && line.charAt(j) != ' ') {
+                        j -= 1;
+                    }
+                    String str = line.substring(0, j).replaceAll("\\s+$", "");
+                    lines.add(str);
+                    buf.setLength(0);
+                    while (j < line.length() && line.charAt(j) == ' ') {
+                        j += 1;
+                    }
+                    line = line.substring(j);
+                    j = 0;
+                }
+            }
+
+            if (!line.equals("")) {
+                lines.add(line);
+            }
+        }
+
+        int count = lines.size();
+        String[] data = new String[1 + count];
+        data[0] = title;
+        for (int i = 0; i < count; i++) {
+            data[i + 1] = lines.get(i);
+        }
+
+        return data;
     }
 
 }   // End of Form.java

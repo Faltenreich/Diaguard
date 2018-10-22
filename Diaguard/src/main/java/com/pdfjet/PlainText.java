@@ -1,7 +1,7 @@
 /**
  *  PlainText.java
  *
-Copyright (c) 2015, Innovatics Inc.
+Copyright (c) 2018, Innovatics Inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -34,7 +34,7 @@ import java.util.*;
 /**
  *  Please see Example_45
  */
-public class PlainText {
+public class PlainText implements Drawable {
 
     private Font font;
     private String[] textLines;
@@ -116,6 +116,13 @@ public class PlainText {
     }
 
 
+    /**
+     *  Draws this PlainText on the specified page.
+     *
+     *  @param page the page to draw this PlainText on.
+     *  @return x and y coordinates of the bottom right corner of this component.
+     *  @throws Exception
+     */
     public float[] drawOn(Page page) throws Exception {
         float originalSize = font.getSize();
         font.setSize(fontSize);

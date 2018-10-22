@@ -20,7 +20,7 @@ import com.faltenreich.diaguard.event.data.FoodQueryEndedEvent;
 import com.faltenreich.diaguard.event.data.FoodQueryStartedEvent;
 import com.faltenreich.diaguard.event.networking.FoodSearchFailedEvent;
 import com.faltenreich.diaguard.event.networking.FoodSearchSucceededEvent;
-import com.faltenreich.diaguard.networking.openfoodfacts.OpenFoodFactsManager;
+import com.faltenreich.diaguard.networking.openfoodfacts.OpenFoodFactsService;
 import com.faltenreich.diaguard.util.Helper;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -118,7 +118,7 @@ public class FoodListView extends RecyclerView {
 
     private void searchOnline() {
         Events.post(new FoodQueryStartedEvent());
-        OpenFoodFactsManager.getInstance().search(query, onlinePage);
+        OpenFoodFactsService.getInstance().search(query, onlinePage);
     }
 
     private void addItems(List<ListItemFood> foodList) {

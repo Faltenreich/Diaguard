@@ -5,7 +5,6 @@ import android.content.Context;
 
 import com.faltenreich.diaguard.data.ImportHelper;
 import com.faltenreich.diaguard.data.PreferenceHelper;
-import com.faltenreich.diaguard.networking.openfoodfacts.OpenFoodFactsManager;
 import com.faltenreich.diaguard.ui.view.preferences.OpenDatabaseLicense;
 import com.faltenreich.diaguard.util.NotificationUtils;
 
@@ -26,12 +25,6 @@ public class DiaguardApplication extends Application {
         init();
     }
 
-    @Override
-    public void onTerminate() {
-        super.onTerminate();
-        OpenFoodFactsManager.getInstance().stop();
-    }
-
     public static Context getContext() {
         return context;
     }
@@ -43,6 +36,5 @@ public class DiaguardApplication extends Application {
         LicenseResolver.registerLicense(new OpenDatabaseLicense());
         PreferenceHelper.getInstance().migrate();
         NotificationUtils.setupNotifications(this);
-        OpenFoodFactsManager.getInstance().start();
     }
 }

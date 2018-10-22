@@ -9,10 +9,6 @@ import com.faltenreich.diaguard.networking.NetworkResponse;
 import com.faltenreich.diaguard.networking.NetworkService;
 import com.faltenreich.diaguard.networking.openfoodfacts.dto.SearchResponseDto;
 
-/**
- * Created by Faltenreich on 23.09.2016.
- */
-
 public class OpenFoodFactsService extends NetworkService<OpenFoodFactsApi> {
 
     private static final String TAG = OpenFoodFactsService.class.getSimpleName();

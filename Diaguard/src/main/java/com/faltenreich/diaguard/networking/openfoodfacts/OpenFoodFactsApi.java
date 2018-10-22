@@ -6,10 +6,6 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-/**
- * Created by Faltenreich on 23.09.2016.
- */
-
 interface OpenFoodFactsApi {
 
     @GET("/cgi/search.pl")

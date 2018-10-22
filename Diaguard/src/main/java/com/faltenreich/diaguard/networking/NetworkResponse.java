@@ -1,17 +1,15 @@
 package com.faltenreich.diaguard.networking;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 public class NetworkResponse<T> {
 
-    @NonNull
     private int statusCode;
 
     @Nullable
     private T data;
 
-    NetworkResponse(int statusCode, T data) {
+    NetworkResponse(int statusCode, @Nullable T data) {
         this.statusCode = statusCode;
         this.data = data;
     }
@@ -24,6 +22,7 @@ public class NetworkResponse<T> {
         return statusCode;
     }
 
+    @Nullable
     public T getData() {
         return data;
     }

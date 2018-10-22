@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.networking.openfoodfacts.dto;
 
-import com.faltenreich.diaguard.networking.NetworkDto;
 import com.faltenreich.diaguard.util.StringUtils;
 import com.google.gson.annotations.SerializedName;
 
@@ -8,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by Faltenreich on 23.09.2016.
  */
 
-public class ProductDto extends NetworkDto {
+public class ProductDto {
 
     public static final String DATE_FORMAT = "yyyy-MM-dd";
 

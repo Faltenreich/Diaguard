@@ -1,13 +1,8 @@
 package com.faltenreich.diaguard.networking.openfoodfacts.dto;
 
-import com.faltenreich.diaguard.networking.NetworkDto;
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by Faltenreich on 23.09.2016.
- */
-
-public class NutrientsDto extends NetworkDto {
+public class NutrientsDto {
 
     @SerializedName("carbohydrates_100g")
     public Float carbohydrates;

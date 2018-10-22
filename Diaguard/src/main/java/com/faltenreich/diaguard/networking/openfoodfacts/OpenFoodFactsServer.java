@@ -7,7 +7,7 @@ public class OpenFoodFactsServer extends NetworkServer<OpenFoodFactsApi> {
 
     private static final String HOST_FORMAT = "https://world-%s.openfoodfacts.org";
 
-    public OpenFoodFactsServer() {
+    OpenFoodFactsServer() {
         super(OpenFoodFactsApi.class);
     }
 

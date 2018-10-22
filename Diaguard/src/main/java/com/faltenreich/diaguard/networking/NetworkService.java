@@ -11,17 +11,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public abstract class NetworkService<API> {
+public abstract class NetworkService<SERVER> {
 
     private static final String TAG = NetworkService.class.getSimpleName();
 
-    protected NetworkServer<API> server;
+    protected SERVER server;
 
-    public NetworkService() {
-
-    }
-
-    public void init(NetworkServer<API> server) {
+    public NetworkService(SERVER server) {
         this.server = server;
     }
 

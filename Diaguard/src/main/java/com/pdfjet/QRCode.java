@@ -106,8 +106,10 @@ public class QRCode implements Drawable {
      *  Draws this barcode on the specified page.
      *
      *  @param page the specified page.
+     *  @return x and y coordinates of the bottom right corner of this component.
+     *  @throws Exception
      */
-    public void drawOn(Page page) throws Exception {
+    public float[] drawOn(Page page) throws Exception {
         for (int row = 0; row < modules.length; row++) {
             for (int col = 0; col < modules.length; col++) {
                 if (isDark(row, col)) {
@@ -115,6 +117,10 @@ public class QRCode implements Drawable {
                 }
             }
         }
+
+        float w = m1*modules.length;
+        float h = m1*modules.length;
+        return new float[] {x + w, y + h};
     }
 
     public Boolean[][] getData() {

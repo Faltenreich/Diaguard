@@ -1,7 +1,7 @@
 /**
  *  Line.java
  *
-Copyright (c) 2014, Innovatics Inc.
+Copyright (c) 2018, Innovatics Inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -388,8 +388,10 @@ public class Line implements Drawable {
      *  Draws this line on the specified page.
      *
      *  @param page the page to draw this line on.
+     *  @return x and y coordinates of the bottom right corner of this component.
+     *  @throws Exception
      */
-    public void drawOn(Page page) throws Exception {
+    public float[] drawOn(Page page) throws Exception {
         page.setPenColor(color);
         page.setPenWidth(width);
         page.setLineCapStyle(capStyle);
@@ -401,6 +403,10 @@ public class Line implements Drawable {
                 x2 + box_x,
                 y2 + box_y);
         page.addEMC();
+
+        float x_max = Math.max(x1 + box_x, x2 + box_x);
+        float y_max = Math.max(y1 + box_y, y2 + box_y);
+        return new float[] {x_max, y_max};
     }
 
 }   // End of Line.java

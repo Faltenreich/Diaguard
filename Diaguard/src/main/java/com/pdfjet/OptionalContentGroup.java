@@ -1,7 +1,7 @@
 /**
  *  OptionalContentGroup.java
  *
-Copyright (c) 2014, Innovatics Inc.
+Copyright (c) 2018, Innovatics Inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -79,7 +79,27 @@ public class OptionalContentGroup {
             p.pdf.append("<<\n");
             p.pdf.append("/Type /OCG\n");
             p.pdf.append("/Name (" + name + ")\n");
+            p.pdf.append("/Usage <<\n");
+            if (visible) {
+                p.pdf.append("/View << /ViewState /ON >>\n");
+            }
+            else {
+                p.pdf.append("/View << /ViewState /OFF >>\n");
+            }
+            if (printable) {                
+                p.pdf.append("/Print << /PrintState /ON >>\n");
+            }
+            else {
+                p.pdf.append("/Print << /PrintState /OFF >>\n");                
+            }
+            if (exportable) {                                
+                p.pdf.append("/Export << /ExportState /ON >>\n");
+            }
+            else {
+                p.pdf.append("/Export << /ExportState /OFF >>\n");                
+            }
             p.pdf.append(">>\n");
+            p.pdf.append(">>\n");            
             p.pdf.endobj();
 
             objNumber = p.pdf.objNumber;
@@ -93,4 +113,5 @@ public class OptionalContentGroup {
             p.append("\nEMC\n");
         }
     }
+
 }   // End of OptionalContentGroup.java

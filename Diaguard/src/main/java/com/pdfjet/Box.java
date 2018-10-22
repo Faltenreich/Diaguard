@@ -1,7 +1,7 @@
 /**
  *  Box.java
  *
-Copyright (c) 2014, Innovatics Inc.
+Copyright (c) 2018, Innovatics Inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -35,7 +35,7 @@ package com.pdfjet;
  *  Also used to for layout purposes. See the placeIn method in the Image and TextLine classes.
  *
  */
-public class Box {
+public class Box implements Drawable {
 
     protected float x;
     protected float y;
@@ -325,8 +325,10 @@ public class Box {
      *  Draws this box on the specified page.
      *
      *  @param page the page to draw this box on.
+     *  @return x and y coordinates of the bottom right corner of this component.
+     *  @throws Exception
      */
-    public void drawOn(Page page) throws Exception {
+    public float[] drawOn(Page page) throws Exception {
         page.addBMC(StructElem.SPAN, language, altDescription, actualText);
         page.setPenWidth(width);
         page.setLinePattern(pattern);
@@ -360,6 +362,8 @@ public class Box {
                     altDescription,
                     actualText));
         }
+
+        return new float[] {x + w, y + h};
     }
 
 }   // End of Box.java

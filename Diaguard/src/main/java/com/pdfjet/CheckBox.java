@@ -1,7 +1,7 @@
 /**
  *  CheckBox.java
  *
-Copyright (c) 2014, Innovatics Inc.
+Copyright (c) 2018, Innovatics Inc.
 All rights reserved.
 
 Portions provided by Shirley C. Christenson
@@ -37,7 +37,7 @@ package com.pdfjet;
  *  Creates a CheckBox, which can be set checked or unchecked.
  *  By default the check box is unchecked.
  */
-public class CheckBox {
+public class CheckBox implements Drawable {
 
     private float x;
     private float y;
@@ -257,7 +257,7 @@ public class CheckBox {
                     actualText));
         }
 
-        return new float[] { x + 3f*w + font.stringWidth(label), y + font.getBodyHeight() };
+        return new float[] { x + 3f*w + font.stringWidth(label), y + font.getDescent() };
     }
 
 }   // End of CheckBox.java

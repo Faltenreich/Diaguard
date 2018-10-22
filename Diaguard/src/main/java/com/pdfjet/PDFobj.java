@@ -1,7 +1,7 @@
 /**
  *  PDFobj.java
  *
-Copyright (c) 2014, Innovatics Inc.
+Copyright (c) 2018, Innovatics Inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -34,7 +34,7 @@ import java.util.*;
 
 
 /**
- *  Used to create Java or .NET objects that represent the objects in PDF document. 
+ *  Used to create Java or .NET objects that represent the objects in PDF document.
  *  See the PDF specification for more information.
  *
  */
@@ -47,9 +47,8 @@ public class PDFobj {
     protected byte[] stream;        // The compressed stream
     protected byte[] data;          // The decompressed data
 
-
     /**
-     *  Used to create Java or .NET objects that represent the objects in PDF document. 
+     *  Used to create Java or .NET objects that represent the objects in PDF document.
      *  See the PDF specification for more information.
      *  Also see Example_19.
      *
@@ -66,6 +65,11 @@ public class PDFobj {
     }
 
 
+    public int getNumber() {
+        return this.number;
+    }
+
+
     /**
      *  Returns the object dictionary.
      *
@@ -73,6 +77,11 @@ public class PDFobj {
      */
     public List<String> getDict() {
         return this.dict;
+    }
+
+
+    public void setDict(List<String> dict) {
+        this.dict = dict;
     }
 
 
@@ -97,11 +106,6 @@ public class PDFobj {
     }
 
 
-    protected int getNumber() {
-        return this.number;
-    }
-
-
     protected void setNumber(int number) {
         this.number = number;
     }
@@ -118,6 +122,32 @@ public class PDFobj {
         for (int i = 0; i < dict.size(); i++) {
             String token = dict.get(i);
             if (token.equals(key)) {
+                if (dict.get(i + 1).equals("<<")) {
+                    StringBuilder buffer = new StringBuilder();
+                    buffer.append("<<");
+                    buffer.append(" ");
+                    i += 2;
+                    while (!dict.get(i).equals(">>")) {
+                        buffer.append(dict.get(i));
+                        buffer.append(" ");
+                        i += 1;
+                    }
+                    buffer.append(">>");
+                    return buffer.toString();
+                }
+                if (dict.get(i + 1).equals("[")) {
+                    StringBuilder buffer = new StringBuilder();
+                    buffer.append("[");
+                    buffer.append(" ");
+                    i += 2;
+                    while (!dict.get(i).equals("]")) {
+                        buffer.append(dict.get(i));
+                        buffer.append(" ");
+                        i += 1;
+                    }
+                    buffer.append("]");
+                    return buffer.toString();
+                }
                 return dict.get(i + 1);
             }
         }
@@ -132,7 +162,7 @@ public class PDFobj {
             if (token.equals(key)) {
                 String str = dict.get(++i);
                 if (str.equals("[")) {
-                    for (;;) {
+                    while (true) {
                         str = dict.get(++i);
                         if (str.equals("]")) {
                             break;
@@ -164,7 +194,7 @@ public class PDFobj {
             if (dict.get(i).equals("/Contents")) {
                 String str = dict.get(++i);
                 if (str.equals("[")) {
-                    for (;;) {
+                    while (true) {
                         str = dict.get(++i);
                         if (str.equals("]")) {
                             index = i;
@@ -238,7 +268,52 @@ public class PDFobj {
     }
 
 
-    public Font addFontResource(CoreFont coreFont, Map<Integer, PDFobj> objects) {
+    public PDFobj getContentsObject(Map<Integer, PDFobj> objects) {
+        for (int i = 0; i < dict.size(); i++) {
+            if (dict.get(i).equals("/Contents")) {
+                if (dict.get(i + 1).equals("[")) {
+                    return objects.get(Integer.valueOf(dict.get(i + 2)));
+                }
+                return objects.get(Integer.valueOf(dict.get(i + 1)));
+            }
+        }
+        return null;
+    }
+
+
+    public PDFobj getResourcesObject(Map<Integer, PDFobj> objects) {
+        for (int i = 0; i < dict.size(); i++) {
+            if (dict.get(i).equals("/Resources")) {
+                String token = dict.get(i + 1);
+                if (token.equals("<<")) {
+                    PDFobj obj = new PDFobj();
+                    obj.dict.add("0");
+                    obj.dict.add("0");
+                    obj.dict.add("obj");
+                    obj.dict.add(token);
+                    int level = 1;
+                    i++;
+                    while (i < dict.size() && level > 0) {
+                        token = dict.get(i);
+                        obj.dict.add(token);
+                        if (token.equals("<<")) {
+                            level++;
+                        }
+                        else if (token.equals(">>")) {
+                            level--;
+                        }
+                        i++;
+                    }
+                    return obj;
+                }
+                return objects.get(Integer.valueOf(token));
+            }
+        }
+        return null;
+    }
+
+
+    public Font addResource(CoreFont coreFont, Map<Integer, PDFobj> objects) {
         Font font = new Font(coreFont);
         font.fontID = font.name.replace('-', '_').toUpperCase();
 
@@ -277,30 +352,128 @@ public class PDFobj {
 
     private void addFontResource(
             PDFobj obj, Map<Integer, PDFobj> objects, String fontID, int number) {
+
+        boolean fonts = false;
         for (int i = 0; i < obj.dict.size(); i++) {
-            String token = null;
             if (obj.dict.get(i).equals("/Font")) {
-                token = obj.dict.get(++i);
-                if (token.equals("<<")) {
-                    obj.dict.add(++i, "/" + fontID);
-                    obj.dict.add(++i, String.valueOf(number));
-                    obj.dict.add(++i, "0");
-                    obj.dict.add(++i, "R");
+                fonts = true;
+            }
+        }
+        if (!fonts) {
+            for (int i = 0; i < obj.dict.size(); i++) {
+                if (obj.dict.get(i).equals("/Resources")) {
+                    obj.dict.add(i + 2, "/Font");
+                    obj.dict.add(i + 3, "<<");
+                    obj.dict.add(i + 4, ">>");
                     break;
+                }
+            }
+        }
+
+        for (int i = 0; i < obj.dict.size(); i++) {
+            if (obj.dict.get(i).equals("/Font")) {
+                String token = obj.dict.get(i + 1);
+                if (token.equals("<<")) {
+                    obj.dict.add(i + 2, "/" + fontID);
+                    obj.dict.add(i + 3, String.valueOf(number));
+                    obj.dict.add(i + 4, "0");
+                    obj.dict.add(i + 5, "R");
+                    return;
                 }
                 else if (Character.isDigit(token.charAt(0))) {
                     PDFobj o2 = objects.get(Integer.valueOf(token));
                     for (int j = 0; j < o2.dict.size(); j++) {
-                        token = o2.dict.get(j);
-                        if (token.equals("<<")) {
-                            o2.dict.add(++j, "/" + fontID);
-                            o2.dict.add(++j, String.valueOf(number));
-                            o2.dict.add(++j, "0");
-                            o2.dict.add(++j, "R");
-                            break;
+                        if (o2.dict.get(j).equals("<<")) {
+                            o2.dict.add(j + 1, "/" + fontID);
+                            o2.dict.add(j + 2, String.valueOf(number));
+                            o2.dict.add(j + 3, "0");
+                            o2.dict.add(j + 4, "R");
+                            return;
                         }
                     }
                 }
+            }
+        }
+    }
+
+
+    private void insertNewObject(
+            List<String> dict, List<String> list, String type) {
+        for (int i = 0; i < dict.size(); i++) {
+            if (dict.get(i).equals(type)) {
+                dict.addAll(i + 2, list);
+                return;
+            }
+        }
+        if (dict.get(3).equals("<<")) {
+            dict.addAll(4, list);
+            return;
+        }
+    }
+
+
+    private void addResource(
+            String type, PDFobj obj, Map<Integer, PDFobj> objects, int objNumber) {
+        String tag = type.equals("/Font") ? "/F" : "/Im";
+        String number = String.valueOf(objNumber);
+        List<String> list = Arrays.asList(tag + number, number, "0", "R");
+        for (int i = 0; i < obj.dict.size(); i++) {
+            if (obj.dict.get(i).equals(type)) {
+                String token = obj.dict.get(i + 1);
+                if (token.equals("<<")) {
+                    insertNewObject(obj.dict, list, type);
+                }
+                else {
+                    insertNewObject(objects.get(Integer.valueOf(token)).dict, list, type);
+                }
+                return;
+            }
+        }
+
+        // Handle the case where the page originally does not have any font resources.
+        list = Arrays.asList(type, "<<", tag + number, number, "0", "R", ">>");
+        for (int i = 0; i < obj.dict.size(); i++) {
+            if (obj.dict.get(i).equals("/Resources")) {
+                obj.dict.addAll(i + 2, list);
+                return;
+            }
+        }
+        for (int i = 0; i < obj.dict.size(); i++) {
+            if (obj.dict.get(i).equals("<<")) {
+                obj.dict.addAll(i + 1, list);
+                return;
+            }
+        }
+    }
+
+
+    public void addResource(Image image, Map<Integer, PDFobj> objects) {
+        for (int i = 0; i < dict.size(); i++) {
+            if (dict.get(i).equals("/Resources")) {
+                String token = dict.get(i + 1);
+                if (token.equals("<<")) {       // Direct resources object
+                    addResource("/XObject", this, objects, image.objNumber);
+                }
+                else {                          // Indirect resources object
+                    addResource("/XObject", objects.get(Integer.valueOf(token)), objects, image.objNumber);
+                }
+                return;
+            }
+        }
+    }
+
+
+    public void addResource(Font font, Map<Integer, PDFobj> objects) {
+        for (int i = 0; i < dict.size(); i++) {
+            if (dict.get(i).equals("/Resources")) {
+                String token = dict.get(i + 1);
+                if (token.equals("<<")) {       // Direct resources object
+                    addResource("/Font", this, objects, font.objNumber);
+                }
+                else {                          // Indirect resources object
+                    addResource("/Font", objects.get(Integer.valueOf(token)), objects, font.objNumber);
+                }
+                return;
             }
         }
     }

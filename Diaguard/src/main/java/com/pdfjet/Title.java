@@ -1,7 +1,7 @@
 /**
- *  Arabic.java
+ *  Title.java
  *
-Copyright (c) 2015, Innovatics Inc.
+Copyright (c) 2018, Innovatics Inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -29,49 +29,42 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.pdfjet;
 
-import java.lang.*;
-import java.util.*;
+
+/**
+ * Please see Example_51 and Example_52
+ *
+ */
+public class Title {
+
+    public TextLine prefix = null;
+    public TextLine text = null;
 
 
-public class Arabic {
-
-    public static String reorderVisually(String str) {
-        StringBuilder buf1 = new StringBuilder();
-        StringBuilder buf2 = new StringBuilder();
-        boolean arabic = true;
-        char ch = 0x00;
-        for (int i = (str.length() - 1); i >= 0; i--) {
-            ch = str.charAt(i);
-            if (arabic) {
-                if (isArabic(ch)) {
-                    buf1.append(ch);
-                }
-                else {
-                    buf2.append(ch);
-                    arabic = false;
-                }
-            }
-            else {
-                if (isArabic(ch)) {
-                    buf1.append(buf2.reverse());
-                    buf2.setLength(0);
-                    arabic = true;
-                    buf1.append(ch);
-                }
-                else {
-                    buf2.append(ch);
-                }
-            }
-        }
-        if (buf2.length() > 0) {
-            buf1.append(buf2.reverse());
-        }
-        return buf1.toString();
+    public Title(Font font, String title, float x, float y) {
+        this.prefix = new TextLine(font);
+        this.text = new TextLine(font, title);
+        this.prefix.setLocation(x, y);
+        this.text.setLocation(x, y);
     }
 
 
-    public static boolean isArabic(char ch) {
-        return (ch >= 0x0600 && ch <= 0x06FF);
+    public Title setPrefix(String text) {
+        prefix.setText(text);
+        return this;
+    }
+
+
+    public Title setOffset(float offset) {
+        text.setLocation(text.x + offset, text.y);
+        return this;
+    }
+
+
+    public void drawOn(Page page) throws Exception {
+        if (!prefix.equals("")) {
+            prefix.drawOn(page);
+        }
+        text.drawOn(page);
     }
 
 }

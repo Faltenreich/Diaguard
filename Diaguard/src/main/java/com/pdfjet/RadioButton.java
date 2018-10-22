@@ -1,7 +1,7 @@
 /**
  *  RadioButton.java
  *
-Copyright (c) 2014, Innovatics Inc.
+Copyright (c) 2018, Innovatics Inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -34,7 +34,7 @@ package com.pdfjet;
  *  Creates a RadioButton, which can be set selected or unselected.
  *
  */
-public class RadioButton {
+public class RadioButton implements Drawable {
 
     private boolean selected = false;
     private float x;
@@ -151,6 +151,8 @@ public class RadioButton {
      *  Draws this RadioButton on the specified Page.
      *
      *  @param page the Page where the RadioButton is to be drawn.
+     *  @return x and y coordinates of the bottom right corner of this component.
+     *  @throws Exception
      */
     public float[] drawOn(Page page) throws Exception {
         page.addBMC(StructElem.SPAN, language, altDescription, actualText);
@@ -193,7 +195,7 @@ public class RadioButton {
                     actualText));
         }
 
-        return new float[] { x + 6*r1 + font.stringWidth(label), y + font.getBodyHeight() };
+        return new float[] { x + 6*r1 + font.stringWidth(label), y + font.getDescent() };
     }
 
 }   // End of RadioButton.java

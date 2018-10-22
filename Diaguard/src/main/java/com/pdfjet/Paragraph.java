@@ -1,7 +1,7 @@
 /**
  *  Paragraph.java
  *
-Copyright (c) 2015, Innovatics Inc.
+Copyright (c) 2018, Innovatics Inc.
 All rights reserved.
 */
 
@@ -27,6 +27,12 @@ public class Paragraph {
      */
     public Paragraph() {
         list = new ArrayList<TextLine>();
+    }
+
+
+    public Paragraph(TextLine text) {
+        list = new ArrayList<TextLine>();
+        list.add(text);
     }
 
 

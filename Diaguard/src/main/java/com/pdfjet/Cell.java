@@ -1,7 +1,7 @@
 /**
  *  Cell.java
  *
-Copyright (c) 2015, Innovatics Inc.
+Copyright (c) 2018, Innovatics Inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -45,6 +45,7 @@ public class Cell {
     protected Image image;
     protected Point point;
     protected CompositeTextLine compositeTextLine;
+    protected boolean ignoreImageHeight = false;
 
     protected float width = 70f;
     protected float top_padding = 2f;
@@ -75,6 +76,8 @@ public class Cell {
     // bits 24 to 31
     private int properties = 0x000F0001;
     private String uri;
+
+    private int valign = Align.TOP;
 
 
     /**
@@ -216,7 +219,7 @@ public class Cell {
 
     /**
      * Sets the composite text object.
-     * 
+     *
      * @param compositeTextLine the composite text object.
      */
     public void setCompositeTextLine(CompositeTextLine compositeTextLine) {
@@ -226,7 +229,7 @@ public class Cell {
 
     /**
      * Returns the composite text object.
-     * 
+     *
      * @return the composite text object.
      */
     public CompositeTextLine getCompositeTextLine() {
@@ -295,12 +298,25 @@ public class Cell {
 
 
     /**
+     *  Sets the top, bottom, left and right paddings of this cell.
+     *
+     *  @param padding the right padding.
+     */
+    public void setPadding(float padding) {
+        this.top_padding = padding;
+        this.bottom_padding = padding;
+        this.left_padding = padding;
+        this.right_padding = padding;
+    }
+
+
+    /**
      *  Returns the cell height.
      *
      *  @return the cell height.
      */
     public float getHeight() {
-        if (image != null) {
+        if (image != null && !ignoreImageHeight) {
             return image.getHeight() + top_padding + bottom_padding;
         }
         return font.body_height + top_padding + bottom_padding;
@@ -309,7 +325,7 @@ public class Cell {
 
     /**
      * Sets the border line width.
-     * 
+     *
      * @param lineWidth the border line width.
      */
     public void setLineWidth(float lineWidth) {
@@ -319,7 +335,7 @@ public class Cell {
 
     /**
      * Returns the border line width.
-     * 
+     *
      * @return the border line width.
      */
     public float getLineWidth() {
@@ -376,8 +392,8 @@ public class Cell {
 
 
     /**
-     *  Returns the brush color. 
-     * 
+     *  Returns the brush color.
+     *
      * @return the brush color.
      */
     public int getBrushColor() {
@@ -476,9 +492,31 @@ public class Cell {
     /**
      *  Returns the text alignment.
      *
+     *  @return the text horizontal alignment code.
      */
     public int getTextAlignment() {
         return (this.properties & 0x00300000);
+    }
+
+
+    /**
+     *  Sets the cell text vertical alignment.
+     *
+     *  @param alignment the alignment code.
+     *  Supported values: Align.TOP, Align.CENTER and Align.BOTTOM.
+     */
+    public void setVerTextAlignment(int alignment) {
+        this.valign = alignment;
+    }
+
+
+    /**
+     *  Returns the cell text vertical alignment.
+     *
+     *  @return the vertical alignment code.
+     */
+    public int getVerTextAlignment() {
+        return this.valign;
     }
 
 
@@ -500,7 +538,7 @@ public class Cell {
 
     /**
      * Returns the underline text parameter.
-     * 
+     *
      * @return the underline text parameter.
      */
     public boolean getUnderline() {
@@ -510,7 +548,7 @@ public class Cell {
 
     /**
      * Sets the strikeout text parameter.
-     * 
+     *
      * @param strikeout the strikeout text parameter.
      */
     public void setStrikeout(boolean strikeout) {
@@ -525,7 +563,7 @@ public class Cell {
 
     /**
      * Returns the strikeout text parameter.
-     * 
+     *
      * @return the strikeout text parameter.
      */
     public boolean getStrikeout() {
@@ -557,7 +595,7 @@ public class Cell {
         }
         drawBorders(page, x, y, w, h);
         if (text != null) {
-            drawText(page, x, y, w);
+            drawText(page, x, y, w, h);
         }
         if (point != null) {
             if (point.align == Align.LEFT) {
@@ -592,7 +630,7 @@ public class Cell {
             float cell_w,
             float cell_h) throws Exception {
         page.setBrushColor(background);
-        page.fillRect(x, y, cell_w, cell_h);
+        page.fillRect(x, y + lineWidth / 2, cell_w, cell_h + lineWidth);
     }
 
 
@@ -615,31 +653,32 @@ public class Cell {
             page.addEMC();
         }
         else {
+            float qWidth = lineWidth / 4;
             if (getBorder(Border.TOP)) {
                 page.addBMC(StructElem.SPAN, Single.space, Single.space);
-                page.moveTo(x, y);
+                page.moveTo(x - qWidth, y);
                 page.lineTo(x + cell_w, y);
                 page.strokePath();
                 page.addEMC();
             }
             if (getBorder(Border.BOTTOM)) {
                 page.addBMC(StructElem.SPAN, Single.space, Single.space);
-                page.moveTo(x, y + cell_h);
+                page.moveTo(x - qWidth, y + cell_h);
                 page.lineTo(x + cell_w, y + cell_h);
                 page.strokePath();
                 page.addEMC();
             }
             if (getBorder(Border.LEFT)) {
                 page.addBMC(StructElem.SPAN, Single.space, Single.space);
-                page.moveTo(x, y);
-                page.lineTo(x, y + cell_h);
+                page.moveTo(x, y - qWidth);
+                page.lineTo(x, y + cell_h + qWidth);
                 page.strokePath();
                 page.addEMC();
             }
             if (getBorder(Border.RIGHT)) {
                 page.addBMC(StructElem.SPAN, Single.space, Single.space);
-                page.moveTo(x + cell_w, y);
-                page.lineTo(x + cell_w, y + cell_h);
+                page.moveTo(x + cell_w, y - qWidth);
+                page.lineTo(x + cell_w, y + cell_h + qWidth);
                 page.strokePath();
                 page.addEMC();
             }
@@ -652,10 +691,23 @@ public class Cell {
             Page page,
             float x,
             float y,
-            float cell_w) throws Exception {
+            float cell_w,
+            float cell_h) throws Exception {
 
         float x_text;
-        float y_text = y + font.ascent + this.top_padding;
+        float y_text;
+        if (valign == Align.TOP) {
+            y_text = y + font.ascent + this.top_padding;
+        }
+        else if (valign == Align.CENTER) {
+            y_text = y + cell_h/2 + font.ascent/2;
+        }
+        else if (valign == Align.BOTTOM) {
+            y_text = (y + cell_h) - this.bottom_padding;
+        }
+        else {
+            throw new Exception("Invalid vertical text alignment option.");
+        }
 
         page.setPenColor(pen);
         page.setBrushColor(brush);
@@ -675,7 +727,7 @@ public class Cell {
             }
             else {
                 x_text = (x + cell_w) - (compositeTextLine.getWidth() + this.right_padding);
-                compositeTextLine.setPosition(x_text, y_text);
+                compositeTextLine.setLocation(x_text, y_text);
                 page.addBMC(StructElem.SPAN, text, text);
                 compositeTextLine.drawOn(page);
                 page.addEMC();
@@ -698,7 +750,7 @@ public class Cell {
             else {
                 x_text = x + this.left_padding +
                         (((cell_w - (left_padding + right_padding)) - compositeTextLine.getWidth()) / 2);
-                compositeTextLine.setPosition(x_text, y_text);
+                compositeTextLine.setLocation(x_text, y_text);
                 page.addBMC(StructElem.SPAN, text, text);
                 compositeTextLine.drawOn(page);
                 page.addEMC();
@@ -718,7 +770,7 @@ public class Cell {
                 }
             }
             else {
-                compositeTextLine.setPosition(x_text, y_text);
+                compositeTextLine.setLocation(x_text, y_text);
                 page.addBMC(StructElem.SPAN, text, text);
                 compositeTextLine.drawOn(page);
                 page.addEMC();
@@ -769,35 +821,55 @@ public class Cell {
     }
 
 
-    protected int getNumVerCells() {
+    /**
+     *  Use this method to find out how many vertically stacked cell are needed after call to wrapAroundCellText.
+     *
+     *  @return the number of vertical cells needed to wrap around the cell text.
+     */
+    public int getNumVerCells() {
         int n = 1;
         if (getText() == null) {
             return n;
         }
-        String[] tokens = getText().split("\\s+");
-        if (tokens.length == 1) {
+
+        String[] textLines = getText().split("\\r?\\n");
+        if (textLines.length == 0) {
             return n;
         }
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < tokens.length; i++) {
-            String token = tokens[i];
-            if (font.stringWidth(sb.toString() + " " + token) >
-                    (getWidth() - (this.left_padding + this.right_padding))) {
-                sb = new StringBuilder(token);
-                n++;
-            }
-            else {
-                if (i > 0) {
-                    sb.append(" ");
+
+        n = 0;
+        for (String textLine : textLines) {
+            String[] tokens = textLine.split("\\s+");
+            StringBuilder sb = new StringBuilder();
+            if (tokens.length > 1) {
+                for (int i = 0; i < tokens.length; i++) {
+                    String token = tokens[i];
+                    if (font.stringWidth(sb.toString() + " " + token) >
+                            (getWidth() - (this.left_padding + this.right_padding))) {
+                        sb = new StringBuilder(token);
+                        n++;
+                    }
+                    else {
+                        if (i > 0) {
+                            sb.append(" ");
+                        }
+                        sb.append(token);
+                    }
                 }
-                sb.append(token);
             }
+            n++;
         }
+
         return n;
     }
 
 
-    protected int getNumVerCells2() {
+    /**
+     *  Use this method to find out how many vertically stacked cell are needed after call to wrapAroundCellText2.
+     *
+     *  @return the number of vertical cells needed to wrap around the cell text.
+     */
+    public int getNumVerCells2() {
         int n = 1;
         if (getText() == null) {
             return n;
@@ -813,6 +885,16 @@ public class Cell {
             sb.append(str);
         }
         return n;
+    }
+
+
+    public void setIgnoreImageHeight(boolean ignoreImageHeight) {
+        this.ignoreImageHeight = ignoreImageHeight;
+    }
+
+
+    public boolean getIgnoreImageHeight() {
+        return this.ignoreImageHeight;
     }
 
 }   // End of Cell.java

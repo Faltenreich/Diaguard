@@ -1,7 +1,7 @@
 /**
  *  Table.java
  *
-Copyright (c) 2015, Innovatics Inc.
+Copyright (c) 2018, Innovatics Inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -173,8 +173,8 @@ public class Table {
                         cellWidth = cell.image.getWidth();
                     }
                     if (cell.text != null) {
-                        if (cell.font.stringWidth(cell.text) > cellWidth) {
-                            cellWidth = cell.font.stringWidth(cell.text);
+                        if (cell.font.stringWidth(cell.fallbackFont, cell.text) > cellWidth) {
+                            cellWidth = cell.font.stringWidth(cell.fallbackFont, cell.text);
                         }
                     }
                     cell.setWidth(cellWidth + cell.left_padding + cell.right_padding);
@@ -353,7 +353,7 @@ public class Table {
      *  @return the width of the column.
      */
     public float getColumnWidth(int index) throws Exception {
-        return getCellAtRowColumn(0, index).getWidth(); 
+        return getCellAtRowColumn(0, index).getWidth();
     }
 
 
@@ -606,6 +606,15 @@ public class Table {
 
 
     /**
+     *  Just calls the wrapAroundCellText method.
+     */
+    @Deprecated
+    public void wrapAroundCellText2() {
+        wrapAroundCellText();
+    }
+
+
+    /**
      *  Wraps around the text in all cells so it fits the column width.
      *  This method should be called after all calls to setColumnWidth and autoAdjustColumnWidths.
      *
@@ -638,7 +647,6 @@ public class Table {
                     Cell cell2 = new Cell(cell.getFont(), "");
                     cell2.setFallbackFont(cell.getFallbackFont());
                     cell2.setPoint(cell.getPoint());
-                    cell2.setCompositeTextLine(cell.getCompositeTextLine());
                     cell2.setWidth(cell.getWidth());
                     if (j == 0) {
                         cell2.setTopPadding(cell.top_padding);
@@ -653,10 +661,17 @@ public class Table {
                     cell2.setPenColor(cell.getPenColor());
                     cell2.setBrushColor(cell.getBrushColor());
                     cell2.setProperties(cell.getProperties());
+                    cell2.setVerTextAlignment(cell.getVerTextAlignment());
+                    cell2.setIgnoreImageHeight(cell.getIgnoreImageHeight());
 
                     if (j == 0) {
                         cell2.setImage(cell.getImage());
-                        cell2.setText(cell.getText());
+                        if (cell.getCompositeTextLine() != null) {
+                            cell2.setCompositeTextLine(cell.getCompositeTextLine());
+                        }
+                        else {
+                            cell2.setText(cell.getText());
+                        }
                         if (maxNumVerCells > 1) {
                             cell2.setBorder(Border.BOTTOM, false);
                         }
@@ -679,29 +694,36 @@ public class Table {
                 Cell cell = row.get(j);
                 if (cell.text != null) {
                     int n = 0;
-                    String[] tokens = cell.getText().split("\\s+");
-                    StringBuilder sb = new StringBuilder();
-                    if (tokens.length == 1) {
-                        sb.append(tokens[0]);
-                    }
-                    else {
-                        for (int k = 0; k < tokens.length; k++) {
-                            String token = tokens[k];
-                            if (cell.font.stringWidth(sb.toString() + " " + token) >
-                                    (cell.getWidth() - (cell.left_padding + cell.right_padding))) {
-                                tableData2.get(i + n).get(j).setText(sb.toString());
-                                sb = new StringBuilder(token);
-                                n++;
-                            }
-                            else {
-                                if (k > 0) {
-                                    sb.append(" ");
+                    String[] textLines = cell.getText().split("\\r?\\n");
+                    for (String textLine : textLines) {
+                        StringBuilder sb = new StringBuilder();
+                        String[] tokens = textLine.split("\\s+");
+                        if (tokens.length == 1) {
+                            sb.append(tokens[0]);
+                        }
+                        else {
+                            for (int k = 0; k < tokens.length; k++) {
+                                String token = tokens[k];
+                                if (cell.font.stringWidth(cell.fallbackFont, sb.toString() + " " + token) >
+                                        (cell.getWidth() - (cell.left_padding + cell.right_padding))) {
+                                    tableData2.get(i + n).get(j).setText(sb.toString());
+                                    sb = new StringBuilder(token);
+                                    n++;
                                 }
-                                sb.append(token);
+                                else {
+                                    if (k > 0) {
+                                        sb.append(" ");
+                                    }
+                                    sb.append(token);
+                                }
                             }
                         }
+                        tableData2.get(i + n).get(j).setText(sb.toString());
+                        n++;
                     }
-                    tableData2.get(i + n).get(j).setText(sb.toString());
+                }
+                else {
+                    tableData2.get(i).get(j).setCompositeTextLine(cell.getCompositeTextLine());
                 }
             }
         }
@@ -763,94 +785,35 @@ public class Table {
     }
 
 
-    public void wrapAroundCellText2() {
-        List<List<Cell>> tableData2 = new ArrayList<List<Cell>>();
-
+    /**
+     * This method removes borders that have the same color and overlap 100%.
+     * The result is improved onscreen rendering of thin border lines by some PDF viewers.
+     */
+    public void mergeOverlaidBorders() {
         for (int i = 0; i < tableData.size(); i++) {
-            List<Cell> row = tableData.get(i);
-            int maxNumVerCells = 1;
-            for (int j = 0; j < row.size(); j++) {
-                Cell cell = row.get(j);
-                int colspan = cell.getColSpan();
-                for (int n = 1; n < colspan; n++) {
-                    Cell next = row.get(j + n);
-                    cell.setWidth(cell.getWidth() + next.getWidth());
-                    next.setWidth(0f);
+            List<Cell> currentRow = tableData.get(i);
+            for (int j = 0; j < currentRow.size(); j++) {
+                Cell currentCell = currentRow.get(j);
+                if (j < currentRow.size() - 1) {
+                    Cell cellAtRight = currentRow.get(j + 1);
+                    if (cellAtRight.getBorder(Border.LEFT) &&
+                            currentCell.getPenColor() == cellAtRight.getPenColor() &&
+                            currentCell.getLineWidth() == cellAtRight.getLineWidth() &&
+                            (currentCell.getColSpan() + j) < (currentRow.size() - 1)) {
+                        currentCell.setBorder(Border.RIGHT, false);
+                    }
                 }
-                int numVerCells = cell.getNumVerCells2();
-                if (numVerCells > maxNumVerCells) {
-                    maxNumVerCells = numVerCells;
-                }
-            }
-
-            for (int j = 0; j < maxNumVerCells; j++) {
-                List<Cell> row2 = new ArrayList<Cell>();
-                for (int k = 0; k < row.size(); k++) {
-                    Cell cell = row.get(k);
-
-                    Cell cell2 = new Cell(cell.getFont(), "");
-                    cell2.setFallbackFont(cell.getFallbackFont());
-                    cell2.setPoint(cell.getPoint());
-                    cell2.setCompositeTextLine(cell.getCompositeTextLine());
-                    cell2.setWidth(cell.getWidth());
-                    if (j == 0) {
-                        cell2.setTopPadding(cell.top_padding);
+                if (i < tableData.size() - 1) {
+                    List<Cell> nextRow = tableData.get(i + 1);
+                    Cell cellBelow = nextRow.get(j);
+                    if (cellBelow.getBorder(Border.TOP) &&
+                            currentCell.getPenColor() == cellBelow.getPenColor() &&
+                            currentCell.getLineWidth() == cellBelow.getLineWidth()) {
+                        currentCell.setBorder(Border.BOTTOM, false);
                     }
-                    if (j == (maxNumVerCells - 1)) {
-                        cell2.setBottomPadding(cell.bottom_padding);
-                    }
-                    cell2.setLeftPadding(cell.left_padding);
-                    cell2.setRightPadding(cell.right_padding);
-                    cell2.setLineWidth(cell.lineWidth);
-                    cell2.setBgColor(cell.getBgColor());
-                    cell2.setPenColor(cell.getPenColor());
-                    cell2.setBrushColor(cell.getBrushColor());
-                    cell2.setProperties(cell.getProperties());
-
-                    if (j == 0) {
-                        cell2.setImage(cell.getImage());
-                        cell2.setText(cell.getText());
-                        if (maxNumVerCells > 1) {
-                            cell2.setBorder(Border.BOTTOM, false);
-                        }
-                    }
-                    else  {
-                        cell2.setBorder(Border.TOP, false);
-                        if (j < (maxNumVerCells - 1)) {
-                            cell2.setBorder(Border.BOTTOM, false);
-                        }
-                    }
-                    row2.add(cell2);
-                }
-                tableData2.add(row2);
-            }
-        }
-
-        for (int i = 0; i < tableData2.size(); i++) {
-            List<Cell> row = tableData2.get(i);
-            for (int j = 0; j < row.size(); j++) {
-                Cell cell = row.get(j);
-                if (cell.text != null) {
-                    String text = cell.text;
-                    int n = 0;
-                    StringBuilder sb = new StringBuilder();
-                    for (int k = 0; k < text.length(); k++) {
-                        String str = new String(
-                                new char[] { text.charAt(k) });
-                        if (cell.font.stringWidth(sb.toString() + str) >
-                                (cell.getWidth() - (cell.left_padding + cell.right_padding))) {
-                            tableData2.get(i + n).get(j).setText(sb.toString());
-                            n++;
-                            sb.setLength(0);
-                        }
-                        sb.append(str);
-                    }
-                    tableData2.get(i + n).get(j).setText(sb.toString());
                 }
             }
         }
-
-        tableData = tableData2;
     }
 
 }   // End of Table.java

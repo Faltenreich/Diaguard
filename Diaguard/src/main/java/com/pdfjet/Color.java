@@ -1,7 +1,7 @@
 /**
  *  Color.java
  *
-Copyright (c) 2014, Innovatics Inc.
+Copyright (c) 2018, Innovatics Inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -186,4 +186,6 @@ public class Color {
 
     public static final int oldgloryred = 0xb22234;
     public static final int oldgloryblue = 0x3c3b6e;
+
+    public static final int transparent = -1;
 }

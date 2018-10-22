@@ -27,7 +27,7 @@ class StandardFont {
             break;
             
             case COURIER_BOLD:
-            font.name  = Courier_Bold.name;
+            font.name = Courier_Bold.name;
             font.bBoxLLx = Courier_Bold.bBoxLLx;
             font.bBoxLLy = Courier_Bold.bBoxLLy;
             font.bBoxURx = Courier_Bold.bBoxURx;
@@ -38,7 +38,7 @@ class StandardFont {
             break;
             
             case COURIER_OBLIQUE:
-            font.name  = Courier_Oblique.name;
+            font.name = Courier_Oblique.name;
             font.bBoxLLx = Courier_Oblique.bBoxLLx;
             font.bBoxLLy = Courier_Oblique.bBoxLLy;
             font.bBoxURx = Courier_Oblique.bBoxURx;
@@ -49,7 +49,7 @@ class StandardFont {
             break;
 
             case COURIER_BOLD_OBLIQUE:
-            font.name  = Courier_BoldOblique.name;
+            font.name = Courier_BoldOblique.name;
             font.bBoxLLx = Courier_BoldOblique.bBoxLLx;
             font.bBoxLLy = Courier_BoldOblique.bBoxLLy;
             font.bBoxURx = Courier_BoldOblique.bBoxURx;
@@ -60,7 +60,7 @@ class StandardFont {
             break;
 
             case HELVETICA:
-            font.name  = Helvetica.name;
+            font.name = Helvetica.name;
             font.bBoxLLx = Helvetica.bBoxLLx;
             font.bBoxLLy = Helvetica.bBoxLLy;
             font.bBoxURx = Helvetica.bBoxURx;

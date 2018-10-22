@@ -1,7 +1,7 @@
 /**
  *  Compressor.java
  *
-Copyright (c) 2014, Innovatics Inc.
+Copyright (c) 2018, Innovatics Inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -40,6 +40,8 @@ class Compressor extends Deflater {
 
     public Compressor(byte[] image) {
 
+        // setLevel(Deflater.BEST_SPEED);
+        // setLevel(Deflater.NO_COMPRESSION);
     	setInput(image);
         finish();
     	

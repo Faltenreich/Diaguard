@@ -1,7 +1,7 @@
 /**
  *  Align.java
  *
-Copyright (c) 2014, Innovatics Inc.
+Copyright (c) 2018, Innovatics Inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -41,4 +41,7 @@ public class Align {
     public static final int CENTER  = 0x00100000;
     public static final int RIGHT   = 0x00200000;
     public static final int JUSTIFY = 0x00300000;
+
+    public static final int TOP     = 0x00400000;
+    public static final int BOTTOM  = 0x00500000;
 }

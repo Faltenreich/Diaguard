@@ -1,7 +1,7 @@
 /**
  *  Page.java
  *
-Copyright (c) 2015, Innovatics Inc.
+Copyright (c) 2018, Innovatics Inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -29,9 +29,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package com.pdfjet;
 
-import java.io.*;
-import java.text.*;
-import java.util.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -48,6 +50,8 @@ import java.util.*;
 public class Page {
 
     protected PDF pdf;
+    protected Map<Integer, PDFobj> objects;
+    protected PDFobj pageObj;
     protected int objNumber;
     protected ByteArrayOutputStream buf;
     protected float[] tm = new float[] {1f, 0f, 0f, 1f};
@@ -104,7 +108,7 @@ public class Page {
      *
      *  @param pdf the pdf object.
      *  @param pageSize the page size of this page.
-     *  @param addPageToPDF boolean flag. 
+     *  @param addPageToPDF boolean flag.
      */
     public Page(PDF pdf, float[] pageSize, boolean addPageToPDF) throws Exception {
         this.pdf = pdf;
@@ -121,6 +125,38 @@ public class Page {
     }
 
 
+    public Page(PDF pdf, PDFobj pageObj, Map<Integer, PDFobj> objects) throws Exception {
+        this.pdf = pdf;
+        this.objects = objects;
+        this.pageObj = pageObj;
+        width = pageObj.getPageSize()[0];
+        height = pageObj.getPageSize()[1];
+        buf = new ByteArrayOutputStream(8192);
+        append("q\n");
+    }
+
+
+    public Font addResource(CoreFont coreFont) {
+        return pageObj.addResource(coreFont, objects);
+    }
+
+
+    public void addResource(Image image) {
+        pageObj.addResource(image, objects);
+    }
+
+
+    public void addResource(Font font) {
+        pageObj.addResource(font, objects);
+    }
+
+
+    public void complete() throws Exception {
+        append("Q\n");
+        pageObj.addContent(getContent(), objects);
+    }
+
+
     public byte[] getContent() {
         return buf.toByteArray();
     }
@@ -131,9 +167,13 @@ public class Page {
      *
      *  @param name The destination name.
      *  @param yPosition The vertical position of the destination on this page.
+     *
+     *  @return the destination.
      */
-    public void addDestination(String name, float yPosition) {
-        destinations.add(new Destination(name, height - yPosition));
+    public Destination addDestination(String name, float yPosition) {
+        Destination dest = new Destination(name, height - yPosition);
+        destinations.add(dest);
+        return dest;
     }
 
 
@@ -392,6 +432,35 @@ public class Page {
 
 
     /**
+     *  Sets the graphics state. Please see Example_31.
+     *
+     *  @param gs the graphics state to use.
+     */
+    public void setGraphicsState(GraphicsState gs) throws IOException {
+        StringBuilder buf = new StringBuilder();
+        buf.append("/CA ");
+        buf.append(gs.get_CA());
+        buf.append(" ");
+        buf.append("/ca ");
+        buf.append(gs.get_ca());
+        setGraphicsState(buf.toString());
+    }
+
+
+    // String state = "/CA 0.5 /ca 0.5";
+    private void setGraphicsState(String state) throws IOException {
+        Integer n = pdf.states.get(state);
+        if (n == null) {
+            n = pdf.states.size() + 1;
+            pdf.states.put(state, n);
+        }
+        append("/GS");
+        append(n);
+        append(" gs\n");
+    }
+
+
+    /**
      * Sets the color for stroking operations.
      * The pen color is used when drawing lines and splines.
      *
@@ -465,7 +534,7 @@ public class Page {
 
     /**
      * Sets the color for brush operations.
-     * 
+     *
      * @param color the color.
      * @throws IOException
      */
@@ -476,7 +545,7 @@ public class Page {
 
     /**
      * Returns the brush color.
-     * 
+     *
      * @return the brush color.
      */
     public float[] getBrushColor() {
@@ -496,28 +565,28 @@ public class Page {
 
     /**
      * Sets the pen color.
-     * 
+     *
      * @param color the color. See the Color class for predefined values or define your own using 0x00RRGGBB packed integers.
      * @throws IOException
      */
     public void setPenColor(int color) throws IOException {
-        float r = ((color >> 16) & 0xff)/255.0f;
-        float g = ((color >>  8) & 0xff)/255.0f;
-        float b = ((color)       & 0xff)/255.0f;
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
         setPenColor(r, g, b);
     }
 
 
     /**
      * Sets the brush color.
-     * 
+     *
      * @param color the color. See the Color class for predefined values or define your own using 0x00RRGGBB packed integers.
      * @throws IOException
      */
     public void setBrushColor(int color) throws IOException {
-        float r = ((color >> 16) & 0xff)/255.0f;
-        float g = ((color >>  8) & 0xff)/255.0f;
-        float b = ((color)       & 0xff)/255.0f;
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
         setBrushColor(r, g, b);
     }
 
@@ -866,6 +935,23 @@ public class Page {
 
 
     /**
+     *  Draws the specified circle on the page and fills it with the current brush color.
+     *
+     *  @param x the x coordinate of the center of the circle to be drawn.
+     *  @param y the y coordinate of the center of the circle to be drawn.
+     *  @param r the radius of the circle to be drawn.
+     *  @param operation must be Operation.STROKE, Operation.CLOSE or Operation.FILL.
+     */
+    public void drawCircle(
+            float x,
+            float y,
+            float r,
+            char operation) throws Exception {
+        drawEllipse(x, y, r, r, operation);
+    }
+
+
+    /**
      *  Draws an ellipse on the page using the current pen color.
      *
      *  @param x the x coordinate of the center of the ellipse to be drawn.
@@ -1169,10 +1255,10 @@ public class Page {
      *  @param p3 end point
      */
     public void bezierCurveTo(Point p1, Point p2, Point p3) throws IOException {
-    	append(p1);
-    	append(p2);
-    	append(p3);
-    	append("c\n");
+        append(p1);
+        append(p2);
+        append(p3);
+        append("c\n");
     }
 
 
@@ -1533,32 +1619,6 @@ public class Page {
         buf.setLength(0);
     }
 
-/*
-    private void drawStringUsingDevanagari(
-            Font font, String str) throws IOException {
-        int i = 0;
-        for (; i < (str.length() - 1); i++) {
-            char ch1 = str.charAt(i);
-            char ch2 = str.charAt(i + 1);
-            if (font.isVirama(ch2)) {
-                int gid = font.getHalfForm(ch1, ch2);
-                append((byte) (gid >> 8));
-                append((byte) (gid));
-            }
-            else if (font.isVowelSignI(ch2)) {
-                drawTwoByteChar(ch2, font);
-                drawTwoByteChar(ch1, font);
-                i++;
-            }
-            else if (!font.isVirama(ch1)) {
-                drawTwoByteChar(ch1, font);
-            }
-        }
-        if (i < str.length()) {
-            drawTwoByteChar(str.charAt(i), font);
-        }
-    }
-*/
 
     protected void setStructElementsPageObjNumber(
             int pageObjNumber) throws Exception {
@@ -1589,7 +1649,7 @@ public class Page {
             element.altDescription = altDescription;
             element.actualText = actualText;
             structures.add(element);
-    
+
             append("/");
             append(structure);
             append(" <</MCID ");
@@ -1598,7 +1658,7 @@ public class Page {
             append("BDC\n");
         }
     }
- 
+
 
     public void addEMC() throws Exception {
         if (pdf.compliance == Compliance.PDF_UA) {
@@ -1618,6 +1678,83 @@ public class Page {
             element.annotation = annotation;
             structures.add(element);
         }
+    }
+
+
+    protected void beginTransform(
+            float x, float y, float xScale, float yScale) throws Exception {
+        append("q\n");
+
+        append(xScale);
+        append(" 0 0 ");
+        append(yScale);
+        append(' ');
+        append(x);
+        append(' ');
+        append(y);
+        append(" cm\n");
+
+        append(xScale);
+        append(" 0 0 ");
+        append(yScale);
+        append(' ');
+        append(x);
+        append(' ');
+        append(y);
+        append(" Tm\n");
+    }
+
+
+    protected void endTransform() throws Exception {
+        append("Q\n");
+    }
+
+
+    public void drawContents(
+            byte[] content,
+            float h,    // The height of the graphics object in points.
+            float x,
+            float y,
+            float xScale,
+            float yScale) throws Exception {
+        beginTransform(x, (this.height - yScale * h) - y, xScale, yScale);
+        append(content);
+        endTransform();
+    }
+
+
+    public void drawString(
+            Font font, String str, float x, float y, float dx) throws Exception {
+        float x1 = x;
+        for (int i = 0; i < str.length(); i++) {
+            drawString(font, str.substring(i, i + 1), x1, y);
+            x1 += dx;
+        }
+    }
+
+
+    public void addWatermark(
+            Font font, String text) throws Exception {
+        float hypotenuse = (float)
+                Math.sqrt(this.height * this.height + this.width * this.width);
+        float stringWidth = font.stringWidth(text);
+        float offset = (hypotenuse - stringWidth) / 2f;
+        double angle = Math.atan(this.height / this.width);
+        TextLine watermark = new TextLine(font);
+        watermark.setColor(Color.lightgrey);
+        watermark.setText(text);
+        watermark.setLocation(
+                (float) (offset * Math.cos(angle)),
+                (this.height - (float) (offset * Math.sin(angle))));
+        watermark.setTextDirection((int) (angle * (180.0 / Math.PI)));
+        watermark.drawOn(this);
+    }
+
+
+    public void invertYAxis() throws Exception {
+        append("1 0 0 -1 0 ");
+        append(this.height);
+        append(" cm\n");
     }
 
 }   // End of Page.java

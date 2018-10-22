@@ -1,7 +1,7 @@
 /**
  *  Image.java
  *
-Copyright (c) 2014, Innovatics Inc.
+Copyright (c) 2018, Innovatics Inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -30,6 +30,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package com.pdfjet;
 
 import java.io.*;
+import java.util.*;
 
 
 /**
@@ -42,12 +43,10 @@ public class Image implements Drawable {
 
     protected int objNumber;
 
-    protected float x;	    // Position of the image on the page
-    protected float y;
+    protected float x = 0f; // Position of the image on the page
+    protected float y = 0f;
     protected float w;      // Image width
     protected float h;      // Image height
-
-    protected long size;    // Image file size
 
     protected String uri;
     protected String key;
@@ -55,7 +54,8 @@ public class Image implements Drawable {
     private float box_x;
     private float box_y;
 
-    private boolean rotate90 = false;
+    private int degrees = 0;
+    private boolean flipUpsideDown = false;
 
     private String language = null;
     private String altDescription = Single.space;
@@ -65,7 +65,7 @@ public class Image implements Drawable {
     /**
      *  The main constructor for the Image class.
      *
-     *  @param pdf the page to draw this image on.
+     *  @param pdf the PDF to which we add this image.
      *  @param inputStream the input stream to read the image from.
      *  @param imageType ImageType.JPG, ImageType.PNG and ImageType.BMP.
      *
@@ -120,14 +120,54 @@ public class Image implements Drawable {
     }
 
 
-    /**
-     *  Sets the position of this image on the page to (x, y).
-     *
-     *  @param x the x coordinate of the top left corner of the image.
-     *  @param y the y coordinate of the top left corner of the image.
-     */
-    public void setPosition(double x, double y) {
-    	setPosition((float) x, (float) y);
+    public Image(PDF pdf, PDFobj obj) throws Exception {
+        // System.out.println(obj.getDict());
+        w = Float.valueOf(obj.getValue("/Width"));
+        h = Float.valueOf(obj.getValue("/Height"));
+        pdf.newobj();
+        pdf.append("<<\n");
+        pdf.append("/Type /XObject\n");
+        pdf.append("/Subtype /Image\n");
+        pdf.append("/Filter ");
+        pdf.append(obj.getValue("/Filter"));
+        pdf.append("\n");
+        pdf.append("/Width ");
+        pdf.append(w);
+        pdf.append('\n');
+        pdf.append("/Height ");
+        pdf.append(h);
+        pdf.append('\n');
+        String colorSpace = obj.getValue("/ColorSpace");
+        if (!colorSpace.equals("")) {
+            pdf.append("/ColorSpace ");
+            pdf.append(colorSpace);
+            pdf.append("\n");
+        }
+        pdf.append("/BitsPerComponent ");
+        pdf.append(obj.getValue("/BitsPerComponent"));
+        pdf.append("\n");
+        String decodeParms = obj.getValue("/DecodeParms");
+        if (!decodeParms.equals("")) {
+            pdf.append("/DecodeParms ");
+            pdf.append(decodeParms);
+            pdf.append("\n");
+        }
+        String imageMask = obj.getValue("/ImageMask");
+        if (!imageMask.equals("")) {
+            pdf.append("/ImageMask ");
+            pdf.append(imageMask);
+            pdf.append("\n");
+        }
+        pdf.append("/Length ");
+        pdf.append(obj.stream.length);
+        pdf.append('\n');
+        pdf.append(">>\n");
+        pdf.append("stream\n");
+        pdf.append(obj.stream, 0, obj.stream.length);
+        pdf.append("\nendstream\n");
+        pdf.endobj();
+        pdf.images.add(this);
+        objNumber = pdf.objNumber;
     }
 
 
@@ -137,8 +177,19 @@ public class Image implements Drawable {
      *  @param x the x coordinate of the top left corner of the image.
      *  @param y the y coordinate of the top left corner of the image.
      */
-    public void setPosition(float x, float y) {
-        setLocation(x, y);
+    public Image setPosition(double x, double y) {
+        return setPosition((float) x, (float) y);
+    }
+
+
+    /**
+     *  Sets the position of this image on the page to (x, y).
+     *
+     *  @param x the x coordinate of the top left corner of the image.
+     *  @param y the y coordinate of the top left corner of the image.
+     */
+    public Image setPosition(float x, float y) {
+        return setLocation(x, y);
     }
 
 
@@ -148,9 +199,10 @@ public class Image implements Drawable {
      *  @param x the x coordinate of the top left corner of the image.
      *  @param y the y coordinate of the top left corner of the image.
      */
-    public void setLocation(float x, float y) {
+    public Image setLocation(float x, float y) {
         this.x = x;
         this.y = y;
+        return this;
     }
 
 
@@ -159,18 +211,18 @@ public class Image implements Drawable {
      *
      *  @param factor the factor used to scale the image.
      */
-    public void scaleBy(double factor) {
-     	this.scaleBy((float) factor, (float) factor);
+    public Image scaleBy(double factor) {
+        return this.scaleBy((float) factor, (float) factor);
     }
 
-    
+
     /**
      *  Scales this image by the specified factor.
      *
      *  @param factor the factor used to scale the image.
      */
-    public void scaleBy(float factor) {
-     	this.scaleBy(factor, factor);
+    public Image scaleBy(float factor) {
+        return this.scaleBy(factor, factor);
     }
 
 
@@ -181,9 +233,10 @@ public class Image implements Drawable {
      *  @param widthFactor the factor used to scale the width of the image
      *  @param heightFactor the factor used to scale the height of the image
      */
-    public void scaleBy(float widthFactor, float heightFactor) {
+    public Image scaleBy(float widthFactor, float heightFactor) {
         this.w *= widthFactor;
         this.h *= heightFactor;
+        return this;
     }
 
 
@@ -196,8 +249,8 @@ public class Image implements Drawable {
         box_x = box.x;
         box_y = box.y;
     }
-    
-    
+
+
     /**
      *  Sets the URI for the "click box" action.
      *
@@ -225,7 +278,22 @@ public class Image implements Drawable {
      *  @param rotate90 the flag.
      */
     public void setRotateCW90(boolean rotate90) {
-        this.rotate90 = rotate90;
+        if (rotate90) {
+            this.degrees = 90;
+        }
+        else {
+            this.degrees = 0;
+        }
+    }
+
+
+    /**
+     *  Sets the image rotation to the specified number of degrees.
+     *
+     *  @param degrees the number of degrees.
+     */
+    public void setRotate(int degrees) {
+        this.degrees = degrees;
     }
 
 
@@ -257,33 +325,17 @@ public class Image implements Drawable {
      *  Draws this image on the specified page.
      *
      *  @param page the page to draw this image on.
+     *  @return x and y coordinates of the bottom right corner of this component.
+     *  @throws Exception
      */
-    public void drawOn(Page page) throws Exception {
+    public float[] drawOn(Page page) throws Exception {
         page.addBMC(StructElem.SPAN, language, altDescription, actualText);
 
         x += box_x;
         y += box_y;
         page.append("q\n");
 
-        if (rotate90) {
-            page.append(h);
-            page.append(' ');
-            page.append(0f);
-            page.append(' ');
-            page.append(0f);
-            page.append(' ');
-            page.append(w);
-            page.append(' ');
-            page.append(x);
-            page.append(' ');
-            page.append(page.height - y);
-            page.append(" cm\n");
-
-            // Rotate the image 2x45 degrees clockwise. The magic number is Math.sqrt(0.5):
-            page.append("0.7071067811 -0.7071067811 0.7071067811 0.7071067811 0.0 0.0 cm\n");
-            page.append("0.7071067811 -0.7071067811 0.7071067811 0.7071067811 0.0 0.0 cm\n");
-        }
-        else {
+        if (degrees == 0) {
             page.append(w);
             page.append(' ');
             page.append(0f);
@@ -296,6 +348,55 @@ public class Image implements Drawable {
             page.append(' ');
             page.append(page.height - (y + h));
             page.append(" cm\n");
+        }
+        else if (degrees == 90) {
+            page.append(h);
+            page.append(' ');
+            page.append(0f);
+            page.append(' ');
+            page.append(0f);
+            page.append(' ');
+            page.append(w);
+            page.append(' ');
+            page.append(x);
+            page.append(' ');
+            page.append(page.height - y);
+            page.append(" cm\n");
+            page.append("0 -1 1 0 0 0 cm\n");
+        }
+        else if (degrees == 180) {
+            page.append(w);
+            page.append(' ');
+            page.append(0f);
+            page.append(' ');
+            page.append(0f);
+            page.append(' ');
+            page.append(h);
+            page.append(' ');
+            page.append(x + w);
+            page.append(' ');
+            page.append(page.height - y);
+            page.append(" cm\n");
+            page.append("-1 0 0 -1 0 0 cm\n");
+        }
+        else if (degrees == 270) {
+            page.append(h);
+            page.append(' ');
+            page.append(0f);
+            page.append(' ');
+            page.append(0f);
+            page.append(' ');
+            page.append(w);
+            page.append(' ');
+            page.append(x + h);
+            page.append(' ');
+            page.append(page.height - (y + w));
+            page.append(" cm\n");
+            page.append("0 1 -1 0 0 0 cm\n");
+        }
+
+        if (flipUpsideDown) {
+            page.append("1 0 0 -1 0 0 cm\n");
         }
 
         page.append("/Im");
@@ -317,6 +418,8 @@ public class Image implements Drawable {
                     altDescription,
                     actualText));
         }
+
+        return new float[] {x + w, y + h};
     }
 
 
@@ -520,5 +623,178 @@ public class Image implements Drawable {
         val |= buf[3] & 0xff;
         return val;
     }
-    
+
+
+    /**
+     *  Constructor used to attach images to existing PDF.
+     *
+     *  @param objects the map to which we add this image.
+     *  @param inputStream the input stream to read the image from.
+     *  @param imageType ImageType.JPG, ImageType.PNG and ImageType.BMP.
+     *
+     */
+    public Image(Map<Integer, PDFobj> objects, InputStream inputStream, int imageType)
+            throws Exception {
+        byte[] data;
+        if (imageType == ImageType.JPG) {
+            JPGImage jpg = new JPGImage(inputStream);
+            data = jpg.getData();
+            w = jpg.getWidth();
+            h = jpg.getHeight();
+            if (jpg.getColorComponents() == 1) {
+                addImage(objects, data, null, imageType, "DeviceGray", 8);
+            }
+            else if (jpg.getColorComponents() == 3) {
+                addImage(objects, data, null, imageType, "DeviceRGB", 8);
+            }
+            else if (jpg.getColorComponents() == 4) {
+                addImage(objects, data, null, imageType, "DeviceCMYK", 8);
+            }
+        }
+        else if (imageType == ImageType.PNG) {
+            PNGImage png = new PNGImage(inputStream);
+            data = png.getData();
+            w = png.getWidth();
+            h = png.getHeight();
+            if (png.getColorType() == 0) {
+                addImage(objects, data, null, imageType, "DeviceGray", png.getBitDepth());
+            }
+            else {
+                if (png.getBitDepth() == 16) {
+                    addImage(objects, data, null, imageType, "DeviceRGB", 16);
+                }
+                else {
+                    addImage(objects, data, png.getAlpha(), imageType, "DeviceRGB", 8);
+                }
+            }
+        }
+        else if (imageType == ImageType.BMP) {
+            BMPImage bmp = new BMPImage(inputStream);
+            data = bmp.getData();
+            w = bmp.getWidth();
+            h = bmp.getHeight();
+            addImage(objects, data, null, imageType, "DeviceRGB", 8);
+        }
+/*
+        else if (imageType == ImageType.JET) {
+            addImage(pdf, inputStream);
+        }
+*/
+        inputStream.close();
+    }
+
+
+    private void addSoftMask(
+            Map<Integer, PDFobj> objects,
+            byte[] data,
+            String colorSpace,
+            int bitsPerComponent) throws Exception {
+        PDFobj obj = new PDFobj();
+        List<String> dict = obj.getDict();
+        dict.add("<<");
+        dict.add("/Type");
+        dict.add("/XObject");
+        dict.add("/Subtype");
+        dict.add("/Image");
+        dict.add("/Filter");
+        dict.add("/FlateDecode");
+        dict.add("/Width");
+        dict.add(String.valueOf((int) w));
+        dict.add("/Height");
+        dict.add(String.valueOf((int) h));
+        dict.add("/ColorSpace");
+        dict.add("/" + colorSpace);
+        dict.add("/BitsPerComponent");
+        dict.add(String.valueOf(bitsPerComponent));
+        dict.add("/Length");
+        dict.add(String.valueOf(data.length));
+        dict.add(">>");
+        obj.setStream(data);
+        obj.number = Collections.max(objects.keySet()) + 1;
+        objects.put(obj.number, obj);
+        objNumber = obj.number;
+    }
+
+
+    private void addImage(
+            Map<Integer, PDFobj> objects,
+            byte[] data,
+            byte[] alpha,
+            int imageType,
+            String colorSpace,
+            int bitsPerComponent) throws Exception {
+        if (alpha != null) {
+            addSoftMask(objects, alpha, "DeviceGray", 8);
+        }
+        PDFobj obj = new PDFobj();
+        List<String> dict = obj.getDict();
+        dict.add("<<");
+        dict.add("/Type");
+        dict.add("/XObject");
+        dict.add("/Subtype");
+        dict.add("/Image");
+        if (imageType == ImageType.JPG) {
+            dict.add("/Filter");
+            dict.add("/DCTDecode");
+        }
+        else if (imageType == ImageType.PNG || imageType == ImageType.BMP) {
+            dict.add("/Filter");
+            dict.add("/FlateDecode");
+            if (alpha != null) {
+                dict.add("/SMask");
+                dict.add(String.valueOf(objNumber));
+                dict.add("0");
+                dict.add("R");
+            }
+        }
+        dict.add("/Width");
+        dict.add(String.valueOf((int) w));
+        dict.add("/Height");
+        dict.add(String.valueOf((int) h));
+        dict.add("/ColorSpace");
+        dict.add("/" + colorSpace);
+        dict.add("/BitsPerComponent");
+        dict.add(String.valueOf(bitsPerComponent));
+        if (colorSpace.equals("DeviceCMYK")) {
+            // If the image was created with Photoshop - invert the colors:
+            dict.add("/Decode");
+            dict.add("[");
+            dict.add("1.0");
+            dict.add("0.0");
+            dict.add("1.0");
+            dict.add("0.0");
+            dict.add("1.0");
+            dict.add("0.0");
+            dict.add("1.0");
+            dict.add("0.0");
+            dict.add("]");
+        }
+        dict.add("/Length");
+        dict.add(String.valueOf(data.length));
+        dict.add(">>");
+        obj.setStream(data);
+        obj.number = Collections.max(objects.keySet()) + 1;
+        objects.put(obj.number, obj);
+        objNumber = obj.number;
+    }
+
+
+    public void resizeToFit(Page page, boolean keepAspectRatio) {
+        float page_w = page.getWidth();
+        float page_h = page.getHeight();
+        float image_w = this.getWidth();
+        float image_h = this.getHeight();
+        if (keepAspectRatio) {
+            this.scaleBy(Math.min((page_w - x)/image_w, (page_h - y)/image_h));
+        }
+        else {
+            this.scaleBy((page_w - x)/image_w, (page_h - y)/image_h);
+        }
+    }
+
+
+    public void flipUpsideDown(boolean flipUpsideDown) {
+        this.flipUpsideDown = flipUpsideDown;
+    }
+
 }   // End of Image.java

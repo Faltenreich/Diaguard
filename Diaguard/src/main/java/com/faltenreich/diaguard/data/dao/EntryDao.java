@@ -102,7 +102,7 @@ public class EntryDao extends BaseDao<Entry> {
 
     public <M extends Measurement> Entry getLatestWithMeasurement(Class<M> clazz) {
         try {
-            return join(clazz).orderBy(Entry.Column.DATE, false).queryForFirst();
+            return join(clazz).orderBy(Entry.Column.DATE, false).where().le(Entry.Column.DATE, DateTime.now()).queryForFirst();
         } catch (SQLException exception) {
             Log.e(TAG, exception.getMessage());
             return null;

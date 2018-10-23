@@ -44,7 +44,6 @@ public class DatePickerFragment extends DialogFragment {
         selectedDateTime = selectedDateTime != null ? selectedDateTime : DateTime.now();
         DateTime minDateTime = getArguments() != null ? (DateTime) getArguments().getSerializable(DATE_PICKER_FRAGMENT_DATE_MIN) : null;
         DateTime maxDateTime = getArguments() != null ? (DateTime) getArguments().getSerializable(DATE_PICKER_FRAGMENT_DATE_MAX) : null;
-        maxDateTime = maxDateTime != null ? maxDateTime : DateTime.now();
 
         int year = selectedDateTime.getYear();
         // Months are zero-based due to the Calendar.class
@@ -65,7 +64,9 @@ public class DatePickerFragment extends DialogFragment {
         if (minDateTime != null) {
             dialog.getDatePicker().setMinDate(minDateTime.getMillis());
         }
-        dialog.getDatePicker().setMaxDate(maxDateTime.getMillis());
+        if (maxDateTime != null) {
+            dialog.getDatePicker().setMaxDate(maxDateTime.getMillis());
+        }
 
         return dialog;
     }

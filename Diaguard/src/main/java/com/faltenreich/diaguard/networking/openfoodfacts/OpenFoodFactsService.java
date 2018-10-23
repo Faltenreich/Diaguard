@@ -3,11 +3,16 @@ package com.faltenreich.diaguard.networking.openfoodfacts;
 import android.util.Log;
 
 import com.faltenreich.diaguard.data.dao.FoodDao;
+import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.networking.FoodSearchFailedEvent;
+import com.faltenreich.diaguard.event.networking.FoodSearchSucceededEvent;
 import com.faltenreich.diaguard.networking.NetworkResponse;
 import com.faltenreich.diaguard.networking.NetworkService;
 import com.faltenreich.diaguard.networking.openfoodfacts.dto.SearchResponseDto;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class OpenFoodFactsService extends NetworkService<OpenFoodFactsServer> {
 
@@ -34,8 +39,13 @@ public class OpenFoodFactsService extends NetworkService<OpenFoodFactsServer> {
             @Override
             public void onResponse(NetworkResponse<SearchResponseDto> response) {
                 SearchResponseDto dto = response.getData();
-                Log.d(TAG, String.format("Received %d products for '%s' on page %d", dto != null ? dto.products.size() : 0, query, page));
-                FoodDao.getInstance().createOrUpdate(dto);
+                if (dto != null && dto.products.size() > 0) {
+                    Log.d(TAG, String.format("Received %d products for '%s' on page %d (%d total)", dto.products.size(), query, page, dto.count));
+                    List<Food> foodList = FoodDao.getInstance().createOrUpdate(dto);
+                    Events.post(new FoodSearchSucceededEvent(foodList));
+                } else {
+                    Events.post(new FoodSearchSucceededEvent(new ArrayList<Food>()));
+                }
             }
             @Override
             public void onError(NetworkResponse<SearchResponseDto> response) {

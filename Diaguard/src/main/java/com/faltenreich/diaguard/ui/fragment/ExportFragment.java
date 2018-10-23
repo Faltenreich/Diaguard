@@ -84,8 +84,8 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
     }
 
     public void initialize() {
-        dateEnd = DateTime.now();
-        dateStart = dateEnd.withDayOfMonth(1);
+        dateStart = DateTime.now().withDayOfWeek(1);
+        dateEnd = dateStart.withDayOfWeek(7);
     }
 
     public void initializeLayout() {
@@ -191,8 +191,10 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
         DatePickerFragment.newInstance(dateStart, null, dateEnd, new DatePickerFragment.DatePickerListener() {
             @Override
             public void onDatePicked(@Nullable DateTime dateTime) {
-                dateStart = dateTime;
-                buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
+                if (dateTime != null) {
+                    dateStart = dateTime;
+                    buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
+                }
             }
         }).show(getFragmentManager());
     }
@@ -202,8 +204,10 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
         DatePickerFragment.newInstance(dateEnd, dateStart, null, new DatePickerFragment.DatePickerListener() {
             @Override
             public void onDatePicked(@Nullable DateTime dateTime) {
-                dateEnd = dateTime;
-                buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
+                if (dateTime != null) {
+                    dateEnd = dateTime;
+                    buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
+                }
             }
         }).show(getFragmentManager());
     }

@@ -5,8 +5,6 @@ import android.util.Log;
 import com.faltenreich.diaguard.data.entity.BaseServerEntity;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.FoodEaten;
-import com.faltenreich.diaguard.event.Events;
-import com.faltenreich.diaguard.event.networking.FoodSearchSucceededEvent;
 import com.faltenreich.diaguard.networking.openfoodfacts.dto.ProductDto;
 import com.faltenreich.diaguard.networking.openfoodfacts.dto.SearchResponseDto;
 import com.faltenreich.diaguard.util.DateTimeUtils;
@@ -137,7 +135,7 @@ public class FoodDao extends BaseServerDao<Food> {
         }
     }
 
-    public void createOrUpdate(SearchResponseDto dto) {
+    public List<Food> createOrUpdate(SearchResponseDto dto) {
         List<Food> foodList = new ArrayList<>();
         Collections.reverse(dto.products);
         for (ProductDto productDto : dto.products) {
@@ -146,7 +144,7 @@ public class FoodDao extends BaseServerDao<Food> {
             }
         }
         FoodDao.getInstance().bulkCreateOrUpdate(foodList);
-        Events.post(new FoodSearchSucceededEvent(foodList));
+        return foodList;
     }
 
     private Food parseFromDto(ProductDto dto) {

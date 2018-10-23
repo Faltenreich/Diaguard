@@ -1,3 +1,4 @@
+-ignorewarnings
 -optimizationpasses 5
 -dontusemixedcaseclassnames
 -dontskipnonpubliclibraryclasses
@@ -78,16 +79,7 @@
 -dontwarn com.opencsv.**
 ##---------------End: OpenCsv ----------
 
-##---------------Begin: RoboSpice ----------
--keep class com.faltenreich.diaguard.networking.openfoodfacts.dto.**
--keepclassmembers class com.faltenreich.diaguard.networking.openfoodfacts.** {
-  public void set*(***);
-  public *** get*();
-  public *** is*();
-}
--keepclassmembers class com.faltenreich.diaguard.networking.openfoodfacts.dto.** {
-      public <fields>;
-}
+##---------------Begin: Retrofit ----------
 -dontwarn android.support.**
 -dontwarn com.sun.xml.internal.**
 -dontwarn com.sun.istack.internal.**
@@ -100,11 +92,7 @@
 -dontwarn java.util.**
 -dontwarn org.w3c.dom.**
 -dontwarn com.google.common.**
--dontwarn com.octo.android.robospice.**
-##---------------End: RoboSpice ----------
 
-##---------------Begin: Retrofit ----------
--keep class com.octo.android.robospice.retrofit.** { *; }
 -keepattributes *Annotation*,Signature
 -keep class retrofit.** { *; }
 -keepclasseswithmembers class * {
@@ -113,10 +101,24 @@
 -dontwarn rx.**
 -dontwarn com.squareup.okhttp.*
 -dontwarn retrofit.appengine.**
+
+-keep class com.faltenreich.diaguard.networking.openfoodfacts.dto.**
+-keepclassmembers class com.faltenreich.diaguard.networking.openfoodfacts.** {
+  public void set*(***);
+  public *** get*();
+  public *** is*();
+}
+-keepclassmembers class com.faltenreich.diaguard.networking.openfoodfacts.dto.** {
+      public <fields>;
+}
 ##---------------End: Retrofit ----------
 
 ##---------------Begin: Gson ----------
 -keepattributes Signature
+-keepattributes *Annotation*
+-keep class * implements com.google.gson.TypeAdapterFactory
+-keep class * implements com.google.gson.JsonSerializer
+-keep class * implements com.google.gson.JsonDeserializer
 ##---------------End: Gson ----------
 
 ##---------------Begin: Apache Commons ----------

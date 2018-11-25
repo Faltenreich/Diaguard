@@ -37,7 +37,6 @@
             android:id="@+id/navigation_drawer"
             android:layout_height="match_parent"
             android:layout_width="@dimen/navigation_drawer_width"
-            android:background="@android:color/white"
             android:layout_gravity="start"
             app:menu="@menu/navigation"
             app:headerLayout="@layout/view_empty"/>

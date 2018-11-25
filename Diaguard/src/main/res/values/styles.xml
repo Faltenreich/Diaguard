@@ -3,7 +3,20 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:windowBackground">@color/background</item>
+        <item name="android:windowBackground">@color/background_light</item>
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/green_darker</item>
+        <item name="colorAccent">@color/green</item>
+        <item name="elevation">4dp</item>
+        <item name="drawerArrowStyle">@style/NavigationDrawerArrowStyle</item>
+        <item name="android:windowSharedElementsUseOverlay">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
+
+    <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/background_dark</item>
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/green_darker</item>
         <item name="colorAccent">@color/green</item>

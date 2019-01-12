@@ -338,5 +338,7 @@
     <string name="tag_duplicate">La palabra clave ya está disponible</string>
     <string name="food_append">Adjuntar alimentos</string>
     <string name="available_placeholder">%d disponible</string>
+    <string name="backup_desc">Copia de seguridad de datos en un archivo de copia de seguridad en cualquier lugar (Ningún dato se reenvía automáticamente a servicios externos)</string>
+    <string name="import_desc">Restaurar datos de un archivo de copia de seguridad creado anteriormente</string>
 
 </resources>

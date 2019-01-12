@@ -44,11 +44,13 @@
 
         <com.faltenreich.diaguard.ui.view.preferences.BackupExportPreference
             android:key="backup"
-            android:title="@string/backup"/>
+            android:title="@string/backup"
+            android:summary="@string/backup_desc"/>
 
         <com.faltenreich.diaguard.ui.view.preferences.BackupImportPreference
             android:key="import"
-            android:title="@string/import_"/>
+            android:title="@string/import_"
+            android:summary="@string/import_desc"/>
 
     </PreferenceCategory>
 

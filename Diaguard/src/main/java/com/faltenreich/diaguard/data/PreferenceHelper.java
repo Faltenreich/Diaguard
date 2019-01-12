@@ -178,13 +178,10 @@ public class PreferenceHelper {
     }
 
     public int[] getExtrema(Measurement.Category category) {
-        int resourceIdExtrema = getContext().getResources().getIdentifier(category.name().toLowerCase() +
-                "_extrema", "array", getContext().getPackageName());
-
-        if(resourceIdExtrema == 0) {
+        int resourceIdExtrema = getContext().getResources().getIdentifier(category.name().toLowerCase() + "_extrema", "array", getContext().getPackageName());
+        if (resourceIdExtrema == 0) {
             throw new Resources.NotFoundException("Resource \"category_extrema\" not found: IntArray with event value extrema");
         }
-
         return getContext().getResources().getIntArray(resourceIdExtrema);
     }
 

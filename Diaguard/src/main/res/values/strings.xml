@@ -364,8 +364,8 @@
         <item>2.20462262185</item>
     </string-array>
     <integer-array name="weight_extrema" translatable="false">
-        <item name="minimum">20</item>
-        <item name="maximum">800</item>
+        <item name="minimum">0</item>
+        <item name="maximum">1400</item>
     </integer-array>
 
     <string name="pulse_units_default">Beats per Minutes</string>

@@ -335,5 +335,7 @@
     <string name="tag_duplicate">Stimmung ist bereits verfügbar</string>
     <string name="food_append">Lebensmittel anhängen</string>
     <string name="available_placeholder">%d verfügbar</string>
+    <string name="backup_desc">Daten in einer Backup-Datei an einem beliebigen Ort sichern (Es werden keine Daten automatisch an externe Dienste weitergegeben)</string>
+    <string name="import_desc">Daten aus einer vorher angelegten Backup-Datei wiederherstellen</string>
 
 </resources>

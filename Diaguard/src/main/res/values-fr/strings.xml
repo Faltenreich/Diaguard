@@ -336,5 +336,7 @@
     <string name="tag_duplicate">Le mot-clé est déjà disponible</string>
     <string name="food_append">Ajouter l\'aliment</string>
     <string name="available_placeholder">%d disponible</string>
+    <string name="backup_desc">Sauvegarder les données dans un fichier de sauvegarde n\'importe où (Aucune donnée n\'est automatiquement transmise à des services externes)</string>
+    <string name="import_desc">Restaurer les données d\'un fichier de sauvegarde créé précédemment</string>
 
 </resources>

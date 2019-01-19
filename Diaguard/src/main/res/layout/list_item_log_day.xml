@@ -4,13 +4,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/InlineListSection"
-    android:orientation="vertical">
+    android:layout_width="@dimen/list_header_width"
+    android:layout_height="@dimen/list_header_height"
+    android:orientation="vertical"
+    android:gravity="center">
 
     <TextView
         android:id="@+id/day"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:textColor="@color/gray_dark"
         android:textSize="@dimen/text_larger"
         android:lines="1"
@@ -23,6 +26,7 @@
         android:id="@+id/weekday"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:textColor="@color/gray_dark"
         tools:text="Wed"
         style="@style/NumberResizeable"/>

@@ -94,8 +94,8 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
     }
 
     public float function(SqlFunction sqlFunction, String column, Interval interval) {
-        String classNameEntry = DatabaseTableConfig.extractTableName(Entry.class);
-        String classNameMeasurement = DatabaseTableConfig.extractTableName(getClazz());
+        String classNameEntry = DatabaseTableConfig.extractTableName(null, Entry.class);
+        String classNameMeasurement = DatabaseTableConfig.extractTableName(null, getClazz());
         long intervalStart = interval.getStart().withTimeAtStartOfDay().getMillis();
         long intervalEnd = interval.getEnd().withTime(
                 DateTimeConstants.HOURS_PER_DAY - 1,

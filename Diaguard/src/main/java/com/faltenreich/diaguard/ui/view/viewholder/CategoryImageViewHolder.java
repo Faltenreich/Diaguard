@@ -24,7 +24,7 @@ public class CategoryImageViewHolder extends BaseViewHolder<ListItemCategoryImag
     public void bindData() {
         int categoryImageResourceId = PreferenceHelper.getInstance().getCategoryImageResourceId(getListItem().getCategory());
         if (categoryImageResourceId > 0) {
-            Picasso picasso = Picasso.with(getContext());
+            Picasso picasso = Picasso.get();
             if (picasso != null) {
                 picasso.load(categoryImageResourceId).into(imageView);
             }

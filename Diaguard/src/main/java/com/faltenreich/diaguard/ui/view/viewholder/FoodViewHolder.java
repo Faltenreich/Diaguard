@@ -38,7 +38,7 @@ public class FoodViewHolder extends BaseViewHolder<ListItemFood> implements View
                 food.getName().substring(0, 1).toUpperCase() :
                 null);
         if (!TextUtils.isEmpty(food.getImageUrl())) {
-            Picasso.with(getContext()).load(food.getImageUrl()).fit().centerCrop().into(image);
+            Picasso.get().load(food.getImageUrl()).fit().centerCrop().into(image);
         } else {
             image.setImageResource(0);
         }

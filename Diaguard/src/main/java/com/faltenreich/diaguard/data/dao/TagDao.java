@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.data.dao;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.Log;
 
 import com.faltenreich.diaguard.data.entity.BaseEntity;

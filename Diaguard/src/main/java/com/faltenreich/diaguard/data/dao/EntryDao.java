@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.data.dao;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 
 import com.faltenreich.diaguard.adapter.list.ListItemCategoryValue;

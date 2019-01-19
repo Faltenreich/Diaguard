@@ -2,8 +2,8 @@ package com.faltenreich.diaguard.ui.view;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.AttributeSet;
 
 import com.faltenreich.diaguard.adapter.EndlessRecyclerViewScrollListener;

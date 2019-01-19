@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.util.thread;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 import android.util.Log;
 
 import com.faltenreich.diaguard.R;

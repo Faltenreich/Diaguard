@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.util.permission;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 public enum PermissionUseCase {
     EXPORT,

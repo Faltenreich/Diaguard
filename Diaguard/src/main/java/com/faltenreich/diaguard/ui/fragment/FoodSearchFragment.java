@@ -173,6 +173,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         intent.putExtra(BaseFoodFragment.EXTRA_FOOD_ID, food.getId());
         startActivity(intent);
     }
+
     private void query(String query) {
         emptyList.setVisibility(View.GONE);
         list.newSearch(query);

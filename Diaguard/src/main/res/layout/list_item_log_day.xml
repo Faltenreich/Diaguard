@@ -2,21 +2,29 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/InlineListSection"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/day"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/gray_dark"
-        android:textSize="@dimen/text_larger" />
+        android:textSize="@dimen/text_larger"
+        android:lines="1"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="8sp"
+        app:autoSizeMaxTextSize="@dimen/text_larger"
+        tools:text="27"/>
 
     <TextView
         android:id="@+id/weekday"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/gray_dark"
+        tools:text="Wed"
         style="@style/NumberResizeable"/>
 
 </LinearLayout>

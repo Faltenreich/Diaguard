@@ -56,24 +56,26 @@ android {
     }
 }
 
-def butterKnifeVersion = '10.0.0'
-def retrofitVersion = '2.4.0'
+def ormLite = '5.1'
+def butterKnife = '10.0.0'
+def retrofit = '2.4.0'
 
 dependencies {
     implementation 'com.google.android.material:material:1.1.0-alpha02'
     implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha01'
     implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.paging:paging-runtime:2.1.0-rc01'
 
-    implementation 'com.j256.ormlite:ormlite-core:5.0'
-    implementation 'com.j256.ormlite:ormlite-android:5.0'
+    implementation "com.j256.ormlite:ormlite-core:$ormLite"
+    implementation "com.j256.ormlite:ormlite-android:$ormLite"
     implementation 'net.danlew:android.joda:2.9.9'
     implementation 'org.greenrobot:eventbus:3.0.0'
 
-    implementation "com.jakewharton:butterknife:$butterKnifeVersion"
-    annotationProcessor "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
+    implementation "com.jakewharton:butterknife:$butterKnife"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterKnife"
 
-    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit"
     implementation 'com.google.code.gson:gson:2.8.5'
 
     implementation 'org.apache.commons:commons-text:1.1'

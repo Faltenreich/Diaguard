@@ -44,12 +44,12 @@
                     android:gravity="fill_horizontal"
                     app:weightDefault="1.0"/>
 
-                <org.apmem.tools.layouts.FlowLayout
+                <com.google.android.material.chip.ChipGroup
                     style="@style/Padding"
                     android:id="@+id/entry_tags"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="0dp"/>
+                    app:chipSpacing="@dimen/margin_between" />
 
                 <TextView
                     style="@style/Padding"

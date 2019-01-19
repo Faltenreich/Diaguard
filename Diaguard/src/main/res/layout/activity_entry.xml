@@ -96,12 +96,15 @@
                                         android:completionThreshold="0"
                                         tools:ignore="RtlSymmetry"/>
 
-                                    <org.apmem.tools.layouts.FlowLayout
+                                    <com.google.android.material.chip.ChipGroup
                                         android:id="@+id/entry_tags"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:paddingLeft="12dp"
-                                        android:paddingStart="12dp"
+                                        android:visibility="gone"
+                                        android:paddingLeft="@dimen/margin_between"
+                                        android:paddingStart="@dimen/margin_between"
+                                        android:paddingBottom="@dimen/margin_between"
+                                        app:chipSpacing="@dimen/margin_between"
                                         tools:ignore="RtlSymmetry"/>
 
                                 </LinearLayout>

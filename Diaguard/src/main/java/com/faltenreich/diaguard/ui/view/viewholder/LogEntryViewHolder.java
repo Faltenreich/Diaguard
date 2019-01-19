@@ -22,8 +22,8 @@ import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
+import com.faltenreich.diaguard.ui.view.ChipView;
 import com.faltenreich.diaguard.ui.view.TintImageView;
-import com.pchmn.materialchips.ChipView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,14 +90,12 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> {
 
         tagsView.setVisibility(entryTags.size() > 0 ? View.VISIBLE : View.GONE);
         tagsView.removeAllViews();
-        int margin = (int) getContext().getResources().getDimension(R.dimen.padding);
         for (EntryTag entryTag : entryTags) {
             final Tag tag = entryTag.getTag();
             if (tag != null) {
                 ChipView chipView = new ChipView(getContext());
-                chipView.setLabel(tag.getName());
-                chipView.setPadding(0, 0, margin, margin);
-                chipView.setOnChipClicked(new View.OnClickListener() {
+                chipView.setText(tag.getName());
+                chipView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         listener.onTagClicked(tag, view);

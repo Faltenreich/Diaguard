@@ -32,7 +32,7 @@ public class LogMonthViewHolder extends BaseViewHolder<ListItemMonth> {
         month.setText(dateTime.toString("MMMM YYYY"));
         int resourceId = PreferenceHelper.getInstance().getMonthResourceId(dateTime);
         int smallResourceId = PreferenceHelper.getInstance().getMonthSmallResourceId(dateTime);
-        Picasso picasso = Picasso.with(getContext());
+        Picasso picasso = Picasso.get();
         if (picasso != null) {
             picasso.load(resourceId).placeholder(smallResourceId).config(Bitmap.Config.RGB_565).into(background);
         }

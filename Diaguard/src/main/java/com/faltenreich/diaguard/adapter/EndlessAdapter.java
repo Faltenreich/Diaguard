@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.adapter;
 
 import android.content.Context;
 import android.os.Handler;
-import android.support.annotation.CallSuper;
+import androidx.annotation.CallSuper;
 
 import com.faltenreich.diaguard.adapter.list.ListItemDate;
 import com.faltenreich.diaguard.ui.view.viewholder.BaseViewHolder;

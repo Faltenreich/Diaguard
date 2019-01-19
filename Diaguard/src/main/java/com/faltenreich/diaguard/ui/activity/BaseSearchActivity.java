@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.ui.activity;
 
 import android.content.Intent;
 import android.speech.RecognizerIntent;
-import android.support.annotation.LayoutRes;
+import androidx.annotation.LayoutRes;
 import android.text.TextUtils;
 
 import com.faltenreich.diaguard.R;

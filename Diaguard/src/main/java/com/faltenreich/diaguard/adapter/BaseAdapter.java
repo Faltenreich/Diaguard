@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.ui.view.viewholder.BaseViewHolder;
 

@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.data.entity;
 
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import android.util.Log;
 
 import com.faltenreich.diaguard.DiaguardApplication;

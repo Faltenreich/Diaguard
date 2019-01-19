@@ -15,7 +15,7 @@
         android:textColor="@android:color/black"
         android:layout_marginTop="6dp"/>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/food_list_nutrients"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

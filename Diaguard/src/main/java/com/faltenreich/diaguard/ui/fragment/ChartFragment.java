@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.ui.fragment;
 
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.View;
 
 import com.faltenreich.diaguard.R;

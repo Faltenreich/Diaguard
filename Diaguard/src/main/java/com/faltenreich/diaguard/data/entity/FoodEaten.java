@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.data.entity;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.data.Backupable;
 import com.j256.ormlite.field.DatabaseField;

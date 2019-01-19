@@ -90,7 +90,6 @@ dependencies {
     implementation 'com.mikhaellopez:circularimageview:3.2.0'
     implementation ('com.code-troopers.betterpickers:library:3.1.0') { exclude group: 'com.android.support' }
     implementation 'com.robinhood.ticker:ticker:1.2.1'
-    implementation 'com.github.pchmn:MaterialChipsInput:1.0.8'
 }
 
 configurations {

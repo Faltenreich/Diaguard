@@ -48,6 +48,7 @@ import com.faltenreich.diaguard.event.data.EntryUpdatedEvent;
 import com.faltenreich.diaguard.ui.fragment.BaseFoodFragment;
 import com.faltenreich.diaguard.ui.fragment.DatePickerFragment;
 import com.faltenreich.diaguard.ui.fragment.TimePickerFragment;
+import com.faltenreich.diaguard.ui.view.ChipView;
 import com.faltenreich.diaguard.ui.view.entry.MeasurementFloatingActionMenu;
 import com.faltenreich.diaguard.ui.view.entry.MeasurementListView;
 import com.faltenreich.diaguard.ui.view.entry.MeasurementView;
@@ -57,7 +58,7 @@ import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.StringUtils;
 import com.faltenreich.diaguard.util.ViewUtils;
 import com.github.clans.fab.FloatingActionButton;
-import com.pchmn.materialchips.ChipView;
+import com.google.android.material.chip.ChipGroup;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -116,7 +117,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     @BindView(R.id.entry_button_alarm) Button buttonAlarm;
     @BindView(R.id.entry_alarm_container) ViewGroup containerAlarm;
     @BindView(R.id.entry_tags_input) AutoCompleteTextView tagsInput;
-    @BindView(R.id.entry_tags) ViewGroup tagsView;
+    @BindView(R.id.entry_tags) ChipGroup tagsView;
 
     private long entryId;
     private long foodId;
@@ -191,6 +192,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             fabMenu.restock();
         }
 
+        tagsView.setVisibility(View.GONE);
         tagAdapter = new TagAutoCompleteAdapter(this);
         tagsInput.setAdapter(tagAdapter);
         tagsInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -333,19 +335,17 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     }
 
     private void addTag(final Tag tag) {
-        int margin = (int) getResources().getDimension(R.dimen.margin_between);
         final ChipView chipView = new ChipView(this);
         chipView.setTag(tag);
-        chipView.setLabel(tag.getName());
-        chipView.setDeletable(true);
-        chipView.setOnDeleteClicked(new View.OnClickListener() {
+        chipView.setText(tag.getName());
+        chipView.setCloseIconVisible(true);
+        chipView.setOnCloseIconClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 removeTag(tag, chipView);
             }
         });
-        chipView.setPadding(0, 0, margin, margin);
-        chipView.setOnChipClicked(new View.OnClickListener() {
+        chipView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 removeTag(tag, chipView);
@@ -355,6 +355,8 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
         tagAdapter.set(tag, false);
         dismissTagDropDown();
+
+        tagsView.setVisibility(View.VISIBLE);
     }
 
     private void removeTag(Tag tag, View view) {
@@ -364,6 +366,10 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         // Workaround: Force notifyDataSetChanged
         tagsInput.setText(tagsInput.getText().toString());
         dismissTagDropDown();
+
+        if (tagsView.getChildCount() == 0) {
+            tagsView.setVisibility(View.GONE);
+        }
     }
 
     private void dismissTagDropDown() {

@@ -185,7 +185,7 @@
             android:title="@string/licenses"/>
 
         <com.faltenreich.diaguard.ui.view.preferences.AboutPreference
-            android:title="@string/impress"/>
+            android:title="@string/imprint"/>
 
         <Preference
             android:key="version"

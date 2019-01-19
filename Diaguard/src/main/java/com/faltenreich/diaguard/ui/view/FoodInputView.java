@@ -113,8 +113,9 @@ public class FoodInputView extends LinearLayout {
             inputRow.setMinimumHeight(getResources().getDimensionPixelSize(showIcon ? R.dimen.height_element_large : R.dimen.height_element));
 
             valueInput.setHint(PreferenceHelper.getInstance().getUnitName(Measurement.Category.MEAL));
-            valueCalculatedIntegral.setCharacterList(TickerUtils.getDefaultNumberList());
-            valueCalculatedFractional.setCharacterList(TickerUtils.getDefaultNumberList());
+            String numberList = TickerUtils.provideNumberList();
+            valueCalculatedIntegral.setCharacterLists(numberList);
+            valueCalculatedFractional.setCharacterLists(numberList);
             valueCalculatedIntegral.setAnimationDuration(ANIMATION_DURATION_IN_MILLIS);
             valueCalculatedFractional.setAnimationDuration(ANIMATION_DURATION_IN_MILLIS);
 

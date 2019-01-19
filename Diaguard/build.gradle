@@ -64,7 +64,6 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0-alpha02'
     implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha01'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.paging:paging-runtime:2.1.0-rc01'
 
     implementation "com.j256.ormlite:ormlite-core:$ormLite"
     implementation "com.j256.ormlite:ormlite-android:$ormLite"
@@ -79,17 +78,17 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
 
     implementation 'org.apache.commons:commons-text:1.1'
-    implementation ('de.psdev.licensesdialog:licensesdialog:1.9.0') { exclude group: 'com.android.support' }
+    implementation 'de.psdev.licensesdialog:licensesdialog:1.9.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.opencsv:opencsv:3.8'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     implementation 'com.github.clans:fab:1.6.4'
     implementation 'com.fmsirvent:parallaxeverywhere:1.0.4'
     implementation 'org.apmem.tools:layouts:1.10@aar'
-    implementation ('com.lapism:searchview:4.0') { exclude group: 'com.android.support' }
+    implementation 'com.lapism:searchview:4.0'
     implementation 'com.mikhaellopez:circularimageview:3.2.0'
-    implementation ('com.code-troopers.betterpickers:library:3.1.0') { exclude group: 'com.android.support' }
-    implementation 'com.robinhood.ticker:ticker:1.2.1'
+    implementation 'com.code-troopers.betterpickers:library:3.1.0'
+    implementation 'com.robinhood.ticker:ticker:2.0.1'
 }
 
 configurations {

@@ -28,11 +28,6 @@ import butterknife.BindView;
 
 public class FoodFragment extends BaseFoodFragment {
 
-    @BindView(R.id.food_image) ImageView image;
-    @BindView(R.id.appbar) AppBarLayout appBarLayout;
-    @BindView(R.id.scrim_top) View scrimTop;
-    @BindView(R.id.scrim_bottom) View scrimBottom;
-    @BindView(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingToolbarLayout;
     @BindView(R.id.food_viewpager) ViewPager viewPager;
     @BindView(R.id.food_tablayout) TabLayout tabLayout;
 
@@ -45,12 +40,6 @@ public class FoodFragment extends BaseFoodFragment {
         super.onViewCreated(view, savedInstanceState);
         init();
         update();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        setToolbarBackgroundColor(android.R.color.transparent);
     }
 
     @Override
@@ -69,7 +58,7 @@ public class FoodFragment extends BaseFoodFragment {
                 editFood();
                 return true;
             case R.id.action_eat:
-                eatFood(item.getActionView());
+                eatFood();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -79,43 +68,9 @@ public class FoodFragment extends BaseFoodFragment {
     private void init() {
         Food food = getFood();
         if (food != null) {
-            boolean hasImage = !TextUtils.isEmpty(food.getFullImageUrl());
-            scrimTop.setVisibility(View.GONE);
-            scrimBottom.setVisibility(View.GONE);
-            if (hasImage) {
-                Picasso.get().load(food.getFullImageUrl()).fit().centerCrop().into(image, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        scrimTop.setVisibility(View.VISIBLE);
-                        scrimBottom.setVisibility(View.VISIBLE);
-                    }
-                    @Override
-                    public void onError(Exception exception) {
-                    }
-                });
-            } else {
-                image.setImageResource(0);
-            }
-            collapsingToolbarLayout.setTitleEnabled(false);
-
             FoodPagerAdapter adapter = new FoodPagerAdapter(getFragmentManager(), food);
             viewPager.setAdapter(adapter);
             tabLayout.setupWithViewPager(viewPager);
-
-            /*
-            // Set tab icons
-            for (int position = 0; position < adapter.getCount(); position++) {
-                TabLayout.Tab tab = tabLayout.getTabAt(position);
-                if (tab != null) {
-                    Fragment fragment = adapter.getItem(position);
-                    if (fragment != null && fragment instanceof BaseFoodFragment) {
-                        BaseFoodFragment foodFragment = (BaseFoodFragment) fragment;
-                        tab.setIcon(foodFragment.getIcon());
-                        tab.setContentDescription(foodFragment.getTitle());
-                    }
-                }
-            }
-            */
         }
     }
 
@@ -124,7 +79,7 @@ public class FoodFragment extends BaseFoodFragment {
         setTitle(food != null ? food.getName() : null);
     }
 
-    private void eatFood(View view) {
+    private void eatFood() {
         EntryActivity.show(getContext(), getFood());
     }
 

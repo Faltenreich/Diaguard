@@ -162,18 +162,6 @@ public class Food extends BaseServerEntity implements Backupable {
         return imageUrl;
     }
 
-    public String getFullImageUrl() {
-        if (imageUrl != null && imageUrl.contains("openfoodfacts") && imageUrl.endsWith(IMAGE_SUFFIX)) {
-            String fullImageUrl = imageUrl.substring(0, imageUrl.length() - IMAGE_SUFFIX.length());
-            int indexOfLastDot = fullImageUrl.lastIndexOf('.');
-            fullImageUrl = fullImageUrl.substring(0, indexOfLastDot + 1);
-            fullImageUrl = fullImageUrl + KEYWORD_FULL_RESOLUTION + IMAGE_SUFFIX;
-            return fullImageUrl;
-        } else {
-            return imageUrl;
-        }
-    }
-
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }

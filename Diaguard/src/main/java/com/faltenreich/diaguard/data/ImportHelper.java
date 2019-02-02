@@ -50,11 +50,8 @@ public class ImportHelper {
     }
 
     private static void validateFoodImport(Context context, Locale locale) {
-        int versionCode = PreferenceHelper.getInstance().getVersionCode();
         if (!PreferenceHelper.getInstance().didImportCommonFood(locale)) {
             new ImportFoodTask(context, locale).execute();
-        } else if (versionCode > 0 && versionCode < 19) {
-            new UpdateFoodImagesTask(context, locale).execute();
         }
     }
 
@@ -124,10 +121,6 @@ public class ImportHelper {
                         food.setSodium(NumberUtils.parseNullableNumber(nextLine[11]));
                         food.setSugar(NumberUtils.parseNullableNumber(nextLine[12]));
 
-                        if (!TextUtils.isEmpty(nextLine[13])) {
-                            food.setImageUrl(nextLine[13]);
-                        }
-
                         foodList.add(food);
                     }
                 }
@@ -148,52 +141,6 @@ public class ImportHelper {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             PreferenceHelper.getInstance().setDidImportCommonFood(locale, true);
-        }
-    }
-
-    private static class UpdateFoodImagesTask extends AsyncTask<Void, Void, Void> {
-
-        private WeakReference<Context> context;
-        private Locale locale;
-
-        UpdateFoodImagesTask(Context context, Locale locale) {
-            this.context = new WeakReference<>(context);
-            this.locale = locale;
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            try {
-                CSVReader reader = getCsvReader(context.get(), FOOD_CSV_FILE_NAME);
-
-                String languageCode = locale.getLanguage();
-                String[] nextLine = reader.readNext();
-                int languageRow = getLanguageColumn(languageCode, nextLine);
-
-                List<Food> foodList = new ArrayList<>();
-                while ((nextLine = reader.readNext()) != null) {
-
-                    if (nextLine.length >= 14) {
-                        String name = nextLine[languageRow];
-                        String imageUrl = nextLine[13];
-                        Food food = FoodDao.getInstance().get(name);
-                        if (food != null && !TextUtils.isEmpty(imageUrl)) {
-                            Log.d(TAG, "Updating food image:  " + name);
-                            food.setImageUrl(imageUrl);
-                            foodList.add(food);
-                        } else {
-                            Log.e(TAG, "Failed to update image: " + name);
-                        }
-                    }
-                }
-
-                FoodDao.getInstance().bulkCreateOrUpdate(foodList);
-                Log.i(TAG, String.format("Updated %d images for common food items", foodList.size()));
-
-            } catch (IOException exception) {
-                Log.e(TAG, exception.getLocalizedMessage());
-            }
-            return null;
         }
     }
 

@@ -150,6 +150,17 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="@string/food">
+
+        <CheckBoxPreference
+            android:key="showBrandedFood"
+            android:title="@string/show_branded_food"
+            android:summary="@string/show_branded_food_desc"
+            android:defaultValue="true"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/contact">
 
         <Preference

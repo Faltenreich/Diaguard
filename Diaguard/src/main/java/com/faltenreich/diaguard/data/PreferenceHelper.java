@@ -53,6 +53,7 @@ public class PreferenceHelper {
         final static String EXPORT_FOOD = "export_food";
         final static String EXPORT_CATEGORIES = "exportCategories";
         final static String DID_IMPORT_TAGS_FOR_LANGUAGE = "didImportTagsForLanguage";
+        final static String FOOD_SHOW_BRANDED = "showBrandedFood";
     }
 
     public enum ChartStyle {
@@ -542,5 +543,15 @@ public class PreferenceHelper {
                 hourOfDay++;
             }
         }
+    }
+
+    // FOOD
+
+    public boolean showBrandedFood() {
+        return sharedPreferences.getBoolean(Keys.FOOD_SHOW_BRANDED, true);
+    }
+
+    public void setShowBrandedFood(boolean show) {
+        sharedPreferences.edit().putBoolean(Keys.FOOD_SHOW_BRANDED, show).apply();
     }
 }

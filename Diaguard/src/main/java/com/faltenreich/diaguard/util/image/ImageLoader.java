@@ -1,10 +1,13 @@
 package com.faltenreich.diaguard.util.image;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 
+import com.faltenreich.diaguard.util.FileUtils;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.PicassoUtils;
+
+import java.io.File;
 
 import androidx.annotation.DrawableRes;
 
@@ -25,8 +28,11 @@ public class ImageLoader {
         picasso = Picasso.get();
     }
 
-    public void clearCache() {
-        PicassoUtils.clearCache(picasso);
+    public void clearCache(Context context) {
+        File cache = new File(context.getApplicationContext().getCacheDir(), "picasso-cache");
+        if (cache.exists() && cache.isDirectory()) {
+            FileUtils.deleteDirectory(cache);
+        }
     }
 
 

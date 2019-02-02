@@ -74,8 +74,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             EntryTag.class
     };
 
+    private Context context;
+
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, getVersion());
+        this.context = context;
     }
 
     public static int getVersion() {
@@ -125,7 +128,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private void upgradeToVersion23() {
         // Food.imageUrl should be removed but column dropping is not supported in SQLite
-        ImageLoader.getInstance().clearCache();
+        ImageLoader.getInstance().clearCache(context);
     }
 
     private void upgradeToVersion22(ConnectionSource connectionSource) {

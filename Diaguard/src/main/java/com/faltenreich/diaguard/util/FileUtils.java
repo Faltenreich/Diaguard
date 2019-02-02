@@ -87,4 +87,15 @@ public class FileUtils {
         intent.setType(mimeType);
         activity.startActivityForResult(intent, requestCode);
     }
+
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    public static void deleteDirectory(File directory) {
+        if (directory.isDirectory()) {
+            String[] children = directory.list();
+            for (String child : children) {
+                deleteDirectory(new File(directory, child));
+            }
+        }
+        directory.delete();
+    }
 }

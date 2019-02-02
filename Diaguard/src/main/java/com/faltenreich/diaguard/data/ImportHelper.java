@@ -103,7 +103,7 @@ public class ImportHelper {
                 List<Food> foodList = new ArrayList<>();
                 while ((nextLine = reader.readNext()) != null) {
 
-                    if (nextLine.length >= 14) {
+                    if (nextLine.length >= 13) {
                         Food food = new Food();
 
                         food.setName(nextLine[languageRow]);

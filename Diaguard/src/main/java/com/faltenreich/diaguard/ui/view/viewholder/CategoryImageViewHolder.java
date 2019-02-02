@@ -7,6 +7,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.list.ListItemCategoryImage;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.util.ViewUtils;
+import com.faltenreich.diaguard.util.image.ImageLoader;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -24,10 +25,7 @@ public class CategoryImageViewHolder extends BaseViewHolder<ListItemCategoryImag
     public void bindData() {
         int categoryImageResourceId = PreferenceHelper.getInstance().getCategoryImageResourceId(getListItem().getCategory());
         if (categoryImageResourceId > 0) {
-            Picasso picasso = Picasso.get();
-            if (picasso != null) {
-                picasso.load(categoryImageResourceId).into(imageView);
-            }
+            ImageLoader.getInstance().load(categoryImageResourceId, imageView);
         }
     }
 

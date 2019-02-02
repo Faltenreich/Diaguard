@@ -44,12 +44,7 @@ public class FoodDetailFragment extends BaseFoodFragment {
     }
 
     private void init() {
-        ingredients.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ingredients.setMaxLines(Integer.MAX_VALUE);
-            }
-        });
+        ingredients.setOnClickListener(view -> ingredients.setMaxLines(Integer.MAX_VALUE));
 
         Food food = getFood();
         if (food != null) {

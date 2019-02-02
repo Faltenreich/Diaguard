@@ -2,18 +2,20 @@ package com.faltenreich.diaguard.data.entity;
 
 import com.j256.ormlite.field.DatabaseField;
 
+import org.joda.time.DateTime;
+
 public class BaseServerEntity extends BaseEntity {
 
     public class Column extends BaseEntity.Column {
         public static final String SERVER_ID = "serverId";
-        public static final String IS_DELETED = "isDeleted";
+        public static final String DELETED_AT = "deletedAt";
     }
 
     @DatabaseField(columnName = Column.SERVER_ID)
     private String serverId;
 
-    @DatabaseField(columnName = Column.IS_DELETED)
-    private boolean isDeleted;
+    @DatabaseField(columnName = Column.DELETED_AT)
+    private DateTime deletedAt;
 
     public String getServerId() {
         return serverId;
@@ -23,11 +25,11 @@ public class BaseServerEntity extends BaseEntity {
         this.serverId = serverId;
     }
 
-    public boolean isDeleted() {
-        return isDeleted;
+    public DateTime getDeletedAt() {
+        return deletedAt;
     }
 
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
+    public void setDeletedAt(DateTime deletedAt) {
+        this.deletedAt = deletedAt;
     }
 }

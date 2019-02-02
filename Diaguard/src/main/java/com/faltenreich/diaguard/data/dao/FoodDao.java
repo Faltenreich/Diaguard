@@ -77,22 +77,29 @@ public class FoodDao extends BaseServerDao<Food> {
         }
     }
 
-    @Override
-    public int delete(Food object) {
-        List<FoodEaten> foodEatenList = FoodEatenDao.getInstance().getAll(object);
+    private void cascadeFoodEaten(Food food) {
+        List<FoodEaten> foodEatenList = FoodEatenDao.getInstance().getAll(food);
         for (FoodEaten foodEaten : foodEatenList) {
             FoodEatenDao.getInstance().delete(foodEaten);
         }
+    }
+
+    @Override
+    public void softDelete(Food entity) {
+        cascadeFoodEaten(entity);
+        super.softDelete(entity);
+    }
+
+    @Override
+    public int delete(Food object) {
+        cascadeFoodEaten(object);
         return super.delete(object);
     }
 
     @Override
     public int delete(List<Food> objects) {
         for (Food food : objects) {
-            List<FoodEaten> foodEatenList = FoodEatenDao.getInstance().getAll(food);
-            for (FoodEaten foodEaten : foodEatenList) {
-                FoodEatenDao.getInstance().delete(foodEaten);
-            }
+            cascadeFoodEaten(food);
         }
         return super.delete(objects);
     }
@@ -121,11 +128,13 @@ public class FoodDao extends BaseServerDao<Food> {
                 return queryBuilder
                         .where().eq(Food.Column.LANGUAGE_CODE, Helper.getLanguageCode())
                         .and().like(Food.Column.NAME, "%" + query + "%")
+                        .and().isNull(Food.Column.DELETED_AT)
                         .query();
 
             } else {
                 return queryBuilder
                         .where().eq(Food.Column.LANGUAGE_CODE, Helper.getLanguageCode())
+                        .and().isNull(Food.Column.DELETED_AT)
                         .query();
             }
             

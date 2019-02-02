@@ -60,6 +60,7 @@
 -dontwarn org.joda.time.**
 -keep class org.joda.time.** { *; }
 -keep interface org.joda.time.** { *; }
+-keep class net.danlew.** { *; }
 ##---------------End: JodaTime ----------
 
 ##---------------Begin: Picasso ----------

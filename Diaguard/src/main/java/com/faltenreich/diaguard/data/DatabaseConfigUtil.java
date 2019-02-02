@@ -13,9 +13,11 @@ public class DatabaseConfigUtil extends OrmLiteConfigUtil {
     private static final String projectRoot = System.getProperty(currDirectory);
     private static final String fullConfigPath = projectRoot + configPath;
 
+    // Workaround: Must set android.enableAapt2=false in gradle.properties
     public static void main(String[] args) throws IOException, SQLException {
         File configFile = new File(fullConfigPath);
         if (configFile.exists()) {
+            //noinspection ResultOfMethodCallIgnored
             configFile.delete();
             configFile = new File(fullConfigPath);
         }

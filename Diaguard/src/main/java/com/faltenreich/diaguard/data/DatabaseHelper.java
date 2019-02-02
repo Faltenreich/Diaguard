@@ -89,6 +89,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource) {
         for (Class tableClass : tables) {
             try {
+                //noinspection unchecked
                 TableUtils.createTable(connectionSource, tableClass);
             } catch (SQLException exception) {
                 Log.e(DatabaseHelper.class.getName(), "Couldn't create table " + tableClass.getSimpleName(), exception);
@@ -118,7 +119,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                         upgradeToVersion22(connectionSource);
                         break;
                     case DATABASE_VERSION_3_0:
-                        upgradeToVersion23();
+                        upgradeToVersion23(sqLiteDatabase);
                         break;
                 }
                 upgradeFromVersion++;
@@ -126,8 +127,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
-    private void upgradeToVersion23() {
+    private void upgradeToVersion23(SQLiteDatabase sqLiteDatabase) {
         // Food.imageUrl should be removed but column dropping is not supported in SQLite
+        String query = String.format("ALTER TABLE \'%s\' ADD COLUMN %s BOOLEAN", DatabaseHelper.FOOD, Food.Column.IS_DELETED);
+        sqLiteDatabase.execSQL(query);
         ImageLoader.getInstance().clearCache(context);
     }
 

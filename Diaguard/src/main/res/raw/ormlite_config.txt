@@ -1,5 +1,5 @@
 #
-# generated on 2019/02/02 07:02:58
+# generated on 2019/02/02 10:49:10
 #
 # --table-start--
 dataClass=com.faltenreich.diaguard.data.entity.Entry
@@ -378,6 +378,10 @@ foreignCollectionColumnName=foodEaten
 # --field-start--
 fieldName=serverId
 columnName=serverId
+# --field-end--
+# --field-start--
+fieldName=isDeleted
+columnName=isDeleted
 # --field-end--
 # --field-start--
 fieldName=id

@@ -6,10 +6,14 @@ public class BaseServerEntity extends BaseEntity {
 
     public class Column extends BaseEntity.Column {
         public static final String SERVER_ID = "serverId";
+        public static final String IS_DELETED = "isDeleted";
     }
 
-    @DatabaseField(columnName = Food.Column.SERVER_ID)
+    @DatabaseField(columnName = Column.SERVER_ID)
     private String serverId;
+
+    @DatabaseField(columnName = Column.IS_DELETED)
+    private boolean isDeleted;
 
     public String getServerId() {
         return serverId;
@@ -19,7 +23,11 @@ public class BaseServerEntity extends BaseEntity {
         this.serverId = serverId;
     }
 
-    public boolean isSynchronized() {
-        return getServerId() != null;
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 }

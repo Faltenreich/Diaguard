@@ -159,7 +159,6 @@ public class FoodDao extends BaseServerDao<Food> {
         if (isNew || needsUpdate(food, dto)) {
             food.setServerId(serverId);
             food.setName(dto.name);
-            food.setImageUrl(dto.imageUrl);
             food.setBrand(dto.brand);
             food.setIngredients(dto.ingredients != null ? dto.ingredients.replaceAll("_", "") : null);
             food.setLabels(dto.labels);

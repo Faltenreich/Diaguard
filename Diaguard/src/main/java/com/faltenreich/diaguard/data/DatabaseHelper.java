@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.faltenreich.diaguard.data.dao.EntryDao;
+import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.Activity;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
@@ -52,6 +53,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public static final int DATABASE_VERSION_2_0 = 20;
     public static final int DATABASE_VERSION_2_2 = 21;
     public static final int DATABASE_VERSION_3_0 = 22;
+    public static final int DATABASE_VERSION_3_1 = 23;
 
     public static final Class[] tables = new Class[]{
             Entry.class,
@@ -110,10 +112,18 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                     case DATABASE_VERSION_2_2:
                         upgradeToVersion22(connectionSource);
                         break;
+                    case DATABASE_VERSION_3_0:
+                        upgradeToVersion23(sqLiteDatabase);
+                        break;
                 }
                 upgradeFromVersion++;
             }
         }
+    }
+
+    private void upgradeToVersion23(SQLiteDatabase sqliteDatabase) {
+        String query = String.format("ALTER TABLE %s DROP COLUMN %s", DatabaseHelper.FOOD, FOOD_IMAGE_URL);
+        sqliteDatabase.execSQL(query);
     }
 
     private void upgradeToVersion22(ConnectionSource connectionSource) {
@@ -232,6 +242,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private static final String MEASUREMENT_ID = "measurementId";
     private static final String FOOD = "food";
     private static final String FOOD_EATEN = "food_eaten";
+    private static final String FOOD_IMAGE_URL = "imageUrl";
 
     private void onCreateVersion17(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " +

@@ -129,7 +129,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private void upgradeToVersion23(SQLiteDatabase sqLiteDatabase) {
         // Food.imageUrl should be removed but column dropping is not supported in SQLite
-        String query = String.format("ALTER TABLE \'%s\' ADD COLUMN %s BOOLEAN", DatabaseHelper.FOOD, Food.Column.IS_DELETED);
+        String query = String.format("ALTER TABLE \'%s\' ADD COLUMN %s TEXT", DatabaseHelper.FOOD, Food.Column.DELETED_AT);
         sqLiteDatabase.execSQL(query);
         ImageLoader.getInstance().clearCache(context);
     }

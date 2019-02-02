@@ -256,6 +256,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     public void onEvent(final FoodDeletedEvent event) {
         ViewUtils.showSnackbar(getView(), getString(R.string.food_deleted), v -> {
             Food food = event.context;
+            food.setDeletedAt(null);
             FoodDao.getInstance().createOrUpdate(food);
             Events.post(new FoodSavedEvent(food));
         });

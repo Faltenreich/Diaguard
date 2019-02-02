@@ -23,12 +23,12 @@ public abstract class BaseFoodFragment extends BaseFragment {
     private @DrawableRes int icon;
     private Food food;
 
-    public BaseFoodFragment(@LayoutRes int layoutResId, @StringRes int titleResId, @DrawableRes int icon, @MenuRes int menuResId) {
+    BaseFoodFragment(@LayoutRes int layoutResId, @StringRes int titleResId, @DrawableRes int icon, @MenuRes int menuResId) {
         super(layoutResId, titleResId, menuResId);
         this.icon = icon;
     }
 
-    public BaseFoodFragment(@LayoutRes int layoutResId, @StringRes int titleResId, @MenuRes int menuResId) {
+    BaseFoodFragment(@LayoutRes int layoutResId, @StringRes int titleResId, @MenuRes int menuResId) {
         super(layoutResId, titleResId, menuResId);
         this.icon = -1;
     }
@@ -57,10 +57,10 @@ public abstract class BaseFoodFragment extends BaseFragment {
         }
     }
 
-    protected void deleteFood() {
+    void deleteFood() {
         Food food = getFood();
         if (food != null) {
-            FoodDao.getInstance().delete(food);
+            FoodDao.getInstance().softDelete(food);
             Events.post(new FoodDeletedEvent(food));
             finish();
         }

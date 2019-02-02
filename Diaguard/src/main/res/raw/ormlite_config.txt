@@ -1,5 +1,5 @@
 #
-# generated on 2019/02/02 10:49:10
+# generated on 2019/02/02 11:08:30
 #
 # --table-start--
 dataClass=com.faltenreich.diaguard.data.entity.Entry
@@ -382,6 +382,7 @@ columnName=serverId
 # --field-start--
 fieldName=isDeleted
 columnName=isDeleted
+defaultValue=false
 # --field-end--
 # --field-start--
 fieldName=id

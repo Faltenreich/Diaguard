@@ -1,6 +1,8 @@
 package com.faltenreich.diaguard.data.entity;
 
 import androidx.annotation.StringRes;
+
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.faltenreich.diaguard.DiaguardApplication;
@@ -261,6 +263,10 @@ public class Food extends BaseServerEntity implements Backupable {
 
     public void setFoodEaten(ForeignCollection<FoodEaten> foodEaten) {
         this.foodEaten = foodEaten;
+    }
+
+    public boolean isBrandedFood() {
+        return !TextUtils.isEmpty(brand);
     }
 
     public String getValueForUi() {

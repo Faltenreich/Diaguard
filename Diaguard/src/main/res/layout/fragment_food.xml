@@ -1,69 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar"
+    <include layout="@layout/view_toolbar"/>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/food_tablayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/appbar_height"
-            app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-            <ImageView
-                android:id="@+id/food_image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@null"
-                android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax"/>
-
-            <View
-                android:id="@+id/scrim_top"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/scrim_height"
-                android:background="@drawable/scrim_top"
-                app:layout_collapseMode="pin"
-                android:visibility="gone"/>
-
-            <View
-                android:id="@+id/scrim_bottom"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/scrim_height"
-                android:layout_gravity="bottom"
-                android:layout_alignBottom="@+id/image"
-                android:background="@drawable/scrim_bottom"
-                android:visibility="gone"/>
-
-            <include layout="@layout/view_toolbar"/>
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/food_tablayout"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_gravity="bottom"
-                app:tabIndicatorHeight="2dp"
-                app:tabIndicatorColor="@android:color/white"/>
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="bottom"
+        android:background="?attr/colorPrimary"
+        app:tabSelectedTextColor="@android:color/white"
+        app:tabTextColor="@color/gray_light"
+        app:tabIndicatorColor="@android:color/white"
+        app:tabIndicatorHeight="3dp"/>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/food_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:layout_height="match_parent"/>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>

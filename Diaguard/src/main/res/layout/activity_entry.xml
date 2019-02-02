@@ -16,7 +16,7 @@
             android:focusableInTouchMode="true"
             android:orientation="vertical">
 
-            <include layout="@layout/view_toolbar" />
+            <include layout="@layout/view_toolbar"/>
 
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/activity_newevent_scrollview"

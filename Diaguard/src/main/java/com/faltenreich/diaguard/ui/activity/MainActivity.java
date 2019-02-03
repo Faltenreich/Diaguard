@@ -272,12 +272,10 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
         }
     }
 
-    // Show changelog only for updated versions
     private void showChangelog() {
         int oldVersionCode = PreferenceHelper.getInstance().getVersionCode();
         int currentVersionCode = SystemUtils.getVersionCode(this);
         boolean isUpdate = oldVersionCode > 0 && oldVersionCode < currentVersionCode;
-        isUpdate = true; // TODO: Remove test line
         if (isUpdate) {
             PreferenceHelper.getInstance().setVersionCode(currentVersionCode);
 
@@ -290,7 +288,6 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
             if (currentVersionCode == 25) {
                 explainMissingCalculator();
             }
-
         } else if (oldVersionCode == 0) {
             PreferenceHelper.getInstance().setVersionCode(currentVersionCode);
         }

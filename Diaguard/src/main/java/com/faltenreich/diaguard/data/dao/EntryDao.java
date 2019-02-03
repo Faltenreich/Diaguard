@@ -277,6 +277,7 @@ public class EntryDao extends BaseDao<Entry> {
 
             String qbStatement = entryQb.prepareStatementString();
 
+            // FIXME: OR with sub-select breaks LIKE
             String statement = "SELECT entry._id, entry.createdAt, entry.updatedAt, entry.date, entry.note FROM entry " +
                     "WHERE note LIKE ? " +
                     "OR (SELECT entry._id FROM entry INNER JOIN entrytag ON entry._id = entrytag.entry INNER JOIN tag ON entrytag.tag = tag._id WHERE tag.name LIKE ?)" +

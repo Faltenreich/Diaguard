@@ -518,4 +518,16 @@
     <string name="show_branded_food_desc">Includes thousands of packaged goods and may therefor contain duplicates (e.g. one product from different manufacturers)</string>
     <string name="search_prompt">Start searching by typing</string>
 
+    <string name="theme">Color theme</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string-array name="themes" translatable="false">
+        <item>@string/theme_light</item>
+        <item>@string/theme_dark</item>
+    </string-array>
+    <string-array name="themes_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
 </resources>

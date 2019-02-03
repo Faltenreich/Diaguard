@@ -24,6 +24,7 @@ import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.FileProvidedEvent;
 import com.faltenreich.diaguard.event.FileProvidedFailedEvent;
@@ -82,7 +83,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(R.style.AppTheme_Dark);
+        setTheme(PreferenceHelper.getInstance().getTheme().getStyle());
         setContentView(layoutResourceId);
         ButterKnife.bind(this);
 

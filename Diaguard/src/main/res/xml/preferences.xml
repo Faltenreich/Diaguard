@@ -6,6 +6,13 @@
         android:title="@string/general">
 
         <ListPreference
+            android:key="theme"
+            android:title="@string/theme"
+            android:entries="@array/themes"
+            android:entryValues="@array/themes_values"
+            android:defaultValue="0"/>
+
+        <ListPreference
             android:key="startscreen"
             android:title="@string/startscreen"
             android:entries="@array/startscreens"

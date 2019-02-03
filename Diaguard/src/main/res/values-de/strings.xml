@@ -334,5 +334,6 @@
     <string name="import_desc">Daten aus einer vorher angelegten Backup-Datei wiederherstellen</string>
     <string name="show_branded_food">Markenprodukte anzeigen</string>
     <string name="show_branded_food_desc">Umfasst tausende abgepackter Lebensmittel und führt deshalb unter Umständen zu Duplikaten (z. B. beim gleichen Produkt von verschiedenen Herstellern)</string>
+    <string name="search_prompt">Tippen, um Suche zu beginnen</string>
 
 </resources>

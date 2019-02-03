@@ -337,5 +337,6 @@
     <string name="import_desc">Restaurar datos de un archivo de copia de seguridad creado anteriormente</string>
     <string name="show_branded_food">Mostrar alimentos de marca</string>
     <string name="show_branded_food_desc">Incluye miles de productos empaquetados y, por lo tanto, puede contener duplicados (por ejemplo, un producto de diferentes fabricantes)</string>
+    <string name="search_prompt">Comience la búsqueda escribiendo</string>
 
 </resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string-array name="changelog">
+        <item>Recherche: Résultats de recherche en double fixes</item>
+        <item>Aliment: Ajout d\'une option pour filtrer les aliments de marque</item>
+        <item>Aliment: L\'aliment supprimé reste supprimé</item>
+        <item>Protocole: Optimisations pour les petits écrans</item>
+    </string-array>
+</resources>

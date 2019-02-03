@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string-array name="changelog">
+        <item>Suche: Duplizierte Suchergebnisse korrigiert</item>
+        <item>Lebensmittel: Markenprodukte können ausgeblendet werden</item>
+        <item>Lebensmittel: Gelöschte Lebensmittel tauchen nicht mehr auf</item>
+        <item>Protokoll: Optimierungen für kleine Displays</item>
+    </string-array>
+</resources>

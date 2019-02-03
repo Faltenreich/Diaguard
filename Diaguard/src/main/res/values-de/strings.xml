@@ -307,12 +307,7 @@
 
     <string name="oxygen_saturation">Sauerstoffsättigung</string>
 
-    <string name="changelog_title">Neu in dieser Version</string>
-    <string-array name="changelog_19">
-        <item>Bilder bei gewöhnlichen Lebensmitteln ergänzt</item>
-        <item>Protokolleinträge können via Swipe-to-delete gelöscht werden</item>
-        <item>Korrekturboli dürfen negativ sein</item>
-    </string-array>
+    <string name="changelog">Neu in dieser Version</string>
 
     <string name="meal_factor">Mahlzeit-Bolus-Faktor</string>
     <string name="meal_factors">Mahlzeit-Bolus-Faktoren</string>

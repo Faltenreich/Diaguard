@@ -67,7 +67,7 @@
     <string name="homepage">Página web</string>
     <string name="hyper">Hiper</string>
     <string name="hypo">Hipo</string>
-    <string name="impress">Pie de imprenta</string>
+    <string name="imprint">Pie de imprenta</string>
     <string name="in">in</string>
     <string name="insulin">Insulina</string>
     <string name="latest">Antes [value] [unit]</string>
@@ -283,7 +283,9 @@
     <string name="error_no_data_desc">Pruebe otra consulta para mejorar sus resultados o</string>
     <string name="food">Alimento</string>
     <string name="food_common">Comida alimento</string>
+    <string name="food_delete">Eliminar alimentos</string>
     <string name="food_deleted">Alimentos eliminados</string>
+    <string name="food_eaten_placeholder">%d comidas consumidas se verán afectadas</string>
     <string name="food_edit">Editar los alimentos</string>
     <string name="food_new">Nueva alimento</string>
     <string name="food_search">Búsqueda de alimentos</string>
@@ -310,19 +312,14 @@
     <string name="oxygen_saturation">Saturación de oxígeno</string>
     <string name="correction_value_desc">La reducción de glucemia en un</string>
 
-    <string name="changelog_title">Qué hay de nuevo</string>
-    <string-array name="changelog_19">
-        <item>Se agregaron imágenes a los alimentos comunes</item>
-        <item>Los elementos de protocolo ahora se pueden eliminar mediante el borrado a borrar</item>
-        <item>El bolus de corrección puede ser negativo</item>
-    </string-array>
+    <string name="changelog">Qué hay de nuevo</string>
 
     <string name="meal_factor">Alimento-bolo-factor</string>
     <string name="meal_factors">Alimento-bolo-factors</string>
     <string name="meal_factor_desc">Se usa para calcular la cantidad de insulina para una comida</string>
     <string name="unit_factor_carbohydrates_unit">CU factor</string>
     <string name="unit_factor_bread_unit">PU factor</string>
-    <string name="search">Busca</string>
+    <string name="search">Búsqueda</string>
     <string name="tag">Palabra clave</string>
     <string name="tags">Palabras clave</string>
     <string name="tags_append">Adjuntar palabras clave</string>
@@ -338,5 +335,10 @@
     <string name="tag_duplicate">La palabra clave ya está disponible</string>
     <string name="food_append">Adjuntar alimentos</string>
     <string name="available_placeholder">%d disponible</string>
+    <string name="backup_desc">Copia de seguridad de datos en un archivo de copia de seguridad en cualquier lugar (Ningún dato se reenvía automáticamente a servicios externos)</string>
+    <string name="import_desc">Restaurar datos de un archivo de copia de seguridad creado anteriormente</string>
+    <string name="show_branded_food">Mostrar alimentos de marca</string>
+    <string name="show_branded_food_desc">Incluye miles de productos empaquetados y, por lo tanto, puede contener duplicados (por ejemplo, un producto de diferentes fabricantes)</string>
+    <string name="search_prompt">Comience la búsqueda escribiendo</string>
 
 </resources>

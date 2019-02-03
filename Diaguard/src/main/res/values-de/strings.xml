@@ -70,7 +70,9 @@
     <string name="food_add">Lebensmittel hinzufügen</string>
     <string name="food_add_desc">Neues Lebensmittel</string>
     <string name="food_common">Gewöhnliches Lebensmittel</string>
+    <string name="food_delete">Lebensmittel löschen</string>
     <string name="food_deleted">Lebensmittel gelöscht</string>
+    <string name="food_eaten_placeholder">%d verzehrte Mahlzeiten sind betroffen</string>
     <string name="food_edit">Lebensmittel bearbeiten</string>
     <string name="food_new">Neues Lebensmittel</string>
     <string name="food_search">Lebensmittel suchen</string>
@@ -84,7 +86,7 @@
     <string name="hypo">Hypo</string>
     <string name="hypo_per_day">Hypos pro Tag</string>
     <string name="import_">Backup wiederherstellen</string>
-    <string name="impress">Impressum</string>
+    <string name="imprint">Impressum</string>
     <string name="in">in</string>
     <string name="ingredients">Zutaten</string>
     <string name="insulin">Insulin</string>
@@ -307,12 +309,7 @@
 
     <string name="oxygen_saturation">Sauerstoffsättigung</string>
 
-    <string name="changelog_title">Neu in dieser Version</string>
-    <string-array name="changelog_19">
-        <item>Bilder bei gewöhnlichen Lebensmitteln ergänzt</item>
-        <item>Protokolleinträge können via Swipe-to-delete gelöscht werden</item>
-        <item>Korrekturboli dürfen negativ sein</item>
-    </string-array>
+    <string name="changelog">Neu in dieser Version</string>
 
     <string name="meal_factor">Mahlzeit-Bolus-Faktor</string>
     <string name="meal_factors">Mahlzeit-Bolus-Faktoren</string>
@@ -335,5 +332,10 @@
     <string name="tag_duplicate">Stimmung ist bereits verfügbar</string>
     <string name="food_append">Lebensmittel anhängen</string>
     <string name="available_placeholder">%d verfügbar</string>
+    <string name="backup_desc">Daten in einer Backup-Datei an einem beliebigen Ort sichern (Es werden keine Daten automatisch an externe Dienste weitergegeben)</string>
+    <string name="import_desc">Daten aus einer vorher angelegten Backup-Datei wiederherstellen</string>
+    <string name="show_branded_food">Markenprodukte anzeigen</string>
+    <string name="show_branded_food_desc">Umfasst tausende abgepackter Lebensmittel und führt deshalb unter Umständen zu Duplikaten (z. B. beim gleichen Produkt von verschiedenen Herstellern)</string>
+    <string name="search_prompt">Tippen, um Suche zu beginnen</string>
 
 </resources>

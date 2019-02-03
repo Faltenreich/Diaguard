@@ -8,12 +8,12 @@
 
     <include layout="@layout/view_toolbar"/>
 
-    <android.support.v4.widget.DrawerLayout
+    <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.design.widget.CoordinatorLayout
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -31,9 +31,9 @@
                 android:src="@drawable/fab_add"
                 app:layout_behavior="com.faltenreich.diaguard.adapter.SlideOutBehavior"/>
 
-        </android.support.design.widget.CoordinatorLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-        <android.support.design.widget.NavigationView
+        <com.google.android.material.navigation.NavigationView
             android:id="@+id/navigation_drawer"
             android:layout_height="match_parent"
             android:layout_width="@dimen/navigation_drawer_width"
@@ -41,6 +41,6 @@
             app:menu="@menu/navigation"
             app:headerLayout="@layout/view_empty"/>
 
-    </android.support.v4.widget.DrawerLayout>
+    </androidx.drawerlayout.widget.DrawerLayout>
 
 </LinearLayout>

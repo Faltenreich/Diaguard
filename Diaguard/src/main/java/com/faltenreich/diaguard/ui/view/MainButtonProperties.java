@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.ui.view;
 
-import android.support.annotation.DrawableRes;
+import androidx.annotation.DrawableRes;
 import android.view.View;
 
 import com.faltenreich.diaguard.R;

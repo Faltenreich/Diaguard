@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.design.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -15,9 +15,9 @@
             android:focusableInTouchMode="true"
             android:orientation="vertical">
 
-            <include layout="@layout/view_toolbar" />
+            <include layout="@layout/view_toolbar"/>
 
-            <android.support.v4.widget.NestedScrollView
+            <androidx.core.widget.NestedScrollView
                 android:id="@+id/activity_newevent_scrollview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -27,7 +27,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <android.support.v7.widget.CardView
+                    <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/CardViewNoMargin">
@@ -94,12 +94,15 @@
                                         android:completionThreshold="0"
                                         tools:ignore="RtlSymmetry"/>
 
-                                    <org.apmem.tools.layouts.FlowLayout
+                                    <com.google.android.material.chip.ChipGroup
                                         android:id="@+id/entry_tags"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:paddingLeft="12dp"
-                                        android:paddingStart="12dp"
+                                        android:visibility="gone"
+                                        android:paddingLeft="@dimen/margin_between"
+                                        android:paddingStart="@dimen/margin_between"
+                                        android:paddingBottom="@dimen/margin_between"
+                                        app:chipSpacing="@dimen/margin_between"
                                         tools:ignore="RtlSymmetry"/>
 
                                 </LinearLayout>
@@ -150,7 +153,7 @@
 
                         </LinearLayout>
 
-                    </android.support.v7.widget.CardView>
+                    </androidx.cardview.widget.CardView>
 
                     <com.faltenreich.diaguard.ui.view.entry.MeasurementListView
                         android:id="@+id/layout_measurements"
@@ -163,7 +166,7 @@
 
                 </LinearLayout>
 
-            </android.support.v4.widget.NestedScrollView>
+            </androidx.core.widget.NestedScrollView>
 
         </LinearLayout>
 
@@ -190,4 +193,4 @@
         android:src="@drawable/ic_action_done"
         app:layout_behavior="com.faltenreich.diaguard.adapter.StepAsideBehavior"/>
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.ui.view;
 
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 import com.faltenreich.diaguard.ui.fragment.BaseFragment;
 import com.faltenreich.diaguard.ui.fragment.ChartFragment;

@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.util;
 
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;

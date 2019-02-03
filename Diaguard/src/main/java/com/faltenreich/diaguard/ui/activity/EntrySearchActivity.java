@@ -2,15 +2,13 @@ package com.faltenreich.diaguard.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 import android.view.View;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.ui.fragment.EntrySearchFragment;
-import com.faltenreich.diaguard.util.Vector2D;
-import com.faltenreich.diaguard.util.ViewUtils;
 
 public class EntrySearchActivity extends BaseSearchActivity {
 

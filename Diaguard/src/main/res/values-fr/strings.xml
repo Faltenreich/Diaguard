@@ -65,7 +65,7 @@
     <string name="homepage">Site web</string>
     <string name="hyper">Hyper</string>
     <string name="hypo">Hypo</string>
-    <string name="impress">Empreinte</string>
+    <string name="imprint">Empreinte</string>
     <string name="in">en</string>
     <string name="insulin">Insuline</string>
     <string name="latest">Il ya [value] [unit]</string>
@@ -281,7 +281,9 @@
     <string name="error_no_data_desc">Essayez une autre requête pour améliorer vos résultats ou</string>
     <string name="food">Aliment</string>
     <string name="food_common">Alimentation commune</string>
+    <string name="food_delete">Supprimer un aliment</string>
     <string name="food_deleted">Aliments supprimés</string>
+    <string name="food_eaten_placeholder">%d repas pris seront affectés</string>
     <string name="food_edit">Modifier les aliments</string>
     <string name="food_new">Nouvelle aliment</string>
     <string name="food_search">Recherche de aliments</string>
@@ -308,12 +310,7 @@
     <string name="oxygen_saturation">Saturation en oxygène</string>
     <string name="correction_value_desc">Réduction de la glycémie d\'une</string>
 
-    <string name="changelog_title">Quoi de neuf</string>
-    <string-array name="changelog_19">
-        <item>Ajout d\'images aux aliments communs</item>
-        <item>Les éléments de protocole peuvent maintenant être supprimés via swipe-to-delete</item>
-        <item>Le bolus de correction peut maintenant être négatif</item>
-    </string-array>
+    <string name="changelog">Quoi de neuf</string>
 
     <string name="meal_factor">Repas-bol-facteur</string>
     <string name="meal_factors">Repas-bol-facteurs</string>
@@ -336,5 +333,10 @@
     <string name="tag_duplicate">Le mot-clé est déjà disponible</string>
     <string name="food_append">Ajouter l\'aliment</string>
     <string name="available_placeholder">%d disponible</string>
+    <string name="backup_desc">Sauvegarder les données dans un fichier de sauvegarde n\'importe où (Aucune donnée n\'est automatiquement transmise à des services externes)</string>
+    <string name="import_desc">Restaurer les données d\'un fichier de sauvegarde créé précédemment</string>
+    <string name="show_branded_food">Afficher les aliments de marque</string>
+    <string name="show_branded_food_desc">Inclut des milliers de produits emballés et peut donc contenir des doublons (par exemple, un produit de différents fabricants)</string>
+    <string name="search_prompt">Commencez la recherche en tapant</string>
 
 </resources>

@@ -84,7 +84,9 @@
     <string name="food_add">Add food</string>
     <string name="food_add_desc">Add food</string>
     <string name="food_common">Common food</string>
+    <string name="food_delete">Delete food</string>
     <string name="food_deleted">Food deleted</string>
+    <string name="food_eaten_placeholder">%d eaten meals will be affected</string>
     <string name="food_edit">Edit food</string>
     <string name="food_new">New food</string>
     <string name="food_search">Search for food</string>
@@ -103,7 +105,7 @@
     <string name="hypo">Hypo</string>
     <string name="hypo_per_day">Hypos per day</string>
     <string name="import_">Import</string>
-    <string name="impress">Impress</string>
+    <string name="imprint">Imprint</string>
     <string name="in">in</string>
     <string name="info" translatable="false">Info</string>
     <string name="ingredients">Ingredients</string>
@@ -364,8 +366,8 @@
         <item>2.20462262185</item>
     </string-array>
     <integer-array name="weight_extrema" translatable="false">
-        <item name="minimum">20</item>
-        <item name="maximum">800</item>
+        <item name="minimum">0</item>
+        <item name="maximum">1400</item>
     </integer-array>
 
     <string name="pulse_units_default">Beats per Minutes</string>
@@ -478,12 +480,7 @@
 
     <string name="oxygen_saturation">Oxygen saturation</string>
 
-    <string name="changelog_title">What\'s new</string>
-    <string-array name="changelog_19">
-        <item>Added images to common foods</item>
-        <item>Log items can now be deleted via swipe-to-delete</item>
-        <item>The Correction bolus may now be negative</item>
-    </string-array>
+    <string name="changelog">What\'s new</string>
 
     <string name="meal_factor">Meal-bolus-factor</string>
     <string name="meal_factors">Meal-bolus-factors</string>
@@ -515,5 +512,10 @@
     <string name="tag_duplicate">Tag is already available</string>
     <string name="food_append">Append food</string>
     <string name="available_placeholder">%d available</string>
+    <string name="backup_desc">Store data in a backup file on a storage of your choice (No data will be sent automatically to external services)</string>
+    <string name="import_desc">Restore data from a previously created backup file</string>
+    <string name="show_branded_food">Show branded food</string>
+    <string name="show_branded_food_desc">Includes thousands of packaged goods and may therefor contain duplicates (e.g. one product from different manufacturers)</string>
+    <string name="search_prompt">Start searching by typing</string>
 
 </resources>

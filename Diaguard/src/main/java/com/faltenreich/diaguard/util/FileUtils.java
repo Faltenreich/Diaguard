@@ -8,8 +8,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.v4.content.FileProvider;
+import androidx.annotation.NonNull;
+import androidx.core.content.FileProvider;
 
 import com.faltenreich.diaguard.R;
 
@@ -86,5 +86,16 @@ public class FileUtils {
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType(mimeType);
         activity.startActivityForResult(intent, requestCode);
+    }
+
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    public static void deleteDirectory(File directory) {
+        if (directory.isDirectory()) {
+            String[] children = directory.list();
+            for (String child : children) {
+                deleteDirectory(new File(directory, child));
+            }
+        }
+        directory.delete();
     }
 }

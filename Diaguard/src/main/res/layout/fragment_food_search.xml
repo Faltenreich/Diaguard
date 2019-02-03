@@ -52,12 +52,12 @@
 
     </LinearLayout>
 
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <android.support.v4.widget.SwipeRefreshLayout
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/food_search_swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -68,7 +68,7 @@
                 android:layout_height="match_parent"
                 android:background="@android:color/white"/>
 
-        </android.support.v4.widget.SwipeRefreshLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <LinearLayout
             android:id="@+id/food_search_list_empty"
@@ -125,6 +125,6 @@
             app:layout_anchor="@id/food_search_list"
             app:layout_anchorGravity="bottom|right|end"/>
 
-    </android.support.design.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </LinearLayout>

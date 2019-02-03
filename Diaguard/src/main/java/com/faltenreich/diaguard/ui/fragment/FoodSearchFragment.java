@@ -2,11 +2,11 @@ package com.faltenreich.diaguard.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.v4.widget.SwipeRefreshLayout;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -49,7 +49,6 @@ import static com.faltenreich.diaguard.R.id.food_search_list_empty;
  * Created by Faltenreich on 11.09.2016.
  */
 public class FoodSearchFragment extends BaseFragment implements SearchView.OnQueryTextListener, SearchView.OnMenuClickListener {
-
     public static final String FINISH_ON_SELECTION = "finishOnSelection";
 
     @BindView(R.id.food_search_unit) TextView unitTextView;
@@ -105,12 +104,9 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         unitTextView.setText(PreferenceHelper.getInstance().getLabelForMealPer100g(getContext()));
 
         swipeRefreshLayout.setColorSchemeResources(R.color.green, R.color.green_light, R.color.green_lighter);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                swipeRefreshLayout.setRefreshing(true);
-                query(searchView.getQuery().toString());
-            }
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            swipeRefreshLayout.setRefreshing(true);
+            query(searchView.getQuery().toString());
         });
 
         searchView.setOnQueryTextListener(this);
@@ -119,14 +115,11 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         searchView.setArrowOnly(false);
 
         searchAdapter = new SearchAdapter(getContext());
-        searchAdapter.addOnItemClickListener(new SearchAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                TextView textView = view.findViewById(R.id.textView_item_text);
-                String query = textView.getText().toString();
-                searchView.setQuery(query, true);
-                searchView.close(true);
-            }
+        searchAdapter.addOnItemClickListener((view, position) -> {
+            TextView textView = view.findViewById(R.id.textView_item_text);
+            String query = textView.getText().toString();
+            searchView.setQuery(query, true);
+            searchView.close(true);
         });
         searchView.setAdapter(searchAdapter);
 
@@ -173,6 +166,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
         intent.putExtra(BaseFoodFragment.EXTRA_FOOD_ID, food.getId());
         startActivity(intent);
     }
+
     private void query(String query) {
         emptyList.setVisibility(View.GONE);
         list.newSearch(query);
@@ -213,12 +207,12 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     }
 
     @OnClick(R.id.fab)
-    public void onFabClick() {
+    void onFabClick() {
         createFood();
     }
 
     @OnClick(R.id.food_search_empty_button)
-    public void onEmptyButtonClick() {
+    void onEmptyButtonClick() {
         // Workaround since CONNECTIVITY_ACTION broadcasts cannot be caught since API level 24
         boolean wasNetworkError = emptyText.getText().toString().equals(getString(R.string.error_no_connection));
         if (wasNetworkError) {
@@ -229,7 +223,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
     }
 
     @OnClick(R.id.imageView_clear)
-    public void clearQuery() {
+    void clearQuery() {
         searchView.setTextOnly(null);
         searchView.close(true);
         query(null);
@@ -260,13 +254,11 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(final FoodDeletedEvent event) {
-        ViewUtils.showSnackbar(getView(), getString(R.string.food_deleted), new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Food food = event.context;
-                FoodDao.getInstance().createOrUpdate(food);
-                Events.post(new FoodSavedEvent(food));
-            }
+        ViewUtils.showSnackbar(getView(), getString(R.string.food_deleted), v -> {
+            Food food = event.context;
+            food.setDeletedAt(null);
+            FoodDao.getInstance().createOrUpdate(food);
+            Events.post(new FoodSavedEvent(food));
         });
     }
 }

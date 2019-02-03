@@ -1,13 +1,16 @@
 package com.faltenreich.diaguard.ui.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.MenuRes;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.MenuRes;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AlertDialog;
 
+import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.dao.FoodDao;
+import com.faltenreich.diaguard.data.dao.FoodEatenDao;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.data.FoodDeletedEvent;
@@ -23,12 +26,12 @@ public abstract class BaseFoodFragment extends BaseFragment {
     private @DrawableRes int icon;
     private Food food;
 
-    public BaseFoodFragment(@LayoutRes int layoutResId, @StringRes int titleResId, @DrawableRes int icon, @MenuRes int menuResId) {
+    BaseFoodFragment(@LayoutRes int layoutResId, @StringRes int titleResId, @DrawableRes int icon, @MenuRes int menuResId) {
         super(layoutResId, titleResId, menuResId);
         this.icon = icon;
     }
 
-    public BaseFoodFragment(@LayoutRes int layoutResId, @StringRes int titleResId, @MenuRes int menuResId) {
+    BaseFoodFragment(@LayoutRes int layoutResId, @StringRes int titleResId, @MenuRes int menuResId) {
         super(layoutResId, titleResId, menuResId);
         this.icon = -1;
     }
@@ -43,7 +46,7 @@ public abstract class BaseFoodFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         if (food != null) {
-            food = FoodDao.getInstance().get(food.getId());
+            food = FoodDao.getInstance().getById(food.getId());
         }
     }
 
@@ -52,18 +55,30 @@ public abstract class BaseFoodFragment extends BaseFragment {
             Bundle extras = getActivity().getIntent().getExtras();
             if (extras.getLong(EXTRA_FOOD_ID) >= 0) {
                 long foodId = extras.getLong(EXTRA_FOOD_ID);
-                this.food = FoodDao.getInstance().get(foodId);
+                this.food = FoodDao.getInstance().getById(foodId);
             }
         }
     }
 
-    protected void deleteFood() {
+    void deleteFoodIfConfirmed() {
         Food food = getFood();
         if (food != null) {
-            FoodDao.getInstance().delete(food);
-            Events.post(new FoodDeletedEvent(food));
-            finish();
+            long foodEaten = FoodEatenDao.getInstance().count(food);
+            String message = String.format(getString(R.string.food_eaten_placeholder), foodEaten);
+            new AlertDialog.Builder(getContext())
+                    .setTitle(R.string.food_delete)
+                    .setMessage(message)
+                    .setNegativeButton(R.string.cancel, (dialog, id) -> {})
+                    .setPositiveButton(R.string.delete, (dialog, id) -> deleteFood(food))
+                    .create()
+                    .show();
         }
+    }
+
+    private void deleteFood(Food food) {
+        FoodDao.getInstance().softDelete(food);
+        Events.post(new FoodDeletedEvent(food));
+        finish();
     }
 
     protected Food getFood() {

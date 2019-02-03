@@ -2,14 +2,15 @@ package com.faltenreich.diaguard.ui.view;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.AttributeSet;
 
 import com.faltenreich.diaguard.adapter.EndlessRecyclerViewScrollListener;
 import com.faltenreich.diaguard.adapter.FoodAdapter;
 import com.faltenreich.diaguard.adapter.LinearDividerItemDecoration;
 import com.faltenreich.diaguard.adapter.list.ListItemFood;
+import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.dao.FoodEatenDao;
 import com.faltenreich.diaguard.data.entity.Food;
@@ -122,11 +123,23 @@ public class FoodListView extends RecyclerView {
     }
 
     private void addItems(List<ListItemFood> foodList) {
-        boolean hasItems = foodList.size() > 0;
+        boolean showBrandedFood = PreferenceHelper.getInstance().showBrandedFood();
+        List<ListItemFood> filtered = new ArrayList<>();
+        if (!showBrandedFood) {
+            for (ListItemFood listItem : foodList) {
+                if (!listItem.getFood().isBrandedFood()) {
+                    filtered.add(listItem);
+                }
+            }
+        } else {
+            filtered = foodList;
+        }
+
+        boolean hasItems = filtered.size() > 0;
         if (hasItems) {
             int oldSize = adapter.getItemCount();
             int newCount = 0;
-            for (ListItemFood listItem : foodList) {
+            for (ListItemFood listItem : filtered) {
                 if (!adapter.getItems().contains(listItem)) {
                     adapter.addItem(listItem);
                     newCount++;
@@ -137,12 +150,14 @@ public class FoodListView extends RecyclerView {
         Events.post(new FoodQueryEndedEvent(hasItems));
     }
 
+    // TODO: Filter on database-level
     private void addFood(List<Food> foodList) {
         List<ListItemFood> foodItemList = new ArrayList<>();
 
         for (Food food : foodList) {
             boolean isSameLanguage = Helper.isSystemLocale(food.getLanguageCode());
-            if (isSameLanguage) {
+            boolean isNotDeleted = !food.isDeleted();
+            if (isSameLanguage && isNotDeleted) {
                 foodItemList.add(new ListItemFood(food));
             }
         }

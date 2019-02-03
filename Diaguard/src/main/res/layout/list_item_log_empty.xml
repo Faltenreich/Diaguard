@@ -7,13 +7,19 @@
 
     <TextView
         android:id="@+id/empty"
-        style="@style/Padding"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/margin_between"
+        android:paddingStart="@dimen/margin_between"
+        android:paddingRight="@dimen/margin_between"
+        android:paddingEnd="@dimen/margin_between"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_element"
         android:background="?android:attr/selectableItemBackground"
-        android:clickable="true"
         android:gravity="center_vertical"
         android:text="@string/no_data"
-        android:textColor="@android:color/darker_gray" />
+        android:textColor="@android:color/darker_gray"
+        android:clickable="true"
+        android:focusable="true"/>
 
 </LinearLayout>

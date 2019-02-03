@@ -7,8 +7,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 31
-        versionName "3.0.1"
+        versionCode 33
+        versionName "3.1.0"
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -49,41 +49,50 @@ android {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/LICENSE'
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
-def supportLibraryVersion = '28.0.0'
-def retrofitVersion = '2.4.0'
+def ormLite = '5.1'
+def butterKnife = '10.0.0'
+def retrofit = '2.5.0'
 
 dependencies {
-    implementation "com.android.support:design:${supportLibraryVersion}"
-    implementation "com.android.support:recyclerview-v7:${supportLibraryVersion}"
-    implementation "com.android.support:cardview-v7:${supportLibraryVersion}"
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation "androidx.test.ext:junit:1.1.0"
+    androidTestImplementation "androidx.test:rules:1.1.1"
 
-    implementation 'com.j256.ormlite:ormlite-core:5.0'
-    implementation 'com.j256.ormlite:ormlite-android:5.0'
-    implementation 'net.danlew:android.joda:2.9.9'
-    implementation 'org.greenrobot:eventbus:3.0.0'
+    implementation 'com.google.android.material:material:1.1.0-alpha02'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha01'
+    implementation 'androidx.cardview:cardview:1.0.0'
 
-    implementation 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation "com.j256.ormlite:ormlite-core:$ormLite"
+    implementation "com.j256.ormlite:ormlite-android:$ormLite"
+    implementation 'net.danlew:android.joda:2.10.1.1'
+    implementation 'org.greenrobot:eventbus:3.1.1'
 
-    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.jakewharton:butterknife:$butterKnife"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterKnife"
+
+    implementation "com.squareup.retrofit2:retrofit:$retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit"
     implementation 'com.google.code.gson:gson:2.8.5'
 
     implementation 'org.apache.commons:commons-text:1.1'
-    implementation ('de.psdev.licensesdialog:licensesdialog:1.8.3') { exclude group: 'com.android.support' }
-    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'de.psdev.licensesdialog:licensesdialog:1.9.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.opencsv:opencsv:3.8'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     implementation 'com.github.clans:fab:1.6.4'
     implementation 'com.fmsirvent:parallaxeverywhere:1.0.4'
     implementation 'org.apmem.tools:layouts:1.10@aar'
-    implementation ('com.lapism:searchview:4.0') { exclude group: 'com.android.support' }
-    implementation 'com.mikhaellopez:circularimageview:3.0.2'
-    implementation ('com.code-troopers.betterpickers:library:3.1.0') { exclude group: 'com.android.support' }
-    implementation 'com.robinhood.ticker:ticker:1.2.1'
-    implementation 'com.github.pchmn:MaterialChipsInput:1.0.8'
+    implementation 'com.lapism:searchview:4.0'
+    implementation 'com.mikhaellopez:circularimageview:3.2.0'
+    implementation 'com.code-troopers.betterpickers:library:3.1.0'
+    implementation 'com.robinhood.ticker:ticker:2.0.1'
 }
 
 configurations {

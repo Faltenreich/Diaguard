@@ -1,13 +1,12 @@
 package com.faltenreich.diaguard.ui.fragment;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.ChangelogAdapter;
@@ -29,14 +28,9 @@ public class ChangelogFragment extends DialogFragment {
         list.setAdapter(adapter);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
-                .setTitle(R.string.changelog_title)
+                .setTitle(R.string.changelog)
                 .setView(list)
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Dismiss
-                    }
-                });
+                .setPositiveButton(R.string.ok, (dialog, which) -> {});
         return builder.create();
     }
 }

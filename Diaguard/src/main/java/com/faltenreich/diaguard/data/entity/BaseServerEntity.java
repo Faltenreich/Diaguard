@@ -2,14 +2,20 @@ package com.faltenreich.diaguard.data.entity;
 
 import com.j256.ormlite.field.DatabaseField;
 
+import org.joda.time.DateTime;
+
 public class BaseServerEntity extends BaseEntity {
 
     public class Column extends BaseEntity.Column {
         public static final String SERVER_ID = "serverId";
+        public static final String DELETED_AT = "deletedAt";
     }
 
-    @DatabaseField(columnName = Food.Column.SERVER_ID)
+    @DatabaseField(columnName = Column.SERVER_ID)
     private String serverId;
+
+    @DatabaseField(columnName = Column.DELETED_AT)
+    private DateTime deletedAt;
 
     public String getServerId() {
         return serverId;
@@ -19,7 +25,14 @@ public class BaseServerEntity extends BaseEntity {
         this.serverId = serverId;
     }
 
-    public boolean isSynchronized() {
-        return getServerId() != null;
+    public DateTime getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(DateTime deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+    public boolean isDeleted() {
+        return deletedAt != null;
     }
 }

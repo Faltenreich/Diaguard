@@ -2,23 +2,19 @@ package com.faltenreich.diaguard.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.text.TextUtils;
+import androidx.annotation.NonNull;
+
+import com.google.android.material.tabs.TabLayout;
+import androidx.viewpager.widget.ViewPager;
+
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.FoodPagerAdapter;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.ui.activity.FoodEditActivity;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 
@@ -28,11 +24,6 @@ import butterknife.BindView;
 
 public class FoodFragment extends BaseFoodFragment {
 
-    @BindView(R.id.food_image) ImageView image;
-    @BindView(R.id.appbar) AppBarLayout appBarLayout;
-    @BindView(R.id.scrim_top) View scrimTop;
-    @BindView(R.id.scrim_bottom) View scrimBottom;
-    @BindView(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingToolbarLayout;
     @BindView(R.id.food_viewpager) ViewPager viewPager;
     @BindView(R.id.food_tablayout) TabLayout tabLayout;
 
@@ -48,12 +39,6 @@ public class FoodFragment extends BaseFoodFragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        setToolbarBackgroundColor(android.R.color.transparent);
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         update();
@@ -63,13 +48,13 @@ public class FoodFragment extends BaseFoodFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_delete:
-                deleteFood();
+                deleteFoodIfConfirmed();
                 return true;
             case R.id.action_edit:
                 editFood();
                 return true;
             case R.id.action_eat:
-                eatFood(item.getActionView());
+                eatFood();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -79,43 +64,9 @@ public class FoodFragment extends BaseFoodFragment {
     private void init() {
         Food food = getFood();
         if (food != null) {
-            boolean hasImage = !TextUtils.isEmpty(food.getFullImageUrl());
-            scrimTop.setVisibility(View.GONE);
-            scrimBottom.setVisibility(View.GONE);
-            if (hasImage) {
-                Picasso.with(getContext()).load(food.getFullImageUrl()).fit().centerCrop().into(image, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        scrimTop.setVisibility(View.VISIBLE);
-                        scrimBottom.setVisibility(View.VISIBLE);
-                    }
-                    @Override
-                    public void onError() {
-                    }
-                });
-            } else {
-                image.setImageResource(0);
-            }
-            collapsingToolbarLayout.setTitleEnabled(false);
-
             FoodPagerAdapter adapter = new FoodPagerAdapter(getFragmentManager(), food);
             viewPager.setAdapter(adapter);
             tabLayout.setupWithViewPager(viewPager);
-
-            /*
-            // Set tab icons
-            for (int position = 0; position < adapter.getCount(); position++) {
-                TabLayout.Tab tab = tabLayout.getTabAt(position);
-                if (tab != null) {
-                    Fragment fragment = adapter.getItem(position);
-                    if (fragment != null && fragment instanceof BaseFoodFragment) {
-                        BaseFoodFragment foodFragment = (BaseFoodFragment) fragment;
-                        tab.setIcon(foodFragment.getIcon());
-                        tab.setContentDescription(foodFragment.getTitle());
-                    }
-                }
-            }
-            */
         }
     }
 
@@ -124,7 +75,7 @@ public class FoodFragment extends BaseFoodFragment {
         setTitle(food != null ? food.getName() : null);
     }
 
-    private void eatFood(View view) {
+    private void eatFood() {
         EntryActivity.show(getContext(), getFood());
     }
 

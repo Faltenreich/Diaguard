@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.networking.openfoodfacts.dto.SearchResponseDto;
 import com.faltenreich.diaguard.util.DateTimeUtils;
 import com.faltenreich.diaguard.util.Helper;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.SelectArg;
 
 import org.joda.time.DateTime;
 
@@ -61,15 +62,6 @@ public class FoodDao extends BaseServerDao<Food> {
                     .orderBy(Food.Column.UPDATED_AT, false)
                     .where().eq(Food.Column.LANGUAGE_CODE, Helper.getLanguageCode())
                     .and().isNull(BaseServerEntity.Column.SERVER_ID)
-                    .and().eq(Food.Column.ENERGY, -1)
-                    .and().eq(Food.Column.FAT, -1)
-                    .and().eq(Food.Column.FAT_SATURATED, -1)
-                    .and().eq(Food.Column.FIBER, -1)
-                    .and().eq(Food.Column.PROTEINS, -1)
-                    .and().eq(Food.Column.SALT, -1)
-                    .and().eq(Food.Column.SODIUM, -1)
-                    .and().eq(Food.Column.SUGAR, -1)
-                    .and().eq(Food.Column.FAT, -1)
                     .query();
         } catch (SQLException exception) {
             Log.e(TAG, exception.getLocalizedMessage());
@@ -77,22 +69,29 @@ public class FoodDao extends BaseServerDao<Food> {
         }
     }
 
-    @Override
-    public int delete(Food object) {
-        List<FoodEaten> foodEatenList = FoodEatenDao.getInstance().getAll(object);
+    private void cascadeFoodEaten(Food food) {
+        List<FoodEaten> foodEatenList = FoodEatenDao.getInstance().getAll(food);
         for (FoodEaten foodEaten : foodEatenList) {
             FoodEatenDao.getInstance().delete(foodEaten);
         }
+    }
+
+    @Override
+    public void softDelete(Food entity) {
+        cascadeFoodEaten(entity);
+        super.softDelete(entity);
+    }
+
+    @Override
+    public int delete(Food object) {
+        cascadeFoodEaten(object);
         return super.delete(object);
     }
 
     @Override
     public int delete(List<Food> objects) {
         for (Food food : objects) {
-            List<FoodEaten> foodEatenList = FoodEatenDao.getInstance().getAll(food);
-            for (FoodEaten foodEaten : foodEatenList) {
-                FoodEatenDao.getInstance().delete(foodEaten);
-            }
+            cascadeFoodEaten(food);
         }
         return super.delete(objects);
     }
@@ -120,12 +119,14 @@ public class FoodDao extends BaseServerDao<Food> {
             if (hasQuery) {
                 return queryBuilder
                         .where().eq(Food.Column.LANGUAGE_CODE, Helper.getLanguageCode())
-                        .and().like(Food.Column.NAME, "%" + query + "%")
+                        .and().like(Food.Column.NAME, new SelectArg("%" + query + "%"))
+                        .and().isNull(Food.Column.DELETED_AT)
                         .query();
 
             } else {
                 return queryBuilder
                         .where().eq(Food.Column.LANGUAGE_CODE, Helper.getLanguageCode())
+                        .and().isNull(Food.Column.DELETED_AT)
                         .query();
             }
             
@@ -159,7 +160,6 @@ public class FoodDao extends BaseServerDao<Food> {
         if (isNew || needsUpdate(food, dto)) {
             food.setServerId(serverId);
             food.setName(dto.name);
-            food.setImageUrl(dto.imageUrl);
             food.setBrand(dto.brand);
             food.setIngredients(dto.ingredients != null ? dto.ingredients.replaceAll("_", "") : null);
             food.setLabels(dto.labels);

@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.ui.view.chart;
 
 import android.content.Context;
-import android.support.annotation.ColorRes;
-import android.support.v4.content.ContextCompat;
+import androidx.annotation.ColorRes;
+import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;

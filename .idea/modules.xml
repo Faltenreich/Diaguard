@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/App.iml" filepath="$PROJECT_DIR$/App.iml" />
       <module fileurl="file://$PROJECT_DIR$/Diaguard/App-Diaguard.iml" filepath="$PROJECT_DIR$/Diaguard/App-Diaguard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Diaguard.iml" filepath="$PROJECT_DIR$/.idea/Diaguard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Diaguard/Diaguard-Diaguard.iml" filepath="$PROJECT_DIR$/Diaguard/Diaguard-Diaguard.iml" />
     </modules>
   </component>
 </project>

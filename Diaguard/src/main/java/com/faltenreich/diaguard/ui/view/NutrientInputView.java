@@ -2,8 +2,8 @@ package com.faltenreich.diaguard.ui.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.util.Helper;

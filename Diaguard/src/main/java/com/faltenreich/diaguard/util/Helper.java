@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.util;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.annotation.DimenRes;
+import androidx.annotation.DimenRes;
 import android.util.Log;
 
 import com.faltenreich.diaguard.DiaguardApplication;

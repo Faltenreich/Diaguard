@@ -1,9 +1,10 @@
 package com.faltenreich.diaguard.data.dao;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 
 import com.faltenreich.diaguard.adapter.list.ListItemCategoryValue;
+import com.faltenreich.diaguard.data.DatabaseHelper;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
@@ -14,7 +15,12 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Pressure;
 import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.util.ArrayUtils;
+import com.faltenreich.diaguard.util.NumberUtils;
+import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.SelectArg;
+import com.j256.ormlite.stmt.Where;
+import com.j256.ormlite.table.DatabaseTableConfig;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -245,54 +251,19 @@ public class EntryDao extends BaseDao<Entry> {
         }
     }
 
-    public List<Entry> getAllWithNotes(DateTime day) {
-        try {
-            return getDao().queryBuilder()
-                    .orderBy(Entry.Column.DATE, true)
-                    .where().isNotNull(Entry.Column.NOTE)
-                    .and().ge(Entry.Column.DATE, day.withTimeAtStartOfDay())
-                    .and().le(Entry.Column.DATE, day.withTime(DateTimeConstants.HOURS_PER_DAY - 1,
-                            DateTimeConstants.MINUTES_PER_HOUR - 1,
-                            DateTimeConstants.SECONDS_PER_MINUTE - 1,
-                            DateTimeConstants.MILLIS_PER_SECOND - 1))
-                    .query();
-        } catch (SQLException exception) {
-            Log.e(TAG, exception.getMessage());
-            return new ArrayList<>();
-        }
-    }
-
     @NonNull
     public List<Entry> search(@NonNull String query, int page, int pageSize) {
         try {
             query = "%" + query + "%";
-
-            QueryBuilder<Tag, Long> tagQueryBuilder = TagDao.getInstance().getQueryBuilder();
-            tagQueryBuilder.where().like(Tag.Column.NAME, query);
-            QueryBuilder<EntryTag, Long> entryTagQueryBuilder = EntryTagDao.getInstance().getQueryBuilder().join(tagQueryBuilder);
-
-            QueryBuilder<Entry, Long> entryQueryBuilder = getDao().queryBuilder()
+            QueryBuilder<Tag, Long> tagQb = TagDao.getInstance().getQueryBuilder();
+            tagQb.where().like(Tag.Column.NAME, new SelectArg(query));
+            QueryBuilder<EntryTag, Long> entryTagQb = EntryTagDao.getInstance().getQueryBuilder().leftJoinOr(tagQb);
+            QueryBuilder<Entry, Long> entryQb = getDao().queryBuilder().leftJoinOr(entryTagQb)
                     .offset((long) (page * pageSize))
                     .limit((long) pageSize)
                     .orderBy(Entry.Column.DATE, false);
-            entryQueryBuilder.where().like(Entry.Column.NOTE, query);
-
-            // FIXME: Merge two queries to one
-            List<Entry> entries = entryQueryBuilder.query();
-            List<EntryTag> entryTags = entryTagQueryBuilder.query();
-            for (EntryTag entryTag : entryTags) {
-                Entry entry = entryTag.getEntry();
-                if (!entries.contains(entry)) {
-                    entries.add(entry);
-                }
-            }
-            Collections.sort(entries, new Comparator<Entry>() {
-                @Override
-                public int compare(Entry one, Entry two) {
-                    return two.getDate().compareTo(one.getDate());
-                }
-            });
-            return entries;
+            entryQb.where().like(Entry.Column.NOTE, new SelectArg(query));
+            return entryQb.distinct().query();
         } catch (SQLException exception) {
             Log.e(TAG, exception.getMessage());
             return new ArrayList<>();

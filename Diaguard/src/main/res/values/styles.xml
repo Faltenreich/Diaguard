@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.Bridge">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowBackground">@color/background_light</item>
@@ -188,11 +188,6 @@
     <style name="LayoutRowItemMultiline" parent="LayoutRowItem">
         <item name="android:layout_marginTop">11dp</item>
         <item name="android:layout_marginBottom">11dp</item>
-    </style>
-
-    <style name="InlineListSection" parent="Padding">
-        <item name="android:layout_width">@dimen/list_header_width</item>
-        <item name="android:layout_height">@dimen/list_header_height</item>
     </style>
 
     <style name="InlineListItem">

@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.faltenreich.diaguard.data.dao.EntryDao;
+import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.Activity;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
@@ -26,9 +27,11 @@ import com.faltenreich.diaguard.data.entity.Weight;
 import com.faltenreich.diaguard.data.entity.deprecated.CategoryDeprecated;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
+import com.faltenreich.diaguard.util.image.ImageLoader;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+import com.squareup.picasso.Picasso;
 
 import org.joda.time.format.DateTimeFormat;
 
@@ -52,6 +55,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public static final int DATABASE_VERSION_2_0 = 20;
     public static final int DATABASE_VERSION_2_2 = 21;
     public static final int DATABASE_VERSION_3_0 = 22;
+    public static final int DATABASE_VERSION_3_1 = 23;
 
     public static final Class[] tables = new Class[]{
             Entry.class,
@@ -70,18 +74,22 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             EntryTag.class
     };
 
+    private Context context;
+
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, getVersion());
+        this.context = context;
     }
 
     public static int getVersion() {
-        return DATABASE_VERSION_3_0;
+        return DATABASE_VERSION_3_1;
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource) {
         for (Class tableClass : tables) {
             try {
+                //noinspection unchecked
                 TableUtils.createTable(connectionSource, tableClass);
             } catch (SQLException exception) {
                 Log.e(DatabaseHelper.class.getName(), "Couldn't create table " + tableClass.getSimpleName(), exception);
@@ -110,10 +118,20 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                     case DATABASE_VERSION_2_2:
                         upgradeToVersion22(connectionSource);
                         break;
+                    case DATABASE_VERSION_3_0:
+                        upgradeToVersion23(sqLiteDatabase);
+                        break;
                 }
                 upgradeFromVersion++;
             }
         }
+    }
+
+    private void upgradeToVersion23(SQLiteDatabase sqLiteDatabase) {
+        // Food.imageUrl should be removed but column dropping is not supported in SQLite
+        String query = String.format("ALTER TABLE \'%s\' ADD COLUMN %s TEXT", DatabaseHelper.FOOD, Food.Column.DELETED_AT);
+        sqLiteDatabase.execSQL(query);
+        ImageLoader.getInstance().clearCache(context);
     }
 
     private void upgradeToVersion22(ConnectionSource connectionSource) {
@@ -232,6 +250,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private static final String MEASUREMENT_ID = "measurementId";
     private static final String FOOD = "food";
     private static final String FOOD_EATEN = "food_eaten";
+    private static final String FOOD_IMAGE_URL = "imageUrl";
 
     private void onCreateVersion17(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " +

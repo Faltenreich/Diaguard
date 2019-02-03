@@ -43,7 +43,7 @@ public abstract class BaseFoodFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         if (food != null) {
-            food = FoodDao.getInstance().get(food.getId());
+            food = FoodDao.getInstance().getById(food.getId());
         }
     }
 
@@ -52,7 +52,7 @@ public abstract class BaseFoodFragment extends BaseFragment {
             Bundle extras = getActivity().getIntent().getExtras();
             if (extras.getLong(EXTRA_FOOD_ID) >= 0) {
                 long foodId = extras.getLong(EXTRA_FOOD_ID);
-                this.food = FoodDao.getInstance().get(foodId);
+                this.food = FoodDao.getInstance().getById(foodId);
             }
         }
     }

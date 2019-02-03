@@ -245,7 +245,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             @Override
             public List<Tag> onShouldLoad() {
                 EntryDao dao = EntryDao.getInstance();
-                entry = dao.get(id);
+                entry = dao.getById(id);
                 if (entry != null) {
                     entry.setMeasurementCache(dao.getMeasurements(entry));
                     entryTags = EntryTagDao.getInstance().getAll(entry);
@@ -263,7 +263,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         DataLoader.getInstance().load(this, new DataLoaderListener<Food>() {
             @Override
             public Food onShouldLoad() {
-                return FoodDao.getInstance().get(id);
+                return FoodDao.getInstance().getById(id);
             }
             @Override
             public void onDidLoad(Food food) {

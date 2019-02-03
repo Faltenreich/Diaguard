@@ -33,31 +33,8 @@ class BaseServerDao <T extends BaseServerEntity> extends BaseDao<T> {
     }
 
     @Override
-    public T createOrUpdate(T object) {
-        String serverId = object.getServerId();
-        if (serverId != null) {
-            try {
-                DateTime now = DateTime.now();
-                T existingObject = getDao().queryBuilder()
-                        .where().eq(BaseEntity.Column.ID, object.getId())
-                        .or().eq(BaseServerEntity.Column.SERVER_ID, object.getServerId())
-                        .queryForFirst();
-                if (existingObject != null) {
-                    object.setUpdatedAt(now);
-                    getDao().update(object);
-                } else {
-                    object.setCreatedAt(now);
-                    object.setUpdatedAt(now);
-                    getDao().create(object);
-                }
-                return object;
-            } catch (SQLException exception) {
-                Log.e(TAG, exception.getMessage());
-                return null;
-            }
-        } else {
-            return super.createOrUpdate(object);
-        }
+    public T get(T object) {
+        return object.getServerId() != null ? getByServerId(object.getServerId()) : super.get(object);
     }
 
     public void softDelete(T entity) {

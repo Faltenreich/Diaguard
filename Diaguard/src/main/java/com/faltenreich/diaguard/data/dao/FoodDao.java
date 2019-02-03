@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.networking.openfoodfacts.dto.SearchResponseDto;
 import com.faltenreich.diaguard.util.DateTimeUtils;
 import com.faltenreich.diaguard.util.Helper;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.SelectArg;
 
 import org.joda.time.DateTime;
 
@@ -127,7 +128,7 @@ public class FoodDao extends BaseServerDao<Food> {
             if (hasQuery) {
                 return queryBuilder
                         .where().eq(Food.Column.LANGUAGE_CODE, Helper.getLanguageCode())
-                        .and().like(Food.Column.NAME, "%" + query + "%")
+                        .and().like(Food.Column.NAME, new SelectArg("%" + query + "%"))
                         .and().isNull(Food.Column.DELETED_AT)
                         .query();
 

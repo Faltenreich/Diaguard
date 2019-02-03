@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.data.dao;
 
 import android.util.Log;
 
+import com.faltenreich.diaguard.data.entity.BaseEntity;
 import com.faltenreich.diaguard.data.entity.BaseServerEntity;
 
 import org.joda.time.DateTime;
@@ -28,6 +29,34 @@ class BaseServerDao <T extends BaseServerEntity> extends BaseDao<T> {
         } catch (SQLException exception) {
             Log.e(TAG, exception.getMessage());
             return null;
+        }
+    }
+
+    @Override
+    public T createOrUpdate(T object) {
+        String serverId = object.getServerId();
+        if (serverId != null) {
+            try {
+                DateTime now = DateTime.now();
+                T existingObject = getDao().queryBuilder()
+                        .where().eq(BaseEntity.Column.ID, object.getId())
+                        .or().eq(BaseServerEntity.Column.SERVER_ID, object.getServerId())
+                        .queryForFirst();
+                if (existingObject != null) {
+                    object.setUpdatedAt(now);
+                    getDao().update(object);
+                } else {
+                    object.setCreatedAt(now);
+                    object.setUpdatedAt(now);
+                    getDao().create(object);
+                }
+                return object;
+            } catch (SQLException exception) {
+                Log.e(TAG, exception.getMessage());
+                return null;
+            }
+        } else {
+            return super.createOrUpdate(object);
         }
     }
 

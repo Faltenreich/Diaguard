@@ -15,6 +15,7 @@ import com.faltenreich.diaguard.data.entity.Pressure;
 import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.util.ArrayUtils;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.SelectArg;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -266,16 +267,17 @@ public class EntryDao extends BaseDao<Entry> {
     public List<Entry> search(@NonNull String query, int page, int pageSize) {
         try {
             query = "%" + query + "%";
+            SelectArg queryArg = new SelectArg(query);
 
             QueryBuilder<Tag, Long> tagQueryBuilder = TagDao.getInstance().getQueryBuilder();
-            tagQueryBuilder.where().like(Tag.Column.NAME, query);
+            tagQueryBuilder.where().like(Tag.Column.NAME, queryArg);
             QueryBuilder<EntryTag, Long> entryTagQueryBuilder = EntryTagDao.getInstance().getQueryBuilder().join(tagQueryBuilder);
 
             QueryBuilder<Entry, Long> entryQueryBuilder = getDao().queryBuilder()
                     .offset((long) (page * pageSize))
                     .limit((long) pageSize)
                     .orderBy(Entry.Column.DATE, false);
-            entryQueryBuilder.where().like(Entry.Column.NOTE, query);
+            entryQueryBuilder.where().like(Entry.Column.NOTE, queryArg);
 
             // FIXME: Merge two queries to one
             List<Entry> entries = entryQueryBuilder.query();
@@ -286,12 +288,7 @@ public class EntryDao extends BaseDao<Entry> {
                     entries.add(entry);
                 }
             }
-            Collections.sort(entries, new Comparator<Entry>() {
-                @Override
-                public int compare(Entry one, Entry two) {
-                    return two.getDate().compareTo(one.getDate());
-                }
-            });
+            Collections.sort(entries, (one, two) -> two.getDate().compareTo(one.getDate()));
             return entries;
         } catch (SQLException exception) {
             Log.e(TAG, exception.getMessage());

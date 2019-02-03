@@ -81,7 +81,7 @@ public abstract class BaseDao <T extends BaseEntity> {
     public T createOrUpdate(T object) {
         try {
             DateTime now = DateTime.now();
-            T existingObject = getDao().queryBuilder().where().eq(BaseEntity.Column.ID, object.getId()).queryForFirst();
+            T existingObject = get(object.getId());
             if (existingObject != null) {
                 object.setUpdatedAt(now);
                 getDao().update(object);
@@ -100,14 +100,11 @@ public abstract class BaseDao <T extends BaseEntity> {
     public void bulkCreateOrUpdate(final List<T> objects) {
         if (objects != null && objects.size() > 0) {
             try {
-                getDao().callBatchTasks(new Callable<Void>() {
-                    @Override
-                    public Void call() throws Exception {
-                        for (T object : objects) {
-                            createOrUpdate(object);
-                        }
-                        return null;
+                getDao().callBatchTasks((Callable<Void>) () -> {
+                    for (T object : objects) {
+                        createOrUpdate(object);
                     }
+                    return null;
                 });
             } catch (Exception exception) {
                 Log.e(TAG, exception.getLocalizedMessage());

@@ -44,7 +44,7 @@ public class OpenFoodFactsService extends NetworkService<OpenFoodFactsServer> {
                     List<Food> foodList = FoodDao.getInstance().createOrUpdate(dto);
                     Events.post(new FoodSearchSucceededEvent(foodList));
                 } else {
-                    Events.post(new FoodSearchSucceededEvent(new ArrayList<Food>()));
+                    Events.post(new FoodSearchSucceededEvent(new ArrayList<>()));
                 }
             }
             @Override

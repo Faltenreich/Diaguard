@@ -2,7 +2,7 @@
 
 <resources>
     <string-array name="changelog">
-        <item>Food: Added option to filter branded food (see settings)</item>
+        <item>Food: Added option to filter branded food through the app settings</item>
         <item>Food: Deleted food remains deleted</item>
         <item>Search: Fixed duplicate search results</item>
         <item>Log: Optimizations for small displays</item>

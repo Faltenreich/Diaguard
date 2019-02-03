@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.EndlessAdapter;
 import com.faltenreich.diaguard.adapter.SafeLinearLayoutManager;
 import com.faltenreich.diaguard.adapter.EntrySearchAdapter;
 import com.faltenreich.diaguard.adapter.list.ListItemEntry;
@@ -82,20 +81,14 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
         listEmptyView.setVisibility(View.VISIBLE);
 
         list.setLayoutManager(new SafeLinearLayoutManager(getActivity()));
-        listAdapter = new EntrySearchAdapter(getContext(), new EntrySearchAdapter.OnSearchItemClickListener() {
-            @Override
-            public void onTagClicked(Tag tag, View view) {
-                if (isAdded()) {
-                    searchView.setQuery(tag.getName(), true);
-                }
+        listAdapter = new EntrySearchAdapter(getContext(), (tag, view) -> {
+            if (isAdded()) {
+                searchView.setQuery(tag.getName(), true);
             }
         });
-        listAdapter.setOnEndlessListener(new EndlessAdapter.OnEndlessListener() {
-            @Override
-            public void onLoadMore(boolean scrollingDown) {
-                if (scrollingDown) {
-                    continueSearch();
-                }
+        listAdapter.setOnEndlessListener(scrollingDown -> {
+            if (scrollingDown) {
+                continueSearch();
             }
         });
         list.setAdapter(listAdapter);
@@ -124,12 +117,7 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
             });
         } else {
             // Workaround to focus EditText onViewCreated
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    ViewUtils.showKeyboard(searchInput);
-                }
-            }, 500);
+            new Handler().postDelayed(() -> ViewUtils.showKeyboard(searchInput), 500);
         }
     }
 
@@ -199,12 +187,9 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
     @Override
     public boolean onQueryTextChange(final String newText) {
         // Delay search in order to reduce obsolete searches
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (newText.equals(searchView.getQuery().toString())) {
-                    newSearch();
-                }
+        new Handler().postDelayed(() -> {
+            if (newText.equals(searchView.getQuery().toString())) {
+                newSearch();
             }
         }, SEARCH_INPUT_DELAY_IN_MILLIS);
         return false;

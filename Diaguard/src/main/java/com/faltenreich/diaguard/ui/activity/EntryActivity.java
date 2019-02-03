@@ -75,7 +75,6 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
     public static final String EXTRA_ENTRY_ID = "entryId";
     public static final String EXTRA_DATE = "date";
-    private static final long TAG_SUGGESTIONS_LIMIT = 20L;
 
     private static Intent getIntent(Context context) {
         return new Intent(context, EntryActivity.class);
@@ -267,7 +266,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         DataLoader.getInstance().load(this, new DataLoaderListener<List<Tag>>() {
             @Override
             public List<Tag> onShouldLoad() {
-                return TagDao.getInstance().getRecent(TAG_SUGGESTIONS_LIMIT);
+                return TagDao.getInstance().getRecent();
             }
             @Override
             public void onDidLoad(List<Tag> tags) {

@@ -3,22 +3,18 @@ package com.faltenreich.diaguard.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
+
 import com.google.android.material.tabs.TabLayout;
 import androidx.viewpager.widget.ViewPager;
-import android.text.TextUtils;
+
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.FoodPagerAdapter;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.ui.activity.FoodEditActivity;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 
@@ -52,7 +48,7 @@ public class FoodFragment extends BaseFoodFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_delete:
-                deleteFood();
+                deleteFoodIfConfirmed();
                 return true;
             case R.id.action_edit:
                 editFood();

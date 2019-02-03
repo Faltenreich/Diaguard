@@ -6,8 +6,11 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.MenuRes;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.appcompat.app.AlertDialog;
 
+import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.dao.FoodDao;
+import com.faltenreich.diaguard.data.dao.FoodEatenDao;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.event.Events;
 import com.faltenreich.diaguard.event.data.FoodDeletedEvent;
@@ -57,13 +60,25 @@ public abstract class BaseFoodFragment extends BaseFragment {
         }
     }
 
-    void deleteFood() {
+    void deleteFoodIfConfirmed() {
         Food food = getFood();
         if (food != null) {
-            FoodDao.getInstance().softDelete(food);
-            Events.post(new FoodDeletedEvent(food));
-            finish();
+            long foodEaten = FoodEatenDao.getInstance().count(food);
+            String message = String.format(getString(R.string.food_eaten_placeholder), foodEaten);
+            new AlertDialog.Builder(getContext())
+                    .setTitle(R.string.food_delete)
+                    .setMessage(message)
+                    .setNegativeButton(R.string.cancel, (dialog, id) -> {})
+                    .setPositiveButton(R.string.delete, (dialog, id) -> deleteFood(food))
+                    .create()
+                    .show();
         }
+    }
+
+    private void deleteFood(Food food) {
+        FoodDao.getInstance().softDelete(food);
+        Events.post(new FoodDeletedEvent(food));
+        finish();
     }
 
     protected Food getFood() {

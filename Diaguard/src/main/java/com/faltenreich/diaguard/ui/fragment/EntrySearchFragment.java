@@ -110,7 +110,7 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
             DataLoader.getInstance().load(getContext(), new DataLoaderListener<Tag>() {
                 @Override
                 public Tag onShouldLoad() {
-                    return TagDao.getInstance().get(tagId);
+                    return TagDao.getInstance().getById(tagId);
                 }
                 @Override
                 public void onDidLoad(Tag tag) {

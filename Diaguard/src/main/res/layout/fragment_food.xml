@@ -13,8 +13,7 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/food_tablayout"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_gravity="bottom"
+        android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         app:tabSelectedTextColor="@android:color/white"
         app:tabTextColor="@color/gray_light"

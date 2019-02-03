@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import android.util.Log;
 
 import com.faltenreich.diaguard.adapter.list.ListItemCategoryValue;
+import com.faltenreich.diaguard.data.DatabaseHelper;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
@@ -14,8 +15,12 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Pressure;
 import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.util.ArrayUtils;
+import com.faltenreich.diaguard.util.NumberUtils;
+import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.SelectArg;
+import com.j256.ormlite.stmt.Where;
+import com.j256.ormlite.table.DatabaseTableConfig;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -246,49 +251,49 @@ public class EntryDao extends BaseDao<Entry> {
         }
     }
 
-    public List<Entry> getAllWithNotes(DateTime day) {
-        try {
-            return getDao().queryBuilder()
-                    .orderBy(Entry.Column.DATE, true)
-                    .where().isNotNull(Entry.Column.NOTE)
-                    .and().ge(Entry.Column.DATE, day.withTimeAtStartOfDay())
-                    .and().le(Entry.Column.DATE, day.withTime(DateTimeConstants.HOURS_PER_DAY - 1,
-                            DateTimeConstants.MINUTES_PER_HOUR - 1,
-                            DateTimeConstants.SECONDS_PER_MINUTE - 1,
-                            DateTimeConstants.MILLIS_PER_SECOND - 1))
-                    .query();
-        } catch (SQLException exception) {
-            Log.e(TAG, exception.getMessage());
-            return new ArrayList<>();
-        }
-    }
-
     @NonNull
     public List<Entry> search(@NonNull String query, int page, int pageSize) {
         try {
+            List<Entry> entries = new ArrayList<>();
             query = "%" + query + "%";
-            SelectArg queryArg = new SelectArg(query);
 
-            QueryBuilder<Tag, Long> tagQueryBuilder = TagDao.getInstance().getQueryBuilder();
-            tagQueryBuilder.where().like(Tag.Column.NAME, queryArg);
-            QueryBuilder<EntryTag, Long> entryTagQueryBuilder = EntryTagDao.getInstance().getQueryBuilder().join(tagQueryBuilder);
+            QueryBuilder<Tag, Long> tagQb = TagDao.getInstance().getQueryBuilder();
+            tagQb.where().like(Tag.Column.NAME, new SelectArg(query));
+            QueryBuilder<EntryTag, Long> entryTagQb = EntryTagDao.getInstance().getQueryBuilder().join(tagQb);
+            QueryBuilder<Entry, Long> entryQbForTags = getDao().queryBuilder().join(entryTagQb);
 
-            QueryBuilder<Entry, Long> entryQueryBuilder = getDao().queryBuilder()
+            QueryBuilder<Entry, Long> entryQbForNotes = getDao().queryBuilder();
+            entryQbForNotes.where().like(Entry.Column.NOTE, new SelectArg(query));
+
+            QueryBuilder<Entry, Long> entryQb = getDao().queryBuilder()
                     .offset((long) (page * pageSize))
                     .limit((long) pageSize)
                     .orderBy(Entry.Column.DATE, false);
-            entryQueryBuilder.where().like(Entry.Column.NOTE, queryArg);
+            Where<Entry, Long> entryWhere = entryQb.where();
+            entryWhere.or(
+                    entryWhere.like(Entry.Column.NOTE, new SelectArg(query)),
+                    entryWhere.like(Entry.Column.NOTE, new SelectArg(query)) // FIXME: How to sub-select via OrmLite?
+            );
 
-            // FIXME: Merge two queries to one
-            List<Entry> entries = entryQueryBuilder.query();
-            List<EntryTag> entryTags = entryTagQueryBuilder.query();
-            for (EntryTag entryTag : entryTags) {
-                Entry entry = entryTag.getEntry();
-                if (!entries.contains(entry)) {
-                    entries.add(entry);
-                }
+            String qbStatement = entryQb.prepareStatementString();
+
+            String statement = "SELECT entry._id, entry.createdAt, entry.updatedAt, entry.date, entry.note FROM entry " +
+                    "WHERE note LIKE ? " +
+                    "OR (SELECT entry._id FROM entry INNER JOIN entrytag ON entry._id = entrytag.entry INNER JOIN tag ON entrytag.tag = tag._id WHERE tag.name LIKE ?)" +
+                    "ORDER BY entry.date DESC LIMIT " + pageSize + " OFFSET " + page * pageSize + ";";
+
+            List<String[]> rows = new ArrayList<>();
+            try {
+                GenericRawResults<String[]> results = getDao().queryRaw(statement, query, query);
+                rows = results.getResults();
+            } catch (SQLException exception) {
+                Log.e(TAG, exception.getMessage());
             }
-            Collections.sort(entries, (one, two) -> two.getDate().compareTo(one.getDate()));
+            for (String[] row : rows) {
+                Entry entry = Entry.fromGenericRawResult(row);
+                entries.add(entry);
+            }
+
             return entries;
         } catch (SQLException exception) {
             Log.e(TAG, exception.getMessage());

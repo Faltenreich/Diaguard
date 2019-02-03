@@ -2,7 +2,9 @@ package com.faltenreich.diaguard.data.entity;
 
 import com.faltenreich.diaguard.data.Backupable;
 import com.faltenreich.diaguard.data.Exportable;
+import com.faltenreich.diaguard.util.DateTimeUtils;
 import com.faltenreich.diaguard.util.Helper;
+import com.faltenreich.diaguard.util.StringUtils;
 import com.faltenreich.diaguard.util.export.Export;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
@@ -14,6 +16,8 @@ import org.joda.time.format.DateTimeFormat;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.Nullable;
 
 @DatabaseTable
 public class Entry extends BaseEntity implements Backupable, Exportable {
@@ -85,5 +89,15 @@ public class Entry extends BaseEntity implements Backupable, Exportable {
     @Override
     public String[] getValuesForExport() {
         return new String[]{String.format("%s %s", Helper.getDateFormat().print(date), Helper.getTimeFormat().print(date)).toLowerCase(), note};
+    }
+
+    public static Entry fromGenericRawResult(String[] row) {
+        Entry entry = new Entry();
+        entry.setId(Long.parseLong(row[0]));
+        entry.setCreatedAt(!StringUtils.isBlank(row[1]) ? new DateTime(Long.parseLong(row[1])) : null);
+        entry.setUpdatedAt(!StringUtils.isBlank(row[2]) ? new DateTime(Long.parseLong(row[2])) : null);
+        entry.setDate(!StringUtils.isBlank(row[3]) ? new DateTime(Long.parseLong(row[3])) : null);
+        entry.setNote(row[4]);
+        return entry;
     }
 }

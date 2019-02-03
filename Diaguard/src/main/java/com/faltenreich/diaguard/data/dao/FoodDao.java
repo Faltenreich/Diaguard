@@ -62,15 +62,6 @@ public class FoodDao extends BaseServerDao<Food> {
                     .orderBy(Food.Column.UPDATED_AT, false)
                     .where().eq(Food.Column.LANGUAGE_CODE, Helper.getLanguageCode())
                     .and().isNull(BaseServerEntity.Column.SERVER_ID)
-                    .and().eq(Food.Column.ENERGY, -1)
-                    .and().eq(Food.Column.FAT, -1)
-                    .and().eq(Food.Column.FAT_SATURATED, -1)
-                    .and().eq(Food.Column.FIBER, -1)
-                    .and().eq(Food.Column.PROTEINS, -1)
-                    .and().eq(Food.Column.SALT, -1)
-                    .and().eq(Food.Column.SODIUM, -1)
-                    .and().eq(Food.Column.SUGAR, -1)
-                    .and().eq(Food.Column.FAT, -1)
                     .query();
         } catch (SQLException exception) {
             Log.e(TAG, exception.getLocalizedMessage());

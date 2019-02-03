@@ -277,10 +277,9 @@ public class EntryDao extends BaseDao<Entry> {
 
             String qbStatement = entryQb.prepareStatementString();
 
-            // FIXME: OR with sub-select breaks LIKE
-            String statement = "SELECT entry._id, entry.createdAt, entry.updatedAt, entry.date, entry.note FROM entry " +
-                    "WHERE note LIKE ? " +
-                    "OR (SELECT entry._id FROM entry INNER JOIN entrytag ON entry._id = entrytag.entry INNER JOIN tag ON entrytag.tag = tag._id WHERE tag.name LIKE ?)" +
+            String statement = "SELECT DISTINCT entry._id, entry.createdAt, entry.updatedAt, entry.date, entry.note FROM entry " +
+                    "LEFT JOIN entrytag ON entry._id = entrytag.entry LEFT JOIN tag ON entrytag.tag = tag._id " +
+                    "WHERE entry.note LIKE ? OR tag.name LIKE ? " +
                     "ORDER BY entry.date DESC LIMIT " + pageSize + " OFFSET " + page * pageSize + ";";
 
             List<String[]> rows = new ArrayList<>();

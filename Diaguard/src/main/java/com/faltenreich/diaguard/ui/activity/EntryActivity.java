@@ -75,6 +75,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
     public static final String EXTRA_ENTRY_ID = "entryId";
     public static final String EXTRA_DATE = "date";
+    private static final long TAG_SUGGESTIONS_LIMIT = 20L;
 
     private static Intent getIntent(Context context) {
         return new Intent(context, EntryActivity.class);
@@ -195,39 +196,25 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         tagsView.setVisibility(View.GONE);
         tagAdapter = new TagAutoCompleteAdapter(this);
         tagsInput.setAdapter(tagAdapter);
-        tagsInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int action, KeyEvent keyEvent) {
-                if (action == EditorInfo.IME_ACTION_DONE) {
-                    String name = textView.getText().toString().trim();
-                    if (!StringUtils.isBlank(name)) {
-                        addTag(textView.getText().toString());
-                        textView.setText(null);
-                    }
-                    return true;
+        tagsInput.setOnEditorActionListener((textView, action, keyEvent) -> {
+            if (action == EditorInfo.IME_ACTION_DONE) {
+                String name = textView.getText().toString().trim();
+                if (!StringUtils.isBlank(name)) {
+                    addTag(textView.getText().toString());
+                    textView.setText(null);
                 }
-                return false;
+                return true;
             }
+            return false;
         });
-        tagsInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (hasFocus) tagsInput.showDropDown();
-            }
+        tagsInput.setOnFocusChangeListener((view, hasFocus) -> {
+            if (hasFocus) tagsInput.showDropDown();
         });
-        tagsInput.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                tagsInput.showDropDown();
-            }
-        });
-        tagsInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                tagsInput.setText(null);
-                Tag tag = tagAdapter.getItem(position);
-                addTag(tag);
-            }
+        tagsInput.setOnClickListener(view -> tagsInput.showDropDown());
+        tagsInput.setOnItemClickListener((adapterView, view, position, l) -> {
+            tagsInput.setText(null);
+            Tag tag = tagAdapter.getItem(position);
+            addTag(tag);
         });
     }
 
@@ -280,7 +267,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         DataLoader.getInstance().load(this, new DataLoaderListener<List<Tag>>() {
             @Override
             public List<Tag> onShouldLoad() {
-                return TagDao.getInstance().getRecent();
+                return TagDao.getInstance().getRecent(TAG_SUGGESTIONS_LIMIT);
             }
             @Override
             public void onDidLoad(List<Tag> tags) {

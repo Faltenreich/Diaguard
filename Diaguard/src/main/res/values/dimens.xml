@@ -4,7 +4,7 @@
     <dimen name="activity_vertical_margin">8dp</dimen>
     <dimen name="navigation_drawer_width">320dp</dimen>
 
-    <dimen name="today_icon_text_size">14sp</dimen>
+    <dimen name="today_icon_text_size">12sp</dimen>
 
     <dimen name="text_micro">12sp</dimen>
     <dimen name="text_small">14sp</dimen>
@@ -37,8 +37,10 @@
     <dimen name="pie_chart_height">160dp</dimen>
 
     <dimen name="corners">4dp</dimen>
+    <dimen name="chip_corner">8dp</dimen>
+    <dimen name="chip_icon_padding">4dp</dimen>
 
-    <dimen name="list_header_width">60dp</dimen>
+    <dimen name="list_header_width">58dp</dimen>
     <dimen name="list_header_height">72dp</dimen>
     <dimen name="progress_circle_size">32dp</dimen>
     <dimen name="appbar_height">220dp</dimen>

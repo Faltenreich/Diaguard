@@ -217,7 +217,6 @@ public class CalculatorFragment extends BaseFragment implements MainButton {
 
     // Values are normalized
     private void showResult(String formula, String formulaContent, final float bloodSugar, final float meal, final float bolus, final float correction) {
-
         float insulin = bolus + correction;
 
         // Build AlertDialog
@@ -225,16 +224,16 @@ public class CalculatorFragment extends BaseFragment implements MainButton {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View viewPopup = inflater.inflate(R.layout.dialog_calculator_result, null);
 
-        final ViewGroup infoLayout = (ViewGroup) viewPopup.findViewById(R.id.dialog_calculator_result_info);
+        final ViewGroup infoLayout =  viewPopup.findViewById(R.id.dialog_calculator_result_info);
 
-        TextView textViewFormula = (TextView) viewPopup.findViewById(R.id.dialog_calculator_result_formula);
+        TextView textViewFormula = viewPopup.findViewById(R.id.dialog_calculator_result_formula);
         textViewFormula.setText(formula);
 
-        TextView textViewFormulaContent = (TextView) viewPopup.findViewById(R.id.dialog_calculator_result_formula_content);
+        TextView textViewFormulaContent = viewPopup.findViewById(R.id.dialog_calculator_result_formula_content);
         textViewFormulaContent.setText(formulaContent);
 
         // Handle negative insulin
-        TextView textViewInfo = (TextView) viewPopup.findViewById(R.id.textViewInfo);
+        TextView textViewInfo = viewPopup.findViewById(R.id.textViewInfo);
         if (insulin <= 0) {
             // Advice skipping bolus
             viewPopup.findViewById(R.id.result).setVisibility(View.GONE);
@@ -248,40 +247,25 @@ public class CalculatorFragment extends BaseFragment implements MainButton {
             textViewInfo.setVisibility(View.GONE);
         }
 
-        TextView textViewValue = (TextView) viewPopup.findViewById(R.id.textViewResult);
+        TextView textViewValue = viewPopup.findViewById(R.id.textViewResult);
         textViewValue.setText(Helper.parseFloat(insulin));
 
-        TextView textViewUnit = (TextView) viewPopup.findViewById(R.id.textViewUnit);
+        TextView textViewUnit = viewPopup.findViewById(R.id.textViewUnit);
         textViewUnit.setText(PreferenceHelper.getInstance().getUnitAcronym(Measurement.Category.INSULIN));
 
         dialogBuilder.setView(viewPopup)
                 .setTitle(R.string.bolus)
-                .setNegativeButton(R.string.info, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // Is set down below
-                    }
-                })
-                .setPositiveButton(R.string.store_values, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        storeValues(bloodSugar, meal, bolus, correction);
-                    }
-                })
-                .setNeutralButton(R.string.back, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
+                .setNegativeButton(R.string.info, (dialog, id) -> { /* Set down below */ })
+                .setPositiveButton(R.string.store_values, (dialog, id) -> storeValues(bloodSugar, meal, bolus, correction))
+                .setNeutralButton(R.string.back, (dialog, id) -> dialog.cancel());
 
         AlertDialog dialog = dialogBuilder.create();
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
 
-        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                infoLayout.setVisibility(View.VISIBLE);
-                view.setEnabled(false);
-            }
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(view -> {
+            infoLayout.setVisibility(View.VISIBLE);
+            view.setEnabled(false);
         });
     }
 
@@ -331,12 +315,7 @@ public class CalculatorFragment extends BaseFragment implements MainButton {
 
     @Override
     public MainButtonProperties getMainButtonProperties() {
-        return MainButtonProperties.confirmButton(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                calculate();
-            }
-        }, false);
+        return MainButtonProperties.confirmButton(v -> calculate(), false);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

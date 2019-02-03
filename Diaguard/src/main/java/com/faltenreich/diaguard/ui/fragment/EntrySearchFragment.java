@@ -2,15 +2,15 @@ package com.faltenreich.diaguard.ui.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.EndlessAdapter;
 import com.faltenreich.diaguard.adapter.SafeLinearLayoutManager;
 import com.faltenreich.diaguard.adapter.EntrySearchAdapter;
 import com.faltenreich.diaguard.adapter.list.ListItemEntry;
@@ -47,7 +47,7 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
     @BindView(R.id.search_view) SearchView searchView;
     @BindView(R.id.searchEditText_input) EditText searchInput;
     @BindView(R.id.search_list) RecyclerView list;
-    @BindView(R.id.search_list_empty) View listEmptyView;
+    @BindView(R.id.search_list_empty) TextView listEmptyView;
     @BindView(R.id.search_list_progress) View progressView;
 
     private EntrySearchAdapter listAdapter;
@@ -79,30 +79,16 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
     }
 
     private void initLayout() {
-        listEmptyView.setVisibility(View.VISIBLE);
-
         list.setLayoutManager(new SafeLinearLayoutManager(getActivity()));
-        listAdapter = new EntrySearchAdapter(getContext(), new EntrySearchAdapter.OnSearchItemClickListener() {
-            @Override
-            public void onTagClicked(Tag tag, View view) {
-                if (isAdded()) {
-                    searchView.setQuery(tag.getName(), true);
-                }
-            }
-        });
-        listAdapter.setOnEndlessListener(new EndlessAdapter.OnEndlessListener() {
-            @Override
-            public void onLoadMore(boolean scrollingDown) {
-                if (scrollingDown) {
-                    continueSearch();
-                }
-            }
-        });
+        listAdapter = new EntrySearchAdapter(getContext(), (tag, view) -> { if (isAdded()) searchView.setQuery(tag.getName(), true); });
+        listAdapter.setOnEndlessListener(scrollingDown -> { if (scrollingDown) continueSearch(); });
         list.setAdapter(listAdapter);
 
         searchView.setOnQueryTextListener(this);
         searchView.setOnMenuClickListener(this);
         searchView.setArrowOnly(true);
+
+        invalidateEmptyView();
     }
 
     private void preFillQuery() {
@@ -110,7 +96,7 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
             DataLoader.getInstance().load(getContext(), new DataLoaderListener<Tag>() {
                 @Override
                 public Tag onShouldLoad() {
-                    return TagDao.getInstance().get(tagId);
+                    return TagDao.getInstance().getById(tagId);
                 }
                 @Override
                 public void onDidLoad(Tag tag) {
@@ -124,12 +110,7 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
             });
         } else {
             // Workaround to focus EditText onViewCreated
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    ViewUtils.showKeyboard(searchInput);
-                }
-            }, 500);
+            new Handler().postDelayed(() -> ViewUtils.showKeyboard(searchInput), 500);
         }
     }
 
@@ -143,11 +124,9 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
 
         if (StringUtils.isNotBlank(searchView.getQuery().toString())) {
             progressView.setVisibility(View.VISIBLE);
-            listEmptyView.setVisibility(View.GONE);
             continueSearch();
-        } else {
-            listEmptyView.setVisibility(View.VISIBLE);
         }
+        invalidateEmptyView();
     }
 
     private void continueSearch() {
@@ -172,22 +151,25 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
                 return listItems;
             }
             @Override
-            public void onDidLoad(List<ListItemEntry> listItems) {
+            public void onDidLoad(List<ListItemEntry> items) {
                 String currentQuery = searchView.getQuery().toString();
                 if (query.equals(currentQuery)) {
-                    progressView.setVisibility(View.GONE);
-                    listEmptyView.setVisibility(listItems.size() > 0 ? View.GONE : View.VISIBLE);
-
                     currentPage++;
-
                     int oldCount = listAdapter.getItemCount();
-                    listAdapter.addItems(listItems);
-                    listAdapter.notifyItemRangeInserted(oldCount, listItems.size());
+                    listAdapter.addItems(items);
+                    listAdapter.notifyItemRangeInserted(oldCount, items.size());
+                    progressView.setVisibility(View.GONE);
+                    invalidateEmptyView();
                 } else {
                     Log.d(TAG, "Dropping obsolete result for \'" + query + "\' (is now: \'" + currentQuery + "\'");
                 }
             }
         });
+    }
+
+    private void invalidateEmptyView() {
+        listEmptyView.setVisibility(progressView.getVisibility() != View.VISIBLE && listAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
+        listEmptyView.setText(StringUtils.isBlank(searchView.getQuery().toString()) ? R.string.search_prompt : R.string.no_results_found);
     }
 
     @Override
@@ -199,12 +181,9 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
     @Override
     public boolean onQueryTextChange(final String newText) {
         // Delay search in order to reduce obsolete searches
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (newText.equals(searchView.getQuery().toString())) {
-                    newSearch();
-                }
+        new Handler().postDelayed(() -> {
+            if (newText.equals(searchView.getQuery().toString())) {
+                newSearch();
             }
         }, SEARCH_INPUT_DELAY_IN_MILLIS);
         return false;

@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.ui.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,12 +44,7 @@ public class FoodDetailFragment extends BaseFoodFragment {
     }
 
     private void init() {
-        ingredients.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ingredients.setMaxLines(Integer.MAX_VALUE);
-            }
-        });
+        ingredients.setOnClickListener(view -> ingredients.setMaxLines(Integer.MAX_VALUE));
 
         Food food = getFood();
         if (food != null) {

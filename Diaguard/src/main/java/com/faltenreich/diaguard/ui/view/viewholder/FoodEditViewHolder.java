@@ -1,9 +1,9 @@
 package com.faltenreich.diaguard.ui.view.viewholder;
 
 import android.content.res.ColorStateList;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatButton;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import android.view.View;
 import android.widget.TextView;
 

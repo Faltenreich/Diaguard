@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.list.ListItemMonth;
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.util.image.ImageLoader;
 import com.squareup.picasso.Picasso;
 
 import org.joda.time.DateTime;
@@ -32,9 +33,6 @@ public class LogMonthViewHolder extends BaseViewHolder<ListItemMonth> {
         month.setText(dateTime.toString("MMMM YYYY"));
         int resourceId = PreferenceHelper.getInstance().getMonthResourceId(dateTime);
         int smallResourceId = PreferenceHelper.getInstance().getMonthSmallResourceId(dateTime);
-        Picasso picasso = Picasso.with(getContext());
-        if (picasso != null) {
-            picasso.load(resourceId).placeholder(smallResourceId).config(Bitmap.Config.RGB_565).into(background);
-        }
+        ImageLoader.getInstance().load(resourceId, smallResourceId, background, Bitmap.Config.RGB_565);
     }
 }

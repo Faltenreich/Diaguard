@@ -1,6 +1,8 @@
 package com.faltenreich.diaguard.data.entity;
 
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
+
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.faltenreich.diaguard.DiaguardApplication;
@@ -20,13 +22,9 @@ public class Food extends BaseServerEntity implements Backupable {
 
     public static final String BACKUP_KEY = "food";
 
-    private static final String IMAGE_SUFFIX = ".jpg";
-    private static final String KEYWORD_FULL_RESOLUTION = "full";
-
     @SuppressWarnings("WeakerAccess")
     public class Column extends BaseServerEntity.Column {
         public static final String NAME = "name";
-        public static final String IMAGE_URL = "imageUrl";
         public static final String BRAND = "brand";
         public static final String INGREDIENTS = "ingredients";
         public static final String LABELS = "labels";
@@ -105,9 +103,6 @@ public class Food extends BaseServerEntity implements Backupable {
     @DatabaseField(columnName = Column.NAME)
     private String name;
 
-    @DatabaseField(columnName = Column.IMAGE_URL)
-    private String imageUrl;
-
     @DatabaseField(columnName = Column.BRAND)
     private String brand;
 
@@ -156,26 +151,6 @@ public class Food extends BaseServerEntity implements Backupable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public String getFullImageUrl() {
-        if (imageUrl != null && imageUrl.contains("openfoodfacts") && imageUrl.endsWith(IMAGE_SUFFIX)) {
-            String fullImageUrl = imageUrl.substring(0, imageUrl.length() - IMAGE_SUFFIX.length());
-            int indexOfLastDot = fullImageUrl.lastIndexOf('.');
-            fullImageUrl = fullImageUrl.substring(0, indexOfLastDot + 1);
-            fullImageUrl = fullImageUrl + KEYWORD_FULL_RESOLUTION + IMAGE_SUFFIX;
-            return fullImageUrl;
-        } else {
-            return imageUrl;
-        }
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
     }
 
     public String getBrand() {
@@ -288,6 +263,10 @@ public class Food extends BaseServerEntity implements Backupable {
 
     public void setFoodEaten(ForeignCollection<FoodEaten> foodEaten) {
         this.foodEaten = foodEaten;
+    }
+
+    public boolean isBrandedFood() {
+        return !TextUtils.isEmpty(brand);
     }
 
     public String getValueForUi() {

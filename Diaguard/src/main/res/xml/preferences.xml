@@ -44,11 +44,13 @@
 
         <com.faltenreich.diaguard.ui.view.preferences.BackupExportPreference
             android:key="backup"
-            android:title="@string/backup"/>
+            android:title="@string/backup"
+            android:summary="@string/backup_desc"/>
 
         <com.faltenreich.diaguard.ui.view.preferences.BackupImportPreference
             android:key="import"
-            android:title="@string/import_"/>
+            android:title="@string/import_"
+            android:summary="@string/import_desc"/>
 
     </PreferenceCategory>
 
@@ -148,6 +150,17 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="@string/food">
+
+        <CheckBoxPreference
+            android:key="showBrandedFood"
+            android:title="@string/show_branded_food"
+            android:summary="@string/show_branded_food_desc"
+            android:defaultValue="true"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/contact">
 
         <Preference
@@ -183,7 +196,7 @@
             android:title="@string/licenses"/>
 
         <com.faltenreich.diaguard.ui.view.preferences.AboutPreference
-            android:title="@string/impress"/>
+            android:title="@string/imprint"/>
 
         <Preference
             android:key="version"

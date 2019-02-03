@@ -1,29 +1,22 @@
 package com.faltenreich.diaguard.ui.activity;
 
 import android.app.AlertDialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.widget.NestedScrollView;
-import android.view.KeyEvent;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.codetroopers.betterpickers.numberpicker.NumberPickerDialogFragment;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.TagAutoCompleteAdapter;
 import com.faltenreich.diaguard.data.PreferenceHelper;
@@ -48,6 +41,7 @@ import com.faltenreich.diaguard.event.data.EntryUpdatedEvent;
 import com.faltenreich.diaguard.ui.fragment.BaseFoodFragment;
 import com.faltenreich.diaguard.ui.fragment.DatePickerFragment;
 import com.faltenreich.diaguard.ui.fragment.TimePickerFragment;
+import com.faltenreich.diaguard.ui.view.ChipView;
 import com.faltenreich.diaguard.ui.view.entry.MeasurementFloatingActionMenu;
 import com.faltenreich.diaguard.ui.view.entry.MeasurementListView;
 import com.faltenreich.diaguard.ui.view.entry.MeasurementView;
@@ -57,13 +51,11 @@ import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.StringUtils;
 import com.faltenreich.diaguard.util.ViewUtils;
 import com.github.clans.fab.FloatingActionButton;
-import com.pchmn.materialchips.ChipView;
+import com.google.android.material.chip.ChipGroup;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,7 +63,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class EntryActivity extends BaseActivity implements MeasurementFloatingActionMenu.OnFabSelectedListener, MeasurementListView.OnCategoryEventListener {
-
     public static final String EXTRA_ENTRY_ID = "entryId";
     public static final String EXTRA_DATE = "date";
 
@@ -116,7 +107,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     @BindView(R.id.entry_button_alarm) Button buttonAlarm;
     @BindView(R.id.entry_alarm_container) ViewGroup containerAlarm;
     @BindView(R.id.entry_tags_input) AutoCompleteTextView tagsInput;
-    @BindView(R.id.entry_tags) ViewGroup tagsView;
+    @BindView(R.id.entry_tags) ChipGroup tagsView;
 
     private long entryId;
     private long foodId;
@@ -191,41 +182,28 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             fabMenu.restock();
         }
 
+        tagsView.setVisibility(View.GONE);
         tagAdapter = new TagAutoCompleteAdapter(this);
         tagsInput.setAdapter(tagAdapter);
-        tagsInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int action, KeyEvent keyEvent) {
-                if (action == EditorInfo.IME_ACTION_DONE) {
-                    String name = textView.getText().toString().trim();
-                    if (!StringUtils.isBlank(name)) {
-                        addTag(textView.getText().toString());
-                        textView.setText(null);
-                    }
-                    return true;
+        tagsInput.setOnEditorActionListener((textView, action, keyEvent) -> {
+            if (action == EditorInfo.IME_ACTION_DONE) {
+                String name = textView.getText().toString().trim();
+                if (!StringUtils.isBlank(name)) {
+                    addTag(textView.getText().toString());
+                    textView.setText(null);
                 }
-                return false;
+                return true;
             }
+            return false;
         });
-        tagsInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (hasFocus) tagsInput.showDropDown();
-            }
+        tagsInput.setOnFocusChangeListener((view, hasFocus) -> {
+            if (hasFocus) tagsInput.showDropDown();
         });
-        tagsInput.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                tagsInput.showDropDown();
-            }
-        });
-        tagsInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                tagsInput.setText(null);
-                Tag tag = tagAdapter.getItem(position);
-                addTag(tag);
-            }
+        tagsInput.setOnClickListener(view -> tagsInput.showDropDown());
+        tagsInput.setOnItemClickListener((adapterView, view, position, l) -> {
+            tagsInput.setText(null);
+            Tag tag = tagAdapter.getItem(position);
+            addTag(tag);
         });
     }
 
@@ -243,7 +221,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             @Override
             public List<Tag> onShouldLoad() {
                 EntryDao dao = EntryDao.getInstance();
-                entry = dao.get(id);
+                entry = dao.getById(id);
                 if (entry != null) {
                     entry.setMeasurementCache(dao.getMeasurements(entry));
                     entryTags = EntryTagDao.getInstance().getAll(entry);
@@ -261,7 +239,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         DataLoader.getInstance().load(this, new DataLoaderListener<Food>() {
             @Override
             public Food onShouldLoad() {
-                return FoodDao.getInstance().get(id);
+                return FoodDao.getInstance().getById(id);
             }
             @Override
             public void onDidLoad(Food food) {
@@ -333,28 +311,18 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     }
 
     private void addTag(final Tag tag) {
-        int margin = (int) getResources().getDimension(R.dimen.margin_between);
         final ChipView chipView = new ChipView(this);
         chipView.setTag(tag);
-        chipView.setLabel(tag.getName());
-        chipView.setDeletable(true);
-        chipView.setOnDeleteClicked(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                removeTag(tag, chipView);
-            }
-        });
-        chipView.setPadding(0, 0, margin, margin);
-        chipView.setOnChipClicked(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                removeTag(tag, chipView);
-            }
-        });
+        chipView.setText(tag.getName());
+        chipView.setCloseIconVisible(true);
+        chipView.setOnCloseIconClickListener(view -> removeTag(tag, chipView));
+        chipView.setOnClickListener(view -> removeTag(tag, chipView));
         tagsView.addView(chipView);
 
         tagAdapter.set(tag, false);
         dismissTagDropDown();
+
+        tagsView.setVisibility(View.VISIBLE);
     }
 
     private void removeTag(Tag tag, View view) {
@@ -364,16 +332,15 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         // Workaround: Force notifyDataSetChanged
         tagsInput.setText(tagsInput.getText().toString());
         dismissTagDropDown();
+
+        if (tagsView.getChildCount() == 0) {
+            tagsView.setVisibility(View.GONE);
+        }
     }
 
     private void dismissTagDropDown() {
         // Workaround
-        tagsInput.post(new Runnable() {
-            @Override
-            public void run() {
-                tagsInput.dismissDropDown();
-            }
-        });
+        tagsInput.post(() -> tagsInput.dismissDropDown());
     }
 
     private void showDialogCategories() {
@@ -388,35 +355,18 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         final boolean[] visibleCategories = visibleCategoriesOld.clone();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.categories)
-                .setMultiChoiceItems(
-                        categoryNames,
-                        visibleCategoriesOld,
-                        new DialogInterface.OnMultiChoiceClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                                visibleCategories[which] = isChecked;
-                            }
-                        }
-                )
-                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        for (int position = activeCategories.length - 1; position >= 0; position--) {
-                            Measurement.Category category = activeCategories[position];
-                            if (visibleCategories[position]) {
-                                addMeasurementView(category);
-                            } else {
-                                removeMeasurementView(category);
-                            }
+                .setMultiChoiceItems(categoryNames, visibleCategoriesOld, (dialog, which, isChecked) -> visibleCategories[which] = isChecked)
+                .setPositiveButton(getString(R.string.ok), (dialog, which) -> {
+                    for (int position = activeCategories.length - 1; position >= 0; position--) {
+                        Measurement.Category category = activeCategories[position];
+                        if (visibleCategories[position]) {
+                            addMeasurementView(category);
+                        } else {
+                            removeMeasurementView(category);
                         }
                     }
                 })
-                .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
+                .setNegativeButton(getString(R.string.cancel), (dialog, which) -> dialog.cancel());
         AlertDialog dialog = builder.create();
         dialog.show();
     }
@@ -469,6 +419,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
         String missingTag = tagsInput.getText().toString();
         if (!StringUtils.isBlank(missingTag)) {
             addTag(missingTag);
+            tagsInput.setText(null);
         }
 
         if (inputIsValid()) {
@@ -494,6 +445,7 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             if (layoutMeasurements.hasCategory(category)) {
                 Measurement measurement = layoutMeasurements.getMeasurement(category);
                 measurement.setEntry(entry);
+                //noinspection unchecked
                 MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
                 entry.getMeasurementCache().add(measurement);
             } else {
@@ -570,36 +522,27 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
     @OnClick(R.id.button_date)
     public void showDatePicker() {
-        DatePickerFragment.newInstance(time, new DatePickerFragment.DatePickerListener() {
-            @Override
-            public void onDatePicked(@Nullable DateTime dateTime) {
-                if (dateTime != null) {
-                    time = dateTime;
-                    updateDateTime();
-                }
+        DatePickerFragment.newInstance(time, dateTime -> {
+            if (dateTime != null) {
+                time = dateTime;
+                updateDateTime();
             }
         }).show(getSupportFragmentManager());
     }
 
     @OnClick(R.id.button_time)
     public void showTimePicker() {
-        TimePickerFragment.newInstance(time, new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                time = time.withHourOfDay(hourOfDay).withMinuteOfHour(minute);
-                updateDateTime();
-            }
+        TimePickerFragment.newInstance(time, (view, hourOfDay, minute) -> {
+            time = time.withHourOfDay(hourOfDay).withMinuteOfHour(minute);
+            updateDateTime();
         }).show(getSupportFragmentManager());
     }
 
     @OnClick(R.id.entry_button_alarm)
     public void showAlarmPicker() {
-        ViewUtils.showNumberPicker(this, R.string.minutes, alarmInMinutes, 0, 10000, new NumberPickerDialogFragment.NumberPickerDialogHandlerV2() {
-            @Override
-            public void onDialogNumberSet(int reference, BigInteger number, double decimal, boolean isNegative, BigDecimal fullNumber) {
-                alarmInMinutes = number.intValue();
-                updateAlarm();
-            }
+        ViewUtils.showNumberPicker(this, R.string.minutes, alarmInMinutes, 0, 10000, (reference, number, decimal, isNegative, fullNumber) -> {
+            alarmInMinutes = number.intValue();
+            updateAlarm();
         });
     }
 

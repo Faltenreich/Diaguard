@@ -4,17 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import com.google.android.material.navigation.NavigationView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -272,31 +272,26 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
         }
     }
 
-    // Show changelog only for updated versions
     private void showChangelog() {
         int oldVersionCode = PreferenceHelper.getInstance().getVersionCode();
         int currentVersionCode = SystemUtils.getVersionCode(this);
-        boolean isUpdate = oldVersionCode > 0 && oldVersionCode < currentVersionCode;
+        if (oldVersionCode > 0) {
+            boolean isUpdate = oldVersionCode < currentVersionCode;
+            if (isUpdate) {
+                PreferenceHelper.getInstance().setVersionCode(currentVersionCode);
 
-        if (isUpdate) {
-            PreferenceHelper.getInstance().setVersionCode(currentVersionCode);
-
-            String[] changelog = PreferenceHelper.getInstance().getChangelog(this);
-            boolean hasChangelog = changelog != null && changelog.length > 0;
-
-            if (hasChangelog) {
                 ChangelogFragment fragment = new ChangelogFragment();
                 String tag = fragment.getClass().getSimpleName();
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.addToBackStack(tag);
                 fragment.show(fragmentTransaction, tag);
-            }
 
-            if (currentVersionCode == 25) {
-                explainMissingCalculator();
+                if (currentVersionCode == 25) {
+                    explainMissingCalculator();
+                }
             }
-
-        } else if (oldVersionCode == 0) {
+        } else {
+            // Skip changelog for fresh installs
             PreferenceHelper.getInstance().setVersionCode(currentVersionCode);
         }
     }

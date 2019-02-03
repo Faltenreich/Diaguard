@@ -1,9 +1,9 @@
 package com.faltenreich.diaguard.adapter;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.widget.NestedScrollView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.core.widget.NestedScrollView;
 
 import com.faltenreich.diaguard.ui.fragment.ChartDayFragment;
 

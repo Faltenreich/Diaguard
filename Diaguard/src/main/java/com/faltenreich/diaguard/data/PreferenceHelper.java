@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
@@ -53,6 +53,7 @@ public class PreferenceHelper {
         final static String EXPORT_FOOD = "export_food";
         final static String EXPORT_CATEGORIES = "exportCategories";
         final static String DID_IMPORT_TAGS_FOR_LANGUAGE = "didImportTagsForLanguage";
+        final static String FOOD_SHOW_BRANDED = "showBrandedFood";
     }
 
     public enum ChartStyle {
@@ -108,9 +109,7 @@ public class PreferenceHelper {
     }
 
     public String[] getChangelog(Context context) {
-        int versionCode = SystemUtils.getVersionCode(context);
-        int resourceId = context.getResources().getIdentifier("changelog_" + versionCode, "array", context.getPackageName());
-        return resourceId > 0 ? context.getResources().getStringArray(resourceId) : new String[] {};
+        return context.getResources().getStringArray(R.array.changelog);
     }
 
     boolean didImportCommonFood(Locale locale) {
@@ -178,13 +177,10 @@ public class PreferenceHelper {
     }
 
     public int[] getExtrema(Measurement.Category category) {
-        int resourceIdExtrema = getContext().getResources().getIdentifier(category.name().toLowerCase() +
-                "_extrema", "array", getContext().getPackageName());
-
-        if(resourceIdExtrema == 0) {
+        int resourceIdExtrema = getContext().getResources().getIdentifier(category.name().toLowerCase() + "_extrema", "array", getContext().getPackageName());
+        if (resourceIdExtrema == 0) {
             throw new Resources.NotFoundException("Resource \"category_extrema\" not found: IntArray with event value extrema");
         }
-
         return getContext().getResources().getIntArray(resourceIdExtrema);
     }
 
@@ -545,5 +541,15 @@ public class PreferenceHelper {
                 hourOfDay++;
             }
         }
+    }
+
+    // FOOD
+
+    public boolean showBrandedFood() {
+        return sharedPreferences.getBoolean(Keys.FOOD_SHOW_BRANDED, true);
+    }
+
+    public void setShowBrandedFood(boolean show) {
+        sharedPreferences.edit().putBoolean(Keys.FOOD_SHOW_BRANDED, show).apply();
     }
 }

@@ -1,5 +1,5 @@
 #
-# generated on 2018/08/22 08:29:20
+# generated on 2019/02/02 11:08:30
 #
 # --table-start--
 dataClass=com.faltenreich.diaguard.data.entity.Entry
@@ -309,10 +309,6 @@ fieldName=name
 columnName=name
 # --field-end--
 # --field-start--
-fieldName=imageUrl
-columnName=imageUrl
-# --field-end--
-# --field-start--
 fieldName=brand
 columnName=brand
 # --field-end--
@@ -382,6 +378,11 @@ foreignCollectionColumnName=foodEaten
 # --field-start--
 fieldName=serverId
 columnName=serverId
+# --field-end--
+# --field-start--
+fieldName=isDeleted
+columnName=isDeleted
+defaultValue=false
 # --field-end--
 # --field-start--
 fieldName=id

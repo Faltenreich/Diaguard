@@ -2,10 +2,10 @@ package com.faltenreich.diaguard.ui.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -132,9 +132,7 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.LogL
 
     @Override
     public void onOrderChanges() {
-        if (isAdded() && listDecoration != null) {
-            listDecoration.clearHeaderCache();
-        }
+        invalidateSections();
     }
 
     @Override
@@ -150,6 +148,12 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.LogL
         }
     }
 
+    private void invalidateSections() {
+        if (isAdded() && listDecoration != null) {
+            listDecoration.clearHeaderCache();
+        }
+    }
+
     private void updateHeaderSection(DateTime dateTime) {
         int position = listAdapter.getFirstListItemEntryOfDayPosition(dateTime);
         if (position >= 0) {
@@ -161,7 +165,7 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.LogL
                 position++;
             }
         }
-        listDecoration.clearHeaderCache();
+        invalidateSections();
     }
 
     private void addEntry(Entry entry, List<EntryTag> entryTags, List<FoodEaten> foodEatenList) {

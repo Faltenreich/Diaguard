@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/Padding"
-    android:paddingRight="0dp"
-    android:paddingEnd="0dp"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:baselineAligned="false"
@@ -13,6 +12,7 @@
     android:orientation="horizontal">
 
     <LinearLayout
+        style="@style/Padding"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -24,7 +24,8 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="2"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            tools:text="Food"/>
 
         <TextView
             android:id="@+id/food_carbohydrates"
@@ -33,11 +34,12 @@
             android:layout_marginTop="2dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textSize="@dimen/text_micro" />
+            android:textSize="@dimen/text_micro"
+            tools:text="12 KH per 100 g"/>
 
     </LinearLayout>
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/food_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

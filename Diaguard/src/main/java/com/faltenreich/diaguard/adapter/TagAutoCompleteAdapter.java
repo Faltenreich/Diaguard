@@ -1,8 +1,8 @@
 package com.faltenreich.diaguard.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,14 +41,11 @@ public class TagAutoCompleteAdapter extends ArrayAdapter<Tag> {
                 results.add(entry.getKey());
             }
         }
-        Collections.sort(results, new Comparator<Tag>() {
-            @Override
-            public int compare(Tag lhs, Tag rhs) {
-                // Sort descending by updatedAt
-                DateTime rhsDateTime = rhs != null ? rhs.getUpdatedAt() : DateTime.now();
-                DateTime lhsDateTime = rhs != null ? lhs.getUpdatedAt() : DateTime.now();
-                return rhsDateTime.compareTo(lhsDateTime);
-            }
+        Collections.sort(results, (lhs, rhs) -> {
+            // Sort descending by updatedAt
+            DateTime rhsDateTime = rhs != null ? rhs.getUpdatedAt() : DateTime.now();
+            DateTime lhsDateTime = rhs != null ? lhs.getUpdatedAt() : DateTime.now();
+            return rhsDateTime.compareTo(lhsDateTime);
         });
         return results;
     }

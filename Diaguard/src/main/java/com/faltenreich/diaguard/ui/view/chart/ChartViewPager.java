@@ -1,9 +1,9 @@
 package com.faltenreich.diaguard.ui.view.chart;
 
 import android.content.Context;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.NestedScrollView;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager.widget.ViewPager;
+import androidx.core.widget.NestedScrollView;
 import android.util.AttributeSet;
 
 import com.faltenreich.diaguard.adapter.ChartPagerAdapter;

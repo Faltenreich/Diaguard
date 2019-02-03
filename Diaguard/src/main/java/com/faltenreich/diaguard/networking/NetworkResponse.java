@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.networking;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 public class NetworkResponse<T> {
 

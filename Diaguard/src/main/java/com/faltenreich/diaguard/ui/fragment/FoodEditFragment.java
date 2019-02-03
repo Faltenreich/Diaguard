@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.ui.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -60,7 +60,7 @@ public class FoodEditFragment extends BaseFoodFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_delete:
-                deleteFood();
+                deleteFoodIfConfirmed();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

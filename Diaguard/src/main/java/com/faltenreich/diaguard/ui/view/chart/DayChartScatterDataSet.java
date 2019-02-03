@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.ui.view.chart;
 
 import android.content.Context;
-import android.support.annotation.ColorInt;
+import androidx.annotation.ColorInt;
 
 import com.faltenreich.diaguard.R;
 import com.github.mikephil.charting.charts.ScatterChart;

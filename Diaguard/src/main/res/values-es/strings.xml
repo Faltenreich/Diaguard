@@ -283,7 +283,9 @@
     <string name="error_no_data_desc">Pruebe otra consulta para mejorar sus resultados o</string>
     <string name="food">Alimento</string>
     <string name="food_common">Comida alimento</string>
+    <string name="food_delete">Eliminar alimentos</string>
     <string name="food_deleted">Alimentos eliminados</string>
+    <string name="food_eaten_placeholder">%d comidas consumidas se verán afectadas</string>
     <string name="food_edit">Editar los alimentos</string>
     <string name="food_new">Nueva alimento</string>
     <string name="food_search">Búsqueda de alimentos</string>

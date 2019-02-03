@@ -281,7 +281,9 @@
     <string name="error_no_data_desc">Essayez une autre requête pour améliorer vos résultats ou</string>
     <string name="food">Aliment</string>
     <string name="food_common">Alimentation commune</string>
+    <string name="food_delete">Supprimer un aliment</string>
     <string name="food_deleted">Aliments supprimés</string>
+    <string name="food_eaten_placeholder">%d repas pris seront affectés</string>
     <string name="food_edit">Modifier les aliments</string>
     <string name="food_new">Nouvelle aliment</string>
     <string name="food_search">Recherche de aliments</string>

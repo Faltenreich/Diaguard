@@ -33,6 +33,6 @@ public class BaseServerEntity extends BaseEntity {
         this.deletedAt = deletedAt;
     }
     public boolean isDeleted() {
-        return getDeletedAt() == null;
+        return deletedAt != null;
     }
 }

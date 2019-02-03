@@ -90,14 +90,4 @@ public class Entry extends BaseEntity implements Backupable, Exportable {
     public String[] getValuesForExport() {
         return new String[]{String.format("%s %s", Helper.getDateFormat().print(date), Helper.getTimeFormat().print(date)).toLowerCase(), note};
     }
-
-    public static Entry fromGenericRawResult(String[] row) {
-        Entry entry = new Entry();
-        entry.setId(Long.parseLong(row[0]));
-        entry.setCreatedAt(!StringUtils.isBlank(row[1]) ? new DateTime(Long.parseLong(row[1])) : null);
-        entry.setUpdatedAt(!StringUtils.isBlank(row[2]) ? new DateTime(Long.parseLong(row[2])) : null);
-        entry.setDate(!StringUtils.isBlank(row[3]) ? new DateTime(Long.parseLong(row[3])) : null);
-        entry.setNote(row[4]);
-        return entry;
-    }
 }

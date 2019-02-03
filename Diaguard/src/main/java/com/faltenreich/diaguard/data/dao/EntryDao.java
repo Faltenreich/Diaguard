@@ -254,47 +254,16 @@ public class EntryDao extends BaseDao<Entry> {
     @NonNull
     public List<Entry> search(@NonNull String query, int page, int pageSize) {
         try {
-            List<Entry> entries = new ArrayList<>();
             query = "%" + query + "%";
-
             QueryBuilder<Tag, Long> tagQb = TagDao.getInstance().getQueryBuilder();
             tagQb.where().like(Tag.Column.NAME, new SelectArg(query));
-            QueryBuilder<EntryTag, Long> entryTagQb = EntryTagDao.getInstance().getQueryBuilder().join(tagQb);
-            QueryBuilder<Entry, Long> entryQbForTags = getDao().queryBuilder().join(entryTagQb);
-
-            QueryBuilder<Entry, Long> entryQbForNotes = getDao().queryBuilder();
-            entryQbForNotes.where().like(Entry.Column.NOTE, new SelectArg(query));
-
-            QueryBuilder<Entry, Long> entryQb = getDao().queryBuilder()
+            QueryBuilder<EntryTag, Long> entryTagQb = EntryTagDao.getInstance().getQueryBuilder().joinOr(tagQb);
+            QueryBuilder<Entry, Long> entryQb = getDao().queryBuilder().joinOr(entryTagQb)
                     .offset((long) (page * pageSize))
                     .limit((long) pageSize)
                     .orderBy(Entry.Column.DATE, false);
-            Where<Entry, Long> entryWhere = entryQb.where();
-            entryWhere.or(
-                    entryWhere.like(Entry.Column.NOTE, new SelectArg(query)),
-                    entryWhere.like(Entry.Column.NOTE, new SelectArg(query)) // FIXME: How to sub-select via OrmLite?
-            );
-
-            String qbStatement = entryQb.prepareStatementString();
-
-            String statement = "SELECT DISTINCT entry._id, entry.createdAt, entry.updatedAt, entry.date, entry.note FROM entry " +
-                    "LEFT JOIN entrytag ON entry._id = entrytag.entry LEFT JOIN tag ON entrytag.tag = tag._id " +
-                    "WHERE entry.note LIKE ? OR tag.name LIKE ? " +
-                    "ORDER BY entry.date DESC LIMIT " + pageSize + " OFFSET " + page * pageSize + ";";
-
-            List<String[]> rows = new ArrayList<>();
-            try {
-                GenericRawResults<String[]> results = getDao().queryRaw(statement, query, query);
-                rows = results.getResults();
-            } catch (SQLException exception) {
-                Log.e(TAG, exception.getMessage());
-            }
-            for (String[] row : rows) {
-                Entry entry = Entry.fromGenericRawResult(row);
-                entries.add(entry);
-            }
-
-            return entries;
+            entryQb.where().like(Entry.Column.NOTE, new SelectArg(query));
+            return entryQb.distinct().query();
         } catch (SQLException exception) {
             Log.e(TAG, exception.getMessage());
             return new ArrayList<>();

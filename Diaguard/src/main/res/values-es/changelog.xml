@@ -2,9 +2,9 @@
 
 <resources>
     <string-array name="changelog">
-        <item>Búsqueda: Resultados de búsqueda duplicados fijos</item>
-        <item>Alimento: Opción añadida para filtrar alimentos de marca.</item>
+        <item>Alimento: Opción añadida para filtrar alimentos de marca (ver configuraciones)</item>
         <item>Alimento: La comida eliminada permanece eliminada</item>
+        <item>Búsqueda: Resultados de búsqueda duplicados fijos</item>
         <item>Protocolo: Optimizaciones para pequeñas pantallas</item>
     </string-array>
 </resources>

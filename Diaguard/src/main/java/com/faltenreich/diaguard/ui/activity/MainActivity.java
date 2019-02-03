@@ -277,7 +277,7 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
         int oldVersionCode = PreferenceHelper.getInstance().getVersionCode();
         int currentVersionCode = SystemUtils.getVersionCode(this);
         boolean isUpdate = oldVersionCode > 0 && oldVersionCode < currentVersionCode;
-
+        isUpdate = true; // TODO: Remove test line
         if (isUpdate) {
             PreferenceHelper.getInstance().setVersionCode(currentVersionCode);
 

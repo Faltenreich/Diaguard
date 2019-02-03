@@ -2,9 +2,9 @@
 
 <resources>
     <string-array name="changelog">
-        <item>Recherche: Résultats de recherche en double fixes</item>
-        <item>Aliment: Ajout d\'une option pour filtrer les aliments de marque</item>
+        <item>Aliment: Ajout d\'une option pour filtrer les aliments de marque (voir les réglages)</item>
         <item>Aliment: L\'aliment supprimé reste supprimé</item>
+        <item>Recherche: Résultats de recherche en double fixes</item>
         <item>Protocole: Optimisations pour les petits écrans</item>
     </string-array>
 </resources>

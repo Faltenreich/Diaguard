@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string-array name="changelog">
+        <item>Search: Fixed duplicate search results</item>
+        <item>Food: Added option to filter branded food</item>
+        <item>Food: Deleted food remains deleted</item>
+        <item>Log: Optimizations for small displays</item>
+    </string-array>
+</resources>

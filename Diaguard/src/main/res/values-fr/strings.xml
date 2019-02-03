@@ -308,12 +308,7 @@
     <string name="oxygen_saturation">Saturation en oxygène</string>
     <string name="correction_value_desc">Réduction de la glycémie d\'une</string>
 
-    <string name="changelog_title">Quoi de neuf</string>
-    <string-array name="changelog_19">
-        <item>Ajout d\'images aux aliments communs</item>
-        <item>Les éléments de protocole peuvent maintenant être supprimés via swipe-to-delete</item>
-        <item>Le bolus de correction peut maintenant être négatif</item>
-    </string-array>
+    <string name="changelog">Quoi de neuf</string>
 
     <string name="meal_factor">Repas-bol-facteur</string>
     <string name="meal_factors">Repas-bol-facteurs</string>

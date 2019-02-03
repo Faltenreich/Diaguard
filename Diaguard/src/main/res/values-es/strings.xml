@@ -310,19 +310,14 @@
     <string name="oxygen_saturation">Saturación de oxígeno</string>
     <string name="correction_value_desc">La reducción de glucemia en un</string>
 
-    <string name="changelog_title">Qué hay de nuevo</string>
-    <string-array name="changelog_19">
-        <item>Se agregaron imágenes a los alimentos comunes</item>
-        <item>Los elementos de protocolo ahora se pueden eliminar mediante el borrado a borrar</item>
-        <item>El bolus de corrección puede ser negativo</item>
-    </string-array>
+    <string name="changelog">Qué hay de nuevo</string>
 
     <string name="meal_factor">Alimento-bolo-factor</string>
     <string name="meal_factors">Alimento-bolo-factors</string>
     <string name="meal_factor_desc">Se usa para calcular la cantidad de insulina para una comida</string>
     <string name="unit_factor_carbohydrates_unit">CU factor</string>
     <string name="unit_factor_bread_unit">PU factor</string>
-    <string name="search">Busca</string>
+    <string name="search">Búsqueda</string>
     <string name="tag">Palabra clave</string>
     <string name="tags">Palabras clave</string>
     <string name="tags_append">Adjuntar palabras clave</string>

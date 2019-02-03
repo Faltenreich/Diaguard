@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.ui.fragment;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
@@ -29,14 +28,9 @@ public class ChangelogFragment extends DialogFragment {
         list.setAdapter(adapter);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
-                .setTitle(R.string.changelog_title)
+                .setTitle(R.string.changelog)
                 .setView(list)
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Dismiss
-                    }
-                });
+                .setPositiveButton(R.string.ok, (dialog, which) -> {});
         return builder.create();
     }
 }

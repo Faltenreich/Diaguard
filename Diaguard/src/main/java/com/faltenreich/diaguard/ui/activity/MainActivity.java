@@ -281,16 +281,11 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
         if (isUpdate) {
             PreferenceHelper.getInstance().setVersionCode(currentVersionCode);
 
-            String[] changelog = PreferenceHelper.getInstance().getChangelog(this);
-            boolean hasChangelog = changelog != null && changelog.length > 0;
-
-            if (hasChangelog) {
-                ChangelogFragment fragment = new ChangelogFragment();
-                String tag = fragment.getClass().getSimpleName();
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.addToBackStack(tag);
-                fragment.show(fragmentTransaction, tag);
-            }
+            ChangelogFragment fragment = new ChangelogFragment();
+            String tag = fragment.getClass().getSimpleName();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.addToBackStack(tag);
+            fragment.show(fragmentTransaction, tag);
 
             if (currentVersionCode == 25) {
                 explainMissingCalculator();

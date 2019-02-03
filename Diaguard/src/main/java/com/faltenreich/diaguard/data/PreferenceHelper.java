@@ -109,9 +109,7 @@ public class PreferenceHelper {
     }
 
     public String[] getChangelog(Context context) {
-        int versionCode = SystemUtils.getVersionCode(context);
-        int resourceId = context.getResources().getIdentifier("changelog_" + versionCode, "array", context.getPackageName());
-        return resourceId > 0 ? context.getResources().getStringArray(resourceId) : new String[] {};
+        return context.getResources().getStringArray(R.array.changelog);
     }
 
     boolean didImportCommonFood(Locale locale) {

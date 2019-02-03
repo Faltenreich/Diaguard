@@ -150,12 +150,14 @@ public class FoodListView extends RecyclerView {
         Events.post(new FoodQueryEndedEvent(hasItems));
     }
 
+    // TODO: Filter on database-level
     private void addFood(List<Food> foodList) {
         List<ListItemFood> foodItemList = new ArrayList<>();
 
         for (Food food : foodList) {
             boolean isSameLanguage = Helper.isSystemLocale(food.getLanguageCode());
-            if (isSameLanguage) {
+            boolean isNotDeleted = !food.isDeleted();
+            if (isSameLanguage && isNotDeleted) {
                 foodItemList.add(new ListItemFood(food));
             }
         }

@@ -32,4 +32,7 @@ public class BaseServerEntity extends BaseEntity {
     public void setDeletedAt(DateTime deletedAt) {
         this.deletedAt = deletedAt;
     }
+    public boolean isDeleted() {
+        return getDeletedAt() == null;
+    }
 }

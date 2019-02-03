@@ -4,7 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
+
+import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.annotation.StyleRes;
+
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
@@ -16,6 +20,7 @@ import com.faltenreich.diaguard.ui.view.preferences.CategoryPreference;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.SystemUtils;
+import com.faltenreich.diaguard.util.theme.Theme;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -54,6 +59,7 @@ public class PreferenceHelper {
         final static String EXPORT_CATEGORIES = "exportCategories";
         final static String DID_IMPORT_TAGS_FOR_LANGUAGE = "didImportTagsForLanguage";
         final static String FOOD_SHOW_BRANDED = "showBrandedFood";
+        final static String THEME = "theme";
     }
 
     public enum ChartStyle {
@@ -62,7 +68,6 @@ public class PreferenceHelper {
     }
 
     public enum FactorUnit {
-
         CARBOHYDRATES_UNIT(0, R.string.unit_factor_carbohydrates_unit, .1f),
         BREAD_UNITS(1, R.string.unit_factor_bread_unit, .0833f);
 
@@ -134,6 +139,17 @@ public class PreferenceHelper {
 
     public void setAlarmStartInMillis(long alarmStartInMillis) {
         sharedPreferences.edit().putLong(Keys.ALARM_START_IN_MILLIS, alarmStartInMillis).apply();
+    }
+
+    public Theme getTheme() {
+        Theme defaultTheme = Theme.LIGHT;
+        String themeKey = sharedPreferences.getString(Keys.THEME, defaultTheme.getKey());
+        Theme theme = Theme.fromKey(themeKey);
+        return theme != null ? theme : defaultTheme;
+    }
+
+    public void setTheme(Theme theme) {
+        sharedPreferences.edit().putString(Keys.THEME, theme.getKey()).apply();
     }
 
     public int getStartScreen() {

@@ -2,6 +2,7 @@
 
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="144dp"
     android:layout_marginBottom="@dimen/activity_vertical_margin">
@@ -11,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        tools:src="@tools:sample/backgrounds/scenic"/>
 
     <View
         android:layout_width="match_parent"
@@ -19,11 +21,12 @@
         android:background="@drawable/scrim_top"/>
 
     <TextView
+        style="@style/Padding"
         android:id="@+id/month"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_larger"
         android:textColor="@android:color/white"
-        style="@style/Padding"/>
+        tools:text="@tools:sample/date/mmddyy"/>
 
 </FrameLayout>

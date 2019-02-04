@@ -8,6 +8,7 @@
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:clickable="true"
+    android:focusable="true"
     android:background="?android:attr/selectableItemBackground">
 
     <TextView
@@ -26,6 +27,6 @@
         android:ellipsize="end"
         android:gravity="end"
         android:lines="1"
-        android:textColor="@android:color/black" />
+        android:textColor="?attr/textColorNormal"/>
 
 </LinearLayout>

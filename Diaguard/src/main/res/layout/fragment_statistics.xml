@@ -3,10 +3,9 @@
 <androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/backgroundColorLight">
+    android:background="?attr/backgroundColorNormal">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +20,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
                 android:orientation="vertical"
                 android:showDividers="middle"
                 android:divider="@drawable/line_divider">
@@ -81,10 +79,10 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                card_view:cardCornerRadius="4dp"
-                card_view:cardElevation="2dp"
-                card_view:cardUseCompatPadding="true"
-                android:transitionName="transitionOverview">
+                android:transitionName="transitionOverview"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -117,7 +115,7 @@
                                 android:layout_weight="1"
                                 android:gravity="end"
                                 android:text="@string/placeholder"
-                                android:textColor="@android:color/black"/>
+                                android:textColor="?attr/textColorNormal"/>
 
                         </TableRow>
 
@@ -135,7 +133,7 @@
                                 android:layout_weight="1"
                                 android:gravity="end"
                                 android:text="@string/placeholder"
-                                android:textColor="@android:color/black"/>
+                                android:textColor="?attr/textColorNormal"/>
 
                         </TableRow>
 
@@ -154,7 +152,7 @@
                                 android:layout_weight="1"
                                 android:gravity="end"
                                 android:text="@string/placeholder"
-                                android:textColor="@android:color/black"/>
+                                android:textColor="?attr/textColorNormal"/>
 
                         </TableRow>
 
@@ -173,7 +171,7 @@
                                 android:layout_weight="1"
                                 android:gravity="end"
                                 android:text="@string/placeholder"
-                                android:textColor="@android:color/black"/>
+                                android:textColor="?attr/textColorNormal"/>
 
                         </TableRow>
 
@@ -188,10 +186,10 @@
                 android:id="@+id/layout_trend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                card_view:cardCornerRadius="4dp"
-                card_view:cardElevation="2dp"
-                card_view:cardUseCompatPadding="true"
-                android:transitionName="transitionTrend">
+                android:transitionName="transitionTrend"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     style="@style/Padding"
@@ -222,10 +220,10 @@
                 android:id="@+id/layout_distribution"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                card_view:cardCornerRadius="4dp"
-                card_view:cardElevation="2dp"
-                card_view:cardUseCompatPadding="true"
-                android:transitionName="transitionDistribution">
+                android:transitionName="transitionDistribution"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
                     style="@style/Padding"

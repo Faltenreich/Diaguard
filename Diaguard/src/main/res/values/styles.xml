@@ -14,6 +14,7 @@
         <item name="textColorNormal">@android:color/black</item>
         <item name="textColorDim">@android:color/darker_gray</item>
         <item name="backgroundColorNormal">@color/background_light_normal</item>
+        <item name="backgroundColorNormalTranslucent">@color/background_light_normal_translucent</item>
         <item name="backgroundColorLight">@color/background_light_light</item>
         <item name="backgroundColorDark">@color/background_light_dark</item>
     </style>
@@ -32,6 +33,7 @@
         <item name="textColorNormal">@android:color/white</item>
         <item name="textColorDim">@color/background_light_normal</item>
         <item name="backgroundColorNormal">@color/background_dark_normal</item>
+        <item name="backgroundColorNormalTranslucent">@color/background_dark_normal_translucent</item>
         <item name="backgroundColorLight">@color/background_dark_light</item>
         <item name="backgroundColorDark">@color/background_dark_dark</item>
     </style>

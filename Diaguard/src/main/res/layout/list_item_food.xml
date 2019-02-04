@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:maxLines="2"
             android:ellipsize="end"
-            android:textColor="@android:color/black"/>
+            android:textColor="?attr/textColorDim"/>
 
         <TextView
             android:id="@+id/food_brand"
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/padding_end"
             android:layout_marginStart="@dimen/padding_end"
-            android:textColor="@android:color/black"/>
+            android:textColor="?attr/textColorNormal"/>
 
         <com.faltenreich.diaguard.ui.view.TintImageView
             android:id="@+id/food_recent"

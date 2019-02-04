@@ -13,4 +13,11 @@
         <attr name="restrictToLocalizedSeparator" format="boolean"/>
     </declare-styleable>
 
+    <attr name="textColorNormal" format="color"/>
+    <attr name="textColorDim" format="color"/>
+
+    <attr name="backgroundColorNormal" format="color"/>
+    <attr name="backgroundColorLight" format="color"/>
+    <attr name="backgroundColorDark" format="color"/>
+
 </resources>

@@ -3,7 +3,7 @@
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.Bridge">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:windowBackground">@color/background_light</item>
+        <item name="android:windowBackground">@color/background_light_normal</item>
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/green_darker</item>
         <item name="colorAccent">@color/green</item>
@@ -11,12 +11,17 @@
         <item name="drawerArrowStyle">@style/NavigationDrawerArrowStyle</item>
         <item name="android:windowSharedElementsUseOverlay">false</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="textColorNormal">@android:color/black</item>
+        <item name="textColorDim">@android:color/darker_gray</item>
+        <item name="backgroundColorNormal">@color/background_light_normal</item>
+        <item name="backgroundColorLight">@color/background_light_light</item>
+        <item name="backgroundColorDark">@color/background_light_dark</item>
     </style>
 
     <style name="AppTheme.Dark" parent="Theme.MaterialComponents.Bridge">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:windowBackground">@color/background_dark</item>
+        <item name="android:windowBackground">@color/background_dark_normal</item>
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/green_darker</item>
         <item name="colorAccent">@color/green</item>
@@ -24,6 +29,11 @@
         <item name="drawerArrowStyle">@style/NavigationDrawerArrowStyle</item>
         <item name="android:windowSharedElementsUseOverlay">false</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="textColorNormal">@android:color/white</item>
+        <item name="textColorDim">@color/background_light_normal</item>
+        <item name="backgroundColorNormal">@color/background_dark_normal</item>
+        <item name="backgroundColorLight">@color/background_dark_light</item>
+        <item name="backgroundColorDark">@color/background_dark_dark</item>
     </style>
 
     <style name="AppTheme.Transparent" parent="AppTheme"/>

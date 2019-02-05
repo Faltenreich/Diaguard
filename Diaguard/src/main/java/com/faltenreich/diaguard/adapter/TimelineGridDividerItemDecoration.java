@@ -15,7 +15,7 @@ public class TimelineGridDividerItemDecoration extends RecyclerView.ItemDecorati
     private Drawable divider;
 
     public TimelineGridDividerItemDecoration(Context context) {
-        divider = ContextCompat.getDrawable(context, R.drawable.line_divider);
+        divider = ContextCompat.getDrawable(context, R.drawable.separator);
     }
 
     @Override

@@ -3,7 +3,7 @@
 <resources>
 
     <color name="background_light">#f3f3f3</color>
-    <color name="background_dark">#323232</color>
+    <color name="background_dark">#313131</color>
 
     <color name="primary">@color/green</color>
     <color name="translucent_scrim_end">#58000000</color>

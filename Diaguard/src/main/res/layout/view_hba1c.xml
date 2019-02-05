@@ -35,7 +35,7 @@
             android:gravity="end"
             android:layout_marginLeft="@dimen/margin_between"
             android:layout_marginStart="@dimen/margin_between"
-            android:textColor="?attr/textColorNormal"
+            android:textColor="?android:attr/textColorPrimary"
             tools:text="-"/>
 
     </LinearLayout>

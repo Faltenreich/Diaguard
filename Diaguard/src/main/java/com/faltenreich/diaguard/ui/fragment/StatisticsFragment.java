@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -18,6 +19,7 @@ import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.ChartHelper;
 import com.faltenreich.diaguard.util.Helper;
+import com.faltenreich.diaguard.util.ResourceUtils;
 import com.faltenreich.diaguard.util.TimeSpan;
 import com.faltenreich.diaguard.util.thread.BaseAsyncTask;
 import com.faltenreich.diaguard.util.thread.BloodSugarDistributionTask;
@@ -204,6 +206,7 @@ public class StatisticsFragment extends BaseFragment {
         chartDistribution.getPaint(Chart.PAINT_INFO).setColor(ContextCompat.getColor(getContext(), ChartHelper.NO_DATA_COLOR_RESOURCE_ID));
         chartDistribution.getLegend().setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
         chartDistribution.getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+        chartDistribution.getLegend().setTextColor(ContextCompat.getColor(getContext(), ResourceUtils.getTextColorPrimary(getContext())));
     }
 
 

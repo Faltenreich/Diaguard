@@ -23,7 +23,7 @@
         <item name="colorAccent">@color/green</item>
         <item name="drawerArrowStyle">@style/NavigationDrawerArrowStyle</item>
         <item name="backgroundColorPrimary">@color/background_dark</item>
-        <item name="backgroundColorSecondary">#292929</item>
+        <item name="backgroundColorSecondary">#424242</item>
         <item name="backgroundColorTertiary">#292929</item>
         <item name="backgroundColorPrimaryTranslucent">#CC373737</item>
         <item name="windowActionBar">false</item>

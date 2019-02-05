@@ -182,10 +182,10 @@
         android:contentDescription="@string/measurement_add"
         app:layout_behavior="com.faltenreich.diaguard.adapter.StepAsideBehavior"
         app:menu_icon="@drawable/ic_add_dark"
-        app:menu_backgroundColor="?attr/backgroundColorNormalTranslucent"
-        app:menu_colorNormal="?attr/backgroundColorLight"
-        app:menu_colorPressed="?attr/backgroundColorNormal"
-        app:menu_colorRipple="?attr/backgroundColorNormal"
+        app:menu_backgroundColor="?attr/backgroundColorPrimaryTranslucent"
+        app:menu_colorNormal="?attr/backgroundColorSecondary"
+        app:menu_colorPressed="?attr/backgroundColorPrimary"
+        app:menu_colorRipple="?attr/backgroundColorPrimary"
         tools:ignore="RtlSymmetry" />
 
     <com.github.clans.fab.FloatingActionButton

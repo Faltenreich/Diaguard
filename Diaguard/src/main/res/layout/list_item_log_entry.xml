@@ -55,7 +55,7 @@
                     android:id="@+id/note_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?attr/backgroundColorNormal"
+                    android:background="?attr/backgroundColorPrimary"
                     android:visibility="gone"
                     tools:visibility="visible"
                     tools:text="Note"/>
@@ -65,7 +65,7 @@
                     android:id="@+id/food_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?attr/backgroundColorNormal"
+                    android:background="?attr/backgroundColorPrimary"
                     android:visibility="gone"
                     tools:visibility="visible"
                     tools:text="Food 1\nFood 2"/>

@@ -5,14 +5,14 @@
         <item name="colorPrimaryDark">@color/green_darker</item>
         <item name="colorAccent">@color/green</item>
         <item name="drawerArrowStyle">@style/NavigationDrawerArrowStyle</item>
-        <item name="backgroundColorNormal">@color/background_light_normal</item>
-        <item name="backgroundColorNormalTranslucent">@color/background_light_normal_translucent</item>
-        <item name="backgroundColorLight">@color/background_light_light</item>
-        <item name="backgroundColorDark">@color/background_light_dark</item>
+        <item name="backgroundColorPrimary">@color/background_light</item>
+        <item name="backgroundColorSecondary">@android:color/white</item>
+        <item name="backgroundColorTertiary">#d4d4d4</item>
+        <item name="backgroundColorPrimaryTranslucent">#CCf3f3f3</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="elevation">4dp</item>
-        <item name="android:windowBackground">@color/background_light_normal</item>
+        <item name="android:windowBackground">@color/background_light</item>
         <item name="android:windowSharedElementsUseOverlay">false</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
@@ -22,14 +22,14 @@
         <item name="colorPrimaryDark">@color/green_darker</item>
         <item name="colorAccent">@color/green</item>
         <item name="drawerArrowStyle">@style/NavigationDrawerArrowStyle</item>
-        <item name="backgroundColorNormal">@color/background_dark_normal</item>
-        <item name="backgroundColorNormalTranslucent">@color/background_dark_normal_translucent</item>
-        <item name="backgroundColorLight">@color/background_dark_light</item>
-        <item name="backgroundColorDark">@color/background_dark_dark</item>
+        <item name="backgroundColorPrimary">@color/background_dark</item>
+        <item name="backgroundColorSecondary">#424242</item>
+        <item name="backgroundColorTertiary">#303030</item>
+        <item name="backgroundColorPrimaryTranslucent">#CC373737</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="elevation">4dp</item>
-        <item name="android:windowBackground">@color/background_dark_normal</item>
+        <item name="android:windowBackground">@color/background_dark</item>
         <item name="android:windowSharedElementsUseOverlay">false</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>

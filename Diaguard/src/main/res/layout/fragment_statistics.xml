@@ -115,7 +115,7 @@
                                 android:layout_weight="1"
                                 android:gravity="end"
                                 android:text="@string/placeholder"
-                                android:textColor="?attr/textColorNormal"/>
+                                android:textColor="?android:attr/textColorPrimary"/>
 
                         </TableRow>
 
@@ -133,7 +133,7 @@
                                 android:layout_weight="1"
                                 android:gravity="end"
                                 android:text="@string/placeholder"
-                                android:textColor="?attr/textColorNormal"/>
+                                android:textColor="?android:attr/textColorPrimary"/>
 
                         </TableRow>
 
@@ -152,7 +152,7 @@
                                 android:layout_weight="1"
                                 android:gravity="end"
                                 android:text="@string/placeholder"
-                                android:textColor="?attr/textColorNormal"/>
+                                android:textColor="?android:attr/textColorPrimary"/>
 
                         </TableRow>
 
@@ -171,7 +171,7 @@
                                 android:layout_weight="1"
                                 android:gravity="end"
                                 android:text="@string/placeholder"
-                                android:textColor="?attr/textColorNormal"/>
+                                android:textColor="?android:attr/textColorPrimary"/>
 
                         </TableRow>
 

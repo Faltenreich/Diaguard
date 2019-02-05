@@ -23,7 +23,7 @@
             <TextView
                 style="@style/LayoutRowItemMultiline"
                 android:id="@+id/food_brand"
-                android:textColor="?attr/textColorNormal"/>
+                android:textColor="?android:attr/textColorPrimary"/>
 
         </LinearLayout>
 
@@ -37,7 +37,7 @@
             <TextView
                 style="@style/LayoutRowItemMultiline"
                 android:id="@+id/food_ingredients"
-                android:textColor="?attr/textColorNormal"
+                android:textColor="?android:attr/textColorPrimary"
                 android:maxLines="3"
                 android:ellipsize="end"/>
 
@@ -55,7 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/food_value"
-                android:textColor="?attr/textColorNormal"/>
+                android:textColor="?android:attr/textColorPrimary"/>
 
         </LinearLayout>
 

@@ -124,7 +124,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="end"
-                                android:textColor="?attr/textColorNormal"
+                                android:textColor="?android:attr/textColorPrimary"
                                 tools:text="0"
                                 style="@style/NumberResizeable"/>
 
@@ -144,7 +144,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="end"
-                                android:textColor="?attr/textColorNormal"
+                                android:textColor="?android:attr/textColorPrimary"
                                 tools:text="0"
                                 style="@style/NumberResizeable"/>
 
@@ -164,7 +164,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="end"
-                                android:textColor="?attr/textColorNormal"
+                                android:textColor="?android:attr/textColorPrimary"
                                 tools:text="0"
                                 style="@style/NumberResizeable"/>
 
@@ -224,7 +224,7 @@
                                 android:layout_weight="1"
                                 android:gravity="end"
                                 android:text="@string/placeholder"
-                                android:textColor="?attr/textColorNormal"
+                                android:textColor="?android:attr/textColorPrimary"
                                 style="@style/NumberResizeable"/>
 
                         </TableRow>
@@ -244,7 +244,7 @@
                                 android:layout_weight="1"
                                 android:gravity="end"
                                 android:text="@string/placeholder"
-                                android:textColor="?attr/textColorNormal"
+                                android:textColor="?android:attr/textColorPrimary"
                                 style="@style/NumberResizeable"/>
 
                         </TableRow>
@@ -264,7 +264,7 @@
                                 android:layout_weight="1"
                                 android:gravity="end"
                                 android:text="@string/placeholder"
-                                android:textColor="?attr/textColorNormal"
+                                android:textColor="?android:attr/textColorPrimary"
                                 style="@style/NumberResizeable"/>
 
                         </TableRow>

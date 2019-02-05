@@ -27,6 +27,6 @@
         android:ellipsize="end"
         android:gravity="end"
         android:lines="1"
-        android:textColor="?attr/textColorNormal"/>
+        android:textColor="?android:attr/textColorPrimary"/>
 
 </LinearLayout>

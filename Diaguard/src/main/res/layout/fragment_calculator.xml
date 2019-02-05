@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/backgroundColorSecondary"
+    android:background="?attr/backgroundColorPrimary"
     tools:ignore="RtlSymmetry">
 
     <LinearLayout
@@ -24,7 +24,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
                 android:orientation="vertical"
                 android:showDividers="middle"
                 android:divider="@drawable/separator">
@@ -97,7 +96,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/meal_optional"
-            android:textColor="@color/gray_darker" />
+            android:textColor="?android:textColorSecondary"/>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -108,7 +107,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
                 android:orientation="vertical"
                 android:showDividers="middle"
                 android:divider="@drawable/separator">

@@ -23,8 +23,8 @@
         <item name="colorAccent">@color/green</item>
         <item name="drawerArrowStyle">@style/NavigationDrawerArrowStyle</item>
         <item name="backgroundColorPrimary">@color/background_dark</item>
-        <item name="backgroundColorSecondary">#424242</item>
-        <item name="backgroundColorTertiary">#303030</item>
+        <item name="backgroundColorSecondary">#292929</item>
+        <item name="backgroundColorTertiary">#292929</item>
         <item name="backgroundColorPrimaryTranslucent">#CC373737</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -36,9 +36,9 @@
 
     <style name="AppTheme.Transparent" parent="AppTheme"/>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
     <style name="FloatingActionButton">
         <item name="android:layout_margin">@dimen/fab_margin</item>

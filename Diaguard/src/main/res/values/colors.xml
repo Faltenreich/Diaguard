@@ -2,15 +2,8 @@
 
 <resources>
 
-    <color name="background_light_normal">#f3f3f3</color>
-    <color name="background_light_normal_translucent">#CCf3f3f3</color>
-    <color name="background_light_light">@android:color/white</color>
-    <color name="background_light_dark">#d4d4d4</color>
-
-    <color name="background_dark_normal">#373737</color>
-    <color name="background_dark_normal_translucent">#CC373737</color>
-    <color name="background_dark_light">#424242</color>
-    <color name="background_dark_dark">#323232</color>
+    <color name="background_light">#f3f3f3</color>
+    <color name="background_dark">#323232</color>
 
     <color name="primary">@color/green</color>
     <color name="translucent_scrim_end">#58000000</color>

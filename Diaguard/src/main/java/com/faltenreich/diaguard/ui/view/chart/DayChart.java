@@ -12,6 +12,7 @@ import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.util.ChartHelper;
+import com.faltenreich.diaguard.util.ResourceUtils;
 import com.faltenreich.diaguard.util.thread.BaseAsyncTask;
 import com.faltenreich.diaguard.util.thread.BloodSugarDayTask;
 import com.github.mikephil.charting.charts.CombinedChart;
@@ -49,16 +50,13 @@ public class DayChart extends CombinedChart implements OnChartValueSelectedListe
         if (!isInEditMode()) {
             ChartHelper.setChartDefaultStyle(this, Measurement.Category.BLOODSUGAR);
 
-            @ColorInt int textColor = ContextCompat.getColor(getContext(), android.R.color.black);
+            @ColorInt int textColor = ContextCompat.getColor(getContext(), ResourceUtils.getTextColorPrimary(getContext()));
             getAxisLeft().setTextColor(textColor);
             getXAxis().setTextColor(textColor);
-            getXAxis().setValueFormatter(new IAxisValueFormatter() {
-                @Override
-                public String getFormattedValue(float value, AxisBase axis) {
-                    int minute = (int) value;
-                    int hour = minute / DateTimeConstants.MINUTES_PER_HOUR;
-                    return hour < DateTimeConstants.HOURS_PER_DAY ? Integer.toString(hour) : "";
-                }
+            getXAxis().setValueFormatter((value, axis) -> {
+                int minute = (int) value;
+                int hour = minute / DateTimeConstants.MINUTES_PER_HOUR;
+                return hour < DateTimeConstants.HOURS_PER_DAY ? Integer.toString(hour) : "";
             });
             getXAxis().setAxisMinimum(0);
             getXAxis().setAxisMaximum(DateTimeConstants.MINUTES_PER_DAY);
@@ -79,28 +77,25 @@ public class DayChart extends CombinedChart implements OnChartValueSelectedListe
     }
 
     private void update() {
-        new BloodSugarDayTask(getContext(), new BaseAsyncTask.OnAsyncProgressListener<DayChartData>() {
-            @Override
-            public void onPostExecute(DayChartData data) {
-                if (ViewCompat.isAttachedToWindow(DayChart.this)) {
-                    clear();
-                    setData(data);
+        new BloodSugarDayTask(getContext(), data -> {
+            if (ViewCompat.isAttachedToWindow(DayChart.this)) {
+                clear();
+                setData(data);
 
-                    // Identify max value manually because data.getYMax does not work when combining scatter with line chart
-                    float yAxisMaximum = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, Y_MAX_VALUE_DEFAULT);
-                    for (int datasetIndex = 0; datasetIndex < data.getScatterData().getDataSetCount(); datasetIndex++) {
-                        IScatterDataSet dataSet = data.getScatterData().getDataSetByIndex(datasetIndex);
-                        for (int entryIndex = 0; entryIndex < dataSet.getEntryCount(); entryIndex++) {
-                            float entryValue = dataSet.getEntryForIndex(entryIndex).getY();
-                            if (entryValue > yAxisMaximum) {
-                                yAxisMaximum = entryValue;
-                            }
+                // Identify max value manually because data.getYMax does not work when combining scatter with line chart
+                float yAxisMaximum = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, Y_MAX_VALUE_DEFAULT);
+                for (int datasetIndex = 0; datasetIndex < data.getScatterData().getDataSetCount(); datasetIndex++) {
+                    IScatterDataSet dataSet = data.getScatterData().getDataSetByIndex(datasetIndex);
+                    for (int entryIndex = 0; entryIndex < dataSet.getEntryCount(); entryIndex++) {
+                        float entryValue = dataSet.getEntryForIndex(entryIndex).getY();
+                        if (entryValue > yAxisMaximum) {
+                            yAxisMaximum = entryValue;
                         }
                     }
-
-                    getAxisLeft().setAxisMaximum(yAxisMaximum + Y_MAX_VALUE_OFFSET);
-                    invalidate();
                 }
+
+                getAxisLeft().setAxisMaximum(yAxisMaximum + Y_MAX_VALUE_OFFSET);
+                invalidate();
             }
         }, day).execute();
     }

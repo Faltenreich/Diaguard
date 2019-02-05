@@ -13,9 +13,11 @@
         <attr name="restrictToLocalizedSeparator" format="boolean"/>
     </declare-styleable>
 
-    <attr name="backgroundColorNormalTranslucent" format="color"/>
-    <attr name="backgroundColorNormal" format="color"/>
-    <attr name="backgroundColorLight" format="color"/>
-    <attr name="backgroundColorDark" format="color"/>
+    <attr name="backgroundColorPrimary" format="color"/>
+    <attr name="backgroundColorPrimaryTranslucent" format="color"/>
+    <attr name="backgroundColorSecondary" format="color"/>
+    <attr name="backgroundColorSecondaryInverse" format="color"/>
+    <attr name="backgroundColorTertiary" format="color"/>
+    <attr name="backgroundColorTertiaryInverse" format="color"/>
 
 </resources>

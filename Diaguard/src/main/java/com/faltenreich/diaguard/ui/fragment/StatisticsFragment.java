@@ -206,7 +206,7 @@ public class StatisticsFragment extends BaseFragment {
         chartDistribution.getPaint(Chart.PAINT_INFO).setColor(ContextCompat.getColor(getContext(), ChartHelper.NO_DATA_COLOR_RESOURCE_ID));
         chartDistribution.getLegend().setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
         chartDistribution.getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-        chartDistribution.getLegend().setTextColor(ContextCompat.getColor(getContext(), ResourceUtils.getTextColorPrimary(getContext())));
+        chartDistribution.getLegend().setTextColor(ResourceUtils.getTextColorPrimary(getContext()));
     }
 
 

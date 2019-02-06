@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:showDividers="middle"
-    android:divider="@drawable/separator">
+    android:divider="@drawable/separator_dark">
 
     <com.faltenreich.diaguard.ui.view.StickyHintInput
         android:id="@+id/insulin_bolus"

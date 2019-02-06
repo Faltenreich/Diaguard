@@ -5,9 +5,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
-import androidx.annotation.StyleRes;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -19,7 +17,6 @@ import com.faltenreich.diaguard.ui.view.MainFragmentType;
 import com.faltenreich.diaguard.ui.view.preferences.CategoryPreference;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
-import com.faltenreich.diaguard.util.SystemUtils;
 import com.faltenreich.diaguard.util.theme.Theme;
 
 import org.joda.time.DateTime;

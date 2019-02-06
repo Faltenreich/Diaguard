@@ -4,6 +4,8 @@ import android.content.Context;
 import androidx.annotation.ColorInt;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
+
+import android.graphics.Color;
 import android.util.AttributeSet;
 
 import com.faltenreich.diaguard.R;
@@ -13,11 +15,8 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.util.ChartHelper;
 import com.faltenreich.diaguard.util.ResourceUtils;
-import com.faltenreich.diaguard.util.thread.BaseAsyncTask;
 import com.faltenreich.diaguard.util.thread.BloodSugarDayTask;
 import com.github.mikephil.charting.charts.CombinedChart;
-import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IScatterDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
@@ -50,8 +49,11 @@ public class DayChart extends CombinedChart implements OnChartValueSelectedListe
         if (!isInEditMode()) {
             ChartHelper.setChartDefaultStyle(this, Measurement.Category.BLOODSUGAR);
 
-            @ColorInt int textColor = ContextCompat.getColor(getContext(), ResourceUtils.getTextColorPrimary(getContext()));
+            @ColorInt int textColor = ResourceUtils.getTextColorPrimary(getContext());
+            @ColorInt int gridColor = ResourceUtils.getBackgroundTertiary(getContext());
             getAxisLeft().setTextColor(textColor);
+            getAxisLeft().setGridColor(gridColor);
+            getXAxis().setGridColor(gridColor);
             getXAxis().setTextColor(textColor);
             getXAxis().setValueFormatter((value, axis) -> {
                 int minute = (int) value;

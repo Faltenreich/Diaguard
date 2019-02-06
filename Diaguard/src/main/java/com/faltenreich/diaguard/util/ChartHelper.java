@@ -63,12 +63,7 @@ public class ChartHelper {
         float yAxisMinValue = PreferenceHelper.getInstance().getExtrema(category)[0] * .9f;
         float yAxisMinCustomValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, yAxisMinValue);
         chart.getAxisLeft().setAxisMinimum(yAxisMinCustomValue);
-        chart.getAxisLeft().setValueFormatter(new IAxisValueFormatter() {
-            @Override
-            public String getFormattedValue(float value, AxisBase axis) {
-                return Helper.parseFloat(value);
-            }
-        });
+        chart.getAxisLeft().setValueFormatter((value, axis) -> Helper.parseFloat(value));
     }
 
     public static LimitLine getLimitLine(Context context, float yValue, @ColorRes int color) {

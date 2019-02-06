@@ -15,7 +15,7 @@ import java.util.ArrayList;
 class DayChartLineDataSet extends LineDataSet {
 
     DayChartLineDataSet(String label, @ColorInt int color) {
-        super(new ArrayList<Entry>(), label);
+        super(new ArrayList<>(), label);
         setColor(color);
         setLineWidth(ChartHelper.LINE_WIDTH);
         setDrawCircles(false);

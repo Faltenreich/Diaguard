@@ -66,8 +66,6 @@ dependencies {
     androidTestImplementation "androidx.test:rules:1.1.1"
 
     implementation 'com.google.android.material:material:1.1.0-alpha03'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha02'
-    implementation 'androidx.cardview:cardview:1.0.0'
 
     implementation "com.j256.ormlite:ormlite-core:$ormLite"
     implementation "com.j256.ormlite:ormlite-android:$ormLite"

@@ -10,6 +10,8 @@ import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
+
 import android.widget.ListAdapter;
 import android.widget.Toast;
 
@@ -38,6 +40,7 @@ import com.faltenreich.diaguard.util.SystemUtils;
 import com.faltenreich.diaguard.util.export.Export;
 import com.faltenreich.diaguard.util.export.FileListener;
 import com.faltenreich.diaguard.util.permission.Permission;
+import com.faltenreich.diaguard.util.theme.ThemeUtils;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -207,6 +210,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                 break;
             case "unit_weight":
                 Events.post(new UnitChangedEvent(Measurement.Category.WEIGHT));
+                break;
+            case PreferenceHelper.Keys.THEME:
+                ThemeUtils.invalidateTheme();
                 break;
         }
         setSummary(findPreference(key));

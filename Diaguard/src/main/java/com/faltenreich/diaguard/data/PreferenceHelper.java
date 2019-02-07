@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.data;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.os.Build;
 import android.preference.PreferenceManager;
 
 import androidx.annotation.StringRes;
@@ -37,26 +38,26 @@ public class PreferenceHelper {
     private static final String INPUT_QUERIES_SEPARATOR = ";";
     private static final int INPUT_QUERIES_MAXIMUM_COUNT = 10;
 
-    private class Keys {
-        static final String VERSION_CODE = "versionCode";
-        static final String CATEGORY_PINNED = "categoryPinned%s";
-        static final String ALARM_START_IN_MILLIS = "alarmStartInMillis";
-        static final String INTERVAL_FACTOR = "intervalFactor";
-        static final String INTERVAL_FACTOR_FOR_HOUR = "intervalFactor%d";
-        final static String FACTOR_DEPRECATED = "factor_";
-        static final String INTERVAL_CORRECTION = "intervalCorrection";
-        static final String INTERVAL_CORRECTION_FOR_HOUR = "intervalCorrection%d";
-        final static String CORRECTION_DEPRECATED = "correction_value";
-        final static String INPUT_QUERIES = "inputQueries";
-        final static String DID_IMPORT_COMMON_FOOD_FOR_LANGUAGE = "didImportCommonFoodForLanguage";
-        final static String CHART_STYLE = "chart_style";
-        final static String EXPORT_NOTES = "export_notes";
-        final static String EXPORT_TAGS = "export_tags";
-        final static String EXPORT_FOOD = "export_food";
-        final static String EXPORT_CATEGORIES = "exportCategories";
-        final static String DID_IMPORT_TAGS_FOR_LANGUAGE = "didImportTagsForLanguage";
-        final static String FOOD_SHOW_BRANDED = "showBrandedFood";
-        final static String THEME = "theme";
+    public class Keys {
+        public static final String VERSION_CODE = "versionCode";
+        public static final String CATEGORY_PINNED = "categoryPinned%s";
+        public static final String ALARM_START_IN_MILLIS = "alarmStartInMillis";
+        public static final String INTERVAL_FACTOR = "intervalFactor";
+        public static final String INTERVAL_FACTOR_FOR_HOUR = "intervalFactor%d";
+        public static final String FACTOR_DEPRECATED = "factor_";
+        public static final String INTERVAL_CORRECTION = "intervalCorrection";
+        public static final String INTERVAL_CORRECTION_FOR_HOUR = "intervalCorrection%d";
+        public static final String CORRECTION_DEPRECATED = "correction_value";
+        public static final String INPUT_QUERIES = "inputQueries";
+        public static final String DID_IMPORT_COMMON_FOOD_FOR_LANGUAGE = "didImportCommonFoodForLanguage";
+        public static final String CHART_STYLE = "chart_style";
+        public static final String EXPORT_NOTES = "export_notes";
+        public static final String EXPORT_TAGS = "export_tags";
+        public static final String EXPORT_FOOD = "export_food";
+        public static final String EXPORT_CATEGORIES = "exportCategories";
+        public static final String DID_IMPORT_TAGS_FOR_LANGUAGE = "didImportTagsForLanguage";
+        public static final String FOOD_SHOW_BRANDED = "showBrandedFood";
+        public static final String THEME = "theme";
     }
 
     public enum ChartStyle {
@@ -139,7 +140,7 @@ public class PreferenceHelper {
     }
 
     public Theme getTheme() {
-        Theme defaultTheme = Theme.LIGHT;
+        Theme defaultTheme = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P ? Theme.SYSTEM : Theme.LIGHT;
         String themeKey = sharedPreferences.getString(Keys.THEME, defaultTheme.getKey());
         Theme theme = Theme.fromKey(themeKey);
         return theme != null ? theme : defaultTheme;

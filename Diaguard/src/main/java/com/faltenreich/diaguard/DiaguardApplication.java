@@ -7,9 +7,11 @@ import com.faltenreich.diaguard.data.ImportHelper;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.ui.view.preferences.OpenDatabaseLicense;
 import com.faltenreich.diaguard.util.NotificationUtils;
+import com.faltenreich.diaguard.util.theme.ThemeUtils;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import de.psdev.licensesdialog.LicenseResolver;
 
 /**
@@ -36,5 +38,6 @@ public class DiaguardApplication extends Application {
         LicenseResolver.registerLicense(new OpenDatabaseLicense());
         PreferenceHelper.getInstance().migrate();
         NotificationUtils.setupNotifications(this);
+        ThemeUtils.invalidateTheme();
     }
 }

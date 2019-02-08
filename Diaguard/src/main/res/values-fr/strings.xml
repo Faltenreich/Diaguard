@@ -341,5 +341,7 @@
     <string name="theme">Thème de couleur</string>
     <string name="theme_light">Lumière</string>
     <string name="theme_dark">Sombre</string>
+    <string name="theme_time_based">Par heure de la journée</string>
+    <string name="theme_system">Paramètres du système</string>
 
 </resources>

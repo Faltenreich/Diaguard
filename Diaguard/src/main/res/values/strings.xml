@@ -521,8 +521,8 @@
     <string name="theme">Color theme</string>
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
-    <string name="theme_time_based">Time based (Alternating to sun)</string>
-    <string name="theme_system">Use system setting (Android 9+ only - defaults to light on older devices)</string>
+    <string name="theme_time_based">By time of day</string>
+    <string name="theme_system">System setting</string>
     <string-array name="themes" translatable="false">
         <item>@string/theme_light</item>
         <item>@string/theme_dark</item>

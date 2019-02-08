@@ -1,65 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <FrameLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include
-            layout="@layout/view_toolbar"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="64dp" />
+            android:layout_height="wrap_content">
 
-        <com.lapism.searchview.SearchView
-            android:id="@+id/search_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
 
-    </FrameLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-    <LinearLayout
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <include
+                        layout="@layout/view_toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp" />
+
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/green"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/activity_vertical_margin"
+                    android:paddingEnd="@dimen/activity_horizontal_margin"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:paddingStart="@dimen/activity_horizontal_margin">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/food"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_small" />
+
+                    <TextView
+                        android:id="@+id/food_search_unit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_end"
+                        android:layout_marginStart="@dimen/padding_end"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_small" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/food_search_swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/green"
-        android:orientation="horizontal"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingEnd="@dimen/activity_horizontal_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingStart="@dimen/activity_horizontal_margin">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/food"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_small" />
-
-        <TextView
-            android:id="@+id/food_search_unit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_end"
-            android:layout_marginStart="@dimen/padding_end"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_small" />
-
-    </LinearLayout>
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/food_search_swipe_refresh_layout"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -69,63 +84,70 @@
                 android:layout_height="match_parent"
                 android:background="?attr/backgroundColorSecondary"/>
 
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-        <LinearLayout
-            android:id="@+id/food_search_list_empty"
-            style="@style/Padding"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <ImageView
-                android:id="@+id/food_search_empty_icon"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_sad"/>
-
-            <TextView
-                android:id="@+id/food_search_empty_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_between_large"
+            <LinearLayout
+                android:id="@+id/food_search_list_empty"
+                style="@style/Padding"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:gravity="center"
-                android:textStyle="bold"
-                android:text="@string/error_no_data"/>
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
 
-            <TextView
-                android:id="@+id/food_search_empty_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_between"
-                android:gravity="center"
-                android:text="@string/error_no_data_desc"/>
+                <ImageView
+                    android:id="@+id/food_search_empty_icon"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_sad"/>
 
-            <Button
-                android:id="@+id/food_search_empty_button"
-                style="?attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_between"
-                android:textColor="@color/green"
-                android:text="@string/food_add_desc"/>
+                <TextView
+                    android:id="@+id/food_search_empty_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_between_large"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:text="@string/error_no_data"/>
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/food_search_empty_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_between"
+                    android:gravity="center"
+                    android:text="@string/error_no_data_desc"/>
 
-        <com.github.clans.fab.FloatingActionButton
-            style="@style/FloatingActionButton"
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:src="@drawable/fab_add"
-            app:layout_behavior="com.faltenreich.diaguard.adapter.SlideOutBehavior"
-            app:layout_anchor="@id/food_search_list"
-            app:layout_anchorGravity="bottom|right|end"/>
+                <Button
+                    android:id="@+id/food_search_empty_button"
+                    style="?attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_between"
+                    android:textColor="@color/green"
+                    android:text="@string/food_add_desc"/>
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            </LinearLayout>
 
-</LinearLayout>
+        </FrameLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <com.github.clans.fab.FloatingActionButton
+        style="@style/FloatingActionButton"
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:src="@drawable/fab_add"
+        app:layout_behavior="com.faltenreich.diaguard.adapter.SlideOutBehavior"
+        app:layout_anchor="@id/food_search_list"
+        app:layout_anchorGravity="bottom|right|end"/>
+
+    <com.lapism.searchview.SearchView
+        style="@style/SearchView"
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

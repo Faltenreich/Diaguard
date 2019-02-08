@@ -17,11 +17,20 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
 
-    <style name="AppTheme.Transparent" parent="AppTheme"/>
+    <style name="Toolbar" parent="ThemeOverlay.MaterialComponents.ActionBar">
+        <item name="android:textColorPrimary">@android:color/white</item>
+    </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="ToolbarPopup" parent="ThemeOverlay.MaterialComponents.ActionBar">
+        <item name="android:textColorPrimary">@android:color/black</item>
+    </style>
+    
+    <style name="SearchView">
+        <item name="search_background_color">?attr/backgroundColorSecondary</item>
+        <item name="search_text_color">?android:textColorPrimary</item>
+        <item name="search_icon_color">?android:textColorSecondary</item>
+        <item name="search_hint_color">?android:textColorTertiary</item>
+    </style>
 
     <style name="FloatingActionButton">
         <item name="android:layout_margin">@dimen/fab_margin</item>

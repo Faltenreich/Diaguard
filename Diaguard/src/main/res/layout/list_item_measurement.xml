@@ -68,14 +68,10 @@
                     android:textSize="@dimen/text_large"
                     tools:text="@string/bloodsugar"/>
 
-                <CheckBox
+                <androidx.appcompat.widget.AppCompatCheckBox
                     android:id="@+id/checkbox_pin"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/margin_between"
-                    android:layout_marginStart="@dimen/margin_between"
-                    android:layout_marginRight="@dimen/margin_between"
-                    android:layout_marginEnd="@dimen/margin_between"
                     android:theme="@style/WhiteCheckBox"
                     android:contentDescription="@string/category_pin"/>
 
@@ -84,14 +80,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
-                    android:layout_marginRight="@dimen/padding"
-                    android:layout_marginEnd="@dimen/padding"
-                    android:padding="@dimen/padding_large"
+                    android:layout_marginRight="@dimen/padding_end"
+                    android:layout_marginEnd="@dimen/padding_end"
+                    android:paddingTop="@dimen/margin_between_large"
+                    android:paddingBottom="@dimen/margin_between_large"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:focusable="true"
                     android:src="@drawable/ic_delete"
-                    app:tintColor="@android:color/white"/>
+                    app:tintColor="@android:color/white"
+                    tools:ignore="RtlSymmetry" />
 
             </LinearLayout>
 

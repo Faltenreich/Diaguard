@@ -24,10 +24,10 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:showDividers="middle"
-                android:divider="@drawable/separator_dark">
+                android:divider="@drawable/separator_dark"
+                android:background="?attr/backgroundColorSecondary">
 
-                <LinearLayout style="@style/LayoutRow"
-                    android:background="@android:color/white">
+                <LinearLayout style="@style/LayoutRow">
 
                     <ImageView
                         style="@style/LayoutRowImageMultiline"
@@ -44,8 +44,7 @@
 
                 </LinearLayout>
 
-                <LinearLayout style="@style/LayoutRow"
-                    android:background="@android:color/white">
+                <LinearLayout style="@style/LayoutRow">
 
                     <com.faltenreich.diaguard.ui.view.TintImageView
                         style="@style/LayoutRowImageMultiline"
@@ -61,8 +60,7 @@
 
                 </LinearLayout>
 
-                <LinearLayout style="@style/LayoutRow"
-                    android:background="@android:color/white">
+                <LinearLayout style="@style/LayoutRow">
 
                     <com.faltenreich.diaguard.ui.view.TintImageView
                         style="@style/LayoutRowImageMultiline"
@@ -82,7 +80,7 @@
                     style="@style/Padding"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/gray_light"
+                    android:background="?attr/backgroundColorTertiary"
                     android:text="@string/nutriments_per_100g"/>
 
                 <com.faltenreich.diaguard.ui.view.NutrientInputLayout
@@ -91,7 +89,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:showDividers="middle"
-                    android:divider="@drawable/separator_dark"/>
+                    android:divider="@drawable/separator_dark"
+                    android:background="?attr/backgroundColorPrimary"/>
 
             </LinearLayout>
 

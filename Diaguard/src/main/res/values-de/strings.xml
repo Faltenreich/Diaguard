@@ -340,5 +340,7 @@
     <string name="theme">Farbschema</string>
     <string name="theme_light">Hell</string>
     <string name="theme_dark">Dunkel</string>
+    <string name="theme_time_based">Nach Tageszeit</string>
+    <string name="theme_system">Systemeinstellung</string>
 
 </resources>

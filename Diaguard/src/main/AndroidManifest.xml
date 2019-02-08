@@ -42,8 +42,7 @@
             android:configChanges="orientation|screenSize"
             android:label="@string/entry_new"
             android:windowSoftInputMode="adjustResize|stateHidden"
-            android:exported="true"
-            android:theme="@style/AppTheme.Transparent">
+            android:exported="true">
             <meta-data
                 android:name=".ui.activity.EntryActivity"
                 android:value=".ui.activity.MainActivity" />
@@ -53,8 +52,7 @@
             android:name=".ui.activity.EntrySearchActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/search"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/AppTheme.Transparent">
+            android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity" />

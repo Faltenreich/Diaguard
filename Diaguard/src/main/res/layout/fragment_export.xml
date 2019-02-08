@@ -40,9 +40,10 @@
 
                         <Button
                             android:id="@+id/button_datestart"
-                            style="?android:attr/borderlessButtonStyle"
+                            style="?attr/borderlessButtonStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
+                            android:textColor="?android:textColorPrimary"
                             tools:text="21.06.2018"/>
 
                         <TextView
@@ -54,9 +55,10 @@
 
                         <Button
                             android:id="@+id/button_dateend"
-                            style="?android:attr/borderlessButtonStyle"
+                            style="?attr/borderlessButtonStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
+                            android:textColor="?android:textColorPrimary"
                             tools:text="28.06.2018"/>
 
                     </LinearLayout>
@@ -96,7 +98,7 @@
                         style="@style/LayoutRowItem"
                         android:orientation="horizontal">
 
-                        <CheckBox
+                        <androidx.appcompat.widget.AppCompatCheckBox
                             android:id="@+id/checkbox_note"
                             style="@style/LayoutRowText"
                             android:paddingStart="@dimen/margin_between"
@@ -120,7 +122,7 @@
                         style="@style/LayoutRowItem"
                         android:orientation="horizontal">
 
-                        <CheckBox
+                        <androidx.appcompat.widget.AppCompatCheckBox
                             android:id="@+id/checkbox_tags"
                             style="@style/LayoutRowText"
                             android:paddingStart="@dimen/margin_between"
@@ -143,7 +145,7 @@
                         style="@style/LayoutRowItem"
                         android:orientation="horizontal">
 
-                        <CheckBox
+                        <androidx.appcompat.widget.AppCompatCheckBox
                             android:id="@+id/checkbox_food"
                             style="@style/LayoutRowText"
                             android:paddingStart="@dimen/margin_between"

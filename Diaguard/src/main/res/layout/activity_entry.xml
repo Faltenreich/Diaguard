@@ -49,19 +49,21 @@
                                     android:tint="@color/gray_darker"/>
 
                                 <Button
+                                    style="?attr/borderlessButtonStyle"
                                     android:id="@+id/button_date"
-                                    style="?android:attr/borderlessButtonStyle"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
                                     android:layout_marginEnd="@dimen/margin_between"
                                     android:layout_marginRight="@dimen/margin_between"
+                                    android:textColor="?android:textColorPrimary"
                                     tools:text="31.10.2017"/>
 
                                 <Button
+                                    style="?attr/borderlessButtonStyle"
                                     android:id="@+id/button_time"
-                                    style="?android:attr/borderlessButtonStyle"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
+                                    android:textColor="?android:textColorPrimary"
                                     tools:text="17:17" />
 
                             </LinearLayout>
@@ -143,11 +145,12 @@
 
                                 <Button
                                     android:id="@+id/entry_button_alarm"
-                                    style="?android:attr/borderlessButtonStyle"
+                                    style="?attr/borderlessButtonStyle"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:text="@string/alarm_reminder_none"
                                     android:textAllCaps="false"
+                                    android:textColor="?android:textColorPrimary"
                                     android:gravity="start|center_vertical"/>
 
                             </LinearLayout>

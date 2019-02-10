@@ -11,16 +11,16 @@ import androidx.fragment.app.FragmentManager;
 import android.widget.DatePicker;
 
 import com.faltenreich.diaguard.R;
+import com.google.android.material.picker.MaterialDatePickerDialog;
 
 import org.joda.time.DateTime;
 
 public class DatePickerFragment extends DialogFragment {
-
     private static final String DATE_PICKER_FRAGMENT_DATE_SELECTED = "DATE_PICKER_FRAGMENT_DATE_SELECTED";
     private static final String DATE_PICKER_FRAGMENT_DATE_MIN = "DATE_PICKER_FRAGMENT_DATE_MIN";
     private static final String DATE_PICKER_FRAGMENT_DATE_MAX = "DATE_PICKER_FRAGMENT_DATE_MAX";
 
-    public static DatePickerFragment newInstance(@Nullable DateTime selectedDateTime, @Nullable DateTime minDateTime, @Nullable DateTime maxDateTime, DatePickerListener listener) {
+    static DatePickerFragment newInstance(@Nullable DateTime selectedDateTime, @Nullable DateTime minDateTime, @Nullable DateTime maxDateTime, DatePickerListener listener) {
         DatePickerFragment fragment = new DatePickerFragment();
         fragment.setOnDateSetListener(listener);
         Bundle bundle = new Bundle();
@@ -50,24 +50,15 @@ public class DatePickerFragment extends DialogFragment {
         int month = selectedDateTime.getMonthOfYear() - 1;
         final int day = selectedDateTime.getDayOfMonth();
 
-        DatePickerDialog dialog = new DatePickerDialog(getContext(), null, year, month, day);
-        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                listener.onDatePicked(null);
-            }
-        });
-        dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.ok), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                listener.onDatePicked(getDate());
-            }
-        });
+        DatePickerDialog dialog = new DatePickerDialog(getContext(), R.style.DateTimePicker, null, year, month, day);
+        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel), (dialog1, which) -> listener.onDatePicked(null));
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.ok), (dialog12, which) -> listener.onDatePicked(getDate()));
         if (minDateTime != null) {
             dialog.getDatePicker().setMinDate(minDateTime.getMillis());
         }
         if (maxDateTime != null) {
             dialog.getDatePicker().setMaxDate(maxDateTime.getMillis());
         }
-
         return dialog;
     }
 

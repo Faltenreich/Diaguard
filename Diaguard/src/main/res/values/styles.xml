@@ -29,6 +29,10 @@
     <style name="ToolbarPopup" parent="ThemeOverlay.MaterialComponents.ActionBar">
         <item name="android:textColorPrimary">@android:color/black</item>
     </style>
+
+    <style name="DateTimePicker" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog.Picker.Date">
+        <item name="android:windowBackground">?backgroundColorPrimary</item>
+    </style>
     
     <style name="SearchView">
         <item name="search_background_color">?attr/backgroundColorSecondary</item>

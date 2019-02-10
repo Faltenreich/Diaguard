@@ -12,6 +12,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="elevation">4dp</item>
+        <item name="materialButtonStyle">@style/Button</item>
         <item name="android:windowBackground">@color/background_dark</item>
         <item name="android:windowSharedElementsUseOverlay">false</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>

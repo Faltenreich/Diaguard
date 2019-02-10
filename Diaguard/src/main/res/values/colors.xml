@@ -2,8 +2,14 @@
 
 <resources>
 
-    <color name="background_light">#f3f3f3</color>
-    <color name="background_dark">#313131</color>
+    <color name="background_light_primary">#f3f3f3</color>
+    <color name="background_light_primary_translucent">#CCf3f3f3</color>
+    <color name="background_light_secondary">@android:color/white</color>
+    <color name="background_light_tertiary">#d4d4d4</color>
+    <color name="background_dark_primary">#313131</color>
+    <color name="background_dark_primary_translucent">#CC313131</color>
+    <color name="background_dark_secondary">#424242</color>
+    <color name="background_dark_tertiary">#292929</color>
 
     <color name="primary">@color/green</color>
     <color name="translucent_scrim_end">#58000000</color>

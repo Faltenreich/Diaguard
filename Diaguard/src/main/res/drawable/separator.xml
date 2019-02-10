@@ -9,6 +9,6 @@
         android:height="1dp" />
 
     <solid
-        android:color="?attr/backgroundColorTertiary" />
+        android:color="@color/background_light_tertiary"/>
 
 </shape>

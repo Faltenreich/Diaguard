@@ -68,7 +68,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    <com.faltenreich.diaguard.ui.view.ThemedSwipeRefreshLayout
         android:id="@+id/food_search_swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -81,8 +81,7 @@
             <com.faltenreich.diaguard.ui.view.FoodListView
                 android:id="@+id/food_search_list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?attr/backgroundColorSecondary"/>
+                android:layout_height="match_parent"/>
 
             <LinearLayout
                 android:id="@+id/food_search_list_empty"
@@ -129,7 +128,7 @@
 
         </FrameLayout>
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </com.faltenreich.diaguard.ui.view.ThemedSwipeRefreshLayout>
 
     <com.github.clans.fab.FloatingActionButton
         style="@style/FloatingActionButton"

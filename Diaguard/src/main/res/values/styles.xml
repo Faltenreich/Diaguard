@@ -40,7 +40,7 @@
     </style>
     
     <style name="SearchView">
-        <item name="search_background_color">?attr/backgroundColorSecondary</item>
+        <item name="search_background_color">?attr/backgroundColorPrimary</item>
         <item name="search_text_color">?android:textColorPrimary</item>
         <item name="search_icon_color">?android:textColorSecondary</item>
         <item name="search_hint_color">?android:textColorTertiary</item>

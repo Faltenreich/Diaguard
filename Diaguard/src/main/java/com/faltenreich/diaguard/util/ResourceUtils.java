@@ -13,7 +13,7 @@ import androidx.core.content.ContextCompat;
 public class ResourceUtils {
 
     @ColorInt
-    private static int getAttribute(Context context, @AttrRes int attrRes) {
+    private static int getColor(Context context, @AttrRes int attrRes) {
         TypedValue typedValue = new TypedValue();
         Resources.Theme theme = context.getTheme();
         boolean wasResolved = theme.resolveAttribute(attrRes, typedValue, true);
@@ -21,34 +21,47 @@ public class ResourceUtils {
     }
 
     @ColorInt
-    // Light: black, dark: white
-    public static int getTextColorPrimary(Context context) {
-        return getAttribute(context, android.R.attr.textColorPrimary);
+    public static int getPrimaryColor(Context context) {
+        return getColor(context, R.attr.colorPrimary);
     }
 
     @ColorInt
-    // Light: dark-gray, dark: light-gray
+    public static int getPrimaryDarkColor(Context context) {
+        return getColor(context, R.attr.colorPrimaryDark);
+    }
+
+    @ColorInt
+    public static int getAccentColor(Context context) {
+        return getColor(context, R.attr.colorAccent);
+    }
+
+    @ColorInt
+    public static int getTextColorPrimary(Context context) {
+        return getColor(context, android.R.attr.textColorPrimary);
+    }
+
+    @ColorInt
     public static int getTextColorSecondary(Context context) {
-        return getAttribute(context, android.R.attr.textColorSecondary);
+        return getColor(context, android.R.attr.textColorSecondary);
     }
 
     @ColorInt
     public static int getBackgroundPrimary(Context context) {
-        return getAttribute(context, R.attr.backgroundColorPrimary);
+        return getColor(context, R.attr.backgroundColorPrimary);
     }
 
     @ColorInt
     public static int getBackgroundSecondary(Context context) {
-        return getAttribute(context, R.attr.backgroundColorSecondary);
+        return getColor(context, R.attr.backgroundColorSecondary);
     }
 
     @ColorInt
     public static int getBackgroundTertiary(Context context) {
-        return getAttribute(context, R.attr.backgroundColorTertiary);
+        return getColor(context, R.attr.backgroundColorTertiary);
     }
 
     @ColorInt
     public static int getBackgroundPrimaryTranslucent(Context context) {
-        return getAttribute(context, R.attr.backgroundColorPrimaryTranslucent);
+        return getColor(context, R.attr.backgroundColorPrimaryTranslucent);
     }
 }

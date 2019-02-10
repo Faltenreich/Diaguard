@@ -3,17 +3,19 @@ package com.faltenreich.diaguard.ui.view.entry;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.view.FloatingActionButtonFactory;
+import com.faltenreich.diaguard.util.ResourceUtils;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.core.content.ContextCompat;
 
 /**
  * Created by Faltenreich on 30.09.2015.
@@ -42,17 +44,14 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
     }
 
     private void enableCloseOnClickOutside() {
-        setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (isOpened()) {
-                    if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
-                        close(true);
-                    }
-                    return true;
-                } else {
-                    return false;
+        setOnTouchListener((view, event) -> {
+            if (isOpened()) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    close(true);
                 }
+                return true;
+            } else {
+                return false;
             }
         });
     }
@@ -93,18 +92,15 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
             FloatingActionButton fabAll = FloatingActionButtonFactory.createFloatingActionButton(
                     getContext(),
                     getContext().getString(R.string.all),
-                    R.drawable.ic_other,
-                    android.R.color.white);
+                    R.drawable.ic_more,
+                    ResourceUtils.getBackgroundSecondary(getContext()));
             
             addMenuButton(fabAll);
 
-            fabAll.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    close(true);
-                    if (hasMeasurementFloatingActionMenuCallback()) {
-                        onFabSelectedListener.onMiscellaneousSelected();
-                    }
+            fabAll.setOnClickListener(v -> {
+                close(true);
+                if (hasMeasurementFloatingActionMenuCallback()) {
+                    onFabSelectedListener.onMiscellaneousSelected();
                 }
             });
         }
@@ -115,14 +111,11 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
                 getContext(),
                 category.toLocalizedString(),
                 PreferenceHelper.getInstance().getCategoryImageResourceId(category),
-                R.color.green);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                close(true);
-                if (hasMeasurementFloatingActionMenuCallback()) {
-                    onFabSelectedListener.onCategorySelected(category);
-                }
+                ContextCompat.getColor(getContext(), R.color.green));
+        fab.setOnClickListener(v -> {
+            close(true);
+            if (hasMeasurementFloatingActionMenuCallback()) {
+                onFabSelectedListener.onCategorySelected(category);
             }
         });
         addMenuButton(fab);

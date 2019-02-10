@@ -8,10 +8,11 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import android.text.format.DateFormat;
 
+import com.faltenreich.diaguard.R;
+
 import org.joda.time.DateTime;
 
 public class TimePickerFragment extends DialogFragment {
-
     private static final String TIME_PICKER_FRAGMENT_DATE = "TIME_PICKER_FRAGMENT_DATE";
 
     private TimePickerDialog.OnTimeSetListener listener;
@@ -32,7 +33,8 @@ public class TimePickerFragment extends DialogFragment {
     @Override
     @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        DateTime time = (DateTime) getArguments().getSerializable(TIME_PICKER_FRAGMENT_DATE);
+        Bundle arguments = getArguments();
+        DateTime time = arguments != null ? (DateTime) getArguments().getSerializable(TIME_PICKER_FRAGMENT_DATE) : null;
         if (time == null) {
             time = new DateTime();
         }
@@ -40,7 +42,7 @@ public class TimePickerFragment extends DialogFragment {
         int hourOfDay = time.getHourOfDay();
         int minute = time.getMinuteOfHour();
 
-        return new TimePickerDialog(getActivity(), listener, hourOfDay, minute, DateFormat.is24HourFormat(getActivity()));
+        return new TimePickerDialog(getActivity(), R.style.DateTimePicker, listener, hourOfDay, minute, DateFormat.is24HourFormat(getActivity()));
     }
 
     public void show(FragmentManager manager) {

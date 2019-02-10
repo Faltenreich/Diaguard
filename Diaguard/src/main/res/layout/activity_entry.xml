@@ -49,7 +49,6 @@
                                     android:tint="@color/gray_darker"/>
 
                                 <Button
-                                    style="?attr/borderlessButtonStyle"
                                     android:id="@+id/button_date"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
@@ -59,7 +58,6 @@
                                     tools:text="31.10.2017"/>
 
                                 <Button
-                                    style="?attr/borderlessButtonStyle"
                                     android:id="@+id/button_time"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
@@ -145,7 +143,6 @@
 
                                 <Button
                                     android:id="@+id/entry_button_alarm"
-                                    style="?attr/borderlessButtonStyle"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:text="@string/alarm_reminder_none"

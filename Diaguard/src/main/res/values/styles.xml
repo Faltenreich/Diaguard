@@ -12,9 +12,14 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="elevation">4dp</item>
+        <item name="materialButtonStyle">@style/Button</item>
         <item name="android:windowBackground">@color/background_light</item>
         <item name="android:windowSharedElementsUseOverlay">false</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
+
+    <style name="Button" parent="Widget.MaterialComponents.Button.TextButton">
+
     </style>
 
     <style name="Toolbar" parent="ThemeOverlay.MaterialComponents.ActionBar">

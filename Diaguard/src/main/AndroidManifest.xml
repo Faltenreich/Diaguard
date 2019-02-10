@@ -52,7 +52,8 @@
             android:name=".ui.activity.EntrySearchActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/search"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/AppTheme.Transparent">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity" />

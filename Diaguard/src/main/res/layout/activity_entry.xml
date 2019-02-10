@@ -38,7 +38,7 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:showDividers="middle"
-                            android:divider="@drawable/separator_dark">
+                            android:divider="@drawable/separator">
 
                             <LinearLayout style="@style/LayoutRow">
 

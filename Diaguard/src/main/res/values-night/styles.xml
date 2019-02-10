@@ -5,15 +5,15 @@
         <item name="colorPrimaryDark">@color/green_darker</item>
         <item name="colorAccent">@color/green</item>
         <item name="drawerArrowStyle">@style/NavigationDrawerArrowStyle</item>
-        <item name="backgroundColorPrimary">@color/background_dark</item>
-        <item name="backgroundColorSecondary">#424242</item>
-        <item name="backgroundColorTertiary">#292929</item>
-        <item name="backgroundColorPrimaryTranslucent">#CC373737</item>
+        <item name="backgroundColorPrimary">@color/background_dark_primary</item>
+        <item name="backgroundColorPrimaryTranslucent">@color/background_dark_primary_translucent</item>
+        <item name="backgroundColorSecondary">@color/background_dark_secondary</item>
+        <item name="backgroundColorTertiary">@color/background_dark_tertiary</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="elevation">4dp</item>
         <item name="materialButtonStyle">@style/Button</item>
-        <item name="android:windowBackground">@color/background_dark</item>
+        <item name="android:windowBackground">@color/background_dark_primary</item>
         <item name="android:windowSharedElementsUseOverlay">false</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>

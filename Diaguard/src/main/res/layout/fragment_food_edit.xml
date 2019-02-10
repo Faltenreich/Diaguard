@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:showDividers="middle"
-                android:divider="@drawable/separator_dark"
+                android:divider="@drawable/separator"
                 android:background="?attr/backgroundColorSecondary">
 
                 <LinearLayout style="@style/LayoutRow">
@@ -89,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:showDividers="middle"
-                    android:divider="@drawable/separator_dark"
+                    android:divider="@drawable/separator"
                     android:background="?attr/backgroundColorPrimary"/>
 
             </LinearLayout>

@@ -17,7 +17,7 @@
         android:layout_height="6dp"
         android:layout_marginRight="@dimen/margin_between_large"
         android:layout_marginEnd="@dimen/margin_between_large"
-        android:background="@drawable/circle_black"/>
+        android:background="@drawable/shape_oval_black"/>
 
     <TextView
         android:id="@+id/changelog_item_text"

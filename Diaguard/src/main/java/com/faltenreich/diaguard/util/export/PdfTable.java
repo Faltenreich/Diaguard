@@ -76,7 +76,7 @@ public class PdfTable extends Table {
         this.exportNotes = exportNotes;
         this.exportTags = exportTags;
         this.exportFood = exportFood;
-        this.alternatingRowColor = ContextCompat.getColor(context, R.color.background_light);
+        this.alternatingRowColor = ContextCompat.getColor(context, R.color.background_light_primary);
         this.hyperglycemiaColor = ContextCompat.getColor(context, R.color.red);
         this.hypoglycemiaColor = ContextCompat.getColor(context, R.color.blue);
         init();

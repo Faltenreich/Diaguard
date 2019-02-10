@@ -13,7 +13,7 @@
         android:id="@+id/tag_character"
         android:layout_width="@dimen/size_image"
         android:layout_height="@dimen/size_image"
-        android:background="@drawable/bg_round_green"
+        android:background="@drawable/shape_oval_green"
         android:gravity="center"
         android:textColor="@android:color/white"
         tools:text="T"/>

@@ -182,7 +182,7 @@
         android:paddingBottom="90dp"
         android:contentDescription="@string/measurement_add"
         app:layout_behavior="com.faltenreich.diaguard.adapter.StepAsideBehavior"
-        app:menu_icon="@drawable/ic_add_dark"
+        app:menu_icon="@drawable/ic_add_inverse"
         app:menu_backgroundColor="?attr/backgroundColorPrimaryTranslucent"
         app:menu_colorNormal="?attr/backgroundColorSecondary"
         app:menu_colorPressed="?attr/backgroundColorPrimary"

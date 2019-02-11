@@ -22,7 +22,7 @@
             android:id="@+id/tag_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
+            android:textColor="?android:textColorPrimary"
             android:textSize="@dimen/text_medium"
             tools:text="Tag"/>
 
@@ -30,7 +30,7 @@
             android:id="@+id/tag_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/gray_dark"
+            android:textColor="?android:textColorTertiary"
             android:textSize="@dimen/text_small"
             tools:text="10 entries"/>
 

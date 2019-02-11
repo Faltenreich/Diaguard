@@ -95,20 +95,14 @@ public class MainFragment extends BaseFragment implements MainButton {
                     getString(R.string.alarm_reminder_in),
                     DateTimeUtils.parseInterval(alarmIntervalInMillis)));
 
-            buttonAlarmDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AlarmUtils.stopAlarm();
-                    updateReminder();
+            buttonAlarmDelete.setOnClickListener(v -> {
+                AlarmUtils.stopAlarm();
+                updateReminder();
 
-                    ViewUtils.showSnackbar(getView(), getString(R.string.alarm_deleted), new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            AlarmUtils.setAlarm(alarmIntervalInMillis);
-                            updateReminder();
-                        }
-                    });
-                }
+                ViewUtils.showSnackbar(getView(), getString(R.string.alarm_deleted), v1 -> {
+                    AlarmUtils.setAlarm(alarmIntervalInMillis);
+                    updateReminder();
+                });
             });
         } else {
             layoutAlarm.setVisibility(View.GONE);
@@ -116,61 +110,60 @@ public class MainFragment extends BaseFragment implements MainButton {
     }
 
     private void updateLatest() {
-        if (latestEntry != null) {
-            textViewLatestValue.setTextSize(54);
-            BloodSugar bloodSugar = (BloodSugar) MeasurementDao.getInstance(BloodSugar.class).getMeasurement(latestEntry);
+        if (getContext() != null) {
+            if (latestEntry != null) {
+                textViewLatestValue.setTextSize(54);
+                BloodSugar bloodSugar = (BloodSugar) MeasurementDao.getInstance(BloodSugar.class).getMeasurement(latestEntry);
 
-            // Value
-            textViewLatestValue.setText(bloodSugar.toString());
+                // Value
+                textViewLatestValue.setText(bloodSugar.toString());
 
-            // Highlighting
-            if(PreferenceHelper.getInstance().limitsAreHighlighted()) {
-                if(bloodSugar.getMgDl() > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
-                    textViewLatestValue.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
-                } else if(bloodSugar.getMgDl() < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
-                    textViewLatestValue.setTextColor(ContextCompat.getColor(getContext(), R.color.blue));
-                } else {
-                    textViewLatestValue.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+                // Highlighting
+                if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
+                    if (bloodSugar.getMgDl() > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
+                        textViewLatestValue.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
+                    } else if (bloodSugar.getMgDl() < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
+                        textViewLatestValue.setTextColor(ContextCompat.getColor(getContext(), R.color.blue));
+                    } else {
+                        textViewLatestValue.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+                    }
                 }
+
+                // Time
+                textViewLatestTime.setText(String.format("%s %s - ",
+                        Helper.getDateFormat().print(latestEntry.getDate()),
+                        Helper.getTimeFormat().print(latestEntry.getDate())));
+                int differenceInMinutes = Minutes.minutesBetween(latestEntry.getDate(), new DateTime()).getMinutes();
+
+                // Highlight if last measurement is more than eight hours ago
+                textViewLatestAgo.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+                if (differenceInMinutes > DateTimeConstants.MINUTES_PER_HOUR * 8) {
+                    textViewLatestAgo.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
+                }
+
+                textViewLatestAgo.setText(Helper.getTextAgo(getActivity(), differenceInMinutes));
+            } else {
+                textViewLatestValue.setTextSize(32);
+                textViewLatestValue.setText(R.string.first_visit);
+                textViewLatestValue.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+
+                textViewLatestTime.setText(R.string.first_visit_desc);
+                textViewLatestAgo.setText(null);
+                textViewLatestAgo.setTextColor(ContextCompat.getColor(getContext(), R.color.gray_darker));
             }
-
-            // Time
-            textViewLatestTime.setText(String.format("%s %s - ",
-                    Helper.getDateFormat().print(latestEntry.getDate()),
-                    Helper.getTimeFormat().print(latestEntry.getDate())));
-            int differenceInMinutes = Minutes.minutesBetween(latestEntry.getDate(), new DateTime()).getMinutes();
-
-            // Highlight if last measurement is more than eight hours ago
-            textViewLatestAgo.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
-            if(differenceInMinutes > DateTimeConstants.MINUTES_PER_HOUR * 8) {
-                textViewLatestAgo.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
-            }
-
-            textViewLatestAgo.setText(Helper.getTextAgo(getActivity(), differenceInMinutes));
-        } else {
-            textViewLatestValue.setTextSize(32);
-            textViewLatestValue.setText(R.string.first_visit);
-            textViewLatestValue.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
-
-            textViewLatestTime.setText(R.string.first_visit_desc);
-            textViewLatestAgo.setText(null);
-            textViewLatestAgo.setTextColor(ContextCompat.getColor(getContext(), R.color.gray_darker));
         }
     }
 
     private void updateDashboard() {
-        new DashboardTask(getContext(), new BaseAsyncTask.OnAsyncProgressListener<String[]>() {
-            @Override
-            public void onPostExecute(String[] values) {
-                if (isAdded() && values != null && values.length == 7) {
-                    textViewMeasurements.setText(values[0]);
-                    textViewHyperglycemia.setText(values[1]);
-                    textViewHypoglycemia.setText(values[2]);
-                    textViewAverageDay.setText(values[3]);
-                    textViewAverageWeek.setText(values[4]);
-                    textViewAverageMonth.setText(values[5]);
-                    textViewHbA1c.setText(values[6]);
-                }
+        new DashboardTask(getContext(), values -> {
+            if (isAdded() && values != null && values.length == 7) {
+                textViewMeasurements.setText(values[0]);
+                textViewHyperglycemia.setText(values[1]);
+                textViewHypoglycemia.setText(values[2]);
+                textViewAverageDay.setText(values[3]);
+                textViewAverageWeek.setText(values[4]);
+                textViewAverageMonth.setText(values[5]);
+                textViewHbA1c.setText(values[6]);
             }
         }).execute();
     }
@@ -189,28 +182,22 @@ public class MainFragment extends BaseFragment implements MainButton {
                 formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
                         PreferenceHelper.getInstance().getTargetValue());
         chart.getAxisLeft().addLimitLine(ChartHelper.getLimitLine(getContext(), targetValue, R.color.gray_light));
-        chart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
-            @Override
-            public String getFormattedValue(float value, AxisBase axis) {
-                int daysPast = -(timeSpan.stepsPerInterval - (int) value);
-                DateTime dateTime = timeSpan.getStep(DateTime.now(), daysPast);
-                return timeSpan.getLabel(dateTime);
-            }
+        chart.getXAxis().setValueFormatter((value, axis) -> {
+            int daysPast = -(timeSpan.stepsPerInterval - (int) value);
+            DateTime dateTime = timeSpan.getStep(DateTime.now(), daysPast);
+            return timeSpan.getLabel(dateTime);
         });
         chart.getXAxis().setAxisMaximum(timeSpan.stepsPerInterval);
     }
 
     private void updateChart() {
-        new MeasurementAverageTask(getContext(), Measurement.Category.BLOODSUGAR, TimeSpan.WEEK, true, false, new BaseAsyncTask.OnAsyncProgressListener<LineData>() {
-            @Override
-            public void onPostExecute(LineData lineData) {
-                if (isAdded()) {
-                    chart.clear();
-                    if (lineData != null) {
-                        chart.setData(lineData);
-                    }
-                    chart.invalidate();
+        new MeasurementAverageTask(getContext(), Measurement.Category.BLOODSUGAR, TimeSpan.WEEK, true, false, lineData -> {
+            if (isAdded()) {
+                chart.clear();
+                if (lineData != null) {
+                    chart.setData(lineData);
                 }
+                chart.invalidate();
             }
         }).execute();
     }
@@ -252,12 +239,9 @@ public class MainFragment extends BaseFragment implements MainButton {
 
     @Override
     public MainButtonProperties getMainButtonProperties() {
-        return MainButtonProperties.addButton(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (getContext() != null) {
-                    EntryActivity.show(getContext());
-                }
+        return MainButtonProperties.addButton(view -> {
+            if (getContext() != null) {
+                EntryActivity.show(getContext());
             }
         }, false);
     }

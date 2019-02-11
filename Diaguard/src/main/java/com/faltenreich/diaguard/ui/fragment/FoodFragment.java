@@ -45,7 +45,7 @@ public class FoodFragment extends BaseFoodFragment {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_delete:
                 deleteFoodIfConfirmed();

@@ -12,6 +12,7 @@ import com.faltenreich.diaguard.R;
 
 import org.joda.time.DateTime;
 
+@SuppressWarnings("WeakerAccess")
 public class TimePickerFragment extends DialogFragment {
     private static final String TIME_PICKER_FRAGMENT_DATE = "TIME_PICKER_FRAGMENT_DATE";
 

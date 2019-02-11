@@ -83,35 +83,20 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
         super.onDestroy();
     }
 
-    public void initialize() {
+    private void initialize() {
         dateStart = DateTime.now().withDayOfWeek(1);
         dateEnd = dateStart.withDayOfWeek(7);
     }
 
-    public void initializeLayout() {
+    private void initializeLayout() {
         buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
         buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
         checkBoxNotes.setChecked(PreferenceHelper.getInstance().exportNotes());
-        checkBoxNotes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                PreferenceHelper.getInstance().setExportNotes(isChecked);
-            }
-        });
+        checkBoxNotes.setOnCheckedChangeListener((buttonView, isChecked) -> PreferenceHelper.getInstance().setExportNotes(isChecked));
         checkBoxTags.setChecked(PreferenceHelper.getInstance().exportTags());
-        checkBoxTags.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                PreferenceHelper.getInstance().setExportTags(isChecked);
-            }
-        });
+        checkBoxTags.setOnCheckedChangeListener((buttonView, isChecked) -> PreferenceHelper.getInstance().setExportTags(isChecked));
         checkBoxFood.setChecked(PreferenceHelper.getInstance().exportFood());
-        checkBoxFood.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                PreferenceHelper.getInstance().setExportFood(isChecked);
-            }
-        });
+        checkBoxFood.setOnCheckedChangeListener((buttonView, isChecked) -> PreferenceHelper.getInstance().setExportFood(isChecked));
     }
 
     private boolean validate() {
@@ -178,36 +163,25 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
 
     @Override
     public MainButtonProperties getMainButtonProperties() {
-        return MainButtonProperties.confirmButton(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                exportIfInputIsValid();
-            }
-        }, false);
+        return MainButtonProperties.confirmButton(view -> exportIfInputIsValid(), false);
     }
 
     @OnClick(R.id.button_datestart)
     public void showStartDatePicker() {
-        DatePickerFragment.newInstance(dateStart, null, dateEnd, new DatePickerFragment.DatePickerListener() {
-            @Override
-            public void onDatePicked(@Nullable DateTime dateTime) {
-                if (dateTime != null) {
-                    dateStart = dateTime;
-                    buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
-                }
+        DatePickerFragment.newInstance(dateStart, null, dateEnd, dateTime -> {
+            if (dateTime != null) {
+                dateStart = dateTime;
+                buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
             }
         }).show(getFragmentManager());
     }
 
     @OnClick(R.id.button_dateend)
     public void showEndDatePicker() {
-        DatePickerFragment.newInstance(dateEnd, dateStart, null, new DatePickerFragment.DatePickerListener() {
-            @Override
-            public void onDatePicked(@Nullable DateTime dateTime) {
-                if (dateTime != null) {
-                    dateEnd = dateTime;
-                    buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
-                }
+        DatePickerFragment.newInstance(dateEnd, dateStart, null, dateTime -> {
+            if (dateTime != null) {
+                dateEnd = dateTime;
+                buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
             }
         }).show(getFragmentManager());
     }

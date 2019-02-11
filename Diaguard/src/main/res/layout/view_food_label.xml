@@ -3,20 +3,20 @@
 <LinearLayout
     style="@style/LayoutRow"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:minHeight="0dp"
     android:paddingTop="@dimen/padding"
     android:paddingBottom="@dimen/padding">
 
-    <com.faltenreich.diaguard.ui.view.TintImageView
+    <ImageView
         style="@style/LayoutRowImage"
         android:id="@+id/food_icon"
         android:layout_width="@dimen/size_image_small"
         android:layout_height="@dimen/size_image_small"
         android:layout_marginLeft="@dimen/padding"
         android:layout_marginStart="@dimen/padding"
-        app:tintColor="@color/gray_darker"
+        android:tint="?iconColorPrimary"
+        android:contentDescription="@null"
         tools:src="@drawable/ic_info"/>
 
     <TextView

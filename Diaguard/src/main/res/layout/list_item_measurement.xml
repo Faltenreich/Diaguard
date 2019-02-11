@@ -46,13 +46,14 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <com.faltenreich.diaguard.ui.view.TintImageView
+                <ImageView
                     android:id="@+id/image_category"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:tint="@android:color/white"
+                    android:contentDescription="@null"
                     android:adjustViewBounds="true"
                     android:padding="@dimen/padding_large"
-                    app:tintColor="@android:color/white"
                     tools:src="@drawable/ic_category_bloodsugar"/>
 
                 <TextView
@@ -75,10 +76,12 @@
                     android:theme="@style/WhiteCheckBox"
                     android:contentDescription="@string/category_pin"/>
 
-                <com.faltenreich.diaguard.ui.view.TintImageView
+                <ImageView
                     android:id="@+id/button_delete"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:tint="@android:color/white"
+                    android:contentDescription="@null"
                     android:adjustViewBounds="true"
                     android:layout_marginRight="@dimen/padding_end"
                     android:layout_marginEnd="@dimen/padding_end"
@@ -88,7 +91,6 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:src="@drawable/ic_delete"
-                    app:tintColor="@android:color/white"
                     tools:ignore="RtlSymmetry" />
 
             </LinearLayout>

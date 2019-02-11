@@ -12,7 +12,7 @@
     app:popupTheme="@style/ToolbarPopup"
     app:contentInsetStartWithNavigation="0dp">
 
-<TextView
+    <TextView
         android:id="@+id/toolbar_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

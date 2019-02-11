@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
@@ -23,7 +24,6 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.ui.view.ChipView;
-import com.faltenreich.diaguard.ui.view.TintImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,12 +54,7 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> {
         final List<EntryTag> entryTags = listItem.getEntryTags();
         final List<FoodEaten> foodEatenList = listItem.getFoodEatenList();
 
-        cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EntryActivity.show(getContext(), entry);
-            }
-        });
+        cardView.setOnClickListener(view -> EntryActivity.show(getContext(), entry));
 
         dateTimeView.setText(entry.getDate().toString("HH:mm"));
 
@@ -95,12 +90,7 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> {
             if (tag != null) {
                 ChipView chipView = new ChipView(getContext());
                 chipView.setText(tag.getName());
-                chipView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        listener.onTagClicked(tag, view);
-                    }
-                });
+                chipView.setOnClickListener(view -> listener.onTagClicked(tag, view));
                 tagsView.addView(chipView);
             }
         }
@@ -114,10 +104,10 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> {
                 for (Measurement measurement : measurements) {
                     Measurement.Category category = measurement.getCategory();
                     View viewMeasurement = inflater.inflate(R.layout.list_item_log_measurement, measurementsLayout, false);
-                    TintImageView categoryImage = viewMeasurement.findViewById(R.id.image);
+                    ImageView categoryImage = viewMeasurement.findViewById(R.id.image);
                     int imageResourceId = PreferenceHelper.getInstance().getCategoryImageResourceId(category);
                     categoryImage.setImageDrawable(ContextCompat.getDrawable(getContext(), imageResourceId));
-                    categoryImage.setTintColor(ContextCompat.getColor(getContext(), R.color.gray_dark));
+                    categoryImage.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray_dark));
                     TextView value = viewMeasurement.findViewById(R.id.value);
 
                     switch (category) {
@@ -133,7 +123,7 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> {
                                 } else if (bloodSugar.getMgDl() < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
                                     backgroundColor = ContextCompat.getColor(getContext(), R.color.blue);
                                 }
-                                categoryImage.setTintColor(backgroundColor);
+                                categoryImage.setColorFilter(backgroundColor);
                             }
                         default:
                             value.setText(String.format("%s %s",

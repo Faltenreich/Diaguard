@@ -9,6 +9,7 @@
         <item name="backgroundColorPrimaryTranslucent">@color/background_light_primary_translucent</item>
         <item name="backgroundColorSecondary">@color/background_light_secondary</item>
         <item name="backgroundColorTertiary">@color/background_light_tertiary</item>
+        <item name="iconColorPrimary">@color/gray_darker</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="elevation">4dp</item>
@@ -42,7 +43,7 @@
     <style name="SearchView">
         <item name="search_background_color">?attr/backgroundColorPrimary</item>
         <item name="search_text_color">?android:textColorPrimary</item>
-        <item name="search_icon_color">?android:textColorSecondary</item>
+        <item name="search_icon_color">?iconColorPrimary</item>
         <item name="search_hint_color">?android:textColorTertiary</item>
     </style>
 

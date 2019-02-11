@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
 
-    <declare-styleable name="TintImageView">
-        <attr name="tintColor" format="color"/>
-    </declare-styleable>
+<resources>
 
     <declare-styleable name="FoodInputView">
         <attr name="showIcon" format="boolean"/>
@@ -19,5 +16,6 @@
     <attr name="backgroundColorSecondaryInverse" format="color"/>
     <attr name="backgroundColorTertiary" format="color"/>
     <attr name="backgroundColorTertiaryInverse" format="color"/>
+    <attr name="iconColorPrimary" format="color"/>
 
 </resources>

@@ -13,13 +13,13 @@
     android:layout_marginEnd="@dimen/margin_between"
     tools:ignore="UseCompoundDrawables">
 
-    <com.faltenreich.diaguard.ui.view.TintImageView
+    <ImageView
         android:id="@+id/image"
         android:layout_width="@dimen/size_image"
         android:layout_height="@dimen/size_image"
         android:contentDescription="@null"
         tools:src="@drawable/ic_category_bloodsugar"
-        tools:tintColor="@color/green"/>
+        tools:tint="@color/green"/>
 
     <TextView
         android:id="@+id/value"

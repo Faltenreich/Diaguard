@@ -34,7 +34,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/search_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            tools:listitem="@layout/list_item_log_entry"/>
         
         <TextView
             android:id="@+id/search_list_empty"

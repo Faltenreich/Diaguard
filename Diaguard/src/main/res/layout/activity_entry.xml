@@ -46,7 +46,7 @@
                                     style="@style/LayoutRowImage"
                                     android:contentDescription="@null"
                                     android:src="@drawable/ic_time"
-                                    android:tint="@color/gray_darker"/>
+                                    android:tint="?iconColorPrimary"/>
 
                                 <Button
                                     android:id="@+id/button_date"
@@ -72,7 +72,7 @@
                                     style="@style/LayoutRowImageMultiline"
                                     android:padding="4dp"
                                     android:contentDescription="@null"
-                                    android:tint="@color/gray_darker"
+                                    android:tint="?iconColorPrimary"
                                     app:srcCompat="@drawable/ic_tag"/>
 
                                 <LinearLayout
@@ -116,7 +116,7 @@
                                     style="@style/LayoutRowImageMultiline"
                                     android:contentDescription="@null"
                                     android:src="@drawable/ic_note"
-                                    android:tint="@color/gray_darker"/>
+                                    android:tint="?iconColorPrimary"/>
 
                                 <EditText
                                     android:id="@+id/edittext_notes"
@@ -139,7 +139,7 @@
                                     style="@style/LayoutRowImage"
                                     android:contentDescription="@null"
                                     android:src="@drawable/ic_alarm"
-                                    android:tint="@color/gray_darker"/>
+                                    android:tint="?iconColorPrimary"/>
 
                                 <Button
                                     android:id="@+id/entry_button_alarm"

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/Padding"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/height_element"
     android:gravity="center_vertical"
@@ -17,7 +18,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:ellipsize="end"
-        android:lines="1" />
+        android:lines="1"
+        tools:text="@tools:sample/date/mmddyy"/>
 
     <TextView
         android:id="@+id/list_item_food_eaten_amount"
@@ -27,6 +29,7 @@
         android:ellipsize="end"
         android:gravity="end"
         android:lines="1"
-        android:textColor="?android:attr/textColorPrimary"/>
+        android:textColor="?android:attr/textColorPrimary"
+        tools:text="100 g"/>
 
 </LinearLayout>

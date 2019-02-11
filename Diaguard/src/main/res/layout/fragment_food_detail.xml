@@ -15,10 +15,11 @@
 
         <LinearLayout style="@style/LayoutRow">
 
-            <com.faltenreich.diaguard.ui.view.TintImageView
+            <ImageView
                 style="@style/LayoutRowImageMultiline"
-                android:src="@drawable/ic_business"
-                app:tintColor="@color/gray_darker"/>
+                android:tint="?iconColorPrimary"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_business"/>
 
             <TextView
                 style="@style/LayoutRowItemMultiline"
@@ -29,10 +30,11 @@
 
         <LinearLayout style="@style/LayoutRow">
 
-            <com.faltenreich.diaguard.ui.view.TintImageView
+            <ImageView
                 style="@style/LayoutRowImageMultiline"
-                android:src="@drawable/ic_note"
-                app:tintColor="@color/gray_darker"/>
+                android:tint="?iconColorPrimary"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_note"/>
 
             <TextView
                 style="@style/LayoutRowItemMultiline"
@@ -45,10 +47,11 @@
 
         <LinearLayout style="@style/LayoutRow">
 
-            <com.faltenreich.diaguard.ui.view.TintImageView
+            <ImageView
                 style="@style/LayoutRowImage"
-                android:src="@drawable/ic_category_meal"
-                app:tintColor="@color/gray_darker" />
+                android:tint="?iconColorPrimary"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_category_meal"/>
 
             <TextView
                 style="@style/LayoutRowItem"

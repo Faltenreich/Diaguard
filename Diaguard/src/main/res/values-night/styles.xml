@@ -9,6 +9,7 @@
         <item name="backgroundColorPrimaryTranslucent">@color/background_dark_primary_translucent</item>
         <item name="backgroundColorSecondary">@color/background_dark_secondary</item>
         <item name="backgroundColorTertiary">@color/background_dark_tertiary</item>
+        <item name="iconColorPrimary">@color/gray_light</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="elevation">4dp</item>

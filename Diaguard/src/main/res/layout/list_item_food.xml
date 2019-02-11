@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/Padding"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
@@ -26,7 +26,8 @@
             android:layout_height="wrap_content"
             android:textColor="?android:attr/textColorPrimary"
             android:maxLines="2"
-            android:ellipsize="end"/>
+            android:ellipsize="end"
+            tools:text="Food"/>
 
         <TextView
             android:id="@+id/food_brand"
@@ -35,7 +36,8 @@
             android:layout_marginTop="4dp"
             android:textSize="@dimen/text_micro"
             android:maxLines="1"
-            android:ellipsize="end"/>
+            android:ellipsize="end"
+            tools:text="Brand"/>
 
     </LinearLayout>
 
@@ -51,15 +53,17 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/padding_end"
             android:layout_marginStart="@dimen/padding_end"
-            android:textColor="?android:attr/textColorPrimary"/>
+            android:textColor="?android:attr/textColorPrimary"
+            tools:text="10 CH"/>
 
-        <com.faltenreich.diaguard.ui.view.TintImageView
+        <ImageView
             android:id="@+id/food_recent"
             android:layout_width="@dimen/size_image_smaller"
             android:layout_height="@dimen/size_image_smaller"
             android:layout_marginTop="4dp"
+            android:tint="?iconColorPrimary"
+            android:contentDescription="@null"
             android:src="@drawable/ic_history"
-            app:tintColor="@color/gray_darker"
             android:visibility="gone"/>
 
     </LinearLayout>

@@ -32,11 +32,11 @@
                     android:paddingEnd="@dimen/margin_between"
                     android:paddingRight="@dimen/margin_between">
 
-                    <com.faltenreich.diaguard.ui.view.TintImageView
+                    <ImageView
                         style="@style/LayoutRowImage"
                         android:layout_margin="0dp"
-                        android:src="@drawable/ic_category_bloodsugar"
-                        app:tintColor="@color/gray_darker" />
+                        android:tint="?iconColorPrimary"
+                        android:src="@drawable/ic_category_bloodsugar"/>
 
                     <com.faltenreich.diaguard.ui.view.StickyHintInput
                         android:id="@+id/calculator_bloodsugar"
@@ -53,11 +53,11 @@
                     android:paddingEnd="@dimen/margin_between"
                     android:paddingRight="@dimen/margin_between">
 
-                    <com.faltenreich.diaguard.ui.view.TintImageView
+                    <ImageView
                         style="@style/LayoutRowImage"
                         android:layout_margin="0dp"
-                        android:src="@drawable/ic_action_done"
-                        app:tintColor="@color/gray_darker" />
+                        android:tint="?iconColorPrimary"
+                        android:src="@drawable/ic_action_done"/>
 
                     <com.faltenreich.diaguard.ui.view.StickyHintInput
                         android:id="@+id/calculator_target"
@@ -72,11 +72,11 @@
                     android:paddingEnd="@dimen/margin_between"
                     android:paddingRight="@dimen/margin_between">
 
-                    <com.faltenreich.diaguard.ui.view.TintImageView
+                    <ImageView
                         style="@style/LayoutRowImage"
                         android:layout_margin="0dp"
-                        android:src="@drawable/ic_done_all"
-                        app:tintColor="@color/gray_darker" />
+                        android:tint="?iconColorPrimary"
+                        android:src="@drawable/ic_done_all"/>
 
                     <com.faltenreich.diaguard.ui.view.StickyHintInput
                         android:id="@+id/calculator_correction"
@@ -115,11 +115,11 @@
                     android:paddingEnd="0dp"
                     android:paddingRight="0dp">
 
-                    <com.faltenreich.diaguard.ui.view.TintImageView
+                    <ImageView
                         style="@style/LayoutRowImage"
                         android:layout_margin="0dp"
-                        android:src="@drawable/ic_factor"
-                        app:tintColor="@color/gray_darker" />
+                        android:tint="?iconColorPrimary"
+                        android:src="@drawable/ic_factor"/>
 
                     <com.faltenreich.diaguard.ui.view.StickyHintInput
                         android:id="@+id/calculator_factor"

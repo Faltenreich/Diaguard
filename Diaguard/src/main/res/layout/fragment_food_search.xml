@@ -15,7 +15,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -81,7 +80,8 @@
             <com.faltenreich.diaguard.ui.view.FoodListView
                 android:id="@+id/food_search_list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                tools:listitem="@layout/list_item_food"/>
 
             <LinearLayout
                 android:id="@+id/food_search_list_empty"

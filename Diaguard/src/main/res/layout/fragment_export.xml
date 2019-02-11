@@ -28,11 +28,11 @@
 
                 <LinearLayout style="@style/LayoutRow">
 
-                    <com.faltenreich.diaguard.ui.view.TintImageView
+                    <ImageView
                         style="@style/LayoutRowImage"
+                        android:tint="?iconColorPrimary"
                         android:contentDescription="@null"
-                        android:src="@drawable/ic_time"
-                        app:tintColor="@color/gray_darker" />
+                        android:src="@drawable/ic_time"/>
 
                     <LinearLayout
                         style="@style/LayoutRowItem"
@@ -65,11 +65,11 @@
 
                 <LinearLayout style="@style/LayoutRow">
 
-                    <com.faltenreich.diaguard.ui.view.TintImageView
+                    <ImageView
                         style="@style/LayoutRowImage"
+                        android:tint="?iconColorPrimary"
                         android:contentDescription="@null"
-                        android:src="@drawable/ic_file"
-                        app:tintColor="@color/gray_darker" />
+                        android:src="@drawable/ic_file"/>
 
                     <LinearLayout
                         style="@style/LayoutRowItem"
@@ -86,11 +86,11 @@
 
                 <LinearLayout style="@style/LayoutRow">
 
-                    <com.faltenreich.diaguard.ui.view.TintImageView
+                    <ImageView
                         style="@style/LayoutRowImage"
+                        android:tint="?iconColorPrimary"
                         android:contentDescription="@null"
-                        android:src="@drawable/ic_note"
-                        app:tintColor="@color/gray_darker" />
+                        android:src="@drawable/ic_note"/>
 
                     <LinearLayout
                         style="@style/LayoutRowItem"
@@ -109,12 +109,12 @@
 
                 <LinearLayout style="@style/LayoutRow">
 
-                    <com.faltenreich.diaguard.ui.view.TintImageView
+                    <ImageView
                         style="@style/LayoutRowImage"
                         android:padding="4dp"
+                        android:tint="?iconColorPrimary"
                         android:contentDescription="@null"
-                        app:srcCompat="@drawable/ic_tag"
-                        app:tintColor="@color/gray_darker" />
+                        app:srcCompat="@drawable/ic_tag"/>
 
                     <LinearLayout
                         style="@style/LayoutRowItem"
@@ -133,11 +133,11 @@
 
                 <LinearLayout style="@style/LayoutRow">
 
-                    <com.faltenreich.diaguard.ui.view.TintImageView
+                    <ImageView
                         style="@style/LayoutRowImage"
                         android:contentDescription="@null"
-                        app:srcCompat="@drawable/ic_category_meal"
-                        app:tintColor="@color/gray_darker" />
+                        android:tint="?iconColorPrimary"
+                        app:srcCompat="@drawable/ic_category_meal"/>
 
                     <LinearLayout
                         style="@style/LayoutRowItem"

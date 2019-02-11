@@ -18,12 +18,13 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <com.faltenreich.diaguard.ui.view.TintImageView
+        <ImageView
             android:layout_width="@dimen/height_element"
             android:layout_height="@dimen/height_element"
             android:padding="@dimen/padding_large"
-            android:src="@drawable/ic_alarm"
-            app:tintColor="@color/gray_darker"/>
+            android:tint="?iconColorPrimary"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_alarm"/>
 
         <TextView
             android:id="@+id/alarm_text"
@@ -32,15 +33,15 @@
             android:layout_weight="1"
             android:text="@string/alarm_reminder_in"/>
 
-        <com.faltenreich.diaguard.ui.view.TintImageView
+        <ImageView
             android:id="@+id/alarm_delete"
             android:layout_width="@dimen/height_element"
             android:layout_height="@dimen/height_element"
             android:padding="@dimen/padding_large"
             android:background="?attr/selectableItemBackgroundBorderless"
+            android:tint="?iconColorPrimary"
             android:src="@drawable/ic_action_delete"
-            android:contentDescription="@string/alarm_delete"
-            app:tintColor="@color/gray_darker"/>
+            android:contentDescription="@string/alarm_delete"/>
 
     </LinearLayout>
 

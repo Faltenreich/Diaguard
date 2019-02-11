@@ -6,6 +6,7 @@ import androidx.annotation.DrawableRes;
 import androidx.core.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -36,7 +37,7 @@ public class FoodLabelView extends LinearLayout {
     }
 
     @BindView(R.id.food_label) TextView label;
-    @BindView(R.id.food_icon) TintImageView icon;
+    @BindView(R.id.food_icon) ImageView icon;
 
     private String text;
     private Type type;
@@ -95,6 +96,6 @@ public class FoodLabelView extends LinearLayout {
 
         int color = ContextCompat.getColor(getContext(), type.color);
         label.setTextColor(color);
-        icon.setTintColor(color);
+        icon.setColorFilter(color);
     }
 }

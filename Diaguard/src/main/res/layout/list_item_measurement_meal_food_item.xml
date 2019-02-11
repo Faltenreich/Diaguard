@@ -50,15 +50,16 @@
         android:textColor="@android:color/white"
         app:backgroundTint="@color/green"/>
 
-    <com.faltenreich.diaguard.ui.view.TintImageView
+    <ImageView
         android:id="@+id/food_delete"
         android:layout_width="@dimen/height_element"
         android:layout_height="@dimen/height_element"
+        android:tint="?iconColorPrimary"
+        android:contentDescription="@string/food_delete"
         android:padding="@dimen/padding_large"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
-        android:src="@drawable/ic_delete"
-        app:tintColor="@color/gray"/>
+        android:src="@drawable/ic_delete"/>
 
 </LinearLayout>

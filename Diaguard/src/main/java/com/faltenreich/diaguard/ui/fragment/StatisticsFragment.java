@@ -189,13 +189,10 @@ public class StatisticsFragment extends BaseFragment {
         chartTrend.getAxisLeft().setDrawAxisLine(false);
         chartTrend.getLegend().setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
         chartTrend.getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-        chartTrend.getXAxis().setValueFormatter(new IAxisValueFormatter() {
-            @Override
-            public String getFormattedValue(float value, AxisBase axis) {
-                int daysPast = -(timeSpan.stepsPerInterval - (int) value);
-                DateTime dateTime = timeSpan.getStep(DateTime.now(), daysPast);
-                return timeSpan.getLabel(dateTime);
-            }
+        chartTrend.getXAxis().setValueFormatter((value, axis) -> {
+            int daysPast = -(timeSpan.stepsPerInterval - (int) value);
+            DateTime dateTime = timeSpan.getStep(DateTime.now(), daysPast);
+            return timeSpan.getLabel(dateTime);
         });
 
         chartDistribution.setDrawHoleEnabled(false);
@@ -211,61 +208,58 @@ public class StatisticsFragment extends BaseFragment {
 
 
     private void updateCharts() {
-        new MeasurementAverageTask(getContext(), category, timeSpan, false, true, new BaseAsyncTask.OnAsyncProgressListener<LineData>() {
-            @Override
-            public void onPostExecute(LineData lineData) {
-                if (isAdded()) {
-                    boolean hasData = false;
+        new MeasurementAverageTask(getContext(), category, timeSpan, false, true, lineData -> {
+            if (isAdded()) {
+                boolean hasData = false;
 
-                    if (lineData != null) {
-                        for (ILineDataSet lineDataSet : lineData.getDataSets()) {
-                            if (lineDataSet.getEntryCount() > 0) {
-                                hasData = true;
-                                break;
-                            }
+                if (lineData != null) {
+                    for (ILineDataSet lineDataSet : lineData.getDataSets()) {
+                        if (lineDataSet.getEntryCount() > 0) {
+                            hasData = true;
+                            break;
                         }
                     }
+                }
 
-                    chartTrend.getAxisLeft().removeAllLimitLines();
+                chartTrend.getAxisLeft().removeAllLimitLines();
 
-                    ViewGroup.LayoutParams params = chartTrend.getLayoutParams();
-                    params.height = hasData ? (int) getResources().getDimension(R.dimen.line_chart_height_detailed) : ViewGroup.LayoutParams.WRAP_CONTENT;
-                    chartTrend.setLayoutParams(params);
+                ViewGroup.LayoutParams params = chartTrend.getLayoutParams();
+                params.height = hasData ? (int) getResources().getDimension(R.dimen.line_chart_height_detailed) : ViewGroup.LayoutParams.WRAP_CONTENT;
+                chartTrend.setLayoutParams(params);
 
-                    if (hasData) {
-                        float yAxisMinValue = PreferenceHelper.getInstance().getExtrema(category)[0] * .9f;
-                        float yAxisMinCustomValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, yAxisMinValue);
-                        chartTrend.getAxisLeft().setAxisMinValue(yAxisMinCustomValue);
+                if (hasData) {
+                    float yAxisMinValue = PreferenceHelper.getInstance().getExtrema(category)[0] * .9f;
+                    float yAxisMinCustomValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, yAxisMinValue);
+                    chartTrend.getAxisLeft().setAxisMinValue(yAxisMinCustomValue);
 
-                        float yAxisMaxCustomValue = lineData.getYMax();
-                        yAxisMaxCustomValue = yAxisMaxCustomValue > MIN_MAX_Y_VALUE ? yAxisMaxCustomValue : MIN_MAX_Y_VALUE;
-                        chartTrend.getAxisLeft().setAxisMaxValue(yAxisMaxCustomValue * 1.1f);
+                    float yAxisMaxCustomValue = lineData.getYMax();
+                    yAxisMaxCustomValue = yAxisMaxCustomValue > MIN_MAX_Y_VALUE ? yAxisMaxCustomValue : MIN_MAX_Y_VALUE;
+                    chartTrend.getAxisLeft().setAxisMaxValue(yAxisMaxCustomValue * 1.1f);
 
-                        if (category == Measurement.Category.BLOODSUGAR) {
-                            float targetValue = PreferenceHelper.getInstance().
+                    if (category == Measurement.Category.BLOODSUGAR) {
+                        float targetValue = PreferenceHelper.getInstance().
+                                formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
+                                        PreferenceHelper.getInstance().getTargetValue());
+                        chartTrend.getAxisLeft().addLimitLine(ChartHelper.getLimitLine(getContext(), targetValue, R.color.green));
+
+                        if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
+                            float limitHypo = PreferenceHelper.getInstance().
                                     formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
-                                            PreferenceHelper.getInstance().getTargetValue());
-                            chartTrend.getAxisLeft().addLimitLine(ChartHelper.getLimitLine(getContext(), targetValue, R.color.green));
-
-                            if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
-                                float limitHypo = PreferenceHelper.getInstance().
-                                        formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
-                                                PreferenceHelper.getInstance().getLimitHypoglycemia());
-                                chartTrend.getAxisLeft().addLimitLine(ChartHelper.getLimitLine(getContext(), limitHypo, R.color.blue));
-                                float limitHyper = PreferenceHelper.getInstance().
-                                        formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
-                                                PreferenceHelper.getInstance().getLimitHyperglycemia());
-                                chartTrend.getAxisLeft().addLimitLine(ChartHelper.getLimitLine(getContext(), limitHyper, R.color.red));
-                            }
+                                            PreferenceHelper.getInstance().getLimitHypoglycemia());
+                            chartTrend.getAxisLeft().addLimitLine(ChartHelper.getLimitLine(getContext(), limitHypo, R.color.blue));
+                            float limitHyper = PreferenceHelper.getInstance().
+                                    formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR,
+                                            PreferenceHelper.getInstance().getLimitHyperglycemia());
+                            chartTrend.getAxisLeft().addLimitLine(ChartHelper.getLimitLine(getContext(), limitHyper, R.color.red));
                         }
-
-                        chartTrend.setData(lineData);
-                        chartTrend.getXAxis().setAxisMinimum(0);
-                        chartTrend.getXAxis().setAxisMaximum(timeSpan.stepsPerInterval);
-                        chartTrend.invalidate();
-                    } else {
-                        chartTrend.clear();
                     }
+
+                    chartTrend.setData(lineData);
+                    chartTrend.getXAxis().setAxisMinimum(0);
+                    chartTrend.getXAxis().setAxisMaximum(timeSpan.stepsPerInterval);
+                    chartTrend.invalidate();
+                } else {
+                    chartTrend.clear();
                 }
             }
         }).execute();
@@ -273,17 +267,14 @@ public class StatisticsFragment extends BaseFragment {
         if (category == Measurement.Category.BLOODSUGAR) {
             layoutDistribution.setVisibility(View.VISIBLE);
 
-            new BloodSugarDistributionTask(getContext(), timeSpan, new BaseAsyncTask.OnAsyncProgressListener<PieData>() {
-                @Override
-                public void onPostExecute(PieData pieData) {
-                    if (isAdded()) {
-                        boolean hasData = pieData.getDataSet().getEntryCount() > 0;
-                        chartDistribution.setData(hasData ? pieData : null);
-                        ViewGroup.LayoutParams params = chartDistribution.getLayoutParams();
-                        params.height = hasData ? (int) getResources().getDimension(R.dimen.pie_chart_height) : ViewGroup.LayoutParams.WRAP_CONTENT;
-                        chartDistribution.setLayoutParams(params);
-                        chartDistribution.invalidate();
-                    }
+            new BloodSugarDistributionTask(getContext(), timeSpan, pieData -> {
+                if (isAdded()) {
+                    boolean hasData = pieData.getDataSet().getEntryCount() > 0;
+                    chartDistribution.setData(hasData ? pieData : null);
+                    ViewGroup.LayoutParams params = chartDistribution.getLayoutParams();
+                    params.height = hasData ? (int) getResources().getDimension(R.dimen.pie_chart_height) : ViewGroup.LayoutParams.WRAP_CONTENT;
+                    chartDistribution.setLayoutParams(params);
+                    chartDistribution.invalidate();
                 }
             }).execute();
         } else {

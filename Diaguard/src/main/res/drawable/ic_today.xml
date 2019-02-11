@@ -5,7 +5,8 @@
     <item
         android:id="@+id/today_icon_background"
         android:drawable="@drawable/ic_action_today"
-        android:gravity="center" />
+        android:gravity="center"/>
+
     <item
         android:id="@+id/today_icon_day"
         android:drawable="@drawable/ic_action_today"

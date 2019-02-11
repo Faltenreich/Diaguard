@@ -61,17 +61,19 @@ public abstract class BaseFoodFragment extends BaseFragment {
     }
 
     void deleteFoodIfConfirmed() {
-        Food food = getFood();
-        if (food != null) {
-            long foodEaten = FoodEatenDao.getInstance().count(food);
-            String message = String.format(getString(R.string.food_eaten_placeholder), foodEaten);
-            new AlertDialog.Builder(getContext())
-                    .setTitle(R.string.food_delete)
-                    .setMessage(message)
-                    .setNegativeButton(R.string.cancel, (dialog, id) -> {})
-                    .setPositiveButton(R.string.delete, (dialog, id) -> deleteFood(food))
-                    .create()
-                    .show();
+        if (getContext() != null) {
+            Food food = getFood();
+            if (food != null) {
+                long foodEaten = FoodEatenDao.getInstance().count(food);
+                String message = String.format(getString(R.string.food_eaten_placeholder), foodEaten);
+                new AlertDialog.Builder(getContext())
+                        .setTitle(R.string.food_delete)
+                        .setMessage(message)
+                        .setNegativeButton(R.string.cancel, (dialog, id) -> {})
+                        .setPositiveButton(R.string.delete, (dialog, id) -> deleteFood(food))
+                        .create()
+                        .show();
+            }
         }
     }
 

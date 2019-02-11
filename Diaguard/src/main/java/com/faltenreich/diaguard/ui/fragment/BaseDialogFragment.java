@@ -15,6 +15,7 @@ import com.faltenreich.diaguard.ui.view.DialogButton;
 
 import butterknife.ButterKnife;
 
+@SuppressWarnings({"WeakerAccess", "unused"})
 abstract class BaseDialogFragment extends DialogFragment {
 
     @StringRes private int titleResId;
@@ -68,12 +69,7 @@ abstract class BaseDialogFragment extends DialogFragment {
 
     @Nullable
     protected DialogButton createNegativeButton() {
-        return new DialogButton(android.R.string.cancel, new DialogButton.DialogButtonListener() {
-            @Override
-            public void onClick() {
-                dismiss();
-            }
-        });
+        return new DialogButton(android.R.string.cancel, this::dismiss);
     }
 
     @Nullable
@@ -108,32 +104,23 @@ abstract class BaseDialogFragment extends DialogFragment {
 
     private void invalidateButtons(AlertDialog alertDialog) {
         if (positiveButton != null) {
-            alertDialog.getButton(Dialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (positiveButton.getListener() != null) {
-                        positiveButton.getListener().onClick();
-                    }
+            alertDialog.getButton(Dialog.BUTTON_POSITIVE).setOnClickListener(view -> {
+                if (positiveButton.getListener() != null) {
+                    positiveButton.getListener().onClick();
                 }
             });
         }
         if (negativeButton != null) {
-            alertDialog.getButton(Dialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (negativeButton.getListener() != null) {
-                        negativeButton.getListener().onClick();
-                    }
+            alertDialog.getButton(Dialog.BUTTON_NEGATIVE).setOnClickListener(view -> {
+                if (negativeButton.getListener() != null) {
+                    negativeButton.getListener().onClick();
                 }
             });
         }
         if (neutralButton != null) {
-            alertDialog.getButton(Dialog.BUTTON_NEUTRAL).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (neutralButton.getListener() != null) {
-                        neutralButton.getListener().onClick();
-                    }
+            alertDialog.getButton(Dialog.BUTTON_NEUTRAL).setOnClickListener(view -> {
+                if (neutralButton.getListener() != null) {
+                    neutralButton.getListener().onClick();
                 }
             });
         }

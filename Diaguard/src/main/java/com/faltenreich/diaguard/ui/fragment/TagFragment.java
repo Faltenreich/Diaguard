@@ -83,24 +83,16 @@ public class TagFragment extends BaseDialogFragment {
     @Nullable
     @Override
     protected DialogButton createNegativeButton() {
-        return new DialogButton(android.R.string.cancel, new DialogButton.DialogButtonListener() {
-            @Override
-            public void onClick() {
-                ViewUtils.hideKeyboard(editText);
-                dismiss();
-            }
+        return new DialogButton(android.R.string.cancel, () -> {
+            ViewUtils.hideKeyboard(editText);
+            dismiss();
         });
     }
 
     @Nullable
     @Override
     protected DialogButton createPositiveButton() {
-        return new DialogButton(android.R.string.ok, new DialogButton.DialogButtonListener() {
-            @Override
-            public void onClick() {
-                trySubmit();
-            }
-        });
+        return new DialogButton(android.R.string.ok, this::trySubmit);
     }
 
     private enum TagError {

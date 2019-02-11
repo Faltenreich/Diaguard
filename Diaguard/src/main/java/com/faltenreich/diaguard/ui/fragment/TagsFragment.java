@@ -102,17 +102,8 @@ public class TagsFragment extends BaseFragment implements TagListAdapter.TagList
                 new AlertDialog.Builder(getContext())
                         .setTitle(R.string.tag_delete)
                         .setMessage(String.format(getString(R.string.tag_delete_confirmation), data))
-                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                deleteTag(tag);
-                            }
-                        })
+                        .setNegativeButton(R.string.cancel, (dialog, which) -> { })
+                        .setPositiveButton(R.string.ok, (dialog, which) -> deleteTag(tag))
                         .create()
                         .show();
             }
@@ -140,12 +131,9 @@ public class TagsFragment extends BaseFragment implements TagListAdapter.TagList
     private void createTag() {
         if (getFragmentManager() != null) {
             TagFragment fragment = new TagFragment();
-            fragment.setListener(new TagFragment.TagListener() {
-                @Override
-                public void onResult(@Nullable Tag result) {
-                    if (result != null) {
-                        addTag(result);
-                    }
+            fragment.setListener(result -> {
+                if (result != null) {
+                    addTag(result);
                 }
             });
             fragment.show(getFragmentManager(), null);
@@ -158,7 +146,7 @@ public class TagsFragment extends BaseFragment implements TagListAdapter.TagList
     }
 
     @OnClick(R.id.fab)
-    public void onFabClick() {
+    void onFabClick() {
         createTag();
     }
 }

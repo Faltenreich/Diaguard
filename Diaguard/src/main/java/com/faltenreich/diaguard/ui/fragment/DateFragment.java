@@ -1,18 +1,16 @@
 package com.faltenreich.diaguard.ui.fragment;
 
-
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import androidx.annotation.CallSuper;
 import androidx.annotation.LayoutRes;
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
@@ -26,13 +24,13 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
 
     private DateTime day;
 
-    public DateFragment(@LayoutRes int layoutResourceId, @StringRes int titleResourceId) {
+    DateFragment(@LayoutRes int layoutResourceId, @StringRes int titleResourceId) {
         super(layoutResourceId, titleResourceId, R.menu.date);
         this.day = DateTime.now().withHourOfDay(0).withMinuteOfHour(0);
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         updateLabels();
     }
@@ -53,7 +51,7 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_today:
                 goToDay(DateTime.now());
@@ -77,7 +75,7 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
         updateLabels();
     }
 
-    protected void updateLabels() {
+    void updateLabels() {
         setTitle(getTitle());
     }
 
@@ -89,14 +87,13 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
     }
 
     private void showDatePicker() {
-        DatePickerFragment.newInstance(day, new DatePickerFragment.DatePickerListener() {
-            @Override
-            public void onDatePicked(@Nullable DateTime dateTime) {
+        if (getActivity() != null) {
+            DatePickerFragment.newInstance(day, dateTime -> {
                 if (dateTime != null) {
                     goToDay(dateTime);
                 }
-            }
-        }).show(getActivity().getSupportFragmentManager());
+            }).show(getActivity().getSupportFragmentManager());
+        }
     }
 
     @Override
@@ -106,12 +103,9 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
 
     @Override
     public MainButtonProperties getMainButtonProperties() {
-        return MainButtonProperties.addButton(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (getContext() != null) {
-                    EntryActivity.show(getContext());
-                }
+        return MainButtonProperties.addButton(view -> {
+            if (getContext() != null) {
+                EntryActivity.show(getContext());
             }
         });
     }

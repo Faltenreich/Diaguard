@@ -15,6 +15,7 @@ import com.google.android.material.picker.MaterialDatePickerDialog;
 
 import org.joda.time.DateTime;
 
+@SuppressWarnings("WeakerAccess")
 public class DatePickerFragment extends DialogFragment {
     private static final String DATE_PICKER_FRAGMENT_DATE_SELECTED = "DATE_PICKER_FRAGMENT_DATE_SELECTED";
     private static final String DATE_PICKER_FRAGMENT_DATE_MIN = "DATE_PICKER_FRAGMENT_DATE_MIN";

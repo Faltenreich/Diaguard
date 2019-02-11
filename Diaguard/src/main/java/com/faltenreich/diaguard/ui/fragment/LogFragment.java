@@ -61,12 +61,7 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.LogL
         initLayout();
 
         // Fake delay for smoother fragment transitions
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                goToDay(getDay());
-            }
-        }, 350);
+        new Handler().postDelayed(() -> goToDay(getDay()), 350);
     }
 
     @Override

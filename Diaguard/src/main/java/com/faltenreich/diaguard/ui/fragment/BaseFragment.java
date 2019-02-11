@@ -82,12 +82,7 @@ public abstract class BaseFragment extends Fragment implements ToolbarBehavior {
         if (titleView != null) {
             if (this instanceof ToolbarCallback) {
                 titleView.setClickable(true);
-                titleView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        ((ToolbarCallback) BaseFragment.this).action();
-                    }
-                });
+                titleView.setOnClickListener(childView -> ((ToolbarCallback) BaseFragment.this).action());
             } else {
                 titleView.setClickable(false);
             }
@@ -175,21 +170,18 @@ public abstract class BaseFragment extends Fragment implements ToolbarBehavior {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(final EntryDeletedEvent event) {
-        ViewUtils.showSnackbar(getView(), getString(R.string.entry_deleted), new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Entry entry = event.context;
-                EntryDao.getInstance().createOrUpdate(entry);
-                for (Measurement measurement : entry.getMeasurementCache()) {
-                    measurement.setEntry(entry);
-                    MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
-                }
-                for (EntryTag entryTag : event.entryTags) {
-                    entryTag.setEntry(entry);
-                    EntryTagDao.getInstance().createOrUpdate(entryTag);
-                }
-                Events.post(new EntryAddedEvent(entry, event.entryTags, event.foodEatenList));
+        ViewUtils.showSnackbar(getView(), getString(R.string.entry_deleted), v -> {
+            Entry entry = event.context;
+            EntryDao.getInstance().createOrUpdate(entry);
+            for (Measurement measurement : entry.getMeasurementCache()) {
+                measurement.setEntry(entry);
+                MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
             }
+            for (EntryTag entryTag : event.entryTags) {
+                entryTag.setEntry(entry);
+                EntryTagDao.getInstance().createOrUpdate(entryTag);
+            }
+            Events.post(new EntryAddedEvent(entry, event.entryTags, event.foodEatenList));
         });
     }
 }

@@ -45,8 +45,7 @@ import butterknife.ButterKnife;
  * A simple {@link Fragment} subclass.
  */
 public class ChartDayFragment extends Fragment {
-
-    public static final String EXTRA_DATE_TIME = "EXTRA_DATE_TIME";
+    private static final String EXTRA_DATE_TIME = "EXTRA_DATE_TIME";
     private static final int SKIP_EVERY_X_HOUR = 2;
 
     @BindView(R.id.day_chart) DayChart dayChart;

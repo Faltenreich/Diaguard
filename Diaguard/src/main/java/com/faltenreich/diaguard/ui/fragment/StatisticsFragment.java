@@ -2,6 +2,8 @@ package com.faltenreich.diaguard.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import android.view.View;
@@ -184,16 +186,20 @@ public class StatisticsFragment extends BaseFragment {
 
     private void initializeCharts() {
         ChartHelper.setChartDefaultStyle(chartTrend, category);
-        chartTrend.setTouchEnabled(false);
+
+        @ColorInt int textColor = ResourceUtils.getTextColorSecondary(getContext());
+        chartTrend.getAxisLeft().setTextColor(textColor);
         chartTrend.getXAxis().setDrawAxisLine(true);
         chartTrend.getAxisLeft().setDrawAxisLine(false);
         chartTrend.getLegend().setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
         chartTrend.getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+        chartTrend.getXAxis().setTextColor(textColor);
         chartTrend.getXAxis().setValueFormatter((value, axis) -> {
             int daysPast = -(timeSpan.stepsPerInterval - (int) value);
             DateTime dateTime = timeSpan.getStep(DateTime.now(), daysPast);
             return timeSpan.getLabel(dateTime);
         });
+        chartTrend.setTouchEnabled(false);
 
         chartDistribution.setDrawHoleEnabled(false);
         chartDistribution.setUsePercentValues(true);

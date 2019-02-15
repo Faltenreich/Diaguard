@@ -60,6 +60,6 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
-        android:src="@drawable/ic_delete"/>
+        android:src="@drawable/ic_remove"/>
 
 </LinearLayout>

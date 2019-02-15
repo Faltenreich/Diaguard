@@ -57,7 +57,7 @@
                         style="@style/LayoutRowImage"
                         android:layout_margin="0dp"
                         android:tint="?iconColorPrimary"
-                        android:src="@drawable/ic_action_done"/>
+                        android:src="@drawable/ic_done"/>
 
                     <com.faltenreich.diaguard.ui.view.StickyHintInput
                         android:id="@+id/calculator_target"

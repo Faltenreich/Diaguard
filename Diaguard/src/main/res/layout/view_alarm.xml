@@ -40,7 +40,7 @@
             android:padding="@dimen/padding_large"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:tint="?iconColorPrimary"
-            android:src="@drawable/ic_action_delete"
+            android:src="@drawable/ic_delete"
             android:contentDescription="@string/alarm_delete"/>
 
     </LinearLayout>

@@ -142,7 +142,7 @@
         app:layout_anchorGravity="bottom|right|end"
         app:layout_dodgeInsetEdges="bottom"/>
 
-    <com.lapism.searchview.SearchView
+    <com.faltenreich.diaguard.ui.view.SearchView
         style="@style/SearchView"
         android:id="@+id/search_view"
         android:layout_width="match_parent"

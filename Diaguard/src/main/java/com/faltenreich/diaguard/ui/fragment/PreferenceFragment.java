@@ -156,7 +156,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                         }
                         @Override
                         public void onDidLoad(Long count) {
-                            preference.setSummary(String.format(getString(R.string.available_placeholder), count));
+                            if (isAdded()) {
+                                preference.setSummary(String.format(getString(R.string.available_placeholder), count));
+                            }
                         }
                     });
                 }
@@ -212,7 +214,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                 Events.post(new UnitChangedEvent(Measurement.Category.WEIGHT));
                 break;
             case PreferenceHelper.Keys.THEME:
-                ThemeUtils.invalidateTheme();
+                ThemeUtils.invalidateTheme(true);
                 break;
         }
         setSummary(findPreference(key));

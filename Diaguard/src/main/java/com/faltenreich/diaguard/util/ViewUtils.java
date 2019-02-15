@@ -100,7 +100,7 @@ public class ViewUtils {
     }
 
     public static void showNumberPicker(AppCompatActivity activity, @StringRes int labelResId, int initialValue, int minValue, int maxValue, NumberPickerDialogFragment.NumberPickerDialogHandlerV2 listener) {
-        NumberPickerBuilder numberPicker = new NumberPickerBuilder()
+        new NumberPickerBuilder()
                 .setFragmentManager(activity.getSupportFragmentManager())
                 .setStyleResId(R.style.NumberPicker)
                 .setLabelText(activity.getString(labelResId))
@@ -108,9 +108,9 @@ public class ViewUtils {
                 .setDecimalVisibility(View.GONE)
                 .setMaxNumber(BigDecimal.valueOf(maxValue))
                 .setMinNumber(BigDecimal.valueOf(minValue))
-                .addNumberPickerDialogHandler(listener);
-        numberPicker.setCurrentNumber(initialValue);
-        numberPicker.show();
+                .addNumberPickerDialogHandler(listener)
+                .setCurrentNumber(initialValue > 0 ? initialValue : null)
+                .show();
     }
 
 

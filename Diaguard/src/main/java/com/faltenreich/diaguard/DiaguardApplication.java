@@ -38,6 +38,6 @@ public class DiaguardApplication extends Application {
         LicenseResolver.registerLicense(new OpenDatabaseLicense());
         PreferenceHelper.getInstance().migrate();
         NotificationUtils.setupNotifications(this);
-        ThemeUtils.invalidateTheme();
+        ThemeUtils.invalidateTheme(false);
     }
 }

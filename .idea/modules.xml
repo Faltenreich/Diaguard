@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Diaguard.iml" filepath="$PROJECT_DIR$/.idea/Diaguard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Development-Diaguard.iml" filepath="$PROJECT_DIR$/Development-Diaguard.iml" />
       <module fileurl="file://$PROJECT_DIR$/Diaguard/Diaguard-Diaguard.iml" filepath="$PROJECT_DIR$/Diaguard/Diaguard-Diaguard.iml" />
     </modules>
   </component>

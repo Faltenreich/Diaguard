@@ -9,167 +9,167 @@
     android:layout_height="match_parent"
     android:background="?attr/backgroundColorPrimary">
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
+
+        <include layout="@layout/view_toolbar"/>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/activity_newevent_scrollview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <include layout="@layout/view_toolbar"/>
-
-            <androidx.core.widget.NestedScrollView
-                android:id="@+id/activity_newevent_scrollview"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <LinearLayout
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    style="@style/CardViewNoMargin">
 
-                    <androidx.cardview.widget.CardView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/CardViewNoMargin">
+                        android:orientation="vertical"
+                        android:showDividers="middle"
+                        android:divider="@drawable/separator">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:showDividers="middle"
-                            android:divider="@drawable/separator">
+                        <LinearLayout style="@style/LayoutRow">
 
-                            <LinearLayout style="@style/LayoutRow">
+                            <ImageView
+                                style="@style/LayoutRowImage"
+                                android:contentDescription="@null"
+                                android:src="@drawable/ic_time"
+                                android:tint="?iconColorPrimary"/>
 
-                                <ImageView
-                                    style="@style/LayoutRowImage"
-                                    android:contentDescription="@null"
-                                    android:src="@drawable/ic_time"
-                                    android:tint="?iconColorPrimary"/>
+                            <Button
+                                android:id="@+id/button_date"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginEnd="@dimen/margin_between"
+                                android:layout_marginRight="@dimen/margin_between"
+                                android:textColor="?android:textColorPrimary"
+                                tools:text="31.10.2017"/>
 
-                                <Button
-                                    android:id="@+id/button_date"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginEnd="@dimen/margin_between"
-                                    android:layout_marginRight="@dimen/margin_between"
-                                    android:textColor="?android:textColorPrimary"
-                                    tools:text="31.10.2017"/>
+                            <Button
+                                android:id="@+id/button_time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:textColor="?android:textColorPrimary"
+                                tools:text="17:17" />
 
-                                <Button
-                                    android:id="@+id/button_time"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:textColor="?android:textColorPrimary"
-                                    tools:text="17:17" />
+                        </LinearLayout>
 
-                            </LinearLayout>
+                        <LinearLayout style="@style/LayoutRow">
 
-                            <LinearLayout style="@style/LayoutRow">
+                            <ImageView
+                                style="@style/LayoutRowImageMultiline"
+                                android:padding="4dp"
+                                android:contentDescription="@null"
+                                android:tint="?iconColorPrimary"
+                                app:srcCompat="@drawable/ic_tag"/>
 
-                                <ImageView
-                                    style="@style/LayoutRowImageMultiline"
-                                    android:padding="4dp"
-                                    android:contentDescription="@null"
-                                    android:tint="?iconColorPrimary"
-                                    app:srcCompat="@drawable/ic_tag"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
 
-                                <LinearLayout
+                                <AutoCompleteTextView
+                                    android:id="@+id/entry_tags_input"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="vertical">
-
-                                    <AutoCompleteTextView
-                                        android:id="@+id/entry_tags_input"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="@dimen/height_element_large"
-                                        android:layout_weight="1"
-                                        android:paddingLeft="12dp"
-                                        android:paddingStart="12dp"
-                                        android:background="@android:color/transparent"
-                                        android:hint="@string/tags"
-                                        android:lines="1"
-                                        android:inputType="text"
-                                        android:imeOptions="actionDone"
-                                        android:completionThreshold="0"
-                                        tools:ignore="RtlSymmetry"/>
-
-                                    <com.google.android.material.chip.ChipGroup
-                                        android:id="@+id/entry_tags"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:visibility="gone"
-                                        android:paddingLeft="@dimen/margin_between"
-                                        android:paddingStart="@dimen/margin_between"
-                                        android:paddingBottom="@dimen/margin_between"
-                                        app:chipSpacing="@dimen/margin_between"
-                                        tools:ignore="RtlSymmetry"/>
-
-                                </LinearLayout>
-
-                            </LinearLayout>
-
-                            <LinearLayout style="@style/LayoutRow">
-
-                                <ImageView
-                                    style="@style/LayoutRowImageMultiline"
-                                    android:contentDescription="@null"
-                                    android:src="@drawable/ic_note"
-                                    android:tint="?iconColorPrimary"/>
-
-                                <EditText
-                                    android:id="@+id/edittext_notes"
-                                    style="@style/LayoutRowItemMultiline"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:background="@android:color/transparent"
-                                    android:hint="@string/note"
-                                    android:inputType="textMultiLine|textCapSentences"
+                                    android:layout_height="@dimen/height_element_large"
+                                    android:layout_weight="1"
                                     android:paddingLeft="12dp"
                                     android:paddingStart="12dp"
+                                    android:background="@android:color/transparent"
+                                    android:hint="@string/tags"
+                                    android:lines="1"
+                                    android:inputType="text"
+                                    android:imeOptions="actionDone"
+                                    android:completionThreshold="0"
                                     tools:ignore="RtlSymmetry"/>
 
-                            </LinearLayout>
-
-                            <LinearLayout style="@style/LayoutRow"
-                                android:id="@+id/entry_alarm_container">
-
-                                <ImageView
-                                    style="@style/LayoutRowImage"
-                                    android:contentDescription="@null"
-                                    android:src="@drawable/ic_alarm"
-                                    android:tint="?iconColorPrimary"/>
-
-                                <Button
-                                    android:id="@+id/entry_button_alarm"
+                                <com.google.android.material.chip.ChipGroup
+                                    android:id="@+id/entry_tags"
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:text="@string/alarm_reminder_none"
-                                    android:textAllCaps="false"
-                                    android:textColor="?android:textColorPrimary"
-                                    android:gravity="start|center_vertical"/>
+                                    android:layout_height="wrap_content"
+                                    android:visibility="gone"
+                                    android:paddingLeft="@dimen/margin_between"
+                                    android:paddingStart="@dimen/margin_between"
+                                    android:paddingBottom="@dimen/margin_between"
+                                    app:chipSpacing="@dimen/margin_between"
+                                    tools:ignore="RtlSymmetry"/>
 
                             </LinearLayout>
 
                         </LinearLayout>
 
-                    </androidx.cardview.widget.CardView>
+                        <LinearLayout style="@style/LayoutRow">
 
-                    <com.faltenreich.diaguard.ui.view.entry.MeasurementListView
-                        android:id="@+id/layout_measurements"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="140dp"
-                        android:layout_marginTop="@dimen/activity_vertical_margin"
-                        android:orientation="vertical"
-                        android:animateLayoutChanges="true"/>
+                            <ImageView
+                                style="@style/LayoutRowImageMultiline"
+                                android:contentDescription="@null"
+                                android:src="@drawable/ic_note"
+                                android:tint="?iconColorPrimary"/>
 
-                </LinearLayout>
+                            <EditText
+                                android:id="@+id/edittext_notes"
+                                style="@style/LayoutRowItemMultiline"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@android:color/transparent"
+                                android:hint="@string/note"
+                                android:inputType="textMultiLine|textCapSentences"
+                                android:paddingLeft="12dp"
+                                android:paddingStart="12dp"
+                                tools:ignore="RtlSymmetry"/>
 
-            </androidx.core.widget.NestedScrollView>
+                        </LinearLayout>
 
-        </LinearLayout>
+                        <LinearLayout style="@style/LayoutRow"
+                            android:id="@+id/entry_alarm_container">
+
+                            <ImageView
+                                style="@style/LayoutRowImage"
+                                android:contentDescription="@null"
+                                android:src="@drawable/ic_alarm"
+                                android:tint="?iconColorPrimary"/>
+
+                            <Button
+                                android:id="@+id/entry_button_alarm"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="@string/alarm_reminder_none"
+                                android:textAllCaps="false"
+                                android:textColor="?android:textColorPrimary"
+                                android:gravity="start|center_vertical"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <com.faltenreich.diaguard.ui.view.entry.MeasurementListView
+                    android:id="@+id/layout_measurements"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="140dp"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:orientation="vertical"
+                    android:animateLayoutChanges="true"/>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
 
     <com.faltenreich.diaguard.ui.view.entry.MeasurementFloatingActionMenu
         style="@style/FloatingActionMenu"
@@ -181,7 +181,7 @@
         android:paddingEnd="24dp"
         android:paddingBottom="90dp"
         android:contentDescription="@string/measurement_add"
-        app:layout_behavior="com.faltenreich.diaguard.adapter.StepAsideBehavior"
+        app:layout_dodgeInsetEdges="bottom"
         app:menu_icon="@drawable/ic_add"
         app:menu_backgroundColor="?attr/backgroundColorPrimaryTranslucent"
         app:menu_colorNormal="?attr/backgroundColorSecondary"
@@ -196,6 +196,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:src="@drawable/ic_action_done"
-        app:layout_behavior="com.faltenreich.diaguard.adapter.StepAsideBehavior"/>
+        app:layout_dodgeInsetEdges="bottom"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

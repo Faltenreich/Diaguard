@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 @SuppressWarnings({"unused", "WeakerAccess"})
-public class SlideOutBehavior extends StepAsideBehavior {
+public class SlideOutBehavior extends CoordinatorLayout.Behavior<View> {
 
     private boolean slideOut = true;
 

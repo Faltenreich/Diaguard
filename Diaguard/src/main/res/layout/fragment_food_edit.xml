@@ -107,6 +107,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:src="@drawable/ic_action_done"
-        app:layout_behavior="com.faltenreich.diaguard.adapter.StepAsideBehavior"/>
+        app:layout_dodgeInsetEdges="bottom"/>
 
 </FrameLayout>

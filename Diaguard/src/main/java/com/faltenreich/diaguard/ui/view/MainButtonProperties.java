@@ -43,7 +43,7 @@ public class MainButtonProperties {
     }
 
     public static MainButtonProperties confirmButton(View.OnClickListener onClickListener, boolean slideOut) {
-        return new MainButtonProperties(R.drawable.ic_action_done, onClickListener, slideOut);
+        return new MainButtonProperties(R.drawable.ic_done, onClickListener, slideOut);
     }
 
     public static MainButtonProperties confirmButton(View.OnClickListener onClickListener) {

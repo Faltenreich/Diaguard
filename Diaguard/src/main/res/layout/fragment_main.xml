@@ -308,7 +308,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="0dp"
                     android:text="@string/trend"
-                    android:textColor="?colorPrimary"/>
+                    android:textColor="?textColorGreen"/>
 
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/chart"

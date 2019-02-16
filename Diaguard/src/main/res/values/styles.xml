@@ -10,6 +10,7 @@
         <item name="backgroundColorSecondary">@color/background_light_secondary</item>
         <item name="backgroundColorTertiary">@color/background_light_tertiary</item>
         <item name="iconColorPrimary">@color/gray_darker</item>
+        <item name="textColorGreen">@color/green</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="elevation">4dp</item>
@@ -212,7 +213,7 @@
     <style name="NumberPicker">
         <item name="bpDialogBackground">@drawable/background_primary</item>
         <item name="bpDividerColor">@color/background_light_tertiary</item>
-        <item name="bpTextColor">@color/text</item>
+        <item name="bpTextColor">@color/text_primary</item>
         <item name="bpDeleteIcon">@drawable/ic_backspace_light</item>
         <item name="bpCheckIcon">@drawable/ic_check_light</item>
     </style>

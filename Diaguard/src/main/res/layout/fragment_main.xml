@@ -39,7 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/first_visit"
-                    android:textColor="@color/green"
+                    android:textColor="?textColorGreen"
                     android:textSize="32sp"/>
 
                 <LinearLayout
@@ -104,7 +104,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/today"
-                        android:textColor="@color/green"/>
+                        android:textColor="?textColorGreen"/>
 
                     <TableLayout
                         android:layout_width="match_parent"
@@ -203,7 +203,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/average"
-                        android:textColor="@color/green" />
+                        android:textColor="?textColorGreen"/>
 
                     <TableLayout
                         android:layout_width="match_parent"
@@ -308,7 +308,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="0dp"
                     android:text="@string/trend"
-                    android:textColor="@color/green" />
+                    android:textColor="?colorPrimary"/>
 
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/chart"

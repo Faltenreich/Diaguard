@@ -48,7 +48,7 @@
         android:textAllCaps="false"
         android:text="@string/amount"
         android:textColor="@android:color/white"
-        app:backgroundTint="@color/green"/>
+        app:backgroundTint="?colorPrimary"/>
 
     <ImageView
         android:id="@+id/food_delete"

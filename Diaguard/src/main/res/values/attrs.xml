@@ -17,5 +17,6 @@
     <attr name="backgroundColorTertiary" format="color"/>
     <attr name="backgroundColorTertiaryInverse" format="color"/>
     <attr name="iconColorPrimary" format="color"/>
+    <attr name="textColorGreen" format="color"/>
 
 </resources>

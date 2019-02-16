@@ -69,7 +69,6 @@ public class DayChart extends CombinedChart implements OnChartValueSelectedListe
             float bottomOffset = getContext().getResources().getDimension(R.dimen.chart_offset_bottom);
             setViewPortOffsets(leftOffset, 0, 0, bottomOffset);
 
-            // setMarker(new ChartMarkerView(getContext()));
             setMaxHighlightDistance(TAP_THRESHOLD_IN_DP);
             setOnChartValueSelectedListener(this);
             setDragEnabled(false);

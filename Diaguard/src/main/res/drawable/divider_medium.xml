@@ -2,7 +2,10 @@
 
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <size android:width="@dimen/margin_between"
+    <size
+        android:width="@dimen/margin_between"
         android:height="@dimen/margin_between"/>
+
+    <solid android:color="@android:color/transparent"/>
 
 </shape>

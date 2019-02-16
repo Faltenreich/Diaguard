@@ -14,7 +14,7 @@
         android:id="@+id/food_tablayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
+        android:background="?backgroundColorGreen"
         app:tabSelectedTextColor="@android:color/white"
         app:tabTextColor="@color/gray_light"
         app:tabIndicatorColor="@android:color/white"

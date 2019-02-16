@@ -182,6 +182,7 @@
         android:paddingBottom="90dp"
         android:contentDescription="@string/measurement_add"
         app:layout_dodgeInsetEdges="bottom"
+        app:fab_colorNormal="?backgroundColorGreen"
         app:menu_icon="@drawable/ic_add"
         app:menu_backgroundColor="?attr/backgroundColorPrimaryTranslucent"
         app:menu_colorNormal="?attr/backgroundColorSecondary"
@@ -196,6 +197,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:src="@drawable/ic_done"
+        app:fab_colorNormal="?backgroundColorGreen"
         app:layout_dodgeInsetEdges="bottom"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

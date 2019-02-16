@@ -30,6 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:src="@drawable/fab_add"
+        app:fab_colorNormal="?backgroundColorGreen"
         app:layout_dodgeInsetEdges="bottom"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

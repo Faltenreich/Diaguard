@@ -19,7 +19,7 @@
         android:layout_height="@dimen/size_image"
         android:contentDescription="@null"
         tools:src="@drawable/ic_category_bloodsugar"
-        tools:tint="?textColorGreen"/>
+        tools:tint="?colorPrimary"/>
 
     <TextView
         android:id="@+id/value"

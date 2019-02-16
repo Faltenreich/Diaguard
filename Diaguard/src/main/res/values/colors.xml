@@ -32,6 +32,7 @@
     <color name="green_lighter">#79a18c</color>
     <color name="green_dark">#41785a</color>
     <color name="green_darker">#396950</color>
+    <color name="green_darkest">#2E5340</color>
     <color name="green_transparent">#CC478063</color>
 
     <color name="red">#ffdd6050</color>

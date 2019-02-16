@@ -36,7 +36,7 @@
         <item name="android:textColorPrimary">@android:color/black</item>
     </style>
 
-    <style name="DateTimePicker" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog.Picker.Date">
+    <style name="DateTimePicker" parent="Base.ThemeOverlay.AppCompat.Dialog">
         <item name="android:windowBackground">?backgroundColorPrimary</item>
     </style>
     

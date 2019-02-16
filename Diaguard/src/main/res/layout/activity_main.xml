@@ -41,7 +41,8 @@
             android:layout_width="@dimen/navigation_drawer_width"
             android:layout_gravity="start"
             app:menu="@menu/navigation"
-            app:headerLayout="@layout/view_empty"/>
+            app:headerLayout="@layout/view_empty"
+            app:itemBackground="@drawable/background_navigation"/>
 
     </androidx.drawerlayout.widget.DrawerLayout>
 

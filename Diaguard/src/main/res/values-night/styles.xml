@@ -1,9 +1,9 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/green</item>
-        <item name="colorPrimaryDark">@color/green_darker</item>
-        <item name="colorAccent">@color/green</item>
+        <item name="colorPrimary">@color/green_darker</item>
+        <item name="colorPrimaryDark">@color/green_darkest</item>
+        <item name="colorAccent">@color/green_darker</item>
         <item name="drawerArrowStyle">@style/NavigationDrawerArrowStyle</item>
         <item name="backgroundColorPrimary">@color/background_dark_primary</item>
         <item name="backgroundColorPrimaryTranslucent">@color/background_dark_primary_translucent</item>

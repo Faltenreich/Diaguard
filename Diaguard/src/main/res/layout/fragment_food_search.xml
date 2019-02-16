@@ -34,7 +34,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?attr/colorPrimary"
+                    android:background="?backgroundColorGreen"
                     android:orientation="horizontal"
                     android:paddingBottom="@dimen/activity_vertical_margin"
                     android:paddingEnd="@dimen/activity_horizontal_margin"
@@ -137,6 +137,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:src="@drawable/fab_add"
+        app:fab_colorNormal="?backgroundColorGreen"
         app:layout_behavior="com.faltenreich.diaguard.adapter.SlideOutBehavior"
         app:layout_anchor="@id/food_search_list"
         app:layout_anchorGravity="bottom|right|end"

@@ -79,7 +79,6 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:transitionName="transitionOverview"
                 app:cardCornerRadius="4dp"
                 app:cardElevation="2dp"
                 app:cardUseCompatPadding="true">
@@ -94,7 +93,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/average"
-                        android:textColor="?textColorGreen"
+                        android:textColor="?colorPrimary"
                         style="@style/BoxRow"/>
 
                     <TableLayout
@@ -186,7 +185,6 @@
                 android:id="@+id/layout_trend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:transitionName="transitionTrend"
                 app:cardCornerRadius="4dp"
                 app:cardElevation="2dp"
                 app:cardUseCompatPadding="true">
@@ -203,7 +201,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="0dp"
                         android:text="@string/trend"
-                        android:textColor="?textColorGreen"/>
+                        android:textColor="?colorPrimary"/>
 
                     <com.github.mikephil.charting.charts.LineChart
                         android:id="@+id/statistics_chart_trend"
@@ -220,7 +218,6 @@
                 android:id="@+id/layout_distribution"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:transitionName="transitionDistribution"
                 app:cardCornerRadius="4dp"
                 app:cardElevation="2dp"
                 app:cardUseCompatPadding="true">
@@ -237,7 +234,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="0dp"
                         android:text="@string/distribution"
-                        android:textColor="?textColorGreen"/>
+                        android:textColor="?colorPrimary"/>
 
                     <com.github.mikephil.charting.charts.PieChart
                         android:id="@+id/statistics_chart_distribution"

@@ -83,7 +83,7 @@
         android:layout_height="@dimen/height_element"
         android:text="@string/food_add"
         android:textAllCaps="false"
-        android:textColor="?textColorGreen"/>
+        android:textColor="?colorPrimary"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/food_input_list"

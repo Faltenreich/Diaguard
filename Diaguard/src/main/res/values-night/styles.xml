@@ -1,27 +1,24 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/green_darker</item>
-        <item name="colorPrimaryDark">@color/green_darkest</item>
-        <item name="colorAccent">@color/green_darker</item>
-        <item name="drawerArrowStyle">@style/NavigationDrawerArrowStyle</item>
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/green_darker</item>
+        <item name="colorAccent">@color/green</item>
+        <item name="backgroundColorGreen">@color/green_dark</item>
+        <item name="backgroundColorGreenDark">@color/green_darkest</item>
         <item name="backgroundColorPrimary">@color/background_dark_primary</item>
         <item name="backgroundColorPrimaryTranslucent">@color/background_dark_primary_translucent</item>
         <item name="backgroundColorSecondary">@color/background_dark_secondary</item>
         <item name="backgroundColorTertiary">@color/background_dark_tertiary</item>
         <item name="iconColorPrimary">@color/gray</item>
-        <item name="textColorGreen">@color/green</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="elevation">4dp</item>
         <item name="materialButtonStyle">@style/Button</item>
+        <item name="drawerArrowStyle">@style/NavigationDrawerArrowStyle</item>
         <item name="android:windowBackground">@color/background_dark_primary</item>
         <item name="android:windowSharedElementsUseOverlay">false</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-    </style>
-
-    <style name="Toolbar" parent="ThemeOverlay.MaterialComponents.ActionBar">
-        <item name="android:textColorPrimary">@android:color/white</item>
     </style>
 
     <style name="ToolbarPopup" parent="ThemeOverlay.MaterialComponents.ActionBar">

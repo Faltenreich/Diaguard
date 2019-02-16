@@ -10,6 +10,8 @@
         <attr name="restrictToLocalizedSeparator" format="boolean"/>
     </declare-styleable>
 
+    <attr name="backgroundColorGreen" format="color"/>
+    <attr name="backgroundColorGreenDark" format="color"/>
     <attr name="backgroundColorPrimary" format="color"/>
     <attr name="backgroundColorPrimaryTranslucent" format="color"/>
     <attr name="backgroundColorSecondary" format="color"/>
@@ -17,6 +19,5 @@
     <attr name="backgroundColorTertiary" format="color"/>
     <attr name="backgroundColorTertiaryInverse" format="color"/>
     <attr name="iconColorPrimary" format="color"/>
-    <attr name="textColorGreen" format="color"/>
 
 </resources>

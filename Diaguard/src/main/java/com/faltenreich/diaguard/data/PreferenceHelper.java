@@ -140,7 +140,7 @@ public class PreferenceHelper {
     }
 
     public Theme getTheme() {
-        Theme defaultTheme = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P ? Theme.SYSTEM : Theme.LIGHT;
+        Theme defaultTheme = Theme.LIGHT;
         String themeKey = sharedPreferences.getString(Keys.THEME, defaultTheme.getKey());
         Theme theme = Theme.fromKey(themeKey);
         return theme != null ? theme : defaultTheme;

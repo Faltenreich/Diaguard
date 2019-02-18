@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 
 import com.faltenreich.diaguard.R;
 
-import de.psdev.licensesdialog.LicenseResolver;
 import de.psdev.licensesdialog.LicensesDialog;
 
 /**
@@ -21,7 +20,6 @@ public class LicensePreference extends Preference {
     @Override
     protected void onClick() {
         super.onClick();
-
         new LicensesDialog.Builder(getContext())
                 .setNotices(R.raw.licenses)
                 .setTitle(R.string.licenses)

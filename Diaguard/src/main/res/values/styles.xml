@@ -136,12 +136,10 @@
 
     <style name="LicenseLabel">
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@android:color/black</item>
         <item name="android:layout_marginBottom">@dimen/padding_end</item>
     </style>
 
     <style name="LicenseDescription">
-        <item name="android:textColor">@android:color/black</item>
         <item name="android:layout_marginBottom">@dimen/padding_end</item>
     </style>
 

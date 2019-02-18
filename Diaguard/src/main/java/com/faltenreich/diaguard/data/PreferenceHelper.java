@@ -111,10 +111,6 @@ public class PreferenceHelper {
         sharedPreferences.edit().putInt(Keys.VERSION_CODE, versionCode).apply();
     }
 
-    public String[] getChangelog(Context context) {
-        return context.getResources().getStringArray(R.array.changelog);
-    }
-
     boolean didImportCommonFood(Locale locale) {
         return sharedPreferences.getBoolean(Keys.DID_IMPORT_COMMON_FOOD_FOR_LANGUAGE + locale.getLanguage(), false);
     }

@@ -20,61 +20,81 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <LinearLayout
-                android:id="@+id/lightButton"
+            <FrameLayout
+                android:id="@+id/lightButtonBackground"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:divider="@drawable/divider_medium"
-                android:showDividers="middle"
-                android:padding="@dimen/margin_between"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?selectableItemBackground">
+                android:background="@android:color/transparent">
 
-                <ImageView
+                <LinearLayout
+                    android:id="@+id/lightButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/showcase_theme_light"/>
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:divider="@drawable/divider_medium"
+                    android:showDividers="middle"
+                    android:padding="@dimen/margin_between"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?selectableItemBackground">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:text="@string/theme_light"/>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/showcase_theme_light"/>
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/lightLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="?android:textColorPrimary"
+                        android:text="@string/theme_light"/>
 
-            <LinearLayout
-                android:id="@+id/darkButton"
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/darkButtonBackground"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:divider="@drawable/divider_medium"
-                android:showDividers="middle"
-                android:padding="@dimen/margin_between"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?selectableItemBackground">
+                android:background="@android:color/transparent">
 
-                <ImageView
+                <LinearLayout
+                    android:id="@+id/darkButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/showcase_theme_dark"/>
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:divider="@drawable/divider_medium"
+                    android:showDividers="middle"
+                    android:padding="@dimen/margin_between"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?selectableItemBackground">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:text="@string/theme_dark"/>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/showcase_theme_dark"/>
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/darkLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="?android:textColorPrimary"
+                        android:text="@string/theme_dark"/>
+
+                </LinearLayout>
+
+            </FrameLayout>
 
         </LinearLayout>
 

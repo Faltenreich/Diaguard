@@ -1,6 +1,8 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="AppTheme" parent="Theme.Light"/>
+
+    <style name="Theme.Light" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/green_darker</item>
         <item name="colorAccent">@color/green</item>
@@ -11,14 +13,35 @@
         <item name="backgroundColorSecondary">@color/background_light_secondary</item>
         <item name="backgroundColorTertiary">@color/background_light_tertiary</item>
         <item name="iconColorPrimary">@color/gray_darker</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="elevation">4dp</item>
-        <item name="materialButtonStyle">@style/Button</item>
-        <item name="drawerArrowStyle">@style/NavigationDrawerArrowStyle</item>
         <item name="android:windowBackground">@color/background_light_primary</item>
         <item name="android:windowSharedElementsUseOverlay">false</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="elevation">4dp</item>
+        <item name="drawerArrowStyle">@style/NavigationDrawerArrowStyle</item>
+        <item name="materialButtonStyle">@style/Button</item>
+    </style>
+
+    <style name="Theme.Dark" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/green_darker</item>
+        <item name="colorAccent">@color/green</item>
+        <item name="backgroundColorGreen">@color/green_dark</item>
+        <item name="backgroundColorGreenDark">@color/green_darkest</item>
+        <item name="backgroundColorPrimary">@color/background_dark_primary</item>
+        <item name="backgroundColorPrimaryTranslucent">@color/background_dark_primary_translucent</item>
+        <item name="backgroundColorSecondary">@color/background_dark_secondary</item>
+        <item name="backgroundColorTertiary">@color/background_dark_tertiary</item>
+        <item name="iconColorPrimary">@color/gray</item>
+        <item name="android:windowBackground">@color/background_dark_primary</item>
+        <item name="android:windowSharedElementsUseOverlay">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="elevation">4dp</item>
+        <item name="drawerArrowStyle">@style/NavigationDrawerArrowStyle</item>
+        <item name="materialButtonStyle">@style/Button</item>
     </style>
 
     <style name="AppTheme.Transparent">
@@ -26,9 +49,7 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
-    <style name="Button" parent="Widget.MaterialComponents.Button.TextButton">
-
-    </style>
+    <style name="Button" parent="Widget.MaterialComponents.Button.TextButton"/>
 
     <style name="Toolbar" parent="ThemeOverlay.MaterialComponents.ActionBar">
         <item name="android:textColorPrimary">@android:color/white</item>

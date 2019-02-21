@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.R;
 
 import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
+import androidx.annotation.Dimension;
 import androidx.core.content.ContextCompat;
 
 public class ResourceUtils {
@@ -63,5 +64,13 @@ public class ResourceUtils {
     @ColorInt
     public static int getBackgroundPrimaryTranslucent(Context context) {
         return getColor(context, R.attr.backgroundColorPrimaryTranslucent);
+    }
+
+    @Dimension
+    public static float getDialogPreferredPadding(Context context) {
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = context.getTheme();
+        boolean wasResolved = theme.resolveAttribute(R.attr.dialogPreferredPadding, typedValue, true);
+        return wasResolved ? typedValue.resourceId == 0 ? typedValue.data : context.getResources().getDimension(typedValue.resourceId) : -1;
     }
 }

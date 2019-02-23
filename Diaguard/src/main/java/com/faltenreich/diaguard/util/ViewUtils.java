@@ -1,11 +1,19 @@
 package com.faltenreich.diaguard.util;
 
 import android.animation.Animator;
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
+
+import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
@@ -31,6 +39,7 @@ public class ViewUtils {
 
     private static final int REVEAL_DURATION = 400;
     private static final int UNREVEAL_DURATION = 300;
+    private static final long ANIMATION_DURATION = 400L;
 
     public static void showKeyboard(View view) {
         view.requestFocus();
@@ -148,5 +157,38 @@ public class ViewUtils {
             return  ((CoordinatorLayout.LayoutParams) view.getLayoutParams()).getBehavior();
         }
         return null;
+    }
+
+    public static void setTextColorAnimated(TextView textView, @ColorInt int to) {
+        int from = textView.getCurrentTextColor();
+        ValueAnimator animation = ValueAnimator.ofObject(new ArgbEvaluator(), from, to);
+        animation.addUpdateListener(animator -> textView.setTextColor((Integer)animator.getAnimatedValue()));
+        animation.setDuration(ANIMATION_DURATION);
+        animation.start();
+    }
+
+    public static void setBackgroundColorAnimated(View view, @ColorInt int to) {
+        int from = getBackgroundColor(view);
+        ValueAnimator animation = ValueAnimator.ofObject(new ArgbEvaluator(), from, to);
+        animation.addUpdateListener(animator -> view.setBackgroundColor((Integer)animator.getAnimatedValue()));
+        animation.setDuration(ANIMATION_DURATION);
+        animation.start();
+    }
+
+    public static void setColorFilterAnimated(Drawable drawable, @ColorInt int from, @ColorInt int to) {
+        ValueAnimator animation = ValueAnimator.ofObject(new ArgbEvaluator(), from, to);
+        animation.addUpdateListener(animator -> drawable.setColorFilter((Integer)animator.getAnimatedValue(), PorterDuff.Mode.MULTIPLY));
+        animation.setDuration(ANIMATION_DURATION);
+        animation.start();
+    }
+
+    @ColorInt
+    public static int getBackgroundColor(View view) {
+        int color = Color.TRANSPARENT;
+        Drawable background = view.getBackground();
+        if (background instanceof ColorDrawable) {
+            color = ((ColorDrawable) background).getColor();
+        }
+        return color;
     }
 }

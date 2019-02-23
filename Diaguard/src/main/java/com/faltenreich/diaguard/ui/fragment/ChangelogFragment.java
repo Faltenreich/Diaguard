@@ -1,8 +1,6 @@
 package com.faltenreich.diaguard.ui.fragment;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -23,6 +21,7 @@ import butterknife.ButterKnife;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.util.ResourceUtils;
+import com.faltenreich.diaguard.util.ViewUtils;
 import com.faltenreich.diaguard.util.WebUtils;
 import com.faltenreich.diaguard.util.theme.Theme;
 import com.faltenreich.diaguard.util.theme.ThemeUtils;
@@ -87,6 +86,7 @@ public class ChangelogFragment extends DialogFragment {
         darkButton.setOnClickListener(button -> tryTheme(Theme.DARK));
     }
 
+    // TODO: Style positive button
     private void invalidateLayout() {
         if (getContext() != null) {
             boolean isDark = temporaryTheme == Theme.DARK;
@@ -94,15 +94,16 @@ public class ChangelogFragment extends DialogFragment {
             int highlightColor = ContextCompat.getColor(getContext(), isDark ? R.color.background_dark_tertiary : R.color.background_light_tertiary);
             int textColor = isDark ? Color.WHITE : Color.BLACK;
 
-            lightButtonBackground.setBackgroundColor(isDark ? Color.TRANSPARENT : highlightColor);
-            darkButtonBackground.setBackgroundColor(isDark ? highlightColor : Color.TRANSPARENT);
+            ViewUtils.setBackgroundColorAnimated(lightButtonBackground, isDark ? Color.TRANSPARENT : highlightColor);
+            ViewUtils.setBackgroundColorAnimated(darkButtonBackground, isDark ? highlightColor : Color.TRANSPARENT);
 
-            titleView.setTextColor(textColor);
-            lightLabel.setTextColor(textColor);
-            darkLabel.setTextColor(textColor);
+            ViewUtils.setTextColorAnimated(titleView, textColor);
+            ViewUtils.setTextColorAnimated(lightLabel, textColor);
+            ViewUtils.setTextColorAnimated(darkLabel, textColor);
 
             if (getDialog() != null && getDialog().getWindow() != null && getDialog().getWindow().getDecorView().getBackground() != null) {
-                getDialog().getWindow().getDecorView().getBackground().setColorFilter(backgroundColor, PorterDuff.Mode.MULTIPLY);
+                int oldBackgroundColor = ContextCompat.getColor(getContext(), isDark ? R.color.background_light_primary : R.color.background_dark_primary);
+                ViewUtils.setColorFilterAnimated(getDialog().getWindow().getDecorView().getBackground(), oldBackgroundColor, backgroundColor);
             }
 
             String changelog = WebUtils.loadHtml(getContext(), R.raw.changelog);

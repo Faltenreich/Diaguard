@@ -61,13 +61,18 @@ public class ChangelogFragment extends DialogFragment {
         titleView.setText(R.string.changelog);
 
         initLayout();
-        invalidateLayout();
 
         return new AlertDialog.Builder(getContext())
                 .setCustomTitle(titleView)
                 .setView(view)
                 .setPositiveButton(R.string.ok, (dlg, which) -> { })
                 .create();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        invalidateLayout(false);
     }
 
     @Override
@@ -85,15 +90,15 @@ public class ChangelogFragment extends DialogFragment {
         darkButton.setOnClickListener(button -> tryTheme(Theme.DARK));
     }
 
-    private void invalidateLayout() {
+    private void invalidateLayout(boolean animated) {
         if (getContext() != null) {
             boolean isDark = temporaryTheme == Theme.DARK;
             int backgroundColor = ContextCompat.getColor(getContext(), isDark ? R.color.background_dark_primary : R.color.background_light_primary);
             int highlightColor = ContextCompat.getColor(getContext(), isDark ? R.color.background_dark_tertiary : R.color.background_light_tertiary);
             int textColor = isDark ? Color.WHITE : Color.BLACK;
 
-            ViewUtils.setBackgroundColorAnimated(lightButtonBackground, isDark ? Color.TRANSPARENT : highlightColor);
-            ViewUtils.setBackgroundColorAnimated(darkButtonBackground, isDark ? highlightColor : Color.TRANSPARENT);
+            ViewUtils.setBackgroundColor(lightButtonBackground, isDark ? Color.TRANSPARENT : highlightColor, animated);
+            ViewUtils.setBackgroundColor(darkButtonBackground, isDark ? highlightColor : Color.TRANSPARENT, animated);
 
             titleView.setTextColor(textColor);
             lightLabel.setTextColor(textColor);
@@ -101,7 +106,7 @@ public class ChangelogFragment extends DialogFragment {
 
             if (getDialog() != null && getDialog().getWindow() != null && getDialog().getWindow().getDecorView().getBackground() != null) {
                 int oldBackgroundColor = ContextCompat.getColor(getContext(), isDark ? R.color.background_light_primary : R.color.background_dark_primary);
-                ViewUtils.setColorFilterAnimated(getDialog().getWindow().getDecorView().getBackground(), oldBackgroundColor, backgroundColor);
+                ViewUtils.setColorFilter(getDialog().getWindow().getDecorView().getBackground(), oldBackgroundColor, backgroundColor, animated);
             }
 
             String changelog = WebUtils.loadHtml(getContext(), R.raw.changelog);
@@ -124,7 +129,7 @@ public class ChangelogFragment extends DialogFragment {
     private void tryTheme(Theme theme) {
         if (temporaryTheme != theme) {
             temporaryTheme = theme;
-            invalidateLayout();
+            invalidateLayout(true);
         }
     }
 

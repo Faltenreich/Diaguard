@@ -53,6 +53,8 @@ public class DayChart extends CombinedChart implements OnChartValueSelectedListe
             @ColorInt int gridColor = ResourceUtils.getBackgroundTertiary(getContext());
             getAxisLeft().setTextColor(textColor);
             getAxisLeft().setGridColor(gridColor);
+            getAxisLeft().setGridLineWidth(1f);
+            getXAxis().setGridLineWidth(1f);
             getXAxis().setGridColor(gridColor);
             getXAxis().setTextColor(textColor);
             getXAxis().setValueFormatter((value, axis) -> {

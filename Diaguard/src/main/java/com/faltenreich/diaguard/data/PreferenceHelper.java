@@ -136,10 +136,15 @@ public class PreferenceHelper {
     }
 
     public Theme getTheme() {
-        Theme defaultTheme = Theme.LIGHT;
-        String themeKey = sharedPreferences.getString(Keys.THEME, defaultTheme.getKey());
-        Theme theme = Theme.fromKey(themeKey);
-        return theme != null ? theme : defaultTheme;
+        Theme themeDefault = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P ? Theme.SYSTEM : Theme.LIGHT;
+        String themeKey = sharedPreferences.getString(Keys.THEME, null);
+        if (themeKey != null) {
+            Theme theme = Theme.fromKey(themeKey);
+            return theme != null ? theme : themeDefault;
+        } else {
+            setTheme(themeDefault);
+            return themeDefault;
+        }
     }
 
     public void setTheme(Theme theme) {

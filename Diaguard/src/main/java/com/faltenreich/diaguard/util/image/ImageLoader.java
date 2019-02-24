@@ -28,7 +28,7 @@ public class ImageLoader {
         picasso = Picasso.get();
     }
 
-    public void clearCache(Context context) {
+    public void clearDiskCache(Context context) {
         File cache = new File(context.getApplicationContext().getCacheDir(), "picasso-cache");
         if (cache.exists() && cache.isDirectory()) {
             FileUtils.deleteDirectory(cache);

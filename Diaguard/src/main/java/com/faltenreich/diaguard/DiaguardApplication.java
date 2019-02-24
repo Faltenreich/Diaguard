@@ -37,6 +37,6 @@ public class DiaguardApplication extends Application {
         LicenseResolver.registerLicense(new OpenDatabaseLicense());
         PreferenceHelper.getInstance().migrate();
         NotificationUtils.setupNotifications(this);
-        ThemeUtils.setTheme(false);
+        ThemeUtils.setDefaultNightMode(PreferenceHelper.getInstance().getTheme());
     }
 }

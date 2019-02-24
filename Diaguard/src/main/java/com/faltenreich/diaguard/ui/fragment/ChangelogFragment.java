@@ -136,7 +136,8 @@ public class ChangelogFragment extends DialogFragment {
     private void applyTheme() {
         if (temporaryTheme != PreferenceHelper.getInstance().getTheme()) {
             PreferenceHelper.getInstance().setTheme(temporaryTheme);
-            ThemeUtils.setTheme(true);
+            ThemeUtils.setDefaultNightMode(temporaryTheme);
+            ThemeUtils.setUiMode(getContext(), temporaryTheme);
         }
     }
 }

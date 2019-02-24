@@ -39,6 +39,7 @@ import com.faltenreich.diaguard.util.SystemUtils;
 import com.faltenreich.diaguard.util.export.Export;
 import com.faltenreich.diaguard.util.export.FileListener;
 import com.faltenreich.diaguard.util.permission.Permission;
+import com.faltenreich.diaguard.util.theme.Theme;
 import com.faltenreich.diaguard.util.theme.ThemeUtils;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -213,7 +214,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                 Events.post(new UnitChangedEvent(Measurement.Category.WEIGHT));
                 break;
             case PreferenceHelper.Keys.THEME:
-                ThemeUtils.setTheme(true);
+                Theme theme = PreferenceHelper.getInstance().getTheme();
+                ThemeUtils.setDefaultNightMode(theme);
+                ThemeUtils.setUiMode(getActivity(), theme);
                 break;
         }
         setSummary(findPreference(key));

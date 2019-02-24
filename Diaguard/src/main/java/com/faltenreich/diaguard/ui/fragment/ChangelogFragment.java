@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.ui.fragment;
 
 import android.app.Dialog;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -133,7 +132,7 @@ public class ChangelogFragment extends DialogFragment {
     private void applyTheme() {
         if (temporaryTheme != PreferenceHelper.getInstance().getTheme()) {
             PreferenceHelper.getInstance().setTheme(temporaryTheme);
-            ThemeUtils.invalidateTheme(true);
+            ThemeUtils.setTheme(true);
         }
     }
 }

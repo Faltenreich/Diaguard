@@ -20,7 +20,6 @@ import androidx.core.content.ContextCompat;
 /**
  * Created by Faltenreich on 30.09.2015.
  */
-// TODO: Change icon color according to theme
 public class MeasurementFloatingActionMenu extends FloatingActionMenu {
 
     private static final int MAX_BUTTON_COUNT = 3;

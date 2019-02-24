@@ -167,19 +167,27 @@ public class ViewUtils {
         animation.start();
     }
 
-    public static void setBackgroundColorAnimated(View view, @ColorInt int to) {
-        int from = getBackgroundColor(view);
-        ValueAnimator animation = ValueAnimator.ofObject(new ArgbEvaluator(), from, to);
-        animation.addUpdateListener(animator -> view.setBackgroundColor((Integer)animator.getAnimatedValue()));
-        animation.setDuration(ANIMATION_DURATION);
-        animation.start();
+    public static void setBackgroundColor(View view, @ColorInt int to, boolean animated) {
+        if (animated) {
+            int from = getBackgroundColor(view);
+            ValueAnimator animation = ValueAnimator.ofObject(new ArgbEvaluator(), from, to);
+            animation.addUpdateListener(animator -> view.setBackgroundColor((Integer)animator.getAnimatedValue()));
+            animation.setDuration(ANIMATION_DURATION);
+            animation.start();
+        } else {
+            view.setBackgroundColor(to);
+        }
     }
 
-    public static void setColorFilterAnimated(Drawable drawable, @ColorInt int from, @ColorInt int to) {
-        ValueAnimator animation = ValueAnimator.ofObject(new ArgbEvaluator(), from, to);
-        animation.addUpdateListener(animator -> drawable.setColorFilter((Integer)animator.getAnimatedValue(), PorterDuff.Mode.MULTIPLY));
-        animation.setDuration(ANIMATION_DURATION);
-        animation.start();
+    public static void setColorFilter(Drawable drawable, @ColorInt int from, @ColorInt int to, boolean animated) {
+        if (animated) {
+            ValueAnimator animation = ValueAnimator.ofObject(new ArgbEvaluator(), from, to);
+            animation.addUpdateListener(animator -> drawable.setColorFilter((Integer)animator.getAnimatedValue(), PorterDuff.Mode.MULTIPLY));
+            animation.setDuration(ANIMATION_DURATION);
+            animation.start();
+        } else {
+            drawable.setColorFilter(to, PorterDuff.Mode.MULTIPLY);
+        }
     }
 
     @ColorInt

@@ -85,7 +85,6 @@ public class ChangelogFragment extends DialogFragment {
         darkButton.setOnClickListener(button -> tryTheme(Theme.DARK));
     }
 
-    // TODO: Style positive button
     private void invalidateLayout() {
         if (getContext() != null) {
             boolean isDark = temporaryTheme == Theme.DARK;

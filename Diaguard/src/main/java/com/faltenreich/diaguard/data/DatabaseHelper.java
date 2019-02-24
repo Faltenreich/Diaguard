@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.faltenreich.diaguard.data.dao.EntryDao;
-import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.Activity;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
@@ -31,7 +30,6 @@ import com.faltenreich.diaguard.util.image.ImageLoader;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import com.squareup.picasso.Picasso;
 
 import org.joda.time.format.DateTimeFormat;
 
@@ -131,7 +129,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         // Food.imageUrl should be removed but column dropping is not supported in SQLite
         String query = String.format("ALTER TABLE \'%s\' ADD COLUMN %s TEXT", DatabaseHelper.FOOD, Food.Column.DELETED_AT);
         sqLiteDatabase.execSQL(query);
-        ImageLoader.getInstance().clearCache(context);
+        ImageLoader.getInstance().clearDiskCache(context);
     }
 
     private void upgradeToVersion22(ConnectionSource connectionSource) {

@@ -53,7 +53,6 @@
 
     <style name="Toolbar" parent="ThemeOverlay.MaterialComponents.ActionBar">
         <item name="android:textColorPrimary">@android:color/white</item>
-        <item name="android:background">?backgroundColorGreen</item>
     </style>
 
     <style name="ToolbarPopup" parent="ThemeOverlay.MaterialComponents.ActionBar">

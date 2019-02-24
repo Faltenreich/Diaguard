@@ -2,15 +2,12 @@ package com.faltenreich.diaguard.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import androidx.annotation.IdRes;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import com.google.android.material.navigation.NavigationView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -24,7 +21,6 @@ import com.faltenreich.diaguard.adapter.SlideOutBehavior;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.ui.fragment.BaseFragment;
 import com.faltenreich.diaguard.ui.fragment.CalculatorFragment;
-import com.faltenreich.diaguard.ui.fragment.CalculatorMissingFragment;
 import com.faltenreich.diaguard.ui.fragment.ChangelogFragment;
 import com.faltenreich.diaguard.ui.fragment.ChartFragment;
 import com.faltenreich.diaguard.ui.fragment.ExportFragment;
@@ -104,9 +100,9 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
         drawerToggle.syncState();
         drawer.getMenu().findItem(R.id.nav_calculator).setVisible(BuildConfig.isCalculatorEnabled);
         drawer.setNavigationItemSelectedListener(menuItem -> {
-            // Delay as workaround to smooth transition
-            new Handler().postDelayed(() -> drawerLayout.closeDrawers(), 150);
-            return showFragment(menuItem);
+            drawerLayout.closeDrawers();
+            selectMenuItem(menuItem);
+            return true;
         });
         drawerToggle.setToolbarNavigationClickListener(v -> {
             if (drawerToggle.isDrawerIndicatorEnabled()) {
@@ -129,7 +125,7 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
         // Setup start fragment
         int startScreen = PreferenceHelper.getInstance().getStartScreen();
         MenuItem menuItem = drawer.getMenu().getItem(startScreen);
-        showFragment(menuItem);
+        selectMenuItem(menuItem);
     }
 
     private void invalidateLayout() {
@@ -180,10 +176,10 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
 
     public void showFragment(@IdRes int itemId) {
         MenuItem menuItem = drawer.getMenu().findItem(itemId);
-        showFragment(menuItem);
+        selectMenuItem(menuItem);
     }
 
-    private boolean showFragment(MenuItem menuItem) {
+    private void selectMenuItem(MenuItem menuItem) {
         if (menuItem != null) {
             switch (menuItem.getItemId()) {
                 case R.id.nav_home:
@@ -215,7 +211,6 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
                     break;
             }
         }
-        return true;
     }
 
     public void showFragment(BaseFragment fragment, MenuItem menuItem, boolean addToBackStack) {

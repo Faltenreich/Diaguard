@@ -10,13 +10,10 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 public class ThemeUtils {
 
-    public static void invalidateTheme(boolean commit) {
-        applyTheme(PreferenceHelper.getInstance().getTheme(), commit);
-    }
-
-    private static void applyTheme(Theme theme, boolean commit) {
+    public static void setTheme(boolean force) {
+        Theme theme = PreferenceHelper.getInstance().getTheme();
         setDefaultNightMode(theme);
-        if (commit) {
+        if (force) {
             setUiMode(DiaguardApplication.getContext(), theme);
         }
     }

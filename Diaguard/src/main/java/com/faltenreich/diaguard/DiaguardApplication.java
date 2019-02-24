@@ -11,7 +11,6 @@ import com.faltenreich.diaguard.util.theme.ThemeUtils;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
-import androidx.appcompat.app.AppCompatDelegate;
 import de.psdev.licensesdialog.LicenseResolver;
 
 /**
@@ -38,6 +37,6 @@ public class DiaguardApplication extends Application {
         LicenseResolver.registerLicense(new OpenDatabaseLicense());
         PreferenceHelper.getInstance().migrate();
         NotificationUtils.setupNotifications(this);
-        ThemeUtils.invalidateTheme(false);
+        ThemeUtils.setTheme(false);
     }
 }

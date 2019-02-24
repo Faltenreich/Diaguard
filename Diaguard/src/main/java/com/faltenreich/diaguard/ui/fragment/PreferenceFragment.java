@@ -10,7 +10,6 @@ import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import android.widget.ListAdapter;
 import android.widget.Toast;
@@ -214,7 +213,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                 Events.post(new UnitChangedEvent(Measurement.Category.WEIGHT));
                 break;
             case PreferenceHelper.Keys.THEME:
-                ThemeUtils.invalidateTheme(true);
+                ThemeUtils.setTheme(true);
                 break;
         }
         setSummary(findPreference(key));

@@ -10,22 +10,16 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 public class ThemeUtils {
 
-    public static void setTheme(boolean force) {
-        Theme theme = PreferenceHelper.getInstance().getTheme();
-        setDefaultNightMode(theme);
-        if (force) {
-            setUiMode(DiaguardApplication.getContext(), theme);
-        }
-    }
-
-    private static void setDefaultNightMode(Theme theme) {
+    public static void setDefaultNightMode(Theme theme) {
         AppCompatDelegate.setDefaultNightMode(theme.getDayNightMode());
     }
 
-    private static void setUiMode(Context context, Theme theme) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+    public static void setUiMode(Context context, Theme theme) {
+        if (context != null && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             UiModeManager uiModeManager = context.getSystemService(UiModeManager.class);
-            uiModeManager.setNightMode(theme.getUiMode());
+            if (uiModeManager != null) {
+                uiModeManager.setNightMode(theme.getUiMode());
+            }
         }
     }
 }

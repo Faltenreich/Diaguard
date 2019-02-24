@@ -97,9 +97,9 @@ public class ChangelogFragment extends DialogFragment {
             ViewUtils.setBackgroundColorAnimated(lightButtonBackground, isDark ? Color.TRANSPARENT : highlightColor);
             ViewUtils.setBackgroundColorAnimated(darkButtonBackground, isDark ? highlightColor : Color.TRANSPARENT);
 
-            ViewUtils.setTextColorAnimated(titleView, textColor);
-            ViewUtils.setTextColorAnimated(lightLabel, textColor);
-            ViewUtils.setTextColorAnimated(darkLabel, textColor);
+            titleView.setTextColor(textColor);
+            lightLabel.setTextColor(textColor);
+            darkLabel.setTextColor(textColor);
 
             if (getDialog() != null && getDialog().getWindow() != null && getDialog().getWindow().getDecorView().getBackground() != null) {
                 int oldBackgroundColor = ContextCompat.getColor(getContext(), isDark ? R.color.background_light_primary : R.color.background_dark_primary);

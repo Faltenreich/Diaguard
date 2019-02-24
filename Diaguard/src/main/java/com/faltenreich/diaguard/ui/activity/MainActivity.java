@@ -103,41 +103,27 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
         drawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
         drawer.getMenu().findItem(R.id.nav_calculator).setVisible(BuildConfig.isCalculatorEnabled);
-        drawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                // Delay as workaround to smooth transition
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        drawerLayout.closeDrawers();
-                    }
-                }, 150);
-                return showFragment(menuItem);
-            }
+        drawer.setNavigationItemSelectedListener(menuItem -> {
+            // Delay as workaround to smooth transition
+            new Handler().postDelayed(() -> drawerLayout.closeDrawers(), 150);
+            return showFragment(menuItem);
         });
-        drawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (drawerToggle.isDrawerIndicatorEnabled()) {
-                    if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                    } else {
-                        drawerLayout.openDrawer(GravityCompat.START);
-                    }
-                } else {
+        drawerToggle.setToolbarNavigationClickListener(v -> {
+            if (drawerToggle.isDrawerIndicatorEnabled()) {
+                if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
                     drawerLayout.closeDrawer(GravityCompat.START);
-                    getSupportFragmentManager().popBackStackImmediate();
+                } else {
+                    drawerLayout.openDrawer(GravityCompat.START);
                 }
+            } else {
+                drawerLayout.closeDrawer(GravityCompat.START);
+                getSupportFragmentManager().popBackStackImmediate();
             }
         });
 
-        getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-            @Override
-            public void onBackStackChanged() {
-                drawerToggle.setDrawerIndicatorEnabled(getSupportFragmentManager().getBackStackEntryCount() == 0);
-                invalidateLayout();
-            }
+        getSupportFragmentManager().addOnBackStackChangedListener(() -> {
+            drawerToggle.setDrawerIndicatorEnabled(getSupportFragmentManager().getBackStackEntryCount() == 0);
+            invalidateLayout();
         });
 
         // Setup start fragment
@@ -210,11 +196,7 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
                     showFragment(new LogFragment(), menuItem, false);
                     break;
                 case R.id.nav_calculator:
-                    if (BuildConfig.isCalculatorEnabled) {
-                        showFragment(new CalculatorFragment(), menuItem, true);
-                    } else {
-                        explainMissingCalculator();
-                    }
+                    showFragment(new CalculatorFragment(), menuItem, true);
                     break;
                 case R.id.nav_food_database:
                     startActivity(new Intent(this, FoodSearchActivity.class));
@@ -258,10 +240,6 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
         }
     }
 
-    private void explainMissingCalculator() {
-        new CalculatorMissingFragment().show(getSupportFragmentManager(), null);
-    }
-
     private void selectNavigationDrawerMenuItem(MenuItem menuItem) {
         if (menuItem != null) {
             // First uncheck all, then check current Fragment
@@ -277,7 +255,6 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
         int currentVersionCode = SystemUtils.getVersionCode(this);
         if (oldVersionCode > 0) {
             boolean isUpdate = oldVersionCode < currentVersionCode;
-            isUpdate = true; // TODO: Change
             if (isUpdate) {
                 PreferenceHelper.getInstance().setVersionCode(currentVersionCode);
 
@@ -286,10 +263,6 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.addToBackStack(tag);
                 fragment.show(fragmentTransaction, tag);
-
-                if (currentVersionCode == 25) {
-                    explainMissingCalculator();
-                }
             }
         } else {
             // Skip changelog for fresh installs

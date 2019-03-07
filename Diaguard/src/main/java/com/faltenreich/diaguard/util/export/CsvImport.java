@@ -65,11 +65,8 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
                     importFromVersion1_1(reader, nextLine);
                 } else if (databaseVersion <= DatabaseHelper.DATABASE_VERSION_2_2) {
                     importFromVersion2_2(reader, nextLine);
-                } else if (databaseVersion <= DatabaseHelper.DATABASE_VERSION_3_0) {
-                    importFromVersion3_0(reader, nextLine);
                 } else {
-                    Log.e(TAG, "Unsupported database version: " + databaseVersion);
-                    return false;
+                    importFromVersion3_0(reader, nextLine);
                 }
             }
             reader.close();

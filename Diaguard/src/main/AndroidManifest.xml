@@ -96,6 +96,12 @@
         </activity>
 
         <activity
+            android:name=".ui.activity.CategoriesActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/categories_select"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+
+        <activity
             android:name=".ui.activity.PreferenceActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/settings"

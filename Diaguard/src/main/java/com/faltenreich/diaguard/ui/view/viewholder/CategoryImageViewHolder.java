@@ -31,6 +31,6 @@ public class CategoryImageViewHolder extends BaseViewHolder<ListItemCategoryImag
 
     @Override
     public void onClick(View view) {
-        ViewUtils.showToast(getContext(), getListItem().getCategory().toLocalizedString());
+        ViewUtils.showToast(getContext(), getListItem().getCategory().toLocalizedString(getContext()));
     }
 }

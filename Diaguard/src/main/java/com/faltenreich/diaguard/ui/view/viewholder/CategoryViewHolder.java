@@ -24,5 +24,6 @@ public class CategoryViewHolder extends BaseViewHolder<Measurement.Category> {
     @Override
     protected void bindData() {
         Measurement.Category category = getListItem();
+        checkBox.setText(category.toLocalizedString(getContext()));
     }
 }

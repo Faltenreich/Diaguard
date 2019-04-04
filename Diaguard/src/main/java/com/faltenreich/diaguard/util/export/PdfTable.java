@@ -120,7 +120,7 @@ public class PdfTable extends Table {
         int row = 0;
         for (Measurement.Category category : values.keySet()) {
             ListItemCategoryValue[] items = values.get(category);
-            String label = category.toLocalizedString();
+            String label = category.toLocalizedString(getContext());
             int backgroundColor = row % 2 == 0 ? alternatingRowColor : Color.white;
             if (category == Measurement.Category.PRESSURE) {
                 data.add(getRowForValues(items, 0, label + " " + DiaguardApplication.getContext().getString(R.string.systolic_acronym), backgroundColor));

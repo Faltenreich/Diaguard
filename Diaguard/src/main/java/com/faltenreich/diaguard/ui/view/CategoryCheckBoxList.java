@@ -51,12 +51,7 @@ public class CategoryCheckBoxList extends LinearLayout {
 
     private void addCategory(final Measurement.Category category, boolean isSelected) {
         categories.put(category, isSelected);
-        addCheckBox(category.toLocalizedString(), categories.get(category), new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                categories.put(category, isChecked);
-            }
-        });
+        addCheckBox(category.toLocalizedString(getContext()), categories.get(category), (buttonView, isChecked) -> categories.put(category, isChecked));
     }
 
     private void addCheckBox(String text, boolean isChecked, CompoundButton.OnCheckedChangeListener listener) {

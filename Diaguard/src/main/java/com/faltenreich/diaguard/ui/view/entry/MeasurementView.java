@@ -134,15 +134,12 @@ public class MeasurementView<T extends Measurement> extends LinearLayout impleme
 
     private void togglePinnedCategory(final boolean isPinned) {
         int textResId = isPinned ? R.string.category_pin_confirm : R.string.category_unpin_confirm;
-        String confirmation = String.format(getContext().getString(textResId), category.toLocalizedString());
-        ViewUtils.showSnackbar(MeasurementView.this, confirmation, new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkBoxPin.setOnCheckedChangeListener(null);
-                checkBoxPin.setChecked(!isPinned);
-                PreferenceHelper.getInstance().setCategoryPinned(category, !isPinned);
-                checkBoxPin.setOnCheckedChangeListener(MeasurementView.this);
-            }
+        String confirmation = String.format(getContext().getString(textResId), category.toLocalizedString(getContext()));
+        ViewUtils.showSnackbar(MeasurementView.this, confirmation, view -> {
+            checkBoxPin.setOnCheckedChangeListener(null);
+            checkBoxPin.setChecked(!isPinned);
+            PreferenceHelper.getInstance().setCategoryPinned(category, !isPinned);
+            checkBoxPin.setOnCheckedChangeListener(MeasurementView.this);
         });
         PreferenceHelper.getInstance().setCategoryPinned(category, isPinned);
     }

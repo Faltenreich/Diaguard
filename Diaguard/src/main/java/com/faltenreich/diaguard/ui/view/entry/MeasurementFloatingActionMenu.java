@@ -108,7 +108,7 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
     public void addMenuButton(final Measurement.Category category) {
         FloatingActionButton fab = FloatingActionButtonFactory.createFloatingActionButton(
                 getContext(),
-                category.toLocalizedString(),
+                category.toLocalizedString(getContext()),
                 PreferenceHelper.getInstance().getCategoryImageResourceId(category),
                 ContextCompat.getColor(getContext(), R.color.green));
         fab.setOnClickListener(v -> {

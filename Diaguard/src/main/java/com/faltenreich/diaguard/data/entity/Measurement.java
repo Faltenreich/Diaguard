@@ -2,6 +2,8 @@ package com.faltenreich.diaguard.data.entity;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+
+import android.content.Context;
 import android.util.Log;
 
 import com.faltenreich.diaguard.DiaguardApplication;
@@ -54,8 +56,8 @@ public abstract class Measurement extends BaseEntity implements Backupable, Expo
             return clazz;
         }
 
-        public String toLocalizedString() {
-            return DiaguardApplication.getContext().getString(stringResId);
+        public String toLocalizedString(Context context) {
+            return context.getString(stringResId);
         }
 
         public boolean stackValues() {

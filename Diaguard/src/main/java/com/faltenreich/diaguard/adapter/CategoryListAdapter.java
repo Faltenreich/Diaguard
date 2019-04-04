@@ -11,9 +11,11 @@ import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.ui.view.viewholder.CategoryViewHolder;
 import com.faltenreich.diaguard.ui.view.viewholder.TagViewHolder;
 
+import java.util.Collections;
+
 import androidx.annotation.NonNull;
 
-public class CategoryListAdapter extends BaseAdapter<Measurement.Category, CategoryViewHolder> {
+public class CategoryListAdapter extends BaseAdapter<Measurement.Category, CategoryViewHolder> implements DragDropItemTouchHelperCallback.DragDropListener {
 
     public CategoryListAdapter(Context context) {
         super(context);
@@ -28,5 +30,19 @@ public class CategoryListAdapter extends BaseAdapter<Measurement.Category, Categ
     @Override
     public void onBindViewHolder(@NonNull final CategoryViewHolder holder, int position) {
         holder.bindData(getItem(position));
+    }
+
+    @Override
+    public void onItemMoved(int oldPosition, int newPosition) {
+        if (oldPosition < newPosition) {
+            for (int position = oldPosition; position < newPosition; position++) {
+                Collections.swap(getItems(), position, position + 1);
+            }
+        } else {
+            for (int position = oldPosition; position > newPosition; position--) {
+                Collections.swap(getItems(), position, position - 1);
+            }
+        }
+        notifyItemMoved(oldPosition, newPosition);
     }
 }

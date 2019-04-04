@@ -26,6 +26,7 @@ public class CategoryViewHolder extends BaseViewHolder<Measurement.Category> {
     @Override
     protected void bindData() {
         Measurement.Category category = getListItem();
+        checkBox.setEnabled(category != Measurement.Category.BLOODSUGAR);
         checkBox.setText(category.toLocalizedString(getContext()));
         checkBox.setChecked(PreferenceHelper.getInstance().isCategoryActive(category));
         checkBox.setOnCheckedChangeListener((view, isChecked) -> PreferenceHelper.getInstance().setIsCategoryActive(category, isChecked));

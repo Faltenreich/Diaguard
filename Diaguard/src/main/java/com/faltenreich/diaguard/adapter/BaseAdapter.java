@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.faltenreich.diaguard.ui.view.viewholder.BaseViewHolder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -56,6 +57,10 @@ public abstract class BaseAdapter<L, VH extends BaseViewHolder<L>> extends Recyc
 
     public void addItems(List<L> items) {
         this.items.addAll(items);
+    }
+
+    public void addItems(L[] items) {
+        this.items.addAll(Arrays.asList(items));
     }
 
     public void addItems(int position, List<L> items) {

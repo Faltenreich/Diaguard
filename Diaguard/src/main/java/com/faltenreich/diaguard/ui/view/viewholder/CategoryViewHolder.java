@@ -2,9 +2,11 @@ package com.faltenreich.diaguard.ui.view.viewholder;
 
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.async.DataLoader;
 import com.faltenreich.diaguard.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.data.dao.EntryTagDao;
@@ -25,5 +27,7 @@ public class CategoryViewHolder extends BaseViewHolder<Measurement.Category> {
     protected void bindData() {
         Measurement.Category category = getListItem();
         checkBox.setText(category.toLocalizedString(getContext()));
+        checkBox.setChecked(PreferenceHelper.getInstance().isCategoryActive(category));
+        checkBox.setOnCheckedChangeListener((view, isChecked) -> PreferenceHelper.getInstance().setIsCategoryActive(category, isChecked));
     }
 }

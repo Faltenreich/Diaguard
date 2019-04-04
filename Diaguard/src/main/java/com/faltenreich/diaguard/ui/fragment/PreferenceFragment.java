@@ -122,6 +122,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                 preference.setSummary(listPreference.getEntry());
 
             } else if (preference instanceof CategoryPreference) {
+                // TODO: Update preference for CategoryListFragment
                 int activeCategoriesCount = PreferenceHelper.getInstance().getActiveCategories().length;
                 int categoriesTotalCount = Measurement.Category.values().length;
                 preference.setSummary(String.format("%d/%d %s",

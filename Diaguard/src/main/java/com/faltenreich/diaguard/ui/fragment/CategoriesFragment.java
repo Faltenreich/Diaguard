@@ -6,10 +6,7 @@ import android.view.View;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.adapter.CategoryListAdapter;
 import com.faltenreich.diaguard.adapter.DragDropItemTouchHelperCallback;
-import com.faltenreich.diaguard.data.entity.Measurement;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.faltenreich.diaguard.data.PreferenceHelper;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -43,11 +40,7 @@ public class CategoriesFragment extends BaseFragment {
     }
 
     private void setCategories() {
-        List<Measurement.Category> categories = new ArrayList<>();
-        for (Measurement.Category category : Measurement.Category.values()) {
-            categories.add(category);
-        }
-        listAdapter.addItems(categories);
+        listAdapter.addItems(PreferenceHelper.getInstance().getSortedCategories());
         listAdapter.notifyDataSetChanged();
     }
 }

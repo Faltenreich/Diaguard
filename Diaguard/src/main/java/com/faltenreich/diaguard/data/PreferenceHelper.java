@@ -24,6 +24,7 @@ import org.joda.time.DateTimeConstants;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -39,6 +40,8 @@ public class PreferenceHelper {
     public class Keys {
         public static final String VERSION_CODE = "versionCode";
         public static final String CATEGORY_PINNED = "categoryPinned%s";
+        public final static String CATEGORY_ACTIVE = "%s_active";
+        public final static String CATEGORY_SORT_INDEX = "%s_sortIndex";
         public static final String ALARM_START_IN_MILLIS = "alarmStartInMillis";
         public static final String INTERVAL_FACTOR = "intervalFactor";
         public static final String INTERVAL_FACTOR_FOR_HOUR = "intervalFactor%d";
@@ -56,7 +59,6 @@ public class PreferenceHelper {
         public static final String DID_IMPORT_TAGS_FOR_LANGUAGE = "didImportTagsForLanguage";
         public static final String FOOD_SHOW_BRANDED = "showBrandedFood";
         public static final String THEME = "theme";
-        public final static String CATEGORY_ACTIVE = "_active";
     }
 
     public enum ChartStyle {
@@ -355,18 +357,34 @@ public class PreferenceHelper {
     }
 
     public boolean isCategoryActive(Measurement.Category category) {
-        return sharedPreferences.getBoolean(category.name() + Keys.CATEGORY_ACTIVE, true);
+        return sharedPreferences.getBoolean(String.format(Keys.CATEGORY_ACTIVE, category.name()), true);
     }
 
     public void setIsCategoryActive(Measurement.Category category, boolean isActive) {
-        sharedPreferences.edit().putBoolean(category.name() + Keys.CATEGORY_ACTIVE, isActive).apply();
+        sharedPreferences.edit().putBoolean(String.format(Keys.CATEGORY_ACTIVE, category.name()), isActive).apply();
     }
 
+    public int getCategorySortIndex(Measurement.Category category) {
+        return sharedPreferences.getInt(String.format(Keys.CATEGORY_SORT_INDEX, category.name()), category.ordinal());
+    }
+
+    public void setCategorySortIndex(Measurement.Category category, int sortIndex) {
+        sharedPreferences.edit().putInt(String.format(Keys.CATEGORY_SORT_INDEX, category.name()), sortIndex).apply();
+    }
+
+    public List<Measurement.Category> getSortedCategories() {
+        List<Measurement.Category> activeCategories = new ArrayList<>(Arrays.asList(Measurement.Category.values()));
+        Collections.sort(activeCategories, (first, second) -> getCategorySortIndex(first) - getCategorySortIndex(second));
+        return activeCategories;
+    }
+
+    // FIXME: Breaks some logic, e.g. timeline that removes the formerly first category (blood sugar) in its table
     public Measurement.Category[] getActiveCategories() {
-        List<Measurement.Category> activeCategories = new ArrayList<Measurement.Category>();
-        for(int item = 0; item < Measurement.Category.values().length; item++) {
-            if (isCategoryActive(Measurement.Category.values()[item])) {
-                activeCategories.add(Measurement.Category.values()[item]);
+        List<Measurement.Category> sortedCategories = getSortedCategories();
+        List<Measurement.Category> activeCategories = new ArrayList<>();
+        for (Measurement.Category sortedCategory : sortedCategories) {
+            if (isCategoryActive(sortedCategory)) {
+                activeCategories.add(sortedCategory);
             }
         }
         return activeCategories.toArray(new Measurement.Category[activeCategories.size()]);

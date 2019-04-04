@@ -17,8 +17,11 @@ import androidx.annotation.NonNull;
 
 public class CategoryListAdapter extends BaseAdapter<Measurement.Category, CategoryViewHolder> implements DragDropItemTouchHelperCallback.DragDropListener {
 
-    public CategoryListAdapter(Context context) {
+    private OrderListener listener;
+
+    public CategoryListAdapter(Context context, OrderListener listener) {
         super(context);
+        this.listener = listener;
     }
 
     @NonNull
@@ -44,5 +47,10 @@ public class CategoryListAdapter extends BaseAdapter<Measurement.Category, Categ
             }
         }
         notifyItemMoved(oldPosition, newPosition);
+        listener.onOrderChanges();
+    }
+
+    public interface OrderListener {
+        void onOrderChanges();
     }
 }

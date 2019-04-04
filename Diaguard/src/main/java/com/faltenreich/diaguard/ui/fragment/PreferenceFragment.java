@@ -121,15 +121,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                 ListPreference listPreference = (ListPreference) preference;
                 preference.setSummary(listPreference.getEntry());
 
-            } else if (preference instanceof CategoryPreference) {
-                // TODO: Update preference for CategoryListFragment
-                int activeCategoriesCount = PreferenceHelper.getInstance().getActiveCategories().length;
-                int categoriesTotalCount = Measurement.Category.values().length;
-                preference.setSummary(String.format("%d/%d %s",
-                        activeCategoriesCount,
-                        categoriesTotalCount,
-                        getString(R.string.active)));
-
             } else if (preference instanceof BloodSugarPreference) {
                 String value = PreferenceHelper.getInstance().getValueForKey(preference.getKey());
                 float number = NumberUtils.parseNumber(value);
@@ -147,21 +138,32 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
 
             } else if (preference.getKey() != null) {
                 String key = preference.getKey();
-                if (key.equals("version")) {
-                    preference.setSummary(SystemUtils.getVersionName(getActivity()));
-                } else if (key.equals("tags")) {
-                    DataLoader.getInstance().load(preference.getContext(), new DataLoaderListener<Long>() {
-                        @Override
-                        public Long onShouldLoad() {
-                            return TagDao.getInstance().countAll();
-                        }
-                        @Override
-                        public void onDidLoad(Long count) {
-                            if (isAdded()) {
-                                preference.setSummary(String.format(getString(R.string.available_placeholder), count));
+                switch (key) {
+                    case "version":
+                        preference.setSummary(SystemUtils.getVersionName(getActivity()));
+                        break;
+                    case "categories":
+                        int activeCategoriesCount = PreferenceHelper.getInstance().getActiveCategories().length;
+                        int categoriesTotalCount = Measurement.Category.values().length;
+                        preference.setSummary(String.format("%d/%d %s",
+                                activeCategoriesCount,
+                                categoriesTotalCount,
+                                getString(R.string.active)));
+                        break;
+                    case "tags":
+                        DataLoader.getInstance().load(preference.getContext(), new DataLoaderListener<Long>() {
+                            @Override
+                            public Long onShouldLoad() {
+                                return TagDao.getInstance().countAll();
                             }
-                        }
-                    });
+                            @Override
+                            public void onDidLoad(Long count) {
+                                if (isAdded()) {
+                                    preference.setSummary(String.format(getString(R.string.available_placeholder), count));
+                                }
+                            }
+                        });
+                        break;
                 }
             }
         }

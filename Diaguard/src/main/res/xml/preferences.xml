@@ -35,19 +35,13 @@
         android:title="@string/data">
 
         <Preference
-            android:key="tags"
+            android:key="categories"
             android:title="@string/categories">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:targetPackage="@string/package_name"
                 android:targetClass="com.faltenreich.diaguard.ui.activity.CategoriesActivity"/>
         </Preference>
-
-        <com.faltenreich.diaguard.ui.view.preferences.CategoryPreference
-            android:key="categories"
-            android:title="@string/categories"
-            android:entries="@array/categories"
-            android:entryValues="@array/categories"/>
 
         <Preference
             android:key="tags"

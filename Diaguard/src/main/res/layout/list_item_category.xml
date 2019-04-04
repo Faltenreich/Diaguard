@@ -5,24 +5,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="@dimen/height_element"
-    android:gravity="center_vertical">
+    android:minHeight="@dimen/height_element_large"
+    android:gravity="center_vertical"
+    android:paddingLeft="@dimen/margin_between_large"
+    android:paddingStart="@dimen/margin_between_large"
+    android:paddingRight="@dimen/margin_between_large"
+    android:paddingEnd="@dimen/margin_between_large"
+    android:divider="@drawable/divider_medium"
+    android:showDividers="middle">
+
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="@dimen/margin_between"
+        tools:text="Title"/>
 
     <ImageView
         android:layout_width="@dimen/size_image"
         android:layout_height="@dimen/size_image"
-        android:layout_marginStart="@dimen/margin_between_large"
-        android:layout_marginLeft="@dimen/margin_between_large"
         android:src="@drawable/ic_reorder"
-        android:contentDescription="@null"/>
-
-    <CheckBox
-        android:id="@+id/checkbox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_between_large"
-        android:layout_marginLeft="@dimen/margin_between_large"
-        android:padding="@dimen/margin_between"
-        tools:text="Title"/>
+        android:tint="@color/gray"
+        android:contentDescription="@null"
+        android:focusable="false"/>
 
 </LinearLayout>

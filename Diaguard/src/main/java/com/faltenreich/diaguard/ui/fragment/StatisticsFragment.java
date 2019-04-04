@@ -100,7 +100,7 @@ public class StatisticsFragment extends BaseFragment {
         final Measurement.Category[] categories = PreferenceHelper.getInstance().getActiveCategories();
         List<String> categoryNames = new ArrayList<>();
         for (Measurement.Category category : categories) {
-            categoryNames.add(category.toLocalizedString());
+            categoryNames.add(category.toLocalizedString(getContext()));
         }
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, categoryNames);
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

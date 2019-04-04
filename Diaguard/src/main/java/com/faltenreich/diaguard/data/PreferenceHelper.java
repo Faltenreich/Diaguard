@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.data;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.os.Build;
 import android.preference.PreferenceManager;
 
 import androidx.annotation.StringRes;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.view.MainFragmentType;
-import com.faltenreich.diaguard.ui.view.preferences.CategoryPreference;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.theme.Theme;
@@ -58,6 +56,7 @@ public class PreferenceHelper {
         public static final String DID_IMPORT_TAGS_FOR_LANGUAGE = "didImportTagsForLanguage";
         public static final String FOOD_SHOW_BRANDED = "showBrandedFood";
         public static final String THEME = "theme";
+        public final static String CATEGORY_ACTIVE = "_active";
     }
 
     public enum ChartStyle {
@@ -356,7 +355,11 @@ public class PreferenceHelper {
     }
 
     public boolean isCategoryActive(Measurement.Category category) {
-        return sharedPreferences.getBoolean(category.name() + CategoryPreference.ACTIVE, true);
+        return sharedPreferences.getBoolean(category.name() + Keys.CATEGORY_ACTIVE, true);
+    }
+
+    public void setIsCategoryActive(Measurement.Category category, boolean isActive) {
+        sharedPreferences.edit().putBoolean(category.name() + Keys.CATEGORY_ACTIVE, isActive).apply();
     }
 
     public Measurement.Category[] getActiveCategories() {

@@ -3,12 +3,13 @@ package com.faltenreich.diaguard.ui.list.decoration;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import com.faltenreich.diaguard.R;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class TimelineGridDividerItemDecoration extends RecyclerView.ItemDecoration {
 

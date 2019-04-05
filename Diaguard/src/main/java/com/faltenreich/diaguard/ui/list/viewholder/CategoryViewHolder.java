@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.ui.list.viewholder;
 
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -7,9 +8,9 @@ import android.widget.CheckBox;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.ui.list.adapter.CategoryListAdapter;
 import com.faltenreich.diaguard.ui.list.helper.Draggable;
 import com.faltenreich.diaguard.util.ResourceUtils;
-import com.faltenreich.diaguard.util.ViewUtils;
 
 import butterknife.BindView;
 
@@ -19,10 +20,16 @@ public class CategoryViewHolder extends BaseViewHolder<Measurement.Category> imp
     @BindView(R.id.checkBox) CheckBox checkBox;
     @BindView(R.id.dragView) View dragView;
 
-    public CategoryViewHolder(View view) {
+    public CategoryViewHolder(View view, CategoryListAdapter.ReorderListener listener) {
         super(view);
         checkBox.setOnCheckedChangeListener((v, isChecked) -> PreferenceHelper.getInstance().setIsCategoryActive(getListItem(), isChecked));
-        dragView.setOnClickListener(v -> ViewUtils.showToast(getContext(), R.string.drag_drop_hint));
+        dragView.setOnTouchListener((v, event) -> {
+            if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                listener.onReorderStart(CategoryViewHolder.this);
+                v.performClick();
+            }
+            return false;
+        });
     }
 
     @Override

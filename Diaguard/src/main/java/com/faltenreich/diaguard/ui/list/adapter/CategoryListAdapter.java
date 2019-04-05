@@ -12,12 +12,13 @@ import com.faltenreich.diaguard.ui.list.viewholder.CategoryViewHolder;
 import java.util.Collections;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class CategoryListAdapter extends BaseAdapter<Measurement.Category, CategoryViewHolder> implements DragDropItemTouchHelperCallback.DragDropListener {
 
-    private OrderListener listener;
+    private ReorderListener listener;
 
-    public CategoryListAdapter(Context context, OrderListener listener) {
+    public CategoryListAdapter(Context context, ReorderListener listener) {
         super(context);
         this.listener = listener;
     }
@@ -25,7 +26,7 @@ public class CategoryListAdapter extends BaseAdapter<Measurement.Category, Categ
     @NonNull
     @Override
     public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new CategoryViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_category, parent, false));
+        return new CategoryViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_category, parent, false), listener);
     }
 
     @Override
@@ -34,7 +35,7 @@ public class CategoryListAdapter extends BaseAdapter<Measurement.Category, Categ
     }
 
     @Override
-    public void onItemMoved(int oldPosition, int newPosition) {
+    public void onItemDragEnd(int oldPosition, int newPosition) {
         if (oldPosition < newPosition) {
             for (int position = oldPosition; position < newPosition; position++) {
                 Collections.swap(getItems(), position, position + 1);
@@ -45,10 +46,11 @@ public class CategoryListAdapter extends BaseAdapter<Measurement.Category, Categ
             }
         }
         notifyItemMoved(oldPosition, newPosition);
-        listener.onOrderChanges();
+        listener.onReorderEnd();
     }
 
-    public interface OrderListener {
-        void onOrderChanges();
+    public interface ReorderListener {
+        void onReorderStart(RecyclerView.ViewHolder viewHolder);
+        void onReorderEnd();
     }
 }

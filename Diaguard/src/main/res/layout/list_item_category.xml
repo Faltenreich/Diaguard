@@ -12,16 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="@dimen/height_element_large"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/margin_between_large"
-        android:paddingStart="@dimen/margin_between_large"
-        android:paddingRight="@dimen/margin_between_large"
-        android:paddingEnd="@dimen/margin_between_large">
+        android:gravity="center_vertical">
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/checkBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_between_large"
+            android:layout_marginStart="@dimen/margin_between_large"
             android:padding="@dimen/margin_between"
             tools:text="Title"/>
 
@@ -32,8 +30,9 @@
 
         <ImageView
             android:id="@+id/dragView"
-            android:layout_width="@dimen/size_image"
-            android:layout_height="@dimen/size_image"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="@dimen/margin_between_large"
             android:background="?selectableItemBackgroundBorderless"
             android:src="@drawable/ic_reorder"
             android:tint="@color/gray"

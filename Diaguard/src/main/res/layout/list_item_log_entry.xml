@@ -34,14 +34,15 @@
                     android:layout_height="wrap_content"
                     tools:text="19:05"/>
 
-                <org.apmem.tools.layouts.FlowLayout
+                <LinearLayout
                     style="@style/Padding"
                     android:id="@+id/measurements_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingTop="0dp"
-                    android:gravity="fill_horizontal"
-                    app:weightDefault="1.0"/>
+                    android:orientation="vertical"
+                    android:divider="@drawable/divider_medium"
+                    android:showDividers="middle"/>
 
                 <com.google.android.material.chip.ChipGroup
                     style="@style/Padding"

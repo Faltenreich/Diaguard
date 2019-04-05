@@ -186,6 +186,7 @@
     <orderEntry type="library" name="Gradle: com.robinhood.ticker:ticker:2.0.1@aar" level="project" />
     <orderEntry type="library" name="Gradle: joda-time:joda-time:2.10.1:no-tzdb@jar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.appcompat:appcompat:1.1.0-alpha01@aar" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.android.material:material:1.1.0-alpha05@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.jakewharton:butterknife-runtime:10.0.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.arch.core:core-runtime:2.0.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.google.guava:listenablefuture:1.0@jar" level="project" />
@@ -204,7 +205,6 @@
     <orderEntry type="library" name="Gradle: androidx.activity:activity:1.0.0-alpha02@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-livedata:2.0.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.versionedparcelable:versionedparcelable:1.1.0-alpha01@aar" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.android.material:material:1.1.0-alpha03@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.retrofit2:converter-gson:2.5.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.collection:collection:1.1.0-alpha01@jar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.vectordrawable:vectordrawable:1.1.0-alpha01@aar" level="project" />
@@ -233,7 +233,6 @@
     <orderEntry type="library" name="Gradle: com.fmsirvent:parallaxeverywhere:1.0.4@aar" level="project" />
     <orderEntry type="library" name="Gradle: net.danlew:android.joda:2.10.1.1@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.okio:okio:1.15.0@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.apmem.tools:layouts:1.10@aar" level="project" />
     <orderEntry type="library" name="Gradle: de.psdev.licensesdialog:licensesdialog:1.9.0@aar" level="project" />
   </component>
 </module>

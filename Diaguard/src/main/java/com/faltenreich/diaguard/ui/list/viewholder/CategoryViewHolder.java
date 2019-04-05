@@ -7,13 +7,13 @@ import android.widget.CheckBox;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.ui.list.helper.Selectable;
+import com.faltenreich.diaguard.ui.list.helper.Draggable;
 import com.faltenreich.diaguard.util.ResourceUtils;
 import com.faltenreich.diaguard.util.ViewUtils;
 
 import butterknife.BindView;
 
-public class CategoryViewHolder extends BaseViewHolder<Measurement.Category> implements Selectable {
+public class CategoryViewHolder extends BaseViewHolder<Measurement.Category> implements Draggable {
 
     @BindView(R.id.background) ViewGroup background;
     @BindView(R.id.checkBox) CheckBox checkBox;
@@ -28,13 +28,19 @@ public class CategoryViewHolder extends BaseViewHolder<Measurement.Category> imp
     @Override
     protected void bindData() {
         Measurement.Category category = getListItem();
-        checkBox.setEnabled(category != Measurement.Category.BLOODSUGAR);
+        checkBox.setEnabled(category.isOptional());
         checkBox.setText(category.toLocalizedString(getContext()));
         checkBox.setChecked(PreferenceHelper.getInstance().isCategoryActive(category));
+        dragView.setVisibility(category.isOptional() ? View.VISIBLE : View.GONE);
     }
 
     @Override
-    public void setSelected(boolean isSelected) {
-        background.setBackgroundColor(isSelected ? ResourceUtils.getBackgroundSecondary(getContext()) : ResourceUtils.getBackgroundPrimary(getContext()));
+    public boolean isDraggable() {
+        return getListItem() != Measurement.Category.BLOODSUGAR;
+    }
+
+    @Override
+    public void onDrag(boolean isDragged) {
+        background.setBackgroundColor(isDragged ? ResourceUtils.getBackgroundSecondary(getContext()) : ResourceUtils.getBackgroundPrimary(getContext()));
     }
 }

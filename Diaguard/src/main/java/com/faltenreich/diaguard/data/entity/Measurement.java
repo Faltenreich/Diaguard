@@ -1,12 +1,8 @@
 package com.faltenreich.diaguard.data.entity;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-
 import android.content.Context;
 import android.util.Log;
 
-import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.Backupable;
 import com.faltenreich.diaguard.data.Exportable;
@@ -18,6 +14,9 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 
 public abstract class Measurement extends BaseEntity implements Backupable, Exportable {
 
@@ -66,6 +65,10 @@ public abstract class Measurement extends BaseEntity implements Backupable, Expo
 
         public int getStableId() {
             return stableId;
+        }
+
+        public boolean isOptional() {
+            return this != BLOODSUGAR;
         }
 
         public static Category fromStableId(int stableId) {

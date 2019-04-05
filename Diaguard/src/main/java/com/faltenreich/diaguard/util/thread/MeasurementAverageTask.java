@@ -9,7 +9,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.util.ChartHelper;
+import com.faltenreich.diaguard.ui.view.chart.ChartHelper;
 import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.TimeSpan;
 import com.github.mikephil.charting.data.Entry;

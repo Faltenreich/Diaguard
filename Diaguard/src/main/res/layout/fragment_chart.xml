@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.faltenreich.diaguard.ui.view.chart.ChartViewPager
+<com.faltenreich.diaguard.ui.viewpager.ChartViewPager
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/viewpager"
     android:layout_width="match_parent"

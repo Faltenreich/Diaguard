@@ -6,8 +6,8 @@ import android.util.AttributeSet;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.TimeInterval;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.event.Events;
-import com.faltenreich.diaguard.event.preference.CorrectionFactorChangedEvent;
+import com.faltenreich.diaguard.data.event.Events;
+import com.faltenreich.diaguard.data.event.preference.CorrectionFactorChangedEvent;
 
 /**
  * Created by Filip on 04.11.13.

@@ -3,21 +3,20 @@ package com.faltenreich.diaguard.ui.fragment;
 import android.content.ActivityNotFoundException;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.event.Events;
-import com.faltenreich.diaguard.event.PermissionRequestEvent;
-import com.faltenreich.diaguard.event.PermissionResponseEvent;
+import com.faltenreich.diaguard.data.event.Events;
+import com.faltenreich.diaguard.data.event.PermissionRequestEvent;
+import com.faltenreich.diaguard.data.event.PermissionResponseEvent;
 import com.faltenreich.diaguard.ui.view.CategoryCheckBoxList;
 import com.faltenreich.diaguard.ui.view.MainButton;
 import com.faltenreich.diaguard.ui.view.MainButtonProperties;

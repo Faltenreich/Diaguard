@@ -15,12 +15,12 @@ import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.dao.FoodEatenDao;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.FoodEaten;
-import com.faltenreich.diaguard.event.Events;
-import com.faltenreich.diaguard.event.data.FoodDeletedEvent;
-import com.faltenreich.diaguard.event.data.FoodQueryEndedEvent;
-import com.faltenreich.diaguard.event.data.FoodQueryStartedEvent;
-import com.faltenreich.diaguard.event.networking.FoodSearchFailedEvent;
-import com.faltenreich.diaguard.event.networking.FoodSearchSucceededEvent;
+import com.faltenreich.diaguard.data.event.Events;
+import com.faltenreich.diaguard.data.event.data.FoodDeletedEvent;
+import com.faltenreich.diaguard.data.event.data.FoodQueryEndedEvent;
+import com.faltenreich.diaguard.data.event.data.FoodQueryStartedEvent;
+import com.faltenreich.diaguard.data.event.networking.FoodSearchFailedEvent;
+import com.faltenreich.diaguard.data.event.networking.FoodSearchSucceededEvent;
 import com.faltenreich.diaguard.networking.openfoodfacts.OpenFoodFactsService;
 import com.faltenreich.diaguard.util.Helper;
 

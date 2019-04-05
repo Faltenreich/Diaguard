@@ -12,8 +12,8 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.dao.FoodEatenDao;
 import com.faltenreich.diaguard.data.entity.Food;
-import com.faltenreich.diaguard.event.Events;
-import com.faltenreich.diaguard.event.data.FoodDeletedEvent;
+import com.faltenreich.diaguard.data.event.Events;
+import com.faltenreich.diaguard.data.event.data.FoodDeletedEvent;
 
 /**
  * Created by Faltenreich on 27.09.2016.

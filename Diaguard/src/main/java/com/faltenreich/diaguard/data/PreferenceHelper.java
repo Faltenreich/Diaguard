@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.view.MainFragmentType;
+import com.faltenreich.diaguard.util.CategoryComparatorFactory;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.theme.Theme;
@@ -21,6 +22,7 @@ import org.joda.time.DateTimeConstants;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -371,10 +373,14 @@ public class PreferenceHelper {
         sharedPreferences.edit().putInt(String.format(Keys.CATEGORY_SORT_INDEX, category.name()), sortIndex).apply();
     }
 
-    public List<Measurement.Category> getSortedCategories() {
+    public List<Measurement.Category> getSortedCategories(Comparator<Measurement.Category> comparator) {
         List<Measurement.Category> activeCategories = new ArrayList<>(Arrays.asList(Measurement.Category.values()));
-        Collections.sort(activeCategories, (first, second) -> getCategorySortIndex(first) - getCategorySortIndex(second));
+        Collections.sort(activeCategories, comparator);
         return activeCategories;
+    }
+
+    public List<Measurement.Category> getSortedCategories() {
+        return getSortedCategories(CategoryComparatorFactory.getInstance().createComparatorFromCategories());
     }
 
     public Measurement.Category[] getActiveCategories(@Nullable Measurement.Category excluded) {

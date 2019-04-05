@@ -1,9 +1,7 @@
 package com.faltenreich.diaguard.data.dao;
 
-import androidx.annotation.NonNull;
 import android.util.Log;
 
-import com.faltenreich.diaguard.ui.list.item.ListItemCategoryValue;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
@@ -13,7 +11,9 @@ import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Pressure;
 import com.faltenreich.diaguard.data.entity.Tag;
+import com.faltenreich.diaguard.ui.list.item.ListItemCategoryValue;
 import com.faltenreich.diaguard.util.ArrayUtils;
+import com.faltenreich.diaguard.util.CategoryComparatorFactory;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.SelectArg;
 
@@ -22,8 +22,11 @@ import org.joda.time.DateTimeConstants;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Faltenreich on 05.09.2015.
@@ -47,7 +50,7 @@ public class EntryDao extends BaseDao<Entry> {
 
     @Override
     public int delete(Entry entry) {
-        for (Measurement measurement : EntryDao.getInstance().getMeasurements(entry)) {
+        for (Measurement measurement : getMeasurements(entry)) {
             entry.getMeasurementCache().add(measurement);
             MeasurementDao.getInstance(measurement.getClass()).delete(measurement);
         }
@@ -85,6 +88,7 @@ public class EntryDao extends BaseDao<Entry> {
                 measurements.add(measurement);
             }
         }
+        Collections.sort(measurements, CategoryComparatorFactory.getInstance().createComparatorFromMeasurements());
         return measurements;
     }
 
@@ -133,7 +137,7 @@ public class EntryDao extends BaseDao<Entry> {
             // Key: Hour-index, Value: Values of hour-index
             LinkedHashMap<Integer, List<ListItemCategoryValue>> valuesOfHours = new LinkedHashMap<>();
             for (int index = 0; index < indices; index++) {
-                valuesOfHours.put(index, new ArrayList<ListItemCategoryValue>());
+                valuesOfHours.put(index, new ArrayList<>());
             }
 
             List<Measurement> measurements = MeasurementDao.getInstance(category.toClass()).getMeasurements(day);
@@ -159,7 +163,7 @@ public class EntryDao extends BaseDao<Entry> {
 
                 List<ListItemCategoryValue> valuesOfHour = valuesOfHours.get(index);
                 if (valuesOfHour == null) {
-                    valuesOfHours.put(index, new ArrayList<ListItemCategoryValue>());
+                    valuesOfHours.put(index, new ArrayList<>());
                 }
                 valuesOfHours.get(index).add(item);
             }

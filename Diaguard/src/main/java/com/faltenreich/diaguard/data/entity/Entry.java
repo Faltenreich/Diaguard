@@ -2,9 +2,8 @@ package com.faltenreich.diaguard.data.entity;
 
 import com.faltenreich.diaguard.data.Backupable;
 import com.faltenreich.diaguard.data.Exportable;
-import com.faltenreich.diaguard.util.DateTimeUtils;
+import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.util.Helper;
-import com.faltenreich.diaguard.util.StringUtils;
 import com.faltenreich.diaguard.util.export.Export;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
@@ -15,9 +14,8 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-
-import androidx.annotation.Nullable;
 
 @DatabaseTable
 public class Entry extends BaseEntity implements Backupable, Exportable {

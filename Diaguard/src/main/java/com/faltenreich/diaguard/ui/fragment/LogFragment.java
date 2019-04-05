@@ -2,22 +2,10 @@ package com.faltenreich.diaguard.ui.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.ui.list.helper.ListSwipeHelper;
-import com.faltenreich.diaguard.ui.list.adapter.LogRecyclerAdapter;
-import com.faltenreich.diaguard.ui.list.layoutmanager.SafeLinearLayoutManager;
-import com.faltenreich.diaguard.ui.list.decoration.StickyHeaderDecoration;
-import com.faltenreich.diaguard.ui.list.item.ListItem;
-import com.faltenreich.diaguard.ui.list.item.ListItemDate;
-import com.faltenreich.diaguard.ui.list.item.ListItemEmpty;
-import com.faltenreich.diaguard.ui.list.item.ListItemEntry;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.EntryTag;
@@ -27,8 +15,17 @@ import com.faltenreich.diaguard.data.event.BackupImportedEvent;
 import com.faltenreich.diaguard.data.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.data.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.data.event.data.EntryUpdatedEvent;
+import com.faltenreich.diaguard.data.event.preference.CategoryOrderChangedEvent;
 import com.faltenreich.diaguard.data.event.preference.UnitChangedEvent;
 import com.faltenreich.diaguard.ui.activity.EntrySearchActivity;
+import com.faltenreich.diaguard.ui.list.adapter.LogRecyclerAdapter;
+import com.faltenreich.diaguard.ui.list.decoration.StickyHeaderDecoration;
+import com.faltenreich.diaguard.ui.list.helper.ListSwipeHelper;
+import com.faltenreich.diaguard.ui.list.item.ListItem;
+import com.faltenreich.diaguard.ui.list.item.ListItemDate;
+import com.faltenreich.diaguard.ui.list.item.ListItemEmpty;
+import com.faltenreich.diaguard.ui.list.item.ListItemEntry;
+import com.faltenreich.diaguard.ui.list.layoutmanager.SafeLinearLayoutManager;
 import com.faltenreich.diaguard.util.ViewUtils;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -37,6 +34,10 @@ import org.joda.time.DateTime;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 /**
@@ -267,6 +268,14 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.LogL
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(@SuppressWarnings("unused") BackupImportedEvent event) {
+        if (isAdded()) {
+            progressBar.setVisibility(View.VISIBLE);
+            listAdapter.setup(getDay());
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(@SuppressWarnings("unused") CategoryOrderChangedEvent event) {
         if (isAdded()) {
             progressBar.setVisibility(View.VISIBLE);
             listAdapter.setup(getDay());

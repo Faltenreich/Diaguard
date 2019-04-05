@@ -104,7 +104,6 @@ public class ChartDayFragment extends Fragment {
     }
 
     private void init() {
-        categories = PreferenceHelper.getInstance().getActiveCategories(Measurement.Category.BLOODSUGAR);
         imageAdapter = new CategoryImageListAdapter(getContext());
         valueAdapter = new CategoryValueListAdapter(getContext());
     }
@@ -126,9 +125,18 @@ public class ChartDayFragment extends Fragment {
     }
 
     private void invalidate() {
+        categories = PreferenceHelper.getInstance().getActiveCategories(Measurement.Category.BLOODSUGAR);
+
         if (dayChart != null) {
             dayChart.setDay(day);
         }
+
+        imageAdapter.clear();
+        for (Measurement.Category category : categories) {
+            imageAdapter.addItem(new ListItemCategoryImage(category));
+        }
+        imageAdapter.notifyDataSetChanged();
+
         if (valueTable != null) {
             DataLoader.getInstance().load(getContext(), new DataLoaderListener<List<ListItemCategoryValue>>() {
                 @Override
@@ -170,11 +178,6 @@ public class ChartDayFragment extends Fragment {
                     }
                 }
             } else {
-                for (Measurement.Category category : categories) {
-                    imageAdapter.addItem(new ListItemCategoryImage(category));
-                }
-                imageAdapter.notifyDataSetChanged();
-
                 // Other notify methods lead to rendering issues on view paging
                 valueAdapter.addItems(temp);
                 valueAdapter.notifyDataSetChanged();

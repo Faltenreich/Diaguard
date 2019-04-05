@@ -29,19 +29,31 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/category_table_images"
-                android:layout_width="@dimen/chart_offset_left"
-                android:layout_height="match_parent"
-                tools:listItem="@layout/list_item_table_category_image"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/category_table_values"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:listItem="@layout/list_item_table_category_value"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/category_table_images"
+                    android:layout_width="@dimen/chart_offset_left"
+                    android:layout_height="match_parent"
+                    tools:listItem="@layout/list_item_table_category_image"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/category_table_values"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:listItem="@layout/list_item_table_category_value"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@drawable/separator"/>
 
         </LinearLayout>
 

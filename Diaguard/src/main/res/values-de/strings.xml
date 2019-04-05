@@ -337,7 +337,7 @@
     <string name="show_branded_food">Markenprodukte anzeigen</string>
     <string name="show_branded_food_desc">Umfasst tausende abgepackter Lebensmittel und führt deshalb unter Umständen zu Duplikaten (z. B. beim gleichen Produkt von verschiedenen Herstellern)</string>
     <string name="search_prompt">Tippen, um Suche zu beginnen</string>
-    <string name="drag_drop_hint">Reihenfolge ändern: gedrückt halten und dann nach oben oder unten ziehen</string>
+    <string name="drag_drop_hint">Lang gedrückt halten und dann nach oben oder unten ziehen</string>
 
     <string name="theme">Farbschema</string>
     <string name="theme_light">Hell</string>

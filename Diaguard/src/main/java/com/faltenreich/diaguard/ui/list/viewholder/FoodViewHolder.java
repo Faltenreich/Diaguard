@@ -7,8 +7,8 @@ import android.widget.TextView;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.ui.list.item.ListItemFood;
 import com.faltenreich.diaguard.data.entity.Food;
-import com.faltenreich.diaguard.event.Events;
-import com.faltenreich.diaguard.event.ui.FoodSelectedEvent;
+import com.faltenreich.diaguard.data.event.Events;
+import com.faltenreich.diaguard.data.event.ui.FoodSelectedEvent;
 
 import butterknife.BindView;
 

@@ -24,12 +24,11 @@ import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.data.PreferenceHelper;
-import com.faltenreich.diaguard.event.Events;
-import com.faltenreich.diaguard.event.FileProvidedEvent;
-import com.faltenreich.diaguard.event.FileProvidedFailedEvent;
-import com.faltenreich.diaguard.event.PermissionRequestEvent;
-import com.faltenreich.diaguard.event.PermissionResponseEvent;
+import com.faltenreich.diaguard.data.event.Events;
+import com.faltenreich.diaguard.data.event.FileProvidedEvent;
+import com.faltenreich.diaguard.data.event.FileProvidedFailedEvent;
+import com.faltenreich.diaguard.data.event.PermissionRequestEvent;
+import com.faltenreich.diaguard.data.event.PermissionResponseEvent;
 import com.faltenreich.diaguard.util.SystemUtils;
 import com.faltenreich.diaguard.util.Vector2D;
 import com.faltenreich.diaguard.util.ViewUtils;
@@ -65,7 +64,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.toolbar_title) TextView toolbarTitleView;
-    @Nullable @BindView(R.id.root) ViewGroup rootLayout;
+    @BindView(R.id.root) @Nullable ViewGroup rootLayout;
 
     private int layoutResourceId;
     private int revealX;

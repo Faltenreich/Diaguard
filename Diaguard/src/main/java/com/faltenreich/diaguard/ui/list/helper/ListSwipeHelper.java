@@ -7,8 +7,8 @@ import com.faltenreich.diaguard.ui.list.adapter.BaseAdapter;
 import com.faltenreich.diaguard.ui.list.item.ListItemEntry;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.entity.Entry;
-import com.faltenreich.diaguard.event.Events;
-import com.faltenreich.diaguard.event.data.EntryDeletedEvent;
+import com.faltenreich.diaguard.data.event.Events;
+import com.faltenreich.diaguard.data.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.ui.list.viewholder.BaseViewHolder;
 
 /**

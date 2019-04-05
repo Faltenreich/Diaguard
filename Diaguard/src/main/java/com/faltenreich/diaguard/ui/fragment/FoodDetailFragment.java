@@ -11,7 +11,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.event.data.FoodDeletedEvent;
+import com.faltenreich.diaguard.data.event.data.FoodDeletedEvent;
 import com.faltenreich.diaguard.ui.view.FoodLabelView;
 import com.faltenreich.diaguard.util.Helper;
 

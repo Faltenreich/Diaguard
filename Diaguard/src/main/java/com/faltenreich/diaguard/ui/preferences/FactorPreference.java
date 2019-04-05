@@ -5,8 +5,8 @@ import android.util.AttributeSet;
 
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.TimeInterval;
-import com.faltenreich.diaguard.event.Events;
-import com.faltenreich.diaguard.event.preference.MealFactorChangedEvent;
+import com.faltenreich.diaguard.data.event.Events;
+import com.faltenreich.diaguard.data.event.preference.MealFactorChangedEvent;
 
 /**
  * Created by Filip on 04.11.13.

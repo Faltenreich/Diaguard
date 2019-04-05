@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.ui.fragment;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,13 +17,13 @@ import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.event.Events;
-import com.faltenreich.diaguard.event.data.EntryAddedEvent;
-import com.faltenreich.diaguard.event.preference.BloodSugarPreferenceChangedEvent;
-import com.faltenreich.diaguard.event.preference.CorrectionFactorChangedEvent;
-import com.faltenreich.diaguard.event.preference.MealFactorChangedEvent;
-import com.faltenreich.diaguard.event.preference.MealFactorUnitChangedEvent;
-import com.faltenreich.diaguard.event.preference.UnitChangedEvent;
+import com.faltenreich.diaguard.data.event.Events;
+import com.faltenreich.diaguard.data.event.data.EntryAddedEvent;
+import com.faltenreich.diaguard.data.event.preference.BloodSugarPreferenceChangedEvent;
+import com.faltenreich.diaguard.data.event.preference.CorrectionFactorChangedEvent;
+import com.faltenreich.diaguard.data.event.preference.MealFactorChangedEvent;
+import com.faltenreich.diaguard.data.event.preference.MealFactorUnitChangedEvent;
+import com.faltenreich.diaguard.data.event.preference.UnitChangedEvent;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.ui.view.FoodInputView;
 import com.faltenreich.diaguard.ui.view.MainButton;

@@ -2,10 +2,8 @@ package com.faltenreich.diaguard.ui.view.chart;
 
 import android.content.Context;
 import androidx.annotation.ColorInt;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 
-import android.graphics.Color;
 import android.util.AttributeSet;
 
 import com.faltenreich.diaguard.R;
@@ -13,7 +11,6 @@ import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
-import com.faltenreich.diaguard.util.ChartHelper;
 import com.faltenreich.diaguard.util.ResourceUtils;
 import com.faltenreich.diaguard.util.thread.BloodSugarDayTask;
 import com.github.mikephil.charting.charts.CombinedChart;

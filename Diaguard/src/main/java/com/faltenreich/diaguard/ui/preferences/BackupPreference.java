@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.ui.preferences;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.faltenreich.diaguard.event.PermissionRequestEvent;
+import com.faltenreich.diaguard.data.event.PermissionRequestEvent;
 import com.faltenreich.diaguard.util.permission.Permission;
 import com.faltenreich.diaguard.util.permission.PermissionUseCase;
 

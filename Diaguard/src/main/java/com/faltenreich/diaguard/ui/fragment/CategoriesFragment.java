@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.ui.list.adapter.CategoryListAdapter;
 import com.faltenreich.diaguard.ui.list.helper.DragDropItemTouchHelperCallback;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.util.CategoryComparatorFactory;
 
 import java.util.List;
 
@@ -59,5 +60,6 @@ public class CategoriesFragment extends BaseFragment implements CategoryListAdap
         for (int sortIndex = 0; sortIndex < categories.size(); sortIndex++) {
             PreferenceHelper.getInstance().setCategorySortIndex(categories.get(sortIndex), sortIndex);
         }
+        CategoryComparatorFactory.getInstance().invalidate();
     }
 }

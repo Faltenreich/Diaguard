@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.ui.list.viewholder;
 
-import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -11,10 +10,7 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.list.helper.Selectable;
 import com.faltenreich.diaguard.util.ResourceUtils;
 import com.faltenreich.diaguard.util.ViewUtils;
-import com.faltenreich.diaguard.util.theme.ThemeUtils;
-import com.google.android.material.internal.ContextUtils;
 
-import androidx.core.graphics.ColorUtils;
 import butterknife.BindView;
 
 public class CategoryViewHolder extends BaseViewHolder<Measurement.Category> implements Selectable {
@@ -25,6 +21,8 @@ public class CategoryViewHolder extends BaseViewHolder<Measurement.Category> imp
 
     public CategoryViewHolder(View view) {
         super(view);
+        checkBox.setOnCheckedChangeListener((v, isChecked) -> PreferenceHelper.getInstance().setIsCategoryActive(getListItem(), isChecked));
+        dragView.setOnClickListener(v -> ViewUtils.showToast(getContext(), R.string.drag_drop_hint));
     }
 
     @Override
@@ -33,8 +31,6 @@ public class CategoryViewHolder extends BaseViewHolder<Measurement.Category> imp
         checkBox.setEnabled(category != Measurement.Category.BLOODSUGAR);
         checkBox.setText(category.toLocalizedString(getContext()));
         checkBox.setChecked(PreferenceHelper.getInstance().isCategoryActive(category));
-        checkBox.setOnCheckedChangeListener((view, isChecked) -> PreferenceHelper.getInstance().setIsCategoryActive(category, isChecked));
-        dragView.setOnClickListener(view -> ViewUtils.showToast(getContext(), R.string.drag_drop_hint));
     }
 
     @Override

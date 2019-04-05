@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.ui.list.helper;
 
+import android.graphics.Canvas;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,6 +33,14 @@ public class DragDropItemTouchHelperCallback extends ItemTouchHelper.Callback {
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
 
+    }
+
+    @Override
+    public void onChildDraw(@NonNull Canvas canvas, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+        super.onChildDraw(canvas, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+        if (viewHolder instanceof Selectable) {
+            ((Selectable) viewHolder).setSelected(isCurrentlyActive);
+        }
     }
 
     public interface DragDropListener {

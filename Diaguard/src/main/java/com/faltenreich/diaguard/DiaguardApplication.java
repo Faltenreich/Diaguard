@@ -5,7 +5,7 @@ import android.content.Context;
 
 import com.faltenreich.diaguard.data.ImportHelper;
 import com.faltenreich.diaguard.data.PreferenceHelper;
-import com.faltenreich.diaguard.ui.view.preferences.OpenDatabaseLicense;
+import com.faltenreich.diaguard.ui.preferences.OpenDatabaseLicense;
 import com.faltenreich.diaguard.util.NotificationUtils;
 import com.faltenreich.diaguard.util.theme.Theme;
 import com.faltenreich.diaguard.util.theme.ThemeUtils;

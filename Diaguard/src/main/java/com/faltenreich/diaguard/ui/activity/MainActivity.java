@@ -17,7 +17,7 @@ import android.view.View;
 
 import com.faltenreich.diaguard.BuildConfig;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.SlideOutBehavior;
+import com.faltenreich.diaguard.ui.coordinatorlayout.SlideOutBehavior;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.ui.fragment.BaseFragment;
 import com.faltenreich.diaguard.ui.fragment.CalculatorFragment;

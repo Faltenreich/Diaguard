@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.LinearDividerItemDecoration;
-import com.faltenreich.diaguard.adapter.NutrientAdapter;
-import com.faltenreich.diaguard.adapter.list.ListItemNutrient;
+import com.faltenreich.diaguard.ui.list.decoration.LinearDividerItemDecoration;
+import com.faltenreich.diaguard.ui.list.adapter.NutrientAdapter;
+import com.faltenreich.diaguard.ui.list.item.ListItemNutrient;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.util.Helper;
 

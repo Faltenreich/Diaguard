@@ -11,9 +11,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.SafeLinearLayoutManager;
-import com.faltenreich.diaguard.adapter.EntrySearchAdapter;
-import com.faltenreich.diaguard.adapter.list.ListItemEntry;
+import com.faltenreich.diaguard.ui.list.layoutmanager.SafeLinearLayoutManager;
+import com.faltenreich.diaguard.ui.list.adapter.EntrySearchAdapter;
+import com.faltenreich.diaguard.ui.list.item.ListItemEntry;
 import com.faltenreich.diaguard.data.async.DataLoader;
 import com.faltenreich.diaguard.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.data.dao.EntryDao;

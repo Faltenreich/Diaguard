@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.ui.fragment;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.LinearDividerItemDecoration;
-import com.faltenreich.diaguard.adapter.TagListAdapter;
+import com.faltenreich.diaguard.ui.list.decoration.LinearDividerItemDecoration;
+import com.faltenreich.diaguard.ui.list.adapter.TagListAdapter;
 import com.faltenreich.diaguard.data.async.DataLoader;
 import com.faltenreich.diaguard.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.data.dao.EntryTagDao;

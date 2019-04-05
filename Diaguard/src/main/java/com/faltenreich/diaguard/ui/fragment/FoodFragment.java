@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.FoodPagerAdapter;
+import com.faltenreich.diaguard.ui.viewpager.FoodPagerAdapter;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
 import com.faltenreich.diaguard.ui.activity.FoodEditActivity;

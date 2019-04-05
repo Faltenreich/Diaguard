@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.CategoryListAdapter;
-import com.faltenreich.diaguard.adapter.DragDropItemTouchHelperCallback;
+import com.faltenreich.diaguard.ui.list.adapter.CategoryListAdapter;
+import com.faltenreich.diaguard.ui.list.helper.DragDropItemTouchHelperCallback;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
 

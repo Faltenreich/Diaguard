@@ -29,7 +29,7 @@ import com.faltenreich.diaguard.event.PermissionResponseEvent;
 import com.faltenreich.diaguard.event.preference.MealFactorUnitChangedEvent;
 import com.faltenreich.diaguard.event.preference.UnitChangedEvent;
 import com.faltenreich.diaguard.ui.activity.BaseActivity;
-import com.faltenreich.diaguard.ui.view.preferences.BloodSugarPreference;
+import com.faltenreich.diaguard.ui.preferences.BloodSugarPreference;
 import com.faltenreich.diaguard.util.FileUtils;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;

@@ -9,8 +9,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.FoodEatenAdapter;
-import com.faltenreich.diaguard.adapter.LinearDividerItemDecoration;
+import com.faltenreich.diaguard.ui.list.adapter.FoodEatenAdapter;
+import com.faltenreich.diaguard.ui.list.decoration.LinearDividerItemDecoration;
 import com.faltenreich.diaguard.data.dao.FoodEatenDao;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.FoodEaten;

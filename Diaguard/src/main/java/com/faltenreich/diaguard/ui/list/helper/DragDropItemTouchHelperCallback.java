@@ -21,11 +21,13 @@ public class DragDropItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     @Override
     public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
-        return makeMovementFlags(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0);
+        boolean isDraggable = !(viewHolder instanceof Draggable) || ((Draggable) viewHolder).isDraggable();
+        return isDraggable ? makeMovementFlags(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) : 0;
     }
 
     @Override
     public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+        // TODO: Prevent replacing non-draggable target
         listener.onItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
         return true;
     }
@@ -38,8 +40,8 @@ public class DragDropItemTouchHelperCallback extends ItemTouchHelper.Callback {
     @Override
     public void onChildDraw(@NonNull Canvas canvas, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
         super.onChildDraw(canvas, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-        if (viewHolder instanceof Selectable) {
-            ((Selectable) viewHolder).setSelected(isCurrentlyActive);
+        if (viewHolder instanceof Draggable) {
+            ((Draggable) viewHolder).onDrag(isCurrentlyActive);
         }
     }
 

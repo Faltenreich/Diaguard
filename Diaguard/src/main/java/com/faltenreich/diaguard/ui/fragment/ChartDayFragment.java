@@ -2,42 +2,41 @@ package com.faltenreich.diaguard.ui.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.core.widget.NestedScrollView;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.data.async.DataLoader;
+import com.faltenreich.diaguard.data.async.DataLoaderListener;
+import com.faltenreich.diaguard.data.dao.EntryDao;
+import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.list.adapter.CategoryImageListAdapter;
 import com.faltenreich.diaguard.ui.list.adapter.CategoryValueListAdapter;
 import com.faltenreich.diaguard.ui.list.decoration.LinearDividerItemDecoration;
 import com.faltenreich.diaguard.ui.list.decoration.TimelineGridDividerItemDecoration;
 import com.faltenreich.diaguard.ui.list.item.ListItemCategoryImage;
 import com.faltenreich.diaguard.ui.list.item.ListItemCategoryValue;
-import com.faltenreich.diaguard.data.PreferenceHelper;
-import com.faltenreich.diaguard.data.async.DataLoader;
-import com.faltenreich.diaguard.data.async.DataLoaderListener;
-import com.faltenreich.diaguard.data.dao.EntryDao;
-import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.ui.view.chart.DayChart;
 import com.faltenreich.diaguard.ui.list.viewholder.CategoryValueViewHolder;
+import com.faltenreich.diaguard.ui.view.chart.DayChart;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -105,8 +104,7 @@ public class ChartDayFragment extends Fragment {
     }
 
     private void init() {
-        Measurement.Category[] activeCategories = PreferenceHelper.getInstance().getActiveCategories();
-        categories = Arrays.copyOfRange(activeCategories, 1, activeCategories.length);
+        categories = PreferenceHelper.getInstance().getActiveCategories(Measurement.Category.BLOODSUGAR);
         imageAdapter = new CategoryImageListAdapter(getContext());
         valueAdapter = new CategoryValueListAdapter(getContext());
     }

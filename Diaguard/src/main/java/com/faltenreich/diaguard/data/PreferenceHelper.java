@@ -4,9 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
-
-import androidx.annotation.StringRes;
-
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
@@ -24,9 +21,11 @@ import org.joda.time.DateTimeConstants;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 
 import static com.faltenreich.diaguard.DiaguardApplication.getContext;
 
@@ -378,16 +377,19 @@ public class PreferenceHelper {
         return activeCategories;
     }
 
-    // FIXME: Breaks some logic, e.g. timeline that removes the formerly first category (blood sugar) in its table
-    public Measurement.Category[] getActiveCategories() {
+    public Measurement.Category[] getActiveCategories(@Nullable Measurement.Category excluded) {
         List<Measurement.Category> sortedCategories = getSortedCategories();
         List<Measurement.Category> activeCategories = new ArrayList<>();
-        for (Measurement.Category sortedCategory : sortedCategories) {
-            if (isCategoryActive(sortedCategory)) {
-                activeCategories.add(sortedCategory);
+        for (Measurement.Category category : sortedCategories) {
+            if (category != excluded && isCategoryActive(category)) {
+                activeCategories.add(category);
             }
         }
         return activeCategories.toArray(new Measurement.Category[activeCategories.size()]);
+    }
+
+    public Measurement.Category[] getActiveCategories() {
+        return getActiveCategories(null);
     }
 
     private String getCategoryPinnedName(Measurement.Category category) {

@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.ui.fragment;
 
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import android.view.View;
 
 import com.faltenreich.diaguard.R;
@@ -10,6 +9,7 @@ import com.faltenreich.diaguard.data.event.BackupImportedEvent;
 import com.faltenreich.diaguard.data.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.data.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.data.event.data.EntryUpdatedEvent;
+import com.faltenreich.diaguard.data.event.preference.CategoryOrderChangedEvent;
 import com.faltenreich.diaguard.data.event.preference.UnitChangedEvent;
 import com.faltenreich.diaguard.ui.viewpager.ChartViewPager;
 import com.faltenreich.diaguard.util.ViewUtils;
@@ -19,6 +19,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
+import androidx.annotation.NonNull;
 import butterknife.BindView;
 
 public class ChartFragment extends DateFragment implements ChartViewPager.ChartViewPagerCallback {
@@ -90,6 +91,13 @@ public class ChartFragment extends DateFragment implements ChartViewPager.ChartV
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(BackupImportedEvent event) {
+        if (isAdded()) {
+            goToDay(getDay());
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(@SuppressWarnings("unused") CategoryOrderChangedEvent event) {
         if (isAdded()) {
             goToDay(getDay());
         }

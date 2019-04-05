@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.data.event.Events;
+import com.faltenreich.diaguard.data.event.preference.CategoryOrderChangedEvent;
 import com.faltenreich.diaguard.ui.list.adapter.CategoryListAdapter;
 import com.faltenreich.diaguard.ui.list.helper.DragDropItemTouchHelperCallback;
 import com.faltenreich.diaguard.data.PreferenceHelper;
@@ -24,6 +26,7 @@ public class CategoriesFragment extends BaseFragment implements CategoryListAdap
 
     private CategoryListAdapter listAdapter;
     private ItemTouchHelper itemTouchHelper;
+    private boolean hasChanged;
 
     public CategoriesFragment() {
         super(R.layout.fragment_categories, R.string.categories);
@@ -34,6 +37,14 @@ public class CategoriesFragment extends BaseFragment implements CategoryListAdap
         super.onViewCreated(view, savedInstanceState);
         initLayout();
         setCategories();
+    }
+
+    @Override
+    public void onDestroy() {
+        if (hasChanged) {
+            Events.post(new CategoryOrderChangedEvent());
+        }
+        super.onDestroy();
     }
 
     private void initLayout() {
@@ -61,5 +72,6 @@ public class CategoriesFragment extends BaseFragment implements CategoryListAdap
             PreferenceHelper.getInstance().setCategorySortIndex(categories.get(sortIndex), sortIndex);
         }
         CategoryComparatorFactory.getInstance().invalidate();
+        hasChanged = true;
     }
 }

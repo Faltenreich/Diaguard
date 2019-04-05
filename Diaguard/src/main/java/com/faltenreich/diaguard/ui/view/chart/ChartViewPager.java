@@ -6,7 +6,7 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.core.widget.NestedScrollView;
 import android.util.AttributeSet;
 
-import com.faltenreich.diaguard.adapter.ChartPagerAdapter;
+import com.faltenreich.diaguard.ui.viewpager.ChartPagerAdapter;
 import com.faltenreich.diaguard.ui.fragment.ChartDayFragment;
 
 import org.joda.time.DateTime;

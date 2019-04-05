@@ -18,7 +18,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.TagAutoCompleteAdapter;
+import com.faltenreich.diaguard.ui.list.adapter.TagAutoCompleteAdapter;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.async.DataLoader;
 import com.faltenreich.diaguard.data.async.DataLoaderListener;

@@ -3,8 +3,7 @@ package com.faltenreich.diaguard.data.dao;
 import androidx.annotation.NonNull;
 import android.util.Log;
 
-import com.faltenreich.diaguard.adapter.list.ListItemCategoryValue;
-import com.faltenreich.diaguard.data.DatabaseHelper;
+import com.faltenreich.diaguard.ui.list.item.ListItemCategoryValue;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
@@ -15,20 +14,14 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Pressure;
 import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.util.ArrayUtils;
-import com.faltenreich.diaguard.util.NumberUtils;
-import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.SelectArg;
-import com.j256.ormlite.stmt.Where;
-import com.j256.ormlite.table.DatabaseTableConfig;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 

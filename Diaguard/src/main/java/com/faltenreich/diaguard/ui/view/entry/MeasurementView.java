@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.SwipeDismissTouchListener;
+import com.faltenreich.diaguard.ui.list.helper.SwipeDismissTouchListener;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.Insulin;

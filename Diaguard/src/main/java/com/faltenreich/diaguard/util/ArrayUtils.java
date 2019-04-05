@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.util;
 
-import com.faltenreich.diaguard.adapter.list.ListItemCategoryValue;
+import com.faltenreich.diaguard.ui.list.item.ListItemCategoryValue;
 import com.faltenreich.diaguard.data.entity.Measurement;
 
 import java.util.List;

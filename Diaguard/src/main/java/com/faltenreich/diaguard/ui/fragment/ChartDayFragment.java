@@ -14,19 +14,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.adapter.CategoryImageListAdapter;
-import com.faltenreich.diaguard.adapter.CategoryValueListAdapter;
-import com.faltenreich.diaguard.adapter.LinearDividerItemDecoration;
-import com.faltenreich.diaguard.adapter.TimelineGridDividerItemDecoration;
-import com.faltenreich.diaguard.adapter.list.ListItemCategoryImage;
-import com.faltenreich.diaguard.adapter.list.ListItemCategoryValue;
+import com.faltenreich.diaguard.ui.list.adapter.CategoryImageListAdapter;
+import com.faltenreich.diaguard.ui.list.adapter.CategoryValueListAdapter;
+import com.faltenreich.diaguard.ui.list.decoration.LinearDividerItemDecoration;
+import com.faltenreich.diaguard.ui.list.decoration.TimelineGridDividerItemDecoration;
+import com.faltenreich.diaguard.ui.list.item.ListItemCategoryImage;
+import com.faltenreich.diaguard.ui.list.item.ListItemCategoryValue;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.async.DataLoader;
 import com.faltenreich.diaguard.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.view.chart.DayChart;
-import com.faltenreich.diaguard.ui.view.viewholder.CategoryValueViewHolder;
+import com.faltenreich.diaguard.ui.list.viewholder.CategoryValueViewHolder;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;

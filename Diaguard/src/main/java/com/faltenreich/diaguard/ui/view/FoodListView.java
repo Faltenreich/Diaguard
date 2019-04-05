@@ -6,10 +6,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.AttributeSet;
 
-import com.faltenreich.diaguard.adapter.EndlessRecyclerViewScrollListener;
-import com.faltenreich.diaguard.adapter.FoodAdapter;
-import com.faltenreich.diaguard.adapter.LinearDividerItemDecoration;
-import com.faltenreich.diaguard.adapter.list.ListItemFood;
+import com.faltenreich.diaguard.ui.list.helper.EndlessRecyclerViewScrollListener;
+import com.faltenreich.diaguard.ui.list.adapter.FoodAdapter;
+import com.faltenreich.diaguard.ui.list.decoration.LinearDividerItemDecoration;
+import com.faltenreich.diaguard.ui.list.item.ListItemFood;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.FoodDao;
 import com.faltenreich.diaguard.data.dao.FoodEatenDao;

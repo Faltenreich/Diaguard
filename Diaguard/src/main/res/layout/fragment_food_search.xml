@@ -138,7 +138,7 @@
         android:layout_gravity="bottom|end"
         android:src="@drawable/fab_add"
         app:fab_colorNormal="?backgroundColorGreen"
-        app:layout_behavior="com.faltenreich.diaguard.adapter.SlideOutBehavior"
+        app:layout_behavior="com.faltenreich.diaguard.ui.coordinatorlayout.SlideOutBehavior"
         app:layout_anchor="@id/food_search_list"
         app:layout_anchorGravity="bottom|right|end"
         app:layout_dodgeInsetEdges="bottom"/>

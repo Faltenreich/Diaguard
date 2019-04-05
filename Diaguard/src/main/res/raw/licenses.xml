@@ -68,12 +68,6 @@
         <license>Apache Software License 2.0</license>
     </notice>
     <notice>
-        <name>Android Flow Layout</name>
-        <url>https://github.com/ApmeM/android-flowlayout</url>
-        <copyright>Copyright 2011, Artem Votincev</copyright>
-        <license>Apache Software License 2.0</license>
-    </notice>
-    <notice>
         <name>FloatingActionButton</name>
         <url>https://github.com/Clans/FloatingActionButton</url>
         <copyright>Copyright 2015, Dmytro Tarianyk</copyright>

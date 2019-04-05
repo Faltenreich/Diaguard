@@ -31,7 +31,7 @@
                 android:layout_gravity="bottom|end"
                 android:src="@drawable/fab_add"
                 app:fab_colorNormal="?backgroundColorGreen"
-                app:layout_behavior="com.faltenreich.diaguard.adapter.SlideOutBehavior"
+                app:layout_behavior="com.faltenreich.diaguard.ui.coordinatorlayout.SlideOutBehavior"
                 app:layout_dodgeInsetEdges="bottom"/>
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>

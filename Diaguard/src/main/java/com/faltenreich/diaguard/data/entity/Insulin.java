@@ -83,7 +83,7 @@ public class Insulin extends Measurement {
         float total = bolus + correction + basal;
         StringBuilder stringBuilder = new StringBuilder(PreferenceHelper.getInstance().getMeasurementForUi(getCategory(), total));
         stringBuilder.append(String.format(" %s", PreferenceHelper.getInstance().getUnitAcronym(getCategory())));
-        stringBuilder.append(" (");
+        stringBuilder.append(": ");
         boolean isFirstValue = true;
         if (getBolus() != 0) {
             stringBuilder.append(String.format("%s %s",
@@ -108,7 +108,7 @@ public class Insulin extends Measurement {
                     PreferenceHelper.getInstance().getMeasurementForUi(getCategory(), basal),
                     DiaguardApplication.getContext().getString(R.string.basal)));
         }
-        stringBuilder.append(")");
+        stringBuilder.append("");
         return stringBuilder.toString().trim();
     }
 }

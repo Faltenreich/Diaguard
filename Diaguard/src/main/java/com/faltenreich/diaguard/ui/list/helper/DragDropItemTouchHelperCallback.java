@@ -27,9 +27,13 @@ public class DragDropItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     @Override
     public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-        // TODO: Prevent replacing non-draggable target
-        listener.onItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
-        return true;
+        boolean isDraggable = !(target instanceof Draggable) || ((Draggable) target).isDraggable();
+        if (isDraggable) {
+            listener.onItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override

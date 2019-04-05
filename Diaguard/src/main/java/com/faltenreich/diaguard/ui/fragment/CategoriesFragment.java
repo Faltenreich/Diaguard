@@ -25,7 +25,7 @@ public class CategoriesFragment extends BaseFragment implements CategoryListAdap
     private ItemTouchHelper itemTouchHelper;
 
     public CategoriesFragment() {
-        super(R.layout.fragment_categories, R.string.categories_select);
+        super(R.layout.fragment_categories, R.string.categories);
     }
 
     @Override

@@ -338,7 +338,7 @@
     <string name="show_branded_food">Afficher les aliments de marque</string>
     <string name="show_branded_food_desc">Inclut des milliers de produits emballés et peut donc contenir des doublons (par exemple, un produit de différents fabricants)</string>
     <string name="search_prompt">Commencez la recherche en tapant</string>
-    <string name="drag_drop_hint">Changer d\'ordre: maintenez enfoncé puis faites glisser vers le haut ou le bas</string>
+    <string name="drag_drop_hint">Maintenez enfoncé puis tirez vers le haut ou le bas</string>
 
     <string name="theme">Thème de couleur</string>
     <string name="theme_light">Lumière</string>

@@ -6,12 +6,15 @@ import android.widget.CheckBox;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.util.ViewUtils;
+import com.google.android.material.internal.ContextUtils;
 
 import butterknife.BindView;
 
 public class CategoryViewHolder extends BaseViewHolder<Measurement.Category> {
 
-    @BindView(R.id.checkbox) CheckBox checkBox;
+    @BindView(R.id.checkBox) CheckBox checkBox;
+    @BindView(R.id.dragView) View dragView;
 
     public CategoryViewHolder(View view) {
         super(view);
@@ -24,5 +27,6 @@ public class CategoryViewHolder extends BaseViewHolder<Measurement.Category> {
         checkBox.setText(category.toLocalizedString(getContext()));
         checkBox.setChecked(PreferenceHelper.getInstance().isCategoryActive(category));
         checkBox.setOnCheckedChangeListener((view, isChecked) -> PreferenceHelper.getInstance().setIsCategoryActive(category, isChecked));
+        dragView.setOnClickListener(view -> ViewUtils.showToast(getContext(), R.string.drag_drop_hint));
     }
 }

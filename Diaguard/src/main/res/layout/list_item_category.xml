@@ -16,25 +16,28 @@
         android:paddingLeft="@dimen/margin_between_large"
         android:paddingStart="@dimen/margin_between_large"
         android:paddingRight="@dimen/margin_between_large"
-        android:paddingEnd="@dimen/margin_between_large"
-        android:divider="@drawable/divider_medium"
-        android:showDividers="middle">
+        android:paddingEnd="@dimen/margin_between_large">
 
         <CheckBox
-            android:id="@+id/checkbox"
-            android:layout_width="0dp"
+            android:id="@+id/checkBox"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:padding="@dimen/margin_between"
             tools:text="Title"/>
 
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
         <ImageView
+            android:id="@+id/dragView"
             android:layout_width="@dimen/size_image"
             android:layout_height="@dimen/size_image"
+            android:background="?selectableItemBackgroundBorderless"
             android:src="@drawable/ic_reorder"
             android:tint="@color/gray"
-            android:contentDescription="@null"
-            android:focusable="false"/>
+            android:contentDescription="@null"/>
 
     </LinearLayout>
 

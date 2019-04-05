@@ -17,11 +17,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
-public class CategoriesFragment extends BaseFragment implements CategoryListAdapter.OrderListener {
+public class CategoriesFragment extends BaseFragment implements CategoryListAdapter.ReorderListener {
 
     @BindView(R.id.listView) RecyclerView list;
 
     private CategoryListAdapter listAdapter;
+    private ItemTouchHelper itemTouchHelper;
 
     public CategoriesFragment() {
         super(R.layout.fragment_categories, R.string.categories_select);
@@ -38,8 +39,8 @@ public class CategoriesFragment extends BaseFragment implements CategoryListAdap
         list.setLayoutManager(new LinearLayoutManager(getContext()));
         listAdapter = new CategoryListAdapter(getContext(), this);
         list.setAdapter(listAdapter);
-        ItemTouchHelper touchHelper = new ItemTouchHelper(new DragDropItemTouchHelperCallback(listAdapter));
-        touchHelper.attachToRecyclerView(list);
+        itemTouchHelper = new ItemTouchHelper(new DragDropItemTouchHelperCallback(listAdapter));
+        itemTouchHelper.attachToRecyclerView(list);
     }
 
     private void setCategories() {
@@ -48,7 +49,12 @@ public class CategoriesFragment extends BaseFragment implements CategoryListAdap
     }
 
     @Override
-    public void onOrderChanges() {
+    public void onReorderStart(RecyclerView.ViewHolder viewHolder) {
+        itemTouchHelper.startDrag(viewHolder);
+    }
+
+    @Override
+    public void onReorderEnd() {
         List<Measurement.Category> categories = listAdapter.getItems();
         for (int sortIndex = 0; sortIndex < categories.size(); sortIndex++) {
             PreferenceHelper.getInstance().setCategorySortIndex(categories.get(sortIndex), sortIndex);

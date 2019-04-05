@@ -517,7 +517,6 @@
     <string name="show_branded_food">Show branded food</string>
     <string name="show_branded_food_desc">Includes thousands of packaged goods and may therefor contain duplicates (e.g. one product from different manufacturers)</string>
     <string name="search_prompt">Start searching by typing</string>
-    <string name="drag_drop_hint">Long-click, then drag up or down</string>
 
     <string name="theme">Color theme</string>
     <string name="theme_light">Light</string>

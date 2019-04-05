@@ -15,11 +15,6 @@ public class DragDropItemTouchHelperCallback extends ItemTouchHelper.Callback {
     }
 
     @Override
-    public boolean isItemViewSwipeEnabled() {
-        return false;
-    }
-
-    @Override
     public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
         boolean isDraggable = !(viewHolder instanceof Draggable) || ((Draggable) viewHolder).isDraggable();
         return isDraggable ? makeMovementFlags(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) : 0;
@@ -29,7 +24,7 @@ public class DragDropItemTouchHelperCallback extends ItemTouchHelper.Callback {
     public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
         boolean isDraggable = !(target instanceof Draggable) || ((Draggable) target).isDraggable();
         if (isDraggable) {
-            listener.onItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+            listener.onItemDragEnd(viewHolder.getAdapterPosition(), target.getAdapterPosition());
             return true;
         } else {
             return false;
@@ -50,6 +45,6 @@ public class DragDropItemTouchHelperCallback extends ItemTouchHelper.Callback {
     }
 
     public interface DragDropListener {
-        void onItemMoved(int oldPosition, int newPosition);
+        void onItemDragEnd(int oldPosition, int newPosition);
     }
 }

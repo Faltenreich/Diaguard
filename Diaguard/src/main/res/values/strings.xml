@@ -41,7 +41,6 @@
     <string name="calculator">Calculator</string>
     <string name="cancel">Cancel</string>
     <string name="categories">Categories</string>
-    <string name="categories_select">Select categories</string>
     <string name="category">Category</string>
     <string name="category_pin">Pin category</string>
     <string name="category_pin_confirm">%s has been pinned</string>

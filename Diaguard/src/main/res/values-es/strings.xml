@@ -27,7 +27,6 @@
     <string name="calculator">Calcular bolo</string>
     <string name="cancel">Cancelar</string>
     <string name="categories">Categorías</string>
-    <string name="categories_select">Seleccionar categorías</string>
     <string name="category">Categoría</string>
     <string name="category_pin">Categoría pin</string>
     <string name="category_pin_confirm">%s se fijó</string>

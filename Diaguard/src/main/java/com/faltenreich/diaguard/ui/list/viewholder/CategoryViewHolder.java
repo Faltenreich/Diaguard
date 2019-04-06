@@ -4,6 +4,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
@@ -17,12 +18,15 @@ import butterknife.BindView;
 public class CategoryViewHolder extends BaseViewHolder<Measurement.Category> implements Draggable {
 
     @BindView(R.id.background) ViewGroup background;
-    @BindView(R.id.checkBox) CheckBox checkBox;
+    @BindView(R.id.titleLabel) TextView titleLabel;
+    @BindView(R.id.checkBoxActive) CheckBox activeCheckBox;
+    @BindView(R.id.checkBoxPinned) CheckBox pinnedCheckBox;
     @BindView(R.id.dragView) View dragView;
 
     public CategoryViewHolder(View view, CategoryListAdapter.ReorderListener listener) {
         super(view);
-        checkBox.setOnCheckedChangeListener((v, isChecked) -> PreferenceHelper.getInstance().setIsCategoryActive(getListItem(), isChecked));
+        activeCheckBox.setOnCheckedChangeListener((v, isChecked) -> PreferenceHelper.getInstance().setCategoryActive(getListItem(), isChecked));
+        pinnedCheckBox.setOnCheckedChangeListener((v, isChecked) -> PreferenceHelper.getInstance().setCategoryPinned(getListItem(), isChecked));
         dragView.setOnTouchListener((v, event) -> {
             if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
                 listener.onReorderStart(CategoryViewHolder.this);
@@ -35,10 +39,11 @@ public class CategoryViewHolder extends BaseViewHolder<Measurement.Category> imp
     @Override
     protected void bindData() {
         Measurement.Category category = getListItem();
-        checkBox.setEnabled(category.isOptional());
-        checkBox.setText(category.toLocalizedString(getContext()));
-        checkBox.setChecked(PreferenceHelper.getInstance().isCategoryActive(category));
-        dragView.setVisibility(category.isOptional() ? View.VISIBLE : View.GONE);
+        titleLabel.setText(category.toLocalizedString(getContext()));
+        activeCheckBox.setEnabled(category.isOptional());
+        activeCheckBox.setChecked(PreferenceHelper.getInstance().isCategoryActive(category));
+        pinnedCheckBox.setChecked(PreferenceHelper.getInstance().isCategoryPinned(category));
+        dragView.setVisibility(category.isOptional() ? View.VISIBLE : View.INVISIBLE);
     }
 
     @Override

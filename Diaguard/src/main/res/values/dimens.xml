@@ -50,5 +50,6 @@
 
     <dimen name="card_corner_radius">4dp</dimen>
     <dimen name="card_elevation">2dp</dimen>
+    <dimen name="checkbox_width">36dp</dimen>
 
 </resources>

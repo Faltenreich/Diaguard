@@ -4,9 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.widget.NestedScrollView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +16,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.ui.list.adapter.TagAutoCompleteAdapter;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.async.DataLoader;
 import com.faltenreich.diaguard.data.async.DataLoaderListener;
@@ -41,6 +38,7 @@ import com.faltenreich.diaguard.data.event.data.EntryUpdatedEvent;
 import com.faltenreich.diaguard.ui.fragment.BaseFoodFragment;
 import com.faltenreich.diaguard.ui.fragment.DatePickerFragment;
 import com.faltenreich.diaguard.ui.fragment.TimePickerFragment;
+import com.faltenreich.diaguard.ui.list.adapter.TagAutoCompleteAdapter;
 import com.faltenreich.diaguard.ui.view.ChipView;
 import com.faltenreich.diaguard.ui.view.entry.MeasurementFloatingActionMenu;
 import com.faltenreich.diaguard.ui.view.entry.MeasurementListView;
@@ -59,6 +57,9 @@ import org.joda.time.DateTimeConstants;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -275,6 +276,8 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     }
 
     private void initEntry(Entry entry, List<EntryTag> entryTags) {
+        long start = DateTime.now().getMillis();
+
         if (entry != null) {
             this.entry = entry;
             this.entryTags = entryTags;
@@ -292,6 +295,9 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             addPinnedCategories();
         }
         updateDateTime();
+
+        long end = DateTime.now().getMillis();
+        Log.d(EntryActivity.class.getSimpleName(), String.format("Took millis: %d", end - start));
     }
 
     private void toggleSubmitButton(boolean isEnabled) {

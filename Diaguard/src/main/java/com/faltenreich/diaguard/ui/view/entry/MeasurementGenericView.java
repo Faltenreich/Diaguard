@@ -28,7 +28,7 @@ public class MeasurementGenericView <T extends Measurement> extends MeasurementA
     }
 
     public MeasurementGenericView(Context context, Measurement.Category category) {
-        super(context, category);
+        super(context, (T) category.createMeasurement());
     }
 
     @Override

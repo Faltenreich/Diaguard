@@ -22,7 +22,7 @@ public class MeasurementPressureView extends MeasurementAbstractView<Pressure> {
     StickyHintInput diastolic;
 
     public MeasurementPressureView(Context context) {
-        super(context, Measurement.Category.PRESSURE);
+        super(context, new Pressure());
     }
 
     public MeasurementPressureView(Context context, Pressure pressure) {

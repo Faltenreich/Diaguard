@@ -17,15 +17,12 @@ import butterknife.BindView;
  */
 public class MeasurementInsulinView extends MeasurementAbstractView<Insulin> {
 
-    @BindView(R.id.insulin_bolus)
-    StickyHintInput inputBolus;
-    @BindView(R.id.insulin_correction)
-    StickyHintInput inputCorrection;
-    @BindView(R.id.insulin_basal)
-    StickyHintInput inputBasal;
+    @BindView(R.id.insulin_bolus) StickyHintInput inputBolus;
+    @BindView(R.id.insulin_correction) StickyHintInput inputCorrection;
+    @BindView(R.id.insulin_basal) StickyHintInput inputBasal;
 
     public MeasurementInsulinView(Context context) {
-        super(context, Measurement.Category.INSULIN);
+        super(context, new Insulin());
     }
 
     public MeasurementInsulinView(Context context, Insulin insulin) {

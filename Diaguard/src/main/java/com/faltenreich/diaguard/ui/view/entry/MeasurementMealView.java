@@ -18,7 +18,7 @@ public class MeasurementMealView extends MeasurementAbstractView<Meal> {
     @BindView(R.id.list_item_measurement_meal_food_list) FoodInputView foodInputView;
 
     public MeasurementMealView(Context context) {
-        super(context, Measurement.Category.MEAL);
+        super(context, new Meal());
     }
 
     public MeasurementMealView(Context context, Meal meal) {

@@ -51,6 +51,31 @@ public abstract class Measurement extends BaseEntity implements Backupable, Expo
             this.stackValues = stackValues;
         }
 
+        public <M extends Measurement> M createMeasurement() {
+            switch (this) {
+                case BLOODSUGAR:
+                    return (M) new BloodSugar();
+                case INSULIN:
+                    return (M) new Insulin();
+                case MEAL:
+                    return (M) new Meal();
+                case ACTIVITY:
+                    return (M) new Activity();
+                case HBA1C:
+                    return (M) new HbA1c();
+                case WEIGHT:
+                    return (M) new Weight();
+                case PULSE:
+                    return (M) new Pulse();
+                case PRESSURE:
+                    return (M) new Pressure();
+                case OXYGEN_SATURATION:
+                    return (M) new OxygenSaturation();
+                default:
+                    return null;
+            }
+        }
+
         public <M extends Measurement> Class<M> toClass() {
             return clazz;
         }

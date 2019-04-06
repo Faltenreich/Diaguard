@@ -309,7 +309,7 @@
     <string name="oxygen_saturation">Sauerstoffsättigung</string>
 
     <string name="changelog">Neu in dieser Version</string>
-    <string name="changelog_desc">Die Reihenfolge der Kategorien kann ab sofort geändert werden.</string>
+    <string name="changelog_desc">Die Reihenfolge der Kategorien kann ab sofort über die Einstellungen geändert werden.</string>
 
     <string name="meal_factor">Mahlzeit-Bolus-Faktor</string>
     <string name="meal_factors">Mahlzeit-Bolus-Faktoren</string>

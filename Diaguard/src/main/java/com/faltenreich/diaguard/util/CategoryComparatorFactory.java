@@ -41,11 +41,17 @@ public class CategoryComparatorFactory {
         return sortCache;
     }
 
+    private int getSortIndex(Measurement.Category category) {
+        HashMap<Measurement.Category, Integer> cache = getSortCache();
+        Integer sortIndex = cache != null && cache.containsKey(category) ? cache.get(category) : null;
+        return sortIndex != null ? sortIndex : 0;
+    }
+
     public Comparator<Measurement.Category> createComparatorFromCategories() {
-        return (first, second) -> getSortCache().get(first) - getSortCache().get(second);
+        return (first, second) -> getSortIndex(first) - getSortIndex(second);
     }
 
     public Comparator<Measurement> createComparatorFromMeasurements() {
-        return (first, second) -> getSortCache().get(first.getCategory()) - getSortCache().get(second.getCategory());
+        return (first, second) -> getSortIndex(first.getCategory()) - getSortIndex(second.getCategory());
     }
 }

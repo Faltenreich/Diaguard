@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -276,8 +275,6 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
     }
 
     private void initEntry(Entry entry, List<EntryTag> entryTags) {
-        long start = DateTime.now().getMillis();
-
         if (entry != null) {
             this.entry = entry;
             this.entryTags = entryTags;
@@ -295,9 +292,6 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             addPinnedCategories();
         }
         updateDateTime();
-
-        long end = DateTime.now().getMillis();
-        Log.d(EntryActivity.class.getSimpleName(), String.format("Took millis: %d", end - start));
     }
 
     private void toggleSubmitButton(boolean isEnabled) {

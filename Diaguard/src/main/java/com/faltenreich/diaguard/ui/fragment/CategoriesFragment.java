@@ -1,20 +1,23 @@
 package com.faltenreich.diaguard.ui.fragment;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.event.Events;
 import com.faltenreich.diaguard.data.event.preference.CategoryOrderChangedEvent;
 import com.faltenreich.diaguard.ui.list.adapter.CategoryListAdapter;
 import com.faltenreich.diaguard.ui.list.helper.DragDropItemTouchHelperCallback;
-import com.faltenreich.diaguard.data.PreferenceHelper;
-import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.CategoryComparatorFactory;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,7 +32,13 @@ public class CategoriesFragment extends BaseFragment implements CategoryListAdap
     private boolean hasChanged;
 
     public CategoriesFragment() {
-        super(R.layout.fragment_categories, R.string.categories);
+        super(R.layout.fragment_categories, R.string.categories, R.menu.categories);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -37,6 +46,17 @@ public class CategoriesFragment extends BaseFragment implements CategoryListAdap
         super.onViewCreated(view, savedInstanceState);
         initLayout();
         setCategories();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_help:
+                showHelp();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -58,6 +78,15 @@ public class CategoriesFragment extends BaseFragment implements CategoryListAdap
     private void setCategories() {
         listAdapter.addItems(PreferenceHelper.getInstance().getSortedCategories());
         listAdapter.notifyDataSetChanged();
+    }
+
+    private void showHelp() {
+        new AlertDialog.Builder(getContext())
+                .setTitle(R.string.categories)
+                .setMessage(R.string.category_preference_desc)
+                .setPositiveButton(R.string.ok, (dlg, which) -> { })
+                .create()
+                .show();
     }
 
     @Override

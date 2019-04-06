@@ -32,7 +32,6 @@ import butterknife.OnClick;
 public class MeasurementView<T extends Measurement> extends CardView implements CompoundButton.OnCheckedChangeListener, SwipeDismissTouchListener.DismissCallbacks {
 
     @BindView(R.id.image_showcase) ImageView imageViewShowcase;
-    @BindView(R.id.layer_showcase) View viewLayerShowcase;
     @BindView(R.id.image_category) ImageView imageViewCategory;
     @BindView(R.id.category) TextView textViewCategory;
     @BindView(R.id.layout_content) ViewGroup content;

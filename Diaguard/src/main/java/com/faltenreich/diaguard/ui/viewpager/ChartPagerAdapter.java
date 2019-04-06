@@ -1,10 +1,5 @@
 package com.faltenreich.diaguard.ui.viewpager;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.core.widget.NestedScrollView;
-
 import com.faltenreich.diaguard.ui.fragment.ChartDayFragment;
 
 import org.joda.time.DateTime;
@@ -12,6 +7,11 @@ import org.joda.time.DateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import androidx.core.widget.NestedScrollView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 /**
  * Created by Faltenreich on 01.08.2015.
@@ -65,7 +65,7 @@ public class ChartPagerAdapter extends FragmentStatePagerAdapter {
         }
     }
 
-    public synchronized void previousDay() {
+    synchronized void previousDay() {
         Collections.rotate(fragments, 1);
         notifyDataSetChanged();
 
@@ -74,12 +74,21 @@ public class ChartPagerAdapter extends FragmentStatePagerAdapter {
         fragment.setDay(previousDay);
     }
 
-    public synchronized void nextDay() {
+    synchronized void nextDay() {
         Collections.rotate(fragments, -1);
         notifyDataSetChanged();
 
         ChartDayFragment fragment = fragments.get(ITEM_COUNT - 1);
         DateTime nextDay = fragment.getDay().plusDays(ITEM_COUNT);
         fragment.setDay(nextDay);
+    }
+
+    void reset() {
+        for (int position = 0; position < ITEM_COUNT; position++) {
+            if (position < fragments.size()) {
+                ChartDayFragment fragment = fragments.get(position);
+                fragment.reset();
+            }
+        }
     }
 }

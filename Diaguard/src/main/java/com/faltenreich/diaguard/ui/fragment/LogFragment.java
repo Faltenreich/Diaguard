@@ -15,7 +15,7 @@ import com.faltenreich.diaguard.data.event.BackupImportedEvent;
 import com.faltenreich.diaguard.data.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.data.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.data.event.data.EntryUpdatedEvent;
-import com.faltenreich.diaguard.data.event.preference.CategoryOrderChangedEvent;
+import com.faltenreich.diaguard.data.event.preference.CategoryPreferenceChangedEvent;
 import com.faltenreich.diaguard.data.event.preference.UnitChangedEvent;
 import com.faltenreich.diaguard.ui.activity.EntrySearchActivity;
 import com.faltenreich.diaguard.ui.list.adapter.LogRecyclerAdapter;
@@ -275,7 +275,7 @@ public class LogFragment extends DateFragment implements LogRecyclerAdapter.LogL
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(@SuppressWarnings("unused") CategoryOrderChangedEvent event) {
+    public void onEvent(@SuppressWarnings("unused") CategoryPreferenceChangedEvent event) {
         if (isAdded()) {
             progressBar.setVisibility(View.VISIBLE);
             listAdapter.setup(getDay());

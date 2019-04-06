@@ -8,7 +8,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.event.Events;
-import com.faltenreich.diaguard.data.event.preference.CategoryOrderChangedEvent;
+import com.faltenreich.diaguard.data.event.preference.CategoryPreferenceChangedEvent;
 import com.faltenreich.diaguard.ui.list.adapter.CategoryListAdapter;
 import com.faltenreich.diaguard.ui.list.helper.DragDropItemTouchHelperCallback;
 import com.faltenreich.diaguard.util.CategoryComparatorFactory;
@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
-public class CategoriesFragment extends BaseFragment implements CategoryListAdapter.ReorderListener {
+public class CategoriesFragment extends BaseFragment implements CategoryListAdapter.Callback {
 
     @BindView(R.id.listView) RecyclerView list;
 
@@ -62,7 +62,7 @@ public class CategoriesFragment extends BaseFragment implements CategoryListAdap
     @Override
     public void onDestroy() {
         if (hasChanged) {
-            Events.post(new CategoryOrderChangedEvent());
+            Events.post(new CategoryPreferenceChangedEvent());
         }
         super.onDestroy();
     }
@@ -101,6 +101,11 @@ public class CategoriesFragment extends BaseFragment implements CategoryListAdap
             PreferenceHelper.getInstance().setCategorySortIndex(categories.get(sortIndex), sortIndex);
         }
         CategoryComparatorFactory.getInstance().invalidate();
+        hasChanged = true;
+    }
+
+    @Override
+    public void onCheckedChange() {
         hasChanged = true;
     }
 }

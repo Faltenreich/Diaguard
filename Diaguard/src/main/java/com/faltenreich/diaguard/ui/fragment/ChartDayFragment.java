@@ -170,7 +170,6 @@ public class ChartDayFragment extends Fragment {
                     }
                 }
             } else {
-                imageAdapter.clear();
                 for (Measurement.Category category : categories) {
                     imageAdapter.addItem(new ListItemCategoryImage(category));
                 }

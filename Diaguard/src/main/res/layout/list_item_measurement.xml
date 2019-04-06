@@ -60,7 +60,7 @@
 
                 <androidx.appcompat.widget.AppCompatCheckBox
                     android:id="@+id/checkbox_pin"
-                    android:layout_width="36dp"
+                    android:layout_width="@dimen/checkbox_width"
                     android:layout_height="match_parent"
                     android:text="@null"
                     android:theme="@style/WhiteCheckBox"

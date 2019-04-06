@@ -361,7 +361,7 @@ public class PreferenceHelper {
         return sharedPreferences.getBoolean(String.format(Keys.CATEGORY_ACTIVE, category.name()), true);
     }
 
-    public void setIsCategoryActive(Measurement.Category category, boolean isActive) {
+    public void setCategoryActive(Measurement.Category category, boolean isActive) {
         sharedPreferences.edit().putBoolean(String.format(Keys.CATEGORY_ACTIVE, category.name()), isActive).apply();
     }
 

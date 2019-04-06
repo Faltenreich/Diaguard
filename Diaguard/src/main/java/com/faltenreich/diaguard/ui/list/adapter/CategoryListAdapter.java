@@ -16,9 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class CategoryListAdapter extends BaseAdapter<Measurement.Category, CategoryViewHolder> implements DragDropItemTouchHelperCallback.DragDropListener {
 
-    private ReorderListener listener;
+    private Callback listener;
 
-    public CategoryListAdapter(Context context, ReorderListener listener) {
+    public CategoryListAdapter(Context context, Callback listener) {
         super(context);
         this.listener = listener;
     }
@@ -49,8 +49,9 @@ public class CategoryListAdapter extends BaseAdapter<Measurement.Category, Categ
         listener.onReorderEnd();
     }
 
-    public interface ReorderListener {
+    public interface Callback {
         void onReorderStart(RecyclerView.ViewHolder viewHolder);
         void onReorderEnd();
+        void onCheckedChange();
     }
 }

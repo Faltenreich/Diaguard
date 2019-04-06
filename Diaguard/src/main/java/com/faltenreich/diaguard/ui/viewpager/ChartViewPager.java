@@ -1,15 +1,15 @@
 package com.faltenreich.diaguard.ui.viewpager;
 
 import android.content.Context;
-import androidx.fragment.app.FragmentManager;
-import androidx.viewpager.widget.ViewPager;
-import androidx.core.widget.NestedScrollView;
 import android.util.AttributeSet;
 
-import com.faltenreich.diaguard.ui.viewpager.ChartPagerAdapter;
 import com.faltenreich.diaguard.ui.fragment.ChartDayFragment;
 
 import org.joda.time.DateTime;
+
+import androidx.core.widget.NestedScrollView;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager.widget.ViewPager;
 
 /**
  * Created by Faltenreich on 02.08.2015.
@@ -86,6 +86,10 @@ public class ChartViewPager extends ViewPager {
 
     public void setDay(DateTime day) {
         adapter.setDay(day);
+    }
+
+    public void reset() {
+        adapter.reset();
     }
 
     public interface ChartViewPagerCallback {

@@ -23,9 +23,12 @@ public class CategoryViewHolder extends BaseViewHolder<Measurement.Category> imp
     @BindView(R.id.checkBoxPinned) CheckBox pinnedCheckBox;
     @BindView(R.id.dragView) View dragView;
 
-    public CategoryViewHolder(View view, CategoryListAdapter.ReorderListener listener) {
+    public CategoryViewHolder(View view, CategoryListAdapter.Callback listener) {
         super(view);
-        activeCheckBox.setOnCheckedChangeListener((v, isChecked) -> PreferenceHelper.getInstance().setCategoryActive(getListItem(), isChecked));
+        activeCheckBox.setOnCheckedChangeListener((v, isChecked) -> {
+            PreferenceHelper.getInstance().setCategoryActive(getListItem(), isChecked);
+            listener.onCheckedChange();
+        });
         pinnedCheckBox.setOnCheckedChangeListener((v, isChecked) -> PreferenceHelper.getInstance().setCategoryPinned(getListItem(), isChecked));
         dragView.setOnTouchListener((v, event) -> {
             if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {

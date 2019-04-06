@@ -480,6 +480,7 @@
     <string name="oxygen_saturation">Oxygen saturation</string>
 
     <string name="changelog">What\'s new</string>
+    <string name="changelog_desc">Categories may be reordered from now on.</string>
 
     <string name="meal_factor">Meal-bolus-factor</string>
     <string name="meal_factors">Meal-bolus-factors</string>
@@ -517,6 +518,7 @@
     <string name="show_branded_food_desc">Includes thousands of packaged goods and may therefor contain duplicates (e.g. one product from different manufacturers)</string>
     <string name="search_prompt">Start searching by typing</string>
     <string name="pinned">pinned</string>
+    <string name="change_now">Change now</string>
 
     <string name="theme">Color theme</string>
     <string name="theme_light">Light</string>

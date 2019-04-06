@@ -312,6 +312,7 @@
     <string name="correction_value_desc">La reducción de glucemia en un</string>
 
     <string name="changelog">Qué hay de nuevo</string>
+    <string name="changelog_desc">El orden de las categorías se puede cambiar inmediatamente.</string>
 
     <string name="meal_factor">Alimento-bolo-factor</string>
     <string name="meal_factors">Alimento-bolo-factors</string>
@@ -340,6 +341,7 @@
     <string name="show_branded_food_desc">Incluye miles de productos empaquetados y, por lo tanto, puede contener duplicados (por ejemplo, un producto de diferentes fabricantes)</string>
     <string name="search_prompt">Comience la búsqueda escribiendo</string>
     <string name="pinned">fijó</string>
+    <string name="change_now">Cambiar ahora</string>
 
     <string name="theme">Tema de color</string>
     <string name="theme_light">Ligero</string>

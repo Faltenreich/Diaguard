@@ -12,6 +12,7 @@
 
     <attr name="backgroundColorGreen" format="color"/>
     <attr name="backgroundColorGreenDark" format="color"/>
+    <attr name="backgroundColorGreenTranslucent" format="color"/>
     <attr name="backgroundColorPrimary" format="color"/>
     <attr name="backgroundColorPrimaryTranslucent" format="color"/>
     <attr name="backgroundColorSecondary" format="color"/>

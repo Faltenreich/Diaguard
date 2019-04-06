@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/green</item>
         <item name="backgroundColorGreen">@color/green</item>
         <item name="backgroundColorGreenDark">@color/green_darker</item>
+        <item name="backgroundColorGreenTranslucent">@color/green_transparent</item>
         <item name="backgroundColorPrimary">@color/background_light_primary</item>
         <item name="backgroundColorPrimaryTranslucent">@color/background_light_primary_translucent</item>
         <item name="backgroundColorSecondary">@color/background_light_secondary</item>
@@ -29,6 +30,7 @@
         <item name="colorAccent">@color/green</item>
         <item name="backgroundColorGreen">@color/green_dark</item>
         <item name="backgroundColorGreenDark">@color/green_darkest</item>
+        <item name="backgroundColorGreenTranslucent">@color/green_dark_transparent</item>
         <item name="backgroundColorPrimary">@color/background_dark_primary</item>
         <item name="backgroundColorPrimaryTranslucent">@color/background_dark_primary_translucent</item>
         <item name="backgroundColorSecondary">@color/background_dark_secondary</item>

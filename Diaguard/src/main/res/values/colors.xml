@@ -34,6 +34,7 @@
     <color name="green_darker">#ff396950</color>
     <color name="green_darkest">#ff2E5340</color>
     <color name="green_transparent">#CC478063</color>
+    <color name="green_dark_transparent">#CC41785a</color>
 
     <color name="red">#ffdd6050</color>
     <color name="red_light">#ffe96353</color>

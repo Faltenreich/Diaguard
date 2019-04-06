@@ -157,13 +157,15 @@
                 </androidx.cardview.widget.CardView>
 
                 <com.faltenreich.diaguard.ui.view.entry.MeasurementListView
+                    style="@style/Padding"
                     android:id="@+id/layout_measurements"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="140dp"
-                    android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:orientation="vertical"
-                    android:animateLayoutChanges="true"/>
+                    android:animateLayoutChanges="true"
+                    android:divider="@drawable/divider_medium"
+                    android:showDividers="middle"/>
 
             </LinearLayout>
 

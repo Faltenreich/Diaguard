@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.cardview.widget.CardView
+<merge
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/margin_between"
-    android:layout_marginEnd="@dimen/activity_horizontal_margin"
-    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-    android:layout_marginRight="@dimen/activity_horizontal_margin"
-    android:layout_marginStart="@dimen/activity_horizontal_margin"
-    app:cardCornerRadius="4dp"
-    app:cardElevation="2dp"
-    app:cardUseCompatPadding="true">
+    tools:parentTag="androidx.cardview.widget.CardView"
+    tools:cardCornerRadius="@dimen/card_corner_radius"
+    tools:cardElevation="@dimen/card_elevation"
+    tools:cardUseCompatPadding="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -105,4 +100,4 @@
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</merge>

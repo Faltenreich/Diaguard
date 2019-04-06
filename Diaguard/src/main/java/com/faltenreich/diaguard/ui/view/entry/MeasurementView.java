@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
@@ -22,6 +21,7 @@ import com.faltenreich.diaguard.util.ViewUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -29,7 +29,7 @@ import butterknife.OnClick;
 /**
  * Created by Faltenreich on 24.09.2015.
  */
-public class MeasurementView<T extends Measurement> extends LinearLayout implements CompoundButton.OnCheckedChangeListener {
+public class MeasurementView<T extends Measurement> extends CardView implements CompoundButton.OnCheckedChangeListener, SwipeDismissTouchListener.DismissCallbacks {
 
     @BindView(R.id.image_showcase) ImageView imageViewShowcase;
     @BindView(R.id.layer_showcase) View viewLayerShowcase;
@@ -39,12 +39,9 @@ public class MeasurementView<T extends Measurement> extends LinearLayout impleme
     @BindView(R.id.checkbox_pin) CheckBox checkBoxPin;
     @BindView(R.id.button_delete) View buttonRemove;
 
-    @NonNull
     private Measurement.Category category;
-    @Nullable
-    private T measurement;
-    @Nullable
-    private Food food;
+    @Nullable private T measurement;
+    @Nullable private Food food;
 
     private OnCategoryRemovedListener onCategoryRemovedListener;
 
@@ -53,14 +50,14 @@ public class MeasurementView<T extends Measurement> extends LinearLayout impleme
         super(context);
     }
 
-    public MeasurementView(Context context, @Nullable T measurement) {
+    public MeasurementView(Context context, @NonNull T measurement) {
         super(context);
         this.category = measurement.getCategory();
         this.measurement = measurement;
         init();
     }
 
-    public MeasurementView(Context context, @Nullable Food food) {
+    public MeasurementView(Context context, @NonNull Food food) {
         super(context);
         this.category = Measurement.Category.MEAL;
         this.food = food;
@@ -86,19 +83,13 @@ public class MeasurementView<T extends Measurement> extends LinearLayout impleme
     }
 
     private void initLayout() {
+        setRadius(getContext().getResources().getDimension(R.dimen.card_corner_radius));
+        setCardElevation(getContext().getResources().getDimension(R.dimen.card_elevation));
+        setUseCompatPadding(true);
+
+        setOnTouchListener(new SwipeDismissTouchListener(this, null, this));
         checkBoxPin.setChecked(PreferenceHelper.getInstance().isCategoryPinned(category));
         checkBoxPin.setOnCheckedChangeListener(this);
-        setOnTouchListener(new SwipeDismissTouchListener(this, null,
-                new SwipeDismissTouchListener.DismissCallbacks() {
-                    @Override
-                    public boolean canDismiss(Object token) {
-                        return true;
-                    }
-                    @Override
-                    public void onDismiss(View view, Object token) {
-                        remove();
-                    }
-                }));
     }
 
     private void initData() {
@@ -159,6 +150,16 @@ public class MeasurementView<T extends Measurement> extends LinearLayout impleme
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
         togglePinnedCategory(isChecked);
+    }
+
+    @Override
+    public boolean canDismiss(Object token) {
+        return true;
+    }
+
+    @Override
+    public void onDismiss(View view, Object token) {
+        remove();
     }
 
     public interface OnCategoryRemovedListener {

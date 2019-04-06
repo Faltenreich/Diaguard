@@ -480,7 +480,7 @@
     <string name="oxygen_saturation">Oxygen saturation</string>
 
     <string name="changelog">What\'s new</string>
-    <string name="changelog_desc">Categories may be reordered from now on.</string>
+    <string name="changelog_desc">Categories may be reordered from now on via the app settings.</string>
 
     <string name="meal_factor">Meal-bolus-factor</string>
     <string name="meal_factors">Meal-bolus-factors</string>

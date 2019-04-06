@@ -310,7 +310,7 @@
     <string name="correction_value_desc">Réduction de la glycémie d\'une</string>
 
     <string name="changelog">Quoi de neuf</string>
-    <string name="changelog_desc">L\'ordre des catégories peut être changé immédiatement</string>
+    <string name="changelog_desc">L\'ordre des catégories peut maintenant être changé via les paramètres.</string>
 
     <string name="meal_factor">Repas-bol-facteur</string>
     <string name="meal_factors">Repas-bol-facteurs</string>

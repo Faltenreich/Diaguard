@@ -312,7 +312,7 @@
     <string name="correction_value_desc">La reducción de glucemia en un</string>
 
     <string name="changelog">Qué hay de nuevo</string>
-    <string name="changelog_desc">El orden de las categorías se puede cambiar inmediatamente.</string>
+    <string name="changelog_desc">El orden de las categorías ahora se puede cambiar a través de la configuración.</string>
 
     <string name="meal_factor">Alimento-bolo-factor</string>
     <string name="meal_factors">Alimento-bolo-factors</string>

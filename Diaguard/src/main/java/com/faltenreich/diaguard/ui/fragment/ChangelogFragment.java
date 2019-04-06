@@ -1,146 +1,32 @@
 package com.faltenreich.diaguard.ui.fragment;
 
 import android.app.Dialog;
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.webkit.WebView;
-import android.widget.TextView;
-
-import androidx.annotation.ColorInt;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.DialogFragment;
-import androidx.appcompat.app.AlertDialog;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.data.PreferenceHelper;
-import com.faltenreich.diaguard.util.ResourceUtils;
-import com.faltenreich.diaguard.util.ViewUtils;
-import com.faltenreich.diaguard.util.WebUtils;
-import com.faltenreich.diaguard.util.theme.Theme;
-import com.faltenreich.diaguard.util.theme.ThemeUtils;
+import com.faltenreich.diaguard.ui.activity.CategoriesActivity;
 
-/**
- * Created by Faltenreich on 26.03.2017
- */
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.DialogFragment;
 
 public class ChangelogFragment extends DialogFragment {
-
-    @BindView(R.id.lightButtonBackground) View lightButtonBackground;
-    @BindView(R.id.darkButtonBackground) View darkButtonBackground;
-    @BindView(R.id.lightButton) View lightButton;
-    @BindView(R.id.darkButton) View darkButton;
-    @BindView(R.id.lightLabel) TextView lightLabel;
-    @BindView(R.id.darkLabel) TextView darkLabel;
-    @BindView(R.id.changelog) WebView changelogView;
-    private TextView titleView;
-
-    private Theme temporaryTheme;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        init();
-    }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        View view = inflater.inflate(R.layout.fragment_changelog, null);
-        ButterKnife.bind(this, view);
-
-        titleView = new TextView(getContext(), null, android.R.attr.windowTitleStyle);
-        int padding = (int) ResourceUtils.getDialogPreferredPadding(getContext());
-        titleView.setPadding(padding, padding, padding, (int) getResources().getDimension(R.dimen.margin_between));
-        titleView.setText(R.string.changelog);
-
-        initLayout();
-
         return new AlertDialog.Builder(getContext())
-                .setCustomTitle(titleView)
-                .setView(view)
+                .setTitle(R.string.changelog)
+                .setMessage(R.string.changelog_desc)
+                .setNegativeButton(R.string.change_now, (dlg, which) -> openCategoryPreference())
                 .setPositiveButton(R.string.ok, (dlg, which) -> { })
                 .create();
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        invalidateLayout(false);
-    }
-
-    @Override
-    public void onDestroy() {
-        applyTheme();
-        super.onDestroy();
-    }
-
-    private void init() {
-        temporaryTheme = PreferenceHelper.getInstance().getTheme();
-    }
-
-    private void initLayout() {
-        lightButton.setOnClickListener(button -> tryTheme(Theme.LIGHT));
-        darkButton.setOnClickListener(button -> tryTheme(Theme.DARK));
-    }
-
-    private void invalidateLayout(boolean animated) {
+    private void openCategoryPreference() {
         if (getContext() != null) {
-            boolean isDark = temporaryTheme == Theme.DARK;
-            int backgroundColor = ContextCompat.getColor(getContext(), isDark ? R.color.background_dark_primary : R.color.background_light_primary);
-            int highlightColor = ContextCompat.getColor(getContext(), isDark ? R.color.background_dark_tertiary : R.color.background_light_tertiary);
-            int textColor = isDark ? Color.WHITE : Color.BLACK;
-
-            ViewUtils.setBackgroundColor(lightButtonBackground, isDark ? Color.TRANSPARENT : highlightColor, animated);
-            ViewUtils.setBackgroundColor(darkButtonBackground, isDark ? highlightColor : Color.TRANSPARENT, animated);
-
-            titleView.setTextColor(textColor);
-            lightLabel.setTextColor(textColor);
-            darkLabel.setTextColor(textColor);
-
-            if (getDialog() != null && getDialog().getWindow() != null && getDialog().getWindow().getDecorView().getBackground() != null) {
-                int oldBackgroundColor = ContextCompat.getColor(getContext(), isDark ? R.color.background_light_primary : R.color.background_dark_primary);
-                ViewUtils.setColorFilter(getDialog().getWindow().getDecorView().getBackground(), oldBackgroundColor, backgroundColor, animated);
-            }
-
-            String changelog = WebUtils.loadHtml(getContext(), R.raw.changelog);
-            String html = getHtml(changelog, textColor);
-            changelogView.loadDataWithBaseURL(null, html, "text/html", "uft-8", null);
-            changelogView.setBackgroundColor(Color.TRANSPARENT);
-        }
-    }
-
-    private String getHtml(String body, @ColorInt int textColor) {
-        String textColorHex = Integer.toHexString(textColor & 0x00ffffff);
-        return  "<html><head>"
-                + "<style type=\"text/css\">body{color: #" + textColorHex + "}"
-                + "</style></head>"
-                + "<body>"
-                + body
-                + "</body></html>";
-    }
-
-    private void tryTheme(Theme theme) {
-        if (temporaryTheme != theme) {
-            temporaryTheme = theme;
-            invalidateLayout(true);
-        }
-    }
-
-    private void applyTheme() {
-        if (temporaryTheme != PreferenceHelper.getInstance().getTheme()) {
-            PreferenceHelper.getInstance().setTheme(temporaryTheme);
-            ThemeUtils.setDefaultNightMode(temporaryTheme);
-            ThemeUtils.setUiMode(getContext(), temporaryTheme);
-            if (getActivity() != null) {
-                getActivity().recreate();
-            }
+            getContext().startActivity(new Intent(getContext(), CategoriesActivity.class));
         }
     }
 }

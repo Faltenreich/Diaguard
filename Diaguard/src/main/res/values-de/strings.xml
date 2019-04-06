@@ -309,6 +309,7 @@
     <string name="oxygen_saturation">Sauerstoffsättigung</string>
 
     <string name="changelog">Neu in dieser Version</string>
+    <string name="changelog_desc">Die Reihenfolge der Kategorien kann ab sofort geändert werden.</string>
 
     <string name="meal_factor">Mahlzeit-Bolus-Faktor</string>
     <string name="meal_factors">Mahlzeit-Bolus-Faktoren</string>
@@ -337,6 +338,7 @@
     <string name="show_branded_food_desc">Umfasst tausende abgepackter Lebensmittel und führt deshalb unter Umständen zu Duplikaten (z. B. beim gleichen Produkt von verschiedenen Herstellern)</string>
     <string name="search_prompt">Tippen, um Suche zu beginnen</string>
     <string name="pinned">fixiert</string>
+    <string name="change_now">Jetzt ändern</string>
 
     <string name="theme">Farbschema</string>
     <string name="theme_light">Hell</string>

@@ -22,7 +22,7 @@ public class MeasurementInsulinView extends MeasurementAbstractView<Insulin> {
     @BindView(R.id.insulin_basal) StickyHintInput inputBasal;
 
     public MeasurementInsulinView(Context context) {
-        super(context, new Insulin());
+        super(context, Measurement.Category.INSULIN);
     }
 
     public MeasurementInsulinView(Context context, Insulin insulin) {

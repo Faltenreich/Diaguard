@@ -8,9 +8,6 @@ import android.widget.LinearLayout;
 
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.ui.activity.EntryActivity;
-
-import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,16 +102,10 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
         }
     }
 
-    // TODO: Improved performance
     public void addMeasurements(List<Measurement> measurements) {
-        long start = DateTime.now().getMillis();
-
         for (Measurement measurement : measurements) {
             addMeasurement(categories.size(), measurement);
         }
-
-        long end = DateTime.now().getMillis();
-        Log.d(EntryActivity.class.getSimpleName(), String.format("Took millis: %d", end - start));
     }
 
     public void removeMeasurement(Measurement.Category category) {

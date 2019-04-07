@@ -340,11 +340,7 @@
     <string name="pinned">fixiert</string>
     <string name="change_now">Jetzt ändern</string>
     <string name="help">Hilfe</string>
-    <string name="category_preference_desc">
-        Aktiv:\nKategorie wird angezeigt oder ausgeblendet\n\n
-        Fixiert:\nKategorie wird bei neuen Einträgen automatisch vorausgewählt\n\n
-        Sortieren:\nSechs-Punkte-Symbol gedrückt halten und nach oben oder unten ziehen
-    </string>
+    <string name="category_preference_desc">Aktiv:\nKategorie wird angezeigt oder ausgeblendet\n\nFixiert:\nKategorie wird bei neuen Einträgen automatisch vorausgewählt\n\nSortieren:\nSechs-Punkte-Symbol gedrückt halten und nach oben oder unten ziehen</string>
 
     <string name="theme">Farbschema</string>
     <string name="theme_light">Hell</string>

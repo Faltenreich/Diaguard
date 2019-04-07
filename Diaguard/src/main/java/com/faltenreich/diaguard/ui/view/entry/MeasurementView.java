@@ -98,18 +98,27 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
         textViewCategory.setText(categoryName);
         buttonRemove.setContentDescription(String.format(getContext().getString(R.string.remove_placeholder), categoryName));
 
+        boolean isUpdating = measurement != null;
         switch (category) {
             case INSULIN:
-                content.addView(new MeasurementInsulinView(getContext(), measurement != null ? (Insulin) measurement : null));
+                content.addView(isUpdating ?
+                        new MeasurementInsulinView(getContext(), (Insulin) measurement) :
+                        new MeasurementInsulinView(getContext()));
                 break;
             case MEAL:
-                content.addView(measurement != null ? new MeasurementMealView(getContext(), (Meal) measurement) : new MeasurementMealView(getContext(), food));
+                content.addView(isUpdating ?
+                        new MeasurementMealView(getContext(), (Meal) measurement) :
+                        new MeasurementMealView(getContext(), food));
                 break;
             case PRESSURE:
-                content.addView(new MeasurementPressureView(getContext(), measurement != null ? (Pressure) measurement : null));
+                content.addView(isUpdating ?
+                        new MeasurementPressureView(getContext(), (Pressure) measurement) :
+                        new MeasurementPressureView(getContext()));
                 break;
             default:
-                content.addView(measurement != null ? new MeasurementGenericView<>(getContext(), measurement) : new MeasurementGenericView<>(getContext(), category));
+                content.addView(isUpdating ?
+                        new MeasurementGenericView<>(getContext(), measurement) :
+                        new MeasurementGenericView<>(getContext(), category));
         }
     }
 

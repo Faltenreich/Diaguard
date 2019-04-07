@@ -343,11 +343,7 @@
     <string name="pinned">fijó</string>
     <string name="change_now">Cambiar ahora</string>
     <string name="help">Ayudar</string>
-    <string name="category_preference_desc">
-         Activo:\nLa categoría se muestra u oculta\n\n
-         Fijó:\nLa categoría se preselecciona automáticamente para nuevas entradas\n\n
-         Ordenar:\nMantenga presionado el símbolo de seis puntos y arrastre hacia arriba o hacia abajo
-     </string>
+    <string name="category_preference_desc">Activo:\nLa categoría se muestra u oculta\n\nFijó:\nLa categoría se preselecciona automáticamente para nuevas entradas\n\nOrdenar:\nMantenga presionado el símbolo de seis puntos y arrastre hacia arriba o hacia abajo</string>
 
     <string name="theme">Tema de color</string>
     <string name="theme_light">Ligero</string>

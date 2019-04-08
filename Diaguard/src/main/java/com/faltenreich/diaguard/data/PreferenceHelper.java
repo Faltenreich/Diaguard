@@ -57,6 +57,7 @@ public class PreferenceHelper {
         public static final String EXPORT_TAGS = "export_tags";
         public static final String EXPORT_FOOD = "export_food";
         public static final String EXPORT_CATEGORIES = "exportCategories";
+        public static final String EXPORT_INSULIN_SPLIT = "exportInsulinSplit";
         public static final String DID_IMPORT_TAGS_FOR_LANGUAGE = "didImportTagsForLanguage";
         public static final String FOOD_SHOW_BRANDED = "showBrandedFood";
         public static final String THEME = "theme";
@@ -255,6 +256,14 @@ public class PreferenceHelper {
 
     public boolean exportFood() {
         return sharedPreferences.getBoolean(Keys.EXPORT_FOOD, true);
+    }
+
+    public void setExportInsulinSplit(boolean splitInsulin) {
+        sharedPreferences.edit().putBoolean(Keys.EXPORT_INSULIN_SPLIT, splitInsulin).apply();
+    }
+
+    public boolean exportInsulinSplit() {
+        return sharedPreferences.getBoolean(Keys.EXPORT_INSULIN_SPLIT, false);
     }
 
     public void setExportCategories(Measurement.Category[] categories) {

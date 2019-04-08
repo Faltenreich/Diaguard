@@ -57,6 +57,7 @@ public class PdfTable extends Table {
     private boolean exportNotes;
     private boolean exportTags;
     private boolean exportFood;
+    private boolean splitInsulin;
 
     private Font fontNormal;
     private Font fontBold;
@@ -66,7 +67,7 @@ public class PdfTable extends Table {
 
     private int rows;
 
-    PdfTable(Context context, PDF pdf, PdfPage page, DateTime day, Measurement.Category[] categories, boolean exportNotes, boolean exportTags, boolean exportFood) {
+    PdfTable(Context context, PDF pdf, PdfPage page, DateTime day, Measurement.Category[] categories, boolean exportNotes, boolean exportTags, boolean exportFood, boolean splitInsulin) {
         super();
         this.contextReference = new WeakReference<>(context);
         this.pdf = pdf;
@@ -76,6 +77,7 @@ public class PdfTable extends Table {
         this.exportNotes = exportNotes;
         this.exportTags = exportTags;
         this.exportFood = exportFood;
+        this.splitInsulin = splitInsulin;
         this.alternatingRowColor = ContextCompat.getColor(context, R.color.background_light_primary);
         this.hyperglycemiaColor = ContextCompat.getColor(context, R.color.red);
         this.hypoglycemiaColor = ContextCompat.getColor(context, R.color.blue);
@@ -124,9 +126,13 @@ public class PdfTable extends Table {
             int backgroundColor = row % 2 == 0 ? alternatingRowColor : Color.white;
             switch (category) {
                 case INSULIN:
-                    data.add(getRowForValues(items, 0, label + " " + getContext().getString(R.string.bolus), backgroundColor));
-                    data.add(getRowForValues(items, 1, label + " " + getContext().getString(R.string.correction), backgroundColor));
-                    data.add(getRowForValues(items, 2, label + " " + getContext().getString(R.string.basal), backgroundColor));
+                    if (splitInsulin) {
+                        data.add(getRowForValues(items, 0, label + " " + getContext().getString(R.string.bolus), backgroundColor));
+                        data.add(getRowForValues(items, 1, label + " " + getContext().getString(R.string.correction), backgroundColor));
+                        data.add(getRowForValues(items, 2, label + " " + getContext().getString(R.string.basal), backgroundColor));
+                    } else {
+                        data.add(getRowForValues(items, -1, label, backgroundColor));
+                    }
                     break;
                 case PRESSURE:
                     data.add(getRowForValues(items, 0, label + " " + getContext().getString(R.string.systolic_acronym), backgroundColor));
@@ -231,6 +237,9 @@ public class PdfTable extends Table {
             Measurement.Category category = item.getCategory();
             float value = 0;
             switch (valueIndex) {
+                case -1:
+                    value = item.getValueTotal();
+                    break;
                 case 0:
                     value = item.getValueOne();
                     break;

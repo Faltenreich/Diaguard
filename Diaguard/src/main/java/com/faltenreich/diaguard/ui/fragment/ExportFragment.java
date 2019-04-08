@@ -2,8 +2,6 @@ package com.faltenreich.diaguard.ui.fragment;
 
 import android.content.ActivityNotFoundException;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -35,6 +33,7 @@ import org.joda.time.DateTime;
 
 import java.io.File;
 
+import androidx.annotation.NonNull;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -52,6 +51,7 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
     @BindView(R.id.checkbox_note) CheckBox checkBoxNotes;
     @BindView(R.id.checkbox_tags) CheckBox checkBoxTags;
     @BindView(R.id.checkbox_food) CheckBox checkBoxFood;
+    @BindView(R.id.checkbox_insulin_split) CheckBox checkBoxInsulinSplit;
     @BindView(R.id.export_list_categories) CategoryCheckBoxList categoryCheckBoxList;
 
     private ProgressComponent progressComponent = new ProgressComponent();
@@ -96,6 +96,7 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
         checkBoxTags.setOnCheckedChangeListener((buttonView, isChecked) -> PreferenceHelper.getInstance().setExportTags(isChecked));
         checkBoxFood.setChecked(PreferenceHelper.getInstance().exportFood());
         checkBoxFood.setOnCheckedChangeListener((buttonView, isChecked) -> PreferenceHelper.getInstance().setExportFood(isChecked));
+        checkBoxInsulinSplit.setOnCheckedChangeListener(((buttonView, isChecked) -> PreferenceHelper.getInstance().setExportInsulinSplit(isChecked)));
     }
 
     private boolean validate() {

@@ -40,13 +40,14 @@ public class PdfExport extends AsyncTask<Void, String, File> {
     private boolean exportNotes;
     private boolean exportTags;
     private boolean exportFood;
+    private boolean splitInsulin;
 
     private FileListener listener;
 
     private Font fontNormal;
     private Font fontBold;
 
-    PdfExport(Context context, DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories, boolean exportNotes, boolean exportTags, boolean exportFood) {
+    PdfExport(Context context, DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories, boolean exportNotes, boolean exportTags, boolean exportFood, boolean splitInsulin) {
         this.contextReference = new WeakReference<>(context);
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
@@ -54,6 +55,7 @@ public class PdfExport extends AsyncTask<Void, String, File> {
         this.exportNotes = exportNotes;
         this.exportTags = exportTags;
         this.exportFood = exportFood;
+        this.splitInsulin = splitInsulin;
     }
 
     private Context getContext() {
@@ -100,7 +102,7 @@ public class PdfExport extends AsyncTask<Void, String, File> {
                     currentPosition = drawWeekBar(page, dateIteration);
                 }
 
-                PdfTable table = new PdfTable(getContext(), pdf, page, dateIteration, categories, exportNotes, exportTags, exportFood);
+                PdfTable table = new PdfTable(getContext(), pdf, page, dateIteration, categories, exportNotes, exportTags, exportFood, splitInsulin);
 
                 // Page break
                 if ((currentPosition.getY() + table.getHeight() + PADDING_PARAGRAPH) > page.getEndPoint().getY()) {

@@ -58,7 +58,16 @@ public class Export {
     public static void exportPdf(Context context, DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories, FileListener listener) {
         dateStart = dateStart != null ? dateStart.withTimeAtStartOfDay() : null;
         dateEnd = dateEnd != null ? dateEnd.withTimeAtStartOfDay() : null;
-        PdfExport pdfExport = new PdfExport(context, dateStart, dateEnd, categories, PreferenceHelper.getInstance().exportNotes(), PreferenceHelper.getInstance().exportTags(), PreferenceHelper.getInstance().exportFood());
+        PdfExport pdfExport = new PdfExport(
+                context,
+                dateStart,
+                dateEnd,
+                categories,
+                PreferenceHelper.getInstance().exportNotes(),
+                PreferenceHelper.getInstance().exportTags(),
+                PreferenceHelper.getInstance().exportFood(),
+                PreferenceHelper.getInstance().exportInsulinSplit()
+        );
         pdfExport.setListener(listener);
         pdfExport.execute();
     }

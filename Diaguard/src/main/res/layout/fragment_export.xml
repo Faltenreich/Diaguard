@@ -154,6 +154,29 @@
 
                 </LinearLayout>
 
+                <LinearLayout style="@style/LayoutRow">
+
+                    <ImageView
+                        style="@style/LayoutRowImage"
+                        android:contentDescription="@null"
+                        android:tint="?iconColorPrimary"
+                        app:srcCompat="@drawable/ic_category_insulin"/>
+
+                    <LinearLayout
+                        style="@style/LayoutRowItem"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatCheckBox
+                            android:id="@+id/checkbox_insulin_split"
+                            style="@style/LayoutRowText"
+                            android:paddingStart="@dimen/margin_between"
+                            android:paddingLeft="@dimen/margin_between"
+                            android:text="@string/insulin_split"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>

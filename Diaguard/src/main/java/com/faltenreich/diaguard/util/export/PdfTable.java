@@ -1,15 +1,10 @@
 package com.faltenreich.diaguard.util.export;
 
 import android.content.Context;
-import androidx.annotation.ColorInt;
-import androidx.annotation.StringRes;
-import androidx.core.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.ui.list.item.ListItemCategoryValue;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.EntryTagDao;
@@ -20,6 +15,7 @@ import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.ui.list.item.ListItemCategoryValue;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.StringUtils;
 import com.pdfjet.Align;
@@ -39,6 +35,10 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.StringRes;
+import androidx.core.content.ContextCompat;
 
 /**
  * Created by Faltenreich on 19.10.2015.
@@ -122,11 +122,19 @@ public class PdfTable extends Table {
             ListItemCategoryValue[] items = values.get(category);
             String label = category.toLocalizedString(getContext());
             int backgroundColor = row % 2 == 0 ? alternatingRowColor : Color.white;
-            if (category == Measurement.Category.PRESSURE) {
-                data.add(getRowForValues(items, 0, label + " " + DiaguardApplication.getContext().getString(R.string.systolic_acronym), backgroundColor));
-                data.add(getRowForValues(items, 1, label + " " + DiaguardApplication.getContext().getString(R.string.diastolic_acronym), backgroundColor));
-            } else {
-                data.add(getRowForValues(items, 0, label, backgroundColor));
+            switch (category) {
+                case INSULIN:
+                    data.add(getRowForValues(items, 0, label + " " + getContext().getString(R.string.bolus), backgroundColor));
+                    data.add(getRowForValues(items, 1, label + " " + getContext().getString(R.string.correction), backgroundColor));
+                    data.add(getRowForValues(items, 2, label + " " + getContext().getString(R.string.basal), backgroundColor));
+                    break;
+                case PRESSURE:
+                    data.add(getRowForValues(items, 0, label + " " + getContext().getString(R.string.systolic_acronym), backgroundColor));
+                    data.add(getRowForValues(items, 1, label + " " + getContext().getString(R.string.diastolic_acronym), backgroundColor));
+                    break;
+                default:
+                    data.add(getRowForValues(items, 0, label, backgroundColor));
+                    break;
             }
             row++;
         }
@@ -221,7 +229,18 @@ public class PdfTable extends Table {
 
         for (ListItemCategoryValue item : items) {
             Measurement.Category category = item.getCategory();
-            float value = valueIndex == 0 ? item.getValueOne() : item.getValueTwo();
+            float value = 0;
+            switch (valueIndex) {
+                case 0:
+                    value = item.getValueOne();
+                    break;
+                case 1:
+                    value = item.getValueTwo();
+                    break;
+                case 2:
+                    value = item.getValueThree();
+                    break;
+            }
             int textColor = Color.black;
             if (category == Measurement.Category.BLOODSUGAR && PreferenceHelper.getInstance().limitsAreHighlighted()) {
                 if (value > PreferenceHelper.getInstance().getLimitHyperglycemia()) {

@@ -27,18 +27,36 @@ public class CategoryValueViewHolder extends BaseViewHolder<ListItemCategoryValu
         ListItemCategoryValue listItem = getListItem();
         Measurement.Category category = listItem.getCategory();
         StringBuilder stringBuilder = new StringBuilder();
-        if (listItem.getValueOne() > 0) {
-            float value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, listItem.getValueOne());
-            stringBuilder.append(Helper.parseFloat(value));
-        }
-        if (listItem.getValueTwo() > 0) {
-            if (stringBuilder.length() > 0) {
-                stringBuilder.append("\n");
-                valueView.setLines(2);
+
+        if (category.stackValues()) {
+            float value = listItem.getValueTotal();
+            if (value > 0) {
+                value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, listItem.getValueTotal());
+                stringBuilder.append(Helper.parseFloat(value));
             }
-            float value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, listItem.getValueTwo());
-            stringBuilder.append(Helper.parseFloat(value));
+        } else {
+            if (listItem.getValueOne() > 0) {
+                float value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, listItem.getValueOne());
+                stringBuilder.append(Helper.parseFloat(value));
+            }
+            if (listItem.getValueTwo() > 0) {
+                if (stringBuilder.length() > 0) {
+                    stringBuilder.append("\n");
+                    valueView.setLines(2);
+                }
+                float value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, listItem.getValueTwo());
+                stringBuilder.append(Helper.parseFloat(value));
+            }
+            if (listItem.getValueThree() > 0) {
+                if (stringBuilder.length() > 0) {
+                    stringBuilder.append("\n");
+                    valueView.setLines(3);
+                }
+                float value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, listItem.getValueThree());
+                stringBuilder.append(Helper.parseFloat(value));
+            }
         }
+
         if (stringBuilder.length() > 0) {
             valueView.setText(stringBuilder.toString());
             valueView.setClickable(true);

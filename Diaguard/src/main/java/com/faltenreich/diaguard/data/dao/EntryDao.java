@@ -7,6 +7,7 @@ import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.FoodEaten;
+import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Pressure;
@@ -145,20 +146,27 @@ public class EntryDao extends BaseDao<Entry> {
                 int index = measurement.getEntry().getDate().hourOfDay().get() / hoursToSkip;
                 ListItemCategoryValue item = new ListItemCategoryValue(category);
 
-                if (category == Measurement.Category.PRESSURE) {
-                    Pressure pressure = (Pressure) measurement;
-                    item.setValueOne(pressure.getSystolic());
-                    item.setValueTwo(pressure.getDiastolic());
-
-                } else {
-                    // Average for stacked values like insulin
-                    float value = category.stackValues() ? ArrayUtils.sum(measurement.getValues()) : ArrayUtils.avg(measurement.getValues());
-                    if (category == Measurement.Category.MEAL) {
-                        for (FoodEaten foodEaten : ((Meal)measurement).getFoodEaten()) {
-                            value += foodEaten.getCarbohydrates();
+                switch (category) {
+                    case INSULIN:
+                        Insulin insulin = (Insulin) measurement;
+                        item.setValueOne(insulin.getBolus());
+                        item.setValueTwo(insulin.getCorrection());
+                        item.setValueThree(insulin.getBasal());
+                        break;
+                    case PRESSURE:
+                        Pressure pressure = (Pressure) measurement;
+                        item.setValueOne(pressure.getSystolic());
+                        item.setValueTwo(pressure.getDiastolic());
+                        break;
+                    default:
+                        float value = category.stackValues() ? ArrayUtils.sum(measurement.getValues()) : ArrayUtils.avg(measurement.getValues());
+                        if (category == Measurement.Category.MEAL) {
+                            for (FoodEaten foodEaten : ((Meal)measurement).getFoodEaten()) {
+                                value += foodEaten.getCarbohydrates();
+                            }
                         }
-                    }
-                    item.setValueOne(value);
+                        item.setValueOne(value);
+                        break;
                 }
 
                 List<ListItemCategoryValue> valuesOfHour = valuesOfHours.get(index);

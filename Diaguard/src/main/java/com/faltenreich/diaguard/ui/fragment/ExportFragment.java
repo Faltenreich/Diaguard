@@ -9,6 +9,8 @@ import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
@@ -33,7 +35,6 @@ import org.joda.time.DateTime;
 
 import java.io.File;
 
-import androidx.annotation.NonNull;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -96,6 +97,7 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
         checkBoxTags.setOnCheckedChangeListener((buttonView, isChecked) -> PreferenceHelper.getInstance().setExportTags(isChecked));
         checkBoxFood.setChecked(PreferenceHelper.getInstance().exportFood());
         checkBoxFood.setOnCheckedChangeListener((buttonView, isChecked) -> PreferenceHelper.getInstance().setExportFood(isChecked));
+        checkBoxInsulinSplit.setChecked(PreferenceHelper.getInstance().exportInsulinSplit());
         checkBoxInsulinSplit.setOnCheckedChangeListener(((buttonView, isChecked) -> PreferenceHelper.getInstance().setExportInsulinSplit(isChecked)));
     }
 

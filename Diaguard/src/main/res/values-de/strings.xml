@@ -309,7 +309,7 @@
     <string name="oxygen_saturation">Sauerstoffsättigung</string>
 
     <string name="changelog">Neu in dieser Version</string>
-    <string name="changelog_desc">Die Reihenfolge der Kategorien kann ab sofort über die Einstellungen geändert werden.</string>
+    <string name="changelog_desc">Insulin kann während des PDF Exports ab sofort in Bolus, Korrektur und Basal unterteilt werden.</string>
 
     <string name="meal_factor">Mahlzeit-Bolus-Faktor</string>
     <string name="meal_factors">Mahlzeit-Bolus-Faktoren</string>
@@ -341,6 +341,7 @@
     <string name="change_now">Jetzt ändern</string>
     <string name="help">Hilfe</string>
     <string name="category_preference_desc">Aktiv:\nKategorie wird angezeigt oder ausgeblendet\n\nFixiert:\nKategorie wird bei neuen Einträgen automatisch vorausgewählt\n\nSortieren:\nSechs-Punkte-Symbol gedrückt halten und nach oben oder unten ziehen</string>
+    <string name="insulin_split">Insulin aufteilen</string>
 
     <string name="theme">Farbschema</string>
     <string name="theme_light">Hell</string>

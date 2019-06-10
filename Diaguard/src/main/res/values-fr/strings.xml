@@ -310,7 +310,7 @@
     <string name="correction_value_desc">Réduction de la glycémie d\'une</string>
 
     <string name="changelog">Quoi de neuf</string>
-    <string name="changelog_desc">L\'ordre des catégories peut maintenant être changé via les paramètres.</string>
+    <string name="changelog_desc">L\'insuline peut maintenant être divisée en bolus, correction et basal lors de l\'export PDF.</string>
 
     <string name="meal_factor">Repas-bol-facteur</string>
     <string name="meal_factors">Repas-bol-facteurs</string>
@@ -342,6 +342,7 @@
     <string name="change_now">Changer maintenant</string>
     <string name="help">Aider</string>
     <string name="category_preference_desc">Active:\nLa catégorie est affichée ou masquée\n\nFixé:\nLa catégorie est automatiquement présélectionnée pour les nouvelles entrées\n\nTrier:\n Maintenez le symbole en six points et faites glisser le curseur vers le haut ou le bas</string>
+    <string name="insulin_split">Fractionner l\'insuline</string>
 
     <string name="theme">Thème de couleur</string>
     <string name="theme_light">Lumière</string>

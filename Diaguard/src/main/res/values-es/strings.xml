@@ -312,7 +312,7 @@
     <string name="correction_value_desc">La reducción de glucemia en un</string>
 
     <string name="changelog">Qué hay de nuevo</string>
-    <string name="changelog_desc">El orden de las categorías ahora se puede cambiar a través de la configuración.</string>
+    <string name="changelog_desc">La insulina ahora se puede dividir en bolos, corrección y basales durante la exportación de PDF.</string>
 
     <string name="meal_factor">Alimento-bolo-factor</string>
     <string name="meal_factors">Alimento-bolo-factors</string>
@@ -344,6 +344,7 @@
     <string name="change_now">Cambiar ahora</string>
     <string name="help">Ayudar</string>
     <string name="category_preference_desc">Activo:\nLa categoría se muestra u oculta\n\nFijó:\nLa categoría se preselecciona automáticamente para nuevas entradas\n\nOrdenar:\nMantenga presionado el símbolo de seis puntos y arrastre hacia arriba o hacia abajo</string>
+    <string name="insulin_split">Dividir la insulina</string>
 
     <string name="theme">Tema de color</string>
     <string name="theme_light">Ligero</string>

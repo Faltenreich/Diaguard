@@ -9,10 +9,10 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
-import androidx.annotation.Nullable;
-
 import android.widget.ListAdapter;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.BuildConfig;
 import com.faltenreich.diaguard.R;
@@ -95,13 +95,13 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     private void initPreferences() {
         if (!BuildConfig.isCalculatorEnabled) {
             Preference categoryPreferenceLimits = findPreference("limits");
-            if (categoryPreferenceLimits != null && categoryPreferenceLimits instanceof PreferenceCategory) {
+            if (categoryPreferenceLimits instanceof PreferenceCategory) {
                 PreferenceCategory category = (PreferenceCategory) categoryPreferenceLimits;
                 category.removePreference(findPreference("correction_value"));
                 category.removePreference(findPreference("pref_factor"));
             }
             Preference categoryPreferenceUnits = findPreference("units");
-            if (categoryPreferenceUnits != null && categoryPreferenceUnits instanceof PreferenceCategory) {
+            if (categoryPreferenceUnits instanceof PreferenceCategory) {
                 PreferenceCategory category = (PreferenceCategory) categoryPreferenceUnits;
                 category.removePreference(findPreference("unit_meal_factor"));
             }

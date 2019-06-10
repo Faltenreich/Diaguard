@@ -1,9 +1,6 @@
 package com.faltenreich.diaguard.ui.view.chart;
 
 import android.content.Context;
-import androidx.annotation.ColorInt;
-import androidx.core.view.ViewCompat;
-
 import android.util.AttributeSet;
 
 import com.faltenreich.diaguard.R;
@@ -20,6 +17,9 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
+
+import androidx.annotation.ColorInt;
+import androidx.core.view.ViewCompat;
 
 /**
  * Created by Filip on 07.07.2015.

@@ -43,7 +43,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:textColor="?android:textColorPrimary"
-                            tools:text="21.06.2018"/>
+                            android:textAllCaps="false"
+                            tools:text="@tools:sample/date/ddmmyy"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -57,7 +58,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:textColor="?android:textColorPrimary"
-                            tools:text="28.06.2018"/>
+                            android:textAllCaps="false"
+                            tools:text="@tools:sample/date/ddmmyy"/>
 
                     </LinearLayout>
 

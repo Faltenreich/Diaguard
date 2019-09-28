@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
+import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.view.MainFragmentType;
@@ -28,8 +29,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
-
-import static com.faltenreich.diaguard.DiaguardApplication.getContext;
 
 @SuppressWarnings("WeakerAccess")
 public class PreferenceHelper {
@@ -96,6 +95,10 @@ public class PreferenceHelper {
 
     private PreferenceHelper() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+    }
+
+    private Context getContext() {
+        return DiaguardApplication.getContext();
     }
 
     // GENERAL

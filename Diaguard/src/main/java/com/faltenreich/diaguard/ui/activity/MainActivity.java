@@ -183,9 +183,6 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
     private void selectMenuItem(MenuItem menuItem) {
         if (menuItem != null) {
             switch (menuItem.getItemId()) {
-                case R.id.nav_home:
-                    showFragment(new MainFragment(), menuItem, false);
-                    break;
                 case R.id.nav_timeline:
                     showFragment(new ChartFragment(), menuItem, false);
                     break;

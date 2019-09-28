@@ -5,8 +5,6 @@ import android.net.Uri;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.data.PreferenceHelper;
-import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.FileUtils;
 
 import org.joda.time.DateTime;
@@ -44,33 +42,16 @@ public class Export {
     public static final char CSV_DELIMITER = ';';
     static final String CSV_KEY_META = "meta";
 
-    public static void exportPdf(Context context, DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories, FileListener listener) {
-        dateStart = dateStart != null ? dateStart.withTimeAtStartOfDay() : null;
-        dateEnd = dateEnd != null ? dateEnd.withTimeAtStartOfDay() : null;
-        PdfExport pdfExport = new PdfExport(
-                context,
-                dateStart,
-                dateEnd,
-                categories,
-                PreferenceHelper.getInstance().exportNotes(),
-                PreferenceHelper.getInstance().exportTags(),
-                PreferenceHelper.getInstance().exportFood(),
-                PreferenceHelper.getInstance().exportInsulinSplit()
-        );
+    public static void exportPdf(ExportConfig config, FileListener listener) {
+        PdfExport pdfExport = new PdfExport(config);
         pdfExport.setListener(listener);
         pdfExport.execute();
     }
 
-    public static void exportCsv(boolean isBackup, DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories, FileListener listener) {
-        dateStart = dateStart != null ? dateStart.withTimeAtStartOfDay() : null;
-        dateEnd = dateEnd != null ? dateEnd.withTimeAtStartOfDay() : null;
-        CsvExport csvExport = new CsvExport(isBackup, dateStart, dateEnd, categories);
+    public static void exportCsv(ExportConfig config, boolean isBackup, FileListener listener) {
+        CsvExport csvExport = new CsvExport(config, isBackup);
         csvExport.setListener(listener);
         csvExport.execute();
-    }
-
-    public static void exportCsv(boolean isBackup, FileListener listener) {
-        exportCsv(isBackup, null, null, null, listener);
     }
 
     public static void importCsv(Context context, Uri uri, FileListener listener) {

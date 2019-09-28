@@ -25,6 +25,7 @@ import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.ProgressComponent;
 import com.faltenreich.diaguard.util.ViewUtils;
 import com.faltenreich.diaguard.util.export.Export;
+import com.faltenreich.diaguard.util.export.ExportConfig;
 import com.faltenreich.diaguard.util.export.FileListener;
 import com.faltenreich.diaguard.util.permission.Permission;
 import com.faltenreich.diaguard.util.permission.PermissionUseCase;
@@ -125,10 +126,20 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
         Measurement.Category[] selectedCategories = categoryCheckBoxList.getSelectedCategories();
         PreferenceHelper.getInstance().setExportCategories(selectedCategories);
 
+        ExportConfig config = new ExportConfig.Builder(getContext())
+            .setDateStart(dateStart != null ? dateStart.withTimeAtStartOfDay() : null)
+            .setDateEnd(dateEnd != null ? dateEnd.withTimeAtStartOfDay() : null) // FIXME: End of day?
+            .setCategories(selectedCategories)
+            .setExportNotes(PreferenceHelper.getInstance().exportNotes())
+            .setExportTags(PreferenceHelper.getInstance().exportTags())
+            .setExportFood(PreferenceHelper.getInstance().exportFood())
+            .setSplitInsulin(PreferenceHelper.getInstance().exportInsulinSplit())
+            .build();
+
         if (spinnerFormat.getSelectedItemPosition() == 0) {
-            Export.exportPdf(getContext(), dateStart, dateEnd, selectedCategories, this);
+            Export.exportPdf(config, this);
         } else if (spinnerFormat.getSelectedItemPosition() == 1) {
-            Export.exportCsv(false, dateStart, dateEnd, selectedCategories, this);
+            Export.exportCsv(config, false, this);
         }
     }
 

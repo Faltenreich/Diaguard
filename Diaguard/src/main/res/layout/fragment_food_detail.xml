@@ -2,7 +2,7 @@
 
 <androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -23,8 +23,11 @@
 
             <TextView
                 style="@style/LayoutRowItemMultiline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/food_brand"
-                android:textColor="?android:attr/textColorPrimary"/>
+                android:textColor="?android:attr/textColorPrimary"
+                tools:text="@tools:sample/lorem"/>
 
         </LinearLayout>
 
@@ -38,10 +41,11 @@
 
             <TextView
                 style="@style/LayoutRowItemMultiline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/food_ingredients"
                 android:textColor="?android:attr/textColorPrimary"
-                android:maxLines="3"
-                android:ellipsize="end"/>
+                tools:text="@tools:sample/lorem/random"/>
 
         </LinearLayout>
 

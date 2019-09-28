@@ -46,6 +46,8 @@ public class PDFobj {
     protected int stream_offset;
     protected byte[] stream;        // The compressed stream
     protected byte[] data;          // The decompressed data
+    protected int gsNumber = -1;
+
 
     /**
      *  Used to create Java or .NET objects that represent the objects in PDF document.
@@ -182,52 +184,6 @@ public class PDFobj {
     }
 
 
-    public void addContent(byte[] content, Map<Integer, PDFobj> objects) {
-        PDFobj obj = new PDFobj();
-        obj.setNumber(Collections.max(objects.keySet()) + 1);
-        obj.setStream(content);
-        objects.put(obj.getNumber(), obj);
-
-        int index = -1;
-        boolean single = false;
-        for (int i = 0; i < dict.size(); i++) {
-            if (dict.get(i).equals("/Contents")) {
-                String str = dict.get(++i);
-                if (str.equals("[")) {
-                    while (true) {
-                        str = dict.get(++i);
-                        if (str.equals("]")) {
-                            index = i;
-                            break;
-                        }
-                        ++i;    // 0
-                        ++i;    // R
-                    }
-                }
-                else {
-                    // Single content object
-                    index = i;
-                    single = true;
-                }
-                break;
-            }
-        }
-
-        if (single) {
-            dict.add(index, "[");
-            dict.add(index + 4, "]");
-            dict.add(index + 4, "R");
-            dict.add(index + 4, "0");
-            dict.add(index + 4, String.valueOf(obj.number));
-        }
-        else {
-            dict.add(index, "R");
-            dict.add(index, "0");
-            dict.add(index, String.valueOf(obj.number));
-        }
-    }
-
-
     public float[] getPageSize() {
         for (int i = 0; i < dict.size(); i++) {
             if (dict.get(i).equals("/MediaBox")) {
@@ -312,6 +268,21 @@ public class PDFobj {
         return null;
     }
 
+/*
+TODO: Test well this method and use instead of the method above.
+    public PDFobj getResourcesObject(Map<Integer, PDFobj> objects) {
+        for (int i = 0; i < dict.size(); i++) {
+            if (dict.get(i).equals("/Resources")) {
+                String token = dict.get(i + 1);
+                if (token.equals("<<")) {
+                    return this;
+                }
+                return objects.get(Integer.valueOf(token));
+            }
+        }
+        return null;
+    }
+*/
 
     public Font addResource(CoreFont coreFont, Map<Integer, PDFobj> objects) {
         Font font = new Font(coreFont);
@@ -399,6 +370,11 @@ public class PDFobj {
 
     private void insertNewObject(
             List<String> dict, List<String> list, String type) {
+        for (String token : dict) {
+            if (token.equals(list.get(0))) {
+                return;
+            }
+        }
         for (int i = 0; i < dict.size(); i++) {
             if (dict.get(i).equals(type)) {
                 dict.addAll(i + 2, list);
@@ -476,6 +452,182 @@ public class PDFobj {
                 return;
             }
         }
+    }
+
+
+    public void addContent(byte[] content, Map<Integer, PDFobj> objects) {
+        PDFobj obj = new PDFobj();
+        obj.setNumber(Collections.max(objects.keySet()) + 1);
+        obj.setStream(content);
+        objects.put(obj.getNumber(), obj);
+
+        String objNumber = String.valueOf(obj.number);
+        for (int i = 0; i < dict.size(); i++) {
+            if (dict.get(i).equals("/Contents")) {
+                i += 1;
+                String token = dict.get(i);
+                if (token.equals("[")) {
+                    // Array of content objects
+                    while (true) {
+                        i += 1;
+                        token = dict.get(i);
+                        if (token.equals("]")) {
+                            dict.add(i, "R");
+                            dict.add(i, "0");
+                            dict.add(i, objNumber);
+                            return;
+                        }
+                        i += 2;     // Skip the 0 and R
+                    }
+                }
+                else {
+                    // Single content object
+                    PDFobj obj2 = objects.get(Integer.valueOf(token));
+                    if (obj2.data == null && obj2.stream == null) {
+                        // This is not a stream object!
+                        for (int j = 0; j < obj2.dict.size(); j++) {
+                            if (obj2.dict.get(j).equals("]")) {
+                                obj2.dict.add(j, "R");
+                                obj2.dict.add(j, "0");
+                                obj2.dict.add(j, objNumber);
+                                return;
+                            }
+                        }
+                    }
+                    dict.add(i, "[");
+                    dict.add(i + 4, "]");
+                    dict.add(i + 4, "R");
+                    dict.add(i + 4, "0");
+                    dict.add(i + 4, objNumber);
+                    return;
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Adds new content object before the existing content objects.
+     * The original code was provided by Stefan Ostermann author of ScribMaster and HandWrite Pro.
+     * Additional code to handle PDFs with indirect array of stream objects was written by EDragoev.
+     *
+     * @param content
+     * @param objects
+     */
+    public void addPrefixContent(byte[] content, Map<Integer, PDFobj> objects) {
+        PDFobj obj = new PDFobj();
+        obj.setNumber(Collections.max(objects.keySet()) + 1);
+        obj.setStream(content);
+        objects.put(obj.getNumber(), obj);
+
+        String objNumber = String.valueOf(obj.number);
+        for (int i = 0; i < dict.size(); i++) {
+            if (dict.get(i).equals("/Contents")) {
+                i += 1;
+                String token = dict.get(i);
+                if (token.equals("[")) {
+                    // Array of content object streams
+                    i += 1;
+                    dict.add(i, "R");
+                    dict.add(i, "0");
+                    dict.add(i, objNumber);
+                    return;
+                }
+                else {
+                    // Single content object
+                    PDFobj obj2 = objects.get(Integer.valueOf(token));
+                    if (obj2.data == null && obj2.stream == null) {
+                        // This is not a stream object!
+                        for (int j = 0; j < obj2.dict.size(); j++) {
+                            if (obj2.dict.get(j).equals("[")) {
+                                j += 1;
+                                obj2.dict.add(j, "R");
+                                obj2.dict.add(j, "0");
+                                obj2.dict.add(j, objNumber);
+                                return;
+                            }
+                        }
+                    }
+                    dict.add(i, "[");
+                    dict.add(i + 4, "]");
+                    i += 1;
+                    dict.add(i, "R");
+                    dict.add(i, "0");
+                    dict.add(i, objNumber);
+                    return;
+                }
+            }
+        }
+    }
+
+
+    private int getMaxGSNumber(PDFobj obj) {
+        List<Integer> numbers = new ArrayList<Integer>();
+        for (String token : obj.dict) {
+            if (token.startsWith("/GS")) {
+                numbers.add(Integer.valueOf(token.substring(3)));
+            }
+        }
+        if (numbers.isEmpty()) {
+            return 0;
+        }
+        return Collections.max(numbers);
+    }
+
+
+    public void setGraphicsState(GraphicsState gs, Map<Integer, PDFobj> objects) {
+        PDFobj obj = null;
+        int index = -1;
+        for (int i = 0; i < dict.size(); i++) {
+            if (dict.get(i).equals("/Resources")) {
+                String token = dict.get(i + 1);
+                if (token.equals("<<")) {
+                    obj = this;
+                    index = i + 2;
+                }
+                else {
+                    obj = objects.get(Integer.valueOf(token));
+                    for (int j = 0; j < obj.dict.size(); j++) {
+                        if (obj.dict.get(j).equals("<<")) {
+                            index = j + 1;
+                            break;
+                        }
+                    }
+                }
+                break;
+            }
+        }
+
+        gsNumber = getMaxGSNumber(obj);
+        if (gsNumber == 0) {                    // No existing ExtGState dictionary
+            obj.dict.add(index, "/ExtGState");  // Add ExtGState dictionary
+            obj.dict.add(++index, "<<");
+        }
+        else {
+            while (index < obj.dict.size()) {
+                String token = obj.dict.get(index);
+                if (token.equals("/ExtGState")) {
+                    index += 1;
+                    break;
+                }
+                index += 1;
+            }
+        }
+        obj.dict.add(++index, "/GS" + String.valueOf(gsNumber + 1));
+        obj.dict.add(++index, "<<");
+        obj.dict.add(++index, "/CA");
+        obj.dict.add(++index, String.valueOf(gs.get_CA()));
+        obj.dict.add(++index, "/ca");
+        obj.dict.add(++index, String.valueOf(gs.get_ca()));
+        obj.dict.add(++index, ">>");
+        if (gsNumber == 0) {
+            obj.dict.add(++index, ">>");
+        }
+
+        StringBuilder buf = new StringBuilder();
+        buf.append("q\n");
+        buf.append("/GS" + String.valueOf(gsNumber + 1) + " gs\n");
+        addPrefixContent(buf.toString().getBytes(), objects);
     }
 
 }

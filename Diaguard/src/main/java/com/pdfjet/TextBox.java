@@ -756,11 +756,10 @@ public class TextBox implements Drawable {
                 list.add(line);
             }
             else {
-                String str = null;
                 buf.setLength(0);
                 for (int j = 0; j < line.length(); j++) {
                     buf.append(line.charAt(j));
-                    str = buf.toString();
+                    String str = buf.toString();
                     if (font.stringWidth(str) > textAreaWidth) {
                         if ((str.charAt(str.length() - 1) == ' ') ||
                                 str.split("\\s+").length <= 1) {
@@ -768,13 +767,15 @@ public class TextBox implements Drawable {
                         }
                         else {
                             list.add(str.substring(0, str.lastIndexOf(' ')));
-                            while (line.charAt(j) != ' ') { j -= 1; }
+                            while (line.charAt(j) != ' ') {
+                                j -= 1;
+                            }
                         }
                         buf.setLength(0);
                     }
                 }
-                if (!str.equals("")) {
-                    list.add(str);
+                if (buf.length() > 0) {
+                    list.add(buf.toString());
                 }
             }
         }
@@ -784,9 +785,12 @@ public class TextBox implements Drawable {
         float x_text;
         float y_text = y + font.ascent + margin;
 
+        if ((lines.length * lineHeight) > this.height) {
+            this.height = lines.length * lineHeight;
+        }
+
         if (draw) {
             if (getBgColor() != Color.transparent) {
-                this.height = lines.length * lineHeight;
                 drawBackground(page);
             }
             page.setPenColor(this.pen);

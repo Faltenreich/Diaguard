@@ -121,7 +121,6 @@ public class Image implements Drawable {
 
 
     public Image(PDF pdf, PDFobj obj) throws Exception {
-        // System.out.println(obj.getDict());
         w = Float.valueOf(obj.getValue("/Width"));
         h = Float.valueOf(obj.getValue("/Height"));
         pdf.newobj();

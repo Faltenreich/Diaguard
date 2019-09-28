@@ -42,6 +42,8 @@ import java.util.zip.*;
  */
 public class PDF {
 
+    private boolean eval = false;
+
     protected int objNumber = 0;
     protected int metadataObjNumber = 0;
     protected int outputIntentObjNumber = 0;
@@ -62,7 +64,7 @@ public class PDF {
     private String subject = "";
     private String keywords = "";
     private String creator = "";
-    private String producer = "PDFjet v5.97 (http://pdfjet.com)";
+    private String producer = "PDFjet v6.05 (http://pdfjet.com)";
     private String creationDate;
     private String modDate;
     private String createDate;
@@ -1215,17 +1217,25 @@ public class PDF {
         boolean done = false;
         while (!done && off < len) {
             char c2 = (char) buf[off++];
+            if (c1 == '\\') {
+                token.append(c2);
+                c1 = c2;
+                continue;
+            }
+
             if (c2 == '(') {
                 if (p == 0) {
                     done = process(obj, token, buf, off);
                 }
                 if (!done) {
                     token.append(c2);
+                    c1 = c2;
                     ++p;
                 }
             }
             else if (c2 == ')') {
                 token.append(c2);
+                c1 = c2;
                 --p;
                 if (p == 0) {
                     done = process(obj, token, buf, off);
@@ -1250,33 +1260,43 @@ public class PDF {
                 }
             }
             else if (c2 == '<' || c2 == '>' || c2 == '%') {
-                if (c2 != c1) {
-                    done = process(obj, token, buf, off);
-                    if (!done) {
-                        token.append(c2);
-                        c1 = c2;
-                    }
+                if (p > 0) {
+                    token.append(c2);
+                    c1 = c2;
                 }
                 else {
-                    token.append(c2);
-                    done = process(obj, token, buf, off);
-                    if (!done) {
-                        c1 = ' ';
+                    if (c2 != c1) {
+                        done = process(obj, token, buf, off);
+                        if (!done) {
+                            token.append(c2);
+                            c1 = c2;
+                        }
+                    }
+                    else {
+                        token.append(c2);
+                        done = process(obj, token, buf, off);
+                        if (!done) {
+                            c1 = ' ';
+                        }
                     }
                 }
             }
             else if (c2 == '[' || c2 == ']' || c2 == '{' || c2 == '}') {
-                done = process(obj, token, buf, off);
-                if (!done) {
-                    obj.dict.add(String.valueOf(c2));
+                if (p > 0) {
+                    token.append(c2);
                     c1 = c2;
+                }
+                else {
+                    done = process(obj, token, buf, off);
+                    if (!done) {
+                        obj.dict.add(String.valueOf(c2));
+                        c1 = c2;
+                    }
                 }
             }
             else {
                 token.append(c2);
-                if (p == 0) {
-                    c1 = c2;
-                }
+                c1 = c2;
             }
         }
 
@@ -1402,7 +1422,6 @@ public class PDF {
 
     private int getStartXRef(byte[] buf) {
         StringBuilder sb = new StringBuilder();
-
         for (int i = (buf.length - 10); i > 10; i--) {
             if (buf[i] == 's' &&
                     buf[i + 1] == 't' &&
@@ -1413,23 +1432,18 @@ public class PDF {
                     buf[i + 6] == 'r' &&
                     buf[i + 7] == 'e' &&
                     buf[i + 8] == 'f') {
-
-                int j = i + 10;
-                if (buf[i + 9] == '\r' && buf[i + 10] == '\n') {
-                    j = i + 11;
+                i += 10;                // Skip over "startxref" and the first EOL character
+                while (buf[i] < 0x30) { // Skip over possible second EOL character and spaces
+                    i += 1;
                 }
-
-                char ch = (char) buf[j];
-                while (ch == ' ' || Character.isDigit(ch)) {
-                    sb.append(ch);
-                    ch = (char) buf[++j];
+                while (Character.isDigit((char) buf[i])) {
+                    sb.append((char) buf[i]);
+                    i += 1;
                 }
-
                 break;
             }
         }
-
-        return Integer.valueOf(sb.toString().trim());
+        return Integer.valueOf(sb.toString());
     }
 
 

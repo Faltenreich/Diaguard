@@ -640,8 +640,8 @@ public class TextLine implements Drawable {
             page.setPenWidth(font.underlineThickness);
             page.setPenColor(color);
             float lineLength = font.stringWidth(str);
-            double x_adjust = font.underlinePosition * Math.sin(radians);
-            double y_adjust = font.underlinePosition * Math.cos(radians);
+            double x_adjust = font.underlinePosition * Math.sin(radians) + verticalOffset;
+            double y_adjust = font.underlinePosition * Math.cos(radians) + verticalOffset;
             double x2 = x + lineLength * Math.cos(radians);
             double y2 = y - lineLength * Math.sin(radians);
             page.addBMC(StructElem.SPAN, language, underlineTTS, underlineTTS);

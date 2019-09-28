@@ -185,8 +185,8 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
         if (entryId <= 0 && foodId <= 0) {
             addPinnedCategories();
-            fabMenu.restock();
         }
+        fabMenu.restock();
 
         tagsView.setVisibility(View.GONE);
         tagAdapter = new TagAutoCompleteAdapter(this);

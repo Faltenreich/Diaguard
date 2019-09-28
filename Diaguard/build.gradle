@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 28 // TODO: 29 breaks file handling due to new scoped external storage access
+        targetSdkVersion 29
         versionCode 37
         versionName "3.3.0"
         vectorDrawables.useSupportLibrary = true
@@ -38,15 +38,6 @@ android {
             resValue 'string', 'package_name', applicationId
             buildConfigField "boolean", "isCalculatorEnabled", "false"
         }
-    }
-
-    packagingOptions {
-        exclude 'META-INF/notice.txt'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/license.txt'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/LICENSE'
     }
 
     compileOptions {

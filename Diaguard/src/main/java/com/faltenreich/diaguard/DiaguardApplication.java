@@ -14,9 +14,6 @@ import net.danlew.android.joda.JodaTimeAndroid;
 
 import de.psdev.licensesdialog.LicenseResolver;
 
-/**
- * Created by Filip on 26.08.2014.
- */
 public class DiaguardApplication extends Application {
 
     private static Context context;
@@ -40,6 +37,6 @@ public class DiaguardApplication extends Application {
         NotificationUtils.setupNotifications(this);
         Theme theme = PreferenceHelper.getInstance().getTheme();
         ThemeUtils.setDefaultNightMode(theme);
-        ThemeUtils.setUiMode(getContext(), theme);
+        ThemeUtils.setUiMode(this, theme);
     }
 }

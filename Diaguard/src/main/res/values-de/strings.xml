@@ -322,9 +322,6 @@
     <string name="tags_append">Stimmungen anhängen</string>
     <string name="search">Suche</string>
     <string name="search_hint">Notizen, Stimmungen, …</string>
-    <string name="calculator_missing">Wo ist der Bolusrechner?</string>
-    <string name="calculator_missing_desc">Der Bolusrechner musste aufgrund des Medizinproduktegesetzes entfernt werden.</string>
-    <string name="calculator_more_info">Mehr dazu</string>
     <string name="no_results_found">Keine Ergebnisse gefunden</string>
     <string name="tag_delete">Stimmung löschen</string>
     <string name="tag_delete_confirmation">%d Einträge verlieren diese Stimmung</string>

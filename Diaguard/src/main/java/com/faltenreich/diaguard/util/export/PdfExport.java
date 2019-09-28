@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.util.Helper;
 import com.pdfjet.CoreFont;
 import com.pdfjet.Font;
@@ -21,7 +20,6 @@ import org.joda.time.format.DateTimeFormat;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.lang.ref.WeakReference;
 
 /**
  * Created by Faltenreich on 18.10.2015.
@@ -33,33 +31,19 @@ public class PdfExport extends AsyncTask<Void, String, File> {
     private static final float PADDING_PARAGRAPH = 20;
     private static final float PADDING_LINE = 3;
 
-    private WeakReference<Context> contextReference;
-    private DateTime dateStart;
-    private DateTime dateEnd;
-    private Measurement.Category[] categories;
-    private boolean exportNotes;
-    private boolean exportTags;
-    private boolean exportFood;
-    private boolean splitInsulin;
+    private ExportConfig config;
 
     private FileListener listener;
 
     private Font fontNormal;
     private Font fontBold;
 
-    PdfExport(Context context, DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories, boolean exportNotes, boolean exportTags, boolean exportFood, boolean splitInsulin) {
-        this.contextReference = new WeakReference<>(context);
-        this.dateStart = dateStart;
-        this.dateEnd = dateEnd;
-        this.categories = categories;
-        this.exportNotes = exportNotes;
-        this.exportTags = exportTags;
-        this.exportFood = exportFood;
-        this.splitInsulin = splitInsulin;
+    PdfExport(ExportConfig config) {
+        this.config = config;
     }
 
     private Context getContext() {
-        return contextReference.get();
+        return config.getContextReference().get();
     }
 
     public void setListener(FileListener listener) {
@@ -79,30 +63,30 @@ public class PdfExport extends AsyncTask<Void, String, File> {
             pdf.setSubject(String.format("%s %s: %s - %s",
                     DiaguardApplication.getContext().getString(R.string.app_name),
                     DiaguardApplication.getContext().getString(R.string.export),
-                    Helper.getDateFormat().print(dateStart),
-                    Helper.getDateFormat().print(dateEnd)));
+                    Helper.getDateFormat().print(config.getDateStart()),
+                    Helper.getDateFormat().print(config.getDateEnd())));
             pdf.setAuthor(DiaguardApplication.getContext().getString(R.string.app_name));
 
             fontNormal = new Font(pdf, CoreFont.HELVETICA);
             fontBold = new Font(pdf, CoreFont.HELVETICA_BOLD);
 
-            DateTime dateIteration = dateStart;
+            DateTime dateIteration = config.getDateStart();
 
             PdfPage page = createPage(pdf);
             currentPosition = drawWeekBar(page, dateIteration);
 
             // One day after last chosen day
-            DateTime dateAfter = dateEnd.plusDays(1);
+            DateTime dateAfter = config.getDateEnd().plusDays(1);
 
             // Day by day
             while (dateIteration.isBefore(dateAfter)) {
                 // title bar for new week
-                if (dateIteration.isAfter(dateStart) && dateIteration.getDayOfWeek() == 1) {
+                if (dateIteration.isAfter(config.getDateStart()) && dateIteration.getDayOfWeek() == 1) {
                     page = createPage(pdf);
                     currentPosition = drawWeekBar(page, dateIteration);
                 }
 
-                PdfTable table = new PdfTable(getContext(), pdf, page, dateIteration, categories, exportNotes, exportTags, exportFood, splitInsulin);
+                PdfTable table = new PdfTable(getContext(), pdf, page, dateIteration, config.getCategories(), config.isExportNotes(), config.isExportTags(), config.isExportFood(), config.isSplitInsulin());
 
                 // Page break
                 if ((currentPosition.getY() + table.getHeight() + PADDING_PARAGRAPH) > page.getEndPoint().getY()) {
@@ -116,8 +100,8 @@ public class PdfExport extends AsyncTask<Void, String, File> {
 
                 publishProgress(String.format("%s %d/%d",
                         DiaguardApplication.getContext().getString(R.string.day),
-                        Days.daysBetween(dateStart, dateIteration).getDays() + 1,
-                        Days.daysBetween(dateStart, dateEnd).getDays() + 1));
+                        Days.daysBetween(config.getDateStart(), dateIteration).getDays() + 1,
+                        Days.daysBetween(config.getDateStart(), config.getDateEnd()).getDays() + 1));
 
                 dateIteration = dateIteration.plusDays(1);
             }

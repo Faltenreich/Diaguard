@@ -27,24 +27,17 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Created by Faltenreich on 21.10.2015.
- */
 public class CsvExport extends AsyncTask<Void, String, File> {
 
     private static final String TAG = CsvExport.class.getSimpleName();
 
+    private ExportConfig config;
     private boolean isBackup;
-    private DateTime dateStart;
-    private DateTime dateEnd;
-    private Measurement.Category[] categories;
     private FileListener listener;
 
-    CsvExport(boolean isBackup, DateTime dateStart, DateTime dateEnd, Measurement.Category[] categories) {
+    CsvExport(ExportConfig config, boolean isBackup) {
+        this.config = config;
         this.isBackup = isBackup;
-        this.dateStart = dateStart;
-        this.dateEnd = dateEnd;
-        this.categories = categories;
     }
 
     public void setListener(FileListener listener) {
@@ -53,6 +46,10 @@ public class CsvExport extends AsyncTask<Void, String, File> {
 
     @Override
     protected File doInBackground(Void... params) {
+        DateTime dateStart = config.getDateStart();
+        DateTime dateEnd = config.getDateEnd();
+        Measurement.Category[] categories = config.getCategories();
+
         File file = isBackup?
                 Export.getBackupFile(Export.FileType.CSV) :
                 Export.getExportFile(Export.FileType.CSV);

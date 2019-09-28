@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +15,10 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
@@ -56,13 +62,13 @@ import org.joda.time.DateTimeConstants;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.widget.NestedScrollView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class EntryActivity extends BaseActivity implements MeasurementFloatingActionMenu.OnFabSelectedListener, MeasurementListView.OnCategoryEventListener {
+
+    private static final String TAG = EntryActivity.class.getSimpleName();
+
     public static final String EXTRA_ENTRY_ID = "entryId";
     public static final String EXTRA_DATE = "date";
 
@@ -197,7 +203,14 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
             return false;
         });
         tagsInput.setOnFocusChangeListener((view, hasFocus) -> {
-            if (hasFocus) tagsInput.showDropDown();
+            // Attempt to fix android.view.WindowManager$BadTokenException
+            new Handler().post(() -> {
+                try {
+                    if (hasFocus) tagsInput.showDropDown();
+                } catch (Exception exception) {
+                    Log.e(TAG, exception.getMessage() != null ? exception.getMessage() : "Failed to show dropdown");
+                }
+            });
         });
         tagsInput.setOnClickListener(view -> tagsInput.showDropDown());
         tagsInput.setOnItemClickListener((adapterView, view, position, l) -> {

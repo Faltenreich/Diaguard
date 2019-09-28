@@ -182,6 +182,6 @@ public class FoodDao extends BaseServerDao<Food> {
     private boolean needsUpdate(Food food, ProductDto dto) {
         String lastEditDateString = dto.lastEditDates != null && dto.lastEditDates.length > 0 ? dto.lastEditDates[0] : null;
         DateTime lastEditDate = DateTimeUtils.parseFromString(lastEditDateString, ProductDto.DATE_FORMAT);
-        return lastEditDate != null && food.getUpdatedAt().isBefore(lastEditDate);
+        return lastEditDate != null && food.getUpdatedAt() != null && food.getUpdatedAt().isBefore(lastEditDate);
     }
 }

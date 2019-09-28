@@ -15,6 +15,7 @@
     <dimen name="padding">4dp</dimen>
     <dimen name="padding_large">10dp</dimen>
     <dimen name="padding_end">16dp</dimen>
+    <dimen name="padding_end_large">24dp</dimen>
     <dimen name="padding_input">8dp</dimen>
     <dimen name="margin_between">8dp</dimen>
     <dimen name="margin_between_large">12dp</dimen>

@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 28
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 29
+        targetSdkVersion 28 // TODO: 29 breaks file handling due to new scoped external storage access
         versionCode 37
         versionName "3.3.0"
         vectorDrawables.useSupportLibrary = true
@@ -56,17 +56,19 @@ android {
 }
 
 def ormLite = '5.1'
-def butterKnife = '10.0.0'
-def retrofit = '2.5.0'
+def butterKnife = '10.2.0'
+def retrofit = '2.6.1'
 
 dependencies {
     testImplementation 'junit:junit:4.12'
 
+    // FIXME: Updating com.google.android.material:material alters RecyclerView and breaks com.lapism:searchview
     implementation 'com.google.android.material:material:1.1.0-alpha05'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha02'
 
     implementation "com.j256.ormlite:ormlite-core:$ormLite"
     implementation "com.j256.ormlite:ormlite-android:$ormLite"
-    implementation 'net.danlew:android.joda:2.10.1.1'
+    implementation 'net.danlew:android.joda:2.10.3'
     implementation 'org.greenrobot:eventbus:3.1.1'
 
     implementation "com.jakewharton:butterknife:$butterKnife"
@@ -77,16 +79,15 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
 
     implementation 'org.apache.commons:commons-text:1.1'
-    implementation 'de.psdev.licensesdialog:licensesdialog:1.9.0'
+    implementation 'de.psdev.licensesdialog:licensesdialog:2.0.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation 'com.opencsv:opencsv:3.8'
+    implementation 'com.opencsv:opencsv:3.10'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     implementation 'com.github.clans:fab:1.6.4'
     implementation 'com.fmsirvent:parallaxeverywhere:1.0.4'
     implementation 'com.lapism:searchview:4.0'
-    implementation 'com.mikhaellopez:circularimageview:3.2.0'
     implementation 'com.code-troopers.betterpickers:library:3.1.0'
-    implementation 'com.robinhood.ticker:ticker:2.0.1'
+    implementation 'com.robinhood.ticker:ticker:2.0.2'
 }
 
 configurations {

@@ -10,8 +10,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
-    <uses-sdk tools:overrideLibrary="ca.barrenechea.widget.recyclerview.decoration, com.gregacucnik.editableseekbar, com.daasuu.cat, com.beloo.widget.chipslayoutmanager" />
-
     <application
         android:name=".DiaguardApplication"
         android:allowBackup="true"
@@ -19,7 +17,6 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <receiver android:name=".util.receiver.AlarmBroadcastReceiver" />
 
         <activity
             android:name=".ui.activity.MainActivity"

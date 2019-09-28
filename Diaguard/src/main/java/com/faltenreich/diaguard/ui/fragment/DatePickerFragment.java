@@ -4,14 +4,14 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.widget.DatePicker;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
-import android.widget.DatePicker;
 
 import com.faltenreich.diaguard.R;
-import com.google.android.material.picker.MaterialDatePickerDialog;
 
 import org.joda.time.DateTime;
 

@@ -3,6 +3,7 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -27,7 +28,10 @@
                 android:divider="@drawable/separator"
                 android:background="?attr/backgroundColorSecondary">
 
-                <LinearLayout style="@style/LayoutRow">
+                <LinearLayout style="@style/LayoutRow"
+                    android:paddingRight="0dp"
+                    android:paddingEnd="0dp"
+                    tools:ignore="RtlSymmetry">
 
                     <ImageView
                         style="@style/LayoutRowImageMultiline"
@@ -44,7 +48,10 @@
 
                 </LinearLayout>
 
-                <LinearLayout style="@style/LayoutRow">
+                <LinearLayout style="@style/LayoutRow"
+                    android:paddingRight="0dp"
+                    android:paddingEnd="0dp"
+                    tools:ignore="RtlSymmetry">
 
                     <ImageView
                         style="@style/LayoutRowImageMultiline"
@@ -61,7 +68,10 @@
 
                 </LinearLayout>
 
-                <LinearLayout style="@style/LayoutRow">
+                <LinearLayout style="@style/LayoutRow"
+                    android:paddingRight="0dp"
+                    android:paddingEnd="0dp"
+                    tools:ignore="RtlSymmetry">
 
                     <ImageView
                         style="@style/LayoutRowImageMultiline"

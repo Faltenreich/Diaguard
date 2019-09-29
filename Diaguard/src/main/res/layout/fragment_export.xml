@@ -154,72 +154,14 @@
 
                 </LinearLayout>
 
-                <LinearLayout style="@style/LayoutRow">
-
-                    <ImageView
-                        style="@style/LayoutRowImage"
-                        android:contentDescription="@null"
-                        android:tint="?iconColorPrimary"
-                        app:srcCompat="@drawable/ic_category_meal"/>
-
-                    <LinearLayout
-                        style="@style/LayoutRowItem"
-                        android:orientation="horizontal">
-
-                        <androidx.appcompat.widget.AppCompatCheckBox
-                            android:id="@+id/checkbox_food"
-                            style="@style/LayoutRowText"
-                            android:paddingStart="@dimen/margin_between"
-                            android:paddingLeft="@dimen/margin_between"
-                            android:text="@string/food_append"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout style="@style/LayoutRow">
-
-                    <ImageView
-                        style="@style/LayoutRowImage"
-                        android:contentDescription="@null"
-                        android:tint="?iconColorPrimary"
-                        app:srcCompat="@drawable/ic_category_insulin"/>
-
-                    <LinearLayout
-                        style="@style/LayoutRowItem"
-                        android:orientation="horizontal">
-
-                        <androidx.appcompat.widget.AppCompatCheckBox
-                            android:id="@+id/checkbox_insulin_split"
-                            style="@style/LayoutRowText"
-                            android:paddingStart="@dimen/margin_between"
-                            android:paddingLeft="@dimen/margin_between"
-                            android:text="@string/insulin_split"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
-        <LinearLayout
-            style="@style/LayoutRow"
-            android:layout_height="wrap_content"
-            android:gravity="top"
-            android:paddingBottom="@dimen/margin_between"
-            android:paddingTop="@dimen/margin_between">
-
-            <View style="@style/LayoutRowImage" />
-
-            <com.faltenreich.diaguard.ui.view.CategoryCheckBoxList
-                android:id="@+id/export_list_categories"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
-
-        </LinearLayout>
+        <com.faltenreich.diaguard.ui.view.CategoryCheckBoxList
+            android:id="@+id/export_list_categories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 

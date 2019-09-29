@@ -1,31 +1,23 @@
 package com.faltenreich.diaguard.ui.view;
 
 import android.content.Context;
-import androidx.appcompat.widget.AppCompatCheckBox;
 import android.util.AttributeSet;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 
-import com.faltenreich.diaguard.R;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.util.Helper;
+import com.faltenreich.diaguard.ui.list.adapter.ExportCategoryListAdapter;
+import com.faltenreich.diaguard.ui.list.item.ListItemExportCategory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
-/**
- * Created by Faltenreich on 21.10.2015.
- */
-public class CategoryCheckBoxList extends LinearLayout {
+public class CategoryCheckBoxList extends RecyclerView {
 
-    private static final int PADDING = (int) Helper.getDPI(R.dimen.margin_between);
-
-    private LinkedHashMap<Measurement.Category, Boolean> categories;
+    private ExportCategoryListAdapter adapter;
 
     public CategoryCheckBoxList(Context context) {
         super(context);
@@ -39,36 +31,45 @@ public class CategoryCheckBoxList extends LinearLayout {
 
     private void init() {
         if (!isInEditMode()) {
-            this.categories = new LinkedHashMap<>();
-            Measurement.Category[] activeCategories = PreferenceHelper.getInstance().getActiveCategories();
-            List<Measurement.Category> selectedCategories = Arrays.asList(PreferenceHelper.getInstance().getExportCategories());
-            for (Measurement.Category category : activeCategories) {
-                boolean isSelected = selectedCategories.contains(category);
-                addCategory(category, isSelected);
-            }
+            setLayoutManager(new LinearLayoutManager(getContext()));
+            adapter = new ExportCategoryListAdapter(getContext());
+            setAdapter(adapter);
+            initData();
         }
     }
 
-    private void addCategory(final Measurement.Category category, boolean isSelected) {
-        categories.put(category, isSelected);
-        addCheckBox(category.toLocalizedString(getContext()), categories.get(category), (buttonView, isChecked) -> categories.put(category, isChecked));
-    }
+    private void initData() {
+        adapter.clear();
 
-    private void addCheckBox(String text, boolean isChecked, CompoundButton.OnCheckedChangeListener listener) {
-        CheckBox checkBox = new AppCompatCheckBox(getContext());
-        checkBox.setMinimumHeight((int) getResources().getDimension(R.dimen.height_element));
-        checkBox.setText(text);
-        checkBox.setChecked(isChecked);
-        checkBox.setPadding(PADDING, PADDING, PADDING, PADDING);
-        checkBox.setOnCheckedChangeListener(listener);
-        addView(checkBox);
+        List<ListItemExportCategory> items = new ArrayList<>();
+        Measurement.Category[] activeCategories = PreferenceHelper.getInstance().getActiveCategories();
+        List<Measurement.Category> selectedCategories = Arrays.asList(PreferenceHelper.getInstance().getExportCategories());
+
+        for (Measurement.Category category : activeCategories) {
+            boolean isCategorySelected = selectedCategories.contains(category);
+            boolean isExtraSelected;
+            switch (category) {
+                case INSULIN:
+                    isExtraSelected = PreferenceHelper.getInstance().exportInsulinSplit();
+                    break;
+                case MEAL:
+                    isExtraSelected = PreferenceHelper.getInstance().exportFood();
+                    break;
+                default:
+                    isExtraSelected = false;
+            }
+            items.add(new ListItemExportCategory(category, isCategorySelected, isExtraSelected));
+        }
+
+        adapter.addItems(items);
+        adapter.notifyDataSetChanged();
     }
 
     public Measurement.Category[] getSelectedCategories() {
         ArrayList<Measurement.Category> selectedCategories = new ArrayList<>();
-        for (Map.Entry<Measurement.Category, Boolean> mapEntry : categories.entrySet()) {
-            if (mapEntry.getValue()) {
-                selectedCategories.add(mapEntry.getKey());
+        for (ListItemExportCategory item : adapter.getItems()) {
+            if (item.isCategorySelected()) {
+                selectedCategories.add(item.getCategory());
             }
         }
         return selectedCategories.toArray(new Measurement.Category[selectedCategories.size()]);

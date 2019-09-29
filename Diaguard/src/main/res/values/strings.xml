@@ -255,6 +255,12 @@
         <item>CSV</item>
     </string-array>
 
+    <string-array name="styles" translatable="false">
+        <item>@string/table</item>
+        <item>@string/timeline</item>
+        <item>@string/log</item>
+    </string-array>
+
     <!-- CATEGORIES -->
 
     <string-array name="categories">
@@ -525,5 +531,6 @@
     <string name="theme_dark">Dark</string>
     <string name="theme_time_based">By time of day</string>
     <string name="theme_system">System setting</string>
+    <string name="table">Table</string>
 
 </resources>

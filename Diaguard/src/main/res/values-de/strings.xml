@@ -345,5 +345,6 @@
     <string name="theme_dark">Dunkel</string>
     <string name="theme_time_based">Nach Tageszeit</string>
     <string name="theme_system">Systemeinstellung</string>
+    <string name="table">Tabelle</string>
 
 </resources>

@@ -39,10 +39,6 @@ import java.io.File;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-/**
- * Created by Faltenreich on 27.10.2016.
- */
-
 public class ExportFragment extends BaseFragment implements FileListener, MainButton {
 
     private static final String TAG = ExportFragment.class.getSimpleName();
@@ -52,8 +48,6 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
     @BindView(R.id.spinner_format) Spinner spinnerFormat;
     @BindView(R.id.checkbox_note) CheckBox checkBoxNotes;
     @BindView(R.id.checkbox_tags) CheckBox checkBoxTags;
-    @BindView(R.id.checkbox_food) CheckBox checkBoxFood;
-    @BindView(R.id.checkbox_insulin_split) CheckBox checkBoxInsulinSplit;
     @BindView(R.id.export_list_categories) CategoryCheckBoxList categoryCheckBoxList;
 
     private ProgressComponent progressComponent = new ProgressComponent();
@@ -96,10 +90,6 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
         checkBoxNotes.setOnCheckedChangeListener((buttonView, isChecked) -> PreferenceHelper.getInstance().setExportNotes(isChecked));
         checkBoxTags.setChecked(PreferenceHelper.getInstance().exportTags());
         checkBoxTags.setOnCheckedChangeListener((buttonView, isChecked) -> PreferenceHelper.getInstance().setExportTags(isChecked));
-        checkBoxFood.setChecked(PreferenceHelper.getInstance().exportFood());
-        checkBoxFood.setOnCheckedChangeListener((buttonView, isChecked) -> PreferenceHelper.getInstance().setExportFood(isChecked));
-        checkBoxInsulinSplit.setChecked(PreferenceHelper.getInstance().exportInsulinSplit());
-        checkBoxInsulinSplit.setOnCheckedChangeListener(((buttonView, isChecked) -> PreferenceHelper.getInstance().setExportInsulinSplit(isChecked)));
     }
 
     private boolean validate() {

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/LayoutRow"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <ImageView
+        style="@style/LayoutRowImage"
+        android:id="@+id/category_image"
+        android:contentDescription="@null"
+        android:tint="?iconColorPrimary"
+        tools:src="@drawable/ic_category_meal" />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/category_checkbox"
+        style="@style/LayoutRowText"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:padding="@dimen/margin_between"
+        tools:text="@string/meal" />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/extra_checkbox"
+        style="@style/LayoutRowText"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:padding="@dimen/margin_between"
+        tools:text="@string/food_append" />
+
+</LinearLayout>

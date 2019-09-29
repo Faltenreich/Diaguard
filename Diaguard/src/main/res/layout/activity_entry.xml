@@ -52,17 +52,17 @@
                                 android:id="@+id/button_date"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:layout_marginEnd="@dimen/margin_between"
-                                android:layout_marginRight="@dimen/margin_between"
                                 android:textColor="?android:textColorPrimary"
-                                tools:text="31.10.2017"/>
+                                android:textAllCaps="false"
+                                tools:text="@tools:sample/date/ddmmyy"/>
 
                             <Button
                                 android:id="@+id/button_time"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:textColor="?android:textColorPrimary"
-                                tools:text="17:17" />
+                                android:textAllCaps="false"
+                                tools:text="@tools:sample/date/hhmm"/>
 
                         </LinearLayout>
 

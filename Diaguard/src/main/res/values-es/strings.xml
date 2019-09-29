@@ -348,5 +348,6 @@
     <string name="theme_dark">Oscuro</string>
     <string name="theme_time_based">Por hora del día</string>
     <string name="theme_system">Configuración del sistema</string>
+    <string name="table">Tabla</string>
 
 </resources>

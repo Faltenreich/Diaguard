@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,6 +14,45 @@
         android:orientation="vertical"
         android:paddingBottom="@dimen/fab_offset"
         android:showDividers="middle">
+
+        <LinearLayout style="@style/LayoutRow">
+
+            <ImageView
+                style="@style/LayoutRowImage"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_time"
+                android:tint="?iconColorPrimary" />
+
+            <LinearLayout
+                style="@style/LayoutRowItem"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button_datestart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textAllCaps="false"
+                    android:textColor="?android:textColorPrimary"
+                    tools:text="@tools:sample/date/ddmmyy" />
+
+                <Button
+                    android:id="@+id/button_dateend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textAllCaps="false"
+                    android:textColor="?android:textColorPrimary"
+                    tools:text="@tools:sample/date/ddmmyy" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="@dimen/padding"
+                    android:text="@string/hyphen" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <LinearLayout style="@style/LayoutRow">
 
@@ -37,7 +75,9 @@
 
         </LinearLayout>
 
-        <LinearLayout style="@style/LayoutRow">
+        <LinearLayout
+            android:id="@+id/export_style_container"
+            style="@style/LayoutRow">
 
             <ImageView
                 style="@style/LayoutRowImage"
@@ -58,46 +98,9 @@
 
         </LinearLayout>
 
-        <LinearLayout style="@style/LayoutRow">
-
-            <ImageView
-                style="@style/LayoutRowImage"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_time"
-                android:tint="?iconColorPrimary" />
-
-            <LinearLayout
-                style="@style/LayoutRowItem"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/button_datestart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textAllCaps="false"
-                    android:textColor="?android:textColorPrimary"
-                    tools:text="@tools:sample/date/ddmmyy" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_margin="@dimen/padding"
-                    android:text="@string/hyphen" />
-
-                <Button
-                    android:id="@+id/button_dateend"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textAllCaps="false"
-                    android:textColor="?android:textColorPrimary"
-                    tools:text="@tools:sample/date/ddmmyy" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout style="@style/LayoutRow">
+        <LinearLayout
+            android:id="@+id/checkbox_note_container"
+            style="@style/LayoutRow">
 
             <ImageView
                 style="@style/LayoutRowImage"
@@ -120,7 +123,9 @@
 
         </LinearLayout>
 
-        <LinearLayout style="@style/LayoutRow">
+        <LinearLayout
+            android:id="@+id/checkbox_tags_container"
+            style="@style/LayoutRow">
 
             <ImageView
                 style="@style/LayoutRowImage"
@@ -149,7 +154,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/backgroundColorTertiary"
-            android:text="@string/categories"/>
+            android:text="@string/categories" />
 
         <com.faltenreich.diaguard.ui.view.CategoryCheckBoxList
             android:id="@+id/export_list_categories"

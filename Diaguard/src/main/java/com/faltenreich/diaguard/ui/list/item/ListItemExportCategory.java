@@ -18,10 +18,6 @@ public class ListItemExportCategory {
         return category;
     }
 
-    public void setCategory(Measurement.Category category) {
-        this.category = category;
-    }
-
     public boolean isCategorySelected() {
         return isCategorySelected;
     }

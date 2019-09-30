@@ -4,7 +4,6 @@ import android.content.ActivityNotFoundException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -46,14 +45,12 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
 
     private static final String TAG = ExportFragment.class.getSimpleName();
 
-    @BindView(R.id.button_datestart) Button buttonDateStart;
-    @BindView(R.id.button_dateend) Button buttonDateEnd;
-    @BindView(R.id.spinner_format) Spinner spinnerFormat;
-    @BindView(R.id.checkbox_note) CheckBox checkBoxNotes;
-    @BindView(R.id.checkbox_note_container) ViewGroup checkBoxNotesContainer;
-    @BindView(R.id.checkbox_tags) CheckBox checkBoxTags;
-    @BindView(R.id.checkbox_tags_container) ViewGroup checkBoxTagsContainer;
-    @BindView(R.id.export_list_categories) CategoryCheckBoxList categoryCheckBoxList;
+    @BindView(R.id.date_start_button) Button buttonDateStart;
+    @BindView(R.id.date_end_button) Button buttonDateEnd;
+    @BindView(R.id.format_spinner) Spinner spinnerFormat;
+    @BindView(R.id.note_checkbox) CheckBox checkBoxNotes;
+    @BindView(R.id.tags_checkbox) CheckBox checkBoxTags;
+    @BindView(R.id.categories_list) CategoryCheckBoxList categoryCheckBoxList;
 
     private ProgressComponent progressComponent = new ProgressComponent();
 
@@ -115,8 +112,7 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
     private void invalidateLayout() {
         boolean isPdfFormat = spinnerFormat.getSelectedItemPosition() == 0;
         int visibility = isPdfFormat ? View.VISIBLE : View.GONE;
-        checkBoxNotesContainer.setVisibility(visibility);
-        checkBoxTagsContainer.setVisibility(visibility);
+        // TODO
     }
 
     private boolean validate() {
@@ -196,7 +192,7 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
         return MainButtonProperties.confirmButton(view -> exportIfInputIsValid(), false);
     }
 
-    @OnClick(R.id.button_datestart)
+    @OnClick(R.id.date_start_button)
     public void showStartDatePicker() {
         DatePickerFragment.newInstance(dateStart, null, dateEnd, dateTime -> {
             if (dateTime != null) {
@@ -206,7 +202,7 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
         }).show(getFragmentManager());
     }
 
-    @OnClick(R.id.button_dateend)
+    @OnClick(R.id.date_end_button)
     public void showEndDatePicker() {
         DatePickerFragment.newInstance(dateEnd, dateStart, null, dateTime -> {
             if (dateTime != null) {

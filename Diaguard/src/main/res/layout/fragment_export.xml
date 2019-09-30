@@ -11,157 +11,150 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:divider="@drawable/separator"
         android:orientation="vertical"
-        android:paddingBottom="@dimen/fab_offset">
+        android:paddingBottom="@dimen/fab_offset"
+        android:showDividers="middle">
 
-        <androidx.cardview.widget.CardView
-            style="@style/CardViewNoMargin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <LinearLayout style="@style/LayoutRow">
+
+            <ImageView
+                style="@style/LayoutRowImage"
+                android:contentDescription="@null"
+                android:tint="?iconColorPrimary"
+                app:srcCompat="@drawable/ic_file" />
 
             <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:showDividers="middle"
-                android:divider="@drawable/separator">
+                style="@style/LayoutRowItem"
+                android:orientation="horizontal">
 
-                <LinearLayout style="@style/LayoutRow">
-
-                    <ImageView
-                        style="@style/LayoutRowImage"
-                        android:tint="?iconColorPrimary"
-                        android:contentDescription="@null"
-                        android:src="@drawable/ic_time"/>
-
-                    <LinearLayout
-                        style="@style/LayoutRowItem"
-                        android:orientation="horizontal">
-
-                        <Button
-                            android:id="@+id/button_datestart"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:textColor="?android:textColorPrimary"
-                            android:textAllCaps="false"
-                            tools:text="@tools:sample/date/ddmmyy"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_margin="@dimen/padding"
-                            android:text="@string/hyphen" />
-
-                        <Button
-                            android:id="@+id/button_dateend"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:textColor="?android:textColorPrimary"
-                            android:textAllCaps="false"
-                            tools:text="@tools:sample/date/ddmmyy"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout style="@style/LayoutRow">
-
-                    <ImageView
-                        style="@style/LayoutRowImage"
-                        android:tint="?iconColorPrimary"
-                        android:contentDescription="@null"
-                        android:src="@drawable/ic_file"/>
-
-                    <LinearLayout
-                        style="@style/LayoutRowItem"
-                        android:orientation="horizontal">
-
-                        <Spinner
-                            android:id="@+id/spinner_format"
-                            style="@style/LayoutRowText"
-                            android:entries="@array/formats" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout style="@style/LayoutRow">
-
-                    <ImageView
-                        style="@style/LayoutRowImage"
-                        android:tint="?iconColorPrimary"
-                        android:contentDescription="@null"
-                        app:srcCompat="@drawable/ic_format"/>
-
-                    <LinearLayout
-                        style="@style/LayoutRowItem"
-                        android:orientation="horizontal">
-
-                        <Spinner
-                            android:id="@+id/export_style"
-                            style="@style/LayoutRowText"
-                            android:entries="@array/styles" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout style="@style/LayoutRow">
-
-                    <ImageView
-                        style="@style/LayoutRowImage"
-                        android:tint="?iconColorPrimary"
-                        android:contentDescription="@null"
-                        android:src="@drawable/ic_note"/>
-
-                    <LinearLayout
-                        style="@style/LayoutRowItem"
-                        android:orientation="horizontal">
-
-                        <androidx.appcompat.widget.AppCompatCheckBox
-                            android:id="@+id/checkbox_note"
-                            style="@style/LayoutRowText"
-                            android:paddingStart="@dimen/margin_between"
-                            android:paddingLeft="@dimen/margin_between"
-                            android:text="@string/note_append"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout style="@style/LayoutRow">
-
-                    <ImageView
-                        style="@style/LayoutRowImage"
-                        android:padding="4dp"
-                        android:tint="?iconColorPrimary"
-                        android:contentDescription="@null"
-                        app:srcCompat="@drawable/ic_tag"/>
-
-                    <LinearLayout
-                        style="@style/LayoutRowItem"
-                        android:orientation="horizontal">
-
-                        <androidx.appcompat.widget.AppCompatCheckBox
-                            android:id="@+id/checkbox_tags"
-                            style="@style/LayoutRowText"
-                            android:paddingStart="@dimen/margin_between"
-                            android:paddingLeft="@dimen/margin_between"
-                            android:text="@string/tags_append"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
+                <Spinner
+                    android:id="@+id/spinner_format"
+                    style="@style/LayoutRowText"
+                    android:entries="@array/formats" />
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <LinearLayout style="@style/LayoutRow">
+
+            <ImageView
+                style="@style/LayoutRowImage"
+                android:contentDescription="@null"
+                android:tint="?iconColorPrimary"
+                app:srcCompat="@drawable/ic_format" />
+
+            <LinearLayout
+                style="@style/LayoutRowItem"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/export_style"
+                    style="@style/LayoutRowText"
+                    android:entries="@array/styles" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/LayoutRow">
+
+            <ImageView
+                style="@style/LayoutRowImage"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_time"
+                android:tint="?iconColorPrimary" />
+
+            <LinearLayout
+                style="@style/LayoutRowItem"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button_datestart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textAllCaps="false"
+                    android:textColor="?android:textColorPrimary"
+                    tools:text="@tools:sample/date/ddmmyy" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="@dimen/padding"
+                    android:text="@string/hyphen" />
+
+                <Button
+                    android:id="@+id/button_dateend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textAllCaps="false"
+                    android:textColor="?android:textColorPrimary"
+                    tools:text="@tools:sample/date/ddmmyy" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/LayoutRow">
+
+            <ImageView
+                style="@style/LayoutRowImage"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_note"
+                android:tint="?iconColorPrimary" />
+
+            <LinearLayout
+                style="@style/LayoutRowItem"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkbox_note"
+                    style="@style/LayoutRowText"
+                    android:paddingStart="@dimen/margin_between"
+                    android:paddingLeft="@dimen/margin_between"
+                    android:text="@string/note_append" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/LayoutRow">
+
+            <ImageView
+                style="@style/LayoutRowImage"
+                android:contentDescription="@null"
+                android:padding="4dp"
+                android:tint="?iconColorPrimary"
+                app:srcCompat="@drawable/ic_tag" />
+
+            <LinearLayout
+                style="@style/LayoutRowItem"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkbox_tags"
+                    style="@style/LayoutRowText"
+                    android:paddingStart="@dimen/margin_between"
+                    android:paddingLeft="@dimen/margin_between"
+                    android:text="@string/tags_append" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            style="@style/Padding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/backgroundColorTertiary"
+            android:text="@string/categories"/>
 
         <com.faltenreich.diaguard.ui.view.CategoryCheckBoxList
             android:id="@+id/export_list_categories"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.list.adapter.ExportCategoryListAdapter;
+import com.faltenreich.diaguard.ui.list.decoration.LinearDividerItemDecoration;
 import com.faltenreich.diaguard.ui.list.item.ListItemExportCategory;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class CategoryCheckBoxList extends RecyclerView {
         if (!isInEditMode()) {
             setLayoutManager(new LinearLayoutManager(getContext()));
             adapter = new ExportCategoryListAdapter(getContext());
+            addItemDecoration(new LinearDividerItemDecoration(getContext()));
             setAdapter(adapter);
             initData();
         }

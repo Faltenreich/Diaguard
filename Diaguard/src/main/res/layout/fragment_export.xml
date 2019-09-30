@@ -35,6 +35,13 @@
                     android:textColor="?android:textColorPrimary"
                     tools:text="@tools:sample/date/ddmmyy" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="@dimen/padding"
+                    android:text="@string/hyphen" />
+
                 <Button
                     android:id="@+id/button_dateend"
                     android:layout_width="wrap_content"
@@ -42,13 +49,6 @@
                     android:textAllCaps="false"
                     android:textColor="?android:textColorPrimary"
                     tools:text="@tools:sample/date/ddmmyy" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_margin="@dimen/padding"
-                    android:text="@string/hyphen" />
 
             </LinearLayout>
 

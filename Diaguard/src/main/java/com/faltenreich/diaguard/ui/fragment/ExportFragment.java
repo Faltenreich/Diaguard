@@ -4,12 +4,15 @@ import android.content.ActivityNotFoundException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
@@ -46,8 +49,12 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
     @BindView(R.id.button_datestart) Button buttonDateStart;
     @BindView(R.id.button_dateend) Button buttonDateEnd;
     @BindView(R.id.spinner_format) Spinner spinnerFormat;
+    @BindView(R.id.export_style) Spinner spinnerStyle;
+    @BindView(R.id.export_style_container) ViewGroup spinnerStyleContainer;
     @BindView(R.id.checkbox_note) CheckBox checkBoxNotes;
+    @BindView(R.id.checkbox_note_container) ViewGroup checkBoxNotesContainer;
     @BindView(R.id.checkbox_tags) CheckBox checkBoxTags;
+    @BindView(R.id.checkbox_tags_container) ViewGroup checkBoxTagsContainer;
     @BindView(R.id.export_list_categories) CategoryCheckBoxList categoryCheckBoxList;
 
     private ProgressComponent progressComponent = new ProgressComponent();
@@ -60,16 +67,22 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        init();
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initialize();
+        initLayout();
+        invalidateLayout();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         Events.register(this);
-        initializeLayout();
     }
 
     @Override
@@ -78,18 +91,35 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
         super.onDestroy();
     }
 
-    private void initialize() {
+    private void init() {
         dateStart = DateTime.now().withDayOfWeek(1);
         dateEnd = dateStart.withDayOfWeek(7);
     }
 
-    private void initializeLayout() {
+    private void initLayout() {
+        spinnerFormat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                invalidateLayout();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
         buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
         buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
         checkBoxNotes.setChecked(PreferenceHelper.getInstance().exportNotes());
         checkBoxNotes.setOnCheckedChangeListener((buttonView, isChecked) -> PreferenceHelper.getInstance().setExportNotes(isChecked));
         checkBoxTags.setChecked(PreferenceHelper.getInstance().exportTags());
         checkBoxTags.setOnCheckedChangeListener((buttonView, isChecked) -> PreferenceHelper.getInstance().setExportTags(isChecked));
+    }
+
+    private void invalidateLayout() {
+        boolean isPdfFormat = spinnerFormat.getSelectedItemPosition() == 0;
+        int visibility = isPdfFormat ? View.VISIBLE : View.GONE;
+        spinnerStyleContainer.setVisibility(visibility);
+        checkBoxNotesContainer.setVisibility(visibility);
+        checkBoxTagsContainer.setVisibility(visibility);
     }
 
     private boolean validate() {

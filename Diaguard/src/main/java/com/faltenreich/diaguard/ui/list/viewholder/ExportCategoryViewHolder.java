@@ -25,9 +25,24 @@ public class ExportCategoryViewHolder extends BaseViewHolder<ListItemExportCateg
     protected void bindData() {
         ListItemExportCategory item = getListItem();
         Measurement.Category category = item.getCategory();
+
         categoryImageView.setImageResource(PreferenceHelper.getInstance().getCategoryImageResourceId(category));
         categoryCheckBox.setText(category.toLocalizedString(getContext()));
         categoryCheckBox.setChecked(item.isCategorySelected());
+
+        String extraTitle;
+        switch (category) {
+            case INSULIN:
+                extraTitle = getContext().getString(R.string.insulin_split);
+                break;
+            case MEAL:
+                extraTitle = getContext().getString(R.string.food_append);
+                break;
+            default:
+                extraTitle = null;
+        }
+        extraCheckBox.setText(extraTitle);
         extraCheckBox.setChecked(item.isExtraSelected());
+        extraCheckBox.setVisibility(extraTitle != null ? View.VISIBLE : View.GONE);
     }
 }

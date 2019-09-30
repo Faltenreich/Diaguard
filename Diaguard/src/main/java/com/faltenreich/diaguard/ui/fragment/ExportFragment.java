@@ -49,8 +49,6 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
     @BindView(R.id.button_datestart) Button buttonDateStart;
     @BindView(R.id.button_dateend) Button buttonDateEnd;
     @BindView(R.id.spinner_format) Spinner spinnerFormat;
-    @BindView(R.id.export_style) Spinner spinnerStyle;
-    @BindView(R.id.export_style_container) ViewGroup spinnerStyleContainer;
     @BindView(R.id.checkbox_note) CheckBox checkBoxNotes;
     @BindView(R.id.checkbox_note_container) ViewGroup checkBoxNotesContainer;
     @BindView(R.id.checkbox_tags) CheckBox checkBoxTags;
@@ -117,7 +115,6 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
     private void invalidateLayout() {
         boolean isPdfFormat = spinnerFormat.getSelectedItemPosition() == 0;
         int visibility = isPdfFormat ? View.VISIBLE : View.GONE;
-        spinnerStyleContainer.setVisibility(visibility);
         checkBoxNotesContainer.setVisibility(visibility);
         checkBoxTagsContainer.setVisibility(visibility);
     }

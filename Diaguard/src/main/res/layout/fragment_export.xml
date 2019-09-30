@@ -1,236 +1,265 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/backgroundColorPrimary">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@drawable/separator"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/fab_offset"
-        android:showDividers="middle">
+        android:paddingBottom="@dimen/fab_offset">
 
-        <LinearLayout style="@style/LayoutRow">
+        <ImageView
+            android:id="@+id/date_icon"
+            android:layout_width="@dimen/size_image"
+            android:layout_height="@dimen/size_image"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_time"
+            android:tint="?iconColorPrimary"
+            app:layout_constraintTop_toTopOf="@id/date_start_button"
+            app:layout_constraintBottom_toBottomOf="@id/date_start_button"
+            app:layout_constraintStart_toStartOf="parent" />
 
-            <ImageView
-                style="@style/LayoutRowImage"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_time"
-                android:tint="?iconColorPrimary" />
-
-            <LinearLayout
-                style="@style/LayoutRowItem"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/button_datestart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textAllCaps="false"
-                    android:textColor="?android:textColorPrimary"
-                    tools:text="@tools:sample/date/ddmmyy" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_margin="@dimen/padding"
-                    android:text="@string/hyphen" />
-
-                <Button
-                    android:id="@+id/button_dateend"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textAllCaps="false"
-                    android:textColor="?android:textColorPrimary"
-                    tools:text="@tools:sample/date/ddmmyy" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout style="@style/LayoutRow">
-
-            <ImageView
-                style="@style/LayoutRowImage"
-                android:contentDescription="@null"
-                android:tint="?iconColorPrimary"
-                app:srcCompat="@drawable/ic_file" />
-
-            <LinearLayout
-                style="@style/LayoutRowItem"
-                android:orientation="horizontal">
-
-                <Spinner
-                    android:id="@+id/spinner_format"
-                    style="@style/LayoutRowText"
-                    android:entries="@array/formats" />
-
-            </LinearLayout>
-
-        </LinearLayout>
+        <Button
+            android:id="@+id/date_start_button"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/height_element_large"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:textAllCaps="false"
+            android:textColor="?android:textColorPrimary"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/date_icon"
+            tools:text="@tools:sample/date/ddmmyy" />
 
         <TextView
-            style="@style/Padding"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/backgroundColorTertiary"
-            android:text="@string/style" />
+            android:id="@+id/date_hyphen"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginLeft="@dimen/margin_between"
+            android:layout_marginStart="@dimen/margin_between"
+            android:gravity="center"
+            android:text="@string/hyphen"
+            app:layout_constraintTop_toTopOf="@id/date_start_button"
+            app:layout_constraintBottom_toBottomOf="@id/date_start_button"
+            app:layout_constraintStart_toEndOf="@id/date_start_button" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+        <Button
+            android:id="@+id/date_end_button"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginLeft="@dimen/margin_between"
+            android:layout_marginStart="@dimen/margin_between"
+            android:textAllCaps="false"
+            android:textColor="?android:textColorPrimary"
+            tools:text="@tools:sample/date/ddmmyy"
+            app:layout_constraintTop_toTopOf="@id/date_hyphen"
+            app:layout_constraintBottom_toBottomOf="@id/date_hyphen"
+            app:layout_constraintStart_toEndOf="@id/date_hyphen" />
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingBottom="@dimen/margin_between"
-                android:orientation="vertical"
-                android:background="?selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true">
+        <View
+            android:id="@+id/format_divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="?backgroundColorTertiary"
+            app:layout_constraintTop_toBottomOf="@id/date_start_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/showcase_theme_light" />
+        <ImageView
+            android:id="@+id/format_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/size_image"
+            android:padding="2dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@null"
+            android:tint="?iconColorPrimary"
+            app:srcCompat="@drawable/ic_file"
+            app:layout_constraintTop_toTopOf="@id/format_spinner"
+            app:layout_constraintBottom_toBottomOf="@id/format_spinner"
+            app:layout_constraintStart_toStartOf="@id/date_icon" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/table" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingBottom="@dimen/margin_between"
-                android:orientation="vertical"
-                android:background="?selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/showcase_theme_light" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/table" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingBottom="@dimen/margin_between"
-                android:orientation="vertical"
-                android:background="?selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/showcase_theme_light" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/table" />
-
-            </LinearLayout>
-
-        </LinearLayout>
+        <Spinner
+            android:id="@+id/format_spinner"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_element_large"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:entries="@array/formats"
+            app:layout_constraintTop_toBottomOf="@id/format_divider"
+            app:layout_constraintStart_toStartOf="@id/date_start_button"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
+            android:id="@+id/style_header"
             style="@style/Padding"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="?attr/backgroundColorTertiary"
-            android:text="@string/settings" />
+            android:text="@string/style"
+            app:layout_constraintTop_toBottomOf="@id/format_spinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-        <LinearLayout
-            android:id="@+id/checkbox_note_container"
-            style="@style/LayoutRow">
-
-            <ImageView
-                style="@style/LayoutRowImage"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_note"
-                android:tint="?iconColorPrimary" />
-
-            <LinearLayout
-                style="@style/LayoutRowItem"
-                android:orientation="horizontal">
-
-                <androidx.appcompat.widget.AppCompatCheckBox
-                    android:id="@+id/checkbox_note"
-                    style="@style/LayoutRowText"
-                    android:paddingStart="@dimen/margin_between"
-                    android:paddingLeft="@dimen/margin_between"
-                    android:text="@string/note_append" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/checkbox_tags_container"
-            style="@style/LayoutRow">
-
-            <ImageView
-                style="@style/LayoutRowImage"
-                android:contentDescription="@null"
-                android:padding="4dp"
-                android:tint="?iconColorPrimary"
-                app:srcCompat="@drawable/ic_tag" />
-
-            <LinearLayout
-                style="@style/LayoutRowItem"
-                android:orientation="horizontal">
-
-                <androidx.appcompat.widget.AppCompatCheckBox
-                    android:id="@+id/checkbox_tags"
-                    style="@style/LayoutRowText"
-                    android:paddingStart="@dimen/margin_between"
-                    android:paddingLeft="@dimen/margin_between"
-                    android:text="@string/tags_append" />
-
-            </LinearLayout>
-
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/style_table_icon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/showcase_theme_light"
+            android:contentDescription="@string/table"
+            app:layout_constraintTop_toBottomOf="@id/style_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/style_timeline_icon"
+            app:layout_constraintHorizontal_weight="1" />
 
         <TextView
+            android:id="@+id/style_table_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/margin_between"
+            android:gravity="center"
+            android:text="@string/table"
+            app:layout_constraintTop_toBottomOf="@id/style_table_icon"
+            app:layout_constraintStart_toStartOf="@id/style_table_icon"
+            app:layout_constraintEnd_toEndOf="@id/style_table_icon" />
+
+        <ImageView
+            android:id="@+id/style_timeline_icon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/showcase_theme_light"
+            android:contentDescription="@string/timeline"
+            app:layout_constraintTop_toTopOf="@id/style_table_icon"
+            app:layout_constraintBottom_toBottomOf="@id/style_table_icon"
+            app:layout_constraintStart_toEndOf="@id/style_table_icon"
+            app:layout_constraintEnd_toStartOf="@id/style_log_icon"
+            app:layout_constraintHorizontal_weight="1" />
+
+        <TextView
+            android:id="@+id/style_timeline_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/margin_between"
+            android:gravity="center"
+            android:text="@string/timeline"
+            app:layout_constraintTop_toTopOf="@id/style_table_label"
+            app:layout_constraintBottom_toBottomOf="@id/style_table_label"
+            app:layout_constraintStart_toStartOf="@id/style_timeline_icon"
+            app:layout_constraintEnd_toEndOf="@id/style_timeline_icon" />
+
+        <ImageView
+            android:id="@+id/style_log_icon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/showcase_theme_light"
+            android:contentDescription="@string/log"
+            app:layout_constraintTop_toTopOf="@id/style_table_icon"
+            app:layout_constraintBottom_toBottomOf="@id/style_table_icon"
+            app:layout_constraintStart_toEndOf="@id/style_timeline_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1" />
+
+        <TextView
+            android:id="@+id/style_log_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/margin_between"
+            android:gravity="center"
+            android:text="@string/log"
+            app:layout_constraintTop_toTopOf="@id/style_table_label"
+            app:layout_constraintBottom_toBottomOf="@id/style_table_label"
+            app:layout_constraintStart_toStartOf="@id/style_log_icon"
+            app:layout_constraintEnd_toEndOf="@id/style_log_icon" />
+
+        <TextView
+            android:id="@+id/settings_header"
             style="@style/Padding"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="?attr/backgroundColorTertiary"
-            android:text="@string/categories" />
+            android:text="@string/settings"
+            app:layout_constraintTop_toBottomOf="@id/style_table_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <ImageView
+            android:id="@+id/note_icon"
+            android:layout_width="@dimen/size_image"
+            android:layout_height="@dimen/size_image"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_note"
+            android:tint="?iconColorPrimary"
+            app:layout_constraintTop_toTopOf="@id/note_checkbox"
+            app:layout_constraintBottom_toBottomOf="@id/note_checkbox"
+            app:layout_constraintStart_toStartOf="@id/date_icon" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/note_checkbox"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_element_large"
+            android:text="@string/note_append"
+            app:layout_constraintTop_toBottomOf="@id/settings_header"
+            app:layout_constraintStart_toStartOf="@id/date_start_button"
+            app:layout_constraintEnd_toEndOf="@id/format_spinner" />
+
+        <View
+            android:id="@+id/tags_divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="?backgroundColorTertiary"
+            app:layout_constraintTop_toBottomOf="@id/note_checkbox"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <ImageView
+            android:id="@+id/tags_icon"
+            android:layout_width="@dimen/size_image"
+            android:layout_height="@dimen/size_image"
+            android:padding="2dp"
+            android:contentDescription="@null"
+            android:tint="?iconColorPrimary"
+            app:layout_constraintTop_toTopOf="@id/tags_checkbox"
+            app:layout_constraintBottom_toBottomOf="@id/tags_checkbox"
+            app:layout_constraintStart_toStartOf="@id/date_icon"
+            app:srcCompat="@drawable/ic_tag" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/tags_checkbox"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_element_large"
+            android:text="@string/tags_append"
+            app:layout_constraintTop_toBottomOf="@id/tags_divider"
+            app:layout_constraintStart_toStartOf="@id/date_start_button"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/categories_header"
+            style="@style/Padding"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="?attr/backgroundColorTertiary"
+            android:text="@string/categories"
+            app:layout_constraintTop_toBottomOf="@id/tags_checkbox"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <com.faltenreich.diaguard.ui.view.CategoryCheckBoxList
-            android:id="@+id/export_list_categories"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:id="@+id/categories_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/categories_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>

@@ -119,9 +119,10 @@
             android:paddingEnd="@dimen/margin_between_large"
             android:src="@drawable/showcase_theme_light"
             android:contentDescription="@string/table"
-            app:layout_constraintTop_toBottomOf="@id/style_header"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/style_timeline_icon"
+            app:layout_constraintTop_toTopOf="@id/style_table_button"
+            app:layout_constraintStart_toStartOf="@id/style_table_button"
+            app:layout_constraintEnd_toEndOf="@id/style_table_button"
+            app:layout_constraintBottom_toTopOf="@id/style_table_radio"
             app:layout_constraintHorizontal_weight="1" />
 
         <RadioButton
@@ -130,8 +131,9 @@
             android:layout_height="wrap_content"
             android:text="@string/table"
             app:layout_constraintTop_toBottomOf="@id/style_table_icon"
-            app:layout_constraintStart_toStartOf="@id/style_table_icon"
-            app:layout_constraintEnd_toEndOf="@id/style_table_icon"/>
+            app:layout_constraintStart_toStartOf="@id/style_table_button"
+            app:layout_constraintEnd_toEndOf="@id/style_table_button"
+            app:layout_constraintBottom_toBottomOf="@id/style_table_button"/>
 
         <View
             android:id="@+id/style_table_button"
@@ -140,10 +142,11 @@
             android:background="?selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            app:layout_constraintTop_toTopOf="@id/style_table_icon"
-            app:layout_constraintStart_toStartOf="@id/style_table_icon"
-            app:layout_constraintEnd_toEndOf="@id/style_table_icon"
-            app:layout_constraintBottom_toBottomOf="@id/style_table_radio" />
+            app:layout_constraintTop_toBottomOf="@id/style_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/style_timeline_button"
+            app:layout_constraintBottom_toBottomOf="@id/style_table_radio"
+            app:layout_constraintHorizontal_weight="1" />
 
         <ImageView
             android:id="@+id/style_timeline_icon"
@@ -157,11 +160,10 @@
             android:paddingEnd="@dimen/margin_between_large"
             android:src="@drawable/showcase_theme_light"
             android:contentDescription="@string/timeline"
-            app:layout_constraintTop_toTopOf="@id/style_table_icon"
-            app:layout_constraintBottom_toBottomOf="@id/style_table_icon"
-            app:layout_constraintStart_toEndOf="@id/style_table_icon"
-            app:layout_constraintEnd_toStartOf="@id/style_log_icon"
-            app:layout_constraintHorizontal_weight="1" />
+            app:layout_constraintTop_toTopOf="@id/style_timeline_button"
+            app:layout_constraintStart_toStartOf="@id/style_timeline_button"
+            app:layout_constraintEnd_toEndOf="@id/style_timeline_button"
+            app:layout_constraintBottom_toTopOf="@id/style_timeline_radio" />
 
         <RadioButton
             android:id="@+id/style_timeline_radio"
@@ -169,8 +171,9 @@
             android:layout_height="wrap_content"
             android:text="@string/timeline"
             app:layout_constraintTop_toBottomOf="@id/style_timeline_icon"
-            app:layout_constraintStart_toStartOf="@id/style_timeline_icon"
-            app:layout_constraintEnd_toEndOf="@id/style_timeline_icon"/>
+            app:layout_constraintStart_toStartOf="@id/style_timeline_button"
+            app:layout_constraintEnd_toEndOf="@id/style_timeline_button"
+            app:layout_constraintBottom_toBottomOf="@id/style_timeline_button" />
 
         <View
             android:id="@+id/style_timeline_button"
@@ -179,10 +182,11 @@
             android:background="?selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            app:layout_constraintTop_toTopOf="@id/style_timeline_icon"
-            app:layout_constraintStart_toStartOf="@id/style_timeline_icon"
-            app:layout_constraintEnd_toEndOf="@id/style_timeline_icon"
-            app:layout_constraintBottom_toBottomOf="@id/style_timeline_radio" />
+            app:layout_constraintTop_toTopOf="@id/style_table_button"
+            app:layout_constraintStart_toEndOf="@id/style_table_button"
+            app:layout_constraintBottom_toBottomOf="@id/style_table_button"
+            app:layout_constraintEnd_toStartOf="@id/style_log_button"
+            app:layout_constraintHorizontal_weight="1" />
 
         <ImageView
             android:id="@+id/style_log_icon"
@@ -196,11 +200,10 @@
             android:paddingEnd="@dimen/margin_between_large"
             android:src="@drawable/showcase_theme_light"
             android:contentDescription="@string/log"
-            app:layout_constraintTop_toTopOf="@id/style_table_icon"
-            app:layout_constraintBottom_toBottomOf="@id/style_table_icon"
-            app:layout_constraintStart_toEndOf="@id/style_timeline_icon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_weight="1" />
+            app:layout_constraintTop_toTopOf="@id/style_log_button"
+            app:layout_constraintStart_toStartOf="@id/style_log_button"
+            app:layout_constraintEnd_toEndOf="@id/style_log_button"
+            app:layout_constraintBottom_toTopOf="@id/style_log_radio" />
 
         <RadioButton
             android:id="@+id/style_log_radio"
@@ -208,8 +211,9 @@
             android:layout_height="wrap_content"
             android:text="@string/log"
             app:layout_constraintTop_toBottomOf="@id/style_log_icon"
-            app:layout_constraintStart_toStartOf="@id/style_log_icon"
-            app:layout_constraintEnd_toEndOf="@id/style_log_icon"/>
+            app:layout_constraintStart_toStartOf="@id/style_log_button"
+            app:layout_constraintEnd_toEndOf="@id/style_log_button"
+            app:layout_constraintBottom_toBottomOf="@id/style_log_button" />
 
         <View
             android:id="@+id/style_log_button"
@@ -218,10 +222,11 @@
             android:background="?selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            app:layout_constraintTop_toTopOf="@id/style_log_icon"
-            app:layout_constraintStart_toStartOf="@id/style_log_icon"
-            app:layout_constraintEnd_toEndOf="@id/style_log_icon"
-            app:layout_constraintBottom_toBottomOf="@id/style_log_radio" />
+            app:layout_constraintTop_toTopOf="@id/style_table_button"
+            app:layout_constraintBottom_toBottomOf="@id/style_table_button"
+            app:layout_constraintStart_toEndOf="@id/style_timeline_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1" />
 
         <TextView
             android:id="@+id/settings_header"
@@ -230,7 +235,7 @@
             android:layout_height="wrap_content"
             android:background="?attr/backgroundColorTertiary"
             android:text="@string/settings"
-            app:layout_constraintTop_toBottomOf="@id/style_table_radio"
+            app:layout_constraintTop_toBottomOf="@id/style_table_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 

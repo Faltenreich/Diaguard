@@ -11,7 +11,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/fab_offset">
+        android:paddingBottom="@dimen/fab_offset"
+        android:animateLayoutChanges="true">
 
         <ImageView
             android:id="@+id/date_icon"
@@ -95,6 +96,12 @@
             app:layout_constraintTop_toBottomOf="@id/format_divider"
             app:layout_constraintStart_toStartOf="@id/date_start_button"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/style_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="style_header,style_table_button,style_table_icon,style_table_radio,style_timeline_button,style_timeline_icon,style_timeline_radio,style_log_button,style_log_icon,style_log_radio" />
 
         <TextView
             android:id="@+id/style_header"

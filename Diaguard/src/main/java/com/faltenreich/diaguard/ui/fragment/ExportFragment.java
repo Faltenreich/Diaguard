@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.Group;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
@@ -49,6 +50,7 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
     @BindView(R.id.date_start_button) Button buttonDateStart;
     @BindView(R.id.date_end_button) Button buttonDateEnd;
     @BindView(R.id.format_spinner) Spinner spinnerFormat;
+    @BindView(R.id.style_group) Group groupStyle;
     @BindView(R.id.style_table_radio) RadioButton radioButtonTableStyle;
     @BindView(R.id.style_timeline_radio) RadioButton radioButtonTimelineStyle;
     @BindView(R.id.style_log_radio) RadioButton radioButtonLogStyle;
@@ -108,7 +110,7 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
 
     private void invalidateLayout() {
         boolean isPdfFormat = spinnerFormat.getSelectedItemPosition() == 0;
-        int visibility = isPdfFormat ? View.VISIBLE : View.GONE;
+        groupStyle.setVisibility(isPdfFormat ? View.VISIBLE : View.GONE);
 
         radioButtonTableStyle.setChecked(style == ExportConfig.Style.TABLE);
         radioButtonTimelineStyle.setChecked(style == ExportConfig.Style.TIMELINE);

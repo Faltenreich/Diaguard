@@ -4,9 +4,9 @@ import android.content.ActivityNotFoundException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -40,6 +40,7 @@ import java.io.File;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnItemSelected;
 
 public class ExportFragment extends BaseFragment implements FileListener, MainButton {
 
@@ -48,6 +49,9 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
     @BindView(R.id.date_start_button) Button buttonDateStart;
     @BindView(R.id.date_end_button) Button buttonDateEnd;
     @BindView(R.id.format_spinner) Spinner spinnerFormat;
+    @BindView(R.id.style_table_radio) RadioButton radioButtonTableStyle;
+    @BindView(R.id.style_timeline_radio) RadioButton radioButtonTimelineStyle;
+    @BindView(R.id.style_log_radio) RadioButton radioButtonLogStyle;
     @BindView(R.id.note_checkbox) CheckBox checkBoxNotes;
     @BindView(R.id.tags_checkbox) CheckBox checkBoxTags;
     @BindView(R.id.categories_list) CategoryCheckBoxList categoryCheckBoxList;
@@ -56,6 +60,7 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
 
     private DateTime dateStart;
     private DateTime dateEnd;
+    private ExportConfig.Style style;
 
     public ExportFragment() {
         super(R.layout.fragment_export, R.string.export);
@@ -89,18 +94,10 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
     private void init() {
         dateStart = DateTime.now().withDayOfWeek(1);
         dateEnd = dateStart.withDayOfWeek(7);
+        style = ExportConfig.Style.TABLE;
     }
 
     private void initLayout() {
-        spinnerFormat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                invalidateLayout();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-            }
-        });
         buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
         buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
         checkBoxNotes.setChecked(PreferenceHelper.getInstance().exportNotes());
@@ -112,7 +109,10 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
     private void invalidateLayout() {
         boolean isPdfFormat = spinnerFormat.getSelectedItemPosition() == 0;
         int visibility = isPdfFormat ? View.VISIBLE : View.GONE;
-        // TODO
+
+        radioButtonTableStyle.setChecked(style == ExportConfig.Style.TABLE);
+        radioButtonTimelineStyle.setChecked(style == ExportConfig.Style.TIMELINE);
+        radioButtonLogStyle.setChecked(style == ExportConfig.Style.LOG);
     }
 
     private boolean validate() {
@@ -193,7 +193,7 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
     }
 
     @OnClick(R.id.date_start_button)
-    public void showStartDatePicker() {
+    void showStartDatePicker() {
         DatePickerFragment.newInstance(dateStart, null, dateEnd, dateTime -> {
             if (dateTime != null) {
                 dateStart = dateTime;
@@ -203,13 +203,36 @@ public class ExportFragment extends BaseFragment implements FileListener, MainBu
     }
 
     @OnClick(R.id.date_end_button)
-    public void showEndDatePicker() {
+    void showEndDatePicker() {
         DatePickerFragment.newInstance(dateEnd, dateStart, null, dateTime -> {
             if (dateTime != null) {
                 dateEnd = dateTime;
                 buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
             }
         }).show(getFragmentManager());
+    }
+
+    @OnClick(R.id.style_table_button)
+    void onTableStyleButtonClick() {
+        this.style = ExportConfig.Style.TABLE;
+        invalidateLayout();
+    }
+
+    @OnClick(R.id.style_timeline_button)
+    void onTimelineStyleButtonClick() {
+        this.style = ExportConfig.Style.TIMELINE;
+        invalidateLayout();
+    }
+
+    @OnClick(R.id.style_log_button)
+    void onLogStyleButtonClick() {
+        this.style = ExportConfig.Style.LOG;
+        invalidateLayout();
+    }
+
+    @OnItemSelected(R.id.format_spinner)
+    void onFormatSelected() {
+        invalidateLayout();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

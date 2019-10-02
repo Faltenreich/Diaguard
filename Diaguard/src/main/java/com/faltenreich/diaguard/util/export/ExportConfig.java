@@ -134,4 +134,10 @@ public class ExportConfig {
             return this;
         }
     }
+
+    public enum Style {
+        TABLE,
+        TIMELINE,
+        LOG
+    }
 }

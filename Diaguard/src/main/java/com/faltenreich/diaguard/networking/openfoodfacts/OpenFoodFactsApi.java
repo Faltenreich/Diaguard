@@ -8,6 +8,11 @@ import retrofit2.http.Query;
 
 interface OpenFoodFactsApi {
 
-    @GET("/cgi/search.pl")
-    Call<SearchResponseDto> search(@Query("search_terms") String query, @Query("json") int json, @Query("page_size") int pageSize, @Query("page") int page);
+    @GET("cgi/search.pl")
+    Call<SearchResponseDto> search(
+        @Query("search_terms") String query,
+        @Query("json") int isJson,
+        @Query("page") int page,
+        @Query("page_size") int pageSize
+    );
 }

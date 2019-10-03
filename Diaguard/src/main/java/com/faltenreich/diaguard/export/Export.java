@@ -12,6 +12,7 @@ import com.faltenreich.diaguard.export.csv.CsvExportConfig;
 import com.faltenreich.diaguard.export.csv.CsvImport;
 import com.faltenreich.diaguard.export.pdf.PdfExport;
 import com.faltenreich.diaguard.export.pdf.PdfExportConfig;
+import com.faltenreich.diaguard.export.pdf.PdfExportStyle;
 import com.faltenreich.diaguard.util.FileUtils;
 
 import org.joda.time.DateTime;
@@ -26,29 +27,13 @@ public class Export {
     private static final String FILE_BACKUP_1_3_PREFIX = "diaguard_backup_";
     private static final String FILE_BACKUP_1_3_DATE_FORMAT = "yyyyMMddHHmmss";
 
-    public enum Type {
-        CSV,
-        PDF;
-
-        public String getExtension() {
-            switch (this) {
-                case CSV:
-                    return "csv";
-                case PDF:
-                    return "pdf";
-                default:
-                    return null;
-            }
-        }
-    }
-
     public static void exportPdf(
         Context context,
         ExportCallback callback,
         DateTime dateStart,
         DateTime dateEnd,
         Measurement.Category[] categories,
-        PdfExportConfig.Style style
+        PdfExportStyle style
     ) {
         PdfExportConfig config = new PdfExportConfig(
             context,
@@ -103,7 +88,7 @@ public class Export {
         csvImport.execute();
     }
 
-    public static File getExportFile(Type type) {
+    public static File getExportFile(ExportFormat type) {
         String fileName = String.format("%s%s%s_%s.%s",
             FileUtils.getPublicDirectory(),
             File.separator,
@@ -113,7 +98,7 @@ public class Export {
         return new File(fileName);
     }
 
-    public static File getBackupFile(Type type) {
+    public static File getBackupFile(ExportFormat type) {
         String fileName = String.format("%s%s%s%s.%s",
             FileUtils.getPublicDirectory(),
             File.separator,

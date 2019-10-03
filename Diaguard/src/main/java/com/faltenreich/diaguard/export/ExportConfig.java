@@ -11,6 +11,7 @@ import java.lang.ref.WeakReference;
 public class ExportConfig {
 
     private final WeakReference<Context> contextReference;
+    private final ExportCallback callback;
     private final DateTime dateStart;
     private final DateTime dateEnd;
     private final Measurement.Category[] categories;
@@ -21,6 +22,7 @@ public class ExportConfig {
 
     private ExportConfig(
         WeakReference<Context> contextReference,
+        ExportCallback callback,
         DateTime dateStart,
         DateTime dateEnd,
         Measurement.Category[] categories,
@@ -30,6 +32,7 @@ public class ExportConfig {
         boolean splitInsulin
     ) {
         this.contextReference = contextReference;
+        this.callback = callback;
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
         this.categories = categories;
@@ -41,6 +44,10 @@ public class ExportConfig {
 
     public  WeakReference<Context> getContextReference() {
         return contextReference;
+    }
+
+    public ExportCallback getCallback() {
+        return callback;
     }
 
     public DateTime getDateStart() {
@@ -74,6 +81,7 @@ public class ExportConfig {
     public static class Builder {
 
         private final WeakReference<Context> contextReference;
+        private ExportCallback callback;
         private DateTime dateStart;
         private DateTime dateEnd;
         private Measurement.Category[] categories;
@@ -89,6 +97,7 @@ public class ExportConfig {
         public ExportConfig build() {
             return new ExportConfig(
                 contextReference,
+                callback,
                 dateStart,
                 dateEnd,
                 categories,
@@ -97,6 +106,11 @@ public class ExportConfig {
                 exportFood,
                 splitInsulin
             );
+        }
+
+        public Builder setCallback(ExportCallback callback) {
+            this.callback = callback;
+            return this;
         }
 
         public Builder setDateStart(DateTime dateStart) {

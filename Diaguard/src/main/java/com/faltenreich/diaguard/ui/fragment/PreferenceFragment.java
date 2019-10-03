@@ -29,6 +29,7 @@ import com.faltenreich.diaguard.data.event.FileProvidedFailedEvent;
 import com.faltenreich.diaguard.data.event.PermissionResponseEvent;
 import com.faltenreich.diaguard.data.event.preference.MealFactorUnitChangedEvent;
 import com.faltenreich.diaguard.data.event.preference.UnitChangedEvent;
+import com.faltenreich.diaguard.export.csv.CsvMeta;
 import com.faltenreich.diaguard.ui.activity.BaseActivity;
 import com.faltenreich.diaguard.ui.preferences.BloodSugarPreference;
 import com.faltenreich.diaguard.util.FileUtils;
@@ -229,30 +230,34 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
     private void createBackup() {
         Context context = getActivity();
         progressComponent.show(context);
-        ExportConfig config = new ExportConfig.Builder(context).build();
-        Export.exportCsv(config, true, new ExportCallback() {
 
-            @Override
-            public void onProgress(String message) {
-                progressComponent.setMessage(message);
-            }
+        ExportConfig config = new ExportConfig.Builder(context)
+            .setCallback(new ExportCallback() {
 
-            @Override
-            public void onSuccess(@Nullable File file, String mimeType) {
-                progressComponent.dismiss();
-                if (file != null) {
-                    FileUtils.shareFile(getActivity(), file, mimeType);
-                } else {
-                    onError();
+                @Override
+                public void onProgress(String message) {
+                    progressComponent.setMessage(message);
                 }
-            }
 
-            @Override
-            public void onError() {
-                progressComponent.dismiss();
-                Toast.makeText(getActivity(), getActivity().getString(R.string.error_unexpected), Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onSuccess(@Nullable File file, String mimeType) {
+                    progressComponent.dismiss();
+                    if (file != null) {
+                        FileUtils.shareFile(getActivity(), file, mimeType);
+                    } else {
+                        onError();
+                    }
+                }
+
+                @Override
+                public void onError() {
+                    progressComponent.dismiss();
+                    Toast.makeText(getActivity(), getActivity().getString(R.string.error_unexpected), Toast.LENGTH_SHORT).show();
+                }
+            })
+            .build();
+
+        Export.exportCsv(config, true);
     }
 
     private void importBackup(Uri uri) {
@@ -297,7 +302,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                     createBackup();
                     break;
                 case BACKUP_READ:
-                    FileUtils.searchFiles(getActivity(), Export.CSV_IMPORT_MIME_TYPE, BaseActivity.REQUEST_CODE_BACKUP_IMPORT);
+                    FileUtils.searchFiles(getActivity(), CsvMeta.CSV_IMPORT_MIME_TYPE, BaseActivity.REQUEST_CODE_BACKUP_IMPORT);
                     break;
             }
         }

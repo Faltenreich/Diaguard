@@ -55,11 +55,11 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
     protected Boolean doInBackground(Void... params) {
         try {
             InputStream inputStream = context.get().getContentResolver().openInputStream(uri);
-            CSVReader reader = new CSVReader(new InputStreamReader(inputStream), Export.CSV_DELIMITER);
+            CSVReader reader = new CSVReader(new InputStreamReader(inputStream), CsvMeta.CSV_DELIMITER);
             String[] nextLine = reader.readNext();
 
             // First version was without meta information
-            if (!nextLine[0].equals(Export.CSV_KEY_META)) {
+            if (!nextLine[0].equals(CsvMeta.CSV_KEY_META)) {
                 importFromVersion1_0(reader, nextLine);
             } else {
                 int databaseVersion = Integer.parseInt(nextLine[1]);
@@ -274,7 +274,7 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
     protected void onPostExecute(Boolean success) {
         if (callback != null) {
             if (success) {
-                callback.onSuccess(null, Export.CSV_MIME_TYPE);
+                callback.onSuccess(null, CsvMeta.CSV_MIME_TYPE);
             } else {
                 callback.onError();
             }

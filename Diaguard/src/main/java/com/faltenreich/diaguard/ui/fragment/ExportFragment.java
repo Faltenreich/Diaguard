@@ -63,7 +63,6 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
 
     private DateTime dateStart;
     private DateTime dateEnd;
-    private PdfExportStyle style;
 
     public ExportFragment() {
         super(R.layout.fragment_export, R.string.export);
@@ -106,7 +105,6 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
     private void init() {
         dateStart = DateTime.now().withDayOfWeek(1);
         dateEnd = dateStart.withDayOfWeek(7);
-        style = PdfExportStyle.TABLE; // TODO: Remember via shared preferences
     }
 
     private void initLayout() {
@@ -122,9 +120,12 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
         ExportFormat type = getType();
         groupStyle.setVisibility(type == ExportFormat.PDF ? View.VISIBLE : View.GONE);
 
-        radioButtonTableStyle.setChecked(style == PdfExportStyle.TABLE);
-        radioButtonTimelineStyle.setChecked(style == PdfExportStyle.TIMELINE);
-        radioButtonLogStyle.setChecked(style == PdfExportStyle.LOG);
+        if (type == ExportFormat.PDF) {
+            PdfExportStyle style = PreferenceHelper.getInstance().getPdfExportStyle();
+            radioButtonTableStyle.setChecked(style == PdfExportStyle.TABLE);
+            radioButtonTimelineStyle.setChecked(style == PdfExportStyle.TIMELINE);
+            radioButtonLogStyle.setChecked(style == PdfExportStyle.LOG);
+        }
     }
 
     private boolean isInputValid() {
@@ -145,18 +146,20 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
         progressComponent.show(getContext());
         progressComponent.setMessage(getString(R.string.export_progress));
 
+        // TODO: Set preference on checkbox change
         Measurement.Category[] selectedCategories = categoryCheckBoxList.getSelectedCategories();
         PreferenceHelper.getInstance().setExportCategories(selectedCategories);
+
         DateTime dateStart = this.dateStart != null ? this.dateStart.withTimeAtStartOfDay() : null;
         DateTime dateEnd = this.dateEnd != null ? this.dateEnd.withTimeAtStartOfDay() : null;
 
         ExportFormat type = getType();
         switch (type) {
             case PDF:
-                Export.exportPdf(getContext(), this, dateStart, dateEnd, selectedCategories, style);
+                Export.exportPdf(this, dateStart, dateEnd, getContext());
                 break;
             case CSV:
-                Export.exportCsv(this, dateStart, dateEnd, selectedCategories);
+                Export.exportCsv(this, dateStart, dateEnd);
                 break;
         }
     }
@@ -219,19 +222,19 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
 
     @OnClick(R.id.style_table_button)
     void onTableStyleButtonClick() {
-        this.style = PdfExportStyle.TABLE;
+        PreferenceHelper.getInstance().setPdfExportStyle(PdfExportStyle.TABLE);
         invalidateLayout();
     }
 
     @OnClick(R.id.style_timeline_button)
     void onTimelineStyleButtonClick() {
-        this.style = PdfExportStyle.TIMELINE;
+        PreferenceHelper.getInstance().setPdfExportStyle(PdfExportStyle.TIMELINE);
         invalidateLayout();
     }
 
     @OnClick(R.id.style_log_button)
     void onLogStyleButtonClick() {
-        this.style = PdfExportStyle.LOG;
+        PreferenceHelper.getInstance().setPdfExportStyle(PdfExportStyle.LOG);
         invalidateLayout();
     }
 

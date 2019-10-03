@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.util.export;
+package com.faltenreich.diaguard.export.csv;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -17,6 +17,9 @@ import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Tag;
+import com.faltenreich.diaguard.export.Export;
+import com.faltenreich.diaguard.export.ExportConfig;
+import com.faltenreich.diaguard.export.ExportCallback;
 import com.opencsv.CSVWriter;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -33,15 +36,15 @@ public class CsvExport extends AsyncTask<Void, String, File> {
 
     private ExportConfig config;
     private boolean isBackup;
-    private FileListener listener;
+    private ExportCallback callback;
 
-    CsvExport(ExportConfig config, boolean isBackup) {
+    public CsvExport(ExportConfig config, boolean isBackup) {
         this.config = config;
         this.isBackup = isBackup;
     }
 
-    public void setListener(FileListener listener) {
-        this.listener = listener;
+    public void setCallback(ExportCallback callback) {
+        this.callback = callback;
     }
 
     @Override
@@ -119,19 +122,19 @@ public class CsvExport extends AsyncTask<Void, String, File> {
 
     @Override
     protected void onProgressUpdate(String... message) {
-        if (listener != null) {
-            listener.onProgress(message[0]);
+        if (callback != null) {
+            callback.onProgress(message[0]);
         }
     }
 
     @Override
     protected void onPostExecute(File file) {
         super.onPostExecute(file);
-        if (listener != null) {
+        if (callback != null) {
             if (file != null) {
-                listener.onSuccess(file, Export.CSV_MIME_TYPE);
+                callback.onSuccess(file, Export.CSV_MIME_TYPE);
             } else {
-                listener.onError();
+                callback.onError();
             }
         }
     }

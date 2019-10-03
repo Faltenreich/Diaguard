@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.util.export;
+package com.faltenreich.diaguard.export.csv;
 
 import android.content.Context;
 import android.net.Uri;
@@ -22,6 +22,8 @@ import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.data.entity.deprecated.CategoryDeprecated;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
+import com.faltenreich.diaguard.export.Export;
+import com.faltenreich.diaguard.export.ExportCallback;
 import com.opencsv.CSVReader;
 
 import org.joda.time.format.DateTimeFormat;
@@ -38,15 +40,15 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
 
     private WeakReference<Context> context;
     private Uri uri;
-    private FileListener listener;
+    private ExportCallback callback;
 
-    CsvImport(Context context, Uri uri) {
+    public CsvImport(Context context, Uri uri) {
         this.context = new WeakReference<>(context);
         this.uri = uri;
     }
 
-    public void setListener(FileListener listener) {
-        this.listener = listener;
+    public void setCallback(ExportCallback callback) {
+        this.callback = callback;
     }
 
     @Override
@@ -270,11 +272,11 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected void onPostExecute(Boolean success) {
-        if (listener != null) {
+        if (callback != null) {
             if (success) {
-                listener.onSuccess(null, Export.CSV_MIME_TYPE);
+                callback.onSuccess(null, Export.CSV_MIME_TYPE);
             } else {
-                listener.onError();
+                callback.onError();
             }
         }
     }

@@ -1,8 +1,12 @@
-package com.faltenreich.diaguard.util.export;
+package com.faltenreich.diaguard.export.pdf;
 
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.StringRes;
+import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
@@ -35,10 +39,6 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-
-import androidx.annotation.ColorInt;
-import androidx.annotation.StringRes;
-import androidx.core.content.ContextCompat;
 
 /**
  * Created by Faltenreich on 19.10.2015.

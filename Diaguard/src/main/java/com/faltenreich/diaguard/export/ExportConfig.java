@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.util.export;
+package com.faltenreich.diaguard.export;
 
 import android.content.Context;
 
@@ -39,35 +39,35 @@ public class ExportConfig {
         this.splitInsulin = splitInsulin;
     }
 
-    WeakReference<Context> getContextReference() {
+    public  WeakReference<Context> getContextReference() {
         return contextReference;
     }
 
-    DateTime getDateStart() {
+    public DateTime getDateStart() {
         return dateStart;
     }
 
-    DateTime getDateEnd() {
+    public DateTime getDateEnd() {
         return dateEnd;
     }
 
-    Measurement.Category[] getCategories() {
+    public Measurement.Category[] getCategories() {
         return categories;
     }
 
-    boolean isExportNotes() {
+    public boolean isExportNotes() {
         return exportNotes;
     }
 
-    boolean isExportTags() {
+    public boolean isExportTags() {
         return exportTags;
     }
 
-    boolean isExportFood() {
+    public boolean isExportFood() {
         return exportFood;
     }
 
-    boolean isSplitInsulin() {
+    public boolean isSplitInsulin() {
         return splitInsulin;
     }
 

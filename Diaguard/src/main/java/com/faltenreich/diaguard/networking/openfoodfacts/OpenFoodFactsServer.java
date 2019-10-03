@@ -5,7 +5,7 @@ import com.faltenreich.diaguard.util.Helper;
 
 public class OpenFoodFactsServer extends NetworkServer<OpenFoodFactsApi> {
 
-    private static final String HOST_FORMAT = "https://world-%s.openfoodfacts.org";
+    private static final String HOST_FORMAT = "https://world-%s.openfoodfacts.org/";
 
     OpenFoodFactsServer() {
         super(OpenFoodFactsApi.class);

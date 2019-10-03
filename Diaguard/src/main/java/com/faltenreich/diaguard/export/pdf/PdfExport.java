@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.export.Export;
 import com.faltenreich.diaguard.export.ExportCallback;
+import com.faltenreich.diaguard.export.ExportFormat;
 import com.faltenreich.diaguard.util.Helper;
 import com.pdfjet.CoreFont;
 import com.pdfjet.Font;
@@ -49,7 +50,7 @@ public class PdfExport extends AsyncTask<Void, String, File> {
 
     @Override
     protected File doInBackground(Void... params) {
-        File file = Export.getExportFile(Export.Type.PDF);
+        File file = Export.getExportFile(ExportFormat.PDF);
         try {
             Point currentPosition;
 

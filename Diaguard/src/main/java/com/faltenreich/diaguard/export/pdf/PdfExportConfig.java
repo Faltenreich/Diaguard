@@ -13,7 +13,7 @@ import java.lang.ref.WeakReference;
 public class PdfExportConfig extends ExportConfig {
 
     private final WeakReference<Context> contextReference;
-    private final Style style;
+    private final PdfExportStyle style;
     private final boolean exportNotes;
     private final boolean exportTags;
     private final boolean exportFood;
@@ -22,7 +22,7 @@ public class PdfExportConfig extends ExportConfig {
     public PdfExportConfig(
         Context context,
         ExportCallback callback,
-        Style style,
+        PdfExportStyle style,
         DateTime dateStart,
         DateTime dateEnd,
         Measurement.Category[] categories,
@@ -44,7 +44,7 @@ public class PdfExportConfig extends ExportConfig {
         return contextReference;
     }
 
-    public Style getStyle() {
+    public PdfExportStyle getStyle() {
         return style;
     }
 
@@ -62,11 +62,5 @@ public class PdfExportConfig extends ExportConfig {
 
     public boolean isSplitInsulin() {
         return splitInsulin;
-    }
-
-    public enum Style {
-        TABLE,
-        TIMELINE,
-        LOG
     }
 }

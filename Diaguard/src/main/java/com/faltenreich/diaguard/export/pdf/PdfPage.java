@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.util.export;
+package com.faltenreich.diaguard.export.pdf;
 
 import android.util.Log;
 

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.util.export;
+package com.faltenreich.diaguard.export.pdf;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -7,6 +7,9 @@ import android.util.Log;
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.util.Helper;
+import com.faltenreich.diaguard.export.Export;
+import com.faltenreich.diaguard.export.ExportConfig;
+import com.faltenreich.diaguard.export.ExportCallback;
 import com.pdfjet.CoreFont;
 import com.pdfjet.Font;
 import com.pdfjet.PDF;
@@ -21,9 +24,6 @@ import org.joda.time.format.DateTimeFormat;
 import java.io.File;
 import java.io.FileOutputStream;
 
-/**
- * Created by Faltenreich on 18.10.2015.
- */
 public class PdfExport extends AsyncTask<Void, String, File> {
 
     private static final String TAG = PdfExport.class.getSimpleName();
@@ -33,12 +33,12 @@ public class PdfExport extends AsyncTask<Void, String, File> {
 
     private ExportConfig config;
 
-    private FileListener listener;
+    private ExportCallback callback;
 
     private Font fontNormal;
     private Font fontBold;
 
-    PdfExport(ExportConfig config) {
+    public PdfExport(ExportConfig config) {
         this.config = config;
     }
 
@@ -46,8 +46,8 @@ public class PdfExport extends AsyncTask<Void, String, File> {
         return config.getContextReference().get();
     }
 
-    public void setListener(FileListener listener) {
-        this.listener = listener;
+    public void setCallback(ExportCallback callback) {
+        this.callback = callback;
     }
 
     @Override
@@ -121,19 +121,19 @@ public class PdfExport extends AsyncTask<Void, String, File> {
 
     @Override
     protected void onProgressUpdate(String... message) {
-        if (listener != null) {
-            listener.onProgress(message[0]);
+        if (callback != null) {
+            callback.onProgress(message[0]);
         }
     }
 
     @Override
     protected void onPostExecute(File file) {
         super.onPostExecute(file);
-        if (listener != null) {
+        if (callback != null) {
             if (file != null) {
-                listener.onSuccess(file, Export.PDF_MIME_TYPE);
+                callback.onSuccess(file, Export.PDF_MIME_TYPE);
             } else {
-                listener.onError();
+                callback.onError();
             }
         }
     }

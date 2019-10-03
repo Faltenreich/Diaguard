@@ -2,9 +2,8 @@ package com.faltenreich.diaguard.data.entity;
 
 import com.faltenreich.diaguard.data.Backupable;
 import com.faltenreich.diaguard.data.Exportable;
-import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.util.Helper;
-import com.faltenreich.diaguard.util.export.Export;
+import com.faltenreich.diaguard.export.Export;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
@@ -14,7 +13,6 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @DatabaseTable

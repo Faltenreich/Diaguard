@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.data;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.faltenreich.diaguard.R;
@@ -18,7 +17,7 @@ import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
-import com.faltenreich.diaguard.util.export.Export;
+import com.faltenreich.diaguard.export.Export;
 import com.opencsv.CSVReader;
 
 import org.joda.time.DateTime;

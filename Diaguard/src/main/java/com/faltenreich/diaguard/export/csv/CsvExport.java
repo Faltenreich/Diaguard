@@ -36,15 +36,14 @@ public class CsvExport extends AsyncTask<Void, String, File> {
 
     private ExportConfig config;
     private boolean isBackup;
-    private ExportCallback callback;
 
     public CsvExport(ExportConfig config, boolean isBackup) {
         this.config = config;
         this.isBackup = isBackup;
     }
 
-    public void setCallback(ExportCallback callback) {
-        this.callback = callback;
+    private ExportCallback getCallback() {
+        return config.getCallback();
     }
 
     @Override
@@ -58,12 +57,12 @@ public class CsvExport extends AsyncTask<Void, String, File> {
                 Export.getExportFile(Export.FileType.CSV);
         try {
             FileWriter fileWriter = new FileWriter(file);
-            CSVWriter writer = new CSVWriter(fileWriter, Export.CSV_DELIMITER);
+            CSVWriter writer = new CSVWriter(fileWriter, CsvMeta.CSV_DELIMITER);
 
             if (isBackup) {
                 // Meta information to detect the data scheme in future iterations
                 String[] meta = new String[]{
-                        Export.CSV_KEY_META,
+                    CsvMeta.CSV_KEY_META,
                         Integer.toString(DatabaseHelper.getVersion())};
                 writer.writeNext(meta);
 
@@ -122,19 +121,19 @@ public class CsvExport extends AsyncTask<Void, String, File> {
 
     @Override
     protected void onProgressUpdate(String... message) {
-        if (callback != null) {
-            callback.onProgress(message[0]);
+        if (getCallback() != null) {
+            getCallback().onProgress(message[0]);
         }
     }
 
     @Override
     protected void onPostExecute(File file) {
         super.onPostExecute(file);
-        if (callback != null) {
+        if (getCallback() != null) {
             if (file != null) {
-                callback.onSuccess(file, Export.CSV_MIME_TYPE);
+                getCallback().onSuccess(file, CsvMeta.CSV_MIME_TYPE);
             } else {
-                callback.onError();
+                getCallback().onError();
             }
         }
     }

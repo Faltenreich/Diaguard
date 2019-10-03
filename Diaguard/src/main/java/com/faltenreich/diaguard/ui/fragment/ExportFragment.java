@@ -142,6 +142,7 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
         PreferenceHelper.getInstance().setExportCategories(selectedCategories);
 
         ExportConfig config = new ExportConfig.Builder(getContext())
+            .setCallback(this)
             .setDateStart(dateStart != null ? dateStart.withTimeAtStartOfDay() : null)
             .setDateEnd(dateEnd != null ? dateEnd.withTimeAtStartOfDay() : null) // FIXME: End of day?
             .setCategories(selectedCategories)
@@ -152,9 +153,9 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
             .build();
 
         if (spinnerFormat.getSelectedItemPosition() == 0) {
-            Export.exportPdf(config, this);
+            Export.exportPdf(config);
         } else if (spinnerFormat.getSelectedItemPosition() == 1) {
-            Export.exportCsv(config, false, this);
+            Export.exportCsv(config, false);
         }
     }
 

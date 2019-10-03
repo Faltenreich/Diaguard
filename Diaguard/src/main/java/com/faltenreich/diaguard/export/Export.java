@@ -38,28 +38,19 @@ public class Export {
         }
     }
 
-    public static final String PDF_MIME_TYPE = "application/pdf";
-
-    public static final String CSV_MIME_TYPE = "text/csv";
-    public static final String CSV_IMPORT_MIME_TYPE = "text/*"; // Workaround: text/csv does not work for all apps
-    public static final char CSV_DELIMITER = ';';
-    public static final String CSV_KEY_META = "meta";
-
-    public static void exportPdf(ExportConfig config, ExportCallback listener) {
+    public static void exportPdf(ExportConfig config) {
         PdfExport pdfExport = new PdfExport(config);
-        pdfExport.setCallback(listener);
         pdfExport.execute();
     }
 
-    public static void exportCsv(ExportConfig config, boolean isBackup, ExportCallback listener) {
+    public static void exportCsv(ExportConfig config, boolean isBackup) {
         CsvExport csvExport = new CsvExport(config, isBackup);
-        csvExport.setCallback(listener);
         csvExport.execute();
     }
 
-    public static void importCsv(Context context, Uri uri, ExportCallback listener) {
+    public static void importCsv(Context context, Uri uri, ExportCallback callback) {
         CsvImport csvImport = new CsvImport(context, uri);
-        csvImport.setCallback(listener);
+        csvImport.setCallback(callback);
         csvImport.execute();
     }
 

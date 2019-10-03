@@ -15,9 +15,9 @@ import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Tag;
+import com.faltenreich.diaguard.export.csv.CsvMeta;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
-import com.faltenreich.diaguard.export.Export;
 import com.opencsv.CSVReader;
 
 import org.joda.time.DateTime;
@@ -77,7 +77,7 @@ public class ImportHelper {
         InputStream inputStream = assetManager.open(fileName);
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-        return new CSVReader(bufferedReader, Export.CSV_DELIMITER);
+        return new CSVReader(bufferedReader, CsvMeta.CSV_DELIMITER);
     }
 
     private static class ImportFoodTask extends AsyncTask<Void, Void, Void> {

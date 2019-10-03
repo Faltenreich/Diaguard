@@ -33,8 +33,6 @@ public class PdfExport extends AsyncTask<Void, String, File> {
 
     private ExportConfig config;
 
-    private ExportCallback callback;
-
     private Font fontNormal;
     private Font fontBold;
 
@@ -46,8 +44,8 @@ public class PdfExport extends AsyncTask<Void, String, File> {
         return config.getContextReference().get();
     }
 
-    public void setCallback(ExportCallback callback) {
-        this.callback = callback;
+    private ExportCallback getCallback() {
+        return config.getCallback();
     }
 
     @Override
@@ -121,19 +119,19 @@ public class PdfExport extends AsyncTask<Void, String, File> {
 
     @Override
     protected void onProgressUpdate(String... message) {
-        if (callback != null) {
-            callback.onProgress(message[0]);
+        if (getCallback() != null) {
+            getCallback().onProgress(message[0]);
         }
     }
 
     @Override
     protected void onPostExecute(File file) {
         super.onPostExecute(file);
-        if (callback != null) {
+        if (getCallback() != null) {
             if (file != null) {
-                callback.onSuccess(file, Export.PDF_MIME_TYPE);
+                getCallback().onSuccess(file, PdfMeta.PDF_MIME_TYPE);
             } else {
-                callback.onError();
+                getCallback().onError();
             }
         }
     }

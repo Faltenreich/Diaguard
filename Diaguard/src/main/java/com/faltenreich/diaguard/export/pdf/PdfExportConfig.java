@@ -20,12 +20,12 @@ public class PdfExportConfig extends ExportConfig {
     private final boolean splitInsulin;
 
     public PdfExportConfig(
-        Context context,
         ExportCallback callback,
-        PdfExportStyle style,
         DateTime dateStart,
         DateTime dateEnd,
         Measurement.Category[] categories,
+        Context context,
+        PdfExportStyle style,
         boolean exportNotes,
         boolean exportTags,
         boolean exportFood,

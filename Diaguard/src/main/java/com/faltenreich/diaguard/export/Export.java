@@ -12,7 +12,6 @@ import com.faltenreich.diaguard.export.csv.CsvExportConfig;
 import com.faltenreich.diaguard.export.csv.CsvImport;
 import com.faltenreich.diaguard.export.pdf.PdfExport;
 import com.faltenreich.diaguard.export.pdf.PdfExportConfig;
-import com.faltenreich.diaguard.export.pdf.PdfExportStyle;
 import com.faltenreich.diaguard.util.FileUtils;
 
 import org.joda.time.DateTime;
@@ -28,20 +27,18 @@ public class Export {
     private static final String FILE_BACKUP_1_3_DATE_FORMAT = "yyyyMMddHHmmss";
 
     public static void exportPdf(
-        Context context,
         ExportCallback callback,
         DateTime dateStart,
         DateTime dateEnd,
-        Measurement.Category[] categories,
-        PdfExportStyle style
+        Context context
     ) {
         PdfExportConfig config = new PdfExportConfig(
-            context,
             callback,
-            style,
             dateStart,
             dateEnd,
-            categories,
+            PreferenceHelper.getInstance().getExportCategories(),
+            context,
+            PreferenceHelper.getInstance().getPdfExportStyle(),
             PreferenceHelper.getInstance().exportNotes(),
             PreferenceHelper.getInstance().exportTags(),
             PreferenceHelper.getInstance().exportFood(),
@@ -58,10 +55,9 @@ public class Export {
     public static void exportCsv(
         ExportCallback callback,
         DateTime dateStart,
-        DateTime dateEnd,
-        Measurement.Category[] categories
+        DateTime dateEnd
     ) {
-        exportCsv(callback, dateStart, dateEnd, categories, false);
+        exportCsv(callback, dateStart, dateEnd, PreferenceHelper.getInstance().getExportCategories(), false);
     }
 
     private static void exportCsv(

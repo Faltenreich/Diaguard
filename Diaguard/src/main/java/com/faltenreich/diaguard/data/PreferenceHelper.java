@@ -14,6 +14,7 @@ import androidx.annotation.StringRes;
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.export.pdf.PdfExportStyle;
 import com.faltenreich.diaguard.ui.view.MainFragmentType;
 import com.faltenreich.diaguard.util.CategoryComparatorFactory;
 import com.faltenreich.diaguard.util.Helper;
@@ -52,6 +53,7 @@ public class PreferenceHelper {
         public static final String INPUT_QUERIES = "inputQueries";
         public static final String DID_IMPORT_COMMON_FOOD_FOR_LANGUAGE = "didImportCommonFoodForLanguage";
         public static final String CHART_STYLE = "chart_style";
+        public static final String EXPORT_PDF_STYLE = "exportPdfStyle";
         public static final String EXPORT_NOTES = "export_notes";
         public static final String EXPORT_TAGS = "export_tags";
         public static final String EXPORT_FOOD = "export_food";
@@ -235,6 +237,17 @@ public class PreferenceHelper {
             isValid = false;
         }
         return isValid;
+    }
+
+    public void setPdfExportStyle(PdfExportStyle style) {
+        sharedPreferences.edit().putInt(Keys.EXPORT_PDF_STYLE, style.stableId).apply();
+    }
+
+    public PdfExportStyle getPdfExportStyle() {
+        PdfExportStyle defaultStyle = PdfExportStyle.TABLE;
+        int stableId = sharedPreferences.getInt(Keys.EXPORT_PDF_STYLE, defaultStyle.stableId);
+        PdfExportStyle style = PdfExportStyle.valueOf(stableId);
+        return style != null ? style : defaultStyle;
     }
 
     public void setExportNotes(boolean exportNotes) {

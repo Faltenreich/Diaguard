@@ -67,6 +67,7 @@ public class CategoryCheckBoxList extends RecyclerView {
         adapter.notifyDataSetChanged();
     }
 
+    // FIXME: Items are not updated
     public Measurement.Category[] getSelectedCategories() {
         ArrayList<Measurement.Category> selectedCategories = new ArrayList<>();
         for (ListItemExportCategory item : adapter.getItems()) {

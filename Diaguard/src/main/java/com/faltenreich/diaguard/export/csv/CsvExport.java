@@ -18,7 +18,6 @@ import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.export.Export;
-import com.faltenreich.diaguard.export.ExportConfig;
 import com.faltenreich.diaguard.export.ExportCallback;
 import com.opencsv.CSVWriter;
 
@@ -34,12 +33,10 @@ public class CsvExport extends AsyncTask<Void, String, File> {
 
     private static final String TAG = CsvExport.class.getSimpleName();
 
-    private ExportConfig config;
-    private boolean isBackup;
+    private CsvExportConfig config;
 
-    public CsvExport(ExportConfig config, boolean isBackup) {
+    public CsvExport(CsvExportConfig config) {
         this.config = config;
-        this.isBackup = isBackup;
     }
 
     private ExportCallback getCallback() {
@@ -51,10 +48,11 @@ public class CsvExport extends AsyncTask<Void, String, File> {
         DateTime dateStart = config.getDateStart();
         DateTime dateEnd = config.getDateEnd();
         Measurement.Category[] categories = config.getCategories();
+        boolean isBackup = config.isBackup();
 
         File file = isBackup?
-                Export.getBackupFile(Export.FileType.CSV) :
-                Export.getExportFile(Export.FileType.CSV);
+                Export.getBackupFile(Export.Type.CSV) :
+                Export.getExportFile(Export.Type.CSV);
         try {
             FileWriter fileWriter = new FileWriter(file);
             CSVWriter writer = new CSVWriter(fileWriter, CsvMeta.CSV_DELIMITER);

@@ -20,6 +20,9 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.event.Events;
 import com.faltenreich.diaguard.data.event.PermissionRequestEvent;
 import com.faltenreich.diaguard.data.event.PermissionResponseEvent;
+import com.faltenreich.diaguard.export.Export;
+import com.faltenreich.diaguard.export.ExportCallback;
+import com.faltenreich.diaguard.export.pdf.PdfExportConfig;
 import com.faltenreich.diaguard.ui.view.CategoryCheckBoxList;
 import com.faltenreich.diaguard.ui.view.MainButton;
 import com.faltenreich.diaguard.ui.view.MainButtonProperties;
@@ -27,9 +30,6 @@ import com.faltenreich.diaguard.util.FileUtils;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.ProgressComponent;
 import com.faltenreich.diaguard.util.ViewUtils;
-import com.faltenreich.diaguard.export.Export;
-import com.faltenreich.diaguard.export.ExportConfig;
-import com.faltenreich.diaguard.export.ExportCallback;
 import com.faltenreich.diaguard.util.permission.Permission;
 import com.faltenreich.diaguard.util.permission.PermissionUseCase;
 
@@ -62,7 +62,7 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
 
     private DateTime dateStart;
     private DateTime dateEnd;
-    private ExportConfig.Style style;
+    private PdfExportConfig.Style style;
 
     public ExportFragment() {
         super(R.layout.fragment_export, R.string.export);
@@ -96,7 +96,7 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
     private void init() {
         dateStart = DateTime.now().withDayOfWeek(1);
         dateEnd = dateStart.withDayOfWeek(7);
-        style = ExportConfig.Style.TABLE;
+        style = PdfExportConfig.Style.TABLE;
     }
 
     private void initLayout() {
@@ -112,9 +112,9 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
         boolean isPdfFormat = spinnerFormat.getSelectedItemPosition() == 0;
         groupStyle.setVisibility(isPdfFormat ? View.VISIBLE : View.GONE);
 
-        radioButtonTableStyle.setChecked(style == ExportConfig.Style.TABLE);
-        radioButtonTimelineStyle.setChecked(style == ExportConfig.Style.TIMELINE);
-        radioButtonLogStyle.setChecked(style == ExportConfig.Style.LOG);
+        radioButtonTableStyle.setChecked(style == PdfExportConfig.Style.TABLE);
+        radioButtonTimelineStyle.setChecked(style == PdfExportConfig.Style.TIMELINE);
+        radioButtonLogStyle.setChecked(style == PdfExportConfig.Style.LOG);
     }
 
     private boolean validate() {
@@ -140,22 +140,13 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
 
         Measurement.Category[] selectedCategories = categoryCheckBoxList.getSelectedCategories();
         PreferenceHelper.getInstance().setExportCategories(selectedCategories);
-
-        ExportConfig config = new ExportConfig.Builder(getContext())
-            .setCallback(this)
-            .setDateStart(dateStart != null ? dateStart.withTimeAtStartOfDay() : null)
-            .setDateEnd(dateEnd != null ? dateEnd.withTimeAtStartOfDay() : null) // FIXME: End of day?
-            .setCategories(selectedCategories)
-            .setExportNotes(PreferenceHelper.getInstance().exportNotes())
-            .setExportTags(PreferenceHelper.getInstance().exportTags())
-            .setExportFood(PreferenceHelper.getInstance().exportFood())
-            .setSplitInsulin(PreferenceHelper.getInstance().exportInsulinSplit())
-            .build();
+        DateTime dateStart = this.dateStart != null ? this.dateStart.withTimeAtStartOfDay() : null;
+        DateTime dateEnd = this.dateEnd != null ? this.dateEnd.withTimeAtStartOfDay() : null;
 
         if (spinnerFormat.getSelectedItemPosition() == 0) {
-            Export.exportPdf(config);
+            Export.exportPdf(getContext(), this, dateStart, dateEnd, selectedCategories, style);
         } else if (spinnerFormat.getSelectedItemPosition() == 1) {
-            Export.exportCsv(config, false);
+            Export.exportCsv(this, dateStart, dateEnd, selectedCategories);
         }
     }
 
@@ -217,19 +208,19 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
 
     @OnClick(R.id.style_table_button)
     void onTableStyleButtonClick() {
-        this.style = ExportConfig.Style.TABLE;
+        this.style = PdfExportConfig.Style.TABLE;
         invalidateLayout();
     }
 
     @OnClick(R.id.style_timeline_button)
     void onTimelineStyleButtonClick() {
-        this.style = ExportConfig.Style.TIMELINE;
+        this.style = PdfExportConfig.Style.TIMELINE;
         invalidateLayout();
     }
 
     @OnClick(R.id.style_log_button)
     void onLogStyleButtonClick() {
-        this.style = ExportConfig.Style.LOG;
+        this.style = PdfExportConfig.Style.LOG;
         invalidateLayout();
     }
 

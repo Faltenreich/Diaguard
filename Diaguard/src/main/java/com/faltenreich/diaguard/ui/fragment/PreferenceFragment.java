@@ -29,6 +29,8 @@ import com.faltenreich.diaguard.data.event.FileProvidedFailedEvent;
 import com.faltenreich.diaguard.data.event.PermissionResponseEvent;
 import com.faltenreich.diaguard.data.event.preference.MealFactorUnitChangedEvent;
 import com.faltenreich.diaguard.data.event.preference.UnitChangedEvent;
+import com.faltenreich.diaguard.export.Export;
+import com.faltenreich.diaguard.export.ExportCallback;
 import com.faltenreich.diaguard.export.csv.CsvMeta;
 import com.faltenreich.diaguard.ui.activity.BaseActivity;
 import com.faltenreich.diaguard.ui.preferences.BloodSugarPreference;
@@ -37,9 +39,6 @@ import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.util.ProgressComponent;
 import com.faltenreich.diaguard.util.SystemUtils;
-import com.faltenreich.diaguard.export.Export;
-import com.faltenreich.diaguard.export.ExportConfig;
-import com.faltenreich.diaguard.export.ExportCallback;
 import com.faltenreich.diaguard.util.permission.Permission;
 import com.faltenreich.diaguard.util.theme.Theme;
 import com.faltenreich.diaguard.util.theme.ThemeUtils;
@@ -148,9 +147,9 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                         int activeCategoriesCount = PreferenceHelper.getInstance().getActiveCategories().length;
                         int categoriesTotalCount = Measurement.Category.values().length;
                         preference.setSummary(String.format("%d/%d %s",
-                                activeCategoriesCount,
-                                categoriesTotalCount,
-                                getString(R.string.active)));
+                            activeCategoriesCount,
+                            categoriesTotalCount,
+                            getString(R.string.active)));
                         break;
                     case "tags":
                         DataLoader.getInstance().load(preference.getContext(), new DataLoaderListener<Long>() {
@@ -158,6 +157,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                             public Long onShouldLoad() {
                                 return TagDao.getInstance().countAll();
                             }
+
                             @Override
                             public void onDidLoad(Long count) {
                                 if (isAdded()) {
@@ -231,33 +231,27 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         Context context = getActivity();
         progressComponent.show(context);
 
-        ExportConfig config = new ExportConfig.Builder(context)
-            .setCallback(new ExportCallback() {
-
-                @Override
-                public void onProgress(String message) {
-                    progressComponent.setMessage(message);
+        ExportCallback callback = new ExportCallback() {
+            @Override
+            public void onProgress(String message) {
+                progressComponent.setMessage(message);
+            }
+            @Override
+            public void onSuccess(@Nullable File file, String mimeType) {
+                progressComponent.dismiss();
+                if (file != null) {
+                    FileUtils.shareFile(getActivity(), file, mimeType);
+                } else {
+                    onError();
                 }
-
-                @Override
-                public void onSuccess(@Nullable File file, String mimeType) {
-                    progressComponent.dismiss();
-                    if (file != null) {
-                        FileUtils.shareFile(getActivity(), file, mimeType);
-                    } else {
-                        onError();
-                    }
-                }
-
-                @Override
-                public void onError() {
-                    progressComponent.dismiss();
-                    Toast.makeText(getActivity(), getActivity().getString(R.string.error_unexpected), Toast.LENGTH_SHORT).show();
-                }
-            })
-            .build();
-
-        Export.exportCsv(config, true);
+            }
+            @Override
+            public void onError() {
+                progressComponent.dismiss();
+                Toast.makeText(getActivity(), getActivity().getString(R.string.error_unexpected), Toast.LENGTH_SHORT).show();
+            }
+        };
+        Export.exportCsv(callback);
     }
 
     private void importBackup(Uri uri) {

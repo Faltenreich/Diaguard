@@ -6,10 +6,9 @@ import android.util.Log;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.export.Export;
-import com.faltenreich.diaguard.export.ExportConfig;
 import com.faltenreich.diaguard.export.ExportCallback;
+import com.faltenreich.diaguard.util.Helper;
 import com.pdfjet.CoreFont;
 import com.pdfjet.Font;
 import com.pdfjet.PDF;
@@ -31,12 +30,12 @@ public class PdfExport extends AsyncTask<Void, String, File> {
     private static final float PADDING_PARAGRAPH = 20;
     private static final float PADDING_LINE = 3;
 
-    private ExportConfig config;
+    private PdfExportConfig config;
 
     private Font fontNormal;
     private Font fontBold;
 
-    public PdfExport(ExportConfig config) {
+    public PdfExport(PdfExportConfig config) {
         this.config = config;
     }
 
@@ -50,7 +49,7 @@ public class PdfExport extends AsyncTask<Void, String, File> {
 
     @Override
     protected File doInBackground(Void... params) {
-        File file = Export.getExportFile(Export.FileType.PDF);
+        File file = Export.getExportFile(Export.Type.PDF);
         try {
             Point currentPosition;
 

@@ -19,6 +19,15 @@ public class ExportCategoryViewHolder extends BaseViewHolder<ListItemExportCateg
 
     public ExportCategoryViewHolder(View view) {
         super(view);
+        init();
+    }
+
+    private void init() {
+        categoryCheckBox.setOnCheckedChangeListener((checkBox, isChecked) -> {
+            getListItem().setCategorySelected(isChecked);
+            extraCheckBox.setEnabled(isChecked);
+        });
+        extraCheckBox.setOnCheckedChangeListener((checkBox, isChecked) -> getListItem().setExtraSelected(isChecked));
     }
 
     @Override
@@ -42,6 +51,7 @@ public class ExportCategoryViewHolder extends BaseViewHolder<ListItemExportCateg
                 extraTitle = null;
         }
         extraCheckBox.setText(extraTitle);
+        extraCheckBox.setEnabled(item.isCategorySelected());
         extraCheckBox.setChecked(item.isExtraSelected());
         extraCheckBox.setVisibility(extraTitle != null ? View.VISIBLE : View.GONE);
     }

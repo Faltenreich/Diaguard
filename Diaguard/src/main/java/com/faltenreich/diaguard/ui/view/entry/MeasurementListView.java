@@ -72,10 +72,6 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
         }
     }
 
-    public void addMeasurement(Measurement measurement) {
-        addMeasurement(0, measurement);
-    }
-
     public void addMeasurement(int index, Measurement measurement) {
         Measurement.Category category = measurement.getCategory();
         if (!hasCategory(category)) {

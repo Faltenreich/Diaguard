@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.export;
 
+import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
 
 import org.joda.time.DateTime;
@@ -37,5 +38,9 @@ public abstract class ExportConfig {
 
     public Measurement.Category[] getCategories() {
         return categories;
+    }
+
+    public void persistInSharedPreferences() {
+        PreferenceHelper.getInstance().setExportCategories(categories);
     }
 }

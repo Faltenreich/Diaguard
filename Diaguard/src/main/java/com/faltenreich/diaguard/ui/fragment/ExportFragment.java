@@ -78,7 +78,6 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initLayout();
-        invalidateLayout();
     }
 
     @Override
@@ -93,7 +92,7 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
         super.onDestroy();
     }
 
-    private ExportFormat getType() {
+    private ExportFormat getFormat() {
         int selectedPosition = spinnerFormat.getSelectedItemPosition();
         switch (selectedPosition) {
             case 0: return ExportFormat.PDF;
@@ -108,24 +107,32 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
     }
 
     private void initLayout() {
+        setFormat(ExportFormat.PDF);
+        setStyle(PreferenceHelper.getInstance().getPdfExportStyle());
+
         buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
         buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
+
         checkBoxNotes.setChecked(PreferenceHelper.getInstance().exportNotes());
         checkBoxNotes.setOnCheckedChangeListener((buttonView, isChecked) -> PreferenceHelper.getInstance().setExportNotes(isChecked));
         checkBoxTags.setChecked(PreferenceHelper.getInstance().exportTags());
         checkBoxTags.setOnCheckedChangeListener((buttonView, isChecked) -> PreferenceHelper.getInstance().setExportTags(isChecked));
     }
 
-    private void invalidateLayout() {
-        ExportFormat type = getType();
-        groupStyle.setVisibility(type == ExportFormat.PDF ? View.VISIBLE : View.GONE);
+    private void setFormat(ExportFormat format) {
+        groupStyle.setVisibility(format == ExportFormat.PDF ? View.VISIBLE : View.GONE);
+    }
 
-        if (type == ExportFormat.PDF) {
-            PdfExportStyle style = PreferenceHelper.getInstance().getPdfExportStyle();
-            radioButtonTableStyle.setChecked(style == PdfExportStyle.TABLE);
-            radioButtonTimelineStyle.setChecked(style == PdfExportStyle.TIMELINE);
-            radioButtonLogStyle.setChecked(style == PdfExportStyle.LOG);
-        }
+    private PdfExportStyle getStyle() {
+        return radioButtonTimelineStyle.isChecked() ?
+            PdfExportStyle.TABLE : radioButtonLogStyle.isChecked() ?
+            PdfExportStyle.LOG : PdfExportStyle.TABLE;
+    }
+
+    private void setStyle(PdfExportStyle style) {
+        radioButtonTableStyle.setChecked(style == PdfExportStyle.TABLE);
+        radioButtonTimelineStyle.setChecked(style == PdfExportStyle.TIMELINE);
+        radioButtonLogStyle.setChecked(style == PdfExportStyle.LOG);
     }
 
     private boolean isInputValid() {
@@ -146,20 +153,22 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
         progressComponent.show(getContext());
         progressComponent.setMessage(getString(R.string.export_progress));
 
-        // TODO: Set preference on checkbox change
-        Measurement.Category[] selectedCategories = categoryCheckBoxList.getSelectedCategories();
-        PreferenceHelper.getInstance().setExportCategories(selectedCategories);
-
         DateTime dateStart = this.dateStart != null ? this.dateStart.withTimeAtStartOfDay() : null;
         DateTime dateEnd = this.dateEnd != null ? this.dateEnd.withTimeAtStartOfDay() : null;
+        Measurement.Category[] categories = categoryCheckBoxList.getSelectedCategories();
+        PdfExportStyle style = getStyle();
+        boolean exportNotes = checkBoxNotes.isChecked();
+        boolean exportTags = checkBoxTags.isChecked();
+        boolean exportFood = categoryCheckBoxList.exportFood();
+        boolean splitInsulin = categoryCheckBoxList.splitInsulin();
 
-        ExportFormat type = getType();
+        ExportFormat type = getFormat();
         switch (type) {
             case PDF:
-                Export.exportPdf(this, dateStart, dateEnd, getContext());
+                Export.exportPdf(this, dateStart, dateEnd, categories, getContext(), style, exportNotes, exportTags, exportFood, splitInsulin);
                 break;
             case CSV:
-                Export.exportCsv(this, dateStart, dateEnd);
+                Export.exportCsv(this, dateStart, dateEnd, categories);
                 break;
         }
     }
@@ -222,25 +231,22 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
 
     @OnClick(R.id.style_table_button)
     void onTableStyleButtonClick() {
-        PreferenceHelper.getInstance().setPdfExportStyle(PdfExportStyle.TABLE);
-        invalidateLayout();
+        setStyle(PdfExportStyle.TABLE);
     }
 
     @OnClick(R.id.style_timeline_button)
     void onTimelineStyleButtonClick() {
-        PreferenceHelper.getInstance().setPdfExportStyle(PdfExportStyle.TIMELINE);
-        invalidateLayout();
+        setStyle(PdfExportStyle.TIMELINE);
     }
 
     @OnClick(R.id.style_log_button)
     void onLogStyleButtonClick() {
-        PreferenceHelper.getInstance().setPdfExportStyle(PdfExportStyle.LOG);
-        invalidateLayout();
+        setStyle(PdfExportStyle.LOG);
     }
 
     @OnItemSelected(R.id.format_spinner)
     void onFormatSelected() {
-        invalidateLayout();
+        setFormat(getFormat());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

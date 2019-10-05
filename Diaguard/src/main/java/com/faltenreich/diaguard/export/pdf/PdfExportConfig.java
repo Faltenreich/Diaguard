@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.export.pdf;
 
 import android.content.Context;
 
+import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.export.ExportCallback;
 import com.faltenreich.diaguard.export.ExportConfig;
@@ -62,5 +63,15 @@ public class PdfExportConfig extends ExportConfig {
 
     public boolean isSplitInsulin() {
         return splitInsulin;
+    }
+
+    @Override
+    public void persistInSharedPreferences() {
+        super.persistInSharedPreferences();
+        PreferenceHelper.getInstance().setPdfExportStyle(style);
+        PreferenceHelper.getInstance().setExportNotes(exportNotes);
+        PreferenceHelper.getInstance().setExportTags(exportTags);
+        PreferenceHelper.getInstance().setExportFood(exportFood);
+        PreferenceHelper.getInstance().setExportInsulinSplit(splitInsulin);
     }
 }

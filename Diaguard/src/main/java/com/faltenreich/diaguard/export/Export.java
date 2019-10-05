@@ -5,13 +5,13 @@ import android.net.Uri;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.export.csv.CsvExport;
 import com.faltenreich.diaguard.export.csv.CsvExportConfig;
 import com.faltenreich.diaguard.export.csv.CsvImport;
 import com.faltenreich.diaguard.export.pdf.PdfExport;
 import com.faltenreich.diaguard.export.pdf.PdfExportConfig;
+import com.faltenreich.diaguard.export.pdf.PdfExportStyle;
 import com.faltenreich.diaguard.util.FileUtils;
 
 import org.joda.time.DateTime;
@@ -30,20 +30,27 @@ public class Export {
         ExportCallback callback,
         DateTime dateStart,
         DateTime dateEnd,
-        Context context
+        Measurement.Category[] categories,
+        Context context,
+        PdfExportStyle style,
+        boolean exportNotes,
+        boolean exportTags,
+        boolean exportFood,
+        boolean splitInsulin
     ) {
         PdfExportConfig config = new PdfExportConfig(
             callback,
             dateStart,
             dateEnd,
-            PreferenceHelper.getInstance().getExportCategories(),
+            categories,
             context,
-            PreferenceHelper.getInstance().getPdfExportStyle(),
-            PreferenceHelper.getInstance().exportNotes(),
-            PreferenceHelper.getInstance().exportTags(),
-            PreferenceHelper.getInstance().exportFood(),
-            PreferenceHelper.getInstance().exportInsulinSplit()
+            style,
+            exportNotes,
+            exportTags,
+            exportFood,
+            splitInsulin
         );
+        config.persistInSharedPreferences();
         PdfExport pdfExport = new PdfExport(config);
         pdfExport.execute();
     }
@@ -55,9 +62,10 @@ public class Export {
     public static void exportCsv(
         ExportCallback callback,
         DateTime dateStart,
-        DateTime dateEnd
+        DateTime dateEnd,
+        Measurement.Category[] categories
     ) {
-        exportCsv(callback, dateStart, dateEnd, PreferenceHelper.getInstance().getExportCategories(), false);
+        exportCsv(callback, dateStart, dateEnd, categories, false);
     }
 
     private static void exportCsv(
@@ -74,6 +82,9 @@ public class Export {
             categories,
             isBackup
         );
+        if (!isBackup) {
+            config.persistInSharedPreferences();
+        }
         CsvExport csvExport = new CsvExport(config);
         csvExport.execute();
     }

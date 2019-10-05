@@ -67,7 +67,6 @@ public class CategoryCheckBoxList extends RecyclerView {
         adapter.notifyDataSetChanged();
     }
 
-    // FIXME: Items are not updated
     public Measurement.Category[] getSelectedCategories() {
         ArrayList<Measurement.Category> selectedCategories = new ArrayList<>();
         for (ListItemExportCategory item : adapter.getItems()) {
@@ -76,5 +75,23 @@ public class CategoryCheckBoxList extends RecyclerView {
             }
         }
         return selectedCategories.toArray(new Measurement.Category[selectedCategories.size()]);
+    }
+
+    public boolean exportFood() {
+        for (ListItemExportCategory item : adapter.getItems()) {
+            if (item.getCategory() == Measurement.Category.MEAL) {
+                return item.isExtraSelected();
+            }
+        }
+        return false;
+    }
+
+    public boolean splitInsulin() {
+        for (ListItemExportCategory item : adapter.getItems()) {
+            if (item.getCategory() == Measurement.Category.INSULIN) {
+                return item.isExtraSelected();
+            }
+        }
+        return false;
     }
 }

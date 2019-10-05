@@ -105,8 +105,8 @@ public class PdfExport extends AsyncTask<Void, String, File> {
             }
 
             pdf.flush();
-        } catch (Exception ex) {
-            Log.e("DiaguardError", ex.getMessage());
+        } catch (Exception exception) {
+            Log.e(TAG, exception.getMessage());
         }
 
         return file;

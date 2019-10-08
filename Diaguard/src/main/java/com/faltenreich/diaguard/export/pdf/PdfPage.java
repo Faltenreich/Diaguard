@@ -16,9 +16,6 @@ import com.pdfjet.TextLine;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
-/**
- * Created by Faltenreich on 20.10.2015.
- */
 public class PdfPage extends Page {
 
     private static final String TAG = PdfPage.class.getSimpleName();
@@ -61,8 +58,8 @@ public class PdfPage extends Page {
             generatedBy.setPosition(PADDING_HORIZONTAL, positionY);
             generatedBy.setColor(textColor);
             generatedBy.setText(String.format("%s %s",
-                    DiaguardApplication.getContext().getString(R.string.export_stamp),
-                    DateTimeFormat.mediumDate().print(DateTime.now())));
+                DiaguardApplication.getContext().getString(R.string.export_stamp),
+                DateTimeFormat.mediumDate().print(DateTime.now())));
             generatedBy.drawOn(this);
 
             // Url

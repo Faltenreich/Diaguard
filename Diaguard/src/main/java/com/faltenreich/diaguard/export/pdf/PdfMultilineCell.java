@@ -9,9 +9,6 @@ import org.apache.commons.lang3.text.WordUtils;
 
 import java.io.IOException;
 
-/**
- * Created by Faltenreich on 01.05.2016.
- */
 public class PdfMultilineCell extends Cell {
 
     private final int characterCount;
@@ -45,25 +42,18 @@ public class PdfMultilineCell extends Cell {
     protected void paint(Page page, float x, float y, float w, float h) throws Exception {
         page.setPenColor(this.getPenColor());
         page.setPenWidth(this.lineWidth);
-
         drawBorders(page, x, y, w, h);
         drawText(page, x, y);
     }
 
-    private void drawBorders(
-            Page page,
-            float x,
-            float y,
-            float cell_w,
-            float cell_h) throws Exception {
-
+    private void drawBorders(Page page, float x, float y, float cell_w, float cell_h) throws Exception {
         if (getBorder(Border.TOP) &&
-                getBorder(Border.BOTTOM) &&
-                getBorder(Border.LEFT) &&
-                getBorder(Border.RIGHT)) {
+            getBorder(Border.BOTTOM) &&
+            getBorder(Border.LEFT) &&
+            getBorder(Border.RIGHT)
+        ) {
             page.drawRect(x, y, cell_w, cell_h);
-        }
-        else {
+        } else {
             if (getBorder(Border.TOP)) {
                 page.moveTo(x, y);
                 page.lineTo(x + cell_w, y);
@@ -85,11 +75,9 @@ public class PdfMultilineCell extends Cell {
                 page.strokePath();
             }
         }
-
     }
 
     private void drawText(Page page, float x, float y) throws IOException {
-
         String wrappedText = WordUtils.wrap(super.getText(), this.characterCount);
         String[] lines = wrappedText.split(System.getProperty("line.separator"));
 

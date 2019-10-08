@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.ColorInt;
-import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
@@ -35,29 +34,21 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.format.DateTimeFormat;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-/**
- * Created by Faltenreich on 19.10.2015.
- */
 public class PdfTable extends Table {
 
     private static final String TAG = PdfTable.class.getSimpleName();
     private static final float LABEL_WIDTH = 120;
     private static final int HOURS_TO_SKIP = 2;
 
-    private WeakReference<Context> contextReference;
+    private PdfExportConfig config;
+    private DateTime day;
+
     private PDF pdf;
     private PdfPage page;
-    private DateTime day;
-    private Measurement.Category[] categories;
-    private boolean exportNotes;
-    private boolean exportTags;
-    private boolean exportFood;
-    private boolean splitInsulin;
 
     private Font fontNormal;
     private Font fontBold;
@@ -67,25 +58,20 @@ public class PdfTable extends Table {
 
     private int rows;
 
-    PdfTable(Context context, PDF pdf, PdfPage page, DateTime day, Measurement.Category[] categories, boolean exportNotes, boolean exportTags, boolean exportFood, boolean splitInsulin) {
+    PdfTable(PdfExportConfig config, DateTime day, PDF pdf, PdfPage page) {
         super();
-        this.contextReference = new WeakReference<>(context);
+        this.config = config;
         this.pdf = pdf;
         this.page = page;
         this.day = day;
-        this.categories = categories;
-        this.exportNotes = exportNotes;
-        this.exportTags = exportTags;
-        this.exportFood = exportFood;
-        this.splitInsulin = splitInsulin;
-        this.alternatingRowColor = ContextCompat.getColor(context, R.color.background_light_primary);
-        this.hyperglycemiaColor = ContextCompat.getColor(context, R.color.red);
-        this.hypoglycemiaColor = ContextCompat.getColor(context, R.color.blue);
+        this.alternatingRowColor = ContextCompat.getColor(getContext(), R.color.background_light_primary);
+        this.hyperglycemiaColor = ContextCompat.getColor(getContext(), R.color.red);
+        this.hypoglycemiaColor = ContextCompat.getColor(getContext(), R.color.blue);
         init();
     }
 
     private Context getContext() {
-        return contextReference.get();
+        return config.getContextReference().get();
     }
 
     private void init() {
@@ -99,7 +85,7 @@ public class PdfTable extends Table {
     }
 
     private float getCellWidth() {
-        return (page.getWidth() - LABEL_WIDTH) / (DateTimeConstants.HOURS_PER_DAY / 2);
+        return (page.getWidth() - LABEL_WIDTH) / (DateTimeConstants.HOURS_PER_DAY / 2f);
     }
 
     public float getHeight() {
@@ -118,48 +104,50 @@ public class PdfTable extends Table {
         List<List<Cell>> data = new ArrayList<>();
         data.add(getRowForHeader());
 
-        LinkedHashMap<Measurement.Category, ListItemCategoryValue[]> values = EntryDao.getInstance().getAverageDataTable(day, categories, HOURS_TO_SKIP);
+        LinkedHashMap<Measurement.Category, ListItemCategoryValue[]> values = EntryDao.getInstance().getAverageDataTable(day, config.getCategories(), HOURS_TO_SKIP);
         int row = 0;
         for (Measurement.Category category : values.keySet()) {
             ListItemCategoryValue[] items = values.get(category);
-            String label = category.toLocalizedString(getContext());
-            int backgroundColor = row % 2 == 0 ? alternatingRowColor : Color.white;
-            switch (category) {
-                case INSULIN:
-                    if (splitInsulin) {
-                        data.add(getRowForValues(items, 0, label + " " + getContext().getString(R.string.bolus), backgroundColor));
-                        data.add(getRowForValues(items, 1, label + " " + getContext().getString(R.string.correction), backgroundColor));
-                        data.add(getRowForValues(items, 2, label + " " + getContext().getString(R.string.basal), backgroundColor));
-                    } else {
-                        data.add(getRowForValues(items, -1, label, backgroundColor));
-                    }
-                    break;
-                case PRESSURE:
-                    data.add(getRowForValues(items, 0, label + " " + getContext().getString(R.string.systolic_acronym), backgroundColor));
-                    data.add(getRowForValues(items, 1, label + " " + getContext().getString(R.string.diastolic_acronym), backgroundColor));
-                    break;
-                default:
-                    data.add(getRowForValues(items, 0, label, backgroundColor));
-                    break;
+            if (items != null) {
+                String label = category.toLocalizedString(getContext());
+                int backgroundColor = row % 2 == 0 ? alternatingRowColor : Color.white;
+                switch (category) {
+                    case INSULIN:
+                        if (config.isSplitInsulin()) {
+                            data.add(getRowForValues(items, 0, label + " " + getContext().getString(R.string.bolus), backgroundColor));
+                            data.add(getRowForValues(items, 1, label + " " + getContext().getString(R.string.correction), backgroundColor));
+                            data.add(getRowForValues(items, 2, label + " " + getContext().getString(R.string.basal), backgroundColor));
+                        } else {
+                            data.add(getRowForValues(items, -1, label, backgroundColor));
+                        }
+                        break;
+                    case PRESSURE:
+                        data.add(getRowForValues(items, 0, label + " " + getContext().getString(R.string.systolic_acronym), backgroundColor));
+                        data.add(getRowForValues(items, 1, label + " " + getContext().getString(R.string.diastolic_acronym), backgroundColor));
+                        break;
+                    default:
+                        data.add(getRowForValues(items, 0, label, backgroundColor));
+                        break;
+                }
+                row++;
             }
-            row++;
         }
 
-        if (exportNotes || exportTags || exportFood) {
+        if (config.isExportNotes() || config.isExportTags() || config.isExportFood()) {
             List<PdfNote> notes = new ArrayList<>();
             for (Entry entry : EntryDao.getInstance().getEntriesOfDay(day)) {
                 List<String> entryNotesAndTagsOfDay = new ArrayList<>();
                 List<String> foodOfDay = new ArrayList<>();
-                if (exportNotes && !StringUtils.isBlank(entry.getNote())) {
+                if (config.isExportNotes() && !StringUtils.isBlank(entry.getNote())) {
                     entryNotesAndTagsOfDay.add(entry.getNote());
                 }
-                if (exportTags) {
+                if (config.isExportTags()) {
                     List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(entry);
                     for (EntryTag entryTag : entryTags) {
                         entryNotesAndTagsOfDay.add(entryTag.getTag().getName());
                     }
                 }
-                if (exportFood) {
+                if (config.isExportFood()) {
                     Meal meal = (Meal) MeasurementDao.getInstance(Meal.class).getMeasurement(entry);
                     if (meal != null) {
                         for (FoodEaten foodEaten : FoodEatenDao.getInstance().getAll(meal)) {
@@ -268,17 +256,6 @@ public class PdfTable extends Table {
             cell.setNoBorders();
             cells.add(cell);
         }
-        return cells;
-    }
-
-    private List<Cell> getRowForLabel(@StringRes int labelResId) {
-        List<Cell> cells = new ArrayList<>();
-        Cell cell = new Cell(fontBold, getContext().getString(labelResId));
-        cell.setWidth(page.getWidth());
-        cell.setFgColor(Color.gray);
-        cell.setNoBorders();
-        cell.setBorder(Border.TOP, true);
-        cells.add(cell);
         return cells;
     }
 

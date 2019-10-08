@@ -84,7 +84,7 @@ public class PdfExport extends AsyncTask<Void, String, File> {
                     currentPosition = drawWeekBar(page, dateIteration);
                 }
 
-                PdfTable table = new PdfTable(getContext(), pdf, page, dateIteration, config.getCategories(), config.isExportNotes(), config.isExportTags(), config.isExportFood(), config.isSplitInsulin());
+                PdfTable table = new PdfTable(config, dateIteration, pdf, page);
 
                 // Page break
                 if ((currentPosition.getY() + table.getHeight() + PADDING_PARAGRAPH) > page.getEndPoint().getY()) {

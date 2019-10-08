@@ -13,7 +13,9 @@ import com.faltenreich.diaguard.util.Helper;
 import com.pdfjet.CoreFont;
 import com.pdfjet.Font;
 import com.pdfjet.PDF;
+import com.pdfjet.Paragraph;
 import com.pdfjet.Point;
+import com.pdfjet.Text;
 import com.pdfjet.TextLine;
 
 import org.joda.time.DateTime;
@@ -23,11 +25,14 @@ import org.joda.time.format.DateTimeFormat;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PdfExport extends AsyncTask<Void, String, File> {
 
     private static final String TAG = PdfExport.class.getSimpleName();
 
+    private static final float FONT_SIZE_HEADER = 15f;
     private static final float PADDING_PARAGRAPH = 20;
     private static final float PADDING_LINE = 3;
 
@@ -145,35 +150,36 @@ public class PdfExport extends AsyncTask<Void, String, File> {
         }
     }
 
-    private Point drawWeekBar(PdfPage page, DateTime day) {
+    private Point drawWeekBar(PdfPage page, DateTime day) throws Exception {
         DateTime weekStart = day.withDayOfWeek(1);
         Point currentPosition = page.getStartPoint();
 
         TextLine week = new TextLine(fontBold);
-        week.setPosition(currentPosition.getX(), currentPosition.getY());
-        week.setFontSize(15f);
+        week.setFontSize(FONT_SIZE_HEADER);
         week.setText(String.format("%s %d",
-                DiaguardApplication.getContext().getString(R.string.calendarweek),
-                weekStart.getWeekOfWeekyear()));
-        try {
-            week.drawOn(page);
-            currentPosition.setY(currentPosition.getY() + week.getHeight() + PADDING_LINE);
-        } catch (Exception e) {
-            Log.e(TAG, "Failed to draw TextLine");
-        }
+            getContext().getString(R.string.calendarweek),
+            weekStart.getWeekOfWeekyear())
+        );
+        Paragraph weekParagraph = new Paragraph(week);
 
         DateTime weekEnd = weekStart.withDayOfWeek(DateTimeConstants.SUNDAY);
         TextLine interval = new TextLine(fontNormal);
-        interval.setPosition(currentPosition.getX(), currentPosition.getY());
         interval.setText(String.format("%s - %s",
                 DateTimeFormat.mediumDate().print(weekStart),
-                DateTimeFormat.mediumDate().print(weekEnd)));
-        try {
-            interval.drawOn(page);
-            currentPosition.setY(currentPosition.getY() + interval.getHeight() + PADDING_PARAGRAPH);
-        } catch (Exception e) {
-            Log.e(TAG, "Failed to draw TextLine");
-        }
+                DateTimeFormat.mediumDate().print(weekEnd))
+        );
+        Paragraph intervalParagraph = new Paragraph(interval);
+
+        List<Paragraph> paragraphs = new ArrayList<>();
+        paragraphs.add(weekParagraph);
+        paragraphs.add(intervalParagraph);
+
+        Text text = new Text(paragraphs);
+        text.setLocation(currentPosition.getX(), currentPosition.getY());
+        text.setParagraphLeading(week.getFont().getBodyHeight() + PADDING_LINE);
+        text.setWidth(page.getWidth());
+        float[] points = text.drawOn(page);
+        currentPosition.setY(points[1] + PADDING_PARAGRAPH);
 
         return currentPosition;
     }

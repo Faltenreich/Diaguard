@@ -28,9 +28,10 @@ public class PdfWeekHeader implements PdfPrintable {
     }
 
     @Override
-    public void drawOn(PdfPage page) throws Exception {
-        DateTime weekStart = dateTime.withDayOfWeek(1);
+    public void draw() throws Exception {
+        PdfPage page = cache.getPage();
 
+        DateTime weekStart = dateTime.withDayOfWeek(1);
         TextLine week = new TextLine(cache.getFontBold());
         week.setFontSize(FONT_SIZE_HEADER);
         week.setText(String.format("%s %d",

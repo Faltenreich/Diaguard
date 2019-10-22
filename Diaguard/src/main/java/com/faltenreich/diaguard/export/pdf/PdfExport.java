@@ -35,8 +35,7 @@ public class PdfExport extends AsyncTask<Void, String, File> {
 
             DateTime dateIteration = cache.getConfig().getDateStart();
 
-            PdfPage page = new PdfPage(cache.getPdf());
-            new PdfWeekHeader(cache, dateIteration).drawOn(page);
+            new PdfWeekHeader(cache, dateIteration).draw();
 
             // One day after last chosen day
             DateTime dateAfter = cache.getConfig().getDateEnd().plusDays(1);
@@ -45,20 +44,20 @@ public class PdfExport extends AsyncTask<Void, String, File> {
             while (dateIteration.isBefore(dateAfter)) {
                 // title bar for new week
                 if (dateIteration.isAfter(cache.getConfig().getDateStart()) && dateIteration.getDayOfWeek() == 1) {
-                    page = new PdfPage(cache.getPdf());
-                    new PdfWeekHeader(cache, dateIteration).drawOn(page);
+                    cache.newPage();
+                    new PdfWeekHeader(cache, dateIteration).draw();
                 }
 
-                PdfTable table = new PdfTable(cache, page, dateIteration);
+                PdfTable table = new PdfTable(cache, dateIteration);
 
                 // Page break
-                if ((cache.getCurrentPosition().getY() + table.getHeight() + PADDING_PARAGRAPH) > page.getEndPoint().getY()) {
-                    page = new PdfPage(cache.getPdf());
-                    new PdfWeekHeader(cache, dateIteration).drawOn(page);
+                if ((cache.getCurrentPosition().getY() + table.getHeight() + PADDING_PARAGRAPH) > cache.getPage().getEndPoint().getY()) {
+                    cache.newPage();
+                    new PdfWeekHeader(cache, dateIteration).draw();
                 }
 
                 table.setPosition(cache.getCurrentPosition().getX(), cache.getCurrentPosition().getY());
-                Point point = table.drawOn(page);
+                Point point = table.drawOn(cache.getPage());
                 cache.setCurrentPosition(new Point(point.getX(), point.getY() + PADDING_PARAGRAPH));
 
                 publishProgress(String.format("%s %d/%d",

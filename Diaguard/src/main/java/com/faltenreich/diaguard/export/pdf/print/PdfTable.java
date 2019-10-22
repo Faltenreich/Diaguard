@@ -43,9 +43,7 @@ public class PdfTable extends Table {
     private static final float LABEL_WIDTH = 120;
     private static final int HOURS_TO_SKIP = 2;
 
-
     private PdfExportCache cache;
-    private DateTime day;
 
     @ColorInt private int alternatingRowColor;
     @ColorInt private int hyperglycemiaColor;
@@ -53,10 +51,9 @@ public class PdfTable extends Table {
 
     private int rows;
 
-    public PdfTable(PdfExportCache cache, DateTime day) {
+    public PdfTable(PdfExportCache cache) {
         super();
         this.cache = cache;
-        this.day = day;
         this.alternatingRowColor = ContextCompat.getColor(getContext(), R.color.background_light_primary);
         this.hyperglycemiaColor = ContextCompat.getColor(getContext(), R.color.red);
         this.hypoglycemiaColor = ContextCompat.getColor(getContext(), R.color.blue);
@@ -93,6 +90,7 @@ public class PdfTable extends Table {
 
     private List<List<Cell>> getData() {
         PdfExportConfig config = cache.getConfig();
+        DateTime day = cache.getDateTime();
         List<List<Cell>> data = new ArrayList<>();
         data.add(getRowForHeader());
 
@@ -184,6 +182,7 @@ public class PdfTable extends Table {
     private List<Cell> getRowForHeader() {
         List<Cell> cells = new ArrayList<>();
 
+        DateTime day = cache.getDateTime();
         String weekDay = DateTimeFormat.forPattern("E").print(day);
         String date = String.format("%s %s", weekDay, DateTimeFormat.forPattern("dd.MM").print(day));
         Cell cell = new Cell(cache.getFontBold(), date);

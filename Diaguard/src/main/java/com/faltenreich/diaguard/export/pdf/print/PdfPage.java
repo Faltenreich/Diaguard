@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.export.pdf;
+package com.faltenreich.diaguard.export.pdf.print;
 
 import android.util.Log;
 
@@ -24,16 +24,16 @@ public class PdfPage extends Page {
     private static final int PADDING_BOTTOM = 100;
     private static final int PADDING_HORIZONTAL = 60;
 
-    PdfPage(PDF pdf) throws Exception {
+    public PdfPage(PDF pdf) throws Exception {
         super(pdf, Letter.PORTRAIT);
         appendFooter();
     }
 
-    Point getStartPoint() {
+    public Point getStartPoint() {
         return new Point(PADDING_HORIZONTAL, PADDING_TOP);
     }
 
-    Point getEndPoint() {
+    public Point getEndPoint() {
         return new Point(PADDING_HORIZONTAL, super.getHeight() - PADDING_BOTTOM);
     }
 

@@ -13,6 +13,8 @@ import java.lang.ref.WeakReference;
 
 public class PdfExportConfig extends ExportConfig {
 
+    public static final String MIME_TYPE = "application/pdf";
+
     private final WeakReference<Context> contextReference;
     private final PdfExportStyle style;
     private final boolean exportNotes;

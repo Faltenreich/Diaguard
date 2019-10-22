@@ -1,6 +1,7 @@
-package com.faltenreich.diaguard.export.pdf;
+package com.faltenreich.diaguard.export.pdf.print;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.export.pdf.PdfExportCache;
 import com.pdfjet.Paragraph;
 import com.pdfjet.Point;
 import com.pdfjet.Text;
@@ -22,7 +23,7 @@ public class PdfWeekHeader implements PdfPrintable {
     private PdfExportCache cache;
     private DateTime dateTime;
 
-    PdfWeekHeader(PdfExportCache cache, DateTime dateTime) {
+    public PdfWeekHeader(PdfExportCache cache, DateTime dateTime) {
         this.cache = cache;
         this.dateTime = dateTime;
     }

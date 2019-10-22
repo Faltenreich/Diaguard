@@ -9,17 +9,14 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.export.Export;
 import com.faltenreich.diaguard.export.ExportCallback;
 import com.faltenreich.diaguard.export.ExportFormat;
-import com.faltenreich.diaguard.util.Helper;
 import com.pdfjet.CoreFont;
 import com.pdfjet.Font;
-import com.pdfjet.PDF;
 import com.pdfjet.Point;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.lang.ref.WeakReference;
 
 public class PdfExport extends AsyncTask<Void, String, File> {
@@ -39,18 +36,8 @@ public class PdfExport extends AsyncTask<Void, String, File> {
         File file = Export.getExportFile(ExportFormat.PDF);
         try {
             WeakReference<Context> contextReference = config.getContextReference();
-            Context context = contextReference.get();
 
-            PDF pdf = new PDF(new FileOutputStream(file));
-            pdf.setTitle(String.format("%s %s",
-                context.getString(R.string.app_name),
-                context.getString(R.string.export)));
-            pdf.setSubject(String.format("%s %s: %s - %s",
-                DiaguardApplication.getContext().getString(R.string.app_name),
-                context.getString(R.string.export),
-                Helper.getDateFormat().print(config.getDateStart()),
-                Helper.getDateFormat().print(config.getDateEnd())));
-            pdf.setAuthor(context.getString(R.string.app_name));
+            Pdf pdf = new Pdf(file, config);
 
             Font fontNormal = new Font(pdf, CoreFont.HELVETICA);
             Font fontBold = new Font(pdf, CoreFont.HELVETICA_BOLD);

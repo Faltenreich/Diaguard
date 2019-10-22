@@ -41,4 +41,8 @@ public class PdfExportCache {
     Point getCurrentPosition() {
         return currentPosition;
     }
+
+    public void setCurrentPosition(Point currentPosition) {
+        this.currentPosition = currentPosition;
+    }
 }

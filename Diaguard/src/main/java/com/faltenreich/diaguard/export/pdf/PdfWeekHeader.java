@@ -28,7 +28,7 @@ public class PdfWeekHeader implements PdfPrintable {
     }
 
     @Override
-    public Point drawOn(PdfPage page) throws Exception {
+    public void drawOn(PdfPage page) throws Exception {
         DateTime weekStart = dateTime.withDayOfWeek(1);
 
         TextLine week = new TextLine(cache.getFontBold());
@@ -60,6 +60,6 @@ public class PdfWeekHeader implements PdfPrintable {
 
         float[] points = text.drawOn(page);
         currentPosition.setY(points[1] + PADDING_PARAGRAPH);
-        return currentPosition;
+        cache.setCurrentPosition(currentPosition);
     }
 }

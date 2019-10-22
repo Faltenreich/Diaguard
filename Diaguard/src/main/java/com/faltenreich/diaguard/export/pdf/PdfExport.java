@@ -36,7 +36,7 @@ public class PdfExport extends AsyncTask<Void, String, File> {
             DateTime dateIteration = cache.getConfig().getDateStart();
 
             PdfPage page = new PdfPage(cache.getPdf());
-            Point currentPosition = new PdfWeekHeader(cache, dateIteration).drawOn(page);
+            new PdfWeekHeader(cache, dateIteration).drawOn(page);
 
             // One day after last chosen day
             DateTime dateAfter = cache.getConfig().getDateEnd().plusDays(1);
@@ -46,20 +46,20 @@ public class PdfExport extends AsyncTask<Void, String, File> {
                 // title bar for new week
                 if (dateIteration.isAfter(cache.getConfig().getDateStart()) && dateIteration.getDayOfWeek() == 1) {
                     page = new PdfPage(cache.getPdf());
-                    currentPosition = new PdfWeekHeader(cache, dateIteration).drawOn(page);
+                    new PdfWeekHeader(cache, dateIteration).drawOn(page);
                 }
 
                 PdfTable table = new PdfTable(cache, page, dateIteration);
 
                 // Page break
-                if ((currentPosition.getY() + table.getHeight() + PADDING_PARAGRAPH) > page.getEndPoint().getY()) {
+                if ((cache.getCurrentPosition().getY() + table.getHeight() + PADDING_PARAGRAPH) > page.getEndPoint().getY()) {
                     page = new PdfPage(cache.getPdf());
-                    currentPosition = new PdfWeekHeader(cache, dateIteration).drawOn(page);
+                    new PdfWeekHeader(cache, dateIteration).drawOn(page);
                 }
 
-                table.setPosition(currentPosition.getX(), currentPosition.getY());
-                currentPosition = table.drawOn(page);
-                currentPosition.setY(currentPosition.getY() + PADDING_PARAGRAPH);
+                table.setPosition(cache.getCurrentPosition().getX(), cache.getCurrentPosition().getY());
+                Point point = table.drawOn(page);
+                cache.setCurrentPosition(new Point(point.getX(), point.getY() + PADDING_PARAGRAPH));
 
                 publishProgress(String.format("%s %d/%d",
                     DiaguardApplication.getContext().getString(R.string.day),

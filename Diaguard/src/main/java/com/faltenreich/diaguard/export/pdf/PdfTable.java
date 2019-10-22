@@ -25,9 +25,6 @@ import com.pdfjet.Align;
 import com.pdfjet.Border;
 import com.pdfjet.Cell;
 import com.pdfjet.Color;
-import com.pdfjet.CoreFont;
-import com.pdfjet.Font;
-import com.pdfjet.PDF;
 import com.pdfjet.Table;
 
 import org.joda.time.DateTime;
@@ -44,24 +41,20 @@ public class PdfTable extends Table {
     private static final float LABEL_WIDTH = 120;
     private static final int HOURS_TO_SKIP = 2;
 
-    private PdfExportConfig config;
+
+    private PdfExportCache cache;
+    private PdfPage page;
     private DateTime day;
 
-    private PDF pdf;
-    private PdfPage page;
-
-    private Font fontNormal;
-    private Font fontBold;
     @ColorInt private int alternatingRowColor;
     @ColorInt private int hyperglycemiaColor;
     @ColorInt private int hypoglycemiaColor;
 
     private int rows;
 
-    PdfTable(PdfExportConfig config, DateTime day, PDF pdf, PdfPage page) {
+    PdfTable(PdfExportCache cache, PdfPage page, DateTime day) {
         super();
-        this.config = config;
-        this.pdf = pdf;
+        this.cache = cache;
         this.page = page;
         this.day = day;
         this.alternatingRowColor = ContextCompat.getColor(getContext(), R.color.background_light_primary);
@@ -71,13 +64,11 @@ public class PdfTable extends Table {
     }
 
     private Context getContext() {
-        return config.getContextReference().get();
+        return cache.getConfig().getContextReference().get();
     }
 
     private void init() {
         try {
-            fontNormal = new Font(pdf, CoreFont.HELVETICA);
-            fontBold = new Font(pdf, CoreFont.HELVETICA_BOLD);
             setData(getData());
         } catch (Exception exception) {
             Log.e(TAG, exception.getMessage());
@@ -101,6 +92,7 @@ public class PdfTable extends Table {
     }
 
     private List<List<Cell>> getData() {
+        PdfExportConfig config = cache.getConfig();
         List<List<Cell>> data = new ArrayList<>();
         data.add(getRowForHeader());
 
@@ -194,13 +186,13 @@ public class PdfTable extends Table {
 
         String weekDay = DateTimeFormat.forPattern("E").print(day);
         String date = String.format("%s %s", weekDay, DateTimeFormat.forPattern("dd.MM").print(day));
-        Cell cell = new Cell(fontBold, date);
+        Cell cell = new Cell(cache.getFontBold(), date);
         cell.setWidth(LABEL_WIDTH);
         cell.setNoBorders();
         cells.add(cell);
 
         for (int hour = 0; hour < DateTimeConstants.HOURS_PER_DAY; hour += HOURS_TO_SKIP) {
-            cell = new Cell(fontNormal, Integer.toString(hour));
+            cell = new Cell(cache.getFontNormal(), Integer.toString(hour));
             cell.setWidth(getCellWidth());
             cell.setFgColor(Color.gray);
             cell.setTextAlignment(Align.CENTER);
@@ -214,7 +206,7 @@ public class PdfTable extends Table {
     private List<Cell> getRowForValues(ListItemCategoryValue[] items, int valueIndex, String label, int backgroundColor) {
         List<Cell> cells = new ArrayList<>();
 
-        Cell cell = new Cell(fontNormal, label);
+        Cell cell = new Cell(cache.getFontNormal(), label);
         cell.setBgColor(backgroundColor);
         cell.setFgColor(Color.gray);
         cell.setWidth(LABEL_WIDTH);
@@ -248,7 +240,7 @@ public class PdfTable extends Table {
             }
             float customValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, value);
             String text = customValue > 0 ? Helper.parseFloat(customValue) : "";
-            cell = new Cell(fontNormal, text);
+            cell = new Cell(cache.getFontNormal(), text);
             cell.setBgColor(backgroundColor);
             cell.setFgColor(textColor);
             cell.setWidth(getCellWidth());
@@ -262,7 +254,7 @@ public class PdfTable extends Table {
     private List<Cell> getRowForNote(PdfNote note, boolean isFirst, boolean isLast) {
         ArrayList<Cell> cells = new ArrayList<>();
 
-        Cell cell = new Cell(fontNormal, Helper.getTimeFormat().print(note.getDateTime()));
+        Cell cell = new Cell(cache.getFontNormal(), Helper.getTimeFormat().print(note.getDateTime()));
         cell.setFgColor(Color.gray);
         cell.setWidth(LABEL_WIDTH);
         cell.setNoBorders();
@@ -276,7 +268,7 @@ public class PdfTable extends Table {
 
         cells.add(cell);
 
-        PdfMultilineCell multilineCell = new PdfMultilineCell(fontNormal, note.getNote(), 55);
+        PdfMultilineCell multilineCell = new PdfMultilineCell(cache.getFontNormal(), note.getNote(), 55);
         multilineCell.setFgColor(Color.gray);
         multilineCell.setWidth(page.getWidth() - LABEL_WIDTH);
         multilineCell.setNoBorders();

@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.export.pdf;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -9,15 +8,12 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.export.Export;
 import com.faltenreich.diaguard.export.ExportCallback;
 import com.faltenreich.diaguard.export.ExportFormat;
-import com.pdfjet.CoreFont;
-import com.pdfjet.Font;
 import com.pdfjet.Point;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 
 import java.io.File;
-import java.lang.ref.WeakReference;
 
 public class PdfExport extends AsyncTask<Void, String, File> {
 
@@ -35,35 +31,30 @@ public class PdfExport extends AsyncTask<Void, String, File> {
     protected File doInBackground(Void... params) {
         File file = Export.getExportFile(ExportFormat.PDF);
         try {
-            WeakReference<Context> contextReference = config.getContextReference();
+            PdfExportCache cache = new PdfExportCache(config, file);
 
-            Pdf pdf = new Pdf(file, config);
+            DateTime dateIteration = cache.getConfig().getDateStart();
 
-            Font fontNormal = new Font(pdf, CoreFont.HELVETICA);
-            Font fontBold = new Font(pdf, CoreFont.HELVETICA_BOLD);
-
-            DateTime dateIteration = config.getDateStart();
-
-            PdfPage page = new PdfPage(pdf);
-            Point currentPosition = new PdfWeekHeader(contextReference, dateIteration, fontNormal, fontBold).drawOn(page);
+            PdfPage page = new PdfPage(cache.getPdf());
+            Point currentPosition = new PdfWeekHeader(cache, dateIteration).drawOn(page);
 
             // One day after last chosen day
-            DateTime dateAfter = config.getDateEnd().plusDays(1);
+            DateTime dateAfter = cache.getConfig().getDateEnd().plusDays(1);
 
             // Day by day
             while (dateIteration.isBefore(dateAfter)) {
                 // title bar for new week
-                if (dateIteration.isAfter(config.getDateStart()) && dateIteration.getDayOfWeek() == 1) {
-                    page = new PdfPage(pdf);
-                    currentPosition = new PdfWeekHeader(contextReference, dateIteration, fontNormal, fontBold).drawOn(page);
+                if (dateIteration.isAfter(cache.getConfig().getDateStart()) && dateIteration.getDayOfWeek() == 1) {
+                    page = new PdfPage(cache.getPdf());
+                    currentPosition = new PdfWeekHeader(cache, dateIteration).drawOn(page);
                 }
 
-                PdfTable table = new PdfTable(config, dateIteration, pdf, page);
+                PdfTable table = new PdfTable(cache, page, dateIteration);
 
                 // Page break
                 if ((currentPosition.getY() + table.getHeight() + PADDING_PARAGRAPH) > page.getEndPoint().getY()) {
-                    page = new PdfPage(pdf);
-                    currentPosition = new PdfWeekHeader(contextReference, dateIteration, fontNormal, fontBold).drawOn(page);
+                    page = new PdfPage(cache.getPdf());
+                    currentPosition = new PdfWeekHeader(cache, dateIteration).drawOn(page);
                 }
 
                 table.setPosition(currentPosition.getX(), currentPosition.getY());
@@ -72,14 +63,14 @@ public class PdfExport extends AsyncTask<Void, String, File> {
 
                 publishProgress(String.format("%s %d/%d",
                     DiaguardApplication.getContext().getString(R.string.day),
-                    Days.daysBetween(config.getDateStart(), dateIteration).getDays() + 1,
-                    Days.daysBetween(config.getDateStart(), config.getDateEnd()).getDays() + 1)
+                    Days.daysBetween(cache.getConfig().getDateStart(), dateIteration).getDays() + 1,
+                    Days.daysBetween(cache.getConfig().getDateStart(), cache.getConfig().getDateEnd()).getDays() + 1)
                 );
 
                 dateIteration = dateIteration.plusDays(1);
             }
 
-            pdf.flush();
+            cache.getPdf().flush();
         } catch (Exception exception) {
             Log.e(TAG, exception.getMessage());
         }

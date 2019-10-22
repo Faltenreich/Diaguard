@@ -40,7 +40,6 @@ public class PdfExport extends AsyncTask<Void, String, File> {
         try {
             WeakReference<Context> contextReference = config.getContextReference();
             Context context = contextReference.get();
-            Point currentPosition;
 
             PDF pdf = new PDF(new FileOutputStream(file));
             pdf.setTitle(String.format("%s %s",
@@ -59,7 +58,7 @@ public class PdfExport extends AsyncTask<Void, String, File> {
             DateTime dateIteration = config.getDateStart();
 
             PdfPage page = new PdfPage(pdf);
-            currentPosition = new PdfWeekHeader(contextReference, dateIteration, fontNormal, fontBold).drawOn(page);
+            Point currentPosition = new PdfWeekHeader(contextReference, dateIteration, fontNormal, fontBold).drawOn(page);
 
             // One day after last chosen day
             DateTime dateAfter = config.getDateEnd().plusDays(1);
@@ -87,7 +86,8 @@ public class PdfExport extends AsyncTask<Void, String, File> {
                 publishProgress(String.format("%s %d/%d",
                     DiaguardApplication.getContext().getString(R.string.day),
                     Days.daysBetween(config.getDateStart(), dateIteration).getDays() + 1,
-                    Days.daysBetween(config.getDateStart(), config.getDateEnd()).getDays() + 1));
+                    Days.daysBetween(config.getDateStart(), config.getDateEnd()).getDays() + 1)
+                );
 
                 dateIteration = dateIteration.plusDays(1);
             }

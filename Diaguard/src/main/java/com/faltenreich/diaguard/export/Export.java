@@ -100,7 +100,7 @@ public class Export {
             FileUtils.getPublicDirectory(),
             File.separator,
             DiaguardApplication.getContext().getString(R.string.app_name),
-            DateTimeFormat.forPattern("yyyy-MM-dd_HH-mm").print(DateTime.now()),
+            DateTimeFormat.forPattern("yyyy-MM-dd_HH-mm-ss").print(DateTime.now()),
             type.getExtension());
         return new File(fileName);
     }

@@ -12,7 +12,6 @@ import com.faltenreich.diaguard.export.pdf.print.PdfTable;
 import com.faltenreich.diaguard.export.pdf.print.PdfWeekHeader;
 import com.pdfjet.Point;
 
-import org.joda.time.DateTime;
 import org.joda.time.Days;
 
 import java.io.File;
@@ -35,40 +34,33 @@ public class PdfExport extends AsyncTask<Void, String, File> {
         try {
             PdfExportCache cache = new PdfExportCache(config, file);
 
-            DateTime dateIteration = cache.getConfig().getDateStart();
+            new PdfWeekHeader(cache).draw();
 
-            new PdfWeekHeader(cache, dateIteration).draw();
-
-            // One day after last chosen day
-            DateTime dateAfter = cache.getConfig().getDateEnd().plusDays(1);
-
-            // Day by day
-            while (dateIteration.isBefore(dateAfter)) {
-                // title bar for new week
-                if (dateIteration.isAfter(cache.getConfig().getDateStart()) && dateIteration.getDayOfWeek() == 1) {
+            while (cache.isDateTimeValid()) {
+                if (cache.isDateTimeForNewWeek()) {
                     cache.newPage();
-                    new PdfWeekHeader(cache, dateIteration).draw();
+                    new PdfWeekHeader(cache).draw();
                 }
 
-                PdfTable table = new PdfTable(cache, dateIteration);
+                PdfTable table = new PdfTable(cache);
 
                 // Page break
-                if ((cache.getCurrentPosition().getY() + table.getHeight() + PADDING_PARAGRAPH) > cache.getPage().getEndPoint().getY()) {
+                if ((cache.getPosition().getY() + table.getHeight() + PADDING_PARAGRAPH) > cache.getPage().getEndPoint().getY()) {
                     cache.newPage();
-                    new PdfWeekHeader(cache, dateIteration).draw();
+                    new PdfWeekHeader(cache).draw();
                 }
 
-                table.setPosition(cache.getCurrentPosition().getX(), cache.getCurrentPosition().getY());
+                table.setPosition(cache.getPosition().getX(), cache.getPosition().getY());
                 Point point = table.drawOn(cache.getPage());
-                cache.setCurrentPosition(new Point(point.getX(), point.getY() + PADDING_PARAGRAPH));
+                cache.setPosition(new Point(point.getX(), point.getY() + PADDING_PARAGRAPH));
 
                 publishProgress(String.format("%s %d/%d",
                     DiaguardApplication.getContext().getString(R.string.day),
-                    Days.daysBetween(cache.getConfig().getDateStart(), dateIteration).getDays() + 1,
+                    Days.daysBetween(cache.getConfig().getDateStart(), cache.getDateTime()).getDays() + 1,
                     Days.daysBetween(cache.getConfig().getDateStart(), cache.getConfig().getDateEnd()).getDays() + 1)
                 );
 
-                dateIteration = dateIteration.plusDays(1);
+                cache.setDateTime(cache.getDateTime().plusDays(1));
             }
 
             cache.getPdf().flush();

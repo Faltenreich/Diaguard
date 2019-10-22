@@ -21,18 +21,16 @@ public class PdfWeekHeader implements PdfPrintable {
     private static final float PADDING_LINE = 3;
 
     private PdfExportCache cache;
-    private DateTime dateTime;
 
-    public PdfWeekHeader(PdfExportCache cache, DateTime dateTime) {
+    public PdfWeekHeader(PdfExportCache cache) {
         this.cache = cache;
-        this.dateTime = dateTime;
     }
 
     @Override
     public void draw() throws Exception {
         PdfPage page = cache.getPage();
 
-        DateTime weekStart = dateTime.withDayOfWeek(1);
+        DateTime weekStart = cache.getDateTime().withDayOfWeek(1);
         TextLine week = new TextLine(cache.getFontBold());
         week.setFontSize(FONT_SIZE_HEADER);
         week.setText(String.format("%s %d",
@@ -62,6 +60,6 @@ public class PdfWeekHeader implements PdfPrintable {
 
         float[] points = text.drawOn(page);
         currentPosition.setY(points[1] + PADDING_PARAGRAPH);
-        cache.setCurrentPosition(currentPosition);
+        cache.setPosition(currentPosition);
     }
 }

@@ -8,6 +8,8 @@ import com.pdfjet.CoreFont;
 import com.pdfjet.Font;
 import com.pdfjet.Point;
 
+import org.joda.time.DateTime;
+
 import java.io.File;
 
 public class PdfExportCache {
@@ -20,15 +22,19 @@ public class PdfExportCache {
 
     private Pdf pdf;
     private PdfPage page;
-    private Point currentPosition;
+    private DateTime dateTime;
+    private Point position;
 
     public PdfExportCache(PdfExportConfig config, File file) throws Exception {
         this.config = config;
+
         this.pdf = new Pdf(file, config);
-        this.page = new PdfPage(pdf);
         this.fontNormal = new Font(pdf, CoreFont.HELVETICA);
         this.fontBold = new Font(pdf, CoreFont.HELVETICA_BOLD);
-        this.currentPosition = new Point();
+
+        this.dateTime = config.getDateStart();
+        this.page = new PdfPage(pdf);
+        this.position = new Point();
     }
 
     public PdfExportConfig getConfig() {
@@ -59,11 +65,27 @@ public class PdfExportCache {
         }
     }
 
-    public Point getCurrentPosition() {
-        return currentPosition;
+    public DateTime getDateTime() {
+        return dateTime;
     }
 
-    public void setCurrentPosition(Point currentPosition) {
-        this.currentPosition = currentPosition;
+    public boolean isDateTimeValid() {
+        return dateTime.isBefore(config.getDateEnd().plusDays(1));
+    }
+
+    public boolean isDateTimeForNewWeek() {
+        return dateTime.isAfter(config.getDateStart()) && dateTime.getDayOfWeek() == 1;
+    }
+
+    public void setDateTime(DateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public Point getPosition() {
+        return position;
+    }
+
+    public void setPosition(Point position) {
+        this.position = position;
     }
 }

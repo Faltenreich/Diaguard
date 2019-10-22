@@ -1,9 +1,10 @@
-package com.faltenreich.diaguard.export.pdf;
+package com.faltenreich.diaguard.export.pdf.print;
 
 import android.content.Context;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.export.pdf.PdfExportConfig;
 import com.faltenreich.diaguard.util.Helper;
 import com.pdfjet.PDF;
 
@@ -12,7 +13,7 @@ import java.io.FileOutputStream;
 
 public class Pdf extends PDF {
 
-    Pdf(File file, PdfExportConfig config) throws Exception {
+    public Pdf(File file, PdfExportConfig config) throws Exception {
         super(new FileOutputStream(file));
         init(config);
     }

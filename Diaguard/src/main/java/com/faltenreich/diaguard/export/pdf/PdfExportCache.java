@@ -2,6 +2,8 @@ package com.faltenreich.diaguard.export.pdf;
 
 import android.util.Log;
 
+import com.faltenreich.diaguard.export.pdf.print.Pdf;
+import com.faltenreich.diaguard.export.pdf.print.PdfPage;
 import com.pdfjet.CoreFont;
 import com.pdfjet.Font;
 import com.pdfjet.Point;
@@ -13,13 +15,14 @@ public class PdfExportCache {
     private static final String TAG = PdfExportCache.class.getSimpleName();
 
     private PdfExportConfig config;
-    private Pdf pdf;
-    private PdfPage page;
     private Font fontNormal;
     private Font fontBold;
+
+    private Pdf pdf;
+    private PdfPage page;
     private Point currentPosition;
 
-    PdfExportCache(PdfExportConfig config, File file) throws Exception {
+    public PdfExportCache(PdfExportConfig config, File file) throws Exception {
         this.config = config;
         this.pdf = new Pdf(file, config);
         this.page = new PdfPage(pdf);
@@ -28,11 +31,19 @@ public class PdfExportCache {
         this.currentPosition = new Point();
     }
 
-    PdfExportConfig getConfig() {
+    public PdfExportConfig getConfig() {
         return config;
     }
 
-    Pdf getPdf() {
+    public Font getFontNormal() {
+        return fontNormal;
+    }
+
+    public Font getFontBold() {
+        return fontBold;
+    }
+
+    public Pdf getPdf() {
         return pdf;
     }
 
@@ -40,7 +51,7 @@ public class PdfExportCache {
         return page;
     }
 
-    void newPage() {
+    public void newPage() {
         try {
             this.page = new PdfPage(pdf);
         } catch (Exception exception) {
@@ -48,15 +59,7 @@ public class PdfExportCache {
         }
     }
 
-    Font getFontNormal() {
-        return fontNormal;
-    }
-
-    Font getFontBold() {
-        return fontBold;
-    }
-
-    Point getCurrentPosition() {
+    public Point getCurrentPosition() {
         return currentPosition;
     }
 

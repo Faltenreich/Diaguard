@@ -8,6 +8,8 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.export.Export;
 import com.faltenreich.diaguard.export.ExportCallback;
 import com.faltenreich.diaguard.export.ExportFormat;
+import com.faltenreich.diaguard.export.pdf.print.PdfTable;
+import com.faltenreich.diaguard.export.pdf.print.PdfWeekHeader;
 import com.pdfjet.Point;
 
 import org.joda.time.DateTime;
@@ -96,7 +98,7 @@ public class PdfExport extends AsyncTask<Void, String, File> {
         ExportCallback callback = config.getCallback();
         if (callback != null) {
             if (file != null) {
-                callback.onSuccess(file, PdfMeta.PDF_MIME_TYPE);
+                callback.onSuccess(file, PdfExportConfig.MIME_TYPE);
             } else {
                 callback.onError();
             }

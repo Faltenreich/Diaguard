@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.export.pdf;
+package com.faltenreich.diaguard.export.pdf.print;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -18,6 +18,8 @@ import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.export.pdf.PdfExportCache;
+import com.faltenreich.diaguard.export.pdf.PdfExportConfig;
 import com.faltenreich.diaguard.ui.list.item.ListItemCategoryValue;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.StringUtils;
@@ -51,7 +53,7 @@ public class PdfTable extends Table {
 
     private int rows;
 
-    PdfTable(PdfExportCache cache, DateTime day) {
+    public PdfTable(PdfExportCache cache, DateTime day) {
         super();
         this.cache = cache;
         this.day = day;

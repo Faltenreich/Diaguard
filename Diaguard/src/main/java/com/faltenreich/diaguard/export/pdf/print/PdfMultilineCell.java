@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.export.pdf;
+package com.faltenreich.diaguard.export.pdf.print;
 
 import com.pdfjet.Border;
 import com.pdfjet.Cell;

@@ -13,70 +13,53 @@ import com.faltenreich.diaguard.util.Helper;
 import com.pdfjet.CoreFont;
 import com.pdfjet.Font;
 import com.pdfjet.PDF;
-import com.pdfjet.Paragraph;
 import com.pdfjet.Point;
-import com.pdfjet.Text;
-import com.pdfjet.TextLine;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeConstants;
 import org.joda.time.Days;
-import org.joda.time.format.DateTimeFormat;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.ref.WeakReference;
 
 public class PdfExport extends AsyncTask<Void, String, File> {
 
     private static final String TAG = PdfExport.class.getSimpleName();
 
-    private static final float FONT_SIZE_HEADER = 15f;
     private static final float PADDING_PARAGRAPH = 20;
-    private static final float PADDING_LINE = 3;
 
     private PdfExportConfig config;
 
-    private Font fontNormal;
-    private Font fontBold;
-
     public PdfExport(PdfExportConfig config) {
         this.config = config;
-    }
-
-    private Context getContext() {
-        return config.getContextReference().get();
-    }
-
-    private ExportCallback getCallback() {
-        return config.getCallback();
     }
 
     @Override
     protected File doInBackground(Void... params) {
         File file = Export.getExportFile(ExportFormat.PDF);
         try {
+            WeakReference<Context> contextReference = config.getContextReference();
+            Context context = contextReference.get();
             Point currentPosition;
 
             PDF pdf = new PDF(new FileOutputStream(file));
             pdf.setTitle(String.format("%s %s",
-                    getContext().getString(R.string.app_name),
-                    DiaguardApplication.getContext().getString(R.string.export)));
+                context.getString(R.string.app_name),
+                context.getString(R.string.export)));
             pdf.setSubject(String.format("%s %s: %s - %s",
-                    DiaguardApplication.getContext().getString(R.string.app_name),
-                    DiaguardApplication.getContext().getString(R.string.export),
-                    Helper.getDateFormat().print(config.getDateStart()),
-                    Helper.getDateFormat().print(config.getDateEnd())));
-            pdf.setAuthor(DiaguardApplication.getContext().getString(R.string.app_name));
+                DiaguardApplication.getContext().getString(R.string.app_name),
+                context.getString(R.string.export),
+                Helper.getDateFormat().print(config.getDateStart()),
+                Helper.getDateFormat().print(config.getDateEnd())));
+            pdf.setAuthor(context.getString(R.string.app_name));
 
-            fontNormal = new Font(pdf, CoreFont.HELVETICA);
-            fontBold = new Font(pdf, CoreFont.HELVETICA_BOLD);
+            Font fontNormal = new Font(pdf, CoreFont.HELVETICA);
+            Font fontBold = new Font(pdf, CoreFont.HELVETICA_BOLD);
 
             DateTime dateIteration = config.getDateStart();
 
-            PdfPage page = createPage(pdf);
-            currentPosition = drawWeekBar(page, dateIteration);
+            PdfPage page = new PdfPage(pdf);
+            currentPosition = new PdfWeekHeader(contextReference, dateIteration, fontNormal, fontBold).drawOn(page);
 
             // One day after last chosen day
             DateTime dateAfter = config.getDateEnd().plusDays(1);
@@ -85,8 +68,8 @@ public class PdfExport extends AsyncTask<Void, String, File> {
             while (dateIteration.isBefore(dateAfter)) {
                 // title bar for new week
                 if (dateIteration.isAfter(config.getDateStart()) && dateIteration.getDayOfWeek() == 1) {
-                    page = createPage(pdf);
-                    currentPosition = drawWeekBar(page, dateIteration);
+                    page = new PdfPage(pdf);
+                    currentPosition = new PdfWeekHeader(contextReference, dateIteration, fontNormal, fontBold).drawOn(page);
                 }
 
                 PdfTable table = new PdfTable(config, dateIteration, pdf, page);
@@ -94,7 +77,7 @@ public class PdfExport extends AsyncTask<Void, String, File> {
                 // Page break
                 if ((currentPosition.getY() + table.getHeight() + PADDING_PARAGRAPH) > page.getEndPoint().getY()) {
                     page = new PdfPage(pdf);
-                    currentPosition = drawWeekBar(page, dateIteration);
+                    currentPosition = new PdfWeekHeader(contextReference, dateIteration, fontNormal, fontBold).drawOn(page);
                 }
 
                 table.setPosition(currentPosition.getX(), currentPosition.getY());
@@ -102,9 +85,9 @@ public class PdfExport extends AsyncTask<Void, String, File> {
                 currentPosition.setY(currentPosition.getY() + PADDING_PARAGRAPH);
 
                 publishProgress(String.format("%s %d/%d",
-                        DiaguardApplication.getContext().getString(R.string.day),
-                        Days.daysBetween(config.getDateStart(), dateIteration).getDays() + 1,
-                        Days.daysBetween(config.getDateStart(), config.getDateEnd()).getDays() + 1));
+                    DiaguardApplication.getContext().getString(R.string.day),
+                    Days.daysBetween(config.getDateStart(), dateIteration).getDays() + 1,
+                    Days.daysBetween(config.getDateStart(), config.getDateEnd()).getDays() + 1));
 
                 dateIteration = dateIteration.plusDays(1);
             }
@@ -124,63 +107,22 @@ public class PdfExport extends AsyncTask<Void, String, File> {
 
     @Override
     protected void onProgressUpdate(String... message) {
-        if (getCallback() != null) {
-            getCallback().onProgress(message[0]);
+        ExportCallback callback = config.getCallback();
+        if (callback != null) {
+            callback.onProgress(message[0]);
         }
     }
 
     @Override
     protected void onPostExecute(File file) {
         super.onPostExecute(file);
-        if (getCallback() != null) {
+        ExportCallback callback = config.getCallback();
+        if (callback != null) {
             if (file != null) {
-                getCallback().onSuccess(file, PdfMeta.PDF_MIME_TYPE);
+                callback.onSuccess(file, PdfMeta.PDF_MIME_TYPE);
             } else {
-                getCallback().onError();
+                callback.onError();
             }
         }
-    }
-
-    private PdfPage createPage(PDF pdf) {
-        try {
-            return new PdfPage(pdf);
-        } catch (Exception e) {
-            Log.e(TAG, "Failed to create new page");
-            return null;
-        }
-    }
-
-    private Point drawWeekBar(PdfPage page, DateTime day) throws Exception {
-        DateTime weekStart = day.withDayOfWeek(1);
-        Point currentPosition = page.getStartPoint();
-
-        TextLine week = new TextLine(fontBold);
-        week.setFontSize(FONT_SIZE_HEADER);
-        week.setText(String.format("%s %d",
-            getContext().getString(R.string.calendarweek),
-            weekStart.getWeekOfWeekyear())
-        );
-        Paragraph weekParagraph = new Paragraph(week);
-
-        DateTime weekEnd = weekStart.withDayOfWeek(DateTimeConstants.SUNDAY);
-        TextLine interval = new TextLine(fontNormal);
-        interval.setText(String.format("%s - %s",
-                DateTimeFormat.mediumDate().print(weekStart),
-                DateTimeFormat.mediumDate().print(weekEnd))
-        );
-        Paragraph intervalParagraph = new Paragraph(interval);
-
-        List<Paragraph> paragraphs = new ArrayList<>();
-        paragraphs.add(weekParagraph);
-        paragraphs.add(intervalParagraph);
-
-        Text text = new Text(paragraphs);
-        text.setLocation(currentPosition.getX(), currentPosition.getY());
-        text.setParagraphLeading(week.getFont().getBodyHeight() + PADDING_LINE);
-        text.setWidth(page.getWidth());
-        float[] points = text.drawOn(page);
-        currentPosition.setY(points[1] + PADDING_PARAGRAPH);
-
-        return currentPosition;
     }
 }

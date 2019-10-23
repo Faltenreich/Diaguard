@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.export.pdf.print;
 
+import com.pdfjet.Point;
+
 interface PdfPrintable {
-    void draw() throws Exception;
+    Point drawOn(PdfPage page) throws Exception;
 }

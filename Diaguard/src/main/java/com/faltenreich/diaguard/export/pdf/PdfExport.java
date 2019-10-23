@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.export.Export;
 import com.faltenreich.diaguard.export.ExportCallback;
 import com.faltenreich.diaguard.export.ExportFormat;
+import com.faltenreich.diaguard.export.pdf.print.PdfPage;
 import com.faltenreich.diaguard.export.pdf.print.PdfTable;
 import com.faltenreich.diaguard.export.pdf.print.PdfWeekHeader;
 import com.pdfjet.Point;
@@ -34,25 +35,26 @@ public class PdfExport extends AsyncTask<Void, String, File> {
         try {
             PdfExportCache cache = new PdfExportCache(config, file);
 
-            new PdfWeekHeader(cache).draw();
+            PdfPage page = new PdfPage(cache.getPdf());
+            page.draw(new PdfWeekHeader(cache));
 
             while (cache.isDateTimeValid()) {
                 if (cache.isDateTimeForNewWeek()) {
-                    cache.newPage();
-                    new PdfWeekHeader(cache).draw();
+                    page = new PdfPage(cache.getPdf());
+                    page.draw(new PdfWeekHeader(cache));
                 }
 
-                PdfTable table = new PdfTable(cache);
+                PdfTable table = new PdfTable(cache, page);
 
                 // Page break
-                if ((cache.getPosition().getY() + table.getHeight() + PADDING_PARAGRAPH) > cache.getPage().getEndPoint().getY()) {
-                    cache.newPage();
-                    new PdfWeekHeader(cache).draw();
+                if ((page.getPosition().getY() + table.getHeight() + PADDING_PARAGRAPH) > page.getEndPoint().getY()) {
+                    page = new PdfPage(cache.getPdf());
+                    page.draw(new PdfWeekHeader(cache));
                 }
 
-                table.setPosition(cache.getPosition().getX(), cache.getPosition().getY());
-                Point point = table.drawOn(cache.getPage());
-                cache.setPosition(new Point(point.getX(), point.getY() + PADDING_PARAGRAPH));
+                table.setPosition(page.getPosition().getX(), page.getPosition().getY());
+                Point point = table.drawOn(page);
+                page.getPosition().setY(point.getY() + PADDING_PARAGRAPH);
 
                 publishProgress(String.format("%s %d/%d",
                     DiaguardApplication.getContext().getString(R.string.day),

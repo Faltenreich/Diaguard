@@ -41,12 +41,14 @@ public class PdfTable extends Table {
     private static final int HOURS_TO_SKIP = 2;
 
     private PdfExportCache cache;
+    private PdfPage page;
 
     private int rows;
 
-    public PdfTable(PdfExportCache cache) {
+    public PdfTable(PdfExportCache cache, PdfPage page) {
         super();
         this.cache = cache;
+        this.page = page;
         init();
     }
 
@@ -63,7 +65,7 @@ public class PdfTable extends Table {
     }
 
     private float getCellWidth() {
-        return (cache.getPage().getWidth() - LABEL_WIDTH) / (DateTimeConstants.HOURS_PER_DAY / 2f);
+        return (page.getWidth() - LABEL_WIDTH) / (DateTimeConstants.HOURS_PER_DAY / 2f);
     }
 
     public float getHeight() {
@@ -259,7 +261,7 @@ public class PdfTable extends Table {
 
         PdfMultilineCell multilineCell = new PdfMultilineCell(cache.getFontNormal(), note.getNote(), 55);
         multilineCell.setFgColor(Color.gray);
-        multilineCell.setWidth(cache.getPage().getWidth() - LABEL_WIDTH);
+        multilineCell.setWidth(page.getWidth() - LABEL_WIDTH);
         multilineCell.setNoBorders();
 
         if (isFirst) {

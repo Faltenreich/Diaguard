@@ -1,16 +1,13 @@
 package com.faltenreich.diaguard.export.pdf;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.export.pdf.print.Pdf;
-import com.faltenreich.diaguard.export.pdf.print.PdfPage;
 import com.pdfjet.CoreFont;
 import com.pdfjet.Font;
-import com.pdfjet.Point;
 
 import org.joda.time.DateTime;
 
@@ -28,9 +25,7 @@ public class PdfExportCache {
     private int colorHypoglycemia;
 
     private Pdf pdf;
-    private PdfPage page;
     private DateTime dateTime;
-    private Point position;
 
     public PdfExportCache(PdfExportConfig config, File file) throws Exception {
         this.config = config;
@@ -44,8 +39,6 @@ public class PdfExportCache {
         this.colorHypoglycemia = ContextCompat.getColor(context, R.color.blue);
 
         this.dateTime = config.getDateStart();
-        this.page = new PdfPage(pdf);
-        this.position = new Point();
     }
 
     public PdfExportConfig getConfig() {
@@ -76,18 +69,6 @@ public class PdfExportCache {
         return pdf;
     }
 
-    public PdfPage getPage() {
-        return page;
-    }
-
-    public void newPage() {
-        try {
-            this.page = new PdfPage(pdf);
-        } catch (Exception exception) {
-            Log.e(TAG, exception.getMessage());
-        }
-    }
-
     public DateTime getDateTime() {
         return dateTime;
     }
@@ -102,13 +83,5 @@ public class PdfExportCache {
 
     public void setDateTime(DateTime dateTime) {
         this.dateTime = dateTime;
-    }
-
-    public Point getPosition() {
-        return position;
-    }
-
-    public void setPosition(Point position) {
-        this.position = position;
     }
 }

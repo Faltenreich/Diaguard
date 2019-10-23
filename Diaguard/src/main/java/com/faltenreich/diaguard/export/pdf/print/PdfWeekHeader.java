@@ -1,5 +1,7 @@
 package com.faltenreich.diaguard.export.pdf.print;
 
+import android.util.Log;
+
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.export.pdf.PdfExportCache;
 import com.pdfjet.Paragraph;
@@ -16,18 +18,15 @@ import java.util.List;
 
 public class PdfWeekHeader implements PdfPrintable {
 
+    private static final String TAG = PdfWeekHeader.class.getSimpleName();
+
     private static final float FONT_SIZE_HEADER = 15f;
     private static final float PADDING_PARAGRAPH = 20;
     private static final float PADDING_LINE = 3;
 
-    private PdfExportCache cache;
+    private Text text;
 
     public PdfWeekHeader(PdfExportCache cache) {
-        this.cache = cache;
-    }
-
-    @Override
-    public Point drawOn(PdfPage page) throws Exception {
         DateTime weekStart = cache.getDateTime().withDayOfWeek(1);
         TextLine week = new TextLine(cache.getFontBold());
         week.setFontSize(FONT_SIZE_HEADER);
@@ -49,15 +48,37 @@ public class PdfWeekHeader implements PdfPrintable {
         paragraphs.add(weekParagraph);
         paragraphs.add(intervalParagraph);
 
-        Text text = new Text(paragraphs);
-        text.setParagraphLeading(week.getFont().getBodyHeight() + PADDING_LINE);
+        try {
+            text = new Text(paragraphs);
+            text.setParagraphLeading(week.getFont().getBodyHeight() + PADDING_LINE);
+        } catch (Exception exception) {
+            Log.e(TAG, exception.getMessage());
+        }
+    }
 
-        Point currentPosition = page.getPosition();
-        text.setLocation(currentPosition.getX(), currentPosition.getY());
+    @Override
+    public float getHeight() {
+        if (text != null) {
+            // Orientation is horizontal, so beginning points are top left and bottom left
+            List<float[]> points = text.getBeginParagraphPoints();
+            if (points.size() == 2) {
+                float[] start = points.get(0);
+                float[] end = points.get(1);
+                if (start.length == 2 && end.length == 2) {
+                    return end[1] - start[1];
+                }
+            }
+
+        }
+        return 0f;
+    }
+
+    @Override
+    public Point drawOn(PdfPage page) throws Exception {
+        Point position = page.getPosition();
+        text.setLocation(position.getX(), position.getY());
         text.setWidth(page.getWidth());
-
         float[] points = text.drawOn(page);
-        currentPosition.setY(points[1] + PADDING_PARAGRAPH);
-        return currentPosition;
+        return new Point(position.getX(), points[1] + PADDING_PARAGRAPH);
     }
 }

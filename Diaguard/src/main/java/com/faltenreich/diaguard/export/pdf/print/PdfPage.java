@@ -24,12 +24,15 @@ public class PdfPage extends Page {
     private static final int PADDING_BOTTOM = 100;
     private static final int PADDING_HORIZONTAL = 60;
 
+    private Point position;
+
     public PdfPage(PDF pdf) throws Exception {
         super(pdf, Letter.PORTRAIT);
         appendFooter();
+        this.position = getStartPoint();
     }
 
-    public Point getStartPoint() {
+    private Point getStartPoint() {
         return new Point(PADDING_HORIZONTAL, PADDING_TOP);
     }
 
@@ -45,6 +48,10 @@ public class PdfPage extends Page {
     @Override
     public float getHeight() {
         return super.getHeight() - PADDING_TOP - PADDING_BOTTOM;
+    }
+
+    public Point getPosition() {
+        return position;
     }
 
     private void appendFooter() {
@@ -70,6 +77,14 @@ public class PdfPage extends Page {
             url.drawOn(this);
         } catch (Exception e) {
             Log.e(TAG, "Failed to append footer");
+        }
+    }
+
+    public void draw(PdfPrintable printable) {
+        try {
+            position = printable.drawOn(this);
+        } catch (Exception exception) {
+            Log.e(TAG, exception.getMessage());
         }
     }
 }

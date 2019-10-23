@@ -4,9 +4,6 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
-import androidx.annotation.ColorInt;
-import androidx.core.content.ContextCompat;
-
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
@@ -45,18 +42,11 @@ public class PdfTable extends Table {
 
     private PdfExportCache cache;
 
-    @ColorInt private int alternatingRowColor;
-    @ColorInt private int hyperglycemiaColor;
-    @ColorInt private int hypoglycemiaColor;
-
     private int rows;
 
     public PdfTable(PdfExportCache cache) {
         super();
         this.cache = cache;
-        this.alternatingRowColor = ContextCompat.getColor(getContext(), R.color.background_light_primary);
-        this.hyperglycemiaColor = ContextCompat.getColor(getContext(), R.color.red);
-        this.hypoglycemiaColor = ContextCompat.getColor(getContext(), R.color.blue);
         init();
     }
 
@@ -100,7 +90,7 @@ public class PdfTable extends Table {
             ListItemCategoryValue[] items = values.get(category);
             if (items != null) {
                 String label = category.toLocalizedString(getContext());
-                int backgroundColor = row % 2 == 0 ? alternatingRowColor : Color.white;
+                int backgroundColor = row % 2 == 0 ? cache.getColorDivider() : Color.white;
                 switch (category) {
                     case INSULIN:
                         if (config.isSplitInsulin()) {
@@ -232,9 +222,9 @@ public class PdfTable extends Table {
             int textColor = Color.black;
             if (category == Measurement.Category.BLOODSUGAR && PreferenceHelper.getInstance().limitsAreHighlighted()) {
                 if (value > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
-                    textColor = hyperglycemiaColor;
+                    textColor = cache.getColorHyperglycemia();
                 } else if (value < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
-                    textColor = hypoglycemiaColor;
+                    textColor = cache.getColorHypoglycemia();
                 }
             }
             float customValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, value);

@@ -1,7 +1,11 @@
 package com.faltenreich.diaguard.export.pdf;
 
+import android.content.Context;
 import android.util.Log;
 
+import androidx.core.content.ContextCompat;
+
+import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.export.pdf.print.Pdf;
 import com.faltenreich.diaguard.export.pdf.print.PdfPage;
 import com.pdfjet.CoreFont;
@@ -19,6 +23,9 @@ public class PdfExportCache {
     private PdfExportConfig config;
     private Font fontNormal;
     private Font fontBold;
+    private int colorDivider;
+    private int colorHyperglycemia;
+    private int colorHypoglycemia;
 
     private Pdf pdf;
     private PdfPage page;
@@ -27,10 +34,14 @@ public class PdfExportCache {
 
     public PdfExportCache(PdfExportConfig config, File file) throws Exception {
         this.config = config;
+        Context context = config.getContextReference().get();
 
         this.pdf = new Pdf(file, config);
         this.fontNormal = new Font(pdf, CoreFont.HELVETICA);
         this.fontBold = new Font(pdf, CoreFont.HELVETICA_BOLD);
+        this.colorDivider = ContextCompat.getColor(context, R.color.background_light_primary);
+        this.colorHyperglycemia = ContextCompat.getColor(context, R.color.red);
+        this.colorHypoglycemia = ContextCompat.getColor(context, R.color.blue);
 
         this.dateTime = config.getDateStart();
         this.page = new PdfPage(pdf);
@@ -47,6 +58,18 @@ public class PdfExportCache {
 
     public Font getFontBold() {
         return fontBold;
+    }
+
+    public int getColorDivider() {
+        return colorDivider;
+    }
+
+    public int getColorHyperglycemia() {
+        return colorHyperglycemia;
+    }
+
+    public int getColorHypoglycemia() {
+        return colorHypoglycemia;
     }
 
     public Pdf getPdf() {

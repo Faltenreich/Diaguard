@@ -65,20 +65,18 @@ public class PdfWeekHeader implements PdfPrintable {
                 float[] start = points.get(0);
                 float[] end = points.get(1);
                 if (start.length == 2 && end.length == 2) {
-                    return end[1] - start[1];
+                    return end[1] - start[1] + PADDING_PARAGRAPH;
+                    // FIXME: This height differs from the result of Text.drawOn(page)
                 }
             }
-
         }
         return 0f;
     }
 
     @Override
-    public Point drawOn(PdfPage page) throws Exception {
-        Point position = page.getPosition();
+    public void drawOn(PdfPage page, Point position) throws Exception {
         text.setLocation(position.getX(), position.getY());
         text.setWidth(page.getWidth());
-        float[] points = text.drawOn(page);
-        return new Point(position.getX(), points[1] + PADDING_PARAGRAPH);
+        text.drawOn(page);
     }
 }

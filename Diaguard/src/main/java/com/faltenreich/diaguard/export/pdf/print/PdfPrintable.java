@@ -4,5 +4,5 @@ import com.pdfjet.Point;
 
 interface PdfPrintable {
     float getHeight();
-    Point drawOn(PdfPage page) throws Exception;
+    void drawOn(PdfPage page, Point position) throws Exception;
 }

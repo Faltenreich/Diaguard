@@ -9,9 +9,8 @@ import com.faltenreich.diaguard.export.Export;
 import com.faltenreich.diaguard.export.ExportCallback;
 import com.faltenreich.diaguard.export.ExportFormat;
 import com.faltenreich.diaguard.export.pdf.print.PdfPage;
-import com.faltenreich.diaguard.export.pdf.print.PdfTable;
+import com.faltenreich.diaguard.export.pdf.print.PdfTableBody;
 import com.faltenreich.diaguard.export.pdf.print.PdfWeekHeader;
-import com.pdfjet.Point;
 
 import org.joda.time.Days;
 
@@ -20,8 +19,6 @@ import java.io.File;
 public class PdfExport extends AsyncTask<Void, String, File> {
 
     private static final String TAG = PdfExport.class.getSimpleName();
-
-    private static final float PADDING_PARAGRAPH = 20;
 
     private PdfExportConfig config;
 
@@ -44,17 +41,15 @@ public class PdfExport extends AsyncTask<Void, String, File> {
                     page.draw(new PdfWeekHeader(cache));
                 }
 
-                PdfTable table = new PdfTable(cache, page);
+                PdfTableBody table = new PdfTableBody(cache, page.getWidth());
 
                 // Page break
-                if ((page.getPosition().getY() + table.getHeight() + PADDING_PARAGRAPH) > page.getEndPoint().getY()) {
+                if ((page.getPosition().getY() + table.getHeight()) > page.getEndPoint().getY()) {
                     page = new PdfPage(cache.getPdf());
                     page.draw(new PdfWeekHeader(cache));
                 }
 
-                table.setPosition(page.getPosition().getX(), page.getPosition().getY());
-                Point point = table.drawOn(page);
-                page.getPosition().setY(point.getY() + PADDING_PARAGRAPH);
+                page.draw(table);
 
                 publishProgress(String.format("%s %d/%d",
                     DiaguardApplication.getContext().getString(R.string.day),

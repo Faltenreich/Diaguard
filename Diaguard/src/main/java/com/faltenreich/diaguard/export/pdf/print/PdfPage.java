@@ -82,7 +82,8 @@ public class PdfPage extends Page {
 
     public void draw(PdfPrintable printable) {
         try {
-            position = printable.drawOn(this);
+            printable.drawOn(this, position);
+            position.setY(position.getY() + printable.getHeight());
         } catch (Exception exception) {
             Log.e(TAG, exception.getMessage());
         }

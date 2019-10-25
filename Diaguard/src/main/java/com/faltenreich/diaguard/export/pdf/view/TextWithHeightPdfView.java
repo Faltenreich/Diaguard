@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.export.pdf.print;
+package com.faltenreich.diaguard.export.pdf.view;
 
 import com.pdfjet.Page;
 import com.pdfjet.Paragraph;
@@ -6,11 +6,11 @@ import com.pdfjet.Text;
 
 import java.util.List;
 
-public class PdfText extends Text {
+public class TextWithHeightPdfView extends Text {
 
     private float height;
 
-    public PdfText(List<Paragraph> paragraphs) throws Exception {
+    public TextWithHeightPdfView(List<Paragraph> paragraphs) throws Exception {
         super(paragraphs);
     }
 

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.export.pdf.print;
+package com.faltenreich.diaguard.export.pdf.view;
 
 import com.pdfjet.Border;
 import com.pdfjet.Cell;
@@ -9,11 +9,11 @@ import org.apache.commons.lang3.text.WordUtils;
 
 import java.io.IOException;
 
-public class PdfMultilineCell extends Cell {
+public class MultilineCellPdfView extends Cell {
 
     private final int characterCount;
 
-    PdfMultilineCell(Font font, String content, int characterCount) {
+    MultilineCellPdfView(Font font, String content, int characterCount) {
         super(font, content);
         this.characterCount = characterCount;
     }

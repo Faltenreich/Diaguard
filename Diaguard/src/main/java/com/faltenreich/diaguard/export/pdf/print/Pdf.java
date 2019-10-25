@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.export.pdf.PdfExportConfig;
+import com.faltenreich.diaguard.export.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.util.Helper;
 import com.pdfjet.PDF;
 

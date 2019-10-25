@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
-import com.faltenreich.diaguard.export.pdf.view.TextWithHeightPdfView;
+import com.faltenreich.diaguard.export.pdf.view.SizedTextPdfView;
 import com.pdfjet.Paragraph;
 import com.pdfjet.Point;
 import com.pdfjet.TextLine;
@@ -24,7 +24,7 @@ public class PdfWeek implements PdfPrintable {
     private static final float PADDING_PARAGRAPH = 20;
     private static final float PADDING_LINE = 3;
 
-    private TextWithHeightPdfView text;
+    private SizedTextPdfView text;
 
     public PdfWeek(PdfExportCache cache) {
         DateTime weekStart = cache.getDateTime().withDayOfWeek(1);
@@ -49,7 +49,7 @@ public class PdfWeek implements PdfPrintable {
         paragraphs.add(intervalParagraph);
 
         try {
-            text = new TextWithHeightPdfView(paragraphs);
+            text = new SizedTextPdfView(paragraphs);
             text.setParagraphLeading(week.getFont().getBodyHeight() + PADDING_LINE);
         } catch (Exception exception) {
             Log.e(TAG, exception.getMessage());

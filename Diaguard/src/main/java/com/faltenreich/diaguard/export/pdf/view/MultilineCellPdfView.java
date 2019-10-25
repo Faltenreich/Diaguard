@@ -13,7 +13,7 @@ public class MultilineCellPdfView extends Cell {
 
     private final int characterCount;
 
-    MultilineCellPdfView(Font font, String content, int characterCount) {
+    public MultilineCellPdfView(Font font, String content, int characterCount) {
         super(font, content);
         this.characterCount = characterCount;
     }

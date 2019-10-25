@@ -6,11 +6,11 @@ import com.pdfjet.Text;
 
 import java.util.List;
 
-public class TextWithHeightPdfView extends Text {
+public class SizedTextPdfView extends Text {
 
     private float height;
 
-    public TextWithHeightPdfView(List<Paragraph> paragraphs) throws Exception {
+    public SizedTextPdfView(List<Paragraph> paragraphs) throws Exception {
         super(paragraphs);
     }
 

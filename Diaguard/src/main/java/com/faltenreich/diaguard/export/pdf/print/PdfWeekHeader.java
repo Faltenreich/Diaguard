@@ -6,7 +6,6 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.export.pdf.PdfExportCache;
 import com.pdfjet.Paragraph;
 import com.pdfjet.Point;
-import com.pdfjet.Text;
 import com.pdfjet.TextLine;
 
 import org.joda.time.DateTime;
@@ -24,7 +23,7 @@ public class PdfWeekHeader implements PdfPrintable {
     private static final float PADDING_PARAGRAPH = 20;
     private static final float PADDING_LINE = 3;
 
-    private Text text;
+    private PdfText text;
 
     public PdfWeekHeader(PdfExportCache cache) {
         DateTime weekStart = cache.getDateTime().withDayOfWeek(1);
@@ -49,7 +48,7 @@ public class PdfWeekHeader implements PdfPrintable {
         paragraphs.add(intervalParagraph);
 
         try {
-            text = new Text(paragraphs);
+            text = new PdfText(paragraphs);
             text.setParagraphLeading(week.getFont().getBodyHeight() + PADDING_LINE);
         } catch (Exception exception) {
             Log.e(TAG, exception.getMessage());
@@ -59,16 +58,7 @@ public class PdfWeekHeader implements PdfPrintable {
     @Override
     public float getHeight() {
         if (text != null) {
-            // Orientation is horizontal, so beginning points are top left and bottom left
-            List<float[]> points = text.getBeginParagraphPoints();
-            if (points.size() == 2) {
-                float[] start = points.get(0);
-                float[] end = points.get(1);
-                if (start.length == 2 && end.length == 2) {
-                    return end[1] - start[1] + PADDING_PARAGRAPH;
-                    // FIXME: This height differs from the result of Text.drawOn(page)
-                }
-            }
+            return text.getHeight() + PADDING_PARAGRAPH;
         }
         return 0f;
     }

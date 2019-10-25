@@ -10,8 +10,8 @@ import com.faltenreich.diaguard.export.csv.CsvExport;
 import com.faltenreich.diaguard.export.csv.CsvExportConfig;
 import com.faltenreich.diaguard.export.csv.CsvImport;
 import com.faltenreich.diaguard.export.pdf.PdfExport;
-import com.faltenreich.diaguard.export.pdf.PdfExportConfig;
-import com.faltenreich.diaguard.export.pdf.PdfExportStyle;
+import com.faltenreich.diaguard.export.pdf.meta.PdfExportConfig;
+import com.faltenreich.diaguard.export.pdf.meta.PdfExportStyle;
 import com.faltenreich.diaguard.util.FileUtils;
 
 import org.joda.time.DateTime;

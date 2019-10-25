@@ -23,7 +23,7 @@ import com.faltenreich.diaguard.data.event.PermissionResponseEvent;
 import com.faltenreich.diaguard.export.Export;
 import com.faltenreich.diaguard.export.ExportCallback;
 import com.faltenreich.diaguard.export.ExportFormat;
-import com.faltenreich.diaguard.export.pdf.PdfExportStyle;
+import com.faltenreich.diaguard.export.pdf.meta.PdfExportStyle;
 import com.faltenreich.diaguard.ui.view.CategoryCheckBoxList;
 import com.faltenreich.diaguard.ui.view.MainButton;
 import com.faltenreich.diaguard.ui.view.MainButtonProperties;

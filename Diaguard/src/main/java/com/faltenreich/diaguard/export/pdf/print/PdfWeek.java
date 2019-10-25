@@ -3,7 +3,8 @@ package com.faltenreich.diaguard.export.pdf.print;
 import android.util.Log;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.export.pdf.PdfExportCache;
+import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
+import com.faltenreich.diaguard.export.pdf.view.TextWithHeightPdfView;
 import com.pdfjet.Paragraph;
 import com.pdfjet.Point;
 import com.pdfjet.TextLine;
@@ -15,17 +16,17 @@ import org.joda.time.format.DateTimeFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PdfWeekHeader implements PdfPrintable {
+public class PdfWeek implements PdfPrintable {
 
-    private static final String TAG = PdfWeekHeader.class.getSimpleName();
+    private static final String TAG = PdfWeek.class.getSimpleName();
 
     private static final float FONT_SIZE_HEADER = 15f;
     private static final float PADDING_PARAGRAPH = 20;
     private static final float PADDING_LINE = 3;
 
-    private PdfText text;
+    private TextWithHeightPdfView text;
 
-    public PdfWeekHeader(PdfExportCache cache) {
+    public PdfWeek(PdfExportCache cache) {
         DateTime weekStart = cache.getDateTime().withDayOfWeek(1);
         TextLine week = new TextLine(cache.getFontBold());
         week.setFontSize(FONT_SIZE_HEADER);
@@ -48,7 +49,7 @@ public class PdfWeekHeader implements PdfPrintable {
         paragraphs.add(intervalParagraph);
 
         try {
-            text = new PdfText(paragraphs);
+            text = new TextWithHeightPdfView(paragraphs);
             text.setParagraphLeading(week.getFont().getBodyHeight() + PADDING_LINE);
         } catch (Exception exception) {
             Log.e(TAG, exception.getMessage());

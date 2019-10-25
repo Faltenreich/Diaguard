@@ -14,7 +14,7 @@ import androidx.annotation.StringRes;
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.export.pdf.PdfExportStyle;
+import com.faltenreich.diaguard.export.pdf.meta.PdfExportStyle;
 import com.faltenreich.diaguard.ui.view.MainFragmentType;
 import com.faltenreich.diaguard.util.CategoryComparatorFactory;
 import com.faltenreich.diaguard.util.Helper;

@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.EntryTagDao;
 import com.faltenreich.diaguard.data.dao.FoodEatenDao;
@@ -18,19 +17,14 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.export.pdf.view.SizedTablePdfView;
-import com.faltenreich.diaguard.export.pdf.view.MultilineCellPdfView;
 import com.faltenreich.diaguard.ui.list.item.ListItemCategoryValue;
-import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.StringUtils;
-import com.pdfjet.Align;
-import com.pdfjet.Border;
 import com.pdfjet.Cell;
 import com.pdfjet.Color;
 import com.pdfjet.Point;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
-import org.joda.time.format.DateTimeFormat;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -40,8 +34,8 @@ public class PdfTable implements PdfPrintable {
 
     private static final String TAG = PdfTable.class.getSimpleName();
     private static final float PADDING_PARAGRAPH = 20;
-    private static final float LABEL_WIDTH = 120;
-    private static final int HOURS_TO_SKIP = 2;
+    static final float LABEL_WIDTH = 120;
+    static final int HOURS_TO_SKIP = 2;
 
     private SizedTablePdfView table;
     private float width;
@@ -71,17 +65,14 @@ public class PdfTable implements PdfPrintable {
         table.drawOn(page);
     }
 
-    private float getCellWidth() {
-        return (width - LABEL_WIDTH) / (DateTimeConstants.HOURS_PER_DAY / 2f);
-    }
-
     private void init(PdfExportCache cache) {
         PdfExportConfig config = cache.getConfig();
         Context context = config.getContextReference().get();
         DateTime day = cache.getDateTime();
+        float cellWidth = (width - LABEL_WIDTH) / (DateTimeConstants.HOURS_PER_DAY / 2f);
 
         List<List<Cell>> data = new ArrayList<>();
-        data.add(getRowForHeader(cache));
+        data.add(PdfCellFactory.createHeaderRows(cache, cellWidth));
 
         LinkedHashMap<Measurement.Category, ListItemCategoryValue[]> values = EntryDao.getInstance().getAverageDataTable(day, config.getCategories(), HOURS_TO_SKIP);
         int row = 0;
@@ -93,19 +84,19 @@ public class PdfTable implements PdfPrintable {
                 switch (category) {
                     case INSULIN:
                         if (config.isSplitInsulin()) {
-                            data.add(getRowForValues(cache, items, 0, label + " " + context.getString(R.string.bolus), backgroundColor));
-                            data.add(getRowForValues(cache, items, 1, label + " " + context.getString(R.string.correction), backgroundColor));
-                            data.add(getRowForValues(cache, items, 2, label + " " + context.getString(R.string.basal), backgroundColor));
+                            data.add(PdfCellFactory.createMeasurementRows(cache, items, cellWidth, 0, label + " " + context.getString(R.string.bolus), backgroundColor));
+                            data.add(PdfCellFactory.createMeasurementRows(cache, items, cellWidth, 1, label + " " + context.getString(R.string.correction), backgroundColor));
+                            data.add(PdfCellFactory.createMeasurementRows(cache, items, cellWidth, 2, label + " " + context.getString(R.string.basal), backgroundColor));
                         } else {
-                            data.add(getRowForValues(cache, items, -1, label, backgroundColor));
+                            data.add(PdfCellFactory.createMeasurementRows(cache, items, cellWidth, -1, label, backgroundColor));
                         }
                         break;
                     case PRESSURE:
-                        data.add(getRowForValues(cache, items, 0, label + " " + context.getString(R.string.systolic_acronym), backgroundColor));
-                        data.add(getRowForValues(cache, items, 1, label + " " + context.getString(R.string.diastolic_acronym), backgroundColor));
+                        data.add(PdfCellFactory.createMeasurementRows(cache, items, cellWidth, 0, label + " " + context.getString(R.string.systolic_acronym), backgroundColor));
+                        data.add(PdfCellFactory.createMeasurementRows(cache, items, cellWidth, 1, label + " " + context.getString(R.string.diastolic_acronym), backgroundColor));
                         break;
                     default:
-                        data.add(getRowForValues(cache, items, 0, label, backgroundColor));
+                        data.add(PdfCellFactory.createMeasurementRows(cache, items, cellWidth, 0, label, backgroundColor));
                         break;
                 }
                 row++;
@@ -155,7 +146,7 @@ public class PdfTable implements PdfPrintable {
                 for (PdfNote note : notes) {
                     boolean isFirst = notes.indexOf(note) == 0;
                     boolean isLast = notes.indexOf(note) == notes.size() - 1;
-                    data.add(getRowForNote(cache, note, isFirst, isLast));
+                    data.add(PdfCellFactory.createNoteRow(cache, note, width, isFirst, isLast));
                 }
             }
         }
@@ -169,109 +160,5 @@ public class PdfTable implements PdfPrintable {
 
     private String getNotesAsString(List<String> notes) {
         return TextUtils.join(", ", notes);
-    }
-
-    private List<Cell> getRowForHeader(PdfExportCache cache) {
-        List<Cell> cells = new ArrayList<>();
-
-        DateTime day = cache.getDateTime();
-        String weekDay = DateTimeFormat.forPattern("E").print(day);
-        String date = String.format("%s %s", weekDay, DateTimeFormat.forPattern("dd.MM").print(day));
-        Cell cell = new Cell(cache.getFontBold(), date);
-        cell.setWidth(LABEL_WIDTH);
-        cell.setNoBorders();
-        cells.add(cell);
-
-        for (int hour = 0; hour < DateTimeConstants.HOURS_PER_DAY; hour += HOURS_TO_SKIP) {
-            cell = new Cell(cache.getFontNormal(), Integer.toString(hour));
-            cell.setWidth(getCellWidth());
-            cell.setFgColor(Color.gray);
-            cell.setTextAlignment(Align.CENTER);
-            cell.setNoBorders();
-            cells.add(cell);
-        }
-
-        return cells;
-    }
-
-    private List<Cell> getRowForValues(PdfExportCache cache, ListItemCategoryValue[] items, int valueIndex, String label, int backgroundColor) {
-        List<Cell> cells = new ArrayList<>();
-
-        Cell cell = new Cell(cache.getFontNormal(), label);
-        cell.setBgColor(backgroundColor);
-        cell.setFgColor(Color.gray);
-        cell.setWidth(LABEL_WIDTH);
-        cell.setNoBorders();
-        cells.add(cell);
-
-        for (ListItemCategoryValue item : items) {
-            Measurement.Category category = item.getCategory();
-            float value = 0;
-            switch (valueIndex) {
-                case -1:
-                    value = item.getValueTotal();
-                    break;
-                case 0:
-                    value = item.getValueOne();
-                    break;
-                case 1:
-                    value = item.getValueTwo();
-                    break;
-                case 2:
-                    value = item.getValueThree();
-                    break;
-            }
-            int textColor = Color.black;
-            if (category == Measurement.Category.BLOODSUGAR && PreferenceHelper.getInstance().limitsAreHighlighted()) {
-                if (value > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
-                    textColor = cache.getColorHyperglycemia();
-                } else if (value < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
-                    textColor = cache.getColorHypoglycemia();
-                }
-            }
-            float customValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, value);
-            String text = customValue > 0 ? Helper.parseFloat(customValue) : "";
-            cell = new Cell(cache.getFontNormal(), text);
-            cell.setBgColor(backgroundColor);
-            cell.setFgColor(textColor);
-            cell.setWidth(getCellWidth());
-            cell.setTextAlignment(Align.CENTER);
-            cell.setNoBorders();
-            cells.add(cell);
-        }
-        return cells;
-    }
-
-    private List<Cell> getRowForNote(PdfExportCache cache, PdfNote note, boolean isFirst, boolean isLast) {
-        ArrayList<Cell> cells = new ArrayList<>();
-
-        Cell cell = new Cell(cache.getFontNormal(), Helper.getTimeFormat().print(note.getDateTime()));
-        cell.setFgColor(Color.gray);
-        cell.setWidth(LABEL_WIDTH);
-        cell.setNoBorders();
-
-        if (isFirst) {
-            cell.setBorder(Border.TOP, true);
-        }
-        if (isLast) {
-            cell.setBorder(Border.BOTTOM, true);
-        }
-
-        cells.add(cell);
-
-        MultilineCellPdfView multilineCell = new MultilineCellPdfView(cache.getFontNormal(), note.getNote(), 55);
-        multilineCell.setFgColor(Color.gray);
-        multilineCell.setWidth(width - LABEL_WIDTH);
-        multilineCell.setNoBorders();
-
-        if (isFirst) {
-            multilineCell.setBorder(Border.TOP, true);
-        }
-        if (isLast) {
-            multilineCell.setBorder(Border.BOTTOM, true);
-        }
-
-        cells.add(multilineCell);
-        return cells;
     }
 }

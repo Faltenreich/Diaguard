@@ -15,11 +15,12 @@ import java.io.File;
 
 public class PdfExportCache {
 
-    private static final String TAG = PdfExportCache.class.getSimpleName();
+    private static final float FONT_SIZE_HEADER = 15f;
 
     private PdfExportConfig config;
     private Font fontNormal;
     private Font fontBold;
+    private Font fontHeader;
     private int colorDivider;
     private int colorHyperglycemia;
     private int colorHypoglycemia;
@@ -34,6 +35,8 @@ public class PdfExportCache {
         this.pdf = new Pdf(file, config);
         this.fontNormal = new Font(pdf, CoreFont.HELVETICA);
         this.fontBold = new Font(pdf, CoreFont.HELVETICA_BOLD);
+        this.fontHeader = new Font(pdf, CoreFont.HELVETICA_BOLD);
+        this.fontHeader.setSize(FONT_SIZE_HEADER);
         this.colorDivider = ContextCompat.getColor(context, R.color.background_light_primary);
         this.colorHyperglycemia = ContextCompat.getColor(context, R.color.red);
         this.colorHypoglycemia = ContextCompat.getColor(context, R.color.blue);
@@ -51,6 +54,10 @@ public class PdfExportCache {
 
     public Font getFontBold() {
         return fontBold;
+    }
+
+    public Font getFontHeader() {
+        return fontHeader;
     }
 
     public int getColorDivider() {

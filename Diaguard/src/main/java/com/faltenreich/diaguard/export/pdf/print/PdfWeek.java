@@ -20,7 +20,6 @@ public class PdfWeek implements PdfPrintable {
 
     private static final String TAG = PdfWeek.class.getSimpleName();
 
-    private static final float FONT_SIZE_HEADER = 15f;
     private static final float PADDING_PARAGRAPH = 20;
     private static final float PADDING_LINE = 3;
 
@@ -28,8 +27,7 @@ public class PdfWeek implements PdfPrintable {
 
     public PdfWeek(PdfExportCache cache) {
         DateTime weekStart = cache.getDateTime().withDayOfWeek(1);
-        TextLine week = new TextLine(cache.getFontBold());
-        week.setFontSize(FONT_SIZE_HEADER);
+        TextLine week = new TextLine(cache.getFontHeader());
         week.setText(String.format("%s %d",
             cache.getConfig().getContextReference().get().getString(R.string.calendarweek),
             weekStart.getWeekOfWeekyear())

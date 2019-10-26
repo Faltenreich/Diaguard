@@ -15,7 +15,7 @@ import java.io.File;
 
 public class PdfExportCache {
 
-    private static final float FONT_SIZE_HEADER = 15f;
+    private static final float FONT_SIZE_HEADER = 14f;
 
     private PdfExportConfig config;
     private Font fontNormal;

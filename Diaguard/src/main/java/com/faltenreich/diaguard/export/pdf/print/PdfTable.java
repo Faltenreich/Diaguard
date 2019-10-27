@@ -16,7 +16,7 @@ import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportConfig;
-import com.faltenreich.diaguard.export.pdf.view.CategoryCellPdfView;
+import com.faltenreich.diaguard.export.pdf.view.LabelCellPdfView;
 import com.faltenreich.diaguard.export.pdf.view.DayCellPdfView;
 import com.faltenreich.diaguard.export.pdf.view.HourCellPdfView;
 import com.faltenreich.diaguard.export.pdf.view.MeasurementCellPdfView;
@@ -54,14 +54,7 @@ public class PdfTable implements PdfPrintable {
 
     @Override
     public float getHeight() {
-        float height = 0;
-        for (int row = 0; row < table.getRowCount(); row++) {
-            try {
-                height += table.getRowAtIndex(row).get(0).getHeight();
-            } catch (Exception exception) {
-                Log.e(TAG, exception.getMessage());
-            }
-        }
+        float height = table.getHeight();
         return height > 0 ? height + PADDING_PARAGRAPH : 0f;
     }
 
@@ -197,7 +190,7 @@ public class PdfTable implements PdfPrintable {
     private List<Cell> createMeasurementRows(PdfExportCache cache, ListItemCategoryValue[] items, float cellWidth, int valueIndex, String label, int backgroundColor) {
         List<Cell> cells = new ArrayList<>();
 
-        cells.add(new CategoryCellPdfView(cache.getFontNormal(), label, backgroundColor));
+        cells.add(new LabelCellPdfView(cache.getFontNormal(), label, backgroundColor));
 
         for (ListItemCategoryValue item : items) {
             cells.add(new MeasurementCellPdfView(cache, item, valueIndex, backgroundColor, cellWidth));

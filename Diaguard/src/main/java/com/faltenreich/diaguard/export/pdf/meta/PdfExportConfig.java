@@ -21,6 +21,7 @@ public class PdfExportConfig extends ExportConfig {
     private final boolean exportTags;
     private final boolean exportFood;
     private final boolean splitInsulin;
+    private final boolean highlightLimits;
 
     public PdfExportConfig(
         ExportCallback callback,
@@ -32,7 +33,8 @@ public class PdfExportConfig extends ExportConfig {
         boolean exportNotes,
         boolean exportTags,
         boolean exportFood,
-        boolean splitInsulin
+        boolean splitInsulin,
+        boolean highlightLimits
     ) {
         super(callback, dateStart, dateEnd, categories);
         this.contextReference = new WeakReference<>(context);
@@ -41,6 +43,7 @@ public class PdfExportConfig extends ExportConfig {
         this.exportTags = exportTags;
         this.exportFood = exportFood;
         this.splitInsulin = splitInsulin;
+        this.highlightLimits = highlightLimits;
     }
 
     public  WeakReference<Context> getContextReference() {
@@ -67,6 +70,10 @@ public class PdfExportConfig extends ExportConfig {
         return splitInsulin;
     }
 
+    public boolean isHighlightLimits() {
+        return highlightLimits;
+    }
+
     @Override
     public void persistInSharedPreferences() {
         super.persistInSharedPreferences();
@@ -75,5 +82,6 @@ public class PdfExportConfig extends ExportConfig {
         PreferenceHelper.getInstance().setExportTags(exportTags);
         PreferenceHelper.getInstance().setExportFood(exportFood);
         PreferenceHelper.getInstance().setExportInsulinSplit(splitInsulin);
+        PreferenceHelper.getInstance().setLimitsAreHighlighted(highlightLimits);
     }
 }

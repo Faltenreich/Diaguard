@@ -161,11 +161,12 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
         boolean exportTags = checkBoxTags.isChecked();
         boolean exportFood = categoryCheckBoxList.exportFood();
         boolean splitInsulin = categoryCheckBoxList.splitInsulin();
+        boolean highlightLimits = categoryCheckBoxList.highlightLimits();
 
         ExportFormat type = getFormat();
         switch (type) {
             case PDF:
-                Export.exportPdf(this, dateStart, dateEnd, categories, getContext(), style, exportNotes, exportTags, exportFood, splitInsulin);
+                Export.exportPdf(this, dateStart, dateEnd, categories, getContext(), style, exportNotes, exportTags, exportFood, splitInsulin, highlightLimits);
                 break;
             case CSV:
                 Export.exportCsv(this, dateStart, dateEnd, categories);

@@ -36,7 +36,8 @@ public class Export {
         boolean exportNotes,
         boolean exportTags,
         boolean exportFood,
-        boolean splitInsulin
+        boolean splitInsulin,
+        boolean highlightLimits
     ) {
         PdfExportConfig config = new PdfExportConfig(
             callback,
@@ -48,7 +49,8 @@ public class Export {
             exportNotes,
             exportTags,
             exportFood,
-            splitInsulin
+            splitInsulin,
+            highlightLimits
         );
         config.persistInSharedPreferences();
         PdfExport pdfExport = new PdfExport(config);

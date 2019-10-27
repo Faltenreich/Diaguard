@@ -339,6 +339,10 @@ public class PreferenceHelper {
         return sharedPreferences.getBoolean("targets_highlight", true);
     }
 
+    public void setLimitsAreHighlighted(boolean isHighlighted) {
+        sharedPreferences.edit().putBoolean("targets_highlight", isHighlighted).apply();
+    }
+
     public float getLimitHyperglycemia() {
         return NumberUtils.parseNumber(sharedPreferences.getString("hyperclycemia",
                 getContext().getString(R.string.pref_therapy_targets_hyperclycemia_default)));

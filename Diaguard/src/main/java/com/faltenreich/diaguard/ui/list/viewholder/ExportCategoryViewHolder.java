@@ -41,6 +41,9 @@ public class ExportCategoryViewHolder extends BaseViewHolder<ListItemExportCateg
 
         String extraTitle;
         switch (category) {
+            case BLOODSUGAR:
+                extraTitle = getContext().getString(R.string.highlight_limits);
+                break;
             case INSULIN:
                 extraTitle = getContext().getString(R.string.insulin_split);
                 break;

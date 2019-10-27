@@ -228,7 +228,7 @@
     <string name="pref_therapy_targets">Les valeurs cibles</string>
     <string name="pref_therapy_targets_target">Valeur cible</string>
     <string name="pref_therapy_limits">Limites</string>
-    <string name="pref_therapy_targets_highlight">Mettez en surbrillance les zones frontalières?</string>
+    <string name="pref_therapy_targets_highlight">Mettre les limites?</string>
     <string name="pref_therapy_targets_hyperclycemia">Limite d\'hyperglycémie</string>
     <string name="pref_therapy_targets_hypoclycemia">Limite d\'hypoglycémie</string>
 
@@ -340,6 +340,7 @@
     <string name="help">Aider</string>
     <string name="category_preference_desc">Active:\nLa catégorie est affichée ou masquée\n\nFixé:\nLa catégorie est automatiquement présélectionnée pour les nouvelles entrées\n\nTrier:\n Maintenez le symbole en six points et faites glisser le curseur vers le haut ou le bas</string>
     <string name="insulin_split">Fractionner l\'insuline</string>
+    <string name="highlight_limits">Mettre les limites</string>
 
     <string name="theme">Thème de couleur</string>
     <string name="theme_light">Lumière</string>

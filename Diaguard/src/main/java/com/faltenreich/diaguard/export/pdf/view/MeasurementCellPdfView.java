@@ -31,7 +31,7 @@ public class MeasurementCellPdfView extends Cell {
                 break;
         }
         int textColor = Color.black;
-        if (category == Measurement.Category.BLOODSUGAR && PreferenceHelper.getInstance().limitsAreHighlighted()) {
+        if (category == Measurement.Category.BLOODSUGAR && cache.getConfig().isHighlightLimits()) {
             if (value > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
                 textColor = cache.getColorHyperglycemia();
             } else if (value < PreferenceHelper.getInstance().getLimitHypoglycemia()) {

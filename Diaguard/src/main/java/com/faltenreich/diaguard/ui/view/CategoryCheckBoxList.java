@@ -51,6 +51,9 @@ public class CategoryCheckBoxList extends RecyclerView {
             boolean isCategorySelected = selectedCategories.contains(category);
             boolean isExtraSelected;
             switch (category) {
+                case BLOODSUGAR:
+                    isExtraSelected = PreferenceHelper.getInstance().limitsAreHighlighted();
+                    break;
                 case INSULIN:
                     isExtraSelected = PreferenceHelper.getInstance().exportInsulinSplit();
                     break;
@@ -89,6 +92,15 @@ public class CategoryCheckBoxList extends RecyclerView {
     public boolean splitInsulin() {
         for (ListItemExportCategory item : adapter.getItems()) {
             if (item.getCategory() == Measurement.Category.INSULIN) {
+                return item.isExtraSelected();
+            }
+        }
+        return false;
+    }
+
+    public boolean highlightLimits() {
+        for (ListItemExportCategory item : adapter.getItems()) {
+            if (item.getCategory() == Measurement.Category.BLOODSUGAR) {
                 return item.isExtraSelected();
             }
         }

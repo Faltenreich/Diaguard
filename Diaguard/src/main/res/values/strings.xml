@@ -525,6 +525,7 @@
     <string name="help">Help</string>
     <string name="category_preference_desc">Active:\nCategory is displayed or hidden\n\nFixed:\nCategory is automatically preselected for new entries\n\nSort:\nHold down the six-point symbol and drag up or down</string>
     <string name="insulin_split">Split up insulin</string>
+    <string name="highlight_limits">Highlight limits</string>
 
     <string name="theme">Color theme</string>
     <string name="theme_light">Light</string>

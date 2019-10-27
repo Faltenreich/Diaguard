@@ -10,7 +10,9 @@ import com.faltenreich.diaguard.export.ExportCallback;
 import com.faltenreich.diaguard.export.ExportFormat;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportConfig;
+import com.faltenreich.diaguard.export.pdf.print.PdfLog;
 import com.faltenreich.diaguard.export.pdf.print.PdfPage;
+import com.faltenreich.diaguard.export.pdf.print.PdfPrintable;
 import com.faltenreich.diaguard.export.pdf.print.PdfTable;
 import com.faltenreich.diaguard.export.pdf.print.PdfWeek;
 
@@ -43,15 +45,25 @@ public class PdfExport extends AsyncTask<Void, String, File> {
                     page.draw(new PdfWeek(cache));
                 }
 
-                PdfTable table = new PdfTable(cache, page.getWidth());
+                PdfPrintable content = null;
+                switch (cache.getConfig().getStyle()) {
+                    case TABLE:
+                        content = new PdfTable(cache, page.getWidth());
+                        break;
+                    case LOG:
+                        content = new PdfLog(cache, page.getWidth());
+                        break;
+                    case TIMELINE:
+                        throw new IllegalArgumentException("Timeline is currently not supported");
+                }
 
                 // Page break
-                if ((page.getPosition().getY() + table.getHeight()) > page.getEndPoint().getY()) {
+                if ((page.getPosition().getY() + content.getHeight()) > page.getEndPoint().getY()) {
                     page = new PdfPage(cache.getPdf());
                     page.draw(new PdfWeek(cache));
                 }
 
-                page.draw(table);
+                page.draw(content);
 
                 publishProgress(String.format("%s %d/%d",
                     DiaguardApplication.getContext().getString(R.string.day),

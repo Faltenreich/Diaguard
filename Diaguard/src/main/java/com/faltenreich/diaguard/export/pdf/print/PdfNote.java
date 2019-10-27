@@ -2,11 +2,12 @@ package com.faltenreich.diaguard.export.pdf.print;
 
 import org.joda.time.DateTime;
 
-class PdfNote {
+public class PdfNote {
+
     private DateTime dateTime;
     private String note;
 
-    PdfNote(DateTime dateTime, String note) {
+    public PdfNote(DateTime dateTime, String note) {
         this.dateTime = dateTime;
         this.note = note;
     }

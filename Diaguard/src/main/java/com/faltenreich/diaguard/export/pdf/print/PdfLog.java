@@ -12,6 +12,7 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.export.pdf.view.DayCellPdfView;
+import com.faltenreich.diaguard.export.pdf.view.PdfCellView;
 import com.faltenreich.diaguard.export.pdf.view.SizedTablePdfView;
 import com.pdfjet.Cell;
 import com.pdfjet.Color;
@@ -60,12 +61,10 @@ public class PdfLog implements PdfPrintable {
 
         List<Entry> entries = EntryDao.getInstance().getEntriesOfDay(cache.getDateTime());
         if (entries.isEmpty()) {
-            Cell emptyCell = new Cell(cache.getFontNormal());
+            Cell emptyCell = new PdfCellView(cache.getFontNormal(), width);
             emptyCell.setText(context.getString(R.string.no_data));
             emptyCell.setBgColor(cache.getColorDivider());
             emptyCell.setFgColor(Color.gray);
-            emptyCell.setWidth(width);
-            emptyCell.setNoBorders();
             List<Cell> row = new ArrayList<>();
             row.add(emptyCell);
             data.add(row);
@@ -87,12 +86,10 @@ public class PdfLog implements PdfPrintable {
                     List<Cell> entryRow = new ArrayList<>();
 
                     boolean showTime = measurementIndex == 0;
-                    Cell timeCell = new Cell(cache.getFontNormal());
+                    Cell timeCell = new PdfCellView(cache.getFontNormal(), PdfLog.TIME_WIDTH);
                     timeCell.setText(showTime ? entry.getDate().toString("HH:mm") : null);
                     timeCell.setBgColor(backgroundColor);
                     timeCell.setFgColor(Color.gray);
-                    timeCell.setWidth(PdfLog.TIME_WIDTH);
-                    timeCell.setNoBorders();
                     entryRow.add(timeCell);
 
                     Cell categoryCell = new Cell(cache.getFontNormal());
@@ -116,11 +113,9 @@ public class PdfLog implements PdfPrintable {
                             );
                     }
 
-                    Cell measurementCell = new Cell(cache.getFontNormal());
+                    Cell measurementCell = new PdfCellView(cache.getFontNormal(), width - timeCell.getWidth() - categoryCell.getWidth());
                     measurementCell.setText(text);
                     measurementCell.setBgColor(backgroundColor);
-                    measurementCell.setWidth(width - timeCell.getWidth() - categoryCell.getWidth());
-                    measurementCell.setNoBorders();
                     entryRow.add(measurementCell);
 
                     data.add(entryRow);

@@ -16,14 +16,15 @@ import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportConfig;
-import com.faltenreich.diaguard.export.pdf.view.LabelCellPdfView;
 import com.faltenreich.diaguard.export.pdf.view.DayCellPdfView;
 import com.faltenreich.diaguard.export.pdf.view.HourCellPdfView;
+import com.faltenreich.diaguard.export.pdf.view.LabelCellPdfView;
 import com.faltenreich.diaguard.export.pdf.view.MeasurementCellPdfView;
 import com.faltenreich.diaguard.export.pdf.view.NoteCellPdfView;
+import com.faltenreich.diaguard.export.pdf.view.PdfCellView;
 import com.faltenreich.diaguard.export.pdf.view.SizedTablePdfView;
-import com.faltenreich.diaguard.export.pdf.view.TimeCellPdfView;
 import com.faltenreich.diaguard.ui.list.item.ListItemCategoryValue;
+import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.StringUtils;
 import com.pdfjet.Border;
 import com.pdfjet.Cell;
@@ -153,7 +154,9 @@ public class PdfTable implements PdfPrintable {
 
                     ArrayList<Cell> noteCells = new ArrayList<>();
 
-                    Cell timeCell = new TimeCellPdfView(cache.getFontNormal(), note.getDateTime());
+                    Cell timeCell = new PdfCellView(cache.getFontNormal(), LABEL_WIDTH);
+                    timeCell.setText(Helper.getTimeFormat().print(note.getDateTime()));
+                    timeCell.setFgColor(Color.gray);
                     if (isFirst) {
                         timeCell.setBorder(Border.TOP, true);
                     }

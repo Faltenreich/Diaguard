@@ -4,10 +4,8 @@ import android.content.Context;
 import android.util.Log;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.entity.Entry;
-import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportConfig;
@@ -101,20 +99,8 @@ public class PdfLog implements PdfPrintable {
                     categoryCell.setNoBorders();
                     entryRow.add(categoryCell);
 
-                    String text;
-                    switch (measurement.getCategory()) {
-                        case INSULIN:
-                            text = ((Insulin) measurement).toStringDetail();
-                            break;
-                        default:
-                            text = String.format("%s %s",
-                                measurement.toString(),
-                                PreferenceHelper.getInstance().getUnitAcronym(measurement.getCategory())
-                            );
-                    }
-
                     Cell measurementCell = new PdfCellView(cache.getFontNormal(), width - timeCell.getWidth() - categoryCell.getWidth());
-                    measurementCell.setText(text);
+                    measurementCell.setText(measurement.print());
                     measurementCell.setBgColor(backgroundColor);
                     entryRow.add(measurementCell);
 

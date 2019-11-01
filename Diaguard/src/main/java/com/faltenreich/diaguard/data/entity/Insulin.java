@@ -79,7 +79,8 @@ public class Insulin extends Measurement {
         return Helper.parseFloat(customTotal);
     }
 
-    public String toStringDetail() {
+    @Override
+    public String print() {
         float total = bolus + correction + basal;
         StringBuilder stringBuilder = new StringBuilder(PreferenceHelper.getInstance().getMeasurementForUi(getCategory(), total));
         stringBuilder.append(String.format(" %s", PreferenceHelper.getInstance().getUnitAcronym(getCategory())));

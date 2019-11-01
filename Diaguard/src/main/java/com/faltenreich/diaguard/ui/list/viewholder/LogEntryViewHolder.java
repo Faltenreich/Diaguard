@@ -1,9 +1,6 @@
 package com.faltenreich.diaguard.ui.list.viewholder;
 
 import android.content.Context;
-import androidx.core.content.ContextCompat;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,18 +8,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.ItemTouchHelper;
+
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.ui.list.adapter.EntrySearchAdapter;
-import com.faltenreich.diaguard.ui.list.item.ListItemEntry;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.FoodEaten;
-import com.faltenreich.diaguard.data.entity.Insulin;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.ui.activity.EntryActivity;
+import com.faltenreich.diaguard.ui.list.adapter.EntrySearchAdapter;
+import com.faltenreich.diaguard.ui.list.item.ListItemEntry;
 import com.faltenreich.diaguard.ui.view.ChipView;
 
 import java.util.ArrayList;
@@ -109,26 +109,19 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemEntry> {
                     categoryImage.setImageDrawable(ContextCompat.getDrawable(getContext(), imageResourceId));
                     categoryImage.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray_dark));
                     TextView value = viewMeasurement.findViewById(R.id.value);
+                    value.setText(measurement.print());
 
-                    switch (category) {
-                        case INSULIN:
-                            value.setText(((Insulin) measurement).toStringDetail());
-                            break;
-                        case BLOODSUGAR:
-                            BloodSugar bloodSugar = (BloodSugar) measurement;
-                            if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
-                                int backgroundColor = ContextCompat.getColor(getContext(), R.color.green);
-                                if (bloodSugar.getMgDl() > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
-                                    backgroundColor = ContextCompat.getColor(getContext(), R.color.red);
-                                } else if (bloodSugar.getMgDl() < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
-                                    backgroundColor = ContextCompat.getColor(getContext(), R.color.blue);
-                                }
-                                categoryImage.setColorFilter(backgroundColor);
+                    if (category == Measurement.Category.BLOODSUGAR) {
+                        BloodSugar bloodSugar = (BloodSugar) measurement;
+                        if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
+                            int backgroundColor = ContextCompat.getColor(getContext(), R.color.green);
+                            if (bloodSugar.getMgDl() > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
+                                backgroundColor = ContextCompat.getColor(getContext(), R.color.red);
+                            } else if (bloodSugar.getMgDl() < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
+                                backgroundColor = ContextCompat.getColor(getContext(), R.color.blue);
                             }
-                        default:
-                            value.setText(String.format("%s %s",
-                                    measurement.toString(),
-                                    PreferenceHelper.getInstance().getUnitAcronym(category)));
+                            categoryImage.setColorFilter(backgroundColor);
+                        }
                     }
                     measurementsLayout.addView(viewMeasurement);
                 }

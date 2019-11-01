@@ -3,6 +3,9 @@ package com.faltenreich.diaguard.data.entity;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.Backupable;
 import com.faltenreich.diaguard.data.Exportable;
@@ -14,9 +17,6 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 
 public abstract class Measurement extends BaseEntity implements Backupable, Exportable {
 
@@ -192,5 +192,12 @@ public abstract class Measurement extends BaseEntity implements Backupable, Expo
     @Override
     public String[] getValuesForExport() {
         return ArrayUtils.addAll(new String[]{getCategory().name().toLowerCase()}, getValuesForUI());
+    }
+
+    public String print() {
+        return String.format("%s %s",
+            toString(),
+            PreferenceHelper.getInstance().getUnitAcronym(getCategory())
+        );
     }
 }

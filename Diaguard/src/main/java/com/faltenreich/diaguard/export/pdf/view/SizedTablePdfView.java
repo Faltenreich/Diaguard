@@ -29,9 +29,16 @@ public class SizedTablePdfView extends Table {
 
     public float getHeight() {
         float height = 0;
-        for (int row = 0; row < getRowCount(); row++) {
+        for (int rowIndex = 0; rowIndex < getRowCount(); rowIndex++) {
             try {
-                height += getRowAtIndex(row).get(0).getHeight();
+                float maxHeightOfRow = 0f;
+                for (Cell cell : getRowAtIndex(rowIndex)) {
+                    float cellHeight = cell.getHeight();
+                    if (cellHeight > maxHeightOfRow) {
+                        maxHeightOfRow = cellHeight;
+                    }
+                }
+                height += maxHeightOfRow;
             } catch (Exception exception) {
                 Log.e(TAG, exception.getMessage());
             }

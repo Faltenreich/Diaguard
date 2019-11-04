@@ -8,7 +8,8 @@ import com.pdfjet.Page;
 public class NoteCellPdfView extends MultilineCellPdfView {
 
     public NoteCellPdfView(Font font, String text, float width) {
-        super(font, text, width);
+        super(font);
+        setText(text);
         setFgColor(Color.gray);
         setWidth(width);
         setNoBorders();

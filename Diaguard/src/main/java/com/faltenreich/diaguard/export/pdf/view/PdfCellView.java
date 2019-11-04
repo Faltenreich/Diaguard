@@ -5,9 +5,8 @@ import com.pdfjet.Font;
 
 public class PdfCellView extends Cell {
 
-    public PdfCellView(Font font, float width) {
+    public PdfCellView(Font font) {
         super(font);
-        setWidth(width);
         setNoBorders();
     }
 }

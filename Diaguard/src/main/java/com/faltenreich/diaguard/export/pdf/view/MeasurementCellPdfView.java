@@ -6,10 +6,9 @@ import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.ui.list.item.ListItemCategoryValue;
 import com.faltenreich.diaguard.util.Helper;
 import com.pdfjet.Align;
-import com.pdfjet.Cell;
 import com.pdfjet.Color;
 
-public class MeasurementCellPdfView extends Cell {
+public class MeasurementCellPdfView extends PdfCellView {
 
     public MeasurementCellPdfView(PdfExportCache cache, ListItemCategoryValue item, int valueIndex, int backgroundColor, float cellWidth) {
         super(cache.getFontNormal());
@@ -45,6 +44,5 @@ public class MeasurementCellPdfView extends Cell {
         setFgColor(textColor);
         setWidth(cellWidth);
         setTextAlignment(Align.CENTER);
-        setNoBorders();
     }
 }

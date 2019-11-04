@@ -1,18 +1,13 @@
 package com.faltenreich.diaguard.export.pdf.view;
 
 import com.pdfjet.Border;
-import com.pdfjet.Color;
 import com.pdfjet.Font;
 import com.pdfjet.Page;
 
 public class NoteCellPdfView extends MultilineCellPdfView {
 
-    public NoteCellPdfView(Font font, String text, float width) {
+    public NoteCellPdfView(Font font) {
         super(font);
-        setText(text);
-        setFgColor(Color.gray);
-        setWidth(width);
-        setNoBorders();
     }
 
     @Override

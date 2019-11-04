@@ -1,13 +1,12 @@
 package com.faltenreich.diaguard.export.pdf.view;
 
 import com.faltenreich.diaguard.export.pdf.print.PdfTable;
-import com.pdfjet.Cell;
 import com.pdfjet.Font;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
-public class DayCellPdfView extends Cell {
+public class DayCellPdfView extends PdfCellView {
 
     public DayCellPdfView(Font font, DateTime day) {
         super(font);
@@ -17,6 +16,5 @@ public class DayCellPdfView extends Cell {
         String text = String.format("%s %s", weekDayString, dateString);
         setText(text);
         setWidth(PdfTable.LABEL_WIDTH);
-        setNoBorders();
     }
 }

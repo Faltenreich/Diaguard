@@ -154,7 +154,8 @@ public class PdfTable implements PdfPrintable {
 
                     ArrayList<Cell> noteCells = new ArrayList<>();
 
-                    Cell timeCell = new PdfCellView(cache.getFontNormal(), LABEL_WIDTH);
+                    Cell timeCell = new PdfCellView(cache.getFontNormal());
+                    timeCell.setWidth(LABEL_WIDTH);
                     timeCell.setText(Helper.getTimeFormat().print(note.getDateTime()));
                     timeCell.setFgColor(Color.gray);
                     if (isFirst) {
@@ -165,7 +166,10 @@ public class PdfTable implements PdfPrintable {
                     }
                     noteCells.add(timeCell);
 
-                    NoteCellPdfView noteCell = new NoteCellPdfView(cache.getFontNormal(), note.getNote(), width - PdfTable.LABEL_WIDTH);
+                    NoteCellPdfView noteCell = new NoteCellPdfView(cache.getFontNormal());
+                    noteCell.setText(note.getNote());
+                    noteCell.setFgColor(Color.gray);
+                    noteCell.setWidth(width - PdfTable.LABEL_WIDTH);
                     if (isFirst) {
                         noteCell.setBorder(Border.TOP, true);
                     }

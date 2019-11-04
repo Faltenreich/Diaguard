@@ -64,7 +64,8 @@ public class PdfLog implements PdfPrintable {
 
         List<Entry> entries = EntryDao.getInstance().getEntriesOfDay(cache.getDateTime());
         if (entries.isEmpty()) {
-            Cell emptyCell = new PdfCellView(cache.getFontNormal(), width);
+            Cell emptyCell = new PdfCellView(cache.getFontNormal());
+            emptyCell.setWidth(width);
             emptyCell.setText(context.getString(R.string.no_data));
             emptyCell.setBgColor(cache.getColorDivider());
             emptyCell.setFgColor(Color.gray);
@@ -137,13 +138,15 @@ public class PdfLog implements PdfPrintable {
     private List<Cell> getRow(PdfExportCache cache, String title, String subtitle, String description, int backgroundColor) {
         List<Cell> entryRow = new ArrayList<>();
 
-        Cell titleCell = new PdfCellView(cache.getFontNormal(), PdfLog.TIME_WIDTH);
+        Cell titleCell = new PdfCellView(cache.getFontNormal());
+        titleCell.setWidth(PdfLog.TIME_WIDTH);
         titleCell.setText(title);
         titleCell.setBgColor(backgroundColor);
         titleCell.setFgColor(Color.gray);
         entryRow.add(titleCell);
 
-        Cell subtitleCell = new PdfCellView(cache.getFontNormal(), PdfLog.LABEL_WIDTH);
+        Cell subtitleCell = new PdfCellView(cache.getFontNormal());
+        subtitleCell.setWidth(PdfLog.LABEL_WIDTH);
         subtitleCell.setText(subtitle);
         subtitleCell.setBgColor(backgroundColor);
         subtitleCell.setFgColor(Color.gray);

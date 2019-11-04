@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.export.pdf.view;
 
 import com.faltenreich.diaguard.util.StringUtils;
-import com.pdfjet.Cell;
 import com.pdfjet.Font;
 import com.pdfjet.Page;
 
@@ -9,7 +8,7 @@ import org.apache.commons.lang3.text.WordUtils;
 
 import java.io.IOException;
 
-public class MultilineCellPdfView extends Cell {
+public class MultilineCellPdfView extends PdfCellView {
 
     public MultilineCellPdfView(Font font) {
         super(font);

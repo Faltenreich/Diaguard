@@ -1,17 +1,21 @@
 package com.faltenreich.diaguard.export.pdf.print;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.dao.EntryDao;
+import com.faltenreich.diaguard.data.dao.EntryTagDao;
 import com.faltenreich.diaguard.data.entity.Entry;
+import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.export.pdf.view.DayCellPdfView;
 import com.faltenreich.diaguard.export.pdf.view.PdfCellView;
 import com.faltenreich.diaguard.export.pdf.view.SizedTablePdfView;
+import com.faltenreich.diaguard.util.StringUtils;
 import com.pdfjet.Cell;
 import com.pdfjet.Color;
 import com.pdfjet.Point;
@@ -72,41 +76,52 @@ public class PdfLog implements PdfPrintable {
                 entry.setMeasurementCache(measurements);
             }
 
-            int row = 0;
+            int rowIndex = 0;
             for (Entry entry : entries) {
-                int backgroundColor = row % 2 == 0 ? cache.getColorDivider() : Color.white;
+                int backgroundColor = rowIndex % 2 == 0 ? cache.getColorDivider() : Color.white;
+                int oldSize = data.size();
+                String time = entry.getDate().toString("HH:mm");
 
-                List<Measurement> measurements = entry.getMeasurementCache();
-                for (int measurementIndex = 0; measurementIndex < measurements.size(); measurementIndex++) {
-                    Measurement measurement = measurements.get(measurementIndex);
+                for (Measurement measurement : entry.getMeasurementCache()) {
                     Measurement.Category category = measurement.getCategory();
-
-                    List<Cell> entryRow = new ArrayList<>();
-
-                    boolean showTime = measurementIndex == 0;
-                    Cell timeCell = new PdfCellView(cache.getFontNormal(), PdfLog.TIME_WIDTH);
-                    timeCell.setText(showTime ? entry.getDate().toString("HH:mm") : null);
-                    timeCell.setBgColor(backgroundColor);
-                    timeCell.setFgColor(Color.gray);
-                    entryRow.add(timeCell);
-
-                    Cell categoryCell = new Cell(cache.getFontNormal());
-                    categoryCell.setText(category.toLocalizedString(context));
-                    categoryCell.setBgColor(backgroundColor);
-                    categoryCell.setFgColor(Color.gray);
-                    // TODO: Adjust width for all languages
-                    categoryCell.setWidth(PdfLog.LABEL_WIDTH);
-                    categoryCell.setNoBorders();
-                    entryRow.add(categoryCell);
-
-                    Cell measurementCell = new PdfCellView(cache.getFontNormal(), width - timeCell.getWidth() - categoryCell.getWidth());
-                    measurementCell.setText(measurement.print());
-                    measurementCell.setBgColor(backgroundColor);
-                    entryRow.add(measurementCell);
-
-                    data.add(entryRow);
+                    data.add(getRow(
+                        cache,
+                        data.size() == oldSize ? time : null,
+                        category.toLocalizedString(context),
+                        measurement.print(),
+                        backgroundColor
+                    ));
                 }
-                row++;
+
+                List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(entry);
+                if (!entryTags.isEmpty()) {
+                    List<String> tagNames = new ArrayList<>();
+                    for (EntryTag entryTag : entryTags) {
+                        String tagName = entryTag.getTag().getName();
+                        if (!StringUtils.isBlank(tagName)) {
+                            tagNames.add(entryTag.getTag().getName());
+                        }
+                    }
+                    data.add(getRow(
+                        cache,
+                        data.size() == oldSize ? time : null,
+                        context.getString(R.string.tags),
+                        TextUtils.join(", ", tagNames),
+                        backgroundColor
+                    ));
+                }
+
+                if (!StringUtils.isBlank(entry.getNote())) {
+                    data.add(getRow(
+                        cache,
+                        data.size() == oldSize ? time : null,
+                        context.getString(R.string.note),
+                        entry.getNote(),
+                        backgroundColor
+                    ));
+                }
+
+                rowIndex++;
             }
         }
 
@@ -115,5 +130,31 @@ public class PdfLog implements PdfPrintable {
         } catch (Exception exception) {
             Log.e(TAG, exception.getMessage());
         }
+    }
+
+    private List<Cell> getRow(PdfExportCache cache, String title, String subtitle, String description, int backgroundColor) {
+        List<Cell> entryRow = new ArrayList<>();
+
+        Cell timeCell = new PdfCellView(cache.getFontNormal(), PdfLog.TIME_WIDTH);
+        timeCell.setText(title);
+        timeCell.setBgColor(backgroundColor);
+        timeCell.setFgColor(Color.gray);
+        entryRow.add(timeCell);
+
+        Cell categoryCell = new Cell(cache.getFontNormal());
+        categoryCell.setText(subtitle);
+        categoryCell.setBgColor(backgroundColor);
+        categoryCell.setFgColor(Color.gray);
+        // TODO: Adjust width for all languages
+        categoryCell.setWidth(PdfLog.LABEL_WIDTH);
+        categoryCell.setNoBorders();
+        entryRow.add(categoryCell);
+
+        Cell measurementCell = new PdfCellView(cache.getFontNormal(), width - timeCell.getWidth() - categoryCell.getWidth());
+        measurementCell.setText(description);
+        measurementCell.setBgColor(backgroundColor);
+        entryRow.add(measurementCell);
+
+        return entryRow;
     }
 }

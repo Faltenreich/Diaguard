@@ -156,6 +156,7 @@ public class PdfLog implements PdfPrintable {
         descriptionCell.setText(description);
         descriptionCell.setWidth(width - titleCell.getWidth() - subtitleCell.getWidth());
         descriptionCell.setBgColor(backgroundColor);
+        descriptionCell.setFgColor(Color.black);
         entryRow.add(descriptionCell);
 
         return entryRow;

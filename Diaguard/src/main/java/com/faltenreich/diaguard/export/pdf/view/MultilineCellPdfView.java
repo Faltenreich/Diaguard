@@ -21,16 +21,16 @@ public class MultilineCellPdfView extends PdfCellView {
 
     @Override
     public float getHeight() {
-        float height = font.getBodyHeight();
+        float fontHeight = font.getBodyHeight();
         String text = getText();
 
         if (text != null) {
             String[] lines = text.split(StringUtils.newLine());
             if (lines.length > 1) {
-                return (height * lines.length) + top_padding + bottom_padding;
+                return (fontHeight * lines.length) + top_padding + bottom_padding;
             }
         }
-        return height + top_padding + bottom_padding;
+        return fontHeight + top_padding + bottom_padding;
     }
 
     @Override

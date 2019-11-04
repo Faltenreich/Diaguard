@@ -11,18 +11,13 @@ import java.io.IOException;
 
 public class MultilineCellPdfView extends Cell {
 
-    private int characterCount;
-
-    public MultilineCellPdfView(Font font, String text, float width) {
+    public MultilineCellPdfView(Font font) {
         super(font);
-        setWidth(width);
-        setText(text);
-        characterCount = font.getFitChars(text, width);
     }
 
     @Override
     public String getText() {
-        return WordUtils.wrap(super.getText(), characterCount);
+        return WordUtils.wrap(super.getText(), font.getFitChars(text, width));
     }
 
     @Override
@@ -42,10 +37,10 @@ public class MultilineCellPdfView extends Cell {
     @Override
     protected void paint(Page page, float x, float y, float w, float h) throws Exception {
         drawBackground(page, x, y, w, h);
-        drawText(page, x, y, w, h);
+        drawText(page, x, y);
     }
 
-    private void drawText(Page page, float x, float y, float w, float h) throws IOException {
+    private void drawText(Page page, float x, float y) throws IOException {
         page.setBrushColor(getPenColor());
 
         String text = getText();

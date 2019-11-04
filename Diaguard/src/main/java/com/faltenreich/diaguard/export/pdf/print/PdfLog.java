@@ -149,11 +149,9 @@ public class PdfLog implements PdfPrintable {
         subtitleCell.setFgColor(Color.gray);
         entryRow.add(subtitleCell);
 
-        Cell descriptionCell = new MultilineCellPdfView(
-            cache.getFontNormal(),
-            description,
-            width - titleCell.getWidth() - subtitleCell.getWidth()
-        );
+        Cell descriptionCell = new MultilineCellPdfView(cache.getFontNormal());
+        descriptionCell.setText(description);
+        descriptionCell.setWidth(width - titleCell.getWidth() - subtitleCell.getWidth());
         descriptionCell.setBgColor(backgroundColor);
         entryRow.add(descriptionCell);
 

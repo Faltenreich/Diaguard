@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.export.pdf.view;
 
-import com.pdfjet.Border;
 import com.pdfjet.Cell;
 import com.pdfjet.Font;
 import com.pdfjet.Page;
@@ -42,39 +41,7 @@ public class MultilineCellPdfView extends Cell {
     protected void paint(Page page, float x, float y, float w, float h) throws Exception {
         page.setPenColor(this.getPenColor());
         page.setPenWidth(this.lineWidth);
-        drawBorders(page, x, y, w, h);
         drawText(page, x, y);
-    }
-
-    private void drawBorders(Page page, float x, float y, float cell_w, float cell_h) throws Exception {
-        if (getBorder(Border.TOP) &&
-            getBorder(Border.BOTTOM) &&
-            getBorder(Border.LEFT) &&
-            getBorder(Border.RIGHT)
-        ) {
-            page.drawRect(x, y, cell_w, cell_h);
-        } else {
-            if (getBorder(Border.TOP)) {
-                page.moveTo(x, y);
-                page.lineTo(x + cell_w, y);
-                page.strokePath();
-            }
-            if (getBorder(Border.BOTTOM)) {
-                page.moveTo(x, y + cell_h);
-                page.lineTo(x + cell_w, y + cell_h);
-                page.strokePath();
-            }
-            if (getBorder(Border.LEFT)) {
-                page.moveTo(x, y);
-                page.lineTo(x, y + cell_h);
-                page.strokePath();
-            }
-            if (getBorder(Border.RIGHT)) {
-                page.moveTo(x + cell_w, y);
-                page.lineTo(x + cell_w, y + cell_h);
-                page.strokePath();
-            }
-        }
     }
 
     private void drawText(Page page, float x, float y) throws IOException {

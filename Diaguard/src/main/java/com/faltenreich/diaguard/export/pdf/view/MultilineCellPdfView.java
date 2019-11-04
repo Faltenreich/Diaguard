@@ -31,9 +31,9 @@ public class MultilineCellPdfView extends Cell {
         String text = getText();
 
         if (text != null) {
-            String[] wrappedTexts = text.split(StringUtils.newLine());
-            if (wrappedTexts.length > 1) {
-                return (height * wrappedTexts.length) + top_padding + bottom_padding;
+            String[] lines = text.split(StringUtils.newLine());
+            if (lines.length > 1) {
+                return (height * lines.length) + top_padding + bottom_padding;
             }
         }
         return height + top_padding + bottom_padding;
@@ -41,14 +41,15 @@ public class MultilineCellPdfView extends Cell {
 
     @Override
     protected void paint(Page page, float x, float y, float w, float h) throws Exception {
-        page.setPenColor(getPenColor());
-        page.setPenWidth(lineWidth);
-        drawText(page, x, y);
+        drawBackground(page, x, y, w, h);
+        drawText(page, x, y, w, h);
     }
 
-    private void drawText(Page page, float x, float y) throws IOException {
-        String wrappedText = WordUtils.wrap(super.getText(), this.characterCount);
-        String[] lines = wrappedText.split(StringUtils.newLine());
+    private void drawText(Page page, float x, float y, float w, float h) throws IOException {
+        page.setBrushColor(getPenColor());
+
+        String text = getText();
+        String[] lines = text.split(StringUtils.newLine());
 
         float x_text = x + left_padding;
         float y_text = y + font.getAscent() + top_padding;
@@ -57,5 +58,11 @@ public class MultilineCellPdfView extends Cell {
             page.drawString(font, line, x_text, y_text);
             y_text += font.getBodyHeight();
         }
+    }
+
+    private void drawBackground(Page page, float x, float y, float w, float h) throws IOException {
+        page.setBrushColor(getBgColor());
+
+        page.fillRect(x, y + lineWidth / 2, w, h + lineWidth);
     }
 }

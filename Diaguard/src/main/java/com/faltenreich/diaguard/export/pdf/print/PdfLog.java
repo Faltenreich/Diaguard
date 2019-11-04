@@ -132,28 +132,29 @@ public class PdfLog implements PdfPrintable {
         }
     }
 
+    // FIXME: Break lines accordingly
     private List<Cell> getRow(PdfExportCache cache, String title, String subtitle, String description, int backgroundColor) {
         List<Cell> entryRow = new ArrayList<>();
 
-        Cell timeCell = new PdfCellView(cache.getFontNormal(), PdfLog.TIME_WIDTH);
-        timeCell.setText(title);
-        timeCell.setBgColor(backgroundColor);
-        timeCell.setFgColor(Color.gray);
-        entryRow.add(timeCell);
+        Cell titleCell = new PdfCellView(cache.getFontNormal(), PdfLog.TIME_WIDTH);
+        titleCell.setText(title);
+        titleCell.setBgColor(backgroundColor);
+        titleCell.setFgColor(Color.gray);
+        entryRow.add(titleCell);
 
-        Cell categoryCell = new Cell(cache.getFontNormal());
-        categoryCell.setText(subtitle);
-        categoryCell.setBgColor(backgroundColor);
-        categoryCell.setFgColor(Color.gray);
-        // TODO: Adjust width for all languages
-        categoryCell.setWidth(PdfLog.LABEL_WIDTH);
-        categoryCell.setNoBorders();
-        entryRow.add(categoryCell);
+        Cell subtitleCell = new PdfCellView(cache.getFontNormal(), PdfLog.LABEL_WIDTH);
+        subtitleCell.setText(subtitle);
+        subtitleCell.setBgColor(backgroundColor);
+        subtitleCell.setFgColor(Color.gray);
+        entryRow.add(subtitleCell);
 
-        Cell measurementCell = new PdfCellView(cache.getFontNormal(), width - timeCell.getWidth() - categoryCell.getWidth());
-        measurementCell.setText(description);
-        measurementCell.setBgColor(backgroundColor);
-        entryRow.add(measurementCell);
+        Cell descriptionCell = new PdfCellView(
+            cache.getFontNormal(),
+            width - titleCell.getWidth() - subtitleCell.getWidth()
+        );
+        descriptionCell.setText(description);
+        descriptionCell.setBgColor(backgroundColor);
+        entryRow.add(descriptionCell);
 
         return entryRow;
     }

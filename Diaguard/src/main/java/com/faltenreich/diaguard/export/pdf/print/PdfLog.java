@@ -13,6 +13,7 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.export.pdf.view.DayCellPdfView;
+import com.faltenreich.diaguard.export.pdf.view.MultilineCellPdfView;
 import com.faltenreich.diaguard.export.pdf.view.PdfCellView;
 import com.faltenreich.diaguard.export.pdf.view.SizedTablePdfView;
 import com.faltenreich.diaguard.util.StringUtils;
@@ -148,11 +149,11 @@ public class PdfLog implements PdfPrintable {
         subtitleCell.setFgColor(Color.gray);
         entryRow.add(subtitleCell);
 
-        Cell descriptionCell = new PdfCellView(
+        Cell descriptionCell = new MultilineCellPdfView(
             cache.getFontNormal(),
+            description,
             width - titleCell.getWidth() - subtitleCell.getWidth()
         );
-        descriptionCell.setText(description);
         descriptionCell.setBgColor(backgroundColor);
         entryRow.add(descriptionCell);
 

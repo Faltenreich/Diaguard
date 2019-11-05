@@ -8,9 +8,9 @@ import com.faltenreich.diaguard.util.Helper;
 import com.pdfjet.Align;
 import com.pdfjet.Color;
 
-public class MeasurementCellPdfView extends PdfCellView {
+public class MeasurementCell extends Cell {
 
-    public MeasurementCellPdfView(PdfExportCache cache, ListItemCategoryValue item, int valueIndex, int backgroundColor, float cellWidth) {
+    public MeasurementCell(PdfExportCache cache, ListItemCategoryValue item, int valueIndex, int backgroundColor, float cellWidth) {
         super(cache.getFontNormal());
 
         Measurement.Category category = item.getCategory();

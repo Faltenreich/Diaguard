@@ -7,18 +7,14 @@ import com.pdfjet.Table;
 
 import java.util.List;
 
-public class SizedTablePdfView extends Table {
+public class SizedTable extends Table {
 
-    private static final String TAG = SizedTablePdfView.class.getSimpleName();
+    private static final String TAG = SizedTable.class.getSimpleName();
 
     private int rowCount;
 
-    public SizedTablePdfView() {
+    public SizedTable() {
         super();
-    }
-
-    public int getRowCount() {
-        return rowCount;
     }
 
     @Override
@@ -29,7 +25,7 @@ public class SizedTablePdfView extends Table {
 
     public float getHeight() {
         float height = 0;
-        for (int rowIndex = 0; rowIndex < getRowCount(); rowIndex++) {
+        for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
             try {
                 float maxHeightOfRow = 0f;
                 for (Cell cell : getRowAtIndex(rowIndex)) {

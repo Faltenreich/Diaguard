@@ -8,9 +8,9 @@ import org.apache.commons.lang3.text.WordUtils;
 
 import java.io.IOException;
 
-public class MultilineCellPdfView extends PdfCellView {
+public class MultilineCell extends Cell {
 
-    public MultilineCellPdfView(Font font) {
+    public MultilineCell(Font font) {
         super(font);
     }
 

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.export.pdf.print;
+package com.faltenreich.diaguard.export.pdf.meta;
 
 import org.joda.time.DateTime;
 

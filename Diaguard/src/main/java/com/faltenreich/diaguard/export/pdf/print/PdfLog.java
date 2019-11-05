@@ -59,6 +59,7 @@ public class PdfLog implements PdfPrintable {
         List<List<Cell>> data = new ArrayList<>();
         List<Cell> headerRow = new ArrayList<>();
         Cell headerCell = new CellBuilder(new Cell(cache.getFontBold()))
+            .setWidth(LABEL_WIDTH)
             .setText(cache.getDateTime())
             .build();
         headerRow.add(headerCell);
@@ -158,8 +159,8 @@ public class PdfLog implements PdfPrintable {
         entryRow.add(subtitleCell);
 
         Cell descriptionCell = new CellBuilder(new MultilineCell(cache.getFontNormal()))
-            .setText(description)
             .setWidth(width - titleCell.getWidth() - subtitleCell.getWidth())
+            .setText(description)
             .setBackgroundColor(backgroundColor)
             .setForegroundColor(Color.black)
             .build();

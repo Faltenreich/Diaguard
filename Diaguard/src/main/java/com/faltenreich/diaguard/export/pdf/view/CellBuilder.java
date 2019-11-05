@@ -9,22 +9,18 @@ import org.joda.time.format.DateTimeFormat;
 
 public class CellBuilder {
 
-    private static final int NO_BORDER = -1;
-
     private Cell cell;
     private float width;
     private String text;
     private int textAlignment;
     private int backgroundColor;
     private int foregroundColor;
-    private int border;
 
     public CellBuilder(Cell cell) {
         this.cell = cell;
         this.textAlignment = Align.LEFT;
         this.backgroundColor = Color.transparent;
         this.foregroundColor = Color.black;
-        this.border = NO_BORDER;
     }
 
     public CellBuilder setWidth(float width) {
@@ -59,22 +55,13 @@ public class CellBuilder {
         return this;
     }
 
-    public CellBuilder setBorder(int border) {
-        this.border = border;
-        return this;
-    }
-
     public Cell build() {
+        cell.setNoBorders();
         cell.setWidth(width);
         cell.setText(text);
         cell.setTextAlignment(textAlignment);
         cell.setBgColor(backgroundColor);
         cell.setFgColor(foregroundColor);
-        if (border != NO_BORDER) {
-            cell.setBorder(border, true);
-        } else {
-            cell.setNoBorders();
-        }
         return cell;
     }
 }

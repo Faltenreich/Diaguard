@@ -12,11 +12,11 @@ import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportConfig;
-import com.faltenreich.diaguard.export.pdf.view.DayCell;
+import com.faltenreich.diaguard.export.pdf.view.CellBuilder;
 import com.faltenreich.diaguard.export.pdf.view.MultilineCell;
-import com.faltenreich.diaguard.export.pdf.view.Cell;
 import com.faltenreich.diaguard.export.pdf.view.SizedTable;
 import com.faltenreich.diaguard.util.StringUtils;
+import com.pdfjet.Cell;
 import com.pdfjet.Color;
 import com.pdfjet.Point;
 
@@ -56,19 +56,23 @@ public class PdfLog implements PdfPrintable {
         PdfExportConfig config = cache.getConfig();
         Context context = config.getContextReference().get();
 
-        List<List<com.pdfjet.Cell>> data = new ArrayList<>();
-        List<com.pdfjet.Cell> headerRow = new ArrayList<>();
-        headerRow.add(new DayCell(cache.getFontBold(), cache.getDateTime()));
+        List<List<Cell>> data = new ArrayList<>();
+        List<Cell> headerRow = new ArrayList<>();
+        Cell headerCell = new CellBuilder(new Cell(cache.getFontBold()))
+            .setText(cache.getDateTime())
+            .build();
+        headerRow.add(headerCell);
         data.add(headerRow);
 
         List<Entry> entries = EntryDao.getInstance().getEntriesOfDay(cache.getDateTime());
         if (entries.isEmpty()) {
-            com.pdfjet.Cell emptyCell = new Cell(cache.getFontNormal());
-            emptyCell.setWidth(width);
-            emptyCell.setText(context.getString(R.string.no_data));
-            emptyCell.setBgColor(cache.getColorDivider());
-            emptyCell.setFgColor(Color.gray);
-            List<com.pdfjet.Cell> row = new ArrayList<>();
+            Cell emptyCell = new CellBuilder(new Cell(cache.getFontNormal()))
+                .setWidth(width)
+                .setText(context.getString(R.string.no_data))
+                .setBackgroundColor(cache.getColorDivider())
+                .setForegroundColor(Color.gray)
+                .build();
+            List<Cell> row = new ArrayList<>();
             row.add(emptyCell);
             data.add(row);
         } else {
@@ -133,29 +137,32 @@ public class PdfLog implements PdfPrintable {
         }
     }
 
-    // FIXME: Break lines accordingly
-    private List<com.pdfjet.Cell> getRow(PdfExportCache cache, String title, String subtitle, String description, int backgroundColor) {
-        List<com.pdfjet.Cell> entryRow = new ArrayList<>();
+    // FIXME: Break page accordingly
+    private List<Cell> getRow(PdfExportCache cache, String title, String subtitle, String description, int backgroundColor) {
+        List<Cell> entryRow = new ArrayList<>();
 
-        com.pdfjet.Cell titleCell = new Cell(cache.getFontNormal());
-        titleCell.setWidth(PdfLog.TIME_WIDTH);
-        titleCell.setText(title);
-        titleCell.setBgColor(backgroundColor);
-        titleCell.setFgColor(Color.gray);
+        Cell titleCell = new CellBuilder(new Cell(cache.getFontNormal()))
+            .setWidth(PdfLog.TIME_WIDTH)
+            .setText(title)
+            .setBackgroundColor(backgroundColor)
+            .setForegroundColor(Color.gray)
+            .build();
         entryRow.add(titleCell);
 
-        com.pdfjet.Cell subtitleCell = new Cell(cache.getFontNormal());
-        subtitleCell.setWidth(PdfLog.LABEL_WIDTH);
-        subtitleCell.setText(subtitle);
-        subtitleCell.setBgColor(backgroundColor);
-        subtitleCell.setFgColor(Color.gray);
+        Cell subtitleCell = new CellBuilder(new Cell(cache.getFontNormal()))
+            .setWidth(PdfLog.LABEL_WIDTH)
+            .setText(subtitle)
+            .setBackgroundColor(backgroundColor)
+            .setForegroundColor(Color.gray)
+            .build();
         entryRow.add(subtitleCell);
 
-        com.pdfjet.Cell descriptionCell = new MultilineCell(cache.getFontNormal());
-        descriptionCell.setText(description);
-        descriptionCell.setWidth(width - titleCell.getWidth() - subtitleCell.getWidth());
-        descriptionCell.setBgColor(backgroundColor);
-        descriptionCell.setFgColor(Color.black);
+        Cell descriptionCell = new CellBuilder(new MultilineCell(cache.getFontNormal()))
+            .setText(description)
+            .setWidth(width - titleCell.getWidth() - subtitleCell.getWidth())
+            .setBackgroundColor(backgroundColor)
+            .setForegroundColor(Color.black)
+            .build();
         entryRow.add(descriptionCell);
 
         return entryRow;

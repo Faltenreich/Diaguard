@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.export.pdf.view;
 
 import com.pdfjet.Align;
+import com.pdfjet.Cell;
 import com.pdfjet.Color;
 import com.pdfjet.Font;
 

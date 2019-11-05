@@ -6,9 +6,9 @@ import com.pdfjet.Font;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
-public class DayCellPdfView extends PdfCellView {
+public class DayCell extends Cell {
 
-    public DayCellPdfView(Font font, DateTime day) {
+    public DayCell(Font font, DateTime day) {
         super(font);
         String weekDayString = DateTimeFormat.forPattern("E").print(day);
         // TODO: Localize dateString

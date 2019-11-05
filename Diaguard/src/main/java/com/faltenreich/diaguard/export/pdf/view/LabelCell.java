@@ -4,9 +4,9 @@ import com.faltenreich.diaguard.export.pdf.print.PdfTable;
 import com.pdfjet.Color;
 import com.pdfjet.Font;
 
-public class LabelCellPdfView extends PdfCellView {
+public class LabelCell extends Cell {
 
-    public LabelCellPdfView(Font font, String label, int backgroundColor) {
+    public LabelCell(Font font, String label, int backgroundColor) {
         super(font);
         setText(label);
         setBgColor(backgroundColor);

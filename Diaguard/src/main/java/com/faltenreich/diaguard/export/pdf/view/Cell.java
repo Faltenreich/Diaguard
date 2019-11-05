@@ -1,11 +1,10 @@
 package com.faltenreich.diaguard.export.pdf.view;
 
-import com.pdfjet.Cell;
 import com.pdfjet.Font;
 
-public class PdfCellView extends Cell {
+public class Cell extends com.pdfjet.Cell {
 
-    public PdfCellView(Font font) {
+    public Cell(Font font) {
         super(font);
         setNoBorders();
     }

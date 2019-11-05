@@ -4,9 +4,9 @@ import com.pdfjet.Border;
 import com.pdfjet.Font;
 import com.pdfjet.Page;
 
-public class NoteCellPdfView extends MultilineCellPdfView {
+public class NoteCell extends MultilineCell {
 
-    public NoteCellPdfView(Font font) {
+    public NoteCell(Font font) {
         super(font);
     }
 

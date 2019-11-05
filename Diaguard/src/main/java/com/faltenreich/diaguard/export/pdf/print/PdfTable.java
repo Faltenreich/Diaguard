@@ -16,18 +16,18 @@ import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportConfig;
-import com.faltenreich.diaguard.export.pdf.view.DayCellPdfView;
-import com.faltenreich.diaguard.export.pdf.view.HourCellPdfView;
-import com.faltenreich.diaguard.export.pdf.view.LabelCellPdfView;
-import com.faltenreich.diaguard.export.pdf.view.MeasurementCellPdfView;
-import com.faltenreich.diaguard.export.pdf.view.NoteCellPdfView;
-import com.faltenreich.diaguard.export.pdf.view.PdfCellView;
-import com.faltenreich.diaguard.export.pdf.view.SizedTablePdfView;
+import com.faltenreich.diaguard.export.pdf.meta.PdfNote;
+import com.faltenreich.diaguard.export.pdf.view.DayCell;
+import com.faltenreich.diaguard.export.pdf.view.HourCell;
+import com.faltenreich.diaguard.export.pdf.view.LabelCell;
+import com.faltenreich.diaguard.export.pdf.view.MeasurementCell;
+import com.faltenreich.diaguard.export.pdf.view.NoteCell;
+import com.faltenreich.diaguard.export.pdf.view.Cell;
+import com.faltenreich.diaguard.export.pdf.view.SizedTable;
 import com.faltenreich.diaguard.ui.list.item.ListItemCategoryValue;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.StringUtils;
 import com.pdfjet.Border;
-import com.pdfjet.Cell;
 import com.pdfjet.Color;
 import com.pdfjet.Point;
 
@@ -44,11 +44,11 @@ public class PdfTable implements PdfPrintable {
     public static final float LABEL_WIDTH = 120;
     public static final int HOURS_TO_SKIP = 2;
 
-    private SizedTablePdfView table;
+    private SizedTable table;
     private float width;
 
     public PdfTable(PdfExportCache cache, float width) {
-        this.table = new SizedTablePdfView();
+        this.table = new SizedTable();
         this.width = width;
         init(cache);
     }
@@ -70,12 +70,12 @@ public class PdfTable implements PdfPrintable {
         Context context = config.getContextReference().get();
         float cellWidth = (width - LABEL_WIDTH) / (DateTimeConstants.HOURS_PER_DAY / 2f);
 
-        List<List<Cell>> data = new ArrayList<>();
+        List<List<com.pdfjet.Cell>> data = new ArrayList<>();
 
-        List<Cell> cells = new ArrayList<>();
-        cells.add(new DayCellPdfView(cache.getFontBold(), cache.getDateTime()));
+        List<com.pdfjet.Cell> cells = new ArrayList<>();
+        cells.add(new DayCell(cache.getFontBold(), cache.getDateTime()));
         for (int hour = 0; hour < DateTimeConstants.HOURS_PER_DAY; hour += PdfTable.HOURS_TO_SKIP) {
-            cells.add(new HourCellPdfView(cache.getFontNormal(), hour, cellWidth));
+            cells.add(new HourCell(cache.getFontNormal(), hour, cellWidth));
         }
         data.add(cells);
 
@@ -152,9 +152,9 @@ public class PdfTable implements PdfPrintable {
                     boolean isFirst = notes.indexOf(note) == 0;
                     boolean isLast = notes.indexOf(note) == notes.size() - 1;
 
-                    ArrayList<Cell> noteCells = new ArrayList<>();
+                    ArrayList<com.pdfjet.Cell> noteCells = new ArrayList<>();
 
-                    Cell timeCell = new PdfCellView(cache.getFontNormal());
+                    com.pdfjet.Cell timeCell = new Cell(cache.getFontNormal());
                     timeCell.setWidth(LABEL_WIDTH);
                     timeCell.setText(Helper.getTimeFormat().print(note.getDateTime()));
                     timeCell.setFgColor(Color.gray);
@@ -166,7 +166,7 @@ public class PdfTable implements PdfPrintable {
                     }
                     noteCells.add(timeCell);
 
-                    NoteCellPdfView noteCell = new NoteCellPdfView(cache.getFontNormal());
+                    NoteCell noteCell = new NoteCell(cache.getFontNormal());
                     noteCell.setText(note.getNote());
                     noteCell.setFgColor(Color.gray);
                     noteCell.setWidth(width - PdfTable.LABEL_WIDTH);
@@ -194,13 +194,13 @@ public class PdfTable implements PdfPrintable {
         return TextUtils.join(", ", notes);
     }
 
-    private List<Cell> createMeasurementRows(PdfExportCache cache, ListItemCategoryValue[] items, float cellWidth, int valueIndex, String label, int backgroundColor) {
-        List<Cell> cells = new ArrayList<>();
+    private List<com.pdfjet.Cell> createMeasurementRows(PdfExportCache cache, ListItemCategoryValue[] items, float cellWidth, int valueIndex, String label, int backgroundColor) {
+        List<com.pdfjet.Cell> cells = new ArrayList<>();
 
-        cells.add(new LabelCellPdfView(cache.getFontNormal(), label, backgroundColor));
+        cells.add(new LabelCell(cache.getFontNormal(), label, backgroundColor));
 
         for (ListItemCategoryValue item : items) {
-            cells.add(new MeasurementCellPdfView(cache, item, valueIndex, backgroundColor, cellWidth));
+            cells.add(new MeasurementCell(cache, item, valueIndex, backgroundColor, cellWidth));
         }
         return cells;
     }

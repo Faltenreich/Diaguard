@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.export.pdf.view;
 
 import com.faltenreich.diaguard.export.pdf.print.PdfTable;
+import com.pdfjet.Cell;
 import com.pdfjet.Font;
 
 import org.joda.time.DateTime;

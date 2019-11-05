@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.ui.list.item.ListItemCategoryValue;
 import com.faltenreich.diaguard.util.Helper;
 import com.pdfjet.Align;
+import com.pdfjet.Cell;
 import com.pdfjet.Color;
 
 public class MeasurementCell extends Cell {

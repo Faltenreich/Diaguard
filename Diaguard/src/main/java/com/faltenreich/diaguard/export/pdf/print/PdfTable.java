@@ -22,12 +22,12 @@ import com.faltenreich.diaguard.export.pdf.view.HourCell;
 import com.faltenreich.diaguard.export.pdf.view.LabelCell;
 import com.faltenreich.diaguard.export.pdf.view.MeasurementCell;
 import com.faltenreich.diaguard.export.pdf.view.NoteCell;
-import com.faltenreich.diaguard.export.pdf.view.Cell;
 import com.faltenreich.diaguard.export.pdf.view.SizedTable;
 import com.faltenreich.diaguard.ui.list.item.ListItemCategoryValue;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.StringUtils;
 import com.pdfjet.Border;
+import com.pdfjet.Cell;
 import com.pdfjet.Color;
 import com.pdfjet.Point;
 
@@ -70,9 +70,9 @@ public class PdfTable implements PdfPrintable {
         Context context = config.getContextReference().get();
         float cellWidth = (width - LABEL_WIDTH) / (DateTimeConstants.HOURS_PER_DAY / 2f);
 
-        List<List<com.pdfjet.Cell>> data = new ArrayList<>();
+        List<List<Cell>> data = new ArrayList<>();
 
-        List<com.pdfjet.Cell> cells = new ArrayList<>();
+        List<Cell> cells = new ArrayList<>();
         cells.add(new DayCell(cache.getFontBold(), cache.getDateTime()));
         for (int hour = 0; hour < DateTimeConstants.HOURS_PER_DAY; hour += PdfTable.HOURS_TO_SKIP) {
             cells.add(new HourCell(cache.getFontNormal(), hour, cellWidth));
@@ -152,9 +152,9 @@ public class PdfTable implements PdfPrintable {
                     boolean isFirst = notes.indexOf(note) == 0;
                     boolean isLast = notes.indexOf(note) == notes.size() - 1;
 
-                    ArrayList<com.pdfjet.Cell> noteCells = new ArrayList<>();
+                    ArrayList<Cell> noteCells = new ArrayList<>();
 
-                    com.pdfjet.Cell timeCell = new Cell(cache.getFontNormal());
+                    Cell timeCell = new Cell(cache.getFontNormal());
                     timeCell.setWidth(LABEL_WIDTH);
                     timeCell.setText(Helper.getTimeFormat().print(note.getDateTime()));
                     timeCell.setFgColor(Color.gray);
@@ -194,8 +194,8 @@ public class PdfTable implements PdfPrintable {
         return TextUtils.join(", ", notes);
     }
 
-    private List<com.pdfjet.Cell> createMeasurementRows(PdfExportCache cache, ListItemCategoryValue[] items, float cellWidth, int valueIndex, String label, int backgroundColor) {
-        List<com.pdfjet.Cell> cells = new ArrayList<>();
+    private List<Cell> createMeasurementRows(PdfExportCache cache, ListItemCategoryValue[] items, float cellWidth, int valueIndex, String label, int backgroundColor) {
+        List<Cell> cells = new ArrayList<>();
 
         cells.add(new LabelCell(cache.getFontNormal(), label, backgroundColor));
 

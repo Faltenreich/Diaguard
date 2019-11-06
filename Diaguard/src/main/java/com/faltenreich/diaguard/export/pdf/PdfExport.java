@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.export.ExportCallback;
 import com.faltenreich.diaguard.export.ExportFormat;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportConfig;
+import com.faltenreich.diaguard.export.pdf.print.PdfChart;
 import com.faltenreich.diaguard.export.pdf.print.PdfLog;
 import com.faltenreich.diaguard.export.pdf.print.PdfPage;
 import com.faltenreich.diaguard.export.pdf.print.PdfPrintable;
@@ -54,7 +55,8 @@ public class PdfExport extends AsyncTask<Void, String, File> {
                         content = new PdfLog(cache, page.getWidth());
                         break;
                     case TIMELINE:
-                        throw new IllegalArgumentException("Timeline is currently not supported");
+                        content = new PdfChart(cache, page.getWidth());
+                        break;
                 }
 
                 // Page break

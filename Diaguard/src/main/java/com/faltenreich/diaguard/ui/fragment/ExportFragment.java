@@ -124,9 +124,10 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
     }
 
     private PdfExportStyle getStyle() {
-        return radioButtonTimelineStyle.isChecked() ?
-            PdfExportStyle.TABLE : radioButtonLogStyle.isChecked() ?
-            PdfExportStyle.LOG : PdfExportStyle.TABLE;
+        return radioButtonTableStyle.isChecked() ? PdfExportStyle.TABLE :
+            radioButtonTimelineStyle.isChecked() ? PdfExportStyle.TIMELINE :
+                radioButtonLogStyle.isChecked() ? PdfExportStyle.LOG :
+                    PdfExportStyle.TABLE;
     }
 
     private void setStyle(PdfExportStyle style) {

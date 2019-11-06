@@ -1,15 +1,16 @@
 package com.faltenreich.diaguard.export.pdf.print;
 
-import android.util.Log;
-
+import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
+import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
+import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.export.pdf.view.SizedBox;
 import com.faltenreich.diaguard.export.pdf.view.SizedTable;
-import com.pdfjet.Color;
 import com.pdfjet.Point;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PdfChart implements PdfPrintable {
@@ -38,11 +39,7 @@ public class PdfChart implements PdfPrintable {
 
     @Override
     public void drawOn(PdfPage page, Point position) throws Exception {
-        try {
-            drawChart(page, position);
-        } catch (Exception exception) {
-            Log.e(TAG, exception.getMessage());
-        }
+        drawChart(page, position);
     }
 
     private void drawHeader() throws Exception {
@@ -54,14 +51,32 @@ public class PdfChart implements PdfPrintable {
         chart.drawOn(page);
 
         List<Entry> entries = EntryDao.getInstance().getEntriesOfDay(cache.getDateTime());
+        List<BloodSugar> bloodSugars = new ArrayList<>();
+        List<Measurement> otherMeasurements = new ArrayList<>();
         for (Entry entry : entries) {
-
+            List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
+            for (Measurement measurement : measurements) {
+                if (measurement instanceof BloodSugar) {
+                    bloodSugars.add((BloodSugar) measurement);
+                } else {
+                    otherMeasurements.add(measurement);
+                }
+            }
         }
 
-        Point point = new Point(10, 10);
-        point.setColor(Color.red);
-        point.placeIn(chart);
-        point.drawOn(page);
+        for (BloodSugar bloodSugar : bloodSugars) {
+            Entry entry = bloodSugar.getEntry();
+            int minute = entry.getDate().getMinuteOfDay();
+            float value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, bloodSugar.getMgDl());
+            // TODO
+            float x = 0;
+            float y = 0;
+
+            Point point = new Point(x, y);
+            // point.setColor(Color.red);
+            point.placeIn(chart);
+            point.drawOn(page);
+        }
     }
 
     private void drawTable() throws Exception {

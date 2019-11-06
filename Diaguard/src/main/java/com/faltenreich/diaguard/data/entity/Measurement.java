@@ -3,8 +3,11 @@ package com.faltenreich.diaguard.data.entity;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.Backupable;
@@ -49,31 +52,6 @@ public abstract class Measurement extends BaseEntity implements Backupable, Expo
             this.stableId = stableId;
             this.stringResId = stringResId;
             this.stackValues = stackValues;
-        }
-
-        public <M extends Measurement> M createMeasurement() {
-            switch (this) {
-                case BLOODSUGAR:
-                    return (M) new BloodSugar();
-                case INSULIN:
-                    return (M) new Insulin();
-                case MEAL:
-                    return (M) new Meal();
-                case ACTIVITY:
-                    return (M) new Activity();
-                case HBA1C:
-                    return (M) new HbA1c();
-                case WEIGHT:
-                    return (M) new Weight();
-                case PULSE:
-                    return (M) new Pulse();
-                case PRESSURE:
-                    return (M) new Pressure();
-                case OXYGEN_SATURATION:
-                    return (M) new OxygenSaturation();
-                default:
-                    return null;
-            }
         }
 
         public <M extends Measurement> Class<M> toClass() {
@@ -199,5 +177,11 @@ public abstract class Measurement extends BaseEntity implements Backupable, Expo
             toString(),
             PreferenceHelper.getInstance().getUnitAcronym(getCategory())
         );
+    }
+
+    @SuppressWarnings("unused")
+    @ColorInt
+    public int getColor(Context context, @ColorRes int defaultColorRes) {
+        return ContextCompat.getColor(context, defaultColorRes);
     }
 }

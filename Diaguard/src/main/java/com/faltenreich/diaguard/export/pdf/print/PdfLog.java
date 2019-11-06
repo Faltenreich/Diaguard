@@ -5,8 +5,10 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.EntryTagDao;
+import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.Measurement;
@@ -90,12 +92,23 @@ public class PdfLog implements PdfPrintable {
 
                 for (Measurement measurement : entry.getMeasurementCache()) {
                     Measurement.Category category = measurement.getCategory();
+                    int textColor = Color.black;
+                    if (category == Measurement.Category.BLOODSUGAR && cache.getConfig().isHighlightLimits()) {
+                        BloodSugar bloodSugar = (BloodSugar) measurement;
+                        float value = bloodSugar.getMgDl();
+                        if (value > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
+                            textColor = cache.getColorHyperglycemia();
+                        } else if (value < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
+                            textColor = cache.getColorHypoglycemia();
+                        }
+                    }
                     data.add(getRow(
                         cache,
                         data.size() == oldSize ? time : null,
                         category.toLocalizedString(context),
                         measurement.print(),
-                        backgroundColor
+                        backgroundColor,
+                        textColor
                     ));
                 }
 
@@ -139,7 +152,7 @@ public class PdfLog implements PdfPrintable {
     }
 
     // FIXME: Break page accordingly
-    private List<Cell> getRow(PdfExportCache cache, String title, String subtitle, String description, int backgroundColor) {
+    private List<Cell> getRow(PdfExportCache cache, String title, String subtitle, String description, int backgroundColor, int foregroundColor) {
         List<Cell> entryRow = new ArrayList<>();
 
         Cell titleCell = new CellBuilder(new Cell(cache.getFontNormal()))
@@ -162,10 +175,14 @@ public class PdfLog implements PdfPrintable {
             .setWidth(width - titleCell.getWidth() - subtitleCell.getWidth())
             .setText(description)
             .setBackgroundColor(backgroundColor)
-            .setForegroundColor(Color.black)
+            .setForegroundColor(foregroundColor)
             .build();
         entryRow.add(descriptionCell);
 
         return entryRow;
+    }
+
+    private List<Cell> getRow(PdfExportCache cache, String title, String subtitle, String description, int backgroundColor) {
+        return getRow(cache, title, subtitle, description, backgroundColor, Color.black);
     }
 }

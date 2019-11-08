@@ -17,6 +17,7 @@ import com.faltenreich.diaguard.export.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.export.pdf.view.CellBuilder;
 import com.faltenreich.diaguard.export.pdf.view.MultilineCell;
 import com.faltenreich.diaguard.export.pdf.view.SizedTable;
+import com.faltenreich.diaguard.util.DateTimeUtils;
 import com.faltenreich.diaguard.util.StringUtils;
 import com.pdfjet.Cell;
 import com.pdfjet.Color;
@@ -62,7 +63,7 @@ public class PdfLog implements PdfPrintable {
         List<Cell> headerRow = new ArrayList<>();
         Cell headerCell = new CellBuilder(new Cell(cache.getFontBold()))
             .setWidth(LABEL_WIDTH)
-            .setText(cache.getDateTime())
+            .setText(DateTimeUtils.toWeekDayAndDate(cache.getDateTime()))
             .build();
         headerRow.add(headerCell);
         data.add(headerRow);

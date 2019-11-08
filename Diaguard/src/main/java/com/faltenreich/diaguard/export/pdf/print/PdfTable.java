@@ -22,6 +22,7 @@ import com.faltenreich.diaguard.export.pdf.view.CellBuilder;
 import com.faltenreich.diaguard.export.pdf.view.MultilineCell;
 import com.faltenreich.diaguard.export.pdf.view.SizedTable;
 import com.faltenreich.diaguard.ui.list.item.ListItemCategoryValue;
+import com.faltenreich.diaguard.util.DateTimeUtils;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.StringUtils;
 import com.pdfjet.Align;
@@ -74,7 +75,7 @@ public class PdfTable implements PdfPrintable {
         List<Cell> cells = new ArrayList<>();
         Cell headerCell = new CellBuilder(new Cell(cache.getFontBold()))
             .setWidth(LABEL_WIDTH)
-            .setText(cache.getDateTime())
+            .setText(DateTimeUtils.toWeekDayAndDate(cache.getDateTime()))
             .build();
         cells.add(headerCell);
         for (int hour = 0; hour < DateTimeConstants.HOURS_PER_DAY; hour += PdfTable.HOURS_TO_SKIP) {

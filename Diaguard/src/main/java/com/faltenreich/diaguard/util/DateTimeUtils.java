@@ -28,12 +28,6 @@ public class DateTimeUtils {
         return toWeekDayShort(dateTime, false);
     }
 
-    public static String toDayAndMonth(DateTime dateTime) {
-        return String.format("%s.%s.",
-                dateTime.toString("dd"),
-                dateTime.toString("MM"));
-    }
-
     @SuppressLint("DefaultLocale")
     public static String parseInterval(long intervalInMillis) {
         Context context = DiaguardApplication.getContext();
@@ -59,5 +53,12 @@ public class DateTimeUtils {
         return TextUtils.isEmpty(text) && format.isEmpty() ?
                 DateTimeFormat.forPattern(format).parseDateTime(text) :
                 null;
+    }
+
+    // TODO: Localize dateString
+    public static String toWeekDayAndDate(DateTime dateTime) {
+        String weekDayString = DateTimeFormat.forPattern("E").print(dateTime);
+        String dateString = DateTimeFormat.forPattern("dd.MM").print(dateTime);
+        return String.format("%s %s", weekDayString, dateString);
     }
 }

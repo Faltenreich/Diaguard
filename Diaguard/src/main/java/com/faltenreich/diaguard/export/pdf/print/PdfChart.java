@@ -66,8 +66,8 @@ public class PdfChart implements PdfPrintable {
         // TODO
     }
 
-    // TODO: Add offsets for header
     private void drawChart(PdfPage page, Point position, List<BloodSugar> bloodSugars) throws Exception {
+        chart.setColor(Color.transparent);
         chart.setPosition(position.getX(), position.getY());
         chart.drawOn(page);
 
@@ -79,10 +79,15 @@ public class PdfChart implements PdfPrintable {
 
         float chartWidth = chart.getWidth();
         float chartHeight = chart.getHeight();
+        float chartStartX = 0;
+        float chartEndX = chartStartX + chart.getWidth();
+        float chartStartY = 0; // TODO: Add offset of header
+        float chartEndY = chartStartY + chartHeight;
+
         float contentStartX = CHART_LABEL_WIDTH;
-        float contentStartY = 0;
-        float contentEndX = contentStartX + chartWidth;
-        float contentEndY = contentStartY + chartHeight - label.getHeight();
+        float contentStartY = chartStartY;
+        float contentEndX = chartEndX;
+        float contentEndY = contentStartY + chartEndY - label.getHeight();
         float contentWidth = contentEndX - contentStartX;
         float contentHeight = contentEndY - contentStartY;
 
@@ -102,7 +107,7 @@ public class PdfChart implements PdfPrintable {
             float x = contentStartX + ((float) minutes / xMax) * contentWidth;
 
             label.setText(String.valueOf(minutes / 60));
-            label.setPosition(x, contentEndY);
+            label.setPosition(x, chartEndY);
             label.placeIn(chart);
             label.drawOn(page);
 
@@ -117,14 +122,14 @@ public class PdfChart implements PdfPrintable {
         // Labels for y axis
         int labelValue = yStep;
         float labelY;
-        while ((labelY = contentHeight - ((labelValue / yMax) * contentHeight)) >= 0) {
+        while ((labelY = contentStartY + contentHeight - ((labelValue / yMax) * contentHeight)) >= 0) {
             label.setText(PreferenceHelper.getInstance().getMeasurementForUi(Measurement.Category.BLOODSUGAR, labelValue));
-            label.setPosition(0, labelY + (label.getHeight() / 4));
+            label.setPosition(chartStartX, labelY + (label.getHeight() / 4));
             label.placeIn(chart);
             label.drawOn(page);
 
             line.setStartPoint(CHART_LABEL_WIDTH, labelY);
-            line.setEndPoint(chartWidth, labelY);
+            line.setEndPoint(contentEndX, labelY);
             line.placeIn(chart);
             line.drawOn(page);
 

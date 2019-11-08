@@ -3,11 +3,8 @@ package com.faltenreich.diaguard.data.entity;
 import android.content.Context;
 import android.util.Log;
 
-import androidx.annotation.ColorInt;
-import androidx.annotation.ColorRes;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
-import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.Backupable;
@@ -177,11 +174,5 @@ public abstract class Measurement extends BaseEntity implements Backupable, Expo
             toString(),
             PreferenceHelper.getInstance().getUnitAcronym(getCategory())
         );
-    }
-
-    @SuppressWarnings("unused")
-    @ColorInt
-    public int getColor(Context context, @ColorRes int defaultColorRes) {
-        return ContextCompat.getColor(context, defaultColorRes);
     }
 }

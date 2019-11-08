@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.export.pdf.view.SizedBox;
 import com.faltenreich.diaguard.export.pdf.view.SizedTable;
+import com.faltenreich.diaguard.util.DateTimeUtils;
 import com.pdfjet.Color;
 import com.pdfjet.Line;
 import com.pdfjet.Point;
@@ -20,23 +21,29 @@ import java.util.List;
 
 public class PdfChart implements PdfPrintable {
 
+    private static final float PADDING_CONTENT = 12;
     private static final float PADDING_PARAGRAPH = 20;
     private static final float POINT_RADIUS = 5;
     private static final float CHART_LABEL_WIDTH = 28;
 
     private PdfExportCache cache;
+    private TextLine header;
     private SizedBox chart;
     private SizedTable table;
 
     public PdfChart(PdfExportCache cache, float width) {
         this.cache = cache;
+        this.header = new TextLine(cache.getFontBold());
         this.chart = new SizedBox(width, width / 3);
         this.table = new SizedTable();
     }
 
     @Override
     public float getHeight() {
-        return chart.getHeight() +
+        return header.getHeight() +
+            PADDING_CONTENT +
+            chart.getHeight() +
+            PADDING_CONTENT +
             table.getHeight() +
             PADDING_PARAGRAPH;
     }
@@ -57,19 +64,23 @@ public class PdfChart implements PdfPrintable {
             }
         }
 
-        drawHeader();
+        drawHeader(page, position);
         drawChart(page, position, bloodSugars);
         drawTable(page, position, otherMeasurements);
     }
 
-    private void drawHeader() throws Exception {
-        // TODO
+    private void drawHeader(PdfPage page, Point position) throws Exception {
+        header.setText(DateTimeUtils.toWeekDayAndDate(cache.getDateTime()));
+        header.setPosition(position.getX(), position.getY());
+        float[] newPosition = header.drawOn(page);
+        position.setY(newPosition[1] + PADDING_CONTENT);
     }
 
     private void drawChart(PdfPage page, Point position, List<BloodSugar> bloodSugars) throws Exception {
         chart.setColor(Color.transparent);
         chart.setPosition(position.getX(), position.getY());
-        chart.drawOn(page);
+        float[] newPosition = chart.drawOn(page);
+        position.setY(newPosition[1] + PADDING_CONTENT);
 
         TextLine label = new TextLine(cache.getFontNormal());
         label.setColor(Color.gray);

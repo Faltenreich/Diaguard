@@ -4,9 +4,6 @@ import com.pdfjet.Align;
 import com.pdfjet.Cell;
 import com.pdfjet.Color;
 
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-
 public class CellBuilder {
 
     private Cell cell;
@@ -31,13 +28,6 @@ public class CellBuilder {
     public CellBuilder setText(String text) {
         this.text = text;
         return this;
-    }
-
-    // TODO: Localize dateString
-    public CellBuilder setText(DateTime dateTime) {
-        String weekDayString = DateTimeFormat.forPattern("E").print(dateTime);
-        String dateString = DateTimeFormat.forPattern("dd.MM").print(dateTime);
-        return setText(String.format("%s %s", weekDayString, dateString));
     }
 
     public CellBuilder setTextAlignment(int textAlignment) {

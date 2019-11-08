@@ -23,9 +23,6 @@ public class PdfChart implements PdfPrintable {
     private static final float PADDING_PARAGRAPH = 20;
     private static final float POINT_RADIUS = 5;
     private static final float CHART_LABEL_WIDTH = 28;
-    private static final int X_MAX = DateTimeConstants.MINUTES_PER_DAY;
-    private static final int X_STEP = 2;
-    private static final int Y_STEP = 40;
 
     private PdfExportCache cache;
     private SizedBox chart;
@@ -89,7 +86,9 @@ public class PdfChart implements PdfPrintable {
         float contentWidth = contentEndX - contentStartX;
         float contentHeight = contentEndY - contentStartY;
 
-        // Value range
+        int xStep = DateTimeConstants.MINUTES_PER_HOUR * 2;
+        float xMax = DateTimeConstants.MINUTES_PER_DAY;
+        int yStep = 40;
         float yMax = 250;
         for (BloodSugar bloodSugar : bloodSugars) {
             if (bloodSugar.getMgDl() > yMax) {
@@ -98,16 +97,25 @@ public class PdfChart implements PdfPrintable {
         }
 
         // Labels for x axis
-        int hour = 0;
-        while (hour <= DateTimeConstants.HOURS_PER_DAY) {
+        int minutes = 0;
+        while (minutes < xMax) {
+            float x = contentStartX + ((float) minutes / xMax) * contentWidth;
 
+            label.setText(String.valueOf(minutes / 60));
+            label.setPosition(x, contentEndY);
+            label.placeIn(chart);
+            label.drawOn(page);
 
-            // TODO
-            hour += X_STEP;
+            line.setStartPoint(x, contentStartY);
+            line.setEndPoint(x, contentEndY);
+            line.placeIn(chart);
+            line.drawOn(page);
+
+            minutes += xStep;
         }
 
         // Labels for y axis
-        int labelValue = Y_STEP;
+        int labelValue = yStep;
         float labelY;
         while ((labelY = contentHeight - ((labelValue / yMax) * contentHeight)) >= 0) {
             label.setText(PreferenceHelper.getInstance().getMeasurementForUi(Measurement.Category.BLOODSUGAR, labelValue));
@@ -120,7 +128,7 @@ public class PdfChart implements PdfPrintable {
             line.placeIn(chart);
             line.drawOn(page);
 
-            labelValue += Y_STEP;
+            labelValue += yStep;
         }
 
         Point point = new Point();
@@ -130,7 +138,7 @@ public class PdfChart implements PdfPrintable {
             Entry entry = bloodSugar.getEntry();
             float minute = entry.getDate().getMinuteOfDay();
             float value = bloodSugar.getMgDl();
-            float x = contentStartX + ((minute / X_MAX) * contentWidth);
+            float x = contentStartX + ((minute / xMax) * contentWidth);
             float y = contentStartY + (contentHeight - (value / yMax) * contentHeight);
 
             point.setPosition(x, y);

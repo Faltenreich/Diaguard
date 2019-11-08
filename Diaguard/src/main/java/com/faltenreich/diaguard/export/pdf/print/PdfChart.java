@@ -74,9 +74,22 @@ public class PdfChart implements PdfPrintable {
         chart.setPosition(position.getX(), position.getY());
         chart.drawOn(page);
 
+        TextLine label = new TextLine(cache.getFontNormal());
+        label.setColor(Color.gray);
+
+        Line line = new Line();
+        line.setColor(Color.gray);
+
         float chartWidth = chart.getWidth();
         float chartHeight = chart.getHeight();
+        float contentStartX = CHART_LABEL_WIDTH;
+        float contentStartY = 0;
+        float contentEndX = contentStartX + chartWidth;
+        float contentEndY = contentStartY + chartHeight - label.getHeight();
+        float contentWidth = contentEndX - contentStartX;
+        float contentHeight = contentEndY - contentStartY;
 
+        // Value range
         float yMax = 250;
         for (BloodSugar bloodSugar : bloodSugars) {
             if (bloodSugar.getMgDl() > yMax) {
@@ -84,48 +97,43 @@ public class PdfChart implements PdfPrintable {
             }
         }
 
-        float labelStartY = 0f;
+        // Labels for x axis
         int hour = 0;
         while (hour <= DateTimeConstants.HOURS_PER_DAY) {
-            TextLine text = new TextLine(cache.getFontNormal());
-            labelStartY = chartHeight - text.getHeight();
+
+
             // TODO
             hour += X_STEP;
         }
 
-        Point contentStart = new Point(CHART_LABEL_WIDTH, 0);
-        Point contentEnd = new Point(chartWidth, labelStartY);
-        float contentWidth = contentEnd.getX() - contentStart.getX();
-        float contentHeight = contentEnd.getY() - contentStart.getY();
-
+        // Labels for y axis
         int labelValue = Y_STEP;
         float labelY;
         while ((labelY = contentHeight - ((labelValue / yMax) * contentHeight)) >= 0) {
-            TextLine text = new TextLine(cache.getFontNormal());
-            text.setText(PreferenceHelper.getInstance().getMeasurementForUi(Measurement.Category.BLOODSUGAR, labelValue));
-            text.setColor(Color.gray);
-            text.setPosition(0, labelY + (text.getHeight() / 4));
-            text.placeIn(chart);
-            text.drawOn(page);
+            label.setText(PreferenceHelper.getInstance().getMeasurementForUi(Measurement.Category.BLOODSUGAR, labelValue));
+            label.setPosition(0, labelY + (label.getHeight() / 4));
+            label.placeIn(chart);
+            label.drawOn(page);
 
-            Line line = new Line();
             line.setStartPoint(CHART_LABEL_WIDTH, labelY);
             line.setEndPoint(chartWidth, labelY);
-            line.setColor(Color.gray);
             line.placeIn(chart);
             line.drawOn(page);
 
             labelValue += Y_STEP;
         }
 
+        Point point = new Point();
+        point.setFillShape(true);
+        point.setRadius(POINT_RADIUS);
         for (BloodSugar bloodSugar : bloodSugars) {
             Entry entry = bloodSugar.getEntry();
             float minute = entry.getDate().getMinuteOfDay();
             float value = bloodSugar.getMgDl();
-            float x = contentStart.getX() + ((minute / X_MAX) * contentWidth);
-            float y = contentStart.getY() + (contentHeight - (value / yMax) * contentHeight);
+            float x = contentStartX + ((minute / X_MAX) * contentWidth);
+            float y = contentStartY + (contentHeight - (value / yMax) * contentHeight);
 
-            Point point = new Point(x, y);
+            point.setPosition(x, y);
             int color = Color.black;
             if (cache.getConfig().isHighlightLimits()) {
                 if (value > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
@@ -135,8 +143,6 @@ public class PdfChart implements PdfPrintable {
                 }
             }
             point.setColor(color);
-            point.setFillShape(true);
-            point.setRadius(POINT_RADIUS);
             point.placeIn(chart);
             point.drawOn(page);
         }

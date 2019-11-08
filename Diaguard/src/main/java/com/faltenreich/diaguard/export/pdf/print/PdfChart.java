@@ -9,6 +9,7 @@ import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.export.pdf.view.SizedBox;
 import com.faltenreich.diaguard.export.pdf.view.SizedTable;
 import com.pdfjet.Color;
+import com.pdfjet.Line;
 import com.pdfjet.Point;
 import com.pdfjet.TextLine;
 
@@ -23,6 +24,7 @@ public class PdfChart implements PdfPrintable {
     private static final float POINT_RADIUS = 5;
     private static final float CHART_PADDING = 8;
     private static final int X_MAX = DateTimeConstants.MINUTES_PER_DAY;
+    private static final int Y_STEP = 40;
 
     private PdfExportCache cache;
     private SizedBox chart;
@@ -80,15 +82,25 @@ public class PdfChart implements PdfPrintable {
             }
         }
 
-        TextLine text = new TextLine(cache.getFontNormal());
-        float yLabel = chartHeight - text.getHeight();
-        while (yLabel >= CHART_PADDING) {
-            text = new TextLine(cache.getFontNormal());
-            text.setText("" + yLabel);
-            text.setPosition(CHART_PADDING, yLabel);
+        int labelValue = Y_STEP;
+        float labelY;
+        while ((labelY = chartHeight - ((labelValue / yMax) * chartHeight)) >= CHART_PADDING) {
+            TextLine text = new TextLine(cache.getFontNormal());
+            float customValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, labelValue);
+            text.setText(String.valueOf(customValue));
+            text.setColor(Color.gray);
+            text.setPosition(CHART_PADDING, labelY - CHART_PADDING);
             text.placeIn(chart);
             text.drawOn(page);
-            yLabel = yLabel - 25;
+
+            Line line = new Line();
+            line.setStartPoint(0, labelY);
+            line.setEndPoint(chartWidth, labelY);
+            line.setColor(Color.gray);
+            line.placeIn(chart);
+            line.drawOn(page);
+
+            labelValue = labelValue + Y_STEP;
         }
 
         for (BloodSugar bloodSugar : bloodSugars) {

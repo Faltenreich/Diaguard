@@ -22,8 +22,9 @@ public class PdfChart implements PdfPrintable {
 
     private static final float PADDING_PARAGRAPH = 20;
     private static final float POINT_RADIUS = 5;
-    private static final float CHART_PADDING = 8;
+    private static final float CHART_LABEL_WIDTH = 28;
     private static final int X_MAX = DateTimeConstants.MINUTES_PER_DAY;
+    private static final int X_STEP = 2;
     private static final int Y_STEP = 40;
 
     private PdfExportCache cache;
@@ -68,6 +69,7 @@ public class PdfChart implements PdfPrintable {
         // TODO
     }
 
+    // TODO: Add offsets for header
     private void drawChart(PdfPage page, Point position, List<BloodSugar> bloodSugars) throws Exception {
         chart.setPosition(position.getX(), position.getY());
         chart.drawOn(page);
@@ -82,33 +84,46 @@ public class PdfChart implements PdfPrintable {
             }
         }
 
+        float labelStartY = 0f;
+        int hour = 0;
+        while (hour <= DateTimeConstants.HOURS_PER_DAY) {
+            TextLine text = new TextLine(cache.getFontNormal());
+            labelStartY = chartHeight - text.getHeight();
+            // TODO
+            hour += X_STEP;
+        }
+
+        Point contentStart = new Point(CHART_LABEL_WIDTH, 0);
+        Point contentEnd = new Point(chartWidth, labelStartY);
+        float contentWidth = contentEnd.getX() - contentStart.getX();
+        float contentHeight = contentEnd.getY() - contentStart.getY();
+
         int labelValue = Y_STEP;
         float labelY;
-        while ((labelY = chartHeight - ((labelValue / yMax) * chartHeight)) >= CHART_PADDING) {
+        while ((labelY = contentHeight - ((labelValue / yMax) * contentHeight)) >= 0) {
             TextLine text = new TextLine(cache.getFontNormal());
-            float customValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Measurement.Category.BLOODSUGAR, labelValue);
-            text.setText(String.valueOf(customValue));
+            text.setText(PreferenceHelper.getInstance().getMeasurementForUi(Measurement.Category.BLOODSUGAR, labelValue));
             text.setColor(Color.gray);
-            text.setPosition(CHART_PADDING, labelY - CHART_PADDING);
+            text.setPosition(0, labelY + (text.getHeight() / 4));
             text.placeIn(chart);
             text.drawOn(page);
 
             Line line = new Line();
-            line.setStartPoint(0, labelY);
+            line.setStartPoint(CHART_LABEL_WIDTH, labelY);
             line.setEndPoint(chartWidth, labelY);
             line.setColor(Color.gray);
             line.placeIn(chart);
             line.drawOn(page);
 
-            labelValue = labelValue + Y_STEP;
+            labelValue += Y_STEP;
         }
 
         for (BloodSugar bloodSugar : bloodSugars) {
             Entry entry = bloodSugar.getEntry();
             float minute = entry.getDate().getMinuteOfDay();
             float value = bloodSugar.getMgDl();
-            float x = (minute / X_MAX) * chartWidth;
-            float y = chartHeight - (value / yMax) * chartHeight;
+            float x = contentStart.getX() + ((minute / X_MAX) * contentWidth);
+            float y = contentStart.getY() + (contentHeight - (value / yMax) * contentHeight);
 
             Point point = new Point(x, y);
             int color = Color.black;

@@ -9,6 +9,7 @@ import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.export.pdf.view.SizedBox;
+import com.faltenreich.diaguard.export.pdf.view.SizedImage;
 import com.faltenreich.diaguard.export.pdf.view.SizedTable;
 import com.faltenreich.diaguard.ui.list.item.ListItemCategoryValue;
 import com.faltenreich.diaguard.util.DateTimeUtils;
@@ -212,12 +213,16 @@ public class PdfChart implements PdfPageable {
             ListItemCategoryValue[] values = entry.getValue();
             List<Cell> row = new ArrayList<>();
 
+            int imageRes = PreferenceHelper.getInstance().getCategoryImageResourceId(category);
+            SizedImage image = new SizedImage(cache.getPdf(), context, imageRes);
+            image.setSize(20);
+
             // TODO: Set image to compensate small space?
             Cell titleCell = new Cell(cache.getFontNormal());
             titleCell.setWidth(LABEL_WIDTH);
             titleCell.setFgColor(Color.gray);
             titleCell.setNoBorders();
-            titleCell.setText(category.toLocalizedString(context));
+            titleCell.setImage(image);
             row.add(titleCell);
 
             for (ListItemCategoryValue value : values) {

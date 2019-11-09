@@ -1,22 +1,29 @@
 package com.faltenreich.diaguard.export.pdf.print;
 
+import android.content.Context;
+
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
+import com.faltenreich.diaguard.export.pdf.view.CellBuilder;
 import com.faltenreich.diaguard.export.pdf.view.SizedBox;
 import com.faltenreich.diaguard.export.pdf.view.SizedTable;
+import com.faltenreich.diaguard.ui.list.item.ListItemCategoryValue;
 import com.faltenreich.diaguard.util.DateTimeUtils;
+import com.pdfjet.Cell;
 import com.pdfjet.Color;
 import com.pdfjet.Line;
 import com.pdfjet.Point;
 import com.pdfjet.TextLine;
 
+import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class PdfChart implements PdfPageable {
@@ -24,7 +31,8 @@ public class PdfChart implements PdfPageable {
     private static final float PADDING_CONTENT = 12;
     private static final float PADDING_PARAGRAPH = 20;
     private static final float POINT_RADIUS = 5;
-    private static final float CHART_LABEL_WIDTH = 28;
+    private static final float LABEL_WIDTH = 28;
+    private static final int SKIP_EVERY_X_HOUR = 2;
 
     private PdfExportCache cache;
     private TextLine header;
@@ -55,23 +63,26 @@ public class PdfChart implements PdfPageable {
 
     @Override
     public void drawOn(PdfPage page, Point position) throws Exception {
-        List<Entry> entries = EntryDao.getInstance().getEntriesOfDay(cache.getDateTime());
+        DateTime dateTime = cache.getDateTime();
+        Measurement.Category[] categories = cache.getConfig().getCategories();
+
+        List<Entry> entries = EntryDao.getInstance().getEntriesOfDay(dateTime);
         List<BloodSugar> bloodSugars = new ArrayList<>();
-        List<Measurement> otherMeasurements = new ArrayList<>();
         for (Entry entry : entries) {
             List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
             for (Measurement measurement : measurements) {
                 if (measurement instanceof BloodSugar) {
                     bloodSugars.add((BloodSugar) measurement);
-                } else {
-                    otherMeasurements.add(measurement);
                 }
             }
         }
 
+        LinkedHashMap<Measurement.Category, ListItemCategoryValue[]> values =
+            EntryDao.getInstance().getAverageDataTable(dateTime, categories, SKIP_EVERY_X_HOUR);
+
         position = drawHeader(page, position);
         position = drawChart(page, position, bloodSugars);
-        drawTable(page, position, otherMeasurements);
+        position = drawTable(page, position, values);
     }
 
     private Point drawHeader(PdfPage page, Point position) throws Exception {
@@ -99,14 +110,14 @@ public class PdfChart implements PdfPageable {
         float chartStartY = 0; // TODO: Add offset of header
         float chartEndY = chartStartY + chartHeight;
 
-        float contentStartX = CHART_LABEL_WIDTH;
+        float contentStartX = LABEL_WIDTH;
         float contentStartY = chartStartY;
         float contentEndX = chartEndX;
         float contentEndY = contentStartY + chartEndY - label.getHeight();
         float contentWidth = contentEndX - contentStartX;
         float contentHeight = contentEndY - contentStartY;
 
-        int xStep = DateTimeConstants.MINUTES_PER_HOUR * 2;
+        int xStep = DateTimeConstants.MINUTES_PER_HOUR * SKIP_EVERY_X_HOUR;
         float xMax = DateTimeConstants.MINUTES_PER_DAY;
         int yStep = 40;
         float yMaxMin = 250;
@@ -151,7 +162,7 @@ public class PdfChart implements PdfPageable {
                 label.drawOn(page);
             }
 
-            line.setStartPoint(CHART_LABEL_WIDTH, labelY);
+            line.setStartPoint(contentStartX, labelY);
             line.setEndPoint(contentEndX, labelY);
             line.placeIn(chart);
             line.drawOn(page);
@@ -186,7 +197,27 @@ public class PdfChart implements PdfPageable {
         return new Point(position.getX(), coordinates[1] + PADDING_CONTENT);
     }
 
-    private void drawTable(PdfPage page, Point position, List<Measurement> measurements) throws Exception {
-        // TODO
+    private Point drawTable(PdfPage page, Point position, LinkedHashMap<Measurement.Category, ListItemCategoryValue[]> measurements) throws Exception {
+        List<List<Cell>> data = new ArrayList<>();
+        Context context = cache.getConfig().getContextReference().get();
+
+        for (Measurement.Category category : cache.getConfig().getCategories()) {
+            if (category != Measurement.Category.BLOODSUGAR) {
+                List<Cell> row = new ArrayList<>();
+
+                Cell titleCell = new CellBuilder(new Cell(cache.getFontNormal()))
+                    .setWidth(LABEL_WIDTH)
+                    .setText(category.toLocalizedString(context))
+                    .setForegroundColor(Color.gray)
+                    .build();
+                row.add(titleCell);
+
+                data.add(row);
+            }
+        }
+
+        table.setData(data);
+        table.setLocation(position.getX(), position.getY());
+        return table.drawOn(page);
     }
 }

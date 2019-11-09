@@ -8,12 +8,11 @@ import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
-import com.faltenreich.diaguard.export.pdf.view.CellBuilder;
-import com.faltenreich.diaguard.export.pdf.view.MultilineCell;
 import com.faltenreich.diaguard.export.pdf.view.SizedBox;
 import com.faltenreich.diaguard.export.pdf.view.SizedTable;
 import com.faltenreich.diaguard.ui.list.item.ListItemCategoryValue;
 import com.faltenreich.diaguard.util.DateTimeUtils;
+import com.pdfjet.Align;
 import com.pdfjet.Cell;
 import com.pdfjet.Color;
 import com.pdfjet.Line;
@@ -26,6 +25,7 @@ import org.joda.time.DateTimeConstants;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PdfChart implements PdfPageable {
 
@@ -65,7 +65,6 @@ public class PdfChart implements PdfPageable {
     @Override
     public void drawOn(PdfPage page, Point position) throws Exception {
         DateTime dateTime = cache.getDateTime();
-        Measurement.Category[] categories = cache.getConfig().getCategories();
 
         List<Entry> entries = EntryDao.getInstance().getEntriesOfDay(dateTime);
         List<BloodSugar> bloodSugars = new ArrayList<>();
@@ -78,8 +77,14 @@ public class PdfChart implements PdfPageable {
             }
         }
 
+        List<Measurement.Category> categories = new ArrayList<>();
+        for (Measurement.Category category : cache.getConfig().getCategories()) {
+            if (category != Measurement.Category.BLOODSUGAR) {
+                categories.add(category);
+            }
+        }
         LinkedHashMap<Measurement.Category, ListItemCategoryValue[]> values =
-            EntryDao.getInstance().getAverageDataTable(dateTime, categories, SKIP_EVERY_X_HOUR);
+            EntryDao.getInstance().getAverageDataTable(dateTime, categories.toArray(new Measurement.Category[0]), SKIP_EVERY_X_HOUR);
 
         position = drawHeader(page, position);
         position = drawChart(page, position, bloodSugars);
@@ -202,31 +207,31 @@ public class PdfChart implements PdfPageable {
         List<List<Cell>> data = new ArrayList<>();
         Context context = cache.getConfig().getContextReference().get();
 
-        for (Measurement.Category category : cache.getConfig().getCategories()) {
-            if (category != Measurement.Category.BLOODSUGAR) {
-                List<Cell> row = new ArrayList<>();
+        for (Map.Entry<Measurement.Category, ListItemCategoryValue[]> entry : measurements.entrySet()) {
+            Measurement.Category category = entry.getKey();
+            ListItemCategoryValue[] values = entry.getValue();
+            List<Cell> row = new ArrayList<>();
 
-                // TODO: Set image to compensate small space?
-                Cell titleCell = new CellBuilder(new Cell(cache.getFontNormal()))
-                    .setWidth(LABEL_WIDTH)
-                    .setText(category.toLocalizedString(context))
-                    .setForegroundColor(Color.gray)
-                    .build();
-                row.add(titleCell);
+            // TODO: Set image to compensate small space?
+            Cell titleCell = new Cell(cache.getFontNormal());
+            titleCell.setWidth(LABEL_WIDTH);
+            titleCell.setFgColor(Color.gray);
+            titleCell.setNoBorders();
+            titleCell.setText(category.toLocalizedString(context));
+            row.add(titleCell);
 
-                int steps = DateTimeConstants.HOURS_PER_DAY / SKIP_EVERY_X_HOUR;
-                float cellWidth = (page.getWidth() - LABEL_WIDTH) / steps;
-                for (ListItemCategoryValue value : measurements.get(category)) {
-                    Cell measurementCell = new CellBuilder(new MultilineCell(cache.getFontNormal()))
-                        .setWidth(cellWidth)
-                        .setText(value.print())
-                        .setForegroundColor(Color.black)
-                        .build();
-                    row.add(measurementCell);
-                }
-
-                data.add(row);
+            for (ListItemCategoryValue value : values) {
+                // TODO: What to do with multiline values?
+                // TODO: Change border color (via penColor?)
+                Cell valueCell = new Cell(cache.getFontNormal());
+                valueCell.setWidth((page.getWidth() - LABEL_WIDTH) / (DateTimeConstants.HOURS_PER_DAY / SKIP_EVERY_X_HOUR));
+                valueCell.setFgColor(Color.black);
+                valueCell.setTextAlignment(Align.CENTER);
+                valueCell.setText(value.print());
+                row.add(valueCell);
             }
+
+            data.add(row);
         }
 
         table.setData(data);

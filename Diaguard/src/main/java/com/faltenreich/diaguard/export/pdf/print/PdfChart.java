@@ -9,6 +9,7 @@ import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.export.pdf.view.CellBuilder;
+import com.faltenreich.diaguard.export.pdf.view.MultilineCell;
 import com.faltenreich.diaguard.export.pdf.view.SizedBox;
 import com.faltenreich.diaguard.export.pdf.view.SizedTable;
 import com.faltenreich.diaguard.ui.list.item.ListItemCategoryValue;
@@ -205,12 +206,24 @@ public class PdfChart implements PdfPageable {
             if (category != Measurement.Category.BLOODSUGAR) {
                 List<Cell> row = new ArrayList<>();
 
+                // TODO: Set image to compensate small space?
                 Cell titleCell = new CellBuilder(new Cell(cache.getFontNormal()))
                     .setWidth(LABEL_WIDTH)
                     .setText(category.toLocalizedString(context))
                     .setForegroundColor(Color.gray)
                     .build();
                 row.add(titleCell);
+
+                int steps = DateTimeConstants.HOURS_PER_DAY / SKIP_EVERY_X_HOUR;
+                float cellWidth = (page.getWidth() - LABEL_WIDTH) / steps;
+                for (ListItemCategoryValue value : measurements.get(category)) {
+                    Cell measurementCell = new CellBuilder(new MultilineCell(cache.getFontNormal()))
+                        .setWidth(cellWidth)
+                        .setText(value.print())
+                        .setForegroundColor(Color.black)
+                        .build();
+                    row.add(measurementCell);
+                }
 
                 data.add(row);
             }

@@ -14,6 +14,6 @@ public class DataLoader {
     }
 
     public <T> void load(Context context, DataLoaderListener<T> listener) {
-        new DataTask<T>(context, listener).execute();
+        new DataTask<>(context, listener).execute();
     }
 }

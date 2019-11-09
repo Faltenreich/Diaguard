@@ -114,11 +114,11 @@ public class PdfChart implements PdfPrintable {
 
         // Labels for x axis
         int minutes = 0;
-        while (minutes < xMax) {
+        while (minutes <= xMax) {
             float x = contentStartX + ((float) minutes / xMax) * contentWidth;
 
             label.setText(String.valueOf(minutes / 60));
-            label.setPosition(x, chartEndY);
+            label.setPosition(x - label.getWidth() / 2, chartEndY);
             label.placeIn(chart);
             label.drawOn(page);
 
@@ -131,13 +131,16 @@ public class PdfChart implements PdfPrintable {
         }
 
         // Labels for y axis
-        int labelValue = yStep;
+        int labelValue = 0;
         float labelY;
         while ((labelY = contentStartY + contentHeight - ((labelValue / yMax) * contentHeight)) >= 0) {
-            label.setText(PreferenceHelper.getInstance().getMeasurementForUi(Measurement.Category.BLOODSUGAR, labelValue));
-            label.setPosition(chartStartX, labelY + (label.getHeight() / 4));
-            label.placeIn(chart);
-            label.drawOn(page);
+            // Skip first label
+            if (labelValue > 0) {
+                label.setText(PreferenceHelper.getInstance().getMeasurementForUi(Measurement.Category.BLOODSUGAR, labelValue));
+                label.setPosition(chartStartX, labelY + (label.getHeight() / 4));
+                label.placeIn(chart);
+                label.drawOn(page);
+            }
 
             line.setStartPoint(CHART_LABEL_WIDTH, labelY);
             line.setEndPoint(contentEndX, labelY);

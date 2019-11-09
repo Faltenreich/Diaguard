@@ -34,7 +34,7 @@ public class PdfChart implements PdfPageable {
     public PdfChart(PdfExportCache cache, float width) {
         this.cache = cache;
         this.header = new TextLine(cache.getFontBold());
-        this.chart = new SizedBox(width, width / 3);
+        this.chart = new SizedBox(width, width / 4);
         this.table = new SizedTable();
     }
 
@@ -69,23 +69,22 @@ public class PdfChart implements PdfPageable {
             }
         }
 
-        drawHeader(page, position);
-        drawChart(page, position, bloodSugars);
+        position = drawHeader(page, position);
+        position = drawChart(page, position, bloodSugars);
         drawTable(page, position, otherMeasurements);
     }
 
-    private void drawHeader(PdfPage page, Point position) throws Exception {
+    private Point drawHeader(PdfPage page, Point position) throws Exception {
         header.setText(DateTimeUtils.toWeekDayAndDate(cache.getDateTime()));
         header.setPosition(position.getX(), position.getY());
-        float[] newPosition = header.drawOn(page);
-        position.setY(newPosition[1] + PADDING_CONTENT);
+        float[] coordinates = header.drawOn(page);
+        return new Point(position.getX(), coordinates[1] + PADDING_CONTENT);
     }
 
-    private void drawChart(PdfPage page, Point position, List<BloodSugar> bloodSugars) throws Exception {
+    private Point drawChart(PdfPage page, Point position, List<BloodSugar> bloodSugars) throws Exception {
         chart.setColor(Color.transparent);
         chart.setPosition(position.getX(), position.getY());
-        float[] newPosition = chart.drawOn(page);
-        position.setY(newPosition[1] + PADDING_CONTENT);
+        float[] coordinates = chart.drawOn(page);
 
         TextLine label = new TextLine(cache.getFontNormal());
         label.setColor(Color.gray);
@@ -178,6 +177,8 @@ public class PdfChart implements PdfPageable {
             point.placeIn(chart);
             point.drawOn(page);
         }
+
+        return new Point(position.getX(), coordinates[1] + PADDING_CONTENT);
     }
 
     private void drawTable(PdfPage page, Point position, List<Measurement> measurements) throws Exception {

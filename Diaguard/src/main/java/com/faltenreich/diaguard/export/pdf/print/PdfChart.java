@@ -33,7 +33,7 @@ public class PdfChart implements PdfPageable {
     private static final float PADDING_CONTENT = 12;
     private static final float PADDING_PARAGRAPH = 20;
     private static final float POINT_RADIUS = 5;
-    private static final float LABEL_WIDTH = 28;
+    private static final float LABEL_WIDTH = 48;
     private static final int SKIP_EVERY_X_HOUR = 2;
 
     private PdfExportCache cache;
@@ -108,7 +108,7 @@ public class PdfChart implements PdfPageable {
         label.setColor(Color.gray);
 
         Line line = new Line();
-        line.setColor(Color.gray);
+        line.setColor(Color.lightgray);
 
         float chartWidth = chart.getWidth();
         float chartHeight = chart.getHeight();
@@ -157,6 +157,7 @@ public class PdfChart implements PdfPageable {
             minutes += xStep;
         }
 
+        // TODO: Make sure to always set n labels
         // Labels for y axis
         int labelValue = 0;
         float labelY;
@@ -208,35 +209,41 @@ public class PdfChart implements PdfPageable {
         List<List<Cell>> data = new ArrayList<>();
         Context context = cache.getConfig().getContextReference().get();
 
+        int index = 0;
         for (Map.Entry<Measurement.Category, ListItemCategoryValue[]> entry : measurements.entrySet()) {
             Measurement.Category category = entry.getKey();
             ListItemCategoryValue[] values = entry.getValue();
             List<Cell> row = new ArrayList<>();
 
+            int backgroundColor = index % 2 == 0 ? cache.getColorDivider() : Color.transparent;
+
             int imageRes = PreferenceHelper.getInstance().getCategoryImageResourceId(category);
             SizedImage image = new SizedImage(cache.getPdf(), context, imageRes);
             image.setSize(20);
 
-            // TODO: Find wyy to compensate small space
+            // TODO: Find way to compensate small space
             Cell titleCell = new Cell(cache.getFontNormal());
+            titleCell.setText(category.toLocalizedString(context));
             titleCell.setWidth(LABEL_WIDTH);
             titleCell.setFgColor(Color.gray);
             titleCell.setNoBorders();
-            titleCell.setText(category.toLocalizedString(context));
             row.add(titleCell);
 
             for (ListItemCategoryValue value : values) {
                 // TODO: What to do with multiline values?
                 // TODO: Change border color (via penColor?)
                 Cell valueCell = new Cell(cache.getFontNormal());
+                valueCell.setText(value.print());
                 valueCell.setWidth((page.getWidth() - LABEL_WIDTH) / (DateTimeConstants.HOURS_PER_DAY / SKIP_EVERY_X_HOUR));
                 valueCell.setFgColor(Color.black);
                 valueCell.setTextAlignment(Align.CENTER);
-                valueCell.setText(value.print());
+                valueCell.setBgColor(backgroundColor);
+                valueCell.setNoBorders();
                 row.add(valueCell);
             }
 
             data.add(row);
+            index++;
         }
 
         table.setData(data);

@@ -158,16 +158,13 @@ public class PdfChart implements PdfPageable {
 
         // TODO: Make sure to always set n labels
         // Labels for y axis
-        int labelValue = 0;
+        int labelValue = yStep;
         float labelY;
         while ((labelY = contentStartY + contentHeight - ((labelValue / yMax) * contentHeight)) >= contentStartY) {
-            // Skip first label
-            if (labelValue > 0) {
-                label.setText(PreferenceHelper.getInstance().getMeasurementForUi(Measurement.Category.BLOODSUGAR, labelValue));
-                label.setPosition(chartStartX, labelY + (label.getHeight() / 4));
-                label.placeIn(chart);
-                label.drawOn(page);
-            }
+            label.setText(PreferenceHelper.getInstance().getMeasurementForUi(Measurement.Category.BLOODSUGAR, labelValue));
+            label.setPosition(chartStartX, labelY + (label.getHeight() / 4));
+            label.placeIn(chart);
+            label.drawOn(page);
 
             line.setStartPoint(contentStartX, labelY);
             line.setEndPoint(contentEndX, labelY);
@@ -208,13 +205,10 @@ public class PdfChart implements PdfPageable {
         List<List<Cell>> data = new ArrayList<>();
         Context context = cache.getConfig().getContextReference().get();
 
-        int index = 0;
         for (Map.Entry<Measurement.Category, ListItemCategoryValue[]> entry : measurements.entrySet()) {
             Measurement.Category category = entry.getKey();
             ListItemCategoryValue[] values = entry.getValue();
             List<Cell> row = new ArrayList<>();
-
-            int backgroundColor = index % 2 == 0 ? cache.getColorDivider() : Color.transparent;
 
             int imageRes = PreferenceHelper.getInstance().getCategoryImageResourceId(category);
             SizedImage image = new SizedImage(cache.getPdf(), context, imageRes);
@@ -230,17 +224,16 @@ public class PdfChart implements PdfPageable {
 
             for (ListItemCategoryValue value : values) {
                 // TODO: What to do with multiline values?
-                // TODO: Change border color (via penColor?)
                 Cell valueCell = new Cell(cache.getFontNormal());
                 valueCell.setText(value.print());
                 valueCell.setWidth((page.getWidth() - LABEL_WIDTH) / (DateTimeConstants.HOURS_PER_DAY / SKIP_EVERY_X_HOUR));
                 valueCell.setFgColor(Color.black);
+                valueCell.setPenColor(Color.lightgray);
                 valueCell.setTextAlignment(Align.CENTER);
                 row.add(valueCell);
             }
 
             data.add(row);
-            index++;
         }
 
         table.setData(data);

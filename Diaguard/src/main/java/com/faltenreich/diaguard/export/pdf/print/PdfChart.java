@@ -109,11 +109,16 @@ public class PdfChart implements PdfPageable {
         int xStep = DateTimeConstants.MINUTES_PER_HOUR * 2;
         float xMax = DateTimeConstants.MINUTES_PER_DAY;
         int yStep = 40;
-        float yMax = 250;
+        float yMaxMin = 250;
+        float yMax = yMaxMin;
         for (BloodSugar bloodSugar : bloodSugars) {
             if (bloodSugar.getMgDl() > yMax) {
                 yMax = bloodSugar.getMgDl();
             }
+        }
+        if (yMax > 300) {
+            // Increased range for exceeding values
+            yStep += (int) ((yMax - yMaxMin) / 50) * 20;
         }
 
         // Labels for x axis

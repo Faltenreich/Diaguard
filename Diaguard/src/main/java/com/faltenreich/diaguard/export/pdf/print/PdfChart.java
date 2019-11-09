@@ -19,7 +19,7 @@ import org.joda.time.DateTimeConstants;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PdfChart implements PdfPrintable {
+public class PdfChart implements PdfPageable {
 
     private static final float PADDING_CONTENT = 12;
     private static final float PADDING_PARAGRAPH = 20;
@@ -46,6 +46,11 @@ public class PdfChart implements PdfPrintable {
             PADDING_CONTENT +
             table.getHeight() +
             PADDING_PARAGRAPH;
+    }
+
+    @Override
+    public void onNewPage(PdfPage page) {
+
     }
 
     @Override

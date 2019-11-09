@@ -26,7 +26,7 @@ import com.pdfjet.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PdfLog implements PdfPrintable {
+public class PdfLog implements PdfPageable {
 
     private static final String TAG = PdfLog.class.getSimpleName();
 
@@ -34,13 +34,15 @@ public class PdfLog implements PdfPrintable {
     private static final float LABEL_WIDTH = 112;
     private static final float TIME_WIDTH = 72;
 
+    private PdfExportCache cache;
     private SizedTable table;
     private float width;
 
     public PdfLog(PdfExportCache cache, float width) {
+        this.cache = cache;
         this.table = new SizedTable();
         this.width = width;
-        init(cache);
+        init();
     }
 
     @Override
@@ -50,12 +52,17 @@ public class PdfLog implements PdfPrintable {
     }
 
     @Override
+    public void onNewPage(PdfPage page) {
+        page.draw(new PdfWeek(cache));
+    }
+
+    @Override
     public void drawOn(PdfPage page, Point position) throws Exception {
         table.setLocation(position.getX(), position.getY());
         table.drawOn(page);
     }
 
-    private void init(PdfExportCache cache) {
+    private void init() {
         PdfExportConfig config = cache.getConfig();
         Context context = config.getContextReference().get();
 

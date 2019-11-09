@@ -13,7 +13,7 @@ import com.faltenreich.diaguard.export.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.export.pdf.print.PdfChart;
 import com.faltenreich.diaguard.export.pdf.print.PdfLog;
 import com.faltenreich.diaguard.export.pdf.print.PdfPage;
-import com.faltenreich.diaguard.export.pdf.print.PdfPrintable;
+import com.faltenreich.diaguard.export.pdf.print.PdfPageable;
 import com.faltenreich.diaguard.export.pdf.print.PdfTable;
 import com.faltenreich.diaguard.export.pdf.print.PdfWeek;
 
@@ -38,7 +38,6 @@ public class PdfExport extends AsyncTask<Void, String, File> {
             PdfExportCache cache = new PdfExportCache(config, file);
 
             PdfPage page = new PdfPage(cache.getPdf());
-            page.draw(new PdfWeek(cache));
 
             while (cache.isDateTimeValid()) {
                 if (cache.isDateTimeForNewWeek()) {
@@ -46,7 +45,7 @@ public class PdfExport extends AsyncTask<Void, String, File> {
                     page.draw(new PdfWeek(cache));
                 }
 
-                PdfPrintable content = null;
+                PdfPageable content = null;
                 switch (cache.getConfig().getStyle()) {
                     case TABLE:
                         content = new PdfTable(cache, page.getWidth());
@@ -62,7 +61,10 @@ public class PdfExport extends AsyncTask<Void, String, File> {
                 // Page break
                 if ((page.getPosition().getY() + content.getHeight()) > page.getEndPoint().getY()) {
                     page = new PdfPage(cache.getPdf());
-                    page.draw(new PdfWeek(cache));
+                }
+
+                if (!page.hasContent()) {
+                    content.onNewPage(page);
                 }
 
                 page.draw(content);

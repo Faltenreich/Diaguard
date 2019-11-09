@@ -34,7 +34,7 @@ public class PdfChart implements PdfPageable {
     private static final float PADDING_PARAGRAPH = 20;
     private static final float POINT_RADIUS = 5;
     private static final float LABEL_WIDTH = 48;
-    private static final int SKIP_EVERY_X_HOUR = 2;
+    private static final int HOUR_INTERVAL = 2;
 
     private PdfExportCache cache;
     private TextLine header;
@@ -84,7 +84,7 @@ public class PdfChart implements PdfPageable {
             }
         }
         LinkedHashMap<Measurement.Category, ListItemCategoryValue[]> values =
-            EntryDao.getInstance().getAverageDataTable(dateTime, categories.toArray(new Measurement.Category[0]), SKIP_EVERY_X_HOUR);
+            EntryDao.getInstance().getAverageDataTable(dateTime, categories.toArray(new Measurement.Category[0]), HOUR_INTERVAL);
 
         position = drawHeader(page, position);
         position = drawChart(page, position, bloodSugars);
@@ -123,7 +123,7 @@ public class PdfChart implements PdfPageable {
         float contentWidth = contentEndX - contentStartX;
         float contentHeight = contentEndY - contentStartY;
 
-        int xStep = DateTimeConstants.MINUTES_PER_HOUR * SKIP_EVERY_X_HOUR;
+        int xStep = DateTimeConstants.MINUTES_PER_HOUR * HOUR_INTERVAL;
         float xMax = DateTimeConstants.MINUTES_PER_DAY;
         int yStep = 40;
         float yMaxMin = 250;
@@ -205,6 +205,7 @@ public class PdfChart implements PdfPageable {
         List<List<Cell>> data = new ArrayList<>();
         Context context = cache.getConfig().getContextReference().get();
 
+        int index = 0;
         for (Map.Entry<Measurement.Category, ListItemCategoryValue[]> entry : measurements.entrySet()) {
             Measurement.Category category = entry.getKey();
             ListItemCategoryValue[] values = entry.getValue();
@@ -226,7 +227,8 @@ public class PdfChart implements PdfPageable {
                 // TODO: What to do with multiline values?
                 Cell valueCell = new Cell(cache.getFontNormal());
                 valueCell.setText(value.print());
-                valueCell.setWidth((page.getWidth() - LABEL_WIDTH) / (DateTimeConstants.HOURS_PER_DAY / SKIP_EVERY_X_HOUR));
+                valueCell.setWidth((page.getWidth() - LABEL_WIDTH) / (DateTimeConstants.HOURS_PER_DAY / HOUR_INTERVAL));
+                valueCell.setBgColor(index % 2 == 0 ? cache.getColorDivider() : Color.transparent);
                 valueCell.setFgColor(Color.black);
                 valueCell.setPenColor(Color.lightgray);
                 valueCell.setTextAlignment(Align.CENTER);
@@ -234,6 +236,7 @@ public class PdfChart implements PdfPageable {
             }
 
             data.add(row);
+            index++;
         }
 
         table.setData(data);

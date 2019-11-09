@@ -37,20 +37,22 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class PdfTable implements PdfPrintable {
+public class PdfTable implements PdfPageable {
 
     private static final String TAG = PdfTable.class.getSimpleName();
     private static final float PADDING_PARAGRAPH = 20;
-    public static final float LABEL_WIDTH = 120;
-    public static final int HOURS_TO_SKIP = 2;
+    private static final float LABEL_WIDTH = 120;
+    private static final int HOURS_TO_SKIP = 2;
 
+    private PdfExportCache cache;
     private SizedTable table;
     private float width;
 
     public PdfTable(PdfExportCache cache, float width) {
+        this.cache = cache;
         this.table = new SizedTable();
         this.width = width;
-        init(cache);
+        init();
     }
 
     @Override
@@ -60,12 +62,17 @@ public class PdfTable implements PdfPrintable {
     }
 
     @Override
+    public void onNewPage(PdfPage page) {
+        page.draw(new PdfWeek(cache));
+    }
+
+    @Override
     public void drawOn(PdfPage page, Point position) throws Exception {
         table.setLocation(position.getX(), position.getY());
         table.drawOn(page);
     }
 
-    private void init(PdfExportCache cache) {
+    private void init() {
         PdfExportConfig config = cache.getConfig();
         Context context = config.getContextReference().get();
         float cellWidth = (width - LABEL_WIDTH) / (DateTimeConstants.HOURS_PER_DAY / 2f);

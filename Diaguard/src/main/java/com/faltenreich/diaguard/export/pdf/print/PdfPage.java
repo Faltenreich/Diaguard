@@ -54,6 +54,10 @@ public class PdfPage extends Page {
         return position;
     }
 
+    public boolean hasContent() {
+        return getPosition().getY() != getStartPoint().getY();
+    }
+
     private void appendFooter() {
         try {
             int textColor = Color.gray;

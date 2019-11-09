@@ -53,7 +53,6 @@ public class PdfChart implements PdfPageable {
         return header.getHeight() +
             PADDING_CONTENT +
             chart.getHeight() +
-            PADDING_CONTENT +
             table.getHeight() +
             PADDING_PARAGRAPH;
     }
@@ -118,9 +117,9 @@ public class PdfChart implements PdfPageable {
         float chartEndY = chartStartY + chartHeight;
 
         float contentStartX = LABEL_WIDTH;
-        float contentStartY = chartStartY;
+        float contentStartY = chartStartY + label.getHeight();
         float contentEndX = chartEndX;
-        float contentEndY = contentStartY + chartEndY - label.getHeight();
+        float contentEndY = chartEndY;
         float contentWidth = contentEndX - contentStartX;
         float contentHeight = contentEndY - contentStartY;
 
@@ -145,7 +144,7 @@ public class PdfChart implements PdfPageable {
             float x = contentStartX + ((float) minutes / xMax) * contentWidth;
 
             label.setText(String.valueOf(minutes / 60));
-            label.setPosition(x - label.getWidth() / 2, chartEndY);
+            label.setPosition(x - label.getWidth() / 2, chartStartY + label.getHeight() / 2);
             label.placeIn(chart);
             label.drawOn(page);
 
@@ -161,7 +160,7 @@ public class PdfChart implements PdfPageable {
         // Labels for y axis
         int labelValue = 0;
         float labelY;
-        while ((labelY = contentStartY + contentHeight - ((labelValue / yMax) * contentHeight)) >= 0) {
+        while ((labelY = contentStartY + contentHeight - ((labelValue / yMax) * contentHeight)) >= contentStartY) {
             // Skip first label
             if (labelValue > 0) {
                 label.setText(PreferenceHelper.getInstance().getMeasurementForUi(Measurement.Category.BLOODSUGAR, labelValue));
@@ -202,7 +201,7 @@ public class PdfChart implements PdfPageable {
             point.drawOn(page);
         }
 
-        return new Point(position.getX(), coordinates[1] + PADDING_CONTENT);
+        return new Point(position.getX(), coordinates[1]);
     }
 
     private Point drawTable(PdfPage page, Point position, LinkedHashMap<Measurement.Category, ListItemCategoryValue[]> measurements) throws Exception {
@@ -237,8 +236,6 @@ public class PdfChart implements PdfPageable {
                 valueCell.setWidth((page.getWidth() - LABEL_WIDTH) / (DateTimeConstants.HOURS_PER_DAY / SKIP_EVERY_X_HOUR));
                 valueCell.setFgColor(Color.black);
                 valueCell.setTextAlignment(Align.CENTER);
-                valueCell.setBgColor(backgroundColor);
-                valueCell.setNoBorders();
                 row.add(valueCell);
             }
 

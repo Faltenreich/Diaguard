@@ -217,12 +217,12 @@ public class PdfChart implements PdfPageable {
             SizedImage image = new SizedImage(cache.getPdf(), context, imageRes);
             image.setSize(20);
 
-            // TODO: Set image to compensate small space?
+            // TODO: Find wyy to compensate small space
             Cell titleCell = new Cell(cache.getFontNormal());
             titleCell.setWidth(LABEL_WIDTH);
             titleCell.setFgColor(Color.gray);
             titleCell.setNoBorders();
-            titleCell.setImage(image);
+            titleCell.setText(category.toLocalizedString(context));
             row.add(titleCell);
 
             for (ListItemCategoryValue value : values) {

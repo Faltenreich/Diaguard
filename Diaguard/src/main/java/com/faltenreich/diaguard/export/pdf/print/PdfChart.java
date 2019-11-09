@@ -30,7 +30,7 @@ import java.util.Map;
 
 public class PdfChart implements PdfPageable {
 
-    private static final float PADDING_PARAGRAPH = 28;
+    private static final float PADDING_PARAGRAPH = 32;
     private static final float POINT_RADIUS = 5;
     private static final float LABEL_WIDTH = 100;
     private static final float PADDING = 12;
@@ -93,7 +93,7 @@ public class PdfChart implements PdfPageable {
         label.setColor(Color.gray);
 
         Line line = new Line();
-        line.setColor(Color.lightgray);
+        line.setColor(Color.gray);
 
         float chartWidth = chart.getWidth();
         float chartHeight = chart.getHeight();
@@ -213,7 +213,7 @@ public class PdfChart implements PdfPageable {
             titleCell.setWidth(LABEL_WIDTH);
             titleCell.setBgColor(index % 2 == 0 ? cache.getColorDivider() : Color.transparent);
             titleCell.setFgColor(Color.gray);
-            titleCell.setPenColor(Color.lightgray);
+            titleCell.setPenColor(Color.gray);
             row.add(titleCell);
 
             for (ListItemCategoryValue value : values) {
@@ -223,7 +223,7 @@ public class PdfChart implements PdfPageable {
                 valueCell.setWidth((page.getWidth() - LABEL_WIDTH) / (DateTimeConstants.HOURS_PER_DAY / HOUR_INTERVAL));
                 valueCell.setBgColor(index % 2 == 0 ? cache.getColorDivider() : Color.transparent);
                 valueCell.setFgColor(Color.black);
-                valueCell.setPenColor(Color.lightgray);
+                valueCell.setPenColor(Color.gray);
                 valueCell.setTextAlignment(Align.CENTER);
                 row.add(valueCell);
             }

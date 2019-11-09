@@ -4,11 +4,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.ui.list.item.ListItemCategoryValue;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.util.Helper;
+import com.faltenreich.diaguard.ui.list.item.ListItemCategoryValue;
 import com.faltenreich.diaguard.util.ViewUtils;
+
+import org.apache.commons.lang3.StringUtils;
 
 import butterknife.BindView;
 
@@ -25,40 +26,13 @@ public class CategoryValueViewHolder extends BaseViewHolder<ListItemCategoryValu
     public void bindData() {
         valueView.setLines(1);
         ListItemCategoryValue listItem = getListItem();
-        Measurement.Category category = listItem.getCategory();
-        StringBuilder stringBuilder = new StringBuilder();
+        String value = listItem.print();
 
-        if (category.stackValues()) {
-            float value = listItem.getValueTotal();
-            if (value > 0) {
-                value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, listItem.getValueTotal());
-                stringBuilder.append(Helper.parseFloat(value));
-            }
-        } else {
-            if (listItem.getValueOne() > 0) {
-                float value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, listItem.getValueOne());
-                stringBuilder.append(Helper.parseFloat(value));
-            }
-            if (listItem.getValueTwo() > 0) {
-                if (stringBuilder.length() > 0) {
-                    stringBuilder.append("\n");
-                    valueView.setLines(2);
-                }
-                float value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, listItem.getValueTwo());
-                stringBuilder.append(Helper.parseFloat(value));
-            }
-            if (listItem.getValueThree() > 0) {
-                if (stringBuilder.length() > 0) {
-                    stringBuilder.append("\n");
-                    valueView.setLines(3);
-                }
-                float value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, listItem.getValueThree());
-                stringBuilder.append(Helper.parseFloat(value));
-            }
-        }
+        int lines = StringUtils.countMatches(value, "\n") + 1;
+        valueView.setLines(lines);
 
-        if (stringBuilder.length() > 0) {
-            valueView.setText(stringBuilder.toString());
+        if (value.length() > 0) {
+            valueView.setText(value);
             valueView.setClickable(true);
         } else {
             valueView.setText(null);

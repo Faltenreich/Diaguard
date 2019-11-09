@@ -30,31 +30,25 @@ import java.util.Map;
 
 public class PdfChart implements PdfPageable {
 
-    private static final float PADDING_CONTENT = 12;
-    private static final float PADDING_PARAGRAPH = 20;
+    private static final float PADDING_PARAGRAPH = 28;
     private static final float POINT_RADIUS = 5;
-    private static final float LABEL_WIDTH = 48;
+    private static final float LABEL_WIDTH = 100;
+    private static final float PADDING = 12;
     private static final int HOUR_INTERVAL = 2;
 
     private PdfExportCache cache;
-    private TextLine header;
     private SizedBox chart;
     private SizedTable table;
 
     public PdfChart(PdfExportCache cache, float width) {
         this.cache = cache;
-        this.header = new TextLine(cache.getFontBold());
         this.chart = new SizedBox(width, width / 4);
         this.table = new SizedTable();
     }
 
     @Override
     public float getHeight() {
-        return header.getHeight() +
-            PADDING_CONTENT +
-            chart.getHeight() +
-            table.getHeight() +
-            PADDING_PARAGRAPH;
+        return chart.getHeight() + table.getHeight() + PADDING_PARAGRAPH;
     }
 
     @Override
@@ -86,16 +80,8 @@ public class PdfChart implements PdfPageable {
         LinkedHashMap<Measurement.Category, ListItemCategoryValue[]> values =
             EntryDao.getInstance().getAverageDataTable(dateTime, categories.toArray(new Measurement.Category[0]), HOUR_INTERVAL);
 
-        position = drawHeader(page, position);
         position = drawChart(page, position, bloodSugars);
         position = drawTable(page, position, values);
-    }
-
-    private Point drawHeader(PdfPage page, Point position) throws Exception {
-        header.setText(DateTimeUtils.toWeekDayAndDate(cache.getDateTime()));
-        header.setPosition(position.getX(), position.getY());
-        float[] coordinates = header.drawOn(page);
-        return new Point(position.getX(), coordinates[1] + PADDING_CONTENT);
     }
 
     private Point drawChart(PdfPage page, Point position, List<BloodSugar> bloodSugars) throws Exception {
@@ -138,17 +124,23 @@ public class PdfChart implements PdfPageable {
             yStep += (int) ((yMax - yMaxMin) / 50) * 20;
         }
 
+        TextLine header = new TextLine(cache.getFontBold());
+        header.setText(DateTimeUtils.toWeekDayAndDate(cache.getDateTime()));
+        header.setPosition(chartStartX, chartStartY);
+        header.placeIn(chart);
+        header.drawOn(page);
+
         // Labels for x axis
         int minutes = 0;
         while (minutes <= xMax) {
             float x = contentStartX + ((float) minutes / xMax) * contentWidth;
 
             label.setText(String.valueOf(minutes / 60));
-            label.setPosition(x - label.getWidth() / 2, chartStartY + label.getHeight() / 2);
+            label.setPosition(x - label.getWidth() / 2, chartStartY);
             label.placeIn(chart);
             label.drawOn(page);
 
-            line.setStartPoint(x, contentStartY);
+            line.setStartPoint(x, chartStartY + 8);
             line.setEndPoint(x, contentEndY);
             line.placeIn(chart);
             line.drawOn(page);
@@ -166,7 +158,7 @@ public class PdfChart implements PdfPageable {
             label.placeIn(chart);
             label.drawOn(page);
 
-            line.setStartPoint(contentStartX, labelY);
+            line.setStartPoint(chartStartX + label.getWidth() + PADDING, labelY);
             line.setEndPoint(contentEndX, labelY);
             line.placeIn(chart);
             line.drawOn(page);
@@ -219,8 +211,9 @@ public class PdfChart implements PdfPageable {
             Cell titleCell = new Cell(cache.getFontNormal());
             titleCell.setText(category.toLocalizedString(context));
             titleCell.setWidth(LABEL_WIDTH);
+            titleCell.setBgColor(index % 2 == 0 ? cache.getColorDivider() : Color.transparent);
             titleCell.setFgColor(Color.gray);
-            titleCell.setNoBorders();
+            titleCell.setPenColor(Color.lightgray);
             row.add(titleCell);
 
             for (ListItemCategoryValue value : values) {

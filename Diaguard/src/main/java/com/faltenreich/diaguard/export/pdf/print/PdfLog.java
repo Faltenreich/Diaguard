@@ -52,11 +52,6 @@ public class PdfLog implements PdfPageable {
     }
 
     @Override
-    public void onNewPage(PdfPage page) {
-        page.draw(new PdfWeek(cache));
-    }
-
-    @Override
     public void drawOn(PdfPage page, Point position) throws Exception {
         table.setLocation(position.getX(), position.getY());
         table.drawOn(page);

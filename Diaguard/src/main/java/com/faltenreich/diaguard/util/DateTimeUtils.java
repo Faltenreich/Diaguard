@@ -55,7 +55,6 @@ public class DateTimeUtils {
                 null;
     }
 
-    // TODO: Localize dateString
     public static String toWeekDayAndDate(DateTime dateTime) {
         String weekDayString = DateTimeFormat.forPattern("E").print(dateTime);
         String dateString = DateTimeFormat.shortDate().print(dateTime);

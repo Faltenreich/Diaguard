@@ -533,5 +533,7 @@
     <string name="theme_time_based">By time of day</string>
     <string name="theme_system">System setting</string>
     <string name="table">Table</string>
+    <string name="export_append_header">Append header (showing calendar week)</string>
+    <string name="export_append_footer">Append footer (showing date of export)</string>
 
 </resources>

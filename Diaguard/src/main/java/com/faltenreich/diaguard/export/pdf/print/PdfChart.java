@@ -112,14 +112,14 @@ public class PdfChart implements PdfPageable {
         int xStep = DateTimeConstants.MINUTES_PER_HOUR * HOUR_INTERVAL;
         float xMax = DateTimeConstants.MINUTES_PER_DAY;
         int yStep = 40;
-        float yMaxMin = 250;
+        float yMaxMin = 210;
         float yMax = yMaxMin;
         for (BloodSugar bloodSugar : bloodSugars) {
             if (bloodSugar.getMgDl() > yMax) {
                 yMax = bloodSugar.getMgDl();
             }
         }
-        if (yMax > 300) {
+        if (yMax > 250) {
             // Increased range for exceeding values
             yStep += (int) ((yMax - yMaxMin) / 50) * 20;
         }
@@ -207,7 +207,6 @@ public class PdfChart implements PdfPageable {
             SizedImage image = new SizedImage(cache.getPdf(), context, imageRes);
             image.setSize(20);
 
-            // TODO: Find way to compensate small space
             Cell titleCell = new Cell(cache.getFontNormal());
             titleCell.setText(category.toLocalizedString(context));
             titleCell.setWidth(LABEL_WIDTH);

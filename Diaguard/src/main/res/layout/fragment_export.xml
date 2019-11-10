@@ -296,6 +296,66 @@
             app:layout_constraintStart_toStartOf="@id/date_start_button"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <View
+            android:id="@+id/header_divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="?backgroundColorTertiary"
+            app:layout_constraintTop_toBottomOf="@id/tags_checkbox"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <ImageView
+            android:id="@+id/header_icon"
+            android:layout_width="@dimen/size_image"
+            android:layout_height="@dimen/size_image"
+            android:padding="2dp"
+            android:contentDescription="@null"
+            android:tint="?iconColorPrimary"
+            app:layout_constraintTop_toTopOf="@id/header_checkbox"
+            app:layout_constraintBottom_toBottomOf="@id/header_checkbox"
+            app:layout_constraintStart_toStartOf="@id/date_icon"
+            app:srcCompat="@drawable/ic_header" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/header_checkbox"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_element_large"
+            android:text="@string/export_append_header"
+            app:layout_constraintTop_toBottomOf="@id/header_divider"
+            app:layout_constraintStart_toStartOf="@id/date_start_button"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <View
+            android:id="@+id/footer_divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="?backgroundColorTertiary"
+            app:layout_constraintTop_toBottomOf="@id/header_checkbox"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <ImageView
+            android:id="@+id/footer_icon"
+            android:layout_width="@dimen/size_image"
+            android:layout_height="@dimen/size_image"
+            android:padding="2dp"
+            android:contentDescription="@null"
+            android:tint="?iconColorPrimary"
+            app:layout_constraintTop_toTopOf="@id/footer_checkbox"
+            app:layout_constraintBottom_toBottomOf="@id/footer_checkbox"
+            app:layout_constraintStart_toStartOf="@id/date_icon"
+            app:srcCompat="@drawable/ic_header" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/footer_checkbox"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_element_large"
+            android:text="@string/export_append_footer"
+            app:layout_constraintTop_toBottomOf="@id/footer_divider"
+            app:layout_constraintStart_toStartOf="@id/date_start_button"
+            app:layout_constraintEnd_toEndOf="parent" />
+
         <TextView
             android:id="@+id/categories_header"
             style="@style/Padding"
@@ -303,7 +363,7 @@
             android:layout_height="wrap_content"
             android:background="?attr/backgroundColorTertiary"
             android:text="@string/categories"
-            app:layout_constraintTop_toBottomOf="@id/tags_checkbox"
+            app:layout_constraintTop_toBottomOf="@id/footer_checkbox"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -313,7 +373,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/categories_header"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:listitem="@layout/list_item_export_category" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

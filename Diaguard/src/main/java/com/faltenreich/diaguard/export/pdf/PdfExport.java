@@ -64,7 +64,7 @@ public class PdfExport extends AsyncTask<Void, String, File> {
                 }
 
                 if (!page.hasContent()) {
-                    content.onNewPage(page);
+                    content.onNewPage(cache, page);
                 }
 
                 page.draw(content);

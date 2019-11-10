@@ -52,11 +52,6 @@ public class PdfChart implements PdfPageable {
     }
 
     @Override
-    public void onNewPage(PdfPage page) {
-
-    }
-
-    @Override
     public void drawOn(PdfPage page, Point position) throws Exception {
         DateTime dateTime = cache.getDateTime();
 

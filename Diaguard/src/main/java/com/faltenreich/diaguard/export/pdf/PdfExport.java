@@ -15,7 +15,7 @@ import com.faltenreich.diaguard.export.pdf.print.PdfLog;
 import com.faltenreich.diaguard.export.pdf.print.PdfPage;
 import com.faltenreich.diaguard.export.pdf.print.PdfPageable;
 import com.faltenreich.diaguard.export.pdf.print.PdfTable;
-import com.faltenreich.diaguard.export.pdf.print.PdfWeek;
+import com.faltenreich.diaguard.export.pdf.print.PdfHeader;
 
 import org.joda.time.Days;
 
@@ -37,12 +37,12 @@ public class PdfExport extends AsyncTask<Void, String, File> {
         try {
             PdfExportCache cache = new PdfExportCache(config, file);
 
-            PdfPage page = new PdfPage(cache.getPdf());
+            PdfPage page = new PdfPage(cache);
 
             while (cache.isDateTimeValid()) {
                 if (cache.isDateTimeForNewWeek()) {
-                    page = new PdfPage(cache.getPdf());
-                    page.draw(new PdfWeek(cache));
+                    page = new PdfPage(cache);
+                    page.draw(new PdfHeader(cache));
                 }
 
                 PdfPageable content = null;
@@ -60,7 +60,7 @@ public class PdfExport extends AsyncTask<Void, String, File> {
 
                 // Page break
                 if ((page.getPosition().getY() + content.getHeight()) > page.getEndPoint().getY()) {
-                    page = new PdfPage(cache.getPdf());
+                    page = new PdfPage(cache);
                 }
 
                 if (!page.hasContent()) {

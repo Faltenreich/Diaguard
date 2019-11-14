@@ -2,19 +2,10 @@ package com.faltenreich.diaguard.export.pdf.print;
 
 import android.util.Log;
 
-import com.faltenreich.diaguard.DiaguardApplication;
-import com.faltenreich.diaguard.R;
-import com.pdfjet.Color;
-import com.pdfjet.CoreFont;
-import com.pdfjet.Font;
+import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
 import com.pdfjet.Letter;
-import com.pdfjet.PDF;
 import com.pdfjet.Page;
 import com.pdfjet.Point;
-import com.pdfjet.TextLine;
-
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
 
 public class PdfPage extends Page {
 
@@ -26,10 +17,10 @@ public class PdfPage extends Page {
 
     private Point position;
 
-    public PdfPage(PDF pdf) throws Exception {
-        super(pdf, Letter.PORTRAIT);
-        appendFooter();
+    public PdfPage(PdfExportCache cache) throws Exception {
+        super(cache.getPdf(), Letter.PORTRAIT);
         this.position = getStartPoint();
+        new PdfFooter(cache).drawOn(this, position);
     }
 
     private Point getStartPoint() {
@@ -37,17 +28,17 @@ public class PdfPage extends Page {
     }
 
     public Point getEndPoint() {
-        return new Point(PADDING_HORIZONTAL, super.getHeight() - PADDING_BOTTOM);
+        return new Point(super.getWidth() - PADDING_HORIZONTAL, super.getHeight() - PADDING_BOTTOM);
     }
 
     @Override
     public float getWidth() {
-        return super.getWidth() - (PADDING_HORIZONTAL * 2);
+        return getEndPoint().getX() - getStartPoint().getX();
     }
 
     @Override
     public float getHeight() {
-        return super.getHeight() - PADDING_TOP - PADDING_BOTTOM;
+        return getEndPoint().getY() - getStartPoint().getY();
     }
 
     public Point getPosition() {
@@ -56,32 +47,6 @@ public class PdfPage extends Page {
 
     public boolean hasContent() {
         return getPosition().getY() != getStartPoint().getY();
-    }
-
-    private void appendFooter() {
-        try {
-            int textColor = Color.gray;
-            float positionY = super.getHeight() - (PADDING_BOTTOM / 2);
-
-            // Created by
-            Font font = new Font(pdf, CoreFont.HELVETICA);
-            TextLine generatedBy = new TextLine(font);
-            generatedBy.setPosition(PADDING_HORIZONTAL, positionY);
-            generatedBy.setColor(textColor);
-            generatedBy.setText(String.format("%s %s",
-                DiaguardApplication.getContext().getString(R.string.export_stamp),
-                DateTimeFormat.mediumDate().print(DateTime.now())));
-            generatedBy.drawOn(this);
-
-            // Url
-            TextLine url = new TextLine(font);
-            url.setText(DiaguardApplication.getContext().getString(R.string.app_homepage_short));
-            url.setPosition(super.getWidth() - PADDING_HORIZONTAL - url.getWidth(), positionY);
-            url.setColor(textColor);
-            url.drawOn(this);
-        } catch (Exception e) {
-            Log.e(TAG, "Failed to append footer");
-        }
     }
 
     public void draw(PdfPrintable printable) {

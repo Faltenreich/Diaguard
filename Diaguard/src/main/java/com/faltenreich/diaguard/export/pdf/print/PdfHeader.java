@@ -16,16 +16,16 @@ import org.joda.time.format.DateTimeFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PdfWeek implements PdfPrintable {
+public class PdfHeader implements PdfPrintable {
 
-    private static final String TAG = PdfWeek.class.getSimpleName();
+    private static final String TAG = PdfHeader.class.getSimpleName();
 
     private static final float PADDING_PARAGRAPH = 20;
     private static final float PADDING_LINE = 3;
 
     private SizedText text;
 
-    public PdfWeek(PdfExportCache cache) {
+    public PdfHeader(PdfExportCache cache) {
         DateTime weekStart = cache.getDateTime().withDayOfWeek(1);
         TextLine week = new TextLine(cache.getFontHeader());
         week.setText(String.format("%s %d",

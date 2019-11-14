@@ -54,6 +54,8 @@ public class PreferenceHelper {
         public static final String DID_IMPORT_COMMON_FOOD_FOR_LANGUAGE = "didImportCommonFoodForLanguage";
         public static final String CHART_STYLE = "chart_style";
         public static final String EXPORT_PDF_STYLE = "exportPdfStyle";
+        public static final String EXPORT_HEADER = "exportHeader";
+        public static final String EXPORT_FOOTER = "exportFooter";
         public static final String EXPORT_NOTES = "export_notes";
         public static final String EXPORT_TAGS = "export_tags";
         public static final String EXPORT_FOOD = "export_food";
@@ -248,6 +250,22 @@ public class PreferenceHelper {
         int stableId = sharedPreferences.getInt(Keys.EXPORT_PDF_STYLE, defaultStyle.stableId);
         PdfExportStyle style = PdfExportStyle.valueOf(stableId);
         return style != null ? style : defaultStyle;
+    }
+
+    public void setExportHeader(boolean exportHeader) {
+        sharedPreferences.edit().putBoolean(Keys.EXPORT_HEADER, exportHeader).apply();
+    }
+
+    public boolean exportHeader() {
+        return sharedPreferences.getBoolean(Keys.EXPORT_HEADER, true);
+    }
+
+    public void setExportFooter(boolean exportFooter) {
+        sharedPreferences.edit().putBoolean(Keys.EXPORT_FOOTER, exportFooter).apply();
+    }
+
+    public boolean exportFooter() {
+        return sharedPreferences.getBoolean(Keys.EXPORT_FOOTER, true);
     }
 
     public void setExportNotes(boolean exportNotes) {

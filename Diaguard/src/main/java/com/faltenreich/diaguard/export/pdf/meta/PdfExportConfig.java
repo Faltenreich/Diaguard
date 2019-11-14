@@ -17,6 +17,8 @@ public class PdfExportConfig extends ExportConfig {
 
     private final WeakReference<Context> contextReference;
     private final PdfExportStyle style;
+    private final boolean exportHeader;
+    private final boolean exportFooter;
     private final boolean exportNotes;
     private final boolean exportTags;
     private final boolean exportFood;
@@ -30,6 +32,8 @@ public class PdfExportConfig extends ExportConfig {
         Measurement.Category[] categories,
         Context context,
         PdfExportStyle style,
+        boolean exportHeader,
+        boolean exportFooter,
         boolean exportNotes,
         boolean exportTags,
         boolean exportFood,
@@ -39,6 +43,8 @@ public class PdfExportConfig extends ExportConfig {
         super(callback, dateStart, dateEnd, categories);
         this.contextReference = new WeakReference<>(context);
         this.style = style;
+        this.exportHeader = exportHeader;
+        this.exportFooter = exportFooter;
         this.exportNotes = exportNotes;
         this.exportTags = exportTags;
         this.exportFood = exportFood;
@@ -52,6 +58,14 @@ public class PdfExportConfig extends ExportConfig {
 
     public PdfExportStyle getStyle() {
         return style;
+    }
+
+    public boolean isExportHeader() {
+        return exportHeader;
+    }
+
+    public boolean isExportFooter() {
+        return exportFooter;
     }
 
     public boolean isExportNotes() {
@@ -78,6 +92,8 @@ public class PdfExportConfig extends ExportConfig {
     public void persistInSharedPreferences() {
         super.persistInSharedPreferences();
         PreferenceHelper.getInstance().setPdfExportStyle(style);
+        PreferenceHelper.getInstance().setExportHeader(exportHeader);
+        PreferenceHelper.getInstance().setExportFooter(exportFooter);
         PreferenceHelper.getInstance().setExportNotes(exportNotes);
         PreferenceHelper.getInstance().setExportTags(exportTags);
         PreferenceHelper.getInstance().setExportFood(exportFood);

@@ -23,6 +23,7 @@ import com.faltenreich.diaguard.data.event.PermissionResponseEvent;
 import com.faltenreich.diaguard.export.Export;
 import com.faltenreich.diaguard.export.ExportCallback;
 import com.faltenreich.diaguard.export.ExportFormat;
+import com.faltenreich.diaguard.export.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportStyle;
 import com.faltenreich.diaguard.ui.view.CategoryCheckBoxList;
 import com.faltenreich.diaguard.ui.view.MainButton;
@@ -55,6 +56,8 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
     @BindView(R.id.style_table_radio) RadioButton radioButtonTableStyle;
     @BindView(R.id.style_timeline_radio) RadioButton radioButtonTimelineStyle;
     @BindView(R.id.style_log_radio) RadioButton radioButtonLogStyle;
+    @BindView(R.id.header_checkbox) CheckBox checkBoxHeader;
+    @BindView(R.id.footer_checkbox) CheckBox checkBoxFooter;
     @BindView(R.id.note_checkbox) CheckBox checkBoxNotes;
     @BindView(R.id.tags_checkbox) CheckBox checkBoxTags;
     @BindView(R.id.categories_list) CategoryCheckBoxList categoryCheckBoxList;
@@ -113,6 +116,8 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
         buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
         buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
 
+        checkBoxHeader.setChecked(PreferenceHelper.getInstance().exportHeader());
+        checkBoxFooter.setChecked(PreferenceHelper.getInstance().exportFooter());
         checkBoxNotes.setChecked(PreferenceHelper.getInstance().exportNotes());
         checkBoxNotes.setOnCheckedChangeListener((buttonView, isChecked) -> PreferenceHelper.getInstance().setExportNotes(isChecked));
         checkBoxTags.setChecked(PreferenceHelper.getInstance().exportTags());
@@ -158,16 +163,35 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
         DateTime dateEnd = this.dateEnd != null ? this.dateEnd.withTimeAtStartOfDay() : null;
         Measurement.Category[] categories = categoryCheckBoxList.getSelectedCategories();
         PdfExportStyle style = getStyle();
+        boolean exportHeader = checkBoxHeader.isChecked();
+        boolean exportFooter = checkBoxFooter.isChecked();
         boolean exportNotes = checkBoxNotes.isChecked();
         boolean exportTags = checkBoxTags.isChecked();
         boolean exportFood = categoryCheckBoxList.exportFood();
         boolean splitInsulin = categoryCheckBoxList.splitInsulin();
         boolean highlightLimits = categoryCheckBoxList.highlightLimits();
 
+        PdfExportConfig config = new PdfExportConfig(
+            this,
+            dateStart,
+            dateEnd,
+            categories,
+            getContext(),
+            style,
+            exportHeader,
+            exportFooter,
+            exportNotes,
+            exportTags,
+            exportFood,
+            splitInsulin,
+            highlightLimits
+        );
+        config.persistInSharedPreferences();
+
         ExportFormat type = getFormat();
         switch (type) {
             case PDF:
-                Export.exportPdf(this, dateStart, dateEnd, categories, getContext(), style, exportNotes, exportTags, exportFood, splitInsulin, highlightLimits);
+                Export.exportPdf(config);
                 break;
             case CSV:
                 Export.exportCsv(this, dateStart, dateEnd, categories);

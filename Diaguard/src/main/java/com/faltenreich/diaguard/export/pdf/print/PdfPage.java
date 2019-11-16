@@ -11,24 +11,29 @@ public class PdfPage extends Page {
 
     private static final String TAG = PdfPage.class.getSimpleName();
 
-    private static final int PADDING_TOP = 80;
-    private static final int PADDING_BOTTOM = 100;
-    private static final int PADDING_HORIZONTAL = 60;
+    private static final float PADDING = 60;
+    public static final float MARGIN = 20;
 
     private Point position;
+    private PdfFooter footer;
 
     public PdfPage(PdfExportCache cache) throws Exception {
         super(cache.getPdf(), Letter.PORTRAIT);
-        this.position = getStartPoint();
-        new PdfFooter(cache).drawOn(this, position);
+        position = getStartPoint();
+
+        if (cache.getConfig().isExportFooter()) {
+            footer = new PdfFooter(cache);
+            footer.drawOn(this, new Point(PADDING, super.getHeight() - PADDING));
+        }
     }
 
     private Point getStartPoint() {
-        return new Point(PADDING_HORIZONTAL, PADDING_TOP);
+        return new Point(PADDING, PADDING);
     }
 
     public Point getEndPoint() {
-        return new Point(super.getWidth() - PADDING_HORIZONTAL, super.getHeight() - PADDING_BOTTOM);
+        float footerOffset = footer != null ? footer.getHeight() + MARGIN : 0;
+        return new Point(super.getWidth() - PADDING, super.getHeight() - PADDING - footerOffset);
     }
 
     @Override

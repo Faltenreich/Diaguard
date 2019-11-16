@@ -30,7 +30,6 @@ public class PdfLog implements PdfPageable {
 
     private static final String TAG = PdfLog.class.getSimpleName();
 
-    private static final float PADDING_PARAGRAPH = 20;
     private static final float LABEL_WIDTH = 112;
     private static final float TIME_WIDTH = 72;
 
@@ -48,7 +47,7 @@ public class PdfLog implements PdfPageable {
     @Override
     public float getHeight() {
         float height = table.getHeight();
-        return height > 0 ? height + PADDING_PARAGRAPH : 0f;
+        return height > 0 ? height + PdfPage.MARGIN : 0f;
     }
 
     @Override

@@ -37,10 +37,9 @@ public class PdfFooter implements PdfPrintable {
 
     @Override
     public void drawOn(PdfPage page, Point position) throws Exception {
-        float positionY = page.getEndPoint().getY() + getHeight();
-        createdBy.setPosition(position.getX(), positionY);
+        createdBy.setPosition(position.getX(), position.getY());
         createdBy.drawOn(page);
-        url.setPosition(page.getEndPoint().getX() - url.getWidth(), positionY);
+        url.setPosition(position.getX() + page.getWidth() - url.getWidth(), position.getY());
         url.drawOn(page);
     }
 }

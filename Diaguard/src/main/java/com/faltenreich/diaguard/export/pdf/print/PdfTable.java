@@ -40,7 +40,6 @@ import java.util.List;
 public class PdfTable implements PdfPageable {
 
     private static final String TAG = PdfTable.class.getSimpleName();
-    private static final float PADDING_PARAGRAPH = 20;
     private static final float LABEL_WIDTH = 120;
     private static final int HOURS_TO_SKIP = 2;
 
@@ -58,7 +57,7 @@ public class PdfTable implements PdfPageable {
     @Override
     public float getHeight() {
         float height = table.getHeight();
-        return height > 0 ? height + PADDING_PARAGRAPH : 0f;
+        return height > 0 ? height + PdfPage.MARGIN : 0f;
     }
 
     @Override

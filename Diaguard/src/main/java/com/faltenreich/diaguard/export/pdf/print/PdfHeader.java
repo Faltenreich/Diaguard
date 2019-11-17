@@ -20,8 +20,7 @@ public class PdfHeader implements PdfPrintable {
 
     private static final String TAG = PdfHeader.class.getSimpleName();
 
-    private static final float PADDING_PARAGRAPH = 20;
-    private static final float PADDING_LINE = 3;
+    private static final float MARGIN_BOTTOM = 20;
 
     private SizedText text;
 
@@ -48,7 +47,7 @@ public class PdfHeader implements PdfPrintable {
 
         try {
             text = new SizedText(paragraphs);
-            text.setParagraphLeading(week.getFont().getBodyHeight() + PADDING_LINE);
+            text.setParagraphLeading(week.getFont().getBodyHeight());
         } catch (Exception exception) {
             Log.e(TAG, exception.getMessage());
         }
@@ -57,7 +56,7 @@ public class PdfHeader implements PdfPrintable {
     @Override
     public float getHeight() {
         if (text != null) {
-            return text.getHeight() + PADDING_PARAGRAPH;
+            return text.getHeight() + MARGIN_BOTTOM;
         }
         return 0f;
     }

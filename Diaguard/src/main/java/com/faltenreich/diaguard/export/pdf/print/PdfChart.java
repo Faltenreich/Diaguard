@@ -30,7 +30,6 @@ import java.util.Map;
 
 public class PdfChart implements PdfPageable {
 
-    private static final float PADDING_PARAGRAPH = 32;
     private static final float POINT_RADIUS = 5;
     private static final float LABEL_WIDTH = 100;
     private static final float PADDING = 12;
@@ -48,7 +47,7 @@ public class PdfChart implements PdfPageable {
 
     @Override
     public float getHeight() {
-        return chart.getHeight() + table.getHeight() + PADDING_PARAGRAPH;
+        return chart.getHeight() + table.getHeight() + PdfPage.MARGIN;
     }
 
     @Override
@@ -94,11 +93,11 @@ public class PdfChart implements PdfPageable {
         float chartHeight = chart.getHeight();
         float chartStartX = 0;
         float chartEndX = chartStartX + chart.getWidth();
-        float chartStartY = 0; // TODO: Add offset of header
+        float chartStartY = 0;
         float chartEndY = chartStartY + chartHeight;
 
         float contentStartX = LABEL_WIDTH;
-        float contentStartY = chartStartY + label.getHeight();
+        float contentStartY = chartStartY + label.getHeight() + PADDING;
         float contentEndX = chartEndX;
         float contentEndY = chartEndY;
         float contentWidth = contentEndX - contentStartX;
@@ -121,7 +120,7 @@ public class PdfChart implements PdfPageable {
 
         TextLine header = new TextLine(cache.getFontBold());
         header.setText(DateTimeUtils.toWeekDayAndDate(cache.getDateTime()));
-        header.setPosition(chartStartX, chartStartY);
+        header.setPosition(chartStartX, chartStartY + header.getHeight());
         header.placeIn(chart);
         header.drawOn(page);
 
@@ -131,11 +130,11 @@ public class PdfChart implements PdfPageable {
             float x = contentStartX + ((float) minutes / xMax) * contentWidth;
 
             label.setText(String.valueOf(minutes / 60));
-            label.setPosition(x - label.getWidth() / 2, chartStartY);
+            label.setPosition(x - label.getWidth() / 2, chartStartY + header.getHeight());
             label.placeIn(chart);
             label.drawOn(page);
 
-            line.setStartPoint(x, chartStartY + 8);
+            line.setStartPoint(x, chartStartY + header.getHeight() + 8);
             line.setEndPoint(x, contentEndY);
             line.placeIn(chart);
             line.drawOn(page);

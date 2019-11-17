@@ -47,6 +47,7 @@ public class PdfChart implements PdfPageable {
 
     @Override
     public float getHeight() {
+        // FIXME: Called before drawOn
         return chart.getHeight() + table.getHeight() + PdfPage.MARGIN;
     }
 
@@ -113,7 +114,7 @@ public class PdfChart implements PdfPageable {
                 yMax = bloodSugar.getMgDl();
             }
         }
-        if (yMax > 250) {
+        if (yMax > 200) {
             // Increased range for exceeding values
             yStep += (int) ((yMax - yMaxMin) / 50) * 20;
         }

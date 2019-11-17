@@ -28,12 +28,16 @@ public class PdfPage extends Page {
     }
 
     private Point getStartPoint() {
-        return new Point(PADDING_EDGES, PADDING_EDGES);
+        float startX = PADDING_EDGES;
+        float startY = PADDING_EDGES;
+        return new Point(startX, startY);
     }
 
     public Point getEndPoint() {
         float footerOffset = footer != null ? footer.getHeight() + MARGIN : 0;
-        return new Point(super.getWidth() - PADDING_EDGES, super.getHeight() - PADDING_EDGES - footerOffset);
+        float endX = super.getWidth() - PADDING_EDGES;
+        float endY = super.getHeight() - PADDING_EDGES - footerOffset;
+        return new Point(endX, endY);
     }
 
     @Override

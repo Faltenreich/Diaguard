@@ -11,8 +11,8 @@ public class PdfPage extends Page {
 
     private static final String TAG = PdfPage.class.getSimpleName();
 
-    private static final float PADDING = 60;
-    public static final float MARGIN = 20;
+    private static final float PADDING_EDGES = 60;
+    static final float MARGIN = 20;
 
     private Point position;
     private PdfFooter footer;
@@ -23,17 +23,17 @@ public class PdfPage extends Page {
 
         if (cache.getConfig().isExportFooter()) {
             footer = new PdfFooter(cache);
-            footer.drawOn(this, new Point(PADDING, super.getHeight() - PADDING));
+            footer.drawOn(this, new Point(PADDING_EDGES, super.getHeight() - PADDING_EDGES));
         }
     }
 
     private Point getStartPoint() {
-        return new Point(PADDING, PADDING);
+        return new Point(PADDING_EDGES, PADDING_EDGES);
     }
 
     public Point getEndPoint() {
         float footerOffset = footer != null ? footer.getHeight() + MARGIN : 0;
-        return new Point(super.getWidth() - PADDING, super.getHeight() - PADDING - footerOffset);
+        return new Point(super.getWidth() - PADDING_EDGES, super.getHeight() - PADDING_EDGES - footerOffset);
     }
 
     @Override

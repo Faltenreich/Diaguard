@@ -59,7 +59,9 @@ public class PdfExport extends AsyncTask<Void, String, File> {
                 }
 
                 // Page break
-                if ((page.getPosition().getY() + content.getHeight()) > page.getEndPoint().getY()) {
+                float newY = page.getPosition().getY() + content.getHeight();
+                float maxY = page.getEndPoint().getY();
+                if (newY > maxY) {
                     page = new PdfPage(cache);
                 }
 

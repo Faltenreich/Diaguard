@@ -12,6 +12,7 @@ import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.export.pdf.print.PdfChart;
 import com.faltenreich.diaguard.export.pdf.print.PdfLog;
+import com.faltenreich.diaguard.export.pdf.print.PdfPage;
 import com.faltenreich.diaguard.export.pdf.print.PdfPrintable;
 import com.faltenreich.diaguard.export.pdf.print.PdfTable;
 
@@ -37,30 +38,28 @@ public class PdfExport extends AsyncTask<Void, String, File> {
 
             while (cache.isDateTimeValid()) {
                 if (cache.isDateTimeForNewWeek()) {
-                    cache.newPage();
+                    cache.setPage(new PdfPage(cache));
                 }
 
-                PdfPrintable content = null;
+                PdfPrintable printable = null;
                 switch (cache.getConfig().getStyle()) {
                     case TABLE:
-                        content = new PdfTable(cache, cache.getPage().getWidth());
+                        printable = new PdfTable(cache, cache.getPage().getWidth());
                         break;
                     case LOG:
-                        content = new PdfLog(cache, cache.getPage().getWidth());
+                        printable = new PdfLog(cache, cache.getPage().getWidth());
                         break;
                     case TIMELINE:
-                        content = new PdfChart(cache, cache.getPage().getWidth());
+                        printable = new PdfChart(cache, cache.getPage().getWidth());
                         break;
                 }
 
-                // Page break
-                float newY = cache.getPage().getPosition().getY() + content.getHeight();
+                float newY = cache.getPage().getPosition().getY() + printable.getHeight();
                 float maxY = cache.getPage().getEndPoint().getY();
                 if (newY > maxY) {
-                    cache.newPage();
+                    cache.setPage(new PdfPage(cache));
                 }
-
-                cache.getPage().draw(content);
+                cache.getPage().draw(printable);
 
                 publishProgress(String.format("%s %d/%d",
                     DiaguardApplication.getContext().getString(R.string.day),

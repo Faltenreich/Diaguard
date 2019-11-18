@@ -28,7 +28,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PdfChart implements PdfPageable {
+public class PdfChart implements PdfPrintable {
 
     private static final float POINT_RADIUS = 5;
     private static final float LABEL_WIDTH = 100;

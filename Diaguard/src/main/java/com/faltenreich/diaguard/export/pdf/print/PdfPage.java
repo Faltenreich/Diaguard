@@ -15,13 +15,20 @@ public class PdfPage extends Page {
     static final float MARGIN = 20;
 
     private Point position;
+    private PdfHeader header;
     private PdfFooter footer;
 
     public PdfPage(PdfExportCache cache) throws Exception {
         super(cache.getPdf(), Letter.PORTRAIT);
         position = getStartPoint();
 
+        if (cache.getConfig().isExportHeader()) {
+            header = new PdfHeader(cache);
+            draw(header);
+        }
+
         if (cache.getConfig().isExportFooter()) {
+            // We jump to the end of the page
             footer = new PdfFooter(cache);
             footer.drawOn(this, new Point(PADDING_EDGES, super.getHeight() - PADDING_EDGES));
         }

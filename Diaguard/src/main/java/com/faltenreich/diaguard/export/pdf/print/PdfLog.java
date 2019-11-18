@@ -26,7 +26,7 @@ import com.pdfjet.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PdfLog implements PdfPageable {
+public class PdfLog implements PdfPrintable {
 
     private static final String TAG = PdfLog.class.getSimpleName();
 

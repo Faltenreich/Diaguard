@@ -104,4 +104,9 @@ public class PdfExportCache {
     public void setDateTime(DateTime dateTime) {
         this.dateTime = dateTime;
     }
+
+    public void clear() throws Exception {
+        pdf.flush();
+        pdf.close();
+    }
 }

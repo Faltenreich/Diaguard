@@ -45,12 +45,10 @@ public class PdfTable implements PdfPrintable {
 
     private PdfExportCache cache;
     private SizedTable table;
-    private float width;
 
-    public PdfTable(PdfExportCache cache, float width) {
+    public PdfTable(PdfExportCache cache) {
         this.cache = cache;
         this.table = new SizedTable();
-        this.width = width;
         init();
     }
 
@@ -69,6 +67,7 @@ public class PdfTable implements PdfPrintable {
     private void init() {
         PdfExportConfig config = cache.getConfig();
         Context context = config.getContext();
+        float width = cache.getPage().getWidth();
 
         List<List<Cell>> data = new ArrayList<>();
 

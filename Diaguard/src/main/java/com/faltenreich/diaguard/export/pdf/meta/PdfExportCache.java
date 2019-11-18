@@ -106,7 +106,6 @@ public class PdfExportCache {
     }
 
     public void clear() throws Exception {
-        pdf.flush();
         pdf.close();
     }
 }

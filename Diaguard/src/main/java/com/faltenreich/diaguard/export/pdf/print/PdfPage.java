@@ -61,10 +61,6 @@ public class PdfPage extends Page {
         return position;
     }
 
-    public boolean hasContent() {
-        return getPosition().getY() != getStartPoint().getY();
-    }
-
     public void draw(PdfPrintable printable) {
         try {
             printable.drawOn(this, position);

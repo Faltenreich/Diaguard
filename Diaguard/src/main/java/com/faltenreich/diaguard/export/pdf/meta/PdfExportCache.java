@@ -33,7 +33,7 @@ public class PdfExportCache {
     public PdfExportCache(PdfExportConfig config, File file) throws Exception {
         this.config = config;
         this.pdf = new Pdf(file, config);
-
+        this.dateTime = config.getDateStart();
         this.fontNormal = new Font(pdf, CoreFont.HELVETICA);
         this.fontBold = new Font(pdf, CoreFont.HELVETICA_BOLD);
         this.fontHeader = new Font(pdf, CoreFont.HELVETICA_BOLD);
@@ -41,17 +41,16 @@ public class PdfExportCache {
         this.colorDivider = ContextCompat.getColor(getContext(), R.color.background_light_primary);
         this.colorHyperglycemia = ContextCompat.getColor(getContext(), R.color.red);
         this.colorHypoglycemia = ContextCompat.getColor(getContext(), R.color.blue);
-
-        this.dateTime = config.getDateStart();
-        newPage();
+        // Must be called last, since it relies on the properties before
+        this.page = new PdfPage(this);
     }
 
     public PdfPage getPage() {
         return page;
     }
 
-    public void newPage() throws Exception {
-        page = new PdfPage(this);
+    public void setPage(PdfPage page) {
+        this.page = page;
     }
 
     public Context getContext() {

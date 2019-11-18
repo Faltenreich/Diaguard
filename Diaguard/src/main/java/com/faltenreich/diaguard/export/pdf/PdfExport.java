@@ -12,10 +12,8 @@ import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.export.pdf.print.PdfChart;
 import com.faltenreich.diaguard.export.pdf.print.PdfLog;
-import com.faltenreich.diaguard.export.pdf.print.PdfPage;
-import com.faltenreich.diaguard.export.pdf.print.PdfPageable;
+import com.faltenreich.diaguard.export.pdf.print.PdfPrintable;
 import com.faltenreich.diaguard.export.pdf.print.PdfTable;
-import com.faltenreich.diaguard.export.pdf.print.PdfHeader;
 
 import org.joda.time.Days;
 
@@ -37,39 +35,32 @@ public class PdfExport extends AsyncTask<Void, String, File> {
         try {
             PdfExportCache cache = new PdfExportCache(config, file);
 
-            PdfPage page = new PdfPage(cache);
-
             while (cache.isDateTimeValid()) {
                 if (cache.isDateTimeForNewWeek()) {
-                    page = new PdfPage(cache);
-                    page.draw(new PdfHeader(cache));
+                    cache.newPage();
                 }
 
-                PdfPageable content = null;
+                PdfPrintable content = null;
                 switch (cache.getConfig().getStyle()) {
                     case TABLE:
-                        content = new PdfTable(cache, page.getWidth());
+                        content = new PdfTable(cache, cache.getPage().getWidth());
                         break;
                     case LOG:
-                        content = new PdfLog(cache, page.getWidth());
+                        content = new PdfLog(cache, cache.getPage().getWidth());
                         break;
                     case TIMELINE:
-                        content = new PdfChart(cache, page.getWidth());
+                        content = new PdfChart(cache, cache.getPage().getWidth());
                         break;
                 }
 
                 // Page break
-                float newY = page.getPosition().getY() + content.getHeight();
-                float maxY = page.getEndPoint().getY();
+                float newY = cache.getPage().getPosition().getY() + content.getHeight();
+                float maxY = cache.getPage().getEndPoint().getY();
                 if (newY > maxY) {
-                    page = new PdfPage(cache);
+                    cache.newPage();
                 }
 
-                if (!page.hasContent()) {
-                    content.onNewPage(cache, page);
-                }
-
-                page.draw(content);
+                cache.getPage().draw(content);
 
                 publishProgress(String.format("%s %d/%d",
                     DiaguardApplication.getContext().getString(R.string.day),

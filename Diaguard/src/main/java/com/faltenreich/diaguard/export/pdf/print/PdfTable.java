@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class PdfTable implements PdfPageable {
+public class PdfTable implements PdfPrintable {
 
     private static final String TAG = PdfTable.class.getSimpleName();
     private static final float LABEL_WIDTH = 120;

@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.export.pdf.print.Pdf;
+import com.faltenreich.diaguard.export.pdf.print.PdfPage;
 import com.pdfjet.CoreFont;
 import com.pdfjet.Font;
 
@@ -18,6 +19,10 @@ public class PdfExportCache {
     private static final float FONT_SIZE_HEADER = 14f;
 
     private PdfExportConfig config;
+    private Pdf pdf;
+    private PdfPage page;
+    private DateTime dateTime;
+
     private Font fontNormal;
     private Font fontBold;
     private Font fontHeader;
@@ -25,12 +30,10 @@ public class PdfExportCache {
     private int colorHyperglycemia;
     private int colorHypoglycemia;
 
-    private Pdf pdf;
-    private DateTime dateTime;
-
     public PdfExportCache(PdfExportConfig config, File file) throws Exception {
         this.config = config;
         this.pdf = new Pdf(file, config);
+
         this.fontNormal = new Font(pdf, CoreFont.HELVETICA);
         this.fontBold = new Font(pdf, CoreFont.HELVETICA_BOLD);
         this.fontHeader = new Font(pdf, CoreFont.HELVETICA_BOLD);
@@ -38,7 +41,17 @@ public class PdfExportCache {
         this.colorDivider = ContextCompat.getColor(getContext(), R.color.background_light_primary);
         this.colorHyperglycemia = ContextCompat.getColor(getContext(), R.color.red);
         this.colorHypoglycemia = ContextCompat.getColor(getContext(), R.color.blue);
+
         this.dateTime = config.getDateStart();
+        newPage();
+    }
+
+    public PdfPage getPage() {
+        return page;
+    }
+
+    public void newPage() throws Exception {
+        page = new PdfPage(this);
     }
 
     public Context getContext() {

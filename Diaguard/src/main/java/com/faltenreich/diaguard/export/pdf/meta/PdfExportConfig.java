@@ -52,8 +52,8 @@ public class PdfExportConfig extends ExportConfig {
         this.highlightLimits = highlightLimits;
     }
 
-    public  WeakReference<Context> getContextReference() {
-        return contextReference;
+    public Context getContext() {
+        return contextReference.get();
     }
 
     public PdfExportStyle getStyle() {

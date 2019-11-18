@@ -30,18 +30,19 @@ public class PdfExportCache {
 
     public PdfExportCache(PdfExportConfig config, File file) throws Exception {
         this.config = config;
-        Context context = config.getContextReference().get();
-
         this.pdf = new Pdf(file, config);
         this.fontNormal = new Font(pdf, CoreFont.HELVETICA);
         this.fontBold = new Font(pdf, CoreFont.HELVETICA_BOLD);
         this.fontHeader = new Font(pdf, CoreFont.HELVETICA_BOLD);
         this.fontHeader.setSize(FONT_SIZE_HEADER);
-        this.colorDivider = ContextCompat.getColor(context, R.color.background_light_primary);
-        this.colorHyperglycemia = ContextCompat.getColor(context, R.color.red);
-        this.colorHypoglycemia = ContextCompat.getColor(context, R.color.blue);
-
+        this.colorDivider = ContextCompat.getColor(getContext(), R.color.background_light_primary);
+        this.colorHyperglycemia = ContextCompat.getColor(getContext(), R.color.red);
+        this.colorHypoglycemia = ContextCompat.getColor(getContext(), R.color.blue);
         this.dateTime = config.getDateStart();
+    }
+
+    public Context getContext() {
+        return config.getContext();
     }
 
     public PdfExportConfig getConfig() {

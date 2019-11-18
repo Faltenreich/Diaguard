@@ -190,7 +190,7 @@ public class PdfChart implements PdfPageable {
 
     private Point drawTable(PdfPage page, Point position, LinkedHashMap<Measurement.Category, ListItemCategoryValue[]> measurements) throws Exception {
         List<List<Cell>> data = new ArrayList<>();
-        Context context = cache.getConfig().getContextReference().get();
+        Context context = cache.getContext();
 
         int index = 0;
         for (Map.Entry<Measurement.Category, ListItemCategoryValue[]> entry : measurements.entrySet()) {

@@ -17,7 +17,7 @@ public class PdfFooter implements PdfPrintable {
     private TextLine url;
 
     public PdfFooter(PdfExportCache cache) {
-        Context context = cache.getConfig().getContextReference().get();
+        Context context = cache.getContext();
 
         createdBy = new TextLine(cache.getFontNormal());
         createdBy.setColor(Color.gray);

@@ -68,8 +68,7 @@ public class PdfTable implements PdfPageable {
 
     private void init() {
         PdfExportConfig config = cache.getConfig();
-        Context context = config.getContextReference().get();
-        float cellWidth = (width - LABEL_WIDTH) / (DateTimeConstants.HOURS_PER_DAY / 2f);
+        Context context = config.getContext();
 
         List<List<Cell>> data = new ArrayList<>();
 
@@ -79,6 +78,8 @@ public class PdfTable implements PdfPageable {
             .setText(DateTimeUtils.toWeekDayAndDate(cache.getDateTime()))
             .build();
         cells.add(headerCell);
+
+        float cellWidth = (width - LABEL_WIDTH) / (DateTimeConstants.HOURS_PER_DAY / 2f);
         for (int hour = 0; hour < DateTimeConstants.HOURS_PER_DAY; hour += PdfTable.HOURS_TO_SKIP) {
             Cell hourCell = new CellBuilder(new Cell(cache.getFontNormal()))
                 .setWidth(cellWidth)

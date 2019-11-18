@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.ui.fragment;
 import android.content.ActivityNotFoundException;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -68,7 +69,7 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
     private DateTime dateEnd;
 
     public ExportFragment() {
-        super(R.layout.fragment_export, R.string.export);
+        super(R.layout.fragment_export, R.string.export, R.menu.export);
     }
 
     @Override
@@ -93,6 +94,17 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
     public void onDestroy() {
         Events.unregister(this);
         super.onDestroy();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_history:
+                openHistory();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private ExportFormat getFormat() {
@@ -199,6 +211,19 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
         }
     }
 
+    private void openFile(File file, String mimeType) {
+        try {
+            FileUtils.openFile(file, mimeType, getContext());
+        } catch (ActivityNotFoundException exception) {
+            Log.e(TAG, exception.getMessage());
+            ViewUtils.showSnackbar(getView(), getString(R.string.error_no_app));
+        }
+    }
+
+    private void openHistory() {
+
+    }
+
     @Override
     public void onProgress(String message) {
         progressComponent.setMessage(message);
@@ -219,15 +244,6 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
     public void onError() {
         progressComponent.dismiss();
         Toast.makeText(getContext(), getString(R.string.error_unexpected), Toast.LENGTH_LONG).show();
-    }
-
-    private void openFile(File file, String mimeType) {
-        try {
-            FileUtils.openFile(file, mimeType, getContext());
-        } catch (ActivityNotFoundException exception) {
-            Log.e(TAG, exception.getMessage());
-            ViewUtils.showSnackbar(getView(), getString(R.string.error_no_app));
-        }
     }
 
     @Override

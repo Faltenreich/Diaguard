@@ -63,7 +63,7 @@
             android:layout_marginTop="4dp"
             android:tint="?iconColorPrimary"
             android:contentDescription="@null"
-            android:src="@drawable/ic_history"
+            android:src="@drawable/ic_history_old"
             android:visibility="gone"/>
 
     </LinearLayout>

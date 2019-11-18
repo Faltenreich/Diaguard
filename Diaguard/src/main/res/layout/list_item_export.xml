@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        style="@style/Padding"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/date_range_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="@dimen/text_medium"
+            tools:text="@tools:sample/date/ddmmyy" />
+
+        <TextView
+            android:id="@+id/created_at_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="@tools:sample/date/ddmmyy" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/more_button"
+        android:layout_width="@dimen/height_element"
+        android:layout_height="@dimen/height_element"
+        android:layout_gravity="center_vertical"
+        android:padding="@dimen/margin_between"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        android:tint="?android:textColorTertiary"
+        app:srcCompat="@drawable/ic_more_vertical" />
+
+</LinearLayout>

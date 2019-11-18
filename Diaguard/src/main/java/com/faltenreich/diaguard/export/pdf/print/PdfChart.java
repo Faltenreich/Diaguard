@@ -39,7 +39,8 @@ public class PdfChart implements PdfPrintable {
     private SizedBox chart;
     private SizedTable table;
 
-    public PdfChart(PdfExportCache cache, float width) {
+    public PdfChart(PdfExportCache cache) {
+        float width = cache.getPage().getWidth();
         this.cache = cache;
         this.chart = new SizedBox(width, width / 4);
         this.table = new SizedTable();

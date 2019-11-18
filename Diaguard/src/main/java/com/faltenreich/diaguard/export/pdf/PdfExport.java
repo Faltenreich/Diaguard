@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.export.pdf;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -10,11 +11,9 @@ import com.faltenreich.diaguard.export.ExportCallback;
 import com.faltenreich.diaguard.export.ExportFormat;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportConfig;
-import com.faltenreich.diaguard.export.pdf.print.PdfChart;
-import com.faltenreich.diaguard.export.pdf.print.PdfLog;
 import com.faltenreich.diaguard.export.pdf.print.PdfPage;
 import com.faltenreich.diaguard.export.pdf.print.PdfPrintable;
-import com.faltenreich.diaguard.export.pdf.print.PdfTable;
+import com.faltenreich.diaguard.export.pdf.print.PdfPrintableFactory;
 
 import org.joda.time.Days;
 
@@ -35,24 +34,12 @@ public class PdfExport extends AsyncTask<Void, String, File> {
         File file = Export.getExportFile(ExportFormat.PDF);
         try {
             PdfExportCache cache = new PdfExportCache(config, file);
-
             while (cache.isDateTimeValid()) {
                 if (cache.isDateTimeForNewWeek()) {
                     cache.setPage(new PdfPage(cache));
                 }
 
-                PdfPrintable printable = null;
-                switch (cache.getConfig().getStyle()) {
-                    case TABLE:
-                        printable = new PdfTable(cache, cache.getPage().getWidth());
-                        break;
-                    case LOG:
-                        printable = new PdfLog(cache, cache.getPage().getWidth());
-                        break;
-                    case TIMELINE:
-                        printable = new PdfChart(cache, cache.getPage().getWidth());
-                        break;
-                }
+                PdfPrintable printable = PdfPrintableFactory.createPrintable(cache);
 
                 float newY = cache.getPage().getPosition().getY() + printable.getHeight();
                 float maxY = cache.getPage().getEndPoint().getY();
@@ -61,26 +48,19 @@ public class PdfExport extends AsyncTask<Void, String, File> {
                 }
                 cache.getPage().draw(printable);
 
-                publishProgress(String.format("%s %d/%d",
-                    DiaguardApplication.getContext().getString(R.string.day),
-                    Days.daysBetween(cache.getConfig().getDateStart(), cache.getDateTime()).getDays() + 1,
-                    Days.daysBetween(cache.getConfig().getDateStart(), cache.getConfig().getDateEnd()).getDays() + 1)
-                );
+                publishProgress(cache);
 
                 cache.setDateTime(cache.getDateTime().plusDays(1));
             }
-
-            cache.getPdf().flush();
+            cache.clear();
         } catch (Exception exception) {
             Log.e(TAG, exception.getMessage());
         }
-
         return file;
     }
 
     @Override
     protected void onPreExecute() {
-
     }
 
     @Override
@@ -102,5 +82,14 @@ public class PdfExport extends AsyncTask<Void, String, File> {
                 callback.onError();
             }
         }
+    }
+
+    @SuppressLint("DefaultLocale")
+    private void publishProgress(PdfExportCache cache) {
+        publishProgress(String.format("%s %d/%d",
+            DiaguardApplication.getContext().getString(R.string.day),
+            Days.daysBetween(cache.getConfig().getDateStart(), cache.getDateTime()).getDays() + 1,
+            Days.daysBetween(cache.getConfig().getDateStart(), cache.getConfig().getDateEnd()).getDays() + 1)
+        );
     }
 }

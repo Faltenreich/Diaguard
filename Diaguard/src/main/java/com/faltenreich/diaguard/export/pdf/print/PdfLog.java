@@ -35,12 +35,10 @@ public class PdfLog implements PdfPrintable {
 
     private PdfExportCache cache;
     private SizedTable table;
-    private float width;
 
-    public PdfLog(PdfExportCache cache, float width) {
+    public PdfLog(PdfExportCache cache) {
         this.cache = cache;
         this.table = new SizedTable();
-        this.width = width;
         init();
     }
 
@@ -59,6 +57,7 @@ public class PdfLog implements PdfPrintable {
     private void init() {
         PdfExportConfig config = cache.getConfig();
         Context context = config.getContext();
+        float width = cache.getPage().getWidth();
 
         List<List<Cell>> data = new ArrayList<>();
         List<Cell> headerRow = new ArrayList<>();
@@ -156,6 +155,7 @@ public class PdfLog implements PdfPrintable {
     // FIXME: Break page accordingly
     private List<Cell> getRow(PdfExportCache cache, String title, String subtitle, String description, int backgroundColor, int foregroundColor) {
         List<Cell> entryRow = new ArrayList<>();
+        float width = cache.getPage().getWidth();
 
         Cell titleCell = new CellBuilder(new Cell(cache.getFontNormal()))
             .setWidth(PdfLog.TIME_WIDTH)

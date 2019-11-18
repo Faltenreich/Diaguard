@@ -2,16 +2,17 @@ package com.faltenreich.diaguard.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.DrawableRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
@@ -132,7 +133,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
             public List<SearchItem> onShouldLoad() {
                 ArrayList<SearchItem> searchItems = new ArrayList<>();
                 for (String recentQuery : PreferenceHelper.getInstance().getInputQueries()) {
-                    searchItems.add(new SearchItem(R.drawable.ic_history, recentQuery));
+                    searchItems.add(new SearchItem(R.drawable.ic_history_old, recentQuery));
                 }
                 return searchItems;
             }

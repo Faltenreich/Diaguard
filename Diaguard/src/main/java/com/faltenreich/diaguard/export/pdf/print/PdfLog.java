@@ -58,7 +58,7 @@ public class PdfLog implements PdfPageable {
 
     private void init() {
         PdfExportConfig config = cache.getConfig();
-        Context context = config.getContextReference().get();
+        Context context = config.getContext();
 
         List<List<Cell>> data = new ArrayList<>();
         List<Cell> headerRow = new ArrayList<>();

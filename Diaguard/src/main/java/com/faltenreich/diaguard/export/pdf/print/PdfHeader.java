@@ -28,7 +28,7 @@ public class PdfHeader implements PdfPrintable {
         DateTime weekStart = cache.getDateTime().withDayOfWeek(1);
         TextLine week = new TextLine(cache.getFontHeader());
         week.setText(String.format("%s %d",
-            cache.getConfig().getContextReference().get().getString(R.string.calendarweek),
+            cache.getContext().getString(R.string.calendarweek),
             weekStart.getWeekOfWeekyear())
         );
         Paragraph weekParagraph = new Paragraph(week);

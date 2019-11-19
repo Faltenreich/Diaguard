@@ -26,6 +26,7 @@ import org.joda.time.DateTime;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -77,17 +78,21 @@ public class ExportHistoryFragment extends BaseFragment {
     private void fetchHistory() {
         File directory = FileUtils.getPublicDirectory();
         File[] files = directory.listFiles();
+        List<ListItemExportHistory> listItems = new ArrayList<>();
 
         if (files != null) {
-            List<ListItemExportHistory> listItems = new ArrayList<>();
             for (File file : files) {
                 DateTime dateTime = Export.getExportDateTime(getContext(), file);
+                if (dateTime == null) {
+                    dateTime = DateTime.now();
+                }
                 listItems.add(new ListItemExportHistory(file, dateTime));
             }
-            setHistory(listItems);
-        } else {
-            setHistory(new ArrayList<>());
         }
+
+        Collections.sort(listItems, (first, second) -> second.getCreatedAt().compareTo(first.getCreatedAt()));
+
+        setHistory(listItems);
     }
 
     private void setHistory(List<ListItemExportHistory> listItems) {

@@ -26,11 +26,11 @@ public class ExportHistoryViewHolder extends BaseViewHolder<ListItemExportHistor
     protected void bindData() {
         ListItemExportHistory item = getListItem();
         File file = item.getFile();
-        DateTime dateTime = item.getDateTime();
-        if (dateTime != null) {
-            dateRangeLabel.setText(DateTimeFormat.mediumDateTime().print(dateTime));
+        DateTime createdAt = item.getCreatedAt();
+        if (createdAt != null) {
+            createdAtLabel.setText(DateTimeFormat.mediumDateTime().print(createdAt));
         } else {
-
+            createdAtLabel.setText("-");
         }
     }
 }

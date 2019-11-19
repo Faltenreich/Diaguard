@@ -7,18 +7,18 @@ import java.io.File;
 public class ListItemExportHistory {
 
     private File file;
-    private DateTime dateTime;
+    private DateTime createdAt;
 
-    public ListItemExportHistory(File file, DateTime dateTime) {
+    public ListItemExportHistory(File file, DateTime createdAt) {
         this.file = file;
-        this.dateTime = dateTime;
+        this.createdAt = createdAt;
     }
 
     public File getFile() {
         return file;
     }
 
-    public DateTime getDateTime() {
-        return dateTime;
+    public DateTime getCreatedAt() {
+        return createdAt;
     }
 }

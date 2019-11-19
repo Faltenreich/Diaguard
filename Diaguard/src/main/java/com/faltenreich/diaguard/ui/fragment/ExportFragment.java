@@ -91,9 +91,9 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
     }
 
     @Override
-    public void onDestroy() {
+    public void onPause() {
         Events.unregister(this);
-        super.onDestroy();
+        super.onPause();
     }
 
     @Override

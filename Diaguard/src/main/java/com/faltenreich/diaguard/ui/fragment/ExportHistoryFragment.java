@@ -47,14 +47,9 @@ public class ExportHistoryFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Events.register(this);
         initLayout();
         checkPermissions();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Events.register(this);
     }
 
     @Override

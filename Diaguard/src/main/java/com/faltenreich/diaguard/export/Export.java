@@ -2,8 +2,10 @@ package com.faltenreich.diaguard.export;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 
-import com.faltenreich.diaguard.DiaguardApplication;
+import androidx.annotation.Nullable;
+
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.export.csv.CsvExport;
@@ -20,7 +22,11 @@ import java.io.File;
 
 public class Export {
 
+    private static final String TAG = Export.class.getSimpleName();
+
     public static final String BACKUP_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    private static final String EXPORT_DATE_FORMAT_4_0_0 = "yyyy-MM-dd_HH-mm-ss";
+    private static final String EXPORT_DATE_FORMAT_3_3_0 = "yyyy-MM-dd_HH-mm";
 
     private static final String FILE_BACKUP_1_3_PREFIX = "diaguard_backup_";
     private static final String FILE_BACKUP_1_3_DATE_FORMAT = "yyyyMMddHHmmss";
@@ -30,20 +36,22 @@ public class Export {
         pdfExport.execute();
     }
 
-    public static void exportCsv(ExportCallback callback) {
-        exportCsv(callback, null, null, null, true);
+    public static void exportCsv(Context context, ExportCallback callback) {
+        exportCsv(context, callback, null, null, null, true);
     }
 
     public static void exportCsv(
+        Context context,
         ExportCallback callback,
         DateTime dateStart,
         DateTime dateEnd,
         Measurement.Category[] categories
     ) {
-        exportCsv(callback, dateStart, dateEnd, categories, false);
+        exportCsv(context, callback, dateStart, dateEnd, categories, false);
     }
 
     private static void exportCsv(
+        Context context,
         ExportCallback callback,
         DateTime dateStart,
         DateTime dateEnd,
@@ -51,6 +59,7 @@ public class Export {
         boolean isBackup
     ) {
         CsvExportConfig config = new CsvExportConfig(
+            context,
             callback,
             dateStart,
             dateEnd,
@@ -70,14 +79,37 @@ public class Export {
         csvImport.execute();
     }
 
-    public static File getExportFile(ExportFormat type) {
+    public static File getExportFile(Context context, ExportFormat type) {
         String fileName = String.format("%s%s%s_%s.%s",
             FileUtils.getPublicDirectory(),
             File.separator,
-            DiaguardApplication.getContext().getString(R.string.app_name),
-            DateTimeFormat.forPattern("yyyy-MM-dd_HH-mm-ss").print(DateTime.now()),
+            context.getString(R.string.app_name),
+            DateTimeFormat.forPattern(EXPORT_DATE_FORMAT_4_0_0).print(DateTime.now()),
             type.getExtension());
         return new File(fileName);
+    }
+
+    @Nullable
+    public static DateTime getExportDateTime(Context context, File file) {
+        String fileName = file.getName();
+        String identifier = context.getString(R.string.app_name);
+        if (fileName.startsWith(identifier)) {
+            int startIndex = fileName.indexOf("_");
+            int endIndex = fileName.indexOf(".");
+            String dateTimeAsString = fileName.substring(startIndex + 1, endIndex);
+            try {
+                return DateTimeFormat.forPattern(EXPORT_DATE_FORMAT_4_0_0).parseDateTime(dateTimeAsString);
+            } catch (IllegalArgumentException exception1) {
+                try {
+                    return DateTimeFormat.forPattern(EXPORT_DATE_FORMAT_3_3_0).parseDateTime(dateTimeAsString);
+                } catch (IllegalArgumentException exception2) {
+                    Log.e(TAG, exception2.getMessage());
+                    return null;
+                }
+            }
+        } else {
+            return null;
+        }
     }
 
     public static File getBackupFile(ExportFormat type) {

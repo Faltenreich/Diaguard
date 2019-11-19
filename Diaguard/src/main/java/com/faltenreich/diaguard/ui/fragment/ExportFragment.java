@@ -184,11 +184,11 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
         boolean highlightLimits = categoryCheckBoxList.highlightLimits();
 
         PdfExportConfig config = new PdfExportConfig(
+            getContext(),
             this,
             dateStart,
             dateEnd,
             categories,
-            getContext(),
             style,
             exportHeader,
             exportFooter,
@@ -206,7 +206,7 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
                 Export.exportPdf(config);
                 break;
             case CSV:
-                Export.exportCsv(this, dateStart, dateEnd, categories);
+                Export.exportCsv(getContext(), this, dateStart, dateEnd, categories);
                 break;
         }
     }

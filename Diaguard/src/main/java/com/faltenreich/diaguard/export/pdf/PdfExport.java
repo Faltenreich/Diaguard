@@ -31,7 +31,7 @@ public class PdfExport extends AsyncTask<Void, String, File> {
 
     @Override
     protected File doInBackground(Void... params) {
-        File file = Export.getExportFile(ExportFormat.PDF);
+        File file = Export.getExportFile(config.getContext(), ExportFormat.PDF);
         try {
             PdfExportCache cache = new PdfExportCache(config, file);
             while (cache.isDateTimeValid()) {

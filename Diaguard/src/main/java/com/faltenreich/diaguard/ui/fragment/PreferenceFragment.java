@@ -251,7 +251,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                 Toast.makeText(getActivity(), getActivity().getString(R.string.error_unexpected), Toast.LENGTH_SHORT).show();
             }
         };
-        Export.exportCsv(callback);
+        Export.exportCsv(context, callback);
     }
 
     private void importBackup(Uri uri) {

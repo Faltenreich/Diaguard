@@ -9,13 +9,10 @@ import com.faltenreich.diaguard.export.ExportConfig;
 
 import org.joda.time.DateTime;
 
-import java.lang.ref.WeakReference;
-
 public class PdfExportConfig extends ExportConfig {
 
     public static final String MIME_TYPE = "application/pdf";
 
-    private final WeakReference<Context> contextReference;
     private final PdfExportStyle style;
     private final boolean exportHeader;
     private final boolean exportFooter;
@@ -26,11 +23,11 @@ public class PdfExportConfig extends ExportConfig {
     private final boolean highlightLimits;
 
     public PdfExportConfig(
+        Context context,
         ExportCallback callback,
         DateTime dateStart,
         DateTime dateEnd,
         Measurement.Category[] categories,
-        Context context,
         PdfExportStyle style,
         boolean exportHeader,
         boolean exportFooter,
@@ -40,8 +37,7 @@ public class PdfExportConfig extends ExportConfig {
         boolean splitInsulin,
         boolean highlightLimits
     ) {
-        super(callback, dateStart, dateEnd, categories);
-        this.contextReference = new WeakReference<>(context);
+        super(context, callback, dateStart, dateEnd, categories);
         this.style = style;
         this.exportHeader = exportHeader;
         this.exportFooter = exportFooter;
@@ -50,10 +46,6 @@ public class PdfExportConfig extends ExportConfig {
         this.exportFood = exportFood;
         this.splitInsulin = splitInsulin;
         this.highlightLimits = highlightLimits;
-    }
-
-    public Context getContext() {
-        return contextReference.get();
     }
 
     public PdfExportStyle getStyle() {

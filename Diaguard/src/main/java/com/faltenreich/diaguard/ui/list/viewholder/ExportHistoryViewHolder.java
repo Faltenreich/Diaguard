@@ -6,6 +6,9 @@ import android.widget.TextView;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.ui.list.item.ListItemExportHistory;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+
 import java.io.File;
 
 import butterknife.BindView;
@@ -23,7 +26,11 @@ public class ExportHistoryViewHolder extends BaseViewHolder<ListItemExportHistor
     protected void bindData() {
         ListItemExportHistory item = getListItem();
         File file = item.getFile();
-        // TODO
-        dateRangeLabel.setText(file.getName());
+        DateTime dateTime = item.getDateTime();
+        if (dateTime != null) {
+            dateRangeLabel.setText(DateTimeFormat.mediumDateTime().print(dateTime));
+        } else {
+
+        }
     }
 }

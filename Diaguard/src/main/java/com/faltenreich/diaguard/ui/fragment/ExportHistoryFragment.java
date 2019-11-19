@@ -12,6 +12,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.event.Events;
 import com.faltenreich.diaguard.data.event.PermissionRequestEvent;
 import com.faltenreich.diaguard.data.event.PermissionResponseEvent;
+import com.faltenreich.diaguard.export.Export;
 import com.faltenreich.diaguard.ui.list.adapter.ExportHistoryListAdapter;
 import com.faltenreich.diaguard.ui.list.decoration.LinearDividerItemDecoration;
 import com.faltenreich.diaguard.ui.list.item.ListItemExportHistory;
@@ -21,6 +22,7 @@ import com.faltenreich.diaguard.util.permission.PermissionUseCase;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.joda.time.DateTime;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -79,7 +81,8 @@ public class ExportHistoryFragment extends BaseFragment {
         if (files != null) {
             List<ListItemExportHistory> listItems = new ArrayList<>();
             for (File file : files) {
-                listItems.add(new ListItemExportHistory(file));
+                DateTime dateTime = Export.getExportDateTime(getContext(), file);
+                listItems.add(new ListItemExportHistory(file, dateTime));
             }
             setHistory(listItems);
         } else {

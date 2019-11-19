@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 
 public enum PermissionUseCase {
     EXPORT,
+    EXPORT_HISTORY,
     BACKUP_WRITE,
     BACKUP_READ;
 

@@ -36,11 +36,11 @@
         android:layout_width="@dimen/height_element"
         android:layout_height="@dimen/height_element"
         android:layout_gravity="center_vertical"
-        android:padding="@dimen/margin_between"
+        android:padding="@dimen/margin_between_large"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
-        android:tint="?android:textColorTertiary"
+        android:tint="?iconColorPrimary"
         app:srcCompat="@drawable/ic_more_vertical" />
 
 </LinearLayout>

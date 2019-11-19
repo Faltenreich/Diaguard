@@ -9,7 +9,7 @@ import com.faltenreich.diaguard.util.permission.PermissionUseCase;
 
 abstract class BackupPreference extends ClickablePreference<PermissionRequestEvent> {
 
-    public BackupPreference(Context context, AttributeSet attrs) {
+    BackupPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 

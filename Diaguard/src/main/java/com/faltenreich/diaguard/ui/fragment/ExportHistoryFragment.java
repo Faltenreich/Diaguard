@@ -22,7 +22,6 @@ import com.faltenreich.diaguard.util.permission.PermissionUseCase;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.joda.time.DateTime;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -82,11 +81,10 @@ public class ExportHistoryFragment extends BaseFragment {
 
         if (files != null) {
             for (File file : files) {
-                DateTime dateTime = Export.getExportDateTime(getContext(), file);
-                if (dateTime == null) {
-                    dateTime = DateTime.now();
+                ListItemExportHistory listItem = Export.getExportItem(file);
+                if (listItem != null) {
+                    listItems.add(Export.getExportItem(file));
                 }
-                listItems.add(new ListItemExportHistory(file, dateTime));
             }
         }
 

@@ -536,5 +536,6 @@
     <string name="export_append_header">Append header (showing calendar week)</string>
     <string name="export_append_footer">Append footer (showing date of export)</string>
     <string name="export_history">Export history</string>
+    <string name="export_history_stamp">Generated on %s</string>
 
 </resources>

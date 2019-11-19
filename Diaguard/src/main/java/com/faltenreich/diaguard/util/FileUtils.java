@@ -16,26 +16,7 @@ import com.faltenreich.diaguard.R;
 import java.io.File;
 import java.util.List;
 
-/**
- * Created by Filip on 05.06.2014.
- */
 public class FileUtils {
-
-    public static final String PATH_EXTERNAL = Environment.getExternalStorageDirectory().getAbsolutePath();
-    public static final String PATH_EXTERNAL_PARENT = Environment.getExternalStorageDirectory().getParent();
-    public static final String PATH_STORAGE = File.separator + "Diaguard";
-
-    public static final char POINT = '.';
-
-    public static File getPrivateDirectory() {
-        File directory = new File(PATH_EXTERNAL);
-        if (!directory.exists()) {
-            directory = new File(PATH_EXTERNAL_PARENT);
-        }
-        directory = new File(directory.getAbsolutePath() + PATH_STORAGE);
-        directory.mkdirs();
-        return directory;
-    }
 
     public static File getPublicDirectory() {
         String path = android.os.Build.VERSION.SDK_INT >= 19 ?
@@ -59,10 +40,6 @@ public class FileUtils {
             String packageName = resolveInfo.activityInfo.packageName;
             context.grantUriPermission(packageName, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
         }
-    }
-
-    private static void revokeUriPermission(Uri uri, Context context) {
-        context.revokeUriPermission(uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
     }
 
     public static void openFile(File file, String mimeType, Context context) throws ActivityNotFoundException {

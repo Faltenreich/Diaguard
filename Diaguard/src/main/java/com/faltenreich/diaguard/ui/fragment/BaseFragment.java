@@ -1,15 +1,11 @@
 package com.faltenreich.diaguard.ui.fragment;
 
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.ColorRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.MenuRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import android.view.LayoutInflater;
@@ -130,26 +126,9 @@ public abstract class BaseFragment extends Fragment implements ToolbarBehavior {
         setTitle(getString(titleResId));
     }
 
-    public void setToolbarBackgroundColor(@ColorRes int colorResId) {
-        if (getActivity() != null && getActivity() instanceof BaseActivity) {
-            ((BaseActivity) getActivity()).setToolbarBackgroundColor(colorResId);
-        }
-    }
-
-    public void showFragment(BaseFragment fragment) {
+    void showFragment(BaseFragment fragment) {
         if (getActivity() != null && getActivity() instanceof MainActivity) {
             ((MainActivity) getActivity()).showFragment(fragment, null, true);
-        }
-    }
-
-    public void startActivity(Intent intent, ActivityOptionsCompat options) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && getActivity() != null) {
-                getActivity().getWindow().setExitTransition(null);
-            }
-            startActivity(intent, options.toBundle());
-        } else {
-            startActivity(intent);
         }
     }
 

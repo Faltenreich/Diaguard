@@ -21,8 +21,6 @@ import java.io.File;
 
 public class Export {
 
-    private static final String TAG = Export.class.getSimpleName();
-
     public static final String BACKUP_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     private static final String FILE_BACKUP_1_3_PREFIX = "diaguard_backup_";
     private static final String FILE_BACKUP_1_3_DATE_FORMAT = "yyyyMMddHHmmss";
@@ -82,15 +80,25 @@ public class Export {
         csvImport.execute();
     }
 
-    public static File getExportFile(ExportFormat type) {
+    public static File getExportFile(ExportConfig config) {
         String fileName = String.format("%s%s%s_%s.%s",
             FileUtils.getPublicDirectory(),
             File.separator,
             EXPORT_FILE_NAME_PREFIX,
             // TODO: Adjust string to new format
             DateTimeFormat.forPattern(EXPORT_DATE_FORMAT_4_0_0).print(DateTime.now()),
-            type.getExtension()
+            config.getFormat().getExtension()
         );
+        return new File(fileName);
+    }
+
+    public static File getBackupFile(ExportFormat type) {
+        String fileName = String.format("%s%s%s%s.%s",
+            FileUtils.getPublicDirectory(),
+            File.separator,
+            FILE_BACKUP_1_3_PREFIX,
+            DateTimeFormat.forPattern(FILE_BACKUP_1_3_DATE_FORMAT).print(DateTime.now()),
+            type.getExtension());
         return new File(fileName);
     }
 
@@ -118,15 +126,5 @@ public class Export {
         } else {
             return null;
         }
-    }
-
-    public static File getBackupFile(ExportFormat type) {
-        String fileName = String.format("%s%s%s%s.%s",
-            FileUtils.getPublicDirectory(),
-            File.separator,
-            FILE_BACKUP_1_3_PREFIX,
-            DateTimeFormat.forPattern(FILE_BACKUP_1_3_DATE_FORMAT).print(DateTime.now()),
-            type.getExtension());
-        return new File(fileName);
     }
 }

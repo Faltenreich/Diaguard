@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.export.ExportCallback;
 import com.faltenreich.diaguard.export.ExportConfig;
+import com.faltenreich.diaguard.export.ExportFormat;
 
 import org.joda.time.DateTime;
 
@@ -37,7 +38,7 @@ public class PdfExportConfig extends ExportConfig {
         boolean splitInsulin,
         boolean highlightLimits
     ) {
-        super(context, callback, dateStart, dateEnd, categories);
+        super(context, callback, dateStart, dateEnd, categories, ExportFormat.PDF);
         this.style = style;
         this.exportHeader = exportHeader;
         this.exportFooter = exportFooter;

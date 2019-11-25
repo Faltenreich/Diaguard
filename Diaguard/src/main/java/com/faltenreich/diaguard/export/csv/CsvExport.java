@@ -53,7 +53,7 @@ public class CsvExport extends AsyncTask<Void, String, File> {
 
         File file = isBackup?
                 Export.getBackupFile(ExportFormat.CSV) :
-                Export.getExportFile(ExportFormat.CSV);
+                Export.getExportFile(config);
         try {
             FileWriter fileWriter = new FileWriter(file);
             CSVWriter writer = new CSVWriter(fileWriter, CsvMeta.CSV_DELIMITER);

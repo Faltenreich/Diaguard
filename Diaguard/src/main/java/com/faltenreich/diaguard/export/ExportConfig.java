@@ -16,19 +16,22 @@ public abstract class ExportConfig {
     private final DateTime dateStart;
     private final DateTime dateEnd;
     private final Measurement.Category[] categories;
+    private final ExportFormat format;
 
     public ExportConfig(
         Context context,
         ExportCallback callback,
         DateTime dateStart,
         DateTime dateEnd,
-        Measurement.Category[] categories
+        Measurement.Category[] categories,
+        ExportFormat format
     ) {
         this.contextReference = new WeakReference<>(context);
         this.callback = callback;
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
         this.categories = categories;
+        this.format = format;
     }
 
     public Context getContext() {
@@ -49,6 +52,10 @@ public abstract class ExportConfig {
 
     public Measurement.Category[] getCategories() {
         return categories;
+    }
+
+    public ExportFormat getFormat() {
+        return format;
     }
 
     public void persistInSharedPreferences() {

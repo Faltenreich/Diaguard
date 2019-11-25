@@ -5,6 +5,7 @@ import android.content.Context;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.export.ExportCallback;
 import com.faltenreich.diaguard.export.ExportConfig;
+import com.faltenreich.diaguard.export.ExportFormat;
 
 import org.joda.time.DateTime;
 
@@ -20,11 +21,11 @@ public class CsvExportConfig extends ExportConfig {
         Measurement.Category[] categories,
         boolean isBackup
     ) {
-        super(context, callback, dateStart, dateEnd, categories);
+        super(context, callback, dateStart, dateEnd, categories, ExportFormat.CSV);
         this.isBackup = isBackup;
     }
 
-    public boolean isBackup() {
+    boolean isBackup() {
         return isBackup;
     }
 }

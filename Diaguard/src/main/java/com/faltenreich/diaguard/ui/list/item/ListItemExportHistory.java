@@ -13,18 +13,18 @@ public class ListItemExportHistory {
     @NonNull
     private File file;
     @Nullable
-    private Interval interval;
-    @Nullable
     private DateTime createdAt;
+    @Nullable
+    private Interval interval;
 
     public ListItemExportHistory(
         @NonNull File file,
-        @Nullable Interval interval,
-        @Nullable DateTime createdAt
+        @Nullable DateTime createdAt,
+        @Nullable Interval interval
     ) {
         this.file = file;
-        this.interval = interval;
         this.createdAt = createdAt;
+        this.interval = interval;
     }
 
     @NonNull
@@ -33,12 +33,12 @@ public class ListItemExportHistory {
     }
 
     @Nullable
-    public Interval getInterval() {
-        return interval;
+    public DateTime getCreatedAt() {
+        return createdAt;
     }
 
     @Nullable
-    public DateTime getCreatedAt() {
-        return createdAt;
+    public Interval getInterval() {
+        return interval;
     }
 }

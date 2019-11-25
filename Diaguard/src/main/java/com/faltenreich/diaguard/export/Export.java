@@ -15,6 +15,7 @@ import com.faltenreich.diaguard.ui.list.item.ListItemExportHistory;
 import com.faltenreich.diaguard.util.FileUtils;
 
 import org.joda.time.DateTime;
+import org.joda.time.Interval;
 import org.joda.time.format.DateTimeFormat;
 
 import java.io.File;
@@ -28,7 +29,7 @@ public class Export {
     private static final String EXPORT_FILE_NAME_PREFIX = "Diaguard";
     private static final String EXPORT_DATE_FORMAT_3_3_0 = "yyyy-MM-dd_HH-mm";
     private static final String EXPORT_DATE_FORMAT_3_3_0_REGEX = "\\d{4}-\\d{2}-\\d{2}_\\d{2}-\\d{2}";
-    private static final String EXPORT_DATE_FORMAT_4_0_0 = "%d_%d_%d"; // millis: createdAt_start_end
+    private static final String EXPORT_DATE_FORMAT_4_0_0 = "%d-%d-%d"; // millis: createdAt_start_end
     private static final String EXPORT_DATE_FORMAT_4_0_0_REGEX = "\\d+-\\d+-\\d+";
 
 
@@ -81,12 +82,19 @@ public class Export {
     }
 
     public static File getExportFile(ExportConfig config) {
+        DateTime createdAt = DateTime.now();
+        DateTime startedAt = config.getDateStart();
+        DateTime endedAt = config.getDateEnd();
+        String dateFormatted = String.format(EXPORT_DATE_FORMAT_4_0_0,
+            createdAt.getMillis(),
+            startedAt.getMillis(),
+            endedAt.getMillis()
+        );
         String fileName = String.format("%s%s%s_%s.%s",
             FileUtils.getPublicDirectory(),
             File.separator,
             EXPORT_FILE_NAME_PREFIX,
-            // TODO: Adjust string to new format
-            DateTimeFormat.forPattern(EXPORT_DATE_FORMAT_4_0_0).print(DateTime.now()),
+            dateFormatted,
             config.getFormat().getExtension()
         );
         return new File(fileName);
@@ -119,10 +127,16 @@ public class Export {
         String substring = fileName.substring(startIndex + 1, endIndex);
 
         if (substring.matches(EXPORT_DATE_FORMAT_4_0_0_REGEX)) {
-            return null;
+            String[] datesFormatted = substring.split("-");
+            DateTime createdAt = new DateTime(Long.parseLong(datesFormatted[0]));
+            DateTime startedAt = new DateTime(Long.parseLong(datesFormatted[1]));
+            DateTime endedAt = new DateTime(Long.parseLong(datesFormatted[2]));
+            Interval interval = new Interval(startedAt, endedAt);
+            return new ListItemExportHistory(file, createdAt, interval);
         } else if (substring.matches(EXPORT_DATE_FORMAT_3_3_0_REGEX)) {
-            DateTime dateTime = DateTimeFormat.forPattern(EXPORT_DATE_FORMAT_3_3_0).parseDateTime(substring);
-            return new ListItemExportHistory(file, null, dateTime);
+            DateTime createdAt = DateTimeFormat.forPattern(EXPORT_DATE_FORMAT_3_3_0).parseDateTime(substring);
+            // Interval has not been available yet
+            return new ListItemExportHistory(file, createdAt, null);
         } else {
             return null;
         }

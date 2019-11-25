@@ -32,8 +32,8 @@ public class ExportHistoryViewHolder extends BaseViewHolder<ListItemExportHistor
         if (interval != null) {
             DateTime start = interval.getStart();
             DateTime end = interval.getEnd();
-            String startString = DateTimeFormat.mediumDateTime().print(start);
-            String endString = DateTimeFormat.mediumDateTime().print(end);
+            String startString = DateTimeFormat.mediumDate().print(start);
+            String endString = DateTimeFormat.mediumDate().print(end);
             intervalLabel.setText(String.format("%s - %s", startString, endString));
         } else {
             intervalLabel.setText(null);

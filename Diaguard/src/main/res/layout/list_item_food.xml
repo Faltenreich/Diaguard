@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:textSize="@dimen/text_micro"
+            android:textSize="@dimen/text_xsmall"
             android:maxLines="1"
             android:ellipsize="end"
             tools:text="Brand"/>

@@ -8,14 +8,43 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="?selectableItemBackground">
+    android:background="?selectableItemBackground"
+    android:gravity="center_vertical">
+
+    <FrameLayout
+        android:layout_width="@dimen/size_image"
+        android:layout_height="@dimen/size_image"
+        android:layout_marginLeft="@dimen/margin_between_large"
+        android:layout_marginStart="@dimen/margin_between_large">
+
+        <ImageView
+            android:id="@+id/format_icon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@null"
+            app:srcCompat="@drawable/ic_file_filled"
+            tools:tint="@color/green" />
+
+        <TextView
+            android:id="@+id/format_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_xxsmall"
+            tools:text="pdf"/>
+
+    </FrameLayout>
 
     <LinearLayout
         style="@style/Padding"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/padding"
+        android:layout_marginStart="@dimen/padding">
 
         <TextView
             android:id="@+id/interval_label"
@@ -28,7 +57,7 @@
             android:id="@+id/created_at_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/text_micro"
+            android:textSize="@dimen/text_xsmall"
             tools:text="@tools:sample/date/ddmmyy" />
 
     </LinearLayout>

@@ -4,12 +4,16 @@ import android.content.ActivityNotFoundException;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.event.Events;
 import com.faltenreich.diaguard.data.event.file.ExportHistoryDeleteEvent;
+import com.faltenreich.diaguard.export.ExportFormat;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.ui.list.item.ListItemExportHistory;
 import com.faltenreich.diaguard.util.FileUtils;
@@ -28,6 +32,8 @@ public class ExportHistoryViewHolder extends BaseViewHolder<ListItemExportHistor
     private static final String TAG = ExportHistoryViewHolder.class.getSimpleName();
 
     @BindView(R.id.root_layout) ViewGroup rootLayout;
+    @BindView(R.id.format_icon) ImageView formatIcon;
+    @BindView(R.id.format_label) TextView formatLabel;
     @BindView(R.id.interval_label) TextView intervalLabel;
     @BindView(R.id.created_at_label) TextView createdAtLabel;
     @BindView(R.id.more_button) View moreButton;
@@ -59,6 +65,12 @@ public class ExportHistoryViewHolder extends BaseViewHolder<ListItemExportHistor
         } else {
             createdAtLabel.setText(null);
             createdAtLabel.setVisibility(View.GONE);
+        }
+
+        ExportFormat format = ExportFormat.valueOf(item.getFile());
+        if (format != null) {
+            formatIcon.setColorFilter(ContextCompat.getColor(getContext(), format.colorRes));
+            formatLabel.setText(format.extension);
         }
 
         rootLayout.setOnClickListener(view -> openExport());

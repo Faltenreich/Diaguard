@@ -65,6 +65,10 @@ public class FileUtils {
         activity.startActivityForResult(intent, requestCode);
     }
 
+    public static boolean deleteFile(File file) {
+        return file.delete();
+    }
+
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public static void deleteDirectory(File directory) {
         if (directory.isDirectory()) {

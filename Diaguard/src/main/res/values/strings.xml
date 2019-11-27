@@ -539,5 +539,7 @@
     <string name="export_history_stamp">Generated on %s</string>
     <string name="share">Share</string>
     <string name="open">Open</string>
+    <string name="export_delete">Delete export</string>
+    <string name="export_delete_desc">This will delete the file from your device</string>
 
 </resources>

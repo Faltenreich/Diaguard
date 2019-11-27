@@ -15,9 +15,9 @@ public class ChangelogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         return new AlertDialog.Builder(getContext())
-                .setTitle(R.string.changelog)
-                .setMessage(R.string.changelog_desc)
-                .setPositiveButton(R.string.ok, (dlg, which) -> { })
-                .create();
+            .setTitle(R.string.changelog)
+            .setMessage(R.string.changelog_desc)
+            .setPositiveButton(R.string.ok, (dlg, which) -> { })
+            .create();
     }
 }

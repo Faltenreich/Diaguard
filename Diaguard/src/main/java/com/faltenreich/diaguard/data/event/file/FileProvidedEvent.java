@@ -1,6 +1,8 @@
-package com.faltenreich.diaguard.data.event;
+package com.faltenreich.diaguard.data.event.file;
 
 import android.net.Uri;
+
+import com.faltenreich.diaguard.data.event.BaseContextEvent;
 
 public class FileProvidedEvent extends BaseContextEvent<Uri> {
 

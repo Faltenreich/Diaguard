@@ -11,7 +11,7 @@ import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.data.entity.Tag;
-import com.faltenreich.diaguard.data.event.BackupImportedEvent;
+import com.faltenreich.diaguard.data.event.file.BackupImportedEvent;
 import com.faltenreich.diaguard.data.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.data.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.data.event.data.EntryUpdatedEvent;

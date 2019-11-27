@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.data.event.BackupImportedEvent;
+import com.faltenreich.diaguard.data.event.file.BackupImportedEvent;
 import com.faltenreich.diaguard.data.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.data.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.data.event.data.EntryUpdatedEvent;

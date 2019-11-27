@@ -8,6 +8,8 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.data.event.Events;
+import com.faltenreich.diaguard.data.event.file.ExportHistoryDeleteEvent;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.ui.list.item.ListItemExportHistory;
 import com.faltenreich.diaguard.util.FileUtils;
@@ -46,8 +48,7 @@ public class ExportHistoryViewHolder extends BaseViewHolder<ListItemExportHistor
             String endString = DateTimeFormat.mediumDate().print(end);
             intervalLabel.setText(String.format("%s - %s", startString, endString));
         } else {
-            intervalLabel.setText(null);
-            intervalLabel.setVisibility(View.GONE);
+            intervalLabel.setText(getContext().getString(R.string.export));
         }
 
         DateTime createdAt = item.getCreatedAt();
@@ -86,7 +87,7 @@ public class ExportHistoryViewHolder extends BaseViewHolder<ListItemExportHistor
                     // TODO
                     break;
                 case R.id.action_delete:
-                    // TODO
+                    Events.post(new ExportHistoryDeleteEvent(getListItem()));
                     break;
             }
             return true;

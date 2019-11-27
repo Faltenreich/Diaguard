@@ -5,13 +5,15 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.event.Events;
-import com.faltenreich.diaguard.data.event.PermissionRequestEvent;
-import com.faltenreich.diaguard.data.event.PermissionResponseEvent;
+import com.faltenreich.diaguard.data.event.file.ExportHistoryDeleteEvent;
+import com.faltenreich.diaguard.data.event.permission.PermissionRequestEvent;
+import com.faltenreich.diaguard.data.event.permission.PermissionResponseEvent;
 import com.faltenreich.diaguard.export.Export;
 import com.faltenreich.diaguard.ui.list.adapter.ExportHistoryListAdapter;
 import com.faltenreich.diaguard.ui.list.decoration.LinearDividerItemDecoration;
@@ -32,7 +34,8 @@ import butterknife.BindView;
 
 public class ExportHistoryFragment extends BaseFragment {
 
-    @BindView(R.id.list) RecyclerView listView;
+    @BindView(R.id.list)
+    RecyclerView listView;
 
     private ExportHistoryListAdapter listAdapter;
 
@@ -99,10 +102,34 @@ public class ExportHistoryFragment extends BaseFragment {
         listAdapter.notifyDataSetChanged();
     }
 
+    private void deleteExportIfConfirmed(ListItemExportHistory item) {
+        new AlertDialog.Builder(getContext())
+            .setTitle(R.string.export_delete)
+            .setMessage(R.string.export_delete_desc)
+            .setNegativeButton(R.string.cancel, (dialog, which) -> { })
+            .setPositiveButton(R.string.delete, (dialog, which) -> deleteExport(item))
+            .create()
+            .show();
+    }
+
+    private void deleteExport(ListItemExportHistory item) {
+        // TODO: Check runtime permissions
+        FileUtils.deleteFile(item.getFile());
+
+        int position = listAdapter.getItemPosition(item);
+        listAdapter.removeItem(position);
+        listAdapter.notifyItemRemoved(position);
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(PermissionResponseEvent event) {
         if (event.context == Permission.WRITE_EXTERNAL_STORAGE && event.useCase == PermissionUseCase.EXPORT_HISTORY && event.isGranted) {
             fetchHistory();
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(ExportHistoryDeleteEvent event) {
+        deleteExportIfConfirmed(event.context);
     }
 }

@@ -25,10 +25,10 @@ import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.event.Events;
-import com.faltenreich.diaguard.data.event.FileProvidedEvent;
-import com.faltenreich.diaguard.data.event.FileProvidedFailedEvent;
-import com.faltenreich.diaguard.data.event.PermissionRequestEvent;
-import com.faltenreich.diaguard.data.event.PermissionResponseEvent;
+import com.faltenreich.diaguard.data.event.file.FileProvidedEvent;
+import com.faltenreich.diaguard.data.event.file.FileProvidedFailedEvent;
+import com.faltenreich.diaguard.data.event.permission.PermissionRequestEvent;
+import com.faltenreich.diaguard.data.event.permission.PermissionResponseEvent;
 import com.faltenreich.diaguard.util.SystemUtils;
 import com.faltenreich.diaguard.util.Vector2D;
 import com.faltenreich.diaguard.util.ViewUtils;

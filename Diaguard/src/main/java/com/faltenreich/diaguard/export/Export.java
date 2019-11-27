@@ -100,7 +100,7 @@ public class Export {
         return new File(fileName);
     }
 
-    public static File getBackupFile(ExportFormat type) {
+    public static File getBackupFile(FileType type) {
         String fileName = String.format("%s%s%s%s.%s",
             FileUtils.getPublicDirectory(),
             File.separator,

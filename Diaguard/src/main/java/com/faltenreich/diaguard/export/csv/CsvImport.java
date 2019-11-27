@@ -20,10 +20,11 @@ import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.data.entity.deprecated.CategoryDeprecated;
-import com.faltenreich.diaguard.util.Helper;
-import com.faltenreich.diaguard.util.NumberUtils;
 import com.faltenreich.diaguard.export.Export;
 import com.faltenreich.diaguard.export.ExportCallback;
+import com.faltenreich.diaguard.export.FileType;
+import com.faltenreich.diaguard.util.Helper;
+import com.faltenreich.diaguard.util.NumberUtils;
 import com.opencsv.CSVReader;
 
 import org.joda.time.format.DateTimeFormat;
@@ -274,7 +275,7 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
     protected void onPostExecute(Boolean success) {
         if (callback != null) {
             if (success) {
-                callback.onSuccess(null, CsvMeta.CSV_MIME_TYPE);
+                callback.onSuccess(null, FileType.CSV.mimeType);
             } else {
                 callback.onError();
             }

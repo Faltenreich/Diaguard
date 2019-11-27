@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.core.content.FileProvider;
 
+import com.faltenreich.diaguard.export.FileType;
+
 import java.io.File;
 import java.util.List;
 
@@ -42,18 +44,18 @@ public class FileUtils {
         }
     }
 
-    public static void openFile(File file, String mimeType, Context context) throws ActivityNotFoundException {
+    public static void openFile(Context context, File file) throws ActivityNotFoundException {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         Uri uri = getUriForFile(context, file);
-        intent.setDataAndType(uri, mimeType);
+        intent.setDataAndType(uri, FileType.mimeTypeOf(file));
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         grantUriPermission(uri, intent, context);
         context.startActivity(intent);
     }
 
-    public static void shareFile(@NonNull Context context, @NonNull File file, String mimeType, @StringRes int chooserTitleRes) {
+    public static void shareFile(@NonNull Context context, @NonNull File file, @StringRes int chooserTitleRes) {
         Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType(mimeType);
+        intent.setType(FileType.mimeTypeOf(file));
         intent.putExtra(Intent.EXTRA_STREAM, getUriForFile(context, file));
         context.startActivity(Intent.createChooser(intent, context.getString(chooserTitleRes)));
     }

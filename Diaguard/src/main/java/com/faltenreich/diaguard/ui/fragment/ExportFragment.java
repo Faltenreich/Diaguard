@@ -23,7 +23,7 @@ import com.faltenreich.diaguard.data.event.permission.PermissionRequestEvent;
 import com.faltenreich.diaguard.data.event.permission.PermissionResponseEvent;
 import com.faltenreich.diaguard.export.Export;
 import com.faltenreich.diaguard.export.ExportCallback;
-import com.faltenreich.diaguard.export.ExportFormat;
+import com.faltenreich.diaguard.export.FileType;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportStyle;
 import com.faltenreich.diaguard.ui.view.CategoryCheckBoxList;
@@ -107,11 +107,11 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
         }
     }
 
-    private ExportFormat getFormat() {
+    private FileType getFormat() {
         int selectedPosition = spinnerFormat.getSelectedItemPosition();
         switch (selectedPosition) {
-            case 0: return ExportFormat.PDF;
-            case 1: return ExportFormat.CSV;
+            case 0: return FileType.PDF;
+            case 1: return FileType.CSV;
             default: throw new IllegalArgumentException("Unknown type at position: " + selectedPosition);
         }
     }
@@ -122,7 +122,7 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
     }
 
     private void initLayout() {
-        setFormat(ExportFormat.PDF);
+        setFormat(FileType.PDF);
         setStyle(PreferenceHelper.getInstance().getPdfExportStyle());
 
         buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
@@ -136,8 +136,8 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
         checkBoxTags.setOnCheckedChangeListener((buttonView, isChecked) -> PreferenceHelper.getInstance().setExportTags(isChecked));
     }
 
-    private void setFormat(ExportFormat format) {
-        groupStyle.setVisibility(format == ExportFormat.PDF ? View.VISIBLE : View.GONE);
+    private void setFormat(FileType format) {
+        groupStyle.setVisibility(format == FileType.PDF ? View.VISIBLE : View.GONE);
     }
 
     private PdfExportStyle getStyle() {
@@ -200,7 +200,7 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
         );
         config.persistInSharedPreferences();
 
-        ExportFormat type = getFormat();
+        FileType type = getFormat();
         switch (type) {
             case PDF:
                 Export.exportPdf(config);
@@ -211,9 +211,9 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
         }
     }
 
-    private void openFile(File file, String mimeType) {
+    private void openFile(File file) {
         try {
-            FileUtils.openFile(file, mimeType, getContext());
+            FileUtils.openFile(getContext(), file);
         } catch (ActivityNotFoundException exception) {
             Log.e(TAG, exception.getMessage());
             ViewUtils.showSnackbar(getView(), getString(R.string.error_no_app));
@@ -235,7 +235,7 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
         progressComponent.dismiss();
         if (file != null) {
             Toast.makeText(getContext(), String.format(getString(R.string.export_complete), file.getAbsolutePath()), Toast.LENGTH_LONG).show();
-            openFile(file, mimeType);
+            openFile(file);
         } else {
             onError();
         }

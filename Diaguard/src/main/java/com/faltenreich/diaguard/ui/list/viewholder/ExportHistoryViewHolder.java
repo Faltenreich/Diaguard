@@ -13,8 +13,7 @@ import androidx.core.content.ContextCompat;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.event.Events;
 import com.faltenreich.diaguard.data.event.file.ExportHistoryDeleteEvent;
-import com.faltenreich.diaguard.export.ExportFormat;
-import com.faltenreich.diaguard.export.pdf.meta.PdfExportConfig;
+import com.faltenreich.diaguard.export.FileType;
 import com.faltenreich.diaguard.ui.list.item.ListItemExportHistory;
 import com.faltenreich.diaguard.util.FileUtils;
 import com.faltenreich.diaguard.util.ViewUtils;
@@ -67,7 +66,7 @@ public class ExportHistoryViewHolder extends BaseViewHolder<ListItemExportHistor
             createdAtLabel.setVisibility(View.GONE);
         }
 
-        ExportFormat format = ExportFormat.valueOf(item.getFile());
+        FileType format = FileType.valueOf(item.getFile());
         if (format != null) {
             formatIcon.setColorFilter(ContextCompat.getColor(getContext(), format.colorRes));
             formatLabel.setText(format.extension);
@@ -98,9 +97,9 @@ public class ExportHistoryViewHolder extends BaseViewHolder<ListItemExportHistor
     }
 
     private void openExport() {
-        File file = getListItem().getFile();
         try {
-            FileUtils.openFile(file, PdfExportConfig.MIME_TYPE, getContext());
+            File file = getListItem().getFile();
+            FileUtils.openFile(getContext(), file);
         } catch (ActivityNotFoundException exception) {
             Log.e(TAG, exception.getMessage());
             ViewUtils.showSnackbar(getView(), getContext().getString(R.string.error_no_app));
@@ -108,7 +107,7 @@ public class ExportHistoryViewHolder extends BaseViewHolder<ListItemExportHistor
     }
 
     private void shareExport() {
-        FileUtils.shareFile(getContext(), getListItem().getFile(), PdfExportConfig.MIME_TYPE, R.string.export_share);
+        FileUtils.shareFile(getContext(), getListItem().getFile(), R.string.export_share);
     }
 
     private void deleteExport() {

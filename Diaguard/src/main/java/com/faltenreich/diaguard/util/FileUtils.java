@@ -8,10 +8,10 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Environment;
-import androidx.annotation.NonNull;
-import androidx.core.content.FileProvider;
 
-import com.faltenreich.diaguard.R;
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
+import androidx.core.content.FileProvider;
 
 import java.io.File;
 import java.util.List;
@@ -51,11 +51,11 @@ public class FileUtils {
         context.startActivity(intent);
     }
 
-    public static void shareFile(@NonNull Context context, @NonNull File file, String mimeType) {
+    public static void shareFile(@NonNull Context context, @NonNull File file, String mimeType, @StringRes int chooserTitleRes) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType(mimeType);
         intent.putExtra(Intent.EXTRA_STREAM, getUriForFile(context, file));
-        context.startActivity(Intent.createChooser(intent, context.getString(R.string.backup_store)));
+        context.startActivity(Intent.createChooser(intent, context.getString(chooserTitleRes)));
     }
 
     public static void searchFiles(Activity activity, String mimeType, int requestCode) {

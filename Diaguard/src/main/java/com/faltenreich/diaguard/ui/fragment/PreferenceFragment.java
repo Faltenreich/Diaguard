@@ -240,7 +240,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             public void onSuccess(@Nullable File file, String mimeType) {
                 progressComponent.dismiss();
                 if (file != null) {
-                    FileUtils.shareFile(getActivity(), file, mimeType);
+                    FileUtils.shareFile(getActivity(), file, mimeType, R.string.backup_store);
                 } else {
                     onError();
                 }

@@ -61,11 +61,31 @@ public class ExportHistoryViewHolder extends BaseViewHolder<ListItemExportHistor
             createdAtLabel.setVisibility(View.GONE);
         }
 
-        rootLayout.setOnClickListener(this::openExport);
+        rootLayout.setOnClickListener(view -> openExport());
         moreButton.setOnClickListener(this::openMenu);
     }
 
-    private void openExport(@SuppressWarnings("unused") View view) {
+    private void openMenu(View view) {
+        PopupMenu popupMenu = new PopupMenu(getContext(), view);
+        popupMenu.getMenuInflater().inflate(R.menu.export_history_item, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(menuItem -> {
+            switch (menuItem.getItemId()) {
+                case R.id.action_open:
+                    openExport();
+                    break;
+                case R.id.action_share:
+                    shareExport();
+                    break;
+                case R.id.action_delete:
+                    deleteExport();
+                    break;
+            }
+            return true;
+        });
+        popupMenu.show();
+    }
+
+    private void openExport() {
         File file = getListItem().getFile();
         try {
             FileUtils.openFile(file, PdfExportConfig.MIME_TYPE, getContext());
@@ -75,23 +95,11 @@ public class ExportHistoryViewHolder extends BaseViewHolder<ListItemExportHistor
         }
     }
 
-    private void openMenu(View view) {
-        PopupMenu popupMenu = new PopupMenu(getContext(), view);
-        popupMenu.getMenuInflater().inflate(R.menu.export_history_item, popupMenu.getMenu());
-        popupMenu.setOnMenuItemClickListener(menuItem -> {
-            switch (menuItem.getItemId()) {
-                case R.id.action_open:
-                    openExport(view);
-                    break;
-                case R.id.action_share:
-                    // TODO
-                    break;
-                case R.id.action_delete:
-                    Events.post(new ExportHistoryDeleteEvent(getListItem()));
-                    break;
-            }
-            return true;
-        });
-        popupMenu.show();
+    private void shareExport() {
+        FileUtils.shareFile(getContext(), getListItem().getFile(), PdfExportConfig.MIME_TYPE, R.string.export_share);
+    }
+
+    private void deleteExport() {
+        Events.post(new ExportHistoryDeleteEvent(getListItem()));
     }
 }

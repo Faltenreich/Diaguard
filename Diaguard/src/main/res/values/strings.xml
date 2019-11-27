@@ -541,5 +541,6 @@
     <string name="open">Open</string>
     <string name="export_delete">Delete export</string>
     <string name="export_delete_desc">This will delete the file from your device</string>
+    <string name="export_share">Share export</string>
 
 </resources>

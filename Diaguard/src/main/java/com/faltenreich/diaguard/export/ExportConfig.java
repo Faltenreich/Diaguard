@@ -16,7 +16,7 @@ public abstract class ExportConfig {
     private final DateTime dateStart;
     private final DateTime dateEnd;
     private final Measurement.Category[] categories;
-    private final ExportFormat format;
+    private final FileType format;
 
     public ExportConfig(
         Context context,
@@ -24,7 +24,7 @@ public abstract class ExportConfig {
         DateTime dateStart,
         DateTime dateEnd,
         Measurement.Category[] categories,
-        ExportFormat format
+        FileType format
     ) {
         this.contextReference = new WeakReference<>(context);
         this.callback = callback;
@@ -54,7 +54,7 @@ public abstract class ExportConfig {
         return categories;
     }
 
-    public ExportFormat getFormat() {
+    public FileType getFormat() {
         return format;
     }
 

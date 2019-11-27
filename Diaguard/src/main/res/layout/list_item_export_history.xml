@@ -72,6 +72,7 @@
         android:clickable="true"
         android:focusable="true"
         android:tint="?iconColorPrimary"
+        android:contentDescription="@string/more_options"
         app:srcCompat="@drawable/ic_more_vertical" />
 
 </LinearLayout>

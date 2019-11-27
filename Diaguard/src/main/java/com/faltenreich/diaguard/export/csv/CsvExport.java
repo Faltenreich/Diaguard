@@ -19,7 +19,7 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.export.Export;
 import com.faltenreich.diaguard.export.ExportCallback;
-import com.faltenreich.diaguard.export.ExportFormat;
+import com.faltenreich.diaguard.export.FileType;
 import com.opencsv.CSVWriter;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -52,7 +52,7 @@ public class CsvExport extends AsyncTask<Void, String, File> {
         boolean isBackup = config.isBackup();
 
         File file = isBackup?
-                Export.getBackupFile(ExportFormat.CSV) :
+                Export.getBackupFile(FileType.CSV) :
                 Export.getExportFile(config);
         try {
             FileWriter fileWriter = new FileWriter(file);
@@ -130,7 +130,7 @@ public class CsvExport extends AsyncTask<Void, String, File> {
         super.onPostExecute(file);
         if (getCallback() != null) {
             if (file != null) {
-                getCallback().onSuccess(file, CsvMeta.CSV_MIME_TYPE);
+                getCallback().onSuccess(file, FileType.CSV.mimeType);
             } else {
                 getCallback().onError();
             }

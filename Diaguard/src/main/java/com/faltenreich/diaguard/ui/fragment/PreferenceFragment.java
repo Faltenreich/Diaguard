@@ -22,8 +22,8 @@ import com.faltenreich.diaguard.data.async.DataLoader;
 import com.faltenreich.diaguard.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.data.dao.TagDao;
 import com.faltenreich.diaguard.data.entity.Measurement;
-import com.faltenreich.diaguard.data.event.file.BackupImportedEvent;
 import com.faltenreich.diaguard.data.event.Events;
+import com.faltenreich.diaguard.data.event.file.BackupImportedEvent;
 import com.faltenreich.diaguard.data.event.file.FileProvidedEvent;
 import com.faltenreich.diaguard.data.event.file.FileProvidedFailedEvent;
 import com.faltenreich.diaguard.data.event.permission.PermissionResponseEvent;
@@ -31,7 +31,6 @@ import com.faltenreich.diaguard.data.event.preference.MealFactorUnitChangedEvent
 import com.faltenreich.diaguard.data.event.preference.UnitChangedEvent;
 import com.faltenreich.diaguard.export.Export;
 import com.faltenreich.diaguard.export.ExportCallback;
-import com.faltenreich.diaguard.export.csv.CsvMeta;
 import com.faltenreich.diaguard.ui.activity.BaseActivity;
 import com.faltenreich.diaguard.ui.preferences.BloodSugarPreference;
 import com.faltenreich.diaguard.util.FileUtils;
@@ -240,7 +239,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             public void onSuccess(@Nullable File file, String mimeType) {
                 progressComponent.dismiss();
                 if (file != null) {
-                    FileUtils.shareFile(getActivity(), file, mimeType, R.string.backup_store);
+                    FileUtils.shareFile(getActivity(), file, R.string.backup_store);
                 } else {
                     onError();
                 }
@@ -296,7 +295,8 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                     createBackup();
                     break;
                 case BACKUP_READ:
-                    FileUtils.searchFiles(getActivity(), CsvMeta.CSV_IMPORT_MIME_TYPE, BaseActivity.REQUEST_CODE_BACKUP_IMPORT);
+                    String mimeType = "text/*"; // Workaround: text/csv does not work for all apps
+                    FileUtils.searchFiles(getActivity(), mimeType, BaseActivity.REQUEST_CODE_BACKUP_IMPORT);
                     break;
             }
         }

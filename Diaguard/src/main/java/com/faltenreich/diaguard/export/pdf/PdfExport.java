@@ -8,6 +8,7 @@ import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.export.Export;
 import com.faltenreich.diaguard.export.ExportCallback;
+import com.faltenreich.diaguard.export.FileType;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.export.pdf.print.PdfPage;
@@ -76,7 +77,7 @@ public class PdfExport extends AsyncTask<Void, String, File> {
         ExportCallback callback = config.getCallback();
         if (callback != null) {
             if (file != null) {
-                callback.onSuccess(file, PdfExportConfig.MIME_TYPE);
+                callback.onSuccess(file, FileType.PDF.mimeType);
             } else {
                 callback.onError();
             }

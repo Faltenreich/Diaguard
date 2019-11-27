@@ -537,5 +537,7 @@
     <string name="export_append_footer">Append footer (showing date of export)</string>
     <string name="export_history">Export history</string>
     <string name="export_history_stamp">Generated on %s</string>
+    <string name="share">Share</string>
+    <string name="open">Open</string>
 
 </resources>

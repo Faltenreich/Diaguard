@@ -34,7 +34,7 @@
             android:layout_marginTop="2dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textSize="@dimen/text_micro"
+            android:textSize="@dimen/text_xsmall"
             tools:text="12 KH per 100 g"/>
 
     </LinearLayout>

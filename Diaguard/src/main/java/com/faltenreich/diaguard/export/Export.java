@@ -95,7 +95,7 @@ public class Export {
             File.separator,
             EXPORT_FILE_NAME_PREFIX,
             dateFormatted,
-            config.getFormat().getExtension()
+            config.getFormat().extension
         );
         return new File(fileName);
     }
@@ -106,7 +106,7 @@ public class Export {
             File.separator,
             FILE_BACKUP_1_3_PREFIX,
             DateTimeFormat.forPattern(FILE_BACKUP_1_3_DATE_FORMAT).print(DateTime.now()),
-            type.getExtension());
+            type.extension);
         return new File(fileName);
     }
 

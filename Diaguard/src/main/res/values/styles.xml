@@ -14,6 +14,7 @@
         <item name="backgroundColorSecondary">@color/background_light_secondary</item>
         <item name="backgroundColorTertiary">@color/background_light_tertiary</item>
         <item name="iconColorPrimary">@color/gray_darker</item>
+        <item name="iconColorSecondary">@color/gray</item>
         <item name="android:windowBackground">@color/background_light_primary</item>
         <item name="android:windowSharedElementsUseOverlay">false</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
@@ -36,6 +37,7 @@
         <item name="backgroundColorSecondary">@color/background_dark_secondary</item>
         <item name="backgroundColorTertiary">@color/background_dark_tertiary</item>
         <item name="iconColorPrimary">@color/gray</item>
+        <item name="iconColorSecondary">@color/gray_dark</item>
         <item name="android:windowBackground">@color/background_dark_primary</item>
         <item name="android:windowSharedElementsUseOverlay">false</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>

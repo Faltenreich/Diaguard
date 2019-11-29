@@ -44,7 +44,7 @@
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/ic_remove"
-        android:tint="?iconColorPrimary"
+        android:tint="?iconColorSecondary"
         android:contentDescription="@string/delete"/>
 
 </LinearLayout>

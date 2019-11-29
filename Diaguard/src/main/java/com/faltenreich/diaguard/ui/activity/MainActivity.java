@@ -221,7 +221,6 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
 
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             String tag = fragment.getClass().getSimpleName();
-            getSupportFragmentManager().popBackStackImmediate();
             if (addToBackStack) {
                 transaction.add(R.id.container, fragment, tag);
                 transaction.addToBackStack(tag);

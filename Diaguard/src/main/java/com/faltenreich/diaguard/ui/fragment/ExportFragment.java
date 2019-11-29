@@ -221,7 +221,6 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
     }
 
     private void openHistory() {
-        // FIXME: Replaces current fragment
         showFragment(new ExportHistoryFragment());
     }
 

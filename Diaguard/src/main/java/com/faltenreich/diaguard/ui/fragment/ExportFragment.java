@@ -117,6 +117,7 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
     }
 
     private void init() {
+        // FIXME: Week days are not localized by JodaTime, so consider switching to ThreeTenABP
         dateStart = DateTime.now().withDayOfWeek(1);
         dateEnd = dateStart.withDayOfWeek(7);
     }

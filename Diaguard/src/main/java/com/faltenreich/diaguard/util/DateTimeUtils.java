@@ -3,6 +3,9 @@ package com.faltenreich.diaguard.util;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
+
+import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
@@ -11,12 +14,11 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.format.DateTimeFormat;
 
-/**
- * Created by Faltenreich on 23.03.2016.
- */
 public class DateTimeUtils {
 
-    public static String toWeekDayShort(DateTime dateTime, boolean withDot) {
+    private static final String TAG = DateTimeUtils.class.getSimpleName();
+
+    private static String toWeekDayShort(DateTime dateTime, boolean withDot) {
         String weekDay = dateTime.toString("E");
         if (!withDot && weekDay.length() >= 1) {
             weekDay = weekDay.substring(0, weekDay.length() - 1);
@@ -24,7 +26,7 @@ public class DateTimeUtils {
         return weekDay;
     }
 
-    public static String toWeekDayShort(DateTime dateTime) {
+    static String toWeekDayShort(DateTime dateTime) {
         return toWeekDayShort(dateTime, false);
     }
 
@@ -59,5 +61,15 @@ public class DateTimeUtils {
         String weekDayString = DateTimeFormat.forPattern("E").print(dateTime);
         String dateString = DateTimeFormat.shortDate().print(dateTime);
         return String.format("%s, %s", weekDayString, dateString);
+    }
+
+    @Nullable
+    public static DateTime parseFromMillis(String millis) {
+        try {
+            return new DateTime(Long.parseLong(millis));
+        } catch (NumberFormatException exception) {
+            Log.e(TAG, exception.getMessage());
+            return null;
+        }
     }
 }

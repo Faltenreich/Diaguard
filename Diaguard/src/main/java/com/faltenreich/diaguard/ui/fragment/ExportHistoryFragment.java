@@ -86,8 +86,8 @@ public class ExportHistoryFragment extends BaseFragment {
     private void fetchHistory() {
         File directory = FileUtils.getPublicDirectory();
         File[] files = directory.listFiles();
-        List<ListItemExportHistory> listItems = new ArrayList<>();
 
+        List<ListItemExportHistory> listItems = new ArrayList<>();
         if (files != null) {
             for (File file : files) {
                 ListItemExportHistory listItem = Export.getExportItem(file);

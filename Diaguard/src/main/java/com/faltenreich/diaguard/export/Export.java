@@ -12,6 +12,7 @@ import com.faltenreich.diaguard.export.csv.CsvImport;
 import com.faltenreich.diaguard.export.pdf.PdfExport;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.ui.list.item.ListItemExportHistory;
+import com.faltenreich.diaguard.util.DateTimeUtils;
 import com.faltenreich.diaguard.util.FileUtils;
 
 import org.joda.time.DateTime;
@@ -128,10 +129,13 @@ public class Export {
 
         if (substring.matches(EXPORT_DATE_FORMAT_4_0_0_REGEX)) {
             String[] datesFormatted = substring.split("-");
-            DateTime createdAt = new DateTime(Long.parseLong(datesFormatted[0]));
-            DateTime startedAt = new DateTime(Long.parseLong(datesFormatted[1]));
-            DateTime endedAt = new DateTime(Long.parseLong(datesFormatted[2]));
-            Interval interval = new Interval(startedAt, endedAt);
+            DateTime createdAt = DateTimeUtils.parseFromMillis(datesFormatted[0]);
+            DateTime startedAt = DateTimeUtils.parseFromMillis(datesFormatted[1]);
+            DateTime endedAt = DateTimeUtils.parseFromMillis(datesFormatted[2]);
+            Interval interval = null;
+            if (startedAt != null && endedAt != null) {
+                interval = new Interval(startedAt, endedAt);
+            }
             return new ListItemExportHistory(file, createdAt, interval);
         } else if (substring.matches(EXPORT_DATE_FORMAT_3_3_0_REGEX)) {
             DateTime createdAt = DateTimeFormat.forPattern(EXPORT_DATE_FORMAT_3_3_0).parseDateTime(substring);

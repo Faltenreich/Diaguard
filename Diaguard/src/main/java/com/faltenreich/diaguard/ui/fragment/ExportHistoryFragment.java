@@ -24,6 +24,7 @@ import com.faltenreich.diaguard.util.permission.PermissionUseCase;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.joda.time.DateTime;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -74,7 +75,12 @@ public class ExportHistoryFragment extends BaseFragment {
     }
 
     private void checkPermissions() {
-        Events.post(new PermissionRequestEvent(Permission.WRITE_EXTERNAL_STORAGE, PermissionUseCase.EXPORT_HISTORY));
+        Events.post(
+            new PermissionRequestEvent(
+                Permission.WRITE_EXTERNAL_STORAGE,
+                PermissionUseCase.EXPORT_HISTORY
+            )
+        );
     }
 
     private void fetchHistory() {
@@ -91,7 +97,13 @@ public class ExportHistoryFragment extends BaseFragment {
             }
         }
 
-        Collections.sort(listItems, (first, second) -> second.getCreatedAt().compareTo(first.getCreatedAt()));
+        Collections.sort(listItems, (first, second) -> {
+            DateTime firstDateTime = first.getCreatedAt();
+            DateTime secondDateTime = second.getCreatedAt();
+            return firstDateTime != null && secondDateTime != null ?
+                second.getCreatedAt().compareTo(first.getCreatedAt()) :
+                -1;
+        });
 
         setHistory(listItems);
     }
@@ -103,17 +115,20 @@ public class ExportHistoryFragment extends BaseFragment {
     }
 
     private void deleteExportIfConfirmed(ListItemExportHistory item) {
-        new AlertDialog.Builder(getContext())
-            .setTitle(R.string.export_delete)
-            .setMessage(R.string.export_delete_desc)
-            .setNegativeButton(R.string.cancel, (dialog, which) -> { })
-            .setPositiveButton(R.string.delete, (dialog, which) -> deleteExport(item))
-            .create()
-            .show();
+        if (getContext() != null) {
+            new AlertDialog.Builder(getContext())
+                .setTitle(R.string.export_delete)
+                .setMessage(R.string.export_delete_desc)
+                .setNegativeButton(R.string.cancel, (dialog, which) -> {
+                })
+                .setPositiveButton(R.string.delete, (dialog, which) -> deleteExport(item))
+                .create()
+                .show();
+        }
     }
 
     private void deleteExport(ListItemExportHistory item) {
-        // TODO: Check runtime permissions
+        // Runtime permission should be granted here
         FileUtils.deleteFile(item.getFile());
 
         int position = listAdapter.getItemPosition(item);
@@ -123,7 +138,10 @@ public class ExportHistoryFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(PermissionResponseEvent event) {
-        if (event.context == Permission.WRITE_EXTERNAL_STORAGE && event.useCase == PermissionUseCase.EXPORT_HISTORY && event.isGranted) {
+        if (event.context == Permission.WRITE_EXTERNAL_STORAGE &&
+            event.useCase == PermissionUseCase.EXPORT_HISTORY &&
+            event.isGranted
+        ) {
             fetchHistory();
         }
     }

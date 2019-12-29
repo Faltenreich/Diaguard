@@ -97,12 +97,6 @@
             app:layout_constraintStart_toStartOf="@id/date_start_button"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/style_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="style_header,style_table_button,style_table_icon,style_table_radio,style_timeline_button,style_timeline_icon,style_timeline_radio,style_log_button,style_log_icon,style_log_radio" />
-
         <TextView
             android:id="@+id/style_header"
             style="@style/Padding"
@@ -235,6 +229,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="1" />
 
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/style_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="style_header,style_table_button,style_table_icon,style_table_radio,style_timeline_button,style_timeline_icon,style_timeline_radio,style_log_button,style_log_icon,style_log_radio" />
+
         <TextView
             android:id="@+id/settings_header"
             style="@style/Padding"
@@ -326,6 +326,12 @@
             app:layout_constraintStart_toStartOf="@id/date_start_button"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/header_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="header_divider,header_icon,header_checkbox"/>
+
         <View
             android:id="@+id/footer_divider"
             android:layout_width="0dp"
@@ -355,6 +361,12 @@
             app:layout_constraintTop_toBottomOf="@id/footer_divider"
             app:layout_constraintStart_toStartOf="@id/date_start_button"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/footer_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="footer_divider,footer_icon,footer_checkbox"/>
 
         <TextView
             android:id="@+id/categories_header"

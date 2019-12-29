@@ -53,12 +53,14 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
     @BindView(R.id.date_start_button) Button buttonDateStart;
     @BindView(R.id.date_end_button) Button buttonDateEnd;
     @BindView(R.id.format_spinner) Spinner spinnerFormat;
-    @BindView(R.id.style_group) Group groupStyle;
+    @BindView(R.id.style_group) Group styleGroup;
     @BindView(R.id.style_table_radio) RadioButton radioButtonTableStyle;
     @BindView(R.id.style_timeline_radio) RadioButton radioButtonTimelineStyle;
     @BindView(R.id.style_log_radio) RadioButton radioButtonLogStyle;
     @BindView(R.id.header_checkbox) CheckBox checkBoxHeader;
+    @BindView(R.id.header_group) Group headerGroup;
     @BindView(R.id.footer_checkbox) CheckBox checkBoxFooter;
+    @BindView(R.id.footer_group) Group footerGroup;
     @BindView(R.id.note_checkbox) CheckBox checkBoxNotes;
     @BindView(R.id.tags_checkbox) CheckBox checkBoxTags;
     @BindView(R.id.categories_list) CategoryCheckBoxList categoryCheckBoxList;
@@ -117,7 +119,7 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
     }
 
     private void init() {
-        // FIXME: Week days are not localized by JodaTime, so consider switching to ThreeTenABP
+        // FIXME: Week days cannot be localized via JodaTime, so consider switching to ThreeTenABP
         dateStart = DateTime.now().withDayOfWeek(1);
         dateEnd = dateStart.withDayOfWeek(7);
     }
@@ -138,7 +140,9 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
     }
 
     private void setFormat(FileType format) {
-        groupStyle.setVisibility(format == FileType.PDF ? View.VISIBLE : View.GONE);
+        styleGroup.setVisibility(format == FileType.PDF ? View.VISIBLE : View.GONE);
+        headerGroup.setVisibility(format == FileType.PDF ? View.VISIBLE : View.GONE);
+        footerGroup.setVisibility(format == FileType.PDF ? View.VISIBLE : View.GONE);
     }
 
     private PdfExportStyle getStyle() {
@@ -175,14 +179,6 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
         DateTime dateStart = this.dateStart != null ? this.dateStart.withTimeAtStartOfDay() : null;
         DateTime dateEnd = this.dateEnd != null ? this.dateEnd.withTimeAtStartOfDay() : null;
         Measurement.Category[] categories = categoryCheckBoxList.getSelectedCategories();
-        PdfExportStyle style = getStyle();
-        boolean exportHeader = checkBoxHeader.isChecked();
-        boolean exportFooter = checkBoxFooter.isChecked();
-        boolean exportNotes = checkBoxNotes.isChecked();
-        boolean exportTags = checkBoxTags.isChecked();
-        boolean exportFood = categoryCheckBoxList.exportFood();
-        boolean splitInsulin = categoryCheckBoxList.splitInsulin();
-        boolean highlightLimits = categoryCheckBoxList.highlightLimits();
 
         PdfExportConfig config = new PdfExportConfig(
             getContext(),
@@ -190,14 +186,14 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
             dateStart,
             dateEnd,
             categories,
-            style,
-            exportHeader,
-            exportFooter,
-            exportNotes,
-            exportTags,
-            exportFood,
-            splitInsulin,
-            highlightLimits
+            getStyle(),
+            checkBoxHeader.isChecked(),
+            checkBoxFooter.isChecked(),
+            checkBoxNotes.isChecked(),
+            checkBoxTags.isChecked(),
+            categoryCheckBoxList.exportFood(),
+            categoryCheckBoxList.splitInsulin(),
+            categoryCheckBoxList.highlightLimits()
         );
         config.persistInSharedPreferences();
 

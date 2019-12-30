@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.export.pdf.print;
 import android.content.Context;
 import android.util.Log;
 
+import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
@@ -10,10 +11,10 @@ import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.export.pdf.view.SizedBox;
-import com.faltenreich.diaguard.export.pdf.view.SizedImage;
 import com.faltenreich.diaguard.export.pdf.view.SizedTable;
 import com.faltenreich.diaguard.ui.list.item.ListItemCategoryValue;
 import com.faltenreich.diaguard.util.DateTimeUtils;
+import com.faltenreich.diaguard.util.Helper;
 import com.pdfjet.Align;
 import com.pdfjet.Cell;
 import com.pdfjet.Color;
@@ -90,45 +91,32 @@ public class PdfChart implements PdfPrintable {
     }
 
     private void initTable() {
-        Context context = cache.getContext();
         List<List<Cell>> tableData = new ArrayList<>();
+        Context context = cache.getContext();
 
-        int index = 0;
+        int rowIndex = 0;
         for (Map.Entry<Measurement.Category, ListItemCategoryValue[]> entry : measurements.entrySet()) {
             Measurement.Category category = entry.getKey();
             ListItemCategoryValue[] values = entry.getValue();
-            List<Cell> row = new ArrayList<>();
-
-            try {
-                int imageRes = PreferenceHelper.getInstance().getCategoryImageResourceId(category);
-                SizedImage image = new SizedImage(cache.getPdf(), context, imageRes);
-                image.setSize(20);
-            } catch (Exception exception) {
-                Log.e(TAG, exception.getMessage());
+            String label = category.toLocalizedString(cache.getContext());
+            switch (category) {
+                case INSULIN:
+                    if (cache.getConfig().isSplitInsulin()) {
+                        tableData.add(createRowForMeasurements(category, values, rowIndex, 0, label + " " + context.getString(R.string.bolus)));
+                        tableData.add(createRowForMeasurements(category, values, rowIndex, 1, label + " " + context.getString(R.string.correction)));
+                        tableData.add(createRowForMeasurements(category, values, rowIndex, 2, label + " " + context.getString(R.string.basal)));
+                    } else {
+                        tableData.add(createRowForMeasurements(category, values, rowIndex, -1, label));
+                    }
+                    break;
+                case PRESSURE:
+                    tableData.add(createRowForMeasurements(category, values, rowIndex, 0, label + " " + context.getString(R.string.systolic_acronym)));
+                    tableData.add(createRowForMeasurements(category, values, rowIndex, 1, label + " " + context.getString(R.string.diastolic_acronym)));
+                    break;
+                default:
+                    tableData.add(createRowForMeasurements(category, values, rowIndex, -1, label));
             }
-
-            Cell titleCell = new Cell(cache.getFontNormal());
-            titleCell.setText(category.toLocalizedString(context));
-            titleCell.setWidth(LABEL_WIDTH);
-            titleCell.setBgColor(index % 2 == 0 ? cache.getColorDivider() : Color.transparent);
-            titleCell.setFgColor(Color.gray);
-            titleCell.setPenColor(Color.gray);
-            row.add(titleCell);
-
-            for (ListItemCategoryValue value : values) {
-                // TODO: What to do with multiline values?
-                Cell valueCell = new Cell(cache.getFontNormal());
-                valueCell.setText(value.print());
-                valueCell.setWidth((cache.getPage().getWidth() - LABEL_WIDTH) / (DateTimeConstants.HOURS_PER_DAY / HOUR_INTERVAL));
-                valueCell.setBgColor(index % 2 == 0 ? cache.getColorDivider() : Color.transparent);
-                valueCell.setFgColor(Color.black);
-                valueCell.setPenColor(Color.gray);
-                valueCell.setTextAlignment(Align.CENTER);
-                row.add(valueCell);
-            }
-
-            tableData.add(row);
-            index++;
+            rowIndex++;
         }
 
         try {
@@ -137,6 +125,49 @@ public class PdfChart implements PdfPrintable {
         } catch (Exception exception) {
             Log.e(TAG, exception.getMessage());
         }
+    }
+
+    private List<Cell> createRowForMeasurements(Measurement.Category category, ListItemCategoryValue[] values, int rowIndex, int valueIndex, String label) {
+        List<Cell> row = new ArrayList<>();
+
+        Cell titleCell = new Cell(cache.getFontNormal());
+        titleCell.setText(label);
+        titleCell.setWidth(LABEL_WIDTH);
+        titleCell.setBgColor(rowIndex % 2 == 0 ? cache.getColorDivider() : Color.transparent);
+        titleCell.setFgColor(Color.gray);
+        titleCell.setPenColor(Color.gray);
+        row.add(titleCell);
+
+        for (ListItemCategoryValue item : values) {
+            Cell valueCell = new Cell(cache.getFontNormal());
+
+            float value = 0;
+            switch (valueIndex) {
+                case -1:
+                    value = item.getValueTotal();
+                    break;
+                case 0:
+                    value = item.getValueOne();
+                    break;
+                case 1:
+                    value = item.getValueTwo();
+                    break;
+                case 2:
+                    value = item.getValueThree();
+                    break;
+            }
+            float customValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, value);
+            String text = customValue > 0 ? Helper.parseFloat(customValue) : "";
+            valueCell.setText(text);
+
+            valueCell.setWidth((cache.getPage().getWidth() - LABEL_WIDTH) / (DateTimeConstants.HOURS_PER_DAY / HOUR_INTERVAL));
+            valueCell.setBgColor(rowIndex % 2 == 0 ? cache.getColorDivider() : Color.transparent);
+            valueCell.setFgColor(Color.black);
+            valueCell.setPenColor(Color.gray);
+            valueCell.setTextAlignment(Align.CENTER);
+            row.add(valueCell);
+        }
+        return row;
     }
 
     @Override

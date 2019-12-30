@@ -16,7 +16,7 @@ public class CellBuilder {
     public CellBuilder(Cell cell) {
         this.cell = cell;
         this.textAlignment = Align.LEFT;
-        this.backgroundColor = Color.transparent;
+        this.backgroundColor = Color.white;
         this.foregroundColor = Color.black;
     }
 

@@ -133,7 +133,7 @@ public class PdfChart implements PdfPrintable {
         Cell titleCell = new Cell(cache.getFontNormal());
         titleCell.setText(label);
         titleCell.setWidth(LABEL_WIDTH);
-        titleCell.setBgColor(rowIndex % 2 == 0 ? cache.getColorDivider() : Color.transparent);
+        titleCell.setBgColor(rowIndex % 2 == 0 ? cache.getColorDivider() : Color.white);
         titleCell.setFgColor(Color.gray);
         titleCell.setPenColor(Color.gray);
         row.add(titleCell);
@@ -161,7 +161,7 @@ public class PdfChart implements PdfPrintable {
             valueCell.setText(text);
 
             valueCell.setWidth((cache.getPage().getWidth() - LABEL_WIDTH) / (DateTimeConstants.HOURS_PER_DAY / HOUR_INTERVAL));
-            valueCell.setBgColor(rowIndex % 2 == 0 ? cache.getColorDivider() : Color.transparent);
+            valueCell.setBgColor(rowIndex % 2 == 0 ? cache.getColorDivider() : Color.white);
             valueCell.setFgColor(Color.black);
             valueCell.setPenColor(Color.gray);
             valueCell.setTextAlignment(Align.CENTER);

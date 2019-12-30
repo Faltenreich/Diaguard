@@ -36,7 +36,7 @@ public class PdfLog implements PdfPrintable {
     private PdfExportCache cache;
     private SizedTable table;
 
-    public PdfLog(PdfExportCache cache) {
+    PdfLog(PdfExportCache cache) {
         this.cache = cache;
         this.table = new SizedTable();
         init();

@@ -46,7 +46,7 @@ public class PdfTable implements PdfPrintable {
     private PdfExportCache cache;
     private SizedTable table;
 
-    public PdfTable(PdfExportCache cache) {
+    PdfTable(PdfExportCache cache) {
         this.cache = cache;
         this.table = new SizedTable();
         init();

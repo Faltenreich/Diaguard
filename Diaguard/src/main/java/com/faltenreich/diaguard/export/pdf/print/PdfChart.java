@@ -59,7 +59,7 @@ public class PdfChart implements PdfPrintable {
 
     private void init() {
         fetchData();
-        setDataForTable();
+        initTable();
     }
 
     private void fetchData() {
@@ -89,7 +89,7 @@ public class PdfChart implements PdfPrintable {
         );
     }
 
-    private void setDataForTable() {
+    private void initTable() {
         Context context = cache.getContext();
         List<List<Cell>> tableData = new ArrayList<>();
 
@@ -174,18 +174,15 @@ public class PdfChart implements PdfPrintable {
 
         int xStep = DateTimeConstants.MINUTES_PER_HOUR * HOUR_INTERVAL;
         float xMax = DateTimeConstants.MINUTES_PER_DAY;
-        int yStep = 40;
-        float yMaxMin = 210;
-        float yMax = yMaxMin;
+        float yMin = 40;
+        float yMax = 210;
         for (BloodSugar bloodSugar : bloodSugars) {
             if (bloodSugar.getMgDl() > yMax) {
                 yMax = bloodSugar.getMgDl();
             }
         }
-        if (yMax > 200) {
-            // Increased range for exceeding values
-            yStep += (int) ((yMax - yMaxMin) / 50) * 20;
-        }
+        int yStep = (int) ((yMax - yMin) / 5);
+        yStep = Math.round((yStep + 10) / 10) * 10;
 
         TextLine header = new TextLine(cache.getFontBold());
         header.setText(DateTimeUtils.toWeekDayAndDate(cache.getDateTime()));
@@ -211,7 +208,6 @@ public class PdfChart implements PdfPrintable {
             minutes += xStep;
         }
 
-        // TODO: Make sure to always set n labels
         // Labels for y axis
         int labelValue = yStep;
         float labelY;

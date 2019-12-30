@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.export.pdf.print;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
@@ -30,6 +31,7 @@ import java.util.Map;
 
 public class PdfChart implements PdfPrintable {
 
+    private static final String TAG = PdfChart.class.getSimpleName();
     private static final float POINT_RADIUS = 5;
     private static final float LABEL_WIDTH = 100;
     private static final float PADDING = 12;
@@ -39,25 +41,32 @@ public class PdfChart implements PdfPrintable {
     private SizedBox chart;
     private SizedTable table;
 
-    public PdfChart(PdfExportCache cache) {
+    private List<BloodSugar> bloodSugars;
+    private LinkedHashMap<Measurement.Category, ListItemCategoryValue[]> measurements;
+
+    PdfChart(PdfExportCache cache) {
         float width = cache.getPage().getWidth();
         this.cache = cache;
         this.chart = new SizedBox(width, width / 4);
         this.table = new SizedTable();
+        init();
     }
 
     @Override
     public float getHeight() {
-        // FIXME: Called before drawOn
         return chart.getHeight() + table.getHeight() + PdfPage.MARGIN;
     }
 
-    @Override
-    public void drawOn(PdfPage page, Point position) throws Exception {
+    private void init() {
+        fetchData();
+        setDataForTable();
+    }
+
+    private void fetchData() {
         DateTime dateTime = cache.getDateTime();
 
         List<Entry> entries = EntryDao.getInstance().getEntriesOfDay(dateTime);
-        List<BloodSugar> bloodSugars = new ArrayList<>();
+        bloodSugars = new ArrayList<>();
         for (Entry entry : entries) {
             List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
             for (Measurement measurement : measurements) {
@@ -73,11 +82,69 @@ public class PdfChart implements PdfPrintable {
                 categories.add(category);
             }
         }
-        LinkedHashMap<Measurement.Category, ListItemCategoryValue[]> values =
-            EntryDao.getInstance().getAverageDataTable(dateTime, categories.toArray(new Measurement.Category[0]), HOUR_INTERVAL);
+        measurements = EntryDao.getInstance().getAverageDataTable(
+            dateTime,
+            categories.toArray(new Measurement.Category[0]),
+            HOUR_INTERVAL
+        );
+    }
 
+    private void setDataForTable() {
+        Context context = cache.getContext();
+        List<List<Cell>> tableData = new ArrayList<>();
+
+        int index = 0;
+        for (Map.Entry<Measurement.Category, ListItemCategoryValue[]> entry : measurements.entrySet()) {
+            Measurement.Category category = entry.getKey();
+            ListItemCategoryValue[] values = entry.getValue();
+            List<Cell> row = new ArrayList<>();
+
+            try {
+                int imageRes = PreferenceHelper.getInstance().getCategoryImageResourceId(category);
+                SizedImage image = new SizedImage(cache.getPdf(), context, imageRes);
+                image.setSize(20);
+            } catch (Exception exception) {
+                Log.e(TAG, exception.getMessage());
+            }
+
+            Cell titleCell = new Cell(cache.getFontNormal());
+            titleCell.setText(category.toLocalizedString(context));
+            titleCell.setWidth(LABEL_WIDTH);
+            titleCell.setBgColor(index % 2 == 0 ? cache.getColorDivider() : Color.transparent);
+            titleCell.setFgColor(Color.gray);
+            titleCell.setPenColor(Color.gray);
+            row.add(titleCell);
+
+            for (ListItemCategoryValue value : values) {
+                // TODO: What to do with multiline values?
+                Cell valueCell = new Cell(cache.getFontNormal());
+                valueCell.setText(value.print());
+                valueCell.setWidth((cache.getPage().getWidth() - LABEL_WIDTH) / (DateTimeConstants.HOURS_PER_DAY / HOUR_INTERVAL));
+                valueCell.setBgColor(index % 2 == 0 ? cache.getColorDivider() : Color.transparent);
+                valueCell.setFgColor(Color.black);
+                valueCell.setPenColor(Color.gray);
+                valueCell.setTextAlignment(Align.CENTER);
+                row.add(valueCell);
+            }
+
+            tableData.add(row);
+            index++;
+        }
+
+        try {
+            // Must be executed early to know the table's height
+            table.setData(tableData);
+        } catch (Exception exception) {
+            Log.e(TAG, exception.getMessage());
+        }
+    }
+
+    @Override
+    public void drawOn(PdfPage page, Point position) throws Exception {
         position = drawChart(page, position, bloodSugars);
-        position = drawTable(page, position, values);
+
+        table.setLocation(position.getX(), position.getY());
+        table.drawOn(page);
     }
 
     private Point drawChart(PdfPage page, Point position, List<BloodSugar> bloodSugars) throws Exception {
@@ -187,48 +254,5 @@ public class PdfChart implements PdfPrintable {
         }
 
         return new Point(position.getX(), coordinates[1]);
-    }
-
-    private Point drawTable(PdfPage page, Point position, LinkedHashMap<Measurement.Category, ListItemCategoryValue[]> measurements) throws Exception {
-        List<List<Cell>> data = new ArrayList<>();
-        Context context = cache.getContext();
-
-        int index = 0;
-        for (Map.Entry<Measurement.Category, ListItemCategoryValue[]> entry : measurements.entrySet()) {
-            Measurement.Category category = entry.getKey();
-            ListItemCategoryValue[] values = entry.getValue();
-            List<Cell> row = new ArrayList<>();
-
-            int imageRes = PreferenceHelper.getInstance().getCategoryImageResourceId(category);
-            SizedImage image = new SizedImage(cache.getPdf(), context, imageRes);
-            image.setSize(20);
-
-            Cell titleCell = new Cell(cache.getFontNormal());
-            titleCell.setText(category.toLocalizedString(context));
-            titleCell.setWidth(LABEL_WIDTH);
-            titleCell.setBgColor(index % 2 == 0 ? cache.getColorDivider() : Color.transparent);
-            titleCell.setFgColor(Color.gray);
-            titleCell.setPenColor(Color.gray);
-            row.add(titleCell);
-
-            for (ListItemCategoryValue value : values) {
-                // TODO: What to do with multiline values?
-                Cell valueCell = new Cell(cache.getFontNormal());
-                valueCell.setText(value.print());
-                valueCell.setWidth((page.getWidth() - LABEL_WIDTH) / (DateTimeConstants.HOURS_PER_DAY / HOUR_INTERVAL));
-                valueCell.setBgColor(index % 2 == 0 ? cache.getColorDivider() : Color.transparent);
-                valueCell.setFgColor(Color.black);
-                valueCell.setPenColor(Color.gray);
-                valueCell.setTextAlignment(Align.CENTER);
-                row.add(valueCell);
-            }
-
-            data.add(row);
-            index++;
-        }
-
-        table.setData(data);
-        table.setLocation(position.getX(), position.getY());
-        return table.drawOn(page);
     }
 }

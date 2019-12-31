@@ -27,6 +27,6 @@ public class Pdf extends PDF {
             context.getString(R.string.export),
             Helper.getDateFormat().print(config.getDateStart()),
             Helper.getDateFormat().print(config.getDateEnd())));
-        setAuthor(context.getString(R.string.app_name));
+        setCreator(context.getString(R.string.app_name));
     }
 }

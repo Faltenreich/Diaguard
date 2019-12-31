@@ -8,17 +8,26 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Environment;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.core.content.FileProvider;
 
 import com.faltenreich.diaguard.export.FileType;
 
+import org.joda.time.DateTime;
+
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 
 public class FileUtils {
+
+    private static final String TAG = FileUtils.class.getSimpleName();
 
     public static File getPublicDirectory() {
         String path = android.os.Build.VERSION.SDK_INT >= 19 ?
@@ -80,5 +89,21 @@ public class FileUtils {
             }
         }
         directory.delete();
+    }
+
+    @Nullable
+    public static DateTime getCreatedAt(File file) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            try {
+                BasicFileAttributes attributes = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
+                long creationTime = attributes.creationTime().toMillis();
+                return creationTime > 0 ? new DateTime(creationTime) : null;
+            } catch (IOException exception) {
+                Log.e(TAG, exception.getMessage());
+            }
+        }
+        // Fallback to last modified date
+        long lastModified = file.lastModified();
+        return lastModified > 0 ? new DateTime(lastModified) : null;
     }
 }

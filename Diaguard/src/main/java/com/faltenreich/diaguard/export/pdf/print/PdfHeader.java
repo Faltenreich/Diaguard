@@ -24,7 +24,8 @@ public class PdfHeader implements PdfPrintable {
 
     private SizedText text;
 
-    public PdfHeader(PdfExportCache cache) {
+    PdfHeader(PdfExportCache cache) {
+        // FIXME: Start and end of week are not localized, since calendar weeks cannot be localized via JodaTIme
         DateTime weekStart = cache.getDateTime().withDayOfWeek(1);
         TextLine week = new TextLine(cache.getFontHeader());
         week.setText(String.format("%s %d",

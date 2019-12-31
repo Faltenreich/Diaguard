@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,80 +10,80 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/fab_offset"
-        android:animateLayoutChanges="true">
+        android:animateLayoutChanges="true"
+        android:paddingBottom="@dimen/fab_offset">
 
         <ImageView
             android:id="@+id/date_icon"
             android:layout_width="@dimen/size_image"
             android:layout_height="@dimen/size_image"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:contentDescription="@null"
             android:src="@drawable/ic_time"
             android:tint="?iconColorPrimary"
-            app:layout_constraintTop_toTopOf="@id/date_start_button"
             app:layout_constraintBottom_toBottomOf="@id/date_start_button"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/date_start_button" />
 
         <Button
             android:id="@+id/date_start_button"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/height_element_large"
-            android:layout_marginLeft="@dimen/padding_end"
             android:layout_marginStart="@dimen/padding_end"
+            android:layout_marginLeft="@dimen/padding_end"
             android:textAllCaps="false"
             android:textColor="?android:textColorPrimary"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/date_icon"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="@tools:sample/date/ddmmyy" />
 
         <TextView
             android:id="@+id/date_hyphen"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginLeft="@dimen/margin_between"
             android:layout_marginStart="@dimen/margin_between"
+            android:layout_marginLeft="@dimen/margin_between"
             android:gravity="center"
             android:text="@string/hyphen"
-            app:layout_constraintTop_toTopOf="@id/date_start_button"
             app:layout_constraintBottom_toBottomOf="@id/date_start_button"
-            app:layout_constraintStart_toEndOf="@id/date_start_button" />
+            app:layout_constraintStart_toEndOf="@id/date_start_button"
+            app:layout_constraintTop_toTopOf="@id/date_start_button" />
 
         <Button
             android:id="@+id/date_end_button"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginLeft="@dimen/margin_between"
             android:layout_marginStart="@dimen/margin_between"
+            android:layout_marginLeft="@dimen/margin_between"
             android:textAllCaps="false"
             android:textColor="?android:textColorPrimary"
-            tools:text="@tools:sample/date/ddmmyy"
-            app:layout_constraintTop_toTopOf="@id/date_hyphen"
             app:layout_constraintBottom_toBottomOf="@id/date_hyphen"
-            app:layout_constraintStart_toEndOf="@id/date_hyphen" />
+            app:layout_constraintStart_toEndOf="@id/date_hyphen"
+            app:layout_constraintTop_toTopOf="@id/date_hyphen"
+            tools:text="@tools:sample/date/ddmmyy" />
 
         <View
             android:id="@+id/format_divider"
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:background="?backgroundColorTertiary"
-            app:layout_constraintTop_toBottomOf="@id/date_start_button"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/date_start_button" />
 
         <ImageView
             android:id="@+id/format_icon"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/size_image"
-            android:padding="2dp"
             android:adjustViewBounds="true"
             android:contentDescription="@null"
+            android:padding="2dp"
             android:tint="?iconColorPrimary"
-            app:srcCompat="@drawable/ic_file"
-            app:layout_constraintTop_toTopOf="@id/format_spinner"
             app:layout_constraintBottom_toBottomOf="@id/format_spinner"
-            app:layout_constraintStart_toStartOf="@id/date_icon" />
+            app:layout_constraintStart_toStartOf="@id/date_icon"
+            app:layout_constraintTop_toTopOf="@id/format_spinner"
+            app:srcCompat="@drawable/ic_file" />
 
         <Spinner
             android:id="@+id/format_spinner"
@@ -93,9 +92,9 @@
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:entries="@array/formats"
-            app:layout_constraintTop_toBottomOf="@id/format_divider"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/date_start_button"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/format_divider" />
 
         <TextView
             android:id="@+id/style_header"
@@ -104,37 +103,37 @@
             android:layout_height="wrap_content"
             android:background="?attr/backgroundColorTertiary"
             android:text="@string/style"
-            app:layout_constraintTop_toBottomOf="@id/format_spinner"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/format_spinner" />
 
         <ImageView
             android:id="@+id/style_table_icon"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:paddingTop="@dimen/margin_between_large"
-            android:paddingLeft="@dimen/margin_between_large"
-            android:paddingStart="@dimen/margin_between_large"
-            android:paddingRight="@dimen/margin_between_large"
-            android:paddingEnd="@dimen/margin_between_large"
-            android:src="@drawable/showcase_theme_light"
             android:contentDescription="@string/table"
-            app:layout_constraintTop_toTopOf="@id/style_table_button"
-            app:layout_constraintStart_toStartOf="@id/style_table_button"
-            app:layout_constraintEnd_toEndOf="@id/style_table_button"
+            android:paddingStart="@dimen/margin_between_large"
+            android:paddingLeft="@dimen/margin_between_large"
+            android:paddingTop="@dimen/margin_between_large"
+            android:paddingEnd="@dimen/margin_between_large"
+            android:paddingRight="@dimen/margin_between_large"
+            android:src="@drawable/showcase_theme_light"
             app:layout_constraintBottom_toTopOf="@id/style_table_radio"
-            app:layout_constraintHorizontal_weight="1" />
+            app:layout_constraintEnd_toEndOf="@id/style_table_button"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="@id/style_table_button"
+            app:layout_constraintTop_toTopOf="@id/style_table_button" />
 
         <RadioButton
             android:id="@+id/style_table_radio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/table"
-            app:layout_constraintTop_toBottomOf="@id/style_table_icon"
-            app:layout_constraintStart_toStartOf="@id/style_table_button"
+            app:layout_constraintBottom_toBottomOf="@id/style_table_button"
             app:layout_constraintEnd_toEndOf="@id/style_table_button"
-            app:layout_constraintBottom_toBottomOf="@id/style_table_button"/>
+            app:layout_constraintStart_toStartOf="@id/style_table_button"
+            app:layout_constraintTop_toBottomOf="@id/style_table_icon" />
 
         <View
             android:id="@+id/style_table_button"
@@ -143,38 +142,38 @@
             android:background="?selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            app:layout_constraintTop_toBottomOf="@id/style_header"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/style_timeline_button"
             app:layout_constraintBottom_toBottomOf="@id/style_table_radio"
-            app:layout_constraintHorizontal_weight="1" />
+            app:layout_constraintEnd_toStartOf="@id/style_timeline_button"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/style_header" />
 
         <ImageView
             android:id="@+id/style_timeline_icon"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:paddingTop="@dimen/margin_between_large"
-            android:paddingLeft="@dimen/margin_between_large"
-            android:paddingStart="@dimen/margin_between_large"
-            android:paddingRight="@dimen/margin_between_large"
-            android:paddingEnd="@dimen/margin_between_large"
-            android:src="@drawable/showcase_theme_light"
             android:contentDescription="@string/timeline"
-            app:layout_constraintTop_toTopOf="@id/style_timeline_button"
-            app:layout_constraintStart_toStartOf="@id/style_timeline_button"
+            android:paddingStart="@dimen/margin_between_large"
+            android:paddingLeft="@dimen/margin_between_large"
+            android:paddingTop="@dimen/margin_between_large"
+            android:paddingEnd="@dimen/margin_between_large"
+            android:paddingRight="@dimen/margin_between_large"
+            android:src="@drawable/showcase_theme_light"
+            app:layout_constraintBottom_toTopOf="@id/style_timeline_radio"
             app:layout_constraintEnd_toEndOf="@id/style_timeline_button"
-            app:layout_constraintBottom_toTopOf="@id/style_timeline_radio" />
+            app:layout_constraintStart_toStartOf="@id/style_timeline_button"
+            app:layout_constraintTop_toTopOf="@id/style_timeline_button" />
 
         <RadioButton
             android:id="@+id/style_timeline_radio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/timeline"
-            app:layout_constraintTop_toBottomOf="@id/style_timeline_icon"
-            app:layout_constraintStart_toStartOf="@id/style_timeline_button"
+            app:layout_constraintBottom_toBottomOf="@id/style_timeline_button"
             app:layout_constraintEnd_toEndOf="@id/style_timeline_button"
-            app:layout_constraintBottom_toBottomOf="@id/style_timeline_button" />
+            app:layout_constraintStart_toStartOf="@id/style_timeline_button"
+            app:layout_constraintTop_toBottomOf="@id/style_timeline_icon" />
 
         <View
             android:id="@+id/style_timeline_button"
@@ -183,38 +182,38 @@
             android:background="?selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            app:layout_constraintTop_toTopOf="@id/style_table_button"
-            app:layout_constraintStart_toEndOf="@id/style_table_button"
             app:layout_constraintBottom_toBottomOf="@id/style_table_button"
             app:layout_constraintEnd_toStartOf="@id/style_log_button"
-            app:layout_constraintHorizontal_weight="1" />
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/style_table_button"
+            app:layout_constraintTop_toTopOf="@id/style_table_button" />
 
         <ImageView
             android:id="@+id/style_log_icon"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:paddingTop="@dimen/margin_between_large"
-            android:paddingLeft="@dimen/margin_between_large"
-            android:paddingStart="@dimen/margin_between_large"
-            android:paddingRight="@dimen/margin_between_large"
-            android:paddingEnd="@dimen/margin_between_large"
-            android:src="@drawable/showcase_theme_light"
             android:contentDescription="@string/log"
-            app:layout_constraintTop_toTopOf="@id/style_log_button"
-            app:layout_constraintStart_toStartOf="@id/style_log_button"
+            android:paddingStart="@dimen/margin_between_large"
+            android:paddingLeft="@dimen/margin_between_large"
+            android:paddingTop="@dimen/margin_between_large"
+            android:paddingEnd="@dimen/margin_between_large"
+            android:paddingRight="@dimen/margin_between_large"
+            android:src="@drawable/showcase_theme_light"
+            app:layout_constraintBottom_toTopOf="@id/style_log_radio"
             app:layout_constraintEnd_toEndOf="@id/style_log_button"
-            app:layout_constraintBottom_toTopOf="@id/style_log_radio" />
+            app:layout_constraintStart_toStartOf="@id/style_log_button"
+            app:layout_constraintTop_toTopOf="@id/style_log_button" />
 
         <RadioButton
             android:id="@+id/style_log_radio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/log"
-            app:layout_constraintTop_toBottomOf="@id/style_log_icon"
-            app:layout_constraintStart_toStartOf="@id/style_log_button"
+            app:layout_constraintBottom_toBottomOf="@id/style_log_button"
             app:layout_constraintEnd_toEndOf="@id/style_log_button"
-            app:layout_constraintBottom_toBottomOf="@id/style_log_button" />
+            app:layout_constraintStart_toStartOf="@id/style_log_button"
+            app:layout_constraintTop_toBottomOf="@id/style_log_icon" />
 
         <View
             android:id="@+id/style_log_button"
@@ -223,11 +222,11 @@
             android:background="?selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            app:layout_constraintTop_toTopOf="@id/style_table_button"
             app:layout_constraintBottom_toBottomOf="@id/style_table_button"
-            app:layout_constraintStart_toEndOf="@id/style_timeline_button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_weight="1" />
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/style_timeline_button"
+            app:layout_constraintTop_toTopOf="@id/style_table_button" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/style_group"
@@ -242,9 +241,9 @@
             android:layout_height="wrap_content"
             android:background="?attr/backgroundColorTertiary"
             android:text="@string/settings"
-            app:layout_constraintTop_toBottomOf="@id/style_table_button"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/style_table_button" />
 
         <ImageView
             android:id="@+id/note_icon"
@@ -253,38 +252,38 @@
             android:contentDescription="@null"
             android:src="@drawable/ic_note"
             android:tint="?iconColorPrimary"
-            app:layout_constraintTop_toTopOf="@id/note_checkbox"
             app:layout_constraintBottom_toBottomOf="@id/note_checkbox"
-            app:layout_constraintStart_toStartOf="@id/date_icon" />
+            app:layout_constraintStart_toStartOf="@id/date_icon"
+            app:layout_constraintTop_toTopOf="@id/note_checkbox" />
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/note_checkbox"
             android:layout_width="0dp"
             android:layout_height="@dimen/height_element_large"
             android:text="@string/note_append"
-            app:layout_constraintTop_toBottomOf="@id/settings_header"
+            app:layout_constraintEnd_toEndOf="@id/format_spinner"
             app:layout_constraintStart_toStartOf="@id/date_start_button"
-            app:layout_constraintEnd_toEndOf="@id/format_spinner" />
+            app:layout_constraintTop_toBottomOf="@id/settings_header" />
 
         <View
             android:id="@+id/tags_divider"
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:background="?backgroundColorTertiary"
-            app:layout_constraintTop_toBottomOf="@id/note_checkbox"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/note_checkbox" />
 
         <ImageView
             android:id="@+id/tags_icon"
             android:layout_width="@dimen/size_image"
             android:layout_height="@dimen/size_image"
-            android:padding="2dp"
             android:contentDescription="@null"
+            android:padding="2dp"
             android:tint="?iconColorPrimary"
-            app:layout_constraintTop_toTopOf="@id/tags_checkbox"
             app:layout_constraintBottom_toBottomOf="@id/tags_checkbox"
             app:layout_constraintStart_toStartOf="@id/date_icon"
+            app:layout_constraintTop_toTopOf="@id/tags_checkbox"
             app:srcCompat="@drawable/ic_tag" />
 
         <androidx.appcompat.widget.AppCompatCheckBox
@@ -292,29 +291,29 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/height_element_large"
             android:text="@string/tags_append"
-            app:layout_constraintTop_toBottomOf="@id/tags_divider"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/date_start_button"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/tags_divider" />
 
         <View
             android:id="@+id/header_divider"
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:background="?backgroundColorTertiary"
-            app:layout_constraintTop_toBottomOf="@id/tags_checkbox"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/tags_checkbox" />
 
         <ImageView
             android:id="@+id/header_icon"
             android:layout_width="@dimen/size_image"
             android:layout_height="@dimen/size_image"
-            android:padding="2dp"
             android:contentDescription="@null"
+            android:padding="2dp"
             android:tint="?iconColorPrimary"
-            app:layout_constraintTop_toTopOf="@id/header_checkbox"
             app:layout_constraintBottom_toBottomOf="@id/header_checkbox"
             app:layout_constraintStart_toStartOf="@id/date_icon"
+            app:layout_constraintTop_toTopOf="@id/header_checkbox"
             app:srcCompat="@drawable/ic_header" />
 
         <androidx.appcompat.widget.AppCompatCheckBox
@@ -322,35 +321,35 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/height_element_large"
             android:text="@string/export_append_header"
-            app:layout_constraintTop_toBottomOf="@id/header_divider"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/date_start_button"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/header_divider" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/header_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="header_divider,header_icon,header_checkbox"/>
+            app:constraint_referenced_ids="header_divider,header_icon,header_checkbox" />
 
         <View
             android:id="@+id/footer_divider"
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:background="?backgroundColorTertiary"
-            app:layout_constraintTop_toBottomOf="@id/header_checkbox"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/header_checkbox" />
 
         <ImageView
             android:id="@+id/footer_icon"
             android:layout_width="@dimen/size_image"
             android:layout_height="@dimen/size_image"
-            android:padding="2dp"
             android:contentDescription="@null"
+            android:padding="2dp"
             android:tint="?iconColorPrimary"
-            app:layout_constraintTop_toTopOf="@id/footer_checkbox"
             app:layout_constraintBottom_toBottomOf="@id/footer_checkbox"
             app:layout_constraintStart_toStartOf="@id/date_icon"
+            app:layout_constraintTop_toTopOf="@id/footer_checkbox"
             app:srcCompat="@drawable/ic_footer" />
 
         <androidx.appcompat.widget.AppCompatCheckBox
@@ -358,15 +357,15 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/height_element_large"
             android:text="@string/export_append_footer"
-            app:layout_constraintTop_toBottomOf="@id/footer_divider"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/date_start_button"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/footer_divider" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/footer_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="footer_divider,footer_icon,footer_checkbox"/>
+            app:constraint_referenced_ids="footer_divider,footer_icon,footer_checkbox" />
 
         <TextView
             android:id="@+id/categories_header"
@@ -375,17 +374,18 @@
             android:layout_height="wrap_content"
             android:background="?attr/backgroundColorTertiary"
             android:text="@string/categories"
-            app:layout_constraintTop_toBottomOf="@id/footer_checkbox"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/footer_checkbox" />
 
         <com.faltenreich.diaguard.ui.view.CategoryCheckBoxList
             android:id="@+id/categories_list"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/categories_header"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/categories_header"
             tools:listitem="@layout/list_item_export_category" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

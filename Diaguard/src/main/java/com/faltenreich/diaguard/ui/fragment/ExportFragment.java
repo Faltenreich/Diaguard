@@ -137,6 +137,8 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
         checkBoxNotes.setOnCheckedChangeListener((buttonView, isChecked) -> PreferenceHelper.getInstance().setExportNotes(isChecked));
         checkBoxTags.setChecked(PreferenceHelper.getInstance().exportTags());
         checkBoxTags.setOnCheckedChangeListener((buttonView, isChecked) -> PreferenceHelper.getInstance().setExportTags(isChecked));
+
+        categoryCheckBoxList.setNestedScrollingEnabled(false);
     }
 
     private void setFormat(FileType format) {

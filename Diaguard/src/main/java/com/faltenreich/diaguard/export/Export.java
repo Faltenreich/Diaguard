@@ -126,10 +126,10 @@ public class Export {
         }
 
         String substring = fileName.substring(startIndex + 1, endIndex);
+        DateTime createdAt = FileUtils.getCreatedAt(file);
 
         if (substring.matches(EXPORT_DATE_FORMAT_4_0_0_REGEX)) {
             String[] datesFormatted = substring.split("-");
-            DateTime createdAt = DateTimeUtils.parseFromMillis(datesFormatted[0]);
             DateTime startedAt = DateTimeUtils.parseFromMillis(datesFormatted[1]);
             DateTime endedAt = DateTimeUtils.parseFromMillis(datesFormatted[2]);
             Interval interval = null;
@@ -138,7 +138,6 @@ public class Export {
             }
             return new ListItemExportHistory(file, createdAt, interval);
         } else if (substring.matches(EXPORT_DATE_FORMAT_3_3_0_REGEX)) {
-            DateTime createdAt = DateTimeFormat.forPattern(EXPORT_DATE_FORMAT_3_3_0).parseDateTime(substring);
             // Interval has not been available yet
             return new ListItemExportHistory(file, createdAt, null);
         } else {

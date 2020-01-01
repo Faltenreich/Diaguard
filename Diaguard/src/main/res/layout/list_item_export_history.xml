@@ -55,7 +55,7 @@
         android:layout_gravity="center_vertical"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
-        android:contentDescription="@string/more_options"
+        android:contentDescription="@string/actions"
         android:focusable="true"
         android:padding="@dimen/margin_between_large"
         android:tint="?iconColorPrimary"

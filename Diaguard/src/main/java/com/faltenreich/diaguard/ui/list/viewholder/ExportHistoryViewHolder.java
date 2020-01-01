@@ -18,8 +18,6 @@ import com.faltenreich.diaguard.ui.list.item.ListItemExportHistory;
 import com.faltenreich.diaguard.util.FileUtils;
 import com.faltenreich.diaguard.util.ViewUtils;
 
-import org.joda.time.DateTime;
-import org.joda.time.Interval;
 import org.joda.time.format.DateTimeFormat;
 
 import java.io.File;
@@ -33,7 +31,6 @@ public class ExportHistoryViewHolder extends BaseViewHolder<ListItemExportHistor
     @BindView(R.id.root_layout) ViewGroup rootLayout;
     @BindView(R.id.format_icon) ImageView formatIcon;
     @BindView(R.id.format_label) TextView formatLabel;
-    @BindView(R.id.interval_label) TextView intervalLabel;
     @BindView(R.id.created_at_label) TextView createdAtLabel;
     @BindView(R.id.more_button) View moreButton;
 
@@ -45,32 +42,16 @@ public class ExportHistoryViewHolder extends BaseViewHolder<ListItemExportHistor
     protected void bindData() {
         ListItemExportHistory item = getListItem();
 
-        Interval interval = item.getInterval();
-        if (interval != null) {
-            DateTime start = interval.getStart();
-            DateTime end = interval.getEnd();
-            String startString = DateTimeFormat.mediumDate().print(start);
-            String endString = DateTimeFormat.mediumDate().print(end);
-            intervalLabel.setText(String.format("%s - %s", startString, endString));
-        } else {
-            intervalLabel.setText(getContext().getString(R.string.export));
-        }
-
-        DateTime createdAt = item.getCreatedAt();
-        if (createdAt != null) {
-            String createdAtString = DateTimeFormat.mediumDateTime().print(createdAt);
-            createdAtLabel.setText(getContext().getString(R.string.export_history_stamp, createdAtString));
-            createdAtLabel.setVisibility(View.VISIBLE);
-        } else {
-            createdAtLabel.setText(null);
-            createdAtLabel.setVisibility(View.GONE);
-        }
-
         FileType format = FileType.valueOf(item.getFile());
         if (format != null) {
             formatIcon.setColorFilter(ContextCompat.getColor(getContext(), format.colorRes));
             formatLabel.setText(format.extension);
+        } else {
+            formatIcon.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray));
+            formatLabel.setText(null);
         }
+
+        createdAtLabel.setText(DateTimeFormat.mediumDateTime().print(item.getCreatedAt()));
 
         rootLayout.setOnClickListener(view -> openExport());
         moreButton.setOnClickListener(this::openMenu);

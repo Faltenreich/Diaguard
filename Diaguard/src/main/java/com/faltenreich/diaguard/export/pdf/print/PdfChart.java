@@ -34,7 +34,6 @@ public class PdfChart implements PdfPrintable {
 
     private static final String TAG = PdfChart.class.getSimpleName();
     private static final float POINT_RADIUS = 5;
-    private static final float LABEL_WIDTH = 100;
     private static final float PADDING = 12;
     private static final int HOUR_INTERVAL = 2;
 
@@ -98,7 +97,7 @@ public class PdfChart implements PdfPrintable {
         for (Map.Entry<Measurement.Category, ListItemCategoryValue[]> entry : measurements.entrySet()) {
             Measurement.Category category = entry.getKey();
             ListItemCategoryValue[] values = entry.getValue();
-            String label = category.toLocalizedString(cache.getContext());
+            String label = context.getString(category.getStringAcronymResId());
             switch (category) {
                 case INSULIN:
                     if (cache.getConfig().isSplitInsulin()) {
@@ -110,7 +109,7 @@ public class PdfChart implements PdfPrintable {
                     }
                     break;
                 case PRESSURE:
-                    tableData.add(createRowForMeasurements(category, values, rowIndex, 0, label + " " + context.getString(R.string.systolic_acronym)));
+                    tableData.add(createRowForMeasurements(category, values, rowIndex, 0,  label + " " + context.getString(R.string.systolic_acronym)));
                     tableData.add(createRowForMeasurements(category, values, rowIndex, 1, label + " " + context.getString(R.string.diastolic_acronym)));
                     break;
                 default:
@@ -132,7 +131,7 @@ public class PdfChart implements PdfPrintable {
 
         Cell titleCell = new Cell(cache.getFontNormal());
         titleCell.setText(label);
-        titleCell.setWidth(LABEL_WIDTH);
+        titleCell.setWidth(getLabelWidth());
         titleCell.setBgColor(rowIndex % 2 == 0 ? cache.getColorDivider() : Color.white);
         titleCell.setFgColor(Color.gray);
         titleCell.setPenColor(Color.gray);
@@ -160,7 +159,7 @@ public class PdfChart implements PdfPrintable {
             String text = customValue > 0 ? Helper.parseFloat(customValue) : "";
             valueCell.setText(text);
 
-            valueCell.setWidth((cache.getPage().getWidth() - LABEL_WIDTH) / (DateTimeConstants.HOURS_PER_DAY / HOUR_INTERVAL));
+            valueCell.setWidth((cache.getPage().getWidth() - getLabelWidth()) / (DateTimeConstants.HOURS_PER_DAY / HOUR_INTERVAL));
             valueCell.setBgColor(rowIndex % 2 == 0 ? cache.getColorDivider() : Color.white);
             valueCell.setFgColor(Color.black);
             valueCell.setPenColor(Color.gray);
@@ -196,7 +195,7 @@ public class PdfChart implements PdfPrintable {
         float chartStartY = 0;
         float chartEndY = chartStartY + chartHeight;
 
-        float contentStartX = LABEL_WIDTH;
+        float contentStartX = getLabelWidth();
         float contentStartY = chartStartY + label.getHeight() + PADDING;
         float contentEndX = chartEndX;
         float contentEndY = chartEndY;

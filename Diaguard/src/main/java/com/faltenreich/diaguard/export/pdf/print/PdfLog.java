@@ -29,8 +29,6 @@ import java.util.List;
 public class PdfLog implements PdfPrintable {
 
     private static final String TAG = PdfLog.class.getSimpleName();
-
-    private static final float LABEL_WIDTH = 112;
     private static final float TIME_WIDTH = 72;
 
     private PdfExportCache cache;
@@ -62,7 +60,7 @@ public class PdfLog implements PdfPrintable {
         List<List<Cell>> data = new ArrayList<>();
         List<Cell> headerRow = new ArrayList<>();
         Cell headerCell = new CellBuilder(new Cell(cache.getFontBold()))
-            .setWidth(LABEL_WIDTH)
+            .setWidth(getLabelWidth())
             .setText(DateTimeUtils.toWeekDayAndDate(cache.getDateTime()))
             .build();
         headerRow.add(headerCell);
@@ -106,7 +104,7 @@ public class PdfLog implements PdfPrintable {
                     data.add(getRow(
                         cache,
                         data.size() == oldSize ? time : null,
-                        category.toLocalizedString(context),
+                        context.getString(category.getStringAcronymResId()),
                         measurement.print(),
                         backgroundColor,
                         textColor
@@ -152,7 +150,6 @@ public class PdfLog implements PdfPrintable {
         }
     }
 
-    // FIXME: Break page accordingly
     private List<Cell> getRow(PdfExportCache cache, String title, String subtitle, String description, int backgroundColor, int foregroundColor) {
         List<Cell> entryRow = new ArrayList<>();
         float width = cache.getPage().getWidth();
@@ -166,7 +163,7 @@ public class PdfLog implements PdfPrintable {
         entryRow.add(titleCell);
 
         Cell subtitleCell = new CellBuilder(new Cell(cache.getFontNormal()))
-            .setWidth(PdfLog.LABEL_WIDTH)
+            .setWidth(getLabelWidth())
             .setText(subtitle)
             .setBackgroundColor(backgroundColor)
             .setForegroundColor(Color.gray)

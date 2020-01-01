@@ -261,6 +261,7 @@
     <string name="systolic">Systolique</string>
     <string name="validator_value_empty_list"> Au moins une catégorie doit être sélectionnée</string>
     <string name="pressure">Pression artérielle</string>
+    <string name="pressure_acronym">Pression art.</string>
     <string name="hypo_per_day">Hypos par jour</string>
     <string name="hyper_per_day">Hypers par jour</string>
     <string name="per">par</string>
@@ -307,6 +308,7 @@
     <string name="chart_line">Nuage de linéaire</string>
 
     <string name="oxygen_saturation">Saturation en oxygène</string>
+    <string name="oxygen_saturation_acronym">Sat. en oxygène</string>
     <string name="correction_value_desc">Réduction de la glycémie d\'une</string>
 
     <string name="changelog">Quoi de neuf</string>

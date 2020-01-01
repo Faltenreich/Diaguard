@@ -10,7 +10,7 @@ public abstract class BaseAsyncTask <Params, Progress, Result> extends AsyncTask
     private WeakReference<Context> context;
     private OnAsyncProgressListener<Result> onAsyncProgressListener;
 
-    BaseAsyncTask(Context context, OnAsyncProgressListener<Result> onAsyncProgressListener) {
+    public BaseAsyncTask(Context context, OnAsyncProgressListener<Result> onAsyncProgressListener) {
         this.context = new WeakReference<>(context);
         this.onAsyncProgressListener = onAsyncProgressListener;
     }

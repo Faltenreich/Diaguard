@@ -93,9 +93,9 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
     }
 
     @Override
-    public void onPause() {
+    public void onDestroy() {
         Events.unregister(this);
-        super.onPause();
+        super.onDestroy();
     }
 
     @Override
@@ -292,7 +292,10 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(PermissionResponseEvent event) {
-        if (event.context == Permission.WRITE_EXTERNAL_STORAGE && event.useCase == PermissionUseCase.EXPORT && event.isGranted) {
+        if (event.context == Permission.WRITE_EXTERNAL_STORAGE &&
+            event.useCase == PermissionUseCase.EXPORT &&
+            event.isGranted
+        ) {
             export();
         }
     }

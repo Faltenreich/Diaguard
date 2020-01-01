@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
@@ -21,10 +22,10 @@ import com.faltenreich.diaguard.ui.list.item.ListItemExportHistory;
 import com.faltenreich.diaguard.util.FileUtils;
 import com.faltenreich.diaguard.util.permission.Permission;
 import com.faltenreich.diaguard.util.permission.PermissionUseCase;
+import com.faltenreich.diaguard.util.thread.BaseAsyncTask;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.joda.time.DateTime;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -35,8 +36,7 @@ import butterknife.BindView;
 
 public class ExportHistoryFragment extends BaseFragment {
 
-    @BindView(R.id.list)
-    RecyclerView listView;
+    @BindView(R.id.list) RecyclerView listView;
 
     private ExportHistoryListAdapter listAdapter;
 
@@ -84,28 +84,7 @@ public class ExportHistoryFragment extends BaseFragment {
     }
 
     private void fetchHistory() {
-        File directory = FileUtils.getPublicDirectory();
-        File[] files = directory.listFiles();
-
-        List<ListItemExportHistory> listItems = new ArrayList<>();
-        if (files != null) {
-            for (File file : files) {
-                ListItemExportHistory listItem = Export.getExportItem(file);
-                if (listItem != null) {
-                    listItems.add(Export.getExportItem(file));
-                }
-            }
-        }
-
-        Collections.sort(listItems, (first, second) -> {
-            DateTime firstDateTime = first.getCreatedAt();
-            DateTime secondDateTime = second.getCreatedAt();
-            return firstDateTime != null && secondDateTime != null ?
-                second.getCreatedAt().compareTo(first.getCreatedAt()) :
-                -1;
-        });
-
-        setHistory(listItems);
+        new FetchHistoryTask(getContext(), this::setHistory).execute();
     }
 
     private void setHistory(List<ListItemExportHistory> listItems) {
@@ -119,8 +98,7 @@ public class ExportHistoryFragment extends BaseFragment {
             new AlertDialog.Builder(getContext())
                 .setTitle(R.string.export_delete)
                 .setMessage(R.string.export_delete_desc)
-                .setNegativeButton(R.string.cancel, (dialog, which) -> {
-                })
+                .setNegativeButton(R.string.cancel, (dialog, which) -> { })
                 .setPositiveButton(R.string.delete, (dialog, which) -> deleteExport(item))
                 .create()
                 .show();
@@ -149,5 +127,34 @@ public class ExportHistoryFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(ExportHistoryDeleteEvent event) {
         deleteExportIfConfirmed(event.context);
+    }
+
+    private static class FetchHistoryTask extends BaseAsyncTask<Void, Void, List<ListItemExportHistory>> {
+
+        FetchHistoryTask(Context context, OnAsyncProgressListener<List<ListItemExportHistory>> onAsyncProgressListener) {
+            super(context, onAsyncProgressListener);
+        }
+
+        @Override
+        protected List<ListItemExportHistory> doInBackground(Void... voids) {
+            File directory = FileUtils.getPublicDirectory();
+            File[] files = directory.listFiles();
+
+            List<ListItemExportHistory> listItems = new ArrayList<>();
+            if (files != null) {
+                for (File file : files) {
+                    ListItemExportHistory listItem = Export.getExportItem(file);
+                    if (listItem != null) {
+                        listItems.add(Export.getExportItem(file));
+                    }
+                }
+            }
+
+            Collections.sort(listItems, (first, second) ->
+                second.getCreatedAt().compareTo(first.getCreatedAt())
+            );
+
+            return listItems;
+        }
     }
 }

@@ -488,7 +488,11 @@
     <string name="oxygen_saturation_acronym">Oxygen sat.</string>
 
     <string name="changelog">What\'s new</string>
-    <string name="changelog_desc">Insulin may now be split into bolus, correction and basal during PDF export.</string>
+    <string name="changelog_desc">
+        <b>Export styles</b>\n Export your PDFs in three different styles: Table, Timeline or Log\n\n
+        <b>Export configuration</b>\n Hide the header or footer of a PDF export and use enhanced options to configure it to your liking\n\n
+        <b>Export history</b>\n Gain quick access to past PDF and CSV exports
+    </string>
 
     <string name="meal_factor">Meal-bolus-factor</string>
     <string name="meal_factors">Meal-bolus-factors</string>
@@ -544,5 +548,7 @@
     <string name="export_delete_desc">This will delete the file irrevocably from your device</string>
     <string name="export_share">Share export</string>
     <string name="more_options">More options</string>
+    <string name="got_it">Got it</string>
+    <string name="show_me">Show me</string>
 
 </resources>

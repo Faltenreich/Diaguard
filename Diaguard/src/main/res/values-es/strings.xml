@@ -352,8 +352,8 @@
     <string name="theme_time_based">Por hora del día</string>
     <string name="theme_system">Configuración del sistema</string>
     <string name="table">Tabla</string>
-    <string name="export_append_header">Agregar encabezado (que muestra la semana calendario)</string>
-    <string name="export_append_footer">Agregar pie de página (que muestra la fecha de exportación)</string>
+    <string name="export_append_header">Agregar encabezado\n(que muestra la semana calendario)</string>
+    <string name="export_append_footer">Agregar pie de página\n(que muestra la fecha de exportación)</string>
     <string name="export_history">Exportaciones pasadas</string>
     <string name="share">Compartir</string>
     <string name="open">Abierto</string>

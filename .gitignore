@@ -49,3 +49,4 @@ google-services.json
 
 Diaguard/release/output.json
 *.aab
+Diaguard/beta/release/output.json

@@ -7,7 +7,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -54,9 +53,7 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
     @BindView(R.id.date_end_button) Button buttonDateEnd;
     @BindView(R.id.format_spinner) Spinner spinnerFormat;
     @BindView(R.id.style_group) Group styleGroup;
-    @BindView(R.id.style_table_radio) RadioButton radioButtonTableStyle;
-    @BindView(R.id.style_timeline_radio) RadioButton radioButtonTimelineStyle;
-    @BindView(R.id.style_log_radio) RadioButton radioButtonLogStyle;
+    @BindView(R.id.style_spinner) Spinner spinnerStyle;
     @BindView(R.id.header_checkbox) CheckBox checkBoxHeader;
     @BindView(R.id.header_group) Group headerGroup;
     @BindView(R.id.footer_checkbox) CheckBox checkBoxFooter;
@@ -148,16 +145,27 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
     }
 
     private PdfExportStyle getStyle() {
-        return radioButtonTableStyle.isChecked() ? PdfExportStyle.TABLE :
-            radioButtonTimelineStyle.isChecked() ? PdfExportStyle.TIMELINE :
-                radioButtonLogStyle.isChecked() ? PdfExportStyle.LOG :
-                    PdfExportStyle.TABLE;
+        int selectedPosition = spinnerStyle.getSelectedItemPosition();
+        switch (selectedPosition) {
+            case 0: return PdfExportStyle.TABLE;
+            case 1: return PdfExportStyle.TIMELINE;
+            case 2: return PdfExportStyle.LOG;
+            default: throw new IllegalArgumentException("Unknown style at position: " + selectedPosition);
+        }
     }
 
     private void setStyle(PdfExportStyle style) {
-        radioButtonTableStyle.setChecked(style == PdfExportStyle.TABLE);
-        radioButtonTimelineStyle.setChecked(style == PdfExportStyle.TIMELINE);
-        radioButtonLogStyle.setChecked(style == PdfExportStyle.LOG);
+        switch (style) {
+            case TABLE:
+                spinnerStyle.setSelection(0);
+                break;
+            case TIMELINE:
+                spinnerStyle.setSelection(1);
+                break;
+            case LOG:
+                spinnerStyle.setSelection(2);
+                break;
+        }
     }
 
     private boolean isInputValid() {
@@ -268,21 +276,6 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
                 buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
             }
         }).show(getFragmentManager());
-    }
-
-    @OnClick(R.id.style_table_button)
-    void onTableStyleButtonClick() {
-        setStyle(PdfExportStyle.TABLE);
-    }
-
-    @OnClick(R.id.style_timeline_button)
-    void onTimelineStyleButtonClick() {
-        setStyle(PdfExportStyle.TIMELINE);
-    }
-
-    @OnClick(R.id.style_log_button)
-    void onLogStyleButtonClick() {
-        setStyle(PdfExportStyle.LOG);
     }
 
     @OnItemSelected(R.id.format_spinner)

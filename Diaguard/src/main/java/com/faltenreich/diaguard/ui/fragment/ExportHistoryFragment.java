@@ -37,6 +37,7 @@ import butterknife.BindView;
 public class ExportHistoryFragment extends BaseFragment {
 
     @BindView(R.id.list) RecyclerView listView;
+    @BindView(R.id.progressView) View progressView;
 
     private ExportHistoryListAdapter listAdapter;
 
@@ -72,6 +73,7 @@ public class ExportHistoryFragment extends BaseFragment {
         listView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         listView.addItemDecoration(new LinearDividerItemDecoration(getContext()));
         listView.setAdapter(listAdapter);
+        progressView.setVisibility(View.VISIBLE);
     }
 
     private void checkPermissions() {
@@ -91,6 +93,7 @@ public class ExportHistoryFragment extends BaseFragment {
         listAdapter.clear();
         listAdapter.addItems(listItems);
         listAdapter.notifyDataSetChanged();
+        progressView.setVisibility(View.GONE);
     }
 
     private void deleteExportIfConfirmed(ListItemExportHistory item) {

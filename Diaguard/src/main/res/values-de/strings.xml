@@ -349,9 +349,9 @@
     <string name="theme_time_based">Nach Tageszeit</string>
     <string name="theme_system">Systemeinstellung</string>
     <string name="table">Tabelle</string>
-    <string name="export_append_header">Kopfzeile anhängen (zeigt Kalenderwoche)</string>
-    <string name="export_append_footer">Fußzeile anhängen (zeigt Datum des Exports)</string>
-    <string name="export_history">Vergangene Exporte</string>
+    <string name="export_append_header">Kopfzeile anhängen\n(zeigt Kalenderwoche)</string>
+    <string name="export_append_footer">Fußzeile anhängen\n(zeigt Datum des Exports)</string>
+    <string name="export_history">Frühere Exporte</string>
     <string name="share">Teilen</string>
     <string name="open">Öffnen</string>
     <string name="export_delete">Export löschen</string>

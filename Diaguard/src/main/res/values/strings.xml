@@ -539,8 +539,8 @@
     <string name="theme_time_based">By time of day</string>
     <string name="theme_system">System setting</string>
     <string name="table">Table</string>
-    <string name="export_append_header">Append header (showing calendar week)</string>
-    <string name="export_append_footer">Append footer (showing date of export)</string>
+    <string name="export_append_header">Append header\n(showing calendar week)</string>
+    <string name="export_append_footer">Append footer\n(showing date of export)</string>
     <string name="export_history">Export history</string>
     <string name="share">Share</string>
     <string name="open">Open</string>

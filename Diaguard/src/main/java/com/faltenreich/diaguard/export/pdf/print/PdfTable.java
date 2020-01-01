@@ -40,7 +40,6 @@ import java.util.List;
 public class PdfTable implements PdfPrintable {
 
     private static final String TAG = PdfTable.class.getSimpleName();
-    private static final float LABEL_WIDTH = 120;
     private static final int HOURS_TO_SKIP = 2;
 
     private PdfExportCache cache;
@@ -73,12 +72,12 @@ public class PdfTable implements PdfPrintable {
 
         List<Cell> cells = new ArrayList<>();
         Cell headerCell = new CellBuilder(new Cell(cache.getFontBold()))
-            .setWidth(LABEL_WIDTH)
+            .setWidth(getLabelWidth())
             .setText(DateTimeUtils.toWeekDayAndDate(cache.getDateTime()))
             .build();
         cells.add(headerCell);
 
-        float cellWidth = (width - LABEL_WIDTH) / (DateTimeConstants.HOURS_PER_DAY / 2f);
+        float cellWidth = (width - getLabelWidth()) / (DateTimeConstants.HOURS_PER_DAY / 2f);
         for (int hour = 0; hour < DateTimeConstants.HOURS_PER_DAY; hour += PdfTable.HOURS_TO_SKIP) {
             Cell hourCell = new CellBuilder(new Cell(cache.getFontNormal()))
                 .setWidth(cellWidth)
@@ -95,7 +94,7 @@ public class PdfTable implements PdfPrintable {
         for (Measurement.Category category : values.keySet()) {
             ListItemCategoryValue[] items = values.get(category);
             if (items != null) {
-                String label = category.toLocalizedString(context);
+                String label = context.getString(category.getStringAcronymResId());
                 int backgroundColor = row % 2 == 0 ? cache.getColorDivider() : Color.white;
                 switch (category) {
                     case INSULIN:
@@ -166,7 +165,7 @@ public class PdfTable implements PdfPrintable {
                     ArrayList<Cell> noteCells = new ArrayList<>();
 
                     Cell timeCell = new CellBuilder(new Cell(cache.getFontNormal()))
-                        .setWidth(LABEL_WIDTH)
+                        .setWidth(getLabelWidth())
                         .setText(Helper.getTimeFormat().print(note.getDateTime()))
                         .setForegroundColor(Color.gray)
                         .build();
@@ -179,7 +178,7 @@ public class PdfTable implements PdfPrintable {
                     noteCells.add(timeCell);
 
                     Cell noteCell = new CellBuilder(new MultilineCell(cache.getFontNormal()))
-                        .setWidth(width - PdfTable.LABEL_WIDTH)
+                        .setWidth(width - getLabelWidth())
                         .setText(note.getNote())
                         .setForegroundColor(Color.gray)
                         .build();
@@ -211,7 +210,7 @@ public class PdfTable implements PdfPrintable {
         List<Cell> cells = new ArrayList<>();
 
         Cell labelCell = new CellBuilder(new Cell(cache.getFontNormal()))
-            .setWidth(PdfTable.LABEL_WIDTH)
+            .setWidth(getLabelWidth())
             .setText(label)
             .setBackgroundColor(backgroundColor)
             .setForegroundColor(Color.gray)

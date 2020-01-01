@@ -36,19 +36,25 @@ public abstract class Measurement extends BaseEntity implements Backupable, Expo
         HBA1C(HbA1c.class, 5, R.string.hba1c, false),
         WEIGHT(Weight.class, 6, R.string.weight, false),
         PULSE(Pulse.class, 7, R.string.pulse, false),
-        PRESSURE(Pressure.class, 8, R.string.pressure, false),
-        OXYGEN_SATURATION(OxygenSaturation.class, 9, R.string.oxygen_saturation, false);
+        PRESSURE(Pressure.class, 8, R.string.pressure, R.string.pressure_acronym, false),
+        OXYGEN_SATURATION(OxygenSaturation.class, 9, R.string.oxygen_saturation, R.string.oxygen_saturation_acronym, false);
 
         private Class clazz;
         private int stringResId;
+        private int stringAcronymResId;
         private boolean stackValues;
         private int stableId;
 
-        Category(Class clazz, int stableId, @StringRes int stringResId, boolean stackValues) {
+        Category(Class clazz, int stableId, @StringRes int stringResId, @StringRes int stringAcronymResId, boolean stackValues) {
             this.clazz = clazz;
             this.stableId = stableId;
             this.stringResId = stringResId;
+            this.stringAcronymResId = stringAcronymResId;
             this.stackValues = stackValues;
+        }
+
+        Category(Class clazz, int stableId, @StringRes int stringResId, boolean stackValues) {
+            this(clazz, stableId, stringResId, stringResId, stackValues);
         }
 
         public <M extends Measurement> Class<M> toClass() {
@@ -65,6 +71,10 @@ public abstract class Measurement extends BaseEntity implements Backupable, Expo
 
         public int getStableId() {
             return stableId;
+        }
+
+        public int getStringAcronymResId() {
+            return stringAcronymResId;
         }
 
         public boolean isOptional() {

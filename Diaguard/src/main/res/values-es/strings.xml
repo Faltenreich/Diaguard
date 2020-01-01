@@ -86,6 +86,7 @@
     <string name="overview">Sobrevista</string>
     <string name="pulse">Pulso</string>
     <string name="pressure">Presión arterial</string>
+    <string name="pressure_acronym">Presión art.</string>
     <string name="remove_placeholder">Eliminar %s</string>
     <string name="settings">Configuración</string>
     <string name="sound">Sonido</string>
@@ -309,6 +310,7 @@
     <string name="chart_line">Diagrama de líneas</string>
 
     <string name="oxygen_saturation">Saturación de oxígeno</string>
+    <string name="oxygen_saturation_acronym">Sat. de oxígeno</string>
     <string name="correction_value_desc">La reducción de glucemia en un</string>
 
     <string name="changelog">Qué hay de nuevo</string>

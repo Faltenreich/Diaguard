@@ -112,6 +112,7 @@
     <string name="per">pro</string>
     <string name="per_day">pro Tag</string>
     <string name="pressure">Blutdruck</string>
+    <string name="pressure_acronym">Blutdruck</string>
     <string name="pulse">Puls</string>
     <string name="remove_placeholder">%s entfernen</string>
     <string name="settings">Einstellungen</string>
@@ -307,6 +308,7 @@
     <string name="chart_line">Liniendiagramm</string>
 
     <string name="oxygen_saturation">Sauerstoffsättigung</string>
+    <string name="oxygen_saturation_acronym">Sauerstoffsätt.</string>
 
     <string name="changelog">Neu in dieser Version</string>
     <string name="changelog_desc">Insulin kann während des PDF Exports ab sofort in Bolus, Korrektur und Basal unterteilt werden.</string>

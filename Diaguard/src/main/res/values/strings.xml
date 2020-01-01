@@ -133,6 +133,7 @@
     <string name="per_day">per day</string>
     <string name="placeholder" translatable="false">-</string>
     <string name="pressure">Blood Pressure</string>
+    <string name="pressure_acronym">Blood Pr.</string>
     <string name="pulse">Pulse</string>
     <string name="remove_placeholder">Remove %s</string>
     <string name="settings">Settings</string>
@@ -484,6 +485,7 @@
     </string-array>
 
     <string name="oxygen_saturation">Oxygen saturation</string>
+    <string name="oxygen_saturation_acronym">Oxygen sat.</string>
 
     <string name="changelog">What\'s new</string>
     <string name="changelog_desc">Insulin may now be split into bolus, correction and basal during PDF export.</string>

@@ -349,5 +349,15 @@
     <string name="theme_time_based">Nach Tageszeit</string>
     <string name="theme_system">Systemeinstellung</string>
     <string name="table">Tabelle</string>
+    <string name="export_append_header">Kopfzeile anhängen (zeigt Kalenderwoche)</string>
+    <string name="export_append_footer">Fußzeile anhängen (zeigt Datum des Exports)</string>
+    <string name="export_history">Vergangene Exporte</string>
+    <string name="share">Teilen</string>
+    <string name="open">Öffnen</string>
+    <string name="export_delete">Export löschen</string>
+    <string name="export_delete_desc">Dies wird die Datei unwiderruflich vom Gerät löschen</string>
+    <string name="export_share">Export teilen</string>
+    <string name="actions">Aktionen</string>
+    <string name="export_open">Export öffnen</string>
 
 </resources>

@@ -42,7 +42,7 @@ public class CategoryViewHolder extends BaseViewHolder<Measurement.Category> imp
     @Override
     protected void bindData() {
         Measurement.Category category = getListItem();
-        titleLabel.setText(category.toLocalizedString(getContext()));
+        titleLabel.setText(getContext().getString(category.getStringResId()));
         activeCheckBox.setEnabled(category.isOptional());
         activeCheckBox.setChecked(PreferenceHelper.getInstance().isCategoryActive(category));
         pinnedCheckBox.setChecked(PreferenceHelper.getInstance().isCategoryPinned(category));

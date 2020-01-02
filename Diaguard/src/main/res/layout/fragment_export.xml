@@ -107,13 +107,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/format_spinner" />
 
-        <ImageView
+        <TextView
             android:id="@+id/style_icon"
             android:layout_width="@dimen/size_image"
-            android:layout_height="@dimen/size_image"
-            android:contentDescription="@null"
-            app:srcCompat="@drawable/ic_view"
-            android:tint="?iconColorPrimary"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:text="@string/style"
+            app:autoSizeTextType="uniform"
             app:layout_constraintBottom_toBottomOf="@id/style_spinner"
             app:layout_constraintStart_toStartOf="@id/date_icon"
             app:layout_constraintTop_toTopOf="@id/style_spinner" />
@@ -160,6 +160,7 @@
             android:id="@+id/header_checkbox"
             android:layout_width="0dp"
             android:layout_height="@dimen/height_element_large"
+            android:padding="@dimen/margin_between"
             android:text="@string/export_append_header"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/date_start_button"
@@ -196,6 +197,7 @@
             android:id="@+id/footer_checkbox"
             android:layout_width="0dp"
             android:layout_height="@dimen/height_element_large"
+            android:padding="@dimen/margin_between"
             android:text="@string/export_append_footer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/date_start_button"
@@ -231,6 +233,7 @@
             android:id="@+id/note_checkbox"
             android:layout_width="0dp"
             android:layout_height="@dimen/height_element_large"
+            android:padding="@dimen/margin_between"
             android:text="@string/note_append"
             app:layout_constraintEnd_toEndOf="@id/format_spinner"
             app:layout_constraintStart_toStartOf="@id/date_start_button"
@@ -261,6 +264,7 @@
             android:id="@+id/tags_checkbox"
             android:layout_width="0dp"
             android:layout_height="@dimen/height_element_large"
+            android:padding="@dimen/margin_between"
             android:text="@string/tags_append"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/date_start_button"

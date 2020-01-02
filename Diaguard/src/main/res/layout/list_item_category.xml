@@ -22,14 +22,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:maxLines="3"
             android:textColor="?android:textColorPrimary"
-            tools:text="@string/category"/>
+            tools:text="Blood Sugar"/>
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/checkBoxActive"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/padding"
+            android:padding="@dimen/margin_between"
             android:text="@string/active"/>
 
         <androidx.appcompat.widget.AppCompatCheckBox
@@ -38,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_between"
             android:layout_marginStart="@dimen/margin_between"
-            android:padding="@dimen/padding"
+            android:padding="@dimen/margin_between"
             android:text="@string/pinned"/>
 
         <ImageView

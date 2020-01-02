@@ -73,6 +73,10 @@ public abstract class Measurement extends BaseEntity implements Backupable, Expo
             return stableId;
         }
 
+        public int getStringResId() {
+            return stringResId;
+        }
+
         public int getStringAcronymResId() {
             return stringAcronymResId;
         }

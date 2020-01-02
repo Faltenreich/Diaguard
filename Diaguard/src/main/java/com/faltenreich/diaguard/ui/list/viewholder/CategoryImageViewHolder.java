@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.ui.list.item.ListItemCategoryImage;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.util.ViewUtils;
@@ -30,6 +31,7 @@ public class CategoryImageViewHolder extends BaseViewHolder<ListItemCategoryImag
 
     @Override
     public void onClick(View view) {
-        ViewUtils.showToast(getContext(), getListItem().getCategory().toLocalizedString(getContext()));
+        Measurement.Category category = getListItem().getCategory();
+        ViewUtils.showToast(getContext(), getContext().getString(category.getStringResId()));
     }
 }

@@ -9,6 +9,7 @@ android {
         versionCode 38
         versionName "3.4.0"
         vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -56,12 +57,16 @@ android {
     }
 }
 
+def jUnit = '4.12'
 def ormLite = '5.1'
 def butterKnife = '10.2.0'
 def retrofit = '2.6.1'
 
 dependencies {
-    testImplementation 'junit:junit:4.12'
+    testImplementation "junit:junit:$jUnit"
+    androidTestImplementation "junit:junit:$jUnit"
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
 
     // FIXME: Updating com.google.android.material:material alters RecyclerView and breaks com.lapism:searchview
     implementation 'com.google.android.material:material:1.1.0-alpha05'

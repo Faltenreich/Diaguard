@@ -1,17 +1,18 @@
 package com.faltenreich.diaguard.ui.fragment;
 
 import android.os.Bundle;
+import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.view.View;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.ui.list.decoration.LinearDividerItemDecoration;
-import com.faltenreich.diaguard.ui.list.adapter.NutrientAdapter;
-import com.faltenreich.diaguard.ui.list.item.ListItemNutrient;
 import com.faltenreich.diaguard.data.entity.Food;
+import com.faltenreich.diaguard.ui.list.adapter.NutrientAdapter;
+import com.faltenreich.diaguard.ui.list.decoration.LinearDividerItemDecoration;
+import com.faltenreich.diaguard.ui.list.item.ListItemNutrient;
 import com.faltenreich.diaguard.util.Helper;
 
 import butterknife.BindView;
@@ -34,12 +35,13 @@ public class NutrientsFragment extends BaseFoodFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(false);
+        init();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        init();
+        initLayout();
     }
 
     @Override
@@ -49,9 +51,12 @@ public class NutrientsFragment extends BaseFoodFragment {
     }
 
     private void init() {
+        listAdapter = new NutrientAdapter(getContext());
+    }
+
+    private void initLayout() {
         nutrientList.setLayoutManager(new LinearLayoutManager(getContext()));
         nutrientList.addItemDecoration(new LinearDividerItemDecoration(getContext()));
-        listAdapter = new NutrientAdapter(getContext());
         nutrientList.setAdapter(listAdapter);
     }
 

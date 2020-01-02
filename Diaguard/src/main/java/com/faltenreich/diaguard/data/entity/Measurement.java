@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.data.entity;
 
-import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -59,10 +58,6 @@ public abstract class Measurement extends BaseEntity implements Backupable, Expo
 
         public <M extends Measurement> Class<M> toClass() {
             return clazz;
-        }
-
-        public String toLocalizedString(Context context) {
-            return context.getString(stringResId);
         }
 
         public boolean stackValues() {

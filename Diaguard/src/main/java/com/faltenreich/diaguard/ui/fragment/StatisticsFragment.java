@@ -1,10 +1,6 @@
 package com.faltenreich.diaguard.ui.fragment;
 
 import android.os.Bundle;
-
-import androidx.annotation.ColorInt;
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -12,6 +8,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
@@ -94,7 +94,7 @@ public class StatisticsFragment extends BaseFragment {
         final Measurement.Category[] categories = PreferenceHelper.getInstance().getActiveCategories();
         List<String> categoryNames = new ArrayList<>();
         for (Measurement.Category category : categories) {
-            categoryNames.add(category.toLocalizedString(getContext()));
+            categoryNames.add(getString(category.getStringResId()));
         }
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, categoryNames);
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

@@ -9,6 +9,10 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Food;
@@ -19,9 +23,6 @@ import com.faltenreich.diaguard.data.entity.Pressure;
 import com.faltenreich.diaguard.ui.list.helper.SwipeDismissTouchListener;
 import com.faltenreich.diaguard.util.ViewUtils;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -137,7 +138,8 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
 
     private void togglePinnedCategory(final boolean isPinned) {
         int textResId = isPinned ? R.string.category_pin_confirm : R.string.category_unpin_confirm;
-        String confirmation = String.format(getContext().getString(textResId), category.toLocalizedString(getContext()));
+        String categoryString = getContext().getString(category.getStringResId());
+        String confirmation = String.format(getContext().getString(textResId), categoryString);
         ViewUtils.showSnackbar(MeasurementView.this, confirmation, view -> {
             checkBoxPin.setOnCheckedChangeListener(null);
             checkBoxPin.setChecked(!isPinned);

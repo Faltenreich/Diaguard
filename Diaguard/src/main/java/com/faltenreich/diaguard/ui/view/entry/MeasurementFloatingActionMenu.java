@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
+import androidx.core.content.ContextCompat;
+
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.entity.Measurement;
@@ -14,8 +16,6 @@ import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.core.content.ContextCompat;
 
 /**
  * Created by Faltenreich on 30.09.2015.
@@ -89,11 +89,11 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
             }
 
             FloatingActionButton fabAll = FloatingActionButtonFactory.createFloatingActionButton(
-                    getContext(),
-                    getContext().getString(R.string.all),
-                    R.drawable.ic_more,
-                    ResourceUtils.getBackgroundSecondary(getContext()));
-            
+                getContext(),
+                getContext().getString(R.string.all),
+                R.drawable.ic_more,
+                ResourceUtils.getBackgroundSecondary(getContext()));
+
             addMenuButton(fabAll);
 
             fabAll.setOnClickListener(v -> {
@@ -107,10 +107,10 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
 
     public void addMenuButton(final Measurement.Category category) {
         FloatingActionButton fab = FloatingActionButtonFactory.createFloatingActionButton(
-                getContext(),
-                category.toLocalizedString(getContext()),
-                PreferenceHelper.getInstance().getCategoryImageResourceId(category),
-                ContextCompat.getColor(getContext(), R.color.green));
+            getContext(),
+            getContext().getString(category.getStringResId()),
+            PreferenceHelper.getInstance().getCategoryImageResourceId(category),
+            ContextCompat.getColor(getContext(), R.color.green));
         fab.setOnClickListener(v -> {
             close(true);
             if (hasMeasurementFloatingActionMenuCallback()) {
@@ -130,6 +130,7 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
 
     public interface OnFabSelectedListener {
         void onCategorySelected(Measurement.Category category);
+
         void onMiscellaneousSelected();
     }
 }

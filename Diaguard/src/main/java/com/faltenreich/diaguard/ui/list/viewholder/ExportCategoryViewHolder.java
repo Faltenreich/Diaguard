@@ -36,7 +36,7 @@ public class ExportCategoryViewHolder extends BaseViewHolder<ListItemExportCateg
         Measurement.Category category = item.getCategory();
 
         categoryImageView.setImageResource(PreferenceHelper.getInstance().getCategoryImageResourceId(category));
-        categoryCheckBox.setText(category.toLocalizedString(getContext()));
+        categoryCheckBox.setText(getContext().getString(category.getStringResId()));
         categoryCheckBox.setChecked(item.isCategorySelected());
 
         String extraTitle;

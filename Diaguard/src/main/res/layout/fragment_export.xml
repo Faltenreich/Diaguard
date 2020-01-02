@@ -67,19 +67,21 @@
             android:id="@+id/date_placeholder"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/date_end_button"
             app:layout_constraintEnd_toStartOf="@id/date_more_button"
             app:layout_constraintStart_toEndOf="@id/date_end_button"
-            app:layout_constraintTop_toTopOf="@id/date_end_button"
-            app:layout_constraintBottom_toBottomOf="@id/date_end_button"/>
+            app:layout_constraintTop_toTopOf="@id/date_end_button" />
 
         <ImageView
             android:id="@+id/date_more_button"
             android:layout_width="@dimen/height_element"
             android:layout_height="@dimen/height_element"
+            android:layout_marginEnd="@dimen/padding"
+            android:layout_marginRight="@dimen/padding"
             android:adjustViewBounds="true"
-            android:padding="@dimen/margin_between_large"
             android:background="?selectableItemBackgroundBorderless"
             android:contentDescription="@string/actions"
+            android:padding="@dimen/margin_between_large"
             android:tint="?iconColorPrimary"
             app:layout_constraintBottom_toBottomOf="@id/date_end_button"
             app:layout_constraintEnd_toEndOf="parent"
@@ -114,7 +116,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/height_element_large"
             android:entries="@array/formats"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/date_more_button"
             app:layout_constraintStart_toStartOf="@id/date_start_button"
             app:layout_constraintTop_toBottomOf="@id/format_divider" />
 
@@ -145,7 +147,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/height_element_large"
             android:entries="@array/styles"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/date_more_button"
             app:layout_constraintStart_toStartOf="@id/date_start_button"
             app:layout_constraintTop_toBottomOf="@id/settings_header" />
 

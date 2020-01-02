@@ -29,6 +29,7 @@ import com.faltenreich.diaguard.export.pdf.meta.PdfExportStyle;
 import com.faltenreich.diaguard.ui.view.CategoryCheckBoxList;
 import com.faltenreich.diaguard.ui.view.MainButton;
 import com.faltenreich.diaguard.ui.view.MainButtonProperties;
+import com.faltenreich.diaguard.util.DateTimeUtils;
 import com.faltenreich.diaguard.util.FileUtils;
 import com.faltenreich.diaguard.util.Helper;
 import com.faltenreich.diaguard.util.ProgressComponent;
@@ -302,8 +303,7 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
                     pickDateRange(now.withDayOfMonth(1), now);
                     break;
                 case R.id.action_quarter:
-                    int firstMonthOfQuarter = (int) Math.ceil((double) now.getMonthOfYear() / 3.0);
-                    pickDateRange(now.withMonthOfYear(firstMonthOfQuarter).withDayOfMonth(1), now);
+                    pickDateRange(DateTimeUtils.withStartOfQuarter(now), now);
                     break;
             }
             return true;

@@ -3,9 +3,6 @@ package com.faltenreich.diaguard.util;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
-
-import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
@@ -15,8 +12,6 @@ import org.joda.time.DateTimeConstants;
 import org.joda.time.format.DateTimeFormat;
 
 public class DateTimeUtils {
-
-    private static final String TAG = DateTimeUtils.class.getSimpleName();
 
     private static String toWeekDayShort(DateTime dateTime, boolean withDot) {
         String weekDay = dateTime.toString("E");
@@ -63,13 +58,18 @@ public class DateTimeUtils {
         return String.format("%s, %s", weekDayString, dateString);
     }
 
-    @Nullable
-    public static DateTime parseFromMillis(String millis) {
-        try {
-            return new DateTime(Long.parseLong(millis));
-        } catch (NumberFormatException exception) {
-            Log.e(TAG, exception.getMessage());
-            return null;
+    public static DateTime withStartOfQuarter(DateTime dateTime) {
+        int monthOfYear = dateTime.getMonthOfYear();
+        DateTime firstMonthOfQuarter;
+        if (monthOfYear >= 10) {
+            firstMonthOfQuarter = dateTime.withMonthOfYear(10);
+        } else if (monthOfYear >= 7) {
+            firstMonthOfQuarter = dateTime.withMonthOfYear(7);
+        } else if (monthOfYear >= 4) {
+            firstMonthOfQuarter = dateTime.withMonthOfYear(4);
+        } else {
+            firstMonthOfQuarter = dateTime.withMonthOfYear(1);
         }
+        return firstMonthOfQuarter.withDayOfMonth(1);
     }
 }

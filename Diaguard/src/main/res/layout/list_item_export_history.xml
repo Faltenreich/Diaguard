@@ -15,8 +15,8 @@
     <FrameLayout
         android:layout_width="@dimen/size_image"
         android:layout_height="@dimen/size_image"
-        android:layout_marginStart="@dimen/margin_between_large"
-        android:layout_marginLeft="@dimen/margin_between_large"
+        android:layout_marginStart="@dimen/padding_end"
+        android:layout_marginLeft="@dimen/padding_end"
         android:layout_marginEnd="@dimen/margin_between"
         android:layout_marginRight="@dimen/margin_between">
 
@@ -53,6 +53,8 @@
         android:layout_width="@dimen/height_element"
         android:layout_height="@dimen/height_element"
         android:layout_gravity="center_vertical"
+        android:layout_marginEnd="@dimen/padding"
+        android:layout_marginRight="@dimen/padding"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
         android:contentDescription="@string/actions"

@@ -10,6 +10,10 @@
     android:divider="@drawable/divider_medium"
     android:gravity="center_vertical"
     android:orientation="horizontal"
+    android:paddingStart="@dimen/padding"
+    android:paddingLeft="@dimen/padding"
+    android:paddingEnd="@dimen/padding"
+    android:paddingRight="@dimen/padding"
     android:showDividers="middle">
 
     <FrameLayout

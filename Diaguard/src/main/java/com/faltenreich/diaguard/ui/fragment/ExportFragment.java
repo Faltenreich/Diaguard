@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -276,6 +277,45 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
                 buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
             }
         }).show(getFragmentManager());
+    }
+
+    @OnClick(R.id.date_more_button)
+    void openDateRangePicker(View view) {
+        PopupMenu popupMenu = new PopupMenu(getContext(), view);
+        popupMenu.getMenuInflater().inflate(R.menu.export_date_range, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(menuItem -> {
+            DateTime now = DateTime.now();
+            switch (menuItem.getItemId()) {
+                case R.id.action_today:
+                    pickDateRange(now, now);
+                    break;
+                case R.id.action_week:
+                    pickDateRange(now.withDayOfWeek(1), now);
+                    break;
+                case R.id.action_weeks_two:
+                    pickDateRange(now.withDayOfWeek(1).minusWeeks(1), now);
+                    break;
+                case R.id.action_weeks_four:
+                    pickDateRange(now.withDayOfWeek(1).minusWeeks(3), now);
+                    break;
+                case R.id.action_month:
+                    pickDateRange(now.withDayOfMonth(1), now);
+                    break;
+                case R.id.action_quarter:
+                    int firstMonthOfQuarter = (int) Math.ceil((double) now.getMonthOfYear() / 3.0);
+                    pickDateRange(now.withMonthOfYear(firstMonthOfQuarter).withDayOfMonth(1), now);
+                    break;
+            }
+            return true;
+        });
+        popupMenu.show();
+    }
+
+    private void pickDateRange(DateTime start, DateTime end) {
+        dateStart = start;
+        buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
+        dateEnd = end;
+        buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
     }
 
     @OnItemSelected(R.id.format_spinner)

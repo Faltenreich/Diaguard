@@ -64,6 +64,32 @@
             tools:text="@tools:sample/date/ddmmyy" />
 
         <View
+            android:id="@+id/date_placeholder"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toStartOf="@id/date_more_button"
+            app:layout_constraintStart_toEndOf="@id/date_end_button"
+            app:layout_constraintTop_toTopOf="@id/date_end_button"
+            app:layout_constraintBottom_toBottomOf="@id/date_end_button"/>
+
+        <ImageView
+            android:id="@+id/date_more_button"
+            android:layout_width="@dimen/height_element"
+            android:layout_height="@dimen/height_element"
+            android:adjustViewBounds="true"
+            android:padding="@dimen/margin_between_large"
+            android:layout_marginEnd="@dimen/padding_end"
+            android:layout_marginRight="@dimen/padding_end"
+            android:background="?selectableItemBackgroundBorderless"
+            android:contentDescription="@string/actions"
+            android:tint="?iconColorPrimary"
+            app:layout_constraintBottom_toBottomOf="@id/date_end_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/date_placeholder"
+            app:layout_constraintTop_toTopOf="@id/date_end_button"
+            app:srcCompat="@drawable/ic_more_vertical" />
+
+        <View
             android:id="@+id/format_divider"
             android:layout_width="0dp"
             android:layout_height="1dp"
@@ -107,16 +133,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/format_spinner" />
 
-        <TextView
+        <ImageView
             android:id="@+id/style_icon"
             android:layout_width="@dimen/size_image"
-            android:layout_height="wrap_content"
-            android:lines="1"
-            android:text="@string/style"
-            app:autoSizeTextType="uniform"
+            android:layout_height="@dimen/size_image"
+            android:contentDescription="@null"
+            android:tint="?iconColorPrimary"
             app:layout_constraintBottom_toBottomOf="@id/style_spinner"
             app:layout_constraintStart_toStartOf="@id/date_icon"
-            app:layout_constraintTop_toTopOf="@id/style_spinner" />
+            app:layout_constraintTop_toTopOf="@id/style_spinner"
+            app:srcCompat="@drawable/ic_view" />
 
         <Spinner
             android:id="@+id/style_spinner"

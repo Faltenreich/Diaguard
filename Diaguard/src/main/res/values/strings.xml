@@ -549,5 +549,10 @@
     <string name="export_share">Share export</string>
     <string name="actions">Actions</string>
     <string name="export_open">Open export</string>
+    <string name="week_current">Current week</string>
+    <string name="weeks_two">Last two weeks</string>
+    <string name="weeks_four">Last four weeks</string>
+    <string name="month_current">Current month</string>
+    <string name="quarter_current">Current quarter</string>
 
 </resources>

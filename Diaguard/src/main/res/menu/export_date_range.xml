@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_today"
+        android:title="@string/today" />
+
+    <item
+        android:id="@+id/action_week"
+        android:title="@string/week_current" />
+
+    <item
+        android:id="@+id/action_weeks_two"
+        android:title="@string/weeks_two" />
+
+    <item
+        android:id="@+id/action_weeks_four"
+        android:title="@string/weeks_four" />
+
+    <item
+        android:id="@+id/action_month"
+        android:title="@string/month_current" />
+
+    <item
+        android:id="@+id/action_quarter"
+        android:title="@string/quarter_current" />
+
+</menu>

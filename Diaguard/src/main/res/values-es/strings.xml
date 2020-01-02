@@ -362,5 +362,10 @@
     <string name="export_share">Compartir exportación</string>
     <string name="actions">Comportamiento</string>
     <string name="export_open">Abrir exportación</string>
+    <string name="week_current">Semana actual</string>
+    <string name="weeks_two">Últimas dos semanas</string>
+    <string name="weeks_four">Últimas cuatro semanas</string>
+    <string name="month_current">Mes actual</string>
+    <string name="quarter_current">Trimestre actual</string>
 
 </resources>

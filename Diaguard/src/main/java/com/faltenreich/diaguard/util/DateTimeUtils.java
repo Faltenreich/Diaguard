@@ -61,14 +61,14 @@ public class DateTimeUtils {
     public static DateTime withStartOfQuarter(DateTime dateTime) {
         int monthOfYear = dateTime.getMonthOfYear();
         DateTime firstMonthOfQuarter;
-        if (monthOfYear >= 10) {
-            firstMonthOfQuarter = dateTime.withMonthOfYear(10);
-        } else if (monthOfYear >= 7) {
-            firstMonthOfQuarter = dateTime.withMonthOfYear(7);
-        } else if (monthOfYear >= 4) {
-            firstMonthOfQuarter = dateTime.withMonthOfYear(4);
+        if (monthOfYear >= DateTimeConstants.OCTOBER) {
+            firstMonthOfQuarter = dateTime.withMonthOfYear(DateTimeConstants.OCTOBER);
+        } else if (monthOfYear >= DateTimeConstants.JULY) {
+            firstMonthOfQuarter = dateTime.withMonthOfYear(DateTimeConstants.JULY);
+        } else if (monthOfYear >= DateTimeConstants.APRIL) {
+            firstMonthOfQuarter = dateTime.withMonthOfYear(DateTimeConstants.APRIL);
         } else {
-            firstMonthOfQuarter = dateTime.withMonthOfYear(1);
+            firstMonthOfQuarter = dateTime.withMonthOfYear(DateTimeConstants.JANUARY);
         }
         return firstMonthOfQuarter.withDayOfMonth(1);
     }

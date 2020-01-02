@@ -130,12 +130,19 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
         buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
         buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
 
+        // Workaround: Calling jumpDrawablesToCurrentState() after setChecked() skips the animation
         checkBoxHeader.setChecked(PreferenceHelper.getInstance().exportHeader());
+        checkBoxHeader.jumpDrawablesToCurrentState();
         checkBoxFooter.setChecked(PreferenceHelper.getInstance().exportFooter());
+        checkBoxFooter.jumpDrawablesToCurrentState();
         checkBoxNotes.setChecked(PreferenceHelper.getInstance().exportNotes());
-        checkBoxNotes.setOnCheckedChangeListener((buttonView, isChecked) -> PreferenceHelper.getInstance().setExportNotes(isChecked));
+        checkBoxNotes.jumpDrawablesToCurrentState();
+        checkBoxNotes.setOnCheckedChangeListener((buttonView, isChecked) ->
+            PreferenceHelper.getInstance().setExportNotes(isChecked));
         checkBoxTags.setChecked(PreferenceHelper.getInstance().exportTags());
-        checkBoxTags.setOnCheckedChangeListener((buttonView, isChecked) -> PreferenceHelper.getInstance().setExportTags(isChecked));
+        checkBoxTags.jumpDrawablesToCurrentState();
+        checkBoxTags.setOnCheckedChangeListener((buttonView, isChecked) ->
+            PreferenceHelper.getInstance().setExportTags(isChecked));
 
         categoryCheckBoxList.setNestedScrollingEnabled(false);
     }

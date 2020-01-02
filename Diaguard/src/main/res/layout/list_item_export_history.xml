@@ -10,10 +10,6 @@
     android:divider="@drawable/divider_medium"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingStart="@dimen/padding"
-    android:paddingLeft="@dimen/padding"
-    android:paddingEnd="@dimen/padding"
-    android:paddingRight="@dimen/padding"
     android:showDividers="middle">
 
     <FrameLayout
@@ -21,8 +17,8 @@
         android:layout_height="@dimen/size_image"
         android:layout_marginStart="@dimen/margin_between_large"
         android:layout_marginLeft="@dimen/margin_between_large"
-        android:layout_marginEnd="@dimen/margin_between_large"
-        android:layout_marginRight="@dimen/margin_between_large">
+        android:layout_marginEnd="@dimen/margin_between"
+        android:layout_marginRight="@dimen/margin_between">
 
         <ImageView
             android:id="@+id/format_icon"

@@ -11,6 +11,7 @@ import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.data.entity.Meal;
+import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.util.StringUtils;
 
 import java.util.ArrayList;
@@ -28,7 +29,10 @@ public class PdfNoteFactory {
         if (config.isExportTags()) {
             List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(entry);
             for (EntryTag entryTag : entryTags) {
-                entryNotesAndTagsOfDay.add(entryTag.getTag().getName());
+                Tag tag = entryTag.getTag();
+                if (tag != null) {
+                    entryNotesAndTagsOfDay.add(entryTag.getTag().getName());
+                }
             }
         }
         if (config.isExportFood()) {

@@ -79,7 +79,7 @@ public class PdfLog implements PdfPrintable {
             data.add(row);
         } else {
             for (Entry entry : entries) {
-                List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
+                List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry, cache.getConfig().getCategories());
                 entry.setMeasurementCache(measurements);
             }
 

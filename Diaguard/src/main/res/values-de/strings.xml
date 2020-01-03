@@ -311,7 +311,11 @@
     <string name="oxygen_saturation_acronym">Sauerstoffsätt.</string>
 
     <string name="changelog">Neu in dieser Version</string>
-    <string name="changelog_desc">Insulin kann während des PDF Exports ab sofort in Bolus, Korrektur und Basal unterteilt werden.</string>
+    <string name="changelog_desc">
+        <b>Export Stile</b>\n PDFs können nun in drei verschiedenen Stilen exportiert werden: als Tabelle, Tagebuch oder Protokoll.\n\n
+        <b>Export Konfiguration</b>\n Kopf- und Fußzeile des PDF Exports können nun (de)aktiviert werden. Zusätzlich gibt es weitere Optionen, um den PDF Export an die eigenen Bedürfnisse anzupassen.\n\n
+        <b>Frühere Exporte</b>\n Diese Auflistung ermöglicht einen Überblick über frühere PDF- oder CSV-Exporte.
+    </string>
 
     <string name="meal_factor">Mahlzeit-Bolus-Faktor</string>
     <string name="meal_factors">Mahlzeit-Bolus-Faktoren</string>

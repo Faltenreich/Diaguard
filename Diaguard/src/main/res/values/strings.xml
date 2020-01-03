@@ -489,9 +489,9 @@
 
     <string name="changelog">What\'s new</string>
     <string name="changelog_desc">
-        <b>Export styles</b>\n Export your PDFs in three different styles: Table, Timeline or Log\n\n
-        <b>Export configuration</b>\n Hide the header or footer of a PDF export and use enhanced options to configure it to your liking\n\n
-        <b>Export history</b>\n Gain quick access to past PDF and CSV exports
+        <b>Export styles</b>\n Export your PDFs in three different styles: as table, timeline or log.\n\n
+        <b>Export configuration</b>\n Hide the header or footer of a PDF export and use enhanced options to configure it to your liking.\n\n
+        <b>Export history</b>\n Gain quick access to past PDF and CSV exports.
     </string>
 
     <string name="meal_factor">Meal-bolus-factor</string>

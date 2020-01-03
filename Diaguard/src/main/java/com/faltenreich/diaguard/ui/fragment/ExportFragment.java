@@ -131,8 +131,8 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
 
     private void init() {
         // FIXME: Week days cannot be localized via JodaTime, so consider switching to ThreeTenABP
-        dateStart = DateTime.now().withDayOfWeek(1);
-        dateEnd = dateStart.withDayOfWeek(7);
+        dateEnd = DateTime.now();
+        dateStart = dateEnd.withDayOfWeek(1);
         categoryCheckBoxListAdapter = new ExportCategoryListAdapter(getContext());
     }
 
@@ -143,17 +143,13 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
         buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
         buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
 
-        // Workaround: Calling jumpDrawablesToCurrentState() after setChecked() skips the animation
-        checkBoxHeader.setChecked(PreferenceHelper.getInstance().exportHeader());
-        checkBoxHeader.jumpDrawablesToCurrentState();
-        checkBoxFooter.setChecked(PreferenceHelper.getInstance().exportFooter());
-        checkBoxFooter.jumpDrawablesToCurrentState();
-        checkBoxNotes.setChecked(PreferenceHelper.getInstance().exportNotes());
-        checkBoxNotes.jumpDrawablesToCurrentState();
+        ViewUtils.setChecked(checkBoxHeader, PreferenceHelper.getInstance().exportHeader(), false);
+        ViewUtils.setChecked(checkBoxFooter, PreferenceHelper.getInstance().exportFooter(), false);
+        ViewUtils.setChecked(checkBoxNotes, PreferenceHelper.getInstance().exportNotes(), false);
+        ViewUtils.setChecked(checkBoxTags, PreferenceHelper.getInstance().exportTags(), false);
+
         checkBoxNotes.setOnCheckedChangeListener((buttonView, isChecked) ->
             PreferenceHelper.getInstance().setExportNotes(isChecked));
-        checkBoxTags.setChecked(PreferenceHelper.getInstance().exportTags());
-        checkBoxTags.jumpDrawablesToCurrentState();
         checkBoxTags.setOnCheckedChangeListener((buttonView, isChecked) ->
             PreferenceHelper.getInstance().setExportTags(isChecked));
 

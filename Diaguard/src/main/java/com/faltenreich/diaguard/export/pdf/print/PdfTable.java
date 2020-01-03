@@ -148,10 +148,10 @@ public class PdfTable implements PdfPrintable {
                 if (hasEntryNotesAndTags || hasFood) {
                     List<String> notes = new ArrayList<>();
                     if (hasEntryNotesAndTags) {
-                        notes.add(getNotesAsString(entryNotesAndTagsOfDay));
+                        notes.add(TextUtils.join(", ", entryNotesAndTagsOfDay));
                     }
                     if (hasFood) {
-                        notes.add(getNotesAsString(foodOfDay));
+                        notes.add(TextUtils.join(", ", foodOfDay));
                     }
                     String note = TextUtils.join("\n", notes);
                     pdfNotes.add(new PdfNote(entry.getDate(), note));
@@ -205,10 +205,6 @@ public class PdfTable implements PdfPrintable {
         } catch (Exception exception) {
             Log.e(TAG, exception.getMessage());
         }
-    }
-
-    private String getNotesAsString(List<String> notes) {
-        return TextUtils.join(", ", notes);
     }
 
     private List<Cell> createMeasurementRows(PdfExportCache cache, ListItemCategoryValue[] items, float cellWidth, int valueIndex, String label, int backgroundColor) {

@@ -12,31 +12,34 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.animation.AccelerateInterpolator;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
-import android.view.View;
-import android.view.ViewAnimationUtils;
-import android.view.animation.AccelerateInterpolator;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
-import android.widget.Toast;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.content.ContextCompat;
 
 import com.codetroopers.betterpickers.numberpicker.NumberPickerBuilder;
 import com.codetroopers.betterpickers.numberpicker.NumberPickerDialogFragment;
 import com.faltenreich.diaguard.R;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.math.BigDecimal;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class ViewUtils {
 
+    private static final String TAG = ViewUtils.class.getSimpleName();
     private static final int REVEAL_DURATION = 400;
     private static final int UNREVEAL_DURATION = 300;
     private static final long ANIMATION_DURATION = 400L;
@@ -198,5 +201,20 @@ public class ViewUtils {
             color = ((ColorDrawable) background).getColor();
         }
         return color;
+    }
+
+    public static void setChecked(CheckBox checkBox, boolean isChecked, boolean animated) {
+        checkBox.setChecked(isChecked);
+        if (!animated) {
+            // Workaround: Calling jumpDrawablesToCurrentState() after setChecked() skips the animation
+            try {
+                checkBox.jumpDrawablesToCurrentState();
+            } catch (Exception exception) {
+                Log.e(TAG, exception.getMessage() != null ?
+                    exception.getMessage() :
+                    "Exception on calling jumpDrawablesToCurrentState()"
+                );
+            }
+        }
     }
 }

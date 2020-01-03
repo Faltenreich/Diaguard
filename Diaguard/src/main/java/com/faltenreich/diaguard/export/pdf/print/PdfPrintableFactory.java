@@ -13,7 +13,7 @@ public class PdfPrintableFactory {
             case LOG:
                 return new PdfLog(cache);
             case TIMELINE:
-                return new PdfChart(cache);
+                return new PdfTimeline(cache);
             default:
                 throw new IllegalArgumentException("Unsupported style: " + style);
         }

@@ -119,7 +119,7 @@ public class PdfTable implements PdfPrintable {
         }
 
         if (config.isExportNotes() || config.isExportTags() || config.isExportFood()) {
-            List<PdfNote> notes = new ArrayList<>();
+            List<PdfNote> pdfNotes = new ArrayList<>();
             for (Entry entry : EntryDao.getInstance().getEntriesOfDay(cache.getDateTime())) {
                 List<String> entryNotesAndTagsOfDay = new ArrayList<>();
                 List<String> foodOfDay = new ArrayList<>();
@@ -145,22 +145,22 @@ public class PdfTable implements PdfPrintable {
                 }
                 boolean hasEntryNotesAndTags = !entryNotesAndTagsOfDay.isEmpty();
                 boolean hasFood = !foodOfDay.isEmpty();
-                boolean hasAny = hasEntryNotesAndTags || hasFood;
-                if (hasAny) {
-                    boolean hasBoth = hasEntryNotesAndTags && hasFood;
-                    String notesOfDay = hasBoth ?
-                        // Break line for succeeding food
-                        TextUtils.join("\n", new String[] { getNotesAsString(entryNotesAndTagsOfDay), getNotesAsString(foodOfDay) }) :
-                        hasEntryNotesAndTags ?
-                            getNotesAsString(entryNotesAndTagsOfDay) :
-                            getNotesAsString(foodOfDay);
-                    notes.add(new PdfNote(entry.getDate(), notesOfDay));
+                if (hasEntryNotesAndTags || hasFood) {
+                    List<String> notes = new ArrayList<>();
+                    if (hasEntryNotesAndTags) {
+                        notes.add(getNotesAsString(entryNotesAndTagsOfDay));
+                    }
+                    if (hasFood) {
+                        notes.add(getNotesAsString(foodOfDay));
+                    }
+                    String note = TextUtils.join("\n", notes);
+                    pdfNotes.add(new PdfNote(entry.getDate(), note));
                 }
             }
-            if (notes.size() > 0) {
-                for (PdfNote note : notes) {
-                    boolean isFirst = notes.indexOf(note) == 0;
-                    boolean isLast = notes.indexOf(note) == notes.size() - 1;
+            if (pdfNotes.size() > 0) {
+                for (PdfNote note : pdfNotes) {
+                    boolean isFirst = pdfNotes.indexOf(note) == 0;
+                    boolean isLast = pdfNotes.indexOf(note) == pdfNotes.size() - 1;
 
                     ArrayList<Cell> noteCells = new ArrayList<>();
 

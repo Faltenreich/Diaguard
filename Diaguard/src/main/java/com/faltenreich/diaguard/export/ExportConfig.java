@@ -54,6 +54,15 @@ public abstract class ExportConfig {
         return categories;
     }
 
+    public boolean hasCategory(Measurement.Category category) {
+        for (Measurement.Category other : categories) {
+            if (category == other) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public FileType getFormat() {
         return format;
     }

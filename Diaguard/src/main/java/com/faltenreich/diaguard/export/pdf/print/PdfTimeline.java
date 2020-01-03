@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
+import com.faltenreich.diaguard.export.pdf.view.CellBuilder;
 import com.faltenreich.diaguard.export.pdf.view.SizedBox;
 import com.faltenreich.diaguard.export.pdf.view.SizedTable;
 import com.faltenreich.diaguard.ui.list.item.ListItemCategoryValue;
@@ -124,7 +125,7 @@ public class PdfTimeline implements PdfPrintable {
         }
 
         if (tableData.isEmpty() && !showChartForBloodSugar) {
-            tableData.add(createRowForEmptyDay());
+            tableData.add(CellBuilder.emptyRow(cache));
         }
 
         try {
@@ -175,20 +176,6 @@ public class PdfTimeline implements PdfPrintable {
             valueCell.setTextAlignment(Align.CENTER);
             row.add(valueCell);
         }
-        return row;
-    }
-
-    private List<Cell> createRowForEmptyDay() {
-        List<Cell> row = new ArrayList<>();
-
-        Cell titleCell = new Cell(cache.getFontNormal());
-        titleCell.setText(cache.getContext().getString(R.string.no_data));
-        titleCell.setWidth(cache.getPage().getWidth());
-        titleCell.setBgColor(cache.getColorDivider());
-        titleCell.setFgColor(Color.gray);
-        titleCell.setPenColor(Color.gray);
-        row.add(titleCell);
-
         return row;
     }
 

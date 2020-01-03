@@ -90,12 +90,12 @@ public class PdfTable implements PdfPrintable {
         data.add(cells);
 
         LinkedHashMap<Measurement.Category, ListItemCategoryValue[]> values = EntryDao.getInstance().getAverageDataTable(cache.getDateTime(), config.getCategories(), HOURS_TO_SKIP);
-        int row = 0;
+        int rowIndex = 0;
         for (Measurement.Category category : values.keySet()) {
             ListItemCategoryValue[] items = values.get(category);
             if (items != null) {
                 String label = context.getString(category.getStringAcronymResId());
-                int backgroundColor = row % 2 == 0 ? cache.getColorDivider() : Color.white;
+                int backgroundColor = rowIndex % 2 == 0 ? cache.getColorDivider() : Color.white;
                 switch (category) {
                     case INSULIN:
                         if (config.isSplitInsulin()) {
@@ -114,7 +114,7 @@ public class PdfTable implements PdfPrintable {
                         data.add(createMeasurementRows(cache, items, cellWidth, 0, label, backgroundColor));
                         break;
                 }
-                row++;
+                rowIndex++;
             }
         }
 
@@ -193,6 +193,11 @@ public class PdfTable implements PdfPrintable {
                     data.add(noteCells);
                 }
             }
+        }
+
+        boolean hasData = data.size() > 1;
+        if (!hasData) {
+            data.add(CellBuilder.emptyRow(cache));
         }
 
         try {

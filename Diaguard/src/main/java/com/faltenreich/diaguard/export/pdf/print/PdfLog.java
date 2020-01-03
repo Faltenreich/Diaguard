@@ -68,15 +68,7 @@ public class PdfLog implements PdfPrintable {
 
         List<Entry> entries = EntryDao.getInstance().getEntriesOfDay(cache.getDateTime());
         if (entries.isEmpty()) {
-            Cell emptyCell = new CellBuilder(new Cell(cache.getFontNormal()))
-                .setWidth(width)
-                .setText(context.getString(R.string.no_data))
-                .setBackgroundColor(cache.getColorDivider())
-                .setForegroundColor(Color.gray)
-                .build();
-            List<Cell> row = new ArrayList<>();
-            row.add(emptyCell);
-            data.add(row);
+            data.add(CellBuilder.emptyRow(cache));
         } else {
             for (Entry entry : entries) {
                 List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry, cache.getConfig().getCategories());

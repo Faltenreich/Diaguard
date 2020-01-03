@@ -223,10 +223,7 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
     }
 
     private boolean isInputValid() {
-        if (categoryCheckBoxListAdapter.getSelectedCategories().length == 0) {
-            ViewUtils.showSnackbar(getView(), getString(R.string.validator_value_empty_list));
-            return false;
-        }
+        // Exports without selected categories are valid as of 3.4.0+
         return true;
     }
 

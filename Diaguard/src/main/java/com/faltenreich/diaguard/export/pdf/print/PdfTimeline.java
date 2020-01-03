@@ -30,12 +30,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PdfChart implements PdfPrintable {
+public class PdfTimeline implements PdfPrintable {
 
-    private static final String TAG = PdfChart.class.getSimpleName();
+    private static final String TAG = PdfTimeline.class.getSimpleName();
     private static final float POINT_RADIUS = 5;
     private static final float PADDING = 12;
     private static final int HOUR_INTERVAL = 2;
+    private static final int HEADER_HEIGHT = 22;
 
     private PdfExportCache cache;
     private SizedBox chart;
@@ -45,18 +46,18 @@ public class PdfChart implements PdfPrintable {
     private List<BloodSugar> bloodSugars;
     private LinkedHashMap<Measurement.Category, ListItemCategoryValue[]> measurements;
 
-    PdfChart(PdfExportCache cache) {
+    PdfTimeline(PdfExportCache cache) {
         float width = cache.getPage().getWidth();
         this.cache = cache;
         this.showChartForBloodSugar = cache.getConfig().hasCategory(Measurement.Category.BLOODSUGAR);
-        this.chart = showChartForBloodSugar ? new SizedBox(width, width / 4) : null;
+        this.chart = new SizedBox(width, showChartForBloodSugar ? (width / 4) : HEADER_HEIGHT);
         this.table = new SizedTable();
         init();
     }
 
     @Override
     public float getHeight() {
-        return chart != null ? chart.getHeight() : 0 + table.getHeight() + PdfPage.MARGIN;
+        return chart.getHeight() + table.getHeight() + PdfPage.MARGIN;
     }
 
     private void init() {
@@ -122,6 +123,10 @@ public class PdfChart implements PdfPrintable {
             rowIndex++;
         }
 
+        if (tableData.isEmpty() && !showChartForBloodSugar) {
+            tableData.add(createRowForEmptyDay());
+        }
+
         try {
             // Must be executed early to know the table's height
             table.setData(tableData);
@@ -173,11 +178,23 @@ public class PdfChart implements PdfPrintable {
         return row;
     }
 
+    private List<Cell> createRowForEmptyDay() {
+        List<Cell> row = new ArrayList<>();
+
+        Cell titleCell = new Cell(cache.getFontNormal());
+        titleCell.setText(cache.getContext().getString(R.string.no_data));
+        titleCell.setWidth(cache.getPage().getWidth());
+        titleCell.setBgColor(cache.getColorDivider());
+        titleCell.setFgColor(Color.gray);
+        titleCell.setPenColor(Color.gray);
+        row.add(titleCell);
+
+        return row;
+    }
+
     @Override
     public void drawOn(PdfPage page, Point position) throws Exception {
-        if (showChartForBloodSugar) {
-            position = drawChart(page, position, bloodSugars);
-        }
+        position = drawChart(page, position, bloodSugars);
         table.setLocation(position.getX(), position.getY());
         table.drawOn(page);
     }
@@ -209,15 +226,6 @@ public class PdfChart implements PdfPrintable {
 
         int xStep = DateTimeConstants.MINUTES_PER_HOUR * HOUR_INTERVAL;
         float xMax = DateTimeConstants.MINUTES_PER_DAY;
-        float yMin = 40;
-        float yMax = 210;
-        for (BloodSugar bloodSugar : bloodSugars) {
-            if (bloodSugar.getMgDl() > yMax) {
-                yMax = bloodSugar.getMgDl();
-            }
-        }
-        int yStep = (int) ((yMax - yMin) / 5);
-        yStep = Math.round((yStep + 10) / 10) * 10;
 
         TextLine header = new TextLine(cache.getFontBold());
         header.setText(DateTimeUtils.toWeekDayAndDate(cache.getDateTime()));
@@ -243,45 +251,57 @@ public class PdfChart implements PdfPrintable {
             minutes += xStep;
         }
 
-        // Labels for y axis
-        int labelValue = yStep;
-        float labelY;
-        while ((labelY = contentStartY + contentHeight - ((labelValue / yMax) * contentHeight)) >= contentStartY) {
-            label.setText(PreferenceHelper.getInstance().getMeasurementForUi(Measurement.Category.BLOODSUGAR, labelValue));
-            label.setPosition(chartStartX, labelY + (label.getHeight() / 4));
-            label.placeIn(chart);
-            label.drawOn(page);
-
-            line.setStartPoint(chartStartX + label.getWidth() + PADDING, labelY);
-            line.setEndPoint(contentEndX, labelY);
-            line.placeIn(chart);
-            line.drawOn(page);
-
-            labelValue += yStep;
-        }
-
-        Point point = new Point();
-        point.setFillShape(true);
-        point.setRadius(POINT_RADIUS);
-        for (BloodSugar bloodSugar : bloodSugars) {
-            Entry entry = bloodSugar.getEntry();
-            float minute = entry.getDate().getMinuteOfDay();
-            float value = bloodSugar.getMgDl();
-            float x = contentStartX + ((minute / xMax) * contentWidth);
-            float y = contentStartY + (contentHeight - (value / yMax) * contentHeight);
-
-            point.setPosition(x, y);
-            int color = Color.black;
-            if (cache.getConfig().isHighlightLimits()) {
-                if (value > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
-                    color = cache.getColorHyperglycemia();
-                } else if (value < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
-                    color = cache.getColorHypoglycemia();
+        if (showChartForBloodSugar) {
+            float yMin = 40;
+            float yMax = 210;
+            for (BloodSugar bloodSugar : bloodSugars) {
+                if (bloodSugar.getMgDl() > yMax) {
+                    yMax = bloodSugar.getMgDl();
                 }
             }
-            point.setColor(color);
-            point.placeIn(chart);
-            point.drawOn(page);
+            int yStep = (int) ((yMax - yMin) / 5);
+            yStep = Math.round((yStep + 10) / 10) * 10;
+
+            // Labels for y axis
+            int labelValue = yStep;
+            float labelY;
+            while ((labelY = contentStartY + contentHeight - ((labelValue / yMax) * contentHeight)) >= contentStartY) {
+                label.setText(PreferenceHelper.getInstance().getMeasurementForUi(Measurement.Category.BLOODSUGAR, labelValue));
+                label.setPosition(chartStartX, labelY + (label.getHeight() / 4));
+                label.placeIn(chart);
+                label.drawOn(page);
+
+                line.setStartPoint(chartStartX + label.getWidth() + PADDING, labelY);
+                line.setEndPoint(contentEndX, labelY);
+                line.placeIn(chart);
+                line.drawOn(page);
+
+                labelValue += yStep;
+            }
+
+            Point point = new Point();
+            point.setFillShape(true);
+            point.setRadius(POINT_RADIUS);
+            for (BloodSugar bloodSugar : bloodSugars) {
+                Entry entry = bloodSugar.getEntry();
+                float minute = entry.getDate().getMinuteOfDay();
+                float value = bloodSugar.getMgDl();
+                float x = contentStartX + ((minute / xMax) * contentWidth);
+                float y = contentStartY + (contentHeight - (value / yMax) * contentHeight);
+
+                point.setPosition(x, y);
+                int color = Color.black;
+                if (cache.getConfig().isHighlightLimits()) {
+                    if (value > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
+                        color = cache.getColorHyperglycemia();
+                    } else if (value < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
+                        color = cache.getColorHypoglycemia();
+                    }
+                }
+                point.setColor(color);
+                point.placeIn(chart);
+                point.drawOn(page);
+            }
         }
 
         return new Point(position.getX(), coordinates[1]);

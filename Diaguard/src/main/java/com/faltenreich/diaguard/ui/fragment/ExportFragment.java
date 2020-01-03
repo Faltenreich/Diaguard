@@ -14,6 +14,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.Group;
+import androidx.core.view.ViewCompat;
+import androidx.core.widget.NestedScrollView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
@@ -26,7 +30,9 @@ import com.faltenreich.diaguard.export.ExportCallback;
 import com.faltenreich.diaguard.export.FileType;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportStyle;
-import com.faltenreich.diaguard.ui.view.CategoryCheckBoxList;
+import com.faltenreich.diaguard.ui.list.adapter.ExportCategoryListAdapter;
+import com.faltenreich.diaguard.ui.list.decoration.LinearDividerItemDecoration;
+import com.faltenreich.diaguard.ui.list.item.ListItemExportCategory;
 import com.faltenreich.diaguard.ui.view.MainButton;
 import com.faltenreich.diaguard.ui.view.MainButtonProperties;
 import com.faltenreich.diaguard.util.DateTimeUtils;
@@ -42,6 +48,9 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.joda.time.DateTime;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -51,6 +60,7 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
 
     private static final String TAG = ExportFragment.class.getSimpleName();
 
+    @BindView(R.id.scroll_view) NestedScrollView scrollView;
     @BindView(R.id.date_start_button) Button buttonDateStart;
     @BindView(R.id.date_end_button) Button buttonDateEnd;
     @BindView(R.id.format_spinner) Spinner spinnerFormat;
@@ -62,9 +72,10 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
     @BindView(R.id.footer_group) Group footerGroup;
     @BindView(R.id.note_checkbox) CheckBox checkBoxNotes;
     @BindView(R.id.tags_checkbox) CheckBox checkBoxTags;
-    @BindView(R.id.categories_list) CategoryCheckBoxList categoryCheckBoxList;
+    @BindView(R.id.categories_list) RecyclerView categoryCheckBoxList;
 
     private ProgressComponent progressComponent = new ProgressComponent();
+    private ExportCategoryListAdapter categoryCheckBoxListAdapter;
 
     private DateTime dateStart;
     private DateTime dateEnd;
@@ -83,6 +94,7 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initLayout();
+        initCategories();
     }
 
     @Override
@@ -121,6 +133,7 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
         // FIXME: Week days cannot be localized via JodaTime, so consider switching to ThreeTenABP
         dateStart = DateTime.now().withDayOfWeek(1);
         dateEnd = dateStart.withDayOfWeek(7);
+        categoryCheckBoxListAdapter = new ExportCategoryListAdapter(getContext());
     }
 
     private void initLayout() {
@@ -144,7 +157,39 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
         checkBoxTags.setOnCheckedChangeListener((buttonView, isChecked) ->
             PreferenceHelper.getInstance().setExportTags(isChecked));
 
-        categoryCheckBoxList.setNestedScrollingEnabled(false);
+        categoryCheckBoxList.setLayoutManager(new LinearLayoutManager(getContext()));
+        categoryCheckBoxList.addItemDecoration(new LinearDividerItemDecoration(getContext()));
+        categoryCheckBoxList.setAdapter(categoryCheckBoxListAdapter);
+
+        ViewCompat.setNestedScrollingEnabled(categoryCheckBoxList, false);
+    }
+
+    private void initCategories() {
+        List<ListItemExportCategory> items = new ArrayList<>();
+        Measurement.Category[] activeCategories = PreferenceHelper.getInstance().getActiveCategories();
+        List<Measurement.Category> selectedCategories = Arrays.asList(PreferenceHelper.getInstance().getExportCategories());
+
+        for (Measurement.Category category : activeCategories) {
+            boolean isCategorySelected = selectedCategories.contains(category);
+            boolean isExtraSelected;
+            switch (category) {
+                case BLOODSUGAR:
+                    isExtraSelected = PreferenceHelper.getInstance().limitsAreHighlighted();
+                    break;
+                case INSULIN:
+                    isExtraSelected = PreferenceHelper.getInstance().exportInsulinSplit();
+                    break;
+                case MEAL:
+                    isExtraSelected = PreferenceHelper.getInstance().exportFood();
+                    break;
+                default:
+                    isExtraSelected = false;
+            }
+            items.add(new ListItemExportCategory(category, isCategorySelected, isExtraSelected));
+        }
+
+        categoryCheckBoxListAdapter.addItems(items);
+        categoryCheckBoxListAdapter.notifyItemRangeInserted(0, items.size());
     }
 
     private void setFormat(FileType format) {
@@ -178,7 +223,7 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
     }
 
     private boolean isInputValid() {
-        if (categoryCheckBoxList.getSelectedCategories().length == 0) {
+        if (categoryCheckBoxListAdapter.getSelectedCategories().length == 0) {
             ViewUtils.showSnackbar(getView(), getString(R.string.validator_value_empty_list));
             return false;
         }
@@ -197,7 +242,7 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
 
         DateTime dateStart = this.dateStart != null ? this.dateStart.withTimeAtStartOfDay() : null;
         DateTime dateEnd = this.dateEnd != null ? this.dateEnd.withTimeAtStartOfDay() : null;
-        Measurement.Category[] categories = categoryCheckBoxList.getSelectedCategories();
+        Measurement.Category[] categories = categoryCheckBoxListAdapter.getSelectedCategories();
 
         PdfExportConfig config = new PdfExportConfig(
             getContext(),
@@ -210,9 +255,9 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
             checkBoxFooter.isChecked(),
             checkBoxNotes.isChecked(),
             checkBoxTags.isChecked(),
-            categoryCheckBoxList.exportFood(),
-            categoryCheckBoxList.splitInsulin(),
-            categoryCheckBoxList.highlightLimits()
+            categoryCheckBoxListAdapter.exportFood(),
+            categoryCheckBoxListAdapter.splitInsulin(),
+            categoryCheckBoxListAdapter.highlightLimits()
         );
         config.persistInSharedPreferences();
 

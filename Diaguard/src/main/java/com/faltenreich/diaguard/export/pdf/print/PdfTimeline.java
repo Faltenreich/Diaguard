@@ -1,22 +1,34 @@
 package com.faltenreich.diaguard.export.pdf.print;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
+import com.faltenreich.diaguard.data.dao.EntryTagDao;
+import com.faltenreich.diaguard.data.dao.FoodEatenDao;
+import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
+import com.faltenreich.diaguard.data.entity.EntryTag;
+import com.faltenreich.diaguard.data.entity.FoodEaten;
+import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
+import com.faltenreich.diaguard.export.pdf.meta.PdfExportConfig;
+import com.faltenreich.diaguard.export.pdf.meta.PdfNote;
 import com.faltenreich.diaguard.export.pdf.view.CellBuilder;
+import com.faltenreich.diaguard.export.pdf.view.MultilineCell;
 import com.faltenreich.diaguard.export.pdf.view.SizedBox;
 import com.faltenreich.diaguard.export.pdf.view.SizedTable;
 import com.faltenreich.diaguard.ui.list.item.ListItemCategoryValue;
 import com.faltenreich.diaguard.util.DateTimeUtils;
 import com.faltenreich.diaguard.util.Helper;
+import com.faltenreich.diaguard.util.StringUtils;
 import com.pdfjet.Align;
+import com.pdfjet.Border;
 import com.pdfjet.Cell;
 import com.pdfjet.Color;
 import com.pdfjet.Line;
@@ -46,6 +58,7 @@ public class PdfTimeline implements PdfPrintable {
     private boolean showChartForBloodSugar;
     private List<BloodSugar> bloodSugars;
     private LinkedHashMap<Measurement.Category, ListItemCategoryValue[]> measurements;
+    private List<PdfNote> pdfNotes;
 
     PdfTimeline(PdfExportCache cache) {
         float width = cache.getPage().getWidth();
@@ -67,18 +80,56 @@ public class PdfTimeline implements PdfPrintable {
     }
 
     private void fetchData() {
+        PdfExportConfig config = cache.getConfig();
         DateTime dateTime = cache.getDateTime();
 
-        if (showChartForBloodSugar) {
-            List<Entry> entries = EntryDao.getInstance().getEntriesOfDay(dateTime);
-            bloodSugars = new ArrayList<>();
-            for (Entry entry : entries) {
+        bloodSugars = new ArrayList<>();
+        pdfNotes = new ArrayList<>();
+
+        for (Entry entry : EntryDao.getInstance().getEntriesOfDay(dateTime)) {
+            if (showChartForBloodSugar) {
                 List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
                 for (Measurement measurement : measurements) {
                     if (measurement instanceof BloodSugar) {
                         bloodSugars.add((BloodSugar) measurement);
                     }
                 }
+            }
+
+            List<String> entryNotesAndTagsOfDay = new ArrayList<>();
+            List<String> foodOfDay = new ArrayList<>();
+            if (config.isExportNotes() && !StringUtils.isBlank(entry.getNote())) {
+                entryNotesAndTagsOfDay.add(entry.getNote());
+            }
+            if (config.isExportTags()) {
+                List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(entry);
+                for (EntryTag entryTag : entryTags) {
+                    entryNotesAndTagsOfDay.add(entryTag.getTag().getName());
+                }
+            }
+            if (config.isExportFood()) {
+                Meal meal = (Meal) MeasurementDao.getInstance(Meal.class).getMeasurement(entry);
+                if (meal != null) {
+                    for (FoodEaten foodEaten : FoodEatenDao.getInstance().getAll(meal)) {
+                        String foodNote = foodEaten.print();
+                        if (foodNote != null) {
+                            foodOfDay.add(foodNote);
+                        }
+                    }
+                }
+            }
+            boolean hasEntryNotesAndTags = !entryNotesAndTagsOfDay.isEmpty();
+            boolean hasFood = !foodOfDay.isEmpty();
+            if (hasEntryNotesAndTags || hasFood) {
+                List<String> notes = new ArrayList<>();
+                if (hasEntryNotesAndTags) {
+                    notes.add(TextUtils.join(", ", entryNotesAndTagsOfDay));
+                }
+                if (hasFood) {
+                    notes.add(TextUtils.join(", ", foodOfDay));
+                }
+                String note = TextUtils.join("\n", notes);
+                pdfNotes.add(new PdfNote(entry.getDate(), note));
             }
         }
 
@@ -122,6 +173,43 @@ public class PdfTimeline implements PdfPrintable {
                     tableData.add(createRowForMeasurements(category, values, rowIndex, -1, label));
             }
             rowIndex++;
+        }
+
+        if (pdfNotes.size() > 0) {
+            for (PdfNote note : pdfNotes) {
+                boolean isFirst = pdfNotes.indexOf(note) == 0;
+                boolean isLast = pdfNotes.indexOf(note) == pdfNotes.size() - 1;
+
+                ArrayList<Cell> noteCells = new ArrayList<>();
+
+                Cell timeCell = new CellBuilder(new Cell(cache.getFontNormal()))
+                    .setWidth(getLabelWidth())
+                    .setText(Helper.getTimeFormat().print(note.getDateTime()))
+                    .setForegroundColor(Color.gray)
+                    .build();
+                if (isFirst) {
+                    timeCell.setBorder(Border.TOP, true);
+                }
+                if (isLast) {
+                    timeCell.setBorder(Border.BOTTOM, true);
+                }
+                noteCells.add(timeCell);
+
+                Cell noteCell = new CellBuilder(new MultilineCell(cache.getFontNormal()))
+                    .setWidth(cache.getPage().getWidth() - getLabelWidth())
+                    .setText(note.getNote())
+                    .setForegroundColor(Color.gray)
+                    .build();
+                if (isFirst) {
+                    noteCell.setBorder(Border.TOP, true);
+                }
+                if (isLast) {
+                    noteCell.setBorder(Border.BOTTOM, true);
+                }
+                noteCells.add(noteCell);
+
+                tableData.add(noteCells);
+            }
         }
 
         if (tableData.isEmpty() && !showChartForBloodSugar) {

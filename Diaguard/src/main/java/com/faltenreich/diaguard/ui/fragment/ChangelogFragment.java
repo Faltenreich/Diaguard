@@ -15,17 +15,19 @@ public class ChangelogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return new AlertDialog.Builder(requireContext())
+        Dialog dialog = new AlertDialog.Builder(requireContext())
             .setTitle(R.string.changelog)
             .setMessage(R.string.changelog_desc)
-            .setNegativeButton(R.string.ok, (dlg, which) -> { })
-            .setPositiveButton(R.string.export_open, (dlg, which) -> {
+            .setNegativeButton(R.string.export_open, (dlg, which) -> {
                 dismiss();
                 if (getActivity() instanceof MainActivity) {
                     MainActivity activity = (MainActivity) getActivity();
                     activity.showFragment(new ExportFragment(), null, true);
                 }
             })
+            .setPositiveButton(R.string.ok, (dlg, which) -> { })
             .create();
+        dialog.setCanceledOnTouchOutside(false);
+        return dialog;
     }
 }

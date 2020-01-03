@@ -19,7 +19,7 @@
         android:id="@+id/category_checkbox"
         style="@style/LayoutRowText"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:padding="@dimen/margin_between"
         tools:text="@string/meal" />
@@ -28,7 +28,7 @@
         android:id="@+id/extra_checkbox"
         style="@style/LayoutRowText"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:padding="@dimen/margin_between"
         tools:text="@string/food_append" />

@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.export.pdf.view;
 
+import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.export.pdf.meta.PdfNote;
 import com.faltenreich.diaguard.util.Helper;
@@ -11,6 +12,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CellFactory {
+
+    private static Cell createEmptyCell(PdfExportCache cache) {
+        return new CellBuilder(new Cell(cache.getFontNormal()))
+            .setWidth(cache.getPage().getWidth())
+            .setText(cache.getContext().getString(R.string.no_data))
+            .setBackgroundColor(cache.getColorDivider())
+            .setForegroundColor(Color.gray)
+            .build();
+    }
+
+    public static List<Cell> createEmptyRow(PdfExportCache cache) {
+        List<Cell> row = new ArrayList<>();
+        row.add(createEmptyCell(cache));
+        return row;
+    }
 
     public static List<List<Cell>> createRowsForNotes(PdfExportCache cache, List<PdfNote> pdfNotes, float labelWidth) {
         List<List<Cell>> rows = new ArrayList<>();

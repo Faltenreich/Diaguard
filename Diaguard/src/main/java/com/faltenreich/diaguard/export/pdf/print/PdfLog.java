@@ -19,6 +19,7 @@ import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.export.pdf.view.CellBuilder;
+import com.faltenreich.diaguard.export.pdf.view.CellFactory;
 import com.faltenreich.diaguard.export.pdf.view.MultilineCell;
 import com.faltenreich.diaguard.export.pdf.view.SizedTable;
 import com.faltenreich.diaguard.util.DateTimeUtils;
@@ -160,7 +161,7 @@ public class PdfLog implements PdfPrintable {
 
         boolean hasData = data.size() > 1;
         if (!hasData) {
-            data.add(CellBuilder.emptyRow(cache));
+            data.add(CellFactory.createEmptyRow(cache));
         }
 
         try {

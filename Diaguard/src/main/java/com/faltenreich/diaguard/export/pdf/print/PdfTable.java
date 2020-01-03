@@ -122,7 +122,7 @@ public class PdfTable implements PdfPrintable {
 
         boolean hasData = data.size() > 1;
         if (!hasData) {
-            data.add(CellBuilder.emptyRow(cache));
+            data.add(CellFactory.createEmptyRow(cache));
         }
 
         try {

@@ -41,20 +41,22 @@ public class PdfChart implements PdfPrintable {
     private SizedBox chart;
     private SizedTable table;
 
+    private boolean showChartForBloodSugar;
     private List<BloodSugar> bloodSugars;
     private LinkedHashMap<Measurement.Category, ListItemCategoryValue[]> measurements;
 
     PdfChart(PdfExportCache cache) {
         float width = cache.getPage().getWidth();
         this.cache = cache;
-        this.chart = new SizedBox(width, width / 4);
+        this.showChartForBloodSugar = cache.getConfig().hasCategory(Measurement.Category.BLOODSUGAR);
+        this.chart = showChartForBloodSugar ? new SizedBox(width, width / 4) : null;
         this.table = new SizedTable();
         init();
     }
 
     @Override
     public float getHeight() {
-        return chart.getHeight() + table.getHeight() + PdfPage.MARGIN;
+        return chart != null ? chart.getHeight() : 0 + table.getHeight() + PdfPage.MARGIN;
     }
 
     private void init() {
@@ -65,13 +67,15 @@ public class PdfChart implements PdfPrintable {
     private void fetchData() {
         DateTime dateTime = cache.getDateTime();
 
-        List<Entry> entries = EntryDao.getInstance().getEntriesOfDay(dateTime);
-        bloodSugars = new ArrayList<>();
-        for (Entry entry : entries) {
-            List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
-            for (Measurement measurement : measurements) {
-                if (measurement instanceof BloodSugar) {
-                    bloodSugars.add((BloodSugar) measurement);
+        if (showChartForBloodSugar) {
+            List<Entry> entries = EntryDao.getInstance().getEntriesOfDay(dateTime);
+            bloodSugars = new ArrayList<>();
+            for (Entry entry : entries) {
+                List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry);
+                for (Measurement measurement : measurements) {
+                    if (measurement instanceof BloodSugar) {
+                        bloodSugars.add((BloodSugar) measurement);
+                    }
                 }
             }
         }
@@ -171,8 +175,9 @@ public class PdfChart implements PdfPrintable {
 
     @Override
     public void drawOn(PdfPage page, Point position) throws Exception {
-        position = drawChart(page, position, bloodSugars);
-
+        if (showChartForBloodSugar) {
+            position = drawChart(page, position, bloodSugars);
+        }
         table.setLocation(position.getX(), position.getY());
         table.drawOn(page);
     }

@@ -298,7 +298,10 @@ public class EntryActivity extends BaseActivity implements MeasurementFloatingAc
 
             if (entryTags != null) {
                 for (EntryTag entryTag : entryTags) {
-                    addTag(entryTag.getTag());
+                    Tag tag = entryTag.getTag();
+                    if (tag != null) {
+                        addTag(entryTag.getTag());
+                    }
                 }
             }
         } else {

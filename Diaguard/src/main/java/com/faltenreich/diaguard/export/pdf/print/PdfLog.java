@@ -16,6 +16,7 @@ import com.faltenreich.diaguard.data.entity.EntryTag;
 import com.faltenreich.diaguard.data.entity.FoodEaten;
 import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
+import com.faltenreich.diaguard.data.entity.Tag;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.export.pdf.view.CellBuilder;
@@ -129,9 +130,12 @@ public class PdfLog implements PdfPrintable {
                 if (!entryTags.isEmpty()) {
                     List<String> tagNames = new ArrayList<>();
                     for (EntryTag entryTag : entryTags) {
-                        String tagName = entryTag.getTag().getName();
-                        if (!StringUtils.isBlank(tagName)) {
-                            tagNames.add(entryTag.getTag().getName());
+                        Tag tag = entryTag.getTag();
+                        if (tag != null) {
+                            String tagName = tag.getName();
+                            if (!StringUtils.isBlank(tagName)) {
+                                tagNames.add(tagName);
+                            }
                         }
                     }
                     data.add(getRow(

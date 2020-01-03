@@ -1,8 +1,13 @@
 package com.faltenreich.diaguard.export.pdf.view;
 
+import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
 import com.pdfjet.Align;
 import com.pdfjet.Cell;
 import com.pdfjet.Color;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CellBuilder {
 
@@ -53,5 +58,20 @@ public class CellBuilder {
         cell.setBgColor(backgroundColor);
         cell.setFgColor(foregroundColor);
         return cell;
+    }
+
+    private static Cell emptyCell(PdfExportCache cache) {
+        return new CellBuilder(new Cell(cache.getFontNormal()))
+            .setWidth(cache.getPage().getWidth())
+            .setText(cache.getContext().getString(R.string.no_data))
+            .setBackgroundColor(cache.getColorDivider())
+            .setForegroundColor(Color.gray)
+            .build();
+    }
+
+    public static List<Cell> emptyRow(PdfExportCache cache) {
+        List<Cell> row = new ArrayList<>();
+        row.add(CellBuilder.emptyCell(cache));
+        return row;
     }
 }

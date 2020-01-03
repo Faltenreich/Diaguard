@@ -8,9 +8,13 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.data.dao.EntryDao;
 import com.faltenreich.diaguard.data.dao.EntryTagDao;
+import com.faltenreich.diaguard.data.dao.FoodEatenDao;
+import com.faltenreich.diaguard.data.dao.MeasurementDao;
 import com.faltenreich.diaguard.data.entity.BloodSugar;
 import com.faltenreich.diaguard.data.entity.Entry;
 import com.faltenreich.diaguard.data.entity.EntryTag;
+import com.faltenreich.diaguard.data.entity.FoodEaten;
+import com.faltenreich.diaguard.data.entity.Meal;
 import com.faltenreich.diaguard.data.entity.Measurement;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportConfig;
@@ -55,7 +59,6 @@ public class PdfLog implements PdfPrintable {
     private void init() {
         PdfExportConfig config = cache.getConfig();
         Context context = config.getContext();
-        float width = cache.getPage().getWidth();
 
         List<List<Cell>> data = new ArrayList<>();
         List<Cell> headerRow = new ArrayList<>();
@@ -67,42 +70,60 @@ public class PdfLog implements PdfPrintable {
         data.add(headerRow);
 
         List<Entry> entries = EntryDao.getInstance().getEntriesOfDay(cache.getDateTime());
-        if (entries.isEmpty()) {
-            data.add(CellBuilder.emptyRow(cache));
-        } else {
-            for (Entry entry : entries) {
-                List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry, cache.getConfig().getCategories());
-                entry.setMeasurementCache(measurements);
-            }
+        for (Entry entry : entries) {
+            List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry, cache.getConfig().getCategories());
+            entry.setMeasurementCache(measurements);
+        }
 
-            int rowIndex = 0;
-            for (Entry entry : entries) {
-                int backgroundColor = rowIndex % 2 == 0 ? cache.getColorDivider() : Color.white;
-                int oldSize = data.size();
-                String time = entry.getDate().toString("HH:mm");
+        int rowIndex = 0;
+        for (Entry entry : entries) {
+            int backgroundColor = rowIndex % 2 == 0 ? cache.getColorDivider() : Color.white;
+            int oldSize = data.size();
+            String time = entry.getDate().toString("HH:mm");
 
-                for (Measurement measurement : entry.getMeasurementCache()) {
-                    Measurement.Category category = measurement.getCategory();
-                    int textColor = Color.black;
-                    if (category == Measurement.Category.BLOODSUGAR && cache.getConfig().isHighlightLimits()) {
-                        BloodSugar bloodSugar = (BloodSugar) measurement;
-                        float value = bloodSugar.getMgDl();
-                        if (value > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
-                            textColor = cache.getColorHyperglycemia();
-                        } else if (value < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
-                            textColor = cache.getColorHypoglycemia();
-                        }
+            for (Measurement measurement : entry.getMeasurementCache()) {
+                Measurement.Category category = measurement.getCategory();
+                int textColor = Color.black;
+                if (category == Measurement.Category.BLOODSUGAR && config.isHighlightLimits()) {
+                    BloodSugar bloodSugar = (BloodSugar) measurement;
+                    float value = bloodSugar.getMgDl();
+                    if (value > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
+                        textColor = cache.getColorHyperglycemia();
+                    } else if (value < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
+                        textColor = cache.getColorHypoglycemia();
                     }
-                    data.add(getRow(
-                        cache,
-                        data.size() == oldSize ? time : null,
-                        context.getString(category.getStringAcronymResId()),
-                        measurement.print(),
-                        backgroundColor,
-                        textColor
-                    ));
                 }
 
+                String measurementText = measurement.print();
+
+                if (category == Measurement.Category.MEAL && config.isExportFood()) {
+                    List<String> foodOfDay = new ArrayList<>();
+                    Meal meal = (Meal) MeasurementDao.getInstance(Meal.class).getMeasurement(entry);
+                    if (meal != null) {
+                        for (FoodEaten foodEaten : FoodEatenDao.getInstance().getAll(meal)) {
+                            String foodNote = foodEaten.print();
+                            if (foodNote != null) {
+                                foodOfDay.add(foodNote);
+                            }
+                        }
+                    }
+                    if (!foodOfDay.isEmpty()) {
+                        String foodText = TextUtils.join(", ", foodOfDay);
+                        measurementText = String.format("%s\n%s", measurementText, foodText);
+                    }
+                }
+
+                data.add(getRow(
+                    cache,
+                    data.size() == oldSize ? time : null,
+                    context.getString(category.getStringAcronymResId()),
+                    measurementText,
+                    backgroundColor,
+                    textColor
+                ));
+            }
+
+            if (config.isExportTags()) {
                 List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(entry);
                 if (!entryTags.isEmpty()) {
                     List<String> tagNames = new ArrayList<>();
@@ -120,7 +141,9 @@ public class PdfLog implements PdfPrintable {
                         backgroundColor
                     ));
                 }
+            }
 
+            if (config.isExportNotes()) {
                 if (!StringUtils.isBlank(entry.getNote())) {
                     data.add(getRow(
                         cache,
@@ -130,9 +153,14 @@ public class PdfLog implements PdfPrintable {
                         backgroundColor
                     ));
                 }
-
-                rowIndex++;
             }
+
+            rowIndex++;
+        }
+
+        boolean hasData = data.size() > 1;
+        if (!hasData) {
+            data.add(CellBuilder.emptyRow(cache));
         }
 
         try {

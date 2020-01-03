@@ -13,7 +13,6 @@ import com.faltenreich.diaguard.export.pdf.meta.PdfExportCache;
 import com.faltenreich.diaguard.export.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.export.pdf.meta.PdfNote;
 import com.faltenreich.diaguard.export.pdf.meta.PdfNoteFactory;
-import com.faltenreich.diaguard.export.pdf.view.CellBuilder;
 import com.faltenreich.diaguard.export.pdf.view.CellFactory;
 import com.faltenreich.diaguard.export.pdf.view.SizedBox;
 import com.faltenreich.diaguard.export.pdf.view.SizedTable;
@@ -139,7 +138,7 @@ public class PdfTimeline implements PdfPrintable {
         tableData.addAll(CellFactory.createRowsForNotes(cache, pdfNotes, getLabelWidth()));
 
         if (tableData.isEmpty() && !showChartForBloodSugar) {
-            tableData.add(CellBuilder.emptyRow(cache));
+            tableData.add(CellFactory.createEmptyRow(cache));
         }
 
         try {

@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/backgroundColorPrimary">
 
+    <!-- Workaround: descendantFocusability fixes initial scroll offset on older devices -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
-        android:paddingBottom="@dimen/fab_offset">
+        android:paddingBottom="@dimen/fab_offset"
+        android:descendantFocusability="blocksDescendants">
 
         <ImageView
             android:id="@+id/date_icon"
@@ -303,11 +307,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tags_checkbox" />
 
-        <com.faltenreich.diaguard.ui.view.CategoryCheckBoxList
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/categories_list"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/categories_header"

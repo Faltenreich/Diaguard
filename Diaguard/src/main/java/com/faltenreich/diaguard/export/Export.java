@@ -83,7 +83,7 @@ public class Export {
         DateTime createdAt = DateTime.now();
         String dateFormatted = DateTimeFormat.forPattern(EXPORT_DATE_FORMAT).print(createdAt);
         String fileName = String.format("%s%s%s_%s.%s",
-            FileUtils.getPublicDirectory(),
+            FileUtils.getPublicDirectory(config.getContext()),
             File.separator,
             EXPORT_FILE_NAME_PREFIX,
             dateFormatted,
@@ -92,9 +92,9 @@ public class Export {
         return new File(fileName);
     }
 
-    public static File getBackupFile(FileType type) {
+    public static File getBackupFile(ExportConfig config, FileType type) {
         String fileName = String.format("%s%s%s%s.%s",
-            FileUtils.getPublicDirectory(),
+            FileUtils.getPublicDirectory(config.getContext()),
             File.separator,
             FILE_BACKUP_1_3_PREFIX,
             DateTimeFormat.forPattern(FILE_BACKUP_1_3_DATE_FORMAT).print(DateTime.now()),

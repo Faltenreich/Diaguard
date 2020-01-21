@@ -140,7 +140,7 @@ public class ExportHistoryFragment extends BaseFragment {
 
         @Override
         protected List<ListItemExportHistory> doInBackground(Void... voids) {
-            File directory = FileUtils.getPublicDirectory();
+            File directory = FileUtils.getPublicDirectory(getContext());
             File[] files = directory.listFiles();
 
             List<ListItemExportHistory> listItems = new ArrayList<>();

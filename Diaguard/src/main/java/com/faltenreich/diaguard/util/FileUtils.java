@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 
@@ -29,11 +30,15 @@ public class FileUtils {
 
     private static final String TAG = FileUtils.class.getSimpleName();
 
-    public static File getPublicDirectory() {
-        String path = android.os.Build.VERSION.SDK_INT >= 19 ?
-                Environment.DIRECTORY_DOCUMENTS :
-                Environment.DIRECTORY_DOWNLOADS;
-        File directory = Environment.getExternalStoragePublicDirectory(path);
+    public static File getPublicDirectory(Context context) {
+        File directory;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            directory = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
+        } else if (Build.VERSION.SDK_INT >= 19) {
+            directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+        } else {
+            directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        }
         directory.mkdirs();
         return directory;
     }

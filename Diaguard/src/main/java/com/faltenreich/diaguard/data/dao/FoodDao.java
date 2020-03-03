@@ -1,7 +1,9 @@
 package com.faltenreich.diaguard.data.dao;
 
+import android.content.Context;
 import android.util.Log;
 
+import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.BaseServerEntity;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.data.entity.FoodEaten;
@@ -63,6 +65,19 @@ public class FoodDao extends BaseServerDao<Food> {
                     .where().eq(Food.Column.LANGUAGE_CODE, Helper.getLanguageCode())
                     .and().isNull(BaseServerEntity.Column.SERVER_ID)
                     .query();
+        } catch (SQLException exception) {
+            Log.e(TAG, exception.getLocalizedMessage());
+            return new ArrayList<>();
+        }
+    }
+
+    public List<Food> getAllCommon(Context context) {
+        try {
+            return getDao().queryBuilder()
+                .orderBy(Food.Column.UPDATED_AT, true)
+                .where().eq(Food.Column.LABELS, context.getString(R.string.food_common))
+                .and().isNull(BaseServerEntity.Column.SERVER_ID)
+                .query();
         } catch (SQLException exception) {
             Log.e(TAG, exception.getLocalizedMessage());
             return new ArrayList<>();

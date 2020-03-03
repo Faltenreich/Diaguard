@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.faltenreich.diaguard.data.ImportHelper;
 import com.faltenreich.diaguard.data.PreferenceHelper;
+import com.faltenreich.diaguard.data.migration.Migrator;
 import com.faltenreich.diaguard.ui.preferences.OpenDatabaseLicense;
 import com.faltenreich.diaguard.util.NotificationUtils;
 import com.faltenreich.diaguard.util.theme.Theme;
@@ -34,6 +35,7 @@ public class DiaguardApplication extends Application {
         ImportHelper.validateImports(this);
         LicenseResolver.registerLicense(new OpenDatabaseLicense());
         PreferenceHelper.getInstance().migrate();
+        Migrator.getInstance().start(this);
         NotificationUtils.setupNotifications(this);
         Theme theme = PreferenceHelper.getInstance().getTheme();
         ThemeUtils.setDefaultNightMode(theme);

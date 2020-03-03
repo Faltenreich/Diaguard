@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.data.migration;
 
 import android.content.Context;
 
-import com.faltenreich.diaguard.util.SystemUtils;
+import com.faltenreich.diaguard.data.PreferenceHelper;
 
 public class Migrator {
 
@@ -20,8 +20,8 @@ public class Migrator {
     }
 
     public void start(Context context) {
-        int versionCode = SystemUtils.getVersionCode(context);
-        if (versionCode == 39) {
+        int oldVersionCode = PreferenceHelper.getInstance().getVersionCode();
+        if (oldVersionCode == 39) {
             new MigrateSodiumTask(context).execute();
         }
     }

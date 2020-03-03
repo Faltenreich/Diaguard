@@ -2,9 +2,11 @@ package com.faltenreich.diaguard.ui.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.Food;
 import com.faltenreich.diaguard.util.Helper;
 
@@ -36,7 +38,11 @@ public class NutrientInputView extends StickyHintInput {
     }
 
     private void init() {
-        setHint(nutrient.getLabel());
+        setHint(String.format("%s %s %s",
+            nutrient.getLabel(),
+            getContext().getString(R.string.in),
+            getContext().getString(nutrient.getUnit())
+        ));
         if (initialValue != null && initialValue >= 0) {
             setValue(initialValue);
         }

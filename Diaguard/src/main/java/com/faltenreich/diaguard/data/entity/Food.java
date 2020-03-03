@@ -1,9 +1,9 @@
 package com.faltenreich.diaguard.data.entity;
 
-import androidx.annotation.StringRes;
-
 import android.text.TextUtils;
 import android.util.Log;
+
+import androidx.annotation.StringRes;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
@@ -65,6 +65,7 @@ public class Food extends BaseServerEntity implements Backupable {
         public @StringRes int getUnit() {
             switch (this) {
                 case ENERGY: return R.string.energy_acronym;
+                case SODIUM: return R.string.milligrams_acronym;
                 default: return R.string.grams_acronym;
             }
         }
@@ -78,7 +79,7 @@ public class Food extends BaseServerEntity implements Backupable {
                 case FIBER: return food.getFiber();
                 case PROTEINS: return food.getProteins();
                 case SALT: return food.getSalt();
-                case SODIUM: return food.getSodium();
+                case SODIUM: return food.getSodium() != null ? food.getSodium() * 1000 : null;
                 case SUGAR: return food.getSugar();
                 default: return null;
             }
@@ -93,7 +94,7 @@ public class Food extends BaseServerEntity implements Backupable {
                 case FIBER: food.setFiber(value); break;
                 case PROTEINS: food.setProteins(value); break;
                 case SALT: food.setSalt(value); break;
-                case SODIUM: food.setSodium(value); break;
+                case SODIUM: food.setSodium(value > 0 ? value / 1000 : value); break;
                 case SUGAR: food.setSugar(value); break;
                 default: Log.e(Nutrient.class.getSimpleName(), "Unsupported nutrient for applyValue(): " + this);
             }

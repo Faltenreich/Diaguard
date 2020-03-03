@@ -13,6 +13,7 @@ import com.faltenreich.diaguard.networking.openfoodfacts.dto.ProductDto;
 import com.faltenreich.diaguard.networking.openfoodfacts.dto.SearchResponseDto;
 import com.faltenreich.diaguard.util.DateTimeUtils;
 import com.faltenreich.diaguard.util.Helper;
+import com.faltenreich.diaguard.util.StringUtils;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.SelectArg;
 
@@ -174,6 +175,9 @@ public class FoodDao extends BaseServerDao<Food> {
             return null;
         }
         String serverId = dto.identifier.getAsJsonPrimitive().getAsString();
+        if (StringUtils.isBlank(serverId)) {
+            return null;
+        }
 
         Food food = getByServerId(serverId);
         boolean isNew = food == null;

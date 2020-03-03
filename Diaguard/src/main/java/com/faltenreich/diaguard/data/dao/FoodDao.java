@@ -149,7 +149,7 @@ public class FoodDao extends BaseServerDao<Food> {
     }
 
     private Food parseFromDto(ProductDto dto) {
-        String serverId = Integer.toString(dto.identifier);
+        String serverId = dto.identifier;
 
         Food food = getByServerId(serverId);
         boolean isNew = food == null;

@@ -35,7 +35,7 @@ public class OpenFoodFactsService extends NetworkService<OpenFoodFactsServer> {
 
     public void search(final String query, final int page) {
         // Paging of this api starts at page 1
-        execute(server.api.search(query != null ? query : "", JSON, PAGE_SIZE, page + 1), new NetworkResponseListener<SearchResponseDto>() {
+        execute(server.api.search(query != null ? query : "", JSON, page + 1, PAGE_SIZE), new NetworkResponseListener<SearchResponseDto>() {
             @Override
             public void onResponse(NetworkResponse<SearchResponseDto> response) {
                 SearchResponseDto dto = response.getData();

@@ -12,7 +12,7 @@ public class ProductDto {
     public static final String DATE_FORMAT = "yyyy-MM-dd";
 
     @SerializedName("sortkey")
-    public Integer identifier;
+    public String identifier;
 
     @SerializedName("lang")
     public String languageCode;

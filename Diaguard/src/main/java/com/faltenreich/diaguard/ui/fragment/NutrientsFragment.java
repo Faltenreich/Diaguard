@@ -63,24 +63,28 @@ public class NutrientsFragment extends BaseFoodFragment {
     private void update() {
         if (getContext() != null) {
             Food food = getFood();
+
             listAdapter.clear();
+
             for (Food.Nutrient nutrient : Food.Nutrient.values()) {
                 String label = nutrient.getLabel();
                 Float number = nutrient.getValue(food);
+
                 String value = getContext().getString(R.string.placeholder);
                 if (number != null && number >= 0) {
                     value = String.format("%s %s",
-                            Helper.parseFloat(number),
-                            getContext().getString(nutrient.getUnit()));
+                        Helper.parseFloat(number),
+                        getContext().getString(nutrient.getUnit()));
                     if (nutrient == Food.Nutrient.ENERGY) {
                         value = String.format("%s %s (%s)",
-                                Helper.parseFloat(Helper.parseKcalToKj(number)),
-                                getContext().getString(R.string.energy_acronym_2),
-                                value);
+                            Helper.parseFloat(Helper.parseKcalToKj(number)),
+                            getContext().getString(R.string.energy_acronym_2),
+                            value);
                     }
                 }
                 listAdapter.addItem(new ListItemNutrient(label, value));
             }
+
             listAdapter.notifyDataSetChanged();
         }
     }

@@ -31,14 +31,19 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({
+    "WeakerAccess",
+    "SameParameterValue",
+    "BooleanMethodIsAlwaysInverted",
+    "SwitchStatementWithTooFewBranches"
+})
 public class PreferenceHelper {
 
     private static final String TAG = PreferenceHelper.class.getSimpleName();
     private static final String INPUT_QUERIES_SEPARATOR = ";";
     private static final int INPUT_QUERIES_MAXIMUM_COUNT = 10;
 
-    public class Keys {
+    public static class Keys {
         public static final String VERSION_CODE = "versionCode";
         public static final String CATEGORY_PINNED = "categoryPinned%s";
         public final static String CATEGORY_ACTIVE = "%s_active";

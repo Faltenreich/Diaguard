@@ -74,7 +74,7 @@ public class NutrientsFragment extends BaseFoodFragment {
                 if (number != null && number >= 0) {
                     value = String.format("%s %s",
                         Helper.parseFloat(number),
-                        getContext().getString(nutrient.getUnit()));
+                        getContext().getString(nutrient.getUnitResId()));
                     if (nutrient == Food.Nutrient.ENERGY) {
                         value = String.format("%s %s (%s)",
                             Helper.parseFloat(Helper.parseKcalToKj(number)),

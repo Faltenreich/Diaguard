@@ -62,7 +62,7 @@ public class Food extends BaseServerEntity implements Backupable {
             return DiaguardApplication.getContext().getString(textResId);
         }
 
-        public @StringRes int getUnit() {
+        public @StringRes int getUnitResId() {
             switch (this) {
                 case ENERGY: return R.string.energy_acronym;
                 case SODIUM: return R.string.milligrams_acronym;
@@ -85,7 +85,7 @@ public class Food extends BaseServerEntity implements Backupable {
             }
         }
 
-        public void applyValue(Food food, float value) {
+        public void setValue(Food food, float value) {
             switch (this) {
                 case CARBOHYDRATES: food.setCarbohydrates(value); break;
                 case ENERGY: food.setEnergy(value); break;

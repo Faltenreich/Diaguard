@@ -110,6 +110,7 @@ public class ImportHelper {
                         food.setLabels(context.get().getString(R.string.food_common));
                         food.setLanguageCode(languageCode);
 
+                        // Main nutrients are given in grams, so we take them as they are
                         food.setCarbohydrates(NumberUtils.parseNullableNumber(nextLine[4]));
                         food.setEnergy(NumberUtils.parseNullableNumber(nextLine[5]));
                         food.setFat(NumberUtils.parseNullableNumber(nextLine[6]));
@@ -117,8 +118,12 @@ public class ImportHelper {
                         food.setFiber(NumberUtils.parseNullableNumber(nextLine[8]));
                         food.setProteins(NumberUtils.parseNullableNumber(nextLine[9]));
                         food.setSalt(NumberUtils.parseNullableNumber(nextLine[10]));
-                        food.setSodium(NumberUtils.parseNullableNumber(nextLine[11]));
                         food.setSugar(NumberUtils.parseNullableNumber(nextLine[12]));
+
+                        // Mineral nutrients are given in milligrams, so we divide them by 1.000
+                        Float sodium = NumberUtils.parseNullableNumber(nextLine[11]);
+                        sodium = sodium != null ? sodium / 1000 : null;
+                        food.setSodium(sodium);
 
                         foodList.add(food);
                     }

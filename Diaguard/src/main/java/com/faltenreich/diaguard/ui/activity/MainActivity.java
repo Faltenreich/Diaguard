@@ -21,7 +21,6 @@ import com.faltenreich.diaguard.data.PreferenceHelper;
 import com.faltenreich.diaguard.ui.coordinatorlayout.SlideOutBehavior;
 import com.faltenreich.diaguard.ui.fragment.BaseFragment;
 import com.faltenreich.diaguard.ui.fragment.CalculatorFragment;
-import com.faltenreich.diaguard.ui.fragment.ChangelogFragment;
 import com.faltenreich.diaguard.ui.fragment.ChartFragment;
 import com.faltenreich.diaguard.ui.fragment.ExportFragment;
 import com.faltenreich.diaguard.ui.fragment.LogFragment;
@@ -249,12 +248,13 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
             boolean isUpdate = oldVersionCode < currentVersionCode;
             if (isUpdate) {
                 PreferenceHelper.getInstance().setVersionCode(currentVersionCode);
-
+                /* TODO: Re-enable for future update
                 ChangelogFragment fragment = new ChangelogFragment();
                 String tag = fragment.getClass().getSimpleName();
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.addToBackStack(tag);
                 fragment.show(fragmentTransaction, tag);
+                */
             }
         } else {
             // Skip changelog for fresh installs

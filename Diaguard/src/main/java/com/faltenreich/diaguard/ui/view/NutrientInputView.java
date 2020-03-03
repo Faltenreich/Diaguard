@@ -41,7 +41,7 @@ public class NutrientInputView extends StickyHintInput {
         setHint(String.format("%s %s %s",
             nutrient.getLabel(),
             getContext().getString(R.string.in),
-            getContext().getString(nutrient.getUnit())
+            getContext().getString(nutrient.getUnitResId())
         ));
         if (initialValue != null && initialValue >= 0) {
             setValue(initialValue);

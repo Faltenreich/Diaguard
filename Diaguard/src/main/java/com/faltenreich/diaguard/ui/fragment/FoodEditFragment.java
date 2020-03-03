@@ -1,11 +1,12 @@
 package com.faltenreich.diaguard.ui.fragment;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+
+import androidx.annotation.NonNull;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.dao.FoodDao;
@@ -121,7 +122,7 @@ public class FoodEditFragment extends BaseFoodFragment {
             for (Map.Entry<Food.Nutrient, Float> entry : nutrientInputLayout.getValues().entrySet()) {
                 Food.Nutrient nutrient = entry.getKey();
                 Float value = entry.getValue();
-                nutrient.applyValue(food, value != null ? value : -1);
+                nutrient.setValue(food, value != null ? value : -1);
             }
 
             FoodDao.getInstance().createOrUpdate(food);

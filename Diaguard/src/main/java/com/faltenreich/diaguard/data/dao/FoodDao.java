@@ -3,6 +3,8 @@ package com.faltenreich.diaguard.data.dao;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.data.entity.BaseServerEntity;
 import com.faltenreich.diaguard.data.entity.Food;
@@ -156,15 +158,22 @@ public class FoodDao extends BaseServerDao<Food> {
         Collections.reverse(dto.products);
         for (ProductDto productDto : dto.products) {
             if (productDto.isValid()) {
-                foodList.add(0, parseFromDto(productDto));
+                Food food = parseFromDto(productDto);
+                if (food != null) {
+                    foodList.add(0, food);
+                }
             }
         }
         FoodDao.getInstance().bulkCreateOrUpdate(foodList);
         return foodList;
     }
 
+    @Nullable
     private Food parseFromDto(ProductDto dto) {
-        String serverId = dto.identifier;
+        if (!dto.identifier.isJsonPrimitive()) {
+            return null;
+        }
+        String serverId = dto.identifier.getAsJsonPrimitive().getAsString();
 
         Food food = getByServerId(serverId);
         boolean isNew = food == null;

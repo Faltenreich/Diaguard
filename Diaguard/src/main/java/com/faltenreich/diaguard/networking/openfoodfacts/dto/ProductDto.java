@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.networking.openfoodfacts.dto;
 
 import com.faltenreich.diaguard.util.StringUtils;
+import com.google.gson.JsonElement;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -11,17 +12,15 @@ public class ProductDto {
 
     public static final String DATE_FORMAT = "yyyy-MM-dd";
 
+    // Workaround: Sometimes a Number, sometimes a String
     @SerializedName("sortkey")
-    public String identifier;
+    public JsonElement identifier;
 
     @SerializedName("lang")
     public String languageCode;
 
     @SerializedName("product_name")
     public String name;
-
-    @SerializedName("image_url")
-    public String imageUrl;
 
     @SerializedName("brands")
     public String brand;

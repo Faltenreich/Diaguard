@@ -165,7 +165,8 @@
                     android:orientation="vertical"
                     android:animateLayoutChanges="true"
                     android:divider="@drawable/divider_medium"
-                    android:showDividers="middle"/>
+                    android:showDividers="middle"
+                    android:clipToPadding="false"/>
 
             </LinearLayout>
 

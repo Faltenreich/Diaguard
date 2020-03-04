@@ -237,7 +237,9 @@ public class FoodSearchFragment extends BaseFragment implements SearchView.OnQue
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FoodQueryStartedEvent event) {
-        swipeRefreshLayout.setRefreshing(true);
+        if (list.getItemCount() == 0) {
+            swipeRefreshLayout.setRefreshing(true);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

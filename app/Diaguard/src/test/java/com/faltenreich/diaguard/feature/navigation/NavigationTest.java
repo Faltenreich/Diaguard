@@ -60,6 +60,7 @@ public class NavigationTest {
         });
     }
 
+    // FIXME
     @Test
     @Ignore("DrawerMatchers do not work as expected")
     public void openingNavigationDrawer_shouldOpenNavigationDrawer() throws InterruptedException {
@@ -68,6 +69,7 @@ public class NavigationTest {
             .check(ViewAssertions.matches(DrawerMatchers.isOpen()));
     }
 
+    // FIXME
     @Test
     @Ignore("DrawerMatchers do not work as expected")
     public void clickingOverview_shouldOpenOverview() {

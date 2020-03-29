@@ -42,6 +42,8 @@ public class EntryEditMeasurementPressureSystolicTest {
     public void confirmingValueBelowMinimum_shouldShowWarning() {
         Espresso.onView(ViewMatchers.withHint(R.string.systolic))
             .perform(ViewActions.replaceText("9"));
+        Espresso.onView(ViewMatchers.withHint(R.string.diastolic))
+            .perform(ViewActions.replaceText("100"));
         Espresso.onView(ViewMatchers.withId(R.id.fab))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withHint(R.string.systolic))
@@ -52,6 +54,8 @@ public class EntryEditMeasurementPressureSystolicTest {
     public void confirmingValueAboveMaximum_shouldShowWarning() {
         Espresso.onView(ViewMatchers.withHint(R.string.systolic))
             .perform(ViewActions.replaceText("301"));
+        Espresso.onView(ViewMatchers.withHint(R.string.diastolic))
+            .perform(ViewActions.replaceText("100"));
         Espresso.onView(ViewMatchers.withId(R.id.fab))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withHint(R.string.systolic))

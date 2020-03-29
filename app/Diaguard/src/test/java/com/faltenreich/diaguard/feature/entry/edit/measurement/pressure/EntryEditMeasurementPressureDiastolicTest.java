@@ -11,12 +11,11 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
+import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.test.espresso.matcher.EditTextMatcher;
 import com.faltenreich.diaguard.test.junit.rule.CleanUpData;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -41,6 +40,8 @@ public class EntryEditMeasurementPressureDiastolicTest {
 
     @Test
     public void confirmingValueBelowMinimum_shouldShowWarning() {
+        Espresso.onView(ViewMatchers.withHint(R.string.systolic))
+            .perform(ViewActions.replaceText("100"));
         Espresso.onView(ViewMatchers.withHint(R.string.diastolic))
             .perform(ViewActions.replaceText("9"));
         Espresso.onView(ViewMatchers.withId(R.id.fab))
@@ -51,6 +52,8 @@ public class EntryEditMeasurementPressureDiastolicTest {
 
     @Test
     public void confirmingValueAboveMaximum_shouldShowWarning() {
+        Espresso.onView(ViewMatchers.withHint(R.string.systolic))
+            .perform(ViewActions.replaceText("100"));
         Espresso.onView(ViewMatchers.withHint(R.string.diastolic))
             .perform(ViewActions.replaceText("301"));
         Espresso.onView(ViewMatchers.withId(R.id.fab))
@@ -68,17 +71,6 @@ public class EntryEditMeasurementPressureDiastolicTest {
                 .perform(ViewActions.click());
             Espresso.onView(ViewMatchers.withHint(R.string.systolic))
                 .check(ViewAssertions.matches(EditTextMatcher.hasErrorText(R.string.validator_value_unrealistic)));
-        });
-    }
-
-    @Test
-    public void confirmingValidValue_shouldFinishActivity() {
-        scenario.onActivity(activity -> {
-            Espresso.onView(ViewMatchers.withHint(R.string.diastolic))
-                .perform(ViewActions.replaceText("100"));
-            Espresso.onView(ViewMatchers.withId(R.id.fab))
-                .perform(ViewActions.click());
-            Assert.assertTrue(activity.isFinishing());
         });
     }
 }

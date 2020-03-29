@@ -3,6 +3,6 @@
 <fragment
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fragment_food_search"
-    android:name="com.faltenreich.diaguard.ui.fragment.FoodSearchFragment"
+    android:name="com.faltenreich.diaguard.feature.food.search.FoodSearchFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent" />

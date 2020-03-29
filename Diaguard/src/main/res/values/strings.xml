@@ -265,18 +265,6 @@
 
     <!-- CATEGORIES -->
 
-    <string-array name="categories">
-        <item>@string/bloodsugar</item>
-        <item>@string/insulin</item>
-        <item>@string/meal</item>
-        <item>@string/activity</item>
-        <item>@string/hba1c</item>
-        <item>@string/weight</item>
-        <item>@string/pulse</item>
-        <item>@string/pressure</item>
-        <item>@string/oxygen_saturation</item>
-    </string-array>
-
     <string name="bloodsugar_units_default" translatable="false">mmol/L</string>
     <string-array name="bloodsugar_units" translatable="false">
         <item>mg/dL</item>

@@ -69,7 +69,7 @@
             android:visibility="gone"
             tools:ignore="HardcodedText" />
 
-        <com.faltenreich.diaguard.ui.view.StickyHintInput
+        <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
             android:id="@+id/food_input_value_input"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

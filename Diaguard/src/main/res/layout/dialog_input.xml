@@ -16,6 +16,7 @@
         android:paddingEnd="@dimen/margin_between_larger"
         android:background="@android:color/transparent"
         android:inputType="text"
-        android:hint="@string/tag"/>
+        android:hint="@string/tag"
+        android:importantForAutofill="no"/>
 
 </FrameLayout>

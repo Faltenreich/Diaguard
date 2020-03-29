@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:showDividers="middle"
+        android:divider="@drawable/separator">
+
+        <LinearLayout style="@style/LayoutRow">
+
+            <ImageView
+                style="@style/LayoutRowImageMultiline"
+                android:tint="?iconColorPrimary"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_business"/>
+
+            <TextView
+                style="@style/LayoutRowItemMultiline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/food_brand"
+                android:textColor="?android:attr/textColorPrimary"
+                tools:text="@tools:sample/lorem"/>
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/LayoutRow">
+
+            <ImageView
+                style="@style/LayoutRowImageMultiline"
+                android:tint="?iconColorPrimary"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_note"/>
+
+            <TextView
+                style="@style/LayoutRowItemMultiline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/food_ingredients"
+                android:textColor="?android:attr/textColorPrimary"
+                tools:text="@tools:sample/lorem/random"/>
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/LayoutRow">
+
+            <ImageView
+                style="@style/LayoutRowImage"
+                android:tint="?iconColorPrimary"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_category_meal"/>
+
+            <TextView
+                style="@style/LayoutRowItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/food_value"
+                android:textColor="?android:attr/textColorPrimary"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/food_labels"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_between"
+            android:layout_marginBottom="@dimen/margin_between"
+            android:orientation="vertical" />
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

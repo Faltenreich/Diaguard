@@ -7,12 +7,12 @@
 -optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
 -keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod
 
--keep class com.faltenreich.diaguard.data.entity.**
--keepclassmembers class com.faltenreich.diaguard.data.entity.** { *; }
--keep enum com.faltenreich.diaguard.data.entity.**
--keepclassmembers enum com.faltenreich.diaguard.data.entity.** { *; }
--keep interface com.faltenreich.diaguard.data.entity.**
--keepclassmembers interface com.faltenreich.diaguard.data.entity.** { *; }
+-keep class com.faltenreich.diaguard.shared.data.database.entity.**
+-keepclassmembers class com.faltenreich.diaguard.shared.data.database.entity.** { *; }
+-keep enum com.faltenreich.diaguard.shared.data.database.entity.**
+-keepclassmembers enum com.faltenreich.diaguard.shared.data.database.entity.** { *; }
+-keep interface com.faltenreich.diaguard.shared.data.database.entity.**
+-keepclassmembers interface com.faltenreich.diaguard.shared.data.database.entity.** { *; }
 
 ##---------------Begin: EventBus ----------
 -keepattributes *Annotation*

@@ -39,7 +39,7 @@
                         android:contentDescription="@null"
                         app:srcCompat="@drawable/ic_edit"/>
 
-                    <com.faltenreich.diaguard.ui.view.StickyHintInput
+                    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
                         android:id="@+id/food_edit_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
                         android:contentDescription="@null"
                         android:src="@drawable/ic_business"/>
 
-                    <com.faltenreich.diaguard.ui.view.StickyHintInput
+                    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
                         android:id="@+id/food_edit_brand"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
                         android:contentDescription="@null"
                         android:src="@drawable/ic_note"/>
 
-                    <com.faltenreich.diaguard.ui.view.StickyHintInput
+                    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
                         android:id="@+id/food_edit_ingredients"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
                     android:background="?attr/backgroundColorTertiary"
                     android:text="@string/nutriments_per_100g"/>
 
-                <com.faltenreich.diaguard.ui.view.NutrientInputLayout
+                <com.faltenreich.diaguard.feature.food.edit.NutrientInputLayout
                     android:id="@+id/food_edit_nutrient_input_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

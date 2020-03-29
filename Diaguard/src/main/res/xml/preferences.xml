@@ -40,7 +40,7 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:targetPackage="@string/package_name"
-                android:targetClass="com.faltenreich.diaguard.ui.activity.CategoriesActivity"/>
+                android:targetClass="com.faltenreich.diaguard.feature.preference.category.CategoryListActivity"/>
         </Preference>
 
         <Preference
@@ -49,15 +49,15 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:targetPackage="@string/package_name"
-                android:targetClass="com.faltenreich.diaguard.ui.activity.TagsActivity"/>
+                android:targetClass="com.faltenreich.diaguard.feature.preference.tag.TagListActivity"/>
         </Preference>
 
-        <com.faltenreich.diaguard.ui.preferences.BackupExportPreference
+        <com.faltenreich.diaguard.feature.preference.backup.BackupExportPreference
             android:key="backup"
             android:title="@string/backup"
             android:summary="@string/backup_desc"/>
 
-        <com.faltenreich.diaguard.ui.preferences.BackupImportPreference
+        <com.faltenreich.diaguard.feature.preference.backup.BackupImportPreference
             android:key="import"
             android:title="@string/import_"
             android:summary="@string/import_desc"/>
@@ -126,33 +126,33 @@
             android:title="@string/pref_therapy_targets_highlight"
             android:defaultValue="true"/>
 
-        <com.faltenreich.diaguard.ui.preferences.BloodSugarPreference
+        <com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreference
             android:key="hyperclycemia"
             android:title="@string/pref_therapy_targets_hyperclycemia"
             android:dialogTitle="@string/pref_therapy_targets_hyperclycemia"
             android:defaultValue="180"
             android:inputType="number"/>
 
-        <com.faltenreich.diaguard.ui.preferences.BloodSugarPreference
+        <com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreference
             android:key="hypoclycemia"
             android:title="@string/pref_therapy_targets_hypoclycemia"
             android:dialogTitle="@string/pref_therapy_targets_hypoclycemia"
             android:defaultValue="60"
             android:inputType="number"/>
 
-        <com.faltenreich.diaguard.ui.preferences.BloodSugarPreference
+        <com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreference
             android:key="target"
             android:title="@string/pref_therapy_targets_target"
             android:dialogTitle="@string/pref_therapy_targets_target"
             android:defaultValue="120"
             android:inputType="number"/>
 
-        <com.faltenreich.diaguard.ui.preferences.CorrectionPreference
+        <com.faltenreich.diaguard.feature.preference.factor.CorrectionFactorPreference
             android:key="correction_value"
             android:title="@string/correction_value"
             android:summary="@string/correction_value_desc"/>
 
-        <com.faltenreich.diaguard.ui.preferences.FactorPreference
+        <com.faltenreich.diaguard.feature.preference.factor.MealFactorPreference
             android:key="@string/pref_factor"
             android:title="@string/meal_factors"
             android:summary="@string/meal_factor_desc"/>
@@ -202,10 +202,10 @@
     <PreferenceCategory
         android:title="@string/about">
 
-        <com.faltenreich.diaguard.ui.preferences.LicensePreference
+        <com.faltenreich.diaguard.feature.preference.license.LicensePreference
             android:title="@string/licenses"/>
 
-        <com.faltenreich.diaguard.ui.preferences.AboutPreference
+        <com.faltenreich.diaguard.feature.preference.about.AboutPreference
             android:title="@string/imprint"/>
 
         <Preference

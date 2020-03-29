@@ -16,50 +16,55 @@
         android:paddingBottom="80dp">
 
         <androidx.cardview.widget.CardView
+            style="@style/CardViewNoMargin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/padding_end"
-            style="@style/CardViewNoMargin">
+            android:layout_marginBottom="@dimen/padding_end">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:divider="@drawable/separator"
                 android:orientation="vertical"
-                android:showDividers="middle"
-                android:divider="@drawable/separator">
+                android:showDividers="middle">
 
-                <LinearLayout style="@style/LayoutRow"
+                <LinearLayout
+                    style="@style/LayoutRow"
                     android:paddingEnd="@dimen/margin_between"
                     android:paddingRight="@dimen/margin_between">
 
                     <ImageView
                         style="@style/LayoutRowImage"
                         android:layout_margin="0dp"
-                        android:tint="?iconColorPrimary"
-                        android:src="@drawable/ic_category_bloodsugar"/>
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_category_bloodsugar"
+                        android:tint="?iconColorPrimary" />
 
-                    <com.faltenreich.diaguard.ui.view.StickyHintInput
+                    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
                         android:id="@+id/calculator_bloodsugar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/bloodsugar"
                         android:inputType="numberDecimal">
+
                         <requestFocus />
-                    </com.faltenreich.diaguard.ui.view.StickyHintInput>
+                    </com.faltenreich.diaguard.shared.view.edittext.StickyHintInput>
 
                 </LinearLayout>
 
-                <LinearLayout style="@style/LayoutRow"
+                <LinearLayout
+                    style="@style/LayoutRow"
                     android:paddingEnd="@dimen/margin_between"
                     android:paddingRight="@dimen/margin_between">
 
                     <ImageView
                         style="@style/LayoutRowImage"
                         android:layout_margin="0dp"
-                        android:tint="?iconColorPrimary"
-                        android:src="@drawable/ic_done"/>
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_done"
+                        android:tint="?iconColorPrimary" />
 
-                    <com.faltenreich.diaguard.ui.view.StickyHintInput
+                    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
                         android:id="@+id/calculator_target"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -68,17 +73,19 @@
 
                 </LinearLayout>
 
-                <LinearLayout style="@style/LayoutRow"
+                <LinearLayout
+                    style="@style/LayoutRow"
                     android:paddingEnd="@dimen/margin_between"
                     android:paddingRight="@dimen/margin_between">
 
                     <ImageView
                         style="@style/LayoutRowImage"
                         android:layout_margin="0dp"
-                        android:tint="?iconColorPrimary"
-                        android:src="@drawable/ic_done_all"/>
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_done_all"
+                        android:tint="?iconColorPrimary" />
 
-                    <com.faltenreich.diaguard.ui.view.StickyHintInput
+                    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
                         android:id="@+id/calculator_correction"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -96,32 +103,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/meal_optional"
-            android:textColor="?android:textColorSecondary"/>
+            android:textColor="?android:textColorSecondary" />
 
         <androidx.cardview.widget.CardView
+            style="@style/CardViewNoMargin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/padding_end"
-            style="@style/CardViewNoMargin">
+            android:layout_marginBottom="@dimen/padding_end">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:divider="@drawable/separator"
                 android:orientation="vertical"
-                android:showDividers="middle"
-                android:divider="@drawable/separator">
+                android:showDividers="middle">
 
-                <LinearLayout style="@style/LayoutRow"
+                <LinearLayout
+                    style="@style/LayoutRow"
                     android:paddingEnd="0dp"
                     android:paddingRight="0dp">
 
                     <ImageView
                         style="@style/LayoutRowImage"
                         android:layout_margin="0dp"
-                        android:tint="?iconColorPrimary"
-                        android:src="@drawable/ic_factor"/>
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_factor"
+                        android:tint="?iconColorPrimary" />
 
-                    <com.faltenreich.diaguard.ui.view.StickyHintInput
+                    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
                         android:id="@+id/calculator_factor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -131,7 +140,7 @@
 
                 </LinearLayout>
 
-                <com.faltenreich.diaguard.ui.view.FoodInputView
+                <com.faltenreich.diaguard.feature.food.input.FoodInputView
                     android:id="@+id/calculator_food_list_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

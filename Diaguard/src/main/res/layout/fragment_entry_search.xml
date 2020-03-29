@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="64dp"/>
 
-        <com.faltenreich.diaguard.ui.view.SearchView
+        <com.faltenreich.diaguard.shared.view.search.SearchView
             style="@style/SearchView"
             android:id="@+id/search_view"
             android:layout_width="match_parent"

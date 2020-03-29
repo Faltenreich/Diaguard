@@ -10,7 +10,7 @@
 
     <fragment
         android:id="@+id/fragment_tags"
-        android:name="com.faltenreich.diaguard.ui.fragment.TagsFragment"
+        android:name="com.faltenreich.diaguard.feature.tag.TagListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

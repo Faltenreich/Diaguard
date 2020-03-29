@@ -67,7 +67,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.faltenreich.diaguard.ui.view.ThemedSwipeRefreshLayout
+    <com.faltenreich.diaguard.shared.view.swiperefreshlayout.ThemedSwipeRefreshLayout
         android:id="@+id/food_search_swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -77,11 +77,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.faltenreich.diaguard.ui.view.FoodListView
+            <com.faltenreich.diaguard.feature.food.search.FoodSearchListView
                 android:id="@+id/food_search_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:listitem="@layout/list_item_food"/>
+                tools:listitem="@layout/list_item_food_search"/>
 
             <LinearLayout
                 android:id="@+id/food_search_list_empty"
@@ -128,7 +128,7 @@
 
         </FrameLayout>
 
-    </com.faltenreich.diaguard.ui.view.ThemedSwipeRefreshLayout>
+    </com.faltenreich.diaguard.shared.view.swiperefreshlayout.ThemedSwipeRefreshLayout>
 
     <com.github.clans.fab.FloatingActionButton
         style="@style/FloatingActionButton"
@@ -138,12 +138,12 @@
         android:layout_gravity="bottom|end"
         android:src="@drawable/fab_add"
         app:fab_colorNormal="?backgroundColorGreen"
-        app:layout_behavior="com.faltenreich.diaguard.ui.coordinatorlayout.SlideOutBehavior"
+        app:layout_behavior="com.faltenreich.diaguard.shared.view.coordinatorlayout.SlideOutBehavior"
         app:layout_anchor="@id/food_search_list"
         app:layout_anchorGravity="bottom|right|end"
         app:layout_dodgeInsetEdges="bottom"/>
 
-    <com.faltenreich.diaguard.ui.view.SearchView
+    <com.faltenreich.diaguard.shared.view.search.SearchView
         style="@style/SearchView"
         android:id="@+id/search_view"
         android:layout_width="match_parent"

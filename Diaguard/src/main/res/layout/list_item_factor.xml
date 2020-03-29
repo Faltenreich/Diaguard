@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="3"/>
 
-    <com.faltenreich.diaguard.ui.view.LocalizedNumberEditText
+    <com.faltenreich.diaguard.shared.view.edittext.LocalizedNumberEditText
         android:id="@+id/list_item_time_value"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

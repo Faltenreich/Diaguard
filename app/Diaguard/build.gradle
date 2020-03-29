@@ -64,6 +64,11 @@ android {
     }
 }
 
+configurations {
+    all*.exclude group: 'commons-logging', module: 'commons-logging'
+    all*.exclude group: 'org.apache.commons', module: 'commons-io'
+}
+
 def jUnit = '4.12'
 def jUnitRunner = '1.1.1'
 def robolectric = '4.3'
@@ -120,7 +125,13 @@ dependencies {
     implementation 'com.robinhood.ticker:ticker:2.0.2'
 }
 
-configurations {
-    all*.exclude group: 'commons-logging', module: 'commons-logging'
-    all*.exclude group: 'org.apache.commons', module: 'commons-io'
+task applyVersionToReadme() {
+    def android = project.extensions.findByName("android")
+    def versionName = android.defaultConfig.versionName
+    def string = 'img.shields.io/badge/Release-'
+    def regex = "$string([0-9.]+)"
+    def with = "$string$versionName"
+    ant.replaceregexp(file: "${rootProject.projectDir}/../README.md", match: regex, flags: 'g', replace: with)
 }
+
+assemble.dependsOn applyVersionToReadme

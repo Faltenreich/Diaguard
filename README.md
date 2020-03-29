@@ -5,25 +5,23 @@
 
 *Android app for diabetics*
 
-## Description
+Diaguard is an Android app for people with diabetes mellitus.
 
-Diaguard is a free Android app without ads for people with Diabetes mellitus.
-
-It replaces the handwritten diary and helps its users to keep track of their blood glucose and other medical data. Those information are displayed well-arranged and can be exported as PDF or CSV. Additionally Diaguard offers a food database with thousands of products to determine their carbohydrates and other nutriments.
+It replaces the handwritten diary and helps the user to quickly and easily record, evaluate and export his blood sugar and other important data as PDF or CSV. Thanks to the clearly arranged interface, the user always has an overview of his diabetes. The app also provides information on several thousand foods including carbohydrates and other nutrients.
 
 Features
 
-• Quickly and easily track your blood glucose, insulin, carbohydrates, A1c, activity, weight, pulse, blood pressure and oxygen saturation
-• Customizable units
-• Visualize your blood glucose level in a graph
-• Detailed logs of your data
-• Food database with thousands of entries
-• PDF and CSV export
-• Backup
-• Reminder functionality
-• Estimated HbA1c
-• Statistics
-• Dark Mode
+⋅⋅* Quickly and easily track your blood glucose, insulin, carbohydrates, A1c, activity, weight, pulse, blood pressure and oxygen saturation
+⋅⋅* Customizable units
+⋅⋅* Visualize your blood glucose level in a graph
+⋅⋅* Detailed logs of your data
+⋅⋅* Food database with thousands of entries
+⋅⋅* PDF and CSV export
+⋅⋅* Backup
+⋅⋅* Reminder functionality
+⋅⋅* Estimated HbA1c
+⋅⋅* Statistics
+⋅⋅* Dark Mode
 
 ## Development
 
@@ -43,7 +41,7 @@ There are two architectural design patterns that are being used for Diaguard: Mo
 
 Model-View-Controller (MVC) was a widely spread design pattern in the early days of Android development until Google presented its Architecture Components in 2017 and Model-View-ViewModel (MVVM) took over. A transition to MVVM is planned due to its advantages over MVC, e.g. regarding encapsulation and testability. 
 
-Domain-driven Design improves the structure by grouping files in features. Every feature describes one aspect of the project and should be self-contained in order to improve focus during development. The only exception to this rule is the shared package which contains everything that is used in multiple features (e.g. database- or networking logic).
+Domain-driven Design improves the structure by grouping files in features. Every feature describes one aspect of the project and should be self-contained to improve focus during development. The only exception to this rule is the shared package which contains everything that is used in multiple features (e.g. database- or networking logic).
  
 ### Testing
 

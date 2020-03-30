@@ -132,8 +132,8 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
 
     private void init() {
         // FIXME: Week days cannot be localized via JodaTime, so consider switching to ThreeTenABP
-        dateEnd = DateTime.now();
-        dateStart = dateEnd.withDayOfWeek(1);
+        dateEnd = DateTime.now().withTime(23, 59, 59, 999);
+        dateStart = dateEnd.withDayOfWeek(1).withTimeAtStartOfDay();
         categoryCheckBoxListAdapter = new ExportCategoryListAdapter(getContext());
     }
 

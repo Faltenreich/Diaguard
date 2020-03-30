@@ -3,7 +3,7 @@
 [![Release](https://img.shields.io/badge/Release-3.4.2-478063.svg)](https://play.google.com/store/apps/details?id=com.faltenreich.diaguard)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-<img src="./resource/screenshot/overview.png" width="250"> <img src="./resource/screenshot/log.png" width="250">
+<img src="./resource/image/screenshot/overview.png" width="250"> <img src="./resource/image/screenshot/log.png" width="250"> 
 
 Diaguard is an app for people with diabetes mellitus.
 
@@ -63,3 +63,5 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+<img src="./resource/image/logo/logo_legacy.png" width="100">

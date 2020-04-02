@@ -29,7 +29,7 @@ It replaces the handwritten diary and helps the user to quickly and easily recor
 
 1. Fork repository
 2. Open /app with Android Studio
-3. Hammer keys
+3. Jump right in
 
 #### Language
 
@@ -47,7 +47,7 @@ Domain-driven Design improves the structure by grouping files in features. Every
  
 #### Testing
 
-Testing takes place via JUnit 4, Espresso and Robolectric. Since the app has been mainly developed by a junior developer during studies, testing is far from perfect. Nonetheless the goal is to unit- and instrumentation test every feature to increase the code coverage with every commit.
+Testing takes place via JUnit, Espresso and Robolectric. Tests are few in number and far from perfect, since most of Diaguard has been developed in the early of days of one developer's life. However the decision to go open source came with a code of conduct, and instrumentation testing major features was the first step in a right direction. The goal now is to unit- and instrumentation test every new and edited feature in order to increase the quality with every commit.
 
 ## About
 
@@ -59,7 +59,7 @@ Development of Diaguard started in April 2014. Philipp Fahlteich, then working o
 
 There is none. 
 
-Diaguard exists for three reasons: for learning, for fun and for saying thank you. This app kickstarted my career as a professional software developer by leading me through the whole software lifecycle: creating a concept, building software from scratch, publishing it to the masses and maintaining a legacy project with additions sprinkled here and there. Additionally it was and is pure fun for me to enhance this app and to see feedback from a helpful and thankful community. Last but not least Diaguard is my way of giving something back. Since I live as a Diabetic in Germany, I am blessed to be able to enjoy a healthcare system good enough for never leaving me in doubt of how to finance my therapy.
+Diaguard exists for three reasons: for learning, for fun and for saying thank you. This app kickstarted my career as a professional software developer by leading me through the whole software lifecycle: creating a concept, building software from scratch, publishing it to the masses and maintaining a legacy project with additions sprinkled here and there. Additionally it was and is pure fun for me to enhance this app and to see feedback from a helpful and thankful community. Last but not least Diaguard is my way of giving something back. Since I live as a Diabetic in Germany, I am blessed to be able to enjoy a healthcare system good enough for never leaving me in doubt of how to finance my therapy. This app is for alle the people sharing the same or a worse fate.
 
 These three reasons are motivation enough for me to continue developing Diaguard in my spare-time. Since Diaguard is being built on top of free and/or open source software, there is simply no need for a business model.
 

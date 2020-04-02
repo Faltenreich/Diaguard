@@ -1,7 +1,7 @@
 # Diaguard
 
 [![Release](https://img.shields.io/badge/Release-3.4.2-478063.svg)](https://play.google.com/store/apps/details?id=com.faltenreich.diaguard)
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 <img src="./resource/image/screenshot/overview.png" width="250"> <img src="./resource/image/screenshot/log.png" width="250"> 
 
@@ -31,12 +31,6 @@ It replaces the handwritten diary and helps the user to quickly and easily recor
 2. Open /app with Android Studio
 3. Jump right in
 
-#### Language
-
-Diaguard is developed in Java. Currently there are no plans to migrate it to Kotlin in order to prevent a multi-language project. A possible approach could be splitting up the monolith into multiple modules which unleashes the potential to switch language while staying consistent within a module. 
-
-User interfaces are designed in XML. Currently there are no plans to switch to a declarative framework like Jetpack Compose as it is still under heavy development.
-
 #### Architecture
 
 There are two architectural design patterns that are being used for Diaguard: Model-View-Controller and Domain-driven Design.
@@ -47,27 +41,56 @@ Domain-driven Design improves the structure by grouping files in features. Every
  
 #### Testing
 
-Testing takes place via JUnit, Espresso and Robolectric. Tests are few in number and far from perfect, since most of Diaguard has been developed in the early of days of one developer's life. However the decision to go open source came with a code of conduct, and instrumentation testing major features was the first step in a right direction. The goal now is to unit- and instrumentation test every new and edited feature in order to increase the quality with every commit.
+Testing takes place via JUnit, Espresso and Robolectric. Tests are few in number and far from perfect, since most of Diaguard has been developed in the early of days of one developer. However the decision to go open source came with a code of conduct, and instrumentation testing major features was the first step in a right direction. The goal now is to unit- and instrumentation test every new and edited feature in order to increase the quality with every commit.
+
+#### Third-party licenses
+
+This software uses following technologies with great appreciation:
+
+* [AndroidX](https://developer.android.com/jetpack/androidx)
+* [Apache Commons Text](http://commons.apache.org/proper/commons-text)
+* [BetterPickers](https://github.com/code-troopers/android-betterpickers)
+* [Butter Knife](http://jakewharton.github.io/butterknife)
+* [EventBus](https://github.com/greenrobot/EventBus)
+* [FloatingActionButton](https://github.com/Clans/FloatingActionButton)
+* [Gson](https://github.com/google/gson)
+* [Joda-Time](http://www.joda.org/joda-time)
+* [joda-time-android](https://github.com/dlew/joda-time-android)
+* [JUnit](https://junit.org)
+* [Material Components for Android](https://material.io/components)
+* [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart)
+* [Opencsv](http://opencsv.sf.net)
+* [Open Food Facts](http://world.openfoodfacts.org)
+* [ORMLite](http://ormlite.com)
+* [ORMLite Android](https://github.com/j256/ormlite-android)
+* [Parallax Everywhere](https://github.com/Narfss/ParallaxEverywhere)
+* [PDFjet](http://pdfjet.com)
+* [Picasso](http://square.github.io/picasso)
+* [Retrofit](https://square.github.io/retrofit)
+* [Robolectric](http://robolectric.org)
+* [Schweizer Nährwertdatenbank](http://naehrwertdaten.ch)
+* [SearchView](https://github.com/lapism/SearchView)
+* [Ticker](https://github.com/robinhood/ticker)
+
+These dependencies are bundled with Diaguard but under the terms of a separate license.
 
 ## About
 
 #### History
 
-Development of Diaguard started in April 2014. Philipp Fahlteich, then working on his Bachelor of Science, started several small projects in order to harden his skills in developing for the Android platform. One of these projects evolved into a vision named Diaguard which saw its initial release in July 2014. Since then Diaguard has seen many updates, much appreciated feedback from its users and a little bit of marketing with the help of direct contact and mouth to mouth propaganda. But at the end of the day every line of code has been provided by one sole developer in his spare-time. This should change in April 2020 when the decision was made to go open source.
+Development of Diaguard started in April 2014. It started as one of several small projects of one developer who was trying to gain traction on the Android platform. This project soon evolved into a vision named Diaguard which saw its initial release in July 2014. Since then it has received many updates, much appreciated feedback from its users and a little bit of marketing with the help of direct contact and mouth to mouth propaganda. But at the end of the day every line of code has been provided by one sole developer in his spare-time. This should change in April 2020 when the decision was made to go open source.
 
 #### Business model
 
 There is none. 
 
-Diaguard exists for three reasons: for learning, for fun and for saying thank you. This app kickstarted my career as a professional software developer by leading me through the whole software lifecycle: creating a concept, building software from scratch, publishing it to the masses and maintaining a legacy project with additions sprinkled here and there. Additionally it was and is pure fun for me to enhance this app and to see feedback from a helpful and thankful community. Last but not least Diaguard is my way of giving something back. Since I live as a Diabetic in Germany, I am blessed to be able to enjoy a healthcare system good enough for never leaving me in doubt of how to finance my therapy. This app is for alle the people sharing the same or a worse fate.
-
-These three reasons are motivation enough for me to continue developing Diaguard in my spare-time. Since Diaguard is being built on top of free and/or open source software, there is simply no need for a business model.
+Diaguard exists for three reasons: for learning, for fun and for saying thank you. This app kickstarted the career of a professional software developer by leading through the whole software lifecycle: creating a concept, building software from scratch, publishing it to the masses and maintaining a legacy project with additions sprinkled here and there. Additionally it was and is pure fun to enhance this app and to see feedback from a helpful and thankful community. Last but not least Diaguard is a way of giving something back, back to the people who share a similar or worse fate. You are not alone.
 
 ## Legal
 
 #### Redistribution
 
-Additionally to the permissions, conditions and limitations of the GPLv3, the permission for redistribution must be manually requested in advance. This ensures that neither the original Diaguard app or any fork will be affected negatively by terms and conditions like the [Google Play Developer Distribution Agreement](https://play.google.com/about/developer-distribution-agreement.html). Please contact the maintainer for more information at [diaguard.de@gmail.com](mailto:diaguard.de@gmail.com).
+Additionally to the permissions, conditions and limitations of the GPLv3, the permission for redistribution must be manually requested in advance. This ensures that neither the original Diaguard app or any fork will be affected negatively by terms and conditions like the [Google Play Developer Distribution Agreement](https://play.google.com/about/developer-distribution-agreement.html). If you plan to redistribute this software, please contact the maintainer at [diaguard.de@gmail.com](mailto:diaguard.de@gmail.com).
 
 #### License
 

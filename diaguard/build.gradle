@@ -131,7 +131,7 @@ task applyVersionToReadme() {
     def string = 'img.shields.io/badge/Release-'
     def regex = "$string([0-9.]+)"
     def with = "$string$versionName"
-    ant.replaceregexp(file: "${rootProject.projectDir}/../README.md", match: regex, flags: 'g', replace: with)
+    ant.replaceregexp(file: "${rootProject.projectDir}/README.md", match: regex, flags: 'g', replace: with)
 }
 
 assemble.dependsOn applyVersionToReadme

@@ -3,7 +3,7 @@
 [![Release](https://img.shields.io/badge/Release-3.4.2-478063.svg)](https://play.google.com/store/apps/details?id=com.faltenreich.diaguard)
 [![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-<img src="./resource/image/screenshot/overview.png" width="250"> <img src="./resource/image/screenshot/log.png" width="250"> 
+<img src="./resource/image/screenshot/overview.png" width="250"> 
 
 Diaguard is an app for people with diabetes mellitus.
 
@@ -21,15 +21,17 @@ It replaces the handwritten diary and helps the user to quickly and easily recor
 * Statistics
 * Dark Mode
 
+<img src="./resource/image/screenshot/entry.png" width="100"> <img src="./resource/image/screenshot/log.png" width="100">  <img src="./resource/image/screenshot/timeline.png" width="100"> <img src="./resource/image/screenshot/food.png" width="100"> <img src="./resource/image/screenshot/statistic.png" width="100"> <img src="./resource/image/screenshot/export.png" width="100"> 
+
 <a href='https://play.google.com/store/apps/details?id=com.faltenreich.diaguard&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="250"/></a>
 
 ## Development
 
-#### Usage
+#### Language
 
-1. Fork repository
-2. Open /app with Android Studio
-3. Jump right in
+Diaguard is developed in Java. Currently there are no plans to migrate it to Kotlin in order to prevent a multi-language project. A possible approach could be splitting up the monolith into multiple modules which unleashes the potential to switch language while staying consistent within a module. 
+
+User interfaces are developed in XML and bound via [Butter Knife](http://jakewharton.github.io/butterknife).
 
 #### Architecture
 
@@ -85,6 +87,18 @@ Development of Diaguard started in April 2014. It started as one of several smal
 There is none. 
 
 Diaguard exists for three reasons: for learning, for fun and for saying thank you. This app kickstarted the career of a professional software developer by leading through the whole software lifecycle: creating a concept, building software from scratch, publishing it to the masses and maintaining a legacy project with additions sprinkled here and there. Additionally it was and is pure fun to enhance this app and to see feedback from a helpful and thankful community. Last but not least Diaguard is a way of giving something back, back to the people who share a similar or worse fate. You are not alone.
+
+#### Code of conduct
+
+Diaguard should help diabetics with monitoring their diabetes. It should be able to replace the handwritten diary completely and to supplement tasks like basal rate tests or carb counting. It should help diabetologists with monitoring their patients regularly and when preparing a health insurance application. 
+
+Diaguard's users should always be and feel in full control. All user-generated data must stay on the same device until the user explicitely decides to transfer something to another device, e.g. during an export or backup. Nothing is shared with remote services and network is only used to read data from a food database.</br>User data must not be lost. Therefor database migrations enable user data to be carried from version 1.0 to any existing and upcoming release.
+
+Diaguard should be accessible to most people. Therefor its design is heavily influenced by the [Material Design Guidelines](https://material.io/design) and tested with accessibility tools like [TalkBack](https://play.google.com/store/apps/details?id=com.google.android.marvin.talkback) and [Accessibility Scanner](https://play.google.com/store/apps/details?id=com.google.android.apps.accessibility.auditor).
+
+Diaguard should only be used under the supervision of a diabetologist.</br>
+Diaguard should not be used by minors without the supervision of a parent or legal guardian.</br>
+Diaguard is not a medical app and serves no therapeutical purpose.
 
 ## Legal
 

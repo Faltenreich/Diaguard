@@ -29,7 +29,9 @@ It replaces the handwritten diary and helps the user to quickly and easily recor
 
 #### Language
 
-Diaguard is developed in Java. Currently there are no plans to migrate it to Kotlin in order to prevent a multi-language project. A possible approach could be splitting up the monolith into multiple modules which unleashes the potential to switch language while staying consistent within a module. 
+Linguistic language is English. Everything but the content localization files should be in English.
+
+Business logc is developed in Java. Currently there are no plans to migrate it to Kotlin in order to prevent a multi-language project. A possible approach could be splitting up the monolith into multiple modules which unleashes the potential to switch language while staying consistent within a module. 
 
 User interfaces are developed in XML and bound via [Butter Knife](http://jakewharton.github.io/butterknife).
 
@@ -88,7 +90,7 @@ There is none.
 
 Diaguard exists for three reasons: for learning, for fun and for saying thank you. This app kickstarted the career of a professional software developer by leading through the whole software lifecycle: creating a concept, building software from scratch, publishing it to the masses and maintaining a legacy project with additions sprinkled here and there. Additionally it was and is pure fun to enhance this app and to see feedback from a helpful and thankful community. Last but not least Diaguard is a way of giving something back, back to the people who share a similar or worse fate. You are not alone.
 
-#### Code of conduct
+#### Goals
 
 Diaguard should help diabetics with monitoring their diabetes. It should be able to replace the handwritten diary completely and to supplement tasks like basal rate tests or carb counting. It should help diabetologists with monitoring their patients regularly and when preparing a health insurance application. 
 

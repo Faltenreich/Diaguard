@@ -5,7 +5,7 @@
 
 <img src="./resource/image/marketing/showcase.png" width="750"> 
 
-Diaguard is an app for people with diabetes mellitus.
+Diaguard is an Android app for people with diabetes mellitus.
 
 It replaces the handwritten diary and helps the user to quickly and easily record, evaluate and export his blood sugar and other important data as PDF or CSV. Thanks to the clearly arranged interface, the user always has an overview of his diabetes. The app also provides information on several thousand foods including carbohydrates and other nutrients.
 
@@ -114,7 +114,7 @@ This software uses following technologies with great appreciation:
 * [SearchView](https://github.com/lapism/SearchView)
 * [Ticker](https://github.com/robinhood/ticker)
 
-These dependencies are bundled with Diaguard but under the terms of a separate license.
+These dependencies are bundled with Diaguard but under the terms of their respective license.
 
 ## Legal
 

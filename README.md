@@ -23,11 +23,11 @@ It replaces the handwritten diary and helps the user to quickly and easily recor
 
 <img src="./resource/image/screenshot/overview.png" width="100"> <img src="./resource/image/screenshot/entry.png" width="100"> <img src="./resource/image/screenshot/log.png" width="100">  <img src="./resource/image/screenshot/timeline.png" width="100"> <img src="./resource/image/screenshot/food.png" width="100"> <img src="./resource/image/screenshot/statistic.png" width="100"> <img src="./resource/image/screenshot/export.png" width="100"> 
 
-## Releases
+## Distribution
 
 <a href='https://play.google.com/store/apps/details?id=com.faltenreich.diaguard'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="250"/></a>
 
-Releases on other platforms like F-Droid are planned.
+Distribution via other platforms like F-Droid are planned.
 
 ## About
 
@@ -99,6 +99,7 @@ This software uses following technologies with great appreciation:
 * [Joda-Time](http://www.joda.org/joda-time)
 * [joda-time-android](https://github.com/dlew/joda-time-android)
 * [JUnit](https://junit.org)
+* [LicensesDialog](https://github.com/PSDev/LicensesDialog)
 * [Material Components for Android](https://material.io/components)
 * [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart)
 * [Opencsv](http://opencsv.sf.net)

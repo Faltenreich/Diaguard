@@ -1,9 +1,9 @@
-# [Diaguard](https://diaguard.wordpress.com)
+# Diaguard
 
 [![Release](https://img.shields.io/badge/Release-3.4.2-478063.svg)](https://play.google.com/store/apps/details?id=com.faltenreich.diaguard)
 [![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-<img src="./resource/image/screenshot/overview.png" width="250"> 
+<img src="./resource/image/marketing/showcase.png" width="750"> 
 
 Diaguard is an app for people with diabetes mellitus.
 
@@ -21,7 +21,7 @@ It replaces the handwritten diary and helps the user to quickly and easily recor
 * Statistics
 * Dark Mode
 
-<img src="./resource/image/screenshot/entry.png" width="100"> <img src="./resource/image/screenshot/log.png" width="100">  <img src="./resource/image/screenshot/timeline.png" width="100"> <img src="./resource/image/screenshot/food.png" width="100"> <img src="./resource/image/screenshot/statistic.png" width="100"> <img src="./resource/image/screenshot/export.png" width="100"> 
+<img src="./resource/image/screenshot/overview.png" width="100"> <img src="./resource/image/screenshot/entry.png" width="100"> <img src="./resource/image/screenshot/log.png" width="100">  <img src="./resource/image/screenshot/timeline.png" width="100"> <img src="./resource/image/screenshot/food.png" width="100"> <img src="./resource/image/screenshot/statistic.png" width="100"> <img src="./resource/image/screenshot/export.png" width="100"> 
 
 ## Releases
 
@@ -55,7 +55,9 @@ Diaguard exists for three reasons: for learning, for fun and for saying thank yo
 
 For these reasons, Diaguard has been, is and will always be free of cost.
 
-If you want to buy me a beer or support me in general, please use the donate button and be aware of my thanks: <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AM6HG633T4BWY&source=url">
+If you want to buy me a beer or support me in general, please use the donate button and be aware of my thanks.
+
+<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AM6HG633T4BWY&source=url">
  <img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" width="100"/>
 </a>
 

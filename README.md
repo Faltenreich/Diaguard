@@ -23,7 +23,11 @@ It replaces the handwritten diary and helps the user to quickly and easily recor
 
 <img src="./resource/image/screenshot/entry.png" width="100"> <img src="./resource/image/screenshot/log.png" width="100">  <img src="./resource/image/screenshot/timeline.png" width="100"> <img src="./resource/image/screenshot/food.png" width="100"> <img src="./resource/image/screenshot/statistic.png" width="100"> <img src="./resource/image/screenshot/export.png" width="100"> 
 
+## Releases
+
 <a href='https://play.google.com/store/apps/details?id=com.faltenreich.diaguard'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="250"/></a>
+
+Releases on other platforms like F-Droid are planned.
 
 ## About
 

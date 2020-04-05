@@ -90,7 +90,13 @@ Development of Diaguard started in April 2014. It started as one of several smal
 
 There is none. 
 
-Diaguard exists for three reasons: for learning, for fun and for saying thank you. This app kickstarted the career of a professional software developer by leading through the whole software lifecycle: creating a concept, building software from scratch, publishing it to the masses and maintaining a legacy project with additions sprinkled here and there. Additionally it was and is pure fun to enhance this app and to see feedback from a helpful and thankful community. Last but not least Diaguard is a way of giving something back, back to the people who share a similar or worse fate. You are not alone.
+Diaguard exists for three reasons: for learning, for fun and for saying thank you. This app kickstarted the career of a professional software developer by leading through the whole software lifecycle: creating a concept, building software from scratch, publishing it to the masses and maintaining a legacy project with additions sprinkled here and there. Additionally it was and is pure fun to enhance this app and to see feedback from a helpful and thankful community. Last but not least Diaguard is a way of giving something back.
+
+If you want to support the maintainer of this project:
+
+<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AM6HG633T4BWY&source=url">
+ <img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" width="100"/>
+</a>
 
 #### Goals
 
@@ -128,3 +134,5 @@ Additionally to the permissions, conditions and limitations of the GPLv3, the pe
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 <img src="./resource/image/logo/logo_legacy.png" width="100">
+
+You are not alone.

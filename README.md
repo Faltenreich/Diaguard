@@ -1,11 +1,9 @@
-# Diaguard
+# [Diaguard](https://diaguard.wordpress.com)
 
 [![Release](https://img.shields.io/badge/Release-3.4.2-478063.svg)](https://play.google.com/store/apps/details?id=com.faltenreich.diaguard)
 [![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 <img src="./resource/image/screenshot/overview.png" width="250"> 
-
-<img src="./resource/image/screenshot/entry.png" width="100"> <img src="./resource/image/screenshot/log.png" width="100">  <img src="./resource/image/screenshot/timeline.png" width="100"> <img src="./resource/image/screenshot/food.png" width="100"> <img src="./resource/image/screenshot/statistic.png" width="100"> <img src="./resource/image/screenshot/export.png" width="100"> 
 
 Diaguard is an app for people with diabetes mellitus.
 
@@ -23,9 +21,37 @@ It replaces the handwritten diary and helps the user to quickly and easily recor
 * Statistics
 * Dark Mode
 
+<img src="./resource/image/screenshot/entry.png" width="100"> <img src="./resource/image/screenshot/log.png" width="100">  <img src="./resource/image/screenshot/timeline.png" width="100"> <img src="./resource/image/screenshot/food.png" width="100"> <img src="./resource/image/screenshot/statistic.png" width="100"> <img src="./resource/image/screenshot/export.png" width="100"> 
+
 <a href='https://play.google.com/store/apps/details?id=com.faltenreich.diaguard'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="250"/></a>
 
-<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AM6HG633T4BWY&source=url">
+## About
+
+#### History
+
+Development of Diaguard started in April 2014. It started as one of several small projects of one developer who was trying to gain traction on the Android platform. This project soon evolved into a vision named Diaguard which saw its initial release in July 2014. Since then it has received many updates, much appreciated feedback from its users and a little bit of marketing with the help of direct contact and mouth to mouth propaganda. But at the end of the day every line of code has been provided by one sole developer in his spare-time. This should change in April 2020 when the decision was made to go open source.
+
+#### Goals
+
+Diaguard should help diabetics with monitoring their diabetes. It should be able to replace the handwritten diary completely and to supplement tasks like basal rate tests or carb counting. It should help diabetologists with monitoring their patients regularly and when preparing a health insurance application. 
+
+Diaguard's users should always be and feel in full control. All user-generated data must stay on the same device until the user explicitely decides to transfer something to another device, e.g. during an export or backup. Nothing is shared with remote services and network is only used to read data from a food database.</br>User data must not be lost. Therefor database migrations enable user data to be carried from version 1.0 to any existing and upcoming release.
+
+Diaguard should be accessible to most people. Therefor its design is heavily influenced by the [Material Design Guidelines](https://material.io/design) and tested with accessibility tools like [TalkBack](https://play.google.com/store/apps/details?id=com.google.android.marvin.talkback) and [Accessibility Scanner](https://play.google.com/store/apps/details?id=com.google.android.apps.accessibility.auditor).
+
+Diaguard should only be used under the supervision of a diabetologist.</br>
+Diaguard should not be used by minors without the supervision of a parent or legal guardian.</br>
+Diaguard is not a medical app and serves no therapeutical purpose.
+
+#### Business model
+
+There is none. 
+
+Diaguard exists for three reasons: for learning, for fun and for saying thank you. This app kickstarted the career of a professional software developer by leading through the whole software lifecycle: creating a concept, building software from scratch, publishing it to the masses and maintaining a legacy project with additions sprinkled here and there. Additionally it was and is pure fun to enhance this app and to see feedback from a helpful and thankful community. Last but not least Diaguard is a way of giving something back.
+
+For these reasons, Diaguard has been, is and will always be free of cost.
+
+If you want to buy me a beer or support me in general, please use the donate button and be aware of my thanks: <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AM6HG633T4BWY&source=url">
  <img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" width="100"/>
 </a>
 
@@ -83,30 +109,6 @@ This software uses following technologies with great appreciation:
 * [Ticker](https://github.com/robinhood/ticker)
 
 These dependencies are bundled with Diaguard but under the terms of a separate license.
-
-## About
-
-#### History
-
-Development of Diaguard started in April 2014. It started as one of several small projects of one developer who was trying to gain traction on the Android platform. This project soon evolved into a vision named Diaguard which saw its initial release in July 2014. Since then it has received many updates, much appreciated feedback from its users and a little bit of marketing with the help of direct contact and mouth to mouth propaganda. But at the end of the day every line of code has been provided by one sole developer in his spare-time. This should change in April 2020 when the decision was made to go open source.
-
-#### Business model
-
-There is none. 
-
-Diaguard exists for three reasons: for learning, for fun and for saying thank you. This app kickstarted the career of a professional software developer by leading through the whole software lifecycle: creating a concept, building software from scratch, publishing it to the masses and maintaining a legacy project with additions sprinkled here and there. Additionally it was and is pure fun to enhance this app and to see feedback from a helpful and thankful community. Last but not least Diaguard is a way of giving something back.
-
-#### Goals
-
-Diaguard should help diabetics with monitoring their diabetes. It should be able to replace the handwritten diary completely and to supplement tasks like basal rate tests or carb counting. It should help diabetologists with monitoring their patients regularly and when preparing a health insurance application. 
-
-Diaguard's users should always be and feel in full control. All user-generated data must stay on the same device until the user explicitely decides to transfer something to another device, e.g. during an export or backup. Nothing is shared with remote services and network is only used to read data from a food database.</br>User data must not be lost. Therefor database migrations enable user data to be carried from version 1.0 to any existing and upcoming release.
-
-Diaguard should be accessible to most people. Therefor its design is heavily influenced by the [Material Design Guidelines](https://material.io/design) and tested with accessibility tools like [TalkBack](https://play.google.com/store/apps/details?id=com.google.android.marvin.talkback) and [Accessibility Scanner](https://play.google.com/store/apps/details?id=com.google.android.apps.accessibility.auditor).
-
-Diaguard should only be used under the supervision of a diabetologist.</br>
-Diaguard should not be used by minors without the supervision of a parent or legal guardian.</br>
-Diaguard is not a medical app and serves no therapeutical purpose.
 
 ## Legal
 

@@ -5,6 +5,8 @@
 
 <img src="./resource/image/screenshot/overview.png" width="250"> 
 
+<img src="./resource/image/screenshot/entry.png" width="100"> <img src="./resource/image/screenshot/log.png" width="100">  <img src="./resource/image/screenshot/timeline.png" width="100"> <img src="./resource/image/screenshot/food.png" width="100"> <img src="./resource/image/screenshot/statistic.png" width="100"> <img src="./resource/image/screenshot/export.png" width="100"> 
+
 Diaguard is an app for people with diabetes mellitus.
 
 It replaces the handwritten diary and helps the user to quickly and easily record, evaluate and export his blood sugar and other important data as PDF or CSV. Thanks to the clearly arranged interface, the user always has an overview of his diabetes. The app also provides information on several thousand foods including carbohydrates and other nutrients.
@@ -21,9 +23,11 @@ It replaces the handwritten diary and helps the user to quickly and easily recor
 * Statistics
 * Dark Mode
 
-<img src="./resource/image/screenshot/entry.png" width="100"> <img src="./resource/image/screenshot/log.png" width="100">  <img src="./resource/image/screenshot/timeline.png" width="100"> <img src="./resource/image/screenshot/food.png" width="100"> <img src="./resource/image/screenshot/statistic.png" width="100"> <img src="./resource/image/screenshot/export.png" width="100"> 
-
 <a href='https://play.google.com/store/apps/details?id=com.faltenreich.diaguard'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="250"/></a>
+
+<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AM6HG633T4BWY&source=url">
+ <img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" width="100"/>
+</a>
 
 ## Development
 
@@ -92,12 +96,6 @@ There is none.
 
 Diaguard exists for three reasons: for learning, for fun and for saying thank you. This app kickstarted the career of a professional software developer by leading through the whole software lifecycle: creating a concept, building software from scratch, publishing it to the masses and maintaining a legacy project with additions sprinkled here and there. Additionally it was and is pure fun to enhance this app and to see feedback from a helpful and thankful community. Last but not least Diaguard is a way of giving something back.
 
-If you want to support the maintainer of this project:
-
-<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AM6HG633T4BWY&source=url">
- <img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" width="100"/>
-</a>
-
 #### Goals
 
 Diaguard should help diabetics with monitoring their diabetes. It should be able to replace the handwritten diary completely and to supplement tasks like basal rate tests or carb counting. It should help diabetologists with monitoring their patients regularly and when preparing a health insurance application. 
@@ -134,5 +132,3 @@ Additionally to the permissions, conditions and limitations of the GPLv3, the pe
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 <img src="./resource/image/logo/logo_legacy.png" width="100">
-
-You are not alone.

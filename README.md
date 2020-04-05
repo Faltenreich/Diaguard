@@ -23,29 +23,31 @@ It replaces the handwritten diary and helps the user to quickly and easily recor
 
 <img src="./resource/image/screenshot/entry.png" width="100"> <img src="./resource/image/screenshot/log.png" width="100">  <img src="./resource/image/screenshot/timeline.png" width="100"> <img src="./resource/image/screenshot/food.png" width="100"> <img src="./resource/image/screenshot/statistic.png" width="100"> <img src="./resource/image/screenshot/export.png" width="100"> 
 
-<a href='https://play.google.com/store/apps/details?id=com.faltenreich.diaguard&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="250"/></a>
+<a href='https://play.google.com/store/apps/details?id=com.faltenreich.diaguard'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="250"/></a>
 
 ## Development
 
-#### Language
+#### Languages
 
-Linguistic language is English. Everything but the content localization files should be in English.
+English is used as general language for naming things. Everything except the content of [String resources](https://developer.android.com/guide/topics/resources/string-resource) should be in English.
 
-Business logc is developed in Java. Currently there are no plans to migrate it to Kotlin in order to prevent a multi-language project. A possible approach could be splitting up the monolith into multiple modules which unleashes the potential to switch language while staying consistent within a module. 
+[Java](https://java.com/de) is used as programming language. Currently there are no plans to migrate to [Kotlin](https://kotlinlang.org) to prevent a multi-language project. A possible approach could be splitting up the monolith into multiple modules which unleashes the potential to switch language while staying consistent within a module.
 
-User interfaces are developed in XML and bound via [Butter Knife](http://jakewharton.github.io/butterknife).
+[SQLite](https://developer.android.com/training/data-storage/sqlite) is used as query language for the database. Object-relational mapping takes then place via [ORMLite](http://ormlite.com).
+
+[XML](https://developer.android.com/guide/topics/ui/declaring-layout) is used as markup language for user interfaces. These views are then bound to Java via [Butter Knife](http://jakewharton.github.io/butterknife).
 
 #### Architecture
 
-There are two architectural design patterns that are being used for Diaguard: Model-View-Controller and Domain-driven Design.
+There are two architectural design patterns that are being used for Diaguard: [Model-View-Controller](https://en.wikipedia.org/wiki/Model%e2%80%93view%e2%80%93controller) and [Domain-driven design](https://en.wikipedia.org/wiki/Domain-driven_design).
 
-Model-View-Controller (MVC) was a widely spread design pattern in the early days of Android development until Google presented its Architecture Components in 2017 and Model-View-ViewModel (MVVM) took over. A transition to MVVM is planned due to its advantages over MVC, e.g. regarding encapsulation and testability. 
+Model-View-Controller (MVC) was a widely spread design pattern in the early days of Android development until Google presented its Architecture Components in 2017 and Model-View-ViewModel (MVVM) took over. A gradual transition to MVVM is planned due to its advantages over MVC, e.g. regarding encapsulation and testability. 
 
-Domain-driven Design improves the structure by grouping files in features. Every feature describes one aspect of the project and should be self-contained to improve focus during development. The only exception to this rule is the shared package which contains everything that is used in multiple features (e.g. database- or networking logic).
+Domain-driven design improves the structure by grouping files in features. Every feature describes one aspect of the project and should be self-contained to improve focus during development. The only exception to this rule is the shared package which contains everything that is used in multiple features (e.g. database- or networking logic).
  
 #### Testing
 
-Testing takes place via JUnit, Espresso and Robolectric. Tests are few in number and far from perfect, since most of Diaguard has been developed in the early of days of one developer. However the decision to go open source came with a code of conduct, and instrumentation testing major features was the first step in a right direction. The goal now is to unit- and instrumentation test every new and edited feature in order to increase the quality with every commit.
+Testing takes place via [JUnit](https://junit.org), [Espresso](https://developer.android.com/training/testing/espresso) and [Robolectric](http://robolectric.org). Tests are few in number and far from perfect, since most of Diaguard has been developed in the early of days of one developer. However the decision to go open source came with a code of conduct, and instrumentation testing major features was the first step in a right direction. The goal now is to unit- and instrumentation test every new and edited feature in order to increase the quality with every commit.
 
 #### Third-party licenses
 

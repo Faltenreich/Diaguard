@@ -1,0 +1,21 @@
+Diaguard is a free of cost, ad-free and open source app for people with diabetes mellitus.
+
+It replaces the handwritten diary and helps the user to quickly and easily record, evaluate and export his blood sugar and other important data as PDF or CSV. Thanks to the clearly arranged interface, the user always has an overview of his diabetes. The app also provides information on several thousand foods including carbohydrates and other nutrients.
+
+<b>Features</b>
+
+• Quickly and easily track your blood glucose, insulin, carbohydrates, A1c, activity, weight, pulse, blood pressure and oxygen saturation
+• Customizable units
+• Visualize your blood glucose level in a graph
+• Detailed logs of your data
+• Food database with thousands of entries
+• PDF and CSV export
+• Backup
+• Reminder functionality
+• Estimated HbA1c
+• Statistics
+• Dark Mode
+
+<b>Open Source</b>
+
+Diaguard hosts its source code on: https://github.com/Faltenreich/Diaguard

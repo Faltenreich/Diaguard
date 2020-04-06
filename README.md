@@ -1,6 +1,6 @@
 # Diaguard
 
-[![Release](https://img.shields.io/badge/Release-3.4.2-478063.svg)](https://play.google.com/store/apps/details?id=com.faltenreich.diaguard)
+[![Release](https://img.shields.io/badge/Release-3.4.3-478063.svg)](https://play.google.com/store/apps/details?id=com.faltenreich.diaguard)
 [![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 <img src="./resource/image/marketing/showcase.png" width="750"> 

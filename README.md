@@ -33,7 +33,7 @@ Distribution via other platforms like F-Droid are planned.
 
 #### History
 
-Development of Diaguard started in April 2014. It started as one of several small projects of one developer who was trying to gain traction on the Android platform. This project soon evolved into a vision named Diaguard which saw its initial release in July 2014. Since then it has received many updates, much appreciated feedback from its users and a little bit of marketing with the help of direct contact and mouth to mouth propaganda. But at the end of the day every line of code has been provided by one sole developer in his spare-time. This should change in April 2020 when the decision was made to go open source.
+Development of Diaguard started in October 2013. It was as one of several small projects of one developer who was trying to gain traction on the Android platform. This project soon evolved into a vision named Diaguard which saw its initial release in July 2014. Since then it has received many updates, much appreciated feedback from its users and a little bit of marketing with the help of direct contact and mouth to mouth propaganda. But at the end of the day every line of code has been provided by one sole developer in his spare-time. This should change in April 2020 when the decision was made to go open source.
 
 #### Goals
 
@@ -125,7 +125,7 @@ Additionally to the permissions, conditions and limitations of the GPLv3, the pe
 
 #### License
 
-    Copyright (C) 2014-2020 Philipp Fahlteich
+    Copyright (C) 2013-2020 Philipp Fahlteich
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

@@ -19,6 +19,18 @@
             android:entryValues="@array/startscreens_values"
             android:defaultValue="0"/>
 
+        <ListPreference
+            android:key="chart_style"
+            android:title="@string/chart_style"
+            android:entries="@array/chart_style_entries"
+            android:entryValues="@array/chart_style_values"
+            android:defaultValue="0"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/alarm_reminder">
+
         <CheckBoxPreference
             android:key="sound"
             android:title="@string/sound"
@@ -52,6 +64,12 @@
                 android:targetClass="com.faltenreich.diaguard.feature.preference.tag.TagListActivity"/>
         </Preference>
 
+        <CheckBoxPreference
+            android:key="showBrandedFood"
+            android:title="@string/show_branded_food"
+            android:summary="@string/show_branded_food_desc"
+            android:defaultValue="true"/>
+
         <com.faltenreich.diaguard.feature.preference.backup.BackupExportPreference
             android:key="backup"
             android:title="@string/backup"
@@ -61,18 +79,6 @@
             android:key="import"
             android:title="@string/import_"
             android:summary="@string/import_desc"/>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/timeline">
-
-        <ListPreference
-            android:key="chart_style"
-            android:title="@string/style"
-            android:entries="@array/chart_style_entries"
-            android:entryValues="@array/chart_style_values"
-            android:defaultValue="0"/>
 
     </PreferenceCategory>
 
@@ -156,17 +162,6 @@
             android:key="@string/pref_factor"
             android:title="@string/meal_factors"
             android:summary="@string/meal_factor_desc"/>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/food">
-
-        <CheckBoxPreference
-            android:key="showBrandedFood"
-            android:title="@string/show_branded_food"
-            android:summary="@string/show_branded_food_desc"
-            android:defaultValue="true"/>
 
     </PreferenceCategory>
 

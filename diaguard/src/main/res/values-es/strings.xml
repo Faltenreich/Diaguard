@@ -305,7 +305,7 @@
     <string name="fiber">Fibra</string>
     <string name="carbohydrates_per_100g">Carbohidratos por 100 g</string>
 
-    <string name="style">Estilo</string>
+    <string name="chart_style">Estilo de diario</string>
     <string name="chart_scatter">Diagrama de dispersión</string>
     <string name="chart_line">Diagrama de líneas</string>
 

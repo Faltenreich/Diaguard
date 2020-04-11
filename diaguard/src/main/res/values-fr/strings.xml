@@ -303,7 +303,7 @@
     <string name="fiber">Fibra</string>
     <string name="carbohydrates_per_100g">Glucides par 100 g</string>
 
-    <string name="style">Style</string>
+    <string name="chart_style">Style de journal</string>
     <string name="chart_scatter">Nuage de points</string>
     <string name="chart_line">Nuage de linéaire</string>
 

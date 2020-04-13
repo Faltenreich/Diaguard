@@ -52,7 +52,7 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:targetPackage="@string/package_name"
-                android:targetClass="com.faltenreich.diaguard.feature.preference.category.CategoryListActivity"/>
+                android:targetClass="com.faltenreich.diaguard.feature.category.CategoryListActivity"/>
         </Preference>
 
         <Preference
@@ -61,7 +61,7 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:targetPackage="@string/package_name"
-                android:targetClass="com.faltenreich.diaguard.feature.preference.tag.TagListActivity"/>
+                android:targetClass="com.faltenreich.diaguard.feature.tag.TagListActivity"/>
         </Preference>
 
         <CheckBoxPreference

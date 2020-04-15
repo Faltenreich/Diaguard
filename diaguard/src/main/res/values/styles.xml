@@ -168,6 +168,11 @@
         <item name="android:layout_marginBottom">@dimen/padding_end</item>
     </style>
 
+    <style name="ToolbarTitleAligned">
+        <item name="android:layout_marginLeft">@dimen/margin_between</item>
+        <item name="android:layout_marginStart">@dimen/margin_between</item>
+    </style>
+
     <style name="LayoutRow">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
@@ -214,7 +219,7 @@
         <item name="android:layout_marginTop">11dp</item>
     </style>
 
-    <style name="LayoutRowItem">
+    <style name="LayoutRowItem" parent="ToolbarTitleAligned">
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:gravity">center_vertical</item>

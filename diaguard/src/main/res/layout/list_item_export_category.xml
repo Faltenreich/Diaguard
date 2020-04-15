@@ -9,8 +9,8 @@
     android:orientation="horizontal">
 
     <ImageView
-        style="@style/LayoutRowImage"
         android:id="@+id/category_image"
+        style="@style/LayoutRowImage"
         android:contentDescription="@null"
         android:tint="?iconColorPrimary"
         tools:src="@drawable/ic_category_meal" />
@@ -20,6 +20,8 @@
         style="@style/LayoutRowText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_between"
+        android:layout_marginLeft="@dimen/margin_between"
         android:layout_weight="1"
         android:padding="@dimen/margin_between"
         tools:text="@string/meal" />

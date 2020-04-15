@@ -16,7 +16,7 @@
         android:focusableInTouchMode="true"
         android:orientation="vertical">
 
-        <include layout="@layout/view_toolbar"/>
+        <include layout="@layout/view_toolbar" />
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/activity_newevent_scrollview"
@@ -29,16 +29,16 @@
                 android:orientation="vertical">
 
                 <androidx.cardview.widget.CardView
+                    style="@style/CardViewNoMargin"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/CardViewNoMargin">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:divider="@drawable/separator"
                         android:orientation="vertical"
-                        android:showDividers="middle"
-                        android:divider="@drawable/separator">
+                        android:showDividers="middle">
 
                         <LinearLayout style="@style/LayoutRow">
 
@@ -46,23 +46,24 @@
                                 style="@style/LayoutRowImage"
                                 android:contentDescription="@null"
                                 android:src="@drawable/ic_time"
-                                android:tint="?iconColorPrimary"/>
+                                android:tint="?iconColorPrimary" />
 
                             <Button
                                 android:id="@+id/button_date"
+                                style="@style/LayoutRowItem"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:textColor="?android:textColorPrimary"
                                 android:textAllCaps="false"
-                                tools:text="@tools:sample/date/ddmmyy"/>
+                                android:textColor="?android:textColorPrimary"
+                                tools:text="@tools:sample/date/ddmmyy" />
 
                             <Button
                                 android:id="@+id/button_time"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:textColor="?android:textColorPrimary"
                                 android:textAllCaps="false"
-                                tools:text="@tools:sample/date/hhmm"/>
+                                android:textColor="?android:textColorPrimary"
+                                tools:text="@tools:sample/date/hhmm" />
 
                         </LinearLayout>
 
@@ -70,12 +71,13 @@
 
                             <ImageView
                                 style="@style/LayoutRowImageMultiline"
-                                android:padding="4dp"
                                 android:contentDescription="@null"
+                                android:padding="4dp"
                                 android:tint="?iconColorPrimary"
-                                app:srcCompat="@drawable/ic_tag"/>
+                                app:srcCompat="@drawable/ic_tag" />
 
                             <LinearLayout
+                                style="@style/LayoutRowItem"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
@@ -85,26 +87,26 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/height_element_large"
                                     android:layout_weight="1"
-                                    android:paddingLeft="12dp"
-                                    android:paddingStart="12dp"
                                     android:background="@android:color/transparent"
-                                    android:hint="@string/tags"
-                                    android:lines="1"
-                                    android:inputType="text"
-                                    android:imeOptions="actionDone"
                                     android:completionThreshold="0"
-                                    tools:ignore="RtlSymmetry"/>
+                                    android:hint="@string/tags"
+                                    android:imeOptions="actionDone"
+                                    android:inputType="text"
+                                    android:lines="1"
+                                    android:paddingStart="@dimen/margin_between"
+                                    android:paddingLeft="@dimen/margin_between"
+                                    tools:ignore="RtlSymmetry" />
 
                                 <com.google.android.material.chip.ChipGroup
                                     android:id="@+id/entry_tags"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:visibility="gone"
-                                    android:paddingLeft="@dimen/margin_between"
                                     android:paddingStart="@dimen/margin_between"
+                                    android:paddingLeft="@dimen/margin_between"
                                     android:paddingBottom="@dimen/margin_between"
+                                    android:visibility="gone"
                                     app:chipSpacing="@dimen/margin_between"
-                                    tools:ignore="RtlSymmetry"/>
+                                    tools:ignore="RtlSymmetry" />
 
                             </LinearLayout>
 
@@ -116,7 +118,7 @@
                                 style="@style/LayoutRowImageMultiline"
                                 android:contentDescription="@null"
                                 android:src="@drawable/ic_note"
-                                android:tint="?iconColorPrimary"/>
+                                android:tint="?iconColorPrimary" />
 
                             <EditText
                                 android:id="@+id/edittext_notes"
@@ -125,31 +127,33 @@
                                 android:layout_height="wrap_content"
                                 android:background="@android:color/transparent"
                                 android:hint="@string/note"
+                                android:importantForAutofill="no"
                                 android:inputType="textMultiLine|textCapSentences"
-                                android:paddingLeft="12dp"
-                                android:paddingStart="12dp"
-                                tools:ignore="RtlSymmetry"
-                                android:importantForAutofill="no"/>
+                                android:paddingStart="@dimen/margin_between"
+                                android:paddingLeft="@dimen/margin_between"
+                                tools:ignore="RtlSymmetry" />
 
                         </LinearLayout>
 
-                        <LinearLayout style="@style/LayoutRow"
-                            android:id="@+id/entry_alarm_container">
+                        <LinearLayout
+                            android:id="@+id/entry_alarm_container"
+                            style="@style/LayoutRow">
 
                             <ImageView
                                 style="@style/LayoutRowImage"
                                 android:contentDescription="@null"
                                 android:src="@drawable/ic_alarm"
-                                android:tint="?iconColorPrimary"/>
+                                android:tint="?iconColorPrimary" />
 
                             <Button
                                 android:id="@+id/entry_button_alarm"
+                                style="@style/LayoutRowItem"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
+                                android:gravity="start|center_vertical"
                                 android:text="@string/alarm_reminder_none"
                                 android:textAllCaps="false"
-                                android:textColor="?android:textColorPrimary"
-                                android:gravity="start|center_vertical"/>
+                                android:textColor="?android:textColorPrimary" />
 
                         </LinearLayout>
 
@@ -158,16 +162,16 @@
                 </androidx.cardview.widget.CardView>
 
                 <com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementListView
-                    style="@style/Padding"
                     android:id="@+id/layout_measurements"
+                    style="@style/Padding"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="140dp"
-                    android:orientation="vertical"
                     android:animateLayoutChanges="true"
+                    android:clipToPadding="false"
                     android:divider="@drawable/divider_medium"
-                    android:showDividers="middle"
-                    android:clipToPadding="false"/>
+                    android:orientation="vertical"
+                    android:showDividers="middle" />
 
             </LinearLayout>
 
@@ -176,32 +180,32 @@
     </LinearLayout>
 
     <com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementFloatingActionMenu
-        style="@style/FloatingActionMenu"
         android:id="@+id/fab_menu"
+        style="@style/FloatingActionMenu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="bottom|end"
-        android:paddingRight="24dp"
-        android:paddingEnd="24dp"
-        android:paddingBottom="90dp"
         android:contentDescription="@string/measurement_add"
-        app:layout_dodgeInsetEdges="bottom"
+        android:paddingEnd="24dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="90dp"
         app:fab_colorNormal="?backgroundColorGreen"
-        app:menu_icon="@drawable/ic_add"
+        app:layout_dodgeInsetEdges="bottom"
         app:menu_backgroundColor="?attr/backgroundColorPrimaryTranslucent"
         app:menu_colorNormal="?attr/backgroundColorSecondary"
         app:menu_colorPressed="?attr/backgroundColorPrimary"
         app:menu_colorRipple="?attr/backgroundColorPrimary"
+        app:menu_icon="@drawable/ic_add"
         tools:ignore="RtlSymmetry" />
 
     <com.github.clans.fab.FloatingActionButton
-        style="@style/FloatingActionButton"
         android:id="@+id/fab"
+        style="@style/FloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:src="@drawable/ic_done"
         app:fab_colorNormal="?backgroundColorGreen"
-        app:layout_dodgeInsetEdges="bottom"/>
+        app:layout_dodgeInsetEdges="bottom" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

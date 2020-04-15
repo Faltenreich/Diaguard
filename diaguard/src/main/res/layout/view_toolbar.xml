@@ -9,8 +9,7 @@
     android:layout_height="?attr/actionBarSize"
     android:background="?backgroundColorGreen"
     android:theme="@style/Toolbar"
-    app:popupTheme="@style/ToolbarPopup"
-    app:contentInsetStartWithNavigation="0dp">
+    app:popupTheme="@style/ToolbarPopup">
 
     <TextView
         android:id="@+id/toolbar_title"

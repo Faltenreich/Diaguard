@@ -42,7 +42,7 @@
     <dimen name="chip_corner">8dp</dimen>
     <dimen name="chip_icon_padding">4dp</dimen>
 
-    <dimen name="list_header_width">58dp</dimen>
+    <dimen name="list_header_width">72dp</dimen>
     <dimen name="list_header_height">72dp</dimen>
     <dimen name="progress_circle_size">32dp</dimen>
     <dimen name="appbar_height">220dp</dimen>

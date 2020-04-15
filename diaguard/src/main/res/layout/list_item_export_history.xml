@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_layout"
@@ -9,6 +10,7 @@
     android:background="?selectableItemBackground"
     android:divider="@drawable/divider_medium"
     android:gravity="center_vertical"
+    android:minHeight="@dimen/height_element_large"
     android:orientation="horizontal"
     android:showDividers="middle">
 
@@ -17,8 +19,8 @@
         android:layout_height="@dimen/size_image"
         android:layout_marginStart="@dimen/padding_end"
         android:layout_marginLeft="@dimen/padding_end"
-        android:layout_marginEnd="@dimen/margin_between"
-        android:layout_marginRight="@dimen/margin_between">
+        android:layout_marginEnd="@dimen/padding_end_large"
+        android:layout_marginRight="@dimen/padding_end_large">
 
         <ImageView
             android:id="@+id/format_icon"

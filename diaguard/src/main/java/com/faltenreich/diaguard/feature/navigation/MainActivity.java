@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.faltenreich.diaguard.BuildConfig;
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.therapy.TherapyFragment;
 import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
 import com.faltenreich.diaguard.feature.dashboard.DashboardFragment;
 import com.faltenreich.diaguard.feature.entry.search.EntrySearchActivity;
@@ -198,6 +199,9 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
                     break;
                 case R.id.nav_export:
                     showFragment(new ExportFragment(), menuItem, true);
+                    break;
+                case R.id.nav_therapy:
+                    showFragment(new TherapyFragment(), menuItem, true);
                     break;
                 case R.id.nav_settings:
                     startActivity(new Intent(this, PreferenceActivity.class));

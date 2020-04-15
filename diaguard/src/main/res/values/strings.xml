@@ -543,5 +543,6 @@
     <string name="weeks_four">Last four weeks</string>
     <string name="month_current">Current month</string>
     <string name="quarter_current">Current quarter</string>
+    <string name="therapy">Therapy</string>
 
 </resources>

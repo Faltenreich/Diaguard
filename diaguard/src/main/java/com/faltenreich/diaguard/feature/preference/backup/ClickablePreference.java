@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.feature.preference.backup;
 
 import android.content.Context;
-import android.preference.Preference;
+import androidx.preference.Preference;
 import android.util.AttributeSet;
 
 import com.faltenreich.diaguard.shared.event.BaseEvent;

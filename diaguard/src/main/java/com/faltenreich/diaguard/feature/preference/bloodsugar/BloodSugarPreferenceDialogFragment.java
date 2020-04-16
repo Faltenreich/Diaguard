@@ -1,10 +1,12 @@
 package com.faltenreich.diaguard.feature.preference.bloodsugar;
 
-import android.content.DialogInterface;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.preference.EditTextPreferenceDialogFragmentCompat;
 
 import com.faltenreich.diaguard.R;
@@ -51,20 +53,27 @@ public class BloodSugarPreferenceDialogFragment extends EditTextPreferenceDialog
         textViewUnit.setText(PreferenceHelper.getInstance().getUnitName(Category.BLOODSUGAR));
     }
 
+    @NonNull
     @Override
-    public void onClick(DialogInterface dialog, int which) {
-        boolean isValid = true;
-        if (which == DialogInterface.BUTTON_POSITIVE) {
-            isValid = Validator.validateEditTextEvent(
-                getContext(),
-                editTextValue,
-                Category.BLOODSUGAR,
-                true
-            );
-        }
-        if (isValid) {
-            super.onClick(dialog, which);
-        }
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
+        dialog.setOnShowListener(shownDialog -> {
+            AlertDialog alertDialog = (AlertDialog) shownDialog;
+            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(view -> {
+                // Close dialog only if input is valid, otherwise keep open
+                boolean isValid = Validator.validateEditTextEvent(
+                    getContext(),
+                    editTextValue,
+                    Category.BLOODSUGAR,
+                    true
+                );
+                if (isValid) {
+                    dismiss();
+                    onDialogClosed(true);
+                }
+            });
+        });
+        return dialog;
     }
 
     @Override

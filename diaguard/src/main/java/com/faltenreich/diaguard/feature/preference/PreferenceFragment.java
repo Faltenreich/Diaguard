@@ -128,6 +128,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Shar
                 ListPreference listPreference = (ListPreference) preference;
                 preference.setSummary(listPreference.getEntry());
 
+                /*
             } else if (preference instanceof BloodSugarPreference) {
                 String value = PreferenceHelper.getInstance().getValueForKey(preference.getKey());
                 float number = FloatUtils.parseNumber(value);
@@ -142,6 +143,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Shar
                 } else {
                     preference.setSummary(null);
                 }
+                 */
 
             } else if (preference.getKey() != null) {
                 String key = preference.getKey();

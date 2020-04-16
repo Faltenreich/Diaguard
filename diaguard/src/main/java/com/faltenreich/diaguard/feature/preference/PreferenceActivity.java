@@ -15,7 +15,10 @@ public class PreferenceActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getFragmentManager().beginTransaction().replace(R.id.content, new PreferenceFragment()).commit();
+        getSupportFragmentManager()
+            .beginTransaction()
+            .replace(R.id.content, new PreferenceFragment())
+            .commit();
     }
 
     public Fragment getFragment() {

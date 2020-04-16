@@ -146,6 +146,8 @@
             android:defaultValue="60"
             android:inputType="number"/>
 
+        <!--
+
         <com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreference
             android:key="target"
             android:title="@string/pref_therapy_targets_target"
@@ -162,6 +164,8 @@
             android:key="@string/pref_factor"
             android:title="@string/meal_factors"
             android:summary="@string/meal_factor_desc"/>
+
+            -->
 
     </PreferenceCategory>
 

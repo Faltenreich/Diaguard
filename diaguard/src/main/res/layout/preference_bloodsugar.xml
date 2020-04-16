@@ -8,7 +8,7 @@
     android:paddingTop="5dp">
 
     <com.faltenreich.diaguard.shared.view.edittext.LocalizedNumberEditText
-        android:id="@+id/value"
+        android:id="@android:id/edit"
         android:layout_height="wrap_content"
         android:layout_width="125dp"
         android:inputType="numberDecimal"

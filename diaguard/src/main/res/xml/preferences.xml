@@ -146,14 +146,14 @@
             android:defaultValue="60"
             android:inputType="number"/>
 
-        <!--
-
         <com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreference
             android:key="target"
             android:title="@string/pref_therapy_targets_target"
             android:dialogTitle="@string/pref_therapy_targets_target"
             android:defaultValue="120"
             android:inputType="number"/>
+
+        <!--
 
         <com.faltenreich.diaguard.feature.preference.factor.CorrectionFactorPreference
             android:key="correction_value"

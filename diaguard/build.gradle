@@ -82,7 +82,7 @@ def retrofit = '2.8.1'
 dependencies {
     implementation project(':PDFjet')
 
-    debugImplementation 'androidx.fragment:fragment-testing:1.2.3'
+    debugImplementation 'androidx.fragment:fragment-testing:1.2.4'
 
     testImplementation "junit:junit:$jUnit"
     testImplementation "org.robolectric:robolectric:$robolectric"
@@ -100,6 +100,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0-alpha05'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-rc01'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta4'
+    implementation 'androidx.preference:preference:1.1.1'
 
     implementation "com.j256.ormlite:ormlite-core:$ormLite"
     implementation "com.j256.ormlite:ormlite-android:$ormLite"

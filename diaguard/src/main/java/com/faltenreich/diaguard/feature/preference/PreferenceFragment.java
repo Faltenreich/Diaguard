@@ -1,26 +1,35 @@
 package com.faltenreich.diaguard.feature.preference;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.PreferenceCategory;
-import android.preference.PreferenceGroup;
-import android.preference.PreferenceManager;
-import android.preference.PreferenceScreen;
-import android.widget.ListAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.preference.ListPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceGroup;
+import androidx.preference.PreferenceManager;
+import androidx.preference.PreferenceScreen;
 
 import com.faltenreich.diaguard.BuildConfig;
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.export.job.Export;
+import com.faltenreich.diaguard.feature.export.job.ExportCallback;
+import com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreference;
 import com.faltenreich.diaguard.shared.SystemUtils;
+import com.faltenreich.diaguard.shared.data.async.DataLoader;
+import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.shared.data.database.dao.TagDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
+import com.faltenreich.diaguard.shared.data.file.FileUtils;
+import com.faltenreich.diaguard.shared.data.permission.Permission;
 import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
+import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.file.BackupImportedEvent;
 import com.faltenreich.diaguard.shared.event.file.FileProvidedEvent;
@@ -28,18 +37,10 @@ import com.faltenreich.diaguard.shared.event.file.FileProvidedFailedEvent;
 import com.faltenreich.diaguard.shared.event.permission.PermissionResponseEvent;
 import com.faltenreich.diaguard.shared.event.preference.MealFactorUnitChangedEvent;
 import com.faltenreich.diaguard.shared.event.preference.UnitChangedEvent;
-import com.faltenreich.diaguard.shared.data.file.FileUtils;
-import com.faltenreich.diaguard.shared.data.permission.Permission;
-import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
-import com.faltenreich.diaguard.shared.data.async.DataLoader;
-import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
-import com.faltenreich.diaguard.shared.view.theme.Theme;
-import com.faltenreich.diaguard.shared.view.theme.ThemeUtils;
 import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 import com.faltenreich.diaguard.shared.view.progress.ProgressComponent;
-import com.faltenreich.diaguard.feature.export.job.Export;
-import com.faltenreich.diaguard.feature.export.job.ExportCallback;
-import com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreference;
+import com.faltenreich.diaguard.shared.view.theme.Theme;
+import com.faltenreich.diaguard.shared.view.theme.ThemeUtils;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -47,24 +48,14 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.io.File;
 import java.util.ArrayList;
 
-// android.support.v7.preference has currently an incompatible API
-@SuppressWarnings("deprecation")
-public class PreferenceFragment extends android.preference.PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
-
-    public static final String EXTRA_OPENING_PREFERENCE = "EXTRA_OPENING_PREFERENCE";
+public class PreferenceFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private ProgressComponent progressComponent = new ProgressComponent();
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.preferences);
-
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
-
-        initPreferences();
-        checkIntents();
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        init();
+        initLayout();
     }
 
     @Override
@@ -80,6 +71,37 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         super.onDestroy();
     }
 
+    private void init() {
+        addPreferencesFromResource(R.xml.preferences);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+    }
+
+    private void initLayout() {
+        if (!BuildConfig.isCalculatorEnabled) {
+            Preference categoryPreferenceLimits = findPreference("limits");
+            if (categoryPreferenceLimits instanceof PreferenceCategory) {
+                PreferenceCategory category = (PreferenceCategory) categoryPreferenceLimits;
+                Preference correctionPreference = findPreference("correction_value");
+                if (correctionPreference != null) {
+                    category.removePreference(correctionPreference);
+                }
+                Preference factorPreference = findPreference("pref_factor");
+                if (factorPreference != null) {
+                    category.removePreference(factorPreference);
+                }
+            }
+            Preference categoryPreferenceUnits = findPreference("units");
+            if (categoryPreferenceUnits instanceof PreferenceCategory) {
+                PreferenceCategory category = (PreferenceCategory) categoryPreferenceUnits;
+                Preference mealFactorPreference = findPreference("unit_meal_factor");
+                if (mealFactorPreference != null) {
+                    category.removePreference(mealFactorPreference);
+                }
+            }
+        }
+    }
+
     private ArrayList<Preference> getPreferenceList(Preference preference, ArrayList<Preference> list) {
         if (preference instanceof PreferenceCategory || preference instanceof PreferenceScreen) {
             PreferenceGroup pGroup = (PreferenceGroup) preference;
@@ -93,28 +115,13 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         return list;
     }
 
-    private void initPreferences() {
-        if (!BuildConfig.isCalculatorEnabled) {
-            Preference categoryPreferenceLimits = findPreference("limits");
-            if (categoryPreferenceLimits instanceof PreferenceCategory) {
-                PreferenceCategory category = (PreferenceCategory) categoryPreferenceLimits;
-                category.removePreference(findPreference("correction_value"));
-                category.removePreference(findPreference("pref_factor"));
-            }
-            Preference categoryPreferenceUnits = findPreference("units");
-            if (categoryPreferenceUnits instanceof PreferenceCategory) {
-                PreferenceCategory category = (PreferenceCategory) categoryPreferenceUnits;
-                category.removePreference(findPreference("unit_meal_factor"));
-            }
-        }
-    }
-
     private void setSummaries() {
         for (Preference preference : getPreferenceList(getPreferenceScreen(), new ArrayList<>())) {
             setSummary(preference);
         }
     }
 
+    @SuppressLint("DefaultLocale")
     private void setSummary(final Preference preference) {
         if (isAdded() && preference != null) {
             if (preference instanceof ListPreference) {
@@ -140,7 +147,7 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                 String key = preference.getKey();
                 switch (key) {
                     case "version":
-                        preference.setSummary(SystemUtils.getVersionName(getActivity()));
+                        preference.setSummary(SystemUtils.getVersionName(requireActivity()));
                         break;
                     case "categories":
                         int activeCategoriesCount = PreferenceHelper.getInstance().getActiveCategories().length;
@@ -168,32 +175,6 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                 }
             }
         }
-    }
-
-    private void checkIntents() {
-        if (getActivity() != null && getActivity().getIntent() != null && getActivity().getIntent().getExtras() != null) {
-            Bundle extras = getActivity().getIntent().getExtras();
-            if (extras.getString(EXTRA_OPENING_PREFERENCE) != null) {
-                preopenPreference(extras.getString(EXTRA_OPENING_PREFERENCE));
-            }
-        }
-    }
-
-    private void preopenPreference(String key) {
-        int position = findPreferencePosition(key);
-        if (position >= 0) {
-            getPreferenceScreen().onItemClick(null, null, position, 0);
-        }
-    }
-
-    private int findPreferencePosition(String key) {
-        ListAdapter listAdapter = getPreferenceScreen().getRootAdapter();
-        for (int position = 0; position < listAdapter.getCount(); position++) {
-            if (listAdapter.getItem(position).equals(findPreference(key))) {
-                return position;
-            }
-        }
-        return -1;
     }
 
     @Override
@@ -235,19 +216,21 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             public void onProgress(String message) {
                 progressComponent.setMessage(message);
             }
+
             @Override
             public void onSuccess(@Nullable File file, String mimeType) {
                 progressComponent.dismiss();
-                if (file != null) {
-                    FileUtils.shareFile(getActivity(), file, R.string.backup_store);
+                if (file != null && getContext() != null) {
+                    FileUtils.shareFile(getContext(), file, R.string.backup_store);
                 } else {
                     onError();
                 }
             }
+
             @Override
             public void onError() {
                 progressComponent.dismiss();
-                Toast.makeText(getActivity(), getActivity().getString(R.string.error_unexpected), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getString(R.string.error_unexpected), Toast.LENGTH_SHORT).show();
             }
         };
         Export.exportCsv(context, callback);
@@ -265,14 +248,14 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
             @Override
             public void onSuccess(@Nullable File file, String mimeType) {
                 progressComponent.dismiss();
-                Toast.makeText(getActivity(), getActivity().getString(R.string.backup_complete), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getString(R.string.backup_complete), Toast.LENGTH_SHORT).show();
                 Events.post(new BackupImportedEvent());
             }
 
             @Override
             public void onError() {
                 progressComponent.dismiss();
-                Toast.makeText(getActivity(), getActivity().getString(R.string.error_import), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getString(R.string.error_import), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -282,9 +265,10 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
         importBackup(event.context);
     }
 
+    @SuppressWarnings("unused")
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FileProvidedFailedEvent event) {
-        Toast.makeText(getActivity(), getActivity().getString(R.string.error_unexpected), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), getString(R.string.error_unexpected), Toast.LENGTH_SHORT).show();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -295,8 +279,10 @@ public class PreferenceFragment extends android.preference.PreferenceFragment im
                     createBackup();
                     break;
                 case BACKUP_READ:
-                    String mimeType = "text/*"; // Workaround: text/csv does not work for all apps
-                    FileUtils.searchFiles(getActivity(), mimeType, BaseActivity.REQUEST_CODE_BACKUP_IMPORT);
+                    if (getActivity() != null) {
+                        String mimeType = "text/*"; // Workaround: text/csv does not work for all apps
+                        FileUtils.searchFiles(getActivity(), mimeType, BaseActivity.REQUEST_CODE_BACKUP_IMPORT);
+                    }
                     break;
             }
         }

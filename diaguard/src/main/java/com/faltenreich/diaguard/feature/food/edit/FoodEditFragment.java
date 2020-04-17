@@ -51,7 +51,7 @@ public class FoodEditFragment extends BaseFoodFragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.findItem(R.id.action_delete).setVisible(getFood() != null);
     }

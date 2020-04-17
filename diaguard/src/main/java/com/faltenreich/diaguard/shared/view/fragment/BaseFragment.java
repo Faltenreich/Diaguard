@@ -40,18 +40,17 @@ import butterknife.ButterKnife;
 
 public abstract class BaseFragment extends Fragment implements ToolbarBehavior {
 
-    @LayoutRes private int layoutResourceId;
     @MenuRes private int menuResId;
 
     private String title;
 
+    @SuppressWarnings("unused")
     private BaseFragment() {
         // Forbidden
     }
 
     public BaseFragment(@LayoutRes int layoutResourceId, @StringRes int titleResId, @MenuRes int menuResId) {
-        this();
-        this.layoutResourceId = layoutResourceId;
+        super(layoutResourceId);
         this.title = DiaguardApplication.getContext().getString(titleResId);
         this.menuResId = menuResId;
     }
@@ -68,7 +67,10 @@ public abstract class BaseFragment extends Fragment implements ToolbarBehavior {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(layoutResourceId, container, false);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+        if (view == null) {
+            throw new IllegalStateException("View must not be null");
+        }
         ButterKnife.bind(this, view);
         return view;
     }
@@ -106,7 +108,7 @@ public abstract class BaseFragment extends Fragment implements ToolbarBehavior {
 
     @SuppressLint("ResourceType")
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(Menu menu, @NonNull MenuInflater inflater) {
         menu.clear();
         if (menuResId >= 0) {
             inflater.inflate(menuResId, menu);
@@ -158,6 +160,7 @@ public abstract class BaseFragment extends Fragment implements ToolbarBehavior {
             EntryDao.getInstance().createOrUpdate(entry);
             for (Measurement measurement : entry.getMeasurementCache()) {
                 measurement.setEntry(entry);
+                //noinspection unchecked
                 MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
             }
             for (EntryTag entryTag : event.entryTags) {

@@ -20,8 +20,6 @@
         style="@style/LayoutRowText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_between"
-        android:layout_marginLeft="@dimen/margin_between"
         android:layout_weight="1"
         android:padding="@dimen/margin_between"
         tools:text="@string/meal" />

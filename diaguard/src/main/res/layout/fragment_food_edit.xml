@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:paddingBottom="80dp">
+            android:paddingBottom="@dimen/fab_offset">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -35,6 +35,8 @@
 
                     <ImageView
                         style="@style/LayoutRowImageMultiline"
+                        android:layout_marginEnd="0dp"
+                        android:layout_marginRight="0dp"
                         android:tint="?iconColorPrimary"
                         android:contentDescription="@null"
                         app:srcCompat="@drawable/ic_edit"/>
@@ -43,6 +45,8 @@
                         android:id="@+id/food_edit_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/margin_between"
+                        android:paddingLeft="@dimen/margin_between"
                         android:hint="@string/name"
                         android:inputType="textMultiLine|textCapSentences"/>
 
@@ -55,6 +59,8 @@
 
                     <ImageView
                         style="@style/LayoutRowImageMultiline"
+                        android:layout_marginEnd="0dp"
+                        android:layout_marginRight="0dp"
                         android:tint="?iconColorPrimary"
                         android:contentDescription="@null"
                         android:src="@drawable/ic_business"/>
@@ -63,6 +69,8 @@
                         android:id="@+id/food_edit_brand"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/margin_between"
+                        android:paddingLeft="@dimen/margin_between"
                         android:hint="@string/brand"
                         android:inputType="textMultiLine|textCapSentences"/>
 
@@ -75,6 +83,8 @@
 
                     <ImageView
                         style="@style/LayoutRowImageMultiline"
+                        android:layout_marginEnd="0dp"
+                        android:layout_marginRight="0dp"
                         android:tint="?iconColorPrimary"
                         android:contentDescription="@null"
                         android:src="@drawable/ic_note"/>
@@ -83,6 +93,8 @@
                         android:id="@+id/food_edit_ingredients"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/margin_between"
+                        android:paddingLeft="@dimen/margin_between"
                         android:hint="@string/ingredients"
                         android:inputType="textMultiLine|textCapSentences"/>
 

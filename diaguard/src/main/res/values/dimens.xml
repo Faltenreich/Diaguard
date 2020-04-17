@@ -42,7 +42,7 @@
     <dimen name="chip_corner">8dp</dimen>
     <dimen name="chip_icon_padding">4dp</dimen>
 
-    <dimen name="list_header_width">72dp</dimen>
+    <dimen name="list_header_width">64dp</dimen>
     <dimen name="list_header_height">72dp</dimen>
     <dimen name="progress_circle_size">32dp</dimen>
     <dimen name="appbar_height">220dp</dimen>
@@ -53,5 +53,9 @@
     <dimen name="card_corner_radius">4dp</dimen>
     <dimen name="card_elevation">2dp</dimen>
     <dimen name="checkbox_width">36dp</dimen>
+
+    <dimen name="toolbar_title_padding">8dp</dimen>
+    <!-- 72 per guideline minus 8 from padding -->
+    <dimen name="toolbar_title_inset">64dp</dimen>
 
 </resources>

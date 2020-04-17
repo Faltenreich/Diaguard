@@ -19,8 +19,8 @@
         android:layout_height="@dimen/size_image"
         android:layout_marginStart="@dimen/padding_end"
         android:layout_marginLeft="@dimen/padding_end"
-        android:layout_marginEnd="@dimen/padding_end_large"
-        android:layout_marginRight="@dimen/padding_end_large">
+        android:layout_marginEnd="@dimen/padding_end"
+        android:layout_marginRight="@dimen/padding_end">
 
         <ImageView
             android:id="@+id/format_icon"

@@ -73,6 +73,8 @@
             android:id="@+id/food_input_value_input"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingStart="@dimen/margin_between"
+            android:paddingLeft="@dimen/margin_between"
             android:inputType="numberDecimal" />
 
     </LinearLayout>

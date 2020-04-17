@@ -9,13 +9,15 @@
     android:layout_height="?attr/actionBarSize"
     android:background="?backgroundColorGreen"
     android:theme="@style/Toolbar"
-    app:popupTheme="@style/ToolbarPopup">
+    app:popupTheme="@style/ToolbarPopup"
+    app:contentInsetStart="@dimen/toolbar_title_inset"
+    app:contentInsetStartWithNavigation="@dimen/toolbar_title_inset">
 
     <TextView
         android:id="@+id/toolbar_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/margin_between"
+        android:padding="@dimen/toolbar_title_padding"
         android:gravity="center_vertical"
         android:textColor="@android:color/white"
         android:textSize="@dimen/text_large"

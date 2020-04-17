@@ -44,6 +44,8 @@
                         android:id="@+id/calculator_bloodsugar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/margin_between"
+                        android:paddingLeft="@dimen/margin_between"
                         android:hint="@string/bloodsugar"
                         android:inputType="numberDecimal">
 
@@ -68,6 +70,8 @@
                         android:id="@+id/calculator_target"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/margin_between"
+                        android:paddingLeft="@dimen/margin_between"
                         android:hint="@string/pref_therapy_targets_target"
                         android:inputType="numberDecimal" />
 
@@ -89,6 +93,8 @@
                         android:id="@+id/calculator_correction"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/margin_between"
+                        android:paddingLeft="@dimen/margin_between"
                         android:hint="@string/correction_value"
                         android:inputType="numberDecimal" />
 
@@ -134,7 +140,8 @@
                         android:id="@+id/calculator_factor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="0dp"
+                        android:paddingStart="@dimen/margin_between"
+                        android:paddingLeft="@dimen/margin_between"
                         android:hint="@string/unit_factor_carbohydrates_unit"
                         android:inputType="numberDecimal" />
 

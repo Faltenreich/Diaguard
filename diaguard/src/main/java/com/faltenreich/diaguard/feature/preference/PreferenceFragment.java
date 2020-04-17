@@ -23,6 +23,8 @@ import com.faltenreich.diaguard.feature.export.job.Export;
 import com.faltenreich.diaguard.feature.export.job.ExportCallback;
 import com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreference;
 import com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreferenceDialogFragment;
+import com.faltenreich.diaguard.feature.preference.factor.FactorPreference;
+import com.faltenreich.diaguard.feature.preference.factor.FactorPreferenceDialogFragment;
 import com.faltenreich.diaguard.shared.SystemUtils;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
 import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
@@ -78,6 +80,8 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Shar
         DialogFragment fragment = null;
         if (preference instanceof BloodSugarPreference) {
             fragment = BloodSugarPreferenceDialogFragment.newInstance(preference.getKey());
+        } else if (preference instanceof FactorPreference) {
+            fragment = FactorPreferenceDialogFragment.newInstance(preference.getKey());
         }
         if (fragment != null) {
             fragment.setTargetFragment(this, 0);

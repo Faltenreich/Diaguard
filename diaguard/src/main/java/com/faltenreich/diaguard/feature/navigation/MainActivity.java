@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.feature.navigation;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -14,25 +13,26 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.PreferenceManager;
 
 import com.faltenreich.diaguard.BuildConfig;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.therapy.TherapyFragment;
-import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
+import com.faltenreich.diaguard.feature.calculator.CalculatorFragment;
 import com.faltenreich.diaguard.feature.dashboard.DashboardFragment;
 import com.faltenreich.diaguard.feature.entry.search.EntrySearchActivity;
-import com.faltenreich.diaguard.feature.timeline.TimelineFragment;
+import com.faltenreich.diaguard.feature.export.ExportFragment;
 import com.faltenreich.diaguard.feature.food.search.FoodSearchActivity;
 import com.faltenreich.diaguard.feature.log.LogFragment;
 import com.faltenreich.diaguard.feature.preference.PreferenceActivity;
+import com.faltenreich.diaguard.feature.statistic.StatisticFragment;
+import com.faltenreich.diaguard.feature.therapy.TherapyFragment;
+import com.faltenreich.diaguard.feature.timeline.TimelineFragment;
+import com.faltenreich.diaguard.shared.SystemUtils;
+import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
+import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 import com.faltenreich.diaguard.shared.view.coordinatorlayout.SlideOutBehavior;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
-import com.faltenreich.diaguard.feature.calculator.CalculatorFragment;
-import com.faltenreich.diaguard.feature.export.ExportFragment;
-import com.faltenreich.diaguard.feature.statistic.StatisticFragment;
-import com.faltenreich.diaguard.shared.SystemUtils;
-import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
@@ -53,8 +53,8 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-        initialize();
+        init();
+        initLayout();
         showChangelog();
     }
 
@@ -66,13 +66,11 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_search:
-                EntrySearchActivity.show(MainActivity.this, findViewById(R.id.action_search));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.action_search) {
+            EntrySearchActivity.show(MainActivity.this, findViewById(R.id.action_search));
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -80,23 +78,28 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
         invalidateLayout();
     }
 
-    private void initialize() {
+    private void init() {
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+    }
+
+    private void initLayout() {
         drawerToggle = new ActionBarDrawerToggle(
-                this,
-                drawerLayout,
-                toolbar,
-                R.string.drawer_open,
-                R.string.drawer_close) {
+            this,
+            drawerLayout,
+            toolbar,
+            R.string.drawer_open,
+            R.string.drawer_close) {
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
                 invalidateOptionsMenu();
             }
+
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 invalidateOptionsMenu();
             }
         };
-        drawerLayout.setDrawerListener(drawerToggle);
+        drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
         drawer.getMenu().findItem(R.id.nav_calculator).setVisible(BuildConfig.isCalculatorEnabled);
         drawer.setNavigationItemSelectedListener(menuItem -> {

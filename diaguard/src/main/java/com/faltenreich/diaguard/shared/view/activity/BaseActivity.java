@@ -24,17 +24,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.shared.SystemUtils;
+import com.faltenreich.diaguard.shared.data.permission.Permission;
+import com.faltenreich.diaguard.shared.data.permission.PermissionManager;
+import com.faltenreich.diaguard.shared.data.permission.PermissionUseCase;
+import com.faltenreich.diaguard.shared.data.primitive.Vector2D;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.file.FileProvidedEvent;
 import com.faltenreich.diaguard.shared.event.file.FileProvidedFailedEvent;
 import com.faltenreich.diaguard.shared.event.permission.PermissionRequestEvent;
 import com.faltenreich.diaguard.shared.event.permission.PermissionResponseEvent;
-import com.faltenreich.diaguard.shared.SystemUtils;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
-import com.faltenreich.diaguard.shared.data.primitive.Vector2D;
-import com.faltenreich.diaguard.shared.data.permission.Permission;
-import com.faltenreich.diaguard.shared.data.permission.PermissionManager;
-import com.faltenreich.diaguard.shared.data.permission.PermissionUseCase;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -51,6 +51,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     static final String ARGUMENT_REVEAL_X = "revealX";
     static final String ARGUMENT_REVEAL_Y = "revealY";
 
+    @SuppressWarnings("SameParameterValue")
     protected static <T extends BaseActivity> Intent getIntent(Class<T> clazz, Context context, @Nullable View source) {
         Intent intent = new Intent(context, clazz);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && source != null) {
@@ -66,32 +67,22 @@ public abstract class BaseActivity extends AppCompatActivity {
     @BindView(R.id.toolbar_title) protected TextView toolbarTitleView;
     @BindView(R.id.root) @Nullable protected ViewGroup rootLayout;
 
-    private int layoutResourceId;
     private int revealX;
     private int revealY;
 
+    @SuppressWarnings("unused")
     private BaseActivity() {
         // Forbidden
     }
 
     public BaseActivity(@LayoutRes int layoutResourceId) {
-        this();
-        this.layoutResourceId = layoutResourceId;
+        super(layoutResourceId);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(layoutResourceId);
-        ButterKnife.bind(this);
-
-        init();
-
-        if (savedInstanceState == null) {
-            reveal();
-        } else {
-            onViewShown();
-        }
+        init(savedInstanceState);
     }
 
     /**
@@ -115,56 +106,11 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                supportFinishAfterTransition();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            supportFinishAfterTransition();
+            return true;
         }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] codes, @NonNull int[] grantResults) {
-        PermissionUseCase useCase = PermissionUseCase.fromRequestCode(requestCode);
-        if (useCase != null) {
-            for (String code : codes) {
-                Permission permission = Permission.fromCode(code);
-                if (permission != null) {
-                    boolean isGranted = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                    Events.post(new PermissionResponseEvent(permission, useCase, isGranted));
-                }
-            }
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_CODE_BACKUP_IMPORT:
-                switch (resultCode) {
-                    case Activity.RESULT_OK:
-                        if (data != null && data.getData() != null) {
-                            Events.post(new FileProvidedEvent(data.getData()));
-                        } else {
-                            Events.post(new FileProvidedFailedEvent());
-                        }
-                        break;
-                    default:
-                        // Ignore
-                        break;
-                }
-                break;
-            default:
-                Log.d(TAG, "Ignoring unknown result with request code" + requestCode);
-                break;
-        }
-    }
-
-    @Override
-    public void finish() {
-        unreveal();
+        return super.onOptionsItemSelected(item);
     }
 
     @Nullable
@@ -186,7 +132,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         setTitle(getString(titleId));
     }
 
-    private void init() {
+    private void init(Bundle savedInstanceState) {
+        ButterKnife.bind(this);
+
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
@@ -199,6 +147,12 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             getWindow().getDecorView().setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS);
+        }
+
+        if (savedInstanceState == null) {
+            reveal();
+        } else {
+            onViewShown();
         }
     }
 
@@ -247,6 +201,41 @@ public abstract class BaseActivity extends AppCompatActivity {
         } else {
             super.finish();
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] codes, @NonNull int[] grantResults) {
+        PermissionUseCase useCase = PermissionUseCase.fromRequestCode(requestCode);
+        if (useCase != null) {
+            for (String code : codes) {
+                Permission permission = Permission.fromCode(code);
+                if (permission != null) {
+                    boolean isGranted = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    Events.post(new PermissionResponseEvent(permission, useCase, isGranted));
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_BACKUP_IMPORT) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (data != null && data.getData() != null) {
+                    Events.post(new FileProvidedEvent(data.getData()));
+                } else {
+                    Events.post(new FileProvidedFailedEvent());
+                }
+            }
+        } else {
+            Log.d(TAG, "Ignoring unknown result with request code" + requestCode);
+        }
+    }
+
+    @Override
+    public void finish() {
+        unreveal();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

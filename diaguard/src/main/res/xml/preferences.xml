@@ -45,7 +45,8 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/data">
+        android:title="@string/data"
+        android:icon="@drawable/ic_storage">
 
         <Preference
             android:key="categories"
@@ -167,7 +168,8 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/contact">
+        android:title="@string/contact"
+        android:icon="@drawable/ic_chat">
 
         <Preference
             android:title="@string/homepage"

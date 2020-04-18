@@ -21,10 +21,10 @@
         <ImageView
             android:layout_width="@dimen/height_element"
             android:layout_height="@dimen/height_element"
-            android:padding="@dimen/padding_large"
+            android:padding="@dimen/margin_between_large"
             android:tint="?iconColorPrimary"
             android:contentDescription="@null"
-            android:src="@drawable/ic_alarm"/>
+            app:srcCompat="@drawable/ic_alarm" />
 
         <TextView
             android:id="@+id/alarm_text"

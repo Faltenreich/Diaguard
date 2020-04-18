@@ -141,9 +141,10 @@
 
                             <ImageView
                                 style="@style/LayoutRowImage"
+                                android:padding="2dp"
                                 android:contentDescription="@null"
-                                android:src="@drawable/ic_alarm"
-                                android:tint="?iconColorPrimary" />
+                                android:tint="?iconColorPrimary"
+                                app:srcCompat="@drawable/ic_alarm" />
 
                             <Button
                                 android:id="@+id/entry_button_alarm"

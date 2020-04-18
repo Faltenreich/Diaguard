@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.annotation.ColorInt;
-import androidx.annotation.Dimension;
 import androidx.annotation.Nullable;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.DialogFragment;
@@ -47,7 +46,6 @@ import com.faltenreich.diaguard.shared.event.preference.UnitChangedEvent;
 import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 import com.faltenreich.diaguard.shared.view.progress.ProgressComponent;
 import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
-import com.faltenreich.diaguard.shared.view.resource.DrawableUtils;
 import com.faltenreich.diaguard.shared.view.theme.Theme;
 import com.faltenreich.diaguard.shared.view.theme.ThemeUtils;
 
@@ -104,8 +102,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Shar
 
     private void initLayout() {
         int color = ColorUtils.getPrimaryColor(getContext());
-        int size = getResources().getDimensionPixelSize(R.dimen.size_image);
-        applyThemeToIcons(getPreferenceScreen(), color, size);
+        applyThemeToIcons(getPreferenceScreen(), color);
     }
 
     private ArrayList<Preference> getPreferenceList(Preference preference, ArrayList<Preference> list) {
@@ -121,10 +118,9 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Shar
         return list;
     }
 
-    private void applyThemeToIcons(Preference preference, @ColorInt int color, @Dimension int size) {
+    private void applyThemeToIcons(Preference preference, @ColorInt int color) {
         Drawable icon = preference.getIcon();
         if (icon != null) {
-            icon = DrawableUtils.resize(preference.getContext(), icon, size);
             DrawableCompat.setTint(icon, color);
             preference.setIcon(icon);
         }
@@ -132,7 +128,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Shar
         if (preference instanceof PreferenceGroup) {
             PreferenceGroup group = ((PreferenceGroup) preference);
             for (int index = 0; index < group.getPreferenceCount(); index++) {
-                applyThemeToIcons(group.getPreference(index), color, size);
+                applyThemeToIcons(group.getPreference(index), color);
             }
         }
     }

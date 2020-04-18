@@ -2,31 +2,26 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory
-        android:title="@string/general">
+    <ListPreference
+        android:key="theme"
+        android:title="@string/theme"
+        android:entries="@array/themes"
+        android:entryValues="@array/themes_values"
+        android:defaultValue="0"/>
 
-        <ListPreference
-            android:key="theme"
-            android:title="@string/theme"
-            android:entries="@array/themes"
-            android:entryValues="@array/themes_values"
-            android:defaultValue="0"/>
+    <ListPreference
+        android:key="startscreen"
+        android:title="@string/startscreen"
+        android:entries="@array/startscreens"
+        android:entryValues="@array/startscreens_values"
+        android:defaultValue="0"/>
 
-        <ListPreference
-            android:key="startscreen"
-            android:title="@string/startscreen"
-            android:entries="@array/startscreens"
-            android:entryValues="@array/startscreens_values"
-            android:defaultValue="0"/>
-
-        <ListPreference
-            android:key="chart_style"
-            android:title="@string/chart_style"
-            android:entries="@array/chart_style_entries"
-            android:entryValues="@array/chart_style_values"
-            android:defaultValue="0"/>
-
-    </PreferenceCategory>
+    <ListPreference
+        android:key="chart_style"
+        android:title="@string/chart_style"
+        android:entries="@array/chart_style_entries"
+        android:entryValues="@array/chart_style_values"
+        android:defaultValue="0"/>
 
     <PreferenceCategory
         android:title="@string/alarm_reminder"
@@ -198,7 +193,8 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/about">
+        android:title="@string/about"
+        android:icon="@drawable/ic_text">
 
         <com.faltenreich.diaguard.feature.preference.license.LicensePreference
             android:title="@string/licenses"/>

@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.timeline.TimelineStyle;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.serialization.CategorySerializer;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
@@ -70,11 +71,6 @@ public class PreferenceHelper {
         public static final String DID_IMPORT_TAGS_FOR_LANGUAGE = "didImportTagsForLanguage";
         public static final String FOOD_SHOW_BRANDED = "showBrandedFood";
         public static final String THEME = "theme";
-    }
-
-    public enum ChartStyle {
-        POINT,
-        LINE
     }
 
     public enum FactorUnit {
@@ -197,20 +193,26 @@ public class PreferenceHelper {
         return sharedPreferences.getBoolean("vibration", true);
     }
 
-    public ChartStyle getChartStyle() {
+    public TimelineStyle getTimelineStyle() {
         String preference = sharedPreferences.getString(Keys.CHART_STYLE, null);
         if (!TextUtils.isEmpty(preference)) {
             try {
-                int chartStyle = Integer.valueOf(preference);
-                ChartStyle[] chartStyles = ChartStyle.values();
-                return chartStyle >= 0 && chartStyle < chartStyles.length ? chartStyles[chartStyle] : ChartStyle.POINT;
+                int chartStyle = Integer.parseInt(preference);
+                TimelineStyle[] chartStyles = TimelineStyle.values();
+                return chartStyle >= 0 && chartStyle < chartStyles.length ? chartStyles[chartStyle] : TimelineStyle.SCATTER_CHART;
             } catch (NumberFormatException exception) {
-                Log.e(TAG, exception.getMessage());
+                Log.e(TAG, exception.getMessage() != null ? exception.getMessage() : "Failed to getChartStyle");
             }
         } else {
             Log.e(TAG, "Failed to find shared preference for key: " + Keys.CHART_STYLE);
         }
-        return ChartStyle.POINT;
+        return TimelineStyle.SCATTER_CHART;
+    }
+
+    public void setTimelineStyle(TimelineStyle style) {
+        int stableId = style.getStableId();
+        String stableIdString = Integer.toString(stableId);
+        sharedPreferences.edit().putString(Keys.CHART_STYLE, stableIdString).apply();
     }
 
     public int[] getExtrema(Category category) {

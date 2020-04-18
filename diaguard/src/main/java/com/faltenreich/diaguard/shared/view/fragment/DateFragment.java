@@ -1,14 +1,13 @@
 package com.faltenreich.diaguard.shared.view.fragment;
 
 import android.content.res.Configuration;
-import android.view.MenuItem;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.LayoutRes;
+import androidx.annotation.MenuRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 
-import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.datetime.DatePickerFragment;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
 import com.faltenreich.diaguard.feature.navigation.MainButton;
@@ -20,8 +19,8 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
 
     private DateTime day;
 
-    protected DateFragment(@LayoutRes int layoutResourceId, @StringRes int titleResourceId) {
-        super(layoutResourceId, titleResourceId, R.menu.date);
+    protected DateFragment(@LayoutRes int layoutResourceId, @StringRes int titleResourceId, @MenuRes int menuRes) {
+        super(layoutResourceId, titleResourceId, menuRes);
         this.day = DateTime.now().withHourOfDay(0).withMinuteOfHour(0);
     }
 
@@ -29,17 +28,6 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         updateLabels();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_today:
-                goToDay(DateTime.now());
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     protected DateTime getDay() {
@@ -61,13 +49,11 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
     }
 
     private void showDatePicker() {
-        if (getActivity() != null) {
-            DatePickerFragment.newInstance(day, dateTime -> {
-                if (dateTime != null) {
-                    goToDay(dateTime);
-                }
-            }).show(getActivity().getSupportFragmentManager());
-        }
+        DatePickerFragment.newInstance(day, dateTime -> {
+            if (dateTime != null) {
+                goToDay(dateTime);
+            }
+        }).show(getParentFragmentManager());
     }
 
     @Override

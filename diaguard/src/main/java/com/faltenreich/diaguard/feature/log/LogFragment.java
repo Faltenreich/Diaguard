@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.feature.log;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -11,6 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.entry.search.EntrySearchActivity;
+import com.faltenreich.diaguard.feature.log.empty.LogEmptyListItem;
+import com.faltenreich.diaguard.feature.log.entry.LogEntryListItem;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
@@ -22,11 +26,8 @@ import com.faltenreich.diaguard.shared.event.data.EntryUpdatedEvent;
 import com.faltenreich.diaguard.shared.event.file.BackupImportedEvent;
 import com.faltenreich.diaguard.shared.event.preference.CategoryPreferenceChangedEvent;
 import com.faltenreich.diaguard.shared.event.preference.UnitChangedEvent;
-import com.faltenreich.diaguard.shared.view.fragment.DateFragment;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
-import com.faltenreich.diaguard.feature.entry.search.EntrySearchActivity;
-import com.faltenreich.diaguard.feature.log.empty.LogEmptyListItem;
-import com.faltenreich.diaguard.feature.log.entry.LogEntryListItem;
+import com.faltenreich.diaguard.shared.view.fragment.DateFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.StickyHeaderDecoration;
 import com.faltenreich.diaguard.shared.view.recyclerview.layoutmanager.SafeLinearLayoutManager;
 
@@ -51,7 +52,7 @@ public class LogFragment extends DateFragment implements LogListAdapter.Listener
     private LinearLayoutManager listLayoutManager;
 
     public LogFragment() {
-        super(R.layout.fragment_log, R.string.log);
+        super(R.layout.fragment_log, R.string.log, R.menu.log);
     }
 
     @Override
@@ -61,6 +62,15 @@ public class LogFragment extends DateFragment implements LogListAdapter.Listener
 
         // Fake delay for smoother fragment transitions
         new Handler().postDelayed(() -> goToDay(getDay()), 350);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_today) {
+            goToDay(DateTime.now());
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

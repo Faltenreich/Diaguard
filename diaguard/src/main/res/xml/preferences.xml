@@ -16,13 +16,6 @@
         android:entryValues="@array/startscreens_values"
         android:defaultValue="0"/>
 
-    <ListPreference
-        android:key="chart_style"
-        android:title="@string/chart_style"
-        android:entries="@array/chart_style_entries"
-        android:entryValues="@array/chart_style_values"
-        android:defaultValue="0"/>
-
     <PreferenceCategory
         android:title="@string/alarm_reminder"
         android:icon="@drawable/ic_alarm">

@@ -464,15 +464,6 @@
     <string name="chart_scatter">Scatter chart</string>
     <string name="chart_line">Line chart</string>
 
-    <string-array name="chart_style_entries" translatable="false">
-        <item>@string/chart_scatter</item>
-        <item>@string/chart_line</item>
-    </string-array>
-    <string-array name="chart_style_values" translatable="false">
-        <item>0</item>
-        <item>1</item>
-    </string-array>
-
     <string name="oxygen_saturation">Oxygen saturation</string>
     <string name="oxygen_saturation_acronym">Oxygen sat.</string>
 

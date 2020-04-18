@@ -6,6 +6,7 @@ import androidx.annotation.ColorRes;
 import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.timeline.TimelineStyle;
 import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
@@ -40,13 +41,13 @@ class DayChartData extends CombinedData {
     }
 
     private Context context;
-    private PreferenceHelper.ChartStyle chartStyle;
+    private TimelineStyle timelineStyle;
     private List<Measurement> values;
 
     DayChartData(Context context, List<Measurement> values) {
         super();
         this.context = context;
-        this.chartStyle = PreferenceHelper.getInstance().getChartStyle();
+        this.timelineStyle = PreferenceHelper.getInstance().getTimelineStyle();
         this.values = values;
         init();
     }
@@ -107,15 +108,15 @@ class DayChartData extends CombinedData {
     }
 
     private void addEntry(Entry entry, DataSetType type) {
-        switch (chartStyle) {
-            case LINE:
+        switch (timelineStyle) {
+            case LINE_CHART:
                 getLineDataSet().addEntry(entry);
                 // No break, because points are added as well for line charts
-            case POINT:
+            case SCATTER_CHART:
                 getScatterDataSet(type).addEntry(entry);
                 break;
             default:
-                throw new IllegalArgumentException("Failed to add entry to chart style " + chartStyle);
+                throw new IllegalArgumentException("Failed to add entry to chart style " + timelineStyle);
         }
     }
 

@@ -3,25 +3,25 @@ package com.faltenreich.diaguard.shared.data.preference;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.preference.PreferenceManager;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.timeline.TimelineStyle;
-import com.faltenreich.diaguard.shared.data.database.entity.Category;
-import com.faltenreich.diaguard.shared.data.serialization.CategorySerializer;
-import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
-import com.faltenreich.diaguard.shared.view.theme.Theme;
 import com.faltenreich.diaguard.feature.category.CategoryComparatorFactory;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportStyle;
 import com.faltenreich.diaguard.feature.navigation.MainFragmentType;
 import com.faltenreich.diaguard.feature.preference.factor.Daytime;
 import com.faltenreich.diaguard.feature.preference.factor.TimeInterval;
+import com.faltenreich.diaguard.feature.timeline.TimelineStyle;
+import com.faltenreich.diaguard.shared.data.database.entity.Category;
+import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
+import com.faltenreich.diaguard.shared.data.serialization.CategorySerializer;
+import com.faltenreich.diaguard.shared.view.theme.Theme;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -37,7 +37,8 @@ import java.util.Locale;
     "WeakerAccess",
     "SameParameterValue",
     "BooleanMethodIsAlwaysInverted",
-    "SwitchStatementWithTooFewBranches"
+    "SwitchStatementWithTooFewBranches",
+    "DefaultLocale"
 })
 public class PreferenceHelper {
 
@@ -78,7 +79,8 @@ public class PreferenceHelper {
         BREAD_UNITS(1, R.string.unit_factor_bread_unit, .0833f);
 
         public int index;
-        public @StringRes int titleResId;
+        public @StringRes
+        int titleResId;
         public float factor;
 
         FactorUnit(int index, @StringRes int titleResId, float factor) {
@@ -226,7 +228,7 @@ public class PreferenceHelper {
     public boolean validateEventValue(Category category, float value) {
         int[] extrema = getExtrema(category);
 
-        if(extrema.length != 2)
+        if (extrema.length != 2)
             throw new IllegalStateException("IntArray with event value extrema has to contain two values");
 
         return value > extrema[0] && value < extrema[1];
@@ -365,7 +367,7 @@ public class PreferenceHelper {
 
     public float getTargetValue() {
         return FloatUtils.parseNumber(sharedPreferences.getString("target",
-                getContext().getString(R.string.pref_therapy_targets_target_default)));
+            getContext().getString(R.string.pref_therapy_targets_target_default)));
     }
 
     public boolean limitsAreHighlighted() {
@@ -378,26 +380,26 @@ public class PreferenceHelper {
 
     public float getLimitHyperglycemia() {
         return FloatUtils.parseNumber(sharedPreferences.getString("hyperclycemia",
-                getContext().getString(R.string.pref_therapy_targets_hyperclycemia_default)));
+            getContext().getString(R.string.pref_therapy_targets_hyperclycemia_default)));
     }
 
     public float getLimitHypoglycemia() {
         return FloatUtils.parseNumber(sharedPreferences.getString("hypoclycemia",
-                getContext().getString(R.string.pref_therapy_targets_hypoclycemia_default)));
+            getContext().getString(R.string.pref_therapy_targets_hypoclycemia_default)));
     }
 
     public int getMonthResourceId(DateTime daytime) {
         int monthOfYear = daytime.monthOfYear().get();
         String identifier = String.format("bg_month_%d", monthOfYear - 1);
         return getContext().getResources().getIdentifier(identifier,
-                "drawable", getContext().getPackageName());
+            "drawable", getContext().getPackageName());
     }
 
     public int getMonthSmallResourceId(DateTime daytime) {
         int monthOfYear = daytime.monthOfYear().get();
         String identifier = String.format("bg_month_%d_small", monthOfYear - 1);
         return getContext().getResources().getIdentifier(identifier,
-                "drawable", getContext().getPackageName());
+            "drawable", getContext().getPackageName());
     }
 
     public boolean isCategoryActive(Category category) {
@@ -434,7 +436,7 @@ public class PreferenceHelper {
                 activeCategories.add(category);
             }
         }
-        return activeCategories.toArray(new Category[activeCategories.size()]);
+        return activeCategories.toArray(new Category[0]);
     }
 
     public Category[] getActiveCategories() {
@@ -458,21 +460,21 @@ public class PreferenceHelper {
     public String[] getUnitsNames(Category category) {
         String categoryName = category.name().toLowerCase();
         int resourceIdUnits = getContext().getResources().getIdentifier(categoryName +
-                "_units", "array", getContext().getPackageName());
+            "_units", "array", getContext().getPackageName());
         return getContext().getResources().getStringArray(resourceIdUnits);
     }
 
     public String getUnitName(Category category) {
         String sharedPref = sharedPreferences.
-                getString("unit_" + category.name().toLowerCase(), "1");
+            getString("unit_" + category.name().toLowerCase(), "1");
         return getUnitsNames(category)[Arrays.asList(getUnitsValues(category)).indexOf(sharedPref)];
     }
 
     public String[] getUnitsAcronyms(Category category) {
         String categoryName = category.name().toLowerCase();
         int resourceIdUnits = getContext().getResources().getIdentifier(categoryName +
-                "_units_acronyms", "array", getContext().getPackageName());
-        if(resourceIdUnits == 0)
+            "_units_acronyms", "array", getContext().getPackageName());
+        if (resourceIdUnits == 0)
             return null;
         else
             return getContext().getResources().getStringArray(resourceIdUnits);
@@ -480,16 +482,15 @@ public class PreferenceHelper {
 
     public String getUnitAcronym(Category category) {
         String[] acronyms = getUnitsAcronyms(category);
-        if(acronyms == null)
+        if (acronyms == null)
             return getUnitName(category);
         else {
             String sharedPref = sharedPreferences.
-                    getString("unit_" + category.name().toLowerCase(), "1");
+                getString("unit_" + category.name().toLowerCase(), "1");
             int indexOfAcronym = Arrays.asList(getUnitsValues(category)).indexOf(sharedPref);
-            if(indexOfAcronym < acronyms.length) {
+            if (indexOfAcronym < acronyms.length) {
                 return acronyms[indexOfAcronym];
-            }
-            else {
+            } else {
                 return getUnitName(category);
             }
         }
@@ -501,7 +502,7 @@ public class PreferenceHelper {
 
     private String[] getUnitsValues(String unitName) {
         int resourceIdUnits = getContext().getResources().getIdentifier(unitName +
-                "_units_values", "array", getContext().getPackageName());
+            "_units_values", "array", getContext().getPackageName());
         return getContext().getResources().getStringArray(resourceIdUnits);
     }
 
@@ -592,7 +593,7 @@ public class PreferenceHelper {
         try {
             index = Integer.parseInt(value);
         } catch (NumberFormatException exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, exception.getMessage() != null ? exception.getMessage() : "Failed to getFactorUnit()");
         }
         return index >= 0 && index < FactorUnit.values().length ? FactorUnit.values()[index] : defaultValue;
     }
@@ -634,9 +635,5 @@ public class PreferenceHelper {
 
     public boolean showBrandedFood() {
         return sharedPreferences.getBoolean(Keys.FOOD_SHOW_BRANDED, true);
-    }
-
-    public void setShowBrandedFood(boolean show) {
-        sharedPreferences.edit().putBoolean(Keys.FOOD_SHOW_BRANDED, show).apply();
     }
 }

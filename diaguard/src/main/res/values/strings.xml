@@ -460,7 +460,7 @@
     <string name="about_legal">Legal</string>
     <string name="about_legal_desc">The manufacturer of the app assumes no responsibility for the topicality, correctness, completeness or quality of the information provided. Liability claims against the manufacturer, which relate to material or immaterial nature, caused by the use or non-use of the app are excluded. This app is for documentation purposes only and does not replace a diabetes consultant or doctor.</string>
 
-    <string name="chart_style">Timeline style</string>
+    <string name="chart_style">Chart style</string>
     <string name="chart_scatter">Scatter chart</string>
     <string name="chart_line">Line chart</string>
 

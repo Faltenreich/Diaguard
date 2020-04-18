@@ -3,11 +3,15 @@ package com.faltenreich.diaguard.feature.preference;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.Dimension;
 import androidx.annotation.Nullable;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
@@ -17,7 +21,6 @@ import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
 
-import com.faltenreich.diaguard.BuildConfig;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.export.job.Export;
 import com.faltenreich.diaguard.feature.export.job.ExportCallback;
@@ -43,6 +46,8 @@ import com.faltenreich.diaguard.shared.event.preference.MealFactorUnitChangedEve
 import com.faltenreich.diaguard.shared.event.preference.UnitChangedEvent;
 import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 import com.faltenreich.diaguard.shared.view.progress.ProgressComponent;
+import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
+import com.faltenreich.diaguard.shared.view.resource.DrawableUtils;
 import com.faltenreich.diaguard.shared.view.theme.Theme;
 import com.faltenreich.diaguard.shared.view.theme.ThemeUtils;
 
@@ -98,28 +103,9 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Shar
     }
 
     private void initLayout() {
-        if (!BuildConfig.isCalculatorEnabled) {
-            Preference categoryPreferenceLimits = findPreference("limits");
-            if (categoryPreferenceLimits instanceof PreferenceCategory) {
-                PreferenceCategory category = (PreferenceCategory) categoryPreferenceLimits;
-                Preference correctionPreference = findPreference("correction_value");
-                if (correctionPreference != null) {
-                    category.removePreference(correctionPreference);
-                }
-                Preference factorPreference = findPreference("pref_factor");
-                if (factorPreference != null) {
-                    category.removePreference(factorPreference);
-                }
-            }
-            Preference categoryPreferenceUnits = findPreference("units");
-            if (categoryPreferenceUnits instanceof PreferenceCategory) {
-                PreferenceCategory category = (PreferenceCategory) categoryPreferenceUnits;
-                Preference mealFactorPreference = findPreference("unit_meal_factor");
-                if (mealFactorPreference != null) {
-                    category.removePreference(mealFactorPreference);
-                }
-            }
-        }
+        int color = ColorUtils.getPrimaryColor(getContext());
+        int size = getResources().getDimensionPixelSize(R.dimen.size_image);
+        applyThemeToIcons(getPreferenceScreen(), color, size);
     }
 
     private ArrayList<Preference> getPreferenceList(Preference preference, ArrayList<Preference> list) {
@@ -127,12 +113,28 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Shar
             PreferenceGroup pGroup = (PreferenceGroup) preference;
             int pCount = pGroup.getPreferenceCount();
             for (int i = 0; i < pCount; i++) {
-                getPreferenceList(pGroup.getPreference(i), list); // recursive call
+                getPreferenceList(pGroup.getPreference(i), list);
             }
         } else {
             list.add(preference);
         }
         return list;
+    }
+
+    private void applyThemeToIcons(Preference preference, @ColorInt int color, @Dimension int size) {
+        Drawable icon = preference.getIcon();
+        if (icon != null) {
+            icon = DrawableUtils.resize(preference.getContext(), icon, size);
+            DrawableCompat.setTint(icon, color);
+            preference.setIcon(icon);
+        }
+
+        if (preference instanceof PreferenceGroup) {
+            PreferenceGroup group = ((PreferenceGroup) preference);
+            for (int index = 0; index < group.getPreferenceCount(); index++) {
+                applyThemeToIcons(group.getPreference(index), color, size);
+            }
+        }
     }
 
     private void setSummaries() {

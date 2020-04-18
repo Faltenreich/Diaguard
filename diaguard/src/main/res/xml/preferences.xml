@@ -29,7 +29,8 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/alarm_reminder">
+        android:title="@string/alarm_reminder"
+        android:icon="@drawable/ic_alarm">
 
         <CheckBoxPreference
             android:key="sound"

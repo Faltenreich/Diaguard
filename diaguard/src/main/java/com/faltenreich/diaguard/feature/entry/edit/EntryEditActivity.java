@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.tag.TagListActivity;
 import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
@@ -122,6 +123,7 @@ public class EntryEditActivity extends BaseActivity implements MeasurementFloati
     @BindView(R.id.entry_button_alarm) Button buttonAlarm;
     @BindView(R.id.entry_alarm_container) ViewGroup containerAlarm;
     @BindView(R.id.entry_tags_input) AutoCompleteTextView tagsInput;
+    @BindView(R.id.entry_tags_edit_button) View tagEditButton;
     @BindView(R.id.entry_tags) ChipGroup tagsView;
 
     private long entryId;
@@ -144,8 +146,18 @@ public class EntryEditActivity extends BaseActivity implements MeasurementFloati
         super.onCreate(savedInstanceState);
         init();
         initLayout();
-        fetchData();
+        if (entryId > 0) {
+            fetchEntry(entryId);
+        } else if (foodId > 0) {
+            fetchFood(foodId);
+        }
         addMeasurementForGivenCategory();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fetchTags();
     }
 
     @Override
@@ -157,13 +169,11 @@ public class EntryEditActivity extends BaseActivity implements MeasurementFloati
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_delete:
-                deleteEntry();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.action_delete) {
+            deleteEntry();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private void init() {
@@ -228,15 +238,8 @@ public class EntryEditActivity extends BaseActivity implements MeasurementFloati
             Tag tag = tagAdapter.getItem(position);
             addTag(tag);
         });
-    }
 
-    private void fetchData() {
-        if (entryId > 0) {
-            fetchEntry(entryId);
-        } else if (foodId > 0) {
-            fetchFood(foodId);
-        }
-        fetchTags();
+        tagEditButton.setOnClickListener(view -> startActivity(new Intent(this, TagListActivity.class)));
     }
 
     private void fetchEntry(final long id) {
@@ -286,6 +289,7 @@ public class EntryEditActivity extends BaseActivity implements MeasurementFloati
 
             @Override
             public void onDidLoad(List<Tag> tags) {
+                tagAdapter.clear();
                 tagAdapter.addAll(tags);
                 tagAdapter.notifyDataSetChanged();
             }
@@ -445,6 +449,7 @@ public class EntryEditActivity extends BaseActivity implements MeasurementFloati
             for (Measurement measurement : layoutMeasurements.getMeasurements()) {
                 if (measurement == null) {
                     inputIsValid = false;
+                    break;
                 }
             }
         }

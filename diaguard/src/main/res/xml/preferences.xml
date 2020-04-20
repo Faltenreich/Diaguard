@@ -45,15 +45,6 @@
                 android:targetClass="com.faltenreich.diaguard.feature.category.CategoryListActivity"/>
         </Preference>
 
-        <Preference
-            android:key="tags"
-            android:title="@string/tags">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:targetPackage="@string/package_name"
-                android:targetClass="com.faltenreich.diaguard.feature.tag.TagListActivity"/>
-        </Preference>
-
         <CheckBoxPreference
             android:key="showBrandedFood"
             android:title="@string/show_branded_food"

@@ -112,6 +112,11 @@ public class TagAutoCompleteAdapter extends ArrayAdapter<Tag> {
     }
 
     @Override
+    public void clear() {
+        tags.clear();
+    }
+
+    @Override
     public void add(@Nullable Tag tag) {
         set(tag, !tags.containsKey(tag) || tags.get(tag));
     }

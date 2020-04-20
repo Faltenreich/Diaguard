@@ -82,20 +82,41 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
 
-                                <AutoCompleteTextView
-                                    android:id="@+id/entry_tags_input"
+                                <LinearLayout
                                     android:layout_width="match_parent"
-                                    android:layout_height="@dimen/height_element_large"
-                                    android:layout_weight="1"
-                                    android:background="@android:color/transparent"
-                                    android:completionThreshold="0"
-                                    android:hint="@string/tags"
-                                    android:imeOptions="actionDone"
-                                    android:inputType="text"
-                                    android:lines="1"
-                                    android:paddingStart="@dimen/margin_between"
-                                    android:paddingLeft="@dimen/margin_between"
-                                    tools:ignore="RtlSymmetry" />
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:gravity="center_vertical"
+                                    android:divider="@drawable/divider_medium"
+                                    android:showDividers="middle">
+
+                                    <AutoCompleteTextView
+                                        android:id="@+id/entry_tags_input"
+                                        android:layout_width="0dp"
+                                        android:layout_height="@dimen/height_element_large"
+                                        android:layout_weight="1"
+                                        android:background="@android:color/transparent"
+                                        android:completionThreshold="0"
+                                        android:hint="@string/tags"
+                                        android:imeOptions="actionDone"
+                                        android:inputType="text"
+                                        android:lines="1"
+                                        android:paddingStart="@dimen/margin_between"
+                                        android:paddingLeft="@dimen/margin_between"
+                                        tools:ignore="RtlSymmetry" />
+
+                                    <ImageView
+                                        android:id="@+id/entry_tags_edit_button"
+                                        android:layout_width="@dimen/size_image_small"
+                                        android:layout_height="@dimen/size_image_small"
+                                        android:contentDescription="@string/tags"
+                                        android:tint="?iconColorPrimary"
+                                        android:background="?selectableItemBackgroundBorderless"
+                                        android:clickable="true"
+                                        android:focusable="true"
+                                        app:srcCompat="@drawable/ic_more_vertical" />
+
+                                </LinearLayout>
 
                                 <com.google.android.material.chip.ChipGroup
                                     android:id="@+id/entry_tags"

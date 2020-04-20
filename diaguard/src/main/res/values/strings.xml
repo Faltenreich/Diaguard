@@ -8,6 +8,8 @@
     <string name="app_homepage_short" translatable="false">diaguard.wordpress.com</string>
     <string name="app_mail" translatable="false">mailto:diaguard.de@gmail.com</string>
     <string name="app_mail_short" translatable="false">diaguard.de@gmail.com</string>
+    <string name="app_sourcecode" translatable="false">https://github.com/Faltenreich/Diaguard</string>
+    <string name="app_sourcecode_short" translatable="false">github.com/Faltenreich/Diaguard</string>
 
     <!-- GENERAL -->
 
@@ -535,5 +537,6 @@
     <string name="month_current">Current month</string>
     <string name="quarter_current">Current quarter</string>
     <string name="therapy">Therapy</string>
+    <string name="sourcecode">Source code</string>
 
 </resources>

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ListPreference
         android:key="theme"
@@ -36,15 +38,6 @@
         android:title="@string/data"
         android:icon="@drawable/ic_storage">
 
-        <Preference
-            android:key="categories"
-            android:title="@string/categories">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:targetPackage="@string/package_name"
-                android:targetClass="com.faltenreich.diaguard.feature.category.CategoryListActivity"/>
-        </Preference>
-
         <CheckBoxPreference
             android:key="showBrandedFood"
             android:title="@string/show_branded_food"
@@ -65,7 +58,17 @@
 
     <PreferenceCategory
         android:key="units"
-        android:title="@string/units">
+        android:title="@string/units"
+        app:isPreferenceVisible="false">
+
+        <Preference
+            android:key="categories"
+            android:title="@string/categories">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetPackage="@string/package_name"
+                android:targetClass="com.faltenreich.diaguard.feature.category.CategoryListActivity"/>
+        </Preference>
 
         <ListPreference
             android:key="unit_bloodsugar"
@@ -106,7 +109,8 @@
 
     <PreferenceCategory
         android:key="limits"
-        android:title="@string/pref_therapy_limits">
+        android:title="@string/pref_therapy_limits"
+        app:isPreferenceVisible="false">
 
         <CheckBoxPreference
             android:key="targets_highlight"

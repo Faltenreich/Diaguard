@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.log.entry.LogEntryListItem;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
 import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
@@ -25,10 +25,9 @@ import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
-import com.faltenreich.diaguard.feature.log.entry.LogEntryListItem;
 import com.faltenreich.diaguard.shared.view.recyclerview.layoutmanager.SafeLinearLayoutManager;
-import com.faltenreich.diaguard.shared.view.ViewUtils;
-import com.lapism.searchview.SearchView;
+import com.faltenreich.diaguard.shared.view.search.SearchListener;
+import com.faltenreich.diaguard.shared.view.search.SearchView;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -37,7 +36,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class EntrySearchFragment extends BaseFragment implements SearchView.OnQueryTextListener, SearchView.OnMenuClickListener {
+public class EntrySearchFragment extends BaseFragment implements SearchListener {
 
     private static final String TAG = EntrySearchFragment.class.getSimpleName();
     private static final int SEARCH_INPUT_DELAY_IN_MILLIS = 1000;
@@ -46,7 +45,6 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
     static final String EXTRA_TAG_ID = "tagId";
 
     @BindView(R.id.search_view) SearchView searchView;
-    @BindView(R.id.searchEditText_input) EditText searchInput;
     @BindView(R.id.search_list) RecyclerView list;
     @BindView(R.id.search_list_empty) TextView listEmptyView;
     @BindView(R.id.search_list_progress) View progressView;
@@ -85,9 +83,7 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
         listAdapter.setOnEndlessListener(scrollingDown -> { if (scrollingDown) continueSearch(); });
         list.setAdapter(listAdapter);
 
-        searchView.setOnQueryTextListener(this);
-        searchView.setOnMenuClickListener(this);
-        searchView.setArrowOnly(true);
+        searchView.setListener(this);
 
         invalidateEmptyView();
     }
@@ -102,16 +98,14 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
                 @Override
                 public void onDidLoad(Tag tag) {
                     if (tag != null) {
-                        searchView.setOnQueryTextListener(null);
                         searchView.setQuery(tag.getName(), false);
-                        searchView.setOnQueryTextListener(EntrySearchFragment.this);
                         newSearch();
                     }
                 }
             });
         } else {
             // Workaround to focus EditText onViewCreated
-            new Handler().postDelayed(() -> ViewUtils.showKeyboard(searchInput), 500);
+            new Handler().postDelayed(() -> searchView.focusSearchField(), 500);
         }
     }
 
@@ -123,7 +117,7 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
         }
         currentPage = 0;
 
-        if (StringUtils.isNotBlank(searchView.getQuery().toString())) {
+        if (StringUtils.isNotBlank(searchView.getQuery())) {
             progressView.setVisibility(View.VISIBLE);
             continueSearch();
         }
@@ -131,7 +125,7 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
     }
 
     private void continueSearch() {
-        final String query = searchView.getQuery().toString();
+        final String query = searchView.getQuery();
         DataLoader.getInstance().load(getContext(), new DataLoaderListener<List<LogEntryListItem>>() {
             @Override
             public List<LogEntryListItem> onShouldLoad() {
@@ -153,7 +147,7 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
             }
             @Override
             public void onDidLoad(List<LogEntryListItem> items) {
-                String currentQuery = searchView.getQuery().toString();
+                String currentQuery = searchView.getQuery();
                 if (query.equals(currentQuery)) {
                     currentPage++;
                     int oldCount = listAdapter.getItemCount();
@@ -170,28 +164,21 @@ public class EntrySearchFragment extends BaseFragment implements SearchView.OnQu
 
     private void invalidateEmptyView() {
         listEmptyView.setVisibility(progressView.getVisibility() != View.VISIBLE && listAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
-        listEmptyView.setText(StringUtils.isBlank(searchView.getQuery().toString()) ? R.string.search_prompt : R.string.no_results_found);
+        listEmptyView.setText(StringUtils.isBlank(searchView.getQuery()) ? R.string.search_prompt : R.string.no_results_found);
     }
 
     @Override
-    public boolean onQueryTextSubmit(String query) {
-        // Handled in onQueryTextChange()
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(final String newText) {
+    public void onQueryChanged(String query) {
         // Delay search in order to reduce obsolete searches
         new Handler().postDelayed(() -> {
-            if (newText.equals(searchView.getQuery().toString())) {
+            if (query.equals(searchView.getQuery())) {
                 newSearch();
             }
         }, SEARCH_INPUT_DELAY_IN_MILLIS);
-        return false;
     }
 
     @Override
-    public void onMenuClick() {
+    public void onQueryClosed() {
         finish();
     }
 }

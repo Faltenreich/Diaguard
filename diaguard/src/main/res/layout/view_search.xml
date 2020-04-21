@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.faltenreich.diaguard.shared.view.search.SearchViewDependency
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/search_view_dependency"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />

@@ -7,7 +7,7 @@ import android.text.TextUtils;
 import androidx.annotation.LayoutRes;
 
 import com.faltenreich.diaguard.R;
-import com.lapism.searchview.SearchView;
+import com.faltenreich.diaguard.shared.view.search.SearchView;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public abstract class BaseSearchActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == SearchView.SPEECH_REQUEST_CODE && resultCode == RESULT_OK) {
+        if (requestCode == com.lapism.searchview.SearchView.SPEECH_REQUEST_CODE && resultCode == RESULT_OK) {
             List<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             if (results != null && results.size() > 0) {
                 String voiceInput = results.get(0);

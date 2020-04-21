@@ -9,6 +9,11 @@
     <declare-styleable name="LocalizedNumberEditText">
         <attr name="restrictToLocalizedSeparator" format="boolean"/>
     </declare-styleable>
+    
+    
+    <declare-styleable name="SearchView">
+        <attr name="android:hint" />
+    </declare-styleable>
 
     <attr name="backgroundColorGreen" format="color"/>
     <attr name="backgroundColorGreenDark" format="color"/>

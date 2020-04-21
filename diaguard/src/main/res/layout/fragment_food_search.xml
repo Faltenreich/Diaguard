@@ -36,11 +36,11 @@
                     android:layout_height="wrap_content"
                     android:background="?backgroundColorGreen"
                     android:orientation="horizontal"
-                    android:paddingBottom="@dimen/activity_vertical_margin"
-                    android:paddingEnd="@dimen/activity_horizontal_margin"
+                    android:paddingStart="@dimen/activity_horizontal_margin"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingEnd="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
-                    android:paddingStart="@dimen/activity_horizontal_margin">
+                    android:paddingBottom="@dimen/activity_vertical_margin">
 
                     <TextView
                         android:layout_width="0dp"
@@ -54,8 +54,8 @@
                         android:id="@+id/food_search_unit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/padding_end"
                         android:layout_marginStart="@dimen/padding_end"
+                        android:layout_marginLeft="@dimen/padding_end"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/text_small" />
 
@@ -81,7 +81,7 @@
                 android:id="@+id/food_search_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:listitem="@layout/list_item_food_search"/>
+                tools:listitem="@layout/list_item_food_search" />
 
             <LinearLayout
                 android:id="@+id/food_search_list_empty"
@@ -98,7 +98,7 @@
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:contentDescription="@null"
-                    android:src="@drawable/ic_sad"/>
+                    android:src="@drawable/ic_sad" />
 
                 <TextView
                     android:id="@+id/food_search_empty_text"
@@ -106,8 +106,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_between_large"
                     android:gravity="center"
-                    android:textStyle="bold"
-                    android:text="@string/error_no_data"/>
+                    android:text="@string/error_no_data"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/food_search_empty_description"
@@ -115,14 +115,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_between"
                     android:gravity="center"
-                    android:text="@string/error_no_data_desc"/>
+                    android:text="@string/error_no_data_desc" />
 
                 <Button
                     android:id="@+id/food_search_empty_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_between"
-                    android:text="@string/food_add_desc"/>
+                    android:text="@string/food_add_desc" />
 
             </LinearLayout>
 
@@ -131,22 +131,22 @@
     </com.faltenreich.diaguard.shared.view.swiperefreshlayout.ThemedSwipeRefreshLayout>
 
     <com.github.clans.fab.FloatingActionButton
-        style="@style/FloatingActionButton"
         android:id="@+id/fab"
+        style="@style/FloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:src="@drawable/fab_add"
         app:fab_colorNormal="?backgroundColorGreen"
-        app:layout_behavior="com.faltenreich.diaguard.shared.view.coordinatorlayout.SlideOutBehavior"
         app:layout_anchor="@id/food_search_list"
         app:layout_anchorGravity="bottom|right|end"
-        app:layout_dodgeInsetEdges="bottom"/>
+        app:layout_behavior="com.faltenreich.diaguard.shared.view.coordinatorlayout.SlideOutBehavior"
+        app:layout_dodgeInsetEdges="bottom" />
 
     <com.faltenreich.diaguard.shared.view.search.SearchView
-        style="@style/SearchView"
         android:id="@+id/search_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:hint="@string/food_search" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

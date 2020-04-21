@@ -2,7 +2,6 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,18 +14,16 @@
         <include
             layout="@layout/view_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="64dp"/>
+            android:layout_height="64dp" />
 
         <com.faltenreich.diaguard.shared.view.search.SearchView
-            style="@style/SearchView"
             android:id="@+id/search_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:search_hint="@string/search_hint"
-            app:search_shadow="false"/>
+            android:hint="@string/search_hint" />
 
     </FrameLayout>
-    
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -35,17 +32,17 @@
             android:id="@+id/search_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/list_item_log_entry"/>
-        
+            tools:listitem="@layout/list_item_log_entry" />
+
         <TextView
             android:id="@+id/search_list_empty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_between"
             android:layout_gravity="center"
+            android:layout_margin="@dimen/margin_between"
             android:visibility="gone"
-            tools:visibility="visible"
-            tools:text="@string/search_prompt"/>
+            tools:text="@string/search_prompt"
+            tools:visibility="visible" />
 
         <ProgressBar
             android:id="@+id/search_list_progress"
@@ -53,8 +50,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:visibility="gone"
-            tools:visibility="visible"/>
-        
+            tools:visibility="visible" />
+
     </FrameLayout>
 
 </LinearLayout>

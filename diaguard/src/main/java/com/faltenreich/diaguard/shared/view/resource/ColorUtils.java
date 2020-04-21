@@ -46,6 +46,11 @@ public class ColorUtils {
     }
 
     @ColorInt
+    public static int getTextColorTertiary(Context context) {
+        return getColor(context, android.R.attr.textColorTertiary);
+    }
+
+    @ColorInt
     public static int getBackgroundPrimary(Context context) {
         return getColor(context, R.attr.backgroundColorPrimary);
     }
@@ -63,5 +68,15 @@ public class ColorUtils {
     @ColorInt
     public static int getBackgroundPrimaryTranslucent(Context context) {
         return getColor(context, R.attr.backgroundColorPrimaryTranslucent);
+    }
+
+    @ColorInt
+    public static int getIconColorPrimary(Context context) {
+        return getColor(context, R.attr.iconColorPrimary);
+    }
+
+    @ColorInt
+    public static int getIconColorSecondary(Context context) {
+        return getColor(context, R.attr.iconColorSecondary);
     }
 }

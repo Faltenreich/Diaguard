@@ -66,13 +66,6 @@
     <style name="DateTimePicker" parent="Base.ThemeOverlay.AppCompat.Dialog">
         <item name="android:windowBackground">?backgroundColorPrimary</item>
     </style>
-    
-    <style name="SearchView">
-        <item name="search_background_color">?attr/backgroundColorPrimary</item>
-        <item name="search_text_color">?android:textColorPrimary</item>
-        <item name="search_icon_color">?iconColorPrimary</item>
-        <item name="search_hint_color">?android:textColorTertiary</item>
-    </style>
 
     <style name="FloatingActionButton">
         <item name="android:layout_margin">@dimen/fab_margin</item>

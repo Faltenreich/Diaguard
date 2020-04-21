@@ -9,6 +9,7 @@ import android.widget.FrameLayout;
 import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
 
 import butterknife.BindView;
@@ -92,6 +93,6 @@ public class SearchView extends FrameLayout implements Searchable {
 
     @Override
     public void focusSearchField() {
-        dependency.focusSearchField();
+        ViewUtils.showKeyboard(dependency.inputField);
     }
 }

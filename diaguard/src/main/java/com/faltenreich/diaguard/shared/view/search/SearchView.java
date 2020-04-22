@@ -9,8 +9,6 @@ import android.widget.FrameLayout;
 import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.shared.view.ViewUtils;
-import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,14 +17,9 @@ public class SearchView extends FrameLayout implements Searchable {
 
     @BindView(R.id.search_view_dependency) SearchViewDependency dependency;
 
-    private SearchListenerAdapter listenerAdapter;
-
-    private String hint;
-    private boolean showShadow;
-
     public SearchView(Context context) {
         super(context);
-        init();
+        init(null);
     }
 
     public SearchView(Context context, @Nullable AttributeSet attributeSet) {
@@ -39,60 +32,59 @@ public class SearchView extends FrameLayout implements Searchable {
         init(attributeSet);
     }
 
-    public void setListener(SearchListener listener) {
-        listenerAdapter = new SearchListenerAdapter(listener);
-        dependency.setOnQueryTextListener(listenerAdapter);
-        dependency.setOnMenuClickListener(listenerAdapter);
-    }
-
-    private void init(AttributeSet attributeSet) {
-        getAttributes(attributeSet);
-        init();
-    }
-
-    private void init() {
+    private void init(@Nullable AttributeSet attributeSet) {
         LayoutInflater.from(getContext()).inflate(R.layout.view_search, this);
         if (!isInEditMode()) {
             ButterKnife.bind(this);
-            initLayout();
+            initLayout(attributeSet);
         }
     }
 
-    private void getAttributes(AttributeSet attributeSet) {
-        TypedArray typedArray = getContext().obtainStyledAttributes(attributeSet, R.styleable.SearchView);
-        try {
-            hint = typedArray.getString(R.styleable.SearchView_android_hint);
-            showShadow = typedArray.getBoolean(R.styleable.SearchView_showShadow, true);
-        } finally {
-            typedArray.recycle();
-        }
-    }
+    private void initLayout(@Nullable AttributeSet attributeSet) {
+        String hint = null;
+        boolean showShadow = true;
 
-    private void initLayout() {
-        dependency.setHint(hint);
-        dependency.setBackgroundColor(ColorUtils.getBackgroundPrimary(getContext()));
-        dependency.setTextColor(ColorUtils.getTextColorPrimary(getContext()));
-        dependency.setIconColor(ColorUtils.getIconColorPrimary(getContext()));
-        dependency.setHintColor(ColorUtils.getTextColorTertiary(getContext()));
-        dependency.setArrowOnly(true);
-        dependency.setShadow(showShadow);
+        if (attributeSet != null) {
+            TypedArray typedArray = getContext().obtainStyledAttributes(attributeSet, R.styleable.SearchView);
+            try {
+                hint = typedArray.getString(R.styleable.SearchView_android_hint);
+                showShadow = typedArray.getBoolean(R.styleable.SearchView_showShadow, true);
+            } finally {
+                typedArray.recycle();
+            }
+        }
+
+        setHint(hint);
+        setShadow(showShadow);
     }
 
     @Override
     public String getQuery() {
-        return dependency.getQuery().toString();
+        return dependency.getQuery();
     }
 
     @Override
     public void setQuery(String query, boolean submit) {
-        // Workaround: onQueryTextChange() is called either way, so we disable and re-enable it
-        dependency.setOnQueryTextListener(null);
         dependency.setQuery(query, submit);
-        dependency.setOnQueryTextListener(listenerAdapter);
+    }
+
+    @Override
+    public void setHint(String hint) {
+        dependency.setHint(hint);
+    }
+
+    @Override
+    public void setShadow(boolean isEnabled) {
+        dependency.setShadow(isEnabled);
+    }
+
+    @Override
+    public void setSearchListener(SearchListener searchListener) {
+        dependency.setSearchListener(searchListener);
     }
 
     @Override
     public void focusSearchField() {
-        ViewUtils.showKeyboard(dependency.inputField);
+        dependency.focusSearchField();
     }
 }

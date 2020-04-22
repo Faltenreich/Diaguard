@@ -83,7 +83,7 @@ public class EntrySearchFragment extends BaseFragment implements SearchListener 
         listAdapter.setOnEndlessListener(scrollingDown -> { if (scrollingDown) continueSearch(); });
         list.setAdapter(listAdapter);
 
-        searchView.setListener(this);
+        searchView.setSearchListener(this);
 
         invalidateEmptyView();
     }

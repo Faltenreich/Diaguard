@@ -9,17 +9,22 @@ import android.widget.EditText;
 import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.shared.view.ViewUtils;
+import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
 import com.lapism.searchview.SearchView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SearchViewDependency extends SearchView {
+public class SearchViewDependency extends SearchView
+    implements Searchable, SearchView.OnQueryTextListener, SearchView.OnMenuClickListener {
 
     // Workaround: Duplicated property from library, since it is package-private
     private static final float STATE_ARROW = 0.0f;
 
     @BindView(R.id.searchEditText_input) EditText inputField;
+
+    private SearchListener searchListener;
 
     public SearchViewDependency(Context context) {
         super(context);
@@ -44,7 +49,15 @@ public class SearchViewDependency extends SearchView {
     }
 
     private void initLayout() {
+        setBackgroundColor(ColorUtils.getBackgroundPrimary(getContext()));
+        setTextColor(ColorUtils.getTextColorPrimary(getContext()));
+        setIconColor(ColorUtils.getIconColorPrimary(getContext()));
+        setHintColor(ColorUtils.getTextColorTertiary(getContext()));
+        setArrowOnly(true);
         overrideRippleEffectForBackButton();
+
+        setOnQueryTextListener(this);
+        setOnMenuClickListener(this);
     }
 
     private void overrideRippleEffectForBackButton() {
@@ -66,5 +79,54 @@ public class SearchViewDependency extends SearchView {
         } else {
             super.onClick(view);
         }
+    }
+
+    @Override
+    public String getQuery() {
+        return super.getQuery().toString();
+    }
+
+    @Override
+    public void setQuery(String query, boolean submit) {
+        // Workaround: onQueryTextChange() is called either way, so we disable and re-enable it
+        setOnQueryTextListener(null);
+        super.setQuery(query, submit);
+        setOnQueryTextListener(this);
+    }
+
+    @Override
+    public void setHint(String hint) {
+        super.setHint(hint);
+    }
+
+    @Override
+    public void setShadow(boolean shadow) {
+        super.setShadow(shadow);
+    }
+
+    @Override
+    public void setSearchListener(SearchListener searchListener) {
+        this.searchListener = searchListener;
+    }
+
+    @Override
+    public void focusSearchField() {
+        ViewUtils.showKeyboard(inputField);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        searchListener.onQueryChanged(newText);
+        return false;
+    }
+
+    @Override
+    public void onMenuClick() {
+        searchListener.onQueryClosed();
     }
 }

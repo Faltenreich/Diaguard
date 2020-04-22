@@ -16,7 +16,7 @@ import com.lapism.searchview.SearchView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SearchViewDependency extends SearchView
+public class SearchViewDelegate extends SearchView
     implements Searchable, SearchView.OnQueryTextListener, SearchView.OnMenuClickListener {
 
     // Workaround: Duplicated property from library, since it is package-private
@@ -26,17 +26,17 @@ public class SearchViewDependency extends SearchView
 
     private SearchListener searchListener;
 
-    public SearchViewDependency(Context context) {
+    public SearchViewDelegate(Context context) {
         super(context);
         init();
     }
 
-    public SearchViewDependency(Context context, @Nullable AttributeSet attrs) {
+    public SearchViewDelegate(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public SearchViewDependency(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public SearchViewDelegate(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }

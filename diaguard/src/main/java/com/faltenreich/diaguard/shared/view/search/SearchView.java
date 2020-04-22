@@ -15,7 +15,8 @@ import butterknife.ButterKnife;
 
 public class SearchView extends FrameLayout implements Searchable {
 
-    @BindView(R.id.search_view_dependency) SearchViewDependency dependency;
+    @BindView(R.id.search_view_delegate)
+    SearchViewDelegate delegate;
 
     public SearchView(Context context) {
         super(context);
@@ -60,31 +61,31 @@ public class SearchView extends FrameLayout implements Searchable {
 
     @Override
     public String getQuery() {
-        return dependency.getQuery();
+        return delegate.getQuery();
     }
 
     @Override
     public void setQuery(String query, boolean submit) {
-        dependency.setQuery(query, submit);
+        delegate.setQuery(query, submit);
     }
 
     @Override
     public void setHint(String hint) {
-        dependency.setHint(hint);
+        delegate.setHint(hint);
     }
 
     @Override
     public void setShadow(boolean isEnabled) {
-        dependency.setShadow(isEnabled);
+        delegate.setShadow(isEnabled);
     }
 
     @Override
     public void setSearchListener(SearchListener searchListener) {
-        dependency.setSearchListener(searchListener);
+        delegate.setSearchListener(searchListener);
     }
 
     @Override
     public void focusSearchField() {
-        dependency.focusSearchField();
+        delegate.focusSearchField();
     }
 }

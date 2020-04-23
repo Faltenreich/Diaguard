@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.R;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -56,7 +58,11 @@ public class SearchView extends FrameLayout implements Searchable {
         }
 
         setHint(hint);
-        setShadow(showShadow);
+
+        // Workaround: Enabling shadow early leads to unnecessary overlay
+        if (!showShadow) {
+            setShadow(false);
+        }
     }
 
     @Override
@@ -82,6 +88,11 @@ public class SearchView extends FrameLayout implements Searchable {
     @Override
     public void setSearchListener(SearchListener searchListener) {
         delegate.setSearchListener(searchListener);
+    }
+
+    @Override
+    public void setSuggestions(List<String> suggestions) {
+        delegate.setSuggestions(suggestions);
     }
 
     @Override

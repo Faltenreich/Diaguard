@@ -5,16 +5,23 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
+import com.lapism.searchview.SearchAdapter;
+import com.lapism.searchview.SearchItem;
 import com.lapism.searchview.SearchView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class SearchViewDelegate extends SearchView
     implements Searchable, SearchView.OnQueryTextListener, SearchView.OnMenuClickListener {
@@ -110,6 +117,24 @@ public class SearchViewDelegate extends SearchView
     }
 
     @Override
+    public void setSuggestions(List<String> suggestions) {
+        List<SearchItem> searchItems = new ArrayList<>();
+        for (String suggestion : suggestions) {
+            searchItems.add(new SearchItem(R.drawable.ic_history_old, suggestion));
+        }
+
+        SearchAdapter searchAdapter = new SearchAdapter(getContext());
+        searchAdapter.setSuggestionsList(searchItems);
+        searchAdapter.addOnItemClickListener((view, position) -> {
+            TextView textView = view.findViewById(R.id.textView_item_text);
+            String query = textView.getText().toString();
+            setQuery(query, true);
+            close(true);
+        });
+        setAdapter(searchAdapter);
+    }
+
+    @Override
     public void focusSearchField() {
         ViewUtils.showKeyboard(inputField);
     }
@@ -127,6 +152,17 @@ public class SearchViewDelegate extends SearchView
 
     @Override
     public void onMenuClick() {
-        searchListener.onQueryClosed();
+        if (isSearchOpen()) {
+            close(true);
+        } else {
+            searchListener.onQueryClosed();
+        }
+    }
+
+    @OnClick(R.id.imageView_clear)
+    void clearQuery() {
+        setTextOnly(null);
+        close(true);
+        setQuery(null, true);
     }
 }

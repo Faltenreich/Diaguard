@@ -2,11 +2,13 @@ package com.faltenreich.diaguard.shared.view.search;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -23,6 +25,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class SearchView extends FrameLayout implements Searchable {
+
+    private static final int SEARCH_INPUT_DELAY_IN_MILLIS = 1000;
 
     @BindView(R.id.backIcon)
     ImageView backIcon;
@@ -87,15 +91,20 @@ public class SearchView extends FrameLayout implements Searchable {
 
             @Override
             public void onTextChanged(CharSequence text, int start, int before, int count) {
-                if (listener != null) {
-                    listener.onQueryChanged(text.toString());
-                }
                 invalidateLayout();
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                if (listener != null) {
+                    String query = editable.toString();
+                    // Delay search in order to reduce obsolete searches
+                    new Handler().postDelayed(() -> {
+                        if (query.equals(getQuery())) {
+                            listener.onQueryChanged(query);
+                        }
+                    }, SEARCH_INPUT_DELAY_IN_MILLIS);
+                }
             }
         });
     }
@@ -130,7 +139,8 @@ public class SearchView extends FrameLayout implements Searchable {
 
     @Override
     public void setSuggestions(List<String> suggestions) {
-
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, suggestions);
+        inputField.setAdapter(adapter);
     }
 
     @Override

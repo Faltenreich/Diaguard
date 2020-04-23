@@ -52,13 +52,13 @@ public class TagAutoCompleteAdapter extends ArrayAdapter<Tag> {
 
     @Override
     public int getCount() {
-        return getResults() != null ? getResults().size() : 0;
+        return getResults().size();
     }
 
     @Nullable
     @Override
     public Tag getItem(int position) {
-        return getResults() != null && getResults().size() > position ? getResults().get(position) : null;
+        return getResults().size() > position ? getResults().get(position) : null;
     }
 
     @Override

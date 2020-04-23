@@ -2,8 +2,11 @@ package com.faltenreich.diaguard.shared.view.search;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -55,6 +58,7 @@ public class SearchView extends FrameLayout implements Searchable {
             ButterKnife.bind(this);
             getAttributes(attributeSet);
             initLayout();
+            invalidateLayout();
         }
     }
 
@@ -74,6 +78,34 @@ public class SearchView extends FrameLayout implements Searchable {
     private void initLayout() {
         setHint(hint);
 
+        inputField.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence text, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence text, int start, int before, int count) {
+                if (listener != null) {
+                    listener.onQueryChanged(text.toString());
+                }
+                invalidateLayout();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+    }
+
+    private void invalidateLayout() {
+        if (getQuery().isEmpty()) {
+            actionIcon.setVisibility(View.INVISIBLE);
+        } else {
+            actionIcon.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

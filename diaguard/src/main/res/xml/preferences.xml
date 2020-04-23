@@ -38,12 +38,6 @@
         android:title="@string/data"
         android:icon="@drawable/ic_storage">
 
-        <CheckBoxPreference
-            android:key="showBrandedFood"
-            android:title="@string/show_branded_food"
-            android:summary="@string/show_branded_food_desc"
-            android:defaultValue="true"/>
-
         <com.faltenreich.diaguard.feature.preference.backup.BackupExportPreference
             android:key="backup"
             android:title="@string/backup"

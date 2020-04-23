@@ -39,6 +39,7 @@ public class SearchView extends FrameLayout implements Searchable {
     ImageView actionIcon;
 
     private SearchViewListener listener;
+    private SearchViewAction action;
 
     private String hint;
 
@@ -98,7 +99,18 @@ public class SearchView extends FrameLayout implements Searchable {
     }
 
     private void invalidateLayout() {
-        actionIcon.setVisibility(getQuery().isEmpty() ? View.INVISIBLE : View.VISIBLE);
+        if (action != null) {
+            boolean showAction = getQuery().isEmpty();
+            int imageRes = showAction ? action.getIconRes() : R.drawable.ic_clear;
+            int contentDescriptionRes = showAction ? action.getContentDescriptionRes() : R.string.query_clear;
+            actionIcon.setImageResource(imageRes);
+            actionIcon.setContentDescription(getContext().getString(contentDescriptionRes));
+            actionIcon.setVisibility(View.VISIBLE);
+        } else {
+            actionIcon.setImageResource(R.drawable.ic_clear);
+            actionIcon.setContentDescription(getContext().getString(R.string.query_clear));
+            actionIcon.setVisibility(getQuery().isEmpty() ? View.INVISIBLE : View.VISIBLE);
+        }
     }
 
     private void onInputChanged(String input) {
@@ -117,6 +129,17 @@ public class SearchView extends FrameLayout implements Searchable {
     }
 
     @Override
+    public void setSearchListener(SearchViewListener listener) {
+        this.listener = listener;
+    }
+
+    @Override
+    public void setAction(SearchViewAction action) {
+        this.action = action;
+        invalidateLayout();
+    }
+
+    @Override
     public String getQuery() {
         return inputField.getText().toString();
     }
@@ -129,11 +152,6 @@ public class SearchView extends FrameLayout implements Searchable {
     @Override
     public void setHint(String hint) {
         inputField.setHint(hint);
-    }
-
-    @Override
-    public void setSearchListener(SearchViewListener listener) {
-        this.listener = listener;
     }
 
     @Override
@@ -156,6 +174,10 @@ public class SearchView extends FrameLayout implements Searchable {
 
     @OnClick(R.id.actionIcon)
     void onActionIconClicked() {
-        inputField.setText(null);
+        if (!StringUtils.isBlank(getQuery())) {
+            inputField.setText(null);
+        } else if (action != null) {
+            action.getCallback().onAction(actionIcon);
+        }
     }
 }

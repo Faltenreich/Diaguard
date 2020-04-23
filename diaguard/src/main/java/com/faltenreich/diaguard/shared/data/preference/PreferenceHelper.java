@@ -636,4 +636,8 @@ public class PreferenceHelper {
     public boolean showBrandedFood() {
         return sharedPreferences.getBoolean(Keys.FOOD_SHOW_BRANDED, true);
     }
+
+    public void setShowBrandedFood(boolean showBrandedFood) {
+        sharedPreferences.edit().putBoolean(Keys.FOOD_SHOW_BRANDED, showBrandedFood).apply();
+    }
 }

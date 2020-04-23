@@ -538,5 +538,7 @@
     <string name="quarter_current">Current quarter</string>
     <string name="therapy">Therapy</string>
     <string name="sourcecode">Source code</string>
+    <string name="query_clear">Clear query</string>
+    <string name="menu_open">Open menu</string>
 
 </resources>

@@ -2,10 +2,13 @@ package com.faltenreich.diaguard.feature.food.search;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.DrawableRes;
@@ -30,8 +33,9 @@ import com.faltenreich.diaguard.shared.event.ui.FoodSelectedEvent;
 import com.faltenreich.diaguard.shared.networking.NetworkingUtils;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
-import com.faltenreich.diaguard.shared.view.search.SearchViewListener;
 import com.faltenreich.diaguard.shared.view.search.SearchView;
+import com.faltenreich.diaguard.shared.view.search.SearchViewAction;
+import com.faltenreich.diaguard.shared.view.search.SearchViewListener;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -106,6 +110,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
         });
 
         searchView.setSearchListener(this);
+        searchView.setAction(new SearchViewAction(R.drawable.ic_more_vertical, R.string.menu_open, this::openMenu));
         searchView.setSuggestions(PreferenceHelper.getInstance().getInputQueries());
     }
 
@@ -150,6 +155,26 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
                 showError(R.drawable.ic_wifi, R.string.error_no_connection, R.string.error_no_connection_desc, R.string.try_again);
             }
         }
+    }
+
+    private void openMenu(View view) {
+        PopupMenu popupMenu = new PopupMenu(getContext(), view);
+        popupMenu.getMenuInflater().inflate(R.menu.food_search, popupMenu.getMenu());
+
+        boolean showBrandedFood = PreferenceHelper.getInstance().showBrandedFood();
+
+        Menu menu = popupMenu.getMenu();
+        MenuItem menuItem = menu.findItem(R.id.action_show_branded_food);
+        menuItem.setChecked(showBrandedFood);
+
+        popupMenu.setOnMenuItemClickListener(popupMenuItem -> {
+            if (popupMenuItem.getItemId() == R.id.action_show_branded_food) {
+                PreferenceHelper.getInstance().setShowBrandedFood(!showBrandedFood);
+                query(searchView.getQuery());
+            }
+            return true;
+        });
+        popupMenu.show();
     }
 
     @OnClick(R.id.fab)

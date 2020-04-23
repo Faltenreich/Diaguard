@@ -30,7 +30,7 @@ import com.faltenreich.diaguard.shared.event.ui.FoodSelectedEvent;
 import com.faltenreich.diaguard.shared.networking.NetworkingUtils;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
-import com.faltenreich.diaguard.shared.view.search.SearchListener;
+import com.faltenreich.diaguard.shared.view.search.SearchViewListener;
 import com.faltenreich.diaguard.shared.view.search.SearchView;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -44,7 +44,7 @@ import static com.faltenreich.diaguard.R.id.food_search_list_empty;
 /**
  * Created by Faltenreich on 11.09.2016.
  */
-public class FoodSearchFragment extends BaseFragment implements SearchListener {
+public class FoodSearchFragment extends BaseFragment implements SearchViewListener {
 
     public static final String FINISH_ON_SELECTION = "finishOnSelection";
 

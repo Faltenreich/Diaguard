@@ -11,23 +11,26 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="8dp">
+        app:cardCornerRadius="@dimen/card_corner_radius">
 
         <LinearLayout
-            android:id="@+id/search_view_delegate"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            android:divider="@drawable/divider_medium"
-            android:orientation="horizontal"
-            android:showDividers="middle">
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/backIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="@dimen/height_element"
+                android:layout_height="@dimen/height_element"
+                android:layout_marginStart="@dimen/margin_between"
+                android:layout_marginLeft="@dimen/margin_between"
                 android:adjustViewBounds="true"
+                android:background="?selectableItemBackgroundBorderless"
+                android:clickable="true"
                 android:contentDescription="@string/back"
-                android:padding="@dimen/margin_between"
+                android:focusable="true"
+                android:padding="@dimen/padding_large"
                 android:tint="?iconColorPrimary"
                 app:srcCompat="@drawable/ic_arrow_back" />
 
@@ -35,6 +38,8 @@
                 android:id="@+id/inputField"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/margin_between"
+                android:layout_marginLeft="@dimen/margin_between"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:hint="@string/search"
@@ -43,11 +48,18 @@
 
             <ImageView
                 android:id="@+id/actionIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="@dimen/height_element"
+                android:layout_height="@dimen/height_element"
+                android:layout_marginStart="@dimen/margin_between"
+                android:layout_marginLeft="@dimen/margin_between"
+                android:layout_marginEnd="@dimen/margin_between"
+                android:layout_marginRight="@dimen/margin_between"
                 android:adjustViewBounds="true"
+                android:background="?selectableItemBackgroundBorderless"
+                android:clickable="true"
                 android:contentDescription="@string/back"
-                android:padding="@dimen/margin_between"
+                android:focusable="true"
+                android:padding="@dimen/padding_large"
                 android:tint="?iconColorPrimary"
                 app:srcCompat="@drawable/ic_clear" />
 

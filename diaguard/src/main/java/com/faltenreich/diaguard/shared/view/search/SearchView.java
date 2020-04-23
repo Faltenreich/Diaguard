@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.AutoCompleteTextView;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 
@@ -20,8 +21,16 @@ import butterknife.OnClick;
 
 public class SearchView extends FrameLayout implements Searchable {
 
+    @BindView(R.id.backIcon)
+    ImageView backIcon;
+
     @BindView(R.id.inputField)
     AutoCompleteTextView inputField;
+
+    @BindView(R.id.actionIcon)
+    ImageView actionIcon;
+
+    private SearchViewListener listener;
 
     private String hint;
 
@@ -64,6 +73,7 @@ public class SearchView extends FrameLayout implements Searchable {
 
     private void initLayout() {
         setHint(hint);
+
     }
 
     @Override
@@ -82,8 +92,8 @@ public class SearchView extends FrameLayout implements Searchable {
     }
 
     @Override
-    public void setSearchListener(SearchListener searchListener) {
-
+    public void setSearchListener(SearchViewListener listener) {
+        this.listener = listener;
     }
 
     @Override
@@ -98,6 +108,16 @@ public class SearchView extends FrameLayout implements Searchable {
 
     @OnClick(R.id.backIcon)
     void onBackIconClicked() {
+        if (inputField.hasFocus()) {
+            // FIXME: Does not work when focusSearchField() was called before
+            ViewUtils.hideKeyboard(inputField);
+        } else if (listener != null) {
+            listener.onQueryClosed();
+        }
+    }
 
+    @OnClick(R.id.actionIcon)
+    void onActionIconClicked() {
+        inputField.setText(null);
     }
 }

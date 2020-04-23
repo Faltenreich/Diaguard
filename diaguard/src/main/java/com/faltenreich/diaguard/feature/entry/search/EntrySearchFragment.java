@@ -26,7 +26,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.layoutmanager.SafeLinearLayoutManager;
-import com.faltenreich.diaguard.shared.view.search.SearchListener;
+import com.faltenreich.diaguard.shared.view.search.SearchViewListener;
 import com.faltenreich.diaguard.shared.view.search.SearchView;
 
 import org.apache.commons.lang3.StringUtils;
@@ -36,7 +36,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class EntrySearchFragment extends BaseFragment implements SearchListener {
+public class EntrySearchFragment extends BaseFragment implements SearchViewListener {
 
     private static final String TAG = EntrySearchFragment.class.getSimpleName();
     private static final int SEARCH_INPUT_DELAY_IN_MILLIS = 1000;

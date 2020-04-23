@@ -158,6 +158,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
     }
 
     private void openMenu(View view) {
+        // FIXME: Styling
         PopupMenu popupMenu = new PopupMenu(getContext(), view);
         popupMenu.getMenuInflater().inflate(R.menu.food_search, popupMenu.getMenu());
 
@@ -168,6 +169,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
         menuItem.setChecked(showBrandedFood);
 
         popupMenu.setOnMenuItemClickListener(popupMenuItem -> {
+            // TODO: Replace checkbox menu item with separate dialog for more information
             if (popupMenuItem.getItemId() == R.id.action_show_branded_food) {
                 PreferenceHelper.getInstance().setShowBrandedFood(!showBrandedFood);
                 query(searchView.getQuery());

@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 
 import java.util.List;
@@ -26,7 +27,7 @@ import butterknife.OnClick;
 
 public class SearchView extends FrameLayout implements Searchable {
 
-    private static final int SEARCH_INPUT_DELAY_IN_MILLIS = 1000;
+    private static final int INPUT_DELAY_IN_MILLIS = 1000;
 
     @BindView(R.id.backIcon)
     ImageView backIcon;
@@ -83,28 +84,15 @@ public class SearchView extends FrameLayout implements Searchable {
         setHint(hint);
 
         inputField.addTextChangedListener(new TextWatcher() {
-
             @Override
-            public void beforeTextChanged(CharSequence text, int start, int count, int after) {
-
-            }
-
+            public void beforeTextChanged(CharSequence text, int start, int count, int after) { }
             @Override
             public void onTextChanged(CharSequence text, int start, int before, int count) {
                 invalidateLayout();
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
-                if (listener != null) {
-                    String query = editable.toString();
-                    // Delay search in order to reduce obsolete searches
-                    new Handler().postDelayed(() -> {
-                        if (query.equals(getQuery())) {
-                            listener.onQueryChanged(query);
-                        }
-                    }, SEARCH_INPUT_DELAY_IN_MILLIS);
-                }
+                onInputChanged(editable.toString());
             }
         });
     }
@@ -114,6 +102,21 @@ public class SearchView extends FrameLayout implements Searchable {
             actionIcon.setVisibility(View.INVISIBLE);
         } else {
             actionIcon.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void onInputChanged(String input) {
+        if (listener != null) {
+            if (StringUtils.isBlank(input)) {
+                listener.onQueryChanged(input);
+            } else {
+                // Delay search in order to prevent obsolete searches
+                new Handler().postDelayed(() -> {
+                    if (input.equals(getQuery())) {
+                        listener.onQueryChanged(input);
+                    }
+                }, INPUT_DELAY_IN_MILLIS);
+            }
         }
     }
 
@@ -150,10 +153,7 @@ public class SearchView extends FrameLayout implements Searchable {
 
     @OnClick(R.id.backIcon)
     void onBackIconClicked() {
-        if (inputField.hasFocus()) {
-            // FIXME: Does not work when focusSearchField() was called before
-            ViewUtils.hideKeyboard(inputField);
-        } else if (listener != null) {
+        if (listener != null) {
             listener.onQueryClosed();
         }
     }

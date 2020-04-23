@@ -168,10 +168,6 @@ public class FoodSearchFragment extends BaseFragment implements SearchListener {
         }
     }
 
-    @OnClick(R.id.imageView_clear)
-    void clearQuery() {
-    }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FoodSelectedEvent event) {
         onFoodSelected(event.context);
@@ -194,7 +190,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchListener {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FoodSavedEvent event) {
-        clearQuery();
+        searchView.setQuery(null, true);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

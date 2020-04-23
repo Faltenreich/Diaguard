@@ -20,16 +20,11 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <FrameLayout
+                <com.faltenreich.diaguard.shared.view.search.SearchView
+                    android:id="@+id/search_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <include
-                        layout="@layout/view_toolbar"
-                        android:layout_width="match_parent"
-                        android:layout_height="64dp" />
-
-                </FrameLayout>
+                    android:layout_height="wrap_content"
+                    android:hint="@string/food_search" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -142,11 +137,5 @@
         app:layout_anchorGravity="bottom|right|end"
         app:layout_behavior="com.faltenreich.diaguard.shared.view.coordinatorlayout.SlideOutBehavior"
         app:layout_dodgeInsetEdges="bottom" />
-
-    <com.faltenreich.diaguard.shared.view.search.SearchView
-        android:id="@+id/search_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:hint="@string/food_search" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

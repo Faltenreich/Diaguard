@@ -13,7 +13,6 @@
     
     <declare-styleable name="SearchView">
         <attr name="android:hint" />
-        <attr name="showShadow" format="boolean"/>
     </declare-styleable>
 
     <attr name="backgroundColorGreen" format="color"/>

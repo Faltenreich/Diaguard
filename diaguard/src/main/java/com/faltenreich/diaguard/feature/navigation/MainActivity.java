@@ -86,7 +86,7 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
         drawerToggle = new ActionBarDrawerToggle(
             this,
             drawerLayout,
-            toolbar,
+            getToolbar(),
             R.string.drawer_open,
             R.string.drawer_close) {
             public void onDrawerClosed(View view) {

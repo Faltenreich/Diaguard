@@ -4,21 +4,26 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.widget.AutoCompleteTextView;
 import android.widget.FrameLayout;
 
 import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.shared.view.ViewUtils;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class SearchView extends FrameLayout implements Searchable {
 
-    @BindView(R.id.search_view_delegate)
-    SearchViewDelegate delegate;
+    @BindView(R.id.inputField)
+    AutoCompleteTextView inputField;
+
+    private String hint;
 
     public SearchView(Context context) {
         super(context);
@@ -39,64 +44,60 @@ public class SearchView extends FrameLayout implements Searchable {
         LayoutInflater.from(getContext()).inflate(R.layout.view_search, this);
         if (!isInEditMode()) {
             ButterKnife.bind(this);
-            initLayout(attributeSet);
+            getAttributes(attributeSet);
+            initLayout();
         }
     }
 
-    private void initLayout(@Nullable AttributeSet attributeSet) {
-        String hint = null;
-        boolean showShadow = true;
-
-        if (attributeSet != null) {
-            TypedArray typedArray = getContext().obtainStyledAttributes(attributeSet, R.styleable.SearchView);
-            try {
-                hint = typedArray.getString(R.styleable.SearchView_android_hint);
-                showShadow = typedArray.getBoolean(R.styleable.SearchView_showShadow, true);
-            } finally {
-                typedArray.recycle();
-            }
+    private void getAttributes(@Nullable AttributeSet attributeSet) {
+        if (attributeSet == null) {
+            return;
+        }
+        TypedArray typedArray = getContext().obtainStyledAttributes(attributeSet, R.styleable.SearchView);
+        try {
+            hint = typedArray.getString(R.styleable.SearchView_android_hint);
+        } finally {
+            typedArray.recycle();
         }
 
+    }
+
+    private void initLayout() {
         setHint(hint);
-
-        // Workaround: Enabling shadow early leads to unnecessary overlay
-        if (!showShadow) {
-            setShadow(false);
-        }
     }
 
     @Override
     public String getQuery() {
-        return delegate.getQuery();
+        return inputField.getText().toString();
     }
 
     @Override
     public void setQuery(String query, boolean submit) {
-        delegate.setQuery(query, submit);
+        inputField.setText(query);
     }
 
     @Override
     public void setHint(String hint) {
-        delegate.setHint(hint);
-    }
-
-    @Override
-    public void setShadow(boolean isEnabled) {
-        delegate.setShadow(isEnabled);
+        inputField.setHint(hint);
     }
 
     @Override
     public void setSearchListener(SearchListener searchListener) {
-        delegate.setSearchListener(searchListener);
+
     }
 
     @Override
     public void setSuggestions(List<String> suggestions) {
-        delegate.setSuggestions(suggestions);
+
     }
 
     @Override
     public void focusSearchField() {
-        delegate.focusSearchField();
+        ViewUtils.showKeyboard(inputField);
+    }
+
+    @OnClick(R.id.backIcon)
+    void onBackIconClicked() {
+
     }
 }

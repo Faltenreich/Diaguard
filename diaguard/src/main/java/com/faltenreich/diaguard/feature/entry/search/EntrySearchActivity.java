@@ -9,9 +9,8 @@ import androidx.annotation.Nullable;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
-import com.faltenreich.diaguard.shared.view.activity.BaseSearchActivity;
 
-public class EntrySearchActivity extends BaseSearchActivity {
+public class EntrySearchActivity extends BaseActivity {
 
     private static Intent getIntent(Context context, @Nullable View source) {
         return BaseActivity.getIntent(EntrySearchActivity.class, context, source);

@@ -63,9 +63,17 @@ public abstract class BaseActivity extends AppCompatActivity {
         return intent;
     }
 
-    @BindView(R.id.toolbar) protected Toolbar toolbar;
-    @BindView(R.id.toolbar_title) protected TextView toolbarTitleView;
-    @BindView(R.id.root) @Nullable protected ViewGroup rootLayout;
+    @Nullable
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    @Nullable
+    @BindView(R.id.toolbar_title)
+    TextView toolbarTitleView;
+
+    @Nullable
+    @BindView(R.id.root)
+    ViewGroup rootLayout;
 
     private int revealX;
     private int revealY;
@@ -111,6 +119,10 @@ public abstract class BaseActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    protected Toolbar getToolbar() {
+        return toolbar;
     }
 
     @Nullable

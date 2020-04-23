@@ -98,11 +98,7 @@ public class SearchView extends FrameLayout implements Searchable {
     }
 
     private void invalidateLayout() {
-        if (getQuery().isEmpty()) {
-            actionIcon.setVisibility(View.INVISIBLE);
-        } else {
-            actionIcon.setVisibility(View.VISIBLE);
-        }
+        actionIcon.setVisibility(getQuery().isEmpty() ? View.INVISIBLE : View.VISIBLE);
     }
 
     private void onInputChanged(String input) {

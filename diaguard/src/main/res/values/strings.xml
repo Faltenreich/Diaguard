@@ -553,6 +553,9 @@
     <string name="show_common_food">Show common food</string>
     <string name="show_common_food_desc">Bundled with the app. Includes hundreds of basic edibles.</string>
     <string name="food_preferences">Food settings</string>
+    <string name="food_custom">Custom food</string>
+    <string name="show_custom_food">Show custom food</string>
+    <string name="show_custom_food_desc">Includes every food that has been added manually by the user.</string>
 
 
 </resources>

@@ -1,16 +1,15 @@
 package com.faltenreich.diaguard.shared.data.database.entity;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.export.Backupable;
 import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
-import com.faltenreich.diaguard.feature.export.Backupable;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
@@ -267,12 +266,16 @@ public class Food extends BaseServerEntity implements Backupable {
         this.foodEaten = foodEaten;
     }
 
-    public boolean isBrandedFood() {
-        return !TextUtils.isEmpty(getServerId());
+    public boolean isCustomFood(String labelForCommonFood) {
+        return !isBrandedFood() && !isCommonFood(labelForCommonFood);
     }
 
-    public boolean isCommonFood(Context context) {
-        return labels != null && labels.contains(context.getString(R.string.food_common));
+    public boolean isCommonFood(String labelForCommonFood) {
+        return labels != null && labels.contains(labelForCommonFood);
+    }
+
+    public boolean isBrandedFood() {
+        return getServerId() != null;
     }
 
     public String getValueForUi() {

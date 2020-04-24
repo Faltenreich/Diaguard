@@ -3,6 +3,16 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <PreferenceCategory android:title="@string/food_custom">
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="showCustomFood"
+            android:summary="@string/show_custom_food_desc"
+            android:title="@string/show_custom_food" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/food_common">
 
         <Preference

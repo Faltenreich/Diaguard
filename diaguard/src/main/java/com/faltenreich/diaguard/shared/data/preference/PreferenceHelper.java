@@ -70,6 +70,7 @@ public class PreferenceHelper {
         public static final String EXPORT_CATEGORIES = "exportCategories";
         public static final String EXPORT_INSULIN_SPLIT = "exportInsulinSplit";
         public static final String DID_IMPORT_TAGS_FOR_LANGUAGE = "didImportTagsForLanguage";
+        public static final String FOOD_SHOW_CUSTOM = "showCustomFood";
         public static final String FOOD_SHOW_COMMON = "showCommonFood";
         public static final String FOOD_SHOW_BRANDED = "showBrandedFood";
         public static final String THEME = "theme";
@@ -633,6 +634,10 @@ public class PreferenceHelper {
     }
 
     // FOOD
+
+    public boolean showCustomFood() {
+        return sharedPreferences.getBoolean(Keys.FOOD_SHOW_CUSTOM, true);
+    }
 
     public boolean showCommonFood() {
         return sharedPreferences.getBoolean(Keys.FOOD_SHOW_COMMON, true);

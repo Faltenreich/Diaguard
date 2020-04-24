@@ -7,21 +7,22 @@ import android.util.AttributeSet;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
+import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.food.networking.OpenFoodFactsService;
+import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
+import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.FoodDeletedEvent;
 import com.faltenreich.diaguard.shared.event.data.FoodQueryEndedEvent;
 import com.faltenreich.diaguard.shared.event.data.FoodQueryStartedEvent;
 import com.faltenreich.diaguard.shared.event.networking.FoodSearchFailedEvent;
 import com.faltenreich.diaguard.shared.event.networking.FoodSearchSucceededEvent;
-import com.faltenreich.diaguard.feature.food.networking.OpenFoodFactsService;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.LinearDividerItemDecoration;
 import com.faltenreich.diaguard.shared.view.recyclerview.pagination.EndlessRecyclerViewScrollListener;
-import com.faltenreich.diaguard.shared.Helper;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -121,15 +122,19 @@ public class FoodSearchListView extends RecyclerView {
     }
 
     private void addItems(List<FoodSearchListItem> foodList) {
+        boolean showCustomFood = PreferenceHelper.getInstance().showCustomFood();
         boolean showCommonFood = PreferenceHelper.getInstance().showCommonFood();
         boolean showBrandedFood = PreferenceHelper.getInstance().showBrandedFood();
+
         List<FoodSearchListItem> filtered = new ArrayList<>();
-        if (!showBrandedFood || !showCommonFood) {
+        if (!showCustomFood || !showCommonFood || !showBrandedFood) {
+            String labelForCommonFood = getContext().getString(R.string.food_common);
             for (FoodSearchListItem listItem : foodList) {
                 Food food = listItem.getFood();
-                boolean isValidIfCommon = showCommonFood || !food.isCommonFood(getContext());
-                boolean isValidIfBranded = showBrandedFood || !food.isBrandedFood();
-                if (isValidIfCommon && isValidIfBranded) {
+                boolean isValidIfCustom = showCustomFood && food.isCustomFood(labelForCommonFood);
+                boolean isValidIfCommon = showCommonFood && food.isCommonFood(labelForCommonFood);
+                boolean isValidIfBranded = showBrandedFood && food.isBrandedFood();
+                if (isValidIfCustom || isValidIfCommon || isValidIfBranded) {
                     filtered.add(listItem);
                 }
             }
@@ -149,6 +154,7 @@ public class FoodSearchListView extends RecyclerView {
             }
             adapter.notifyItemRangeInserted(oldSize, newCount);
         }
+
         Events.post(new FoodQueryEndedEvent(hasItems));
     }
 
@@ -217,6 +223,7 @@ public class FoodSearchListView extends RecyclerView {
                 }
             }
 
+            // FIXME: Does not return custom food if query is empty (not on first page?)
             List<Food> foodAllList = FoodDao.getInstance().search(query, offlinePage);
             for (Food food : foodAllList) {
                 // Skip food that has been eaten before

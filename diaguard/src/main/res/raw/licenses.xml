@@ -134,12 +134,6 @@
         <license>ISC License</license>
     </notice>
     <notice>
-        <name>SearchView</name>
-        <url>https://github.com/lapism/SearchView</url>
-        <copyright>Copyright 2019, Martin Lapiš</copyright>
-        <license>Apache Software License 2.0</license>
-    </notice>
-    <notice>
         <name>Ticker</name>
         <url>https://github.com/robinhood/ticker</url>
         <copyright>Copyright 2016, Robinhood Markets, Inc.</copyright>

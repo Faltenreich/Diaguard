@@ -2,8 +2,6 @@ package com.faltenreich.diaguard.feature.food.search;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -15,12 +13,14 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.fragment.app.DialogFragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
 import com.faltenreich.diaguard.feature.food.detail.FoodDetailActivity;
 import com.faltenreich.diaguard.feature.food.edit.FoodEditActivity;
+import com.faltenreich.diaguard.feature.food.preference.FoodPreferenceFragment;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
@@ -158,25 +158,20 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
     }
 
     private void openMenu(View view) {
-        // FIXME: Styling
         PopupMenu popupMenu = new PopupMenu(getContext(), view);
         popupMenu.getMenuInflater().inflate(R.menu.food_search, popupMenu.getMenu());
-
-        boolean showBrandedFood = PreferenceHelper.getInstance().showBrandedFood();
-
-        Menu menu = popupMenu.getMenu();
-        MenuItem menuItem = menu.findItem(R.id.action_show_branded_food);
-        menuItem.setChecked(showBrandedFood);
-
         popupMenu.setOnMenuItemClickListener(popupMenuItem -> {
-            // TODO: Replace checkbox menu item with separate dialog for more information
-            if (popupMenuItem.getItemId() == R.id.action_show_branded_food) {
-                PreferenceHelper.getInstance().setShowBrandedFood(!showBrandedFood);
-                query(searchView.getQuery());
+            if (popupMenuItem.getItemId() == R.id.action_settings) {
+                openSettings();
             }
             return true;
         });
         popupMenu.show();
+    }
+
+    private void openSettings() {
+        DialogFragment fragment = FoodPreferenceFragment.newInstance(() -> query(searchView.getQuery()));
+        fragment.show(getParentFragmentManager(), FoodPreferenceFragment.class.getSimpleName());
     }
 
     @OnClick(R.id.fab)

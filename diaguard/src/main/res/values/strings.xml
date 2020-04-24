@@ -11,6 +11,13 @@
     <string name="app_sourcecode" translatable="false">https://github.com/Faltenreich/Diaguard</string>
     <string name="app_sourcecode_short" translatable="false">github.com/Faltenreich/Diaguard</string>
 
+    <string name="food_source_common_provider" translatable="false">Schweizer Nährwertdatenbank</string>
+    <string name="food_source_common_url" translatable="false">https://www.naehrwertdaten.ch</string>
+
+
+    <string name="food_source_branded_provider" translatable="false">Open Food Facts</string>
+    <string name="food_source_branded_url" translatable="false">http://world.openfoodfacts.org</string>
+
     <!-- GENERAL -->
 
     <string name="about">About</string>
@@ -506,7 +513,7 @@
     <string name="backup_desc">Store data in a backup file on a storage of your choice (No data will be sent automatically to external services)</string>
     <string name="import_desc">Restore data from a previously created backup file</string>
     <string name="show_branded_food">Show branded food</string>
-    <string name="show_branded_food_desc">Includes thousands of packaged goods and may therefor contain duplicates (e.g. one product from different manufacturers)</string>
+    <string name="show_branded_food_desc">Requested via network. Includes thousands of packaged goods and may therefor contain duplicates (e.g. one product from different manufacturers)</string>
     <string name="search_prompt">Start searching by typing</string>
     <string name="pinned">pinned</string>
     <string name="change_now">Change now</string>
@@ -540,5 +547,11 @@
     <string name="sourcecode">Source code</string>
     <string name="query_clear">Clear query</string>
     <string name="menu_open">Open menu</string>
+    <string name="provider">Provider</string>
+    <string name="food_branded">Branded food</string>
+    <string name="show_common_food">Show common food</string>
+    <string name="show_common_food_desc">Bundled with the app. Includes hundreds of basic edibles.</string>
+    <string name="food_preferences">Food settings</string>
+
 
 </resources>

@@ -55,7 +55,6 @@ public class FoodSearchListView extends RecyclerView {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         Events.register(this);
-        newSearch(null);
     }
 
     @Override

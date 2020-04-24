@@ -13,14 +13,13 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
-import androidx.fragment.app.DialogFragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
 import com.faltenreich.diaguard.feature.food.detail.FoodDetailActivity;
 import com.faltenreich.diaguard.feature.food.edit.FoodEditActivity;
-import com.faltenreich.diaguard.feature.food.preference.FoodPreferenceFragment;
+import com.faltenreich.diaguard.feature.food.preference.FoodPreferenceActivity;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
@@ -85,6 +84,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
     public void onResume() {
         super.onResume();
         Events.register(this);
+        list.newSearch(searchView.getQuery());
     }
 
     @Override
@@ -170,8 +170,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
     }
 
     private void openSettings() {
-        DialogFragment fragment = FoodPreferenceFragment.newInstance(() -> query(searchView.getQuery()));
-        fragment.show(getParentFragmentManager(), FoodPreferenceFragment.class.getSimpleName());
+        startActivity(new Intent(getContext(), FoodPreferenceActivity.class));
     }
 
     @OnClick(R.id.fab)

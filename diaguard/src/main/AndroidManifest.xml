@@ -104,9 +104,15 @@
             android:label="@string/settings"
             android:windowSoftInputMode="adjustPan">
             <meta-data
-                android:name=".ui.activity.PreferenceActivity"
+                android:name=".feature.preference.PreferenceActivity"
                 android:value=".feature.navigation.MainActivity" />
         </activity>
+
+        <activity
+            android:name=".feature.food.preference.FoodPreferenceActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/food_preferences"
+            android:windowSoftInputMode="adjustPan"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"

@@ -268,7 +268,11 @@ public class Food extends BaseServerEntity implements Backupable {
     }
 
     public boolean isBrandedFood() {
-        return !TextUtils.isEmpty(brand);
+        return !TextUtils.isEmpty(getServerId());
+    }
+
+    public boolean isCommonFood(Context context) {
+        return labels != null && labels.contains(context.getString(R.string.food_common));
     }
 
     public String getValueForUi() {

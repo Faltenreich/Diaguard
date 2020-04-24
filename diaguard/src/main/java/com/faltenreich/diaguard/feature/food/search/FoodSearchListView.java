@@ -121,11 +121,15 @@ public class FoodSearchListView extends RecyclerView {
     }
 
     private void addItems(List<FoodSearchListItem> foodList) {
+        boolean showCommonFood = PreferenceHelper.getInstance().showCommonFood();
         boolean showBrandedFood = PreferenceHelper.getInstance().showBrandedFood();
         List<FoodSearchListItem> filtered = new ArrayList<>();
-        if (!showBrandedFood) {
+        if (!showBrandedFood || !showCommonFood) {
             for (FoodSearchListItem listItem : foodList) {
-                if (!listItem.getFood().isBrandedFood()) {
+                Food food = listItem.getFood();
+                boolean isValidIfCommon = showCommonFood || !food.isCommonFood(getContext());
+                boolean isValidIfBranded = showBrandedFood || !food.isBrandedFood();
+                if (isValidIfCommon && isValidIfBranded) {
                     filtered.add(listItem);
                 }
             }

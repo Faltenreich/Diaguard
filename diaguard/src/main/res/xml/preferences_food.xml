@@ -6,8 +6,8 @@
     <PreferenceCategory android:title="@string/food_common">
 
         <Preference
-            android:summary="@string/food_source_common_provider"
-            android:title="@string/provider">
+            android:summary="@string/powered_by"
+            android:title="@string/food_source_common_provider">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/food_source_common_url" />
@@ -24,8 +24,8 @@
     <PreferenceCategory android:title="@string/food_branded">
 
         <Preference
-            android:summary="@string/food_source_branded_provider"
-            android:title="@string/provider">
+            android:summary="@string/powered_by"
+            android:title="@string/food_source_branded_provider">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/food_source_branded_url" />

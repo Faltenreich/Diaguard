@@ -13,10 +13,11 @@
 
     <string name="food_source_common_provider" translatable="false">Schweizer Nährwertdatenbank</string>
     <string name="food_source_common_url" translatable="false">https://www.naehrwertdaten.ch</string>
-
+    <string name="food_source_common_url_short" translatable="false">naehrwertdaten.ch</string>
 
     <string name="food_source_branded_provider" translatable="false">Open Food Facts</string>
     <string name="food_source_branded_url" translatable="false">http://world.openfoodfacts.org</string>
+    <string name="food_source_branded_url_short" translatable="false">openfoodfacts.org</string>
 
     <!-- GENERAL -->
 
@@ -544,10 +545,10 @@
     <string name="month_current">Current month</string>
     <string name="quarter_current">Current quarter</string>
     <string name="therapy">Therapy</string>
+    <string name="powered_by">Powered by</string>
     <string name="sourcecode">Source code</string>
     <string name="query_clear">Clear query</string>
     <string name="menu_open">Open menu</string>
-    <string name="provider">Provider</string>
     <string name="food_branded">Branded food</string>
     <string name="show_common_food">Show common food</string>
     <string name="show_common_food_desc">Bundled with the app. Includes hundreds of basic edibles.</string>

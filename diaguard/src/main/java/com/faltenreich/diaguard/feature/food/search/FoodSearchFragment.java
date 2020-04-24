@@ -84,7 +84,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
     public void onResume() {
         super.onResume();
         Events.register(this);
-        list.newSearch(searchView.getQuery());
+        query(searchView.getQuery());
     }
 
     @Override

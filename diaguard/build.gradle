@@ -41,16 +41,6 @@ android {
         }
     }
 
-    packagingOptions {
-        exclude 'META-INF/notice.txt'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/license.txt'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/DEPENDENCIES'
-    }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -65,6 +55,7 @@ android {
 }
 
 configurations {
+    // Workaround for Error: commons-logging defines classes that conflict with classes now provided by Android
     all*.exclude group: 'commons-logging', module: 'commons-logging'
     all*.exclude group: 'org.apache.commons', module: 'commons-io'
 }
@@ -82,13 +73,12 @@ def retrofit = '2.8.1'
 dependencies {
     implementation project(':PDFjet')
 
-    debugImplementation 'androidx.fragment:fragment-testing:1.2.4'
-
     testImplementation "junit:junit:$jUnit"
     testImplementation "org.robolectric:robolectric:$robolectric"
     testImplementation "androidx.test.ext:junit:$jUnitRunner"
     testImplementation "androidx.test.espresso:espresso-core:$espresso"
     testImplementation "androidx.test.espresso:espresso-contrib:$espresso"
+    debugImplementation 'androidx.fragment:fragment-testing:1.2.4'
     testImplementation "joda-time:joda-time:$jodaTime"
 
     androidTestImplementation "junit:junit:$jUnit"
@@ -106,6 +96,7 @@ dependencies {
     implementation "net.danlew:android.joda:$jodaTime"
     implementation 'org.greenrobot:eventbus:3.2.0'
 
+    //noinspection AnnotationProcessorOnCompilePath
     implementation "com.jakewharton:butterknife:$butterKnife"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterKnife"
 
@@ -113,7 +104,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
     implementation 'com.google.code.gson:gson:2.8.6'
 
-    implementation 'org.apache.commons:commons-text:1.1'
+    implementation 'org.apache.commons:commons-text:1.8'
     implementation 'de.psdev.licensesdialog:licensesdialog:2.1.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.opencsv:opencsv:3.10'

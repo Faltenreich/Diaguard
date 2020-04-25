@@ -115,12 +115,22 @@ dependencies {
 }
 
 task applyVersionToReadme() {
-    def android = project.extensions.findByName("android")
-    def versionName = android.defaultConfig.versionName
     def string = 'img.shields.io/badge/Release-'
     def regex = "$string([0-9.]+)"
+    def android = project.extensions.findByName("android")
+    def versionName = android.defaultConfig.versionName
     def with = "$string$versionName"
     ant.replaceregexp(file: "${rootProject.projectDir}/README.md", match: regex, flags: 'g', replace: with)
 }
 
+task applyDateToReadme() {
+    def string = '2013-'
+    def regex = "$string([0-9.]+)"
+    int year = new Date().getYear() + 1900
+    def with = "$string$year"
+    println with
+    ant.replaceregexp(file: "${rootProject.projectDir}/README.md", match: regex, flags: 'g', replace: with)
+}
+
 assemble.dependsOn applyVersionToReadme
+assemble.dependsOn applyDateToReadme

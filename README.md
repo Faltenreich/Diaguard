@@ -112,7 +112,6 @@ This software uses following technologies with great appreciation:
 * [Retrofit](https://square.github.io/retrofit)
 * [Robolectric](http://robolectric.org)
 * [Schweizer Nährwertdatenbank](http://naehrwertdaten.ch)
-* [Ticker](https://github.com/robinhood/ticker)
 
 These dependencies are bundled with Diaguard but under the terms of their respective license.
 

@@ -14,24 +14,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.food.search.FoodSearchActivity;
+import com.faltenreich.diaguard.feature.food.search.FoodSearchFragment;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
+import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
+import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.ui.FoodEatenRemovedEvent;
 import com.faltenreich.diaguard.shared.event.ui.FoodEatenUpdatedEvent;
 import com.faltenreich.diaguard.shared.event.ui.FoodSelectedEvent;
-import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
-import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
-import com.faltenreich.diaguard.feature.food.search.FoodSearchActivity;
-import com.faltenreich.diaguard.feature.food.search.FoodSearchFragment;
 import com.faltenreich.diaguard.shared.view.edittext.StickyHintInput;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.LinearDividerItemDecoration;
 import com.j256.ormlite.dao.ForeignCollection;
-import com.robinhood.ticker.TickerUtils;
-import com.robinhood.ticker.TickerView;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -49,15 +47,10 @@ import butterknife.OnClick;
 
 public class FoodInputView extends LinearLayout {
 
-    private static final int ANIMATION_DURATION_IN_MILLIS = 750;
-
     @BindView(R.id.food_input_icon) ImageView icon;
     @BindView(R.id.food_input_row) ViewGroup inputRow;
+    @BindView(R.id.food_input_value_calculated) TextView valueCalculated;
     @BindView(R.id.food_input_value_input) StickyHintInput valueInput;
-    @BindView(R.id.food_input_value_calculated_integral) TickerView valueCalculatedIntegral;
-    @BindView(R.id.food_input_value_calculated_point) TextView valueCalculatedPoint;
-    @BindView(R.id.food_input_value_calculated_fractional) TickerView valueCalculatedFractional;
-    @BindView(R.id.food_input_value_sign) TextView valueSign;
     @BindView(R.id.food_input_list) RecyclerView foodList;
 
     private FoodInputListAdapter adapter;
@@ -67,27 +60,19 @@ public class FoodInputView extends LinearLayout {
 
     public FoodInputView(Context context) {
         super(context);
-        init();
+        initLayout();
     }
 
     public FoodInputView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(attrs);
+        getAttributes(attrs);
+        initLayout();
     }
 
     public FoodInputView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(attrs);
-    }
-
-    private void init(AttributeSet attributeSet) {
-        TypedArray typedArray = getContext().obtainStyledAttributes(attributeSet, R.styleable.FoodInputView);
-        try {
-            showIcon = typedArray.getBoolean(R.styleable.FoodInputView_showIcon, false);
-        } finally {
-            typedArray.recycle();
-        }
-        init();
+        getAttributes(attrs);
+        initLayout();
     }
 
     @Override
@@ -102,7 +87,16 @@ public class FoodInputView extends LinearLayout {
         Events.unregister(this);
     }
 
-    private void init() {
+    private void getAttributes(AttributeSet attributeSet) {
+        TypedArray typedArray = getContext().obtainStyledAttributes(attributeSet, R.styleable.FoodInputView);
+        try {
+            showIcon = typedArray.getBoolean(R.styleable.FoodInputView_showIcon, false);
+        } finally {
+            typedArray.recycle();
+        }
+    }
+
+    private void initLayout() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_food_input, this);
 
         if (!isInEditMode()) {
@@ -113,16 +107,26 @@ public class FoodInputView extends LinearLayout {
             inputRow.setMinimumHeight(getResources().getDimensionPixelSize(showIcon ? R.dimen.height_element_large : R.dimen.height_element));
 
             valueInput.setHint(PreferenceHelper.getInstance().getUnitName(Category.MEAL));
-            String numberList = TickerUtils.provideNumberList();
-            valueCalculatedIntegral.setCharacterLists(numberList);
-            valueCalculatedFractional.setCharacterLists(numberList);
-            valueCalculatedIntegral.setAnimationDuration(ANIMATION_DURATION_IN_MILLIS);
-            valueCalculatedFractional.setAnimationDuration(ANIMATION_DURATION_IN_MILLIS);
 
             adapter = new FoodInputListAdapter(getContext());
             foodList.setLayoutManager(new LinearLayoutManager(getContext()));
             foodList.addItemDecoration(new LinearDividerItemDecoration(getContext()));
             foodList.setAdapter(adapter);
+
+            invalidateLayout();
+        }
+    }
+
+    private void invalidateLayout() {
+        boolean hasFoodEaten = adapter.hasInput();
+        if (hasFoodEaten) {
+            valueCalculated.setVisibility(VISIBLE);
+            float carbohydrates = adapter.getTotalCarbohydrates();
+            float meal = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Category.MEAL, carbohydrates);
+            valueCalculated.setText(String.format("%s    +", FloatUtils.parseFloat(meal)));
+        } else {
+            valueCalculated.setVisibility(GONE);
+            valueCalculated.setText(null);
         }
     }
 
@@ -165,40 +169,12 @@ public class FoodInputView extends LinearLayout {
         }
     }
 
-    private void update() {
-        updateVisibility();
-
-        float carbohydrates = adapter.getTotalCarbohydrates();
-        float meal = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Category.MEAL, carbohydrates);
-
-        int integral = (int) meal;
-        int fractional = Math.round((meal - integral) * 100);
-
-        String integralString = String.valueOf(integral);
-        // TODO: Trim ending zeros for fractional part
-        String fractionalString = String.valueOf(fractional);
-
-        valueCalculatedIntegral.setText(integralString, true);
-        valueCalculatedFractional.setText(fractionalString, true);
-    }
-
-    private void updateVisibility() {
-        boolean hasFoodEaten = adapter.hasInput();
-        valueCalculatedIntegral.setVisibility(hasFoodEaten ? VISIBLE : GONE);
-        valueCalculatedPoint.setVisibility(hasFoodEaten ? VISIBLE : GONE);
-        valueCalculatedPoint.setText(FloatUtils.getDecimalSeparator());
-        valueCalculatedFractional.setVisibility(hasFoodEaten ? VISIBLE : GONE);
-        valueSign.setVisibility(hasFoodEaten ? VISIBLE : GONE);
-        valueCalculatedIntegral.setText(null);
-        valueCalculatedFractional.setText(null);
-    }
-
     public void addItem(FoodEaten foodEaten) {
         if (foodEaten != null) {
             int position = 0;
             adapter.addItem(position, foodEaten);
             adapter.notifyItemInserted(position);
-            update();
+            invalidateLayout();
         }
     }
 
@@ -218,7 +194,7 @@ public class FoodInputView extends LinearLayout {
                 adapter.addItem(foodEaten);
             }
             adapter.notifyItemRangeInserted(oldCount, adapter.getItemCount());
-            update();
+            invalidateLayout();
         }
     }
 
@@ -226,20 +202,19 @@ public class FoodInputView extends LinearLayout {
         int itemCount = adapter.getItemCount();
         adapter.clear();
         adapter.notifyItemRangeRemoved(0, itemCount);
-        valueInput.setText(null);
-        updateVisibility();
+        invalidateLayout();
     }
 
     public void removeItem(int position) {
         adapter.removeItem(position);
         adapter.notifyItemRemoved(position);
-        update();
+        invalidateLayout();
     }
 
     public void updateItem(FoodEaten foodEaten, int position) {
         adapter.updateItem(position, foodEaten);
         adapter.notifyItemChanged(position);
-        update();
+        invalidateLayout();
     }
 
     public float getTotalCarbohydrates() {

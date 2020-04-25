@@ -5,77 +5,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:divider="@drawable/separator"
     android:orientation="vertical"
-    android:showDividers="middle"
-    android:divider="@drawable/separator">
+    android:showDividers="middle">
 
     <LinearLayout
         android:id="@+id/food_input_row"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/height_element_large"
         android:gravity="center_vertical"
-        android:minHeight="@dimen/height_element"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/food_input_icon"
             android:layout_width="@dimen/size_image"
             android:layout_height="@dimen/size_image"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:tint="?iconColorPrimary"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:contentDescription="@null"
-            android:src="@drawable/ic_category_meal"/>
-
-        <com.robinhood.ticker.TickerView
-            android:id="@+id/food_input_value_calculated_integral"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:gravity="center_vertical"
-            android:textColor="@color/gray_darker"
-            android:textSize="@dimen/text_large"
-            android:visibility="gone" />
+            android:src="@drawable/ic_category_meal"
+            android:tint="?iconColorPrimary" />
 
         <TextView
-            android:id="@+id/food_input_value_calculated_point"
+            android:id="@+id/food_input_value_calculated"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/padding_end_large"
+            android:layout_marginLeft="@dimen/padding_end_large"
             android:gravity="center_vertical"
-            android:textColor="@color/gray_darker"
+            android:textColor="?android:textColorSecondary"
             android:textSize="@dimen/text_large"
-            android:visibility="gone" />
-
-        <com.robinhood.ticker.TickerView
-            android:id="@+id/food_input_value_calculated_fractional"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:textColor="@color/gray_darker"
-            android:textSize="@dimen/text_large"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/food_input_value_sign"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:gravity="center_vertical"
-            android:text="+"
-            android:textColor="@color/gray_darker"
-            android:textSize="@dimen/text_large"
-            android:visibility="gone"
-            tools:ignore="HardcodedText" />
+            tools:text="20 +" />
 
         <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
             android:id="@+id/food_input_value_input"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
             android:paddingStart="@dimen/margin_between"
-            android:paddingLeft="@dimen/margin_between"
-            android:inputType="numberDecimal" />
+            android:paddingLeft="@dimen/margin_between" />
 
     </LinearLayout>
 
@@ -85,13 +53,13 @@
         android:layout_height="@dimen/height_element"
         android:text="@string/food_add"
         android:textAllCaps="false"
-        android:textColor="?colorPrimary"/>
+        android:textColor="?colorPrimary" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/food_input_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:nestedScrollingEnabled="false"
-        tools:ignore="UnusedAttribute"/>
+        tools:ignore="UnusedAttribute" />
 
 </LinearLayout>

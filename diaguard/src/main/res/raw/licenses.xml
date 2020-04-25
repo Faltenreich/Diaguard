@@ -133,10 +133,4 @@
         <copyright>Copyright, Bundesamt für Lebensmittel und Veterinärwesen BLV</copyright>
         <license>ISC License</license>
     </notice>
-    <notice>
-        <name>Ticker</name>
-        <url>https://github.com/robinhood/ticker</url>
-        <copyright>Copyright 2016, Robinhood Markets, Inc.</copyright>
-        <license>Apache Software License 2.0</license>
-    </notice>
 </notices>

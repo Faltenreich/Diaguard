@@ -121,6 +121,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Nullable
     protected Toolbar getToolbar() {
         return toolbar;
     }

@@ -69,6 +69,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Shar
     public void onResume() {
         super.onResume();
         Events.register(this);
+        getActivity().setTitle(R.string.settings);
         setSummaries();
     }
 

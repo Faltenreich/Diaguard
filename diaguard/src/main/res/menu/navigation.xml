@@ -34,9 +34,6 @@
             android:id="@+id/nav_export"
             android:title="@string/export" />
         <item
-            android:id="@+id/nav_therapy"
-            android:title="@string/therapy" />
-        <item
             android:id="@+id/nav_settings"
             android:title="@string/settings" />
     </group>

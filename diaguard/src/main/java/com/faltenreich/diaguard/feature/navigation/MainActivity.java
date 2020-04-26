@@ -25,7 +25,6 @@ import com.faltenreich.diaguard.feature.food.search.FoodSearchActivity;
 import com.faltenreich.diaguard.feature.log.LogFragment;
 import com.faltenreich.diaguard.feature.preference.PreferenceActivity;
 import com.faltenreich.diaguard.feature.statistic.StatisticFragment;
-import com.faltenreich.diaguard.feature.therapy.TherapyFragment;
 import com.faltenreich.diaguard.feature.timeline.TimelineFragment;
 import com.faltenreich.diaguard.shared.SystemUtils;
 import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
@@ -202,9 +201,6 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
                     break;
                 case R.id.nav_export:
                     showFragment(new ExportFragment(), menuItem, true);
-                    break;
-                case R.id.nav_therapy:
-                    showFragment(new TherapyFragment(), menuItem, true);
                     break;
                 case R.id.nav_settings:
                     startActivity(new Intent(this, PreferenceActivity.class));

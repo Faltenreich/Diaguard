@@ -1,13 +1,18 @@
 package com.faltenreich.diaguard.feature.preference;
 
-import android.app.Fragment;
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentFactory;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 
-public class PreferenceActivity extends BaseActivity {
-    
+public class PreferenceActivity extends BaseActivity implements
+    PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
+
     public PreferenceActivity() {
         super(R.layout.activity_preference);
     }
@@ -21,7 +26,17 @@ public class PreferenceActivity extends BaseActivity {
             .commit();
     }
 
-    public Fragment getFragment() {
-        return getFragmentManager().findFragmentById(R.id.content);
+    @Override
+    public boolean onPreferenceStartFragment(PreferenceFragmentCompat caller, Preference preference) {
+        Bundle arguments = preference.getExtras();
+        FragmentFactory factory = getSupportFragmentManager().getFragmentFactory();
+        Fragment fragment = factory.instantiate(getClassLoader(), preference.getFragment());
+        fragment.setArguments(arguments);
+        fragment.setTargetFragment(caller, 0);
+        getSupportFragmentManager().beginTransaction()
+            .replace(R.id.content, fragment)
+            .addToBackStack(null)
+            .commit();
+        return true;
     }
 }

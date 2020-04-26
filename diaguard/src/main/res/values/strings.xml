@@ -556,6 +556,6 @@
     <string name="food_custom">Custom food</string>
     <string name="show_custom_food">Show custom food</string>
     <string name="show_custom_food_desc">Includes every food that has been added manually by the user.</string>
-
+    <string name="unit">Unit</string>
 
 </resources>

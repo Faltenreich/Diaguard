@@ -14,6 +14,9 @@
 -keep interface com.faltenreich.diaguard.shared.data.database.entity.**
 -keepclassmembers interface com.faltenreich.diaguard.shared.data.database.entity.** { *; }
 
+-keep class com.faltenreich.diaguard.feature.preference.**
+-keepclassmembers class com.faltenreich.diaguard.feature.preference.** { *; }
+
 ##---------------Begin: EventBus ----------
 -keepattributes *Annotation*
 -keepclassmembers class ** {

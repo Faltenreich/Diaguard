@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.DrawableRes;
@@ -110,7 +109,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
         });
 
         searchView.setSearchListener(this);
-        searchView.setAction(new SearchViewAction(R.drawable.ic_more_vertical, R.string.menu_open, this::openMenu));
+        searchView.setAction(new SearchViewAction(R.drawable.ic_more_vertical, R.string.menu_open, (view) -> openSettings()));
         searchView.setSuggestions(PreferenceHelper.getInstance().getInputQueries());
     }
 
@@ -155,18 +154,6 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
                 showError(R.drawable.ic_wifi, R.string.error_no_connection, R.string.error_no_connection_desc, R.string.try_again);
             }
         }
-    }
-
-    private void openMenu(View view) {
-        PopupMenu popupMenu = new PopupMenu(getContext(), view);
-        popupMenu.getMenuInflater().inflate(R.menu.food_search, popupMenu.getMenu());
-        popupMenu.setOnMenuItemClickListener(popupMenuItem -> {
-            if (popupMenuItem.getItemId() == R.id.action_settings) {
-                openSettings();
-            }
-            return true;
-        });
-        popupMenu.show();
     }
 
     private void openSettings() {

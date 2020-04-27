@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.feature.food.preference;
+package com.faltenreich.diaguard.feature.preference.food;
 
 import android.os.Bundle;
 

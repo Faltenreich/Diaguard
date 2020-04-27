@@ -39,6 +39,10 @@
         android:icon="@drawable/ic_storage"
         android:title="@string/data">
 
+        <Preference
+            android:title="@string/food"
+            app:fragment="com.faltenreich.diaguard.feature.preference.food.FoodPreferenceFragment" />
+
         <com.faltenreich.diaguard.feature.preference.backup.BackupExportPreference
             android:key="backup"
             android:summary="@string/backup_desc"

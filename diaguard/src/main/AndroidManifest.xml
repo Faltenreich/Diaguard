@@ -109,7 +109,7 @@
         </activity>
 
         <activity
-            android:name=".feature.food.preference.FoodPreferenceActivity"
+            android:name=".feature.preference.food.FoodPreferenceActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/food_preferences"
             android:windowSoftInputMode="adjustPan"/>

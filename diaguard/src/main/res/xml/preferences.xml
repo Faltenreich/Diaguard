@@ -78,8 +78,16 @@
         android:title="@string/therapy">
 
         <Preference
-            android:title="@string/categories"
-            app:fragment="com.faltenreich.diaguard.feature.preference.therapy.CategoryPreferenceFragment" />
+            android:title="@string/units"
+            app:fragment="com.faltenreich.diaguard.feature.preference.therapy.UnitPreferenceFragment" />
+
+        <Preference
+            android:title="@string/factors"
+            app:fragment="com.faltenreich.diaguard.feature.preference.therapy.FactorPreferenceFragment" />
+
+        <Preference
+            android:title="@string/pref_therapy_limits"
+            app:fragment="com.faltenreich.diaguard.feature.preference.therapy.LimitPreferenceFragment" />
 
     </PreferenceCategory>
 

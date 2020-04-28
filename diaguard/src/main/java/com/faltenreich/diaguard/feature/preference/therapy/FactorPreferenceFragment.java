@@ -6,20 +6,20 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import com.faltenreich.diaguard.R;
 
-public class CategoryPreferenceFragment extends PreferenceFragmentCompat {
+public class FactorPreferenceFragment extends PreferenceFragmentCompat {
 
-    public CategoryPreferenceFragment() {
+    public FactorPreferenceFragment() {
         super();
     }
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        addPreferencesFromResource(R.xml.preferences_category);
+        addPreferencesFromResource(R.xml.preferences_factor);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        requireActivity().setTitle(R.string.categories);
+        requireActivity().setTitle(R.string.factors);
     }
 }

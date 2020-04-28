@@ -11,7 +11,6 @@ import android.widget.Toast;
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.fragment.app.DialogFragment;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
@@ -24,9 +23,6 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.export.job.Export;
 import com.faltenreich.diaguard.feature.export.job.ExportCallback;
 import com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreference;
-import com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreferenceDialogFragment;
-import com.faltenreich.diaguard.feature.preference.factor.FactorPreference;
-import com.faltenreich.diaguard.feature.preference.factor.FactorPreferenceDialogFragment;
 import com.faltenreich.diaguard.shared.SystemUtils;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
 import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
@@ -81,22 +77,6 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Shar
     public void onDestroy() {
         Events.unregister(this);
         super.onDestroy();
-    }
-
-    @Override
-    public void onDisplayPreferenceDialog(Preference preference) {
-        DialogFragment fragment = null;
-        if (preference instanceof BloodSugarPreference) {
-            fragment = BloodSugarPreferenceDialogFragment.newInstance(preference.getKey());
-        } else if (preference instanceof FactorPreference) {
-            fragment = FactorPreferenceDialogFragment.newInstance(preference.getKey());
-        }
-        if (fragment != null) {
-            fragment.setTargetFragment(this, 0);
-            fragment.show(getParentFragmentManager(), fragment.getClass().getName());
-        } else {
-            super.onDisplayPreferenceDialog(preference);
-        }
     }
 
     private void init() {

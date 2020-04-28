@@ -59,6 +59,10 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Shar
 
     private ProgressComponent progressComponent = new ProgressComponent();
 
+    public PreferenceFragment() {
+        super();
+    }
+
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         init();
@@ -69,7 +73,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Shar
     public void onResume() {
         super.onResume();
         Events.register(this);
-        getActivity().setTitle(R.string.settings);
+        requireActivity().setTitle(R.string.settings);
         setSummaries();
     }
 

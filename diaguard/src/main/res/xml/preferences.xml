@@ -10,14 +10,16 @@
         android:entries="@array/themes"
         android:entryValues="@array/themes_values"
         android:key="theme"
-        android:title="@string/theme" />
+        android:title="@string/theme"
+        app:useSimpleSummaryProvider="true" />
 
     <ListPreference
         android:defaultValue="0"
         android:entries="@array/startscreens"
         android:entryValues="@array/startscreens_values"
         android:key="startscreen"
-        android:title="@string/startscreen" />
+        android:title="@string/startscreen"
+        app:useSimpleSummaryProvider="true" />
 
     <PreferenceCategory
         android:icon="@drawable/ic_alarm"

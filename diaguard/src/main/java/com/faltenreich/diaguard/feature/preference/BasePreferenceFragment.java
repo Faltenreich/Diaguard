@@ -7,7 +7,6 @@ import android.os.Bundle;
 import androidx.annotation.StringRes;
 import androidx.annotation.XmlRes;
 import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
@@ -95,10 +94,6 @@ public abstract class BasePreferenceFragment
 
     private void setSummary(final Preference preference) {
         if (isAdded() && preference != null) {
-            if (preference instanceof ListPreference) {
-                ListPreference listPreference = (ListPreference) preference;
-                preference.setSummary(listPreference.getEntry());
-            }
             onSummarySet(preference);
         }
     }

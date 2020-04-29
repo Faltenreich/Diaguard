@@ -1,28 +1,17 @@
 package com.faltenreich.diaguard.feature.preference;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
-import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.preference.ListPreference;
 import androidx.preference.Preference;
-import androidx.preference.PreferenceCategory;
-import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.PreferenceGroup;
-import androidx.preference.PreferenceManager;
-import androidx.preference.PreferenceScreen;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.export.job.Export;
 import com.faltenreich.diaguard.feature.export.job.ExportCallback;
-import com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreference;
 import com.faltenreich.diaguard.shared.SystemUtils;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
 import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
@@ -31,7 +20,6 @@ import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.file.FileUtils;
 import com.faltenreich.diaguard.shared.data.permission.Permission;
 import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
-import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.file.BackupImportedEvent;
 import com.faltenreich.diaguard.shared.event.file.FileProvidedEvent;
@@ -41,7 +29,6 @@ import com.faltenreich.diaguard.shared.event.preference.MealFactorUnitChangedEve
 import com.faltenreich.diaguard.shared.event.preference.UnitChangedEvent;
 import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 import com.faltenreich.diaguard.shared.view.progress.ProgressComponent;
-import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
 import com.faltenreich.diaguard.shared.view.theme.Theme;
 import com.faltenreich.diaguard.shared.view.theme.ThemeUtils;
 
@@ -49,28 +36,24 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
-import java.util.ArrayList;
 
-public class PreferenceFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class PreferenceFragment extends BasePreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private ProgressComponent progressComponent = new ProgressComponent();
 
     public PreferenceFragment() {
-        super();
+        super(R.xml.preferences, R.string.settings);
     }
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        init();
-        initLayout();
+        super.onCreatePreferences(savedInstanceState, rootKey);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         Events.register(this);
-        requireActivity().setTitle(R.string.settings);
-        setSummaries();
     }
 
     @Override
@@ -79,109 +62,47 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Shar
         super.onDestroy();
     }
 
-    private void init() {
-        addPreferencesFromResource(R.xml.preferences);
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
-    }
+    @Override
+    protected void onSummarySet(Preference preference) {
+        super.onSummarySet(preference);
 
-    private void initLayout() {
-        int color = ColorUtils.getPrimaryColor(getContext());
-        applyThemeToIcons(getPreferenceScreen(), color);
-    }
+        if (preference.getKey() != null) {
+            String key = preference.getKey();
+            switch (key) {
+                case "version":
+                    preference.setSummary(SystemUtils.getVersionName(requireActivity()));
+                    break;
+                case "categories":
+                    int activeCategoriesCount = PreferenceHelper.getInstance().getActiveCategories().length;
+                    int categoriesTotalCount = Category.values().length;
+                    preference.setSummary(String.format("%d/%d %s",
+                        activeCategoriesCount,
+                        categoriesTotalCount,
+                        getString(R.string.active)));
+                    break;
+                case "tags":
+                    DataLoader.getInstance().load(preference.getContext(), new DataLoaderListener<Long>() {
+                        @Override
+                        public Long onShouldLoad() {
+                            return TagDao.getInstance().countAll();
+                        }
 
-    private ArrayList<Preference> getPreferenceList(Preference preference, ArrayList<Preference> list) {
-        if (preference instanceof PreferenceCategory || preference instanceof PreferenceScreen) {
-            PreferenceGroup pGroup = (PreferenceGroup) preference;
-            int pCount = pGroup.getPreferenceCount();
-            for (int i = 0; i < pCount; i++) {
-                getPreferenceList(pGroup.getPreference(i), list);
-            }
-        } else {
-            list.add(preference);
-        }
-        return list;
-    }
-
-    private void applyThemeToIcons(Preference preference, @ColorInt int color) {
-        Drawable icon = preference.getIcon();
-        if (icon != null) {
-            DrawableCompat.setTint(icon, color);
-            preference.setIcon(icon);
-        }
-
-        if (preference instanceof PreferenceGroup) {
-            PreferenceGroup group = ((PreferenceGroup) preference);
-            for (int index = 0; index < group.getPreferenceCount(); index++) {
-                applyThemeToIcons(group.getPreference(index), color);
-            }
-        }
-    }
-
-    private void setSummaries() {
-        for (Preference preference : getPreferenceList(getPreferenceScreen(), new ArrayList<>())) {
-            setSummary(preference);
-        }
-    }
-
-    @SuppressLint("DefaultLocale")
-    private void setSummary(final Preference preference) {
-        if (isAdded() && preference != null) {
-            if (preference instanceof ListPreference) {
-                ListPreference listPreference = (ListPreference) preference;
-                preference.setSummary(listPreference.getEntry());
-
-            } else if (preference instanceof BloodSugarPreference) {
-                String value = PreferenceHelper.getInstance().getValueForKey(preference.getKey());
-                float number = FloatUtils.parseNumber(value);
-                if (number > 0) {
-                    if (getActivity() != null) {
-                        int descriptionResId = getResources().getIdentifier(preference.getKey() + "_desc", "string", getActivity().getPackageName());
-                        String description = descriptionResId > 0 ? getString(descriptionResId) + " " : "";
-                        number = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Category.BLOODSUGAR, number);
-                        value = FloatUtils.parseFloat(number);
-                        preference.setSummary(description + value + " " + PreferenceHelper.getInstance().getUnitAcronym(Category.BLOODSUGAR));
-                    }
-                } else {
-                    preference.setSummary(null);
-                }
-
-            } else if (preference.getKey() != null) {
-                String key = preference.getKey();
-                switch (key) {
-                    case "version":
-                        preference.setSummary(SystemUtils.getVersionName(requireActivity()));
-                        break;
-                    case "categories":
-                        int activeCategoriesCount = PreferenceHelper.getInstance().getActiveCategories().length;
-                        int categoriesTotalCount = Category.values().length;
-                        preference.setSummary(String.format("%d/%d %s",
-                            activeCategoriesCount,
-                            categoriesTotalCount,
-                            getString(R.string.active)));
-                        break;
-                    case "tags":
-                        DataLoader.getInstance().load(preference.getContext(), new DataLoaderListener<Long>() {
-                            @Override
-                            public Long onShouldLoad() {
-                                return TagDao.getInstance().countAll();
+                        @Override
+                        public void onDidLoad(Long count) {
+                            if (isAdded()) {
+                                preference.setSummary(String.format(getString(R.string.available_placeholder), count));
                             }
-
-                            @Override
-                            public void onDidLoad(Long count) {
-                                if (isAdded()) {
-                                    preference.setSummary(String.format(getString(R.string.available_placeholder), count));
-                                }
-                            }
-                        });
-                        break;
-                }
+                        }
+                    });
+                    break;
             }
         }
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        super.onSharedPreferenceChanged(sharedPreferences, key);
+
         if (key.endsWith("_active")) {
             key = "categories";
         }
@@ -207,7 +128,6 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements Shar
                 ThemeUtils.setUiMode(getActivity(), theme);
                 break;
         }
-        setSummary(findPreference(key));
     }
 
     private void createBackup() {

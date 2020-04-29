@@ -1,25 +1,11 @@
 package com.faltenreich.diaguard.feature.preference.therapy;
 
-import android.os.Bundle;
-
-import androidx.preference.PreferenceFragmentCompat;
-
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.preference.BasePreferenceFragment;
 
-public class UnitPreferenceFragment extends PreferenceFragmentCompat {
+public class UnitPreferenceFragment extends BasePreferenceFragment {
 
     public UnitPreferenceFragment() {
-        super();
-    }
-
-    @Override
-    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        addPreferencesFromResource(R.xml.preferences_unit);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        requireActivity().setTitle(R.string.units);
+        super(R.xml.preferences_unit, R.string.units);
     }
 }

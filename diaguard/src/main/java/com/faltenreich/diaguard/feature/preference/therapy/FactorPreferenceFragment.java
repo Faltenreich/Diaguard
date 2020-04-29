@@ -1,30 +1,17 @@
 package com.faltenreich.diaguard.feature.preference.therapy;
 
-import android.os.Bundle;
-
 import androidx.fragment.app.DialogFragment;
 import androidx.preference.Preference;
-import androidx.preference.PreferenceFragmentCompat;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.preference.BasePreferenceFragment;
 import com.faltenreich.diaguard.feature.preference.factor.FactorPreference;
 import com.faltenreich.diaguard.feature.preference.factor.FactorPreferenceDialogFragment;
 
-public class FactorPreferenceFragment extends PreferenceFragmentCompat {
+public class FactorPreferenceFragment extends BasePreferenceFragment {
 
     public FactorPreferenceFragment() {
-        super();
-    }
-
-    @Override
-    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        addPreferencesFromResource(R.xml.preferences_factor);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        requireActivity().setTitle(R.string.factors);
+        super(R.xml.preferences_factor, R.string.factors);
     }
 
     @Override

@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.feature.preference;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -43,11 +42,6 @@ public class PreferenceFragment extends BasePreferenceFragment implements Shared
 
     public PreferenceFragment() {
         super(R.xml.preferences, R.string.settings);
-    }
-
-    @Override
-    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        super.onCreatePreferences(savedInstanceState, rootKey);
     }
 
     @Override

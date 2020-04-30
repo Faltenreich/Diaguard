@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.feature.preference;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -12,8 +13,6 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.export.job.Export;
 import com.faltenreich.diaguard.feature.export.job.ExportCallback;
 import com.faltenreich.diaguard.shared.SystemUtils;
-import com.faltenreich.diaguard.shared.data.async.DataLoader;
-import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.shared.data.database.dao.TagDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.file.FileUtils;
@@ -35,8 +34,14 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
+import java.util.Locale;
 
-public class PreferenceFragment extends BasePreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class PreferenceFragment extends BasePreferenceFragment
+    implements SharedPreferences.OnSharedPreferenceChangeListener {
+
+    private static final String KEY_VERSION = "version";
+    private static final String KEY_CATEGORIES = "categories";
+    private static final String KEY_TAGS = "tags";
 
     private ProgressComponent progressComponent = new ProgressComponent();
 
@@ -45,9 +50,16 @@ public class PreferenceFragment extends BasePreferenceFragment implements Shared
     }
 
     @Override
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        super.onCreatePreferences(savedInstanceState, rootKey);
+        getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         Events.register(this);
+        setSummaries();
     }
 
     @Override
@@ -56,47 +68,39 @@ public class PreferenceFragment extends BasePreferenceFragment implements Shared
         super.onDestroy();
     }
 
-    @Override
-    protected void onSummarySet(Preference preference) {
-        super.onSummarySet(preference);
+    private void setSummaries() {
+        setSummaryForVersion();
+        setSummaryForCategories();
+        setSummaryForTags();
+    }
 
-        if (preference.getKey() != null) {
-            String key = preference.getKey();
-            switch (key) {
-                case "version":
-                    preference.setSummary(SystemUtils.getVersionName(requireActivity()));
-                    break;
-                case "categories":
-                    int activeCategoriesCount = PreferenceHelper.getInstance().getActiveCategories().length;
-                    int categoriesTotalCount = Category.values().length;
-                    preference.setSummary(String.format("%d/%d %s",
-                        activeCategoriesCount,
-                        categoriesTotalCount,
-                        getString(R.string.active)));
-                    break;
-                case "tags":
-                    DataLoader.getInstance().load(preference.getContext(), new DataLoaderListener<Long>() {
-                        @Override
-                        public Long onShouldLoad() {
-                            return TagDao.getInstance().countAll();
-                        }
+    private void setSummaryForVersion() {
+        Preference preference = requirePreference(KEY_VERSION);
+        preference.setSummaryProvider(pref -> SystemUtils.getVersionName(requireActivity()));
+    }
 
-                        @Override
-                        public void onDidLoad(Long count) {
-                            if (isAdded()) {
-                                preference.setSummary(String.format(getString(R.string.available_placeholder), count));
-                            }
-                        }
-                    });
-                    break;
-            }
-        }
+    private void setSummaryForCategories() {
+        Preference preference = requirePreference(KEY_CATEGORIES);
+        preference.setSummaryProvider(pref -> String.format(
+            Locale.getDefault(),
+            "%d/%d %s",
+            PreferenceHelper.getInstance().getActiveCategories().length,
+            Category.values().length,
+            getString(R.string.active)
+        ));
+    }
+
+    private void setSummaryForTags() {
+        Preference preference = requirePreference(KEY_TAGS);
+        preference.setSummaryProvider(pref -> String.format(
+            Locale.getDefault(),
+            getString(R.string.available_placeholder),
+            TagDao.getInstance().countAll()
+        ));
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        super.onSharedPreferenceChanged(sharedPreferences, key);
-
         if (key.endsWith("_active")) {
             key = "categories";
         }

@@ -4,24 +4,18 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.annotation.XmlRes;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.preference.Preference;
-import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceManager;
-import androidx.preference.PreferenceScreen;
 
 import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
 
-import java.util.ArrayList;
-
-public abstract class BasePreferenceFragment
-    extends PreferenceFragmentCompat
-    implements SharedPreferences.OnSharedPreferenceChangeListener
-{
+public abstract class BasePreferenceFragment extends PreferenceFragmentCompat {
 
     @XmlRes private int preferenceRes;
     @StringRes private int titleRes;
@@ -34,10 +28,6 @@ public abstract class BasePreferenceFragment
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(preferenceRes);
-
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireActivity());
-        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
-
         applyTheme();
     }
 
@@ -45,12 +35,10 @@ public abstract class BasePreferenceFragment
     public void onResume() {
         super.onResume();
         requireActivity().setTitle(titleRes);
-        setSummaries();
     }
 
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        setSummary(findPreference(key));
+    protected SharedPreferences getSharedPreferences() {
+        return PreferenceManager.getDefaultSharedPreferences(requireActivity());
     }
 
     private void applyTheme() {
@@ -74,31 +62,12 @@ public abstract class BasePreferenceFragment
         }
     }
 
-    private ArrayList<Preference> getPreferenceList(Preference preference, ArrayList<Preference> list) {
-        if (preference instanceof PreferenceCategory || preference instanceof PreferenceScreen) {
-            PreferenceGroup group = (PreferenceGroup) preference;
-            for (int index = 0; index < group.getPreferenceCount(); index++) {
-                getPreferenceList(group.getPreference(index), list);
-            }
-        } else {
-            list.add(preference);
+    @NonNull
+    protected Preference requirePreference(String key) {
+        Preference preference = findPreference(key);
+        if (preference == null) {
+            throw new IllegalStateException("Preference with key " + key + " not found.");
         }
-        return list;
-    }
-
-    private void setSummaries() {
-        for (Preference preference : getPreferenceList(getPreferenceScreen(), new ArrayList<>())) {
-            setSummary(preference);
-        }
-    }
-
-    private void setSummary(final Preference preference) {
-        if (isAdded() && preference != null) {
-            onSummarySet(preference);
-        }
-    }
-
-    protected void onSummarySet(Preference preference) {
-
+        return preference;
     }
 }

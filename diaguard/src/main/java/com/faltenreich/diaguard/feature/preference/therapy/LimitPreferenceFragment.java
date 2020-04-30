@@ -1,5 +1,8 @@
 package com.faltenreich.diaguard.feature.preference.therapy;
 
+import android.content.SharedPreferences;
+import android.os.Bundle;
+
 import androidx.fragment.app.DialogFragment;
 import androidx.preference.Preference;
 
@@ -11,10 +14,26 @@ import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 
-public class LimitPreferenceFragment extends BasePreferenceFragment {
+import java.util.Locale;
+
+public class LimitPreferenceFragment extends BasePreferenceFragment
+    implements SharedPreferences.OnSharedPreferenceChangeListener {
+
+    private static final String KEY_LIMITS_HIGHLIGHTED = "targets_highlight";
+    private static final String KEY_HYPERGLYCEMIA = "hyperclycemia";
+    private static final String KEY_HYPOGLYCEMIA = "hypoclycemia";
+    private static final String KEY_TARGET = "target";
 
     public LimitPreferenceFragment() {
         super(R.xml.preferences_limit, R.string.pref_therapy_limits);
+    }
+
+    @Override
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        super.onCreatePreferences(savedInstanceState, rootKey);
+        getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        invalidateEnabledStates();
+        setSummaries();
     }
 
     @Override
@@ -32,24 +51,53 @@ public class LimitPreferenceFragment extends BasePreferenceFragment {
     }
 
     @Override
-    protected void onSummarySet(Preference preference) {
-        super.onSummarySet(preference);
-
-        if (preference instanceof BloodSugarPreference) {
-            String value = PreferenceHelper.getInstance().getValueForKey(preference.getKey());
-            float number = FloatUtils.parseNumber(value);
-            if (number > 0) {
-                if (getActivity() != null) {
-                    int descriptionResId = getResources().getIdentifier(preference.getKey() + "_desc", "string", getActivity().getPackageName());
-                    String description = descriptionResId > 0 ? getString(descriptionResId) + " " : "";
-                    number = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Category.BLOODSUGAR, number);
-                    value = FloatUtils.parseFloat(number);
-                    preference.setSummary(description + value + " " + PreferenceHelper.getInstance().getUnitAcronym(Category.BLOODSUGAR));
-                }
-            } else {
-                preference.setSummary(null);
-            }
-
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(KEY_LIMITS_HIGHLIGHTED)) {
+            invalidateEnabledStates();
         }
+    }
+
+    private void invalidateEnabledStates() {
+        boolean isEnabled = PreferenceHelper.getInstance().limitsAreHighlighted();
+        requirePreference(KEY_HYPERGLYCEMIA).setEnabled(isEnabled);
+        requirePreference(KEY_HYPOGLYCEMIA).setEnabled(isEnabled);
+        requirePreference(KEY_TARGET).setEnabled(isEnabled);
+    }
+
+    private void setSummaries() {
+        setSummaryForHyperglycemia();
+        setSummaryForHypoglycemia();
+        setSummaryForTarget();
+    }
+
+    private String getSummaryForLimit(float limit) {
+        float custom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Category.BLOODSUGAR, limit);
+        return String.format(
+            Locale.getDefault(),
+            "%s %s",
+            FloatUtils.parseFloat(custom),
+            PreferenceHelper.getInstance().getUnitAcronym(Category.BLOODSUGAR)
+        );
+    }
+
+    private void setSummaryForHyperglycemia() {
+        Preference preference = requirePreference(KEY_HYPERGLYCEMIA);
+        preference.setSummaryProvider(pref ->
+            getSummaryForLimit(PreferenceHelper.getInstance().getLimitHyperglycemia())
+        );
+    }
+
+    private void setSummaryForHypoglycemia() {
+        Preference preference = requirePreference(KEY_HYPOGLYCEMIA);
+        preference.setSummaryProvider(pref ->
+            getSummaryForLimit(PreferenceHelper.getInstance().getLimitHypoglycemia())
+        );
+    }
+
+    private void setSummaryForTarget() {
+        Preference preference = requirePreference(KEY_TARGET);
+        preference.setSummaryProvider(pref ->
+            getSummaryForLimit(PreferenceHelper.getInstance().getTargetValue())
+        );
     }
 }

@@ -1,2 +1,2 @@
-include ':Diaguard'
-include ':PDFjet'
+include ':app'
+include ':pdfjet'

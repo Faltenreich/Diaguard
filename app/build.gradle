@@ -71,7 +71,7 @@ def butterKnife = '10.2.1'
 def retrofit = '2.8.1'
 
 dependencies {
-    implementation project(':PDFjet')
+    implementation project(':pdfjet')
 
     testImplementation "junit:junit:$jUnit"
     testImplementation "org.robolectric:robolectric:$robolectric"

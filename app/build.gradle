@@ -80,7 +80,7 @@ def butterKnife = '10.2.1'
 def retrofit = '2.8.1'
 
 dependencies {
-    implementation project(':PDFjet')
+    implementation project(':pdfjet')
 
     debugImplementation 'androidx.fragment:fragment-testing:1.2.3'
 

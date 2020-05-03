@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class DatabaseConfigUtil extends OrmLiteConfigUtil {
 
     private static final String currDirectory = "user.dir";
-    private static final String configPath = "/Diaguard/src/main/res/raw/ormlite_config.txt";
+    private static final String configPath = "/app/src/main/res/raw/ormlite_config.txt";
     private static final String projectRoot = System.getProperty(currDirectory);
     private static final String fullConfigPath = projectRoot + configPath;
 

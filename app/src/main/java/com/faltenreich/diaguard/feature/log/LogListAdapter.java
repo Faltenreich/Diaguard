@@ -1,13 +1,10 @@
 package com.faltenreich.diaguard.feature.log;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
-import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.feature.entry.search.EntrySearchListAdapter;
 import com.faltenreich.diaguard.feature.log.day.LogDayListItem;
 import com.faltenreich.diaguard.feature.log.day.LogDayViewHolder;
@@ -19,6 +16,7 @@ import com.faltenreich.diaguard.feature.log.month.LogMonthListItem;
 import com.faltenreich.diaguard.feature.log.month.LogMonthViewHolder;
 import com.faltenreich.diaguard.feature.log.pending.LogPendingListItem;
 import com.faltenreich.diaguard.feature.log.pending.LogPendingViewHolder;
+import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.view.recyclerview.adapter.EndlessAdapter;
 import com.faltenreich.diaguard.shared.view.recyclerview.adapter.StickyHeaderAdapter;
 import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;
@@ -177,15 +175,15 @@ class LogListAdapter
         ViewType viewType = ViewType.values()[viewTypeInt];
         switch (viewType) {
             case MONTH:
-                return new LogMonthViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_log_month, parent, false));
+                return new LogMonthViewHolder(parent);
             case ENTRY:
-                return new LogEntryViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_log_entry, parent, false), listener);
+                return new LogEntryViewHolder(parent, listener);
             case EMPTY:
-                return new LogEmptyViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_log_empty, parent, false));
+                return new LogEmptyViewHolder(parent);
             case PENDING:
-                return new LogPendingViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_log_pending, parent, false));
+                return new LogPendingViewHolder(parent);
             default:
-                return null;
+                throw new IllegalArgumentException("Invalid view type: " + viewType);
         }
     }
 
@@ -216,7 +214,7 @@ class LogListAdapter
 
     @Override
     public LogDayViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
-        return new LogDayViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_log_day, parent, false));
+        return new LogDayViewHolder(parent);
     }
 
     @Override

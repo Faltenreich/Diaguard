@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.feature.timeline.day.table;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
@@ -17,8 +18,8 @@ public class CategoryValueViewHolder extends BaseViewHolder<CategoryValueListIte
 
     @BindView(R.id.category_value) TextView valueView;
 
-    CategoryValueViewHolder(View view) {
-        super(view);
+    CategoryValueViewHolder(ViewGroup parent) {
+        super(parent, R.layout.list_item_table_category_value);
         valueView.setOnClickListener(this);
     }
 

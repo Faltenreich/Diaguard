@@ -1,13 +1,11 @@
 package com.faltenreich.diaguard.feature.category;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.view.recyclerview.adapter.BaseAdapter;
 import com.faltenreich.diaguard.shared.view.recyclerview.drag.DragDropItemTouchHelperCallback;
@@ -26,7 +24,7 @@ class CategoryListAdapter extends BaseAdapter<Category, CategoryViewHolder> impl
     @NonNull
     @Override
     public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new CategoryViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_category, parent, false), listener);
+        return new CategoryViewHolder(parent, listener);
     }
 
     @Override

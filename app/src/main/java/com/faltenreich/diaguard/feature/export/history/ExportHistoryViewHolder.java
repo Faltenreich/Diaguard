@@ -34,8 +34,8 @@ class ExportHistoryViewHolder extends BaseViewHolder<ExportHistoryListItem> {
     @BindView(R.id.created_at_label) TextView createdAtLabel;
     @BindView(R.id.more_button) View moreButton;
 
-    ExportHistoryViewHolder(View view) {
-        super(view);
+    ExportHistoryViewHolder(ViewGroup parent) {
+        super(parent, R.layout.list_item_export_history);
     }
 
     @Override
@@ -83,7 +83,7 @@ class ExportHistoryViewHolder extends BaseViewHolder<ExportHistoryListItem> {
             FileUtils.openFile(getContext(), file);
         } catch (ActivityNotFoundException exception) {
             Log.e(TAG, exception.getMessage());
-            ViewUtils.showSnackbar(getView(), getContext().getString(R.string.error_no_app));
+            ViewUtils.showSnackbar(itemView, getContext().getString(R.string.error_no_app));
         }
     }
 

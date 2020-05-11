@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.feature.log.day;
 
-import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
@@ -20,8 +20,8 @@ public class LogDayViewHolder extends BaseViewHolder<LogDayListItem> {
     @BindView(R.id.day) TextView day;
     @BindView(R.id.weekday) TextView weekDay;
 
-    public LogDayViewHolder(View view) {
-        super(view);
+    public LogDayViewHolder(ViewGroup parent) {
+        super(parent, R.layout.list_item_log_day);
     }
 
     @Override

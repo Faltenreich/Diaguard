@@ -1,8 +1,10 @@
 package com.faltenreich.diaguard.shared.view.recyclerview.viewholder;
 
 import android.content.Context;
-import android.view.View;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 
+import androidx.annotation.LayoutRes;
 import androidx.recyclerview.widget.RecyclerView;
 
 import butterknife.ButterKnife;
@@ -13,23 +15,16 @@ import butterknife.ButterKnife;
 public abstract class BaseViewHolder <T> extends RecyclerView.ViewHolder {
 
     private Context context;
-    private View view;
-
     private T listItem;
 
-    public BaseViewHolder(View view) {
-        super(view);
-        this.view = view;
-        this.context = view.getContext();
-        ButterKnife.bind(this, view);
+    public BaseViewHolder(ViewGroup parent, @LayoutRes int layoutResource) {
+        super(LayoutInflater.from(parent.getContext()).inflate(layoutResource, parent, false));
+        this.context = parent.getContext();
+        ButterKnife.bind(this, itemView);
     }
 
     protected Context getContext() {
         return context;
-    }
-
-    protected View getView() {
-        return view;
     }
 
     protected T getListItem() {

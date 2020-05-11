@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.feature.food.input;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,13 +13,13 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
+import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.ui.FoodEatenRemovedEvent;
 import com.faltenreich.diaguard.shared.event.ui.FoodEatenUpdatedEvent;
-import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
-import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;
+import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
 
 import butterknife.BindView;
 
@@ -34,8 +34,8 @@ class FoodInputViewHolder extends BaseViewHolder<FoodEaten> {
     @BindView(R.id.food_amount) AppCompatButton amount;
     @BindView(R.id.food_delete) ImageView delete;
 
-    FoodInputViewHolder(View view) {
-        super(view);
+    FoodInputViewHolder(ViewGroup parent) {
+        super(parent, R.layout.list_item_measurement_meal_food_item);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.feature.tag;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
@@ -18,8 +19,8 @@ class TagViewHolder extends BaseViewHolder<Tag> {
     @BindView(R.id.tag_description) TextView descriptionView;
     @BindView(R.id.tag_button_delete) public View deleteButton;
 
-    TagViewHolder(View view) {
-        super(view);
+    TagViewHolder(ViewGroup parent) {
+        super(parent, R.layout.list_item_tag);
     }
 
     @Override

@@ -1,14 +1,14 @@
 package com.faltenreich.diaguard.feature.log.month;
 
 import android.graphics.Bitmap;
-import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
-import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;
 import com.faltenreich.diaguard.shared.view.image.ImageLoader;
+import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;
 
 import org.joda.time.DateTime;
 
@@ -22,8 +22,8 @@ public class LogMonthViewHolder extends BaseViewHolder<LogMonthListItem> {
     @BindView(R.id.background) ImageView background;
     @BindView(R.id.month) TextView month;
 
-    public LogMonthViewHolder(View view) {
-        super(view);
+    public LogMonthViewHolder(ViewGroup parent) {
+        super(parent, R.layout.list_item_log_month);
     }
 
     @Override

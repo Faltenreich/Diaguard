@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.feature.food.search;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,9 +23,9 @@ class FoodSearchViewHolder extends BaseViewHolder<FoodSearchListItem> implements
     @BindView(R.id.food_carbohydrates) TextView carbohydrates;
     @BindView(R.id.food_recent) ImageView recentIndicator;
 
-    FoodSearchViewHolder(View view) {
-        super(view);
-        view.setOnClickListener(this);
+    FoodSearchViewHolder(ViewGroup parent) {
+        super(parent, R.layout.list_item_food_search);
+        itemView.setOnClickListener(this);
     }
 
     @Override

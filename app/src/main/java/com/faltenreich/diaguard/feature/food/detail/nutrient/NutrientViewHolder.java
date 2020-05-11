@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.feature.food.detail.nutrient;
 
-import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
@@ -16,8 +16,8 @@ class NutrientViewHolder extends BaseViewHolder<NutrientListItem> {
     @BindView(R.id.list_item_nutrient_label) TextView label;
     @BindView(R.id.list_item_nutrient_value) TextView value;
 
-    NutrientViewHolder(View view) {
-        super(view);
+    NutrientViewHolder(ViewGroup parent) {
+        super(parent, R.layout.list_item_nutrient);
     }
 
     @Override

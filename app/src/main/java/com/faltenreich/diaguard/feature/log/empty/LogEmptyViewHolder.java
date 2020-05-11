@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.feature.log.empty;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
@@ -18,8 +19,8 @@ public class LogEmptyViewHolder extends BaseViewHolder<LogEmptyListItem> impleme
 
     @BindView(R.id.empty) TextView textView;
 
-    public LogEmptyViewHolder(View view) {
-        super(view);
+    public LogEmptyViewHolder(ViewGroup parent) {
+        super(parent, R.layout.list_item_log_empty);
     }
 
     @Override

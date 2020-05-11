@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.feature.food.input;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -9,7 +8,6 @@ import android.view.animation.AnimationUtils;
 
 import androidx.annotation.NonNull;
 
-import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.view.recyclerview.adapter.BaseAdapter;
 
@@ -25,7 +23,7 @@ class FoodInputListAdapter extends BaseAdapter<FoodEaten, FoodInputViewHolder> {
     @NonNull
     @Override
     public FoodInputViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new FoodInputViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_measurement_meal_food_item, parent, false));
+        return new FoodInputViewHolder(parent);
     }
 
     @Override

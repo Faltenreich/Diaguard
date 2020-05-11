@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.feature.food.detail.history;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
@@ -22,9 +23,9 @@ class FoodHistoryViewHolder extends BaseViewHolder<FoodEaten> implements View.On
     @BindView(R.id.list_item_food_eaten_date_time) TextView dateTime;
     @BindView(R.id.list_item_food_eaten_amount) TextView amount;
 
-    FoodHistoryViewHolder(View view) {
-        super(view);
-        view.setOnClickListener(this);
+    FoodHistoryViewHolder(ViewGroup parent) {
+        super(parent, R.layout.list_item_food_eaten);
+        itemView.setOnClickListener(this);
     }
 
     @Override

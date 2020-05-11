@@ -23,8 +23,8 @@ class CategoryViewHolder extends BaseViewHolder<Category> implements Draggable {
     @BindView(R.id.checkBoxPinned) CheckBox pinnedCheckBox;
     @BindView(R.id.dragView) View dragView;
 
-    CategoryViewHolder(View view, CategoryListAdapter.Listener listener) {
-        super(view);
+    CategoryViewHolder(ViewGroup parent, CategoryListAdapter.Listener listener) {
+        super(parent, R.layout.list_item_category);
         activeCheckBox.setOnCheckedChangeListener((v, isChecked) -> {
             PreferenceHelper.getInstance().setCategoryActive(getListItem(), isChecked);
             listener.onCheckedChange();

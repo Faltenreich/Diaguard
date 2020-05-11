@@ -1,7 +1,8 @@
 package com.faltenreich.diaguard.feature.log.pending;
 
-import android.view.View;
+import android.view.ViewGroup;
 
+import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;
 
 /**
@@ -9,8 +10,8 @@ import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHold
  */
 public class LogPendingViewHolder extends BaseViewHolder<LogPendingListItem> {
 
-    public LogPendingViewHolder(View view) {
-        super(view);
+    public LogPendingViewHolder(ViewGroup parent) {
+        super(parent, R.layout.list_item_log_pending);
     }
 
     @Override

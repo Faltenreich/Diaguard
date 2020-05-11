@@ -1,13 +1,11 @@
 package com.faltenreich.diaguard.feature.tag;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
-import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.view.recyclerview.adapter.BaseAdapter;
 
@@ -26,7 +24,7 @@ class TagListAdapter extends BaseAdapter<Tag, TagViewHolder> {
     @NonNull
     @Override
     public TagViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new TagViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_tag, parent, false));
+        return new TagViewHolder(parent);
     }
 
     @Override

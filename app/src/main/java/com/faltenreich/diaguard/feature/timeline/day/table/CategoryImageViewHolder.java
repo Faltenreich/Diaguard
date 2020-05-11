@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.feature.timeline.day.table;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.faltenreich.diaguard.R;
@@ -15,9 +16,9 @@ class CategoryImageViewHolder extends BaseViewHolder<CategoryImageListItem> impl
 
     @BindView(R.id.category_image) ImageView imageView;
 
-    CategoryImageViewHolder(View view) {
-        super(view);
-        view.setOnClickListener(this);
+    CategoryImageViewHolder(ViewGroup parent) {
+        super(parent, R.layout.list_item_table_category_image);
+        itemView.setOnClickListener(this);
     }
 
     @Override

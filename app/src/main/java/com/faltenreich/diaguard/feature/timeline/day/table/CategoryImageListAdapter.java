@@ -1,12 +1,10 @@
 package com.faltenreich.diaguard.feature.timeline.day.table;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
-import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.shared.view.recyclerview.adapter.BaseAdapter;
 
 /**
@@ -21,7 +19,7 @@ public class CategoryImageListAdapter extends BaseAdapter<CategoryImageListItem,
     @NonNull
     @Override
     public CategoryImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new CategoryImageViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_table_category_image, parent, false));
+        return new CategoryImageViewHolder(parent);
     }
 
     @Override

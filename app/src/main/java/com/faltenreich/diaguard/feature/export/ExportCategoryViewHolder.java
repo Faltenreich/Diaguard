@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.feature.export;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 
@@ -16,8 +17,8 @@ class ExportCategoryViewHolder extends BaseViewHolder<ExportCategoryListItem> {
     @BindView(R.id.category_checkbox) CheckBox categoryCheckBox;
     @BindView(R.id.extra_checkbox) CheckBox extraCheckBox;
 
-    ExportCategoryViewHolder(View view) {
-        super(view);
+    ExportCategoryViewHolder(ViewGroup parent) {
+        super(parent, R.layout.list_item_export_category);
         init();
     }
 

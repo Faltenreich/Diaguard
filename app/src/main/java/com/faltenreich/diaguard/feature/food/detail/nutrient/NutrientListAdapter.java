@@ -1,12 +1,10 @@
 package com.faltenreich.diaguard.feature.food.detail.nutrient;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
-import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.shared.view.recyclerview.adapter.BaseAdapter;
 
 class NutrientListAdapter extends BaseAdapter<NutrientListItem, NutrientViewHolder> {
@@ -18,7 +16,7 @@ class NutrientListAdapter extends BaseAdapter<NutrientListItem, NutrientViewHold
     @NonNull
     @Override
     public NutrientViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new NutrientViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.list_item_nutrient, parent, false));
+        return new NutrientViewHolder(parent);
     }
 
     @Override

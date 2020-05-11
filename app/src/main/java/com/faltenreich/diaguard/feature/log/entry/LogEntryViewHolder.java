@@ -13,7 +13,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
+import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
+import com.faltenreich.diaguard.feature.entry.search.EntrySearchListAdapter;
 import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
@@ -21,10 +22,9 @@ import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
-import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
-import com.faltenreich.diaguard.feature.entry.search.EntrySearchListAdapter;
-import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;
+import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
 import com.faltenreich.diaguard.shared.view.chip.ChipView;
+import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,8 +43,11 @@ public class LogEntryViewHolder extends BaseViewHolder<LogEntryListItem> {
 
     private EntrySearchListAdapter.OnSearchItemClickListener listener;
 
-    public LogEntryViewHolder(View view, EntrySearchListAdapter.OnSearchItemClickListener listener) {
-        super(view);
+    public LogEntryViewHolder(
+        ViewGroup parent,
+        EntrySearchListAdapter.OnSearchItemClickListener listener
+    ) {
+        super(parent, R.layout.list_item_log_entry);
         this.listener = listener;
     }
 

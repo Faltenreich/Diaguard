@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.feature.entry.search;
 
-import android.view.View;
+import android.view.ViewGroup;
 
 import com.faltenreich.diaguard.feature.log.entry.LogEntryViewHolder;
 import com.faltenreich.diaguard.shared.Helper;
@@ -9,8 +9,8 @@ import org.joda.time.DateTime;
 
 class EntrySearchViewHolder extends LogEntryViewHolder {
 
-    EntrySearchViewHolder(View view, EntrySearchListAdapter.OnSearchItemClickListener listener) {
-        super(view, listener);
+    EntrySearchViewHolder(ViewGroup parent, EntrySearchListAdapter.OnSearchItemClickListener listener) {
+        super(parent, listener);
     }
 
     @Override

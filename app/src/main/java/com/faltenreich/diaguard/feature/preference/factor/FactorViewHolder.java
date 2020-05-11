@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.feature.preference.factor;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
@@ -23,8 +24,8 @@ public class FactorViewHolder extends BaseViewHolder<FactorListItem> {
     @BindView(R.id.list_item_time_value)
     public LocalizedNumberEditText value;
 
-    public FactorViewHolder(View view) {
-        super(view);
+    public FactorViewHolder(ViewGroup parent) {
+        super(parent, R.layout.list_item_factor);
     }
 
     @Override

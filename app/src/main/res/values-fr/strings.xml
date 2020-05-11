@@ -229,6 +229,7 @@
     <string name="pref_therapy_targets_target">Valeur cible</string>
     <string name="pref_therapy_limits">Limites</string>
     <string name="pref_therapy_targets_highlight">Mettre les limites?</string>
+    <string name="pref_therapy_targets_highlight_desc">Souligne l\'hyperglycémie en rouge et l\'hypoglycémie en bleu</string>
     <string name="pref_therapy_targets_hyperclycemia">Limite d\'hyperglycémie</string>
     <string name="pref_therapy_targets_hypoclycemia">Limite d\'hypoglycémie</string>
 

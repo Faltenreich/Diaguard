@@ -236,6 +236,7 @@
     <string name="pref_therapy_targets_target">Valor Objetivo</string>
     <string name="pref_therapy_limits">Valor limitado</string>
     <string name="pref_therapy_targets_highlight">Remarcar los límites?</string>
+    <string name="pref_therapy_targets_highlight_desc">Destaca el rojo de hiperglucemia y el azul de hipoglucemia</string>
     <string name="pref_therapy_targets_hyperclycemia">Límite para hiperglucemia</string>
     <string name="pref_therapy_targets_hypoclycemia">Límite de hipoglucemia</string>
 

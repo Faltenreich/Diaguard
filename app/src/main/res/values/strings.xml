@@ -448,6 +448,7 @@
     <string name="pref_therapy_targets_target_default" translatable="false">120.0</string>
     <string name="pref_therapy_limits">Limits</string>
     <string name="pref_therapy_targets_highlight">Highlight limits?</string>
+    <string name="pref_therapy_targets_highlight_desc">Highlights hyperglycemia red and hypoglycemia blue</string>
     <string name="pref_therapy_targets_hyperclycemia">Limit for hyperclycemia</string>
     <string name="pref_therapy_targets_hyperclycemia_default" translatable="false">180.0</string>
     <string name="pref_therapy_targets_hypoclycemia">Limit for hypoclycemia</string>

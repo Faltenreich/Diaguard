@@ -282,6 +282,7 @@
     <string name="pref_therapy_targets_target">Zielwert</string>
     <string name="pref_therapy_limits">Grenzwerte</string>
     <string name="pref_therapy_targets_highlight">Grenzbereiche hervorheben?</string>
+    <string name="pref_therapy_targets_highlight_desc">Markiert Überzucker rot und Unterzucker blau</string>
     <string name="pref_therapy_targets_hyperclycemia">Grenze für Überzuckerung</string>
     <string name="pref_therapy_targets_hypoclycemia">Grenze für Unterzuckerung</string>
 

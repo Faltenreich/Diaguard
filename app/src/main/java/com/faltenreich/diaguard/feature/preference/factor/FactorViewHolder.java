@@ -29,7 +29,7 @@ public class FactorViewHolder extends BaseViewHolder<FactorListItem> {
     }
 
     @Override
-    protected void bind() {
+    protected void onBind(FactorListItem item) {
         final FactorListItem preference = getItem();
 
         if (preference.getInterval() == TimeInterval.CONSTANT) {

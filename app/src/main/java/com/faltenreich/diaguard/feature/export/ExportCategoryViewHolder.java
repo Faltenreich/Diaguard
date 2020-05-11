@@ -31,8 +31,7 @@ class ExportCategoryViewHolder extends BaseViewHolder<ExportCategoryListItem> {
     }
 
     @Override
-    protected void bind() {
-        ExportCategoryListItem item = getItem();
+    protected void onBind(ExportCategoryListItem item) {
         Category category = item.getCategory();
 
         categoryImageView.setImageResource(category.getIconImageResourceId());

@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.feature.entry.search;
 
 import android.view.ViewGroup;
 
+import com.faltenreich.diaguard.feature.log.entry.LogEntryListItem;
 import com.faltenreich.diaguard.feature.log.entry.LogEntryViewHolder;
 import com.faltenreich.diaguard.shared.Helper;
 
@@ -14,8 +15,8 @@ class EntrySearchViewHolder extends LogEntryViewHolder {
     }
 
     @Override
-    public void bind() {
-        super.bind();
+    public void onBind(LogEntryListItem item) {
+        super.onBind(item);
 
         rootLayout.setPadding(rootLayout.getPaddingRight(), rootLayout.getPaddingTop(), rootLayout.getPaddingRight(), rootLayout.getPaddingBottom());
 

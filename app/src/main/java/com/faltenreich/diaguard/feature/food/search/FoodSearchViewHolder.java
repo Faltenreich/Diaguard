@@ -29,7 +29,7 @@ class FoodSearchViewHolder extends BaseViewHolder<FoodSearchListItem> implements
     }
 
     @Override
-    protected void bind() {
+    protected void onBind(FoodSearchListItem item) {
         Food food = getItem().getFood();
         name.setText(food.getName());
         brand.setText(food.getBrand());

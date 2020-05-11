@@ -39,7 +39,7 @@ class FoodInputViewHolder extends BaseViewHolder<FoodEaten> {
     }
 
     @Override
-    protected void bind() {
+    protected void onBind(FoodEaten item) {
         final FoodEaten foodEaten = getItem();
         final Food food = foodEaten.getFood();
 

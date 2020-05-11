@@ -22,7 +22,7 @@ class CategoryImageViewHolder extends BaseViewHolder<CategoryImageListItem> impl
     }
 
     @Override
-    public void bind() {
+    public void onBind(CategoryImageListItem item) {
         int categoryImageResourceId = getItem().getCategory().getIconImageResourceId();
         if (categoryImageResourceId > 0) {
             ImageLoader.getInstance().load(categoryImageResourceId, imageView);

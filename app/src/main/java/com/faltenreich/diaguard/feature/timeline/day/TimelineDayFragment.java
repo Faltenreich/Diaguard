@@ -167,7 +167,6 @@ public class TimelineDayFragment extends Fragment {
                         // We access the ViewHolder directly for better performance compared to notifyItem(Range)Changed
                         CategoryValueViewHolder categoryValueViewHolder = (CategoryValueViewHolder) viewHolder;
                         categoryValueViewHolder.bind(listItem);
-                        ((CategoryValueViewHolder) viewHolder).bind();
                     }
                 }
             } else {

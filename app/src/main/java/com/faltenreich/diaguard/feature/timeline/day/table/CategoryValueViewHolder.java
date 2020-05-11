@@ -24,7 +24,7 @@ public class CategoryValueViewHolder extends BaseViewHolder<CategoryValueListIte
     }
 
     @Override
-    public void bind() {
+    public void onBind(CategoryValueListItem item) {
         valueView.setLines(1);
         CategoryValueListItem listItem = getItem();
         String value = listItem.print();

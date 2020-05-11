@@ -52,7 +52,7 @@ public class LogEntryViewHolder extends BaseViewHolder<LogEntryListItem> {
     }
 
     @Override
-    public void bind() {
+    public void onBind(LogEntryListItem item) {
         final LogEntryListItem listItem = getItem();
         final Entry entry = listItem.getEntry();
         final List<EntryTag> entryTags = listItem.getEntryTags();

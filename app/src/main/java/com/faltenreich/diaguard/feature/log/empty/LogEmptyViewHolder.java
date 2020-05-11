@@ -24,7 +24,7 @@ public class LogEmptyViewHolder extends BaseViewHolder<LogEmptyListItem> impleme
     }
 
     @Override
-    public void bind() {
+    public void onBind(LogEmptyListItem item) {
         textView.setOnClickListener(this);
     }
 

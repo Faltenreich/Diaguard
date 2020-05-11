@@ -33,10 +33,10 @@ public abstract class BaseViewHolder <T> extends RecyclerView.ViewHolder {
 
     public void bind(T item) {
         this.item = item;
-        bind();
+        onBind(item);
     }
 
-    protected abstract void bind();
+    protected abstract void onBind(T item);
 
     public int getSwipeFlags() {
         return 0;

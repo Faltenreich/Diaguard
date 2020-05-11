@@ -40,7 +40,7 @@ class CategoryViewHolder extends BaseViewHolder<Category> implements Draggable {
     }
 
     @Override
-    protected void bind() {
+    protected void onBind(Category item) {
         Category category = getItem();
         titleLabel.setText(getContext().getString(category.getStringResId()));
         activeCheckBox.setEnabled(category.isOptional());

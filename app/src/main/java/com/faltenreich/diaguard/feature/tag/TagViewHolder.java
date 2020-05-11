@@ -24,7 +24,7 @@ class TagViewHolder extends BaseViewHolder<Tag> {
     }
 
     @Override
-    protected void bind() {
+    protected void onBind(Tag item) {
         final Tag tag = getItem();
         nameView.setText(tag.getName());
 

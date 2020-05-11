@@ -27,7 +27,7 @@ public class LogMonthViewHolder extends BaseViewHolder<LogMonthListItem> {
     }
 
     @Override
-    public void bind() {
+    public void onBind(LogMonthListItem item) {
         DateTime dateTime = getItem().getDateTime();
         month.setText(dateTime.toString("MMMM YYYY"));
         int resourceId = PreferenceHelper.getInstance().getMonthResourceId(dateTime);

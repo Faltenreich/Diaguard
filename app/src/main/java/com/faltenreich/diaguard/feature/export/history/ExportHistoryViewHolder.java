@@ -39,9 +39,7 @@ class ExportHistoryViewHolder extends BaseViewHolder<ExportHistoryListItem> {
     }
 
     @Override
-    protected void bind() {
-        ExportHistoryListItem item = getItem();
-
+    protected void onBind(ExportHistoryListItem item) {
         FileType format = FileType.valueOf(item.getFile());
         if (format != null) {
             formatIcon.setColorFilter(ContextCompat.getColor(getContext(), format.colorRes));

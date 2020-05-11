@@ -29,7 +29,7 @@ class FoodHistoryViewHolder extends BaseViewHolder<FoodEaten> implements View.On
     }
 
     @Override
-    protected void bind() {
+    protected void onBind(FoodEaten item) {
         FoodEaten foodEaten = getItem();
         boolean hasDateTime = foodEaten.getMeal() != null && foodEaten.getMeal().getEntry() != null;
         if (hasDateTime) {

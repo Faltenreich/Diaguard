@@ -21,6 +21,6 @@ class NutrientListAdapter extends BaseAdapter<NutrientListItem, NutrientViewHold
 
     @Override
     public void onBindViewHolder(@NonNull NutrientViewHolder holder, int position) {
-        holder.bindData(getItem(holder.getAdapterPosition()));
+        holder.bind(getItem(holder.getAdapterPosition()));
     }
 }

@@ -28,7 +28,7 @@ class FoodInputListAdapter extends BaseAdapter<FoodEaten, FoodInputViewHolder> {
 
     @Override
     public void onBindViewHolder(final FoodInputViewHolder holder, int position) {
-        holder.bindData(getItem(position));
+        holder.bind(getItem(position));
         startAnimation(holder.itemView, position);
     }
 

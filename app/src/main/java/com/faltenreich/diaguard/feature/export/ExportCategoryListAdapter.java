@@ -24,7 +24,7 @@ class ExportCategoryListAdapter extends BaseAdapter<ExportCategoryListItem, Expo
 
     @Override
     public void onBindViewHolder(@NonNull final ExportCategoryViewHolder holder, int position) {
-        holder.bindData(getItem(position));
+        holder.bind(getItem(position));
     }
 
     Category[] getSelectedCategories() {

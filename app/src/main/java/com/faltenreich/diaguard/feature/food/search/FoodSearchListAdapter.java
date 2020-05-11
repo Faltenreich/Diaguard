@@ -24,6 +24,6 @@ class FoodSearchListAdapter extends BaseAdapter<FoodSearchListItem, FoodSearchVi
 
     @Override
     public void onBindViewHolder(FoodSearchViewHolder holder, int position) {
-        holder.bindData(getItem(holder.getAdapterPosition()));
+        holder.bind(getItem(holder.getAdapterPosition()));
     }
 }

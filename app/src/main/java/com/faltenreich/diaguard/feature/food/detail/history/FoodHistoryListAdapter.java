@@ -25,6 +25,6 @@ class FoodHistoryListAdapter extends BaseAdapter<FoodEaten, FoodHistoryViewHolde
 
     @Override
     public void onBindViewHolder(FoodHistoryViewHolder holder, int position) {
-        holder.bindData(getItem(holder.getAdapterPosition()));
+        holder.bind(getItem(holder.getAdapterPosition()));
     }
 }

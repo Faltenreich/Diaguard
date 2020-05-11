@@ -14,12 +14,12 @@ class EntrySearchViewHolder extends LogEntryViewHolder {
     }
 
     @Override
-    public void bindData() {
-        super.bindData();
+    public void bind() {
+        super.bind();
 
         rootLayout.setPadding(rootLayout.getPaddingRight(), rootLayout.getPaddingTop(), rootLayout.getPaddingRight(), rootLayout.getPaddingBottom());
 
-        DateTime dateTime = getListItem().getDateTime();
+        DateTime dateTime = getItem().getDateTime();
         dateTimeView.setText(String.format("%s, %s %s",
                 dateTime.dayOfWeek().getAsShortText(),
                 Helper.getDateFormat().print(dateTime),

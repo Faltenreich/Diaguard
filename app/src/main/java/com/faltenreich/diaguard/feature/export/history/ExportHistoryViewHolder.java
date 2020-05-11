@@ -39,8 +39,8 @@ class ExportHistoryViewHolder extends BaseViewHolder<ExportHistoryListItem> {
     }
 
     @Override
-    protected void bindData() {
-        ExportHistoryListItem item = getListItem();
+    protected void bind() {
+        ExportHistoryListItem item = getItem();
 
         FileType format = FileType.valueOf(item.getFile());
         if (format != null) {
@@ -79,7 +79,7 @@ class ExportHistoryViewHolder extends BaseViewHolder<ExportHistoryListItem> {
 
     private void openExport() {
         try {
-            File file = getListItem().getFile();
+            File file = getItem().getFile();
             FileUtils.openFile(getContext(), file);
         } catch (ActivityNotFoundException exception) {
             Log.e(TAG, exception.getMessage());
@@ -88,10 +88,10 @@ class ExportHistoryViewHolder extends BaseViewHolder<ExportHistoryListItem> {
     }
 
     private void shareExport() {
-        FileUtils.shareFile(getContext(), getListItem().getFile(), R.string.export_share);
+        FileUtils.shareFile(getContext(), getItem().getFile(), R.string.export_share);
     }
 
     private void deleteExport() {
-        Events.post(new ExportHistoryDeleteEvent(getListItem()));
+        Events.post(new ExportHistoryDeleteEvent(getItem()));
     }
 }

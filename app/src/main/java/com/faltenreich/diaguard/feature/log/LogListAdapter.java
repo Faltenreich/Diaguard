@@ -190,7 +190,7 @@ class LogListAdapter
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        holder.bindData(getItem(position));
+        holder.bind(getItem(position));
     }
 
     @Override
@@ -223,7 +223,7 @@ class LogListAdapter
             LogListItem listItem = getItem(position);
             // TODO: Remove header for other items instead of ignoring them here
             if (listItem instanceof LogEntryListItem || listItem instanceof LogEmptyListItem) {
-                holder.bindData(new LogDayListItem(listItem.getDateTime()));
+                holder.bind(new LogDayListItem(listItem.getDateTime()));
             }
         }
     }

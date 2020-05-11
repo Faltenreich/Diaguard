@@ -26,10 +26,10 @@ class CategoryViewHolder extends BaseViewHolder<Category> implements Draggable {
     CategoryViewHolder(ViewGroup parent, CategoryListAdapter.Listener listener) {
         super(parent, R.layout.list_item_category);
         activeCheckBox.setOnCheckedChangeListener((v, isChecked) -> {
-            PreferenceHelper.getInstance().setCategoryActive(getListItem(), isChecked);
+            PreferenceHelper.getInstance().setCategoryActive(getItem(), isChecked);
             listener.onCheckedChange();
         });
-        pinnedCheckBox.setOnCheckedChangeListener((v, isChecked) -> PreferenceHelper.getInstance().setCategoryPinned(getListItem(), isChecked));
+        pinnedCheckBox.setOnCheckedChangeListener((v, isChecked) -> PreferenceHelper.getInstance().setCategoryPinned(getItem(), isChecked));
         dragView.setOnTouchListener((v, event) -> {
             if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
                 listener.onReorderStart(CategoryViewHolder.this);
@@ -40,8 +40,8 @@ class CategoryViewHolder extends BaseViewHolder<Category> implements Draggable {
     }
 
     @Override
-    protected void bindData() {
-        Category category = getListItem();
+    protected void bind() {
+        Category category = getItem();
         titleLabel.setText(getContext().getString(category.getStringResId()));
         activeCheckBox.setEnabled(category.isOptional());
         activeCheckBox.setChecked(PreferenceHelper.getInstance().isCategoryActive(category));
@@ -51,7 +51,7 @@ class CategoryViewHolder extends BaseViewHolder<Category> implements Draggable {
 
     @Override
     public boolean isDraggable() {
-        return getListItem() != Category.BLOODSUGAR;
+        return getItem() != Category.BLOODSUGAR;
     }
 
     @Override

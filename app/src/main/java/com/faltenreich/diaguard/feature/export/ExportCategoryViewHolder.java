@@ -24,15 +24,15 @@ class ExportCategoryViewHolder extends BaseViewHolder<ExportCategoryListItem> {
 
     private void init() {
         categoryCheckBox.setOnCheckedChangeListener((checkBox, isChecked) -> {
-            getListItem().setCategorySelected(isChecked);
+            getItem().setCategorySelected(isChecked);
             extraCheckBox.setEnabled(isChecked);
         });
-        extraCheckBox.setOnCheckedChangeListener((checkBox, isChecked) -> getListItem().setExtraSelected(isChecked));
+        extraCheckBox.setOnCheckedChangeListener((checkBox, isChecked) -> getItem().setExtraSelected(isChecked));
     }
 
     @Override
-    protected void bindData() {
-        ExportCategoryListItem item = getListItem();
+    protected void bind() {
+        ExportCategoryListItem item = getItem();
         Category category = item.getCategory();
 
         categoryImageView.setImageResource(category.getIconImageResourceId());

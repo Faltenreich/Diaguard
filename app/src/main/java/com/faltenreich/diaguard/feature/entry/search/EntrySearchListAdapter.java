@@ -28,7 +28,7 @@ public class EntrySearchListAdapter extends EndlessAdapter<LogEntryListItem, Ent
     @Override
     public void onBindViewHolder(@NonNull EntrySearchViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        holder.bindData(getItem(position));
+        holder.bind(getItem(position));
     }
 
     public interface OnSearchItemClickListener {

@@ -22,8 +22,8 @@ class CategoryImageViewHolder extends BaseViewHolder<CategoryImageListItem> impl
     }
 
     @Override
-    public void bindData() {
-        int categoryImageResourceId = getListItem().getCategory().getIconImageResourceId();
+    public void bind() {
+        int categoryImageResourceId = getItem().getCategory().getIconImageResourceId();
         if (categoryImageResourceId > 0) {
             ImageLoader.getInstance().load(categoryImageResourceId, imageView);
         }
@@ -31,7 +31,7 @@ class CategoryImageViewHolder extends BaseViewHolder<CategoryImageListItem> impl
 
     @Override
     public void onClick(View view) {
-        Category category = getListItem().getCategory();
+        Category category = getItem().getCategory();
         ViewUtils.showToast(getContext(), getContext().getString(category.getStringResId()));
     }
 }

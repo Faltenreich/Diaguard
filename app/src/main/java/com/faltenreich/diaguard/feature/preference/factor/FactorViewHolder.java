@@ -29,8 +29,8 @@ public class FactorViewHolder extends BaseViewHolder<FactorListItem> {
     }
 
     @Override
-    protected void bindData() {
-        final FactorListItem preference = getListItem();
+    protected void bind() {
+        final FactorListItem preference = getItem();
 
         if (preference.getInterval() == TimeInterval.CONSTANT) {
             time.setVisibility(View.GONE);

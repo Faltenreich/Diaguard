@@ -29,17 +29,17 @@ class FoodSearchViewHolder extends BaseViewHolder<FoodSearchListItem> implements
     }
 
     @Override
-    protected void bindData() {
-        Food food = getListItem().getFood();
+    protected void bind() {
+        Food food = getItem().getFood();
         name.setText(food.getName());
         brand.setText(food.getBrand());
         brand.setVisibility(food.getBrand() != null && food.getBrand().length() > 0 ? View.VISIBLE : View.GONE);
         carbohydrates.setText(food.getValueForUi());
-        recentIndicator.setVisibility(getListItem().getFoodEaten() != null ? View.VISIBLE : View.GONE);
+        recentIndicator.setVisibility(getItem().getFoodEaten() != null ? View.VISIBLE : View.GONE);
     }
 
     @Override
     public void onClick(View view) {
-        Events.post(new FoodSelectedEvent(getListItem().getFood(), view));
+        Events.post(new FoodSelectedEvent(getItem().getFood(), view));
     }
 }

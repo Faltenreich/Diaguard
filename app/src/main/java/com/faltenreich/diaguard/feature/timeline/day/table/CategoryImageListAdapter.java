@@ -24,6 +24,6 @@ public class CategoryImageListAdapter extends BaseAdapter<CategoryImageListItem,
 
     @Override
     public void onBindViewHolder(CategoryImageViewHolder holder, int position) {
-        holder.bindData(getItem(position));
+        holder.bind(getItem(position));
     }
 }

@@ -15,7 +15,7 @@ import butterknife.ButterKnife;
 public abstract class BaseViewHolder <T> extends RecyclerView.ViewHolder {
 
     private Context context;
-    private T listItem;
+    private T item;
 
     public BaseViewHolder(ViewGroup parent, @LayoutRes int layoutResource) {
         super(LayoutInflater.from(parent.getContext()).inflate(layoutResource, parent, false));
@@ -27,20 +27,16 @@ public abstract class BaseViewHolder <T> extends RecyclerView.ViewHolder {
         return context;
     }
 
-    protected T getListItem() {
-        return listItem;
+    protected T getItem() {
+        return item;
     }
 
-    public void bindData(T listItem) {
-        this.listItem = listItem;
-        bindData();
+    public void bind(T item) {
+        this.item = item;
+        bind();
     }
 
-    protected abstract void bindData();
-
-    public void setListItem(T listItem) {
-        this.listItem = listItem;
-    }
+    protected abstract void bind();
 
     public int getSwipeFlags() {
         return 0;

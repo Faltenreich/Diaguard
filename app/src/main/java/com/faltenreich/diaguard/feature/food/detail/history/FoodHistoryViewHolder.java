@@ -29,8 +29,8 @@ class FoodHistoryViewHolder extends BaseViewHolder<FoodEaten> implements View.On
     }
 
     @Override
-    protected void bindData() {
-        FoodEaten foodEaten = getListItem();
+    protected void bind() {
+        FoodEaten foodEaten = getItem();
         boolean hasDateTime = foodEaten.getMeal() != null && foodEaten.getMeal().getEntry() != null;
         if (hasDateTime) {
             DateTime foodEatenDateTime = foodEaten.getMeal().getEntry().getDate();
@@ -45,6 +45,6 @@ class FoodHistoryViewHolder extends BaseViewHolder<FoodEaten> implements View.On
 
     @Override
     public void onClick(View view) {
-        EntryEditActivity.show(getContext(), getListItem().getMeal().getEntry());
+        EntryEditActivity.show(getContext(), getItem().getMeal().getEntry());
     }
 }

@@ -29,7 +29,7 @@ class CategoryListAdapter extends BaseAdapter<Category, CategoryViewHolder> impl
 
     @Override
     public void onBindViewHolder(@NonNull final CategoryViewHolder holder, int position) {
-        holder.bindData(getItem(position));
+        holder.bind(getItem(position));
     }
 
     @Override

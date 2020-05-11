@@ -27,7 +27,7 @@ class FactorListAdapter extends BaseAdapter<FactorListItem, FactorViewHolder> {
 
     @Override
     public void onBindViewHolder(final FactorViewHolder holder, int position) {
-        holder.bindData(getItem(position));
+        holder.bind(getItem(position));
         holder.value.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

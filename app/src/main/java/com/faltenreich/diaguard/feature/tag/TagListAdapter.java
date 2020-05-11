@@ -29,7 +29,7 @@ class TagListAdapter extends BaseAdapter<Tag, TagViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull final TagViewHolder holder, int position) {
-        holder.bindData(getItem(position));
+        holder.bind(getItem(position));
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

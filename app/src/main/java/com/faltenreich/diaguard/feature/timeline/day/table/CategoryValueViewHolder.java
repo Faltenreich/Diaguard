@@ -24,9 +24,9 @@ public class CategoryValueViewHolder extends BaseViewHolder<CategoryValueListIte
     }
 
     @Override
-    public void bindData() {
+    public void bind() {
         valueView.setLines(1);
-        CategoryValueListItem listItem = getListItem();
+        CategoryValueListItem listItem = getItem();
         String value = listItem.print();
 
         int lines = StringUtils.countMatches(value, "\n") + 1;
@@ -44,7 +44,7 @@ public class CategoryValueViewHolder extends BaseViewHolder<CategoryValueListIte
     @Override
     public void onClick(View view) {
         // TODO: Use Measurement.toString() instead
-        Category category = getListItem().getCategory();
+        Category category = getItem().getCategory();
         String unitAcronym = PreferenceHelper.getInstance().getUnitName(category);
         ViewUtils.showToast(getContext(), unitAcronym);
     }

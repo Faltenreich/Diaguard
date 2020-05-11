@@ -15,7 +15,7 @@ public class LogPendingViewHolder extends BaseViewHolder<LogPendingListItem> {
     }
 
     @Override
-    public void bindData() {
+    public void bind() {
 
     }
 }

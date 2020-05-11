@@ -52,8 +52,8 @@ public class LogEntryViewHolder extends BaseViewHolder<LogEntryListItem> {
     }
 
     @Override
-    public void bindData() {
-        final LogEntryListItem listItem = getListItem();
+    public void bind() {
+        final LogEntryListItem listItem = getItem();
         final Entry entry = listItem.getEntry();
         final List<EntryTag> entryTags = listItem.getEntryTags();
         final List<FoodEaten> foodEatenList = listItem.getFoodEatenList();

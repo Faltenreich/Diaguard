@@ -39,8 +39,8 @@ class FoodInputViewHolder extends BaseViewHolder<FoodEaten> {
     }
 
     @Override
-    protected void bindData() {
-        final FoodEaten foodEaten = getListItem();
+    protected void bind() {
+        final FoodEaten foodEaten = getItem();
         final Food food = foodEaten.getFood();
 
         name.setText(food.getName());
@@ -62,7 +62,7 @@ class FoodInputViewHolder extends BaseViewHolder<FoodEaten> {
 
     private void showNumberPicker(AppCompatActivity activity) {
         ViewUtils.showNumberPicker(activity, R.string.grams_milliliters_acronym, getAmountFromButton(), 1, 10000, (reference, number, decimal, isNegative, fullNumber) -> {
-            FoodEaten foodEaten = getListItem();
+            FoodEaten foodEaten = getItem();
             foodEaten.setAmountInGrams(number.floatValue());
             Events.post(new FoodEatenUpdatedEvent(foodEaten, getAdapterPosition()));
         });
@@ -70,10 +70,10 @@ class FoodInputViewHolder extends BaseViewHolder<FoodEaten> {
 
     @SuppressWarnings("RestrictedApi")
     private void updateUi() {
-        FoodEaten foodEaten = getListItem();
+        FoodEaten foodEaten = getItem();
         boolean isSet = foodEaten.getAmountInGrams() > 0;
         String text = isSet ?
-                String.format("%s %s", FloatUtils.parseFloat(getListItem().getAmountInGrams()), getContext().getString(R.string.grams_milliliters_acronym)) :
+                String.format("%s %s", FloatUtils.parseFloat(getItem().getAmountInGrams()), getContext().getString(R.string.grams_milliliters_acronym)) :
                 getContext().getString(R.string.amount);
         int backgroundColor = isSet ? ColorUtils.getBackgroundTertiary(getContext()) : ColorUtils.getPrimaryColor(getContext());
         int textColor = isSet ? ColorUtils.getTextColorPrimary(getContext()) : Color.WHITE;

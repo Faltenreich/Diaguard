@@ -21,6 +21,6 @@ class ExportHistoryListAdapter extends BaseAdapter<ExportHistoryListItem, Export
 
     @Override
     public void onBindViewHolder(@NonNull final ExportHistoryViewHolder holder, int position) {
-        holder.bindData(getItem(position));
+        holder.bind(getItem(position));
     }
 }

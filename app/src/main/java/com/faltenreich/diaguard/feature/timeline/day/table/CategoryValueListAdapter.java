@@ -24,6 +24,6 @@ public class CategoryValueListAdapter extends BaseAdapter<CategoryValueListItem,
 
     @Override
     public void onBindViewHolder(CategoryValueViewHolder holder, int position) {
-        holder.bindData(getItem(position));
+        holder.bind(getItem(position));
     }
 }

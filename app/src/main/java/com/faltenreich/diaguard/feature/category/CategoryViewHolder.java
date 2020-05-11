@@ -7,8 +7,8 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
+import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
 import com.faltenreich.diaguard.shared.view.recyclerview.drag.Draggable;
 import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;
 import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
@@ -23,17 +23,18 @@ class CategoryViewHolder extends BaseViewHolder<Category> implements Draggable {
     @BindView(R.id.checkBoxPinned) CheckBox pinnedCheckBox;
     @BindView(R.id.dragView) View dragView;
 
+    private CategoryListAdapter.Listener listener;
+
     CategoryViewHolder(ViewGroup parent, CategoryListAdapter.Listener listener) {
         super(parent, R.layout.list_item_category);
-        activeCheckBox.setOnCheckedChangeListener((v, isChecked) -> {
-            PreferenceHelper.getInstance().setCategoryActive(getItem(), isChecked);
-            listener.onCheckedChange();
-        });
-        pinnedCheckBox.setOnCheckedChangeListener((v, isChecked) -> PreferenceHelper.getInstance().setCategoryPinned(getItem(), isChecked));
-        dragView.setOnTouchListener((v, event) -> {
+        this.listener = listener;
+
+        activeCheckBox.setOnCheckedChangeListener((view, isChecked) -> setActive(isChecked));
+        pinnedCheckBox.setOnCheckedChangeListener((view, isChecked) -> setPinned(isChecked));
+        dragView.setOnTouchListener((view, event) -> {
             if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
                 listener.onReorderStart(CategoryViewHolder.this);
-                v.performClick();
+                view.performClick();
             }
             return false;
         });
@@ -41,12 +42,11 @@ class CategoryViewHolder extends BaseViewHolder<Category> implements Draggable {
 
     @Override
     protected void onBind(Category item) {
-        Category category = getItem();
-        titleLabel.setText(getContext().getString(category.getStringResId()));
-        activeCheckBox.setEnabled(category.isOptional());
-        activeCheckBox.setChecked(PreferenceHelper.getInstance().isCategoryActive(category));
-        pinnedCheckBox.setChecked(PreferenceHelper.getInstance().isCategoryPinned(category));
-        dragView.setVisibility(category.isOptional() ? View.VISIBLE : View.INVISIBLE);
+        titleLabel.setText(getContext().getString(item.getStringResId()));
+        activeCheckBox.setEnabled(item.isOptional());
+        activeCheckBox.setChecked(PreferenceHelper.getInstance().isCategoryActive(item));
+        pinnedCheckBox.setChecked(PreferenceHelper.getInstance().isCategoryPinned(item));
+        dragView.setVisibility(item.isOptional() ? View.VISIBLE : View.INVISIBLE);
     }
 
     @Override
@@ -57,5 +57,14 @@ class CategoryViewHolder extends BaseViewHolder<Category> implements Draggable {
     @Override
     public void onDrag(boolean isDragged) {
         background.setBackgroundColor(isDragged ? ColorUtils.getBackgroundSecondary(getContext()) : ColorUtils.getBackgroundPrimary(getContext()));
+    }
+
+    private void setActive(boolean isActive) {
+        PreferenceHelper.getInstance().setCategoryActive(getItem(), isActive);
+        listener.onCheckedChange();
+    }
+
+    private void setPinned(boolean isPinned) {
+        PreferenceHelper.getInstance().setCategoryPinned(getItem(), isPinned);
     }
 }

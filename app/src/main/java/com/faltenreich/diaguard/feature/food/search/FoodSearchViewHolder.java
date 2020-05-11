@@ -16,7 +16,7 @@ import butterknife.BindView;
 /**
  * Created by Faltenreich on 11.09.2016.
  */
-class FoodSearchViewHolder extends BaseViewHolder<FoodSearchListItem> implements View.OnClickListener {
+class FoodSearchViewHolder extends BaseViewHolder<FoodSearchListItem> {
 
     @BindView(R.id.food_name) TextView name;
     @BindView(R.id.food_brand) TextView brand;
@@ -25,21 +25,20 @@ class FoodSearchViewHolder extends BaseViewHolder<FoodSearchListItem> implements
 
     FoodSearchViewHolder(ViewGroup parent) {
         super(parent, R.layout.list_item_food_search);
-        itemView.setOnClickListener(this);
+        itemView.setOnClickListener((view) -> selectFood());
     }
 
     @Override
     protected void onBind(FoodSearchListItem item) {
-        Food food = getItem().getFood();
+        Food food = item.getFood();
         name.setText(food.getName());
         brand.setText(food.getBrand());
         brand.setVisibility(food.getBrand() != null && food.getBrand().length() > 0 ? View.VISIBLE : View.GONE);
         carbohydrates.setText(food.getValueForUi());
-        recentIndicator.setVisibility(getItem().getFoodEaten() != null ? View.VISIBLE : View.GONE);
+        recentIndicator.setVisibility(item.getFoodEaten() != null ? View.VISIBLE : View.GONE);
     }
 
-    @Override
-    public void onClick(View view) {
-        Events.post(new FoodSelectedEvent(getItem().getFood(), view));
+    private void selectFood() {
+        Events.post(new FoodSelectedEvent(getItem().getFood(), itemView));
     }
 }

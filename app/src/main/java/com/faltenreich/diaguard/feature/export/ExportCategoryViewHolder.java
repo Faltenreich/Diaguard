@@ -19,15 +19,17 @@ class ExportCategoryViewHolder extends BaseViewHolder<ExportCategoryListItem> {
 
     ExportCategoryViewHolder(ViewGroup parent) {
         super(parent, R.layout.list_item_export_category);
-        init();
+        initLayout();
     }
 
-    private void init() {
+    private void initLayout() {
         categoryCheckBox.setOnCheckedChangeListener((checkBox, isChecked) -> {
             getItem().setCategorySelected(isChecked);
             extraCheckBox.setEnabled(isChecked);
         });
-        extraCheckBox.setOnCheckedChangeListener((checkBox, isChecked) -> getItem().setExtraSelected(isChecked));
+        extraCheckBox.setOnCheckedChangeListener((checkBox, isChecked) ->
+            getItem().setExtraSelected(isChecked)
+        );
     }
 
     @Override

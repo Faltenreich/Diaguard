@@ -25,13 +25,12 @@ class TagViewHolder extends BaseViewHolder<Tag> {
 
     @Override
     protected void onBind(Tag item) {
-        final Tag tag = getItem();
-        nameView.setText(tag.getName());
+        nameView.setText(item.getName());
 
         DataLoader.getInstance().load(getContext(), new DataLoaderListener<Long>() {
             @Override
             public Long onShouldLoad() {
-                return EntryTagDao.getInstance().count(tag);
+                return EntryTagDao.getInstance().count(item);
             }
             @Override
             public void onDidLoad(Long count) {

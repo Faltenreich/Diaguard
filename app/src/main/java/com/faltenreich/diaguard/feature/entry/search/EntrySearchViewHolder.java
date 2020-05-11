@@ -20,7 +20,7 @@ class EntrySearchViewHolder extends LogEntryViewHolder {
 
         rootLayout.setPadding(rootLayout.getPaddingRight(), rootLayout.getPaddingTop(), rootLayout.getPaddingRight(), rootLayout.getPaddingBottom());
 
-        DateTime dateTime = getItem().getDateTime();
+        DateTime dateTime = item.getDateTime();
         dateTimeView.setText(String.format("%s, %s %s",
                 dateTime.dayOfWeek().getAsShortText(),
                 Helper.getDateFormat().print(dateTime),

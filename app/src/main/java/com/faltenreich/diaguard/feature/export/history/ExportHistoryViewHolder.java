@@ -80,7 +80,7 @@ class ExportHistoryViewHolder extends BaseViewHolder<ExportHistoryListItem> {
             File file = getItem().getFile();
             FileUtils.openFile(getContext(), file);
         } catch (ActivityNotFoundException exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, exception.toString());
             ViewUtils.showSnackbar(itemView, getContext().getString(R.string.error_no_app));
         }
     }

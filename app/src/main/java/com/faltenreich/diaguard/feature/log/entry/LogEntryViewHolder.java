@@ -53,10 +53,9 @@ public class LogEntryViewHolder extends BaseViewHolder<LogEntryListItem> {
 
     @Override
     public void onBind(LogEntryListItem item) {
-        final LogEntryListItem listItem = getItem();
-        final Entry entry = listItem.getEntry();
-        final List<EntryTag> entryTags = listItem.getEntryTags();
-        final List<FoodEaten> foodEatenList = listItem.getFoodEatenList();
+        final Entry entry = item.getEntry();
+        final List<EntryTag> entryTags = item.getEntryTags();
+        final List<FoodEaten> foodEatenList = item.getFoodEatenList();
 
         cardView.setOnClickListener(view -> EntryEditActivity.show(getContext(), entry));
 

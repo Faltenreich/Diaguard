@@ -22,8 +22,7 @@ class NutrientViewHolder extends BaseViewHolder<NutrientListItem> {
 
     @Override
     protected void onBind(NutrientListItem item) {
-        NutrientListItem listItem = getItem();
-        label.setText(listItem.getLabel());
-        value.setText(listItem.getValue());
+        label.setText(item.getLabel());
+        value.setText(item.getValue());
     }
 }

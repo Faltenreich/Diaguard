@@ -26,7 +26,7 @@ public class LogDayViewHolder extends BaseViewHolder<LogDayListItem> {
 
     @Override
     public void onBind(LogDayListItem item) {
-        DateTime dateTime = getItem().getDateTime();
+        DateTime dateTime = item.getDateTime();
 
         day.setText(dateTime.toString("dd"));
         weekDay.setText(dateTime.dayOfWeek().getAsShortText());

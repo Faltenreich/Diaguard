@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+
+    <string name="preference_version">version</string>
+    <string name="preference_version_code">versionCode</string>
+
+    <string name="preference_categories">categories</string>
+    <string name="preference_tags">tags</string>
+
+    <string name="preference_backup">backup</string>
+    <string name="preference_import">import</string>
+
+    <string name="preference_food_imported">didImportCommonFoodForLanguage</string>
+    <string name="preference_tags_imported">didImportTagsForLanguage</string>
+
+    <string name="preference_theme">theme</string>
+    <string name="preference_start_screen">"startscreen"</string>
+    <string name="preference_chart_style">chart_style</string>
+
+    <string name="preference_alarm_start">alarmStartInMillis</string>
+    <string name="preference_alarm_sound">sound</string>
+    <string name="preference_alarm_vibration">vibration</string>
+
+    <string name="preference_input_queries">inputQueries</string>
+
+    <string name="preference_food_show_custom">showCustomFood</string>
+    <string name="preference_food_show_common">showCommonFood</string>
+    <string name="preference_food_show_branded">showBrandedFood</string>
+
+    <string name="preference_export_pdf_style">exportPdfStyle</string>
+    <string name="preference_export_header">exportHeader</string>
+    <string name="preference_export_footer">exportFooter</string>
+    <string name="preference_export_notes">export_notes</string>
+    <string name="preference_export_tags">export_tags</string>
+    <string name="preference_export_food">export_food</string>
+    <string name="preference_export_categories">exportCategories</string>
+    <string name="preference_export_insulin_split">exportInsulinSplit</string>
+
+    <string name="preference_extrema_highlight">targets_highlight</string>
+    <string name="preference_extrema_target">target</string>
+    <string name="preference_extrema_hyperclycemia">hyperclycemia</string>
+    <string name="preference_extrema_hypoclycemia">hypoclycemia</string>
+
+    <string name="preference_unit_bloodsugar">unit_bloodsugar</string>
+    <string name="preference_unit_meal">unit_meal</string>
+    <string name="preference_unit_meal_factor">unit_meal_factor</string>
+    <string name="preference_unit_hba1c">unit_hba1c</string>
+    <string name="preference_unit_weight">unit_weight</string>
+
+    <string name="preference_factor_meal">unit_meal_factor</string>
+
+</resources>

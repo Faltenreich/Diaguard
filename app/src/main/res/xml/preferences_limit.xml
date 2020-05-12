@@ -5,27 +5,27 @@
     android:title="@string/pref_therapy_limits">
 
     <CheckBoxPreference
-        android:key="targets_highlight"
+        android:key="@string/preference_extrema_highlight"
         android:title="@string/pref_therapy_targets_highlight"
         android:summary="@string/pref_therapy_targets_highlight_desc"
         android:defaultValue="true"/>
 
     <com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreference
-        android:key="hyperclycemia"
+        android:key="@string/preference_extrema_hyperclycemia"
         android:title="@string/pref_therapy_targets_hyperclycemia"
         android:dialogTitle="@string/pref_therapy_targets_hyperclycemia"
         android:defaultValue="180"
         android:inputType="number"/>
 
     <com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreference
-        android:key="hypoclycemia"
+        android:key="@string/preference_extrema_hypoclycemia"
         android:title="@string/pref_therapy_targets_hypoclycemia"
         android:dialogTitle="@string/pref_therapy_targets_hypoclycemia"
         android:defaultValue="60"
         android:inputType="number"/>
 
     <com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreference
-        android:key="target"
+        android:key="@string/preference_extrema_target"
         android:title="@string/pref_therapy_targets_target"
         android:dialogTitle="@string/pref_therapy_targets_target"
         android:defaultValue="120"

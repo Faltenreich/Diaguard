@@ -47,33 +47,15 @@ public class PreferenceHelper {
     private static final int INPUT_QUERIES_MAXIMUM_COUNT = 10;
 
     public static class Keys {
-        public static final String VERSION_CODE = "versionCode";
         public static final String CATEGORY_PINNED = "categoryPinned%s";
         public final static String CATEGORY_ACTIVE = "%s_active";
         public final static String CATEGORY_SORT_INDEX = "%s_sortIndex";
-        public static final String ALARM_START_IN_MILLIS = "alarmStartInMillis";
         public static final String INTERVAL_FACTOR = "intervalFactor";
         public static final String INTERVAL_FACTOR_FOR_HOUR = "intervalFactor%d";
         public static final String FACTOR_DEPRECATED = "factor_";
         public static final String INTERVAL_CORRECTION = "intervalCorrection";
         public static final String INTERVAL_CORRECTION_FOR_HOUR = "intervalCorrection%d";
         public static final String CORRECTION_DEPRECATED = "correction_value";
-        public static final String INPUT_QUERIES = "inputQueries";
-        public static final String DID_IMPORT_COMMON_FOOD_FOR_LANGUAGE = "didImportCommonFoodForLanguage";
-        public static final String CHART_STYLE = "chart_style";
-        public static final String EXPORT_PDF_STYLE = "exportPdfStyle";
-        public static final String EXPORT_HEADER = "exportHeader";
-        public static final String EXPORT_FOOTER = "exportFooter";
-        public static final String EXPORT_NOTES = "export_notes";
-        public static final String EXPORT_TAGS = "export_tags";
-        public static final String EXPORT_FOOD = "export_food";
-        public static final String EXPORT_CATEGORIES = "exportCategories";
-        public static final String EXPORT_INSULIN_SPLIT = "exportInsulinSplit";
-        public static final String DID_IMPORT_TAGS_FOR_LANGUAGE = "didImportTagsForLanguage";
-        public static final String FOOD_SHOW_CUSTOM = "showCustomFood";
-        public static final String FOOD_SHOW_COMMON = "showCommonFood";
-        public static final String FOOD_SHOW_BRANDED = "showBrandedFood";
-        public static final String THEME = "theme";
     }
 
     public enum FactorUnit {
@@ -126,40 +108,40 @@ public class PreferenceHelper {
     }
 
     public int getVersionCode() {
-        return sharedPreferences.getInt(Keys.VERSION_CODE, 0);
+        return sharedPreferences.getInt(context.getString(R.string.preference_version_code), 0);
     }
 
     public void setVersionCode(int versionCode) {
-        sharedPreferences.edit().putInt(Keys.VERSION_CODE, versionCode).apply();
+        sharedPreferences.edit().putInt(context.getString(R.string.preference_version_code), versionCode).apply();
     }
 
     public boolean didImportCommonFood(Locale locale) {
-        return sharedPreferences.getBoolean(Keys.DID_IMPORT_COMMON_FOOD_FOR_LANGUAGE + locale.getLanguage(), false);
+        return sharedPreferences.getBoolean(context.getString(R.string.preference_food_imported) + locale.getLanguage(), false);
     }
 
     public void setDidImportCommonFood(Locale locale, boolean didImport) {
-        sharedPreferences.edit().putBoolean(Keys.DID_IMPORT_COMMON_FOOD_FOR_LANGUAGE + locale.getLanguage(), didImport).apply();
+        sharedPreferences.edit().putBoolean(context.getString(R.string.preference_food_imported) + locale.getLanguage(), didImport).apply();
     }
 
     public boolean didImportTags(Locale locale) {
-        return sharedPreferences.getBoolean(Keys.DID_IMPORT_TAGS_FOR_LANGUAGE + locale.getLanguage(), false);
+        return sharedPreferences.getBoolean(context.getString(R.string.preference_tags_imported) + locale.getLanguage(), false);
     }
 
     public void setDidImportTags(Locale locale, boolean didImport) {
-        sharedPreferences.edit().putBoolean(Keys.DID_IMPORT_TAGS_FOR_LANGUAGE + locale.getLanguage(), didImport).apply();
+        sharedPreferences.edit().putBoolean(context.getString(R.string.preference_tags_imported) + locale.getLanguage(), didImport).apply();
     }
 
     public long getAlarmStartInMillis() {
-        return sharedPreferences.getLong(Keys.ALARM_START_IN_MILLIS, -1);
+        return sharedPreferences.getLong(context.getString(R.string.preference_alarm_start), -1);
     }
 
     public void setAlarmStartInMillis(long alarmStartInMillis) {
-        sharedPreferences.edit().putLong(Keys.ALARM_START_IN_MILLIS, alarmStartInMillis).apply();
+        sharedPreferences.edit().putLong(context.getString(R.string.preference_alarm_start), alarmStartInMillis).apply();
     }
 
     public Theme getTheme() {
         Theme themeDefault = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P ? Theme.SYSTEM : Theme.LIGHT;
-        String themeKey = sharedPreferences.getString(Keys.THEME, null);
+        String themeKey = sharedPreferences.getString(context.getString(R.string.preference_theme), null);
         if (themeKey != null) {
             Theme theme = Theme.fromKey(themeKey);
             return theme != null ? theme : themeDefault;
@@ -170,16 +152,16 @@ public class PreferenceHelper {
     }
 
     public void setTheme(Theme theme) {
-        sharedPreferences.edit().putString(Keys.THEME, theme.getKey()).apply();
+        sharedPreferences.edit().putString(context.getString(R.string.preference_theme), theme.getKey()).apply();
     }
 
     public int getStartScreen() {
-        String startScreen = sharedPreferences.getString("startscreen", "0");
+        String startScreen = sharedPreferences.getString(context.getString(R.string.preference_start_screen), "0");
         return Integer.parseInt(startScreen);
     }
 
     public void setStartScreen(int startScreen) {
-        sharedPreferences.edit().putString("startscreen", Integer.toString(startScreen)).apply();
+        sharedPreferences.edit().putString(context.getString(R.string.preference_start_screen), Integer.toString(startScreen)).apply();
     }
 
     private void migrateStartScreen() {
@@ -190,15 +172,16 @@ public class PreferenceHelper {
     }
 
     public boolean isSoundAllowed() {
-        return sharedPreferences.getBoolean("sound", true);
+        return sharedPreferences.getBoolean(context.getString(R.string.preference_alarm_sound), true);
     }
 
     public boolean isVibrationAllowed() {
-        return sharedPreferences.getBoolean("vibration", true);
+        return sharedPreferences.getBoolean(context.getString(R.string.preference_alarm_vibration), true);
     }
 
     public TimelineStyle getTimelineStyle() {
-        String preference = sharedPreferences.getString(Keys.CHART_STYLE, null);
+        String key = context.getString(R.string.preference_chart_style);
+        String preference = sharedPreferences.getString(key, null);
         if (!TextUtils.isEmpty(preference)) {
             try {
                 int chartStyle = Integer.parseInt(preference);
@@ -208,7 +191,7 @@ public class PreferenceHelper {
                 Log.e(TAG, exception.getMessage() != null ? exception.getMessage() : "Failed to getChartStyle");
             }
         } else {
-            Log.e(TAG, "Failed to find shared preference for key: " + Keys.CHART_STYLE);
+            Log.e(TAG, "Failed to find shared preference for key: " + key);
         }
         return TimelineStyle.SCATTER_CHART;
     }
@@ -216,7 +199,7 @@ public class PreferenceHelper {
     public void setTimelineStyle(TimelineStyle style) {
         int stableId = style.getStableId();
         String stableIdString = Integer.toString(stableId);
-        sharedPreferences.edit().putString(Keys.CHART_STYLE, stableIdString).apply();
+        sharedPreferences.edit().putString(context.getString(R.string.preference_chart_style), stableIdString).apply();
     }
 
     public int[] getExtrema(Category category) {
@@ -260,72 +243,72 @@ public class PreferenceHelper {
     }
 
     public void setPdfExportStyle(PdfExportStyle style) {
-        sharedPreferences.edit().putInt(Keys.EXPORT_PDF_STYLE, style.stableId).apply();
+        sharedPreferences.edit().putInt(context.getString(R.string.preference_export_pdf_style), style.stableId).apply();
     }
 
     public PdfExportStyle getPdfExportStyle() {
         PdfExportStyle defaultStyle = PdfExportStyle.TABLE;
-        int stableId = sharedPreferences.getInt(Keys.EXPORT_PDF_STYLE, defaultStyle.stableId);
+        int stableId = sharedPreferences.getInt(context.getString(R.string.preference_export_pdf_style), defaultStyle.stableId);
         PdfExportStyle style = PdfExportStyle.valueOf(stableId);
         return style != null ? style : defaultStyle;
     }
 
     public void setExportHeader(boolean exportHeader) {
-        sharedPreferences.edit().putBoolean(Keys.EXPORT_HEADER, exportHeader).apply();
+        sharedPreferences.edit().putBoolean(context.getString(R.string.preference_export_header), exportHeader).apply();
     }
 
     public boolean exportHeader() {
-        return sharedPreferences.getBoolean(Keys.EXPORT_HEADER, true);
+        return sharedPreferences.getBoolean(context.getString(R.string.preference_export_header), true);
     }
 
     public void setExportFooter(boolean exportFooter) {
-        sharedPreferences.edit().putBoolean(Keys.EXPORT_FOOTER, exportFooter).apply();
+        sharedPreferences.edit().putBoolean(context.getString(R.string.preference_export_footer), exportFooter).apply();
     }
 
     public boolean exportFooter() {
-        return sharedPreferences.getBoolean(Keys.EXPORT_FOOTER, true);
+        return sharedPreferences.getBoolean(context.getString(R.string.preference_export_footer), true);
     }
 
     public void setExportNotes(boolean exportNotes) {
-        sharedPreferences.edit().putBoolean(Keys.EXPORT_NOTES, exportNotes).apply();
+        sharedPreferences.edit().putBoolean(context.getString(R.string.preference_export_notes), exportNotes).apply();
     }
 
     public boolean exportNotes() {
-        return sharedPreferences.getBoolean(Keys.EXPORT_NOTES, true);
+        return sharedPreferences.getBoolean(context.getString(R.string.preference_export_notes), true);
     }
 
     public void setExportTags(boolean exportTags) {
-        sharedPreferences.edit().putBoolean(Keys.EXPORT_TAGS, exportTags).apply();
+        sharedPreferences.edit().putBoolean(context.getString(R.string.preference_export_tags), exportTags).apply();
     }
 
     public boolean exportTags() {
-        return sharedPreferences.getBoolean(Keys.EXPORT_TAGS, true);
+        return sharedPreferences.getBoolean(context.getString(R.string.preference_export_tags), true);
     }
 
     public void setExportFood(boolean exportFood) {
-        sharedPreferences.edit().putBoolean(Keys.EXPORT_FOOD, exportFood).apply();
+        sharedPreferences.edit().putBoolean(context.getString(R.string.preference_export_food), exportFood).apply();
     }
 
     public boolean exportFood() {
-        return sharedPreferences.getBoolean(Keys.EXPORT_FOOD, true);
+        return sharedPreferences.getBoolean(context.getString(R.string.preference_export_food), true);
     }
 
     public void setExportInsulinSplit(boolean splitInsulin) {
-        sharedPreferences.edit().putBoolean(Keys.EXPORT_INSULIN_SPLIT, splitInsulin).apply();
+        sharedPreferences.edit().putBoolean(context.getString(R.string.preference_export_insulin_split), splitInsulin).apply();
     }
 
     public boolean exportInsulinSplit() {
-        return sharedPreferences.getBoolean(Keys.EXPORT_INSULIN_SPLIT, false);
+        return sharedPreferences.getBoolean(context.getString(R.string.preference_export_insulin_split), false);
     }
 
     public void setExportCategories(Category[] categories) {
         String preference = new CategorySerializer().serialize(categories);
-        sharedPreferences.edit().putString(Keys.EXPORT_CATEGORIES, preference).apply();
+        sharedPreferences.edit().putString(context.getString(R.string.preference_export_categories), preference).apply();
     }
 
     public Category[] getExportCategories() {
         CategorySerializer serializer = new CategorySerializer();
-        String preference = sharedPreferences.getString(Keys.EXPORT_CATEGORIES, serializer.serialize(Category.values()));
+        String preference = sharedPreferences.getString(context.getString(R.string.preference_export_categories), serializer.serialize(Category.values()));
         return serializer.deserialize(preference);
     }
 
@@ -343,11 +326,11 @@ public class PreferenceHelper {
             String[] newInputQueries = Arrays.copyOfRange(inputQueriesArray, startIndex, endIndex);
             inputQueries = TextUtils.join(INPUT_QUERIES_SEPARATOR, newInputQueries);
         }
-        sharedPreferences.edit().putString(Keys.INPUT_QUERIES, inputQueries).apply();
+        sharedPreferences.edit().putString(context.getString(R.string.preference_input_queries), inputQueries).apply();
     }
 
     private String getInputQueriesString() {
-        return sharedPreferences.getString(Keys.INPUT_QUERIES, "");
+        return sharedPreferences.getString(context.getString(R.string.preference_input_queries), "");
     }
 
     public ArrayList<String> getInputQueries() {
@@ -368,25 +351,25 @@ public class PreferenceHelper {
     }
 
     public float getTargetValue() {
-        return FloatUtils.parseNumber(sharedPreferences.getString("target",
+        return FloatUtils.parseNumber(sharedPreferences.getString(context.getString(R.string.preference_extrema_target),
             getContext().getString(R.string.pref_therapy_targets_target_default)));
     }
 
     public boolean limitsAreHighlighted() {
-        return sharedPreferences.getBoolean("targets_highlight", true);
+        return sharedPreferences.getBoolean(context.getString(R.string.preference_extrema_highlight), true);
     }
 
     public void setLimitsAreHighlighted(boolean isHighlighted) {
-        sharedPreferences.edit().putBoolean("targets_highlight", isHighlighted).apply();
+        sharedPreferences.edit().putBoolean(context.getString(R.string.preference_extrema_highlight), isHighlighted).apply();
     }
 
     public float getLimitHyperglycemia() {
-        return FloatUtils.parseNumber(sharedPreferences.getString("hyperclycemia",
+        return FloatUtils.parseNumber(sharedPreferences.getString(context.getString(R.string.preference_extrema_hyperclycemia),
             getContext().getString(R.string.pref_therapy_targets_hyperclycemia_default)));
     }
 
     public float getLimitHypoglycemia() {
-        return FloatUtils.parseNumber(sharedPreferences.getString("hypoclycemia",
+        return FloatUtils.parseNumber(sharedPreferences.getString(context.getString(R.string.preference_extrema_hypoclycemia),
             getContext().getString(R.string.pref_therapy_targets_hypoclycemia_default)));
     }
 
@@ -590,7 +573,7 @@ public class PreferenceHelper {
 
     public FactorUnit getFactorUnit() {
         FactorUnit defaultValue = FactorUnit.CARBOHYDRATES_UNIT;
-        String value = sharedPreferences.getString("unit_meal_factor", "0");
+        String value = sharedPreferences.getString(context.getString(R.string.preference_factor_meal), "0");
         int index = 0;
         try {
             index = Integer.parseInt(value);
@@ -636,14 +619,14 @@ public class PreferenceHelper {
     // FOOD
 
     public boolean showCustomFood() {
-        return sharedPreferences.getBoolean(Keys.FOOD_SHOW_CUSTOM, true);
+        return sharedPreferences.getBoolean(context.getString(R.string.preference_food_show_custom), true);
     }
 
     public boolean showCommonFood() {
-        return sharedPreferences.getBoolean(Keys.FOOD_SHOW_COMMON, true);
+        return sharedPreferences.getBoolean(context.getString(R.string.preference_food_show_common), true);
     }
 
     public boolean showBrandedFood() {
-        return sharedPreferences.getBoolean(Keys.FOOD_SHOW_BRANDED, true);
+        return sharedPreferences.getBoolean(context.getString(R.string.preference_food_show_branded), true);
     }
 }

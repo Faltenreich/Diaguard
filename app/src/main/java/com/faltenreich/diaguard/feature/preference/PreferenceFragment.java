@@ -39,10 +39,6 @@ import java.util.Locale;
 public class PreferenceFragment extends BasePreferenceFragment
     implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private static final String KEY_VERSION = "version";
-    private static final String KEY_CATEGORIES = "categories";
-    private static final String KEY_TAGS = "tags";
-
     private ProgressComponent progressComponent = new ProgressComponent();
 
     public PreferenceFragment() {
@@ -76,12 +72,12 @@ public class PreferenceFragment extends BasePreferenceFragment
     }
 
     private void setSummaryForVersion() {
-        Preference preference = requirePreference(KEY_VERSION);
+        Preference preference = requirePreference(getString(R.string.preference_version));
         preference.setSummaryProvider(pref -> SystemUtils.getVersionName(requireActivity()));
     }
 
     private void setSummaryForCategories() {
-        Preference preference = requirePreference(KEY_CATEGORIES);
+        Preference preference = requirePreference(getString(R.string.preference_categories));
         preference.setSummaryProvider(pref -> String.format(
             Locale.getDefault(),
             "%d/%d %s",
@@ -92,7 +88,7 @@ public class PreferenceFragment extends BasePreferenceFragment
     }
 
     private void setSummaryForTags() {
-        Preference preference = requirePreference(KEY_TAGS);
+        Preference preference = requirePreference(getString(R.string.preference_tags));
         preference.setSummaryProvider(pref -> String.format(
             Locale.getDefault(),
             getString(R.string.available_placeholder),
@@ -102,30 +98,20 @@ public class PreferenceFragment extends BasePreferenceFragment
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.endsWith("_active")) {
-            key = "categories";
-        }
-        switch (key) {
-            case "unit_bloodsugar":
-                Events.post(new UnitChangedEvent(Category.BLOODSUGAR));
-                break;
-            case "unit_meal":
-                Events.post(new UnitChangedEvent(Category.MEAL));
-                break;
-            case "unit_meal_factor":
-                Events.post(new MealFactorUnitChangedEvent());
-                break;
-            case "unit_hba1c":
-                Events.post(new UnitChangedEvent(Category.HBA1C));
-                break;
-            case "unit_weight":
-                Events.post(new UnitChangedEvent(Category.WEIGHT));
-                break;
-            case PreferenceHelper.Keys.THEME:
-                Theme theme = PreferenceHelper.getInstance().getTheme();
-                ThemeUtils.setDefaultNightMode(theme);
-                ThemeUtils.setUiMode(getActivity(), theme);
-                break;
+        if (key.equals(getString(R.string.preference_unit_bloodsugar))) {
+            Events.post(new UnitChangedEvent(Category.BLOODSUGAR));
+        } else if (key.equals(getString(R.string.preference_unit_meal))) {
+            Events.post(new UnitChangedEvent(Category.MEAL));
+        } else if (key.equals(getString(R.string.preference_unit_meal_factor))) {
+            Events.post(new MealFactorUnitChangedEvent());
+        } else if (key.equals(getString(R.string.preference_unit_hba1c))) {
+            Events.post(new UnitChangedEvent(Category.HBA1C));
+        } else if (key.equals(getString(R.string.preference_unit_weight))) {
+            Events.post(new UnitChangedEvent(Category.WEIGHT));
+        } else if (key.equals(getString(R.string.preference_theme))) {
+            Theme theme = PreferenceHelper.getInstance().getTheme();
+            ThemeUtils.setDefaultNightMode(theme);
+            ThemeUtils.setUiMode(getActivity(), theme);
         }
     }
 

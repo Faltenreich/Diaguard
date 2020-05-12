@@ -8,7 +8,7 @@
 
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="showCustomFood"
+            android:key="@string/preference_food_show_custom"
             android:summary="@string/show_custom_food_desc"
             android:title="@string/show_custom_food" />
 
@@ -26,7 +26,7 @@
 
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="showCommonFood"
+            android:key="@string/preference_food_show_common"
             android:summary="@string/show_common_food_desc"
             android:title="@string/show_common_food" />
 
@@ -44,7 +44,7 @@
 
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="showBrandedFood"
+            android:key="@string/preference_food_show_branded"
             android:summary="@string/show_branded_food_desc"
             android:title="@string/show_branded_food" />
 

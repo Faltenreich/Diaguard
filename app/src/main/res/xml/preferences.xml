@@ -9,7 +9,7 @@
         android:defaultValue="0"
         android:entries="@array/themes"
         android:entryValues="@array/themes_values"
-        android:key="theme"
+        android:key="@string/preference_theme"
         android:title="@string/theme"
         app:useSimpleSummaryProvider="true" />
 
@@ -17,7 +17,7 @@
         android:defaultValue="0"
         android:entries="@array/startscreens"
         android:entryValues="@array/startscreens_values"
-        android:key="startscreen"
+        android:key="@string/preference_start_screen"
         android:title="@string/startscreen"
         app:useSimpleSummaryProvider="true" />
 
@@ -27,12 +27,12 @@
 
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="sound"
+            android:key="@string/preference_alarm_sound"
             android:title="@string/sound" />
 
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="vibration"
+            android:key="@string/preference_alarm_vibration"
             android:title="@string/vibration" />
 
     </PreferenceCategory>
@@ -42,7 +42,7 @@
         android:title="@string/data">
 
         <Preference
-            android:key="categories"
+            android:key="@string/preference_categories"
             android:title="@string/categories">
             <intent
                 android:action="android.intent.action.VIEW"
@@ -51,7 +51,7 @@
         </Preference>
 
         <Preference
-            android:key="tags"
+            android:key="@string/preference_tags"
             android:title="@string/tags">
             <intent
                 android:action="android.intent.action.VIEW"
@@ -64,12 +64,12 @@
             app:fragment="com.faltenreich.diaguard.feature.preference.food.FoodPreferenceFragment" />
 
         <com.faltenreich.diaguard.feature.preference.backup.BackupExportPreference
-            android:key="backup"
+            android:key="@string/preference_backup"
             android:summary="@string/backup_desc"
             android:title="@string/backup" />
 
         <com.faltenreich.diaguard.feature.preference.backup.BackupImportPreference
-            android:key="import"
+            android:key="@string/preference_import"
             android:summary="@string/import_desc"
             android:title="@string/import_" />
 
@@ -140,7 +140,7 @@
         <com.faltenreich.diaguard.feature.preference.about.AboutPreference android:title="@string/imprint" />
 
         <Preference
-            android:key="version"
+            android:key="@string/preference_version"
             android:title="@string/version" />
 
     </PreferenceCategory>

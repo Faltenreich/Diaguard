@@ -19,11 +19,6 @@ import java.util.Locale;
 public class LimitPreferenceFragment extends BasePreferenceFragment
     implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private static final String KEY_LIMITS_HIGHLIGHTED = "targets_highlight";
-    private static final String KEY_HYPERGLYCEMIA = "hyperclycemia";
-    private static final String KEY_HYPOGLYCEMIA = "hypoclycemia";
-    private static final String KEY_TARGET = "target";
-
     public LimitPreferenceFragment() {
         super(R.xml.preferences_limit, R.string.pref_therapy_limits);
     }
@@ -58,16 +53,16 @@ public class LimitPreferenceFragment extends BasePreferenceFragment
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(KEY_LIMITS_HIGHLIGHTED)) {
+        if (key.equals(getString(R.string.preference_extrema_highlight))) {
             invalidateEnabledStates();
         }
     }
 
     private void invalidateEnabledStates() {
         boolean isEnabled = PreferenceHelper.getInstance().limitsAreHighlighted();
-        requirePreference(KEY_HYPERGLYCEMIA).setEnabled(isEnabled);
-        requirePreference(KEY_HYPOGLYCEMIA).setEnabled(isEnabled);
-        requirePreference(KEY_TARGET).setEnabled(isEnabled);
+        requirePreference(getString(R.string.preference_extrema_hyperclycemia)).setEnabled(isEnabled);
+        requirePreference(getString(R.string.preference_extrema_hypoclycemia)).setEnabled(isEnabled);
+        requirePreference(getString(R.string.preference_extrema_target)).setEnabled(isEnabled);
     }
 
     private void setSummaries() {
@@ -87,21 +82,21 @@ public class LimitPreferenceFragment extends BasePreferenceFragment
     }
 
     private void setSummaryForHyperglycemia() {
-        Preference preference = requirePreference(KEY_HYPERGLYCEMIA);
+        Preference preference = requirePreference(getString(R.string.preference_extrema_hyperclycemia));
         preference.setSummaryProvider(pref ->
             getSummaryForLimit(PreferenceHelper.getInstance().getLimitHyperglycemia())
         );
     }
 
     private void setSummaryForHypoglycemia() {
-        Preference preference = requirePreference(KEY_HYPOGLYCEMIA);
+        Preference preference = requirePreference(getString(R.string.preference_extrema_hypoclycemia));
         preference.setSummaryProvider(pref ->
             getSummaryForLimit(PreferenceHelper.getInstance().getLimitHypoglycemia())
         );
     }
 
     private void setSummaryForTarget() {
-        Preference preference = requirePreference(KEY_TARGET);
+        Preference preference = requirePreference(getString(R.string.preference_extrema_target));
         preference.setSummaryProvider(pref ->
             getSummaryForLimit(PreferenceHelper.getInstance().getTargetValue())
         );

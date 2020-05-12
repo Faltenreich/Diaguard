@@ -63,9 +63,10 @@ public class PreferenceFragment extends BasePreferenceFragment
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroyView() {
         Events.unregister(this);
-        super.onDestroy();
+        getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        super.onDestroyView();
     }
 
     private void setSummaries() {

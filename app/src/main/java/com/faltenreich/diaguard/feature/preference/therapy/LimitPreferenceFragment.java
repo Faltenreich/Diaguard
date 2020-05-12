@@ -37,6 +37,12 @@ public class LimitPreferenceFragment extends BasePreferenceFragment
     }
 
     @Override
+    public void onDestroyView() {
+        getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        super.onDestroyView();
+    }
+
+    @Override
     public void onDisplayPreferenceDialog(Preference preference) {
         DialogFragment fragment = null;
         if (preference instanceof BloodSugarPreference) {

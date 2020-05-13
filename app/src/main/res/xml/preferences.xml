@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/general">
+
+        <ListPreference
+            android:key="theme"
+            android:title="@string/theme"
+            android:entries="@array/themes"
+            android:entryValues="@array/themes_values"
+            android:defaultValue="0"/>
+
+        <ListPreference
+            android:key="startscreen"
+            android:title="@string/startscreen"
+            android:entries="@array/startscreens"
+            android:entryValues="@array/startscreens_values"
+            android:defaultValue="0"/>
+
+        <CheckBoxPreference
+            android:key="sound"
+            android:title="@string/sound"
+            android:defaultValue="true"/>
+
+        <CheckBoxPreference
+            android:key="vibration"
+            android:title="@string/vibration"
+            android:defaultValue="true"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/data">
+
+        <Preference
+            android:key="categories"
+            android:title="@string/categories">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetPackage="@string/package_name"
+                android:targetClass="com.faltenreich.diaguard.feature.category.CategoryListActivity"/>
+        </Preference>
+
+        <Preference
+            android:key="tags"
+            android:title="@string/tags">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetPackage="@string/package_name"
+                android:targetClass="com.faltenreich.diaguard.feature.tag.TagListActivity"/>
+        </Preference>
+
+        <com.faltenreich.diaguard.feature.preference.backup.BackupExportPreference
+            android:key="backup"
+            android:title="@string/backup"
+            android:summary="@string/backup_desc"/>
+
+        <com.faltenreich.diaguard.feature.preference.backup.BackupImportPreference
+            android:key="import"
+            android:title="@string/import_"
+            android:summary="@string/import_desc"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/timeline">
+
+        <ListPreference
+            android:key="chart_style"
+            android:title="@string/style"
+            android:entries="@array/chart_style_entries"
+            android:entryValues="@array/chart_style_values"
+            android:defaultValue="0"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="units"
+        android:title="@string/units">
+
+        <ListPreference
+            android:key="unit_bloodsugar"
+            android:title="@string/bloodsugar"
+            android:entries="@array/bloodsugar_units"
+            android:entryValues="@array/bloodsugar_units_values"
+            android:defaultValue="1"/>
+
+        <ListPreference
+            android:key="unit_meal"
+            android:title="@string/meal"
+            android:entries="@array/meal_units"
+            android:entryValues="@array/meal_units_values"
+            android:defaultValue="1"/>
+
+        <ListPreference
+            android:key="unit_meal_factor"
+            android:title="@string/meal_factor"
+            android:entries="@array/meal_factor_units_entries"
+            android:entryValues="@array/meal_factor_units_values"
+            android:defaultValue="0"/>
+
+        <ListPreference
+            android:key="unit_hba1c"
+            android:title="@string/hba1c"
+            android:entries="@array/hba1c_units"
+            android:entryValues="@array/hba1c_units_values"
+            android:defaultValue="1"/>
+
+        <ListPreference
+            android:key="unit_weight"
+            android:title="@string/weight"
+            android:entries="@array/weight_units"
+            android:entryValues="@array/weight_units_values"
+            android:defaultValue="1"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="limits"
+        android:title="@string/pref_therapy_limits">
+
+        <CheckBoxPreference
+            android:key="targets_highlight"
+            android:title="@string/pref_therapy_targets_highlight"
+            android:defaultValue="true"/>
+
+        <com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreference
+            android:key="hyperclycemia"
+            android:title="@string/pref_therapy_targets_hyperclycemia"
+            android:dialogTitle="@string/pref_therapy_targets_hyperclycemia"
+            android:defaultValue="180"
+            android:inputType="number"/>
+
+        <com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreference
+            android:key="hypoclycemia"
+            android:title="@string/pref_therapy_targets_hypoclycemia"
+            android:dialogTitle="@string/pref_therapy_targets_hypoclycemia"
+            android:defaultValue="60"
+            android:inputType="number"/>
+
+        <com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreference
+            android:key="target"
+            android:title="@string/pref_therapy_targets_target"
+            android:dialogTitle="@string/pref_therapy_targets_target"
+            android:defaultValue="120"
+            android:inputType="number"/>
+
+        <com.faltenreich.diaguard.feature.preference.factor.CorrectionFactorPreference
+            android:key="correction_value"
+            android:title="@string/correction_value"
+            android:summary="@string/correction_value_desc"/>
+
+        <com.faltenreich.diaguard.feature.preference.factor.MealFactorPreference
+            android:key="@string/pref_factor"
+            android:title="@string/meal_factors"
+            android:summary="@string/meal_factor_desc"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/food">
+
+        <CheckBoxPreference
+            android:key="showBrandedFood"
+            android:title="@string/show_branded_food"
+            android:summary="@string/show_branded_food_desc"
+            android:defaultValue="true"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/contact">
+
+        <Preference
+            android:title="@string/homepage"
+            android:summary="@string/app_homepage_short">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/app_homepage"/>
+        </Preference>
+
+        <Preference
+            android:title="@string/facebook"
+            android:summary="@string/app_facebook_short">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/app_facebook"/>
+        </Preference>
+
+        <Preference
+            android:title="@string/mail"
+            android:summary="@string/app_mail_short">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/app_mail"/>
+        </Preference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/about">
+
+        <com.faltenreich.diaguard.feature.preference.license.LicensePreference
+            android:title="@string/licenses"/>
+
+        <com.faltenreich.diaguard.feature.preference.about.AboutPreference
+            android:title="@string/imprint"/>
+
+        <Preference
+            android:key="version"
+            android:title="@string/version"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

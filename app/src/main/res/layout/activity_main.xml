@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/view_toolbar"/>
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <com.github.clans.fab.FloatingActionButton
+                style="@style/FloatingActionButton"
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:src="@drawable/fab_add"
+                android:contentDescription="@string/entry_new"
+                app:fab_colorNormal="?backgroundColorGreen"
+                app:layout_behavior="com.faltenreich.diaguard.shared.view.coordinatorlayout.SlideOutBehavior"
+                app:layout_dodgeInsetEdges="bottom"/>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navigation_drawer"
+            android:layout_height="match_parent"
+            android:layout_width="@dimen/navigation_drawer_width"
+            android:layout_gravity="start"
+            app:menu="@menu/navigation"
+            app:headerLayout="@layout/view_empty"
+            app:itemTextColor="@color/text_navigation"
+            app:itemBackground="@drawable/background_navigation"/>
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+</LinearLayout>

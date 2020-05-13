@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:showDividers="middle"
+    android:divider="@drawable/separator">
+
+    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
+        android:id="@+id/insulin_bolus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/bolus"
+        android:inputType="numberDecimal"/>
+
+    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
+        android:id="@+id/insulin_correction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/correction"
+        android:inputType="numberDecimal|numberSigned"/>
+
+    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
+        android:id="@+id/insulin_basal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/basal"
+        android:inputType="numberDecimal"/>
+
+</LinearLayout>

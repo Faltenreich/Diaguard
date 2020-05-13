@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string-array name="themes" translatable="false" tools:ignore="InconsistentArrays">
+        <item>@string/theme_light</item>
+        <item>@string/theme_dark</item>
+        <item>@string/theme_time_based</item>
+    </string-array>
+    <string-array name="themes_values" translatable="false" tools:ignore="InconsistentArrays">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+</resources>

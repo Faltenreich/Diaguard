@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:showDividers="middle"
+    android:divider="@drawable/separator">
+
+    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
+        android:id="@+id/pressure_systolic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/systolic"
+        android:inputType="numberDecimal"/>
+
+    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
+        android:id="@+id/pressure_diastolic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/diastolic"
+        android:inputType="numberDecimal"/>
+
+</LinearLayout>

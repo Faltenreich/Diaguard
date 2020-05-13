@@ -1,0 +1,264 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="AppTheme" parent="Theme.Light"/>
+
+    <style name="Theme.Light" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/green_darker</item>
+        <item name="colorAccent">@color/green</item>
+        <item name="backgroundColorGreen">@color/green</item>
+        <item name="backgroundColorGreenDark">@color/green_darker</item>
+        <item name="backgroundColorGreenTranslucent">@color/green_transparent</item>
+        <item name="backgroundColorPrimary">@color/background_light_primary</item>
+        <item name="backgroundColorPrimaryTranslucent">@color/background_light_primary_translucent</item>
+        <item name="backgroundColorSecondary">@color/background_light_secondary</item>
+        <item name="backgroundColorTertiary">@color/background_light_tertiary</item>
+        <item name="iconColorPrimary">@color/gray_darker</item>
+        <item name="iconColorSecondary">@color/gray</item>
+        <item name="android:windowBackground">@color/background_light_primary</item>
+        <item name="android:windowSharedElementsUseOverlay" tools:ignore="NewApi">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds" tools:ignore="NewApi">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="elevation">4dp</item>
+        <item name="drawerArrowStyle">@style/NavigationDrawerArrowStyle</item>
+        <item name="materialButtonStyle">@style/Button</item>
+    </style>
+
+    <style name="Theme.Dark" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/green_darker</item>
+        <item name="colorAccent">@color/green</item>
+        <item name="backgroundColorGreen">@color/green_dark</item>
+        <item name="backgroundColorGreenDark">@color/green_darkest</item>
+        <item name="backgroundColorGreenTranslucent">@color/green_dark_transparent</item>
+        <item name="backgroundColorPrimary">@color/background_dark_primary</item>
+        <item name="backgroundColorPrimaryTranslucent">@color/background_dark_primary_translucent</item>
+        <item name="backgroundColorSecondary">@color/background_dark_secondary</item>
+        <item name="backgroundColorTertiary">@color/background_dark_tertiary</item>
+        <item name="iconColorPrimary">@color/gray</item>
+        <item name="iconColorSecondary">@color/gray_dark</item>
+        <item name="android:windowBackground">@color/background_dark_primary</item>
+        <item name="android:windowSharedElementsUseOverlay" tools:ignore="NewApi">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds" tools:ignore="NewApi">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="elevation">4dp</item>
+        <item name="drawerArrowStyle">@style/NavigationDrawerArrowStyle</item>
+        <item name="materialButtonStyle">@style/Button</item>
+    </style>
+
+    <style name="AppTheme.Transparent">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="Button" parent="Widget.MaterialComponents.Button.TextButton"/>
+
+    <style name="Toolbar" parent="ThemeOverlay.MaterialComponents.ActionBar">
+        <item name="android:textColorPrimary">@android:color/white</item>
+    </style>
+
+    <style name="ToolbarPopup" parent="ThemeOverlay.MaterialComponents.ActionBar">
+        <item name="android:textColorPrimary">@android:color/black</item>
+    </style>
+
+    <style name="DateTimePicker" parent="Base.ThemeOverlay.AppCompat.Dialog">
+        <item name="android:windowBackground">?backgroundColorPrimary</item>
+    </style>
+    
+    <style name="SearchView">
+        <item name="search_background_color">?attr/backgroundColorPrimary</item>
+        <item name="search_text_color">?android:textColorPrimary</item>
+        <item name="search_icon_color">?iconColorPrimary</item>
+        <item name="search_hint_color">?android:textColorTertiary</item>
+    </style>
+
+    <style name="FloatingActionButton">
+        <item name="android:layout_margin">@dimen/fab_margin</item>
+        <item name="menu_fab_size">normal</item>
+        <item name="fab_colorNormal">@color/green</item>
+        <item name="fab_colorPressed">@color/green_lighter</item>
+        <item name="fab_colorRipple">@color/green_lighter</item>
+    </style>
+
+    <style name="FloatingActionMenu">
+        <item name="menu_fab_size">mini</item>
+        <item name="menu_backgroundColor">@color/semitransparent</item>
+        <item name="menu_colorNormal">@android:color/white</item>
+        <item name="menu_colorPressed">@color/gray_light</item>
+        <item name="menu_colorRipple">@color/gray_light</item>
+    </style>
+
+    <style name="WhiteCheckBox">
+        <item name="colorAccent">@android:color/white</item>
+        <item name="colorControlNormal">@android:color/white</item>
+    </style>
+
+    <style name="NavigationDrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@android:color/white</item>
+    </style>
+
+    <!-- According to Google Guidelines -->
+    <style name="Padding">
+        <item name="android:paddingTop">@dimen/activity_vertical_margin</item>
+        <item name="android:paddingBottom">@dimen/activity_vertical_margin</item>
+        <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingStart">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingEnd">@dimen/activity_horizontal_margin</item>
+    </style>
+
+    <!-- Inspired by PreferenceFragment -->
+    <style name="PaddingLarge">
+        <item name="android:paddingTop">@dimen/margin_between_large</item>
+        <item name="android:paddingBottom">@dimen/margin_between_large</item>
+        <item name="android:paddingLeft">@dimen/padding_end</item>
+        <item name="android:paddingStart">@dimen/padding_end</item>
+        <item name="android:paddingRight">@dimen/padding_end</item>
+        <item name="android:paddingEnd">@dimen/padding_end</item>
+    </style>
+
+    <style name="NumberResizeable">
+        <item name="android:lines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizeMinTextSize">8sp</item>
+        <item name="autoSizeMaxTextSize">@dimen/text_small</item>
+    </style>
+
+    <style name="BoxRow">
+        <item name="android:layout_marginTop">@dimen/activity_vertical_margin</item>
+        <item name="android:layout_marginBottom">@dimen/activity_vertical_margin</item>
+    </style>
+
+    <style name="Label">
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="TableRow">
+        <item name="android:layout_marginBottom">@dimen/margin_between</item>
+        <item name="android:minHeight">@dimen/height_element</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="SpinnerButtonStyle" parent="android:Widget.Holo.Light.Spinner">
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_height">@dimen/height_element</item>
+    </style>
+
+    <style name="Row">
+        <item name="android:paddingBottom">5dp</item>
+    </style>
+
+    <style name="LicenseLabel">
+        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="LicenseDescription">
+        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:layout_marginBottom">@dimen/padding_end</item>
+    </style>
+
+    <style name="LayoutRow">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:minHeight">@dimen/height_element_large</item>
+        <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingStart">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingEnd">@dimen/activity_horizontal_margin</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="LayoutRowLabel">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">2</item>
+        <item name="android:textColor">@color/gray_dark</item>
+    </style>
+
+    <style name="LayoutRowText">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">@dimen/height_element</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">3</item>
+    </style>
+
+    <style name="LayoutRowTextLarge">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">2</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:inputType">numberDecimal</item>
+    </style>
+
+    <style name="LayoutRowImage">
+        <item name="android:layout_height">@dimen/size_image</item>
+        <item name="android:layout_width">@dimen/size_image</item>
+        <item name="android:scaleType">fitStart</item>
+        <item name="android:layout_marginRight">@dimen/padding_end</item>
+        <item name="android:layout_marginEnd">@dimen/padding_end</item>
+    </style>
+
+    <style name="LayoutRowImageMultiline" parent="LayoutRowImage">
+        <item name="android:layout_gravity">top</item>
+        <item name="android:layout_marginTop">11dp</item>
+    </style>
+
+    <style name="LayoutRowItem">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="LayoutRowItemMultiline" parent="LayoutRowItem">
+        <item name="android:layout_marginTop">11dp</item>
+        <item name="android:layout_marginBottom">11dp</item>
+    </style>
+
+    <style name="InlineListItem">
+        <item name="android:minHeight">@dimen/list_header_height</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">@dimen/list_header_width</item>
+        <item name="android:paddingStart">@dimen/list_header_width</item>
+        <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingEnd">@dimen/activity_horizontal_margin</item>
+    </style>
+
+    <style name="NumberPicker">
+        <item name="bpDialogBackground">@drawable/background_primary</item>
+        <item name="bpDividerColor">@color/background_light_tertiary</item>
+        <item name="bpTextColor">@color/text_primary</item>
+        <item name="bpDeleteIcon">@drawable/ic_backspace_light</item>
+        <item name="bpCheckIcon">@drawable/ic_check_light</item>
+    </style>
+
+    <style name="ListHeader" parent="Padding">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">@dimen/height_element</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@color/green_light</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="CardViewNoMargin">
+        <item name="android:layout_marginLeft">@dimen/margin_cardview_horizontal</item>
+        <item name="android:layout_marginStart">@dimen/margin_cardview_horizontal</item>
+        <item name="android:layout_marginRight">@dimen/margin_cardview_horizontal</item>
+        <item name="android:layout_marginEnd">@dimen/margin_cardview_horizontal</item>
+        <item name="android:layout_marginTop">@dimen/margin_cardview_vertical</item>
+        <item name="cardCornerRadius">0dp</item>
+        <item name="cardElevation">4dp</item>
+    </style>
+
+</resources>

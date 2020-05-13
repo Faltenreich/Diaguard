@@ -25,9 +25,7 @@ It replaces the handwritten diary and helps the user to quickly and easily recor
 
 ## Distribution
 
-<a href='https://play.google.com/store/apps/details?id=com.faltenreich.diaguard'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="250"/></a>
-
-Distribution via other platforms like F-Droid are planned.
+<a href='https://play.google.com/store/apps/details?id=com.faltenreich.diaguard'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="250"/></a><a href='https://f-droid.org/de/packages/com.faltenreich.diaguard'><img alt='Get it on F-Droid' src='https://gitlab.com/fdroid/artwork/-/raw/master/badge/get-it-on.png' width="250"/></a>
 
 ## About
 

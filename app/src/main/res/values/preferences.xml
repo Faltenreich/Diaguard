@@ -8,9 +8,17 @@
     <string name="preference_factor_deprecated">factor_</string>
     <string name="preference_correction_deprecated">correction_value</string>
 
-    <!-- General -->
+    <!-- Meta -->
     <string name="preference_version">version</string>
     <string name="preference_version_code">versionCode</string>
+    <string name="preference_website">website</string>
+    <string name="preference_facebook">facebook</string>
+    <string name="preference_mail">mail</string>
+    <string name="preference_sourcecode">sourcecode</string>
+    <string name="preference_license">license</string>
+    <string name="preference_imprint">imprint</string>
+
+    <!-- General -->
     <string name="preference_theme">theme</string>
     <string name="preference_start_screen">"startscreen"</string>
     <string name="preference_chart_style">chart_style</string>
@@ -32,6 +40,7 @@
     <string name="preference_tags">tags</string>
     <string name="preference_tags_imported">didImportTagsForLanguage</string>
 
+    <string name="preference_food">food</string>
     <string name="preference_food_imported">didImportCommonFoodForLanguage</string>
     <string name="preference_food_show_custom">showCustomFood</string>
     <string name="preference_food_show_common">showCommonFood</string>
@@ -50,20 +59,24 @@
     <string name="preference_export_insulin_split">exportInsulinSplit</string>
 
     <!-- Therapy -->
+    <string name="preference_extrema">extrema</string>
     <string name="preference_extrema_highlight">targets_highlight</string>
     <string name="preference_extrema_target">target</string>
     <string name="preference_extrema_hyperclycemia">hyperclycemia</string>
     <string name="preference_extrema_hypoclycemia">hypoclycemia</string>
 
+    <string name="preference_uni">unit</string>
     <string name="preference_unit_bloodsugar">unit_bloodsugar</string>
     <string name="preference_unit_meal">unit_meal</string>
     <string name="preference_unit_meal_factor">unit_meal_factor</string>
     <string name="preference_unit_hba1c">unit_hba1c</string>
     <string name="preference_unit_weight">unit_weight</string>
 
+    <string name="preference_factor">factor</string>
     <string name="preference_factor_meal">unit_meal_factor</string>
     <string name="preference_factor_interval">intervalFactor</string>
     <string name="preference_factor_interval_for_hour">intervalFactor%d</string>
+    <string name="preference_correction">correction</string>
     <string name="preference_correction_interval">intervalCorrection</string>
     <string name="preference_correction_interval_for_hour">intervalCorrection%d</string>
 

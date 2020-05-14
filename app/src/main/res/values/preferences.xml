@@ -4,32 +4,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingTranslation">
 
+    <!-- Deprecated -->
+    <string name="preference_factor_deprecated">factor_</string>
+    <string name="preference_correction_deprecated">correction_value</string>
+
+    <!-- General -->
     <string name="preference_version">version</string>
     <string name="preference_version_code">versionCode</string>
-
-    <string name="preference_categories">categories</string>
-    <string name="preference_tags">tags</string>
-
-    <string name="preference_backup">backup</string>
-    <string name="preference_import">import</string>
-
-    <string name="preference_food_imported">didImportCommonFoodForLanguage</string>
-    <string name="preference_tags_imported">didImportTagsForLanguage</string>
-
     <string name="preference_theme">theme</string>
     <string name="preference_start_screen">"startscreen"</string>
     <string name="preference_chart_style">chart_style</string>
 
+    <!-- Reminder -->
     <string name="preference_alarm_start">alarmStartInMillis</string>
     <string name="preference_alarm_sound">sound</string>
     <string name="preference_alarm_vibration">vibration</string>
 
-    <string name="preference_input_queries">inputQueries</string>
+    <!-- Data -->
+    <string name="preference_backup">backup</string>
+    <string name="preference_import">import</string>
 
+    <string name="preference_categories">categories</string>
+    <string name="preference_categories_pinned">categoryPinned%s</string>
+    <string name="preference_categories_active">%s_active</string>
+    <string name="preference_categories_sort_index">%s_sortIndex</string>
+
+    <string name="preference_tags">tags</string>
+    <string name="preference_tags_imported">didImportTagsForLanguage</string>
+
+    <string name="preference_food_imported">didImportCommonFoodForLanguage</string>
     <string name="preference_food_show_custom">showCustomFood</string>
     <string name="preference_food_show_common">showCommonFood</string>
     <string name="preference_food_show_branded">showBrandedFood</string>
 
+    <string name="preference_input_queries">inputQueries</string>
+
+    <!-- Export -->
     <string name="preference_export_pdf_style">exportPdfStyle</string>
     <string name="preference_export_header">exportHeader</string>
     <string name="preference_export_footer">exportFooter</string>
@@ -39,6 +49,7 @@
     <string name="preference_export_categories">exportCategories</string>
     <string name="preference_export_insulin_split">exportInsulinSplit</string>
 
+    <!-- Therapy -->
     <string name="preference_extrema_highlight">targets_highlight</string>
     <string name="preference_extrema_target">target</string>
     <string name="preference_extrema_hyperclycemia">hyperclycemia</string>
@@ -51,5 +62,9 @@
     <string name="preference_unit_weight">unit_weight</string>
 
     <string name="preference_factor_meal">unit_meal_factor</string>
+    <string name="preference_factor_interval">intervalFactor</string>
+    <string name="preference_factor_interval_for_hour">intervalFactor%d</string>
+    <string name="preference_correction_interval">intervalCorrection</string>
+    <string name="preference_correction_interval_for_hour">intervalCorrection%d</string>
 
 </resources>

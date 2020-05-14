@@ -46,18 +46,6 @@ public class PreferenceHelper {
     private static final String INPUT_QUERIES_SEPARATOR = ";";
     private static final int INPUT_QUERIES_MAXIMUM_COUNT = 10;
 
-    public static class Keys {
-        public static final String CATEGORY_PINNED = "categoryPinned%s";
-        public final static String CATEGORY_ACTIVE = "%s_active";
-        public final static String CATEGORY_SORT_INDEX = "%s_sortIndex";
-        public static final String INTERVAL_FACTOR = "intervalFactor";
-        public static final String INTERVAL_FACTOR_FOR_HOUR = "intervalFactor%d";
-        public static final String FACTOR_DEPRECATED = "factor_";
-        public static final String INTERVAL_CORRECTION = "intervalCorrection";
-        public static final String INTERVAL_CORRECTION_FOR_HOUR = "intervalCorrection%d";
-        public static final String CORRECTION_DEPRECATED = "correction_value";
-    }
-
     public enum FactorUnit {
         CARBOHYDRATES_UNIT(0, R.string.unit_factor_carbohydrates_unit, .1f),
         BREAD_UNITS(1, R.string.unit_factor_bread_unit, .0833f);
@@ -388,19 +376,19 @@ public class PreferenceHelper {
     }
 
     public boolean isCategoryActive(Category category) {
-        return sharedPreferences.getBoolean(String.format(Keys.CATEGORY_ACTIVE, category.name()), true);
+        return sharedPreferences.getBoolean(context.getString(R.string.preference_categories_active, category.name()), true);
     }
 
     public void setCategoryActive(Category category, boolean isActive) {
-        sharedPreferences.edit().putBoolean(String.format(Keys.CATEGORY_ACTIVE, category.name()), isActive).apply();
+        sharedPreferences.edit().putBoolean(context.getString(R.string.preference_categories_active, category.name()), isActive).apply();
     }
 
     public int getCategorySortIndex(Category category) {
-        return sharedPreferences.getInt(String.format(Keys.CATEGORY_SORT_INDEX, category.name()), category.ordinal());
+        return sharedPreferences.getInt(context.getString(R.string.preference_categories_sort_index, category.name()), category.ordinal());
     }
 
     public void setCategorySortIndex(Category category, int sortIndex) {
-        sharedPreferences.edit().putInt(String.format(Keys.CATEGORY_SORT_INDEX, category.name()), sortIndex).apply();
+        sharedPreferences.edit().putInt(context.getString(R.string.preference_categories_sort_index, category.name()), sortIndex).apply();
     }
 
     public List<Category> getSortedCategories(Comparator<Category> comparator) {
@@ -429,7 +417,7 @@ public class PreferenceHelper {
     }
 
     private String getCategoryPinnedName(Category category) {
-        return String.format(Keys.CATEGORY_PINNED, category.name());
+        return context.getString(R.string.preference_categories_pinned, category.name());
     }
 
     public boolean isCategoryPinned(Category category) {
@@ -532,22 +520,22 @@ public class PreferenceHelper {
     // FACTORS
 
     public TimeInterval getFactorInterval() {
-        int position = sharedPreferences.getInt(Keys.INTERVAL_FACTOR, TimeInterval.EVERY_SIX_HOURS.ordinal());
+        int position = sharedPreferences.getInt(context.getString(R.string.preference_factor_interval), TimeInterval.EVERY_SIX_HOURS.ordinal());
         TimeInterval[] timeIntervals = TimeInterval.values();
         return position >= 0 && position < timeIntervals.length ? timeIntervals[position] : TimeInterval.EVERY_SIX_HOURS;
     }
 
     public void setFactorInterval(TimeInterval interval) {
-        sharedPreferences.edit().putInt(Keys.INTERVAL_FACTOR, interval.ordinal()).apply();
+        sharedPreferences.edit().putInt(context.getString(R.string.preference_factor_interval), interval.ordinal()).apply();
     }
 
     public float getFactorForHour(int hourOfDay) {
-        String key = String.format(Keys.INTERVAL_FACTOR_FOR_HOUR, hourOfDay);
+        String key = context.getString(R.string.preference_factor_interval_for_hour, hourOfDay);
         return sharedPreferences.getFloat(key, -1);
     }
 
     public void setFactorForHour(int hourOfDay, float factor) {
-        String key = String.format(Keys.INTERVAL_FACTOR_FOR_HOUR, hourOfDay);
+        String key = context.getString(R.string.preference_factor_interval_for_hour, hourOfDay);
         sharedPreferences.edit().putFloat(key, factor).apply();
     }
 
@@ -557,7 +545,7 @@ public class PreferenceHelper {
     private void migrateFactors() {
         if (getFactorForHour(0) < 0) {
             for (Daytime daytime : Daytime.values()) {
-                float factor = sharedPreferences.getFloat(Keys.FACTOR_DEPRECATED + daytime.toDeprecatedString(), -1);
+                float factor = sharedPreferences.getFloat(context.getString(R.string.preference_factor_deprecated) + daytime.toDeprecatedString(), -1);
                 if (factor >= 0) {
                     int step = 0;
                     while (step < Daytime.INTERVAL_LENGTH) {
@@ -565,7 +553,7 @@ public class PreferenceHelper {
                         setFactorForHour(hourOfDay, factor);
                         step++;
                     }
-                    sharedPreferences.edit().putFloat(Keys.FACTOR_DEPRECATED + daytime, -1).apply();
+                    sharedPreferences.edit().putFloat(context.getString(R.string.preference_factor_deprecated) + daytime, -1).apply();
                 }
             }
         }
@@ -586,28 +574,28 @@ public class PreferenceHelper {
     // CORRECTION
 
     public TimeInterval getCorrectionInterval() {
-        int position = sharedPreferences.getInt(Keys.INTERVAL_CORRECTION, TimeInterval.CONSTANT.ordinal());
+        int position = sharedPreferences.getInt(context.getString(R.string.preference_correction_interval), TimeInterval.CONSTANT.ordinal());
         TimeInterval[] timeIntervals = TimeInterval.values();
         return position >= 0 && position < timeIntervals.length ? timeIntervals[position] : TimeInterval.CONSTANT;
     }
 
     public void setCorrectionInterval(TimeInterval interval) {
-        sharedPreferences.edit().putInt(Keys.INTERVAL_CORRECTION, interval.ordinal()).apply();
+        sharedPreferences.edit().putInt(context.getString(R.string.preference_correction_interval), interval.ordinal()).apply();
     }
 
     public float getCorrectionForHour(int hourOfDay) {
-        String key = String.format(Keys.INTERVAL_CORRECTION_FOR_HOUR, hourOfDay);
+        String key = context.getString(R.string.preference_correction_interval_for_hour, hourOfDay);
         return sharedPreferences.getFloat(key, -1);
     }
 
     public void setCorrectionForHour(int hourOfDay, float factor) {
-        String key = String.format(Keys.INTERVAL_CORRECTION_FOR_HOUR, hourOfDay);
+        String key = context.getString(R.string.preference_correction_interval_for_hour, hourOfDay);
         sharedPreferences.edit().putFloat(key, factor).apply();
     }
 
     private void migrateCorrection() {
         if (getCorrectionForHour(0) < 0) {
-            float oldValue = FloatUtils.parseNumber(sharedPreferences.getString(Keys.CORRECTION_DEPRECATED, "40"));
+            float oldValue = FloatUtils.parseNumber(sharedPreferences.getString(context.getString(R.string.preference_correction_deprecated), "40"));
             int hourOfDay = 0;
             while (hourOfDay < DateTimeConstants.HOURS_PER_DAY) {
                 setCorrectionForHour(hourOfDay, oldValue);

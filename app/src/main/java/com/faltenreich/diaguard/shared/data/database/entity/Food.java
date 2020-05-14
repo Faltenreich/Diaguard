@@ -8,7 +8,7 @@ import androidx.annotation.StringRes;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.export.Backupable;
-import com.faltenreich.diaguard.feature.preference.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;

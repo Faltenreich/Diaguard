@@ -22,7 +22,7 @@ import com.faltenreich.diaguard.feature.preference.PreferenceActivity;
 import com.faltenreich.diaguard.feature.preference.PreferenceLink;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
-import com.faltenreich.diaguard.feature.preference.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.FoodDeletedEvent;
 import com.faltenreich.diaguard.shared.event.data.FoodQueryEndedEvent;

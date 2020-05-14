@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.feature.entry.edit.measurement;
 import android.content.Context;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.preference.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Pressure;

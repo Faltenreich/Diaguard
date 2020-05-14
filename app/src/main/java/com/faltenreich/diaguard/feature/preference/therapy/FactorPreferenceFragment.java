@@ -4,11 +4,11 @@ import androidx.fragment.app.DialogFragment;
 import androidx.preference.Preference;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.preference.BasePreferenceFragment;
+import com.faltenreich.diaguard.feature.preference.PreferenceFragment;
 import com.faltenreich.diaguard.feature.preference.factor.FactorPreference;
 import com.faltenreich.diaguard.feature.preference.factor.FactorPreferenceDialogFragment;
 
-public class FactorPreferenceFragment extends BasePreferenceFragment {
+public class FactorPreferenceFragment extends PreferenceFragment {
 
     public FactorPreferenceFragment() {
         super(R.xml.preferences_factor, R.string.factors);

@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.feature.category;
 
-import com.faltenreich.diaguard.feature.preference.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 

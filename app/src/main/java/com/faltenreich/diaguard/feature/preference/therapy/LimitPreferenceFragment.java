@@ -7,16 +7,16 @@ import androidx.fragment.app.DialogFragment;
 import androidx.preference.Preference;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.preference.BasePreferenceFragment;
+import com.faltenreich.diaguard.feature.preference.PreferenceFragment;
 import com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreference;
 import com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreferenceDialogFragment;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
-import com.faltenreich.diaguard.feature.preference.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 
 import java.util.Locale;
 
-public class LimitPreferenceFragment extends BasePreferenceFragment
+public class LimitPreferenceFragment extends PreferenceFragment
     implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     public LimitPreferenceFragment() {

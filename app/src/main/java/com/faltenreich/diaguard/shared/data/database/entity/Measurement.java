@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.shared.data.database.entity;
 
 import android.content.Context;
 
-import com.faltenreich.diaguard.feature.preference.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.feature.export.Backupable;
 import com.faltenreich.diaguard.feature.export.Exportable;

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.feature.preference;
+package com.faltenreich.diaguard.feature.preference.data;
 
 import android.content.Context;
 import android.content.SharedPreferences;

@@ -7,7 +7,7 @@ import android.view.MotionEvent;
 import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.preference.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.view.floatingactionbutton.FloatingActionButtonFactory;
 import com.faltenreich.diaguard.shared.view.resource.ColorUtils;

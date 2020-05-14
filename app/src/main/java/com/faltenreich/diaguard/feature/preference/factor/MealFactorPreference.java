@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.feature.preference.factor;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.faltenreich.diaguard.feature.preference.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.preference.MealFactorChangedEvent;
 

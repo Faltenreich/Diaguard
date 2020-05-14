@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.shared.data.database.entity;
 
 import androidx.annotation.NonNull;
 
-import com.faltenreich.diaguard.feature.preference.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 

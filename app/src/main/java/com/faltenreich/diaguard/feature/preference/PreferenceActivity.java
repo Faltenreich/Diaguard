@@ -13,6 +13,7 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.preference.food.FoodPreferenceFragment;
+import com.faltenreich.diaguard.feature.preference.overview.PreferenceOverviewFragment;
 import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 
 import java.io.Serializable;
@@ -72,7 +73,7 @@ public class PreferenceActivity extends BaseActivity implements PreferenceFragme
         if (link == PreferenceLink.FOOD) {
             return new FoodPreferenceFragment();
         } else {
-            return new PreferenceFragment();
+            return new PreferenceOverviewFragment();
         }
     }
 

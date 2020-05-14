@@ -33,13 +33,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
-@SuppressWarnings({
-    "WeakerAccess",
-    "SameParameterValue",
-    "BooleanMethodIsAlwaysInverted",
-    "SwitchStatementWithTooFewBranches",
-    "DefaultLocale"
-})
 public class PreferenceHelper {
 
     private static final String TAG = PreferenceHelper.class.getSimpleName();
@@ -152,7 +145,8 @@ public class PreferenceHelper {
         return Integer.parseInt(startScreen);
     }
 
-    public void setStartScreen(int startScreen) {
+    @SuppressWarnings("SameParameterValue")
+    private void setStartScreen(int startScreen) {
         sharedPreferences.edit().putString(getKey(R.string.preference_start_screen), Integer.toString(startScreen)).apply();
     }
 
@@ -202,6 +196,7 @@ public class PreferenceHelper {
         return getContext().getResources().getIntArray(resourceIdExtrema);
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean validateEventValue(Category category, float value) {
         int[] extrema = getExtrema(category);
 
@@ -338,10 +333,6 @@ public class PreferenceHelper {
 
     // BLOOD SUGAR
 
-    public String getValueForKey(String key) {
-        return sharedPreferences.getString(key, null);
-    }
-
     public float getTargetValue() {
         return FloatUtils.parseNumber(sharedPreferences.getString(getKey(R.string.preference_extrema_target),
             getContext().getString(R.string.pref_therapy_targets_target_default)));
@@ -367,14 +358,14 @@ public class PreferenceHelper {
 
     public int getMonthResourceId(DateTime daytime) {
         int monthOfYear = daytime.monthOfYear().get();
-        String identifier = String.format("bg_month_%d", monthOfYear - 1);
+        String identifier = String.format(Locale.getDefault(), "bg_month_%d", monthOfYear - 1);
         return getContext().getResources().getIdentifier(identifier,
             "drawable", getContext().getPackageName());
     }
 
     public int getMonthSmallResourceId(DateTime daytime) {
         int monthOfYear = daytime.monthOfYear().get();
-        String identifier = String.format("bg_month_%d_small", monthOfYear - 1);
+        String identifier = String.format(Locale.getDefault(), "bg_month_%d_small", monthOfYear - 1);
         return getContext().getResources().getIdentifier(identifier,
             "drawable", getContext().getPackageName());
     }
@@ -434,7 +425,7 @@ public class PreferenceHelper {
 
     // UNITS
 
-    public String[] getUnitsNames(Category category) {
+    private String[] getUnitsNames(Category category) {
         String categoryName = category.name().toLowerCase();
         int resourceIdUnits = getContext().getResources().getIdentifier(categoryName +
             "_units", "array", getContext().getPackageName());
@@ -447,7 +438,7 @@ public class PreferenceHelper {
         return getUnitsNames(category)[Arrays.asList(getUnitsValues(category)).indexOf(sharedPref)];
     }
 
-    public String[] getUnitsAcronyms(Category category) {
+    private String[] getUnitsAcronyms(Category category) {
         String categoryName = category.name().toLowerCase();
         int resourceIdUnits = getContext().getResources().getIdentifier(categoryName +
             "_units_acronyms", "array", getContext().getPackageName());
@@ -495,25 +486,21 @@ public class PreferenceHelper {
     }
 
     public float formatCustomToDefaultUnit(Category category, float value) {
-        switch (category) {
-            case HBA1C:
-                // Workaround for calculating HbA1c with formula
-                float unitValue = getUnitValue(category);
-                return unitValue != 1 ? (value * 0.0915f) + 2.15f : value;
-            default:
-                return value / getUnitValue(category);
+        // Workaround for calculating HbA1c with formula
+        if (category == Category.HBA1C) {
+            float unitValue = getUnitValue(category);
+            return unitValue != 1 ? (value * 0.0915f) + 2.15f : value;
         }
+        return value / getUnitValue(category);
     }
 
     public float formatDefaultToCustomUnit(Category category, float value) {
-        switch (category) {
-            case HBA1C:
-                // Workaround for calculating HbA1c with formula
-                float unitValue = getUnitValue(category);
-                return unitValue != 1 ? (value - 2.15f) / 0.0915f : value;
-            default:
-                return value * getUnitValue(category);
+        // Workaround for calculating HbA1c with formula
+        if (category == Category.HBA1C) {
+            float unitValue = getUnitValue(category);
+            return unitValue != 1 ? (value - 2.15f) / 0.0915f : value;
         }
+        return value * getUnitValue(category);
     }
 
     public String getMeasurementForUi(Category category, float value) {

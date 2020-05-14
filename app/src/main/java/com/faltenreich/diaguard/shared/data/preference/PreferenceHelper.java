@@ -87,6 +87,10 @@ public class PreferenceHelper {
         return context;
     }
 
+    private String getKey(@StringRes int stringResource, Object... arguments) {
+        return context.getString(stringResource, arguments);
+    }
+
     // GENERAL
 
     public void migrate() {
@@ -96,40 +100,40 @@ public class PreferenceHelper {
     }
 
     public int getVersionCode() {
-        return sharedPreferences.getInt(context.getString(R.string.preference_version_code), 0);
+        return sharedPreferences.getInt(getKey(R.string.preference_version_code), 0);
     }
 
     public void setVersionCode(int versionCode) {
-        sharedPreferences.edit().putInt(context.getString(R.string.preference_version_code), versionCode).apply();
+        sharedPreferences.edit().putInt(getKey(R.string.preference_version_code), versionCode).apply();
     }
 
     public boolean didImportCommonFood(Locale locale) {
-        return sharedPreferences.getBoolean(context.getString(R.string.preference_food_imported) + locale.getLanguage(), false);
+        return sharedPreferences.getBoolean(getKey(R.string.preference_food_imported) + locale.getLanguage(), false);
     }
 
     public void setDidImportCommonFood(Locale locale, boolean didImport) {
-        sharedPreferences.edit().putBoolean(context.getString(R.string.preference_food_imported) + locale.getLanguage(), didImport).apply();
+        sharedPreferences.edit().putBoolean(getKey(R.string.preference_food_imported) + locale.getLanguage(), didImport).apply();
     }
 
     public boolean didImportTags(Locale locale) {
-        return sharedPreferences.getBoolean(context.getString(R.string.preference_tags_imported) + locale.getLanguage(), false);
+        return sharedPreferences.getBoolean(getKey(R.string.preference_tags_imported) + locale.getLanguage(), false);
     }
 
     public void setDidImportTags(Locale locale, boolean didImport) {
-        sharedPreferences.edit().putBoolean(context.getString(R.string.preference_tags_imported) + locale.getLanguage(), didImport).apply();
+        sharedPreferences.edit().putBoolean(getKey(R.string.preference_tags_imported) + locale.getLanguage(), didImport).apply();
     }
 
     public long getAlarmStartInMillis() {
-        return sharedPreferences.getLong(context.getString(R.string.preference_alarm_start), -1);
+        return sharedPreferences.getLong(getKey(R.string.preference_alarm_start), -1);
     }
 
     public void setAlarmStartInMillis(long alarmStartInMillis) {
-        sharedPreferences.edit().putLong(context.getString(R.string.preference_alarm_start), alarmStartInMillis).apply();
+        sharedPreferences.edit().putLong(getKey(R.string.preference_alarm_start), alarmStartInMillis).apply();
     }
 
     public Theme getTheme() {
         Theme themeDefault = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P ? Theme.SYSTEM : Theme.LIGHT;
-        String themeKey = sharedPreferences.getString(context.getString(R.string.preference_theme), null);
+        String themeKey = sharedPreferences.getString(getKey(R.string.preference_theme), null);
         if (themeKey != null) {
             Theme theme = Theme.fromKey(themeKey);
             return theme != null ? theme : themeDefault;
@@ -140,16 +144,16 @@ public class PreferenceHelper {
     }
 
     public void setTheme(Theme theme) {
-        sharedPreferences.edit().putString(context.getString(R.string.preference_theme), theme.getKey()).apply();
+        sharedPreferences.edit().putString(getKey(R.string.preference_theme), theme.getKey()).apply();
     }
 
     public int getStartScreen() {
-        String startScreen = sharedPreferences.getString(context.getString(R.string.preference_start_screen), "0");
+        String startScreen = sharedPreferences.getString(getKey(R.string.preference_start_screen), "0");
         return Integer.parseInt(startScreen);
     }
 
     public void setStartScreen(int startScreen) {
-        sharedPreferences.edit().putString(context.getString(R.string.preference_start_screen), Integer.toString(startScreen)).apply();
+        sharedPreferences.edit().putString(getKey(R.string.preference_start_screen), Integer.toString(startScreen)).apply();
     }
 
     private void migrateStartScreen() {
@@ -160,15 +164,15 @@ public class PreferenceHelper {
     }
 
     public boolean isSoundAllowed() {
-        return sharedPreferences.getBoolean(context.getString(R.string.preference_alarm_sound), true);
+        return sharedPreferences.getBoolean(getKey(R.string.preference_alarm_sound), true);
     }
 
     public boolean isVibrationAllowed() {
-        return sharedPreferences.getBoolean(context.getString(R.string.preference_alarm_vibration), true);
+        return sharedPreferences.getBoolean(getKey(R.string.preference_alarm_vibration), true);
     }
 
     public TimelineStyle getTimelineStyle() {
-        String key = context.getString(R.string.preference_chart_style);
+        String key = getKey(R.string.preference_chart_style);
         String preference = sharedPreferences.getString(key, null);
         if (!TextUtils.isEmpty(preference)) {
             try {
@@ -187,7 +191,7 @@ public class PreferenceHelper {
     public void setTimelineStyle(TimelineStyle style) {
         int stableId = style.getStableId();
         String stableIdString = Integer.toString(stableId);
-        sharedPreferences.edit().putString(context.getString(R.string.preference_chart_style), stableIdString).apply();
+        sharedPreferences.edit().putString(getKey(R.string.preference_chart_style), stableIdString).apply();
     }
 
     public int[] getExtrema(Category category) {
@@ -231,72 +235,72 @@ public class PreferenceHelper {
     }
 
     public void setPdfExportStyle(PdfExportStyle style) {
-        sharedPreferences.edit().putInt(context.getString(R.string.preference_export_pdf_style), style.stableId).apply();
+        sharedPreferences.edit().putInt(getKey(R.string.preference_export_pdf_style), style.stableId).apply();
     }
 
     public PdfExportStyle getPdfExportStyle() {
         PdfExportStyle defaultStyle = PdfExportStyle.TABLE;
-        int stableId = sharedPreferences.getInt(context.getString(R.string.preference_export_pdf_style), defaultStyle.stableId);
+        int stableId = sharedPreferences.getInt(getKey(R.string.preference_export_pdf_style), defaultStyle.stableId);
         PdfExportStyle style = PdfExportStyle.valueOf(stableId);
         return style != null ? style : defaultStyle;
     }
 
     public void setExportHeader(boolean exportHeader) {
-        sharedPreferences.edit().putBoolean(context.getString(R.string.preference_export_header), exportHeader).apply();
+        sharedPreferences.edit().putBoolean(getKey(R.string.preference_export_header), exportHeader).apply();
     }
 
     public boolean exportHeader() {
-        return sharedPreferences.getBoolean(context.getString(R.string.preference_export_header), true);
+        return sharedPreferences.getBoolean(getKey(R.string.preference_export_header), true);
     }
 
     public void setExportFooter(boolean exportFooter) {
-        sharedPreferences.edit().putBoolean(context.getString(R.string.preference_export_footer), exportFooter).apply();
+        sharedPreferences.edit().putBoolean(getKey(R.string.preference_export_footer), exportFooter).apply();
     }
 
     public boolean exportFooter() {
-        return sharedPreferences.getBoolean(context.getString(R.string.preference_export_footer), true);
+        return sharedPreferences.getBoolean(getKey(R.string.preference_export_footer), true);
     }
 
     public void setExportNotes(boolean exportNotes) {
-        sharedPreferences.edit().putBoolean(context.getString(R.string.preference_export_notes), exportNotes).apply();
+        sharedPreferences.edit().putBoolean(getKey(R.string.preference_export_notes), exportNotes).apply();
     }
 
     public boolean exportNotes() {
-        return sharedPreferences.getBoolean(context.getString(R.string.preference_export_notes), true);
+        return sharedPreferences.getBoolean(getKey(R.string.preference_export_notes), true);
     }
 
     public void setExportTags(boolean exportTags) {
-        sharedPreferences.edit().putBoolean(context.getString(R.string.preference_export_tags), exportTags).apply();
+        sharedPreferences.edit().putBoolean(getKey(R.string.preference_export_tags), exportTags).apply();
     }
 
     public boolean exportTags() {
-        return sharedPreferences.getBoolean(context.getString(R.string.preference_export_tags), true);
+        return sharedPreferences.getBoolean(getKey(R.string.preference_export_tags), true);
     }
 
     public void setExportFood(boolean exportFood) {
-        sharedPreferences.edit().putBoolean(context.getString(R.string.preference_export_food), exportFood).apply();
+        sharedPreferences.edit().putBoolean(getKey(R.string.preference_export_food), exportFood).apply();
     }
 
     public boolean exportFood() {
-        return sharedPreferences.getBoolean(context.getString(R.string.preference_export_food), true);
+        return sharedPreferences.getBoolean(getKey(R.string.preference_export_food), true);
     }
 
     public void setExportInsulinSplit(boolean splitInsulin) {
-        sharedPreferences.edit().putBoolean(context.getString(R.string.preference_export_insulin_split), splitInsulin).apply();
+        sharedPreferences.edit().putBoolean(getKey(R.string.preference_export_insulin_split), splitInsulin).apply();
     }
 
     public boolean exportInsulinSplit() {
-        return sharedPreferences.getBoolean(context.getString(R.string.preference_export_insulin_split), false);
+        return sharedPreferences.getBoolean(getKey(R.string.preference_export_insulin_split), false);
     }
 
     public void setExportCategories(Category[] categories) {
         String preference = new CategorySerializer().serialize(categories);
-        sharedPreferences.edit().putString(context.getString(R.string.preference_export_categories), preference).apply();
+        sharedPreferences.edit().putString(getKey(R.string.preference_export_categories), preference).apply();
     }
 
     public Category[] getExportCategories() {
         CategorySerializer serializer = new CategorySerializer();
-        String preference = sharedPreferences.getString(context.getString(R.string.preference_export_categories), serializer.serialize(Category.values()));
+        String preference = sharedPreferences.getString(getKey(R.string.preference_export_categories), serializer.serialize(Category.values()));
         return serializer.deserialize(preference);
     }
 
@@ -314,11 +318,11 @@ public class PreferenceHelper {
             String[] newInputQueries = Arrays.copyOfRange(inputQueriesArray, startIndex, endIndex);
             inputQueries = TextUtils.join(INPUT_QUERIES_SEPARATOR, newInputQueries);
         }
-        sharedPreferences.edit().putString(context.getString(R.string.preference_input_queries), inputQueries).apply();
+        sharedPreferences.edit().putString(getKey(R.string.preference_input_queries), inputQueries).apply();
     }
 
     private String getInputQueriesString() {
-        return sharedPreferences.getString(context.getString(R.string.preference_input_queries), "");
+        return sharedPreferences.getString(getKey(R.string.preference_input_queries), "");
     }
 
     public ArrayList<String> getInputQueries() {
@@ -339,25 +343,25 @@ public class PreferenceHelper {
     }
 
     public float getTargetValue() {
-        return FloatUtils.parseNumber(sharedPreferences.getString(context.getString(R.string.preference_extrema_target),
+        return FloatUtils.parseNumber(sharedPreferences.getString(getKey(R.string.preference_extrema_target),
             getContext().getString(R.string.pref_therapy_targets_target_default)));
     }
 
     public boolean limitsAreHighlighted() {
-        return sharedPreferences.getBoolean(context.getString(R.string.preference_extrema_highlight), true);
+        return sharedPreferences.getBoolean(getKey(R.string.preference_extrema_highlight), true);
     }
 
     public void setLimitsAreHighlighted(boolean isHighlighted) {
-        sharedPreferences.edit().putBoolean(context.getString(R.string.preference_extrema_highlight), isHighlighted).apply();
+        sharedPreferences.edit().putBoolean(getKey(R.string.preference_extrema_highlight), isHighlighted).apply();
     }
 
     public float getLimitHyperglycemia() {
-        return FloatUtils.parseNumber(sharedPreferences.getString(context.getString(R.string.preference_extrema_hyperclycemia),
+        return FloatUtils.parseNumber(sharedPreferences.getString(getKey(R.string.preference_extrema_hyperclycemia),
             getContext().getString(R.string.pref_therapy_targets_hyperclycemia_default)));
     }
 
     public float getLimitHypoglycemia() {
-        return FloatUtils.parseNumber(sharedPreferences.getString(context.getString(R.string.preference_extrema_hypoclycemia),
+        return FloatUtils.parseNumber(sharedPreferences.getString(getKey(R.string.preference_extrema_hypoclycemia),
             getContext().getString(R.string.pref_therapy_targets_hypoclycemia_default)));
     }
 
@@ -376,19 +380,19 @@ public class PreferenceHelper {
     }
 
     public boolean isCategoryActive(Category category) {
-        return sharedPreferences.getBoolean(context.getString(R.string.preference_categories_active, category.name()), true);
+        return sharedPreferences.getBoolean(getKey(R.string.preference_categories_active, category.name()), true);
     }
 
     public void setCategoryActive(Category category, boolean isActive) {
-        sharedPreferences.edit().putBoolean(context.getString(R.string.preference_categories_active, category.name()), isActive).apply();
+        sharedPreferences.edit().putBoolean(getKey(R.string.preference_categories_active, category.name()), isActive).apply();
     }
 
     public int getCategorySortIndex(Category category) {
-        return sharedPreferences.getInt(context.getString(R.string.preference_categories_sort_index, category.name()), category.ordinal());
+        return sharedPreferences.getInt(getKey(R.string.preference_categories_sort_index, category.name()), category.ordinal());
     }
 
     public void setCategorySortIndex(Category category, int sortIndex) {
-        sharedPreferences.edit().putInt(context.getString(R.string.preference_categories_sort_index, category.name()), sortIndex).apply();
+        sharedPreferences.edit().putInt(getKey(R.string.preference_categories_sort_index, category.name()), sortIndex).apply();
     }
 
     public List<Category> getSortedCategories(Comparator<Category> comparator) {
@@ -417,7 +421,7 @@ public class PreferenceHelper {
     }
 
     private String getCategoryPinnedName(Category category) {
-        return context.getString(R.string.preference_categories_pinned, category.name());
+        return getKey(R.string.preference_categories_pinned, category.name());
     }
 
     public boolean isCategoryPinned(Category category) {
@@ -520,22 +524,22 @@ public class PreferenceHelper {
     // FACTORS
 
     public TimeInterval getFactorInterval() {
-        int position = sharedPreferences.getInt(context.getString(R.string.preference_factor_interval), TimeInterval.EVERY_SIX_HOURS.ordinal());
+        int position = sharedPreferences.getInt(getKey(R.string.preference_factor_interval), TimeInterval.EVERY_SIX_HOURS.ordinal());
         TimeInterval[] timeIntervals = TimeInterval.values();
         return position >= 0 && position < timeIntervals.length ? timeIntervals[position] : TimeInterval.EVERY_SIX_HOURS;
     }
 
     public void setFactorInterval(TimeInterval interval) {
-        sharedPreferences.edit().putInt(context.getString(R.string.preference_factor_interval), interval.ordinal()).apply();
+        sharedPreferences.edit().putInt(getKey(R.string.preference_factor_interval), interval.ordinal()).apply();
     }
 
     public float getFactorForHour(int hourOfDay) {
-        String key = context.getString(R.string.preference_factor_interval_for_hour, hourOfDay);
+        String key = getKey(R.string.preference_factor_interval_for_hour, hourOfDay);
         return sharedPreferences.getFloat(key, -1);
     }
 
     public void setFactorForHour(int hourOfDay, float factor) {
-        String key = context.getString(R.string.preference_factor_interval_for_hour, hourOfDay);
+        String key = getKey(R.string.preference_factor_interval_for_hour, hourOfDay);
         sharedPreferences.edit().putFloat(key, factor).apply();
     }
 
@@ -545,7 +549,7 @@ public class PreferenceHelper {
     private void migrateFactors() {
         if (getFactorForHour(0) < 0) {
             for (Daytime daytime : Daytime.values()) {
-                float factor = sharedPreferences.getFloat(context.getString(R.string.preference_factor_deprecated) + daytime.toDeprecatedString(), -1);
+                float factor = sharedPreferences.getFloat(getKey(R.string.preference_factor_deprecated) + daytime.toDeprecatedString(), -1);
                 if (factor >= 0) {
                     int step = 0;
                     while (step < Daytime.INTERVAL_LENGTH) {
@@ -553,7 +557,7 @@ public class PreferenceHelper {
                         setFactorForHour(hourOfDay, factor);
                         step++;
                     }
-                    sharedPreferences.edit().putFloat(context.getString(R.string.preference_factor_deprecated) + daytime, -1).apply();
+                    sharedPreferences.edit().putFloat(getKey(R.string.preference_factor_deprecated) + daytime, -1).apply();
                 }
             }
         }
@@ -561,7 +565,7 @@ public class PreferenceHelper {
 
     public FactorUnit getFactorUnit() {
         FactorUnit defaultValue = FactorUnit.CARBOHYDRATES_UNIT;
-        String value = sharedPreferences.getString(context.getString(R.string.preference_factor_meal), "0");
+        String value = sharedPreferences.getString(getKey(R.string.preference_factor_meal), "0");
         int index = 0;
         try {
             index = Integer.parseInt(value);
@@ -574,28 +578,28 @@ public class PreferenceHelper {
     // CORRECTION
 
     public TimeInterval getCorrectionInterval() {
-        int position = sharedPreferences.getInt(context.getString(R.string.preference_correction_interval), TimeInterval.CONSTANT.ordinal());
+        int position = sharedPreferences.getInt(getKey(R.string.preference_correction_interval), TimeInterval.CONSTANT.ordinal());
         TimeInterval[] timeIntervals = TimeInterval.values();
         return position >= 0 && position < timeIntervals.length ? timeIntervals[position] : TimeInterval.CONSTANT;
     }
 
     public void setCorrectionInterval(TimeInterval interval) {
-        sharedPreferences.edit().putInt(context.getString(R.string.preference_correction_interval), interval.ordinal()).apply();
+        sharedPreferences.edit().putInt(getKey(R.string.preference_correction_interval), interval.ordinal()).apply();
     }
 
     public float getCorrectionForHour(int hourOfDay) {
-        String key = context.getString(R.string.preference_correction_interval_for_hour, hourOfDay);
+        String key = getKey(R.string.preference_correction_interval_for_hour, hourOfDay);
         return sharedPreferences.getFloat(key, -1);
     }
 
     public void setCorrectionForHour(int hourOfDay, float factor) {
-        String key = context.getString(R.string.preference_correction_interval_for_hour, hourOfDay);
+        String key = getKey(R.string.preference_correction_interval_for_hour, hourOfDay);
         sharedPreferences.edit().putFloat(key, factor).apply();
     }
 
     private void migrateCorrection() {
         if (getCorrectionForHour(0) < 0) {
-            float oldValue = FloatUtils.parseNumber(sharedPreferences.getString(context.getString(R.string.preference_correction_deprecated), "40"));
+            float oldValue = FloatUtils.parseNumber(sharedPreferences.getString(getKey(R.string.preference_correction_deprecated), "40"));
             int hourOfDay = 0;
             while (hourOfDay < DateTimeConstants.HOURS_PER_DAY) {
                 setCorrectionForHour(hourOfDay, oldValue);
@@ -607,14 +611,14 @@ public class PreferenceHelper {
     // FOOD
 
     public boolean showCustomFood() {
-        return sharedPreferences.getBoolean(context.getString(R.string.preference_food_show_custom), true);
+        return sharedPreferences.getBoolean(getKey(R.string.preference_food_show_custom), true);
     }
 
     public boolean showCommonFood() {
-        return sharedPreferences.getBoolean(context.getString(R.string.preference_food_show_common), true);
+        return sharedPreferences.getBoolean(getKey(R.string.preference_food_show_common), true);
     }
 
     public boolean showBrandedFood() {
-        return sharedPreferences.getBoolean(context.getString(R.string.preference_food_show_branded), true);
+        return sharedPreferences.getBoolean(getKey(R.string.preference_food_show_branded), true);
     }
 }

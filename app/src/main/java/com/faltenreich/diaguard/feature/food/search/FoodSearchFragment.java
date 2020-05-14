@@ -19,7 +19,6 @@ import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
 import com.faltenreich.diaguard.feature.food.detail.FoodDetailActivity;
 import com.faltenreich.diaguard.feature.food.edit.FoodEditActivity;
 import com.faltenreich.diaguard.feature.preference.PreferenceActivity;
-import com.faltenreich.diaguard.feature.preference.PreferenceLink;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
@@ -158,7 +157,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
     }
 
     private void openSettings() {
-        startActivity(PreferenceActivity.newInstance(getContext(), PreferenceLink.FOOD));
+        startActivity(PreferenceActivity.newInstance(getContext(), PreferenceActivity.Link.FOOD));
     }
 
     @OnClick(R.id.fab)

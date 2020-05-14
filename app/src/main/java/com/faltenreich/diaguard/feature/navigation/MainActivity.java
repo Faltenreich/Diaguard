@@ -24,7 +24,6 @@ import com.faltenreich.diaguard.feature.export.ExportFragment;
 import com.faltenreich.diaguard.feature.food.search.FoodSearchActivity;
 import com.faltenreich.diaguard.feature.log.LogFragment;
 import com.faltenreich.diaguard.feature.preference.PreferenceActivity;
-import com.faltenreich.diaguard.feature.preference.PreferenceLink;
 import com.faltenreich.diaguard.feature.statistic.StatisticFragment;
 import com.faltenreich.diaguard.feature.timeline.TimelineFragment;
 import com.faltenreich.diaguard.shared.SystemUtils;
@@ -204,7 +203,7 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
                     showFragment(new ExportFragment(), menuItem, true);
                     break;
                 case R.id.nav_settings:
-                    startActivity(PreferenceActivity.newInstance(this, PreferenceLink.NONE));
+                    startActivity(PreferenceActivity.newInstance(this, PreferenceActivity.Link.NONE));
                     break;
                 default:
                     showFragment(new DashboardFragment(), menuItem, false);

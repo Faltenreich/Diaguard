@@ -22,7 +22,12 @@ public class PreferenceActivity extends BaseActivity implements PreferenceFragme
 
     private static final String ARGUMENT_LINK = "link";
 
-    public static Intent newInstance(Context context, PreferenceLink link) {
+    public enum Link {
+        NONE,
+        FOOD
+    }
+
+    public static Intent newInstance(Context context, Link link) {
         Intent intent = new Intent(context, PreferenceActivity.class);
         intent.putExtra(ARGUMENT_LINK, link);
         return intent;
@@ -61,16 +66,16 @@ public class PreferenceActivity extends BaseActivity implements PreferenceFragme
     }
 
     private Fragment getInitialFragment() {
-        PreferenceLink link;
+        Link link;
 
         Serializable argument = getIntent().getSerializableExtra(ARGUMENT_LINK);
-        if (argument instanceof PreferenceLink) {
-            link = (PreferenceLink) argument;
+        if (argument instanceof Link) {
+            link = (Link) argument;
         } else {
-            link = PreferenceLink.NONE;
+            link = Link.NONE;
         }
 
-        if (link == PreferenceLink.FOOD) {
+        if (link == Link.FOOD) {
             return new FoodPreferenceFragment();
         } else {
             return new PreferenceOverviewFragment();

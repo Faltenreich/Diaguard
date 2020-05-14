@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.view.image.ImageLoader;
 import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;
 
@@ -30,8 +30,8 @@ public class LogMonthViewHolder extends BaseViewHolder<LogMonthListItem> {
     public void onBind(LogMonthListItem item) {
         DateTime dateTime = item.getDateTime();
         month.setText(dateTime.toString("MMMM YYYY"));
-        int resourceId = PreferenceHelper.getInstance().getMonthResourceId(dateTime);
-        int smallResourceId = PreferenceHelper.getInstance().getMonthSmallResourceId(dateTime);
+        int resourceId = PreferenceStore.getInstance().getMonthResourceId(dateTime);
+        int smallResourceId = PreferenceStore.getInstance().getMonthSmallResourceId(dateTime);
         ImageLoader.getInstance().load(resourceId, smallResourceId, background, Bitmap.Config.RGB_565);
     }
 }

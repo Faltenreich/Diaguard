@@ -7,7 +7,7 @@ import androidx.annotation.ColorInt;
 import androidx.core.view.ViewCompat;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
@@ -84,7 +84,7 @@ public class DayChart extends CombinedChart implements OnChartValueSelectedListe
                 setData(data);
 
                 // Identify max value manually because data.getYMax does not work when combining scatter with line chart
-                float yAxisMaximum = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Category.BLOODSUGAR, Y_MAX_VALUE_DEFAULT);
+                float yAxisMaximum = PreferenceStore.getInstance().formatDefaultToCustomUnit(Category.BLOODSUGAR, Y_MAX_VALUE_DEFAULT);
                 for (int datasetIndex = 0; datasetIndex < data.getScatterData().getDataSetCount(); datasetIndex++) {
                     IScatterDataSet dataSet = data.getScatterData().getDataSetByIndex(datasetIndex);
                     for (int entryIndex = 0; entryIndex < dataSet.getEntryCount(); entryIndex++) {

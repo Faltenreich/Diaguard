@@ -14,7 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.Insulin;
@@ -89,7 +89,7 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
         setUseCompatPadding(true);
 
         setOnTouchListener(new SwipeDismissTouchListener(this, null, this));
-        checkBoxPin.setChecked(PreferenceHelper.getInstance().isCategoryPinned(category));
+        checkBoxPin.setChecked(PreferenceStore.getInstance().isCategoryPinned(category));
         checkBoxPin.setOnCheckedChangeListener(this);
     }
 
@@ -144,10 +144,10 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
         ViewUtils.showSnackbar(MeasurementView.this, confirmation, view -> {
             checkBoxPin.setOnCheckedChangeListener(null);
             checkBoxPin.setChecked(!isPinned);
-            PreferenceHelper.getInstance().setCategoryPinned(category, !isPinned);
+            PreferenceStore.getInstance().setCategoryPinned(category, !isPinned);
             checkBoxPin.setOnCheckedChangeListener(MeasurementView.this);
         });
-        PreferenceHelper.getInstance().setCategoryPinned(category, isPinned);
+        PreferenceStore.getInstance().setCategoryPinned(category, isPinned);
     }
 
     @SuppressWarnings("unused")

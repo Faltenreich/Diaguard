@@ -4,7 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
@@ -87,7 +87,7 @@ public class EntryDao extends BaseDao<Entry> {
     }
 
     public List<Measurement> getMeasurements(Entry entry) {
-        return getMeasurements(entry, PreferenceHelper.getInstance().getActiveCategories());
+        return getMeasurements(entry, PreferenceStore.getInstance().getActiveCategories());
     }
 
     public List<Measurement> getMeasurements(Entry entry, Category[] categories) {

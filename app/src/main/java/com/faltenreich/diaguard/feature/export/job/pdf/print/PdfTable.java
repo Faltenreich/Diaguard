@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportCache;
@@ -162,13 +162,13 @@ public class PdfTable implements PdfPrintable {
             }
             int textColor = Color.black;
             if (category == Category.BLOODSUGAR && cache.getConfig().isHighlightLimits()) {
-                if (value > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
+                if (value > PreferenceStore.getInstance().getLimitHyperglycemia()) {
                     textColor = cache.getColorHyperglycemia();
-                } else if (value < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
+                } else if (value < PreferenceStore.getInstance().getLimitHypoglycemia()) {
                     textColor = cache.getColorHypoglycemia();
                 }
             }
-            float customValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, value);
+            float customValue = PreferenceStore.getInstance().formatDefaultToCustomUnit(category, value);
             String text = customValue > 0 ? FloatUtils.parseFloat(customValue) : "";
 
             Cell measurementCell = new CellBuilder(new Cell(cache.getFontNormal()))

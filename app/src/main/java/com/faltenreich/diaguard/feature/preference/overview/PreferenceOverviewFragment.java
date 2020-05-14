@@ -13,7 +13,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.export.job.Export;
 import com.faltenreich.diaguard.feature.export.job.ExportCallback;
 import com.faltenreich.diaguard.feature.preference.PreferenceFragment;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.SystemUtils;
 import com.faltenreich.diaguard.shared.data.database.dao.TagDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
@@ -82,7 +82,7 @@ public class PreferenceOverviewFragment extends PreferenceFragment
         preference.setSummaryProvider(pref -> String.format(
             Locale.getDefault(),
             "%d/%d %s",
-            PreferenceHelper.getInstance().getActiveCategories().length,
+            PreferenceStore.getInstance().getActiveCategories().length,
             Category.values().length,
             getString(R.string.active)
         ));
@@ -110,7 +110,7 @@ public class PreferenceOverviewFragment extends PreferenceFragment
         } else if (key.equals(getString(R.string.preference_unit_weight))) {
             Events.post(new UnitChangedEvent(Category.WEIGHT));
         } else if (key.equals(getString(R.string.preference_theme))) {
-            Theme theme = PreferenceHelper.getInstance().getTheme();
+            Theme theme = PreferenceStore.getInstance().getTheme();
             ThemeUtils.setDefaultNightMode(theme);
             ThemeUtils.setUiMode(getActivity(), theme);
         }

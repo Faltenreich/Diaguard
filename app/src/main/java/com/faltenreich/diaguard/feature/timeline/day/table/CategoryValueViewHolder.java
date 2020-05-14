@@ -5,7 +5,7 @@ import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;
 
@@ -43,7 +43,7 @@ public class CategoryValueViewHolder extends BaseViewHolder<CategoryValueListIte
     private void showUnit() {
         // TODO: Use Measurement.toString() instead
         Category category = getItem().getCategory();
-        String unitAcronym = PreferenceHelper.getInstance().getUnitName(category);
+        String unitAcronym = PreferenceStore.getInstance().getUnitName(category);
         ViewUtils.showToast(getContext(), unitAcronym);
     }
 }

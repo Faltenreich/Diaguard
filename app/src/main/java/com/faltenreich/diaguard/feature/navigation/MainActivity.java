@@ -28,7 +28,7 @@ import com.faltenreich.diaguard.feature.preference.PreferenceLink;
 import com.faltenreich.diaguard.feature.statistic.StatisticFragment;
 import com.faltenreich.diaguard.feature.timeline.TimelineFragment;
 import com.faltenreich.diaguard.shared.SystemUtils;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 import com.faltenreich.diaguard.shared.view.coordinatorlayout.SlideOutBehavior;
@@ -126,7 +126,7 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
         });
 
         // Setup start fragment
-        int startScreen = PreferenceHelper.getInstance().getStartScreen();
+        int startScreen = PreferenceStore.getInstance().getStartScreen();
         MenuItem menuItem = drawer.getMenu().getItem(startScreen);
         selectMenuItem(menuItem);
     }
@@ -245,12 +245,12 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
     }
 
     private void showChangelog() {
-        int oldVersionCode = PreferenceHelper.getInstance().getVersionCode();
+        int oldVersionCode = PreferenceStore.getInstance().getVersionCode();
         int currentVersionCode = SystemUtils.getVersionCode(this);
         if (oldVersionCode > 0) {
             boolean isUpdate = oldVersionCode < currentVersionCode;
             if (isUpdate) {
-                PreferenceHelper.getInstance().setVersionCode(currentVersionCode);
+                PreferenceStore.getInstance().setVersionCode(currentVersionCode);
                 /* TODO: Re-enable for future update
                 ChangelogFragment fragment = new ChangelogFragment();
                 String tag = fragment.getClass().getSimpleName();
@@ -261,7 +261,7 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
             }
         } else {
             // Skip changelog for fresh installs
-            PreferenceHelper.getInstance().setVersionCode(currentVersionCode);
+            PreferenceStore.getInstance().setVersionCode(currentVersionCode);
         }
     }
 

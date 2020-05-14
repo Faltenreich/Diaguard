@@ -15,7 +15,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.feature.export.job.csv.CsvMeta;
 import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
@@ -50,13 +50,13 @@ public class ImportHelper {
     }
 
     private static void validateFoodImport(Context context, Locale locale) {
-        if (!PreferenceHelper.getInstance().didImportCommonFood(locale)) {
+        if (!PreferenceStore.getInstance().didImportCommonFood(locale)) {
             new ImportFoodTask(context, locale).execute();
         }
     }
 
     private static void validateTagImport(Context context, Locale locale) {
-        if (!PreferenceHelper.getInstance().didImportTags(locale)) {
+        if (!PreferenceStore.getInstance().didImportTags(locale)) {
             new ImportTagsTask(context, locale).execute();
         }
     }
@@ -145,7 +145,7 @@ public class ImportHelper {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            PreferenceHelper.getInstance().setDidImportCommonFood(locale, true);
+            PreferenceStore.getInstance().setDidImportCommonFood(locale, true);
         }
     }
 
@@ -192,7 +192,7 @@ public class ImportHelper {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            PreferenceHelper.getInstance().setDidImportTags(locale, true);
+            PreferenceStore.getInstance().setDidImportTags(locale, true);
         }
     }
 

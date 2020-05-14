@@ -4,7 +4,7 @@ import android.content.Context;
 import android.text.Editable;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.view.edittext.LocalizedNumberEditText;
@@ -47,8 +47,8 @@ public class Validator {
         boolean isValid = true;
         if (containsNumber(value)) {
             float parsedValue = FloatUtils.parseNumber(value);
-            float defaultValue = PreferenceHelper.getInstance().formatCustomToDefaultUnit(category, parsedValue);
-            if (!PreferenceHelper.getInstance().validateEventValue(category, defaultValue)) {
+            float defaultValue = PreferenceStore.getInstance().formatCustomToDefaultUnit(category, parsedValue);
+            if (!PreferenceStore.getInstance().validateEventValue(category, defaultValue)) {
                 editText.setError(context.getString(R.string.validator_value_unrealistic));
                 isValid = false;
             }

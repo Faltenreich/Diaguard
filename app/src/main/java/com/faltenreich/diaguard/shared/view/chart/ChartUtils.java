@@ -8,7 +8,7 @@ import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
@@ -60,8 +60,8 @@ public class ChartUtils {
         chart.getAxisLeft().setGridColor(gridColor);
         chart.getAxisLeft().setTextColor(textColor);
         chart.getAxisLeft().setDrawLimitLinesBehindData(true);
-        float yAxisMinValue = PreferenceHelper.getInstance().getExtrema(category)[0] * .9f;
-        float yAxisMinCustomValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, yAxisMinValue);
+        float yAxisMinValue = PreferenceStore.getInstance().getExtrema(category)[0] * .9f;
+        float yAxisMinCustomValue = PreferenceStore.getInstance().formatDefaultToCustomUnit(category, yAxisMinValue);
         chart.getAxisLeft().setAxisMinimum(yAxisMinCustomValue);
         chart.getAxisLeft().setValueFormatter((value, axis) -> FloatUtils.parseFloat(value));
     }

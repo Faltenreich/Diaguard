@@ -8,7 +8,7 @@ import android.os.Build;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
@@ -40,7 +40,7 @@ public class AlarmUtils {
 
     public static void setAlarm(long intervalInMillis) {
         long alarmStartInMillis = System.currentTimeMillis() + intervalInMillis;
-        PreferenceHelper.getInstance().setAlarmStartInMillis(alarmStartInMillis);
+        PreferenceStore.getInstance().setAlarmStartInMillis(alarmStartInMillis);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getAlarmManager().setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,
                     alarmStartInMillis,
@@ -53,20 +53,20 @@ public class AlarmUtils {
     }
 
     public static long getAlarmInMillis() {
-        return PreferenceHelper.getInstance().getAlarmStartInMillis();
+        return PreferenceStore.getInstance().getAlarmStartInMillis();
     }
 
     public static void stopAlarm() {
-        PreferenceHelper.getInstance().setAlarmStartInMillis(-1);
+        PreferenceStore.getInstance().setAlarmStartInMillis(-1);
         getAlarmManager().cancel(getPendingIntent());
     }
 
     public static boolean isAlarmSet() {
-        return new DateTime(PreferenceHelper.getInstance().getAlarmStartInMillis()).isAfterNow();
+        return new DateTime(PreferenceStore.getInstance().getAlarmStartInMillis()).isAfterNow();
     }
 
     static void executeAlarm(Context context) {
-        PreferenceHelper.getInstance().setAlarmStartInMillis(-1);
+        PreferenceStore.getInstance().setAlarmStartInMillis(-1);
         NotificationUtils.showNotification(context, R.string.alarm, getMessageForMeasurement());
     }
 

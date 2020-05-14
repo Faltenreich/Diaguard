@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -59,10 +59,10 @@ public class Pressure extends Measurement {
     @NonNull
     @Override
     public String toString() {
-        return PreferenceHelper.getInstance().getMeasurementForUi(
+        return PreferenceStore.getInstance().getMeasurementForUi(
             getCategory(), systolic) + " " +
             DiaguardApplication.getContext().getString(R.string.to) + " " +
-            PreferenceHelper.getInstance().getMeasurementForUi(getCategory(), diastolic
+            PreferenceStore.getInstance().getMeasurementForUi(getCategory(), diastolic
         );
     }
 }

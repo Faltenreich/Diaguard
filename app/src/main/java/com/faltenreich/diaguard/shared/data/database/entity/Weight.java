@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.shared.data.database.entity;
 
 import androidx.annotation.NonNull;
 
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -44,6 +44,6 @@ public class Weight extends Measurement {
     @NonNull
     @Override
     public String toString() {
-        return PreferenceHelper.getInstance().getMeasurementForUi(getCategory(), kilogram);
+        return PreferenceStore.getInstance().getMeasurementForUi(getCategory(), kilogram);
     }
 }

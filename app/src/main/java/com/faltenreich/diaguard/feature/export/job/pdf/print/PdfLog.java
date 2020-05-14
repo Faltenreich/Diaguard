@@ -5,7 +5,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
@@ -90,9 +90,9 @@ public class PdfLog implements PdfPrintable {
                 if (category == Category.BLOODSUGAR && config.isHighlightLimits()) {
                     BloodSugar bloodSugar = (BloodSugar) measurement;
                     float value = bloodSugar.getMgDl();
-                    if (value > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
+                    if (value > PreferenceStore.getInstance().getLimitHyperglycemia()) {
                         textColor = cache.getColorHyperglycemia();
-                    } else if (value < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
+                    } else if (value < PreferenceStore.getInstance().getLimitHypoglycemia()) {
                         textColor = cache.getColorHypoglycemia();
                     }
                 }

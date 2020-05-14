@@ -20,7 +20,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
 import com.faltenreich.diaguard.shared.event.Events;
@@ -106,7 +106,7 @@ public class FoodInputView extends LinearLayout {
             icon.setVisibility(showIcon ? VISIBLE : GONE);
             inputRow.setMinimumHeight(getResources().getDimensionPixelSize(showIcon ? R.dimen.height_element_large : R.dimen.height_element));
 
-            valueInput.setHint(PreferenceHelper.getInstance().getUnitName(Category.MEAL));
+            valueInput.setHint(PreferenceStore.getInstance().getUnitName(Category.MEAL));
 
             adapter = new FoodInputListAdapter(getContext());
             foodList.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -122,7 +122,7 @@ public class FoodInputView extends LinearLayout {
         if (hasFoodEaten) {
             valueCalculated.setVisibility(VISIBLE);
             float carbohydrates = adapter.getTotalCarbohydrates();
-            float meal = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Category.MEAL, carbohydrates);
+            float meal = PreferenceStore.getInstance().formatDefaultToCustomUnit(Category.MEAL, carbohydrates);
             valueCalculated.setText(String.format("%s    +", FloatUtils.parseFloat(meal)));
         } else {
             valueCalculated.setVisibility(GONE);
@@ -145,7 +145,7 @@ public class FoodInputView extends LinearLayout {
             valueInput.setError(getContext().getString(R.string.validator_value_empty));
             isValid = false;
         } else if (!StringUtils.isBlank(input)) {
-            isValid = PreferenceHelper.getInstance().isValueValid(valueInput.getInputView(), Category.MEAL);
+            isValid = PreferenceStore.getInstance().isValueValid(valueInput.getInputView(), Category.MEAL);
         }
         return isValid;
     }
@@ -153,7 +153,7 @@ public class FoodInputView extends LinearLayout {
     public Meal getMeal() {
         if (isValid()) {
             meal.setValues(valueInput.getText().length() > 0 ?
-                    PreferenceHelper.getInstance().formatCustomToDefaultUnit(
+                    PreferenceStore.getInstance().formatCustomToDefaultUnit(
                             meal.getCategory(),
                             FloatUtils.parseNumber(valueInput.getText())) : 0);
             List<FoodEaten> foodEatenCache = new ArrayList<>();
@@ -223,7 +223,7 @@ public class FoodInputView extends LinearLayout {
 
     public float getInputCarbohydrates() {
         float input = FloatUtils.parseNumber(valueInput.getText());
-        return PreferenceHelper.getInstance().formatCustomToDefaultUnit(Category.MEAL, input);
+        return PreferenceStore.getInstance().formatCustomToDefaultUnit(Category.MEAL, input);
     }
 
     public float getCalculatedCarbohydrates() {

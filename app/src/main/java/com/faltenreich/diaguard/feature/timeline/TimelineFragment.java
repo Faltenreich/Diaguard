@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.shared.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.shared.event.data.EntryUpdatedEvent;
@@ -71,7 +71,7 @@ public class TimelineFragment extends DateFragment implements TimelineViewPager.
             for (int index = 0; index < styles.length; index++) {
                 titles[index] = getString(styles[index].getTitleRes());
             }
-            TimelineStyle currentStyle = PreferenceHelper.getInstance().getTimelineStyle();
+            TimelineStyle currentStyle = PreferenceStore.getInstance().getTimelineStyle();
             new AlertDialog.Builder(getContext())
                 .setTitle(R.string.chart_style)
                 .setSingleChoiceItems(titles, currentStyle.getStableId(), null)
@@ -79,7 +79,7 @@ public class TimelineFragment extends DateFragment implements TimelineViewPager.
                 .setPositiveButton(R.string.ok, (dialog, which) -> {
                     int position = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
                     TimelineStyle style = styles[position];
-                    PreferenceHelper.getInstance().setTimelineStyle(style);
+                    PreferenceStore.getInstance().setTimelineStyle(style);
                     goToDay(getDay());
                 })
             .create()

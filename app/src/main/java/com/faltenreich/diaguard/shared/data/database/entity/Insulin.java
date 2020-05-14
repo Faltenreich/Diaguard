@@ -5,7 +5,7 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -79,20 +79,20 @@ public class Insulin extends Measurement {
     @Override
     public String toString() {
         float total = bolus + correction + basal;
-        float customTotal = PreferenceHelper.getInstance().formatDefaultToCustomUnit(getCategory(), total);
+        float customTotal = PreferenceStore.getInstance().formatDefaultToCustomUnit(getCategory(), total);
         return FloatUtils.parseFloat(customTotal);
     }
 
     @Override
     public String print(Context context) {
         float total = bolus + correction + basal;
-        StringBuilder stringBuilder = new StringBuilder(PreferenceHelper.getInstance().getMeasurementForUi(getCategory(), total));
-        stringBuilder.append(String.format(" %s", PreferenceHelper.getInstance().getUnitAcronym(getCategory())));
+        StringBuilder stringBuilder = new StringBuilder(PreferenceStore.getInstance().getMeasurementForUi(getCategory(), total));
+        stringBuilder.append(String.format(" %s", PreferenceStore.getInstance().getUnitAcronym(getCategory())));
         stringBuilder.append(": ");
         boolean isFirstValue = true;
         if (getBolus() != 0) {
             stringBuilder.append(String.format("%s %s",
-                PreferenceHelper.getInstance().getMeasurementForUi(getCategory(), bolus),
+                PreferenceStore.getInstance().getMeasurementForUi(getCategory(), bolus),
                 context.getString(R.string.bolus)));
             isFirstValue = false;
         }
@@ -101,7 +101,7 @@ public class Insulin extends Measurement {
                 stringBuilder.append(", ");
             }
             stringBuilder.append(String.format("%s %s",
-                PreferenceHelper.getInstance().getMeasurementForUi(getCategory(), correction),
+                PreferenceStore.getInstance().getMeasurementForUi(getCategory(), correction),
                 context.getString(R.string.correction)));
             isFirstValue = false;
         }
@@ -110,7 +110,7 @@ public class Insulin extends Measurement {
                 stringBuilder.append(", ");
             }
             stringBuilder.append(String.format("%s %s",
-                PreferenceHelper.getInstance().getMeasurementForUi(getCategory(), basal),
+                PreferenceStore.getInstance().getMeasurementForUi(getCategory(), basal),
                 context.getString(R.string.basal)));
         }
         stringBuilder.append("");

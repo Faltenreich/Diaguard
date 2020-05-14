@@ -1,6 +1,6 @@
 package com.faltenreich.diaguard.feature.category;
 
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 
@@ -27,8 +27,8 @@ public class CategoryComparatorFactory {
 
     public void invalidate() {
         sortCache = new HashMap<>();
-        Comparator<Category> comparator = (first, second) -> PreferenceHelper.getInstance().getCategorySortIndex(first) - PreferenceHelper.getInstance().getCategorySortIndex(second);
-        List<Category> categories = PreferenceHelper.getInstance().getSortedCategories(comparator);
+        Comparator<Category> comparator = (first, second) -> PreferenceStore.getInstance().getCategorySortIndex(first) - PreferenceStore.getInstance().getCategorySortIndex(second);
+        List<Category> categories = PreferenceStore.getInstance().getSortedCategories(comparator);
         for (int sortIndex = 0; sortIndex < categories.size(); sortIndex++) {
             Category category = categories.get(sortIndex);
             sortCache.put(category, sortIndex);

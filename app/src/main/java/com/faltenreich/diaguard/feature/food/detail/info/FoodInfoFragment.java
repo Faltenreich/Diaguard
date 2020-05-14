@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.event.data.FoodDeletedEvent;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
@@ -53,10 +53,10 @@ public class FoodInfoFragment extends BaseFoodFragment {
             brand.setText(TextUtils.isEmpty(food.getBrand()) ? placeholder : food.getBrand());
             ingredients.setText(TextUtils.isEmpty(food.getIngredients()) ? placeholder : food.getIngredients());
 
-            float mealValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(
+            float mealValue = PreferenceStore.getInstance().formatDefaultToCustomUnit(
                     Category.MEAL,
                     food.getCarbohydrates());
-            value.setText(String.format("%s %s", FloatUtils.parseFloat(mealValue), PreferenceHelper.getInstance().getLabelForMealPer100g(getContext())));
+            value.setText(String.format("%s %s", FloatUtils.parseFloat(mealValue), PreferenceStore.getInstance().getLabelForMealPer100g(getContext())));
 
             labels.removeAllViews();
             if (food.getLabels() != null && food.getLabels().length() > 0) {

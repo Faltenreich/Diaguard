@@ -13,7 +13,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.ui.FoodEatenRemovedEvent;
@@ -53,7 +53,7 @@ class FoodInputViewHolder extends BaseViewHolder<FoodEaten> {
         name.setText(food.getName());
         value.setText(String.format("%s %s",
             food.getValueForUi(),
-            PreferenceHelper.getInstance().getLabelForMealPer100g(getContext()))
+            PreferenceStore.getInstance().getLabelForMealPer100g(getContext()))
         );
         delete.setContentDescription(String.format(getContext().getString(R.string.remove_placeholder), food.getName()));
 

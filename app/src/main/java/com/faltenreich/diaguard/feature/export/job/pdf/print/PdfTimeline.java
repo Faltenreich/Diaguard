@@ -9,7 +9,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportCache;
@@ -179,7 +179,7 @@ public class PdfTimeline implements PdfPrintable {
                     value = item.getValueThree();
                     break;
             }
-            float customValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, value);
+            float customValue = PreferenceStore.getInstance().formatDefaultToCustomUnit(category, value);
             String text = customValue > 0 ? FloatUtils.parseFloat(customValue) : "";
             valueCell.setText(text);
 
@@ -267,7 +267,7 @@ public class PdfTimeline implements PdfPrintable {
             int labelValue = yStep;
             float labelY;
             while ((labelY = contentStartY + contentHeight - ((labelValue / yMax) * contentHeight)) >= contentStartY) {
-                label.setText(PreferenceHelper.getInstance().getMeasurementForUi(Category.BLOODSUGAR, labelValue));
+                label.setText(PreferenceStore.getInstance().getMeasurementForUi(Category.BLOODSUGAR, labelValue));
                 label.setPosition(chartStartX, labelY + (label.getHeight() / 4));
                 label.placeIn(chart);
                 label.drawOn(page);
@@ -293,9 +293,9 @@ public class PdfTimeline implements PdfPrintable {
                 point.setPosition(x, y);
                 int color = Color.black;
                 if (cache.getConfig().isHighlightLimits()) {
-                    if (value > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
+                    if (value > PreferenceStore.getInstance().getLimitHyperglycemia()) {
                         color = cache.getColorHyperglycemia();
-                    } else if (value < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
+                    } else if (value < PreferenceStore.getInstance().getLimitHypoglycemia()) {
                         color = cache.getColorHypoglycemia();
                     }
                 }

@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.feature.preference.factor;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.preference.MealFactorChangedEvent;
 
@@ -18,22 +18,22 @@ public class MealFactorPreference extends FactorPreference {
 
     @Override
     protected void setTimeInterval(TimeInterval interval) {
-        PreferenceHelper.getInstance().setFactorInterval(interval);
+        PreferenceStore.getInstance().setFactorInterval(interval);
     }
 
     @Override
     protected TimeInterval getTimeInterval() {
-        return PreferenceHelper.getInstance().getFactorInterval();
+        return PreferenceStore.getInstance().getFactorInterval();
     }
 
     @Override
     protected void storeValueForHour(float value, int hourOfDay) {
-        PreferenceHelper.getInstance().setFactorForHour(hourOfDay, value);
+        PreferenceStore.getInstance().setFactorForHour(hourOfDay, value);
     }
 
     @Override
     protected float getValueForHour(int hourOfDay) {
-        return PreferenceHelper.getInstance().getFactorForHour(hourOfDay);
+        return PreferenceStore.getInstance().getFactorForHour(hourOfDay);
     }
 
     @Override

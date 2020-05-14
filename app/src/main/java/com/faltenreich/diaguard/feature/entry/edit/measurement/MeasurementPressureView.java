@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.feature.entry.edit.measurement;
 import android.content.Context;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Pressure;
@@ -48,18 +48,18 @@ public class MeasurementPressureView extends MeasurementAbstractView<Pressure> {
 
     @Override
     protected boolean isValid() {
-        return PreferenceHelper.getInstance().isValueValid(systolic.getInputView(), Category.PRESSURE) &&
-                PreferenceHelper.getInstance().isValueValid(diastolic.getInputView(), Category.PRESSURE);
+        return PreferenceStore.getInstance().isValueValid(systolic.getInputView(), Category.PRESSURE) &&
+                PreferenceStore.getInstance().isValueValid(diastolic.getInputView(), Category.PRESSURE);
     }
 
     @Override
     public Measurement getMeasurement() {
         if (isValid()) {
             measurement.setValues(
-                    PreferenceHelper.getInstance().formatCustomToDefaultUnit(
+                    PreferenceStore.getInstance().formatCustomToDefaultUnit(
                             measurement.getCategory(),
                             FloatUtils.parseNumber(systolic.getText())),
-                    PreferenceHelper.getInstance().formatCustomToDefaultUnit(
+                    PreferenceStore.getInstance().formatCustomToDefaultUnit(
                             measurement.getCategory(),
                             FloatUtils.parseNumber(diastolic.getText())));
             return measurement;

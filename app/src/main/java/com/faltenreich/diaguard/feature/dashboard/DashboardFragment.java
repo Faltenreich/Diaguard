@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
@@ -116,10 +116,10 @@ public class DashboardFragment extends BaseFragment implements MainButton {
                 textViewLatestValue.setText(bloodSugar.toString());
 
                 // Highlighting
-                if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
-                    if (bloodSugar.getMgDl() > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
+                if (PreferenceStore.getInstance().limitsAreHighlighted()) {
+                    if (bloodSugar.getMgDl() > PreferenceStore.getInstance().getLimitHyperglycemia()) {
                         textViewLatestValue.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
-                    } else if (bloodSugar.getMgDl() < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
+                    } else if (bloodSugar.getMgDl() < PreferenceStore.getInstance().getLimitHypoglycemia()) {
                         textViewLatestValue.setTextColor(ContextCompat.getColor(getContext(), R.color.blue));
                     } else {
                         textViewLatestValue.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
@@ -175,9 +175,9 @@ public class DashboardFragment extends BaseFragment implements MainButton {
         chart.getXAxis().setDrawGridLines(false);
         chart.getXAxis().setTextColor(ContextCompat.getColor(getContext(), R.color.gray_dark));
         chart.getAxisLeft().removeAllLimitLines();
-        float targetValue = PreferenceHelper.getInstance().
+        float targetValue = PreferenceStore.getInstance().
                 formatDefaultToCustomUnit(Category.BLOODSUGAR,
-                        PreferenceHelper.getInstance().getTargetValue());
+                        PreferenceStore.getInstance().getTargetValue());
         chart.getAxisLeft().addLimitLine(ChartUtils.getLimitLine(getContext(), targetValue, R.color.gray_light));
         chart.getXAxis().setValueFormatter((value, axis) -> {
             int daysPast = -(timeSpan.stepsPerInterval - (int) value);

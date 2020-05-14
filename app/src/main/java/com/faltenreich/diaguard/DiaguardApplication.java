@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.faltenreich.diaguard.shared.data.database.ImportHelper;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.Database;
 import com.faltenreich.diaguard.shared.data.database.migration.Migrator;
 import com.faltenreich.diaguard.shared.view.image.ImageLoader;
@@ -34,14 +34,14 @@ public class DiaguardApplication extends Application {
     private void init() {
         context = getApplicationContext();
         JodaTimeAndroid.init(this);
-        PreferenceHelper.getInstance().init(this);
+        PreferenceStore.getInstance().init(this);
         Database.getInstance().init(this);
         ImportHelper.validateImports(this);
         LicenseResolver.registerLicense(new OpenDatabaseLicense());
-        PreferenceHelper.getInstance().migrate();
+        PreferenceStore.getInstance().migrate();
         Migrator.getInstance().start(this);
         NotificationUtils.setupNotifications(this);
-        Theme theme = PreferenceHelper.getInstance().getTheme();
+        Theme theme = PreferenceStore.getInstance().getTheme();
         ThemeUtils.setDefaultNightMode(theme);
         ThemeUtils.setUiMode(this, theme);
         ImageLoader.getInstance().init(this);

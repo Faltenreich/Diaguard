@@ -16,6 +16,7 @@ import com.faltenreich.diaguard.feature.category.CategoryComparatorFactory;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportStyle;
 import com.faltenreich.diaguard.feature.navigation.MainFragmentType;
 import com.faltenreich.diaguard.feature.preference.factor.Daytime;
+import com.faltenreich.diaguard.feature.preference.factor.FactorUnit;
 import com.faltenreich.diaguard.feature.preference.factor.TimeInterval;
 import com.faltenreich.diaguard.feature.timeline.TimelineStyle;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
@@ -33,33 +34,17 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
-public class PreferenceHelper {
+public class PreferenceStore {
 
-    private static final String TAG = PreferenceHelper.class.getSimpleName();
+    private static final String TAG = PreferenceStore.class.getSimpleName();
     private static final String INPUT_QUERIES_SEPARATOR = ";";
     private static final int INPUT_QUERIES_MAXIMUM_COUNT = 10;
 
-    public enum FactorUnit {
-        CARBOHYDRATES_UNIT(0, R.string.unit_factor_carbohydrates_unit, .1f),
-        BREAD_UNITS(1, R.string.unit_factor_bread_unit, .0833f);
+    private static PreferenceStore instance;
 
-        public int index;
-        public @StringRes
-        int titleResId;
-        public float factor;
-
-        FactorUnit(int index, @StringRes int titleResId, float factor) {
-            this.index = index;
-            this.titleResId = titleResId;
-            this.factor = factor;
-        }
-    }
-
-    private static PreferenceHelper instance;
-
-    public static PreferenceHelper getInstance() {
+    public static PreferenceStore getInstance() {
         if (instance == null) {
-            instance = new PreferenceHelper();
+            instance = new PreferenceStore();
         }
         return instance;
     }
@@ -67,7 +52,7 @@ public class PreferenceHelper {
     private SharedPreferences sharedPreferences;
     private Context context;
 
-    private PreferenceHelper() {
+    private PreferenceStore() {
 
     }
 
@@ -214,11 +199,11 @@ public class PreferenceHelper {
         boolean isValid = true;
         textView.setError(null);
         try {
-            float value = PreferenceHelper.getInstance().formatCustomToDefaultUnit(category, FloatUtils.parseNumber(textView.getText().toString()));
+            float value = PreferenceStore.getInstance().formatCustomToDefaultUnit(category, FloatUtils.parseNumber(textView.getText().toString()));
             if (allowNegativeValues) {
                 value = Math.abs(value);
             }
-            if (!PreferenceHelper.getInstance().validateEventValue(category, value)) {
+            if (!PreferenceStore.getInstance().validateEventValue(category, value)) {
                 textView.setError(textView.getContext().getString(R.string.validator_value_unrealistic));
                 isValid = false;
             }

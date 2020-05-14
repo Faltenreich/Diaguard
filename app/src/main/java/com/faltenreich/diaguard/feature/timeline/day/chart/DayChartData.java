@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.timeline.TimelineStyle;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.primitive.ArrayUtils;
@@ -47,7 +47,7 @@ class DayChartData extends CombinedData {
     DayChartData(Context context, List<Measurement> values) {
         super();
         this.context = context;
-        this.timelineStyle = PreferenceHelper.getInstance().getTimelineStyle();
+        this.timelineStyle = PreferenceStore.getInstance().getTimelineStyle();
         this.values = values;
         init();
     }
@@ -57,7 +57,7 @@ class DayChartData extends CombinedData {
             for (Measurement value : values) {
                 int xValue = value.getEntry().getDate().getMinuteOfDay();
                 float yValue = ArrayUtils.sum(value.getValues());
-                yValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Category.BLOODSUGAR, yValue);
+                yValue = PreferenceStore.getInstance().formatDefaultToCustomUnit(Category.BLOODSUGAR, yValue);
                 Entry chartEntry = new Entry(xValue, yValue, value.getEntry());
                 addEntry(chartEntry);
             }
@@ -122,10 +122,10 @@ class DayChartData extends CombinedData {
 
     private void addEntry(Entry entry) {
         float yValue = entry.getY();
-        if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
-            if (yValue > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
+        if (PreferenceStore.getInstance().limitsAreHighlighted()) {
+            if (yValue > PreferenceStore.getInstance().getLimitHyperglycemia()) {
                 addEntry(entry, DataSetType.HYPER);
-            } else if (yValue < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
+            } else if (yValue < PreferenceStore.getInstance().getLimitHypoglycemia()) {
                 addEntry(entry, DataSetType.HYPO);
             } else {
                 addEntry(entry, DataSetType.TARGET);

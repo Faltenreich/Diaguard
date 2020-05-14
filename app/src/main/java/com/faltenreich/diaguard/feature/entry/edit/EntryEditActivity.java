@@ -23,7 +23,7 @@ import androidx.core.widget.NestedScrollView;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.tag.TagListActivity;
 import com.faltenreich.diaguard.shared.Helper;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
@@ -185,7 +185,7 @@ public class EntryEditActivity extends BaseActivity implements MeasurementFloati
                 time = (DateTime) arguments.getSerializable(EXTRA_DATE);
             }
         }
-        activeCategories = PreferenceHelper.getInstance().getActiveCategories();
+        activeCategories = PreferenceStore.getInstance().getActiveCategories();
     }
 
     private void initLayout() {
@@ -308,7 +308,7 @@ public class EntryEditActivity extends BaseActivity implements MeasurementFloati
 
     private void addPinnedCategories() {
         for (Category category : activeCategories) {
-            if (PreferenceHelper.getInstance().isCategoryPinned(category) && !layoutMeasurements.hasCategory(category)) {
+            if (PreferenceStore.getInstance().isCategoryPinned(category) && !layoutMeasurements.hasCategory(category)) {
                 layoutMeasurements.addMeasurementAtEnd(category);
             }
         }

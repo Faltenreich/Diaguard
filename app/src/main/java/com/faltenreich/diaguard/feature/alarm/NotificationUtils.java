@@ -13,7 +13,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.TaskStackBuilder;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
 
 import org.joda.time.DateTimeConstants;
@@ -54,8 +54,8 @@ public class NotificationUtils {
                 .setContentText(message)
                 .setTicker(title)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setSound(PreferenceHelper.getInstance().isSoundAllowed() ? RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION) : null)
-                .setVibrate(shouldNotificationVibrate(context) && PreferenceHelper.getInstance().isVibrationAllowed() ? new long[]{VIBRATION_DURATION_IN_MILLIS} : null);
+                .setSound(PreferenceStore.getInstance().isSoundAllowed() ? RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION) : null)
+                .setVibrate(shouldNotificationVibrate(context) && PreferenceStore.getInstance().isVibrationAllowed() ? new long[]{VIBRATION_DURATION_IN_MILLIS} : null);
         Intent resultIntent = new Intent(context, EntryEditActivity.class);
 
         // Put target activity on back stack on top of its parent to guarantee correct back navigation

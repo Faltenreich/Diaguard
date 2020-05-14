@@ -22,7 +22,7 @@ import com.faltenreich.diaguard.feature.preference.PreferenceActivity;
 import com.faltenreich.diaguard.feature.preference.PreferenceLink;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.FoodDeletedEvent;
 import com.faltenreich.diaguard.shared.event.data.FoodQueryEndedEvent;
@@ -101,7 +101,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
     }
 
     private void initLayout() {
-        unitTextView.setText(PreferenceHelper.getInstance().getLabelForMealPer100g(requireContext()));
+        unitTextView.setText(PreferenceStore.getInstance().getLabelForMealPer100g(requireContext()));
 
         swipeRefreshLayout.setColorSchemeResources(R.color.green, R.color.green_light, R.color.green_lighter);
         swipeRefreshLayout.setOnRefreshListener(() -> {
@@ -111,7 +111,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
 
         searchView.setSearchListener(this);
         searchView.setAction(new SearchViewAction(R.drawable.ic_more_vertical, R.string.menu_open, (view) -> openSettings()));
-        searchView.setSuggestions(PreferenceHelper.getInstance().getInputQueries());
+        searchView.setSuggestions(PreferenceStore.getInstance().getInputQueries());
     }
 
     private void showError(@DrawableRes int iconResId, @StringRes int textResId, @StringRes int descResId, @StringRes int buttonTextResId) {
@@ -214,7 +214,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
 
     @Override
     public void onQueryChanged(String query) {
-        PreferenceHelper.getInstance().addInputQuery(query);
+        PreferenceStore.getInstance().addInputQuery(query);
         query(query);
     }
 

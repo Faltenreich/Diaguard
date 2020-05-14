@@ -7,7 +7,7 @@ import android.view.MotionEvent;
 import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.view.floatingactionbutton.FloatingActionButtonFactory;
 import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
@@ -76,7 +76,7 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
         if (hasChanged()) {
             removeAllMenuButtons();
 
-            Category[] activeCategories = PreferenceHelper.getInstance().getActiveCategories();
+            Category[] activeCategories = PreferenceStore.getInstance().getActiveCategories();
             int menuButtonCount = 0;
             int position = 0;
             while (position < activeCategories.length && menuButtonCount < MAX_BUTTON_COUNT) {

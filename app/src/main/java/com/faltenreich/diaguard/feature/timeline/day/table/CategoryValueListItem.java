@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.feature.timeline.day.table;
 
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 
 /**
@@ -57,26 +57,26 @@ public class CategoryValueListItem extends CategoryListItem {
         if (getCategory().stackValues()) {
             float value = getValueTotal();
             if (value > 0) {
-                value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(getCategory(), getValueTotal());
+                value = PreferenceStore.getInstance().formatDefaultToCustomUnit(getCategory(), getValueTotal());
                 stringBuilder.append(FloatUtils.parseFloat(value));
             }
         } else {
             if (getValueOne() > 0) {
-                float value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(getCategory(), getValueOne());
+                float value = PreferenceStore.getInstance().formatDefaultToCustomUnit(getCategory(), getValueOne());
                 stringBuilder.append(FloatUtils.parseFloat(value));
             }
             if (getValueTwo() > 0) {
                 if (stringBuilder.length() > 0) {
                     stringBuilder.append("\n");
                 }
-                float value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(getCategory(), getValueTwo());
+                float value = PreferenceStore.getInstance().formatDefaultToCustomUnit(getCategory(), getValueTwo());
                 stringBuilder.append(FloatUtils.parseFloat(value));
             }
             if (getValueThree() > 0) {
                 if (stringBuilder.length() > 0) {
                     stringBuilder.append("\n");
                 }
-                float value = PreferenceHelper.getInstance().formatDefaultToCustomUnit(getCategory(), getValueThree());
+                float value = PreferenceStore.getInstance().formatDefaultToCustomUnit(getCategory(), getValueThree());
                 stringBuilder.append(FloatUtils.parseFloat(value));
             }
         }

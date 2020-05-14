@@ -7,7 +7,7 @@ import android.util.Log;
 import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
@@ -67,7 +67,7 @@ public class MeasurementAverageTask extends BaseAsyncTask<Void, Void, LineData> 
             if (measurement != null) {
                 for (Float avg : measurement.getValues()) {
                     if (FloatUtils.isValid(avg) && avg > 0) {
-                        float yValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, avg);
+                        float yValue = PreferenceStore.getInstance().formatDefaultToCustomUnit(category, avg);
                         entries.add(new Entry(index, yValue));
                         if (yValue > highestValue) {
                             highestValue = yValue;
@@ -96,9 +96,9 @@ public class MeasurementAverageTask extends BaseAsyncTask<Void, Void, LineData> 
         // Workaround to set visible area
         if (forceDrawing) {
             if (category == Category.BLOODSUGAR) {
-                float targetValue = PreferenceHelper.getInstance().
+                float targetValue = PreferenceStore.getInstance().
                         formatDefaultToCustomUnit(Category.BLOODSUGAR,
-                                PreferenceHelper.getInstance().getTargetValue());
+                                PreferenceStore.getInstance().getTargetValue());
                 targetValue = targetValue * 2;
                 if (highestValue == 0 || highestValue < targetValue) {
                     highestValue = targetValue;

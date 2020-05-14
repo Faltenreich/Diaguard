@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.feature.export.job;
 
 import android.content.Context;
 
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 
 import org.joda.time.DateTime;
@@ -68,6 +68,6 @@ public abstract class ExportConfig {
     }
 
     public void persistInSharedPreferences() {
-        PreferenceHelper.getInstance().setExportCategories(categories);
+        PreferenceStore.getInstance().setExportCategories(categories);
     }
 }

@@ -5,7 +5,7 @@ import android.content.Context;
 import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.view.chart.PercentValueFormatter;
 import com.faltenreich.diaguard.feature.datetime.TimeSpan;
@@ -37,8 +37,8 @@ public class BloodSugarDistributionTask extends BaseAsyncTask<Void, Void, PieDat
     protected PieData doInBackground(Void... params) {
         List<PieEntry> entries = new ArrayList<>();
 
-        float limitHypo = PreferenceHelper.getInstance().getLimitHypoglycemia();
-        float limitHyper = PreferenceHelper.getInstance().getLimitHyperglycemia();
+        float limitHypo = PreferenceStore.getInstance().getLimitHypoglycemia();
+        float limitHyper = PreferenceStore.getInstance().getLimitHyperglycemia();
 
         Interval interval = timeSpan.getInterval(DateTime.now(), -1);
         long targetCount = EntryDao.getInstance().countBetween(interval.getStart(), interval.getEnd(), limitHypo,  limitHyper);

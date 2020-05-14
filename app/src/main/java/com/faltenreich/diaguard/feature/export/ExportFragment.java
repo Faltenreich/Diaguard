@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.permission.PermissionRequestEvent;
@@ -139,20 +139,20 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
 
     private void initLayout() {
         setFormat(FileType.PDF);
-        setStyle(PreferenceHelper.getInstance().getPdfExportStyle());
+        setStyle(PreferenceStore.getInstance().getPdfExportStyle());
 
         buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
         buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
 
-        ViewUtils.setChecked(checkBoxHeader, PreferenceHelper.getInstance().exportHeader(), false);
-        ViewUtils.setChecked(checkBoxFooter, PreferenceHelper.getInstance().exportFooter(), false);
-        ViewUtils.setChecked(checkBoxNotes, PreferenceHelper.getInstance().exportNotes(), false);
-        ViewUtils.setChecked(checkBoxTags, PreferenceHelper.getInstance().exportTags(), false);
+        ViewUtils.setChecked(checkBoxHeader, PreferenceStore.getInstance().exportHeader(), false);
+        ViewUtils.setChecked(checkBoxFooter, PreferenceStore.getInstance().exportFooter(), false);
+        ViewUtils.setChecked(checkBoxNotes, PreferenceStore.getInstance().exportNotes(), false);
+        ViewUtils.setChecked(checkBoxTags, PreferenceStore.getInstance().exportTags(), false);
 
         checkBoxNotes.setOnCheckedChangeListener((buttonView, isChecked) ->
-            PreferenceHelper.getInstance().setExportNotes(isChecked));
+            PreferenceStore.getInstance().setExportNotes(isChecked));
         checkBoxTags.setOnCheckedChangeListener((buttonView, isChecked) ->
-            PreferenceHelper.getInstance().setExportTags(isChecked));
+            PreferenceStore.getInstance().setExportTags(isChecked));
 
         categoryCheckBoxList.setLayoutManager(new LinearLayoutManager(getContext()));
         categoryCheckBoxList.addItemDecoration(new LinearDividerItemDecoration(getContext()));
@@ -163,21 +163,21 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
 
     private void initCategories() {
         List<ExportCategoryListItem> items = new ArrayList<>();
-        Category[] activeCategories = PreferenceHelper.getInstance().getActiveCategories();
-        List<Category> selectedCategories = Arrays.asList(PreferenceHelper.getInstance().getExportCategories());
+        Category[] activeCategories = PreferenceStore.getInstance().getActiveCategories();
+        List<Category> selectedCategories = Arrays.asList(PreferenceStore.getInstance().getExportCategories());
 
         for (Category category : activeCategories) {
             boolean isCategorySelected = selectedCategories.contains(category);
             boolean isExtraSelected;
             switch (category) {
                 case BLOODSUGAR:
-                    isExtraSelected = PreferenceHelper.getInstance().limitsAreHighlighted();
+                    isExtraSelected = PreferenceStore.getInstance().limitsAreHighlighted();
                     break;
                 case INSULIN:
-                    isExtraSelected = PreferenceHelper.getInstance().exportInsulinSplit();
+                    isExtraSelected = PreferenceStore.getInstance().exportInsulinSplit();
                     break;
                 case MEAL:
-                    isExtraSelected = PreferenceHelper.getInstance().exportFood();
+                    isExtraSelected = PreferenceStore.getInstance().exportFood();
                     break;
                 default:
                     isExtraSelected = false;

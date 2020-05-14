@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.feature.preference.factor;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.preference.CorrectionFactorChangedEvent;
@@ -19,24 +19,24 @@ public class CorrectionFactorPreference extends FactorPreference {
 
     @Override
     protected void setTimeInterval(TimeInterval interval) {
-        PreferenceHelper.getInstance().setCorrectionInterval(interval);
+        PreferenceStore.getInstance().setCorrectionInterval(interval);
     }
 
     @Override
     protected TimeInterval getTimeInterval() {
-        return PreferenceHelper.getInstance().getCorrectionInterval();
+        return PreferenceStore.getInstance().getCorrectionInterval();
     }
 
     @Override
     protected void storeValueForHour(float value, int hourOfDay) {
-        value = PreferenceHelper.getInstance().formatCustomToDefaultUnit(Category.BLOODSUGAR, value);
-        PreferenceHelper.getInstance().setCorrectionForHour(hourOfDay, value);
+        value = PreferenceStore.getInstance().formatCustomToDefaultUnit(Category.BLOODSUGAR, value);
+        PreferenceStore.getInstance().setCorrectionForHour(hourOfDay, value);
     }
 
     @Override
     protected float getValueForHour(int hourOfDay) {
-        float value = PreferenceHelper.getInstance().getCorrectionForHour(hourOfDay);
-        return PreferenceHelper.getInstance().formatDefaultToCustomUnit(Category.BLOODSUGAR, value);
+        float value = PreferenceStore.getInstance().getCorrectionForHour(hourOfDay);
+        return PreferenceStore.getInstance().formatDefaultToCustomUnit(Category.BLOODSUGAR, value);
     }
 
     @Override

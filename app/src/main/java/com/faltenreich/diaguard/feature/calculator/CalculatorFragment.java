@@ -16,7 +16,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Insulin;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.shared.event.preference.BloodSugarPreferenceChangedEvent;
@@ -90,23 +90,23 @@ public class CalculatorFragment extends BaseFragment implements MainButton {
     }
 
     private void updateTargetValue() {
-        targetInput.setText(PreferenceHelper.getInstance().getMeasurementForUi(
+        targetInput.setText(PreferenceStore.getInstance().getMeasurementForUi(
             Category.BLOODSUGAR,
-            PreferenceHelper.getInstance().getTargetValue()));
+            PreferenceStore.getInstance().getTargetValue()));
     }
 
     private void updateCorrectionValue() {
-        correctionInput.setText(PreferenceHelper.getInstance().getMeasurementForUi(
+        correctionInput.setText(PreferenceStore.getInstance().getMeasurementForUi(
             Category.BLOODSUGAR,
-            PreferenceHelper.getInstance().getCorrectionForHour(
+            PreferenceStore.getInstance().getCorrectionForHour(
                 DateTime.now().getHourOfDay())));
     }
 
     private void updateMealFactor() {
         int hourOfDay = DateTime.now().getHourOfDay();
-        float factor = PreferenceHelper.getInstance().getFactorForHour(hourOfDay);
+        float factor = PreferenceStore.getInstance().getFactorForHour(hourOfDay);
         factorInput.setText(factor >= 0 ? FloatUtils.parseFloat(factor) : null);
-        factorInput.setHint(getString(PreferenceHelper.getInstance().getFactorUnit().titleResId));
+        factorInput.setHint(getString(PreferenceStore.getInstance().getFactorUnit().titleResId));
     }
 
     private boolean inputIsValid() {
@@ -137,26 +137,26 @@ public class CalculatorFragment extends BaseFragment implements MainButton {
     }
 
     private float getBloodSugar() {
-        return PreferenceHelper.getInstance().formatCustomToDefaultUnit(
+        return PreferenceStore.getInstance().formatCustomToDefaultUnit(
             Category.BLOODSUGAR,
             FloatUtils.parseNumber(bloodSugarInput.getText()));
     }
 
     private float getTargetBloodSugar() {
         return Validator.containsNumber(targetInput.getText()) ?
-            PreferenceHelper.getInstance().formatCustomToDefaultUnit(
+            PreferenceStore.getInstance().formatCustomToDefaultUnit(
                 Category.BLOODSUGAR,
                 FloatUtils.parseNumber(targetInput.getText())) :
-            PreferenceHelper.getInstance().getTargetValue();
+            PreferenceStore.getInstance().getTargetValue();
     }
 
     private float getCorrectionFactor() {
         int hourOfDay = DateTime.now().getHourOfDay();
         return Validator.containsNumber(correctionInput.getText()) ?
-            PreferenceHelper.getInstance().formatCustomToDefaultUnit(
+            PreferenceStore.getInstance().formatCustomToDefaultUnit(
                 Category.BLOODSUGAR,
                 FloatUtils.parseNumber(correctionInput.getText())) :
-            PreferenceHelper.getInstance().getCorrectionForHour(hourOfDay);
+            PreferenceStore.getInstance().getCorrectionForHour(hourOfDay);
     }
 
     private float getCarbohydrates() {
@@ -179,21 +179,21 @@ public class CalculatorFragment extends BaseFragment implements MainButton {
 
             float carbohydrates = getCarbohydrates();
             float mealFactor = getMealFactor();
-            float insulinBolus = carbohydrates * mealFactor * PreferenceHelper.getInstance().getFactorUnit().factor;
+            float insulinBolus = carbohydrates * mealFactor * PreferenceStore.getInstance().getFactorUnit().factor;
 
             StringBuilder builderFormula = new StringBuilder();
             StringBuilder builderFormulaContent = new StringBuilder();
 
             if (insulinBolus > 0) {
-                String mealAcronym = PreferenceHelper.getInstance().getUnitAcronym(Category.MEAL);
-                String factorAcronym = getString(PreferenceHelper.getInstance().getFactorUnit().titleResId);
+                String mealAcronym = PreferenceStore.getInstance().getUnitAcronym(Category.MEAL);
+                String factorAcronym = getString(PreferenceStore.getInstance().getFactorUnit().titleResId);
                 builderFormula.append(String.format("%s * %s",
                     mealAcronym,
                     factorAcronym));
                 builderFormula.append(" + ");
 
                 builderFormulaContent.append(String.format("%s %s * %s",
-                    PreferenceHelper.getInstance().getMeasurementForUi(Category.MEAL, carbohydrates),
+                    PreferenceStore.getInstance().getMeasurementForUi(Category.MEAL, carbohydrates),
                     mealAcronym,
                     FloatUtils.parseFloat(mealFactor)));
                 builderFormulaContent.append(" + ");
@@ -204,16 +204,16 @@ public class CalculatorFragment extends BaseFragment implements MainButton {
                 getString(R.string.pref_therapy_targets_target),
                 getString(R.string.correction_value)));
 
-            String bloodSugarUnit = PreferenceHelper.getInstance().getUnitAcronym(Category.BLOODSUGAR);
+            String bloodSugarUnit = PreferenceStore.getInstance().getUnitAcronym(Category.BLOODSUGAR);
             builderFormulaContent.append(String.format("(%s %s - %s %s) / %s %s",
-                PreferenceHelper.getInstance().getMeasurementForUi(Category.BLOODSUGAR, bloodSugar), bloodSugarUnit,
-                PreferenceHelper.getInstance().getMeasurementForUi(Category.BLOODSUGAR, targetBloodSugar), bloodSugarUnit,
-                PreferenceHelper.getInstance().getMeasurementForUi(Category.BLOODSUGAR, correctionFactor), bloodSugarUnit));
+                PreferenceStore.getInstance().getMeasurementForUi(Category.BLOODSUGAR, bloodSugar), bloodSugarUnit,
+                PreferenceStore.getInstance().getMeasurementForUi(Category.BLOODSUGAR, targetBloodSugar), bloodSugarUnit,
+                PreferenceStore.getInstance().getMeasurementForUi(Category.BLOODSUGAR, correctionFactor), bloodSugarUnit));
 
             builderFormula.append(String.format(" = %s", getString(R.string.bolus)));
             builderFormulaContent.append(String.format(" = %s %s",
                 FloatUtils.parseFloat(insulinBolus + insulinCorrection),
-                PreferenceHelper.getInstance().getUnitAcronym(Category.INSULIN)));
+                PreferenceStore.getInstance().getUnitAcronym(Category.INSULIN)));
 
             showResult(builderFormula.toString(), builderFormulaContent.toString(), bloodSugar, carbohydrates, insulinBolus, insulinCorrection);
         }
@@ -255,7 +255,7 @@ public class CalculatorFragment extends BaseFragment implements MainButton {
         textViewValue.setText(FloatUtils.parseFloat(insulin));
 
         TextView textViewUnit = viewPopup.findViewById(R.id.textViewUnit);
-        textViewUnit.setText(PreferenceHelper.getInstance().getUnitAcronym(Category.INSULIN));
+        textViewUnit.setText(PreferenceStore.getInstance().getUnitAcronym(Category.INSULIN));
 
         dialogBuilder.setView(viewPopup)
             .setTitle(R.string.bolus)

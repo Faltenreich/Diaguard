@@ -8,7 +8,7 @@ import androidx.annotation.StringRes;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.export.Backupable;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
@@ -280,7 +280,7 @@ public class Food extends BaseServerEntity implements Backupable {
 
     public String getValueForUi() {
         if (carbohydrates != null) {
-            float valueFormatted = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Category.MEAL, carbohydrates);
+            float valueFormatted = PreferenceStore.getInstance().formatDefaultToCustomUnit(Category.MEAL, carbohydrates);
             return FloatUtils.parseFloat(valueFormatted);
         } else {
             return "";

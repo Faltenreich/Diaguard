@@ -18,7 +18,7 @@ import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
@@ -91,7 +91,7 @@ public class StatisticFragment extends BaseFragment {
     }
 
     private void initSpinners() {
-        final Category[] categories = PreferenceHelper.getInstance().getActiveCategories();
+        final Category[] categories = PreferenceStore.getInstance().getActiveCategories();
         List<String> categoryNames = new ArrayList<>();
         for (Category category : categories) {
             categoryNames.add(getString(category.getStringResId()));
@@ -151,8 +151,8 @@ public class StatisticFragment extends BaseFragment {
 
         Measurement avgMeasurement = MeasurementDao.getInstance(category.toClass()).getAvgMeasurement(category, interval);
         textViewAvgUnit.setText(category.stackValues() ?
-                String.format("%s %s", PreferenceHelper.getInstance().getUnitName(category), getString(R.string.per_day)) :
-                PreferenceHelper.getInstance().getUnitName(category));
+                String.format("%s %s", PreferenceStore.getInstance().getUnitName(category), getString(R.string.per_day)) :
+                PreferenceStore.getInstance().getUnitName(category));
 
         textViewAvgValue.setText(avgMeasurement.toString());
 
@@ -163,8 +163,8 @@ public class StatisticFragment extends BaseFragment {
         if (category == Category.BLOODSUGAR) {
             layoutAvgHyper.setVisibility(View.VISIBLE);
             layoutAvgHypo.setVisibility(View.VISIBLE);
-            long hyperCount = EntryDao.getInstance().countAbove(interval.getStart(), interval.getEnd(), PreferenceHelper.getInstance().getLimitHyperglycemia());
-            long hypoCount = EntryDao.getInstance().countBelow(interval.getStart(), interval.getEnd(), PreferenceHelper.getInstance().getLimitHypoglycemia());
+            long hyperCount = EntryDao.getInstance().countAbove(interval.getStart(), interval.getEnd(), PreferenceStore.getInstance().getLimitHyperglycemia());
+            long hypoCount = EntryDao.getInstance().countBelow(interval.getStart(), interval.getEnd(), PreferenceStore.getInstance().getLimitHypoglycemia());
             float avgHypersPerDay = (float) hyperCount / (float) days;
             float avgHyposPerDay = (float) hypoCount / (float) days;
             textViewAvgHyper.setText(FloatUtils.parseFloat(avgHypersPerDay));
@@ -227,8 +227,8 @@ public class StatisticFragment extends BaseFragment {
                 chartTrend.setLayoutParams(params);
 
                 if (hasData) {
-                    float yAxisMinValue = PreferenceHelper.getInstance().getExtrema(category)[0] * .9f;
-                    float yAxisMinCustomValue = PreferenceHelper.getInstance().formatDefaultToCustomUnit(category, yAxisMinValue);
+                    float yAxisMinValue = PreferenceStore.getInstance().getExtrema(category)[0] * .9f;
+                    float yAxisMinCustomValue = PreferenceStore.getInstance().formatDefaultToCustomUnit(category, yAxisMinValue);
                     chartTrend.getAxisLeft().setAxisMinValue(yAxisMinCustomValue);
 
                     float yAxisMaxCustomValue = lineData.getYMax();
@@ -236,19 +236,19 @@ public class StatisticFragment extends BaseFragment {
                     chartTrend.getAxisLeft().setAxisMaxValue(yAxisMaxCustomValue * 1.1f);
 
                     if (category == Category.BLOODSUGAR) {
-                        float targetValue = PreferenceHelper.getInstance().
+                        float targetValue = PreferenceStore.getInstance().
                                 formatDefaultToCustomUnit(Category.BLOODSUGAR,
-                                        PreferenceHelper.getInstance().getTargetValue());
+                                        PreferenceStore.getInstance().getTargetValue());
                         chartTrend.getAxisLeft().addLimitLine(ChartUtils.getLimitLine(getContext(), targetValue, R.color.green));
 
-                        if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
-                            float limitHypo = PreferenceHelper.getInstance().
+                        if (PreferenceStore.getInstance().limitsAreHighlighted()) {
+                            float limitHypo = PreferenceStore.getInstance().
                                     formatDefaultToCustomUnit(Category.BLOODSUGAR,
-                                            PreferenceHelper.getInstance().getLimitHypoglycemia());
+                                            PreferenceStore.getInstance().getLimitHypoglycemia());
                             chartTrend.getAxisLeft().addLimitLine(ChartUtils.getLimitLine(getContext(), limitHypo, R.color.blue));
-                            float limitHyper = PreferenceHelper.getInstance().
+                            float limitHyper = PreferenceStore.getInstance().
                                     formatDefaultToCustomUnit(Category.BLOODSUGAR,
-                                            PreferenceHelper.getInstance().getLimitHyperglycemia());
+                                            PreferenceStore.getInstance().getLimitHyperglycemia());
                             chartTrend.getAxisLeft().addLimitLine(ChartUtils.getLimitLine(getContext(), limitHyper, R.color.red));
                         }
                     }

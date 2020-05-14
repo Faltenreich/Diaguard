@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.feature.export.job.pdf.meta;
 
 import android.content.Context;
 
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.feature.export.job.ExportCallback;
 import com.faltenreich.diaguard.feature.export.job.ExportConfig;
@@ -82,13 +82,13 @@ public class PdfExportConfig extends ExportConfig {
     @Override
     public void persistInSharedPreferences() {
         super.persistInSharedPreferences();
-        PreferenceHelper.getInstance().setPdfExportStyle(style);
-        PreferenceHelper.getInstance().setExportHeader(exportHeader);
-        PreferenceHelper.getInstance().setExportFooter(exportFooter);
-        PreferenceHelper.getInstance().setExportNotes(exportNotes);
-        PreferenceHelper.getInstance().setExportTags(exportTags);
-        PreferenceHelper.getInstance().setExportFood(exportFood);
-        PreferenceHelper.getInstance().setExportInsulinSplit(splitInsulin);
-        PreferenceHelper.getInstance().setLimitsAreHighlighted(highlightLimits);
+        PreferenceStore.getInstance().setPdfExportStyle(style);
+        PreferenceStore.getInstance().setExportHeader(exportHeader);
+        PreferenceStore.getInstance().setExportFooter(exportFooter);
+        PreferenceStore.getInstance().setExportNotes(exportNotes);
+        PreferenceStore.getInstance().setExportTags(exportTags);
+        PreferenceStore.getInstance().setExportFood(exportFood);
+        PreferenceStore.getInstance().setExportInsulinSplit(splitInsulin);
+        PreferenceStore.getInstance().setLimitsAreHighlighted(highlightLimits);
     }
 }

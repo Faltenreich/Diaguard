@@ -11,7 +11,7 @@ import com.faltenreich.diaguard.feature.preference.PreferenceFragment;
 import com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreference;
 import com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreferenceDialogFragment;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 
 import java.util.Locale;
@@ -59,7 +59,7 @@ public class LimitPreferenceFragment extends PreferenceFragment
     }
 
     private void invalidateEnabledStates() {
-        boolean isEnabled = PreferenceHelper.getInstance().limitsAreHighlighted();
+        boolean isEnabled = PreferenceStore.getInstance().limitsAreHighlighted();
         requirePreference(getString(R.string.preference_extrema_hyperclycemia)).setEnabled(isEnabled);
         requirePreference(getString(R.string.preference_extrema_hypoclycemia)).setEnabled(isEnabled);
         requirePreference(getString(R.string.preference_extrema_target)).setEnabled(isEnabled);
@@ -72,33 +72,33 @@ public class LimitPreferenceFragment extends PreferenceFragment
     }
 
     private String getSummaryForLimit(float limit) {
-        float custom = PreferenceHelper.getInstance().formatDefaultToCustomUnit(Category.BLOODSUGAR, limit);
+        float custom = PreferenceStore.getInstance().formatDefaultToCustomUnit(Category.BLOODSUGAR, limit);
         return String.format(
             Locale.getDefault(),
             "%s %s",
             FloatUtils.parseFloat(custom),
-            PreferenceHelper.getInstance().getUnitAcronym(Category.BLOODSUGAR)
+            PreferenceStore.getInstance().getUnitAcronym(Category.BLOODSUGAR)
         );
     }
 
     private void setSummaryForHyperglycemia() {
         Preference preference = requirePreference(getString(R.string.preference_extrema_hyperclycemia));
         preference.setSummaryProvider(pref ->
-            getSummaryForLimit(PreferenceHelper.getInstance().getLimitHyperglycemia())
+            getSummaryForLimit(PreferenceStore.getInstance().getLimitHyperglycemia())
         );
     }
 
     private void setSummaryForHypoglycemia() {
         Preference preference = requirePreference(getString(R.string.preference_extrema_hypoclycemia));
         preference.setSummaryProvider(pref ->
-            getSummaryForLimit(PreferenceHelper.getInstance().getLimitHypoglycemia())
+            getSummaryForLimit(PreferenceStore.getInstance().getLimitHypoglycemia())
         );
     }
 
     private void setSummaryForTarget() {
         Preference preference = requirePreference(getString(R.string.preference_extrema_target));
         preference.setSummaryProvider(pref ->
-            getSummaryForLimit(PreferenceHelper.getInstance().getTargetValue())
+            getSummaryForLimit(PreferenceStore.getInstance().getTargetValue())
         );
     }
 }

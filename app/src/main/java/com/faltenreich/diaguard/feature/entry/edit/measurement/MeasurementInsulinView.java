@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.feature.entry.edit.measurement;
 import android.content.Context;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Insulin;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
@@ -60,13 +60,13 @@ public class MeasurementInsulinView extends MeasurementAbstractView<Insulin> {
             isValid = false;
         } else {
             if (!StringUtils.isBlank(bolus)) {
-                isValid = PreferenceHelper.getInstance().isValueValid(inputBolus.getInputView(), Category.INSULIN);
+                isValid = PreferenceStore.getInstance().isValueValid(inputBolus.getInputView(), Category.INSULIN);
             }
             if (!StringUtils.isBlank(correction)) {
-                isValid = PreferenceHelper.getInstance().isValueValid(inputCorrection.getInputView(), Category.INSULIN, true);
+                isValid = PreferenceStore.getInstance().isValueValid(inputCorrection.getInputView(), Category.INSULIN, true);
             }
             if (!StringUtils.isBlank(basal)) {
-                isValid = PreferenceHelper.getInstance().isValueValid(inputBasal.getInputView(), Category.INSULIN);
+                isValid = PreferenceStore.getInstance().isValueValid(inputBasal.getInputView(), Category.INSULIN);
             }
         }
         return isValid;
@@ -77,15 +77,15 @@ public class MeasurementInsulinView extends MeasurementAbstractView<Insulin> {
         if (isValid()) {
             measurement.setValues(
                     inputBolus.getText().length() > 0 ?
-                            PreferenceHelper.getInstance().formatCustomToDefaultUnit(
+                            PreferenceStore.getInstance().formatCustomToDefaultUnit(
                                     measurement.getCategory(),
                                     FloatUtils.parseNumber(inputBolus.getText())) : 0,
                     inputCorrection.getText().length() > 0 ?
-                            PreferenceHelper.getInstance().formatCustomToDefaultUnit(
+                            PreferenceStore.getInstance().formatCustomToDefaultUnit(
                                     measurement.getCategory(),
                                     FloatUtils.parseNumber(inputCorrection.getText())) : 0,
                     inputBasal.getText().length() > 0 ?
-                            PreferenceHelper.getInstance().formatCustomToDefaultUnit(
+                            PreferenceStore.getInstance().formatCustomToDefaultUnit(
                                     measurement.getCategory(),
                                     FloatUtils.parseNumber(inputBasal.getText())) : 0);
             return measurement;

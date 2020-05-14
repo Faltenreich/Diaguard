@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.view.recyclerview.drag.Draggable;
 import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;
 import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
@@ -44,8 +44,8 @@ class CategoryViewHolder extends BaseViewHolder<Category> implements Draggable {
     protected void onBind(Category item) {
         titleLabel.setText(getContext().getString(item.getStringResId()));
         activeCheckBox.setEnabled(item.isOptional());
-        activeCheckBox.setChecked(PreferenceHelper.getInstance().isCategoryActive(item));
-        pinnedCheckBox.setChecked(PreferenceHelper.getInstance().isCategoryPinned(item));
+        activeCheckBox.setChecked(PreferenceStore.getInstance().isCategoryActive(item));
+        pinnedCheckBox.setChecked(PreferenceStore.getInstance().isCategoryPinned(item));
         dragView.setVisibility(item.isOptional() ? View.VISIBLE : View.INVISIBLE);
     }
 
@@ -60,11 +60,11 @@ class CategoryViewHolder extends BaseViewHolder<Category> implements Draggable {
     }
 
     private void setActive(boolean isActive) {
-        PreferenceHelper.getInstance().setCategoryActive(getItem(), isActive);
+        PreferenceStore.getInstance().setCategoryActive(getItem(), isActive);
         listener.onCheckedChange();
     }
 
     private void setPinned(boolean isPinned) {
-        PreferenceHelper.getInstance().setCategoryPinned(getItem(), isPinned);
+        PreferenceStore.getInstance().setCategoryPinned(getItem(), isPinned);
     }
 }

@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.feature.entry.edit.measurement;
 import android.content.Context;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.view.edittext.StickyHintInput;
@@ -39,7 +39,7 @@ public class MeasurementGenericView <T extends Measurement> extends MeasurementA
 
     @Override
     protected void initLayout() {
-        inputView.setHint(PreferenceHelper.getInstance().getUnitAcronym(measurement.getCategory()));
+        inputView.setHint(PreferenceStore.getInstance().getUnitAcronym(measurement.getCategory()));
     }
 
     @Override
@@ -55,7 +55,7 @@ public class MeasurementGenericView <T extends Measurement> extends MeasurementA
             inputView.setError(getContext().getString(R.string.validator_value_empty));
             isValid = false;
         } else {
-            isValid = PreferenceHelper.getInstance().isValueValid(inputView.getInputView(), measurement.getCategory());
+            isValid = PreferenceStore.getInstance().isValueValid(inputView.getInputView(), measurement.getCategory());
         }
         return isValid;
     }
@@ -64,7 +64,7 @@ public class MeasurementGenericView <T extends Measurement> extends MeasurementA
     public Measurement getMeasurement() {
         if (isValid()) {
             float value = FloatUtils.parseNumber(inputView.getText());
-            value = PreferenceHelper.getInstance().formatCustomToDefaultUnit(measurement.getCategory(), value);
+            value = PreferenceStore.getInstance().formatCustomToDefaultUnit(measurement.getCategory(), value);
             measurement.setValues(value);
             return measurement;
         } else {

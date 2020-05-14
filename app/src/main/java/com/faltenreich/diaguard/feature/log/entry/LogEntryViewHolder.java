@@ -22,7 +22,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.view.chip.ChipView;
 import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;
 
@@ -116,11 +116,11 @@ public class LogEntryViewHolder extends BaseViewHolder<LogEntryListItem> {
 
                     if (category == Category.BLOODSUGAR) {
                         BloodSugar bloodSugar = (BloodSugar) measurement;
-                        if (PreferenceHelper.getInstance().limitsAreHighlighted()) {
+                        if (PreferenceStore.getInstance().limitsAreHighlighted()) {
                             int backgroundColor = ContextCompat.getColor(getContext(), R.color.green);
-                            if (bloodSugar.getMgDl() > PreferenceHelper.getInstance().getLimitHyperglycemia()) {
+                            if (bloodSugar.getMgDl() > PreferenceStore.getInstance().getLimitHyperglycemia()) {
                                 backgroundColor = ContextCompat.getColor(getContext(), R.color.red);
-                            } else if (bloodSugar.getMgDl() < PreferenceHelper.getInstance().getLimitHypoglycemia()) {
+                            } else if (bloodSugar.getMgDl() < PreferenceStore.getInstance().getLimitHypoglycemia()) {
                                 backgroundColor = ContextCompat.getColor(getContext(), R.color.blue);
                             }
                             categoryImage.setColorFilter(backgroundColor);

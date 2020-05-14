@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.shared.data.database.entity;
 
 import android.content.Context;
 
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.feature.export.Backupable;
 import com.faltenreich.diaguard.feature.export.Exportable;
@@ -37,7 +37,7 @@ public abstract class Measurement extends BaseEntity implements Backupable, Expo
         for (int position = 0; position < values.length; position++) {
             float value = values[position];
             if (value != 0) {
-                float valueFormatted = PreferenceHelper.getInstance().formatDefaultToCustomUnit(getCategory(), value);
+                float valueFormatted = PreferenceStore.getInstance().formatDefaultToCustomUnit(getCategory(), value);
                 valuesForUI[position] = FloatUtils.parseFloat(valueFormatted);
             }
         }
@@ -71,7 +71,7 @@ public abstract class Measurement extends BaseEntity implements Backupable, Expo
     public String print(Context context) {
         return String.format("%s %s",
             toString(),
-            PreferenceHelper.getInstance().getUnitAcronym(getCategory())
+            PreferenceStore.getInstance().getUnitAcronym(getCategory())
         );
     }
 }

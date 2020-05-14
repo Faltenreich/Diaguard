@@ -14,7 +14,7 @@ import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.FoodDeletedEvent;
 import com.faltenreich.diaguard.shared.event.data.FoodQueryEndedEvent;
@@ -122,9 +122,9 @@ public class FoodSearchListView extends RecyclerView {
     }
 
     private void addItems(List<FoodSearchListItem> foodList) {
-        boolean showCustomFood = PreferenceHelper.getInstance().showCustomFood();
-        boolean showCommonFood = PreferenceHelper.getInstance().showCommonFood();
-        boolean showBrandedFood = PreferenceHelper.getInstance().showBrandedFood();
+        boolean showCustomFood = PreferenceStore.getInstance().showCustomFood();
+        boolean showCommonFood = PreferenceStore.getInstance().showCommonFood();
+        boolean showBrandedFood = PreferenceStore.getInstance().showBrandedFood();
 
         List<FoodSearchListItem> filtered = new ArrayList<>();
         if (!showCustomFood || !showCommonFood || !showBrandedFood) {

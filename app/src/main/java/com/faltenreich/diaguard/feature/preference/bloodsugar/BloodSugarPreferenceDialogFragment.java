@@ -11,7 +11,7 @@ import androidx.preference.EditTextPreferenceDialogFragmentCompat;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.validation.Validator;
 import com.faltenreich.diaguard.shared.view.edittext.LocalizedNumberEditText;
 
@@ -50,7 +50,7 @@ public class BloodSugarPreferenceDialogFragment extends EditTextPreferenceDialog
         editTextValue.setText(preference.getValueForUi());
         editTextValue.setSelection(editTextValue.getText() != null ? editTextValue.getText().length() : 0);
 
-        textViewUnit.setText(PreferenceHelper.getInstance().getUnitName(Category.BLOODSUGAR));
+        textViewUnit.setText(PreferenceStore.getInstance().getUnitName(Category.BLOODSUGAR));
     }
 
     @NonNull

@@ -13,7 +13,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.TaskStackBuilder;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.PreferenceHelper;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
 
 import org.joda.time.DateTimeConstants;

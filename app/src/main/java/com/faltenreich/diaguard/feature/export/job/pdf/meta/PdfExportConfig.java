@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.feature.export.job.pdf.meta;
 
 import android.content.Context;
 
-import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.PreferenceHelper;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.feature.export.job.ExportCallback;
 import com.faltenreich.diaguard.feature.export.job.ExportConfig;

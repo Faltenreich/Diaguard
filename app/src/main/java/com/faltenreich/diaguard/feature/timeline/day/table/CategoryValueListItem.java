@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.feature.timeline.day.table;
 
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
-import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.PreferenceHelper;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 
 /**

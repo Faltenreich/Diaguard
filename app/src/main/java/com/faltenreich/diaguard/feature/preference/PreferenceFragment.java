@@ -17,7 +17,6 @@ import com.faltenreich.diaguard.shared.data.database.dao.TagDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.file.FileUtils;
 import com.faltenreich.diaguard.shared.data.permission.Permission;
-import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.file.BackupImportedEvent;
 import com.faltenreich.diaguard.shared.event.file.FileProvidedEvent;

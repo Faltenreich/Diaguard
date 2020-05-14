@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.shared.data.database.migration;
 
 import android.content.Context;
 
-import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.PreferenceHelper;
 
 public class Migrator {
 

@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.faltenreich.diaguard.shared.data.database.ImportHelper;
-import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.PreferenceHelper;
 import com.faltenreich.diaguard.shared.data.database.Database;
 import com.faltenreich.diaguard.shared.data.database.migration.Migrator;
 import com.faltenreich.diaguard.shared.view.image.ImageLoader;

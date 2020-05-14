@@ -28,7 +28,7 @@ import com.faltenreich.diaguard.feature.preference.PreferenceLink;
 import com.faltenreich.diaguard.feature.statistic.StatisticFragment;
 import com.faltenreich.diaguard.feature.timeline.TimelineFragment;
 import com.faltenreich.diaguard.shared.SystemUtils;
-import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.PreferenceHelper;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 import com.faltenreich.diaguard.shared.view.coordinatorlayout.SlideOutBehavior;

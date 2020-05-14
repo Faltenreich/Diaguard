@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.feature.export.job;
 
 import android.content.Context;
 
-import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.PreferenceHelper;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 
 import org.joda.time.DateTime;

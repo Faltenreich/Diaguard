@@ -23,7 +23,7 @@ import androidx.core.widget.NestedScrollView;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.tag.TagListActivity;
 import com.faltenreich.diaguard.shared.Helper;
-import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.PreferenceHelper;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;

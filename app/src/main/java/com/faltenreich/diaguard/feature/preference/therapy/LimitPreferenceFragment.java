@@ -11,7 +11,7 @@ import com.faltenreich.diaguard.feature.preference.BasePreferenceFragment;
 import com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreference;
 import com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreferenceDialogFragment;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
-import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.PreferenceHelper;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 
 import java.util.Locale;

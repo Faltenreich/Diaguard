@@ -3,7 +3,7 @@ package com.faltenreich.diaguard.feature.dashboard;
 import android.content.Context;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.shared.data.preference.PreferenceHelper;
+import com.faltenreich.diaguard.feature.preference.PreferenceHelper;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.data.database.dao.SqlFunction;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;

@@ -36,14 +36,14 @@ public class FactorFragment extends BaseFragment {
     private TimeInterval timeInterval;
 
     public FactorFragment() {
-        super(R.layout.fragment_factor, R.string.factors);
+        super(R.layout.fragment_factor);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         bindViews(view);
-        initArguments();
+        initFactor();
         initTimeInterval();
         initValues();
         invalidateValues();
@@ -54,8 +54,8 @@ public class FactorFragment extends BaseFragment {
         this.valuesList = view.findViewById(R.id.values_list);
     }
 
-    private void initArguments() {
-        // TODO: Remove demo code
+    private void initFactor() {
+        // TODO: Remove test code
         factor = new CorrectionFactor();
 
         Bundle arguments = getArguments();
@@ -66,16 +66,19 @@ public class FactorFragment extends BaseFragment {
                     factor = new CorrectionFactor();
                     break;
                 case FACTOR_MEAL:
-                    // TODO
+                    factor = new MealFactor();
                     break;
                 case FACTOR_BASAL_RATE:
                     // TODO
                     break;
             }
         }
+
         if (factor == null) {
             throw new IllegalStateException("Factor must not be null");
         }
+
+        setTitle(factor.getTitle());
     }
 
     private void initTimeInterval() {

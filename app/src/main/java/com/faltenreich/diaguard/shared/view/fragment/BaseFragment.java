@@ -51,12 +51,16 @@ public abstract class BaseFragment extends Fragment implements ToolbarBehavior {
 
     public BaseFragment(@LayoutRes int layoutResourceId, @StringRes int titleResId, @MenuRes int menuResId) {
         super(layoutResourceId);
-        this.title = DiaguardApplication.getContext().getString(titleResId);
+        this.title = titleResId != -1 ? DiaguardApplication.getContext().getString(titleResId) : null;
         this.menuResId = menuResId;
     }
 
     public BaseFragment(@LayoutRes int layoutResourceId, @StringRes int titleResId) {
         this(layoutResourceId, titleResId, -1);
+    }
+
+    public BaseFragment(@LayoutRes int layoutResourceId) {
+        this(layoutResourceId, -1);
     }
 
     @Override

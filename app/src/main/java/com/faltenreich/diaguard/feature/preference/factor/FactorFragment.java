@@ -18,6 +18,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class FactorFragment extends BaseFragment {
 
@@ -125,7 +126,8 @@ public class FactorFragment extends BaseFragment {
         valuesListAdapter.notifyDataSetChanged();
     }
 
-    private void store() {
+    @OnClick(R.id.fab)
+    void store() {
         factor.setTimeInterval(timeInterval);
 
         for (int pos = 0; pos < valuesListAdapter.getItemCount(); pos++) {
@@ -138,5 +140,7 @@ public class FactorFragment extends BaseFragment {
                 hoursIntoInterval++;
             }
         }
+
+        finish();
     }
 }

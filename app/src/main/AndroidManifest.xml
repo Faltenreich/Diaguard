@@ -111,7 +111,7 @@
         <activity android:name=".feature.preference.factor.FactorActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/factors"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustResize|stateHidden">
             <meta-data
                 android:name=".feature.preference.factor.FactorActivity"
                 android:value=".feature.preference.PreferenceActivity" />

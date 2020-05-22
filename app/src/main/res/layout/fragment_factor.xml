@@ -1,20 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <Spinner
-        android:id="@+id/time_interval_spinner"
+    <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Spinner
+            android:id="@+id/time_interval_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/values_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab"
+        style="@style/FloatingActionButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_horizontal_margin"/>
+        android:layout_gravity="bottom|end"
+        android:src="@drawable/ic_done"
+        app:fab_colorNormal="?backgroundColorGreen"
+        app:layout_dodgeInsetEdges="bottom" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/values_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-</LinearLayout>
+</FrameLayout>

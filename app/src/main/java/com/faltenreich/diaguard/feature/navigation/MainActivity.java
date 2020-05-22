@@ -78,6 +78,7 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
     }
 
     private void init() {
+        // TODO: Set defaults for other preferences as well
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     }
 

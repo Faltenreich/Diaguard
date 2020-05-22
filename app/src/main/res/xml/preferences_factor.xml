@@ -4,14 +4,34 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/factors">
 
-    <com.faltenreich.diaguard.feature.preference.factor.CorrectionFactorPreference
+    <Preference
         android:key="@string/preference_correction"
         android:title="@string/correction_value"
-        android:summary="@string/correction_value_desc"/>
+        android:summary="@string/correction_value_desc">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="@string/package_name"
+            android:targetClass="com.faltenreich.diaguard.feature.preference.factor.FactorActivity">
+            <!--suppress AndroidElementNotAllowed -->
+            <extra
+                android:name="@string/argument_factor"
+                android:value="@integer/argument_factor_correction" />
+        </intent>
+    </Preference>
 
-    <com.faltenreich.diaguard.feature.preference.factor.MealFactorPreference
+    <Preference
         android:key="@string/preference_factor_meal"
         android:title="@string/meal_factors"
-        android:summary="@string/meal_factor_desc"/>
+        android:summary="@string/meal_factor_desc">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="@string/package_name"
+            android:targetClass="com.faltenreich.diaguard.feature.preference.factor.FactorActivity">
+            <!--suppress AndroidElementNotAllowed -->
+            <extra
+                android:name="@string/argument_factor"
+                android:value="@integer/argument_factor_meal" />
+        </intent>
+    </Preference>
 
 </PreferenceScreen>

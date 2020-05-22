@@ -138,6 +138,10 @@ public class FactorFragment extends BaseFragment {
             }
         }
 
+        // TODO: Handle events
+        // Events.post(new CorrectionFactorChangedEvent());
+        // Events.post(new MealFactorChangedEvent());
+
         finish();
     }
 }

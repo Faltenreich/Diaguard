@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.annotation.XmlRes;
 import androidx.preference.PreferenceManager;
 
 import com.faltenreich.diaguard.R;
@@ -56,6 +57,18 @@ public class PreferenceStore {
     public void init(Context context) {
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         this.context = context;
+    }
+
+    public void setDefaultValues(Context context) {
+        setDefaultValues(context, R.xml.preferences);
+        setDefaultValues(context, R.xml.preferences_factor);
+        setDefaultValues(context, R.xml.preferences_food);
+        setDefaultValues(context, R.xml.preferences_limit);
+        setDefaultValues(context, R.xml.preferences_unit);
+    }
+
+    private void setDefaultValues(Context context, @XmlRes int preferenceResource) {
+        PreferenceManager.setDefaultValues(context, preferenceResource, false);
     }
 
     private Context getContext() {

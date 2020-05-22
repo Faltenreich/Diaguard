@@ -13,7 +13,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.preference.PreferenceManager;
 
 import com.faltenreich.diaguard.BuildConfig;
 import com.faltenreich.diaguard.R;
@@ -24,10 +23,10 @@ import com.faltenreich.diaguard.feature.export.ExportFragment;
 import com.faltenreich.diaguard.feature.food.search.FoodSearchActivity;
 import com.faltenreich.diaguard.feature.log.LogFragment;
 import com.faltenreich.diaguard.feature.preference.PreferenceActivity;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.feature.statistic.StatisticFragment;
 import com.faltenreich.diaguard.feature.timeline.TimelineFragment;
 import com.faltenreich.diaguard.shared.SystemUtils;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 import com.faltenreich.diaguard.shared.view.coordinatorlayout.SlideOutBehavior;
@@ -52,7 +51,7 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init();
+        PreferenceStore.getInstance().setDefaultValues(this);
         initLayout();
         showChangelog();
     }
@@ -75,11 +74,6 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
     @Override
     public void onFragmentChanged(Fragment fragment) {
         invalidateLayout();
-    }
-
-    private void init() {
-        // TODO: Set defaults for other preferences as well
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     }
 
     private void initLayout() {

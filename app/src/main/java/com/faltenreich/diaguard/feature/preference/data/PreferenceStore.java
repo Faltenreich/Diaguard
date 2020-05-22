@@ -503,7 +503,9 @@ public class PreferenceStore {
         return FloatUtils.parseFloat(customValue);
     }
 
-    // FACTORS
+    // FACTOR
+
+    // MEAL FACTOR
 
     public TimeInterval getMealFactorInterval() {
         int position = sharedPreferences.getInt(getKey(R.string.preference_factor_meal_interval), TimeInterval.EVERY_SIX_HOURS.ordinal());
@@ -557,7 +559,7 @@ public class PreferenceStore {
         }
     }
 
-    // CORRECTION
+    // CORRECTION FACTOR
 
     public TimeInterval getCorrectionFactorInterval() {
         int position = sharedPreferences.getInt(getKey(R.string.preference_factor_correction_interval), TimeInterval.CONSTANT.ordinal());
@@ -590,7 +592,7 @@ public class PreferenceStore {
         }
     }
 
-    // BASAL RATE
+    // BASAL RATE FACTOR
 
     public TimeInterval getBasalRateFactorInterval() {
         int position = sharedPreferences.getInt(getKey(R.string.preference_factor_basal_rate_interval), TimeInterval.CONSTANT.ordinal());

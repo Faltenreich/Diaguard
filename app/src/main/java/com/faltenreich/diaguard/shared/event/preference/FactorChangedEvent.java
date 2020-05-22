@@ -3,8 +3,7 @@ package com.faltenreich.diaguard.shared.event.preference;
 import com.faltenreich.diaguard.shared.event.BaseEvent;
 
 /**
- * Created by Faltenreich on 04.05.2017
+ * Created by Faltenreich on 23.03.2016.
  */
-
-public class CorrectionFactorChangedEvent extends BaseEvent {
+public class FactorChangedEvent extends BaseEvent {
 }

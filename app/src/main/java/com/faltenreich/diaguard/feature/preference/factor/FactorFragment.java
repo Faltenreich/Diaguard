@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.preference.data.TimeInterval;
+import com.faltenreich.diaguard.shared.event.Events;
+import com.faltenreich.diaguard.shared.event.preference.FactorChangedEvent;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 
 import org.joda.time.DateTime;
@@ -139,9 +141,7 @@ public class FactorFragment extends BaseFragment {
             }
         }
 
-        // TODO: Handle events
-        // Events.post(new CorrectionFactorChangedEvent());
-        // Events.post(new MealFactorChangedEvent());
+        Events.post(new FactorChangedEvent());
 
         finish();
     }

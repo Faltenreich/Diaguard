@@ -7,6 +7,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
+import com.faltenreich.diaguard.feature.food.input.FoodInputView;
+import com.faltenreich.diaguard.feature.navigation.MainButton;
+import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
@@ -16,22 +21,16 @@ import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Insulin;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
+import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
+import com.faltenreich.diaguard.shared.data.validation.Validator;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.shared.event.preference.BloodSugarPreferenceChangedEvent;
-import com.faltenreich.diaguard.shared.event.preference.CorrectionFactorChangedEvent;
-import com.faltenreich.diaguard.shared.event.preference.MealFactorChangedEvent;
+import com.faltenreich.diaguard.shared.event.preference.FactorChangedEvent;
 import com.faltenreich.diaguard.shared.event.preference.MealFactorUnitChangedEvent;
 import com.faltenreich.diaguard.shared.event.preference.UnitChangedEvent;
-import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
-import com.faltenreich.diaguard.shared.data.validation.Validator;
-import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
-import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
-import com.faltenreich.diaguard.feature.food.input.FoodInputView;
-import com.faltenreich.diaguard.feature.navigation.MainButton;
-import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
 import com.faltenreich.diaguard.shared.view.edittext.StickyHintInput;
+import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -330,14 +329,7 @@ public class CalculatorFragment extends BaseFragment implements MainButton {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(CorrectionFactorChangedEvent event) {
-        if (isAdded()) {
-            updateCorrectionValue();
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(MealFactorChangedEvent event) {
+    public void onEvent(FactorChangedEvent event) {
         if (isAdded()) {
             updateMealFactor();
         }

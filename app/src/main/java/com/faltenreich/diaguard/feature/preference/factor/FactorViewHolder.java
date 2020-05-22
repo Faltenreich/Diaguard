@@ -5,6 +5,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.preference.data.Daytime;
+import com.faltenreich.diaguard.feature.preference.data.TimeInterval;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.view.edittext.LocalizedNumberEditText;
 import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;

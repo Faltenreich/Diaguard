@@ -15,9 +15,6 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.category.CategoryComparatorFactory;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportStyle;
 import com.faltenreich.diaguard.feature.navigation.MainFragmentType;
-import com.faltenreich.diaguard.feature.preference.factor.Daytime;
-import com.faltenreich.diaguard.feature.preference.factor.FactorUnit;
-import com.faltenreich.diaguard.feature.preference.factor.TimeInterval;
 import com.faltenreich.diaguard.feature.timeline.TimelineStyle;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
@@ -535,8 +532,8 @@ public class PreferenceStore {
         }
     }
 
-    public FactorUnit getFactorUnit() {
-        FactorUnit defaultValue = FactorUnit.CARBOHYDRATES_UNIT;
+    public MealFactorUnit getFactorUnit() {
+        MealFactorUnit defaultValue = MealFactorUnit.CARBOHYDRATES_UNIT;
         String value = sharedPreferences.getString(getKey(R.string.preference_factor_meal), "0");
         int index = 0;
         try {
@@ -544,7 +541,7 @@ public class PreferenceStore {
         } catch (NumberFormatException exception) {
             Log.e(TAG, exception.getMessage() != null ? exception.getMessage() : "Failed to getFactorUnit()");
         }
-        return index >= 0 && index < FactorUnit.values().length ? FactorUnit.values()[index] : defaultValue;
+        return index >= 0 && index < MealFactorUnit.values().length ? MealFactorUnit.values()[index] : defaultValue;
     }
 
     // CORRECTION

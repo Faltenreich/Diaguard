@@ -1,33 +1,32 @@
 package com.faltenreich.diaguard.feature.preference.factor;
 
-/**
- * Created by Faltenreich on 03.09.2016.
- */
-public class FactorListItem {
+import com.faltenreich.diaguard.feature.preference.data.TimeInterval;
+
+class FactorListItem {
 
     private TimeInterval interval;
     private int hourOfDay;
     private float value;
 
-    public FactorListItem(TimeInterval interval, int hourOfDay, float value) {
+    FactorListItem(TimeInterval interval, int hourOfDay, float value) {
         this.interval = interval;
         this.hourOfDay = hourOfDay;
         this.value = value;
     }
 
-    public TimeInterval getInterval() {
+    TimeInterval getInterval() {
         return interval;
     }
 
-    public int getHourOfDay() {
+    int getHourOfDay() {
         return hourOfDay;
     }
 
-    public float getValue() {
+    float getValue() {
         return value;
     }
 
-    public void setValue(float value) {
+    void setValue(float value) {
         this.value = value;
     }
 }

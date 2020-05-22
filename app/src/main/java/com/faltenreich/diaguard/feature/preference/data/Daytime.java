@@ -1,12 +1,9 @@
-package com.faltenreich.diaguard.feature.preference.factor;
+package com.faltenreich.diaguard.feature.preference.data;
 
 import androidx.annotation.StringRes;
 
 import com.faltenreich.diaguard.R;
 
-/**
- * Created by Faltenreich on 06.09.2016.
- */
 public enum  Daytime {
 
     MORNING(4, R.string.morning),

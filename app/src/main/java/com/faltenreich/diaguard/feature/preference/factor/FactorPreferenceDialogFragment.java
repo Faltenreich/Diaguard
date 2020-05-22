@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.preference.data.TimeInterval;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -30,8 +31,8 @@ public class FactorPreferenceDialogFragment extends PreferenceDialogFragmentComp
         return fragment;
     }
 
-    @BindView(R.id.preference_time_spinner) Spinner spinner;
-    @BindView(R.id.preference_time_list) RecyclerView list;
+    @BindView(R.id.time_interval_spinner) Spinner spinner;
+    @BindView(R.id.values_list) RecyclerView list;
 
     private FactorListAdapter adapter;
     private TimeInterval timeInterval;
@@ -71,8 +72,8 @@ public class FactorPreferenceDialogFragment extends PreferenceDialogFragmentComp
     }
 
     private void bindViews(View view) {
-        this.spinner = view.findViewById(R.id.preference_time_spinner);
-        this.list = view.findViewById(R.id.preference_time_list);
+        this.spinner = view.findViewById(R.id.time_interval_spinner);
+        this.list = view.findViewById(R.id.values_list);
     }
 
     private void initLayout() {

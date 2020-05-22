@@ -1,8 +1,5 @@
-package com.faltenreich.diaguard.feature.preference.factor;
+package com.faltenreich.diaguard.feature.preference.data;
 
-/**
- * Created by Faltenreich on 04.09.2016.
- */
 public enum  TimeInterval {
 
     CONSTANT(24, 0),

@@ -3,15 +3,12 @@ package com.faltenreich.diaguard.feature.preference.therapy;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import androidx.fragment.app.DialogFragment;
 import androidx.preference.Preference;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.preference.PreferenceFragment;
-import com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreference;
-import com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreferenceDialogFragment;
-import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
+import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 
 import java.util.Locale;
@@ -35,20 +32,6 @@ public class LimitPreferenceFragment extends PreferenceFragment
     public void onDestroyView() {
         getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
         super.onDestroyView();
-    }
-
-    @Override
-    public void onDisplayPreferenceDialog(Preference preference) {
-        DialogFragment fragment = null;
-        if (preference instanceof BloodSugarPreference) {
-            fragment = BloodSugarPreferenceDialogFragment.newInstance(preference.getKey());
-        }
-        if (fragment != null) {
-            fragment.setTargetFragment(this, 0);
-            fragment.show(getParentFragmentManager(), fragment.getClass().getName());
-        } else {
-            super.onDisplayPreferenceDialog(preference);
-        }
     }
 
     @Override

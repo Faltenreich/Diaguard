@@ -7,15 +7,12 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.preference.Preference;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.export.job.Export;
 import com.faltenreich.diaguard.feature.export.job.ExportCallback;
 import com.faltenreich.diaguard.feature.preference.PreferenceFragment;
-import com.faltenreich.diaguard.feature.preference.about.AboutPreference;
-import com.faltenreich.diaguard.feature.preference.about.AboutPreferenceDialogFragment;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.SystemUtils;
 import com.faltenreich.diaguard.shared.data.database.dao.TagDao;
@@ -67,20 +64,6 @@ public class PreferenceOverviewFragment extends PreferenceFragment
         Events.unregister(this);
         getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
         super.onDestroyView();
-    }
-
-    @Override
-    public void onDisplayPreferenceDialog(Preference preference) {
-        DialogFragment fragment = null;
-        if (preference instanceof AboutPreference) {
-            fragment = AboutPreferenceDialogFragment.newInstance(preference.getKey());
-        }
-        if (fragment != null) {
-            fragment.setTargetFragment(this, 0);
-            fragment.show(getParentFragmentManager(), fragment.getClass().getName());
-        } else {
-            super.onDisplayPreferenceDialog(preference);
-        }
     }
 
     private void setSummaries() {

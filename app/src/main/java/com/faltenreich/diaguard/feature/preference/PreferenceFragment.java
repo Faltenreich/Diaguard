@@ -16,6 +16,10 @@ import androidx.preference.PreferenceManager;
 
 import com.faltenreich.diaguard.feature.preference.about.AboutPreference;
 import com.faltenreich.diaguard.feature.preference.about.AboutPreferenceDialogFragment;
+import com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreference;
+import com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreferenceDialogFragment;
+import com.faltenreich.diaguard.feature.preference.factor.FactorPreference;
+import com.faltenreich.diaguard.feature.preference.factor.FactorPreferenceDialogFragment;
 import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
 
 public abstract class PreferenceFragment extends PreferenceFragmentCompat {
@@ -38,6 +42,24 @@ public abstract class PreferenceFragment extends PreferenceFragmentCompat {
     public void onResume() {
         super.onResume();
         requireActivity().setTitle(titleRes);
+    }
+
+    @Override
+    public void onDisplayPreferenceDialog(Preference preference) {
+        DialogFragment fragment = null;
+        if (preference instanceof AboutPreference) {
+            fragment = AboutPreferenceDialogFragment.newInstance(preference.getKey());
+        } else if (preference instanceof BloodSugarPreference) {
+            fragment = BloodSugarPreferenceDialogFragment.newInstance(preference.getKey());
+        } else if (preference instanceof FactorPreference) {
+            fragment = FactorPreferenceDialogFragment.newInstance(preference.getKey());
+        }
+        if (fragment != null) {
+            fragment.setTargetFragment(this, 0);
+            fragment.show(getParentFragmentManager(), fragment.getClass().getName());
+        } else {
+            super.onDisplayPreferenceDialog(preference);
+        }
     }
 
     protected SharedPreferences getSharedPreferences() {

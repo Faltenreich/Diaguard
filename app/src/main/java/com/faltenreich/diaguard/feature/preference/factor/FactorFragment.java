@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -106,10 +107,10 @@ public class FactorFragment extends BaseFragment {
     }
 
     private void initValues() {
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        valuesList.setLayoutManager(layoutManager);
         valuesListAdapter = new FactorListAdapter(getContext());
         valuesList.setAdapter(valuesListAdapter);
+        valuesList.setLayoutManager(new LinearLayoutManager(getContext()));
+        valuesList.addItemDecoration(new DividerItemDecoration(requireContext(), RecyclerView.VERTICAL));
     }
 
     private void invalidateValues() {

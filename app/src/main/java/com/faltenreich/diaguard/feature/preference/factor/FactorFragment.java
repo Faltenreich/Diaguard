@@ -71,7 +71,7 @@ public class FactorFragment extends BaseFragment {
             } else if (factorArgument == getResources().getInteger(R.integer.argument_factor_meal)) {
                 factor = new MealFactor();
             } else if (factorArgument == getResources().getInteger(R.integer.argument_factor_basal_rate)) {
-                // TODO
+                factor = new BasalRateFactor();
             }
         }
 

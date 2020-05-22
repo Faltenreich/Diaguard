@@ -590,6 +590,28 @@ public class PreferenceStore {
         }
     }
 
+    // BASAL RATE
+
+    public TimeInterval getBasalRateInterval() {
+        int position = sharedPreferences.getInt(getKey(R.string.preference_basal_rate_interval), TimeInterval.CONSTANT.ordinal());
+        TimeInterval[] timeIntervals = TimeInterval.values();
+        return position >= 0 && position < timeIntervals.length ? timeIntervals[position] : TimeInterval.CONSTANT;
+    }
+
+    public void setBasalRateInterval(TimeInterval interval) {
+        sharedPreferences.edit().putInt(getKey(R.string.preference_basal_rate_interval), interval.ordinal()).apply();
+    }
+
+    public float getBasalRateForHour(int hourOfDay) {
+        String key = getKey(R.string.preference_basal_rate_interval_for_hour, hourOfDay);
+        return sharedPreferences.getFloat(key, -1);
+    }
+
+    public void setBasalRateForHour(int hourOfDay, float factor) {
+        String key = getKey(R.string.preference_basal_rate_interval_for_hour, hourOfDay);
+        sharedPreferences.edit().putFloat(key, factor).apply();
+    }
+
     // FOOD
 
     public boolean showCustomFood() {

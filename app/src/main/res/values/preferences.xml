@@ -81,5 +81,7 @@
     <string name="preference_correction_interval_for_hour">intervalCorrection%d</string>
 
     <string name="preference_basal_rate">basalRate</string>
+    <string name="preference_basal_rate_interval">intervalBasalRate</string>
+    <string name="preference_basal_rate_interval_for_hour">intervalBasalRate%d</string>
 
 </resources>

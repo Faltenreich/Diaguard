@@ -80,4 +80,6 @@
     <string name="preference_correction_interval">intervalCorrection</string>
     <string name="preference_correction_interval_for_hour">intervalCorrection%d</string>
 
+    <string name="preference_basal_rate">basalRate</string>
+
 </resources>

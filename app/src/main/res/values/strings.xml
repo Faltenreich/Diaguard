@@ -560,5 +560,6 @@
     <string name="unit">Unit</string>
     <string name="factors">Factors</string>
     <string name="close">Close</string>
+    <string name="basal_rate">Basal rate</string>
 
 </resources>

@@ -95,6 +95,15 @@
             android:title="@string/factors"
             app:fragment="com.faltenreich.diaguard.feature.preference.therapy.FactorPreferenceFragment" />
 
+        <Preference
+            android:key="@string/preference_basal_rate"
+            android:title="@string/basal_rate">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetPackage="@string/package_name"
+                android:targetClass="com.faltenreich.diaguard.feature.preference.factor.FactorActivity"/>
+        </Preference>
+
     </PreferenceCategory>
 
     <PreferenceCategory

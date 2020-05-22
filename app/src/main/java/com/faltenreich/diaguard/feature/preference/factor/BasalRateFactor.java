@@ -14,23 +14,23 @@ public class BasalRateFactor implements Factor {
 
     @Override
     public TimeInterval getTimeInterval() {
-        return PreferenceStore.getInstance().getBasalRateInterval();
+        return PreferenceStore.getInstance().getBasalRateFactorInterval();
     }
 
     @Override
     public void setTimeInterval(TimeInterval timeInterval) {
-        PreferenceStore.getInstance().setBasalRateInterval(timeInterval);
+        PreferenceStore.getInstance().setBasalRateFactorInterval(timeInterval);
     }
 
     @Override
     public float getValueForHour(int hourOfDay) {
-        float value = PreferenceStore.getInstance().getBasalRateForHour(hourOfDay);
+        float value = PreferenceStore.getInstance().getBasalRateFactorForHour(hourOfDay);
         return PreferenceStore.getInstance().formatDefaultToCustomUnit(Category.INSULIN, value);
     }
 
     @Override
     public void setValueForHour(float value, int hourOfDay) {
         value = PreferenceStore.getInstance().formatCustomToDefaultUnit(Category.INSULIN, value);
-        PreferenceStore.getInstance().setBasalRateForHour(hourOfDay, value);
+        PreferenceStore.getInstance().setBasalRateFactorForHour(hourOfDay, value);
     }
 }

@@ -5,7 +5,7 @@
     android:title="@string/factors">
 
     <Preference
-        android:key="@string/preference_correction"
+        android:key="@string/preference_factor_correction"
         android:title="@string/correction_value"
         android:summary="@string/correction_value_desc">
         <intent

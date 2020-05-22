@@ -82,8 +82,8 @@ public class PreferenceStore {
     // GENERAL
 
     public void migrate() {
-        migrateFactors();
-        migrateCorrection();
+        migrateMealFactors();
+        migrateCorrectionFactors();
         migrateStartScreen();
     }
 
@@ -505,47 +505,27 @@ public class PreferenceStore {
 
     // FACTORS
 
-    public TimeInterval getFactorInterval() {
-        int position = sharedPreferences.getInt(getKey(R.string.preference_factor_interval), TimeInterval.EVERY_SIX_HOURS.ordinal());
+    public TimeInterval getMealFactorInterval() {
+        int position = sharedPreferences.getInt(getKey(R.string.preference_factor_meal_interval), TimeInterval.EVERY_SIX_HOURS.ordinal());
         TimeInterval[] timeIntervals = TimeInterval.values();
         return position >= 0 && position < timeIntervals.length ? timeIntervals[position] : TimeInterval.EVERY_SIX_HOURS;
     }
 
-    public void setFactorInterval(TimeInterval interval) {
-        sharedPreferences.edit().putInt(getKey(R.string.preference_factor_interval), interval.ordinal()).apply();
+    public void setMealFactorInterval(TimeInterval interval) {
+        sharedPreferences.edit().putInt(getKey(R.string.preference_factor_meal_interval), interval.ordinal()).apply();
     }
 
-    public float getFactorForHour(int hourOfDay) {
-        String key = getKey(R.string.preference_factor_interval_for_hour, hourOfDay);
+    public float getMealFactorForHour(int hourOfDay) {
+        String key = getKey(R.string.preference_factor_meal_interval_for_hour, hourOfDay);
         return sharedPreferences.getFloat(key, -1);
     }
 
-    public void setFactorForHour(int hourOfDay, float factor) {
-        String key = getKey(R.string.preference_factor_interval_for_hour, hourOfDay);
+    public void setMealFactorForHour(int hourOfDay, float factor) {
+        String key = getKey(R.string.preference_factor_meal_interval_for_hour, hourOfDay);
         sharedPreferences.edit().putFloat(key, factor).apply();
     }
 
-    /**
-     * Used to migrate from static to dynamic factors
-     */
-    private void migrateFactors() {
-        if (getFactorForHour(0) < 0) {
-            for (Daytime daytime : Daytime.values()) {
-                float factor = sharedPreferences.getFloat(getKey(R.string.preference_factor_deprecated) + daytime.toDeprecatedString(), -1);
-                if (factor >= 0) {
-                    int step = 0;
-                    while (step < Daytime.INTERVAL_LENGTH) {
-                        int hourOfDay = (daytime.startingHour + step) % DateTimeConstants.HOURS_PER_DAY;
-                        setFactorForHour(hourOfDay, factor);
-                        step++;
-                    }
-                    sharedPreferences.edit().putFloat(getKey(R.string.preference_factor_deprecated) + daytime, -1).apply();
-                }
-            }
-        }
-    }
-
-    public MealFactorUnit getFactorUnit() {
+    public MealFactorUnit getMealFactorUnit() {
         MealFactorUnit defaultValue = MealFactorUnit.CARBOHYDRATES_UNIT;
         String value = sharedPreferences.getString(getKey(R.string.preference_factor_meal), "0");
         int index = 0;
@@ -557,34 +537,54 @@ public class PreferenceStore {
         return index >= 0 && index < MealFactorUnit.values().length ? MealFactorUnit.values()[index] : defaultValue;
     }
 
+    /**
+     * Used to migrate from static to dynamic factors
+     */
+    private void migrateMealFactors() {
+        if (getMealFactorForHour(0) < 0) {
+            for (Daytime daytime : Daytime.values()) {
+                float factor = sharedPreferences.getFloat(getKey(R.string.preference_factor_deprecated) + daytime.toDeprecatedString(), -1);
+                if (factor >= 0) {
+                    int step = 0;
+                    while (step < Daytime.INTERVAL_LENGTH) {
+                        int hourOfDay = (daytime.startingHour + step) % DateTimeConstants.HOURS_PER_DAY;
+                        setMealFactorForHour(hourOfDay, factor);
+                        step++;
+                    }
+                    sharedPreferences.edit().putFloat(getKey(R.string.preference_factor_deprecated) + daytime, -1).apply();
+                }
+            }
+        }
+    }
+
     // CORRECTION
 
-    public TimeInterval getCorrectionInterval() {
-        int position = sharedPreferences.getInt(getKey(R.string.preference_correction_interval), TimeInterval.CONSTANT.ordinal());
+    public TimeInterval getCorrectionFactorInterval() {
+        int position = sharedPreferences.getInt(getKey(R.string.preference_factor_correction_interval), TimeInterval.CONSTANT.ordinal());
         TimeInterval[] timeIntervals = TimeInterval.values();
         return position >= 0 && position < timeIntervals.length ? timeIntervals[position] : TimeInterval.CONSTANT;
     }
 
-    public void setCorrectionInterval(TimeInterval interval) {
-        sharedPreferences.edit().putInt(getKey(R.string.preference_correction_interval), interval.ordinal()).apply();
+    public void setCorrectionFactorInterval(TimeInterval interval) {
+        sharedPreferences.edit().putInt(getKey(R.string.preference_factor_correction_interval), interval.ordinal()).apply();
     }
 
-    public float getCorrectionForHour(int hourOfDay) {
-        String key = getKey(R.string.preference_correction_interval_for_hour, hourOfDay);
+    public float getCorrectionFactorForHour(int hourOfDay) {
+        String key = getKey(R.string.preference_factor_correction_interval_for_hour, hourOfDay);
         return sharedPreferences.getFloat(key, -1);
     }
 
-    public void setCorrectionForHour(int hourOfDay, float factor) {
-        String key = getKey(R.string.preference_correction_interval_for_hour, hourOfDay);
+    public void setCorrectionFactorForHour(int hourOfDay, float factor) {
+        String key = getKey(R.string.preference_factor_correction_interval_for_hour, hourOfDay);
         sharedPreferences.edit().putFloat(key, factor).apply();
     }
 
-    private void migrateCorrection() {
-        if (getCorrectionForHour(0) < 0) {
+    private void migrateCorrectionFactors() {
+        if (getCorrectionFactorForHour(0) < 0) {
             float oldValue = FloatUtils.parseNumber(sharedPreferences.getString(getKey(R.string.preference_correction_deprecated), "40"));
             int hourOfDay = 0;
             while (hourOfDay < DateTimeConstants.HOURS_PER_DAY) {
-                setCorrectionForHour(hourOfDay, oldValue);
+                setCorrectionFactorForHour(hourOfDay, oldValue);
                 hourOfDay++;
             }
         }
@@ -592,23 +592,23 @@ public class PreferenceStore {
 
     // BASAL RATE
 
-    public TimeInterval getBasalRateInterval() {
-        int position = sharedPreferences.getInt(getKey(R.string.preference_basal_rate_interval), TimeInterval.CONSTANT.ordinal());
+    public TimeInterval getBasalRateFactorInterval() {
+        int position = sharedPreferences.getInt(getKey(R.string.preference_factor_basal_rate_interval), TimeInterval.CONSTANT.ordinal());
         TimeInterval[] timeIntervals = TimeInterval.values();
         return position >= 0 && position < timeIntervals.length ? timeIntervals[position] : TimeInterval.CONSTANT;
     }
 
-    public void setBasalRateInterval(TimeInterval interval) {
-        sharedPreferences.edit().putInt(getKey(R.string.preference_basal_rate_interval), interval.ordinal()).apply();
+    public void setBasalRateFactorInterval(TimeInterval interval) {
+        sharedPreferences.edit().putInt(getKey(R.string.preference_factor_basal_rate_interval), interval.ordinal()).apply();
     }
 
-    public float getBasalRateForHour(int hourOfDay) {
-        String key = getKey(R.string.preference_basal_rate_interval_for_hour, hourOfDay);
+    public float getBasalRateFactorForHour(int hourOfDay) {
+        String key = getKey(R.string.preference_factor_basal_rate_interval_for_hour, hourOfDay);
         return sharedPreferences.getFloat(key, -1);
     }
 
-    public void setBasalRateForHour(int hourOfDay, float factor) {
-        String key = getKey(R.string.preference_basal_rate_interval_for_hour, hourOfDay);
+    public void setBasalRateFactorForHour(int hourOfDay, float factor) {
+        String key = getKey(R.string.preference_factor_basal_rate_interval_for_hour, hourOfDay);
         sharedPreferences.edit().putFloat(key, factor).apply();
     }
 

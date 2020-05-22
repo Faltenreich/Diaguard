@@ -73,15 +73,17 @@
     <string name="preference_unit_weight">unit_weight</string>
 
     <string name="preference_factor">factor</string>
-    <string name="preference_factor_meal">unit_meal_factor</string>
-    <string name="preference_factor_interval">intervalFactor</string>
-    <string name="preference_factor_interval_for_hour">intervalFactor%d</string>
-    <string name="preference_correction">correction</string>
-    <string name="preference_correction_interval">intervalCorrection</string>
-    <string name="preference_correction_interval_for_hour">intervalCorrection%d</string>
 
-    <string name="preference_basal_rate">basalRate</string>
-    <string name="preference_basal_rate_interval">intervalBasalRate</string>
-    <string name="preference_basal_rate_interval_for_hour">intervalBasalRate%d</string>
+    <string name="preference_factor_meal">unit_meal_factor</string>
+    <string name="preference_factor_meal_interval">intervalFactor</string>
+    <string name="preference_factor_meal_interval_for_hour">intervalFactor%d</string>
+
+    <string name="preference_factor_correction">correction</string>
+    <string name="preference_factor_correction_interval">intervalCorrection</string>
+    <string name="preference_factor_correction_interval_for_hour">intervalCorrection%d</string>
+
+    <string name="preference_factor_basal_rate">basalRate</string>
+    <string name="preference_factor_basal_rate_interval">intervalBasalRate</string>
+    <string name="preference_factor_basal_rate_interval_for_hour">intervalBasalRate%d</string>
 
 </resources>

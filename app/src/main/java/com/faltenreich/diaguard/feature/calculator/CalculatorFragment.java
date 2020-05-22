@@ -97,15 +97,15 @@ public class CalculatorFragment extends BaseFragment implements MainButton {
     private void updateCorrectionValue() {
         correctionInput.setText(PreferenceStore.getInstance().getMeasurementForUi(
             Category.BLOODSUGAR,
-            PreferenceStore.getInstance().getCorrectionForHour(
+            PreferenceStore.getInstance().getCorrectionFactorForHour(
                 DateTime.now().getHourOfDay())));
     }
 
     private void updateMealFactor() {
         int hourOfDay = DateTime.now().getHourOfDay();
-        float factor = PreferenceStore.getInstance().getFactorForHour(hourOfDay);
-        factorInput.setText(factor >= 0 ? FloatUtils.parseFloat(factor) : null);
-        factorInput.setHint(getString(PreferenceStore.getInstance().getFactorUnit().titleResId));
+        float mealFactor = PreferenceStore.getInstance().getMealFactorForHour(hourOfDay);
+        factorInput.setText(mealFactor >= 0 ? FloatUtils.parseFloat(mealFactor) : null);
+        factorInput.setHint(getString(PreferenceStore.getInstance().getMealFactorUnit().titleResId));
     }
 
     private boolean inputIsValid() {
@@ -155,7 +155,7 @@ public class CalculatorFragment extends BaseFragment implements MainButton {
             PreferenceStore.getInstance().formatCustomToDefaultUnit(
                 Category.BLOODSUGAR,
                 FloatUtils.parseNumber(correctionInput.getText())) :
-            PreferenceStore.getInstance().getCorrectionForHour(hourOfDay);
+            PreferenceStore.getInstance().getCorrectionFactorForHour(hourOfDay);
     }
 
     private float getCarbohydrates() {
@@ -178,14 +178,14 @@ public class CalculatorFragment extends BaseFragment implements MainButton {
 
             float carbohydrates = getCarbohydrates();
             float mealFactor = getMealFactor();
-            float insulinBolus = carbohydrates * mealFactor * PreferenceStore.getInstance().getFactorUnit().factor;
+            float insulinBolus = carbohydrates * mealFactor * PreferenceStore.getInstance().getMealFactorUnit().factor;
 
             StringBuilder builderFormula = new StringBuilder();
             StringBuilder builderFormulaContent = new StringBuilder();
 
             if (insulinBolus > 0) {
                 String mealAcronym = PreferenceStore.getInstance().getUnitAcronym(Category.MEAL);
-                String factorAcronym = getString(PreferenceStore.getInstance().getFactorUnit().titleResId);
+                String factorAcronym = getString(PreferenceStore.getInstance().getMealFactorUnit().titleResId);
                 builderFormula.append(String.format("%s * %s",
                     mealAcronym,
                     factorAcronym));

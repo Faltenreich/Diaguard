@@ -14,23 +14,23 @@ public class CorrectionFactor implements Factor {
 
     @Override
     public TimeInterval getTimeInterval() {
-        return PreferenceStore.getInstance().getCorrectionInterval();
+        return PreferenceStore.getInstance().getCorrectionFactorInterval();
     }
 
     @Override
     public void setTimeInterval(TimeInterval timeInterval) {
-        PreferenceStore.getInstance().setCorrectionInterval(timeInterval);
+        PreferenceStore.getInstance().setCorrectionFactorInterval(timeInterval);
     }
 
     @Override
     public float getValueForHour(int hourOfDay) {
-        float value = PreferenceStore.getInstance().getCorrectionForHour(hourOfDay);
+        float value = PreferenceStore.getInstance().getCorrectionFactorForHour(hourOfDay);
         return PreferenceStore.getInstance().formatDefaultToCustomUnit(Category.BLOODSUGAR, value);
     }
 
     @Override
     public void setValueForHour(float value, int hourOfDay) {
         value = PreferenceStore.getInstance().formatCustomToDefaultUnit(Category.BLOODSUGAR, value);
-        PreferenceStore.getInstance().setCorrectionForHour(hourOfDay, value);
+        PreferenceStore.getInstance().setCorrectionFactorForHour(hourOfDay, value);
     }
 }

@@ -13,21 +13,21 @@ public class MealFactor implements Factor {
 
     @Override
     public TimeInterval getTimeInterval() {
-        return PreferenceStore.getInstance().getFactorInterval();
+        return PreferenceStore.getInstance().getMealFactorInterval();
     }
 
     @Override
     public void setTimeInterval(TimeInterval timeInterval) {
-        PreferenceStore.getInstance().setFactorInterval(timeInterval);
+        PreferenceStore.getInstance().setMealFactorInterval(timeInterval);
     }
 
     @Override
     public float getValueForHour(int hourOfDay) {
-        return PreferenceStore.getInstance().getFactorForHour(hourOfDay);
+        return PreferenceStore.getInstance().getMealFactorForHour(hourOfDay);
     }
 
     @Override
     public void setValueForHour(float value, int hourOfDay) {
-        PreferenceStore.getInstance().setFactorForHour(hourOfDay, value);
+        PreferenceStore.getInstance().setMealFactorForHour(hourOfDay, value);
     }
 }

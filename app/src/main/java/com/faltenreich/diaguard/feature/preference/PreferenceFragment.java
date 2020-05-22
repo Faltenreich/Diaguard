@@ -8,11 +8,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.annotation.XmlRes;
 import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceManager;
 
+import com.faltenreich.diaguard.feature.preference.about.AboutPreference;
+import com.faltenreich.diaguard.feature.preference.about.AboutPreferenceDialogFragment;
 import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
 
 public abstract class PreferenceFragment extends PreferenceFragmentCompat {

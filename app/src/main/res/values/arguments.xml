@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+
+    <string name="argument_factor">factor</string>
+    <integer name="argument_factor_correction">0</integer>
+    <integer name="argument_factor_meal">1</integer>
+    <integer name="argument_factor_basal_rate">2</integer>
+
+</resources>

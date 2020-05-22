@@ -22,12 +22,6 @@ import butterknife.OnClick;
 
 public class FactorFragment extends BaseFragment {
 
-    private static final String ARGUMENT_FACTOR = "factor";
-
-    private static final int FACTOR_CORRECTION = 0;
-    private static final int FACTOR_MEAL = 1;
-    private static final int FACTOR_BASAL_RATE = 2;
-
     @BindView(R.id.time_interval_spinner) Spinner timeIntervalSpinner;
     @BindView(R.id.values_list) RecyclerView valuesList;
 
@@ -44,7 +38,7 @@ public class FactorFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         bindViews(view);
-        initFactor();
+        initArguments();
         initTimeInterval();
         initValues();
         invalidateValues();
@@ -55,23 +49,26 @@ public class FactorFragment extends BaseFragment {
         this.valuesList = view.findViewById(R.id.values_list);
     }
 
-    private void initFactor() {
-        // TODO: Remove test code
-        factor = new CorrectionFactor();
+    private void initArguments() {
+        Bundle arguments = getActivity() != null && getActivity().getIntent() != null
+            ? getActivity().getIntent().getExtras()
+            : null;
+        if (arguments == null) {
+            throw new IllegalStateException("Arguments must not be null");
+        }
+        initFactor(arguments);
+    }
 
-        Bundle arguments = getArguments();
-        if (arguments != null && arguments.containsKey(ARGUMENT_FACTOR)) {
-            int factorArgument = arguments.getInt(ARGUMENT_FACTOR);
-            switch (factorArgument) {
-                case FACTOR_CORRECTION:
-                    factor = new CorrectionFactor();
-                    break;
-                case FACTOR_MEAL:
-                    factor = new MealFactor();
-                    break;
-                case FACTOR_BASAL_RATE:
-                    // TODO
-                    break;
+    private void initFactor(@NonNull Bundle arguments) {
+        String key = getString(R.string.argument_factor);
+        if (arguments.containsKey(key)) {
+            int factorArgument = arguments.getInt(key);
+            if (factorArgument == getResources().getInteger(R.integer.argument_factor_correction)) {
+                factor = new CorrectionFactor();
+            } else if (factorArgument == getResources().getInteger(R.integer.argument_factor_meal)) {
+                factor = new MealFactor();
+            } else if (factorArgument == getResources().getInteger(R.integer.argument_factor_basal_rate)) {
+                // TODO
             }
         }
 

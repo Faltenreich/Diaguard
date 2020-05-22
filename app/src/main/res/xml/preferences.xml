@@ -101,7 +101,12 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:targetPackage="@string/package_name"
-                android:targetClass="com.faltenreich.diaguard.feature.preference.factor.FactorActivity"/>
+                android:targetClass="com.faltenreich.diaguard.feature.preference.factor.FactorActivity">
+                <!--suppress AndroidElementNotAllowed -->
+                <extra
+                    android:name="@string/argument_factor"
+                    android:value="@integer/argument_factor_meal" />
+            </intent>
         </Preference>
 
     </PreferenceCategory>

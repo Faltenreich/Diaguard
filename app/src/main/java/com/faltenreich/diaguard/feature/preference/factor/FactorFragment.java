@@ -7,7 +7,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +15,7 @@ import com.faltenreich.diaguard.feature.preference.data.TimeInterval;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.preference.FactorChangedEvent;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
+import com.faltenreich.diaguard.shared.view.recyclerview.decoration.LinearDividerItemDecoration;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -112,7 +112,7 @@ public class FactorFragment extends BaseFragment {
         valuesListAdapter = new FactorListAdapter(getContext());
         valuesList.setAdapter(valuesListAdapter);
         valuesList.setLayoutManager(new LinearLayoutManager(getContext()));
-        valuesList.addItemDecoration(new DividerItemDecoration(requireContext(), RecyclerView.VERTICAL));
+        valuesList.addItemDecoration(new LinearDividerItemDecoration(getContext()));
     }
 
     private void invalidateValues() {

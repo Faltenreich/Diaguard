@@ -14,6 +14,11 @@
         android:orientation="vertical"
         android:showDividers="middle">
 
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/values_chart"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_chart_height_detailed" />
+
         <Spinner
             android:id="@+id/time_interval_spinner"
             android:layout_width="match_parent"

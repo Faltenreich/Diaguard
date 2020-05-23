@@ -12,10 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.preference.data.TimeInterval;
+import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.preference.FactorChangedEvent;
+import com.faltenreich.diaguard.shared.view.chart.ChartUtils;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.LinearDividerItemDecoration;
+import com.github.mikephil.charting.charts.LineChart;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -25,6 +28,7 @@ import butterknife.OnClick;
 
 public class FactorFragment extends BaseFragment {
 
+    @BindView(R.id.values_chart) LineChart valuesChart;
     @BindView(R.id.time_interval_spinner) Spinner timeIntervalSpinner;
     @BindView(R.id.values_list) RecyclerView valuesList;
 
@@ -40,16 +44,15 @@ public class FactorFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        bindViews(view);
         initArguments();
-        initTimeInterval();
-        initValues();
-        invalidateValues();
-    }
 
-    private void bindViews(View view) {
-        this.timeIntervalSpinner = view.findViewById(R.id.time_interval_spinner);
-        this.valuesList = view.findViewById(R.id.values_list);
+        initSpinner();
+
+        initChart();
+        invalidateChart();
+
+        initList();
+        invalidateList();
     }
 
     private void initArguments() {
@@ -80,11 +83,19 @@ public class FactorFragment extends BaseFragment {
         }
 
         setTitle(factor.getTitle());
+        timeInterval = factor.getTimeInterval();
     }
 
-    private void initTimeInterval() {
-        this.timeInterval = factor.getTimeInterval();
+    private void initChart() {
+        ChartUtils.setChartDefaultStyle(valuesChart, Category.INSULIN);
+        valuesChart.setTouchEnabled(false);
+    }
 
+    private void invalidateChart() {
+
+    }
+
+    private void initSpinner() {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
             requireContext(),
             R.array.time_rhythm,
@@ -101,21 +112,21 @@ public class FactorFragment extends BaseFragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                 timeInterval = TimeInterval.values()[position];
-                invalidateValues();
+                invalidateList();
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {}
         });
     }
 
-    private void initValues() {
+    private void initList() {
         valuesListAdapter = new FactorListAdapter(getContext());
         valuesList.setAdapter(valuesListAdapter);
         valuesList.setLayoutManager(new LinearLayoutManager(getContext()));
         valuesList.addItemDecoration(new LinearDividerItemDecoration(getContext()));
     }
 
-    private void invalidateValues() {
+    private void invalidateList() {
         valuesListAdapter.clear();
         DateTime dateTime = DateTime.now().withHourOfDay(timeInterval.startHour);
         while (valuesListAdapter.getItemCount() < DateTimeConstants.HOURS_PER_DAY / timeInterval.interval) {

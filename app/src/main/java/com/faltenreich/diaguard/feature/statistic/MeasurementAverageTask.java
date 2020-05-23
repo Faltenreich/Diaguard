@@ -41,7 +41,14 @@ public class MeasurementAverageTask extends BaseAsyncTask<Void, Void, LineData> 
     private boolean forceDrawing;
     private boolean fillDrawing;
 
-    public MeasurementAverageTask(Context context, Category category, TimeSpan timeSpan, boolean forceDrawing, boolean fillDrawing, OnAsyncProgressListener<LineData> onAsyncProgressListener) {
+    public MeasurementAverageTask(
+        Context context,
+        Category category,
+        TimeSpan timeSpan,
+        boolean forceDrawing,
+        boolean fillDrawing,
+        OnAsyncProgressListener<LineData> onAsyncProgressListener
+    ) {
         super(context, onAsyncProgressListener);
         this.category = category;
         this.timeSpan = timeSpan;
@@ -63,7 +70,9 @@ public class MeasurementAverageTask extends BaseAsyncTask<Void, Void, LineData> 
         DateTime intervalStart = startDateTime;
         while (!intervalStart.isAfter(endDateTime)) {
             DateTime intervalEnd = timeSpan.getStep(intervalStart, 1).minusDays(1);
-            Measurement measurement = MeasurementDao.getInstance(category.toClass()).getAvgMeasurement(category, new Interval(intervalStart, intervalEnd));
+            Measurement measurement = MeasurementDao
+                .getInstance(category.toClass())
+                .getAvgMeasurement(category, new Interval(intervalStart, intervalEnd));
             if (measurement != null) {
                 for (Float avg : measurement.getValues()) {
                     if (FloatUtils.isValid(avg) && avg > 0) {

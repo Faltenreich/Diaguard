@@ -206,27 +206,27 @@ public class DashboardFragment extends BaseFragment implements MainButton {
     }
 
     @OnClick(R.id.layout_latest)
-    protected void openEntry(View view) {
+    void openEntry(View view) {
         EntryEditActivity.show(getContext(), latestEntry);
     }
 
     @OnClick(R.id.layout_today)
-    protected void openStatisticsToday() {
+    void openStatisticsToday() {
         openStatistics();
     }
 
     @OnClick(R.id.layout_average)
-    protected void openStatisticsAverage() {
+    void openStatisticsAverage() {
         openStatistics();
     }
 
     @OnClick(R.id.layout_trend)
-    protected void openTrend() {
+    void openTrend() {
         openStatistics();
     }
 
     @OnClick(R.id.layout_hba1c)
-    protected void showHbA1cFormula() {
+    void showHbA1cFormula() {
         String formula = String.format(getString(R.string.hba1c_formula),
                 getString(R.string.average_symbol),
                 getString(R.string.months),

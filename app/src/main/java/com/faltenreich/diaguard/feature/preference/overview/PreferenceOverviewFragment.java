@@ -43,7 +43,7 @@ public class PreferenceOverviewFragment extends PreferenceFragment
     private ProgressComponent progressComponent = new ProgressComponent();
 
     public PreferenceOverviewFragment() {
-        super(R.xml.preferences, R.string.settings);
+        super(R.xml.preferences_overview, R.string.settings);
     }
 
     @Override

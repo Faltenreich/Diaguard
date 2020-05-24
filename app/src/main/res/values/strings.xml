@@ -487,7 +487,7 @@
 
     <string name="meal_factor">Meal-bolus-factor</string>
     <string name="meal_factors">Meal-bolus-factors</string>
-    <string name="meal_factor_desc">Used to calculate the insulin amount for a meal</string>
+    <string name="meal_factor_desc">Insulin quantity required for a meal</string>
     <string name="unit_factor_carbohydrates_unit">CU factor</string>
     <string name="unit_factor_bread_unit">BU factor</string>
 

@@ -320,7 +320,7 @@
 
     <string name="meal_factor">Mahlzeit-Bolus-Faktor</string>
     <string name="meal_factors">Mahlzeit-Bolus-Faktoren</string>
-    <string name="meal_factor_desc">Dienen zur Berechnung der Insulinmenge für eine Mahlzeit</string>
+    <string name="meal_factor_desc">Benötigte Insulinmenge für eine Mahlzeit</string>
     <string name="unit_factor_carbohydrates_unit">KE-Faktor</string>
     <string name="unit_factor_bread_unit">BE-Faktor</string>
 

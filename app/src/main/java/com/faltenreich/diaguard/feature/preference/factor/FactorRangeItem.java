@@ -12,27 +12,19 @@ class FactorRangeItem {
         this.value = value;
     }
 
-    public int getHourOfDay() {
+    int getHourOfDay() {
         return hourOfDay;
     }
 
-    public void setHourOfDay(int hourOfDay) {
-        this.hourOfDay = hourOfDay;
-    }
-
-    public int getRangeInHours() {
+    int getRangeInHours() {
         return rangeInHours;
     }
 
-    public void setRangeInHours(int rangeInHours) {
-        this.rangeInHours = rangeInHours;
-    }
-
-    public float getValue() {
+    float getValue() {
         return value;
     }
 
-    public void setValue(float value) {
+    void setValue(float value) {
         this.value = value;
     }
 }

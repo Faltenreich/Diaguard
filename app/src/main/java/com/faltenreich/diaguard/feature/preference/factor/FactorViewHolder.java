@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.feature.preference.factor;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.preference.data.Daytime;
@@ -19,9 +20,11 @@ class FactorViewHolder extends BaseViewHolder<FactorRangeItem> implements TextWa
 
     @BindView(R.id.inputField) StickyHintInput inputField;
 
-    FactorViewHolder(ViewGroup parent) {
+    private Callback callback;
+
+    FactorViewHolder(ViewGroup parent, Callback callback) {
         super(parent, R.layout.list_item_factor);
-        inputField.getInputView().addTextChangedListener(this);
+        this.callback = callback;
     }
 
     @Override
@@ -31,9 +34,12 @@ class FactorViewHolder extends BaseViewHolder<FactorRangeItem> implements TextWa
     }
 
     private void setValue(FactorRangeItem item) {
-        inputField.getInputView().setText(item.getValue() >= 0
+        EditText editText = inputField.getInputView();
+        editText.removeTextChangedListener(this);
+        editText.setText(item.getValue() >= 0
             ? FloatUtils.parseFloat(item.getValue())
             : null);
+        editText.addTextChangedListener(this);
     }
 
     private void setHint(FactorRangeItem item) {
@@ -65,10 +71,16 @@ class FactorViewHolder extends BaseViewHolder<FactorRangeItem> implements TextWa
 
     @Override
     public void afterTextChanged(Editable editable) {
+        FactorRangeItem item = getItem();
         try {
-            getItem().setValue(FloatUtils.parseNumber(editable.toString()));
-        } catch (NumberFormatException exception) {
-            getItem().setValue(0);
+            item.setValue(FloatUtils.parseNumber(editable.toString()));
+            callback.onRangeItemChanged(item);
+        } catch (NumberFormatException ignored) {
+
         }
+    }
+
+    interface Callback {
+        void onRangeItemChanged(FactorRangeItem rangeItem);
     }
 }

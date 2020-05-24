@@ -35,7 +35,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class FactorFragment extends BaseFragment {
+public class FactorFragment extends BaseFragment implements FactorViewHolder.Callback {
 
     private static final int X_AXIS_MINIMUM = 0;
     private static final int X_AXIS_MAXIMUM = DateTimeConstants.HOURS_PER_DAY;
@@ -160,7 +160,7 @@ public class FactorFragment extends BaseFragment {
     }
 
     private void initList() {
-        valuesListAdapter = new FactorListAdapter(getContext());
+        valuesListAdapter = new FactorListAdapter(getContext(), this);
         valuesList.setAdapter(valuesListAdapter);
         valuesList.setLayoutManager(new LinearLayoutManager(getContext()));
         valuesList.addItemDecoration(new LinearDividerItemDecoration(getContext()));
@@ -220,5 +220,17 @@ public class FactorFragment extends BaseFragment {
         Events.post(new FactorChangedEvent());
 
         finish();
+    }
+
+    @Override
+    public void onRangeItemChanged(FactorRangeItem rangeItem) {
+        for (FactorItem item : items) {
+            int hourStart = rangeItem.getHourOfDay();
+            int hourEnd = rangeItem.getHourOfDay() + rangeItem.getRangeInHours();
+            if (item.getHourOfDay() >= hourStart && item.getHourOfDay() < hourEnd) {
+                item.setValue(rangeItem.getValue());
+            }
+        }
+        invalidateChart();
     }
 }

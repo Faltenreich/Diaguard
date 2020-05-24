@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,7 +27,6 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
-import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 
 import java.util.ArrayList;
@@ -40,34 +40,37 @@ public class FactorFragment extends BaseFragment {
     private static final int X_AXIS_MINIMUM = 0;
     private static final int X_AXIS_MAXIMUM = DateTimeConstants.HOURS_PER_DAY;
 
-    @BindView(R.id.values_chart) LineChart valuesChart;
     @BindView(R.id.time_interval_spinner) Spinner timeIntervalSpinner;
+    @BindView(R.id.values_chart) LineChart valuesChart;
     @BindView(R.id.values_list) RecyclerView valuesList;
 
     private FactorListAdapter valuesListAdapter;
-    private Factor factor;
 
+    private Factor factor;
     private TimeInterval timeInterval;
+    private List<FactorItem> items;
 
     public FactorFragment() {
         super(R.layout.fragment_factor);
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        initLayout();
-        invalidateLayout();
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initData();
     }
 
-    private void initLayout() {
-        initFactor();
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setTitle(factor.getTitle());
         initSpinner();
         initChart();
         initList();
+        invalidateLayout();
     }
 
-    private void initFactor() {
+    private void initData() {
         Bundle arguments = getActivity() != null && getActivity().getIntent() != null
             ? getActivity().getIntent().getExtras()
             : null;
@@ -91,8 +94,13 @@ public class FactorFragment extends BaseFragment {
             throw new IllegalStateException("Factor must not be null");
         }
 
-        setTitle(factor.getTitle());
         timeInterval = factor.getTimeInterval();
+
+        items = new ArrayList<>();
+        for (int hourOfDay = 0; hourOfDay < DateTimeConstants.HOURS_PER_DAY; hourOfDay++) {
+            FactorItem item = new FactorItem(hourOfDay, factor.getValueForHour(hourOfDay));
+            items.add(item);
+        }
     }
 
     private void initChart() {
@@ -128,7 +136,7 @@ public class FactorFragment extends BaseFragment {
     }
 
     private void initSpinner() {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+        ArrayAdapter adapter = ArrayAdapter.createFromResource(
             requireContext(),
             R.array.time_rhythm,
             android.R.layout.simple_spinner_item
@@ -165,10 +173,10 @@ public class FactorFragment extends BaseFragment {
 
     private void invalidateChart() {
         List<Entry> entries = new ArrayList<>();
-        for (int hourOfDay = 0; hourOfDay < DateTimeConstants.HOURS_PER_DAY; hourOfDay++) {
+        for (FactorItem item : items) {
             Entry entry = new Entry();
-            entry.setX(hourOfDay);
-            entry.setY(factor.getValueForHour(hourOfDay));
+            entry.setX(item.getHourOfDay());
+            entry.setY(item.getValue());
             entries.add(entry);
         }
 
@@ -189,12 +197,15 @@ public class FactorFragment extends BaseFragment {
 
     private void invalidateList() {
         valuesListAdapter.clear();
-        DateTime dateTime = DateTime.now().withHourOfDay(timeInterval.startHour);
-        while (valuesListAdapter.getItemCount() < DateTimeConstants.HOURS_PER_DAY / timeInterval.interval) {
-            int hourOfDay = dateTime.getHourOfDay();
-            valuesListAdapter.addItem(new FactorListItem(timeInterval, hourOfDay, factor.getValueForHour(hourOfDay)));
-            dateTime = dateTime.withHourOfDay((hourOfDay + timeInterval.interval) % DateTimeConstants.HOURS_PER_DAY);
+
+        for (FactorItem item : items) {
+            boolean isRelevant = item.getHourOfDay() % timeInterval.rangeInHours == 0;
+            if (isRelevant) {
+                FactorRangeItem rangeItem = new FactorRangeItem(item.getHourOfDay(), timeInterval.rangeInHours, item.getValue());
+                valuesListAdapter.addItem(rangeItem);
+            }
         }
+
         valuesListAdapter.notifyDataSetChanged();
     }
 
@@ -202,15 +213,8 @@ public class FactorFragment extends BaseFragment {
     void store() {
         factor.setTimeInterval(timeInterval);
 
-        for (int pos = 0; pos < valuesListAdapter.getItemCount(); pos++) {
-            FactorListItem item = valuesListAdapter.getItem(pos);
-            int hoursIntoInterval = 0;
-
-            while (hoursIntoInterval < item.getInterval().interval) {
-                int hourOfDay = (item.getHourOfDay() + hoursIntoInterval) % DateTimeConstants.HOURS_PER_DAY;
-                factor.setValueForHour(item.getValue(), hourOfDay);
-                hoursIntoInterval++;
-            }
+        for (FactorItem item : items) {
+            factor.setValueForHour(item.getValue(), item.getHourOfDay());
         }
 
         Events.post(new FactorChangedEvent());

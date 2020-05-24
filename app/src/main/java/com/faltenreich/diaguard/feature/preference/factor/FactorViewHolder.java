@@ -15,7 +15,7 @@ import org.joda.time.DateTimeConstants;
 
 import butterknife.BindView;
 
-class FactorViewHolder extends BaseViewHolder<FactorListItem> implements TextWatcher {
+class FactorViewHolder extends BaseViewHolder<FactorRangeItem> implements TextWatcher {
 
     @BindView(R.id.inputField) StickyHintInput inputField;
 
@@ -25,19 +25,32 @@ class FactorViewHolder extends BaseViewHolder<FactorListItem> implements TextWat
     }
 
     @Override
-    protected void onBind(FactorListItem item) {
+    protected void onBind(FactorRangeItem item) {
+        setValue(item);
+        setHint(item);
+    }
+
+    private void setValue(FactorRangeItem item) {
         inputField.getInputView().setText(item.getValue() >= 0
             ? FloatUtils.parseFloat(item.getValue())
             : null);
+    }
 
+    private void setHint(FactorRangeItem item) {
         int hourOfDay = item.getHourOfDay();
-        int target = (item.getHourOfDay() + item.getInterval().interval) % DateTimeConstants.HOURS_PER_DAY;
-        if (item.getInterval() == TimeInterval.EVERY_SIX_HOURS) {
+        int target = (item.getHourOfDay() + item.getRangeInHours()) % DateTimeConstants.HOURS_PER_DAY;
+        TimeInterval timeInterval = TimeInterval.ofRangeInHours(item.getRangeInHours());
+
+        String hint;
+        if (timeInterval == TimeInterval.CONSTANT) {
+            hint = null;
+        } else if (timeInterval == TimeInterval.EVERY_SIX_HOURS) {
             String timeOfDay = getContext().getString(Daytime.toDayTime(hourOfDay).textResourceId);
-            inputField.setHint(String.format("%s (%02d - %02d:00)", timeOfDay, hourOfDay, target));
+            hint = String.format("%s (%02d - %02d:00)", timeOfDay, hourOfDay, target);
         } else {
-            inputField.setHint(String.format("%02d:00 - %02d:00", hourOfDay, target));
+            hint = String.format("%02d:00 - %02d:00", hourOfDay, target);
         }
+        inputField.setHint(hint);
     }
 
     @Override
@@ -52,11 +65,10 @@ class FactorViewHolder extends BaseViewHolder<FactorListItem> implements TextWat
 
     @Override
     public void afterTextChanged(Editable editable) {
-        FactorListItem preference = getItem();
         try {
-            preference.setValue(FloatUtils.parseNumber(editable.toString()));
+            getItem().setValue(FloatUtils.parseNumber(editable.toString()));
         } catch (NumberFormatException exception) {
-            preference.setValue(-1);
+            getItem().setValue(0);
         }
     }
 }

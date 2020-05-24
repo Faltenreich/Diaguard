@@ -1,18 +1,30 @@
 package com.faltenreich.diaguard.feature.preference.data;
 
+import androidx.annotation.Nullable;
+
 public enum  TimeInterval {
 
-    CONSTANT(24, 0),
-    EVERY_SIX_HOURS(6, 4),
-    EVERY_FOUR_HOURS(4, 0),
-    EVERY_SECOND_HOUR(2, 0),
-    EVERY_HOUR(1, 0);
+    CONSTANT(0, 24),
+    EVERY_SIX_HOURS(4, 6),
+    EVERY_FOUR_HOURS(0, 4),
+    EVERY_SECOND_HOUR(0, 2),
+    EVERY_HOUR(0, 1);
 
-    public int interval;
-    public int startHour;
+    public int startingHour;
+    public int rangeInHours;
 
-    TimeInterval(int interval, int startHour) {
-        this.interval = interval;
-        this.startHour = startHour;
+    TimeInterval(int startingHour, int rangeInHours) {
+        this.rangeInHours = rangeInHours;
+        this.startingHour = startingHour;
+    }
+
+    @Nullable
+    public static TimeInterval ofRangeInHours(int rangeInHours) {
+        for (TimeInterval timeInterval : TimeInterval.values()) {
+            if (timeInterval.rangeInHours == rangeInHours) {
+                return timeInterval;
+            }
+        }
+        return null;
     }
 }

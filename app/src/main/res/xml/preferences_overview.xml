@@ -91,13 +91,39 @@
             app:fragment="com.faltenreich.diaguard.feature.preference.therapy.LimitPreferenceFragment" />
 
         <Preference
-            android:key="@string/preference_factor"
-            android:title="@string/factors"
-            app:fragment="com.faltenreich.diaguard.feature.preference.therapy.FactorPreferenceFragment" />
+            android:key="@string/preference_factor_correction"
+            android:title="@string/correction_value"
+            android:summary="@string/correction_value_desc">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetPackage="@string/package_name"
+                android:targetClass="com.faltenreich.diaguard.feature.preference.factor.FactorActivity">
+                <!--suppress AndroidElementNotAllowed -->
+                <extra
+                    android:name="@string/argument_factor"
+                    android:value="@integer/argument_factor_correction" />
+            </intent>
+        </Preference>
+
+        <Preference
+            android:key="@string/preference_factor_meal"
+            android:title="@string/meal_factors"
+            android:summary="@string/meal_factor_desc">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetPackage="@string/package_name"
+                android:targetClass="com.faltenreich.diaguard.feature.preference.factor.FactorActivity">
+                <!--suppress AndroidElementNotAllowed -->
+                <extra
+                    android:name="@string/argument_factor"
+                    android:value="@integer/argument_factor_meal" />
+            </intent>
+        </Preference>
 
         <Preference
             android:key="@string/preference_factor_basal_rate"
-            android:title="@string/basal_rate">
+            android:title="@string/basal_rate"
+            android:summary="@string/basal_rate_desc">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:targetPackage="@string/package_name"

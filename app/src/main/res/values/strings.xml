@@ -515,7 +515,7 @@
     <string name="backup_desc">Store data in a backup file on a storage of your choice (No data will be sent automatically to external services)</string>
     <string name="import_desc">Restore data from a previously created backup file</string>
     <string name="show_branded_food">Show branded food</string>
-    <string name="show_branded_food_desc">Requested via network. Includes thousands of packaged goods and may therefor contain duplicates (e.g. one product from different manufacturers)</string>
+    <string name="show_branded_food_desc">Includes thousands of packaged goods that are requested via network (May lead to duplicates, e.g. one product from different manufacturers)</string>
     <string name="search_prompt">Start searching by typing</string>
     <string name="pinned">pinned</string>
     <string name="change_now">Change now</string>
@@ -552,13 +552,14 @@
     <string name="menu_open">Open menu</string>
     <string name="food_branded">Branded food</string>
     <string name="show_common_food">Show common food</string>
-    <string name="show_common_food_desc">Bundled with the app. Includes hundreds of basic edibles.</string>
+    <string name="show_common_food_desc">Includes hundreds of basic edibles bundled with the app</string>
     <string name="food_preferences">Food settings</string>
     <string name="food_custom">Custom food</string>
     <string name="show_custom_food">Show custom food</string>
-    <string name="show_custom_food_desc">Includes every food that has been added manually by the user.</string>
+    <string name="show_custom_food_desc">Includes every food that has been added manually by the user</string>
     <string name="factors">Factors</string>
     <string name="close">Close</string>
     <string name="basal_rate">Basal rate</string>
+    <string name="basal_rate_desc">Basic insulin needs</string>
 
 </resources>

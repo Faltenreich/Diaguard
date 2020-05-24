@@ -342,7 +342,7 @@
     <string name="backup_desc">Copia de seguridad de datos en un archivo de copia de seguridad en cualquier lugar (Ningún dato se reenvía automáticamente a servicios externos)</string>
     <string name="import_desc">Restaurar datos de un archivo de copia de seguridad creado anteriormente</string>
     <string name="show_branded_food">Mostrar alimentos de marca</string>
-    <string name="show_branded_food_desc">Incluye miles de productos empaquetados y, por lo tanto, puede contener duplicados (por ejemplo, un producto de diferentes fabricantes)</string>
+    <string name="show_branded_food_desc">Incluye miles de productos empaquetados que se solicitan a través de la red (puede dar lugar a duplicados, por ejemplo, un producto de diferentes fabricantes)</string>
     <string name="search_prompt">Comience la búsqueda escribiendo</string>
     <string name="pinned">fijó</string>
     <string name="change_now">Cambiar ahora</string>
@@ -372,5 +372,21 @@
     <string name="weeks_four">Últimas cuatro semanas</string>
     <string name="month_current">Mes actual</string>
     <string name="quarter_current">Trimestre actual</string>
+    <string name="therapy">Terapia</string>
+    <string name="powered_by">Impulsado por</string>
+    <string name="sourcecode">Código fuente</string>
+    <string name="query_clear">Borrar consulta</string>
+    <string name="menu_open">Abrir menú</string>
+    <string name="food_branded">Comida de marca</string>
+    <string name="show_common_food">Muestra la comida común</string>
+    <string name="show_common_food_desc">Incluye cientos de alimentos básicos empaquetados con la app</string>
+    <string name="food_preferences">Configuración de la comida</string>
+    <string name="food_custom">Comida personalizada</string>
+    <string name="show_custom_food">Muestra la comida personalizada</string>
+    <string name="show_custom_food_desc">Incluye todos los alimentos que han sido añadidos manualmente por el usuario</string>
+    <string name="factors">Factores</string>
+    <string name="close">Cerrar</string>
+    <string name="basal_rate">Tasa basal</string>
+    <string name="basal_rate_desc">Necesidades básicas de insulina</string>
 
 </resources>

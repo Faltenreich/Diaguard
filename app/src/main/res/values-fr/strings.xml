@@ -340,7 +340,7 @@
     <string name="backup_desc">Sauvegarder les données dans un fichier de sauvegarde n\'importe où (Aucune donnée n\'est automatiquement transmise à des services externes)</string>
     <string name="import_desc">Restaurer les données d\'un fichier de sauvegarde créé précédemment</string>
     <string name="show_branded_food">Afficher les aliments de marque</string>
-    <string name="show_branded_food_desc">Inclut des milliers de produits emballés et peut donc contenir des doublons (par exemple, un produit de différents fabricants)</string>
+    <string name="show_branded_food_desc">Comprend des milliers de produits emballés qui sont demandés via le réseau (peut entraîner des doublons, par exemple un produit provenant de différents fabricants)</string>
     <string name="search_prompt">Commencez la recherche en tapant</string>
     <string name="pinned">fixé</string>
     <string name="change_now">Changer maintenant</string>
@@ -370,5 +370,21 @@
     <string name="weeks_four">Quatre dernières semaines</string>
     <string name="month_current">Mois en cours</string>
     <string name="quarter_current">Trimestre en cours</string>
+    <string name="therapy">Thérapie</string>
+    <string name="powered_by">Propulsé par</string>
+    <string name="sourcecode">Code source</string>
+    <string name="query_clear">Requête claire</string>
+    <string name="menu_open">Ouvrir le menu</string>
+    <string name="food_branded">Aliments de marque</string>
+    <string name="show_common_food">Montrer l\'alimentation commune</string>
+    <string name="show_common_food_desc">Comprend des centaines de produits comestibles de base regroupés avec l\'application</string>
+    <string name="food_preferences">Paramètres alimentaires</string>
+    <string name="food_custom">Alimentation sur mesure</string>
+    <string name="show_custom_food">Afficher les aliments personnalisés</string>
+    <string name="show_custom_food_desc">Comprend tous les aliments qui ont été ajoutés manuellement par l\'utilisateur</string>
+    <string name="factors">Facteurs</string>
+    <string name="close">Fermer</string>
+    <string name="basal_rate">Débit de base</string>
+    <string name="basal_rate_desc">Les besoins de base en insuline</string>
 
 </resources>

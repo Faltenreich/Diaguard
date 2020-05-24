@@ -61,7 +61,6 @@ public class PreferenceStore {
 
     public void setDefaultValues(Context context) {
         setDefaultValues(context, R.xml.preferences_overview);
-        setDefaultValues(context, R.xml.preferences_factor);
         setDefaultValues(context, R.xml.preferences_food);
         setDefaultValues(context, R.xml.preferences_limit);
         setDefaultValues(context, R.xml.preferences_unit);

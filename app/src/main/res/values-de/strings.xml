@@ -68,7 +68,7 @@
     <string name="food">Lebensmittel</string>
     <string name="food_add">Lebensmittel hinzufügen</string>
     <string name="food_add_desc">Neues Lebensmittel</string>
-    <string name="food_common">Gewöhnliches Lebensmittel</string>
+    <string name="food_common">Grundnahrungsmittel</string>
     <string name="food_delete">Lebensmittel löschen</string>
     <string name="food_deleted">Lebensmittel gelöscht</string>
     <string name="food_eaten_placeholder">%d verzehrte Mahlzeiten sind betroffen</string>
@@ -339,7 +339,7 @@
     <string name="backup_desc">Daten in einer Backup-Datei an einem beliebigen Ort sichern (Es werden keine Daten automatisch an externe Dienste weitergegeben)</string>
     <string name="import_desc">Daten aus einer vorher angelegten Backup-Datei wiederherstellen</string>
     <string name="show_branded_food">Markenprodukte anzeigen</string>
-    <string name="show_branded_food_desc">Umfasst tausende abgepackter Lebensmittel und führt deshalb unter Umständen zu Duplikaten (z. B. beim gleichen Produkt von verschiedenen Herstellern)</string>
+    <string name="show_branded_food_desc">Umfasst tausende abgepackter Lebensmittel, die über das Internet abgefragt werden (Führt unter Umständen zu Duplikaten, z. B. beim gleichen Produkt von verschiedenen Herstellern)</string>
     <string name="search_prompt">Tippen, um Suche zu beginnen</string>
     <string name="pinned">fixiert</string>
     <string name="change_now">Jetzt ändern</string>
@@ -369,5 +369,21 @@
     <string name="weeks_four">Letzte vier Wochen</string>
     <string name="month_current">Aktueller Monat</string>
     <string name="quarter_current">Aktuelles Quartal</string>
+    <string name="therapy">Therapie</string>
+    <string name="powered_by">Mit freundlicher Unterstützung</string>
+    <string name="sourcecode">Quellcode</string>
+    <string name="query_clear">Eingabe zurücksetzen</string>
+    <string name="menu_open">Menü öffnen</string>
+    <string name="food_branded">Markenprodukte</string>
+    <string name="show_common_food">Grundnahrungsmittel anzeigen</string>
+    <string name="show_common_food_desc">Umfasst hunderte von essentiellen Lebensmitteln, die mit der App ausgeliefert worden sind</string>
+    <string name="food_preferences">Lebensmittel Einstellungen</string>
+    <string name="food_custom">Eigene Lebensmittel</string>
+    <string name="show_custom_food">Eigene Lebensmittel anzeigen</string>
+    <string name="show_custom_food_desc">Umfasst alle Lebensmittel, die manuell eingegeben worden sind</string>
+    <string name="factors">Faktoren</string>
+    <string name="close">Schließen</string>
+    <string name="basal_rate">Basalrate</string>
+    <string name="basal_rate_desc">Grundbedarf an Insulin</string>
 
 </resources>

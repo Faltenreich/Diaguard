@@ -4,6 +4,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.export.job.Export;
+import com.faltenreich.diaguard.feature.export.job.ExportCallback;
+import com.faltenreich.diaguard.feature.export.job.FileType;
 import com.faltenreich.diaguard.shared.data.database.DatabaseHelper;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
@@ -17,9 +20,6 @@ import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
-import com.faltenreich.diaguard.feature.export.job.Export;
-import com.faltenreich.diaguard.feature.export.job.ExportCallback;
-import com.faltenreich.diaguard.feature.export.job.FileType;
 import com.opencsv.CSVWriter;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -29,6 +29,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 public class CsvExport extends AsyncTask<Void, String, File> {
 
@@ -51,9 +52,9 @@ public class CsvExport extends AsyncTask<Void, String, File> {
         Category[] categories = config.getCategories();
         boolean isBackup = config.isBackup();
 
-        File file = isBackup?
-                Export.getBackupFile(config, FileType.CSV) :
-                Export.getExportFile(config);
+        File file = isBackup ?
+            Export.getBackupFile(config, FileType.CSV) :
+            Export.getExportFile(config);
         try {
             FileWriter fileWriter = new FileWriter(file);
             CSVWriter writer = new CSVWriter(fileWriter, CsvMeta.CSV_DELIMITER);
@@ -62,7 +63,7 @@ public class CsvExport extends AsyncTask<Void, String, File> {
                 // Meta information to detect the data scheme in future iterations
                 String[] meta = new String[]{
                     CsvMeta.CSV_KEY_META,
-                        Integer.toString(DatabaseHelper.getVersion())};
+                    Integer.toString(DatabaseHelper.getVersion())};
                 writer.writeNext(meta);
 
                 List<Tag> tags = TagDao.getInstance().getAll();
@@ -71,26 +72,35 @@ public class CsvExport extends AsyncTask<Void, String, File> {
                 }
 
                 List<Food> foods = FoodDao.getInstance().getAllFromUser();
-                for (Food food: foods) {
+                for (Food food : foods) {
                     writer.writeNext(ArrayUtils.add(food.getValuesForBackup(), 0, food.getKeyForBackup()));
                 }
             }
 
             List<Entry> entries = dateStart != null && dateEnd != null ?
-                    EntryDao.getInstance().getEntriesBetween(dateStart, dateEnd) :
-                    EntryDao.getInstance().getAll();
+                EntryDao.getInstance().getEntriesBetween(dateStart, dateEnd) :
+                EntryDao.getInstance().getAll();
             int position = 0;
             for (Entry entry : entries) {
-                publishProgress(String.format("%s %d/%d",
-                        config.getContext().getString(R.string.entry),
-                        position,
-                        entries.size()));
+                publishProgress(String.format(Locale.getDefault(), "%s %d/%d",
+                    config.getContext().getString(R.string.entry),
+                    position,
+                    entries.size())
+                );
 
-                writer.writeNext(isBackup ? ArrayUtils.add(entry.getValuesForBackup(), 0, entry.getKeyForBackup()) : entry.getValuesForExport());
+                writer.writeNext(isBackup
+                    ? ArrayUtils.add(entry.getValuesForBackup(), 0, entry.getKeyForBackup())
+                    : entry.getValuesForExport()
+                );
 
-                List<Measurement> measurements = categories != null ? EntryDao.getInstance().getMeasurements(entry, categories) : EntryDao.getInstance().getMeasurements(entry);
+                List<Measurement> measurements = categories != null ?
+                    EntryDao.getInstance().getMeasurements(entry, categories) :
+                    EntryDao.getInstance().getMeasurements(entry);
                 for (Measurement measurement : measurements) {
-                    writer.writeNext(isBackup ? ArrayUtils.add(measurement.getValuesForBackup(), 0, measurement.getKeyForBackup()) : measurement.getValuesForExport());
+                    writer.writeNext(isBackup
+                        ? ArrayUtils.add(measurement.getValuesForBackup(), 0, measurement.getKeyForBackup())
+                        : measurement.getValuesForExport()
+                    );
 
                     if (isBackup && measurement instanceof Meal) {
                         Meal meal = (Meal) measurement;

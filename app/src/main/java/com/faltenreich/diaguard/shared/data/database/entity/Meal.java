@@ -3,10 +3,13 @@ package com.faltenreich.diaguard.shared.data.database.entity;
 import androidx.annotation.NonNull;
 
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
+import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
+
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,5 +87,16 @@ public class Meal extends Measurement {
     @Override
     public String toString() {
         return PreferenceStore.getInstance().getMeasurementForUi(getCategory(), getTotalCarbohydrates());
+    }
+
+    @Override
+    public String[] getValuesForExport() {
+        float value = carbohydrates;
+        for (FoodEaten foodEaten : getFoodEaten()) {
+            value += foodEaten.getCarbohydrates();
+        }
+        float valueFormatted = PreferenceStore.getInstance().formatDefaultToCustomUnit(getCategory(), value);
+        String valueForUi = FloatUtils.parseFloat(valueFormatted);
+        return ArrayUtils.addAll(new String[]{getCategory().name().toLowerCase()}, valueForUi);
     }
 }

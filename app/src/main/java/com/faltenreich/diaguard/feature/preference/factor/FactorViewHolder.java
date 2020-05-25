@@ -43,16 +43,17 @@ class FactorViewHolder extends BaseViewHolder<FactorRangeItem> implements TextWa
     }
 
     private void setHint(FactorRangeItem item) {
+        TimeInterval timeInterval = TimeInterval.ofRangeInHours(item.getRangeInHours());
         int hourOfDay = item.getHourOfDay();
         int target = (item.getHourOfDay() + item.getRangeInHours()) % DateTimeConstants.HOURS_PER_DAY;
-        TimeInterval timeInterval = TimeInterval.ofRangeInHours(item.getRangeInHours());
+        if (target == 0) {
+            target = 24;
+        }
 
         String hint;
-        if (timeInterval == TimeInterval.CONSTANT) {
-            hint = null;
-        } else if (timeInterval == TimeInterval.EVERY_SIX_HOURS) {
+        if (timeInterval == TimeInterval.EVERY_SIX_HOURS) {
             String timeOfDay = getContext().getString(Daytime.toDayTime(hourOfDay).textResourceId);
-            hint = String.format("%s (%02d - %02d:00)", timeOfDay, hourOfDay, target);
+            hint = String.format("%s (%02d:00 - %02d:00)", timeOfDay, hourOfDay, target);
         } else {
             hint = String.format("%02d:00 - %02d:00", hourOfDay, target);
         }

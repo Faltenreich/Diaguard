@@ -25,14 +25,12 @@
                 android:id="@+id/backIcon"
                 android:layout_width="@dimen/height_element"
                 android:layout_height="@dimen/height_element"
-                android:layout_marginStart="@dimen/margin_between"
-                android:layout_marginLeft="@dimen/margin_between"
                 android:adjustViewBounds="true"
                 android:background="?selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:contentDescription="@string/back"
                 android:focusable="true"
-                android:padding="@dimen/padding_large"
+                android:padding="@dimen/margin_between_large"
                 android:tint="?iconColorPrimary"
                 app:srcCompat="@drawable/ic_arrow_back" />
 
@@ -54,14 +52,12 @@
                 android:layout_height="@dimen/height_element"
                 android:layout_marginStart="@dimen/margin_between"
                 android:layout_marginLeft="@dimen/margin_between"
-                android:layout_marginEnd="@dimen/margin_between"
-                android:layout_marginRight="@dimen/margin_between"
                 android:adjustViewBounds="true"
                 android:background="?selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:contentDescription="@string/back"
                 android:focusable="true"
-                android:padding="@dimen/padding_large"
+                android:padding="@dimen/margin_between_large"
                 android:tint="?iconColorPrimary"
                 app:srcCompat="@drawable/ic_clear" />
 

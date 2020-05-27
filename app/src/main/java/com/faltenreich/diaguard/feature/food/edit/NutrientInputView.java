@@ -31,11 +31,11 @@ public class NutrientInputView extends StickyHintInput {
 
     @Nullable
     public Float getValue() {
-        return getInputView().getNumber();
+        return getEditText().getNumber();
     }
 
     public void setValue(float value) {
-        getInputView().setText(FloatUtils.parseFloat(value));
+        getEditText().setText(FloatUtils.parseFloat(value));
     }
 
     private void init() {

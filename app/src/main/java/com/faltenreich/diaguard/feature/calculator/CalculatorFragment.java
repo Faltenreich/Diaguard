@@ -112,20 +112,20 @@ public class CalculatorFragment extends BaseFragment implements MainButton {
         boolean isValid = true;
 
         // Blood Sugar
-        if (!Validator.validateEditTextEvent(getContext(), bloodSugarInput.getInputView(), Category.BLOODSUGAR, false)) {
+        if (!Validator.validateEditTextEvent(getContext(), bloodSugarInput.getEditText(), Category.BLOODSUGAR, false)) {
             isValid = false;
         }
-        if (!Validator.validateEditTextEvent(getContext(), targetInput.getInputView(), Category.BLOODSUGAR, false)) {
+        if (!Validator.validateEditTextEvent(getContext(), targetInput.getEditText(), Category.BLOODSUGAR, false)) {
             isValid = false;
         }
-        if (!Validator.validateEditTextEvent(getContext(), correctionInput.getInputView(), Category.BLOODSUGAR, false)) {
+        if (!Validator.validateEditTextEvent(getContext(), correctionInput.getEditText(), Category.BLOODSUGAR, false)) {
             isValid = false;
         }
 
         // Meal
         if (foodInputView.getTotalCarbohydrates() > 0) {
             // Factor
-            if (!Validator.validateEditTextFactor(getContext(), factorInput.getInputView(), false)) {
+            if (!Validator.validateEditTextFactor(getContext(), factorInput.getEditText(), false)) {
                 isValid = false;
             } else {
                 factorInput.setError(null);

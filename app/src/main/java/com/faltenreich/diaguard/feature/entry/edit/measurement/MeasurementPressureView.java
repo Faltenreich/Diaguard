@@ -48,8 +48,8 @@ public class MeasurementPressureView extends MeasurementAbstractView<Pressure> {
 
     @Override
     protected boolean isValid() {
-        return PreferenceStore.getInstance().isValueValid(systolic.getInputView(), Category.PRESSURE) &&
-                PreferenceStore.getInstance().isValueValid(diastolic.getInputView(), Category.PRESSURE);
+        return PreferenceStore.getInstance().isValueValid(systolic.getEditText(), Category.PRESSURE) &&
+                PreferenceStore.getInstance().isValueValid(diastolic.getEditText(), Category.PRESSURE);
     }
 
     @Override

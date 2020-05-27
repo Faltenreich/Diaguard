@@ -145,7 +145,7 @@ public class FoodInputView extends LinearLayout {
             valueInput.setError(getContext().getString(R.string.validator_value_empty));
             isValid = false;
         } else if (!StringUtils.isBlank(input)) {
-            isValid = PreferenceStore.getInstance().isValueValid(valueInput.getInputView(), Category.MEAL);
+            isValid = PreferenceStore.getInstance().isValueValid(valueInput.getEditText(), Category.MEAL);
         }
         return isValid;
     }

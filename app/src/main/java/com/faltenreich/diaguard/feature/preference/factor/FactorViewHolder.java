@@ -25,6 +25,7 @@ class FactorViewHolder extends BaseViewHolder<FactorRangeItem> implements TextWa
     FactorViewHolder(ViewGroup parent, Callback callback) {
         super(parent, R.layout.list_item_factor);
         this.callback = callback;
+        this.inputField.getEditText().setSelectAllOnFocus(true);
     }
 
     @Override
@@ -34,7 +35,7 @@ class FactorViewHolder extends BaseViewHolder<FactorRangeItem> implements TextWa
     }
 
     private void setValue(FactorRangeItem item) {
-        EditText editText = inputField.getInputView();
+        EditText editText = inputField.getEditText();
         editText.removeTextChangedListener(this);
         editText.setText(item.getValue() >= 0
             ? FloatUtils.parseFloat(item.getValue())

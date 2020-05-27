@@ -55,7 +55,7 @@ public class MeasurementGenericView <T extends Measurement> extends MeasurementA
             inputView.setError(getContext().getString(R.string.validator_value_empty));
             isValid = false;
         } else {
-            isValid = PreferenceStore.getInstance().isValueValid(inputView.getInputView(), measurement.getCategory());
+            isValid = PreferenceStore.getInstance().isValueValid(inputView.getEditText(), measurement.getCategory());
         }
         return isValid;
     }

@@ -7,7 +7,6 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,10 +18,12 @@ import butterknife.ButterKnife;
 
 public class StickyHintInput extends LinearLayout implements TextWatcher {
 
-    private static final int INPUT_TYPE_DEFAULT = InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED;
+    private static final int INPUT_TYPE_DEFAULT = InputType.TYPE_CLASS_NUMBER
+        | InputType.TYPE_NUMBER_FLAG_DECIMAL
+        | InputType.TYPE_NUMBER_FLAG_SIGNED;
 
-    @BindView(R.id.input) LocalizedNumberEditText input;
-    @BindView(R.id.label) TextView label;
+    @BindView(R.id.editText) LocalizedNumberEditText editText;
+    @BindView(R.id.hintView) TextView hintView;
 
     private CharSequence hint;
     private int inputType = INPUT_TYPE_DEFAULT;
@@ -43,7 +44,10 @@ public class StickyHintInput extends LinearLayout implements TextWatcher {
     }
 
     private void init(AttributeSet attributeSet) {
-        TypedArray typedArray = getContext().obtainStyledAttributes(attributeSet, new int[]{ android.R.attr.hint, android.R.attr.inputType });
+        TypedArray typedArray = getContext().obtainStyledAttributes(
+            attributeSet,
+            new int[]{android.R.attr.hint, android.R.attr.inputType}
+        );
         try {
             hint = typedArray.getText(0);
             inputType = typedArray.getInt(1, INPUT_TYPE_DEFAULT);
@@ -57,61 +61,50 @@ public class StickyHintInput extends LinearLayout implements TextWatcher {
         LayoutInflater.from(getContext()).inflate(R.layout.view_sticky_hint_input, this);
         if (!isInEditMode()) {
             ButterKnife.bind(this);
-            input.addTextChangedListener(this);
-            input.setHint(hint);
-            input.setInputType(inputType);
-            label.setText(hint);
-            label.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ViewUtils.showKeyboard(input);
-                }
-            });
+            editText.addTextChangedListener(this);
+            editText.setHint(hint);
+            editText.setInputType(inputType);
+            hintView.setText(hint);
+            hintView.setOnClickListener(view -> ViewUtils.showKeyboard(editText));
         }
     }
 
     private void update() {
-        boolean isVisible = input.getText().toString().length() > 0;
-        label.setVisibility(isVisible ? VISIBLE : GONE);
+        boolean isVisible = editText.getText() != null && editText.getText().toString().length() > 0;
+        hintView.setVisibility(isVisible ? VISIBLE : GONE);
     }
 
-    public LocalizedNumberEditText getInputView() {
-        return input;
-    }
-
-    public TextView getTextView() {
-        return label;
+    public LocalizedNumberEditText getEditText() {
+        return editText;
     }
 
     public String getText() {
-        return input.getNonLocalizedText();
+        return editText.getNonLocalizedText();
     }
 
     public void setText(String text) {
-        input.setText(text);
+        editText.setText(text);
     }
 
     public String getHint() {
-        return input.getHint().toString();
+        return editText.getHint().toString();
     }
 
     public void setHint(String hint) {
-        input.setHint(hint);
-        label.setText(hint);
+        editText.setHint(hint);
+        hintView.setText(hint);
     }
 
     public void setError(String error) {
-        input.setError(error);
+        editText.setError(error);
     }
 
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
     }
 
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
     }
 
     @Override

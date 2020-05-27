@@ -97,7 +97,7 @@
             android:id="@+id/format_divider"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="?backgroundColorTertiary"
+            android:background="?attr/dividerVertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/date_start_button" />
@@ -159,7 +159,7 @@
             android:id="@+id/style_divider"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="?backgroundColorTertiary"
+            android:background="?attr/dividerVertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/style_spinner" />
@@ -196,7 +196,7 @@
             android:id="@+id/header_divider"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="?backgroundColorTertiary"
+            android:background="?attr/dividerVertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/header_checkbox" />
@@ -233,7 +233,7 @@
             android:id="@+id/footer_divider"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="?backgroundColorTertiary"
+            android:background="?attr/dividerVertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/footer_checkbox" />
@@ -269,7 +269,7 @@
             android:id="@+id/note_divider"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="?backgroundColorTertiary"
+            android:background="?attr/dividerVertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/note_checkbox" />

@@ -19,7 +19,7 @@ import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.preference.FactorChangedEvent;
 import com.faltenreich.diaguard.shared.view.chart.ChartUtils;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
-import com.faltenreich.diaguard.shared.view.recyclerview.decoration.LinearDividerItemDecoration;
+import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
 import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
@@ -163,7 +163,7 @@ public class FactorFragment extends BaseFragment implements FactorViewHolder.Cal
         valuesListAdapter = new FactorListAdapter(getContext(), this);
         valuesList.setAdapter(valuesListAdapter);
         valuesList.setLayoutManager(new LinearLayoutManager(getContext()));
-        valuesList.addItemDecoration(new LinearDividerItemDecoration(getContext()));
+        valuesList.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
     }
 
     private void invalidateLayout() {

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:showDividers="middle"
-    android:divider="@drawable/separator">
+    android:divider="?attr/dividerVertical">
 
     <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
         android:id="@+id/pressure_systolic"

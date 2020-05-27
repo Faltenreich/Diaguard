@@ -21,7 +21,7 @@ import com.faltenreich.diaguard.shared.event.data.FoodQueryEndedEvent;
 import com.faltenreich.diaguard.shared.event.data.FoodQueryStartedEvent;
 import com.faltenreich.diaguard.shared.event.networking.FoodSearchFailedEvent;
 import com.faltenreich.diaguard.shared.event.networking.FoodSearchSucceededEvent;
-import com.faltenreich.diaguard.shared.view.recyclerview.decoration.LinearDividerItemDecoration;
+import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
 import com.faltenreich.diaguard.shared.view.recyclerview.pagination.EndlessRecyclerViewScrollListener;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -68,7 +68,7 @@ public class FoodSearchListView extends RecyclerView {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         setLayoutManager(layoutManager);
 
-        addItemDecoration(new LinearDividerItemDecoration(getContext()));
+        addItemDecoration(new VerticalDividerItemDecoration(getContext()));
 
         adapter = new FoodSearchListAdapter(getContext());
         setAdapter(adapter);

@@ -24,7 +24,7 @@ import com.faltenreich.diaguard.feature.timeline.day.chart.DayChart;
 import com.faltenreich.diaguard.feature.timeline.day.table.CategoryImageListAdapter;
 import com.faltenreich.diaguard.feature.timeline.day.table.CategoryValueListAdapter;
 import com.faltenreich.diaguard.feature.timeline.day.table.CategoryValueViewHolder;
-import com.faltenreich.diaguard.shared.view.recyclerview.decoration.LinearDividerItemDecoration;
+import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
 import com.faltenreich.diaguard.feature.timeline.day.table.CategoryImageListItem;
 import com.faltenreich.diaguard.feature.timeline.day.table.CategoryValueListItem;
 
@@ -112,7 +112,7 @@ public class TimelineDayFragment extends Fragment {
 
     private void initLayout() {
         imageTable.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-        imageTable.addItemDecoration(new LinearDividerItemDecoration(getContext()));
+        imageTable.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
         imageTable.setAdapter(imageAdapter);
         imageTable.setNestedScrollingEnabled(false);
 

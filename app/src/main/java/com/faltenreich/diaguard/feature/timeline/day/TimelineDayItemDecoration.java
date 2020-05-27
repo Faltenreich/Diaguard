@@ -2,46 +2,85 @@ package com.faltenreich.diaguard.feature.timeline.day;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.shared.view.resource.DrawableUtils;
 
-class TimelineDayItemDecoration extends RecyclerView.ItemDecoration {
+class TimelineDayItemDecoration extends DividerItemDecoration {
 
-    private Drawable divider;
+    private final Drawable divider;
+    private final Rect bounds;
 
     TimelineDayItemDecoration(Context context) {
-        divider = ContextCompat.getDrawable(context, R.drawable.separator);
+        super(context, RecyclerView.VERTICAL);
+        divider = DrawableUtils.getListDivider(context);
+        bounds = new Rect();
     }
 
     @Override
-    public void onDrawOver(@NonNull Canvas canvas, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-        int left = parent.getPaddingLeft();
-        int top = parent.getPaddingTop();
-        int right = parent.getWidth() - parent.getPaddingRight();
-        int bottom = parent.getHeight() - parent.getPaddingBottom();
+    public void onDraw(@NonNull Canvas canvas, RecyclerView parent, @NonNull RecyclerView.State state) {
+        if (parent.getLayoutManager() == null || !(parent.getLayoutManager() instanceof GridLayoutManager)) {
+            return;
+        }
+        // Workaround: We re-implement drawing methods as they are private in super class
+        int spanCount = ((GridLayoutManager) parent.getLayoutManager()).getSpanCount();
+        canvas.save();
+        drawHorizontalLines(canvas, parent, spanCount);
+        drawVerticalLines(canvas, parent, spanCount);
+        canvas.restore();
+    }
 
-        int childCount = parent.getChildCount();
-        for (int index = 0; index < childCount; index++) {
-            View child = parent.getChildAt(index);
+    private void drawHorizontalLines(Canvas canvas, RecyclerView parent, int spanCount) {
+        int left;
+        int right;
 
-            RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+        if (parent.getClipToPadding()) {
+            left = parent.getPaddingLeft();
+            right = parent.getWidth() - parent.getPaddingRight();
+            canvas.clipRect(left, parent.getPaddingTop(), right,
+                parent.getHeight() - parent.getPaddingBottom());
+        } else {
+            left = 0;
+            right = parent.getWidth();
+        }
 
-            int childTop = child.getBottom() + params.bottomMargin;
-            int childBottom = childTop + divider.getIntrinsicHeight();
-
-            divider.setBounds(left, childTop, right, childBottom);
+        for (int row = 0; row < parent.getChildCount() / spanCount; row++) {
+            View child = parent.getChildAt(row * spanCount);
+            parent.getDecoratedBoundsWithMargins(child, bounds);
+            int bottom = bounds.bottom + Math.round(child.getTranslationY());
+            int top = bottom - divider.getIntrinsicHeight();
+            divider.setBounds(left, top, right, bottom);
             divider.draw(canvas);
+        }
+    }
 
-            int childLeft = child.getLeft() + params.leftMargin;
-            int childRight = childLeft + divider.getIntrinsicWidth();
+    private void drawVerticalLines(Canvas canvas, RecyclerView parent, int spanCount) {
+        int top;
+        int bottom;
 
-            divider.setBounds(childLeft, top, childRight, bottom);
+        if (parent.getClipToPadding()) {
+            top = parent.getPaddingTop();
+            bottom = parent.getHeight() - parent.getPaddingBottom();
+            canvas.clipRect(parent.getPaddingLeft(), top,
+                parent.getWidth() - parent.getPaddingRight(), bottom);
+        } else {
+            top = 0;
+            bottom = parent.getHeight();
+        }
+
+        for (int column = 0; column < spanCount; column++) {
+            View child = parent.getChildAt(column);
+            parent.getDecoratedBoundsWithMargins(child, bounds);
+            int right = bounds.right + Math.round(child.getTranslationX());
+            int left = right - divider.getIntrinsicWidth();
+            divider.setBounds(left, top, right, bottom);
             divider.draw(canvas);
         }
     }

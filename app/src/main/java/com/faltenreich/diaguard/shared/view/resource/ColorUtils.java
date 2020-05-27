@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
 
+@SuppressWarnings("unused")
 public class ColorUtils {
 
     @ColorInt

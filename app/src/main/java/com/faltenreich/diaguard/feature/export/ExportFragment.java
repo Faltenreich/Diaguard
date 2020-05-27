@@ -33,7 +33,7 @@ import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportStyle;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.feature.datetime.DatePickerFragment;
-import com.faltenreich.diaguard.shared.view.recyclerview.decoration.LinearDividerItemDecoration;
+import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
 import com.faltenreich.diaguard.feature.navigation.MainButton;
 import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
@@ -155,7 +155,7 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
             PreferenceStore.getInstance().setExportTags(isChecked));
 
         categoryCheckBoxList.setLayoutManager(new LinearLayoutManager(getContext()));
-        categoryCheckBoxList.addItemDecoration(new LinearDividerItemDecoration(getContext()));
+        categoryCheckBoxList.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
         categoryCheckBoxList.setAdapter(categoryCheckBoxListAdapter);
 
         ViewCompat.setNestedScrollingEnabled(categoryCheckBoxList, false);

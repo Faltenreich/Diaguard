@@ -17,7 +17,7 @@ import com.faltenreich.diaguard.shared.data.database.dao.TagDao;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
-import com.faltenreich.diaguard.shared.view.recyclerview.decoration.LinearDividerItemDecoration;
+import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
 
 import java.util.List;
 
@@ -45,7 +45,7 @@ public class TagListFragment extends BaseFragment implements TagListAdapter.TagL
 
     private void initLayout() {
         list.setLayoutManager(new LinearLayoutManager(getContext()));
-        list.addItemDecoration(new LinearDividerItemDecoration(getContext()));
+        list.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
         listAdapter = new TagListAdapter(getContext());
         listAdapter.setTagListener(this);
         list.setAdapter(listAdapter);

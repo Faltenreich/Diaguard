@@ -12,7 +12,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
-import com.faltenreich.diaguard.shared.view.recyclerview.decoration.LinearDividerItemDecoration;
+import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
 import com.faltenreich.diaguard.shared.Helper;
 
 import butterknife.BindView;
@@ -56,7 +56,7 @@ public class NutrientListFragment extends BaseFoodFragment {
 
     private void initLayout() {
         nutrientList.setLayoutManager(new LinearLayoutManager(getContext()));
-        nutrientList.addItemDecoration(new LinearDividerItemDecoration(getContext()));
+        nutrientList.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
         nutrientList.setAdapter(listAdapter);
     }
 

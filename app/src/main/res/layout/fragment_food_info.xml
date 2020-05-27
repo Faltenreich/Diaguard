@@ -9,25 +9,27 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:divider="?attr/dividerVertical"
         android:orientation="vertical"
-        android:showDividers="middle"
-        android:divider="@drawable/separator">
+        android:showDividers="middle">
 
-        <LinearLayout style="@style/LayoutRow">
+        <LinearLayout
+            style="@style/LayoutRow"
+            tools:ignore="UseCompoundDrawables">
 
             <ImageView
                 style="@style/LayoutRowImageMultiline"
-                android:tint="?iconColorPrimary"
                 android:contentDescription="@null"
-                android:src="@drawable/ic_business"/>
+                android:src="@drawable/ic_business"
+                android:tint="?iconColorPrimary" />
 
             <TextView
+                android:id="@+id/food_brand"
                 style="@style/LayoutRowItemMultiline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/food_brand"
                 android:textColor="?android:attr/textColorPrimary"
-                tools:text="@tools:sample/lorem"/>
+                tools:text="@tools:sample/lorem" />
 
         </LinearLayout>
 
@@ -35,17 +37,17 @@
 
             <ImageView
                 style="@style/LayoutRowImageMultiline"
-                android:tint="?iconColorPrimary"
                 android:contentDescription="@null"
-                android:src="@drawable/ic_note"/>
+                android:src="@drawable/ic_note"
+                android:tint="?iconColorPrimary" />
 
             <TextView
+                android:id="@+id/food_ingredients"
                 style="@style/LayoutRowItemMultiline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/food_ingredients"
                 android:textColor="?android:attr/textColorPrimary"
-                tools:text="@tools:sample/lorem/random"/>
+                tools:text="@tools:sample/lorem/random" />
 
         </LinearLayout>
 
@@ -53,16 +55,16 @@
 
             <ImageView
                 style="@style/LayoutRowImage"
-                android:tint="?iconColorPrimary"
                 android:contentDescription="@null"
-                android:src="@drawable/ic_category_meal"/>
+                android:src="@drawable/ic_category_meal"
+                android:tint="?iconColorPrimary" />
 
             <TextView
+                android:id="@+id/food_value"
                 style="@style/LayoutRowItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/food_value"
-                android:textColor="?android:attr/textColorPrimary"/>
+                android:textColor="?android:attr/textColorPrimary" />
 
         </LinearLayout>
 

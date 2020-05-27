@@ -14,7 +14,7 @@ import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
-import com.faltenreich.diaguard.shared.view.recyclerview.decoration.LinearDividerItemDecoration;
+import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
 
 import java.util.List;
 
@@ -57,7 +57,7 @@ public class FoodHistoryFragment extends BaseFoodFragment {
         Food food = getFood();
         if (food != null) {
             historyList.setLayoutManager(new LinearLayoutManager(getContext()));
-            historyList.addItemDecoration(new LinearDividerItemDecoration(getContext()));
+            historyList.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
             historyAdapter = new FoodHistoryListAdapter(getContext());
             historyList.setAdapter(historyAdapter);
         }

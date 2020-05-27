@@ -17,7 +17,7 @@ import com.faltenreich.diaguard.shared.event.permission.PermissionRequestEvent;
 import com.faltenreich.diaguard.shared.event.permission.PermissionResponseEvent;
 import com.faltenreich.diaguard.feature.export.job.Export;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
-import com.faltenreich.diaguard.shared.view.recyclerview.decoration.LinearDividerItemDecoration;
+import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
 import com.faltenreich.diaguard.shared.data.file.FileUtils;
 import com.faltenreich.diaguard.shared.data.permission.Permission;
 import com.faltenreich.diaguard.shared.data.permission.PermissionUseCase;
@@ -70,7 +70,7 @@ public class ExportHistoryFragment extends BaseFragment {
 
     private void initLayout() {
         listView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-        listView.addItemDecoration(new LinearDividerItemDecoration(getContext()));
+        listView.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
         listView.setAdapter(listAdapter);
         progressView.setVisibility(View.VISIBLE);
     }

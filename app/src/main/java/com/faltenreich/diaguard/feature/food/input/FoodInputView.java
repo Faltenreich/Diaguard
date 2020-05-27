@@ -28,7 +28,7 @@ import com.faltenreich.diaguard.shared.event.ui.FoodEatenRemovedEvent;
 import com.faltenreich.diaguard.shared.event.ui.FoodEatenUpdatedEvent;
 import com.faltenreich.diaguard.shared.event.ui.FoodSelectedEvent;
 import com.faltenreich.diaguard.shared.view.edittext.StickyHintInput;
-import com.faltenreich.diaguard.shared.view.recyclerview.decoration.LinearDividerItemDecoration;
+import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
 import com.j256.ormlite.dao.ForeignCollection;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -110,7 +110,7 @@ public class FoodInputView extends LinearLayout {
 
             adapter = new FoodInputListAdapter(getContext());
             foodList.setLayoutManager(new LinearLayoutManager(getContext()));
-            foodList.addItemDecoration(new LinearDividerItemDecoration(getContext()));
+            foodList.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
             foodList.setAdapter(adapter);
 
             invalidateLayout();

@@ -16,18 +16,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
-import com.faltenreich.diaguard.shared.data.database.entity.Category;
+import com.faltenreich.diaguard.feature.timeline.day.chart.DayChart;
+import com.faltenreich.diaguard.feature.timeline.day.table.CategoryImageListAdapter;
+import com.faltenreich.diaguard.feature.timeline.day.table.CategoryImageListItem;
+import com.faltenreich.diaguard.feature.timeline.day.table.CategoryValueListAdapter;
+import com.faltenreich.diaguard.feature.timeline.day.table.CategoryValueListItem;
+import com.faltenreich.diaguard.feature.timeline.day.table.CategoryValueViewHolder;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
 import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
-import com.faltenreich.diaguard.feature.timeline.day.chart.DayChart;
-import com.faltenreich.diaguard.feature.timeline.day.table.CategoryImageListAdapter;
-import com.faltenreich.diaguard.feature.timeline.day.table.CategoryValueListAdapter;
-import com.faltenreich.diaguard.feature.timeline.day.table.CategoryValueViewHolder;
+import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.GridDividerItemDecoration;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
-import com.faltenreich.diaguard.feature.timeline.day.table.CategoryImageListItem;
-import com.faltenreich.diaguard.feature.timeline.day.table.CategoryValueListItem;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -41,9 +41,6 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class TimelineDayFragment extends Fragment {
 
     private static final String EXTRA_DATE_TIME = "EXTRA_DATE_TIME";
@@ -51,7 +48,6 @@ public class TimelineDayFragment extends Fragment {
 
     @BindView(R.id.day_chart) DayChart dayChart;
     @BindView(R.id.scroll_view) NestedScrollView scrollView;
-    // TODO: Merge both lists into one with pimped GridLayoutManager
     @BindView(R.id.category_table_images) RecyclerView imageTable;
     @BindView(R.id.category_table_values) RecyclerView valueTable;
 
@@ -76,6 +72,10 @@ public class TimelineDayFragment extends Fragment {
         return fragment;
     }
 
+    public TimelineDayFragment() {
+        super(R.layout.fragment_timeline_day);
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,11 +84,8 @@ public class TimelineDayFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_timeline_day, container, false);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, view);
-        if (getArguments() != null) {
-            this.day = (DateTime) getArguments().getSerializable(EXTRA_DATE_TIME);
-        }
         return view;
     }
 
@@ -109,6 +106,9 @@ public class TimelineDayFragment extends Fragment {
         categories = PreferenceStore.getInstance().getActiveCategories(Category.BLOODSUGAR);
         imageAdapter = new CategoryImageListAdapter(getContext());
         valueAdapter = new CategoryValueListAdapter(getContext());
+        if (getArguments() != null) {
+            day = (DateTime) getArguments().getSerializable(EXTRA_DATE_TIME);
+        }
     }
 
     private void initLayout() {

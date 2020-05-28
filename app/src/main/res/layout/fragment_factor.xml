@@ -10,20 +10,32 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="?attr/dividerVertical"
-        android:orientation="vertical"
-        android:showDividers="middle">
+        android:orientation="vertical">
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/values_chart"
+        <androidx.cardview.widget.CardView
+            style="@style/CardViewNoMargin"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/line_chart_height_detailed" />
+            android:layout_height="wrap_content">
 
-        <Spinner
-            android:id="@+id/time_interval_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/activity_horizontal_margin" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/values_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_chart_height_detailed" />
+
+                <Spinner
+                    android:id="@+id/time_interval_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_horizontal_margin" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/values_list"

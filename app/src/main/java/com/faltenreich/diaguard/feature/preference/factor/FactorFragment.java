@@ -177,11 +177,21 @@ public class FactorFragment extends BaseFragment implements FactorViewHolder.Cal
     private void invalidateChart() {
         List<Entry> entries = new ArrayList<>();
         for (FactorItem item : items) {
-            Entry entry = new Entry();
-            entry.setX(item.getHourOfDay());
-            entry.setY(item.getValue());
-            entries.add(entry);
+            boolean isRelevant = item.getHourOfDay() % timeInterval.rangeInHours == 0;
+            if (isRelevant) {
+                Entry entry = new Entry();
+                entry.setX(item.getHourOfDay());
+                entry.setY(item.getValue());
+                entries.add(entry);
+            }
         }
+
+        // Add redundant item at the end to go full circle
+        Entry lastEntry = entries.get(entries.size() - 1);
+        Entry additionalEntry = new Entry();
+        additionalEntry.setX(X_AXIS_MAXIMUM);
+        additionalEntry.setY(lastEntry.getY());
+        entries.add(additionalEntry);
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
 

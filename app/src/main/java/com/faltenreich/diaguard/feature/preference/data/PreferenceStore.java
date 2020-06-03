@@ -506,6 +506,8 @@ public class PreferenceStore {
 
     // MEAL FACTOR
 
+    private static final float DEFAULT_FACTOR_MEAL = 1;
+
     public TimeInterval getMealFactorInterval() {
         int position = sharedPreferences.getInt(getKey(R.string.preference_factor_meal_interval), TimeInterval.EVERY_SIX_HOURS.ordinal());
         TimeInterval[] timeIntervals = TimeInterval.values();
@@ -518,7 +520,7 @@ public class PreferenceStore {
 
     public float getMealFactorForHour(int hourOfDay) {
         String key = getKey(R.string.preference_factor_meal_interval_for_hour, hourOfDay);
-        return sharedPreferences.getFloat(key, -1);
+        return sharedPreferences.getFloat(key, DEFAULT_FACTOR_MEAL);
     }
 
     public void setMealFactorForHour(int hourOfDay, float factor) {
@@ -533,7 +535,7 @@ public class PreferenceStore {
         try {
             index = Integer.parseInt(value);
         } catch (NumberFormatException exception) {
-            Log.e(TAG, exception.getMessage() != null ? exception.getMessage() : "Failed to getFactorUnit()");
+            Log.e(TAG, exception.toString());
         }
         return index >= 0 && index < MealFactorUnit.values().length ? MealFactorUnit.values()[index] : defaultValue;
     }
@@ -560,6 +562,8 @@ public class PreferenceStore {
 
     // CORRECTION FACTOR
 
+    private static final float DEFAULT_FACTOR_CORRECTION_FACTOR = 40;
+
     public TimeInterval getCorrectionFactorInterval() {
         int position = sharedPreferences.getInt(getKey(R.string.preference_factor_correction_interval), TimeInterval.CONSTANT.ordinal());
         TimeInterval[] timeIntervals = TimeInterval.values();
@@ -572,7 +576,7 @@ public class PreferenceStore {
 
     public float getCorrectionFactorForHour(int hourOfDay) {
         String key = getKey(R.string.preference_factor_correction_interval_for_hour, hourOfDay);
-        return sharedPreferences.getFloat(key, -1);
+        return sharedPreferences.getFloat(key, DEFAULT_FACTOR_CORRECTION_FACTOR);
     }
 
     public void setCorrectionFactorForHour(int hourOfDay, float factor) {
@@ -582,7 +586,7 @@ public class PreferenceStore {
 
     private void migrateCorrectionFactors() {
         if (getCorrectionFactorForHour(0) < 0) {
-            float oldValue = FloatUtils.parseNumber(sharedPreferences.getString(getKey(R.string.preference_correction_deprecated), "40"));
+            float oldValue = FloatUtils.parseNumber(sharedPreferences.getString(getKey(R.string.preference_correction_deprecated), Float.toString(DEFAULT_FACTOR_CORRECTION_FACTOR)));
             int hourOfDay = 0;
             while (hourOfDay < DateTimeConstants.HOURS_PER_DAY) {
                 setCorrectionFactorForHour(hourOfDay, oldValue);
@@ -592,6 +596,8 @@ public class PreferenceStore {
     }
 
     // BASAL RATE FACTOR
+
+    private static final float DEFAULT_FACTOR_BASAL_RATE = 1;
 
     public TimeInterval getBasalRateFactorInterval() {
         int position = sharedPreferences.getInt(getKey(R.string.preference_factor_basal_rate_interval), TimeInterval.CONSTANT.ordinal());
@@ -605,7 +611,7 @@ public class PreferenceStore {
 
     public float getBasalRateFactorForHour(int hourOfDay) {
         String key = getKey(R.string.preference_factor_basal_rate_interval_for_hour, hourOfDay);
-        return sharedPreferences.getFloat(key, -1);
+        return sharedPreferences.getFloat(key, DEFAULT_FACTOR_BASAL_RATE);
     }
 
     public void setBasalRateFactorForHour(int hourOfDay, float factor) {

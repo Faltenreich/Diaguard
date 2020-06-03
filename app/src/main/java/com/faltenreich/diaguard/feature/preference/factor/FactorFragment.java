@@ -115,13 +115,14 @@ public class FactorFragment extends BaseFragment implements FactorViewHolder.Cal
         valuesChart.getAxisLeft().setGridColor(gridColor);
         valuesChart.getAxisLeft().setGridLineWidth(1f);
         valuesChart.getAxisLeft().setXOffset(resources.getDimension(R.dimen.padding));
+        valuesChart.getAxisLeft().setLabelCount(4);
 
         valuesChart.getXAxis().setGridLineWidth(1f);
         valuesChart.getXAxis().setGridColor(gridColor);
         valuesChart.getXAxis().setTextColor(textColor);
         valuesChart.getXAxis().setAxisMinimum(X_AXIS_MINIMUM);
         valuesChart.getXAxis().setAxisMaximum(X_AXIS_MAXIMUM);
-        valuesChart.getXAxis().setLabelCount((X_AXIS_MAXIMUM / 2) + 1, false);
+        valuesChart.getXAxis().setLabelCount((X_AXIS_MAXIMUM / 2) + 1);
         valuesChart.getXAxis().setValueFormatter((value, axis) -> {
             boolean showValue = value < X_AXIS_MAXIMUM;
             return showValue ? Integer.toString((int) value) : "";
@@ -136,7 +137,7 @@ public class FactorFragment extends BaseFragment implements FactorViewHolder.Cal
     }
 
     private void initSpinner() {
-        ArrayAdapter adapter = ArrayAdapter.createFromResource(
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
             requireContext(),
             R.array.time_rhythm,
             android.R.layout.simple_spinner_item
@@ -183,7 +184,7 @@ public class FactorFragment extends BaseFragment implements FactorViewHolder.Cal
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
 
         LineDataSet dataSet = new LineDataSet(entries, getString(factor.getTitle()));
-        dataSet.setColor(ColorUtils.getTextColorPrimary(getContext()));
+        dataSet.setColor(ColorUtils.getPrimaryColor(getContext()));
         dataSet.setLineWidth(ChartUtils.LINE_WIDTH);
         dataSet.setDrawCircles(false);
         dataSet.setDrawValues(false);

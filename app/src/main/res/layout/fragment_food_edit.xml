@@ -104,7 +104,7 @@
                     style="@style/Padding"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?attr/backgroundColorTertiary"
+                    android:background="?dividerVertical"
                     android:text="@string/nutriments_per_100g"/>
 
                 <com.faltenreich.diaguard.feature.food.edit.NutrientInputLayout

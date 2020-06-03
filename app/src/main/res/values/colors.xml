@@ -9,7 +9,7 @@
     <color name="background_dark_primary">#313131</color>
     <color name="background_dark_primary_translucent">#CC313131</color>
     <color name="background_dark_secondary">#424242</color>
-    <color name="background_dark_tertiary">#292929</color>
+    <color name="background_dark_tertiary">#5C5C5C</color>
 
     <color name="primary">@color/green</color>
     <color name="translucent_scrim_end">#58000000</color>

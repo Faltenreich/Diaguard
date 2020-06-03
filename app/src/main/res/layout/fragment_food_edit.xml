@@ -48,7 +48,7 @@
                         android:paddingStart="@dimen/margin_between"
                         android:paddingLeft="@dimen/margin_between"
                         android:hint="@string/name"
-                        android:inputType="textMultiLine|textCapSentences"/>
+                        android:inputType="text"/>
 
                 </LinearLayout>
 
@@ -72,7 +72,7 @@
                         android:paddingStart="@dimen/margin_between"
                         android:paddingLeft="@dimen/margin_between"
                         android:hint="@string/brand"
-                        android:inputType="textMultiLine|textCapSentences"/>
+                        android:inputType="text"/>
 
                 </LinearLayout>
 
@@ -96,7 +96,7 @@
                         android:paddingStart="@dimen/margin_between"
                         android:paddingLeft="@dimen/margin_between"
                         android:hint="@string/ingredients"
-                        android:inputType="textMultiLine|textCapSentences"/>
+                        android:inputType="text"/>
 
                 </LinearLayout>
 

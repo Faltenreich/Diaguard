@@ -57,20 +57,24 @@ public class FactorFragment extends BaseFragment implements FactorViewHolder.Cal
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initData();
+        initArguments();
+        fetchData();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setTitle(factor.getTitle());
+
         initSpinner();
         initChart();
         initList();
-        invalidateLayout();
+
+        invalidateChart();
+        invalidateList();
     }
 
-    private void initData() {
+    private void initArguments() {
         Bundle arguments = getActivity() != null && getActivity().getIntent() != null
             ? getActivity().getIntent().getExtras()
             : null;
@@ -95,12 +99,39 @@ public class FactorFragment extends BaseFragment implements FactorViewHolder.Cal
         }
 
         timeInterval = factor.getTimeInterval();
+    }
 
+    private void fetchData() {
         items = new ArrayList<>();
         for (int hourOfDay = 0; hourOfDay < DateTimeConstants.HOURS_PER_DAY; hourOfDay++) {
             FactorItem item = new FactorItem(hourOfDay, factor.getValueForHour(hourOfDay));
             items.add(item);
         }
+    }
+
+    private void initSpinner() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.time_rhythm,
+            android.R.layout.simple_spinner_item
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        timeIntervalSpinner.setAdapter(adapter);
+
+        if (timeInterval.ordinal() < timeIntervalSpinner.getCount()) {
+            timeIntervalSpinner.setSelection(timeInterval.ordinal());
+        }
+
+        timeIntervalSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                timeInterval = TimeInterval.values()[position];
+                invalidateChart();
+                invalidateList();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {}
+        });
     }
 
     private void initChart() {
@@ -136,40 +167,11 @@ public class FactorFragment extends BaseFragment implements FactorViewHolder.Cal
         );
     }
 
-    private void initSpinner() {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.time_rhythm,
-            android.R.layout.simple_spinner_item
-        );
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        timeIntervalSpinner.setAdapter(adapter);
-
-        if (timeInterval.ordinal() < timeIntervalSpinner.getCount()) {
-            timeIntervalSpinner.setSelection(timeInterval.ordinal());
-        }
-
-        timeIntervalSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                timeInterval = TimeInterval.values()[position];
-                invalidateLayout();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {}
-        });
-    }
-
     private void initList() {
         valuesListAdapter = new FactorListAdapter(getContext(), this);
         valuesList.setAdapter(valuesListAdapter);
         valuesList.setLayoutManager(new LinearLayoutManager(getContext()));
         valuesList.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
-    }
-
-    private void invalidateLayout() {
-        invalidateChart();
-        invalidateList();
     }
 
     private void invalidateChart() {
@@ -210,6 +212,18 @@ public class FactorFragment extends BaseFragment implements FactorViewHolder.Cal
         valuesListAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onRangeItemChanged(FactorRangeItem rangeItem) {
+        for (FactorItem item : items) {
+            int hourStart = rangeItem.getHourOfDay();
+            int hourEnd = rangeItem.getHourOfDay() + rangeItem.getRangeInHours();
+            if (item.getHourOfDay() >= hourStart && item.getHourOfDay() < hourEnd) {
+                item.setValue(rangeItem.getValue());
+            }
+        }
+        invalidateChart();
+    }
+
     @OnClick(R.id.fab)
     void store() {
         factor.setTimeInterval(timeInterval);
@@ -221,17 +235,5 @@ public class FactorFragment extends BaseFragment implements FactorViewHolder.Cal
         Events.post(new FactorChangedEvent());
 
         finish();
-    }
-
-    @Override
-    public void onRangeItemChanged(FactorRangeItem rangeItem) {
-        for (FactorItem item : items) {
-            int hourStart = rangeItem.getHourOfDay();
-            int hourEnd = rangeItem.getHourOfDay() + rangeItem.getRangeInHours();
-            if (item.getHourOfDay() >= hourStart && item.getHourOfDay() < hourEnd) {
-                item.setValue(rangeItem.getValue());
-            }
-        }
-        invalidateChart();
     }
 }

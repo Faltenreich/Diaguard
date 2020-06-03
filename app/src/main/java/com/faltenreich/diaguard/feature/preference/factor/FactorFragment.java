@@ -146,7 +146,7 @@ public class FactorFragment extends BaseFragment implements FactorViewHolder.Cal
         valuesChart.getAxisLeft().setGridColor(gridColor);
         valuesChart.getAxisLeft().setGridLineWidth(1f);
         valuesChart.getAxisLeft().setXOffset(resources.getDimension(R.dimen.padding));
-        valuesChart.getAxisLeft().setLabelCount(4);
+        valuesChart.getAxisLeft().setLabelCount(5);
 
         valuesChart.getXAxis().setGridLineWidth(1f);
         valuesChart.getXAxis().setGridColor(gridColor);

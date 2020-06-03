@@ -42,8 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
-            android:paddingStart="@dimen/margin_between"
-            android:paddingLeft="@dimen/margin_between" />
+            tools:ignore="RtlSymmetry" />
 
     </LinearLayout>
 

@@ -22,8 +22,4 @@ public class DrawableUtils {
     public static Drawable getDividerVertical(Context context) {
         return getDrawable(context, R.attr.dividerVertical);
     }
-
-    public static Drawable getListDivider(Context context) {
-        return getDrawable(context, android.R.attr.listDivider);
-    }
 }

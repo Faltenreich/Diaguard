@@ -123,7 +123,7 @@ public class FoodInputView extends LinearLayout {
             valueCalculated.setVisibility(VISIBLE);
             float carbohydrates = adapter.getTotalCarbohydrates();
             float meal = PreferenceStore.getInstance().formatDefaultToCustomUnit(Category.MEAL, carbohydrates);
-            valueCalculated.setText(String.format("%s    +", FloatUtils.parseFloat(meal)));
+            valueCalculated.setText(String.format("%s   +", FloatUtils.parseFloat(meal)));
         } else {
             valueCalculated.setVisibility(GONE);
             valueCalculated.setText(null);

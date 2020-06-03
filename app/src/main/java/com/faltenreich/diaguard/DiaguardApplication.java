@@ -3,19 +3,16 @@ package com.faltenreich.diaguard;
 import android.app.Application;
 import android.content.Context;
 
-import com.faltenreich.diaguard.shared.data.database.ImportHelper;
+import com.faltenreich.diaguard.feature.alarm.NotificationUtils;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.Database;
+import com.faltenreich.diaguard.shared.data.database.ImportHelper;
 import com.faltenreich.diaguard.shared.data.database.migration.Migrator;
 import com.faltenreich.diaguard.shared.view.image.ImageLoader;
-import com.faltenreich.diaguard.feature.preference.license.OpenDatabaseLicense;
-import com.faltenreich.diaguard.feature.alarm.NotificationUtils;
 import com.faltenreich.diaguard.shared.view.theme.Theme;
 import com.faltenreich.diaguard.shared.view.theme.ThemeUtils;
 
 import net.danlew.android.joda.JodaTimeAndroid;
-
-import de.psdev.licensesdialog.LicenseResolver;
 
 public class DiaguardApplication extends Application {
 
@@ -37,7 +34,6 @@ public class DiaguardApplication extends Application {
         PreferenceStore.getInstance().init(this);
         Database.getInstance().init(this);
         ImportHelper.validateImports(this);
-        LicenseResolver.registerLicense(new OpenDatabaseLicense());
         PreferenceStore.getInstance().migrate();
         Migrator.getInstance().start(this);
         NotificationUtils.setupNotifications(this);

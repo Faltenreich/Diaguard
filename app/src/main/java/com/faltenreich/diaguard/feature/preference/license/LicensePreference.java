@@ -1,16 +1,13 @@
 package com.faltenreich.diaguard.feature.preference.license;
 
 import android.content.Context;
-import androidx.preference.Preference;
 import android.util.AttributeSet;
 
+import androidx.preference.Preference;
+
 import com.faltenreich.diaguard.R;
+import com.mikepenz.aboutlibraries.LibsBuilder;
 
-import de.psdev.licensesdialog.LicensesDialog;
-
-/**
- * Created by Filip on 04.11.13.
- */
 public class LicensePreference extends Preference {
 
     public LicensePreference(Context context, AttributeSet attrs) {
@@ -20,11 +17,15 @@ public class LicensePreference extends Preference {
     @Override
     protected void onClick() {
         super.onClick();
-        new LicensesDialog.Builder(getContext())
-                .setNotices(R.raw.licenses)
-                .setTitle(R.string.licenses)
-                .setIncludeOwnLicense(true)
-                .build()
-                .show();
+        openLicenses();
+    }
+
+    private void openLicenses() {
+        LibsBuilder builder = new LibsBuilder().withFields(R.string.class.getFields());
+        builder.setActivityTitle(getContext().getString(R.string.licenses));
+        builder.setAboutShowIcon(false);
+        builder.setAboutShowVersionName(false);
+        builder.setAboutShowVersionCode(false);
+        builder.start(getContext());
     }
 }

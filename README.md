@@ -87,6 +87,7 @@ Testing takes place via [JUnit](https://junit.org), [Espresso](https://developer
 
 This software uses following technologies with great appreciation:
 
+* [AboutLibraries](https://github.com/mikepenz/AboutLibraries)
 * [AndroidX](https://developer.android.com/jetpack/androidx)
 * [Apache Commons Text](http://commons.apache.org/proper/commons-text)
 * [BetterPickers](https://github.com/code-troopers/android-betterpickers)
@@ -97,7 +98,6 @@ This software uses following technologies with great appreciation:
 * [Joda-Time](http://www.joda.org/joda-time)
 * [joda-time-android](https://github.com/dlew/joda-time-android)
 * [JUnit](https://junit.org)
-* [LicensesDialog](https://github.com/PSDev/LicensesDialog)
 * [Material Components for Android](https://material.io/components)
 * [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart)
 * [Opencsv](http://opencsv.sf.net)

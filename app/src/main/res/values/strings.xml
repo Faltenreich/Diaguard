@@ -321,7 +321,7 @@
         <item>0.0833</item>
     </string-array>
     <integer-array name="meal_extrema">
-        <item name="minimum">1</item>
+        <item name="minimum">0</item>
         <item name="maximum">1000</item>
     </integer-array>
 

@@ -156,10 +156,11 @@ public class FoodDao extends BaseServerDao<Food> {
         if (dto == null || dto.products == null ||dto.products.isEmpty()) {
             return new ArrayList<>();
         }
+        String languageCode = Helper.getLanguageCode();
         List<Food> foodList = new ArrayList<>();
         Collections.reverse(dto.products);
-        String languageCode = Helper.getLanguageCode();
         for (ProductDto productDto : dto.products) {
+            // Workaround: API returns products in other languages even though defined otherwise through GET parameters
             boolean isSameLanguage = languageCode.equals(productDto.languageCode);
             if (isSameLanguage && productDto.isValid()) {
                 Food food = parseFromDto(productDto);

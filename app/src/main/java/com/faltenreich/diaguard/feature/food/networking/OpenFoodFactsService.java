@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.feature.food.networking;
 import android.util.Log;
 
 import com.faltenreich.diaguard.feature.food.networking.dto.SearchResponseDto;
+import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.async.DataCallback;
 import com.faltenreich.diaguard.shared.networking.NetworkResponse;
 import com.faltenreich.diaguard.shared.networking.NetworkService;
@@ -27,8 +28,14 @@ public class OpenFoodFactsService extends NetworkService<OpenFoodFactsServer> {
     }
 
     public void search(final String query, final int page, DataCallback<SearchResponseDto> callback) {
-        // Paging of this api starts at page 1
-        execute(server.api.search(query != null ? query : "", JSON, page + 1, PAGE_SIZE), new NetworkResponseListener<SearchResponseDto>() {
+        execute(server.api.search(
+            query != null ? query : "",
+            page + 1, // Paging of this api starts at page 1
+            PAGE_SIZE,
+            Helper.getCountryCode(),
+            Helper.getLanguageCode(),
+            JSON
+        ), new NetworkResponseListener<SearchResponseDto>() {
             @Override
             public void onResponse(NetworkResponse<SearchResponseDto> response) {
                 SearchResponseDto dto = response.getData();

@@ -152,7 +152,7 @@ public class FoodDao extends BaseServerDao<Food> {
         }
     }
 
-    public List<Food> createOrUpdate(SearchResponseDto dto) {
+    public List<Food> createOrUpdate(@Nullable SearchResponseDto dto) {
         if (dto == null || dto.products == null ||dto.products.isEmpty()) {
             return new ArrayList<>();
         }

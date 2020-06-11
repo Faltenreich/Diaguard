@@ -10,6 +10,6 @@ public class OpenFoodFactsServer extends NetworkServer<OpenFoodFactsApi> {
 
     @Override
     public String getBaseUrl() {
-        return "https://world.openfoodfacts.org/";
+        return "https://world.openfoodfacts.org";
     }
 }

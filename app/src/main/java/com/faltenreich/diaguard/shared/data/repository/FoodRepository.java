@@ -29,9 +29,7 @@ public class FoodRepository {
         return instance;
     }
 
-    private FoodRepository() {
-
-    }
+    private FoodRepository() {}
 
     public void search(Context context, @Nullable String query, int page, DataCallback<List<FoodSearchListItem>> callback) {
         if (page == 0
@@ -39,7 +37,6 @@ public class FoodRepository {
             && PreferenceStore.getInstance().showBrandedFood()
             && NetworkingUtils.isOnline(context)
         ) {
-            // TODO: How to page efficiently through api?
             searchOnline(query, page, result -> searchOffline(query, page, callback));
         } else {
             searchOffline(query, page, callback);

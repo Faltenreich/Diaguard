@@ -13,12 +13,12 @@ public class FoodSearchListItem {
     private Food food;
     private FoodEaten foodEaten;
 
-    FoodSearchListItem(FoodEaten foodEaten) {
+    public FoodSearchListItem(FoodEaten foodEaten) {
         this.food = foodEaten.getFood();
         this.foodEaten = foodEaten;
     }
 
-    FoodSearchListItem(Food food) {
+    public FoodSearchListItem(Food food) {
         this.food = food;
         this.foodEaten = null;
     }

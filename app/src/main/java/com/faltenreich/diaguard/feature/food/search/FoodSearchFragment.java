@@ -12,6 +12,8 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.faltenreich.diaguard.R;
@@ -19,9 +21,10 @@ import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
 import com.faltenreich.diaguard.feature.food.detail.FoodDetailActivity;
 import com.faltenreich.diaguard.feature.food.edit.FoodEditActivity;
 import com.faltenreich.diaguard.feature.preference.PreferenceActivity;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
+import com.faltenreich.diaguard.shared.data.repository.FoodRepository;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.FoodDeletedEvent;
 import com.faltenreich.diaguard.shared.event.data.FoodQueryEndedEvent;
@@ -31,6 +34,8 @@ import com.faltenreich.diaguard.shared.event.ui.FoodSelectedEvent;
 import com.faltenreich.diaguard.shared.networking.NetworkingUtils;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
+import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
+import com.faltenreich.diaguard.shared.view.recyclerview.pagination.EndlessRecyclerViewScrollListener;
 import com.faltenreich.diaguard.shared.view.search.SearchView;
 import com.faltenreich.diaguard.shared.view.search.SearchViewAction;
 import com.faltenreich.diaguard.shared.view.search.SearchViewListener;
@@ -38,21 +43,20 @@ import com.faltenreich.diaguard.shared.view.search.SearchViewListener;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.faltenreich.diaguard.R.id.food_search_list_empty;
 
-/**
- * Created by Faltenreich on 11.09.2016.
- */
 public class FoodSearchFragment extends BaseFragment implements SearchViewListener {
 
     public static final String FINISH_ON_SELECTION = "finishOnSelection";
 
     @BindView(R.id.food_search_unit) TextView unitTextView;
     @BindView(R.id.food_search_swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.food_search_list) FoodSearchListView list;
+    @BindView(R.id.food_search_list) RecyclerView listView;
     @BindView(R.id.search_view) SearchView searchView;
 
     @BindView(food_search_list_empty) ViewGroup emptyList;
@@ -61,6 +65,11 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
     @BindView(R.id.food_search_empty_description) TextView emptyDescription;
     @BindView(R.id.food_search_empty_button) Button emptyButton;
 
+    private FoodSearchListAdapter listAdapter;
+    private LinearLayoutManager listLayoutManager;
+    private EndlessRecyclerViewScrollListener listScrollListener;
+
+    private int currentPage;
     private boolean finishOnSelection;
 
     public FoodSearchFragment() {
@@ -83,13 +92,13 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
     public void onResume() {
         super.onResume();
         Events.register(this);
-        query(searchView.getQuery());
+        newSearch();
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onPause() {
         Events.unregister(this);
+        super.onPause();
     }
 
     private void init() {
@@ -97,53 +106,79 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
             Bundle extras = getActivity().getIntent().getExtras();
             finishOnSelection = extras.getBoolean(FINISH_ON_SELECTION);
         }
+
+        listAdapter = new FoodSearchListAdapter(getContext());
+        listLayoutManager = new LinearLayoutManager(getContext());
+        listScrollListener = new EndlessRecyclerViewScrollListener(listLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                continueSearch();
+            }
+        };
     }
 
     private void initLayout() {
         unitTextView.setText(PreferenceStore.getInstance().getLabelForMealPer100g(requireContext()));
 
         swipeRefreshLayout.setColorSchemeResources(R.color.green, R.color.green_light, R.color.green_lighter);
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            swipeRefreshLayout.setRefreshing(true);
-            query(searchView.getQuery());
-        });
+        swipeRefreshLayout.setOnRefreshListener(this::newSearch);
 
         searchView.setSearchListener(this);
         searchView.setAction(new SearchViewAction(R.drawable.ic_more_vertical, R.string.menu_open, (view) -> openSettings()));
         searchView.setSuggestions(PreferenceStore.getInstance().getInputQueries());
+
+        listView.setLayoutManager(listLayoutManager);
+        listView.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
+        listView.setAdapter(listAdapter);
+        listView.addOnScrollListener(listScrollListener);
     }
 
-    private void showError(@DrawableRes int iconResId, @StringRes int textResId, @StringRes int descResId, @StringRes int buttonTextResId) {
-        emptyList.setVisibility(View.VISIBLE);
-        emptyIcon.setImageResource(iconResId);
-        emptyText.setText(textResId);
-        emptyDescription.setText(descResId);
-        emptyButton.setText(buttonTextResId);
+    private void newSearch() {
+        swipeRefreshLayout.setRefreshing(true);
+        emptyList.setVisibility(View.GONE);
+
+        currentPage = 0;
+
+        clear();
+        continueSearch();
     }
 
-    private void onFoodSelected(Food food) {
-        if (finishOnSelection) {
-            finish();
-        } else {
-            openFood(food);
+    private void continueSearch() {
+        FoodRepository.getInstance().search(getContext(), searchView.getQuery(), currentPage, this::addItems);
+    }
+
+    private void addItems(List<FoodSearchListItem> items) {
+        currentPage++;
+        boolean hasItems = items.size() > 0;
+        if (hasItems) {
+            int oldSize = listAdapter.getItemCount();
+            int newCount = 0;
+            for (FoodSearchListItem item : items) {
+                if (!listAdapter.getItems().contains(item)) {
+                    listAdapter.addItem(item);
+                    newCount++;
+                }
+            }
+            listAdapter.notifyItemRangeInserted(oldSize, newCount);
+        }
+        Events.post(new FoodQueryEndedEvent(hasItems));
+    }
+
+    private void removeItem(Food food) {
+        for (int position = 0; position < listAdapter.getItemCount(); position++) {
+            FoodSearchListItem listItem = listAdapter.getItem(position);
+            if (listItem.getFood().equals(food)) {
+                listAdapter.removeItem(position);
+                listAdapter.notifyItemRemoved(position);
+                break;
+            }
         }
     }
 
-    private void openFood(Food food) {
-        Events.unregister(this);
-
-        Intent intent = new Intent(getContext(), FoodDetailActivity.class);
-        intent.putExtra(BaseFoodFragment.EXTRA_FOOD_ID, food.getId());
-        startActivity(intent);
-    }
-
-    private void query(String query) {
-        emptyList.setVisibility(View.GONE);
-        list.newSearch(query);
-    }
-
-    private void createFood() {
-        startActivity(new Intent(getContext(), FoodEditActivity.class));
+    private void clear() {
+        int oldCount = listAdapter.getItemCount();
+        listAdapter.clear();
+        listAdapter.notifyItemRangeRemoved(0, oldCount);
     }
 
     private void showEmptyList() {
@@ -156,8 +191,26 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
         }
     }
 
+    private void showError(@DrawableRes int iconResId, @StringRes int textResId, @StringRes int descResId, @StringRes int buttonTextResId) {
+        emptyList.setVisibility(View.VISIBLE);
+        emptyIcon.setImageResource(iconResId);
+        emptyText.setText(textResId);
+        emptyDescription.setText(descResId);
+        emptyButton.setText(buttonTextResId);
+    }
+
     private void openSettings() {
         startActivity(PreferenceActivity.newInstance(getContext(), PreferenceActivity.Link.FOOD));
+    }
+
+    private void openFood(Food food) {
+        Intent intent = new Intent(getContext(), FoodDetailActivity.class);
+        intent.putExtra(BaseFoodFragment.EXTRA_FOOD_ID, food.getId());
+        startActivity(intent);
+    }
+
+    private void createFood() {
+        startActivity(new Intent(getContext(), FoodEditActivity.class));
     }
 
     @OnClick(R.id.fab)
@@ -170,20 +223,15 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
         // Workaround since CONNECTIVITY_ACTION broadcasts cannot be caught since API level 24
         boolean wasNetworkError = emptyText.getText().toString().equals(getString(R.string.error_no_connection));
         if (wasNetworkError) {
-            query(searchView.getQuery());
+            newSearch();
         } else {
             createFood();
         }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(FoodSelectedEvent event) {
-        onFoodSelected(event.context);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FoodQueryStartedEvent event) {
-        if (list.getItemCount() == 0) {
+        if (listAdapter.getItemCount() == 0) {
             swipeRefreshLayout.setRefreshing(true);
         }
     }
@@ -191,7 +239,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FoodQueryEndedEvent event) {
         swipeRefreshLayout.setRefreshing(false);
-        if (list.getItemCount() == 0) {
+        if (listAdapter.getItemCount() == 0) {
             showEmptyList();
         }
     }
@@ -203,6 +251,7 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(final FoodDeletedEvent event) {
+        removeItem(event.context);
         ViewUtils.showSnackbar(getView(), getString(R.string.food_deleted), v -> {
             Food food = event.context;
             food.setDeletedAt(null);
@@ -211,10 +260,19 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
         });
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(FoodSelectedEvent event) {
+        if (finishOnSelection) {
+            finish();
+        } else {
+            openFood(event.context);
+        }
+    }
+
     @Override
     public void onQueryChanged(String query) {
         PreferenceStore.getInstance().addInputQuery(query);
-        query(query);
+        newSearch();
     }
 
     @Override

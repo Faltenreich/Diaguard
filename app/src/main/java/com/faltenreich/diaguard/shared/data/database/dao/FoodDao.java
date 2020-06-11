@@ -6,13 +6,13 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
+import com.faltenreich.diaguard.feature.food.networking.dto.ProductDto;
+import com.faltenreich.diaguard.feature.food.networking.dto.SearchResponseDto;
+import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.entity.BaseServerEntity;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
-import com.faltenreich.diaguard.feature.food.networking.dto.ProductDto;
-import com.faltenreich.diaguard.feature.food.networking.dto.SearchResponseDto;
-import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
-import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.SelectArg;
@@ -50,12 +50,12 @@ public class FoodDao extends BaseServerDao<Food> {
     public List<Food> getAll() {
         try {
             return getQueryBuilder()
-                    .orderBy(Food.Column.NAME, true)
-                    .orderBy(Food.Column.UPDATED_AT, false)
-                    .where().eq(Food.Column.LANGUAGE_CODE, Helper.getLanguageCode())
-                    .query();
+                .orderBy(Food.Column.NAME, true)
+                .orderBy(Food.Column.UPDATED_AT, false)
+                .where().eq(Food.Column.LANGUAGE_CODE, Helper.getLanguageCode())
+                .query();
         } catch (SQLException exception) {
-            Log.e(TAG, exception.getLocalizedMessage());
+            Log.e(TAG, exception.toString());
             return new ArrayList<>();
         }
     }
@@ -63,13 +63,13 @@ public class FoodDao extends BaseServerDao<Food> {
     public List<Food> getAllFromUser() {
         try {
             return getQueryBuilder()
-                    .orderBy(Food.Column.NAME, true)
-                    .orderBy(Food.Column.UPDATED_AT, false)
-                    .where().eq(Food.Column.LANGUAGE_CODE, Helper.getLanguageCode())
-                    .and().isNull(BaseServerEntity.Column.SERVER_ID)
-                    .query();
+                .orderBy(Food.Column.NAME, true)
+                .orderBy(Food.Column.UPDATED_AT, false)
+                .where().eq(Food.Column.LANGUAGE_CODE, Helper.getLanguageCode())
+                .and().isNull(BaseServerEntity.Column.SERVER_ID)
+                .query();
         } catch (SQLException exception) {
-            Log.e(TAG, exception.getLocalizedMessage());
+            Log.e(TAG, exception.toString());
             return new ArrayList<>();
         }
     }
@@ -82,7 +82,7 @@ public class FoodDao extends BaseServerDao<Food> {
                 .and().isNull(BaseServerEntity.Column.SERVER_ID)
                 .query();
         } catch (SQLException exception) {
-            Log.e(TAG, exception.getLocalizedMessage());
+            Log.e(TAG, exception.toString());
             return new ArrayList<>();
         }
     }
@@ -117,48 +117,51 @@ public class FoodDao extends BaseServerDao<Food> {
     public Food get(String name) {
         try {
             return getQueryBuilder()
-                    .where().eq(Food.Column.NAME, name)
-                    .queryForFirst();
+                .where().eq(Food.Column.NAME, name)
+                .queryForFirst();
         } catch (SQLException exception) {
-            Log.e(TAG, exception.getLocalizedMessage());
+            Log.e(TAG, exception.toString());
             return null;
         }
     }
 
-    public List<Food> search(String query, long page) {
+    public List<Food> search(String query, long page, boolean showCustomFood, boolean showCommonFood) {
         try {
             QueryBuilder<Food, Long> queryBuilder = getQueryBuilder()
-                    .orderBy(Food.Column.NAME, true)
-                    .orderBy(Food.Column.UPDATED_AT, false)
-                    .offset(page * BaseDao.PAGE_SIZE)
-                    .limit(BaseDao.PAGE_SIZE);
+                .orderBy(Food.Column.NAME, true)
+                .orderBy(Food.Column.UPDATED_AT, false)
+                .offset(page * BaseDao.PAGE_SIZE)
+                .limit(BaseDao.PAGE_SIZE);
 
             boolean hasQuery = query != null && query.length() > 0;
             if (hasQuery) {
                 return queryBuilder
-                        .where().eq(Food.Column.LANGUAGE_CODE, Helper.getLanguageCode())
-                        .and().like(Food.Column.NAME, new SelectArg("%" + query + "%"))
-                        .and().isNull(Food.Column.DELETED_AT)
-                        .query();
+                    .where().like(Food.Column.NAME, new SelectArg("%" + query + "%"))
+                    .and().isNull(Food.Column.DELETED_AT)
+                    .query();
 
             } else {
                 return queryBuilder
-                        .where().eq(Food.Column.LANGUAGE_CODE, Helper.getLanguageCode())
-                        .and().isNull(Food.Column.DELETED_AT)
-                        .query();
+                    .where().isNull(Food.Column.DELETED_AT)
+                    .query();
             }
-            
+
         } catch (SQLException exception) {
-            Log.e(TAG, exception.getLocalizedMessage());
+            Log.e(TAG, exception.toString());
             return new ArrayList<>();
         }
     }
 
     public List<Food> createOrUpdate(SearchResponseDto dto) {
+        if (dto == null || dto.products == null ||dto.products.isEmpty()) {
+            return new ArrayList<>();
+        }
         List<Food> foodList = new ArrayList<>();
         Collections.reverse(dto.products);
+        String languageCode = Helper.getLanguageCode();
         for (ProductDto productDto : dto.products) {
-            if (productDto.isValid()) {
+            boolean isSameLanguage = languageCode.equals(productDto.languageCode);
+            if (isSameLanguage && productDto.isValid()) {
                 Food food = parseFromDto(productDto);
                 if (food != null) {
                     foodList.add(0, food);

@@ -7,7 +7,6 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by Faltenreich on 23.09.2016.
  */
-
 public class ProductDto {
 
     public static final String DATE_FORMAT = "yyyy-MM-dd";

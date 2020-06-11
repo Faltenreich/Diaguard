@@ -15,6 +15,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
 import com.faltenreich.diaguard.shared.networking.NetworkingUtils;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,9 +38,10 @@ public class FoodRepository {
             && PreferenceStore.getInstance().showBrandedFood()
             && NetworkingUtils.isOnline(context)
         ) {
-            searchOnline(query, page, result -> searchOffline(query, page, callback));
+            WeakReference<Context> contextReference = new WeakReference<>(context);
+            searchOnline(query, page, result -> searchOffline(contextReference.get(), query, page, callback));
         } else {
-            searchOffline(query, page, callback);
+            searchOffline(context, query, page, callback);
         }
     }
 
@@ -50,11 +52,8 @@ public class FoodRepository {
         });
     }
 
-    private void searchOffline(@Nullable String query, int page, DataCallback<List<FoodSearchListItem>> callback) {
+    private void searchOffline(Context context, @Nullable String query, int page, DataCallback<List<FoodSearchListItem>> callback) {
         List<FoodSearchListItem> items = new ArrayList<>();
-
-        boolean showCustomFood = PreferenceStore.getInstance().showCustomFood();
-        boolean showCommonFood = PreferenceStore.getInstance().showCommonFood();
 
         boolean includeFoodEaten = page == 0 && !(query != null && query.length() > 0);
         if (includeFoodEaten) {
@@ -68,7 +67,11 @@ public class FoodRepository {
             }
         }
 
-        List<Food> foodList = FoodDao.getInstance().search(query, page, showCustomFood, showCommonFood);
+        boolean showCustomFood = PreferenceStore.getInstance().showCustomFood();
+        boolean showCommonFood = PreferenceStore.getInstance().showCommonFood();
+        boolean showBrandedFood = PreferenceStore.getInstance().showBrandedFood();
+
+        List<Food> foodList = FoodDao.getInstance().search(context, query, page, showCustomFood, showCommonFood, showBrandedFood);
         for (Food food : foodList) {
             items.add(new FoodSearchListItem(food));
         }

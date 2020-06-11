@@ -16,6 +16,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.SelectArg;
+import com.j256.ormlite.stmt.Where;
 
 import org.joda.time.DateTime;
 
@@ -125,7 +126,14 @@ public class FoodDao extends BaseServerDao<Food> {
         }
     }
 
-    public List<Food> search(String query, long page, boolean showCustomFood, boolean showCommonFood) {
+    public List<Food> search(
+        Context context,
+        String query,
+        long page,
+        boolean showCustomFood,
+        boolean showCommonFood,
+        boolean showBrandedFood
+    ) {
         try {
             QueryBuilder<Food, Long> queryBuilder = getQueryBuilder()
                 .orderBy(Food.Column.NAME, true)
@@ -133,18 +141,26 @@ public class FoodDao extends BaseServerDao<Food> {
                 .offset(page * BaseDao.PAGE_SIZE)
                 .limit(BaseDao.PAGE_SIZE);
 
-            boolean hasQuery = query != null && query.length() > 0;
-            if (hasQuery) {
-                return queryBuilder
+            Where<Food, Long> where;
+            if (query != null && query.length() > 0) {
+                where = queryBuilder
                     .where().like(Food.Column.NAME, new SelectArg("%" + query + "%"))
-                    .and().isNull(Food.Column.DELETED_AT)
-                    .query();
-
+                    .and().isNull(Food.Column.DELETED_AT);
             } else {
-                return queryBuilder
-                    .where().isNull(Food.Column.DELETED_AT)
-                    .query();
+                where = queryBuilder.where().isNull(Food.Column.DELETED_AT);
             }
+
+            if (!showCustomFood) {
+                // TODO: Combine with other flags via nested or statement
+            }
+            if (!showCommonFood) {
+                where = where.and().not().eq(Food.Column.LABELS, context.getString(R.string.food_common));
+            }
+            if (!showBrandedFood) {
+                where = where.and().isNull(Food.Column.SERVER_ID);
+            }
+
+            return where.query();
 
         } catch (SQLException exception) {
             Log.e(TAG, exception.toString());

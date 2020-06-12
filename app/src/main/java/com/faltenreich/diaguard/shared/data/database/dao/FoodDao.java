@@ -134,6 +134,10 @@ public class FoodDao extends BaseServerDao<Food> {
         boolean showCommonFood,
         boolean showBrandedFood
     ) {
+        if (!showCustomFood && !showCommonFood && !showBrandedFood) {
+            return new ArrayList<>();
+        }
+
         try {
             QueryBuilder<Food, Long> queryBuilder = getQueryBuilder()
                 .orderBy(Food.Column.NAME, true)
@@ -141,24 +145,37 @@ public class FoodDao extends BaseServerDao<Food> {
                 .offset(page * BaseDao.PAGE_SIZE)
                 .limit(BaseDao.PAGE_SIZE);
 
-            Where<Food, Long> where;
+            Where<Food, Long> where = queryBuilder.where();
+            where.isNull(Food.Column.DELETED_AT);
+
             if (query != null && query.length() > 0) {
-                where = queryBuilder
-                    .where().like(Food.Column.NAME, new SelectArg("%" + query + "%"))
-                    .and().isNull(Food.Column.DELETED_AT);
-            } else {
-                where = queryBuilder.where().isNull(Food.Column.DELETED_AT);
+                where.and();
+                where.like(Food.Column.NAME, new SelectArg("%" + query + "%"));
             }
 
-            if (!showCustomFood) {
-                // TODO: Combine with other flags via nested or statement
+            int whereTypeCount = 0;
+
+            if (showCustomFood) {
+                where.ne(Food.Column.LABELS, context.getString(R.string.food_common));
+                where.isNull(Food.Column.LABELS);
+                where.or(2);
+                where.isNull(Food.Column.SERVER_ID);
+                where.and(2);
+                whereTypeCount++;
             }
-            if (!showCommonFood) {
-                where = where.and().not().eq(Food.Column.LABELS, context.getString(R.string.food_common));
+
+            if (showCommonFood) {
+                where.eq(Food.Column.LABELS, context.getString(R.string.food_common));
+                whereTypeCount++;
             }
-            if (!showBrandedFood) {
-                where = where.and().isNull(Food.Column.SERVER_ID);
+
+            if (showBrandedFood) {
+                where.isNotNull(Food.Column.SERVER_ID);
+                whereTypeCount++;
             }
+
+            where.or(whereTypeCount);
+            where.and(2);
 
             return where.query();
 

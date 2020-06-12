@@ -57,11 +57,7 @@ public class FoodRepository {
         if (includeFoodEaten) {
             List<FoodEaten> foodEatenList = FoodEatenDao.getInstance().getAllOrdered();
             for (FoodEaten foodEaten : foodEatenList) {
-                FoodSearchListItem item = new FoodSearchListItem(foodEaten);
-                // TODO: Filter distinct on database level
-                if (!items.contains(item)) {
-                    items.add(item);
-                }
+                items.add(new FoodSearchListItem(foodEaten));
             }
         }
 

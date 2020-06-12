@@ -16,7 +16,7 @@ public class Activity extends Measurement {
     }
 
     public enum Type {
-        // TODO: Integrate in future version
+        // Integrate in future version
     }
 
     @DatabaseField(columnName = Column.MINUTES)

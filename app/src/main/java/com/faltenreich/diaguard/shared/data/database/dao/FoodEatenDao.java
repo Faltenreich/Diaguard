@@ -37,12 +37,10 @@ public class FoodEatenDao extends BaseDao<FoodEaten> {
 
     public List<FoodEaten> getAllOrdered() {
         try {
-            // TODO: Distinct
-            // TODO: Order by Entry.getDateTime()
             return getQueryBuilder()
-                    .orderBy(FoodEaten.Column.CREATED_AT, false)
-                    .join(FoodDao.getInstance().getQueryBuilder())
-                    .query();
+                .orderBy(FoodEaten.Column.CREATED_AT, false)
+                .distinct().selectColumns(FoodEaten.Column.FOOD)
+                .query();
         } catch (SQLException exception) {
             Log.e(TAG, exception.getLocalizedMessage());
             return new ArrayList<>();
@@ -52,9 +50,9 @@ public class FoodEatenDao extends BaseDao<FoodEaten> {
     public long count(Food food) {
         try {
             return getQueryBuilder()
-                    .orderBy(FoodEaten.Column.CREATED_AT, false)
-                    .where().eq(FoodEaten.Column.FOOD, food)
-                    .countOf();
+                .orderBy(FoodEaten.Column.CREATED_AT, false)
+                .where().eq(FoodEaten.Column.FOOD, food)
+                .countOf();
         } catch (SQLException exception) {
             Log.e(TAG, exception.getLocalizedMessage());
             return 0;
@@ -64,9 +62,9 @@ public class FoodEatenDao extends BaseDao<FoodEaten> {
     public List<FoodEaten> getAll(Food food) {
         try {
             return getQueryBuilder()
-                    .orderBy(FoodEaten.Column.CREATED_AT, false)
-                    .where().eq(FoodEaten.Column.FOOD, food)
-                    .query();
+                .orderBy(FoodEaten.Column.CREATED_AT, false)
+                .where().eq(FoodEaten.Column.FOOD, food)
+                .query();
         } catch (SQLException exception) {
             Log.e(TAG, exception.getLocalizedMessage());
             return new ArrayList<>();
@@ -76,9 +74,9 @@ public class FoodEatenDao extends BaseDao<FoodEaten> {
     public List<FoodEaten> getAll(Meal meal) {
         try {
             return getQueryBuilder()
-                    .orderBy(FoodEaten.Column.CREATED_AT, false)
-                    .where().eq(FoodEaten.Column.MEAL, meal)
-                    .query();
+                .orderBy(FoodEaten.Column.CREATED_AT, false)
+                .where().eq(FoodEaten.Column.MEAL, meal)
+                .query();
         } catch (SQLException exception) {
             Log.e(TAG, exception.getLocalizedMessage());
             return new ArrayList<>();
@@ -89,8 +87,8 @@ public class FoodEatenDao extends BaseDao<FoodEaten> {
         try {
             QueryBuilder<Entry, Long> queryBuilderEntry = EntryDao.getInstance().getQueryBuilder();
             queryBuilderEntry
-                    .where().ge(Entry.Column.DATE, interval.getStart())
-                    .and().le(Entry.Column.DATE, interval.getEnd());
+                .where().ge(Entry.Column.DATE, interval.getStart())
+                .and().le(Entry.Column.DATE, interval.getEnd());
             QueryBuilder<Meal, Long> queryBuilderMeal = MeasurementDao.getInstance(Meal.class).getQueryBuilder();
             return getQueryBuilder().join(queryBuilderMeal.join(queryBuilderEntry)).query();
         } catch (SQLException exception) {

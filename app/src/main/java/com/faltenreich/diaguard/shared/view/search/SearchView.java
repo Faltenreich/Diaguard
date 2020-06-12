@@ -141,7 +141,7 @@ public class SearchView extends FrameLayout implements Searchable {
 
     @Override
     public String getQuery() {
-        return inputField.getText().toString();
+        return inputField.getText().toString().trim();
     }
 
     @Override

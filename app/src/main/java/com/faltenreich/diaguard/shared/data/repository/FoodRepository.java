@@ -2,8 +2,6 @@ package com.faltenreich.diaguard.shared.data.repository;
 
 import android.content.Context;
 
-import androidx.annotation.Nullable;
-
 import com.faltenreich.diaguard.feature.food.networking.OpenFoodFactsService;
 import com.faltenreich.diaguard.feature.food.search.FoodSearchListItem;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
@@ -32,7 +30,7 @@ public class FoodRepository {
 
     private FoodRepository() {}
 
-    public void search(Context context, @Nullable String query, int page, DataCallback<List<FoodSearchListItem>> callback) {
+    public void search(Context context, String query, int page, DataCallback<List<FoodSearchListItem>> callback) {
         if (page == 0
             && !StringUtils.isBlank(query)
             && PreferenceStore.getInstance().showBrandedFood()
@@ -45,14 +43,14 @@ public class FoodRepository {
         }
     }
 
-    private void searchOnline(@Nullable String query, int page, DataCallback<List<Food>> callback) {
+    private void searchOnline(String query, int page, DataCallback<List<Food>> callback) {
         OpenFoodFactsService.getInstance().search(query, page, (dto) -> {
             List<Food> foodList = FoodDao.getInstance().createOrUpdate(dto);
             callback.onResult(foodList);
         });
     }
 
-    private void searchOffline(Context context, @Nullable String query, int page, DataCallback<List<FoodSearchListItem>> callback) {
+    private void searchOffline(Context context, String query, int page, DataCallback<List<FoodSearchListItem>> callback) {
         List<FoodSearchListItem> items = new ArrayList<>();
 
         boolean includeFoodEaten = page == 0 && !(query != null && query.length() > 0);

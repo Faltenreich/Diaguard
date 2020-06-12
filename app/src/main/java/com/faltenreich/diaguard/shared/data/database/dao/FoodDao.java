@@ -140,7 +140,7 @@ public class FoodDao extends BaseServerDao<Food> {
 
         try {
             QueryBuilder<Food, Long> queryBuilder = getQueryBuilder()
-                .orderBy(Food.Column.NAME, true)
+                .orderByRaw(String.format("%s COLLATE NOCASE", Food.Column.NAME))
                 .orderBy(Food.Column.UPDATED_AT, false)
                 .offset(page * BaseDao.PAGE_SIZE)
                 .limit(BaseDao.PAGE_SIZE);

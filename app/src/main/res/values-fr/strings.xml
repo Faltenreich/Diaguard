@@ -339,7 +339,7 @@
     <string name="available_placeholder">%d disponible</string>
     <string name="backup_desc">Sauvegarder les données dans un fichier de sauvegarde n\'importe où (Aucune donnée n\'est automatiquement transmise à des services externes)</string>
     <string name="import_desc">Restaurer les données d\'un fichier de sauvegarde créé précédemment</string>
-    <string name="show_branded_food">Afficher les aliments de marque</string>
+    <string name="show_branded_food">Recherche d\'aliments de marque</string>
     <string name="show_branded_food_desc">Comprend des milliers de produits emballés qui sont demandés via le réseau (peut entraîner des doublons, par exemple un produit provenant de différents fabricants)</string>
     <string name="search_prompt">Commencez la recherche en tapant</string>
     <string name="pinned">fixé</string>

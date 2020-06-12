@@ -338,7 +338,7 @@
     <string name="available_placeholder">%d verfügbar</string>
     <string name="backup_desc">Daten in einer Backup-Datei an einem beliebigen Ort sichern (Es werden keine Daten automatisch an externe Dienste weitergegeben)</string>
     <string name="import_desc">Daten aus einer vorher angelegten Backup-Datei wiederherstellen</string>
-    <string name="show_branded_food">Markenprodukte anzeigen</string>
+    <string name="show_branded_food">Markenprodukte durchsuchen</string>
     <string name="show_branded_food_desc">Umfasst tausende abgepackter Lebensmittel, die über das Internet abgefragt werden (Führt unter Umständen zu Duplikaten, z. B. beim gleichen Produkt von verschiedenen Herstellern)</string>
     <string name="search_prompt">Tippen, um Suche zu beginnen</string>
     <string name="pinned">fixiert</string>

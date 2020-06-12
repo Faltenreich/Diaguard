@@ -341,7 +341,7 @@
     <string name="available_placeholder">%d disponible</string>
     <string name="backup_desc">Copia de seguridad de datos en un archivo de copia de seguridad en cualquier lugar (Ningún dato se reenvía automáticamente a servicios externos)</string>
     <string name="import_desc">Restaurar datos de un archivo de copia de seguridad creado anteriormente</string>
-    <string name="show_branded_food">Mostrar alimentos de marca</string>
+    <string name="show_branded_food">Buscar alimentos de marca</string>
     <string name="show_branded_food_desc">Incluye miles de productos empaquetados que se solicitan a través de la red (puede dar lugar a duplicados, por ejemplo, un producto de diferentes fabricantes)</string>
     <string name="search_prompt">Comience la búsqueda escribiendo</string>
     <string name="pinned">fijó</string>

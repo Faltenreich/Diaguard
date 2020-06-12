@@ -514,7 +514,7 @@
     <string name="available_placeholder">%d available</string>
     <string name="backup_desc">Store data in a backup file on a storage of your choice (No data will be sent automatically to external services)</string>
     <string name="import_desc">Restore data from a previously created backup file</string>
-    <string name="show_branded_food">Show branded food</string>
+    <string name="show_branded_food">Search branded food</string>
     <string name="show_branded_food_desc">Includes thousands of packaged goods that are requested via network (May lead to duplicates, e.g. one product from different manufacturers)</string>
     <string name="search_prompt">Start searching by typing</string>
     <string name="pinned">pinned</string>

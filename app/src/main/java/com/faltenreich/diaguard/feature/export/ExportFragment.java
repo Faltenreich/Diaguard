@@ -20,29 +20,29 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
-import com.faltenreich.diaguard.shared.data.database.entity.Category;
-import com.faltenreich.diaguard.shared.event.Events;
-import com.faltenreich.diaguard.shared.event.permission.PermissionRequestEvent;
-import com.faltenreich.diaguard.shared.event.permission.PermissionResponseEvent;
+import com.faltenreich.diaguard.feature.datetime.DatePickerFragment;
+import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.export.history.ExportHistoryFragment;
 import com.faltenreich.diaguard.feature.export.job.Export;
 import com.faltenreich.diaguard.feature.export.job.ExportCallback;
 import com.faltenreich.diaguard.feature.export.job.FileType;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportStyle;
-import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
-import com.faltenreich.diaguard.feature.datetime.DatePickerFragment;
-import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
 import com.faltenreich.diaguard.feature.navigation.MainButton;
 import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
-import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
-import com.faltenreich.diaguard.shared.data.file.FileUtils;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.Helper;
-import com.faltenreich.diaguard.shared.view.progress.ProgressComponent;
-import com.faltenreich.diaguard.shared.view.ViewUtils;
+import com.faltenreich.diaguard.shared.data.database.entity.Category;
+import com.faltenreich.diaguard.shared.data.file.FileUtils;
 import com.faltenreich.diaguard.shared.data.permission.Permission;
 import com.faltenreich.diaguard.shared.data.permission.PermissionUseCase;
+import com.faltenreich.diaguard.shared.event.Events;
+import com.faltenreich.diaguard.shared.event.permission.PermissionRequestEvent;
+import com.faltenreich.diaguard.shared.event.permission.PermissionResponseEvent;
+import com.faltenreich.diaguard.shared.view.ViewUtils;
+import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
+import com.faltenreich.diaguard.shared.view.progress.ProgressComponent;
+import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -61,19 +61,32 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
 
     private static final String TAG = ExportFragment.class.getSimpleName();
 
-    @BindView(R.id.scroll_view) NestedScrollView scrollView;
-    @BindView(R.id.date_start_button) Button buttonDateStart;
-    @BindView(R.id.date_end_button) Button buttonDateEnd;
-    @BindView(R.id.format_spinner) Spinner spinnerFormat;
-    @BindView(R.id.style_group) Group styleGroup;
-    @BindView(R.id.style_spinner) Spinner spinnerStyle;
-    @BindView(R.id.header_checkbox) CheckBox checkBoxHeader;
-    @BindView(R.id.header_group) Group headerGroup;
-    @BindView(R.id.footer_checkbox) CheckBox checkBoxFooter;
-    @BindView(R.id.footer_group) Group footerGroup;
-    @BindView(R.id.note_checkbox) CheckBox checkBoxNotes;
-    @BindView(R.id.tags_checkbox) CheckBox checkBoxTags;
-    @BindView(R.id.categories_list) RecyclerView categoryCheckBoxList;
+    @BindView(R.id.scroll_view)
+    NestedScrollView scrollView;
+    @BindView(R.id.date_start_button)
+    Button buttonDateStart;
+    @BindView(R.id.date_end_button)
+    Button buttonDateEnd;
+    @BindView(R.id.format_spinner)
+    Spinner spinnerFormat;
+    @BindView(R.id.style_group)
+    Group styleGroup;
+    @BindView(R.id.style_spinner)
+    Spinner spinnerStyle;
+    @BindView(R.id.header_checkbox)
+    CheckBox checkBoxHeader;
+    @BindView(R.id.header_group)
+    Group headerGroup;
+    @BindView(R.id.footer_checkbox)
+    CheckBox checkBoxFooter;
+    @BindView(R.id.footer_group)
+    Group footerGroup;
+    @BindView(R.id.note_checkbox)
+    CheckBox checkBoxNotes;
+    @BindView(R.id.tags_checkbox)
+    CheckBox checkBoxTags;
+    @BindView(R.id.categories_list)
+    RecyclerView categoryCheckBoxList;
 
     private ProgressComponent progressComponent = new ProgressComponent();
     private ExportCategoryListAdapter categoryCheckBoxListAdapter;
@@ -112,22 +125,11 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_history:
-                openHistory();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.action_history) {
+            openHistory();
+            return true;
         }
-    }
-
-    private FileType getFormat() {
-        int selectedPosition = spinnerFormat.getSelectedItemPosition();
-        switch (selectedPosition) {
-            case 0: return FileType.PDF;
-            case 1: return FileType.CSV;
-            default: throw new IllegalArgumentException("Unknown type at position: " + selectedPosition);
-        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void init() {
@@ -189,6 +191,18 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
         categoryCheckBoxListAdapter.notifyItemRangeInserted(0, items.size());
     }
 
+    private FileType getFormat() {
+        int selectedPosition = spinnerFormat.getSelectedItemPosition();
+        switch (selectedPosition) {
+            case 0:
+                return FileType.PDF;
+            case 1:
+                return FileType.CSV;
+            default:
+                throw new IllegalArgumentException("Unknown type at position: " + selectedPosition);
+        }
+    }
+
     private void setFormat(FileType format) {
         styleGroup.setVisibility(format == FileType.PDF ? View.VISIBLE : View.GONE);
         headerGroup.setVisibility(format == FileType.PDF ? View.VISIBLE : View.GONE);
@@ -198,10 +212,14 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
     private PdfExportStyle getStyle() {
         int selectedPosition = spinnerStyle.getSelectedItemPosition();
         switch (selectedPosition) {
-            case 0: return PdfExportStyle.TABLE;
-            case 1: return PdfExportStyle.TIMELINE;
-            case 2: return PdfExportStyle.LOG;
-            default: throw new IllegalArgumentException("Unknown style at position: " + selectedPosition);
+            case 0:
+                return PdfExportStyle.TABLE;
+            case 1:
+                return PdfExportStyle.TIMELINE;
+            case 2:
+                return PdfExportStyle.LOG;
+            default:
+                throw new IllegalArgumentException("Unknown style at position: " + selectedPosition);
         }
     }
 
@@ -270,7 +288,7 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
         try {
             FileUtils.openFile(getContext(), file);
         } catch (ActivityNotFoundException exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, exception.toString());
             ViewUtils.showSnackbar(getView(), getString(R.string.error_no_app));
         }
     }
@@ -313,7 +331,7 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
                 dateStart = dateTime;
                 buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
             }
-        }).show(getFragmentManager());
+        }).show(getParentFragmentManager());
     }
 
     @OnClick(R.id.date_end_button)
@@ -323,7 +341,7 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
                 dateEnd = dateTime;
                 buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
             }
-        }).show(getFragmentManager());
+        }).show(getParentFragmentManager());
     }
 
     @OnClick(R.id.date_more_button)

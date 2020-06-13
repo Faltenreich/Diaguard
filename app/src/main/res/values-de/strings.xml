@@ -311,11 +311,7 @@
     <string name="oxygen_saturation_acronym">Sauerstoffsätt.</string>
 
     <string name="changelog">Neu in dieser Version</string>
-    <string name="changelog_desc">
-        <b>Export Stile</b>\n PDFs können nun in drei verschiedenen Stilen exportiert werden: als Tabelle, Tagebuch oder Protokoll.\n\n
-        <b>Export Konfiguration</b>\n Kopf- und Fußzeile des PDF Exports können nun (de-)aktiviert werden. Zusätzlich kommen weitere Optionen hinzu, um den PDF Export an die eigenen Bedürfnisse anzupassen.\n\n
-        <b>Frühere Exporte</b>\n Diese Auflistung ermöglicht einen Überblick über frühere PDF- oder CSV-Exporte.
-    </string>
+    <string name="changelog_desc"/>
 
     <string name="meal_factor">Mahlzeit-Bolus-Faktor</string>
     <string name="meal_factors">Mahlzeit-Bolus-Faktoren</string>
@@ -362,7 +358,6 @@
     <string name="export_delete_desc">Dies wird die Datei unwiderruflich vom Gerät löschen</string>
     <string name="export_share">Export teilen</string>
     <string name="actions">Aktionen</string>
-    <string name="export_open">Export öffnen</string>
     <string name="week_current">Aktuelle Woche</string>
     <string name="weeks_two">Letzte zwei Wochen</string>
     <string name="weeks_four">Letzte vier Wochen</string>

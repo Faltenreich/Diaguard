@@ -478,11 +478,7 @@
     <string name="oxygen_saturation_acronym">Oxygen sat.</string>
 
     <string name="changelog">What\'s new</string>
-    <string name="changelog_desc">
-        <b>Export styles</b>\n Export your PDFs in three different styles: as table, timeline or log.\n\n
-        <b>Export configuration</b>\n Hide the header or footer of a PDF export and use enhanced options to configure it to your liking.\n\n
-        <b>Export history</b>\n Gain quick access to past PDF and CSV exports.
-    </string>
+    <string name="changelog_desc"/>
 
     <string name="meal_factor">Meal-bolus-factor</string>
     <string name="meal_factors">Meal-bolus-factors</string>
@@ -538,7 +534,6 @@
     <string name="export_delete_desc">This will delete the file irrevocably from your device</string>
     <string name="export_share">Share export</string>
     <string name="actions">Actions</string>
-    <string name="export_open">Open export</string>
     <string name="week_current">Current week</string>
     <string name="weeks_two">Last two weeks</string>
     <string name="weeks_four">Last four weeks</string>

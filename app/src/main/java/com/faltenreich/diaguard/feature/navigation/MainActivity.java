@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.faltenreich.diaguard.BuildConfig;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.calculator.CalculatorFragment;
+import com.faltenreich.diaguard.feature.changelog.ChangelogFragment;
 import com.faltenreich.diaguard.feature.dashboard.DashboardFragment;
 import com.faltenreich.diaguard.feature.entry.search.EntrySearchActivity;
 import com.faltenreich.diaguard.feature.export.ExportFragment;
@@ -53,7 +54,7 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
         super.onCreate(savedInstanceState);
         PreferenceStore.getInstance().setDefaultValues(this);
         initLayout();
-        showChangelog();
+        checkChangelog();
     }
 
     @Override
@@ -238,25 +239,27 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
         }
     }
 
-    private void showChangelog() {
+    private void checkChangelog() {
         int oldVersionCode = PreferenceStore.getInstance().getVersionCode();
         int currentVersionCode = SystemUtils.getVersionCode(this);
         if (oldVersionCode > 0) {
             boolean isUpdate = oldVersionCode < currentVersionCode;
             if (isUpdate) {
                 PreferenceStore.getInstance().setVersionCode(currentVersionCode);
-                /* TODO: Re-enable for future update
-                ChangelogFragment fragment = new ChangelogFragment();
-                String tag = fragment.getClass().getSimpleName();
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.addToBackStack(tag);
-                fragment.show(fragmentTransaction, tag);
-                */
+                // TODO: openChangelog() if needed
             }
         } else {
             // Skip changelog for fresh installs
             PreferenceStore.getInstance().setVersionCode(currentVersionCode);
         }
+    }
+
+    private void openChangelog() {
+        ChangelogFragment fragment = new ChangelogFragment();
+        String tag = fragment.getClass().getSimpleName();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.addToBackStack(tag);
+        fragment.show(fragmentTransaction, tag);
     }
 
     @Override

@@ -312,11 +312,7 @@
     <string name="correction_value_desc">Réduction de la glycémie d\'une</string>
 
     <string name="changelog">Quoi de neuf</string>
-    <string name="changelog_desc">
-        <b>Exporter des styles</b>\nLes fichiers PDF peuvent désormais être exportés dans trois styles différents: sous tableau, journal ou protocole.\n\n
-        <b>Exporter la configuration</b>\nL\'en-tête et le pied de page de l\'exportation PDF peuvent maintenant être désactivés. De plus, il existe d\'autres options pour adapter l\'exportation PDF à vos propres besoins.\n\n
-        <b>Exportations précédentes</b>\nCette liste fournit un aperçu des exportations PDF ou CSV précédentes.
-    </string>
+    <string name="changelog_desc"/>
 
     <string name="meal_factor">Repas-bol-facteur</string>
     <string name="meal_factors">Repas-bol-facteurs</string>
@@ -363,7 +359,6 @@
     <string name="export_delete_desc">Cela supprimera le fichier irrévocablement de votre appareil</string>
     <string name="export_share">Partager l\'exportation</string>
     <string name="actions">Actions</string>
-    <string name="export_open">Ouvrez l\'exportation</string>
     <string name="week_current">Semaine en cours</string>
     <string name="weeks_two">Deux dernières semaines</string>
     <string name="weeks_four">Quatre dernières semaines</string>

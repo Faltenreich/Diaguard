@@ -314,11 +314,7 @@
     <string name="correction_value_desc">La reducción de glucemia en un</string>
 
     <string name="changelog">Qué hay de nuevo</string>
-    <string name="changelog_desc">
-        <b>Estilo de exportación</b>\n Los archivos PDF ahora se pueden exportar en tres estilos diferentes: como tabla, diario o registro.\n\n
-        <b>Configuración de exportación</b>\nEl encabezado y el pie de página de la exportación de PDF ahora se pueden (de-)activar. Además, hay otras opciones para adaptar la exportación de PDF a sus propias necesidades.\n\n
-        <b>Exportaciones anteriores</b>\nEste listado proporciona una descripción general de las exportaciones anteriores de PDF o CSV.
-    </string>
+    <string name="changelog_desc"/>
 
     <string name="meal_factor">Alimento-bolo-factor</string>
     <string name="meal_factors">Alimento-bolo-factors</string>
@@ -365,7 +361,6 @@
     <string name="export_delete_desc">Esto eliminará el archivo irrevocablemente de su dispositivo</string>
     <string name="export_share">Compartir exportación</string>
     <string name="actions">Comportamiento</string>
-    <string name="export_open">Abrir exportación</string>
     <string name="week_current">Semana actual</string>
     <string name="weeks_two">Últimas dos semanas</string>
     <string name="weeks_four">Últimas cuatro semanas</string>

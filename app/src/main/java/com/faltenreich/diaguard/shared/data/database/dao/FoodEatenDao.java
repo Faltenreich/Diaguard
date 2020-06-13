@@ -35,11 +35,12 @@ public class FoodEatenDao extends BaseDao<FoodEaten> {
         super(FoodEaten.class);
     }
 
-    public List<FoodEaten> getAllOrdered() {
+    public List<FoodEaten> getLatest(long count) {
         try {
             return getQueryBuilder()
                 .orderBy(FoodEaten.Column.CREATED_AT, false)
                 .distinct().selectColumns(FoodEaten.Column.FOOD)
+                .limit(count)
                 .query();
         } catch (SQLException exception) {
             Log.e(TAG, exception.getLocalizedMessage());

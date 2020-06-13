@@ -18,6 +18,8 @@ import java.util.List;
 
 public class FoodRepository {
 
+    private static final long LATEST_FOOD_EATEN_COUNT = 3;
+
     private static FoodRepository instance;
 
     public static FoodRepository getInstance() {
@@ -51,17 +53,17 @@ public class FoodRepository {
     private void searchOffline(String query, int page, DataCallback<List<FoodSearchListItem>> callback) {
         List<FoodSearchListItem> items = new ArrayList<>();
 
-        boolean includeFoodEaten = page == 0 && !(query != null && query.length() > 0);
-        if (includeFoodEaten) {
-            List<FoodEaten> foodEatenList = FoodEatenDao.getInstance().getAllOrdered();
+        boolean showCustomFood = PreferenceStore.getInstance().showCustomFood();
+        boolean showCommonFood = PreferenceStore.getInstance().showCommonFood();
+        boolean showBrandedFood = PreferenceStore.getInstance().showBrandedFood();
+
+        boolean hasQuery = query != null && query.length() > 0;
+        if (page == 0 && !hasQuery) {
+            List<FoodEaten> foodEatenList = FoodEatenDao.getInstance().getLatest(LATEST_FOOD_EATEN_COUNT);
             for (FoodEaten foodEaten : foodEatenList) {
                 items.add(new FoodSearchListItem(foodEaten));
             }
         }
-
-        boolean showCustomFood = PreferenceStore.getInstance().showCustomFood();
-        boolean showCommonFood = PreferenceStore.getInstance().showCommonFood();
-        boolean showBrandedFood = PreferenceStore.getInstance().showBrandedFood();
 
         List<Food> foodList = FoodDao.getInstance().search(query, page, showCustomFood, showCommonFood, showBrandedFood);
         for (Food food : foodList) {

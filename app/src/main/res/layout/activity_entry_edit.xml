@@ -36,7 +36,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:divider="?attr/dividerVertical"
+                        android:divider="?android:listDivider"
                         android:orientation="vertical"
                         android:showDividers="middle">
 

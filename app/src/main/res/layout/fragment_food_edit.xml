@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:showDividers="middle"
-                android:divider="?attr/dividerVertical"
+                android:divider="?android:listDivider"
                 android:background="?attr/backgroundColorSecondary">
 
                 <LinearLayout style="@style/LayoutRow"
@@ -104,7 +104,7 @@
                     style="@style/Padding"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?dividerVertical"
+                    android:background="?android:listDivider"
                     android:text="@string/nutriments_per_100g"/>
 
                 <com.faltenreich.diaguard.feature.food.edit.NutrientInputLayout
@@ -113,7 +113,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:showDividers="middle"
-                    android:divider="?attr/dividerVertical"
+                    android:divider="?android:listDivider"
                     android:background="?attr/backgroundColorPrimary"/>
 
             </LinearLayout>

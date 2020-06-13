@@ -7,8 +7,6 @@ import android.util.TypedValue;
 import androidx.annotation.AttrRes;
 import androidx.core.content.ContextCompat;
 
-import com.faltenreich.diaguard.R;
-
 @SuppressWarnings("SameParameterValue")
 public class DrawableUtils {
 
@@ -19,7 +17,7 @@ public class DrawableUtils {
         return ContextCompat.getDrawable(context, drawableResourceId);
     }
 
-    public static Drawable getDividerVertical(Context context) {
-        return getDrawable(context, R.attr.dividerVertical);
+    public static Drawable getDivider(Context context) {
+        return getDrawable(context, android.R.attr.listDivider);
     }
 }

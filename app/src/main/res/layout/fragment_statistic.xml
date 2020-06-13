@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:showDividers="middle"
-                android:divider="?attr/dividerVertical">
+                android:divider="?android:listDivider">
 
                 <LinearLayout style="@style/LayoutRow">
 

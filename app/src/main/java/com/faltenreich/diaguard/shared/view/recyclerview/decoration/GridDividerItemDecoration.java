@@ -20,7 +20,7 @@ public class GridDividerItemDecoration extends DividerItemDecoration {
 
     public GridDividerItemDecoration(Context context) {
         super(context, RecyclerView.VERTICAL);
-        divider = DrawableUtils.getDividerVertical(context);
+        divider = DrawableUtils.getDivider(context);
         bounds = new Rect();
     }
 

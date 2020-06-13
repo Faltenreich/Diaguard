@@ -68,6 +68,7 @@
     <string name="food">Lebensmittel</string>
     <string name="food_add">Lebensmittel hinzufügen</string>
     <string name="food_add_desc">Neues Lebensmittel</string>
+    <string name="food_common_old">Gewöhnliches Lebensmittel</string>
     <string name="food_common">Grundnahrungsmittel</string>
     <string name="food_delete">Lebensmittel löschen</string>
     <string name="food_deleted">Lebensmittel gelöscht</string>

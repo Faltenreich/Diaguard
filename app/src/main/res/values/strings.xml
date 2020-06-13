@@ -92,6 +92,7 @@
     <string name="food">Food</string>
     <string name="food_add">Add food</string>
     <string name="food_add_desc">Add food</string>
+    <string name="food_common_old">Common food</string>
     <string name="food_common">Common food</string>
     <string name="food_delete">Delete food</string>
     <string name="food_deleted">Food deleted</string>

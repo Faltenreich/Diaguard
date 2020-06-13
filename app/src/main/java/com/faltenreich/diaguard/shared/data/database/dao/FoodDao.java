@@ -75,7 +75,7 @@ public class FoodDao extends BaseServerDao<Food> {
         try {
             return getQueryBuilder()
                 .orderBy(Food.Column.UPDATED_AT, true)
-                .where().eq(Food.Column.LABELS, context.getString(R.string.food_common))
+                .where().eq(Food.Column.LABELS, context.getString(R.string.food_common_old))
                 .and().isNull(BaseServerEntity.Column.SERVER_ID)
                 .query();
         } catch (SQLException exception) {
@@ -153,6 +153,8 @@ public class FoodDao extends BaseServerDao<Food> {
 
             if (showCustomFood) {
                 where.ne(Food.Column.LABELS, context.getString(R.string.food_common));
+                where.ne(Food.Column.LABELS, context.getString(R.string.food_common_old));
+                where.and(2);
                 where.isNull(Food.Column.LABELS);
                 where.or(2);
                 where.isNull(Food.Column.SERVER_ID);
@@ -162,6 +164,8 @@ public class FoodDao extends BaseServerDao<Food> {
 
             if (showCommonFood) {
                 where.eq(Food.Column.LABELS, context.getString(R.string.food_common));
+                where.eq(Food.Column.LABELS, context.getString(R.string.food_common_old));
+                where.or(2);
                 whereTypeCount++;
             }
 

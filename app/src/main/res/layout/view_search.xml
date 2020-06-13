@@ -3,6 +3,7 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?backgroundColorGreen"
@@ -47,7 +48,7 @@
                 android:inputType="text" />
 
             <ImageView
-                android:id="@+id/actionIcon"
+                android:id="@+id/clearIcon"
                 android:layout_width="@dimen/height_element"
                 android:layout_height="@dimen/height_element"
                 android:layout_marginStart="@dimen/margin_between"
@@ -60,6 +61,19 @@
                 android:padding="@dimen/margin_between_large"
                 android:tint="?iconColorPrimary"
                 app:srcCompat="@drawable/ic_clear" />
+
+            <ImageView
+                android:id="@+id/actionIcon"
+                android:layout_width="@dimen/height_element"
+                android:layout_height="@dimen/height_element"
+                android:adjustViewBounds="true"
+                android:background="?selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:contentDescription="@string/back"
+                android:focusable="true"
+                android:padding="@dimen/margin_between_large"
+                android:tint="?iconColorPrimary"
+                tools:srcCompat="@drawable/ic_more_vertical" />
 
         </LinearLayout>
 

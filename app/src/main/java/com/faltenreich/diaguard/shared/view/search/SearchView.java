@@ -7,7 +7,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.FrameLayout;
@@ -25,7 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SearchView extends FrameLayout implements Searchable {
+public class SearchView extends FrameLayout implements Searchable, TextWatcher {
 
     private static final int INPUT_DELAY_IN_MILLIS = 1000;
 
@@ -37,6 +36,9 @@ public class SearchView extends FrameLayout implements Searchable {
 
     @BindView(R.id.actionIcon)
     ImageView actionIcon;
+
+    @BindView(R.id.clearIcon)
+    ImageView clearIcon;
 
     private SearchViewListener listener;
     private SearchViewAction action;
@@ -83,34 +85,16 @@ public class SearchView extends FrameLayout implements Searchable {
 
     private void initLayout() {
         setHint(hint);
-
-        inputField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence text, int start, int count, int after) { }
-            @Override
-            public void onTextChanged(CharSequence text, int start, int before, int count) {
-                invalidateLayout();
-            }
-            @Override
-            public void afterTextChanged(Editable editable) {
-                onInputChanged(editable.toString());
-            }
-        });
+        inputField.addTextChangedListener(this);
     }
 
     private void invalidateLayout() {
-        if (action != null) {
-            boolean showAction = getQuery().isEmpty();
-            int imageRes = showAction ? action.getIconRes() : R.drawable.ic_clear;
-            int contentDescriptionRes = showAction ? action.getContentDescriptionRes() : R.string.query_clear;
-            actionIcon.setImageResource(imageRes);
-            actionIcon.setContentDescription(getContext().getString(contentDescriptionRes));
-            actionIcon.setVisibility(View.VISIBLE);
-        } else {
-            actionIcon.setImageResource(R.drawable.ic_clear);
-            actionIcon.setContentDescription(getContext().getString(R.string.query_clear));
-            actionIcon.setVisibility(getQuery().isEmpty() ? View.INVISIBLE : View.VISIBLE);
-        }
+        clearIcon.setVisibility(getQuery().isEmpty() ? GONE : VISIBLE);
+
+        boolean hasAction = action != null;
+        actionIcon.setVisibility(hasAction ? VISIBLE : GONE);
+        actionIcon.setImageResource(hasAction ? action.getIconRes() : android.R.color.transparent);
+        actionIcon.setContentDescription(hasAction ? getContext().getString(action.getContentDescriptionRes()) : null);
     }
 
     private void onInputChanged(String input) {
@@ -172,12 +156,35 @@ public class SearchView extends FrameLayout implements Searchable {
         }
     }
 
+    @OnClick(R.id.clearIcon)
+    void onClearIconClicked() {
+        // Workaround: TextWatcher breaks focus of EditText, so we trigger observers manually with slight delay
+        inputField.removeTextChangedListener(this);
+        inputField.setText(null);
+        inputField.addTextChangedListener(this);
+        new Handler().postDelayed(() -> {
+            inputField.setText(null);
+        }, 100);
+
+    }
+
     @OnClick(R.id.actionIcon)
     void onActionIconClicked() {
-        if (!StringUtils.isBlank(getQuery())) {
-            inputField.setText(null);
-        } else if (action != null) {
-            action.getCallback().onAction(actionIcon);
-        }
+        action.getCallback().onAction(actionIcon);
+    }
+
+
+    @Override
+    public void beforeTextChanged(CharSequence text, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence text, int start, int before, int count) {
+        invalidateLayout();
+    }
+    @Override
+    public void afterTextChanged(Editable editable) {
+        onInputChanged(editable.toString());
     }
 }

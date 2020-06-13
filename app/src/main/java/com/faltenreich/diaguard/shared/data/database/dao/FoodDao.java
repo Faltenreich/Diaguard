@@ -26,10 +26,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Created by Faltenreich on 23.09.2016.
- */
-
 public class FoodDao extends BaseServerDao<Food> {
 
     private static final String TAG = FoodDao.class.getSimpleName();

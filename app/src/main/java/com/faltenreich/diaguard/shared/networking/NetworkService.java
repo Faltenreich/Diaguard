@@ -31,7 +31,7 @@ public abstract class NetworkService<SERVER> {
             }
             @Override
             public void onFailure(@NonNull Call<T> call, @NonNull Throwable throwable) {
-                Log.d(TAG, "Request failed with: " + throwable);
+                Log.e(TAG, "Request failed with: " + throwable);
                 int statusCode;
                 if (throwable instanceof SocketTimeoutException) {
                     statusCode = HttpURLConnection.HTTP_GATEWAY_TIMEOUT;

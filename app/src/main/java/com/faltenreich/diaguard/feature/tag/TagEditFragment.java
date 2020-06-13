@@ -10,10 +10,10 @@ import com.faltenreich.diaguard.shared.data.async.DataLoader;
 import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.shared.data.database.dao.TagDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
-import com.faltenreich.diaguard.shared.view.fragment.BaseDialogFragment;
-import com.faltenreich.diaguard.shared.view.dialog.DialogButton;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
+import com.faltenreich.diaguard.shared.view.dialog.DialogButton;
+import com.faltenreich.diaguard.shared.view.fragment.BaseDialogFragment;
 
 import butterknife.BindView;
 
@@ -55,7 +55,6 @@ public class TagEditFragment extends BaseDialogFragment {
                     listener.onResult(result.tag);
                 }
                 if (result.tag != null) {
-                    ViewUtils.hideKeyboard(editText);
                     dismiss();
                 } else {
                     editText.setError(getString(result.error != null ? result.error.textResId : R.string.error_unexpected));
@@ -85,10 +84,7 @@ public class TagEditFragment extends BaseDialogFragment {
     @Nullable
     @Override
     protected DialogButton createNegativeButton() {
-        return new DialogButton(android.R.string.cancel, () -> {
-            ViewUtils.hideKeyboard(editText);
-            dismiss();
-        });
+        return new DialogButton(android.R.string.cancel, this::dismiss);
     }
 
     @Nullable
@@ -108,7 +104,7 @@ public class TagEditFragment extends BaseDialogFragment {
         }
     }
 
-    private class TagResult {
+    private static class TagResult {
         @Nullable private Tag tag;
         @Nullable private TagError error;
 

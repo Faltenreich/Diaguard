@@ -26,8 +26,11 @@ import butterknife.OnClick;
 
 public class TagListFragment extends BaseFragment implements TagListAdapter.TagListener {
 
-    @BindView(R.id.list) RecyclerView list;
-    @BindView(R.id.list_placeholder) View placeholder;
+    @BindView(R.id.list)
+    RecyclerView list;
+
+    @BindView(R.id.list_placeholder)
+    View placeholder;
 
     private TagListAdapter listAdapter;
 
@@ -65,10 +68,12 @@ public class TagListFragment extends BaseFragment implements TagListAdapter.TagL
 
     private void loadTags() {
         DataLoader.getInstance().load(getContext(), new DataLoaderListener<List<Tag>>() {
+
             @Override
             public List<Tag> onShouldLoad() {
                 return TagDao.getInstance().getAll();
             }
+
             @Override
             public void onDidLoad(List<Tag> data) {
                 setTags(data);
@@ -93,25 +98,29 @@ public class TagListFragment extends BaseFragment implements TagListAdapter.TagL
 
     private void confirmTagDeletion(final Tag tag) {
         DataLoader.getInstance().load(getContext(), new DataLoaderListener<Long>() {
+
             @Override
             public Long onShouldLoad() {
                 return EntryTagDao.getInstance().count(tag);
             }
+
             @Override
             public void onDidLoad(Long data) {
                 new AlertDialog.Builder(getContext())
-                        .setTitle(R.string.tag_delete)
-                        .setMessage(String.format(getString(R.string.tag_delete_confirmation), data))
-                        .setNegativeButton(R.string.cancel, (dialog, which) -> { })
-                        .setPositiveButton(R.string.ok, (dialog, which) -> deleteTag(tag))
-                        .create()
-                        .show();
+                    .setTitle(R.string.tag_delete)
+                    .setMessage(String.format(getString(R.string.tag_delete_confirmation), data))
+                    .setNegativeButton(R.string.cancel, (dialog, which) -> {
+                    })
+                    .setPositiveButton(R.string.ok, (dialog, which) -> deleteTag(tag))
+                    .create()
+                    .show();
             }
         });
     }
 
     private void deleteTag(final Tag tag) {
         DataLoader.getInstance().load(getContext(), new DataLoaderListener<Tag>() {
+
             @Override
             public Tag onShouldLoad() {
                 List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(tag);
@@ -119,6 +128,7 @@ public class TagListFragment extends BaseFragment implements TagListAdapter.TagL
                 int result = TagDao.getInstance().delete(tag);
                 return result > 0 ? tag : null;
             }
+
             @Override
             public void onDidLoad(@Nullable Tag result) {
                 if (result != null) {
@@ -129,15 +139,13 @@ public class TagListFragment extends BaseFragment implements TagListAdapter.TagL
     }
 
     private void createTag() {
-        if (getFragmentManager() != null) {
-            TagEditFragment fragment = new TagEditFragment();
-            fragment.setListener(result -> {
-                if (result != null) {
-                    addTag(result);
-                }
-            });
-            fragment.show(getFragmentManager(), null);
-        }
+        TagEditFragment fragment = new TagEditFragment();
+        fragment.setListener(result -> {
+            if (result != null) {
+                addTag(result);
+            }
+        });
+        fragment.show(getParentFragmentManager(), null);
     }
 
     @Override

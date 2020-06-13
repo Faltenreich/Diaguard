@@ -263,7 +263,6 @@
     <string name="validator_value_empty_list">Mindestens eine Kategorie muss ausgewählt sein</string>
     <string name="validator_value_none">Eintrag enthält keine Ereignisse</string>
     <string name="validator_value_unrealistic">Unrealistischer Wert</string>
-    <string name="validator_value_empty_carbohydrates">Bitte geben Sie Kohlenhydrate an</string>
 
     <!-- ERRORS -->
     <string name="error_unexpected">Etwas ist schief gelaufen</string>

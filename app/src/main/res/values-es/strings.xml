@@ -223,7 +223,6 @@
     <string name="validator_value_empty">Especifique un valor</string>
     <string name="validator_value_none">Entrada no contiene eventos</string>
     <string name="validator_value_unrealistic">Valor Irreal </string>
-    <string name="validator_value_empty_carbohydrates">Especifique los carbohidratos</string>
 
     <!-- ERRORS -->
     <string name="error_no_mail">Ninguna aplicación para enviar mensajes de correo electrónico encontrada </string>

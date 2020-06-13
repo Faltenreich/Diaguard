@@ -9,14 +9,14 @@ import android.view.View;
 import androidx.annotation.NonNull;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
+import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.FoodSavedEvent;
-import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
-import com.faltenreich.diaguard.shared.view.edittext.StickyHintInput;
-import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
+import com.faltenreich.diaguard.shared.view.edittext.StickyHintInput;
 
 import java.util.Map;
 
@@ -51,6 +51,14 @@ public class FoodEditFragment extends BaseFoodFragment {
     }
 
     @Override
+    public void onPause() {
+        if (getView() != null) {
+            ViewUtils.hideKeyboard(getView());
+        }
+        super.onPause();
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.findItem(R.id.action_delete).setVisible(getFood() != null);
@@ -58,13 +66,11 @@ public class FoodEditFragment extends BaseFoodFragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_delete:
-                deleteFoodIfConfirmed();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.action_delete) {
+            deleteFoodIfConfirmed();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -90,19 +96,6 @@ public class FoodEditFragment extends BaseFoodFragment {
             nameInput.setError(getString(R.string.validator_value_empty));
             isValid = false;
         }
-
-        // Check for carbohydrates
-        NutrientInputView carbohydratesInputView = nutrientInputLayout.getInputView(Food.Nutrient.CARBOHYDRATES);
-        if (carbohydratesInputView == null) {
-            ViewUtils.showSnackbar(getView(), getString(R.string.validator_value_empty_carbohydrates));
-            isValid = false;
-        } else  {
-            Float value = carbohydratesInputView.getValue();
-            if (value == null || value < 0) {
-                carbohydratesInputView.setError(getString(R.string.validator_value_empty));
-                isValid = false;
-            }
-        }
         return isValid;
     }
 
@@ -121,6 +114,12 @@ public class FoodEditFragment extends BaseFoodFragment {
             for (Map.Entry<Food.Nutrient, Float> entry : nutrientInputLayout.getValues().entrySet()) {
                 Food.Nutrient nutrient = entry.getKey();
                 Float value = entry.getValue();
+
+                // Auto-fill carbohydrates for user
+                if (nutrient == Food.Nutrient.CARBOHYDRATES && value == null) {
+                    value = 0f;
+                }
+
                 nutrient.setValue(food, value != null ? value : -1);
             }
 

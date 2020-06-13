@@ -427,7 +427,6 @@
     <string name="validator_value_empty_list">At least one category must be selected</string>
     <string name="validator_value_none">Entry contains no events</string>
     <string name="validator_value_unrealistic">Unrealistic value</string>
-    <string name="validator_value_empty_carbohydrates">Please enter carbohydrates</string>
 
     <!-- ERRORS -->
     <string name="error_unexpected">Something went wrong</string>

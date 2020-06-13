@@ -1,13 +1,11 @@
 package com.faltenreich.diaguard.shared.data.database.migration;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 
-import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
@@ -18,15 +16,13 @@ public class MigrateSodiumTask extends AsyncTask<Void, Void, Void> {
 
     private static final String TAG = MigrateSodiumTask.class.getSimpleName();
 
-    private WeakReference<Context> context;
+    MigrateSodiumTask() {
 
-    MigrateSodiumTask(Context context) {
-        this.context = new WeakReference<>(context);
     }
 
     @Override
     protected Void doInBackground(Void... voids) {
-        List<Food> foodList = FoodDao.getInstance().getAllCommon(context.get());
+        List<Food> foodList = FoodDao.getInstance().getAllCommon();
         for (Food food : foodList) {
             Float sodium = food.getSodium();
             food.setSodium(sodium != null && sodium > 0 ? sodium / 1000 : null);

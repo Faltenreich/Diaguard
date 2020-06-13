@@ -35,7 +35,7 @@ public class DiaguardApplication extends Application {
         Database.getInstance().init(this);
         ImportHelper.validateImports(this);
         PreferenceStore.getInstance().migrate();
-        Migrator.getInstance().start(this);
+        Migrator.getInstance().start();
         NotificationUtils.setupNotifications(this);
         Theme theme = PreferenceStore.getInstance().getTheme();
         ThemeUtils.setDefaultNightMode(theme);

@@ -1,7 +1,5 @@
 package com.faltenreich.diaguard.shared.data.database.migration;
 
-import android.content.Context;
-
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 
 public class Migrator {
@@ -17,10 +15,10 @@ public class Migrator {
 
     private Migrator() {}
 
-    public void start(Context context) {
+    public void start() {
         int oldVersionCode = PreferenceStore.getInstance().getVersionCode();
         if (oldVersionCode == 39) {
-            new MigrateSodiumTask(context).execute();
+            new MigrateSodiumTask().execute();
         }
     }
 }

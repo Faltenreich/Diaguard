@@ -1,11 +1,9 @@
 package com.faltenreich.diaguard.shared.data.database.dao;
 
-import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.food.networking.dto.ProductDto;
 import com.faltenreich.diaguard.feature.food.networking.dto.SearchResponseDto;
@@ -71,11 +69,11 @@ public class FoodDao extends BaseServerDao<Food> {
         }
     }
 
-    public List<Food> getAllCommon(Context context) {
+    public List<Food> getAllCommon() {
         try {
             return getQueryBuilder()
                 .orderBy(Food.Column.UPDATED_AT, true)
-                .where().eq(Food.Column.LABELS, context.getString(R.string.food_common_old))
+                .where().isNotNull(Food.Column.LABELS)
                 .and().isNull(BaseServerEntity.Column.SERVER_ID)
                 .query();
         } catch (SQLException exception) {
@@ -123,7 +121,6 @@ public class FoodDao extends BaseServerDao<Food> {
     }
 
     public List<Food> search(
-        Context context,
         String query,
         long page,
         boolean showCustomFood,
@@ -152,20 +149,16 @@ public class FoodDao extends BaseServerDao<Food> {
             int whereTypeCount = 0;
 
             if (showCustomFood) {
-                where.ne(Food.Column.LABELS, context.getString(R.string.food_common));
-                where.ne(Food.Column.LABELS, context.getString(R.string.food_common_old));
-                where.and(2);
                 where.isNull(Food.Column.LABELS);
-                where.or(2);
                 where.isNull(Food.Column.SERVER_ID);
                 where.and(2);
                 whereTypeCount++;
             }
 
             if (showCommonFood) {
-                where.eq(Food.Column.LABELS, context.getString(R.string.food_common));
-                where.eq(Food.Column.LABELS, context.getString(R.string.food_common_old));
-                where.or(2);
+                where.isNotNull(Food.Column.LABELS);
+                where.isNull(Food.Column.SERVER_ID);
+                where.and(2);
                 whereTypeCount++;
             }
 
@@ -186,7 +179,7 @@ public class FoodDao extends BaseServerDao<Food> {
     }
 
     public List<Food> createOrUpdate(@Nullable SearchResponseDto dto) {
-        if (dto == null || dto.products == null ||dto.products.isEmpty()) {
+        if (dto == null || dto.products == null || dto.products.isEmpty()) {
             return new ArrayList<>();
         }
         String languageCode = Helper.getLanguageCode();

@@ -13,7 +13,6 @@ import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
 import com.faltenreich.diaguard.shared.networking.NetworkingUtils;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,10 +35,9 @@ public class FoodRepository {
             && PreferenceStore.getInstance().showBrandedFood()
             && NetworkingUtils.isOnline(context)
         ) {
-            WeakReference<Context> contextReference = new WeakReference<>(context);
-            searchOnline(query, page, result -> searchOffline(contextReference.get(), query, page, callback));
+            searchOnline(query, page, result -> searchOffline(query, page, callback));
         } else {
-            searchOffline(context, query, page, callback);
+            searchOffline(query, page, callback);
         }
     }
 
@@ -50,7 +48,7 @@ public class FoodRepository {
         });
     }
 
-    private void searchOffline(Context context, String query, int page, DataCallback<List<FoodSearchListItem>> callback) {
+    private void searchOffline(String query, int page, DataCallback<List<FoodSearchListItem>> callback) {
         List<FoodSearchListItem> items = new ArrayList<>();
 
         boolean includeFoodEaten = page == 0 && !(query != null && query.length() > 0);
@@ -65,7 +63,7 @@ public class FoodRepository {
         boolean showCommonFood = PreferenceStore.getInstance().showCommonFood();
         boolean showBrandedFood = PreferenceStore.getInstance().showBrandedFood();
 
-        List<Food> foodList = FoodDao.getInstance().search(context, query, page, showCustomFood, showCommonFood, showBrandedFood);
+        List<Food> foodList = FoodDao.getInstance().search(query, page, showCustomFood, showCommonFood, showBrandedFood);
         for (Food food : foodList) {
             items.add(new FoodSearchListItem(food));
         }

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/LayoutRow"
     android:layout_width="match_parent"
@@ -10,9 +11,13 @@
 
     <ImageView
         android:id="@+id/category_image"
-        style="@style/LayoutRowImage"
+        android:layout_width="@dimen/size_image"
+        android:layout_height="@dimen/size_image"
         android:contentDescription="@null"
         android:tint="?iconColorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/ic_category_meal" />
 
     <androidx.appcompat.widget.AppCompatCheckBox
@@ -20,8 +25,15 @@
         style="@style/LayoutRowText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_end"
+        android:layout_marginLeft="@dimen/padding_end"
         android:layout_weight="1"
         android:padding="@dimen/margin_between"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/extra_checkbox"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/category_image"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/meal" />
 
     <androidx.appcompat.widget.AppCompatCheckBox
@@ -31,6 +43,11 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:padding="@dimen/margin_between"
+        app:layout_constraintBottom_toBottomOf="@id/category_checkbox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/category_checkbox"
+        app:layout_constraintTop_toTopOf="@id/category_checkbox"
         tools:text="@string/food_append" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

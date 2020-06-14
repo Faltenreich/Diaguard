@@ -9,14 +9,15 @@ Diaguard is an Android app for people with diabetes mellitus.
 
 It replaces the handwritten diary and helps the user to quickly and easily record, evaluate and export his blood sugar and other important data as PDF or CSV. Thanks to the clearly arranged interface, the user always has an overview of his diabetes. The app also provides information on several thousand foods including carbohydrates and other nutrients.
 
-* Quickly and easily track your blood glucose, insulin, carbohydrates, A1c, activity, weight, pulse, blood pressure and oxygen saturation
+* Quickly and easily track your blood glucose, insulin, carbohydrates, HbA1c, activity, weight, pulse, blood pressure and oxygen saturation
 * Customizable units
 * Visualize your blood glucose level in a graph
 * Detailed logs of your data
+* Settings for basal rate, correction factor and meal-bolus-factor
 * Food database with thousands of entries
 * PDF and CSV export
 * Backup
-* Reminder functionality
+* Reminder
 * Estimated HbA1c
 * Statistics
 * Dark Mode

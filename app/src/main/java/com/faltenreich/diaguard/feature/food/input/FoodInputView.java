@@ -53,10 +53,9 @@ public class FoodInputView extends LinearLayout {
     @BindView(R.id.food_input_value_input) StickyHintInput valueInput;
     @BindView(R.id.food_input_list) RecyclerView foodList;
 
-    private FoodInputListAdapter adapter;
-    private Meal meal;
-
+    private FoodInputListAdapter foodListAdapter;
     private boolean showIcon;
+    private Meal meal;
 
     public FoodInputView(Context context) {
         super(context);
@@ -108,20 +107,21 @@ public class FoodInputView extends LinearLayout {
 
             valueInput.setHint(PreferenceStore.getInstance().getUnitName(Category.MEAL));
 
-            adapter = new FoodInputListAdapter(getContext());
+            foodListAdapter = new FoodInputListAdapter(getContext());
             foodList.setLayoutManager(new LinearLayoutManager(getContext()));
             foodList.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
-            foodList.setAdapter(adapter);
+            foodList.setAdapter(foodListAdapter);
 
             invalidateLayout();
         }
     }
 
     private void invalidateLayout() {
-        boolean hasFoodEaten = adapter.hasInput();
-        if (hasFoodEaten) {
+        foodList.setVisibility(foodListAdapter.hasFood() ? VISIBLE : GONE);
+
+        if (foodListAdapter.hasFoodEaten()) {
             valueCalculated.setVisibility(VISIBLE);
-            float carbohydrates = adapter.getTotalCarbohydrates();
+            float carbohydrates = foodListAdapter.getTotalCarbohydrates();
             float meal = PreferenceStore.getInstance().formatDefaultToCustomUnit(Category.MEAL, carbohydrates);
             valueCalculated.setText(String.format("%s   +", FloatUtils.parseFloat(meal)));
         } else {
@@ -141,7 +141,7 @@ public class FoodInputView extends LinearLayout {
 
         String input = valueInput.getText().trim();
 
-        if (StringUtils.isBlank(input) && !adapter.hasInput()) {
+        if (StringUtils.isBlank(input) && !foodListAdapter.hasFoodEaten()) {
             valueInput.setError(getContext().getString(R.string.validator_value_empty));
             isValid = false;
         } else if (!StringUtils.isBlank(input)) {
@@ -157,7 +157,7 @@ public class FoodInputView extends LinearLayout {
                             meal.getCategory(),
                             FloatUtils.parseNumber(valueInput.getText())) : 0);
             List<FoodEaten> foodEatenCache = new ArrayList<>();
-            for (FoodEaten foodEaten : adapter.getItems()) {
+            for (FoodEaten foodEaten : foodListAdapter.getItems()) {
                 if (foodEaten.getAmountInGrams() > 0) {
                     foodEatenCache.add(foodEaten);
                 }
@@ -172,8 +172,8 @@ public class FoodInputView extends LinearLayout {
     public void addItem(FoodEaten foodEaten) {
         if (foodEaten != null) {
             int position = 0;
-            adapter.addItem(position, foodEaten);
-            adapter.notifyItemInserted(position);
+            foodListAdapter.addItem(position, foodEaten);
+            foodListAdapter.notifyItemInserted(position);
             invalidateLayout();
         }
     }
@@ -189,31 +189,31 @@ public class FoodInputView extends LinearLayout {
 
     public void addItems(ForeignCollection<FoodEaten> foodEatenList) {
         if (foodEatenList != null && foodEatenList.size() > 0) {
-            int oldCount = adapter.getItemCount();
+            int oldCount = foodListAdapter.getItemCount();
             for (FoodEaten foodEaten : foodEatenList) {
-                adapter.addItem(foodEaten);
+                foodListAdapter.addItem(foodEaten);
             }
-            adapter.notifyItemRangeInserted(oldCount, adapter.getItemCount());
+            foodListAdapter.notifyItemRangeInserted(oldCount, foodListAdapter.getItemCount());
             invalidateLayout();
         }
     }
 
     public void clear() {
-        int itemCount = adapter.getItemCount();
-        adapter.clear();
-        adapter.notifyItemRangeRemoved(0, itemCount);
+        int itemCount = foodListAdapter.getItemCount();
+        foodListAdapter.clear();
+        foodListAdapter.notifyItemRangeRemoved(0, itemCount);
         invalidateLayout();
     }
 
     public void removeItem(int position) {
-        adapter.removeItem(position);
-        adapter.notifyItemRemoved(position);
+        foodListAdapter.removeItem(position);
+        foodListAdapter.notifyItemRemoved(position);
         invalidateLayout();
     }
 
     public void updateItem(FoodEaten foodEaten, int position) {
-        adapter.updateItem(position, foodEaten);
-        adapter.notifyItemChanged(position);
+        foodListAdapter.updateItem(position, foodEaten);
+        foodListAdapter.notifyItemChanged(position);
         invalidateLayout();
     }
 
@@ -227,11 +227,11 @@ public class FoodInputView extends LinearLayout {
     }
 
     public float getCalculatedCarbohydrates() {
-        return adapter.getTotalCarbohydrates();
+        return foodListAdapter.getTotalCarbohydrates();
     }
 
     public List<FoodEaten> getFoodEatenList() {
-        return adapter.getItems();
+        return foodListAdapter.getItems();
     }
 
     @OnClick(R.id.food_input_button)

@@ -40,7 +40,11 @@ class FoodInputListAdapter extends BaseAdapter<FoodEaten, FoodInputViewHolder> {
         return totalCarbohydrates;
     }
 
-    boolean hasInput() {
+    boolean hasFood() {
+        return getItemCount() > 0;
+    }
+
+    boolean hasFoodEaten() {
         for (FoodEaten foodEaten : getItems()) {
             if (foodEaten.getAmountInGrams() > 0) {
                 return true;

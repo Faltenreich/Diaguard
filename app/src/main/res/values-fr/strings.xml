@@ -279,6 +279,7 @@
     <string name="error_no_connection_desc">Aller en ligne pour obtenir plus d\'informations</string>
     <string name="error_no_data">Rien trouvé</string>
     <string name="error_no_data_desc">Essayez une autre requête pour améliorer vos résultats ou</string>
+    <string name="error_no_data_settings_desc">Modifier les paramètres pour plus de résultats</string>
     <string name="food">Aliment</string>
     <string name="food_common">Alimentation commune</string>
     <string name="food_delete">Supprimer un aliment</string>
@@ -380,5 +381,6 @@
     <string name="close">Fermer</string>
     <string name="basal_rate">Débit de base</string>
     <string name="basal_rate_desc">Les besoins de base en insuline</string>
+    <string name="settings_open">Paramètres ouverts</string>
 
 </resources>

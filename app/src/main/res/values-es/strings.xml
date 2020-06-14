@@ -281,6 +281,7 @@
     <string name="error_no_connection_desc">Vaya en línea para obtener más información</string>
     <string name="error_no_data">Tener los bolsillos vacios?</string>
     <string name="error_no_data_desc">Pruebe otra consulta para mejorar sus resultados o</string>
+    <string name="error_no_data_settings_desc">Cambiar la configuración para obtener más resultados</string>
     <string name="food">Alimento</string>
     <string name="food_common">Comida alimento</string>
     <string name="food_delete">Eliminar alimentos</string>
@@ -382,5 +383,6 @@
     <string name="close">Cerrar</string>
     <string name="basal_rate">Tasa basal</string>
     <string name="basal_rate_desc">Necesidades básicas de insulina</string>
+    <string name="settings_open">Abrir los ajustes</string>
 
 </resources>

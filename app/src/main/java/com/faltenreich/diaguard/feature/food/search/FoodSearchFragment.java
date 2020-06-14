@@ -24,6 +24,7 @@ import com.faltenreich.diaguard.feature.preference.PreferenceActivity;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
+import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
 import com.faltenreich.diaguard.shared.data.repository.FoodRepository;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.FoodDeletedEvent;
@@ -183,7 +184,9 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
 
     private void showEmptyList() {
         if (getContext() != null) {
-            if (NetworkingUtils.isOnline(getContext())) {
+            if (StringUtils.isBlank(searchView.getQuery())) {
+                showError(R.drawable.ic_settings, R.string.error_no_data, R.string.error_no_data_settings_desc, R.string.settings_open);
+            } else if (NetworkingUtils.isOnline(getContext())) {
                 showError(R.drawable.ic_sad, R.string.error_no_data, R.string.error_no_data_desc, R.string.food_add_desc);
             } else {
                 showError(R.drawable.ic_wifi, R.string.error_no_connection, R.string.error_no_connection_desc, R.string.try_again);
@@ -220,12 +223,16 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
 
     @OnClick(R.id.food_search_empty_button)
     void onEmptyButtonClick() {
-        // Workaround since CONNECTIVITY_ACTION broadcasts cannot be caught since API level 24
-        boolean wasNetworkError = emptyText.getText().toString().equals(getString(R.string.error_no_connection));
-        if (wasNetworkError) {
-            newSearch();
+        if (StringUtils.isBlank(searchView.getQuery())) {
+            openSettings();
         } else {
-            createFood();
+            // Workaround since CONNECTIVITY_ACTION broadcasts cannot be caught since API level 24
+            boolean wasNetworkError = emptyText.getText().toString().equals(getString(R.string.error_no_connection));
+            if (wasNetworkError) {
+                newSearch();
+            } else {
+                createFood();
+            }
         }
     }
 

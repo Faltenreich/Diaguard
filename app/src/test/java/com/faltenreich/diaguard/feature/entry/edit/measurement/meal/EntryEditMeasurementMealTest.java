@@ -43,34 +43,34 @@ public class EntryEditMeasurementMealTest {
     public void confirmingEmptyValue_shouldShowWarning() {
         Espresso.onView(ViewMatchers.withId(R.id.fab))
             .perform(ViewActions.click());
-        Espresso.onView(ViewMatchers.withId(R.id.input))
+        Espresso.onView(ViewMatchers.withId(R.id.editText))
             .check(ViewAssertions.matches(EditTextMatcher.hasErrorText(R.string.validator_value_empty)));
     }
 
     @Test
     public void confirmingValueBelowMinimum_shouldShowWarning() {
-        Espresso.onView(ViewMatchers.withId(R.id.input))
+        Espresso.onView(ViewMatchers.withId(R.id.editText))
             .perform(ViewActions.replaceText("0"));
         Espresso.onView(ViewMatchers.withId(R.id.fab))
             .perform(ViewActions.click());
-        Espresso.onView(ViewMatchers.withId(R.id.input))
+        Espresso.onView(ViewMatchers.withId(R.id.editText))
             .check(ViewAssertions.matches(EditTextMatcher.hasErrorText(R.string.validator_value_unrealistic)));
     }
 
     @Test
     public void confirmingValueAboveMaximum_shouldShowWarning() {
-        Espresso.onView(ViewMatchers.withId(R.id.input))
+        Espresso.onView(ViewMatchers.withId(R.id.editText))
             .perform(ViewActions.replaceText("1001"));
         Espresso.onView(ViewMatchers.withId(R.id.fab))
             .perform(ViewActions.click());
-        Espresso.onView(ViewMatchers.withId(R.id.input))
+        Espresso.onView(ViewMatchers.withId(R.id.editText))
             .check(ViewAssertions.matches(EditTextMatcher.hasErrorText(R.string.validator_value_unrealistic)));
     }
 
     @Test
     public void confirmingValidValue_shouldFinishActivity() {
         scenario.onActivity(activity -> {
-            Espresso.onView(ViewMatchers.withId(R.id.input))
+            Espresso.onView(ViewMatchers.withId(R.id.editText))
                 .perform(ViewActions.replaceText("10"));
             Espresso.onView(ViewMatchers.withId(R.id.fab))
                 .perform(ViewActions.click());

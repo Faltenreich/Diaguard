@@ -113,7 +113,9 @@ public class CsvExport extends AsyncTask<Void, String, File> {
                 if (isBackup) {
                     List<EntryTag> entryTags = EntryTagDao.getInstance().getAll(entry);
                     for (EntryTag entryTag : entryTags) {
-                        writer.writeNext(ArrayUtils.add(entryTag.getValuesForBackup(), 0, entryTag.getKeyForBackup()));
+                        if (entryTag.getEntry() != null && entryTag.getTag() != null) {
+                            writer.writeNext(ArrayUtils.add(entryTag.getValuesForBackup(), 0, entryTag.getKeyForBackup()));
+                        }
                     }
                 }
 

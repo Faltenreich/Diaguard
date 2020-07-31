@@ -15,7 +15,3 @@ It replaces the handwritten diary and helps the user to quickly and easily recor
 • Estimated HbA1c
 • Statistics
 • Dark Mode
-
-<b>Open Source</b>
-
-Diaguard hosts its source code on: https://github.com/Faltenreich/Diaguard

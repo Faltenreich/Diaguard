@@ -123,8 +123,8 @@ public class CsvExport extends AsyncTask<Void, String, File> {
             }
 
             writer.close();
-        } catch (IOException ex) {
-            Log.e(TAG, ex.getMessage());
+        } catch (IOException exception) {
+            Log.e(TAG, exception.toString());
         }
 
         return file;

@@ -81,7 +81,7 @@ dependencies {
     testImplementation "androidx.test.ext:junit:$jUnitRunner"
     testImplementation "androidx.test.espresso:espresso-core:$espresso"
     testImplementation "androidx.test.espresso:espresso-contrib:$espresso"
-    debugImplementation 'androidx.fragment:fragment-testing:1.2.4'
+    debugImplementation 'androidx.fragment:fragment-testing:1.2.5'
     testImplementation "joda-time:joda-time:$jodaTime"
 
     androidTestImplementation "junit:junit:$jUnit"
@@ -89,9 +89,9 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso"
 
-    implementation 'com.google.android.material:material:1.2.0-alpha06'
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-rc01'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta7'
+    implementation 'com.google.android.material:material:1.2.0'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-rc1'
     implementation 'androidx.preference:preference:1.1.1'
 
     implementation "com.j256.ormlite:ormlite-core:$ormLite"

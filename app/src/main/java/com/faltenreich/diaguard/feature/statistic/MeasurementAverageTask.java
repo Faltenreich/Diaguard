@@ -69,7 +69,7 @@ public class MeasurementAverageTask extends BaseAsyncTask<Void, Void, LineData> 
         float highestValue = 0;
         DateTime intervalStart = startDateTime;
         while (!intervalStart.isAfter(endDateTime)) {
-            DateTime intervalEnd = timeSpan.getStep(intervalStart, 1).minusDays(1);
+            DateTime intervalEnd = timeSpan.getStep(intervalStart, 1).minusMillis(1);
             Measurement measurement = MeasurementDao
                 .getInstance(category.toClass())
                 .getAvgMeasurement(category, new Interval(intervalStart, intervalEnd));

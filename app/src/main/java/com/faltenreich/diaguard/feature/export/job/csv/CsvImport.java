@@ -190,12 +190,17 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
                 case Food.BACKUP_KEY:
                     if (nextLine.length >= 5) {
                         String foodName = nextLine[1];
-                        if (FoodDao.getInstance().get(foodName) == null) {
-                            Food food = new Food();
+                        Food food = FoodDao.getInstance().get(foodName);
+                        if (food == null) {
+                            food = new Food();
                             food.setName(foodName);
                             food.setBrand(nextLine[2]);
                             food.setIngredients(nextLine[3]);
                             food.setCarbohydrates(FloatUtils.parseNumber(nextLine[4]));
+                            FoodDao.getInstance().createOrUpdate(food);
+                        } else if (food.isDeleted()) {
+                            // Reactivate previously deleted food that is being re-imported
+                            food.setDeletedAt(null);
                             FoodDao.getInstance().createOrUpdate(food);
                         }
                     }

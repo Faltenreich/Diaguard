@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- GENERAL -->
+    <string name="about">Riguardo a</string>
+    <string name="active">attivo</string>
+    <string name="activity">Attività</string>
+    <string name="all">Tutti</string>
+    <string name="alarm">Misura la glicemia sanguigna</string>
+    <string name="alarm_delete">Rimuovi promemoria</string>
+    <string name="alarm_deleted">Promemoria rimosso</string>
+    <string name="alarm_desc">%s dall'ultima misurazione</string>
+    <string name="alarm_desc_first">Thought about yet?</string>
+    <string name="alarm_reminder">Promemoria</string>
+    <string name="alarm_reminder_none">Nessun promemoria</string>
+    <string name="alarm_reminder_in">Promemoria salvato</string>
+    <string name="amount">Quantità &#8230;</string>
+    <string name="average">Media</string>
+    <string name="average_symbol" translatable="false">Ø</string>
+    <string name="back">Indietro</string>
+    <string name="backup">Copia di sicurezza</string>
+    <string name="backup_complete">Copia di sicurezza completata</string>
+    <string name="backup_import">Copia di sicurezza ripristinata &#8230;</string>
+    <string name="backup_store">Copia di sicurezza salvata</string>
+    <string name="backup_title">Scegli copia di sicurezza</string>
+    <string name="basal" translatable="false">Basale</string>
+    <string name="bloodsugar">Glicemia sanguigna</string>
+    <string name="bolus">Bolo</string>
+    <string name="bolus_no1">È raccomandato non iniettare nessun bolo.</string>
+    <string name="bolus_no2">Per prevenire bassi livelli di glicemia invece è consigliato assumere carboidrati a catena lunga.</string>
+    <string name="brand">Marchio</string>
+    <string name="calculator">Calculatrice</string>
+    <string name="cancel">Abbandona</string>
+    <string name="categories">Categorie</string>
+    <string name="category">Categoria</string>
+    <string name="category_pin">Categoria PIN</string>
+    <string name="category_pin_confirm">%s è stato apputato</string>
+    <string name="category_unpin_confirm">%s è stato depennato</string>
+    <string name="cleanup">Pulisci</string>
+    <string name="cleanup_desc">This will permanently delete all data on and before the chosen date.</string>
+    <string name="contact">Contatto</string>
+    <string name="correction">Correzione</string>
+    <string name="correction_value">Fattore di correzione</string>
+    <string name="correction_value_desc">Riduzione della glicemia sanguigna da parte di 1 IE di insulina</string>
+    <string name="data">Data</string>
+    <string name="date_select">Seleziona data</string>
+    <string name="day_next">Prossimo giorno</string>
+    <string name="day_previous">Giorno precedente</string>
+    <string name="delete">Cancella</string>
+    <string name="diastolic">Diastolica</string>
+    <string name="diastolic_acronym" translatable="false">diast.</string>
+    <string name="distribution">Distribuzione</string>
+    <string name="drawer_close">Chiudi navigazione</string>
+    <string name="drawer_open">Apri navigazione</string>
+    <string name="edit">Modifica</string>
+    <string name="energy_acronym" translatable="false">kcal</string>
+    <string name="energy_acronym_2" translatable="false">kJ</string>
+    <string name="entries">Valori</string>
+    <string name="entry">Valore</string>
+    <string name="entry_added">Valore aggiunto</string>
+    <string name="entry_count_per_day">Valori inseriti per giornata</string>
+    <string name="entry_edit">Modifica valore</string>
+    <string name="entry_delete">Cancella valore</string>
+    <string name="entry_deleted">Valore cancellato</string>
+    <string name="entry_new">Nuovo valore</string>
+    <string name="export">Esporta</string>
+    <string name="export_complete">Salvato in %s</string>
+    <string name="export_progress">Il PDF è stato creato</string>
+    <string name="export_stamp">Il rapport è stato generato in</string>
+    <string name="facebook" translatable="false">Facebook</string>
+    <string name="first_visit">Prima visita?</string>
+    <string name="first_visit_desc">Inserisci il tuo primo valore</string>
+    <string name="food">Cibo</string>
+    <string name="food_add">Aggiungi cibo</string>
+    <string name="food_add_desc">Aggiungi cibo</string>
+    <string name="food_common">Cibo generico</string>
+    <string name="food_delete">Cancella cibo</string>
+    <string name="food_deleted">Cibo cancellato</string>
+    <string name="food_eaten_placeholder">%d pasti assunti saranno affetti</string>
+    <string name="food_edit">Modifica cibo</string>
+    <string name="food_new">Nuovo cibo</string>
+    <string name="food_search">Cerca cibo</string>
+    <string name="format">Formato</string>
+    <string name="general">Generale</string>
+    <string name="grams_acronym" translatable="false">g</string>
+    <string name="milligrams_acronym" translatable="false">mg</string>
+    <string name="grams_milliliters_acronym" translatable="false">g</string>
+    <string name="hba1c">HbA1c</string>
+    <string name="hba1c_estimated">HbA1c stimata</string>
+    <string name="hba1c_formula" translatable="false">HbA1c = 0,031 * %s 3-%s-%s + 2,393</string>
+    <string name="home">Pagina iniziale</string>
+    <string name="homepage">Sito web</string>
+    <string name="hyper">Iperglicemia</string>
+    <string name="hyper_per_day">Iperglicemie al giorno</string>
+    <string name="hyphen" translatable="false">-</string>
+    <string name="hypo">Ipoglicemia</string>
+    <string name="hypo_per_day">Ipoglicemie al giorno</string>
+    <string name="import_">Importa</string>
+    <string name="imprint">Imprint</string>
+    <string name="in">in</string>
+    <string name="info" translatable="false">Informazioni</string>
+    <string name="ingredients">Ingredienti</string>
+    <string name="insulin">Insulina</string>
+    <string name="interval">Intervallo</string>
+    <string name="latest">[valore] [unità] fa</string>
+    <string name="latest_moments">Momenti fa</string>
+    <string name="licenses">Licenze open source</string>
+    <string name="log">Log</string>
+    <string name="mail">E-Mail</string>
+    <string name="meal">Pasto</string>
+    <string name="meal_optional">Pasto (opzionale)</string>
+    <string name="measurement_add">Aggiungi misurazione</string>
+    <string name="measurement_latest">Ultima</string>
+    <string name="measurements">Misurati</string>
+    <string name="name">Nome</string>
+    <string name="no_data">Nessun dato  disponibile</string>
+    <string name="note">Nota</string>
+    <string name="notes">Note</string>
+    <string name="note_append">Aggiungi note</string>
+    <string name="nutriments">Nutrienti</string>
+    <string name="nutriments_per_100g">Nutrienti per 100 g</string>
+    <string name="ok">OK</string>
+    <string name="overview">Panoramica</string>
+    <string name="per">per</string>
+    <string name="per_day">al giorno</string>
+    <string name="placeholder" translatable="false">-</string>
+    <string name="pressure">Pressione arteriosa</string>
+    <string name="pressure_acronym">Pressione</string>
+    <string name="pulse">Battito</string>
+    <string name="remove_placeholder">Rimuovi %s</string>
+    <string name="settings">Impostazioni</string>
+    <string name="sound">Suono</string>
+    <string name="startscreen">Pagina iniziale</string>
+    <string name="statistics">Statistiche</string>
+    <string name="store_values">Salva</string>
+    <string name="systolic">Sistolica</string>
+    <string name="systolic_acronym" translatable="false">syst.</string>
+    <string name="target_area">Area obiettivo</string>
+    <string name="timeline">Linea temporale</string>
+    <string name="to">a</string>
+    <string name="today">Oggi</string>
+    <string name="trend">Andamento</string>
+    <string name="try_again">Prova di nuovo</string>
+    <string name="undo">Cancella</string>
+    <string name="units">Unità</string>
+    <string name="weight">Peso</string>
+    <string name="version">Versione</string>
+    <string name="vibration">Vibrazione</string>
+    <string name="change_none">Costante</string>
+    <string name="change_every_six_hours">Cambia ogni giorno</string>
+    <string name="change_every_four_hours">Cambia ogni quattro ore</string>
+    <string name="change_every_second_hour">Cambia un'ora sì e una no</string>
+    <string name="change_every_hour">Cambia ogni ora</string>
+
+    <string name="carbohydrates">Carboidrati</string>
+    <string name="carbohydrates_per_100g">Carboidrati per 100 g</string>
+    <string name="energy">Energia</string>
+    <string name="fat">Grassi</string>
+    <string name="fat_saturated">Grassi saturi</string>
+    <string name="fiber">Fibre</string>
+    <string name="proteins">Proteine</string>
+    <string name="salt">Sale</string>
+    <string name="sodium">Sodio</string>
+    <string name="sugar">Zuccheri</string>
+
+    <string-array name="time_rhythm">
+        <item>@string/change_none</item>
+        <item>@string/change_every_six_hours</item>
+        <item>@string/change_every_four_hours</item>
+        <item>@string/change_every_second_hour</item>
+        <item>@string/change_every_hour</item>
+    </string-array>
+
+    <string-array name="startscreens" translatable="false">
+        <item>@string/home</item>
+        <item>@string/timeline</item>
+        <item>@string/log</item>
+    </string-array>
+    <string-array name="startscreens_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <!-- DATE -->
+
+    <string name="calendarweek">Calendario settimanale</string>
+    <string name="dateend">Data finale</string>
+    <string name="dateformat">Formato</string>
+    <string name="datestart">Data iniziale</string>
+    <string name="minute">Minuto</string>
+    <string name="minutes">Minuti</string>
+    <string name="hour">Ora</string>
+    <string name="hours">Ore</string>
+    <string name="day">Giorno</string>
+    <string name="days">Giorni</string>
+    <string name="week">Settimana</string>
+    <string name="month">Mese</string>
+    <string name="months">Mesi</string>
+    <string name="year">Anno</string>
+
+    <string-array name="array_interval">
+        <item>@string/week</item>
+        <item>@string/month</item>
+        <item>@string/year</item>
+    </string-array>
+
+    <string-array name="weekdays">
+        <item>Lunedì</item>
+        <item>Martedì</item>
+        <item>Mercoledì</item>
+        <item>Giovedì</item>
+        <item>Venerdì</item>
+        <item>Sabato</item>
+        <item>Domenica</item>
+    </string-array>
+    <string-array name="weekdays_short">
+        <item>Lun</item>
+        <item>Mar</item>
+        <item>Mer</item>
+        <item>Gio</item>
+        <item>Ven</item>
+        <item>Sab</item>
+        <item>Dom</item>
+    </string-array>
+
+    <string name="morning">Mattina</string>
+    <string name="noon">Mezzogiorno</string>
+    <string name="evening">Sera</string>
+    <string name="night">Notte</string>
+    <string-array name="factor_names">
+        <item>Morning</item>
+        <item>Noon</item>
+        <item>Evening</item>
+        <item>Night</item>
+    </string-array>
+
+    <string name="dateformat_default">DD/MM/YYYY</string>
+    <string-array name="dateformat">
+	<item>DD/MM/YYYY</item>
+        <item>YYYY-MM-DD</item>
+    </string-array>
+
+    <!-- EXPORT -->
+
+    <string-array name="formats" translatable="false">
+        <item>PDF</item>
+        <item>CSV</item>
+    </string-array>
+
+    <string-array name="styles" translatable="false">
+        <item>@string/table</item>
+        <item>@string/timeline</item>
+        <item>@string/log</item>
+    </string-array>
+
+    <!-- CATEGORIES -->
+
+    <string name="bloodsugar_units_default" translatable="false">mg/dL</string>
+    <string-array name="bloodsugar_units" translatable="false">
+        <item>mg/dL</item>
+        <item>mmol/L</item>
+    </string-array>
+    <string-array name="bloodsugar_units_values" translatable="false">
+        <item>1</item>
+        <item>0.0555</item>
+    </string-array>
+    <integer-array name="bloodsugar_extrema">
+        <item name="minimum">1</item>
+        <item name="maximum">1000</item>
+    </integer-array>
+
+    <string name="insulin_units_default">Unità di insulina</string>
+    <string-array name="insulin_units">
+        <item>Unità di insulina</item>
+    </string-array>
+    <string-array name="insulin_units_acronyms">
+        <item>IU</item>
+    </string-array>
+    <string-array name="insulin_units_values" translatable="false">
+        <item>1</item>
+    </string-array>
+    <integer-array name="insulin_extrema" translatable="false">
+        <item name="minimum">0</item>
+        <item name="maximum">100</item>
+    </integer-array>
+
+    <string name="meal_units_default">Carboidrati</string>
+    <string-array name="meal_units">
+        <item>Carboidrati</item>
+        <item>Unità di carboidrati</item>
+        <item>Unità di pane</item>
+    </string-array>
+    <string-array name="meal_units_acronyms">
+        <item>CHO</item>
+        <item>CU</item>
+        <item>BU</item>
+    </string-array>
+    <string-array name="meal_units_values" translatable="false">
+        <item>1</item>
+        <item>0.1</item>
+        <item>0.0833</item>
+    </string-array>
+    <integer-array name="meal_extrema">
+        <item name="minimum">0</item>
+        <item name="maximum">1000</item>
+    </integer-array>
+
+    <string name="activity_units_default">Minuti</string>
+    <string-array name="activity_units">
+        <item>Minuti</item>
+    </string-array>
+    <string-array name="activity_units_acronyms">
+        <item>min</item>
+    </string-array>
+    <string-array name="activity_units_values" translatable="false">
+        <item>1</item>
+    </string-array>
+    <integer-array name="activity_extrema" translatable="false">
+        <item name="minimum">1</item>
+        <item name="maximum">1000</item>
+    </integer-array>
+
+    <string name="hba1c_units_default">Percentuale</string>
+    <string-array name="hba1c_units">
+        <item>Percentuale</item>
+        <item>mmol/mol</item>
+    </string-array>
+    <string-array name="hba1c_units_acronyms" translatable="false">
+        <item>%</item>
+    </string-array>
+    <string-array name="hba1c_units_values" translatable="false">
+        <item>1</item>
+        <item>0.00001</item>
+    </string-array>
+    <integer-array name="hba1c_extrema" translatable="false">
+        <item name="minimum">1</item>
+        <item name="maximum">25</item>
+    </integer-array>
+
+    <string name="weight_units_default">Kilogrammi</string>
+    <string-array name="weight_units">
+        <item>Kilogrammi</item>
+        <item>Libbra</item>
+    </string-array>
+    <string-array name="weight_units_acronyms">
+        <item>kg</item>
+        <item>lbs</item>
+    </string-array>
+    <string-array name="weight_units_values" translatable="false">
+        <item>1</item>
+        <item>2.20462262185</item>
+    </string-array>
+    <integer-array name="weight_extrema" translatable="false">
+        <item name="minimum">0</item>
+        <item name="maximum">1400</item>
+    </integer-array>
+
+    <string name="pulse_units_default">Pulsazioni al minuto</string>
+    <string-array name="pulse_units">
+        <item>Pulsazioni al minuto</item>
+    </string-array>
+    <string-array name="pulse_units_acronyms">
+        <item>bpm</item>
+    </string-array>
+    <string-array name="pulse_units_values" translatable="false">
+        <item>1</item>
+    </string-array>
+    <integer-array name="pulse_extrema" translatable="false">
+        <item name="minimum">10</item>
+        <item name="maximum">200</item>
+    </integer-array>
+
+    <string name="pressure_units_default">Millimetri di mercurio</string>
+    <string-array name="pressure_units">
+        <item>Millimetri di mercurio</item>
+    </string-array>
+    <string-array name="pressure_units_acronyms">
+        <item>mm Hg</item>
+    </string-array>
+    <string-array name="pressure_units_values" translatable="false">
+        <item>1</item>
+    </string-array>
+    <integer-array name="pressure_extrema" translatable="false">
+        <item name="minimum">10</item>
+        <item name="maximum">300</item>
+    </integer-array>
+
+    <string name="oxygen_saturation_units_default" translatable="false">@string/oxygen_saturation</string>
+    <string-array name="oxygen_saturation_units" translatable="false">
+        <item>@string/oxygen_saturation_units_default</item>
+    </string-array>
+    <string-array name="oxygen_saturation_units_acronyms" translatable="false">
+        <item>SpO2</item>
+    </string-array>
+    <string-array name="oxygen_saturation_units_values" translatable="false">
+        <item>1</item>
+    </string-array>
+    <integer-array name="oxygen_saturation_extrema" translatable="false">
+        <item name="minimum">50</item>
+        <item name="maximum">100</item>
+    </integer-array>
+
+    <!-- VALIDATORS -->
+    <string name="validator_value_number">Sono permessi solo numeri</string>
+    <string name="validator_value_infuture">L'evento non avvenire nel futuro</string>
+    <string name="validator_value_empty">Per favore inserire un valore</string>
+    <string name="validator_value_empty_list">Selezionare almeno una categoria</string>
+    <string name="validator_value_none">Il valore inserito non contiene eventi</string>
+    <string name="validator_value_unrealistic">Valore non realistico</string>
+
+    <!-- ERRORS -->
+    <string name="error_unexpected">Qualcosa è andato storto</string>
+    <string name="error_no_connection">Nessuna connessione?</string>
+    <string name="error_no_connection_desc">Vai online per maggiori informazioni</string>
+    <string name="error_no_data">Riempire i dati mancanti?</string>
+    <string name="error_no_data_desc">Prova un'altra richiesta per migliorare i risultati o</string>
+    <string name="error_no_data_settings_desc">Cambia impostazioni per maggiori risultati</string>
+    <string name="error_no_mail">Nessuna app trovata per inviare l'e-mail</string>
+    <string name="error_no_app">Nessuna app trovata per aprire il file</string>
+    <string name="error_sd_card">SD card non disponibile</string>
+    <string name="error_no_backups">Nessuna copia di sicurezza trovata in</string>
+    <string name="error_import">Formato file invalido</string>
+
+    <!-- SETTINGS -->
+    <string name="pref_factor" translatable="false">Fattore predefinito</string>
+    <string name="pref_therapy_targets">Valori obiettivo</string>
+    <string name="pref_therapy_targets_target">Valore obiettivo</string>
+    <string name="pref_therapy_targets_target_default" translatable="false">120.0</string>
+    <string name="pref_therapy_limits">Limiti</string>
+    <string name="pref_therapy_targets_highlight">Evidenziare i limiti?</string>
+    <string name="pref_therapy_targets_highlight_desc">Rimarca la iperglicemia in rosso e l'ipoglycemia in blu</string>
+    <string name="pref_therapy_targets_hyperclycemia">Limite per l'iperglicemia</string>
+    <string name="pref_therapy_targets_hyperclycemia_default" translatable="false">180.0</string>
+    <string name="pref_therapy_targets_hypoclycemia">Limite per l'ipoglicemia</string>
+    <string name="pref_therapy_targets_hypoclycemia_default" translatable="false">60.0</string>
+
+    <!-- ABOUT -->
+    <string name="about_dev">Sviluppatore</string>
+    <string name="about_dev_desc">Philipp Fahlteich,\n Scuola di specializzazione di informatica, diabetico di tipo 1</string>
+    <string name="about_financing">Finanziamento</string>
+    <string name="about_financing_desc">There is no financial support of commercial or non-commercial organisations which support the app with funds, services or materials. The app is financed only by the developer.</string>
+    <string name="about_advertisement">Politica pubblicitaria</string>
+    <string name="about_advertisement_desc">L'app non ha e non avrà mai pubblicità in nessun modo.</string>
+    <string name="about_health">Riferimenti</string>
+    <string name="about_health_desc">Tutti i dati medici sono basati su raccomandazioni approvate da diversi diabetologi.</string>
+    <string name="about_privacy">Privacy</string>
+    <string name="about_privacy_desc">Consideriamo molto seriamente la protezione dei tuoi dati personali e di conseguenza non processiamo o inviamo i tuoi dati personali a nessuna terza parte.</string>
+    <string name="about_code">Codice etico</string>
+    <string name="about_code_desc">L'app soddifa tutti i criteri di qualità di base del "HealthOn App Code of Ethics" in fatto di affidabilità delle informazioni sanitarie.</string>
+    <string name="about_code_url" translatable="false">https://www.healthon.de/de/diaguard-diabetes</string>
+    <string name="about_legal">Informazioni legali</string>
+    <string name="about_legal_desc">The manufacturer of the app assumes no responsibility for the topicality, correctness, completeness or quality of the information provided. Liability claims against the manufacturer, which relate to material or immaterial nature, caused by the use or non-use of the app are excluded. This app is for documentation purposes only and does not replace a diabetes consultant or doctor.</string>
+
+    <string name="chart_style">Stile grafico</string>
+    <string name="chart_scatter">Grafico a dispersione</string>
+    <string name="chart_line">Grafico a barre</string>
+
+    <string name="oxygen_saturation">Saturazione dell'ossigeno</string>
+    <string name="oxygen_saturation_acronym">Sat. Ox.</string>
+
+    <string name="changelog">Novità</string>
+    <string name="changelog_desc"/>
+
+    <string name="meal_factor">Fattore per il bolo del pasto</string>
+    <string name="meal_factors">Fattori per il bolo del pasto</string>
+    <string name="meal_factor_desc">Quantità di insulina necessaria per un pasto</string>
+    <string name="unit_factor_carbohydrates_unit">Fattore CU</string>
+    <string name="unit_factor_bread_unit">Fattore BU</string>
+
+    <string-array name="meal_factor_units_entries">
+        <item>@string/unit_factor_carbohydrates_unit</item>
+        <item>@string/unit_factor_bread_unit</item>
+    </string-array>
+    <string-array name="meal_factor_units_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string name="tag">Etichetta</string>
+    <string name="tags">Etichette</string>
+    <string name="tags_append">Aggiungi etichetta</string>
+    <string name="search">Cerca</string>
+    <string name="search_hint">Note, etichette, …</string>
+    <string name="no_results_found">Nessun risultato trovato</string>
+    <string name="tag_delete">Cancella etichetta</string>
+    <string name="tag_delete_confirmation">%d valori perderanno questa etichetta</string>
+    <string name="tag_new">Nuova etichetta</string>
+    <string name="tag_duplicate">Etichetta già disponibile</string>
+    <string name="food_append">Aggiungi cibo</string>
+    <string name="available_placeholder">%d disponibile</string>
+    <string name="backup_desc">Salva i dati in una copia di sicurezza dove vuoi (Nessun dato sarà inviato automaticamente a sevizi esterni)</string>
+    <string name="import_desc">Ripristina i dati da una copia di sicurezza precedentemente salvata</string>
+    <string name="show_branded_food">Cerca cibo di marca</string>
+    <string name="show_branded_food_desc">Include migliaia di cibi di marca che vengono scaricati via rete (Si possono avere duplicati, per esempio un produtto da due differenti produttori)</string>
+    <string name="search_prompt">Inizia a cercare mentre scrivi</string>
+    <string name="pinned">appuntato</string>
+    <string name="change_now">Cambia ora</string>
+    <string name="help">Aiuto</string>
+    <string name="category_preference_desc">Attivo:\nla categoria è mostrata o nascosta\n\nFisso:\nla categoria è preselezionata automaticamente per i nuovi valori\n\nOrdina:\ntieni premuto il simbolo a sei punti e trascinalo su o giù</string>
+    <string name="insulin_split">Separa in bolo, correzione e basale</string>
+    <string name="highlight_limits">Evidenzia i limiti</string>
+
+    <string name="theme">Tema colore</string>
+    <string name="theme_light">Chiaro</string>
+    <string name="theme_dark">Scuro</string>
+    <string name="theme_time_based">Dal momento della giornata</string>
+    <string name="theme_system">Impostazioni di sistema</string>
+    <string name="table">Tabella</string>
+    <string name="export_append_header">Aggiungi all'inizio\n(mostra settimana del calendario)</string>
+    <string name="export_append_footer">Aggiungi alla fine\n(showing data di esportazione)</string>
+    <string name="export_history">Esporta cronologia</string>
+    <string name="share">Condividi</string>
+    <string name="open">Apri</string>
+    <string name="export_delete">Cancella file esportato</string>
+    <string name="export_delete_desc">Questo file verrà irremediabilmente cancellato</string>
+    <string name="export_share">Condividi file esportato</string>
+    <string name="actions">Azioni</string>
+    <string name="week_current">Settimana corrente</string>
+    <string name="weeks_two">Ultime due settimane</string>
+    <string name="weeks_four">Ultime quattro settimane</string>
+    <string name="month_current">Mese corrente</string>
+    <string name="quarter_current">Trimestre corrente</string>
+    <string name="therapy">Terapia</string>
+    <string name="powered_by">Fatto da</string>
+    <string name="sourcecode">Codice sorgente</string>
+    <string name="query_clear">Cancella richiesta</string>
+    <string name="menu_open">Apri menù</string>
+    <string name="food_branded">Cibo di marca</string>
+    <string name="show_common_food">Mostra cibo generico</string>
+    <string name="show_common_food_desc">Include centinaia di cibi generici già inclusi nell'app</string>
+    <string name="food_preferences">Imposazioni cibo</string>
+    <string name="food_custom">Cibo personalizzato</string>
+    <string name="show_custom_food">Mostra cibo personalizzato</string>
+    <string name="show_custom_food_desc">Includi tutti i cibi aggiunti manualmente dall'utente</string>
+    <string name="factors">Fattori</string>
+    <string name="close">Chiudi</string>
+    <string name="basal_rate">Tasso basale</string>
+    <string name="basal_rate_desc">Fabbisogno di insulina di base</string>
+    <string name="settings_open">Apri impostazioni</string>
+
+</resources>

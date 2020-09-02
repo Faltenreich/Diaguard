@@ -8,7 +8,7 @@
     <string name="alarm">Misura la glicemia sanguigna</string>
     <string name="alarm_delete">Rimuovi promemoria</string>
     <string name="alarm_deleted">Promemoria rimosso</string>
-    <string name="alarm_desc">%s dall'ultima misurazione</string>
+    <string name="alarm_desc">%s dall\'ultima misurazione</string>
     <string name="alarm_desc_first">Thought about yet?</string>
     <string name="alarm_reminder">Promemoria</string>
     <string name="alarm_reminder_none">Nessun promemoria</string>
@@ -148,7 +148,7 @@
     <string name="change_none">Costante</string>
     <string name="change_every_six_hours">Cambia ogni giorno</string>
     <string name="change_every_four_hours">Cambia ogni quattro ore</string>
-    <string name="change_every_second_hour">Cambia un'ora sì e una no</string>
+    <string name="change_every_second_hour">Cambia un\'ora sì e una no</string>
     <string name="change_every_hour">Cambia ogni ora</string>
 
     <string name="carbohydrates">Carboidrati</string>
@@ -402,7 +402,7 @@
 
     <!-- VALIDATORS -->
     <string name="validator_value_number">Sono permessi solo numeri</string>
-    <string name="validator_value_infuture">L'evento non avvenire nel futuro</string>
+    <string name="validator_value_infuture">L\'evento non avvenire nel futuro</string>
     <string name="validator_value_empty">Per favore inserire un valore</string>
     <string name="validator_value_empty_list">Selezionare almeno una categoria</string>
     <string name="validator_value_none">Il valore inserito non contiene eventi</string>
@@ -413,9 +413,9 @@
     <string name="error_no_connection">Nessuna connessione?</string>
     <string name="error_no_connection_desc">Vai online per maggiori informazioni</string>
     <string name="error_no_data">Riempire i dati mancanti?</string>
-    <string name="error_no_data_desc">Prova un'altra richiesta per migliorare i risultati o</string>
+    <string name="error_no_data_desc">Prova un\'altra richiesta per migliorare i risultati o</string>
     <string name="error_no_data_settings_desc">Cambia impostazioni per maggiori risultati</string>
-    <string name="error_no_mail">Nessuna app trovata per inviare l'e-mail</string>
+    <string name="error_no_mail">Nessuna app trovata per inviare l\'e-mail</string>
     <string name="error_no_app">Nessuna app trovata per aprire il file</string>
     <string name="error_sd_card">SD card non disponibile</string>
     <string name="error_no_backups">Nessuna copia di sicurezza trovata in</string>
@@ -428,10 +428,10 @@
     <string name="pref_therapy_targets_target_default" translatable="false">120.0</string>
     <string name="pref_therapy_limits">Limiti</string>
     <string name="pref_therapy_targets_highlight">Evidenziare i limiti?</string>
-    <string name="pref_therapy_targets_highlight_desc">Rimarca la iperglicemia in rosso e l'ipoglycemia in blu</string>
-    <string name="pref_therapy_targets_hyperclycemia">Limite per l'iperglicemia</string>
+    <string name="pref_therapy_targets_highlight_desc">Rimarca la iperglicemia in rosso e l\'ipoglycemia in blu</string>
+    <string name="pref_therapy_targets_hyperclycemia">Limite per l\'iperglicemia</string>
     <string name="pref_therapy_targets_hyperclycemia_default" translatable="false">180.0</string>
-    <string name="pref_therapy_targets_hypoclycemia">Limite per l'ipoglicemia</string>
+    <string name="pref_therapy_targets_hypoclycemia">Limite per l\'ipoglicemia</string>
     <string name="pref_therapy_targets_hypoclycemia_default" translatable="false">60.0</string>
 
     <!-- ABOUT -->
@@ -440,13 +440,13 @@
     <string name="about_financing">Finanziamento</string>
     <string name="about_financing_desc">There is no financial support of commercial or non-commercial organisations which support the app with funds, services or materials. The app is financed only by the developer.</string>
     <string name="about_advertisement">Politica pubblicitaria</string>
-    <string name="about_advertisement_desc">L'app non ha e non avrà mai pubblicità in nessun modo.</string>
+    <string name="about_advertisement_desc">L\'app non ha e non avrà mai pubblicità in nessun modo.</string>
     <string name="about_health">Riferimenti</string>
     <string name="about_health_desc">Tutti i dati medici sono basati su raccomandazioni approvate da diversi diabetologi.</string>
     <string name="about_privacy">Privacy</string>
     <string name="about_privacy_desc">Consideriamo molto seriamente la protezione dei tuoi dati personali e di conseguenza non processiamo o inviamo i tuoi dati personali a nessuna terza parte.</string>
     <string name="about_code">Codice etico</string>
-    <string name="about_code_desc">L'app soddifa tutti i criteri di qualità di base del "HealthOn App Code of Ethics" in fatto di affidabilità delle informazioni sanitarie.</string>
+    <string name="about_code_desc">L\'app soddifa tutti i criteri di qualità di base del "HealthOn App Code of Ethics" in fatto di affidabilità delle informazioni sanitarie.</string>
     <string name="about_code_url" translatable="false">https://www.healthon.de/de/diaguard-diabetes</string>
     <string name="about_legal">Informazioni legali</string>
     <string name="about_legal_desc">The manufacturer of the app assumes no responsibility for the topicality, correctness, completeness or quality of the information provided. Liability claims against the manufacturer, which relate to material or immaterial nature, caused by the use or non-use of the app are excluded. This app is for documentation purposes only and does not replace a diabetes consultant or doctor.</string>
@@ -455,7 +455,7 @@
     <string name="chart_scatter">Grafico a dispersione</string>
     <string name="chart_line">Grafico a barre</string>
 
-    <string name="oxygen_saturation">Saturazione dell'ossigeno</string>
+    <string name="oxygen_saturation">Saturazione dell\'ossigeno</string>
     <string name="oxygen_saturation_acronym">Sat. Ox.</string>
 
     <string name="changelog">Novità</string>
@@ -506,7 +506,7 @@
     <string name="theme_time_based">Dal momento della giornata</string>
     <string name="theme_system">Impostazioni di sistema</string>
     <string name="table">Tabella</string>
-    <string name="export_append_header">Aggiungi all'inizio\n(mostra settimana del calendario)</string>
+    <string name="export_append_header">Aggiungi all\'inizio\n(mostra settimana del calendario)</string>
     <string name="export_append_footer">Aggiungi alla fine\n(showing data di esportazione)</string>
     <string name="export_history">Esporta cronologia</string>
     <string name="share">Condividi</string>
@@ -527,11 +527,11 @@
     <string name="menu_open">Apri menù</string>
     <string name="food_branded">Cibo di marca</string>
     <string name="show_common_food">Mostra cibo generico</string>
-    <string name="show_common_food_desc">Include centinaia di cibi generici già inclusi nell'app</string>
+    <string name="show_common_food_desc">Include centinaia di cibi generici già inclusi nell\'app</string>
     <string name="food_preferences">Imposazioni cibo</string>
     <string name="food_custom">Cibo personalizzato</string>
     <string name="show_custom_food">Mostra cibo personalizzato</string>
-    <string name="show_custom_food_desc">Includi tutti i cibi aggiunti manualmente dall'utente</string>
+    <string name="show_custom_food_desc">Includi tutti i cibi aggiunti manualmente dall\'utente</string>
     <string name="factors">Fattori</string>
     <string name="close">Chiudi</string>
     <string name="basal_rate">Tasso basale</string>

@@ -63,7 +63,7 @@ public class ImportHelper {
 
     private static int getLanguageColumn(String languageCode, String[] row) {
         int languageColumn = 0;
-        for (int column = 0; column < 4; column++) {
+        for (int column = 0; column < row.length; column++) {
             String availableLanguageCode = row[column];
             if (languageCode.startsWith(availableLanguageCode.substring(0, 1))) {
                 languageColumn = column;
@@ -170,7 +170,7 @@ public class ImportHelper {
 
                 List<Tag> tags = new ArrayList<>();
                 while ((nextLine = reader.readNext()) != null) {
-                    if (nextLine.length >= 4) {
+                    if (nextLine.length >= 1) {
                         Tag tag = new Tag();
                         tag.setName(nextLine[languageRow]);
                         tags.add(tag);

@@ -21,6 +21,7 @@ It replaces the handwritten diary and helps the user to quickly and easily recor
 * Estimated HbA1c
 * Statistics
 * Dark Mode
+* Localized in English, German, French, Spanish and Italian
 
 <img src="./resource/image/screenshot/overview.png" width="100"> <img src="./resource/image/screenshot/entry.png" width="100"> <img src="./resource/image/screenshot/log.png" width="100">  <img src="./resource/image/screenshot/timeline.png" width="100"> <img src="./resource/image/screenshot/food.png" width="100"> <img src="./resource/image/screenshot/statistic.png" width="100"> <img src="./resource/image/screenshot/export.png" width="100"> 
 
@@ -64,13 +65,23 @@ If you want to buy me a beer or support me in general, please use the donate but
 
 #### Languages
 
-English is used as general language for naming things. Everything except the content of [String resources](https://developer.android.com/guide/topics/resources/string-resource) should be in English.
+English is used as general language for naming things. Everything except the localization should be written in English.
 
 [Java](https://java.com/de) is used as programming language. Currently there are no plans to migrate to [Kotlin](https://kotlinlang.org) to prevent a multi-language project. A possible approach could be splitting up the monolith into multiple modules which unleashes the potential to switch language while staying consistent within a module.
 
 [SQLite](https://developer.android.com/training/data-storage/sqlite) is used as query language for the database. Object-relational mapping takes then place via [ORMLite](http://ormlite.com).
 
 [XML](https://developer.android.com/guide/topics/ui/declaring-layout) is used as markup language for user interfaces. These views are then bound to Java via [Butter Knife](http://jakewharton.github.io/butterknife).
+
+#### Localization
+
+Localization takes place locally and affects following components:
+
+* User interfaces: localized via [Android resources](https://developer.android.com/guide/topics/resources/localization) (one [strings.xml](/app/src/main/res/values/strings.xml) per language)
+* Common food: localized via custom file import (one [food_common.csv](/app/src/main/assets/food_common.csv) for all languages)
+* Default tags: localized via custom file import (one [tags.csv](/app/src/main/assets/tags.csv) for all languages)
+
+Currently the localization process requires certain programming skills. This should and could be improved by using an external service in order to support localizations by non-developers.
 
 #### Architecture
 

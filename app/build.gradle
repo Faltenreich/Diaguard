@@ -69,9 +69,7 @@ def espresso = '3.2.0'
 def jodaTime = '2.10.3'
 def ormLite = '5.1'
 def butterKnife = '10.2.1'
-// FIXME: Upgrade leads to crash on Android 4
-// https://github.com/square/okhttp/issues/4622
-def retrofit = '2.7.0'
+def retrofit = '2.7.1'
 
 dependencies {
     implementation project(':pdfjet')
@@ -104,6 +102,9 @@ dependencies {
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterKnife"
 
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
+    // Workaround: Force obsolete version of OkHttp to fix crash on Android 4 (https://github.com/square/okhttp/issues/4622)
+    // noinspection GradleDependency
+    implementation("com.squareup.okhttp3:okhttp:3.12.8") { force = true }
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
     implementation 'com.google.code.gson:gson:2.8.6'
 

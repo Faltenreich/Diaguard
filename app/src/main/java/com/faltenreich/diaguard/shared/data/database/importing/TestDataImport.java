@@ -1,10 +1,8 @@
 package com.faltenreich.diaguard.shared.data.database.importing;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
@@ -13,26 +11,23 @@ import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 
 import org.joda.time.DateTime;
 
-import java.util.Locale;
+class TestDataImport implements Importing {
 
-public class Importer {
+    private static final String TAG = TagImport.class.getSimpleName();
 
-    private static final String TAG = Importer.class.getSimpleName();
-
-    public static void validateImports(Context context) {
-        Locale locale = Helper.getLocale();
-        new TagImport(context, locale).validateImport();
-        new FoodImport(context, locale).validateImport();
+    @Override
+    public void validateImport() {
+        // TODO: Execute for demo target
+        if (false) {
+            new ImportTestDataTask().execute();
+        }
     }
 
-    public static void createTestData() {
-        new CreateTestData().execute();
-    }
-
-    private static class CreateTestData extends AsyncTask<Void, Void, Void> {
+    private static class ImportTestDataTask extends AsyncTask<Void, Void, Void> {
 
         private static final int DATA_COUNT = 1000;
 
+        @SuppressWarnings("unchecked")
         @Override
         protected Void doInBackground(Void... params) {
             for (int count = 0; count < DATA_COUNT; count++) {

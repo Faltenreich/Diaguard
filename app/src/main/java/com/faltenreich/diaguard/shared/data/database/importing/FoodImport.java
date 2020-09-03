@@ -18,7 +18,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-class FoodImport implements Import {
+class FoodImport implements Importing {
 
     private static final String TAG = FoodImport.class.getSimpleName();
     private static final String FOOD_CSV_FILE_NAME = "food_common.csv";

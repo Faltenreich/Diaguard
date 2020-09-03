@@ -29,13 +29,11 @@ android {
     flavorDimensions "version"
     productFlavors {
         beta {
-            dimension "version"
             applicationId "com.faltenreich.diaguard.beta"
             resValue 'string', 'package_name', applicationId
             buildConfigField "boolean", "isCalculatorEnabled", "true"
         }
         store {
-            dimension "version"
             applicationId "com.faltenreich.diaguard"
             resValue 'string', 'package_name', applicationId
             buildConfigField "boolean", "isCalculatorEnabled", "false"

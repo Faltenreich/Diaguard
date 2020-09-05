@@ -9,9 +9,11 @@ import java.util.Locale;
 public class Import implements Importing {
 
     private Context context;
+    private Locale locale;
 
     public Import(Context context) {
         this.context = context;
+        this.locale = Helper.getLocale(context);
     }
 
     @Override
@@ -21,7 +23,6 @@ public class Import implements Importing {
 
     @Override
     public void importData() {
-        Locale locale = Helper.getLocale();
         new TagImport(context, locale).importDataIfNeeded();
         new FoodImport(context, locale).importDataIfNeeded();
         new TestDataImport().importDataIfNeeded();

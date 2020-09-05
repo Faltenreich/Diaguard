@@ -2,47 +2,27 @@ package com.faltenreich.diaguard.shared;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
-
-import androidx.annotation.DimenRes;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
-import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
-import com.faltenreich.diaguard.shared.data.database.entity.Category;
-import com.faltenreich.diaguard.shared.data.database.entity.Entry;
-import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 
-import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.util.Locale;
-import java.util.Random;
 
-/**
- * Created by Filip on 10.12.13.
- */
-@SuppressWarnings({"unused", "WeakerAccess"})
+@SuppressWarnings("WeakerAccess")
 public class Helper {
 
-    private static final String TAG = Helper.class.getSimpleName();
     private static final String FORMAT_TIME = "HH:mm";
 
+    public static Locale getLocale(Context context) {
+        return context.getResources().getConfiguration().locale;
+    }
+
+    @Deprecated
     public static Locale getLocale() {
-        return DiaguardApplication.getContext().getResources().getConfiguration().locale;
-    }
-
-    public static boolean isSystemLocale(String languageCode) {
-        return languageCode != null && isSystemLocale(new Locale(languageCode));
-    }
-
-    public static boolean isSystemLocale(Locale locale) {
-        Locale systemLocale = getLocale();
-        String systemLanguage = systemLocale != null ? systemLocale.getLanguage() : null;
-        String language = locale != null ? locale.getLanguage() : null;
-        return systemLanguage != null && language != null && systemLanguage.equals(language);
+        return getLocale(DiaguardApplication.getContext());
     }
 
     public static String getLanguageCode() {
@@ -59,10 +39,6 @@ public class Helper {
 
     public static DateTimeFormatter getTimeFormat() {
         return DateTimeFormat.forPattern(FORMAT_TIME);
-    }
-
-    public static float getDPI(@DimenRes int dimenResId) {
-        return DiaguardApplication.getContext().getResources().getDimensionPixelSize(dimenResId);
     }
 
     public static String getTextAgo(Context context, int differenceInMinutes) {
@@ -92,46 +68,15 @@ public class Helper {
         return Color.rgb((int) (r * percent), (int) (g * percent), (int) (b * percent));
     }
 
-    public static String toStringDelimited(String[] array, char delimiter) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (String string : array) {
-            stringBuilder.append(string);
-            stringBuilder.append(delimiter);
-        }
-        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-        return stringBuilder.toString();
-    }
-
     public static <T extends Enum<?>> T valueOf(Class<T> enumeration, String search) {
-        for (T each : enumeration.getEnumConstants()) {
-            if (each.name().compareToIgnoreCase(search) == 0) {
-                return each;
+        if (enumeration != null && enumeration.getEnumConstants() != null) {
+            for (T each : enumeration.getEnumConstants()) {
+                if (each.name().compareToIgnoreCase(search) == 0) {
+                    return each;
+                }
             }
         }
         return null;
-    }
-
-    public static <T extends Measurement> void createTestData() {
-        final int entryCount = 500;
-        Random random = new Random();
-        for (int i = 0; i < entryCount; i++) {
-            Entry entry = new Entry();
-            entry.setDate(DateTime.now().minusHours(entryCount - i));
-            EntryDao.getInstance().createOrUpdate(entry);
-            int categoryIndex = random.nextInt(Category.values().length - 1);
-            Category category = Category.values()[categoryIndex];
-            try {
-                T measurement = (T) category.toClass().newInstance();
-                measurement.setValues(new float[]{111});
-                measurement.setEntry(entry);
-                MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
-            } catch (InstantiationException exception) {
-                Log.d(TAG, exception.getMessage());
-            } catch (IllegalAccessException exception) {
-                Log.d(TAG, exception.getMessage());
-            }
-            Log.d(TAG, String.format("Added %d/%d", i, entryCount));
-        }
     }
 
     public static float calculateHbA1c(float avgMgDl) {

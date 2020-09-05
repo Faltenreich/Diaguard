@@ -16,11 +16,13 @@ class TestDataImport implements Importing {
     private static final String TAG = TagImport.class.getSimpleName();
 
     @Override
-    public void validateImport() {
-        // TODO: Execute for demo target
-        if (false) {
-            new ImportTestDataTask().execute();
-        }
+    public boolean requiresImport() {
+        return false;
+    }
+
+    @Override
+    public void importData() {
+        new ImportTestDataTask().execute();
     }
 
     private static class ImportTestDataTask extends AsyncTask<Void, Void, Void> {

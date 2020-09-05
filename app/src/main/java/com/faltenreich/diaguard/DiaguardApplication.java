@@ -33,7 +33,7 @@ public class DiaguardApplication extends Application {
         JodaTimeAndroid.init(this);
         PreferenceStore.getInstance().init(this);
         Database.getInstance().init(this);
-        new Import(this).validateImport();
+        new Import(this).importDataIfNeeded();
         PreferenceStore.getInstance().migrate();
         Migrator.getInstance().start();
         NotificationUtils.setupNotifications(this);

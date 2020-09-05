@@ -32,10 +32,13 @@ class FoodImport implements Importing {
     }
 
     @Override
-    public void validateImport() {
-        if (!PreferenceStore.getInstance().didImportCommonFood(locale)) {
-            new ImportFoodTask(context, locale).execute();
-        }
+    public boolean requiresImport() {
+        return !PreferenceStore.getInstance().didImportCommonFood(locale);
+    }
+
+    @Override
+    public void importData() {
+        new ImportFoodTask(context, locale).execute();
     }
 
     private static class ImportFoodTask extends AsyncTask<Void, Void, Void> {

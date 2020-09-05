@@ -15,10 +15,15 @@ public class Import implements Importing {
     }
 
     @Override
-    public void validateImport() {
+    public boolean requiresImport() {
+        return true;
+    }
+
+    @Override
+    public void importData() {
         Locale locale = Helper.getLocale();
-        new TagImport(context, locale).validateImport();
-        new FoodImport(context, locale).validateImport();
-        new TestDataImport().validateImport();
+        new TagImport(context, locale).importDataIfNeeded();
+        new FoodImport(context, locale).importDataIfNeeded();
+        new TestDataImport().importDataIfNeeded();
     }
 }

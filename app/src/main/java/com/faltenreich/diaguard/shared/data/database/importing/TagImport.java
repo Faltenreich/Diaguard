@@ -30,10 +30,13 @@ class TagImport implements Importing {
     }
 
     @Override
-    public void validateImport() {
-        if (!PreferenceStore.getInstance().didImportTags(locale)) {
-            new ImportTagsTask(context, locale).execute();
-        }
+    public boolean requiresImport() {
+        return !PreferenceStore.getInstance().didImportTags(locale);
+    }
+
+    @Override
+    public void importData() {
+        new ImportTagsTask(context, locale).execute();
     }
 
     private static class ImportTagsTask extends AsyncTask<Void, Void, Void> {

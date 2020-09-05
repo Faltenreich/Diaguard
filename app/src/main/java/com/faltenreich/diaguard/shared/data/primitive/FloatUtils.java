@@ -5,8 +5,6 @@ import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.shared.Helper;
 
-import java.text.DecimalFormat;
-
 public class FloatUtils {
 
     public static boolean isValid(Float number) {
@@ -28,10 +26,6 @@ public class FloatUtils {
                 ? (tmpSub >= 0.5f ? tmp + 1 : tmp)
                 : (tmpSub >= -0.5f ? tmp : tmp - 1)
         ))) / pow;
-    }
-
-    public static String getDecimalSeparator() {
-        return String.valueOf(new DecimalFormat().getDecimalFormatSymbols().getDecimalSeparator());
     }
 
     public static float parseNumber(@NonNull String number) {

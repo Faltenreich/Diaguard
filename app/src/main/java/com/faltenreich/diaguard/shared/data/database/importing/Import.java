@@ -26,5 +26,6 @@ public class Import implements Importing {
         new TagImport(context, locale).importDataIfNeeded();
         new FoodImport(context, locale).importDataIfNeeded();
         new TestDataImport().importDataIfNeeded();
+        new DemoDataImport().importDataIfNeeded();
     }
 }

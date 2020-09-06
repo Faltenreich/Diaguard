@@ -1,24 +1,20 @@
 -ignorewarnings
 -optimizationpasses 5
 -dontusemixedcaseclassnames
+-dontskipnonpubliclibraryclasses
+-dontpreverify
 -verbose
 -optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
 -keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod
 
-##---------------Begin: Custom ----------
--keep class com.faltenreich.diaguard.feature.preference.**
 -keep class com.faltenreich.diaguard.shared.data.database.entity.**
 -keepclassmembers class com.faltenreich.diaguard.shared.data.database.entity.** { *; }
 -keep enum com.faltenreich.diaguard.shared.data.database.entity.**
 -keepclassmembers enum com.faltenreich.diaguard.shared.data.database.entity.** { *; }
 -keep interface com.faltenreich.diaguard.shared.data.database.entity.**
 -keepclassmembers interface com.faltenreich.diaguard.shared.data.database.entity.** { *; }
-##---------------End: Custom ----------
 
-##---------------Begin: Test ----------
--keep class androidx.test.runner.**
--keepclassmembers class androidx.test.runner.** { *; }
-##---------------End: Test ----------
+-keep class com.faltenreich.diaguard.feature.preference.**
 
 ##---------------Begin: EventBus ----------
 -keepattributes *Annotation*

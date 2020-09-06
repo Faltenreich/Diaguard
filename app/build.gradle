@@ -5,7 +5,7 @@ android {
     compileSdkVersion 29
 
     defaultConfig {
-        minSdkVersion 18
+        minSdkVersion 16
         targetSdkVersion 29
         versionCode 44
         versionName "3.5.2"
@@ -77,14 +77,13 @@ dependencies {
     testImplementation "androidx.test.ext:junit:$jUnitRunner"
     testImplementation "androidx.test.espresso:espresso-core:$espresso"
     testImplementation "androidx.test.espresso:espresso-contrib:$espresso"
+    debugImplementation 'androidx.fragment:fragment-testing:1.2.5'
     testImplementation "joda-time:joda-time:$jodaTime"
-    testImplementation 'androidx.fragment:fragment-testing:1.2.5'
 
     androidTestImplementation "junit:junit:$jUnit"
     androidTestImplementation "androidx.test.ext:junit:$jUnitRunner"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso"
-    androidTestImplementation 'tools.fastlane:screengrab:1.0.0'
 
     implementation 'com.google.android.material:material:1.2.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'

@@ -21,12 +21,12 @@ public class ScreenshotGrabber {
 
     @Before
     public void setup() {
-        Screengrab.setDefaultScreenshotStrategy(Screengrab.getDefaultScreenshotStrategy());
+        // Screengrab.setDefaultScreenshotStrategy(new UiAutomatorScreenshotStrategy());
     }
 
     @Test
     public void testTakeScreenshot() {
         ActivityScenario.launch(EntryEditActivity.class);
-        Screengrab.screenshot("overview");
+        Screengrab.screenshot("1");
     }
 }

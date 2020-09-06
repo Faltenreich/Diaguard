@@ -1,0 +1,6 @@
+app_package_name 'com.faltenreich.diaguard'
+use_tests_in_packages ['com.faltenreich.diaguard.screenshot']
+app_apk_path 'app\build\outputs\apk\store\debug\app-store-debug.apk'
+tests_apk_path 'app\build\outputs\apk\androidTest\screenshot\debug\app-screenshot-debug-androidTest.apk'
+locales ['en-US', 'de-DE']
+clear_previous_screenshots true

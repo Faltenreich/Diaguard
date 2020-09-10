@@ -27,7 +27,7 @@ public abstract class BaseDao <T extends BaseEntity> {
 
     private static final String TAG = BaseDao.class.getSimpleName();
 
-    static final long PAGE_SIZE = 50;
+    public static final long PAGE_SIZE = 50;
 
     private Class<T> clazz;
 

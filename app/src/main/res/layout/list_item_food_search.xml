@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/Padding"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -61,10 +62,10 @@
             android:layout_width="@dimen/size_image_smaller"
             android:layout_height="@dimen/size_image_smaller"
             android:layout_marginTop="4dp"
-            android:tint="?iconColorPrimary"
             android:contentDescription="@null"
             android:src="@drawable/ic_history_old"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            app:tint="?iconColorPrimary" />
 
     </LinearLayout>
 

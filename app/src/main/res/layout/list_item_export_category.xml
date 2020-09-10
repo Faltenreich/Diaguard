@@ -14,11 +14,11 @@
         android:layout_width="@dimen/size_image"
         android:layout_height="@dimen/size_image"
         android:contentDescription="@null"
-        android:tint="?iconColorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/ic_category_meal" />
+        tools:src="@drawable/ic_category_meal"
+        app:tint="?iconColorPrimary" />
 
     <androidx.appcompat.widget.AppCompatCheckBox
         android:id="@+id/category_checkbox"

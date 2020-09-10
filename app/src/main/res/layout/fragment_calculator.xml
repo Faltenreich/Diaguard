@@ -38,7 +38,7 @@
                         android:layout_margin="0dp"
                         android:contentDescription="@null"
                         android:src="@drawable/ic_category_bloodsugar"
-                        android:tint="?iconColorPrimary" />
+                        app:tint="?iconColorPrimary" />
 
                     <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
                         android:id="@+id/calculator_bloodsugar"
@@ -64,7 +64,7 @@
                         android:layout_margin="0dp"
                         android:contentDescription="@null"
                         android:src="@drawable/ic_done"
-                        android:tint="?iconColorPrimary" />
+                        app:tint="?iconColorPrimary" />
 
                     <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
                         android:id="@+id/calculator_target"
@@ -87,7 +87,7 @@
                         android:layout_margin="0dp"
                         android:contentDescription="@null"
                         android:src="@drawable/ic_done_all"
-                        android:tint="?iconColorPrimary" />
+                        app:tint="?iconColorPrimary" />
 
                     <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
                         android:id="@+id/calculator_correction"
@@ -134,7 +134,7 @@
                         android:layout_margin="0dp"
                         android:contentDescription="@null"
                         android:src="@drawable/ic_factor"
-                        android:tint="?iconColorPrimary" />
+                        app:tint="?iconColorPrimary" />
 
                     <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
                         android:id="@+id/calculator_factor"

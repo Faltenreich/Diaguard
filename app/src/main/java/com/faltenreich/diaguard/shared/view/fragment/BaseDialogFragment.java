@@ -129,6 +129,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
         }
     }
 
+    @SuppressLint("ResourceType")
     private void initContentView(AlertDialog.Builder builder) {
         if (layoutResId >= 0) {
             View contentView = LayoutInflater.from(getContext()).inflate(layoutResId, null);

@@ -2,11 +2,11 @@
 
 <ImageView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/category_image"
     android:layout_width="@dimen/chart_offset_left"
     android:layout_height="@dimen/table_row_height"
-    android:tint="?iconColorPrimary"
     android:contentDescription="@null"
     android:adjustViewBounds="true"
     android:padding="2dp"
@@ -14,4 +14,5 @@
     android:paddingLeft="10dp"
     android:background="?attr/selectableItemBackgroundBorderless"
     tools:src="@drawable/ic_category_bloodsugar"
-    tools:ignore="RtlSymmetry"/>
+    tools:ignore="RtlSymmetry"
+    app:tint="?iconColorPrimary" />

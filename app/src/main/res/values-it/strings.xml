@@ -21,7 +21,6 @@
     <string name="backup_import">Copia di sicurezza ripristinata &#8230;</string>
     <string name="backup_store">Copia di sicurezza salvata</string>
     <string name="backup_title">Scegli copia di sicurezza</string>
-    <string name="basal" translatable="false">Basale</string>
     <string name="bloodsugar">Glicemia sanguigna</string>
     <string name="bolus">Bolo</string>
     <string name="bolus_no1">È raccomandato non iniettare nessun bolo.</string>
@@ -258,14 +257,6 @@
         <item>mm Hg</item>
     </string-array>
 
-    <string name="oxygen_saturation_units_default" translatable="false">@string/oxygen_saturation</string>
-    <string-array name="oxygen_saturation_units" translatable="false">
-        <item>@string/oxygen_saturation_units_default</item>
-    </string-array>
-    <string-array name="oxygen_saturation_units_acronyms" translatable="false">
-        <item>SpO2</item>
-    </string-array>
-
     <!-- VALIDATORS -->
     <string name="validator_value_number">Sono permessi solo numeri</string>
     <string name="validator_value_infuture">L\'evento non avvenire nel futuro</string>
@@ -309,7 +300,6 @@
     <string name="about_privacy_desc">Consideriamo molto seriamente la protezione dei tuoi dati personali e di conseguenza non processiamo o inviamo i tuoi dati personali a nessuna terza parte.</string>
     <string name="about_code">Codice etico</string>
     <string name="about_code_desc">L\'app soddifa tutti i criteri di qualità di base del "HealthOn App Code of Ethics" in fatto di affidabilità delle informazioni sanitarie.</string>
-    <string name="about_code_url" translatable="false">https://www.healthon.de/de/diaguard-diabetes</string>
     <string name="about_legal">Informazioni legali</string>
     <string name="about_legal_desc">Il produttore dell\'app non si assume alcuna responsabilità per l\'attualità, la correttezza, la completezza e la qualità delle informazioni fornite. Sono escluse rivendicazioni di responsabilità nei confronti del produttore, che si riferiscono alla natura materiale o immateriale, causate dall\'utilizzo o dal mancato utilizzo dell\'app. Questa app è solo a scopo di documentazione e non sostituisce un consulente per il diabete o un medico.</string>
 

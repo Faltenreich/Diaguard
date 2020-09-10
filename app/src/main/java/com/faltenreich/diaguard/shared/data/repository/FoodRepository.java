@@ -6,6 +6,7 @@ import com.faltenreich.diaguard.feature.food.networking.OpenFoodFactsService;
 import com.faltenreich.diaguard.feature.food.search.FoodSearchListItem;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.async.DataCallback;
+import com.faltenreich.diaguard.shared.data.database.dao.BaseDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
@@ -18,7 +19,7 @@ import java.util.List;
 
 public class FoodRepository {
 
-    private static final long LATEST_FOOD_EATEN_COUNT = 3;
+    private static final long LATEST_FOOD_EATEN_COUNT = BaseDao.PAGE_SIZE;
 
     private static FoodRepository instance;
 

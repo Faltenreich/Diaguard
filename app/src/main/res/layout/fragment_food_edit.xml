@@ -37,9 +37,9 @@
                         style="@style/LayoutRowImageMultiline"
                         android:layout_marginEnd="0dp"
                         android:layout_marginRight="0dp"
-                        android:tint="?iconColorPrimary"
                         android:contentDescription="@null"
-                        app:srcCompat="@drawable/ic_edit"/>
+                        app:srcCompat="@drawable/ic_edit"
+                        app:tint="?iconColorPrimary" />
 
                     <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
                         android:id="@+id/food_edit_name"
@@ -61,9 +61,9 @@
                         style="@style/LayoutRowImageMultiline"
                         android:layout_marginEnd="0dp"
                         android:layout_marginRight="0dp"
-                        android:tint="?iconColorPrimary"
                         android:contentDescription="@null"
-                        android:src="@drawable/ic_business"/>
+                        android:src="@drawable/ic_business"
+                        app:tint="?iconColorPrimary" />
 
                     <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
                         android:id="@+id/food_edit_brand"
@@ -85,9 +85,9 @@
                         style="@style/LayoutRowImageMultiline"
                         android:layout_marginEnd="0dp"
                         android:layout_marginRight="0dp"
-                        android:tint="?iconColorPrimary"
                         android:contentDescription="@null"
-                        android:src="@drawable/ic_note"/>
+                        android:src="@drawable/ic_note"
+                        app:tint="?iconColorPrimary" />
 
                     <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
                         android:id="@+id/food_edit_ingredients"

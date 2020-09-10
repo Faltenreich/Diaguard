@@ -2,6 +2,7 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/background"
     android:layout_width="match_parent"
@@ -49,8 +50,8 @@
             android:padding="@dimen/margin_between_large"
             android:background="?selectableItemBackgroundBorderless"
             android:src="@drawable/ic_reorder"
-            android:tint="@color/gray"
-            android:contentDescription="@null"/>
+            android:contentDescription="@null"
+            app:tint="@color/gray" />
 
     </LinearLayout>
 

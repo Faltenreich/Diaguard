@@ -85,7 +85,7 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso"
 
-    implementation 'com.google.android.material:material:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     implementation 'androidx.preference:preference:1.1.1'
@@ -102,7 +102,7 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
     // Workaround: Force obsolete version of OkHttp to fix crash on Android 4 (https://github.com/square/okhttp/issues/4622)
     // noinspection GradleDependency
-    implementation("com.squareup.okhttp3:okhttp:3.12.8") { force = true }
+    implementation("com.squareup.okhttp3:okhttp") { version { strictly '3.12.8' } }
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
     implementation 'com.google.code.gson:gson:2.8.6'
 

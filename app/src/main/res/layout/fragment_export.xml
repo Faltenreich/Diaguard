@@ -25,10 +25,10 @@
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:contentDescription="@null"
             android:src="@drawable/ic_time"
-            android:tint="?iconColorPrimary"
             app:layout_constraintBottom_toBottomOf="@id/date_start_button"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/date_start_button" />
+            app:layout_constraintTop_toTopOf="@id/date_start_button"
+            app:tint="?iconColorPrimary" />
 
         <Button
             android:id="@+id/date_start_button"
@@ -86,12 +86,12 @@
             android:background="?selectableItemBackgroundBorderless"
             android:contentDescription="@string/actions"
             android:padding="@dimen/margin_between_large"
-            android:tint="?iconColorPrimary"
             app:layout_constraintBottom_toBottomOf="@id/date_end_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/date_placeholder"
             app:layout_constraintTop_toTopOf="@id/date_end_button"
-            app:srcCompat="@drawable/ic_more_vertical" />
+            app:srcCompat="@drawable/ic_more_vertical"
+            app:tint="?iconColorPrimary" />
 
         <View
             android:id="@+id/format_divider"
@@ -109,11 +109,11 @@
             android:adjustViewBounds="true"
             android:contentDescription="@null"
             android:padding="2dp"
-            android:tint="?iconColorPrimary"
             app:layout_constraintBottom_toBottomOf="@id/format_spinner"
             app:layout_constraintStart_toStartOf="@id/date_icon"
             app:layout_constraintTop_toTopOf="@id/format_spinner"
-            app:srcCompat="@drawable/ic_file" />
+            app:srcCompat="@drawable/ic_file"
+            app:tint="?iconColorPrimary" />
 
         <Spinner
             android:id="@+id/format_spinner"
@@ -140,11 +140,11 @@
             android:layout_width="@dimen/size_image"
             android:layout_height="@dimen/size_image"
             android:contentDescription="@null"
-            android:tint="?iconColorPrimary"
             app:layout_constraintBottom_toBottomOf="@id/style_spinner"
             app:layout_constraintStart_toStartOf="@id/date_icon"
             app:layout_constraintTop_toTopOf="@id/style_spinner"
-            app:srcCompat="@drawable/ic_view" />
+            app:srcCompat="@drawable/ic_view"
+            app:tint="?iconColorPrimary" />
 
         <Spinner
             android:id="@+id/style_spinner"
@@ -176,11 +176,11 @@
             android:layout_height="@dimen/size_image"
             android:contentDescription="@null"
             android:padding="2dp"
-            android:tint="?iconColorPrimary"
             app:layout_constraintBottom_toBottomOf="@id/header_checkbox"
             app:layout_constraintStart_toStartOf="@id/date_icon"
             app:layout_constraintTop_toTopOf="@id/header_checkbox"
-            app:srcCompat="@drawable/ic_header" />
+            app:srcCompat="@drawable/ic_header"
+            app:tint="?iconColorPrimary" />
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/header_checkbox"
@@ -213,11 +213,11 @@
             android:layout_height="@dimen/size_image"
             android:contentDescription="@null"
             android:padding="2dp"
-            android:tint="?iconColorPrimary"
             app:layout_constraintBottom_toBottomOf="@id/footer_checkbox"
             app:layout_constraintStart_toStartOf="@id/date_icon"
             app:layout_constraintTop_toTopOf="@id/footer_checkbox"
-            app:srcCompat="@drawable/ic_footer" />
+            app:srcCompat="@drawable/ic_footer"
+            app:tint="?iconColorPrimary" />
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/footer_checkbox"
@@ -250,10 +250,10 @@
             android:layout_height="@dimen/size_image"
             android:contentDescription="@null"
             android:src="@drawable/ic_note"
-            android:tint="?iconColorPrimary"
             app:layout_constraintBottom_toBottomOf="@id/note_checkbox"
             app:layout_constraintStart_toStartOf="@id/date_icon"
-            app:layout_constraintTop_toTopOf="@id/note_checkbox" />
+            app:layout_constraintTop_toTopOf="@id/note_checkbox"
+            app:tint="?iconColorPrimary" />
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/note_checkbox"
@@ -280,11 +280,11 @@
             android:layout_height="@dimen/size_image"
             android:contentDescription="@null"
             android:padding="2dp"
-            android:tint="?iconColorPrimary"
             app:layout_constraintBottom_toBottomOf="@id/tags_checkbox"
             app:layout_constraintStart_toStartOf="@id/date_icon"
             app:layout_constraintTop_toTopOf="@id/tags_checkbox"
-            app:srcCompat="@drawable/ic_tag" />
+            app:srcCompat="@drawable/ic_tag"
+            app:tint="?iconColorPrimary" />
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/tags_checkbox"

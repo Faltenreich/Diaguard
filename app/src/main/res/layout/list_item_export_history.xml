@@ -62,7 +62,7 @@
         android:contentDescription="@string/actions"
         android:focusable="true"
         android:padding="@dimen/margin_between_large"
-        android:tint="?iconColorPrimary"
-        app:srcCompat="@drawable/ic_more_vertical" />
+        app:srcCompat="@drawable/ic_more_vertical"
+        app:tint="?iconColorPrimary" />
 
 </LinearLayout>

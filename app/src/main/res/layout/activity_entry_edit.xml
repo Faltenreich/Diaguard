@@ -46,7 +46,7 @@
                                 style="@style/LayoutRowImage"
                                 android:contentDescription="@null"
                                 android:src="@drawable/ic_time"
-                                android:tint="?iconColorPrimary" />
+                                app:tint="?iconColorPrimary" />
 
                             <Button
                                 android:id="@+id/button_date"
@@ -73,8 +73,8 @@
                                 style="@style/LayoutRowImageMultiline"
                                 android:contentDescription="@null"
                                 android:padding="4dp"
-                                android:tint="?iconColorPrimary"
-                                app:srcCompat="@drawable/ic_tag" />
+                                app:srcCompat="@drawable/ic_tag"
+                                app:tint="?iconColorPrimary" />
 
                             <LinearLayout
                                 style="@style/LayoutRowItem"
@@ -110,11 +110,11 @@
                                         android:layout_width="@dimen/size_image_small"
                                         android:layout_height="@dimen/size_image_small"
                                         android:contentDescription="@string/tags"
-                                        android:tint="?iconColorPrimary"
                                         android:background="?selectableItemBackgroundBorderless"
                                         android:clickable="true"
                                         android:focusable="true"
-                                        app:srcCompat="@drawable/ic_more_vertical" />
+                                        app:srcCompat="@drawable/ic_more_vertical"
+                                        app:tint="?iconColorPrimary" />
 
                                 </LinearLayout>
 
@@ -139,7 +139,7 @@
                                 style="@style/LayoutRowImageMultiline"
                                 android:contentDescription="@null"
                                 android:src="@drawable/ic_note"
-                                android:tint="?iconColorPrimary" />
+                                app:tint="?iconColorPrimary" />
 
                             <EditText
                                 android:id="@+id/edittext_notes"
@@ -164,8 +164,8 @@
                                 style="@style/LayoutRowImage"
                                 android:padding="2dp"
                                 android:contentDescription="@null"
-                                android:tint="?iconColorPrimary"
-                                app:srcCompat="@drawable/ic_alarm" />
+                                app:srcCompat="@drawable/ic_alarm"
+                                app:tint="?iconColorPrimary" />
 
                             <Button
                                 android:id="@+id/entry_button_alarm"

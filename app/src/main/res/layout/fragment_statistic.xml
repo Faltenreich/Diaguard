@@ -29,9 +29,9 @@
                     <ImageView
                         style="@style/LayoutRowImage"
                         android:id="@+id/statistics_image_category"
-                        android:tint="?iconColorPrimary"
                         android:contentDescription="@string/category"
-                        android:src="@drawable/ic_list"/>
+                        android:src="@drawable/ic_list"
+                        app:tint="?iconColorPrimary" />
 
                     <LinearLayout
                         style="@style/LayoutRowItem"
@@ -49,9 +49,9 @@
 
                     <ImageView
                         style="@style/LayoutRowImage"
-                        android:tint="?iconColorPrimary"
                         android:contentDescription="@string/interval"
-                        android:src="@drawable/ic_time"/>
+                        android:src="@drawable/ic_time"
+                        app:tint="?iconColorPrimary" />
 
                     <LinearLayout
                         style="@style/LayoutRowItem"

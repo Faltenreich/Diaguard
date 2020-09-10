@@ -17,9 +17,6 @@ import com.github.clans.fab.FloatingActionMenu;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Faltenreich on 30.09.2015.
- */
 public class MeasurementFloatingActionMenu extends FloatingActionMenu {
 
     private static final int MAX_BUTTON_COUNT = 3;
@@ -46,6 +43,7 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
         setOnTouchListener((view, event) -> {
             if (isOpened()) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
+                    view.performClick();
                     close(true);
                 }
                 return true;
@@ -62,9 +60,7 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
     }
 
     public void removeIgnore(Category category) {
-        if (categoriesToSkip.contains(category)) {
-            categoriesToSkip.remove(category);
-        }
+        categoriesToSkip.remove(category);
     }
 
     private boolean hasChanged() {
@@ -111,7 +107,7 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
             getContext().getString(category.getStringResId()),
             category.getIconImageResourceId(),
             ContextCompat.getColor(getContext(), R.color.green));
-        fab.setOnClickListener(v -> {
+        fab.setOnClickListener(view -> {
             close(true);
             if (hasMeasurementFloatingActionMenuCallback()) {
                 onFabSelectedListener.onCategorySelected(category);

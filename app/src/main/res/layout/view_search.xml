@@ -32,8 +32,8 @@
                 android:contentDescription="@string/back"
                 android:focusable="true"
                 android:padding="@dimen/margin_between_large"
-                android:tint="?iconColorPrimary"
-                app:srcCompat="@drawable/ic_arrow_back" />
+                app:srcCompat="@drawable/ic_arrow_back"
+                app:tint="?iconColorPrimary" />
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/inputField"
@@ -59,8 +59,8 @@
                 android:contentDescription="@string/back"
                 android:focusable="true"
                 android:padding="@dimen/margin_between_large"
-                android:tint="?iconColorPrimary"
-                app:srcCompat="@drawable/ic_clear" />
+                app:srcCompat="@drawable/ic_clear"
+                app:tint="?iconColorPrimary" />
 
             <ImageView
                 android:id="@+id/actionIcon"
@@ -72,8 +72,8 @@
                 android:contentDescription="@string/back"
                 android:focusable="true"
                 android:padding="@dimen/margin_between_large"
-                android:tint="?iconColorPrimary"
-                tools:srcCompat="@drawable/ic_more_vertical" />
+                tools:srcCompat="@drawable/ic_more_vertical"
+                app:tint="?iconColorPrimary" />
 
         </LinearLayout>
 

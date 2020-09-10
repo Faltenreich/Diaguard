@@ -2,6 +2,7 @@
 
 <merge
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -42,8 +43,8 @@
                     android:adjustViewBounds="true"
                     android:contentDescription="@null"
                     android:padding="@dimen/padding_large"
-                    android:tint="@android:color/white"
-                    tools:src="@drawable/ic_category_bloodsugar" />
+                    tools:src="@drawable/ic_category_bloodsugar"
+                    app:tint="@android:color/white" />
 
                 <TextView
                     android:id="@+id/category"
@@ -80,7 +81,7 @@
                     android:focusable="true"
                     android:padding="@dimen/margin_between_large"
                     android:src="@drawable/ic_remove"
-                    android:tint="@android:color/white" />
+                    app:tint="@android:color/white" />
 
             </LinearLayout>
 

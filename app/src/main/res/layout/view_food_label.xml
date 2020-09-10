@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/LayoutRow"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -15,9 +16,9 @@
         android:layout_height="@dimen/size_image_small"
         android:layout_marginLeft="@dimen/padding"
         android:layout_marginStart="@dimen/padding"
-        android:tint="?iconColorPrimary"
         android:contentDescription="@null"
-        tools:src="@drawable/ic_info"/>
+        tools:src="@drawable/ic_info"
+        app:tint="?iconColorPrimary" />
 
     <TextView
         style="@style/LayoutRowItem"

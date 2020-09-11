@@ -1,0 +1,29 @@
+"meta";"23"
+"entry";"2020-01-05 00:00:00";
+"measurement";"bloodsugar";"100.0"
+"entry";"2020-01-06 00:00:00";
+"measurement";"bloodsugar";"110.0"
+"entry";"2020-01-07 00:00:00";
+"measurement";"bloodsugar";"100.0"
+"entry";"2020-01-08 00:00:00";
+"measurement";"bloodsugar";"90.0"
+"entry";"2020-01-10 00:00:00";
+"measurement";"bloodsugar";"110.0"
+"entry";"2020-01-11 00:00:00";
+"measurement";"bloodsugar";"130.0"
+"entry";"2020-01-11 16:51:00";
+"measurement";"bloodsugar";"89.0"
+"entry";"2020-01-12 09:11:00";
+"entryTag";"just woke up"
+"measurement";"bloodsugar";"120.0"
+"entry";"2020-01-12 10:10:00";
+"measurement";"bloodsugar";"133.0"
+"measurement";"insulin";"5.0";"0.0";"0.0"
+"measurement";"meal";"0.0"
+"foodEaten";"Bread for toasting, white, made with butter";"100.0"
+"entry";"2020-01-12 15:57:00";
+"measurement";"bloodsugar";"103.0"
+"measurement";"meal";"30.0"
+"entryTag";"before the sport"
+"entry";"2020-01-12 17:00:00";
+"measurement";"activity";"30.0"

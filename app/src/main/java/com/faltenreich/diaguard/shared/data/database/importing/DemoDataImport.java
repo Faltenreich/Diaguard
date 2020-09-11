@@ -2,14 +2,17 @@ package com.faltenreich.diaguard.shared.data.database.importing;
 
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.net.Uri;
-import android.os.AsyncTask;
+import android.util.Log;
 
 import com.faltenreich.diaguard.feature.export.job.Export;
 
-import java.lang.ref.WeakReference;
+import java.io.IOException;
+import java.io.InputStream;
 
 class DemoDataImport implements Importing {
+
+    private static final String TAG = DemoDataImport.class.getSimpleName();
+    private static final String BACKUP_FILE_NAME = "backup.csv";
 
     private Context context;
 
@@ -19,30 +22,17 @@ class DemoDataImport implements Importing {
 
     @Override
     public boolean requiresImport() {
-        return false;
+        return true;
     }
 
     @Override
     public void importData() {
-        new ImportDemoDataTask(context).execute();
-    }
-
-    private static class ImportDemoDataTask extends AsyncTask<Void, Void, Void> {
-
-        private WeakReference<Context> contextReference;
-
-        ImportDemoDataTask(Context context) {
-            this.contextReference = new WeakReference<>(context);
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            Context context = contextReference.get();
-            AssetManager assetManager = context.getAssets();
-            // TODO: How to get uri from asset?
-            Uri uri = null;
-            Export.importCsv(context, uri, null);
-            return null;
+        AssetManager assetManager = context.getAssets();
+        try {
+            InputStream inputStream = assetManager.open(BACKUP_FILE_NAME);
+            Export.importCsv(inputStream, null);
+        } catch (IOException exception) {
+            Log.e(TAG, exception.toString());
         }
     }
 }

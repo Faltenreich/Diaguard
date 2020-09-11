@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 
@@ -16,6 +17,7 @@ import net.danlew.android.joda.JodaTimeAndroid;
 
 public class DiaguardApplication extends Application {
 
+    @SuppressLint("StaticFieldLeak")
     private static Context context;
 
     @Override
@@ -24,6 +26,7 @@ public class DiaguardApplication extends Application {
         init();
     }
 
+    @Deprecated
     public static Context getContext() {
         return context;
     }

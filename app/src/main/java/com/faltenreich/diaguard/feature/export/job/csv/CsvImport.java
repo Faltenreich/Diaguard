@@ -1,10 +1,12 @@
 package com.faltenreich.diaguard.feature.export.job.csv;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.faltenreich.diaguard.feature.export.job.Export;
+import com.faltenreich.diaguard.feature.export.job.ExportCallback;
+import com.faltenreich.diaguard.feature.export.job.FileType;
+import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.DatabaseHelper;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
@@ -21,10 +23,6 @@ import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.data.database.entity.deprecated.CategoryDeprecated;
-import com.faltenreich.diaguard.feature.export.job.Export;
-import com.faltenreich.diaguard.feature.export.job.ExportCallback;
-import com.faltenreich.diaguard.feature.export.job.FileType;
-import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.opencsv.CSVReader;
 
@@ -32,7 +30,6 @@ import org.joda.time.format.DateTimeFormat;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,13 +37,11 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
 
     private static final String TAG = CsvImport.class.getSimpleName();
 
-    private WeakReference<Context> context;
-    private Uri uri;
+    private InputStream inputStream;
     private ExportCallback callback;
 
-    public CsvImport(Context context, Uri uri) {
-        this.context = new WeakReference<>(context);
-        this.uri = uri;
+    public CsvImport(InputStream inputStream) {
+        this.inputStream = inputStream;
     }
 
     public void setCallback(ExportCallback callback) {
@@ -56,7 +51,6 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... params) {
         try {
-            InputStream inputStream = context.get().getContentResolver().openInputStream(uri);
             CSVReader reader = new CSVReader(new InputStreamReader(inputStream), CsvMeta.CSV_DELIMITER);
             String[] nextLine = reader.readNext();
 

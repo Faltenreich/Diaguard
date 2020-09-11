@@ -8,7 +8,7 @@
 
     <include layout="@layout/view_toolbar"/>
 
-    <androidx.fragment.app.FragmentContainerView
+    <fragment
         android:id="@+id/factorFragment"
         android:name="com.faltenreich.diaguard.feature.preference.factor.FactorFragment"
         android:layout_width="match_parent"

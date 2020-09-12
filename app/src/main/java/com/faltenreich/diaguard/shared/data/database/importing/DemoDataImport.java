@@ -18,7 +18,7 @@ import java.util.Locale;
 class DemoDataImport implements Importing {
 
     private static final String TAG = DemoDataImport.class.getSimpleName();
-    private static final DateTime maxDate = new DateTime().withDate(1970, 1, 8);
+    private static final DateTime maxDate = new DateTime().withDate(2020, 1, 31);
 
     private Context context;
 

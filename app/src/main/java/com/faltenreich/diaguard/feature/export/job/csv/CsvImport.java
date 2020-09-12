@@ -3,9 +3,14 @@ package com.faltenreich.diaguard.feature.export.job.csv;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.faltenreich.diaguard.feature.export.job.Export;
 import com.faltenreich.diaguard.feature.export.job.ExportCallback;
 import com.faltenreich.diaguard.feature.export.job.FileType;
+import com.faltenreich.diaguard.feature.export.job.date.DateStrategy;
+import com.faltenreich.diaguard.feature.export.job.date.OriginDateStrategy;
 import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.DatabaseHelper;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
@@ -26,6 +31,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.deprecated.CategoryD
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.opencsv.CSVReader;
 
+import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
 import java.io.InputStream;
@@ -37,16 +43,27 @@ import java.util.List;
 public class CsvImport extends AsyncTask<Void, Void, Boolean> {
 
     private static final String TAG = CsvImport.class.getSimpleName();
+    private static final DateStrategy defaultDateStrategy = new OriginDateStrategy();
 
+    @NonNull
     private InputStream inputStream;
+
+    @Nullable
+    private DateStrategy dateStrategy;
+
+    @Nullable
     private ExportCallback callback;
 
-    public CsvImport(InputStream inputStream) {
+    public CsvImport(@NonNull InputStream inputStream) {
         this.inputStream = inputStream;
     }
 
-    public void setCallback(ExportCallback callback) {
+    public void setCallback(@Nullable ExportCallback callback) {
         this.callback = callback;
+    }
+
+    public void setDateStrategy(@Nullable DateStrategy dateStrategy) {
+        this.dateStrategy = dateStrategy;
     }
 
     @Override
@@ -206,10 +223,15 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
                 case Entry.BACKUP_KEY:
                     lastMeal = null;
                     if (nextLine.length >= 3) {
+                        DateTime parsedDateTime = DateTimeFormat.forPattern(Export.BACKUP_DATE_FORMAT).parseDateTime(nextLine[1]);
+                        DateStrategy dateStrategy = this.dateStrategy != null ? this.dateStrategy : defaultDateStrategy;
+                        DateTime dateTime = dateStrategy.convertDate(parsedDateTime);
+
                         lastEntry = new Entry();
-                        lastEntry.setDate(DateTimeFormat.forPattern(Export.BACKUP_DATE_FORMAT).parseDateTime(nextLine[1]));
+                        lastEntry.setDate(dateTime);
                         String note = nextLine[2];
                         lastEntry.setNote(note != null && note.length() > 0 ? note : null);
+
                         lastEntry = EntryDao.getInstance().createOrUpdate(lastEntry);
                         break;
                     }

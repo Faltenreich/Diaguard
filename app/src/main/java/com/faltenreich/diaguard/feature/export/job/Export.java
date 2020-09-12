@@ -78,16 +78,16 @@ public class Export {
         csvExport.execute();
     }
 
-    public static void importCsv(InputStream inputStream, ExportCallback callback) {
-        CsvImport csvImport = new CsvImport(inputStream);
-        csvImport.setCallback(callback);
-        csvImport.execute();
-    }
-
     public static void importCsv(Context context, Uri uri, ExportCallback callback) {
         try {
             InputStream inputStream = context.getContentResolver().openInputStream(uri);
-            importCsv(inputStream, callback);
+            if (inputStream == null) {
+                callback.onError();
+                return;
+            }
+            CsvImport csvImport = new CsvImport(inputStream);
+            csvImport.setCallback(callback);
+            csvImport.execute();
         } catch (FileNotFoundException exception) {
             Log.e(TAG, exception.toString());
             callback.onError();

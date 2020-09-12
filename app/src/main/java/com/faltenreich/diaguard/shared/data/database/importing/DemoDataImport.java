@@ -5,8 +5,11 @@ import android.content.res.AssetManager;
 import android.util.Log;
 
 import com.faltenreich.diaguard.BuildConfig;
-import com.faltenreich.diaguard.feature.export.job.Export;
+import com.faltenreich.diaguard.feature.export.job.csv.CsvImport;
+import com.faltenreich.diaguard.feature.export.job.date.DemoDateStrategy;
 import com.faltenreich.diaguard.shared.Helper;
+
+import org.joda.time.DateTime;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,6 +18,7 @@ import java.util.Locale;
 class DemoDataImport implements Importing {
 
     private static final String TAG = DemoDataImport.class.getSimpleName();
+    private static final DateTime maxDate = new DateTime().withDate(1970, 1, 8);
 
     private Context context;
 
@@ -35,7 +39,11 @@ class DemoDataImport implements Importing {
             String localeIdentifier = locale.getLanguage();
             String fileName = String.format("backup/%s.csv", localeIdentifier);
             InputStream inputStream = assetManager.open(fileName);
-            Export.importCsv(inputStream, null);
+
+            CsvImport csvImport = new CsvImport(inputStream);
+            csvImport.setDateStrategy(new DemoDateStrategy(maxDate));
+            csvImport.execute();
+
         } catch (IOException exception) {
             Log.e(TAG, exception.toString());
         }

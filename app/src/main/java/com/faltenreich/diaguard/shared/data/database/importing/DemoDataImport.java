@@ -6,14 +6,15 @@ import android.util.Log;
 
 import com.faltenreich.diaguard.BuildConfig;
 import com.faltenreich.diaguard.feature.export.job.Export;
+import com.faltenreich.diaguard.shared.Helper;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
 
 class DemoDataImport implements Importing {
 
     private static final String TAG = DemoDataImport.class.getSimpleName();
-    private static final String BACKUP_FILE_NAME = "backup.csv";
 
     private Context context;
 
@@ -30,7 +31,10 @@ class DemoDataImport implements Importing {
     public void importData() {
         AssetManager assetManager = context.getAssets();
         try {
-            InputStream inputStream = assetManager.open(BACKUP_FILE_NAME);
+            Locale locale = Helper.getLocale(context);
+            String localeIdentifier = locale.getLanguage();
+            String fileName = String.format("backup/%s.csv", localeIdentifier);
+            InputStream inputStream = assetManager.open(fileName);
             Export.importCsv(inputStream, null);
         } catch (IOException exception) {
             Log.e(TAG, exception.toString());

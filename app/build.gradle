@@ -29,7 +29,7 @@ android {
     flavorDimensions "version"
     productFlavors {
         demo {
-            applicationId "com.faltenreich.diaguard.demo"
+            applicationId "com.faltenreich.diaguard"
             resValue 'string', 'package_name', applicationId
             buildConfigField "boolean", "isCalculatorEnabled", "false"
         }

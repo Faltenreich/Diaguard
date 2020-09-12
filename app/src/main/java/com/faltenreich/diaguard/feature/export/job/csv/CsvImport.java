@@ -33,6 +33,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unchecked")
 public class CsvImport extends AsyncTask<Void, Void, Boolean> {
 
     private static final String TAG = CsvImport.class.getSimpleName();
@@ -71,7 +72,7 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
             return true;
 
         } catch (Exception exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, exception.toString());
             return false;
         }
     }
@@ -90,15 +91,16 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
                 measurement.setValues(FloatUtils.parseNumber(nextLine[0]));
                 measurement.setEntry(entry);
                 MeasurementDao.getInstance(category.toClass()).createOrUpdate(measurement);
-            } catch (InstantiationException e) {
-                Log.e(TAG, e.getMessage());
-            } catch (IllegalAccessException e) {
-                Log.e(TAG, e.getMessage());
+            } catch (InstantiationException exception) {
+                Log.e(TAG, exception.toString());
+            } catch (IllegalAccessException exception) {
+                Log.e(TAG, exception.toString());
             }
             nextLine = reader.readNext();
         }
     }
 
+    @SuppressWarnings("ParameterCanBeLocal")
     private void importFromVersion1_1(CSVReader reader, String[] nextLine) throws Exception {
         Entry entry = null;
         while ((nextLine = reader.readNext()) != null) {
@@ -114,18 +116,19 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
                     CategoryDeprecated categoryDeprecated = Helper.valueOf(CategoryDeprecated.class, nextLine[2]);
                     Category category = categoryDeprecated.toUpdate();
                     Measurement measurement = category.toClass().newInstance();
-                    measurement.setValues(new float[]{FloatUtils.parseNumber(nextLine[1])});
+                    measurement.setValues(FloatUtils.parseNumber(nextLine[1]));
                     measurement.setEntry(entry);
                     MeasurementDao.getInstance(category.toClass()).createOrUpdate(measurement);
-                } catch (InstantiationException e) {
-                    Log.e(TAG, e.getMessage());
-                } catch (IllegalAccessException e) {
-                    Log.e(TAG, e.getMessage());
+                } catch (InstantiationException exception) {
+                    Log.e(TAG, exception.toString());
+                } catch (IllegalAccessException exception) {
+                    Log.e(TAG, exception.toString());
                 }
             }
         }
     }
 
+    @SuppressWarnings("ParameterCanBeLocal")
     private void importFromVersion2_2(CSVReader reader, String[] nextLine) throws Exception {
         Entry entry = null;
         while ((nextLine = reader.readNext()) != null) {
@@ -146,8 +149,8 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
                         String valueString = nextLine[position];
                         try {
                             valueList.add(FloatUtils.parseNumber(valueString));
-                        } catch (NumberFormatException e) {
-                            Log.e(TAG, e.getMessage());
+                        } catch (NumberFormatException exception) {
+                            Log.e(TAG, exception.toString());
                         }
                     }
                     float[] values = new float[valueList.size()];
@@ -157,15 +160,16 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
                     measurement.setValues(values);
                     measurement.setEntry(entry);
                     MeasurementDao.getInstance(category.toClass()).createOrUpdate(measurement);
-                } catch (InstantiationException e) {
-                    Log.e(TAG, e.getMessage());
-                } catch (IllegalAccessException e) {
-                    Log.e(TAG, e.getMessage());
+                } catch (InstantiationException exception) {
+                    Log.e(TAG, exception.toString());
+                } catch (IllegalAccessException exception) {
+                    Log.e(TAG, exception.toString());
                 }
             }
         }
     }
 
+    @SuppressWarnings("ParameterCanBeLocal")
     private void importFromVersion3_0(CSVReader reader, String[] nextLine) throws Exception {
         Entry lastEntry = null;
         Meal lastMeal = null;
@@ -221,8 +225,8 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
                                     String valueString = nextLine[position];
                                     try {
                                         valueList.add(FloatUtils.parseNumber(valueString));
-                                    } catch (NumberFormatException e) {
-                                        Log.e(TAG, e.getMessage());
+                                    } catch (NumberFormatException exception) {
+                                        Log.e(TAG, exception.toString());
                                     }
                                 }
                                 float[] values = new float[valueList.size()];
@@ -236,10 +240,10 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
                                 if (measurement instanceof Meal) {
                                     lastMeal = (Meal) measurement;
                                 }
-                            } catch (InstantiationException e) {
-                                Log.e(TAG, e.getMessage());
-                            } catch (IllegalAccessException e) {
-                                Log.e(TAG, e.getMessage());
+                            } catch (InstantiationException exception) {
+                                Log.e(TAG, exception.toString());
+                            } catch (IllegalAccessException exception) {
+                                Log.e(TAG, exception.toString());
                             }
                         }
                     }

@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.shared.data.database.importing;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
@@ -10,7 +9,6 @@ import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.opencsv.CSVReader;
 
 import java.io.IOException;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -36,53 +34,31 @@ class TagImport implements Importing {
 
     @Override
     public void importData() {
-        new ImportTagsTask(context, locale).execute();
-    }
+        try {
+            CSVReader reader = CsvImport.getCsvReader(context, TAGS_CSV_FILE_NAME);
 
-    private static class ImportTagsTask extends AsyncTask<Void, Void, Void> {
+            String languageCode = locale.getLanguage();
+            String[] nextLine = reader.readNext();
+            int languageRow = CsvImport.getLanguageColumn(languageCode, nextLine);
 
-        private WeakReference<Context> context;
-        private Locale locale;
-
-        ImportTagsTask(Context context, Locale locale) {
-            this.context = new WeakReference<>(context);
-            this.locale = locale;
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            try {
-                CSVReader reader = CsvImport.getCsvReader(context.get(), TAGS_CSV_FILE_NAME);
-
-                String languageCode = locale.getLanguage();
-                String[] nextLine = reader.readNext();
-                int languageRow = CsvImport.getLanguageColumn(languageCode, nextLine);
-
-                List<Tag> tags = new ArrayList<>();
-                while ((nextLine = reader.readNext()) != null) {
-                    if (nextLine.length >= 1) {
-                        Tag tag = new Tag();
-                        tag.setName(nextLine[languageRow]);
-                        tags.add(tag);
-                    }
+            List<Tag> tags = new ArrayList<>();
+            while ((nextLine = reader.readNext()) != null) {
+                if (nextLine.length >= 1) {
+                    Tag tag = new Tag();
+                    tag.setName(nextLine[languageRow]);
+                    tags.add(tag);
                 }
-
-                TagDao.getInstance().deleteAll();
-                Collections.reverse(tags);
-                TagDao.getInstance().bulkCreateOrUpdate(tags);
-
-                Log.i(TAG, String.format("Imported %d tags from csv", tags.size()));
-
-            } catch (IOException exception) {
-                Log.e(TAG, exception.toString());
             }
-            return null;
-        }
 
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
+            TagDao.getInstance().deleteAll();
+            Collections.reverse(tags);
+            TagDao.getInstance().bulkCreateOrUpdate(tags);
+
+            Log.i(TAG, String.format("Imported %d tags from csv", tags.size()));
             PreferenceStore.getInstance().setDidImportTags(locale, true);
+
+        } catch (IOException exception) {
+            Log.e(TAG, exception.toString());
         }
     }
 }

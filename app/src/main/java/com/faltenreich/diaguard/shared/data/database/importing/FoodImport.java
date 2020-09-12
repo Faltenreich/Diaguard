@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.shared.data.database.importing;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import com.faltenreich.diaguard.R;
@@ -12,7 +11,6 @@ import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.opencsv.CSVReader;
 
 import java.io.IOException;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -38,74 +36,52 @@ class FoodImport implements Importing {
 
     @Override
     public void importData() {
-        new ImportFoodTask(context, locale).execute();
-    }
+        try {
+            CSVReader reader = CsvImport.getCsvReader(context, FOOD_CSV_FILE_NAME);
 
-    private static class ImportFoodTask extends AsyncTask<Void, Void, Void> {
+            String languageCode = locale.getLanguage();
+            String[] nextLine = reader.readNext();
+            int languageRow = CsvImport.getLanguageColumn(languageCode, nextLine);
 
-        private WeakReference<Context> context;
-        private Locale locale;
+            List<Food> foodList = new ArrayList<>();
+            while ((nextLine = reader.readNext()) != null) {
 
-        ImportFoodTask(Context context, Locale locale) {
-            this.context = new WeakReference<>(context);
-            this.locale = locale;
-        }
+                if (nextLine.length >= 13) {
+                    Food food = new Food();
 
-        @Override
-        protected Void doInBackground(Void... voids) {
-            try {
-                CSVReader reader = CsvImport.getCsvReader(context.get(), FOOD_CSV_FILE_NAME);
+                    food.setName(nextLine[languageRow]);
+                    food.setIngredients(food.getName());
+                    food.setLabels(context.getString(R.string.food_common));
+                    food.setLanguageCode(languageCode);
 
-                String languageCode = locale.getLanguage();
-                String[] nextLine = reader.readNext();
-                int languageRow = CsvImport.getLanguageColumn(languageCode, nextLine);
+                    // Main nutrients are given in grams, so we take them as they are
+                    food.setCarbohydrates(FloatUtils.parseNullableNumber(nextLine[4]));
+                    food.setEnergy(FloatUtils.parseNullableNumber(nextLine[5]));
+                    food.setFat(FloatUtils.parseNullableNumber(nextLine[6]));
+                    food.setFatSaturated(FloatUtils.parseNullableNumber(nextLine[7]));
+                    food.setFiber(FloatUtils.parseNullableNumber(nextLine[8]));
+                    food.setProteins(FloatUtils.parseNullableNumber(nextLine[9]));
+                    food.setSalt(FloatUtils.parseNullableNumber(nextLine[10]));
+                    food.setSugar(FloatUtils.parseNullableNumber(nextLine[12]));
 
-                List<Food> foodList = new ArrayList<>();
-                while ((nextLine = reader.readNext()) != null) {
+                    // Mineral nutrients are given in milligrams, so we divide them by 1.000
+                    Float sodium = FloatUtils.parseNullableNumber(nextLine[11]);
+                    sodium = sodium != null ? sodium / 1000 : null;
+                    food.setSodium(sodium);
 
-                    if (nextLine.length >= 13) {
-                        Food food = new Food();
-
-                        food.setName(nextLine[languageRow]);
-                        food.setIngredients(food.getName());
-                        food.setLabels(context.get().getString(R.string.food_common));
-                        food.setLanguageCode(languageCode);
-
-                        // Main nutrients are given in grams, so we take them as they are
-                        food.setCarbohydrates(FloatUtils.parseNullableNumber(nextLine[4]));
-                        food.setEnergy(FloatUtils.parseNullableNumber(nextLine[5]));
-                        food.setFat(FloatUtils.parseNullableNumber(nextLine[6]));
-                        food.setFatSaturated(FloatUtils.parseNullableNumber(nextLine[7]));
-                        food.setFiber(FloatUtils.parseNullableNumber(nextLine[8]));
-                        food.setProteins(FloatUtils.parseNullableNumber(nextLine[9]));
-                        food.setSalt(FloatUtils.parseNullableNumber(nextLine[10]));
-                        food.setSugar(FloatUtils.parseNullableNumber(nextLine[12]));
-
-                        // Mineral nutrients are given in milligrams, so we divide them by 1.000
-                        Float sodium = FloatUtils.parseNullableNumber(nextLine[11]);
-                        sodium = sodium != null ? sodium / 1000 : null;
-                        food.setSodium(sodium);
-
-                        foodList.add(food);
-                    }
+                    foodList.add(food);
                 }
-
-                Collections.reverse(foodList);
-                FoodDao.getInstance().deleteAll();
-                FoodDao.getInstance().bulkCreateOrUpdate(foodList);
-
-                Log.i(TAG, String.format("Imported %d common food items from csv", foodList.size()));
-
-            } catch (IOException exception) {
-                Log.e(TAG, exception.toString());
             }
-            return null;
-        }
 
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
+            Collections.reverse(foodList);
+            FoodDao.getInstance().deleteAll();
+            FoodDao.getInstance().bulkCreateOrUpdate(foodList);
+
+            Log.i(TAG, String.format("Imported %d common food items from csv", foodList.size()));
             PreferenceStore.getInstance().setDidImportCommonFood(locale, true);
+
+        } catch (IOException exception) {
+            Log.e(TAG, exception.toString());
         }
     }
 }

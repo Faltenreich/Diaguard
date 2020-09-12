@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.shared.data.database.importing;
 
-import android.os.AsyncTask;
 import android.util.Log;
 
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
@@ -14,6 +13,7 @@ import org.joda.time.DateTime;
 class TestDataImport implements Importing {
 
     private static final String TAG = TagImport.class.getSimpleName();
+    private static final int DATA_COUNT = 1000;
 
     @Override
     public boolean requiresImport() {
@@ -22,36 +22,24 @@ class TestDataImport implements Importing {
 
     @Override
     public void importData() {
-        new ImportTestDataTask().execute();
-    }
+        for (int count = 0; count < DATA_COUNT; count++) {
+            DateTime dateTime = DateTime.now().minusDays(count);
+            Entry entry = new Entry();
+            entry.setDate(dateTime);
+            entry.setNote("Test");
+            EntryDao.getInstance().createOrUpdate(entry);
 
-    private static class ImportTestDataTask extends AsyncTask<Void, Void, Void> {
+            BloodSugar bloodSugar = new BloodSugar();
+            bloodSugar.setMgDl(100);
+            bloodSugar.setEntry(entry);
+            MeasurementDao.getInstance(BloodSugar.class).createOrUpdate(bloodSugar);
 
-        private static final int DATA_COUNT = 1000;
+            Meal meal = new Meal();
+            meal.setCarbohydrates(20);
+            meal.setEntry(entry);
+            MeasurementDao.getInstance(Meal.class).createOrUpdate(meal);
 
-        @SuppressWarnings("unchecked")
-        @Override
-        protected Void doInBackground(Void... params) {
-            for (int count = 0; count < DATA_COUNT; count++) {
-                DateTime dateTime = DateTime.now().minusDays(count);
-                Entry entry = new Entry();
-                entry.setDate(dateTime);
-                entry.setNote("Test");
-                EntryDao.getInstance().createOrUpdate(entry);
-
-                BloodSugar bloodSugar = new BloodSugar();
-                bloodSugar.setMgDl(100);
-                bloodSugar.setEntry(entry);
-                MeasurementDao.getInstance(BloodSugar.class).createOrUpdate(bloodSugar);
-
-                Meal meal = new Meal();
-                meal.setCarbohydrates(20);
-                meal.setEntry(entry);
-                MeasurementDao.getInstance(Meal.class).createOrUpdate(meal);
-
-                Log.d(TAG, "Created test data: " + (count + 1) + "/" + DATA_COUNT);
-            }
-            return null;
+            Log.d(TAG, "Created test data: " + (count + 1) + "/" + DATA_COUNT);
         }
     }
 }

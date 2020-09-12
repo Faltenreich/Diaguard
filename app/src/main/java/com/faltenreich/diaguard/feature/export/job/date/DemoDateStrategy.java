@@ -13,7 +13,7 @@ public class DemoDateStrategy implements DateStrategy {
 
     @Override
     public DateTime convertDate(DateTime origin) {
-        int differenceInDays = Days.daysBetween(origin, maxDate).getDays();
-        return DateTime.now().minusDays(differenceInDays);
+        int differenceInDays = Days.daysBetween(origin.withTimeAtStartOfDay(), maxDate.withTimeAtStartOfDay()).getDays();
+        return DateTime.now().minusDays(differenceInDays).withTime(origin.toLocalTime());
     }
 }

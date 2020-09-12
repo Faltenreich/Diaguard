@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.util.Log;
 
+import com.faltenreich.diaguard.BuildConfig;
 import com.faltenreich.diaguard.feature.export.job.Export;
 
 import java.io.IOException;
@@ -22,8 +23,7 @@ class DemoDataImport implements Importing {
 
     @Override
     public boolean requiresImport() {
-        // TODO: Determine screenshot task
-        return false;
+        return BuildConfig.FLAVOR.equals("demo");
     }
 
     @Override

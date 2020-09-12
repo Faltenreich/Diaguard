@@ -22,7 +22,8 @@ class DemoDataImport implements Importing {
 
     @Override
     public boolean requiresImport() {
-        return true;
+        // TODO: Determine screenshot task
+        return false;
     }
 
     @Override

@@ -17,7 +17,8 @@
         android:id="@+id/toolbar_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/toolbar_title_padding"
+        android:paddingStart="@dimen/toolbar_title_padding"
+        android:paddingLeft="@dimen/toolbar_title_padding"
         android:gravity="center_vertical"
         android:textColor="@android:color/white"
         android:textSize="@dimen/text_large"
@@ -25,6 +26,7 @@
         android:background="?android:attr/selectableItemBackground"
         android:lines="1"
         android:ellipsize="end"
-        tools:text="@string/app_name"/>
+        tools:text="@string/app_name"
+        tools:ignore="RtlSymmetry" />
 
 </androidx.appcompat.widget.Toolbar>

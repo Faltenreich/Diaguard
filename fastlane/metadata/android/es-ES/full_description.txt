@@ -1,0 +1,17 @@
+Diaguard es una aplicación gratuita, sin publicidad y de código abierto para personas con diabetes mellitus.
+
+Sustituye al diario manuscrito y ayuda al usuario a registrar, evaluar y exportar rápida y fácilmente su azúcar en sangre y otros datos importantes como PDF o CSV. Gracias a la clara interfaz, el usuario siempre tiene una visión general de su diabetes. La aplicación también proporciona información sobre varios miles de alimentos, incluidos los carbohidratos y otros nutrientes.
+
+<b>Características</b>
+
+- Rastree rápida y fácilmente su glucosa en sangre, insulina, carbohidratos, A1c, actividad, peso, pulso, presión sanguínea y saturación de oxígeno.
+- Unidades personalizables
+- Visualice su nivel de glucosa en la sangre en un gráfico
+- Registros detallados de sus datos
+- Base de datos de alimentos con miles de entradas
+- Exportación de PDF y CSV
+- Copia de seguridad
+- Funcionalidad de recordatorio
+- Estimación de HbA1c
+- Estadísticas
+- Modo oscuro

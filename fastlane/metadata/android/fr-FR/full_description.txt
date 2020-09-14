@@ -1,0 +1,17 @@
+Diaguard est une application gratuite, sans publicité et open source destinée aux personnes atteintes de diabète sucré.
+
+Elle remplace l'agenda écrit à la main et aide l'utilisateur à enregistrer, évaluer et exporter rapidement et facilement son taux de glycémie et d'autres données importantes au format PDF ou CSV. Grâce à l'interface clairement agencée, l'utilisateur a toujours une vue d'ensemble de son diabète. L'application fournit également des informations sur plusieurs milliers d'aliments, y compris les glucides et autres nutriments.
+
+<b>Fonctionnalités</b>
+
+- Suivez rapidement et facilement votre glycémie, votre insuline, vos glucides, votre taux d'A1c, votre activité, votre poids, votre pouls, votre pression artérielle et votre saturation en oxygène
+- Unités personnalisables
+- Visualisez votre taux de glycémie dans un graphique
+- Journaux détaillés de vos données
+- Base de données sur l'alimentation avec des milliers d'entrées
+- Exportation en PDF et CSV
+- Sauvegarde
+- Fonction de rappel
+- Estimation de l'HbA1c
+- Statistiques
+- Mode sombre

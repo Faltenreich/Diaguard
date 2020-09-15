@@ -1,10 +1,17 @@
 package com.faltenreich.diaguard.feature.export.job.csv;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.faltenreich.diaguard.feature.export.job.Export;
+import com.faltenreich.diaguard.feature.export.job.ExportCallback;
+import com.faltenreich.diaguard.feature.export.job.FileType;
+import com.faltenreich.diaguard.feature.export.job.date.DateStrategy;
+import com.faltenreich.diaguard.feature.export.job.date.OriginDateStrategy;
+import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.DatabaseHelper;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
@@ -21,42 +28,47 @@ import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.data.database.entity.deprecated.CategoryDeprecated;
-import com.faltenreich.diaguard.feature.export.job.Export;
-import com.faltenreich.diaguard.feature.export.job.ExportCallback;
-import com.faltenreich.diaguard.feature.export.job.FileType;
-import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.opencsv.CSVReader;
 
+import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unchecked")
 public class CsvImport extends AsyncTask<Void, Void, Boolean> {
 
     private static final String TAG = CsvImport.class.getSimpleName();
+    private static final DateStrategy defaultDateStrategy = new OriginDateStrategy();
 
-    private WeakReference<Context> context;
-    private Uri uri;
+    @NonNull
+    private InputStream inputStream;
+
+    @Nullable
+    private DateStrategy dateStrategy;
+
+    @Nullable
     private ExportCallback callback;
 
-    public CsvImport(Context context, Uri uri) {
-        this.context = new WeakReference<>(context);
-        this.uri = uri;
+    public CsvImport(@NonNull InputStream inputStream) {
+        this.inputStream = inputStream;
     }
 
-    public void setCallback(ExportCallback callback) {
+    public void setCallback(@Nullable ExportCallback callback) {
         this.callback = callback;
+    }
+
+    public void setDateStrategy(@Nullable DateStrategy dateStrategy) {
+        this.dateStrategy = dateStrategy;
     }
 
     @Override
     protected Boolean doInBackground(Void... params) {
         try {
-            InputStream inputStream = context.get().getContentResolver().openInputStream(uri);
             CSVReader reader = new CSVReader(new InputStreamReader(inputStream), CsvMeta.CSV_DELIMITER);
             String[] nextLine = reader.readNext();
 
@@ -77,7 +89,7 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
             return true;
 
         } catch (Exception exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, exception.toString());
             return false;
         }
     }
@@ -96,15 +108,16 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
                 measurement.setValues(FloatUtils.parseNumber(nextLine[0]));
                 measurement.setEntry(entry);
                 MeasurementDao.getInstance(category.toClass()).createOrUpdate(measurement);
-            } catch (InstantiationException e) {
-                Log.e(TAG, e.getMessage());
-            } catch (IllegalAccessException e) {
-                Log.e(TAG, e.getMessage());
+            } catch (InstantiationException exception) {
+                Log.e(TAG, exception.toString());
+            } catch (IllegalAccessException exception) {
+                Log.e(TAG, exception.toString());
             }
             nextLine = reader.readNext();
         }
     }
 
+    @SuppressWarnings("ParameterCanBeLocal")
     private void importFromVersion1_1(CSVReader reader, String[] nextLine) throws Exception {
         Entry entry = null;
         while ((nextLine = reader.readNext()) != null) {
@@ -120,18 +133,19 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
                     CategoryDeprecated categoryDeprecated = Helper.valueOf(CategoryDeprecated.class, nextLine[2]);
                     Category category = categoryDeprecated.toUpdate();
                     Measurement measurement = category.toClass().newInstance();
-                    measurement.setValues(new float[]{FloatUtils.parseNumber(nextLine[1])});
+                    measurement.setValues(FloatUtils.parseNumber(nextLine[1]));
                     measurement.setEntry(entry);
                     MeasurementDao.getInstance(category.toClass()).createOrUpdate(measurement);
-                } catch (InstantiationException e) {
-                    Log.e(TAG, e.getMessage());
-                } catch (IllegalAccessException e) {
-                    Log.e(TAG, e.getMessage());
+                } catch (InstantiationException exception) {
+                    Log.e(TAG, exception.toString());
+                } catch (IllegalAccessException exception) {
+                    Log.e(TAG, exception.toString());
                 }
             }
         }
     }
 
+    @SuppressWarnings("ParameterCanBeLocal")
     private void importFromVersion2_2(CSVReader reader, String[] nextLine) throws Exception {
         Entry entry = null;
         while ((nextLine = reader.readNext()) != null) {
@@ -152,8 +166,8 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
                         String valueString = nextLine[position];
                         try {
                             valueList.add(FloatUtils.parseNumber(valueString));
-                        } catch (NumberFormatException e) {
-                            Log.e(TAG, e.getMessage());
+                        } catch (NumberFormatException exception) {
+                            Log.e(TAG, exception.toString());
                         }
                     }
                     float[] values = new float[valueList.size()];
@@ -163,15 +177,16 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
                     measurement.setValues(values);
                     measurement.setEntry(entry);
                     MeasurementDao.getInstance(category.toClass()).createOrUpdate(measurement);
-                } catch (InstantiationException e) {
-                    Log.e(TAG, e.getMessage());
-                } catch (IllegalAccessException e) {
-                    Log.e(TAG, e.getMessage());
+                } catch (InstantiationException exception) {
+                    Log.e(TAG, exception.toString());
+                } catch (IllegalAccessException exception) {
+                    Log.e(TAG, exception.toString());
                 }
             }
         }
     }
 
+    @SuppressWarnings("ParameterCanBeLocal")
     private void importFromVersion3_0(CSVReader reader, String[] nextLine) throws Exception {
         Entry lastEntry = null;
         Meal lastMeal = null;
@@ -208,10 +223,15 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
                 case Entry.BACKUP_KEY:
                     lastMeal = null;
                     if (nextLine.length >= 3) {
+                        DateTime parsedDateTime = DateTimeFormat.forPattern(Export.BACKUP_DATE_FORMAT).parseDateTime(nextLine[1]);
+                        DateStrategy dateStrategy = this.dateStrategy != null ? this.dateStrategy : defaultDateStrategy;
+                        DateTime dateTime = dateStrategy.convertDate(parsedDateTime);
+
                         lastEntry = new Entry();
-                        lastEntry.setDate(DateTimeFormat.forPattern(Export.BACKUP_DATE_FORMAT).parseDateTime(nextLine[1]));
+                        lastEntry.setDate(dateTime);
                         String note = nextLine[2];
                         lastEntry.setNote(note != null && note.length() > 0 ? note : null);
+
                         lastEntry = EntryDao.getInstance().createOrUpdate(lastEntry);
                         break;
                     }
@@ -227,8 +247,8 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
                                     String valueString = nextLine[position];
                                     try {
                                         valueList.add(FloatUtils.parseNumber(valueString));
-                                    } catch (NumberFormatException e) {
-                                        Log.e(TAG, e.getMessage());
+                                    } catch (NumberFormatException exception) {
+                                        Log.e(TAG, exception.toString());
                                     }
                                 }
                                 float[] values = new float[valueList.size()];
@@ -242,10 +262,10 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
                                 if (measurement instanceof Meal) {
                                     lastMeal = (Meal) measurement;
                                 }
-                            } catch (InstantiationException e) {
-                                Log.e(TAG, e.getMessage());
-                            } catch (IllegalAccessException e) {
-                                Log.e(TAG, e.getMessage());
+                            } catch (InstantiationException exception) {
+                                Log.e(TAG, exception.toString());
+                            } catch (IllegalAccessException exception) {
+                                Log.e(TAG, exception.toString());
                             }
                         }
                     }

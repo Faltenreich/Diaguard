@@ -75,7 +75,8 @@ public class LogFragment extends DateFragment implements LogListAdapter.Listener
 
     @Override
     public String getTitle() {
-        String format = ViewUtils.isLandscape(getActivity()) || ViewUtils.isLargeScreen(getActivity()) ? "MMMM YYYY" : "MMM YYYY";
+        boolean isLargeTitle = ViewUtils.isLandscape(getActivity()) || ViewUtils.isLargeScreen(getActivity());
+        String format = isLargeTitle ? "MMMM YYYY" : "MMM YYYY";
         return getDay().toString(format);
     }
 

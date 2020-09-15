@@ -1,0 +1,145 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.mikepenz.aboutlibraries.plugin'
+
+android {
+    compileSdkVersion 29
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 29
+        versionCode 44
+        versionName "3.5.2"
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled true
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'proguard-rules-dontobfuscate.pro'
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions "version"
+    productFlavors {
+        demo {
+            applicationId "com.faltenreich.diaguard"
+            resValue 'string', 'package_name', applicationId
+            buildConfigField "boolean", "isCalculatorEnabled", "false"
+        }
+        beta {
+            applicationId "com.faltenreich.diaguard.beta"
+            resValue 'string', 'package_name', applicationId
+            buildConfigField "boolean", "isCalculatorEnabled", "true"
+        }
+        store {
+            applicationId "com.faltenreich.diaguard"
+            resValue 'string', 'package_name', applicationId
+            buildConfigField "boolean", "isCalculatorEnabled", "false"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    testOptions {
+        animationsDisabled = true
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+}
+
+configurations {
+    // Workaround for Error: commons-logging defines classes that conflict with classes now provided by Android
+    all*.exclude group: 'commons-logging', module: 'commons-logging'
+    all*.exclude group: 'org.apache.commons', module: 'commons-io'
+}
+
+def jUnit = '4.12'
+def jUnitRunner = '1.1.2'
+def robolectric = '4.3'
+def espresso = '3.3.0'
+
+def jodaTime = '2.10.3'
+def ormLite = '5.1'
+def butterKnife = '10.2.1'
+def retrofit = '2.7.1'
+
+dependencies {
+    implementation project(':pdfjet')
+
+    testImplementation "junit:junit:$jUnit"
+    testImplementation "org.robolectric:robolectric:$robolectric"
+    testImplementation "androidx.test.ext:junit:$jUnitRunner"
+    testImplementation "androidx.test.espresso:espresso-core:$espresso"
+    testImplementation "androidx.test.espresso:espresso-contrib:$espresso"
+    debugImplementation 'androidx.fragment:fragment-testing:1.2.5'
+    testImplementation "joda-time:joda-time:$jodaTime"
+
+    androidTestImplementation "junit:junit:$jUnit"
+    androidTestImplementation "androidx.test.ext:junit:$jUnitRunner"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso"
+
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    implementation 'androidx.preference:preference:1.1.1'
+
+    implementation "com.j256.ormlite:ormlite-core:$ormLite"
+    implementation "com.j256.ormlite:ormlite-android:$ormLite"
+    implementation "net.danlew:android.joda:$jodaTime"
+    implementation 'org.greenrobot:eventbus:3.2.0'
+
+    //noinspection AnnotationProcessorOnCompilePath
+    implementation "com.jakewharton:butterknife:$butterKnife"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterKnife"
+
+    implementation "com.squareup.retrofit2:retrofit:$retrofit"
+    // Workaround: Force obsolete version of OkHttp to fix crash on Android 4 (https://github.com/square/okhttp/issues/4622)
+    // noinspection GradleDependency
+    implementation("com.squareup.okhttp3:okhttp") { version { strictly '3.12.8' } }
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit"
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    implementation "com.mikepenz:aboutlibraries-core:$aboutLibrariesVersion"
+    implementation "com.mikepenz:aboutlibraries:$aboutLibrariesVersion"
+
+    implementation 'org.apache.commons:commons-text:1.8'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.opencsv:opencsv:3.10'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    implementation 'com.github.clans:fab:1.6.4'
+    implementation 'com.fmsirvent:parallaxeverywhere:1.0.4'
+    implementation 'com.code-troopers.betterpickers:library:3.1.0'
+}
+
+task applyVersionToReadme() {
+    def string = 'img.shields.io/badge/Release-'
+    def regex = "$string([0-9.]+)"
+    def android = project.extensions.findByName("android")
+    def versionName = android.defaultConfig.versionName
+    def with = "$string$versionName"
+    ant.replaceregexp(file: "${rootProject.projectDir}/README.md", match: regex, flags: 'g', replace: with)
+}
+
+task applyDateToReadme() {
+    def string = '2013-'
+    def regex = "$string([0-9.]+)"
+    int year = new Date().getYear() + 1900
+    def with = "$string$year"
+    println with
+    ant.replaceregexp(file: "${rootProject.projectDir}/README.md", match: regex, flags: 'g', replace: with)
+}
+
+assemble.dependsOn applyVersionToReadme
+assemble.dependsOn applyDateToReadme

@@ -2,26 +2,31 @@ package com.faltenreich.diaguard.feature.export.job;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.faltenreich.diaguard.shared.data.database.entity.Category;
+import com.faltenreich.diaguard.feature.export.history.ExportHistoryListItem;
 import com.faltenreich.diaguard.feature.export.job.csv.CsvExport;
 import com.faltenreich.diaguard.feature.export.job.csv.CsvExportConfig;
 import com.faltenreich.diaguard.feature.export.job.csv.CsvImport;
 import com.faltenreich.diaguard.feature.export.job.pdf.PdfExport;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportConfig;
-import com.faltenreich.diaguard.feature.export.history.ExportHistoryListItem;
-import com.faltenreich.diaguard.shared.data.file.FileUtils;
 import com.faltenreich.diaguard.shared.Helper;
+import com.faltenreich.diaguard.shared.data.database.entity.Category;
+import com.faltenreich.diaguard.shared.data.file.FileUtils;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 public class Export {
+
+    private static final String TAG = Export.class.getSimpleName();
 
     public static final String BACKUP_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     private static final String FILE_BACKUP_1_3_PREFIX = "diaguard_backup_";
@@ -74,9 +79,19 @@ public class Export {
     }
 
     public static void importCsv(Context context, Uri uri, ExportCallback callback) {
-        CsvImport csvImport = new CsvImport(context, uri);
-        csvImport.setCallback(callback);
-        csvImport.execute();
+        try {
+            InputStream inputStream = context.getContentResolver().openInputStream(uri);
+            if (inputStream == null) {
+                callback.onError();
+                return;
+            }
+            CsvImport csvImport = new CsvImport(inputStream);
+            csvImport.setCallback(callback);
+            csvImport.execute();
+        } catch (FileNotFoundException exception) {
+            Log.e(TAG, exception.toString());
+            callback.onError();
+        }
     }
 
     public static File getExportFile(ExportConfig config) {

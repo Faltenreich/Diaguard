@@ -2,14 +2,14 @@
 
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_layout"
+    style="@style/InlineListItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="2dp"
-    android:paddingBottom="2dp"
-    style="@style/InlineListItem">
+    android:paddingBottom="2dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview"
@@ -22,56 +22,57 @@
         app:cardElevation="2dp"
         app:cardUseCompatPadding="true">
 
-            <LinearLayout
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/date_time_view"
+                style="@style/Padding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                tools:text="19:05" />
 
-                <TextView
-                    style="@style/Padding"
-                    android:id="@+id/date_time_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:text="19:05"/>
+            <LinearLayout
+                android:id="@+id/measurements_layout"
+                style="@style/Padding"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@drawable/divider_medium"
+                android:orientation="vertical"
+                android:paddingTop="0dp"
+                android:showDividers="middle" />
 
-                <LinearLayout
-                    style="@style/Padding"
-                    android:id="@+id/measurements_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingTop="0dp"
-                    android:orientation="vertical"
-                    android:divider="@drawable/divider_medium"
-                    android:showDividers="middle"/>
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/entry_tags"
+                style="@style/Padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="0dp"
+                android:paddingBottom="@dimen/padding" />
 
-                <com.google.android.material.chip.ChipGroup
-                    style="@style/Padding"
-                    android:id="@+id/entry_tags"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:chipSpacing="@dimen/margin_between" />
+            <TextView
+                android:id="@+id/note_view"
+                style="@style/Padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/backgroundColorPrimary"
+                android:visibility="gone"
+                tools:text="Note"
+                tools:visibility="visible" />
 
-                <TextView
-                    style="@style/Padding"
-                    android:id="@+id/note_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/backgroundColorPrimary"
-                    android:visibility="gone"
-                    tools:visibility="visible"
-                    tools:text="Note"/>
+            <TextView
+                android:id="@+id/food_view"
+                style="@style/Padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/backgroundColorPrimary"
+                android:visibility="gone"
+                tools:text="Food 1\nFood 2"
+                tools:visibility="visible" />
 
-                <TextView
-                    style="@style/Padding"
-                    android:id="@+id/food_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/backgroundColorPrimary"
-                    android:visibility="gone"
-                    tools:visibility="visible"
-                    tools:text="Food 1\nFood 2"/>
-
-            </LinearLayout>
+        </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 

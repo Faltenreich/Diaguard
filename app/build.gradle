@@ -28,7 +28,7 @@ android {
 
     flavorDimensions "version"
     productFlavors {
-        screenshot {
+        demo {
             applicationId "com.faltenreich.diaguard"
             resValue 'string', 'package_name', applicationId
             buildConfigField "boolean", "isCalculatorEnabled", "false"

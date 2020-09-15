@@ -1,0 +1,38 @@
+"meta";"23"
+"food";"Cola";;;"10"
+"entry";"2020-01-01 08:00:00";
+"measurement";"bloodsugar";"100.0"
+"entry";"2020-01-24 08:00:00";
+"measurement";"bloodsugar";"100.0"
+"entry";"2020-01-25 08:00:00";
+"measurement";"bloodsugar";"120.0"
+"entry";"2020-01-26 08:00:00";
+"measurement";"bloodsugar";"140.0"
+"entry";"2020-01-27 08:00:00";
+"measurement";"bloodsugar";"120.0"
+"entry";"2020-01-28 08:00:00";
+"measurement";"bloodsugar";"80.0"
+"entry";"2020-01-29 08:00:00";
+"measurement";"bloodsugar";"90.0"
+"entry";"2020-01-30 21:51:00";
+"measurement";"bloodsugar";"109.0"
+"entry";"2020-01-31 07:11:00";
+"measurement";"bloodsugar";"89.0"
+"entry";"2020-01-31 08:10:00";
+"measurement";"bloodsugar";"55.0"
+"measurement";"meal";"0.0"
+"foodEaten";"Cola";"100.0"
+"entry";"2020-01-31 10:57:00";
+"measurement";"bloodsugar";"153.0"
+"measurement";"insulin";"1.0";"0.0";"0.0"
+"entry";"2020-01-31 11:12:00";
+"measurement";"activity";"30.0"
+"entry";"2020-01-31 12:05:00";
+"measurement";"bloodsugar";"133.0"
+"measurement";"pulse";"90.0"
+"entry";"2020-01-31 17:44:00";
+"measurement";"bloodsugar";"144.0"
+"measurement";"meal";"60.0"
+"measurement";"insulin";"6.0";"0.0";"0.0"
+"entry";"2020-01-31 20:15:00";
+"measurement";"bloodsugar";"120.0"

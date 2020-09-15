@@ -56,10 +56,10 @@ public class TimelineFragment extends DateFragment implements TimelineViewPager.
 
     @Override
     public String getTitle() {
-        boolean showShortText = !ViewUtils.isLandscape(getActivity()) && !ViewUtils.isLargeScreen(getActivity());
-        String weekDay = showShortText ?
-                getDay().dayOfWeek().getAsShortText() :
-                getDay().dayOfWeek().getAsText();
+        boolean isLargeTitle = ViewUtils.isLandscape(getActivity()) || ViewUtils.isLargeScreen(getActivity());
+        String weekDay = isLargeTitle ?
+            getDay().dayOfWeek().getAsText() :
+            getDay().dayOfWeek().getAsShortText();
         String date = DateTimeFormat.mediumDate().print(getDay());
         return String.format("%s, %s", weekDay, date);
     }

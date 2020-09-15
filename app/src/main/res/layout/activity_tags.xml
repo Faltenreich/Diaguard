@@ -9,7 +9,7 @@
 
     <include layout="@layout/view_toolbar" />
 
-    <androidx.fragment.app.FragmentContainerView
+    <fragment
         android:id="@+id/fragment_tags"
         android:name="com.faltenreich.diaguard.feature.tag.TagListFragment"
         android:layout_width="match_parent"

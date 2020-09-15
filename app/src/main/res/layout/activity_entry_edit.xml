@@ -85,9 +85,9 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:gravity="center_vertical"
                                     android:divider="@drawable/divider_medium"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal"
                                     android:showDividers="middle">
 
                                     <AutoCompleteTextView
@@ -109,9 +109,9 @@
                                         android:id="@+id/entry_tags_edit_button"
                                         android:layout_width="@dimen/size_image_small"
                                         android:layout_height="@dimen/size_image_small"
-                                        android:contentDescription="@string/tags"
                                         android:background="?selectableItemBackgroundBorderless"
                                         android:clickable="true"
+                                        android:contentDescription="@string/tags"
                                         android:focusable="true"
                                         app:srcCompat="@drawable/ic_more_vertical"
                                         app:tint="?iconColorPrimary" />
@@ -122,11 +122,9 @@
                                     android:id="@+id/entry_tags"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:paddingStart="@dimen/margin_between"
-                                    android:paddingLeft="@dimen/margin_between"
-                                    android:paddingBottom="@dimen/margin_between"
+                                    android:paddingTop="0dp"
+                                    android:paddingBottom="@dimen/padding"
                                     android:visibility="gone"
-                                    app:chipSpacing="@dimen/margin_between"
                                     tools:ignore="RtlSymmetry" />
 
                             </LinearLayout>
@@ -162,8 +160,8 @@
 
                             <ImageView
                                 style="@style/LayoutRowImage"
-                                android:padding="2dp"
                                 android:contentDescription="@null"
+                                android:padding="2dp"
                                 app:srcCompat="@drawable/ic_alarm"
                                 app:tint="?iconColorPrimary" />
 

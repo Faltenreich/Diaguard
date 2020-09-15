@@ -1,27 +1,47 @@
 package com.faltenreich.diaguard.shared.data.database.importing;
 
-import android.os.AsyncTask;
+import android.content.Context;
+import android.content.res.AssetManager;
+import android.util.Log;
+
+import com.faltenreich.diaguard.BuildConfig;
+import com.faltenreich.diaguard.feature.export.job.csv.CsvImport;
+import com.faltenreich.diaguard.feature.export.job.date.DemoDateStrategy;
+
+import org.joda.time.DateTime;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 class DemoDataImport implements Importing {
 
     private static final String TAG = DemoDataImport.class.getSimpleName();
+    private static final String DEMO_BACKUP_FILE_NAME = "backup.csv";
+    private static final DateTime MAXIMUM_DATE_IN_BACKUP = new DateTime().withDate(2020, 1, 31);
+
+    private Context context;
+
+    DemoDataImport(Context context) {
+        this.context = context;
+    }
 
     @Override
     public boolean requiresImport() {
-        return false;
+        return BuildConfig.FLAVOR.equals("demo");
     }
 
     @Override
     public void importData() {
-        new ImportDemoDataTask().execute();
-    }
+        try {
+            AssetManager assetManager = context.getAssets();
+            InputStream inputStream = assetManager.open(DEMO_BACKUP_FILE_NAME);
 
-    private static class ImportDemoDataTask extends AsyncTask<Void, Void, Void> {
+            CsvImport csvImport = new CsvImport(inputStream);
+            csvImport.setDateStrategy(new DemoDateStrategy(MAXIMUM_DATE_IN_BACKUP));
+            csvImport.execute();
 
-        @Override
-        protected Void doInBackground(Void... params) {
-            // TODO
-            return null;
+        } catch (IOException exception) {
+            Log.e(TAG, exception.toString());
         }
     }
 }

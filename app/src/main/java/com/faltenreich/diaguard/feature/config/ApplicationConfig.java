@@ -12,12 +12,10 @@ public class ApplicationConfig {
     }
 
     public static boolean importDemoData() {
-        ApplicationFlavor flavor = getFlavor();
-        return flavor != null && flavor.importDemoData();
+        return getFlavor() == ApplicationFlavor.DEMO;
     }
 
     public static boolean isCalculatorEnabled() {
-        ApplicationFlavor flavor = getFlavor();
-        return flavor != null && flavor.isCalculatorEnabled();
+        return getFlavor() == ApplicationFlavor.BETA;
     }
 }

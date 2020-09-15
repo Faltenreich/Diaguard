@@ -13,14 +13,6 @@ enum ApplicationFlavor {
         this.identifier = identifier;
     }
 
-    boolean importDemoData() {
-        return this == ApplicationFlavor.DEMO;
-    }
-
-    boolean isCalculatorEnabled() {
-        return this == ApplicationFlavor.BETA;
-    }
-
     @Nullable
     static ApplicationFlavor fromIdentifier(String identifier) {
         for (ApplicationFlavor flavor : ApplicationFlavor.values()) {

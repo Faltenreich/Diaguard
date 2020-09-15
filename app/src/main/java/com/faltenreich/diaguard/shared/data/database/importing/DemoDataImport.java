@@ -27,7 +27,7 @@ class DemoDataImport implements Importing {
 
     @Override
     public boolean requiresImport() {
-        return ApplicationConfig.getFlavor().importDemoData();
+        return ApplicationConfig.importDemoData();
     }
 
     @Override

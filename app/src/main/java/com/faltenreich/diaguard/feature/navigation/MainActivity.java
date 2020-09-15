@@ -96,7 +96,7 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
         };
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
-        drawer.getMenu().findItem(R.id.nav_calculator).setVisible(ApplicationConfig.getFlavor().isCalculatorEnabled());
+        drawer.getMenu().findItem(R.id.nav_calculator).setVisible(ApplicationConfig.isCalculatorEnabled());
         drawer.setNavigationItemSelectedListener(menuItem -> {
             drawerLayout.closeDrawers();
             selectMenuItem(menuItem);

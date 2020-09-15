@@ -2,10 +2,10 @@ package com.faltenreich.diaguard.feature.config;
 
 import androidx.annotation.Nullable;
 
-public enum ApplicationFlavor {
+enum ApplicationFlavor {
     DEMO("demo"),
     BETA("beta"),
-    PRODUCTION("production");
+    STORE("store");
 
     private String identifier;
 
@@ -13,16 +13,16 @@ public enum ApplicationFlavor {
         this.identifier = identifier;
     }
 
-    public boolean importDemoData() {
+    boolean importDemoData() {
         return this == ApplicationFlavor.DEMO;
     }
 
-    public boolean isCalculatorEnabled() {
+    boolean isCalculatorEnabled() {
         return this == ApplicationFlavor.BETA;
     }
 
     @Nullable
-    public static ApplicationFlavor fromIdentifier(String identifier) {
+    static ApplicationFlavor fromIdentifier(String identifier) {
         for (ApplicationFlavor flavor : ApplicationFlavor.values()) {
             if (flavor.identifier.equals(identifier)) {
                 return flavor;

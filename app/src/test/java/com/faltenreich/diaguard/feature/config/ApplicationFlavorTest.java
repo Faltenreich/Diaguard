@@ -18,7 +18,7 @@ public class ApplicationFlavorTest {
 
     @Test
     public void identifierMatchesProduction() {
-        assertEquals(ApplicationFlavor.fromIdentifier("production"), ApplicationFlavor.PRODUCTION);
+        assertEquals(ApplicationFlavor.fromIdentifier("store"), ApplicationFlavor.STORE);
     }
 
     @Test
@@ -33,7 +33,7 @@ public class ApplicationFlavorTest {
 
     @Test
     public void calculatorIsDisabledForProduction() {
-        assertFalse(ApplicationFlavor.PRODUCTION.isCalculatorEnabled());
+        assertFalse(ApplicationFlavor.STORE.isCalculatorEnabled());
     }
 
     @Test
@@ -48,6 +48,6 @@ public class ApplicationFlavorTest {
 
     @Test
     public void doNotImportDemoDataForProduction() {
-        assertFalse(ApplicationFlavor.PRODUCTION.importDemoData());
+        assertFalse(ApplicationFlavor.STORE.importDemoData());
     }
 }

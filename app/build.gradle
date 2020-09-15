@@ -31,17 +31,14 @@ android {
         demo {
             applicationId "com.faltenreich.diaguard"
             resValue 'string', 'package_name', applicationId
-            buildConfigField "boolean", "isCalculatorEnabled", "false"
         }
         beta {
             applicationId "com.faltenreich.diaguard.beta"
             resValue 'string', 'package_name', applicationId
-            buildConfigField "boolean", "isCalculatorEnabled", "true"
         }
         store {
             applicationId "com.faltenreich.diaguard"
             resValue 'string', 'package_name', applicationId
-            buildConfigField "boolean", "isCalculatorEnabled", "false"
         }
     }
 

@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.util.Log;
 
-import com.faltenreich.diaguard.BuildConfig;
 import com.faltenreich.diaguard.feature.export.job.csv.CsvImport;
 import com.faltenreich.diaguard.feature.export.job.date.DemoDateStrategy;
+import com.faltenreich.diaguard.feature.config.ApplicationConfig;
 
 import org.joda.time.DateTime;
 
@@ -27,7 +27,7 @@ class DemoDataImport implements Importing {
 
     @Override
     public boolean requiresImport() {
-        return BuildConfig.FLAVOR.equals("demo");
+        return ApplicationConfig.getFlavor().importDemoData();
     }
 
     @Override

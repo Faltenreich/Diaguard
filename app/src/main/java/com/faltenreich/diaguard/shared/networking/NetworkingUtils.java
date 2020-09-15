@@ -7,6 +7,9 @@ import android.net.NetworkInfo;
 public class NetworkingUtils {
 
     public static boolean isOnline(Context context) {
+        if (context == null) {
+            return false;
+        }
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager == null) {
             return false;

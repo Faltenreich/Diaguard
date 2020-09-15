@@ -105,7 +105,9 @@ public class CsvExport extends AsyncTask<Void, String, File> {
                     if (isBackup && measurement instanceof Meal) {
                         Meal meal = (Meal) measurement;
                         for (FoodEaten foodEaten : meal.getFoodEaten()) {
-                            writer.writeNext(ArrayUtils.add(foodEaten.getValuesForBackup(), 0, foodEaten.getKeyForBackup()));
+                            if (foodEaten.getMeal() != null && foodEaten.getFood() != null) {
+                                writer.writeNext(ArrayUtils.add(foodEaten.getValuesForBackup(), 0, foodEaten.getKeyForBackup()));
+                            }
                         }
                     }
                 }

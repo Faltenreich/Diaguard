@@ -14,7 +14,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.faltenreich.diaguard.BuildConfig;
+import com.faltenreich.diaguard.feature.config.ApplicationConfig;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.calculator.CalculatorFragment;
 import com.faltenreich.diaguard.feature.changelog.ChangelogFragment;
@@ -96,7 +96,7 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
         };
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
-        drawer.getMenu().findItem(R.id.nav_calculator).setVisible(BuildConfig.isCalculatorEnabled);
+        drawer.getMenu().findItem(R.id.nav_calculator).setVisible(ApplicationConfig.isCalculatorEnabled());
         drawer.setNavigationItemSelectedListener(menuItem -> {
             drawerLayout.closeDrawers();
             selectMenuItem(menuItem);

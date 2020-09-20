@@ -65,7 +65,8 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
     public MainButtonProperties getMainButtonProperties() {
         return MainButtonProperties.addButton(view -> {
             if (getContext() != null) {
-                EntryEditActivity.show(getContext(), day);
+                // Date will not be passed through to compensate negative user feedback
+                EntryEditActivity.show(getContext());
             }
         });
     }

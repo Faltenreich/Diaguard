@@ -16,9 +16,10 @@
     <string name="amount">Quantità &#8230;</string>
     <string name="average">Media</string>
     <string name="back">Indietro</string>
-    <string name="backup">Copia di sicurezza</string>
+    <string name="backup_create">Copia di sicurezza</string>
     <string name="backup_complete">Copia di sicurezza completata</string>
-    <string name="backup_import">Copia di sicurezza ripristinata &#8230;</string>
+    <string name="backup_import">Importancia de la copia de seguridad</string>
+    <string name="backup_import_progress">Copia di sicurezza ripristinata &#8230;</string>
     <string name="backup_store">Copia di sicurezza salvata</string>
     <string name="backup_title">Scegli copia di sicurezza</string>
     <string name="bloodsugar">Glicemia sanguigna</string>
@@ -83,7 +84,6 @@
     <string name="hyper_per_day">Iperglicemie al giorno</string>
     <string name="hypo">Ipoglicemia</string>
     <string name="hypo_per_day">Ipoglicemie al giorno</string>
-    <string name="import_">Importa</string>
     <string name="imprint">Imprint</string>
     <string name="in">in</string>
     <string name="ingredients">Ingredienti</string>

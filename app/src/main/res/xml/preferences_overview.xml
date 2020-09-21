@@ -67,12 +67,12 @@
         <com.faltenreich.diaguard.feature.preference.backup.BackupExportPreference
             android:key="@string/preference_backup"
             android:summary="@string/backup_desc"
-            android:title="@string/backup" />
+            android:title="@string/backup_create" />
 
         <com.faltenreich.diaguard.feature.preference.backup.BackupImportPreference
             android:key="@string/preference_import"
             android:summary="@string/import_desc"
-            android:title="@string/import_" />
+            android:title="@string/backup_import" />
 
     </PreferenceCategory>
 

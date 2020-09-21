@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingTranslation">
+
+<resources>
 
     <!-- GENERAL -->
     <string name="about">Sobre nosotros</string>
@@ -15,8 +14,9 @@
     <string name="amount">Cantidad &#8230;</string>
     <string name="average">Promedio</string>
     <string name="back">Volver</string>
-    <string name="backup">Copia de seguridad</string>
-    <string name="backup_import"> La copia de seguridad se registrará  &#8230;</string>
+    <string name="backup_create">Copia de seguridad</string>
+    <string name="backup_import"> Restaurar copia de seguridad</string>
+    <string name="backup_import_progress"> La copia de seguridad se registrará  &#8230;</string>
     <string name="backup_complete">Se creará la copia de seguridad</string>
     <string name="backup_store">Guardar copia de seguridad</string>
     <string name="backup_title">Seleccionar copia de seguridad</string>
@@ -261,7 +261,6 @@
     <string name="error_unexpected">Algo salió mal</string>
     <string name="error_import">Formato de archivo inválido</string>
     <string name="export_complete">Memorizar bajo %s</string>
-    <string name="import_"> Restaurar copia de seguridad</string>
     <string name="interval">Intervalo</string>
     <string name="measurement_latest">Hace poco</string>
     <string name="hyper_per_day">Hipers por día</string>

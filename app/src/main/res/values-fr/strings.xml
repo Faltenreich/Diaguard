@@ -340,7 +340,7 @@
     <string name="pinned">fixé</string>
     <string name="change_now">Changer maintenant</string>
     <string name="help">Aider</string>
-    <string name="category_preference_desc">Active:\nLa catégorie est affichée ou masquée\n\nFixé:\nLa catégorie est automatiquement présélectionnée pour les nouvelles entrées\n\nTrier:\n Maintenez le symbole en six points et faites glisser le curseur vers le haut ou le bas</string>
+    <string name="category_preference_desc">Active:\nLa catégorie est affichée\n\nFixé:\nLa catégorie est automatiquement présélectionnée pour les nouvelles entrées\n\nTrier:\n Maintenez le symbole en six points et faites glisser le curseur vers le haut ou le bas</string>
     <string name="insulin_split">Divisé en bolus, correction et basal</string>
     <string name="highlight_limits">Mettre les limites</string>
 

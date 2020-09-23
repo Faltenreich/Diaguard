@@ -339,7 +339,7 @@
     <string name="pinned">appuntato</string>
     <string name="change_now">Cambia ora</string>
     <string name="help">Aiuto</string>
-    <string name="category_preference_desc">Attivo:\nla categoria è mostrata o nascosta\n\nFisso:\nla categoria è preselezionata automaticamente per i nuovi valori\n\nOrdina:\ntieni premuto il simbolo a sei punti e trascinalo su o giù</string>
+    <string name="category_preference_desc">Attivo:\nLa categoria viene visualizzata\n\nFisso:\nla categoria è preselezionata automaticamente per i nuovi valori\n\nOrdina:\ntieni premuto il simbolo a sei punti e trascinalo su o giù</string>
     <string name="insulin_split">Separa in bolo, correzione e basale</string>
     <string name="highlight_limits">Evidenzia i limiti</string>
 

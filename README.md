@@ -23,7 +23,7 @@ It replaces the handwritten diary and helps the user to quickly and easily recor
 * Dark Mode
 * Localized in English, German, French, Spanish and Italian
 
-<img src="./resource/image/screenshot/overview.png" width="100"> <img src="./resource/image/screenshot/entry.png" width="100"> <img src="./resource/image/screenshot/log.png" width="100">  <img src="./resource/image/screenshot/timeline.png" width="100"> <img src="./resource/image/screenshot/food.png" width="100"> <img src="./resource/image/screenshot/statistic.png" width="100"> <img src="./resource/image/screenshot/export.png" width="100"> 
+<img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="100"> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="100"> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="100">  <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="100"> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/5.png" width="100"> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/6.png" width="100"> <img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/7.png" width="100"> 
 
 ## Distribution
 

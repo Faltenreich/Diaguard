@@ -16,7 +16,7 @@ class TestDataImport implements Importing {
 
     @Override
     public boolean requiresImport() {
-        return true;
+        return false;
     }
 
     @Override

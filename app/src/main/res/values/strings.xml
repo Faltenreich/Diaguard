@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
 
     <string name="app_name" translatable="false">Diaguard</string>
@@ -37,9 +38,10 @@
     <string name="average">Average</string>
     <string name="average_symbol" translatable="false">Ø</string>
     <string name="back">Back</string>
-    <string name="backup">Backup</string>
+    <string name="backup_create">Create backup</string>
     <string name="backup_complete">Backup complete</string>
-    <string name="backup_import">Backup is being restored &#8230;</string>
+    <string name="backup_import">Import backup</string>
+    <string name="backup_import_progress">Backup is being restored &#8230;</string>
     <string name="backup_store">Store backup</string>
     <string name="backup_title">Choose backup</string>
     <string name="basal" translatable="false">Basal</string>
@@ -114,7 +116,6 @@
     <string name="hyphen" translatable="false">-</string>
     <string name="hypo">Hypo</string>
     <string name="hypo_per_day">Hypos per day</string>
-    <string name="import_">Import</string>
     <string name="imprint">Imprint</string>
     <string name="in">in</string>
     <string name="info" translatable="false">Info</string>
@@ -516,7 +517,7 @@
     <string name="pinned">pinned</string>
     <string name="change_now">Change now</string>
     <string name="help">Help</string>
-    <string name="category_preference_desc">Active:\nCategory is displayed or hidden\n\nFixed:\nCategory is automatically preselected for new entries\n\nSort:\nHold down the six-point symbol and drag up or down</string>
+    <string name="category_preference_desc">Active:\nCategory is displayed\n\nFixed:\nCategory is automatically preselected for new entries\n\nSort:\nHold down the six-point symbol and drag up or down</string>
     <string name="insulin_split">Split up into bolus, correction and basal</string>
     <string name="highlight_limits">Highlight limits</string>
 

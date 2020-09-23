@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingTranslation">
+
+<resources>
 
     <!-- GENERAL -->
     <string name="about">Sur</string>
@@ -15,8 +14,9 @@
     <string name="amount">Quantité &#8230;</string>
     <string name="average">Moyenne</string>
     <string name="back">Arrière</string>
-    <string name="backup">Sauvegarde</string>
-    <string name="backup_import">Sauvegarde est charger &#8230;</string>
+    <string name="backup_create">Sauvegarde</string>
+    <string name="backup_import">Restaurer la sauvegarde</string>
+    <string name="backup_import_progress">Sauvegarde est charger &#8230;</string>
     <string name="backup_store">Sauvegarde du magasin</string>
     <string name="backup_title">Sélectionnez sauvegarde</string>
     <string name="bloodsugar">Glycémie</string>
@@ -255,7 +255,6 @@
     <string name="error_unexpected">Quelque chose a mal tourné</string>
     <string name="error_import">Format de fichier invalide</string>
     <string name="export_complete">Sauvé sous %s</string>
-    <string name="import_">Restaurer la sauvegarde</string>
     <string name="interval">Intervalle</string>
     <string name="measurement_latest">Dernier</string>
     <string name="systolic">Systolique</string>
@@ -341,7 +340,7 @@
     <string name="pinned">fixé</string>
     <string name="change_now">Changer maintenant</string>
     <string name="help">Aider</string>
-    <string name="category_preference_desc">Active:\nLa catégorie est affichée ou masquée\n\nFixé:\nLa catégorie est automatiquement présélectionnée pour les nouvelles entrées\n\nTrier:\n Maintenez le symbole en six points et faites glisser le curseur vers le haut ou le bas</string>
+    <string name="category_preference_desc">Active:\nLa catégorie est affichée\n\nFixé:\nLa catégorie est automatiquement présélectionnée pour les nouvelles entrées\n\nTrier:\n Maintenez le symbole en six points et faites glisser le curseur vers le haut ou le bas</string>
     <string name="insulin_split">Divisé en bolus, correction et basal</string>
     <string name="highlight_limits">Mettre les limites</string>
 

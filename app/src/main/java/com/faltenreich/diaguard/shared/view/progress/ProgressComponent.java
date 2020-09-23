@@ -15,7 +15,7 @@ public class ProgressComponent {
 
     public void show(Context context) {
         progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage(context.getString(R.string.backup_import));
+        progressDialog.setMessage(context.getString(R.string.backup_import_progress));
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
         progressDialog.show();

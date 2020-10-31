@@ -2,8 +2,8 @@
 
 <resources>
 
-    <string name="app_privacy_policy">https://github.com/Faltenreich/Diaguard/blob/feature/privacy/resource/legal/privacy/PRIVACY_POLICY_IT.md</string>
-    <string name="app_terms_and_conditions">https://github.com/Faltenreich/Diaguard/blob/feature/privacy/resource/legal/terms/TERMS_AND_CONDITIONS_IT.md</string>
+    <string name="app_privacy_policy">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/privacy/PRIVACY_POLICY_IT.md</string>
+    <string name="app_terms_and_conditions">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/terms/TERMS_AND_CONDITIONS_IT.md</string>
     <string name="about">Riguardo a</string>
     <string name="active">attivo</string>
     <string name="activity">Attività</string>
@@ -87,7 +87,6 @@
     <string name="hyper_per_day">Iperglicemie al giorno</string>
     <string name="hypo">Ipoglicemia</string>
     <string name="hypo_per_day">Ipoglicemie al giorno</string>
-    <string name="imprint">Imprint</string>
     <string name="in">in</string>
     <string name="ingredients">Ingredienti</string>
     <string name="insulin">Insulina</string>
@@ -290,21 +289,6 @@
     <string name="pref_therapy_targets_hyperclycemia">Limite per l\'iperglicemia</string>
     <string name="pref_therapy_targets_hypoclycemia">Limite per l\'ipoglicemia</string>
 
-    <!-- ABOUT -->
-    <string name="about_dev">Sviluppatore</string>
-    <string name="about_dev_desc">Philipp Fahlteich,\n Scuola di specializzazione di informatica, diabetico di tipo 1</string>
-    <string name="about_financing">Finanziamento</string>
-    <string name="about_financing_desc">Non vi è alcun sostegno finanziario da parte di organizzazioni commerciali o non commerciali che supportano l\'applicazione con fondi, servizi o materiali. L\'app è finanziata solo dallo sviluppatore.</string>
-    <string name="about_advertisement">Politica pubblicitaria</string>
-    <string name="about_advertisement_desc">L\'app non ha e non avrà mai pubblicità in nessun modo.</string>
-    <string name="about_health">Riferimenti</string>
-    <string name="about_health_desc">Tutti i dati medici sono basati su raccomandazioni approvate da diversi diabetologi.</string>
-    <string name="about_code">Codice etico</string>
-    <string name="about_code_desc">L\'app soddifa tutti i criteri di qualità di base del "HealthOn App Code of Ethics" in fatto di affidabilità delle informazioni sanitarie.</string>
-    <string name="about_legal">Informazioni legali</string>
-    <string name="about_legal_desc">Il produttore dell\'app non si assume alcuna responsabilità per l\'attualità, la correttezza, la completezza e la qualità delle informazioni fornite. Sono escluse rivendicazioni di responsabilità nei confronti del produttore, che si riferiscono alla natura materiale o immateriale, causate dall\'utilizzo o dal mancato utilizzo dell\'app. Questa app è solo a scopo di documentazione e non sostituisce un consulente per il diabete o un medico.</string>
-
-    <!-- LEGAL -->
     <string name="privacy_policy">Informativa sulla privacy</string>
     <string name="terms_and_conditions">Termini e condizioni</string>
 

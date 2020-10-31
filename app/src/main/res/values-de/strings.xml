@@ -2,8 +2,8 @@
 
 <resources>
 
-    <string name="app_privacy_policy">https://github.com/Faltenreich/Diaguard/blob/feature/privacy/resource/legal/privacy/PRIVACY_POLICY_DE.md</string>
-    <string name="app_terms_and_conditions">https://github.com/Faltenreich/Diaguard/blob/feature/privacy/resource/legal/terms/TERMS_AND_CONDITIONS_DE.md</string>
+    <string name="app_privacy_policy">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/privacy/PRIVACY_POLICY_DE.md</string>
+    <string name="app_terms_and_conditions">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/terms/TERMS_AND_CONDITIONS_DE.md</string>
     <string name="about">Über</string>
     <string name="active">aktiv</string>
     <string name="activity">Aktivität</string>
@@ -80,13 +80,13 @@
     <string name="format">Format</string>
     <string name="general">Allgemein</string>
     <string name="hba1c">HbA1c</string>
+    <string name="hba1c_estimated">Geschätzter HbA1c</string>
     <string name="home">Übersicht</string>
     <string name="homepage">Website</string>
     <string name="hyper">Hyper</string>
     <string name="hyper_per_day">Hypers pro Tag</string>
     <string name="hypo">Hypo</string>
     <string name="hypo_per_day">Hypos pro Tag</string>
-    <string name="imprint">Impressum</string>
     <string name="in">in</string>
     <string name="ingredients">Zutaten</string>
     <string name="insulin">Insulin</string>
@@ -287,22 +287,6 @@
     <string name="pref_therapy_targets_hyperclycemia">Grenze für Überzuckerung</string>
     <string name="pref_therapy_targets_hypoclycemia">Grenze für Unterzuckerung</string>
 
-    <!-- ABOUT -->
-    <string name="about_dev">Entwickler</string>
-    <string name="about_dev_desc">Philipp Fahlteich,\nM. Sc. der Informatik, Typ-1-Diabetiker</string>
-    <string name="about_financing">Finanzierung</string>
-    <string name="about_financing_desc">Es gibt keine finanzielle Unterstützung von kommerziellen oder nicht-kommerziellen Organisationen, die mit finanziellen Mitteln, Dienstleistungen oder Materialien zur App beigetragen haben. Die App wird ausschließlich durch den Entwickler finanziert.</string>
-    <string name="about_advertisement">Werbepolitik</string>
-    <string name="about_advertisement_desc">Diaguard ist und bleibt komplett werbefrei.</string>
-    <string name="about_health">Quellen</string>
-    <string name="about_health_desc">Alle gesundheitlichen Angaben basieren auf Empfehlungen anerkannter deutscher Diabetologen.</string>
-    <string name="about_code">Ehrenkodex</string>
-    <string name="about_code_desc">Die App entspricht in allen grundlegenden Qualitätskriterien dem HealthOn-App-Ehrenkodex für vertrauensvolle Gesundheitsinformationen in Apps.</string>
-    <string name="about_legal">Rechtliches</string>
-    <string name="about_legal_desc">Der Hersteller der App übernimmt keinerlei Gewähr für die Aktualität, Korrektheit, Vollständigkeit oder Qualität der bereitgestellten Informationen. Haftungsansprüche gegen den Hersteller, welche sich auf Schäden materieller oder ideeller Art beziehen, die durch die Nutzung oder Nichtnutzung der App verursacht wurden, sind grundsätzlich ausgeschlossen. Diese App dient einzig der Dokumenation und ersetzt keinen Diabetesberater oder Arzt.</string>
-    <string name="hba1c_estimated">Geschätzter HbA1c</string>
-
-    <!-- LEGAL -->
     <string name="privacy_policy">Datenschutzerklärung</string>
     <string name="terms_and_conditions">Nutzungsbedingungen</string>
 

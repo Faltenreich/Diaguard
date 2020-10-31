@@ -2,8 +2,8 @@
 
 <resources>
 
-    <string name="app_privacy_policy">https://github.com/Faltenreich/Diaguard/blob/feature/privacy/resource/legal/privacy/PRIVACY_POLICY_FR.md</string>
-    <string name="app_terms_and_conditions">https://github.com/Faltenreich/Diaguard/blob/feature/privacy/resource/legal/terms/TERMS_AND_CONDITIONS_FR.md</string>
+    <string name="app_privacy_policy">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/privacy/PRIVACY_POLICY_FR.md</string>
+    <string name="app_terms_and_conditions">https://github.com/Faltenreich/Diaguard/tree/master/resource/legal/terms/TERMS_AND_CONDITIONS_FR.md</string>
     <string name="about">Sur</string>
     <string name="active">active</string>
     <string name="activity">Activité</string>
@@ -65,7 +65,6 @@
     <string name="homepage">Site web</string>
     <string name="hyper">Hyper</string>
     <string name="hypo">Hypo</string>
-    <string name="imprint">Empreinte</string>
     <string name="in">en</string>
     <string name="insulin">Insuline</string>
     <string name="latest">Il ya [value] [unit]</string>
@@ -233,21 +232,6 @@
     <string name="pref_therapy_targets_hyperclycemia">Limite d\'hyperglycémie</string>
     <string name="pref_therapy_targets_hypoclycemia">Limite d\'hypoglycémie</string>
 
-    <!-- ABOUT -->
-    <string name="about_dev">Développeur</string>
-    <string name="about_dev_desc">Philipp Fahlteich,\nB. Sc. de l\'informatique, Diabétiques de type 1</string>
-    <string name="about_financing">Financement</string>
-    <string name="about_financing_desc">Il n\'y a pas de support financier de la part d\'organisations soit commercielles ou non-commercielles. Cette application est financée uniquement par son développeur.</string>
-    <string name="about_advertisement">Politique publicitaire</string>
-    <string name="about_advertisement_desc">Diaguard est, et restera, complètement libre de publicité.</string>
-    <string name="about_health">Sources</string>
-    <string name="about_health_desc">Toutes indications sanitaires sont basées sur des conseils de diabètologues allemands reconnus.</string>
-    <string name="about_code">Code d\'honneur</string>
-    <string name="about_code_desc">L\'application répond à tous les critères de qualité de base de code HealthOn App de déontologie des informations de santé digne de confiance.</string>
-    <string name="about_legal">Légal</string>
-    <string name="about_legal_desc">Le fabricant de l\'application n\'assume aucune responsabilité pour l\'actualité, l\'exactitude, l\'exhaustivité ou la qualité des informations fournies. Les actions en responsabilité à l\'encontre du fabricant, qui ont trait à la nature matérielle ou immatérielle, causées par l\'utilisation ou non de l\'application, sont exclues. Cette application est uniquement à des fins de documentation et ne remplace pas un consultant en diabète ou un médecin.</string>
-
-    <!-- LEGAL -->
     <string name="privacy_policy">Politique de confidentialité</string>
     <string name="terms_and_conditions">Conditions générales</string>
 

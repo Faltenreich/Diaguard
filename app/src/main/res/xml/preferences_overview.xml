@@ -184,7 +184,7 @@
         </Preference>
 
         <com.faltenreich.diaguard.feature.preference.license.LicensePreference
-            android:key="@string/preference_privacy_policy"
+            android:key="@string/preference_license"
             android:title="@string/licenses" />
 
         <Preference
@@ -202,10 +202,6 @@
                 android:action="android.intent.action.VIEW"
                 android:data="@string/app_terms_and_conditions" />
         </Preference>
-
-        <com.faltenreich.diaguard.feature.preference.about.AboutPreference
-            android:key="@string/preference_imprint"
-            android:title="@string/imprint" />
 
         <Preference
             android:key="@string/preference_version"

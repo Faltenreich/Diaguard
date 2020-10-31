@@ -14,16 +14,14 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceManager;
 
-import com.faltenreich.diaguard.feature.preference.about.AboutPreference;
-import com.faltenreich.diaguard.feature.preference.about.AboutPreferenceDialogFragment;
 import com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreference;
 import com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreferenceDialogFragment;
 import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
 
 public abstract class PreferenceFragment extends PreferenceFragmentCompat {
 
-    @XmlRes private int preferenceRes;
-    @StringRes private int titleRes;
+    @XmlRes private final int preferenceRes;
+    @StringRes private final int titleRes;
 
     public PreferenceFragment(@XmlRes int preferenceRes, @StringRes int titleRes) {
         this.preferenceRes = preferenceRes;
@@ -45,9 +43,7 @@ public abstract class PreferenceFragment extends PreferenceFragmentCompat {
     @Override
     public void onDisplayPreferenceDialog(Preference preference) {
         DialogFragment fragment = null;
-        if (preference instanceof AboutPreference) {
-            fragment = AboutPreferenceDialogFragment.newInstance(preference.getKey());
-        } else if (preference instanceof BloodSugarPreference) {
+        if (preference instanceof BloodSugarPreference) {
             fragment = BloodSugarPreferenceDialogFragment.newInstance(preference.getKey());
         }
         if (fragment != null) {

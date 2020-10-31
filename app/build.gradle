@@ -68,7 +68,6 @@ def espresso = '3.3.0'
 
 def jodaTime = '2.10.3'
 def ormLite = '5.1'
-def butterKnife = '10.2.1'
 def retrofit = '2.7.1'
 
 dependencies {
@@ -96,10 +95,6 @@ dependencies {
     implementation "com.j256.ormlite:ormlite-android:$ormLite"
     implementation "net.danlew:android.joda:$jodaTime"
     implementation 'org.greenrobot:eventbus:3.2.0'
-
-    //noinspection AnnotationProcessorOnCompilePath
-    implementation "com.jakewharton:butterknife:$butterKnife"
-    annotationProcessor "com.jakewharton:butterknife-compiler:$butterKnife"
 
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
     // Workaround: Force obsolete version of OkHttp to fix crash on Android 4 (https://github.com/square/okhttp/issues/4622)

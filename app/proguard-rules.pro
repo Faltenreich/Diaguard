@@ -28,19 +28,6 @@
 -keep enum org.greenrobot.eventbus.ThreadMode { *; }
 ##---------------End: EventBus ----------
 
-##---------------Begin: ButterKnife ----------
--keep class butterknife.** { *; }
--dontwarn butterknife.internal.**
--keep class **$$ViewBinder { *; }
-
--keepclasseswithmembernames class * {
-    @butterknife.* <fields>;
-}
--keepclasseswithmembernames class * {
-    @butterknife.* <methods>;
-}
-##---------------End: ButterKnife ----------
-
 ##---------------Begin: OrmLite ----------
 -keep class com.j256.**
 -keepclassmembers class com.j256.** { *; }

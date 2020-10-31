@@ -71,7 +71,7 @@ English is used as general language for naming things. Everything except the loc
 
 [SQLite](https://developer.android.com/training/data-storage/sqlite) is used as query language for the database. Object-relational mapping takes then place via [ORMLite](http://ormlite.com).
 
-[XML](https://developer.android.com/guide/topics/ui/declaring-layout) is used as markup language for user interfaces. These views are then bound to Java via [Butter Knife](http://jakewharton.github.io/butterknife).
+[XML](https://developer.android.com/guide/topics/ui/declaring-layout) is used as markup language for user interfaces. These views are then bound to Java via [View Binding](https://developer.android.com/topic/libraries/view-binding).
 
 #### Localization
 
@@ -104,7 +104,6 @@ This software uses following technologies with great appreciation:
 * [Apache Commons Text](http://commons.apache.org/proper/commons-text)
 * [App Privacy Policy Generator](https://github.com/nisrulz/app-privacy-policy-generator)
 * [BetterPickers](https://github.com/code-troopers/android-betterpickers)
-* [Butter Knife](http://jakewharton.github.io/butterknife)
 * [EventBus](https://github.com/greenrobot/EventBus)
 * [FloatingActionButton](https://github.com/Clans/FloatingActionButton)
 * [Gson](https://github.com/google/gson)

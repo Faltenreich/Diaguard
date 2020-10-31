@@ -14,7 +14,7 @@ buildscript {
     repositories repos
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.1'
+        classpath 'com.android.tools.build:gradle:4.1.0'
         classpath "com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin:$aboutLibrariesVersion"
     }
 }

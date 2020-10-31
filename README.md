@@ -102,6 +102,7 @@ This software uses following technologies with great appreciation:
 * [AboutLibraries](https://github.com/mikepenz/AboutLibraries)
 * [AndroidX](https://developer.android.com/jetpack/androidx)
 * [Apache Commons Text](http://commons.apache.org/proper/commons-text)
+* [App Privacy Policy Generator](https://github.com/nisrulz/app-privacy-policy-generator)
 * [BetterPickers](https://github.com/code-troopers/android-betterpickers)
 * [Butter Knife](http://jakewharton.github.io/butterknife)
 * [EventBus](https://github.com/greenrobot/EventBus)

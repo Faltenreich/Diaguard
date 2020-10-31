@@ -76,7 +76,7 @@ public class NavigationTest {
         Espresso.onView(ViewMatchers.withId(R.id.drawer_layout))
             .perform(DrawerActions.open());
 
-        Espresso.onView(ViewMatchers.withId(R.id.navigation_drawer))
+        Espresso.onView(ViewMatchers.withId(R.id.navigation_view))
             .perform(NavigationViewActions.navigateTo(R.id.nav_home));
 
         Espresso.onView(ViewMatchers.withId(R.id.layout_latest))

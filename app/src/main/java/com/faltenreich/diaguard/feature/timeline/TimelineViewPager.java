@@ -13,7 +13,7 @@ import org.joda.time.DateTime;
 /**
  * Created by Faltenreich on 02.08.2015.
  */
-class TimelineViewPager extends ViewPager {
+public class TimelineViewPager extends ViewPager {
 
     interface Listener {
         void onDaySelected(DateTime day);

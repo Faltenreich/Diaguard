@@ -16,6 +16,8 @@
     <string name="preference_mail">mail</string>
     <string name="preference_sourcecode">sourcecode</string>
     <string name="preference_license">license</string>
+    <string name="preference_privacy_policy">privacy</string>
+    <string name="preference_terms_and_conditions">terms</string>
     <string name="preference_imprint">imprint</string>
 
     <!-- General -->

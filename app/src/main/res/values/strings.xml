@@ -11,6 +11,8 @@
     <string name="app_mail_short" translatable="false">diaguard.de@gmail.com</string>
     <string name="app_sourcecode" translatable="false">https://github.com/Faltenreich/Diaguard</string>
     <string name="app_sourcecode_short" translatable="false">github.com/Faltenreich/Diaguard</string>
+    <string name="app_privacy_policy">https://github.com/Faltenreich/Diaguard/blob/feature/privacy/resource/legal/privacy/PRIVACY_POLICY_EN.md</string>
+    <string name="app_terms_and_conditions">https://github.com/Faltenreich/Diaguard/blob/feature/privacy/resource/legal/terms/TERMS_AND_CONDITIONS_EN.md</string>
 
     <string name="food_source_common_provider" translatable="false">Schweizer Nährwertdatenbank</string>
     <string name="food_source_common_url" translatable="false">https://www.naehrwertdaten.ch</string>
@@ -464,13 +466,15 @@
     <string name="about_advertisement_desc">The app is and will not be advertised in any way.</string>
     <string name="about_health">Sources</string>
     <string name="about_health_desc">All medical data are based on approved recommendations from several diabetologists.</string>
-    <string name="about_privacy">Privacy</string>
-    <string name="about_privacy_desc">We take the protection of your personal information very seriously and do not process your personal data or forward these to third parties.</string>
     <string name="about_code">Ethical code</string>
     <string name="about_code_desc">The app meets all basic quality criteria of HealthOn App Code of Ethics for trustworthy health information.</string>
     <string name="about_code_url" translatable="false">https://www.healthon.de/de/diaguard-diabetes</string>
     <string name="about_legal">Legal</string>
     <string name="about_legal_desc">The manufacturer of the app assumes no responsibility for the topicality, correctness, completeness or quality of the information provided. Liability claims against the manufacturer, which relate to material or immaterial nature, caused by the use or non-use of the app are excluded. This app is for documentation purposes only and does not replace a diabetes consultant or doctor.</string>
+
+    <!-- LEGAL -->
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="terms_and_conditions">Terms and conditions</string>
 
     <string name="chart_style">Chart style</string>
     <string name="chart_scatter">Scatter chart</string>

@@ -184,8 +184,24 @@
         </Preference>
 
         <com.faltenreich.diaguard.feature.preference.license.LicensePreference
-            android:key="@string/preference_license"
+            android:key="@string/preference_privacy_policy"
             android:title="@string/licenses" />
+
+        <Preference
+            android:key="@string/preference_privacy_policy"
+            android:title="@string/privacy_policy">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/app_privacy_policy" />
+        </Preference>
+
+        <Preference
+            android:key="@string/preference_terms_and_conditions"
+            android:title="@string/terms_and_conditions">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/app_terms_and_conditions" />
+        </Preference>
 
         <com.faltenreich.diaguard.feature.preference.about.AboutPreference
             android:key="@string/preference_imprint"

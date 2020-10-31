@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
-    <!-- GENERAL -->
+
+    <string name="app_privacy_policy">https://github.com/Faltenreich/Diaguard/blob/feature/privacy/resource/legal/privacy/PRIVACY_POLICY_IT.md</string>
+    <string name="app_terms_and_conditions">https://github.com/Faltenreich/Diaguard/blob/feature/privacy/resource/legal/terms/TERMS_AND_CONDITIONS_IT.md</string>
     <string name="about">Riguardo a</string>
     <string name="active">attivo</string>
     <string name="activity">Attività</string>
@@ -296,12 +299,14 @@
     <string name="about_advertisement_desc">L\'app non ha e non avrà mai pubblicità in nessun modo.</string>
     <string name="about_health">Riferimenti</string>
     <string name="about_health_desc">Tutti i dati medici sono basati su raccomandazioni approvate da diversi diabetologi.</string>
-    <string name="about_privacy">Privacy</string>
-    <string name="about_privacy_desc">Consideriamo molto seriamente la protezione dei tuoi dati personali e di conseguenza non processiamo o inviamo i tuoi dati personali a nessuna terza parte.</string>
     <string name="about_code">Codice etico</string>
     <string name="about_code_desc">L\'app soddifa tutti i criteri di qualità di base del "HealthOn App Code of Ethics" in fatto di affidabilità delle informazioni sanitarie.</string>
     <string name="about_legal">Informazioni legali</string>
     <string name="about_legal_desc">Il produttore dell\'app non si assume alcuna responsabilità per l\'attualità, la correttezza, la completezza e la qualità delle informazioni fornite. Sono escluse rivendicazioni di responsabilità nei confronti del produttore, che si riferiscono alla natura materiale o immateriale, causate dall\'utilizzo o dal mancato utilizzo dell\'app. Questa app è solo a scopo di documentazione e non sostituisce un consulente per il diabete o un medico.</string>
+
+    <!-- LEGAL -->
+    <string name="privacy_policy">Informativa sulla privacy</string>
+    <string name="terms_and_conditions">Termini e condizioni</string>
 
     <string name="chart_style">Stile grafico</string>
     <string name="chart_scatter">Grafico a dispersione</string>

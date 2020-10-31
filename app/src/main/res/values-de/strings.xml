@@ -2,6 +2,8 @@
 
 <resources>
 
+    <string name="app_privacy_policy">https://github.com/Faltenreich/Diaguard/blob/feature/privacy/resource/legal/privacy/PRIVACY_POLICY_DE.md</string>
+    <string name="app_terms_and_conditions">https://github.com/Faltenreich/Diaguard/blob/feature/privacy/resource/legal/terms/TERMS_AND_CONDITIONS_DE.md</string>
     <string name="about">Über</string>
     <string name="active">aktiv</string>
     <string name="activity">Aktivität</string>
@@ -294,13 +296,16 @@
     <string name="about_advertisement_desc">Diaguard ist und bleibt komplett werbefrei.</string>
     <string name="about_health">Quellen</string>
     <string name="about_health_desc">Alle gesundheitlichen Angaben basieren auf Empfehlungen anerkannter deutscher Diabetologen.</string>
-    <string name="about_privacy">Datenschutz</string>
-    <string name="about_privacy_desc">Wir nehmen den Schutz Ihrer persönlichen Daten sehr ernst und verarbeiten keine personenbezogenen Daten weiter oder übermitteln diese an Dritte.</string>
     <string name="about_code">Ehrenkodex</string>
     <string name="about_code_desc">Die App entspricht in allen grundlegenden Qualitätskriterien dem HealthOn-App-Ehrenkodex für vertrauensvolle Gesundheitsinformationen in Apps.</string>
     <string name="about_legal">Rechtliches</string>
     <string name="about_legal_desc">Der Hersteller der App übernimmt keinerlei Gewähr für die Aktualität, Korrektheit, Vollständigkeit oder Qualität der bereitgestellten Informationen. Haftungsansprüche gegen den Hersteller, welche sich auf Schäden materieller oder ideeller Art beziehen, die durch die Nutzung oder Nichtnutzung der App verursacht wurden, sind grundsätzlich ausgeschlossen. Diese App dient einzig der Dokumenation und ersetzt keinen Diabetesberater oder Arzt.</string>
     <string name="hba1c_estimated">Geschätzter HbA1c</string>
+
+    <!-- LEGAL -->
+    <string name="privacy_policy">Datenschutzerklärung</string>
+    <string name="terms_and_conditions">Nutzungsbedingungen</string>
+
     <string name="months">Monate</string>
 
     <string name="chart_style">Diagrammstil</string>

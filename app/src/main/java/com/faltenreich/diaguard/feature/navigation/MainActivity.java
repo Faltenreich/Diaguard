@@ -83,9 +83,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements O
     }
 
     private void bindViews() {
-        drawerLayout = getBinding().drawerLayout;
-        navigationView = getBinding().navigationView;
-        fab = getBinding().fab;
+        drawerLayout = binding.drawerLayout;
+        navigationView = binding.navigationView;
+        fab = binding.fab;
     }
 
     private void initLayout() {

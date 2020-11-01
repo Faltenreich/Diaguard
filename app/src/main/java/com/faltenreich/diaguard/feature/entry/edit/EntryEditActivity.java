@@ -10,22 +10,28 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.widget.NestedScrollView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ActivityEntryEditBinding;
+import com.faltenreich.diaguard.feature.alarm.AlarmUtils;
+import com.faltenreich.diaguard.feature.datetime.DatePickerFragment;
+import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
+import com.faltenreich.diaguard.feature.datetime.TimePickerFragment;
+import com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementFloatingActionMenu;
+import com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementListView;
+import com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementView;
+import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
+import com.faltenreich.diaguard.feature.tag.TagAutoCompleteAdapter;
 import com.faltenreich.diaguard.feature.tag.TagListActivity;
 import com.faltenreich.diaguard.shared.Helper;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
+import com.faltenreich.diaguard.shared.data.async.DataLoader;
+import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
@@ -39,36 +45,20 @@ import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
+import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.shared.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.shared.event.data.EntryUpdatedEvent;
-import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
-import com.faltenreich.diaguard.shared.data.async.DataLoader;
-import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
-import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
-import com.faltenreich.diaguard.feature.alarm.AlarmUtils;
-import com.faltenreich.diaguard.feature.datetime.DatePickerFragment;
-import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
-import com.faltenreich.diaguard.feature.datetime.TimePickerFragment;
-import com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementFloatingActionMenu;
-import com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementListView;
-import com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementView;
-import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
-import com.faltenreich.diaguard.feature.tag.TagAutoCompleteAdapter;
+import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 import com.faltenreich.diaguard.shared.view.chip.ChipView;
-import com.github.clans.fab.FloatingActionButton;
-import com.google.android.material.chip.ChipGroup;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 
 public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> implements MeasurementFloatingActionMenu.OnFabSelectedListener, MeasurementListView.OnCategoryEventListener {
 
@@ -113,20 +103,6 @@ public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> im
         intent.putExtra(EXTRA_CATEGORY, category);
         context.startActivity(intent);
     }
-
-    @BindView(R.id.root) View rootView;
-    @BindView(R.id.activity_newevent_scrollview) NestedScrollView scrollView;
-    @BindView(R.id.fab) FloatingActionButton fab;
-    @BindView(R.id.fab_menu) MeasurementFloatingActionMenu fabMenu;
-    @BindView(R.id.layout_measurements) MeasurementListView layoutMeasurements;
-    @BindView(R.id.edittext_notes) EditText editTextNotes;
-    @BindView(R.id.button_date) Button buttonDate;
-    @BindView(R.id.button_time) Button buttonTime;
-    @BindView(R.id.entry_button_alarm) Button buttonAlarm;
-    @BindView(R.id.entry_alarm_container) ViewGroup containerAlarm;
-    @BindView(R.id.entry_tags_input) AutoCompleteTextView tagsInput;
-    @BindView(R.id.entry_tags_edit_button) View tagEditButton;
-    @BindView(R.id.entry_tags) ChipGroup tagsView;
 
     private long entryId;
     private long foodId;
@@ -201,24 +177,24 @@ public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> im
 
         if (entryId > 0) {
             setTitle(getString(R.string.entry_edit));
-            containerAlarm.setVisibility(View.GONE);
+            binding.entryAlarmContainer.setVisibility(View.GONE);
         } else {
-            containerAlarm.setVisibility(View.VISIBLE);
+            binding.entryAlarmContainer.setVisibility(View.VISIBLE);
         }
 
-        layoutMeasurements.setOnCategoryEventListener(this);
+        binding.layoutMeasurements.setOnCategoryEventListener(this);
 
-        fabMenu.setOnFabSelectedListener(this);
+        binding.fabMenu.setOnFabSelectedListener(this);
 
         if (entryId <= 0 && foodId <= 0) {
             addPinnedCategories();
         }
-        fabMenu.restock();
+        binding.fabMenu.restock();
 
-        tagsView.setVisibility(View.GONE);
+        binding.entryTags.setVisibility(View.GONE);
         tagAdapter = new TagAutoCompleteAdapter(this);
-        tagsInput.setAdapter(tagAdapter);
-        tagsInput.setOnEditorActionListener((textView, action, keyEvent) -> {
+        binding.entryTagsInput.setAdapter(tagAdapter);
+        binding.entryTagsInput.setOnEditorActionListener((textView, action, keyEvent) -> {
             if (action == EditorInfo.IME_ACTION_DONE) {
                 String name = textView.getText().toString().trim();
                 if (!StringUtils.isBlank(name)) {
@@ -229,24 +205,29 @@ public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> im
             }
             return false;
         });
-        tagsInput.setOnFocusChangeListener((view, hasFocus) -> {
+        binding.entryTagsInput.setOnFocusChangeListener((view, hasFocus) -> {
             // Attempt to fix android.view.WindowManager$BadTokenException
             new Handler().post(() -> {
                 try {
-                    if (hasFocus) tagsInput.showDropDown();
+                    if (hasFocus) binding.entryTagsInput.showDropDown();
                 } catch (Exception exception) {
                     Log.e(TAG, exception.getMessage() != null ? exception.getMessage() : "Failed to show dropdown");
                 }
             });
         });
-        tagsInput.setOnClickListener(view -> tagsInput.showDropDown());
-        tagsInput.setOnItemClickListener((adapterView, view, position, l) -> {
-            tagsInput.setText(null);
+        binding.entryTagsInput.setOnClickListener(view -> binding.entryTagsInput.showDropDown());
+        binding.entryTagsInput.setOnItemClickListener((adapterView, view, position, l) -> {
+            binding.entryTagsInput.setText(null);
             Tag tag = tagAdapter.getItem(position);
             addTag(tag);
         });
 
-        tagEditButton.setOnClickListener(view -> startActivity(new Intent(this, TagListActivity.class)));
+        binding.entryTagsEditButton.setOnClickListener(view -> startActivity(new Intent(this, TagListActivity.class)));
+
+        binding.fab.setOnClickListener(view -> trySubmit());
+        binding.buttonDate.setOnClickListener(view -> showDatePicker());
+        binding.buttonTime.setOnClickListener(view -> showTimePicker());
+        binding.entryButtonAlarm.setOnClickListener(view -> showAlarmPicker());
     }
 
     private void fetchEntry(final long id) {
@@ -279,9 +260,9 @@ public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> im
             @Override
             public void onDidLoad(Food food) {
                 if (food != null) {
-                    layoutMeasurements.addMeasurement(food);
-                    fabMenu.ignore(Category.MEAL);
-                    fabMenu.restock();
+                    binding.layoutMeasurements.addMeasurement(food);
+                    binding.fabMenu.ignore(Category.MEAL);
+                    binding.fabMenu.restock();
                 }
             }
         });
@@ -315,8 +296,8 @@ public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> im
 
     private void addPinnedCategories() {
         for (Category category : activeCategories) {
-            if (PreferenceStore.getInstance().isCategoryPinned(category) && !layoutMeasurements.hasCategory(category)) {
-                layoutMeasurements.addMeasurementAtEnd(category);
+            if (PreferenceStore.getInstance().isCategoryPinned(category) && !binding.layoutMeasurements.hasCategory(category)) {
+                binding.layoutMeasurements.addMeasurementAtEnd(category);
             }
         }
     }
@@ -327,8 +308,8 @@ public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> im
             this.entryTags = entryTags;
             this.time = entry.getDate();
 
-            editTextNotes.setText(entry.getNote());
-            layoutMeasurements.addMeasurements(entry.getMeasurementCache());
+            binding.edittextNotes.setText(entry.getNote());
+            binding.layoutMeasurements.addMeasurements(entry.getMeasurementCache());
 
             if (entryTags != null) {
                 for (EntryTag entryTag : entryTags) {
@@ -345,19 +326,17 @@ public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> im
     }
 
     private void toggleSubmitButton(boolean isEnabled) {
-        fab.setEnabled(isEnabled);
+        binding.fab.setEnabled(isEnabled);
     }
 
     private void addTag(String name) {
         Tag tag = tagAdapter.find(name);
-        if (tag != null) {
-            addTag(tag);
-        } else {
+        if (tag == null) {
             tag = new Tag();
             tag.setId(-1);
             tag.setName(name);
-            addTag(tag);
         }
+        addTag(tag);
     }
 
     private void addTag(final Tag tag) {
@@ -367,30 +346,30 @@ public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> im
         chipView.setCloseIconVisible(true);
         chipView.setOnCloseIconClickListener(view -> removeTag(tag, chipView));
         chipView.setOnClickListener(view -> removeTag(tag, chipView));
-        tagsView.addView(chipView);
+        binding.entryTags.addView(chipView);
 
         tagAdapter.set(tag, false);
         dismissTagDropDown();
 
-        tagsView.setVisibility(View.VISIBLE);
+        binding.entryTags.setVisibility(View.VISIBLE);
     }
 
     private void removeTag(Tag tag, View view) {
         tagAdapter.set(tag, true);
-        tagsView.removeView(view);
+        binding.entryTags.removeView(view);
 
         // Workaround: Force notifyDataSetChanged
-        tagsInput.setText(tagsInput.getText().toString());
+        binding.entryTagsInput.setText(binding.entryTagsInput.getText().toString());
         dismissTagDropDown();
 
-        if (tagsView.getChildCount() == 0) {
-            tagsView.setVisibility(View.GONE);
+        if (binding.entryTags.getChildCount() == 0) {
+            binding.entryTags.setVisibility(View.GONE);
         }
     }
 
     private void dismissTagDropDown() {
         // Workaround
-        tagsInput.post(() -> tagsInput.dismissDropDown());
+        binding.entryTagsInput.post(() -> binding.entryTagsInput.dismissDropDown());
     }
 
     private void showDialogCategories() {
@@ -399,7 +378,7 @@ public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> im
         for (int position = 0; position < activeCategories.length; position++) {
             Category category = activeCategories[position];
             categoryNames[position] = getString(category.getStringResId());
-            visibleCategoriesOld[position] = layoutMeasurements.hasCategory(category);
+            visibleCategoriesOld[position] = binding.layoutMeasurements.hasCategory(category);
         }
 
         final boolean[] visibleCategories = visibleCategoriesOld.clone();
@@ -422,12 +401,12 @@ public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> im
     }
 
     private void updateDateTime() {
-        buttonDate.setText(Helper.getDateFormat().print(time));
-        buttonTime.setText(Helper.getTimeFormat().print(time));
+        binding.buttonDate.setText(Helper.getDateFormat().print(time));
+        binding.buttonTime.setText(Helper.getTimeFormat().print(time));
     }
 
     private void updateAlarm() {
-        buttonAlarm.setText(alarmInMinutes > 0 ?
+        binding.entryButtonAlarm.setText(alarmInMinutes > 0 ?
             String.format("%s %s",
                 getString(R.string.alarm_reminder_in),
                 DateTimeUtils.parseInterval(this, alarmInMinutes * DateTimeConstants.MILLIS_PER_MINUTE)
@@ -435,25 +414,25 @@ public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> im
     }
 
     private void addMeasurementView(Category category) {
-        scrollView.smoothScrollTo(0, 0);
-        layoutMeasurements.addMeasurement(category);
+        binding.activityNeweventScrollview.smoothScrollTo(0, 0);
+        binding.layoutMeasurements.addMeasurement(category);
     }
 
     private void removeMeasurementView(Category category) {
-        layoutMeasurements.removeMeasurement(category);
+        binding.layoutMeasurements.removeMeasurement(category);
     }
 
     private boolean inputIsValid() {
         boolean inputIsValid = true;
 
-        if (layoutMeasurements.getMeasurements().size() == 0) {
+        if (binding.layoutMeasurements.getMeasurements().size() == 0) {
             // Allow entries with no measurements but with a note or tag
-            if (StringUtils.isBlank(editTextNotes.getText().toString()) && tagsView.getChildCount() == 0) {
-                ViewUtils.showSnackbar(rootView, getString(R.string.validator_value_none));
+            if (StringUtils.isBlank(binding.edittextNotes.getText().toString()) && binding.entryTags.getChildCount() == 0) {
+                ViewUtils.showSnackbar(binding.root, getString(R.string.validator_value_none));
                 inputIsValid = false;
             }
         } else {
-            for (Measurement measurement : layoutMeasurements.getMeasurements()) {
+            for (Measurement measurement : binding.layoutMeasurements.getMeasurements()) {
                 if (measurement == null) {
                     inputIsValid = false;
                     break;
@@ -464,15 +443,14 @@ public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> im
         return inputIsValid;
     }
 
-    @OnClick(R.id.fab)
-    public void trySubmit() {
+    private void trySubmit() {
         toggleSubmitButton(false);
 
         // Convenience: Accept tag that hasn't been submitted by user
-        String missingTag = tagsInput.getText().toString();
+        String missingTag = binding.entryTagsInput.getText().toString();
         if (!StringUtils.isBlank(missingTag)) {
             addTag(missingTag);
-            tagsInput.setText(null);
+            binding.entryTagsInput.setText(null);
         }
 
         if (inputIsValid()) {
@@ -490,13 +468,13 @@ public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> im
         }
 
         entry.setDate(time);
-        entry.setNote(editTextNotes.length() > 0 ? editTextNotes.getText().toString() : null);
+        entry.setNote(binding.edittextNotes.length() > 0 ? binding.edittextNotes.getText().toString() : null);
         entry = EntryDao.getInstance().createOrUpdate(entry);
 
         entry.getMeasurementCache().clear();
         for (Category category : Category.values()) {
-            if (layoutMeasurements.hasCategory(category)) {
-                Measurement measurement = layoutMeasurements.getMeasurement(category);
+            if (binding.layoutMeasurements.hasCategory(category)) {
+                Measurement measurement = binding.layoutMeasurements.getMeasurement(category);
                 measurement.setEntry(entry);
                 //noinspection unchecked
                 MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
@@ -513,8 +491,8 @@ public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> im
 
         List<Tag> tags = new ArrayList<>();
         List<EntryTag> entryTags = new ArrayList<>();
-        for (int index = 0; index < tagsView.getChildCount(); index++) {
-            View view = tagsView.getChildAt(index);
+        for (int index = 0; index < binding.entryTags.getChildCount(); index++) {
+            View view = binding.entryTags.getChildAt(index);
             if (view.getTag() instanceof Tag) {
                 Tag tag = (Tag) view.getTag();
                 if (tag.getId() < 0) {
@@ -560,8 +538,8 @@ public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> im
     }
 
     private List<FoodEaten> getFoodEaten() {
-        for (int index = 0; index < layoutMeasurements.getChildCount(); index++) {
-            View view = layoutMeasurements.getChildAt(index);
+        for (int index = 0; index < binding.layoutMeasurements.getChildCount(); index++) {
+            View view = binding.layoutMeasurements.getChildAt(index);
             if (view instanceof MeasurementView) {
                 MeasurementView measurementView = ((MeasurementView) view);
                 Measurement measurement = measurementView.getMeasurement();
@@ -573,8 +551,7 @@ public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> im
         return new ArrayList<>();
     }
 
-    @OnClick(R.id.button_date)
-    public void showDatePicker() {
+    private void showDatePicker() {
         DatePickerFragment.newInstance(time, dateTime -> {
             if (dateTime != null) {
                 time = dateTime;
@@ -583,16 +560,14 @@ public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> im
         }).show(getSupportFragmentManager());
     }
 
-    @OnClick(R.id.button_time)
-    public void showTimePicker() {
+    private void showTimePicker() {
         TimePickerFragment.newInstance(time, (view, hourOfDay, minute) -> {
             time = time.withHourOfDay(hourOfDay).withMinuteOfHour(minute);
             updateDateTime();
         }).show(getSupportFragmentManager());
     }
 
-    @OnClick(R.id.entry_button_alarm)
-    public void showAlarmPicker() {
+    private void showAlarmPicker() {
         ViewUtils.showNumberPicker(this, R.string.minutes, alarmInMinutes, 0, 10000, (reference, number, decimal, isNegative, fullNumber) -> {
             alarmInMinutes = number.intValue();
             updateAlarm();
@@ -611,13 +586,13 @@ public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> im
 
     @Override
     public void onCategoryAdded(Category category) {
-        fabMenu.ignore(category);
-        fabMenu.restock();
+        binding.fabMenu.ignore(category);
+        binding.fabMenu.restock();
     }
 
     @Override
     public void onCategoryRemoved(Category category) {
-        fabMenu.removeIgnore(category);
-        fabMenu.restock();
+        binding.fabMenu.removeIgnore(category);
+        binding.fabMenu.restock();
     }
 }

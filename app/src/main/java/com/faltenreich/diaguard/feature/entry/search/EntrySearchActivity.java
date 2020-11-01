@@ -60,7 +60,7 @@ public class EntrySearchActivity extends BaseActivity<ActivityEntrySearchBinding
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        rootLayout = getBinding().root;
+        rootLayout = binding.root;
         if (savedInstanceState == null) {
             reveal();
         }

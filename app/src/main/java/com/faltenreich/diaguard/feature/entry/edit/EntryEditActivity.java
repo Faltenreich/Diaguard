@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,7 @@ import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.ActivityEntryEditBinding;
 import com.faltenreich.diaguard.feature.tag.TagListActivity;
 import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
@@ -68,7 +70,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class EntryEditActivity extends BaseActivity implements MeasurementFloatingActionMenu.OnFabSelectedListener, MeasurementListView.OnCategoryEventListener {
+public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> implements MeasurementFloatingActionMenu.OnFabSelectedListener, MeasurementListView.OnCategoryEventListener {
 
     private static final String TAG = EntryEditActivity.class.getSimpleName();
 
@@ -139,6 +141,11 @@ public class EntryEditActivity extends BaseActivity implements MeasurementFloati
 
     public EntryEditActivity() {
         super(R.layout.activity_entry_edit);
+    }
+
+    @Override
+    protected ActivityEntryEditBinding getBinding(LayoutInflater layoutInflater) {
+        return ActivityEntryEditBinding.inflate(layoutInflater);
     }
 
     @Override

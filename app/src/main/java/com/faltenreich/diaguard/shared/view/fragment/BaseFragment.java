@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.shared.view.fragment;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,6 +17,9 @@ import androidx.fragment.app.FragmentManager;
 
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.navigation.MainActivity;
+import com.faltenreich.diaguard.feature.navigation.OnFragmentChangeListener;
+import com.faltenreich.diaguard.feature.navigation.ToolbarBehavior;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
@@ -27,11 +29,8 @@ import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.shared.event.data.EntryDeletedEvent;
-import com.faltenreich.diaguard.feature.navigation.MainActivity;
-import com.faltenreich.diaguard.feature.navigation.OnFragmentChangeListener;
-import com.faltenreich.diaguard.feature.navigation.ToolbarBehavior;
-import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
+import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -40,14 +39,9 @@ import butterknife.ButterKnife;
 
 public abstract class BaseFragment extends Fragment implements ToolbarBehavior {
 
-    @MenuRes private int menuResId;
+    @MenuRes private final int menuResId;
 
     private String title;
-
-    @SuppressWarnings("unused")
-    private BaseFragment() {
-        // Forbidden
-    }
 
     public BaseFragment(@LayoutRes int layoutResourceId, @StringRes int titleResId, @MenuRes int menuResId) {
         super(layoutResourceId);
@@ -110,7 +104,6 @@ public abstract class BaseFragment extends Fragment implements ToolbarBehavior {
         super.onDestroy();
     }
 
-    @SuppressLint("ResourceType")
     @Override
     public void onCreateOptionsMenu(Menu menu, @NonNull MenuInflater inflater) {
         menu.clear();

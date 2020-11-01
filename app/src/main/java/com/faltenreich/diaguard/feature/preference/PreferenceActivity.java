@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.feature.preference;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 
 import androidx.fragment.app.Fragment;
@@ -12,13 +13,14 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.ActivityPreferenceBinding;
 import com.faltenreich.diaguard.feature.preference.food.FoodPreferenceFragment;
 import com.faltenreich.diaguard.feature.preference.overview.PreferenceOverviewFragment;
 import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 
 import java.io.Serializable;
 
-public class PreferenceActivity extends BaseActivity implements PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
+public class PreferenceActivity extends BaseActivity<ActivityPreferenceBinding> implements PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
 
     private static final String ARGUMENT_LINK = "link";
 
@@ -35,6 +37,11 @@ public class PreferenceActivity extends BaseActivity implements PreferenceFragme
 
     public PreferenceActivity() {
         super(R.layout.activity_preference);
+    }
+
+    @Override
+    protected ActivityPreferenceBinding getBinding(LayoutInflater layoutInflater) {
+        return ActivityPreferenceBinding.inflate(layoutInflater);
     }
 
     @Override

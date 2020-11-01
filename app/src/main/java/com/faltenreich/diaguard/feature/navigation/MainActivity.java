@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.feature.navigation;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -33,9 +34,7 @@ import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 import com.faltenreich.diaguard.shared.view.coordinatorlayout.SlideOutBehavior;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 
-public class MainActivity extends BaseActivity implements OnFragmentChangeListener {
-
-    private ActivityMainBinding binding;
+public class MainActivity extends BaseActivity<ActivityMainBinding> implements OnFragmentChangeListener {
 
     private ActionBarDrawerToggle drawerToggle;
 
@@ -44,13 +43,14 @@ public class MainActivity extends BaseActivity implements OnFragmentChangeListen
     }
 
     @Override
+    protected ActivityMainBinding getBinding(LayoutInflater layoutInflater) {
+        return ActivityMainBinding.inflate(layoutInflater);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         PreferenceStore.getInstance().setDefaultValues(this);
-
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
         initLayout();
         checkChangelog();
     }

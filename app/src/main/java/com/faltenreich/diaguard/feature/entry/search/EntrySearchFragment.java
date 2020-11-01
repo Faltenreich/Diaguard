@@ -3,7 +3,9 @@ package com.faltenreich.diaguard.feature.entry.search;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.FragmentEntrySearchBinding;
 import com.faltenreich.diaguard.feature.log.entry.LogEntryListItem;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
 import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
@@ -26,15 +29,13 @@ import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.layoutmanager.SafeLinearLayoutManager;
-import com.faltenreich.diaguard.shared.view.search.SearchViewListener;
 import com.faltenreich.diaguard.shared.view.search.SearchView;
+import com.faltenreich.diaguard.shared.view.search.SearchViewListener;
 
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
 
 public class EntrySearchFragment extends BaseFragment implements SearchViewListener {
 
@@ -43,10 +44,12 @@ public class EntrySearchFragment extends BaseFragment implements SearchViewListe
 
     static final String EXTRA_TAG_ID = "tagId";
 
-    @BindView(R.id.search_view) SearchView searchView;
-    @BindView(R.id.search_list) RecyclerView list;
-    @BindView(R.id.search_list_empty) TextView listEmptyView;
-    @BindView(R.id.search_list_progress) View progressView;
+    private FragmentEntrySearchBinding binding;
+
+    private SearchView searchView;
+    private RecyclerView list;
+    private TextView listEmptyView;
+    private View progressView;
 
     private EntrySearchListAdapter listAdapter;
     private long tagId = -1;
@@ -63,8 +66,18 @@ public class EntrySearchFragment extends BaseFragment implements SearchViewListe
     }
 
     @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentEntrySearchBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        searchView = binding.searchView;
+        list = binding.searchList;
+        listEmptyView = binding.searchListEmpty;
+        progressView = binding.searchListProgress;
         initLayout();
         preFillQuery();
     }

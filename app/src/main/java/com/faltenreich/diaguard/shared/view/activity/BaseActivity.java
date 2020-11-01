@@ -50,9 +50,7 @@ public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompa
         super.onCreate(savedInstanceState);
         initViewBinding();
         initToolbar();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            getWindow().getDecorView().setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS);
-        }
+        initAutofill();
         if (savedInstanceState != null) {
             onViewShown();
         }
@@ -126,6 +124,12 @@ public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompa
             getSupportActionBar().setHomeButtonEnabled(true);
         }
         setTitle(SystemUtils.getLabelForActivity(this));
+    }
+
+    private void initAutofill() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            getWindow().getDecorView().setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS);
+        }
     }
 
     @Override

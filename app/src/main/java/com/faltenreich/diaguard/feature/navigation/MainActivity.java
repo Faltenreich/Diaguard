@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -33,9 +34,14 @@ import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 import com.faltenreich.diaguard.shared.view.coordinatorlayout.SlideOutBehavior;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
+import com.github.clans.fab.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> implements OnFragmentChangeListener {
 
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private FloatingActionButton fab;
     private ActionBarDrawerToggle drawerToggle;
 
     public MainActivity() {
@@ -43,7 +49,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements O
     }
 
     @Override
-    protected ActivityMainBinding getBinding(LayoutInflater layoutInflater) {
+    protected ActivityMainBinding createBinding(LayoutInflater layoutInflater) {
         return ActivityMainBinding.inflate(layoutInflater);
     }
 
@@ -51,6 +57,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         PreferenceStore.getInstance().setDefaultValues(this);
+        bindViews();
         initLayout();
         checkChangelog();
     }
@@ -75,10 +82,16 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements O
         invalidateLayout();
     }
 
+    private void bindViews() {
+        drawerLayout = getBinding().drawerLayout;
+        navigationView = getBinding().navigationView;
+        fab = getBinding().fab;
+    }
+
     private void initLayout() {
         drawerToggle = new ActionBarDrawerToggle(
             this,
-            binding.drawerLayout,
+            drawerLayout,
             getToolbar(),
             R.string.drawer_open,
             R.string.drawer_close) {
@@ -92,23 +105,23 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements O
                 invalidateOptionsMenu();
             }
         };
-        binding.drawerLayout.addDrawerListener(drawerToggle);
+        drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
-        binding.navigationView.getMenu().findItem(R.id.nav_calculator).setVisible(ApplicationConfig.isCalculatorEnabled());
-        binding.navigationView.setNavigationItemSelectedListener(menuItem -> {
-            binding. drawerLayout.closeDrawers();
+        navigationView.getMenu().findItem(R.id.nav_calculator).setVisible(ApplicationConfig.isCalculatorEnabled());
+        navigationView.setNavigationItemSelectedListener(menuItem -> {
+             drawerLayout.closeDrawers();
             selectMenuItem(menuItem);
             return true;
         });
         drawerToggle.setToolbarNavigationClickListener(v -> {
             if (drawerToggle.isDrawerIndicatorEnabled()) {
-                if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                    binding.drawerLayout.closeDrawer(GravityCompat.START);
+                if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawer(GravityCompat.START);
                 } else {
-                    binding.drawerLayout.openDrawer(GravityCompat.START);
+                    drawerLayout.openDrawer(GravityCompat.START);
                 }
             } else {
-                binding.drawerLayout.closeDrawer(GravityCompat.START);
+                drawerLayout.closeDrawer(GravityCompat.START);
                 getSupportFragmentManager().popBackStackImmediate();
             }
         });
@@ -120,7 +133,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements O
 
         // Setup start fragment
         int startScreen = PreferenceStore.getInstance().getStartScreen();
-        MenuItem menuItem = binding.navigationView.getMenu().getItem(startScreen);
+        MenuItem menuItem = navigationView.getMenu().getItem(startScreen);
         selectMenuItem(menuItem);
     }
 
@@ -141,11 +154,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements O
 
     private void invalidateMainButton(@Nullable MainButton mainButton) {
         MainButtonProperties properties = mainButton != null ? mainButton.getMainButtonProperties() : null;
-        binding.fab.setVisibility(properties != null ? View.VISIBLE : View.GONE);
-        binding.fab.setImageResource(properties != null ? properties.getIconDrawableResId() : android.R.color.transparent);
-        binding.fab.setOnClickListener(properties != null ? properties.getOnClickListener() : null);
+        fab.setVisibility(properties != null ? View.VISIBLE : View.GONE);
+        fab.setImageResource(properties != null ? properties.getIconDrawableResId() : android.R.color.transparent);
+        fab.setOnClickListener(properties != null ? properties.getOnClickListener() : null);
         if (properties != null) {
-            CoordinatorLayout.Behavior behavior = ViewUtils.getBehavior(binding.fab);
+            CoordinatorLayout.Behavior behavior = ViewUtils.getBehavior(fab);
             if (behavior instanceof SlideOutBehavior) {
                 ((SlideOutBehavior) behavior).setSlideOut(properties.slideOut());
             }
@@ -153,9 +166,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements O
     }
 
     private void resetMainButton() {
-        if (binding.fab.getTranslationY() != 0) {
-            binding.fab.animate().cancel();
-            binding.fab.animate().translationY(0).start();
+        if (fab.getTranslationY() != 0) {
+            fab.animate().cancel();
+            fab.animate().translationY(0).start();
         }
     }
 
@@ -163,15 +176,15 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements O
         MainFragmentType mainFragmentType = MainFragmentType.valueOf(fragment.getClass());
         if (mainFragmentType != null) {
             int position = mainFragmentType.position;
-            if (position < binding.navigationView.getMenu().size()) {
-                MenuItem menuItem = binding.navigationView.getMenu().getItem(position);
+            if (position < navigationView.getMenu().size()) {
+                MenuItem menuItem = navigationView.getMenu().getItem(position);
                 selectNavigationDrawerMenuItem(menuItem);
             }
         }
     }
 
     public void showFragment(@IdRes int itemId) {
-        MenuItem menuItem = binding.navigationView.getMenu().findItem(itemId);
+        MenuItem menuItem = navigationView.getMenu().findItem(itemId);
         selectMenuItem(menuItem);
     }
 
@@ -230,8 +243,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements O
     private void selectNavigationDrawerMenuItem(MenuItem menuItem) {
         if (menuItem != null) {
             // First uncheck all, then check current Fragment
-            for (int index = 0; index < binding.navigationView.getMenu().size(); index++) {
-                binding.navigationView.getMenu().getItem(index).setChecked(false);
+            for (int index = 0; index < navigationView.getMenu().size(); index++) {
+                navigationView.getMenu().getItem(index).setChecked(false);
             }
             menuItem.setChecked(true);
         }
@@ -262,8 +275,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements O
 
     @Override
     public void onBackPressed() {
-        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            binding.drawerLayout.closeDrawer(GravityCompat.START);
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }

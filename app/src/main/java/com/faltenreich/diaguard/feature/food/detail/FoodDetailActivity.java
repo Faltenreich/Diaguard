@@ -13,7 +13,7 @@ public class FoodDetailActivity extends BaseActivity<ActivityFoodBinding> {
     }
 
     @Override
-    protected ActivityFoodBinding getBinding(LayoutInflater layoutInflater) {
+    protected ActivityFoodBinding createBinding(LayoutInflater layoutInflater) {
         return ActivityFoodBinding.inflate(layoutInflater);
     }
 }

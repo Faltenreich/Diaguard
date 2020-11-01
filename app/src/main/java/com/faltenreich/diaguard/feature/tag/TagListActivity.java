@@ -13,7 +13,7 @@ public class TagListActivity extends BaseActivity<ActivityTagsBinding> {
     }
 
     @Override
-    protected ActivityTagsBinding getBinding(LayoutInflater layoutInflater) {
+    protected ActivityTagsBinding createBinding(LayoutInflater layoutInflater) {
         return ActivityTagsBinding.inflate(layoutInflater);
     }
 }

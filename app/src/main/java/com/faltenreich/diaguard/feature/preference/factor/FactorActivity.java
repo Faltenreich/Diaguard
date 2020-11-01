@@ -13,7 +13,7 @@ public class FactorActivity extends BaseActivity<ActivityFactorBinding> {
     }
 
     @Override
-    protected ActivityFactorBinding getBinding(LayoutInflater layoutInflater) {
+    protected ActivityFactorBinding createBinding(LayoutInflater layoutInflater) {
         return ActivityFactorBinding.inflate(layoutInflater);
     }
 }

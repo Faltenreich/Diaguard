@@ -39,7 +39,7 @@ public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompa
 
     public static final int REQUEST_CODE_BACKUP_IMPORT = 25151;
 
-    protected BINDING binding;
+    private BINDING binding;
 
     public BaseActivity(@LayoutRes int layoutResourceId) {
         super(layoutResourceId);
@@ -58,7 +58,11 @@ public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompa
         }
     }
 
-    protected abstract BINDING getBinding(LayoutInflater layoutInflater);
+    protected abstract BINDING createBinding(LayoutInflater layoutInflater);
+
+    protected BINDING getBinding() {
+        return binding;
+    }
 
     /**
      * Called after the activity is created and its view fully revealed
@@ -114,7 +118,7 @@ public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompa
     }
 
     private void initViewBinding() {
-        binding = getBinding(getLayoutInflater());
+        binding = createBinding(getLayoutInflater());
         setContentView(binding.getRoot());
     }
 

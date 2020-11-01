@@ -13,7 +13,7 @@ public class CategoryListActivity extends BaseActivity<ActivityCategoriesBinding
     }
 
     @Override
-    protected ActivityCategoriesBinding getBinding(LayoutInflater layoutInflater) {
+    protected ActivityCategoriesBinding createBinding(LayoutInflater layoutInflater) {
         return ActivityCategoriesBinding.inflate(layoutInflater);
     }
 }

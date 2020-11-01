@@ -17,7 +17,7 @@ public class FoodEditActivity extends BaseActivity<ActivityFoodEditBinding> {
     }
 
     @Override
-    protected ActivityFoodEditBinding getBinding(LayoutInflater layoutInflater) {
+    protected ActivityFoodEditBinding createBinding(LayoutInflater layoutInflater) {
         return ActivityFoodEditBinding.inflate(layoutInflater);
     }
 }

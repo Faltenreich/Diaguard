@@ -17,7 +17,7 @@ public class FoodSearchActivity extends BaseActivity<ActivityFoodSearchBinding> 
     }
 
     @Override
-    protected ActivityFoodSearchBinding getBinding(LayoutInflater layoutInflater) {
+    protected ActivityFoodSearchBinding createBinding(LayoutInflater layoutInflater) {
         return ActivityFoodSearchBinding.inflate(layoutInflater);
     }
 }

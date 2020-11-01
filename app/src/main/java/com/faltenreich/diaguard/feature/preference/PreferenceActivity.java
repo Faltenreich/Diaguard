@@ -40,7 +40,7 @@ public class PreferenceActivity extends BaseActivity<ActivityPreferenceBinding> 
     }
 
     @Override
-    protected ActivityPreferenceBinding getBinding(LayoutInflater layoutInflater) {
+    protected ActivityPreferenceBinding createBinding(LayoutInflater layoutInflater) {
         return ActivityPreferenceBinding.inflate(layoutInflater);
     }
 

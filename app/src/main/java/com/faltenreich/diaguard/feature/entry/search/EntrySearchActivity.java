@@ -29,6 +29,8 @@ public class EntrySearchActivity extends BaseActivity<ActivityEntrySearchBinding
     private int revealX;
     private int revealY;
 
+    private ViewGroup rootLayout;
+
     public static void show(Context context, @Nullable View source) {
         Intent intent = new Intent(context, EntrySearchActivity.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && source != null) {
@@ -51,15 +53,14 @@ public class EntrySearchActivity extends BaseActivity<ActivityEntrySearchBinding
     }
 
     @Override
-    protected ActivityEntrySearchBinding getBinding(LayoutInflater layoutInflater) {
+    protected ActivityEntrySearchBinding createBinding(LayoutInflater layoutInflater) {
         return ActivityEntrySearchBinding.inflate(layoutInflater);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityEntrySearchBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        rootLayout = getBinding().root;
         if (savedInstanceState == null) {
             reveal();
         }
@@ -72,10 +73,9 @@ public class EntrySearchActivity extends BaseActivity<ActivityEntrySearchBinding
 
     private void reveal() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ViewGroup rootLayout = binding.root;
             revealX = getIntent().getIntExtra(ARGUMENT_REVEAL_X, -1);
             revealY = getIntent().getIntExtra(ARGUMENT_REVEAL_Y, -1);
-            if (rootLayout != null && revealX >= 0 && revealY >= 0) {
+            if (revealX >= 0 && revealY >= 0) {
                 rootLayout.setVisibility(View.INVISIBLE);
                 ViewTreeObserver viewTreeObserver = rootLayout.getViewTreeObserver();
                 if (viewTreeObserver.isAlive()) {
@@ -105,7 +105,6 @@ public class EntrySearchActivity extends BaseActivity<ActivityEntrySearchBinding
 
     private void unreveal() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && revealX >= 0 && revealY >= 0) {
-            ViewGroup rootLayout = binding.root;
             ViewUtils.reveal(rootLayout, revealX, revealY, false, new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {

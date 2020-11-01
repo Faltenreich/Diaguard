@@ -144,7 +144,7 @@ public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> im
     }
 
     @Override
-    protected ActivityEntryEditBinding getBinding(LayoutInflater layoutInflater) {
+    protected ActivityEntryEditBinding createBinding(LayoutInflater layoutInflater) {
         return ActivityEntryEditBinding.inflate(layoutInflater);
     }
 

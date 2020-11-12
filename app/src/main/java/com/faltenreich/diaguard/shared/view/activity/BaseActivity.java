@@ -112,7 +112,7 @@ public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompa
     }
 
     private void initViewBinding() {
-        // FIXME: Workaround for crash on binding activities with <fragment> or <FragmentContainerView>
+        // FIXME: Workaround for crash when using <fragment> or empty view when using <FragmentContainerView> in combination with View Binding
         try {
             binding = createBinding(getLayoutInflater());
             setContentView(binding.getRoot());

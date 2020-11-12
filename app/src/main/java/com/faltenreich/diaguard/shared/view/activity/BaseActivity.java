@@ -112,8 +112,13 @@ public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompa
     }
 
     private void initViewBinding() {
-        binding = createBinding(getLayoutInflater());
-        setContentView(binding.getRoot());
+        // FIXME: Workaround for crash on binding activities with <fragment> or <FragmentContainerView>
+        try {
+            binding = createBinding(getLayoutInflater());
+            setContentView(binding.getRoot());
+        } catch (IllegalArgumentException exception) {
+            Log.e(TAG, exception.getMessage());
+        }
     }
 
     private void initToolbar() {

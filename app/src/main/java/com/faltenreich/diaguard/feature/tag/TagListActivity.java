@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.feature.tag;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 
 import com.faltenreich.diaguard.R;
@@ -15,5 +16,14 @@ public class TagListActivity extends BaseActivity<ActivityTagsBinding> {
     @Override
     protected ActivityTagsBinding createBinding(LayoutInflater layoutInflater) {
         return ActivityTagsBinding.inflate(layoutInflater);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getSupportFragmentManager()
+            .beginTransaction()
+            .add(R.id.fragmentContainerView, new TagListFragment())
+            .commit();
     }
 }

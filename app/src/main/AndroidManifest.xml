@@ -63,7 +63,7 @@
             android:label="@string/food"
             android:windowSoftInputMode="adjustResize|stateHidden">
             <meta-data
-                android:name=".feature.food.search.FoodSearchActivity"
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value=".feature.navigation.MainActivity" />
         </activity>
 

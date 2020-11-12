@@ -541,8 +541,7 @@ public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> im
         for (int index = 0; index < binding.layoutMeasurements.getChildCount(); index++) {
             View view = binding.layoutMeasurements.getChildAt(index);
             if (view instanceof MeasurementView) {
-                MeasurementView measurementView = ((MeasurementView) view);
-                Measurement measurement = measurementView.getMeasurement();
+                Measurement measurement = ((MeasurementView<?>) view).getMeasurement();
                 if (measurement instanceof Meal) {
                     return ((Meal) measurement).getFoodEatenCache();
                 }

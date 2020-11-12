@@ -25,7 +25,7 @@ public abstract class BaseFoodFragment extends BaseFragment {
 
     public static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
 
-    private @DrawableRes int icon;
+    @DrawableRes private final int icon;
     private Food food;
 
     protected BaseFoodFragment(@LayoutRes int layoutResId, @StringRes int titleResId, @DrawableRes int icon, @MenuRes int menuResId) {

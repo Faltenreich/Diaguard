@@ -61,6 +61,10 @@ public class EntrySearchActivity extends BaseActivity<ActivityEntrySearchBinding
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         rootLayout = binding.root;
+        getSupportFragmentManager()
+            .beginTransaction()
+            .add(R.id.fragmentContainerView, new EntrySearchFragment())
+            .commit();
         if (savedInstanceState == null) {
             reveal();
         }

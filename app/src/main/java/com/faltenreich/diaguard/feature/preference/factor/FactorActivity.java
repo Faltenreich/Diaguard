@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.feature.preference.factor;
 
-import android.os.Bundle;
 import android.view.LayoutInflater;
 
 import com.faltenreich.diaguard.R;
@@ -16,14 +15,5 @@ public class FactorActivity extends BaseActivity<ActivityFactorBinding> {
     @Override
     protected ActivityFactorBinding createBinding(LayoutInflater layoutInflater) {
         return ActivityFactorBinding.inflate(layoutInflater);
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getSupportFragmentManager()
-            .beginTransaction()
-            .add(R.id.fragmentContainerView, new FactorFragment())
-            .commit();
     }
 }

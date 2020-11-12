@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.fragment.app.FragmentContainerView
+<fragment
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fragmentContainerView"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_food_search"
+    android:name="com.faltenreich.diaguard.feature.food.search.FoodSearchFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    android:layout_height="match_parent"
+    tools:layout="@layout/fragment_food_search" />

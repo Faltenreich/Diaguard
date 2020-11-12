@@ -9,8 +9,10 @@
     android:background="?backgroundColorPrimary">
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView"
+        android:id="@+id/entry_search_fragment"
+        android:name="com.faltenreich.diaguard.feature.entry.search.EntrySearchFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:layout="@layout/fragment_entry_search" />
 
 </FrameLayout>

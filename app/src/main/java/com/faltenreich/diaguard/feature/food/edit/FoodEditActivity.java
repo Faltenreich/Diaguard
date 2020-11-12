@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.feature.food.edit;
 
-import android.os.Bundle;
 import android.view.LayoutInflater;
 
 import com.faltenreich.diaguard.R;
@@ -20,14 +19,5 @@ public class FoodEditActivity extends BaseActivity<ActivityFoodEditBinding> {
     @Override
     protected ActivityFoodEditBinding createBinding(LayoutInflater layoutInflater) {
         return ActivityFoodEditBinding.inflate(layoutInflater);
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getSupportFragmentManager()
-            .beginTransaction()
-            .add(R.id.fragmentContainerView, new FoodEditFragment())
-            .commit();
     }
 }

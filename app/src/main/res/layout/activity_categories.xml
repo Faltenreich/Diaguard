@@ -9,9 +9,11 @@
 
     <include layout="@layout/view_toolbar"/>
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView"
+    <fragment
+        android:id="@+id/fragment_categories"
+        android:name="com.faltenreich.diaguard.feature.category.CategoryListFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:layout="@layout/fragment_categories" />
 
 </LinearLayout>

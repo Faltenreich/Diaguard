@@ -116,7 +116,7 @@ public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompa
         try {
             binding = createBinding(getLayoutInflater());
             setContentView(binding.getRoot());
-        } catch (IllegalArgumentException exception) {
+        } catch (Exception exception) {
             Log.e(TAG, exception.getMessage());
         }
     }

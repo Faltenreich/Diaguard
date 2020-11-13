@@ -58,14 +58,10 @@
         </activity>
 
         <activity
-            android:name=".feature.food.search.FoodSearchActivity"
+            android:name=".feature.food.FoodActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/food"
-            android:windowSoftInputMode="adjustResize|stateHidden">
-            <meta-data
-                android:name=".feature.food.search.FoodSearchActivity"
-                android:value=".feature.navigation.MainActivity" />
-        </activity>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <activity
             android:name=".feature.food.detail.FoodDetailActivity"

@@ -9,9 +9,9 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
-import com.faltenreich.diaguard.feature.food.search.FoodSearchActivity;
+import com.faltenreich.diaguard.feature.food.FoodActivity;
+import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.test.junit.rule.CleanUpData;
 
 import org.junit.Assert;
@@ -39,12 +39,12 @@ public class EntryEditMeasurementFoodTest {
     }
 
     @Test
-    public void clickingFoodButton_shouldOpenFoodSearchActivity() {
+    public void clickingFoodButton_shouldOpenFoodActivity() {
         scenario.onActivity(activity -> {
             Espresso.onView(ViewMatchers.withText("Add food"))
                 .perform(ViewActions.click());
             Intent intent = Shadows.shadowOf(activity).getNextStartedActivity();
-            Assert.assertEquals(FoodSearchActivity.class, Shadows.shadowOf(intent).getIntentClass());
+            Assert.assertEquals(FoodActivity.class, Shadows.shadowOf(intent).getIntentClass());
         });
     }
 }

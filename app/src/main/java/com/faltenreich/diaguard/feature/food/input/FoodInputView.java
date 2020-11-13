@@ -14,13 +14,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.food.search.FoodSearchActivity;
+import com.faltenreich.diaguard.feature.food.FoodActivity;
 import com.faltenreich.diaguard.feature.food.search.FoodSearchFragment;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
 import com.faltenreich.diaguard.shared.event.Events;
@@ -236,7 +236,7 @@ public class FoodInputView extends LinearLayout {
 
     @OnClick(R.id.food_input_button)
     public void searchForFood() {
-        Intent intent = new Intent(getContext(), FoodSearchActivity.class);
+        Intent intent = new Intent(getContext(), FoodActivity.class);
         intent.putExtra(FoodSearchFragment.FINISH_ON_SELECTION, true);
         getContext().startActivity(intent);
     }

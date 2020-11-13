@@ -22,7 +22,7 @@ import com.faltenreich.diaguard.feature.config.ApplicationConfig;
 import com.faltenreich.diaguard.feature.dashboard.DashboardFragment;
 import com.faltenreich.diaguard.feature.entry.search.EntrySearchActivity;
 import com.faltenreich.diaguard.feature.export.ExportFragment;
-import com.faltenreich.diaguard.feature.food.search.FoodSearchActivity;
+import com.faltenreich.diaguard.feature.food.FoodActivity;
 import com.faltenreich.diaguard.feature.log.LogFragment;
 import com.faltenreich.diaguard.feature.preference.PreferenceActivity;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
@@ -188,7 +188,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements O
                     showFragment(new CalculatorFragment(), menuItem, true);
                     break;
                 case R.id.nav_food_database:
-                    startActivity(new Intent(this, FoodSearchActivity.class));
+                    startActivity(new Intent(this, FoodActivity.class));
                     break;
                 case R.id.nav_statistics:
                     showFragment(new StatisticFragment(), menuItem, true);

@@ -9,7 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
 import androidx.annotation.Nullable;
@@ -28,8 +27,6 @@ public class EntrySearchActivity extends BaseActivity<ActivityEntrySearchBinding
 
     private int revealX;
     private int revealY;
-
-    private ViewGroup rootLayout;
 
     public static void show(Context context, @Nullable View source) {
         Intent intent = new Intent(context, EntrySearchActivity.class);
@@ -60,7 +57,6 @@ public class EntrySearchActivity extends BaseActivity<ActivityEntrySearchBinding
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        rootLayout = binding.root;
         if (savedInstanceState == null) {
             reveal();
         }
@@ -76,16 +72,16 @@ public class EntrySearchActivity extends BaseActivity<ActivityEntrySearchBinding
             revealX = getIntent().getIntExtra(ARGUMENT_REVEAL_X, -1);
             revealY = getIntent().getIntExtra(ARGUMENT_REVEAL_Y, -1);
             if (revealX >= 0 && revealY >= 0) {
-                rootLayout.setVisibility(View.INVISIBLE);
-                ViewTreeObserver viewTreeObserver = rootLayout.getViewTreeObserver();
+                binding.root.setVisibility(View.INVISIBLE);
+                ViewTreeObserver viewTreeObserver = binding.root.getViewTreeObserver();
                 if (viewTreeObserver.isAlive()) {
                     viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                         @TargetApi(Build.VERSION_CODES.LOLLIPOP)
                         @Override
                         public void onGlobalLayout() {
-                            rootLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                            rootLayout.setVisibility(View.VISIBLE);
-                            ViewUtils.reveal(rootLayout, revealX, revealY, true, new AnimatorListenerAdapter() {
+                            binding.root.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                            binding.root.setVisibility(View.VISIBLE);
+                            ViewUtils.reveal(binding.root, revealX, revealY, true, new AnimatorListenerAdapter() {
                                 @Override
                                 public void onAnimationEnd(Animator animation) {
                                     super.onAnimationEnd(animation);
@@ -105,10 +101,10 @@ public class EntrySearchActivity extends BaseActivity<ActivityEntrySearchBinding
 
     private void unreveal() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && revealX >= 0 && revealY >= 0) {
-            ViewUtils.reveal(rootLayout, revealX, revealY, false, new AnimatorListenerAdapter() {
+            ViewUtils.reveal(binding.root, revealX, revealY, false, new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    rootLayout.setVisibility(View.INVISIBLE);
+                    binding.root.setVisibility(View.INVISIBLE);
                     EntrySearchActivity.super.finish();
                     overridePendingTransition(0, 0);
                 }

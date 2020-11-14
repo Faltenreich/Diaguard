@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -34,7 +35,7 @@ import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 import com.faltenreich.diaguard.shared.view.coordinatorlayout.SlideOutBehavior;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 
-public class MainActivity extends BaseActivity<ActivityMainBinding> implements FragmentNavigator, OnFragmentChangeListener {
+public class MainActivity extends BaseActivity<ActivityMainBinding> implements Navigator, OnFragmentChangeListener {
 
     private ActionBarDrawerToggle drawerToggle;
 
@@ -175,10 +176,15 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements F
         selectMenuItem(menuItem);
     }
 
-    public void openFragment(BaseFragment fragment, MenuItem menuItem, boolean addToBackStack) {
-        resetMainButton();
+    private void openFragment(BaseFragment fragment, MenuItem menuItem, boolean addToBackStack) {
         selectNavigationDrawerMenuItem(menuItem);
         Operation operation = addToBackStack ? Operation.ADD : Operation.REPLACE;
+        openFragment(fragment, operation, addToBackStack);
+    }
+
+    @Override
+    public void openFragment(@NonNull Fragment fragment, Operation operation, boolean addToBackStack) {
+        resetMainButton();
         openFragment(fragment, getSupportFragmentManager(), R.id.container, operation, addToBackStack);
     }
 

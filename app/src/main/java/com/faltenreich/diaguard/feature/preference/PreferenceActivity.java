@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentFactory;
 import androidx.preference.Preference;
@@ -13,7 +14,7 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ActivityPreferenceBinding;
-import com.faltenreich.diaguard.feature.navigation.FragmentNavigator;
+import com.faltenreich.diaguard.feature.navigation.Navigator;
 import com.faltenreich.diaguard.feature.preference.food.FoodPreferenceFragment;
 import com.faltenreich.diaguard.feature.preference.overview.PreferenceOverviewFragment;
 import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
@@ -22,7 +23,7 @@ import java.io.Serializable;
 
 public class PreferenceActivity
     extends BaseActivity<ActivityPreferenceBinding>
-    implements FragmentNavigator, PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
+    implements Navigator, PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
 
     private static final String ARGUMENT_LINK = "link";
 
@@ -49,7 +50,7 @@ public class PreferenceActivity
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setFragment(getInitialFragment(), false);
+        openFragment(getInitialFragment(), Operation.REPLACE, false);
     }
 
     @Override
@@ -59,7 +60,7 @@ public class PreferenceActivity
         Fragment fragment = factory.instantiate(getClassLoader(), preference.getFragment());
         fragment.setArguments(arguments);
         fragment.setTargetFragment(caller, 0);
-        setFragment(fragment, true);
+        openFragment(fragment, Operation.REPLACE, true);
         return true;
     }
 
@@ -91,7 +92,8 @@ public class PreferenceActivity
         }
     }
 
-    private void setFragment(Fragment fragment, boolean addToBackStack) {
-        openFragment(fragment, getSupportFragmentManager(), R.id.content, Operation.REPLACE, addToBackStack);
+    @Override
+    public void openFragment(@NonNull Fragment fragment, Operation operation, boolean addToBackStack) {
+        openFragment(fragment, getSupportFragmentManager(), R.id.content, operation, addToBackStack);
     }
 }

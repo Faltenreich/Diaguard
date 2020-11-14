@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 
-public interface FragmentNavigator {
+public interface Navigator extends Navigating {
 
     enum Operation {
         ADD,

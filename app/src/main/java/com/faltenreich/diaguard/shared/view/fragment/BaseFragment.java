@@ -18,6 +18,8 @@ import androidx.fragment.app.FragmentManager;
 import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.navigation.MainActivity;
+import com.faltenreich.diaguard.feature.navigation.Navigating;
+import com.faltenreich.diaguard.feature.navigation.Navigator;
 import com.faltenreich.diaguard.feature.navigation.OnFragmentChangeListener;
 import com.faltenreich.diaguard.feature.navigation.ToolbarBehavior;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
@@ -37,7 +39,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.ButterKnife;
 
-public abstract class BaseFragment extends Fragment implements ToolbarBehavior {
+public abstract class BaseFragment extends Fragment implements Navigating, ToolbarBehavior {
 
     @MenuRes private final int menuResId;
 
@@ -143,6 +145,14 @@ public abstract class BaseFragment extends Fragment implements ToolbarBehavior {
             } else {
                 getActivity().finish();
             }
+        }
+    }
+
+    @Override
+    public void openFragment(@NonNull Fragment fragment, Navigator.Operation operation, boolean addToBackStack) {
+        Navigator navigator = (Navigator) getActivity();
+        if (navigator != null) {
+            navigator.openFragment(fragment, operation, addToBackStack);
         }
     }
 

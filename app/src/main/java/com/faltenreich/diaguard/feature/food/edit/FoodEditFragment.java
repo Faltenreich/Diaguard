@@ -34,6 +34,14 @@ public class FoodEditFragment extends BaseFoodFragment {
     @BindView(R.id.food_edit_ingredients) StickyHintInput ingredientsInput;
     @BindView(R.id.food_edit_nutrient_input_layout) NutrientInputLayout nutrientInputLayout;
 
+    public static FoodEditFragment newInstance(Food food) {
+        FoodEditFragment fragment = new FoodEditFragment();
+        Bundle arguments = new Bundle();
+        arguments.putLong(BaseFoodFragment.EXTRA_FOOD_ID, food.getId());
+        fragment.setArguments(arguments);
+        return fragment;
+    }
+
     public FoodEditFragment() {
         super(R.layout.fragment_food_edit, R.string.food_new, R.menu.form_edit);
     }

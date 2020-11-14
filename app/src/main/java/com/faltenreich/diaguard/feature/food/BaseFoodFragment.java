@@ -25,7 +25,7 @@ public abstract class BaseFoodFragment extends BaseFragment {
 
     public static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
 
-    private @DrawableRes int icon;
+    @DrawableRes private final int icon;
     private Food food;
 
     protected BaseFoodFragment(@LayoutRes int layoutResId, @StringRes int titleResId, @DrawableRes int icon, @MenuRes int menuResId) {
@@ -53,10 +53,10 @@ public abstract class BaseFoodFragment extends BaseFragment {
     }
 
     private void checkIntents() {
-        if (getActivity() != null && getActivity().getIntent() != null && getActivity().getIntent().getExtras() != null) {
-            Bundle extras = getActivity().getIntent().getExtras();
-            if (extras.getLong(EXTRA_FOOD_ID) >= 0) {
-                long foodId = extras.getLong(EXTRA_FOOD_ID);
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            if (arguments.getLong(EXTRA_FOOD_ID) >= 0) {
+                long foodId = arguments.getLong(EXTRA_FOOD_ID);
                 this.food = FoodDao.getInstance().getById(foodId);
             }
         }

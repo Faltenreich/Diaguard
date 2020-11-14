@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.feature.food.search;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
-import com.faltenreich.diaguard.feature.food.detail.FoodDetailActivity;
-import com.faltenreich.diaguard.feature.food.edit.FoodEditActivity;
+import com.faltenreich.diaguard.feature.food.detail.FoodDetailFragment;
+import com.faltenreich.diaguard.feature.food.edit.FoodEditFragment;
+import com.faltenreich.diaguard.feature.navigation.Navigator;
 import com.faltenreich.diaguard.feature.preference.PreferenceActivity;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
@@ -107,15 +106,6 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
             Bundle extras = getActivity().getIntent().getExtras();
             finishOnSelection = extras.getBoolean(FINISH_ON_SELECTION);
         }
-
-        listAdapter = new FoodSearchListAdapter(getContext());
-        listLayoutManager = new LinearLayoutManager(getContext());
-        listScrollListener = new EndlessRecyclerViewScrollListener(listLayoutManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                continueSearch();
-            }
-        };
     }
 
     private void initLayout() {
@@ -127,6 +117,15 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
         searchView.setSearchListener(this);
         searchView.setAction(new SearchViewAction(R.drawable.ic_more_vertical, R.string.menu_open, (view) -> openSettings()));
         searchView.setSuggestions(PreferenceStore.getInstance().getInputQueries());
+
+        listAdapter = new FoodSearchListAdapter(getContext());
+        listLayoutManager = new LinearLayoutManager(getContext());
+        listScrollListener = new EndlessRecyclerViewScrollListener(listLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                continueSearch();
+            }
+        };
 
         listView.setLayoutManager(listLayoutManager);
         listView.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
@@ -207,13 +206,11 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
     }
 
     private void openFood(Food food) {
-        Intent intent = new Intent(getContext(), FoodDetailActivity.class);
-        intent.putExtra(BaseFoodFragment.EXTRA_FOOD_ID, food.getId());
-        startActivity(intent);
+        openFragment(FoodDetailFragment.newInstance(food), Navigator.Operation.REPLACE, true);
     }
 
     private void createFood() {
-        startActivity(new Intent(getContext(), FoodEditActivity.class));
+        openFragment(new FoodEditFragment(), Navigator.Operation.REPLACE, true);
     }
 
     @OnClick(R.id.fab)

@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.feature.food.detail;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -9,10 +8,11 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.shared.data.database.entity.Food;
-import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
-import com.faltenreich.diaguard.feature.food.edit.FoodEditActivity;
+import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
+import com.faltenreich.diaguard.feature.food.edit.FoodEditFragment;
+import com.faltenreich.diaguard.feature.navigation.Navigator;
+import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.google.android.material.tabs.TabLayout;
 
 import butterknife.BindView;
@@ -25,6 +25,14 @@ public class FoodDetailFragment extends BaseFoodFragment {
 
     @BindView(R.id.food_viewpager) ViewPager viewPager;
     @BindView(R.id.food_tablayout) TabLayout tabLayout;
+
+    public static FoodDetailFragment newInstance(Food food) {
+        FoodDetailFragment fragment = new FoodDetailFragment();
+        Bundle arguments = new Bundle();
+        arguments.putLong(BaseFoodFragment.EXTRA_FOOD_ID, food.getId());
+        fragment.setArguments(arguments);
+        return fragment;
+    }
 
     public FoodDetailFragment() {
         super(R.layout.fragment_food_detail, R.string.food, -1, R.menu.food);
@@ -45,19 +53,18 @@ public class FoodDetailFragment extends BaseFoodFragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_delete:
-                deleteFoodIfConfirmed();
-                return true;
-            case R.id.action_edit:
-                editFood();
-                return true;
-            case R.id.action_eat:
-                eatFood();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        int itemId = item.getItemId();
+        if (itemId == R.id.action_delete) {
+            deleteFoodIfConfirmed();
+            return true;
+        } else if (itemId == R.id.action_edit) {
+            editFood();
+            return true;
+        } else if (itemId == R.id.action_eat) {
+            eatFood();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private void init() {
@@ -79,8 +86,6 @@ public class FoodDetailFragment extends BaseFoodFragment {
     }
 
     private void editFood() {
-        Intent intent = new Intent(getActivity(), FoodEditActivity.class);
-        intent.putExtra(BaseFoodFragment.EXTRA_FOOD_ID, getFood().getId());
-        startActivity(intent);
+        openFragment(FoodEditFragment.newInstance(getFood()), Navigator.Operation.REPLACE, true);
     }
 }

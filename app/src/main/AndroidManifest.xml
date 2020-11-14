@@ -64,22 +64,6 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <activity
-            android:name=".feature.food.detail.FoodDetailActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/food"
-            android:windowSoftInputMode="adjustResize|stateHidden">
-            <meta-data
-                android:name=".feature.food.detail.FoodDetailActivity"
-                android:value=".feature.food.search.FoodSearchActivity" />
-        </activity>
-
-        <activity
-            android:name=".feature.food.edit.FoodEditActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/food_new"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
-
-        <activity
             android:name=".feature.tag.TagListActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/tags"

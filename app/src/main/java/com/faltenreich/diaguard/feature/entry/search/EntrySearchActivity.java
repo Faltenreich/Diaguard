@@ -81,21 +81,11 @@ public class EntrySearchActivity extends BaseActivity<ActivityEntrySearchBinding
                         public void onGlobalLayout() {
                             binding.root.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                             binding.root.setVisibility(View.VISIBLE);
-                            ViewUtils.reveal(binding.root, revealX, revealY, true, new AnimatorListenerAdapter() {
-                                @Override
-                                public void onAnimationEnd(Animator animation) {
-                                    super.onAnimationEnd(animation);
-                                    onViewShown();
-                                }
-                            });
+                            ViewUtils.reveal(binding.root, revealX, revealY, true, null);
                         }
                     });
                 }
-            } else {
-                onViewShown();
             }
-        } else {
-            onViewShown();
         }
     }
 

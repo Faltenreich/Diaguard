@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.annotation.CallSuper;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -51,20 +50,9 @@ public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompa
         initViewBinding();
         initToolbar();
         initAutofill();
-        if (savedInstanceState != null) {
-            onViewShown();
-        }
     }
 
     protected abstract BINDING createBinding(LayoutInflater layoutInflater);
-
-    /**
-     * Called after the activity is created and its view fully revealed
-     */
-    @CallSuper
-    protected void onViewShown() {
-
-    }
 
     @Override
     protected void onResume() {
@@ -117,7 +105,7 @@ public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompa
             binding = createBinding(getLayoutInflater());
             setContentView(binding.getRoot());
         } catch (Exception exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, exception.toString());
         }
     }
 

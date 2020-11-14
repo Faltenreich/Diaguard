@@ -15,11 +15,10 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.viewbinding.ViewBinding;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.shared.SystemUtils;
+import com.faltenreich.diaguard.feature.navigation.ToolbarOwner;
 import com.faltenreich.diaguard.shared.data.permission.Permission;
 import com.faltenreich.diaguard.shared.data.permission.PermissionManager;
 import com.faltenreich.diaguard.shared.data.permission.PermissionUseCase;
@@ -32,7 +31,10 @@ import com.faltenreich.diaguard.shared.event.permission.PermissionResponseEvent;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompatActivity {
+public abstract class BaseActivity<BINDING extends ViewBinding>
+    extends AppCompatActivity
+    implements ToolbarOwner
+{
 
     private static final String TAG = BaseActivity.class.getSimpleName();
 
@@ -48,7 +50,7 @@ public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initViewBinding();
-        initToolbar();
+        applyToolbar(this, findViewById(R.id.toolbar));
         initAutofill();
     }
 
@@ -73,11 +75,6 @@ public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompa
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Nullable
-    protected Toolbar getToolbar() {
-        return findViewById(R.id.toolbar);
     }
 
     @Nullable
@@ -107,16 +104,6 @@ public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompa
         } catch (Exception exception) {
             Log.e(TAG, exception.toString());
         }
-    }
-
-    private void initToolbar() {
-        setSupportActionBar(getToolbar());
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setHomeButtonEnabled(true);
-        }
-        setTitle(SystemUtils.getLabelForActivity(this));
     }
 
     private void initAutofill() {

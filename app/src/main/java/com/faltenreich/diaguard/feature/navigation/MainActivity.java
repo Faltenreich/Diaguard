@@ -80,9 +80,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         drawerToggle = new ActionBarDrawerToggle(
             this,
             binding.drawerLayout,
-            getToolbar(),
+            binding.toolbarContainer.toolbar,
             R.string.drawer_open,
-            R.string.drawer_close) {
+            R.string.drawer_close
+        ) {
+
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
                 invalidateOptionsMenu();

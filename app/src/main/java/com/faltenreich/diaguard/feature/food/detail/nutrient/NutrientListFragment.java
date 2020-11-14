@@ -28,7 +28,7 @@ public class NutrientListFragment extends BaseFoodFragment {
     private NutrientListAdapter listAdapter;
 
     public NutrientListFragment() {
-        super(R.layout.fragment_food_nutrients, R.string.nutriments, R.drawable.ic_note, -1);
+        super(R.layout.fragment_food_nutrients, R.string.nutriments, -1);
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.feature.food;
 
 import android.os.Bundle;
 
-import androidx.annotation.DrawableRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.MenuRes;
 import androidx.annotation.Nullable;
@@ -25,17 +24,10 @@ public abstract class BaseFoodFragment extends BaseFragment {
 
     public static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
 
-    @DrawableRes private final int icon;
     private Food food;
-
-    protected BaseFoodFragment(@LayoutRes int layoutResId, @StringRes int titleResId, @DrawableRes int icon, @MenuRes int menuResId) {
-        super(layoutResId, titleResId, menuResId);
-        this.icon = icon;
-    }
 
     protected BaseFoodFragment(@LayoutRes int layoutResId, @StringRes int titleResId, @MenuRes int menuResId) {
         super(layoutResId, titleResId, menuResId);
-        this.icon = -1;
     }
 
     @Override
@@ -87,9 +79,5 @@ public abstract class BaseFoodFragment extends BaseFragment {
 
     protected Food getFood() {
         return food;
-    }
-
-    public @DrawableRes int getIcon() {
-        return icon;
     }
 }

@@ -35,7 +35,7 @@ public class FoodDetailFragment extends BaseFoodFragment {
     }
 
     public FoodDetailFragment() {
-        super(R.layout.fragment_food_detail, R.string.food, -1, R.menu.food);
+        super(R.layout.fragment_food_detail, R.string.food, R.menu.food);
     }
 
     @Override

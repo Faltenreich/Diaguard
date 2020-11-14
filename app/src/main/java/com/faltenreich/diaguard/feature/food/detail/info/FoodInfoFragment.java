@@ -29,7 +29,7 @@ public class FoodInfoFragment extends BaseFoodFragment {
     @BindView(R.id.food_labels) ViewGroup labels;
 
     public FoodInfoFragment() {
-        super(R.layout.fragment_food_info, R.string.info, R.drawable.ic_category_meal, -1);
+        super(R.layout.fragment_food_info, R.string.info, -1);
     }
 
     @Override

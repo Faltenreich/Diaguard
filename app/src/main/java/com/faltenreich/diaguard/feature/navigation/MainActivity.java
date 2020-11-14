@@ -34,7 +34,7 @@ import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 import com.faltenreich.diaguard.shared.view.coordinatorlayout.SlideOutBehavior;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 
-public class MainActivity extends BaseActivity<ActivityMainBinding> implements OnFragmentChangeListener {
+public class MainActivity extends BaseActivity<ActivityMainBinding> implements FragmentNavigator, OnFragmentChangeListener {
 
     private ActionBarDrawerToggle drawerToggle;
 
@@ -207,24 +207,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements O
     }
 
     public void showFragment(BaseFragment fragment, MenuItem menuItem, boolean addToBackStack) {
-        Fragment activeFragment = getSupportFragmentManager().findFragmentById(R.id.container);
-        boolean isActive = activeFragment != null && activeFragment.getClass() == fragment.getClass();
-        if (!isActive) {
-            ViewUtils.hideKeyboard(this);
-            resetMainButton();
-            selectNavigationDrawerMenuItem(menuItem);
-
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            String tag = fragment.getClass().getSimpleName();
-            if (addToBackStack) {
-                transaction.add(R.id.container, fragment, tag);
-                transaction.addToBackStack(tag);
-            } else {
-                transaction.replace(R.id.container, fragment, tag);
-            }
-            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            transaction.commit();
-        }
+        resetMainButton();
+        selectNavigationDrawerMenuItem(menuItem);
+        Operation operation = addToBackStack ? Operation.ADD : Operation.REPLACE;
+        openFragment(fragment, getSupportFragmentManager(), R.id.container, operation, addToBackStack);
     }
 
     private void selectNavigationDrawerMenuItem(MenuItem menuItem) {

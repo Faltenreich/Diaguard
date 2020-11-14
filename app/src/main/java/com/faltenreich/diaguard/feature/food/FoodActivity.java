@@ -4,15 +4,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ActivityFoodBinding;
 import com.faltenreich.diaguard.feature.food.search.FoodSearchFragment;
-import com.faltenreich.diaguard.shared.view.ViewUtils;
+import com.faltenreich.diaguard.feature.navigation.FragmentNavigator;
 import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 
-public class FoodActivity extends BaseActivity<ActivityFoodBinding> {
+public class FoodActivity extends BaseActivity<ActivityFoodBinding> implements FragmentNavigator {
 
     public FoodActivity() {
         super(R.layout.activity_food);
@@ -26,19 +25,10 @@ public class FoodActivity extends BaseActivity<ActivityFoodBinding> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showFragment(new FoodSearchFragment());
+        openFragment(new FoodSearchFragment(), false);
     }
 
-    public void showFragment(Fragment fragment) {
-        Fragment activeFragment = getSupportFragmentManager().findFragmentById(R.id.container);
-        boolean isActive = activeFragment != null && activeFragment.getClass() == fragment.getClass();
-        if (!isActive) {
-            ViewUtils.hideKeyboard(this);
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            String tag = fragment.getClass().getSimpleName();
-            transaction.replace(R.id.container, fragment, tag);
-            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            transaction.commit();
-        }
+    private void openFragment(Fragment fragment, boolean addToBackStack) {
+        openFragment(fragment, getSupportFragmentManager(), R.id.container, Operation.REPLACE, addToBackStack);
     }
 }

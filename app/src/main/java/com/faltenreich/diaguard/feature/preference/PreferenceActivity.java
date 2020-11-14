@@ -8,19 +8,21 @@ import android.view.MenuItem;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentFactory;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ActivityPreferenceBinding;
+import com.faltenreich.diaguard.feature.navigation.FragmentNavigator;
 import com.faltenreich.diaguard.feature.preference.food.FoodPreferenceFragment;
 import com.faltenreich.diaguard.feature.preference.overview.PreferenceOverviewFragment;
 import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 
 import java.io.Serializable;
 
-public class PreferenceActivity extends BaseActivity<ActivityPreferenceBinding> implements PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
+public class PreferenceActivity
+    extends BaseActivity<ActivityPreferenceBinding>
+    implements FragmentNavigator, PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
 
     private static final String ARGUMENT_LINK = "link";
 
@@ -90,12 +92,6 @@ public class PreferenceActivity extends BaseActivity<ActivityPreferenceBinding> 
     }
 
     private void setFragment(Fragment fragment, boolean addToBackStack) {
-        FragmentTransaction transaction = getSupportFragmentManager()
-            .beginTransaction()
-            .replace(R.id.content, fragment);
-        if (addToBackStack) {
-            transaction = transaction.addToBackStack(fragment.getClass().getName());
-        }
-        transaction.commit();
+        openFragment(fragment, getSupportFragmentManager(), R.id.content, Operation.REPLACE, addToBackStack);
     }
 }

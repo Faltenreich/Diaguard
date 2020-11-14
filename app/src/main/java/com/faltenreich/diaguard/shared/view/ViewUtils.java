@@ -156,7 +156,7 @@ public class ViewUtils {
     }
 
     @Nullable
-    public static CoordinatorLayout.Behavior getBehavior(View view) {
+    public static CoordinatorLayout.Behavior<?> getBehavior(View view) {
         if (view.getLayoutParams() instanceof CoordinatorLayout.LayoutParams) {
             return  ((CoordinatorLayout.LayoutParams) view.getLayoutParams()).getBehavior();
         }

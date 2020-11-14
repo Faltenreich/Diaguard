@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.feature.navigation;
 
 import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -15,8 +16,8 @@ public interface FragmentNavigator {
     }
 
     default void openFragment(
-        Fragment fragment,
-        FragmentManager fragmentManager,
+        @NonNull Fragment fragment,
+        @NonNull FragmentManager fragmentManager,
         @IdRes int containerResId,
         Operation operation,
         boolean addToBackStack

@@ -145,7 +145,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements F
         binding.fab.setImageResource(properties != null ? properties.getIconDrawableResId() : android.R.color.transparent);
         binding.fab.setOnClickListener(properties != null ? properties.getOnClickListener() : null);
         if (properties != null) {
-            CoordinatorLayout.Behavior behavior = ViewUtils.getBehavior(binding.fab);
+            CoordinatorLayout.Behavior<?> behavior = ViewUtils.getBehavior(binding.fab);
             if (behavior instanceof SlideOutBehavior) {
                 ((SlideOutBehavior) behavior).setSlideOut(properties.slideOut());
             }
@@ -170,47 +170,39 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements F
         }
     }
 
-    public void showFragment(@IdRes int itemId) {
+    public void openFragment(@IdRes int itemId) {
         MenuItem menuItem = binding.navigationView.getMenu().findItem(itemId);
         selectMenuItem(menuItem);
     }
 
-    private void selectMenuItem(MenuItem menuItem) {
-        if (menuItem != null) {
-            switch (menuItem.getItemId()) {
-                case R.id.nav_timeline:
-                    showFragment(new TimelineFragment(), menuItem, false);
-                    break;
-                case R.id.nav_log:
-                    showFragment(new LogFragment(), menuItem, false);
-                    break;
-                case R.id.nav_calculator:
-                    showFragment(new CalculatorFragment(), menuItem, true);
-                    break;
-                case R.id.nav_food_database:
-                    startActivity(new Intent(this, FoodActivity.class));
-                    break;
-                case R.id.nav_statistics:
-                    showFragment(new StatisticFragment(), menuItem, true);
-                    break;
-                case R.id.nav_export:
-                    showFragment(new ExportFragment(), menuItem, true);
-                    break;
-                case R.id.nav_settings:
-                    startActivity(PreferenceActivity.newInstance(this, PreferenceActivity.Link.NONE));
-                    break;
-                default:
-                    showFragment(new DashboardFragment(), menuItem, false);
-                    break;
-            }
-        }
-    }
-
-    public void showFragment(BaseFragment fragment, MenuItem menuItem, boolean addToBackStack) {
+    public void openFragment(BaseFragment fragment, MenuItem menuItem, boolean addToBackStack) {
         resetMainButton();
         selectNavigationDrawerMenuItem(menuItem);
         Operation operation = addToBackStack ? Operation.ADD : Operation.REPLACE;
         openFragment(fragment, getSupportFragmentManager(), R.id.container, operation, addToBackStack);
+    }
+
+    private void selectMenuItem(MenuItem menuItem) {
+        if (menuItem != null) {
+            int itemId = menuItem.getItemId();
+            if (itemId == R.id.nav_timeline) {
+                openFragment(new TimelineFragment(), menuItem, false);
+            } else if (itemId == R.id.nav_log) {
+                openFragment(new LogFragment(), menuItem, false);
+            } else if (itemId == R.id.nav_calculator) {
+                openFragment(new CalculatorFragment(), menuItem, true);
+            } else if (itemId == R.id.nav_food_database) {
+                startActivity(new Intent(this, FoodActivity.class));
+            } else if (itemId == R.id.nav_statistics) {
+                openFragment(new StatisticFragment(), menuItem, true);
+            } else if (itemId == R.id.nav_export) {
+                openFragment(new ExportFragment(), menuItem, true);
+            } else if (itemId == R.id.nav_settings) {
+                startActivity(PreferenceActivity.newInstance(this, PreferenceActivity.Link.NONE));
+            } else {
+                openFragment(new DashboardFragment(), menuItem, false);
+            }
+        }
     }
 
     private void selectNavigationDrawerMenuItem(MenuItem menuItem) {

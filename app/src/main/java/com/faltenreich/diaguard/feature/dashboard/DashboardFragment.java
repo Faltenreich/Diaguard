@@ -201,7 +201,7 @@ public class DashboardFragment extends BaseFragment implements MainButton {
 
     private void openStatistics() {
         if (getActivity() instanceof MainActivity) {
-            ((MainActivity) getActivity()).showFragment(R.id.nav_statistics);
+            ((MainActivity) getActivity()).openFragment(R.id.nav_statistics);
         }
     }
 

@@ -131,7 +131,7 @@ public abstract class BaseFragment extends Fragment implements ToolbarBehavior {
 
     protected void showFragment(BaseFragment fragment) {
         if (getActivity() != null && getActivity() instanceof MainActivity) {
-            ((MainActivity) getActivity()).showFragment(fragment, null, true);
+            ((MainActivity) getActivity()).openFragment(fragment, null, true);
         }
     }
 

@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
@@ -35,7 +37,7 @@ import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 import com.faltenreich.diaguard.shared.view.coordinatorlayout.SlideOutBehavior;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 
-public class MainActivity extends BaseActivity<ActivityMainBinding> implements Navigator, OnFragmentChangeListener {
+public class MainActivity extends BaseActivity<ActivityMainBinding> implements Navigator, ToolbarOwner, OnFragmentChangeListener {
 
     private ActionBarDrawerToggle drawerToggle;
 
@@ -49,9 +51,29 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     }
 
     @Override
+    public Toolbar getToolbar() {
+        return findViewById(R.id.toolbar);
+    }
+
+    @Override
+    public TextView getTitleView() {
+        return findViewById(R.id.toolbar_title);
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        if (getTitleView() != null) {
+            getTitleView().setText(title);
+        } else {
+            super.setTitle(title);
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         PreferenceStore.getInstance().setDefaultValues(this);
+        applyToolbar(this);
         initLayout();
         checkChangelog();
     }

@@ -9,16 +9,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewbinding.ViewBinding;
 
-import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.navigation.ToolbarOwner;
 import com.faltenreich.diaguard.shared.data.permission.Permission;
 import com.faltenreich.diaguard.shared.data.permission.PermissionManager;
 import com.faltenreich.diaguard.shared.data.permission.PermissionUseCase;
@@ -31,10 +27,7 @@ import com.faltenreich.diaguard.shared.event.permission.PermissionResponseEvent;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-public abstract class BaseActivity<BINDING extends ViewBinding>
-    extends AppCompatActivity
-    implements ToolbarOwner
-{
+public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompatActivity {
 
     private static final String TAG = BaseActivity.class.getSimpleName();
 
@@ -50,7 +43,6 @@ public abstract class BaseActivity<BINDING extends ViewBinding>
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initViewBinding();
-        applyToolbar(this, findViewById(R.id.toolbar));
         initAutofill();
     }
 
@@ -75,20 +67,6 @@ public abstract class BaseActivity<BINDING extends ViewBinding>
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Nullable
-    public TextView getTitleView() {
-        return findViewById(R.id.toolbar_title);
-    }
-
-    @Override
-    public void setTitle(CharSequence title) {
-        if (getTitleView() != null) {
-            getTitleView().setText(title);
-        } else {
-            super.setTitle(title);
-        }
     }
 
     @Override

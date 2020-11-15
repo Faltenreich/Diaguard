@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.MenuRes;
@@ -22,6 +23,7 @@ import com.faltenreich.diaguard.feature.navigation.Navigating;
 import com.faltenreich.diaguard.feature.navigation.Navigator;
 import com.faltenreich.diaguard.feature.navigation.OnFragmentChangeListener;
 import com.faltenreich.diaguard.feature.navigation.ToolbarBehavior;
+import com.faltenreich.diaguard.feature.navigation.ToolbarOwner;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
@@ -79,8 +81,9 @@ public abstract class BaseFragment extends Fragment implements Navigating, Toolb
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        View titleView = getActivity() != null && getActivity() instanceof BaseActivity ? ((BaseActivity) getActivity()).getTitleView() : null;
-        if (titleView != null) {
+        if (getActivity() instanceof ToolbarOwner) {
+            ToolbarOwner toolbarOwner = (ToolbarOwner) getActivity();
+            TextView titleView = toolbarOwner.getTitleView();
             if (this instanceof ToolbarCallback) {
                 titleView.setClickable(true);
                 titleView.setOnClickListener(childView -> ((ToolbarCallback) BaseFragment.this).action());

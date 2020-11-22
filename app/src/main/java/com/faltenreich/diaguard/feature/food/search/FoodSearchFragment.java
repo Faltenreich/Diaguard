@@ -101,6 +101,11 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
         super.onPause();
     }
 
+    @Override
+    public boolean showToolbar() {
+        return false;
+    }
+
     private void init() {
         if (getActivity() != null && getActivity().getIntent() != null && getActivity().getIntent().getExtras() != null) {
             Bundle extras = getActivity().getIntent().getExtras();

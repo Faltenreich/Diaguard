@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.feature.food;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -30,8 +31,11 @@ public class FoodActivity extends BaseActivity<ActivityFoodBinding> implements N
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initLayout();
-        openFragment(new FoodSearchFragment(), Navigation.Operation.REPLACE, false);
-        invalidateLayout();
+
+        Fragment initialFragment = new FoodSearchFragment();
+        openFragment(initialFragment, Navigation.Operation.REPLACE, false);
+
+        invalidateLayout(initialFragment);
     }
 
     @Override
@@ -41,13 +45,17 @@ public class FoodActivity extends BaseActivity<ActivityFoodBinding> implements N
 
     private void initLayout() {
         ToolbarManager.applyToolbar(this, binding.toolbar.toolbar);
-        getSupportFragmentManager().addOnBackStackChangedListener(this::invalidateLayout);
+
+        getSupportFragmentManager().addOnBackStackChangedListener(() -> {
+            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.container);
+            invalidateLayout(currentFragment);
+        });
     }
 
-    private void invalidateLayout() {
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
+    private void invalidateLayout(Fragment fragment) {
         if (fragment instanceof ToolbarProperties) {
             ToolbarProperties properties = (ToolbarProperties) fragment;
+            binding.toolbar.toolbar.setVisibility(properties.showToolbar() ? View.VISIBLE : View.GONE);
             binding.toolbar.toolbarTitle.setText(properties.getTitle());
         }
     }

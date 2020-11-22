@@ -9,7 +9,18 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.alarm.AlarmUtils;
+import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
+import com.faltenreich.diaguard.feature.datetime.TimeSpan;
+import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
+import com.faltenreich.diaguard.feature.navigation.MainActivity;
+import com.faltenreich.diaguard.feature.navigation.MainButton;
+import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
+import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
+import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
+import com.faltenreich.diaguard.feature.statistic.MeasurementAverageTask;
+import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
@@ -17,18 +28,9 @@ import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.shared.event.preference.UnitChangedEvent;
-import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
-import com.faltenreich.diaguard.feature.datetime.TimeSpan;
-import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
-import com.faltenreich.diaguard.feature.navigation.MainActivity;
-import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
-import com.faltenreich.diaguard.feature.navigation.MainButton;
-import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
-import com.faltenreich.diaguard.shared.view.chart.ChartUtils;
-import com.faltenreich.diaguard.feature.alarm.AlarmUtils;
-import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
-import com.faltenreich.diaguard.feature.statistic.MeasurementAverageTask;
+import com.faltenreich.diaguard.shared.view.chart.ChartUtils;
+import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.github.mikephil.charting.charts.LineChart;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -40,7 +42,7 @@ import org.joda.time.Minutes;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class DashboardFragment extends BaseFragment implements MainButton {
+public class DashboardFragment extends BaseFragment implements ToolbarDescribing, MainButton {
 
     @BindView(R.id.chart) LineChart chart;
     @BindView(R.id.layout_alarm) ViewGroup layoutAlarm;
@@ -60,7 +62,15 @@ public class DashboardFragment extends BaseFragment implements MainButton {
     private Entry latestEntry;
 
     public DashboardFragment() {
-        super(R.layout.fragment_dashboard, R.string.app_name, R.menu.dashboard);
+        super(R.layout.fragment_dashboard);
+    }
+
+    @Override
+    public ToolbarProperties getToolbarProperties() {
+        return new ToolbarProperties.Builder()
+            .setTitle(getContext(), R.string.app_name)
+            .setMenu(R.menu.dashboard)
+            .build();
     }
 
     @Override

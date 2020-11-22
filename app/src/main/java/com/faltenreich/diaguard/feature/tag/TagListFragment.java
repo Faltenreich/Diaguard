@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
+import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
 import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
@@ -24,7 +26,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class TagListFragment extends BaseFragment implements TagListAdapter.TagListener {
+public class TagListFragment extends BaseFragment implements ToolbarDescribing, TagListAdapter.TagListener {
 
     @BindView(R.id.list)
     RecyclerView list;
@@ -35,7 +37,14 @@ public class TagListFragment extends BaseFragment implements TagListAdapter.TagL
     private TagListAdapter listAdapter;
 
     public TagListFragment() {
-        super(R.layout.fragment_tags, R.string.tags);
+        super(R.layout.fragment_tags);
+    }
+
+    @Override
+    public ToolbarProperties getToolbarProperties() {
+        return new ToolbarProperties.Builder()
+            .setTitle(getContext(), R.string.tags)
+            .build();
     }
 
     @Override

@@ -32,7 +32,21 @@ public class TimelineFragment extends DateFragment implements TimelineViewPager.
     @BindView(R.id.viewpager) TimelineViewPager viewPager;
 
     public TimelineFragment() {
-        super(R.layout.fragment_timeline, R.string.timeline, R.menu.timeline);
+        super(R.layout.fragment_timeline);
+    }
+
+    @Override
+    public ToolbarProperties getToolbarProperties() {
+        boolean isLargeTitle = ViewUtils.isLandscape(getActivity()) || ViewUtils.isLargeScreen(getActivity());
+        String weekDay = isLargeTitle ?
+            getDay().dayOfWeek().getAsText() :
+            getDay().dayOfWeek().getAsShortText();
+        String date = DateTimeFormat.mediumDate().print(getDay());
+        String title = String.format("%s, %s", weekDay, date);
+        return new ToolbarProperties.Builder()
+            .setTitle(title)
+            .setMenu(R.menu.timeline)
+            .build();
     }
 
     @Override
@@ -53,20 +67,6 @@ public class TimelineFragment extends DateFragment implements TimelineViewPager.
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public ToolbarProperties getToolbarProperties() {
-        boolean isLargeTitle = ViewUtils.isLandscape(getActivity()) || ViewUtils.isLargeScreen(getActivity());
-        String weekDay = isLargeTitle ?
-            getDay().dayOfWeek().getAsText() :
-            getDay().dayOfWeek().getAsShortText();
-        String date = DateTimeFormat.mediumDate().print(getDay());
-        String title = String.format("%s, %s", weekDay, date);
-        return new ToolbarProperties.Builder()
-            .setTitle(title)
-            .setMenu(R.menu.timeline)
-            .build();
     }
 
     private void openDialogForChartStyle() {

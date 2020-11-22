@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentEntrySearchBinding;
 import com.faltenreich.diaguard.feature.log.entry.LogEntryListItem;
+import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
+import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
 import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
@@ -37,7 +39,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EntrySearchFragment extends BaseFragment implements SearchViewListener {
+public class EntrySearchFragment extends BaseFragment implements ToolbarDescribing, SearchViewListener {
 
     private static final String TAG = EntrySearchFragment.class.getSimpleName();
     private static final int PAGE_SIZE = 25;
@@ -56,7 +58,14 @@ public class EntrySearchFragment extends BaseFragment implements SearchViewListe
     private int currentPage = 0;
 
     public EntrySearchFragment() {
-        super(R.layout.fragment_entry_search, R.string.search);
+        super(R.layout.fragment_entry_search);
+    }
+
+    @Override
+    public ToolbarProperties getToolbarProperties() {
+        return new ToolbarProperties.Builder()
+            .setTitle(getContext(), R.string.search)
+            .build();
     }
 
     @Override

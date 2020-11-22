@@ -11,17 +11,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.export.job.Export;
+import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
+import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
+import com.faltenreich.diaguard.shared.data.async.BaseAsyncTask;
+import com.faltenreich.diaguard.shared.data.file.FileUtils;
+import com.faltenreich.diaguard.shared.data.permission.Permission;
+import com.faltenreich.diaguard.shared.data.permission.PermissionUseCase;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.file.ExportHistoryDeleteEvent;
 import com.faltenreich.diaguard.shared.event.permission.PermissionRequestEvent;
 import com.faltenreich.diaguard.shared.event.permission.PermissionResponseEvent;
-import com.faltenreich.diaguard.feature.export.job.Export;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
-import com.faltenreich.diaguard.shared.data.file.FileUtils;
-import com.faltenreich.diaguard.shared.data.permission.Permission;
-import com.faltenreich.diaguard.shared.data.permission.PermissionUseCase;
-import com.faltenreich.diaguard.shared.data.async.BaseAsyncTask;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -33,7 +35,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class ExportHistoryFragment extends BaseFragment {
+public class ExportHistoryFragment extends BaseFragment implements ToolbarDescribing {
 
     @BindView(R.id.list) RecyclerView listView;
     @BindView(R.id.progressView) View progressView;
@@ -41,7 +43,14 @@ public class ExportHistoryFragment extends BaseFragment {
     private ExportHistoryListAdapter listAdapter;
 
     public ExportHistoryFragment() {
-        super(R.layout.fragment_export_history, R.string.export_history);
+        super(R.layout.fragment_export_history);
+    }
+
+    @Override
+    public ToolbarProperties getToolbarProperties() {
+        return new ToolbarProperties.Builder()
+            .setTitle(getContext(), R.string.export_history)
+            .build();
     }
 
     @Override

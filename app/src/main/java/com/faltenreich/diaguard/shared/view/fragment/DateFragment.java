@@ -4,23 +4,22 @@ import android.content.res.Configuration;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.LayoutRes;
-import androidx.annotation.MenuRes;
 import androidx.annotation.NonNull;
-import androidx.annotation.StringRes;
 
 import com.faltenreich.diaguard.feature.datetime.DatePickerFragment;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
 import com.faltenreich.diaguard.feature.navigation.MainButton;
 import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
+import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 
 import org.joda.time.DateTime;
 
-public abstract class DateFragment extends BaseFragment implements BaseFragment.ToolbarCallback, MainButton {
+public abstract class DateFragment extends BaseFragment implements ToolbarDescribing, BaseFragment.ToolbarCallback, MainButton {
 
     private DateTime day;
 
-    protected DateFragment(@LayoutRes int layoutResourceId, @StringRes int titleResourceId, @MenuRes int menuRes) {
-        super(layoutResourceId, titleResourceId, menuRes);
+    protected DateFragment(@LayoutRes int layoutResourceId) {
+        super(layoutResourceId);
         this.day = DateTime.now().withHourOfDay(0).withMinuteOfHour(0);
     }
 

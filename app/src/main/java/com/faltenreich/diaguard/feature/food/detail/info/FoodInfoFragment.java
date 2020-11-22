@@ -9,12 +9,12 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
-import com.faltenreich.diaguard.shared.event.data.FoodDeletedEvent;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
-import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
+import com.faltenreich.diaguard.shared.event.data.FoodDeletedEvent;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -29,7 +29,7 @@ public class FoodInfoFragment extends BaseFoodFragment {
     @BindView(R.id.food_labels) ViewGroup labels;
 
     public FoodInfoFragment() {
-        super(R.layout.fragment_food_info, R.string.info, -1);
+        super(R.layout.fragment_food_info);
     }
 
     @Override

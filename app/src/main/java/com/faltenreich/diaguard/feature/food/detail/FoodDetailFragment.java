@@ -12,6 +12,8 @@ import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
 import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
 import com.faltenreich.diaguard.feature.food.edit.FoodEditFragment;
 import com.faltenreich.diaguard.feature.navigation.Navigation;
+import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
+import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.google.android.material.tabs.TabLayout;
 
@@ -21,7 +23,7 @@ import butterknife.BindView;
  * Created by Faltenreich on 27.09.2016.
  */
 
-public class FoodDetailFragment extends BaseFoodFragment {
+public class FoodDetailFragment extends BaseFoodFragment implements ToolbarDescribing {
 
     @BindView(R.id.food_viewpager) ViewPager viewPager;
     @BindView(R.id.food_tablayout) TabLayout tabLayout;
@@ -35,7 +37,15 @@ public class FoodDetailFragment extends BaseFoodFragment {
     }
 
     public FoodDetailFragment() {
-        super(R.layout.fragment_food_detail, R.string.food, R.menu.food);
+        super(R.layout.fragment_food_detail);
+    }
+
+    @Override
+    public ToolbarProperties getToolbarProperties() {
+        return new ToolbarProperties.Builder()
+            .setTitle(getContext(), R.string.food)
+            .setMenu(R.menu.food)
+            .build();
     }
 
     @Override

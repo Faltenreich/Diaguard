@@ -11,6 +11,8 @@ import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
 import com.faltenreich.diaguard.feature.food.input.FoodInputView;
 import com.faltenreich.diaguard.feature.navigation.MainButton;
 import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
+import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
+import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
@@ -44,7 +46,7 @@ import butterknife.BindView;
 /**
  * Created by Faltenreich on 10.09.2016.
  */
-public class CalculatorFragment extends BaseFragment implements MainButton {
+public class CalculatorFragment extends BaseFragment implements ToolbarDescribing, MainButton {
 
     @BindView(R.id.calculator_bloodsugar)
     StickyHintInput bloodSugarInput;
@@ -58,7 +60,14 @@ public class CalculatorFragment extends BaseFragment implements MainButton {
     StickyHintInput factorInput;
 
     public CalculatorFragment() {
-        super(R.layout.fragment_calculator, R.string.calculator);
+        super(R.layout.fragment_calculator);
+    }
+
+    @Override
+    public ToolbarProperties getToolbarProperties() {
+        return new ToolbarProperties.Builder()
+            .setTitle(getContext(), R.string.calculator)
+            .build();
     }
 
     @Override

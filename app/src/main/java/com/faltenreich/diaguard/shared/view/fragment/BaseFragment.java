@@ -17,16 +17,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.navigation.MainActivity;
 import com.faltenreich.diaguard.feature.navigation.Navigating;
 import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.feature.navigation.OnFragmentChangeListener;
-import com.faltenreich.diaguard.feature.navigation.ToolbarManager;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
+import com.faltenreich.diaguard.feature.navigation.ToolbarManager;
 import com.faltenreich.diaguard.feature.navigation.ToolbarOwner;
-import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
@@ -43,24 +41,10 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.ButterKnife;
 
-public abstract class BaseFragment extends Fragment implements Navigating, ToolbarDescribing {
-
-    @MenuRes private final int menuResId;
-
-    private String title;
-
-    public BaseFragment(@LayoutRes int layoutResourceId, @StringRes int titleResId, @MenuRes int menuResId) {
-        super(layoutResourceId);
-        this.title = titleResId != -1 ? DiaguardApplication.getContext().getString(titleResId) : null;
-        this.menuResId = menuResId;
-    }
-
-    public BaseFragment(@LayoutRes int layoutResourceId, @StringRes int titleResId) {
-        this(layoutResourceId, titleResId, -1);
-    }
+public abstract class BaseFragment extends Fragment implements Navigating {
 
     public BaseFragment(@LayoutRes int layoutResourceId) {
-        this(layoutResourceId, -1);
+        super(layoutResourceId);
     }
 
     @Override
@@ -118,24 +102,16 @@ public abstract class BaseFragment extends Fragment implements Navigating, Toolb
     public void onCreateOptionsMenu(Menu menu, @NonNull MenuInflater inflater) {
         menu.clear();
 
-        @MenuRes int menuResId = getToolbarProperties().getMenuResId();
-        if (menuResId  >= 0) {
-            inflater.inflate(getToolbarProperties().getMenuResId(), menu);
+        if (this instanceof ToolbarDescribing) {
+            @MenuRes int menuResId = ((ToolbarDescribing) this).getToolbarProperties().getMenuResId();
+            if (menuResId  >= 0) {
+                inflater.inflate(menuResId, menu);
+            }
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    @Override
-    public ToolbarProperties getToolbarProperties() {
-        return new ToolbarProperties.Builder()
-            .setTitle(title)
-            .setMenu(menuResId)
-            .enableToolbar()
-            .build();
-    }
-
     public void setTitle(String title) {
-        this.title = title;
         if (this instanceof ToolbarOwner) {
             ToolbarOwner toolbarOwner = (ToolbarOwner) this;
             toolbarOwner.getTitleView().setText(title);

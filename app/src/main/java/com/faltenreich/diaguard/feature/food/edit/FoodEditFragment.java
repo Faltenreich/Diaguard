@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
+import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
@@ -28,7 +29,7 @@ import butterknife.OnClick;
  * Created by Faltenreich on 01.11.2016.
  */
 
-public class FoodEditFragment extends BaseFoodFragment {
+public class FoodEditFragment extends BaseFoodFragment implements ToolbarDescribing {
 
     @BindView(R.id.food_edit_name) StickyHintInput nameInput;
     @BindView(R.id.food_edit_brand) StickyHintInput brandInput;
@@ -44,7 +45,15 @@ public class FoodEditFragment extends BaseFoodFragment {
     }
 
     public FoodEditFragment() {
-        super(R.layout.fragment_food_edit, R.string.food_new, R.menu.form_edit);
+        super(R.layout.fragment_food_edit);
+    }
+
+    @Override
+    public ToolbarProperties getToolbarProperties() {
+        return new ToolbarProperties.Builder()
+            .setTitle(getContext(), getFood() != null ? R.string.food_edit : R.string.food_new)
+            .setMenu(R.menu.form_edit)
+            .build();
     }
 
     @Override
@@ -77,13 +86,6 @@ public class FoodEditFragment extends BaseFoodFragment {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public ToolbarProperties getToolbarProperties() {
-        return new ToolbarProperties.Builder()
-            .setTitle(getContext(), getFood() != null ? R.string.food_edit : R.string.food_new)
-            .build();
     }
 
     private void init() {

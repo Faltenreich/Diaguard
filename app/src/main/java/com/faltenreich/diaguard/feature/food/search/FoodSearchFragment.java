@@ -19,6 +19,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.food.detail.FoodDetailFragment;
 import com.faltenreich.diaguard.feature.food.edit.FoodEditFragment;
 import com.faltenreich.diaguard.feature.navigation.Navigation;
+import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.preference.PreferenceActivity;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
@@ -51,7 +52,7 @@ import butterknife.OnClick;
 
 import static com.faltenreich.diaguard.R.id.food_search_list_empty;
 
-public class FoodSearchFragment extends BaseFragment implements SearchViewListener {
+public class FoodSearchFragment extends BaseFragment implements ToolbarDescribing, SearchViewListener {
 
     public static final String FINISH_ON_SELECTION = "finishOnSelection";
 
@@ -74,7 +75,15 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
     private boolean finishOnSelection;
 
     public FoodSearchFragment() {
-        super(R.layout.fragment_food_search, R.string.food);
+        super(R.layout.fragment_food_search);
+    }
+
+    @Override
+    public ToolbarProperties getToolbarProperties() {
+        return new ToolbarProperties.Builder()
+            .setTitle(getContext(), R.string.food)
+            .setShowToolbar(false)
+            .build();
     }
 
     @Override
@@ -100,14 +109,6 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
     public void onPause() {
         Events.unregister(this);
         super.onPause();
-    }
-
-    @Override
-    public ToolbarProperties getToolbarProperties() {
-        return new ToolbarProperties.Builder()
-            .setTitle(getContext(), R.string.food)
-            .disableToolbar()
-            .build();
     }
 
     private void init() {

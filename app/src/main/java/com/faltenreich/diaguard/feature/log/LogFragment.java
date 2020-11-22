@@ -53,7 +53,18 @@ public class LogFragment extends DateFragment implements LogListAdapter.Listener
     private LinearLayoutManager listLayoutManager;
 
     public LogFragment() {
-        super(R.layout.fragment_log, R.string.log, R.menu.log);
+        super(R.layout.fragment_log);
+    }
+
+    @Override
+    public ToolbarProperties getToolbarProperties() {
+        boolean isLargeTitle = ViewUtils.isLandscape(getActivity()) || ViewUtils.isLargeScreen(getActivity());
+        String format = isLargeTitle ? "MMMM YYYY" : "MMM YYYY";
+        String title = getDay().toString(format);
+        return new ToolbarProperties.Builder()
+            .setTitle(title)
+            .setMenu(R.menu.log)
+            .build();
     }
 
     @Override
@@ -72,17 +83,6 @@ public class LogFragment extends DateFragment implements LogListAdapter.Listener
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public ToolbarProperties getToolbarProperties() {
-        boolean isLargeTitle = ViewUtils.isLandscape(getActivity()) || ViewUtils.isLargeScreen(getActivity());
-        String format = isLargeTitle ? "MMMM YYYY" : "MMM YYYY";
-        String title = getDay().toString(format);
-        return new ToolbarProperties.Builder()
-            .setTitle(title)
-            .setMenu(R.menu.log)
-            .build();
     }
 
     private void initLayout() {

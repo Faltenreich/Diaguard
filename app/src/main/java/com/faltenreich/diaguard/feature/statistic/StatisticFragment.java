@@ -14,16 +14,18 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.datetime.TimeSpan;
+import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
+import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
-import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
-import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
-import com.faltenreich.diaguard.feature.datetime.TimeSpan;
 import com.faltenreich.diaguard.shared.view.chart.ChartUtils;
+import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
+import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -42,7 +44,7 @@ import butterknife.BindView;
  * Created by Faltenreich on 27.10.2016.
  */
 
-public class StatisticFragment extends BaseFragment {
+public class StatisticFragment extends BaseFragment implements ToolbarDescribing {
 
     private static final int MIN_MAX_Y_VALUE = 3;
 
@@ -64,7 +66,14 @@ public class StatisticFragment extends BaseFragment {
     private Category category;
 
     public StatisticFragment() {
-        super(R.layout.fragment_statistic, R.string.statistics);
+        super(R.layout.fragment_statistic);
+    }
+
+    @Override
+    public ToolbarProperties getToolbarProperties() {
+        return new ToolbarProperties.Builder()
+            .setTitle(getContext(), R.string.statistics)
+            .build();
     }
 
     @Override

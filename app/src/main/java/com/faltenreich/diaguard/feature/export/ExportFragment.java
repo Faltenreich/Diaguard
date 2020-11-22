@@ -30,6 +30,8 @@ import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportConfig;
 import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfExportStyle;
 import com.faltenreich.diaguard.feature.navigation.MainButton;
 import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
+import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
+import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
@@ -57,7 +59,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnItemSelected;
 
-public class ExportFragment extends BaseFragment implements ExportCallback, MainButton {
+public class ExportFragment extends BaseFragment implements ToolbarDescribing, ExportCallback, MainButton {
 
     private static final String TAG = ExportFragment.class.getSimpleName();
 
@@ -95,7 +97,15 @@ public class ExportFragment extends BaseFragment implements ExportCallback, Main
     private DateTime dateEnd;
 
     public ExportFragment() {
-        super(R.layout.fragment_export, R.string.export, R.menu.export);
+        super(R.layout.fragment_export);
+    }
+
+    @Override
+    public ToolbarProperties getToolbarProperties() {
+        return new ToolbarProperties.Builder()
+            .setTitle(getContext(), R.string.export)
+            .setMenu(R.menu.export)
+            .build();
     }
 
     @Override

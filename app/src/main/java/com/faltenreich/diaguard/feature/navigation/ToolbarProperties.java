@@ -8,7 +8,7 @@ import androidx.annotation.StringRes;
 public class ToolbarProperties {
 
     private final String title;
-    private @MenuRes final int menuResId;
+    private final int menuResId;
     private final boolean showToolbar;
 
     private ToolbarProperties(String title, @MenuRes int menuResId, boolean showToolbar) {
@@ -21,6 +21,7 @@ public class ToolbarProperties {
         return title;
     }
 
+    @MenuRes
     public int getMenuResId() {
         return menuResId;
     }
@@ -32,8 +33,7 @@ public class ToolbarProperties {
     public static class Builder {
 
         private String title = null;
-        private @MenuRes
-        int menuResId = -1;
+        private int menuResId = -1;
         private boolean showToolbar = true;
 
         public Builder setTitle(String title) {
@@ -50,13 +50,8 @@ public class ToolbarProperties {
             return this;
         }
 
-        public Builder enableToolbar() {
-            this.showToolbar = true;
-            return this;
-        }
-
-        public Builder disableToolbar() {
-            this.showToolbar = false;
+        public Builder setShowToolbar(boolean showToolbar) {
+            this.showToolbar = showToolbar;
             return this;
         }
 

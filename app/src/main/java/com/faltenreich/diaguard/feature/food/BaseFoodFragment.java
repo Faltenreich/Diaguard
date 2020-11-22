@@ -3,9 +3,7 @@ package com.faltenreich.diaguard.feature.food;
 import android.os.Bundle;
 
 import androidx.annotation.LayoutRes;
-import androidx.annotation.MenuRes;
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 
 import com.faltenreich.diaguard.R;
@@ -26,8 +24,8 @@ public abstract class BaseFoodFragment extends BaseFragment {
 
     private Food food;
 
-    protected BaseFoodFragment(@LayoutRes int layoutResId, @StringRes int titleResId, @MenuRes int menuResId) {
-        super(layoutResId, titleResId, menuResId);
+    protected BaseFoodFragment(@LayoutRes int layoutResId) {
+        super(layoutResId);
     }
 
     @Override

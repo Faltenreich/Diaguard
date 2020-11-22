@@ -12,8 +12,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/view_toolbar" />
-
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -23,14 +21,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:showDividers="middle"
+                android:background="?attr/backgroundColorSecondary"
                 android:divider="?android:listDivider"
-                android:background="?attr/backgroundColorSecondary">
+                android:orientation="vertical"
+                android:showDividers="middle">
 
-                <LinearLayout style="@style/LayoutRow"
-                    android:paddingRight="0dp"
+                <LinearLayout
+                    style="@style/LayoutRow"
                     android:paddingEnd="0dp"
+                    android:paddingRight="0dp"
                     tools:ignore="RtlSymmetry">
 
                     <ImageView
@@ -45,16 +44,17 @@
                         android:id="@+id/food_edit_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingStart="@dimen/margin_between"
-                        android:paddingLeft="@dimen/margin_between"
                         android:hint="@string/name"
-                        android:inputType="text"/>
+                        android:inputType="text"
+                        android:paddingStart="@dimen/margin_between"
+                        android:paddingLeft="@dimen/margin_between" />
 
                 </LinearLayout>
 
-                <LinearLayout style="@style/LayoutRow"
-                    android:paddingRight="0dp"
+                <LinearLayout
+                    style="@style/LayoutRow"
                     android:paddingEnd="0dp"
+                    android:paddingRight="0dp"
                     tools:ignore="RtlSymmetry">
 
                     <ImageView
@@ -69,16 +69,17 @@
                         android:id="@+id/food_edit_brand"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingStart="@dimen/margin_between"
-                        android:paddingLeft="@dimen/margin_between"
                         android:hint="@string/brand"
-                        android:inputType="text"/>
+                        android:inputType="text"
+                        android:paddingStart="@dimen/margin_between"
+                        android:paddingLeft="@dimen/margin_between" />
 
                 </LinearLayout>
 
-                <LinearLayout style="@style/LayoutRow"
-                    android:paddingRight="0dp"
+                <LinearLayout
+                    style="@style/LayoutRow"
                     android:paddingEnd="0dp"
+                    android:paddingRight="0dp"
                     tools:ignore="RtlSymmetry">
 
                     <ImageView
@@ -93,10 +94,10 @@
                         android:id="@+id/food_edit_ingredients"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingStart="@dimen/margin_between"
-                        android:paddingLeft="@dimen/margin_between"
                         android:hint="@string/ingredients"
-                        android:inputType="text"/>
+                        android:inputType="text"
+                        android:paddingStart="@dimen/margin_between"
+                        android:paddingLeft="@dimen/margin_between" />
 
                 </LinearLayout>
 
@@ -105,16 +106,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?android:listDivider"
-                    android:text="@string/nutriments_per_100g"/>
+                    android:text="@string/nutriments_per_100g" />
 
                 <com.faltenreich.diaguard.feature.food.edit.NutrientInputLayout
                     android:id="@+id/food_edit_nutrient_input_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:showDividers="middle"
+                    android:background="?attr/backgroundColorPrimary"
                     android:divider="?android:listDivider"
-                    android:background="?attr/backgroundColorPrimary"/>
+                    android:orientation="vertical"
+                    android:showDividers="middle" />
 
             </LinearLayout>
 
@@ -123,13 +124,13 @@
     </LinearLayout>
 
     <com.github.clans.fab.FloatingActionButton
-        style="@style/FloatingActionButton"
         android:id="@+id/fab"
+        style="@style/FloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:src="@drawable/ic_done"
         app:fab_colorNormal="?backgroundColorGreen"
-        app:layout_dodgeInsetEdges="bottom"/>
+        app:layout_dodgeInsetEdges="bottom" />
 
 </FrameLayout>

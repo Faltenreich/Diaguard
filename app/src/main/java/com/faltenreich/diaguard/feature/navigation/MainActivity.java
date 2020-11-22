@@ -73,7 +73,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         PreferenceStore.getInstance().setDefaultValues(this);
-        applyToolbar(this);
+        ToolbarManager.applyToolbar(this, getToolbar());
         initLayout();
         checkChangelog();
     }
@@ -155,15 +155,15 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     private void invalidateLayout() {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
         if (fragment != null) {
-            invalidateToolbar(fragment instanceof ToolbarBehavior ? (ToolbarBehavior) fragment : null);
+            invalidateToolbar(fragment instanceof ToolbarProperties ? (ToolbarProperties) fragment : null);
             invalidateMainButton(fragment instanceof MainButton ? (MainButton) fragment : null);
             invalidateNavigationDrawer(fragment);
         }
     }
 
-    private void invalidateToolbar(@Nullable ToolbarBehavior toolbarBehavior) {
-        if (toolbarBehavior != null) {
-            setTitle(toolbarBehavior.getTitle());
+    private void invalidateToolbar(@Nullable ToolbarProperties toolbarProperties) {
+        if (toolbarProperties != null) {
+            setTitle(toolbarProperties.getTitle());
         }
     }
 

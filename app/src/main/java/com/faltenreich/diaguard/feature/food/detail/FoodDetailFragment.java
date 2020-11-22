@@ -3,10 +3,8 @@ package com.faltenreich.diaguard.feature.food.detail;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import com.faltenreich.diaguard.R;
@@ -14,7 +12,6 @@ import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
 import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
 import com.faltenreich.diaguard.feature.food.edit.FoodEditFragment;
 import com.faltenreich.diaguard.feature.navigation.Navigator;
-import com.faltenreich.diaguard.feature.navigation.ToolbarOwner;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.google.android.material.tabs.TabLayout;
 
@@ -24,7 +21,7 @@ import butterknife.BindView;
  * Created by Faltenreich on 27.09.2016.
  */
 
-public class FoodDetailFragment extends BaseFoodFragment implements ToolbarOwner {
+public class FoodDetailFragment extends BaseFoodFragment {
 
     @BindView(R.id.food_viewpager) ViewPager viewPager;
     @BindView(R.id.food_tablayout) TabLayout tabLayout;
@@ -39,16 +36,6 @@ public class FoodDetailFragment extends BaseFoodFragment implements ToolbarOwner
 
     public FoodDetailFragment() {
         super(R.layout.fragment_food_detail, R.string.food, R.menu.food);
-    }
-
-    @Override
-    public Toolbar getToolbar() {
-        return getView().findViewById(R.id.toolbar);
-    }
-
-    @Override
-    public TextView getTitleView() {
-        return getView().findViewById(R.id.toolbar_title);
     }
 
     @Override

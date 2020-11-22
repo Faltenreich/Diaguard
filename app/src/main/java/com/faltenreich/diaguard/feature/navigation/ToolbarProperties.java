@@ -1,5 +1,5 @@
 package com.faltenreich.diaguard.feature.navigation;
 
-public interface ToolbarBehavior {
+public interface ToolbarProperties {
     String getTitle();
 }

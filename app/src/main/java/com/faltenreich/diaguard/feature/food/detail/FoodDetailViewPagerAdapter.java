@@ -7,57 +7,58 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
-import com.faltenreich.diaguard.feature.food.detail.info.FoodInfoFragment;
 import com.faltenreich.diaguard.feature.food.detail.history.FoodHistoryFragment;
+import com.faltenreich.diaguard.feature.food.detail.info.FoodInfoFragment;
 import com.faltenreich.diaguard.feature.food.detail.nutrient.NutrientListFragment;
 import com.faltenreich.diaguard.feature.navigation.ToolbarBehavior;
-
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Created by Faltenreich on 27.10.2016.
- */
+import com.faltenreich.diaguard.shared.data.database.entity.Food;
 
 class FoodDetailViewPagerAdapter extends FragmentStatePagerAdapter {
 
-    private List<BaseFoodFragment> fragments;
+    private final Food food;
 
-    FoodDetailViewPagerAdapter(FragmentManager fragmentManager, Food food) {
-        super(fragmentManager);
-        initWithFood(food);
+    private enum FoodDetailPage {
+        INFO,
+        NUTRIENTS,
+        HISTORY
     }
 
-    private void initWithFood(Food food) {
-        Bundle bundle = new Bundle();
-        bundle.putLong(BaseFoodFragment.EXTRA_FOOD_ID, food.getId());
-
-        fragments = new ArrayList<>();
-
-        FoodInfoFragment detailFragment = new FoodInfoFragment();
-        detailFragment.setArguments(bundle);
-        fragments.add(detailFragment);
-
-        NutrientListFragment nutrientListFragment = new NutrientListFragment();
-        nutrientListFragment.setArguments(bundle);
-        fragments.add(nutrientListFragment);
-
-        FoodHistoryFragment foodHistoryFragment = new FoodHistoryFragment();
-        foodHistoryFragment.setArguments(bundle);
-        fragments.add(foodHistoryFragment);
+    FoodDetailViewPagerAdapter(FragmentManager fragmentManager, Food food) {
+        super(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        this.food = food;
     }
 
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        return position < fragments.size() ? fragments.get(position) : null;
+        Fragment fragment;
+
+        FoodDetailPage page = FoodDetailPage.values()[position];
+        switch (page) {
+            case INFO:
+                fragment = new FoodInfoFragment();
+                break;
+            case NUTRIENTS:
+                fragment = new NutrientListFragment();
+                break;
+            case HISTORY:
+                fragment = new FoodHistoryFragment();
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown page for position " + position);
+        }
+
+        Bundle bundle = new Bundle();
+        bundle.putLong(BaseFoodFragment.EXTRA_FOOD_ID, food.getId());
+        fragment.setArguments(bundle);
+
+        return fragment;
     }
 
     @Override
     public int getCount() {
-        return fragments.size();
+        return FoodDetailPage.values().length;
     }
 
     @Override

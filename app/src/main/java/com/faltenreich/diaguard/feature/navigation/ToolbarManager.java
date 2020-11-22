@@ -4,8 +4,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.faltenreich.diaguard.shared.SystemUtils;
-
 public class ToolbarManager {
 
     public static void applyToolbar(AppCompatActivity activity, Toolbar toolbar) {
@@ -16,6 +14,5 @@ public class ToolbarManager {
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setHomeButtonEnabled(true);
         }
-        activity.setTitle(SystemUtils.getLabelForActivity(activity));
     }
 }

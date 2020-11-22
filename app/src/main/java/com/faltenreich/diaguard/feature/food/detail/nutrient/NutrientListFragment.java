@@ -19,10 +19,6 @@ import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDivi
 
 import butterknife.BindView;
 
-/**
- * Created by Faltenreich on 27.10.2016.
- */
-
 public class NutrientListFragment extends BaseFoodFragment implements TabDescribing {
 
     @BindView(R.id.food_list_nutrients) RecyclerView nutrientList;

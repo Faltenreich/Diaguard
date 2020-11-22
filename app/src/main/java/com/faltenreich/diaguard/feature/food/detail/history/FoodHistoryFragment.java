@@ -22,10 +22,6 @@ import java.util.List;
 
 import butterknife.BindView;
 
-/**
- * Created by Faltenreich on 27.10.2016.
- */
-
 public class FoodHistoryFragment extends BaseFoodFragment implements TabDescribing {
 
     @BindView(R.id.list) RecyclerView historyList;

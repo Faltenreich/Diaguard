@@ -10,6 +10,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
 import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
+import com.faltenreich.diaguard.feature.food.FoodActions;
 import com.faltenreich.diaguard.feature.food.edit.FoodEditFragment;
 import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
@@ -18,10 +19,6 @@ import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.google.android.material.tabs.TabLayout;
 
 import butterknife.BindView;
-
-/**
- * Created by Faltenreich on 27.09.2016.
- */
 
 public class FoodDetailFragment extends BaseFoodFragment implements ToolbarDescribing {
 
@@ -43,7 +40,7 @@ public class FoodDetailFragment extends BaseFoodFragment implements ToolbarDescr
     @Override
     public ToolbarProperties getToolbarProperties() {
         return new ToolbarProperties.Builder()
-            .setTitle(getContext(), R.string.food)
+            .setTitle(getFood().getName())
             .setMenu(R.menu.food)
             .build();
     }
@@ -67,7 +64,8 @@ public class FoodDetailFragment extends BaseFoodFragment implements ToolbarDescr
         if (itemId == android.R.id.home) {
             finish();
         } else if (itemId == R.id.action_delete) {
-            deleteFoodIfConfirmed();
+            FoodActions.deleteFoodIfConfirmed(getContext(), getFood());
+            finish();
             return true;
         } else if (itemId == R.id.action_edit) {
             editFood();

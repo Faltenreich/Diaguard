@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
+import com.faltenreich.diaguard.feature.food.FoodActions;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.shared.Helper;
@@ -24,10 +25,6 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
-/**
- * Created by Faltenreich on 01.11.2016.
- */
 
 public class FoodEditFragment extends BaseFoodFragment implements ToolbarDescribing {
 
@@ -82,7 +79,8 @@ public class FoodEditFragment extends BaseFoodFragment implements ToolbarDescrib
         if (itemId == android.R.id.home) {
             finish();
         } else if (itemId == R.id.action_delete) {
-            deleteFoodIfConfirmed();
+            FoodActions.deleteFoodIfConfirmed(getContext(), getFood());
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);

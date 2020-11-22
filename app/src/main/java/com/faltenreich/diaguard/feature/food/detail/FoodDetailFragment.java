@@ -82,7 +82,7 @@ public class FoodDetailFragment extends BaseFoodFragment implements ToolbarDescr
     private void init() {
         Food food = getFood();
         if (food != null) {
-            FoodDetailViewPagerAdapter adapter = new FoodDetailViewPagerAdapter(getParentFragmentManager(), food);
+            FoodDetailViewPagerAdapter adapter = new FoodDetailViewPagerAdapter(getChildFragmentManager(), getContext(), food);
             viewPager.setAdapter(adapter);
             tabLayout.setupWithViewPager(viewPager);
         }

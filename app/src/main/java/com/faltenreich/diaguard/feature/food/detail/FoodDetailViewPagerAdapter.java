@@ -15,9 +15,9 @@ class FoodDetailViewPagerAdapter extends FragmentStatePagerAdapter {
     private final Context context;
     private final Food food;
 
-    FoodDetailViewPagerAdapter(FragmentManager fragmentManager, Food food) {
+    FoodDetailViewPagerAdapter(FragmentManager fragmentManager, Context context, Food food) {
         super(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        this.context = fragmentManager.getFragments().get(0).getContext();
+        this.context = context;
         this.food = food;
     }
 

@@ -128,7 +128,10 @@ public abstract class BaseFragment extends Fragment implements Navigating, Toolb
 
     public void setTitle(String title) {
         this.title = title;
-        if (getActivity() != null) {
+        if (this instanceof ToolbarOwner) {
+            ToolbarOwner toolbarOwner = (ToolbarOwner) this;
+            toolbarOwner.getTitleView().setText(title);
+        } else if (getActivity() != null) {
             getActivity().setTitle(title);
         }
     }

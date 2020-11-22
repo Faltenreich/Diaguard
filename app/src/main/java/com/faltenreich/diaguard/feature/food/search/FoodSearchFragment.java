@@ -18,7 +18,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.food.detail.FoodDetailFragment;
 import com.faltenreich.diaguard.feature.food.edit.FoodEditFragment;
-import com.faltenreich.diaguard.feature.navigation.Navigator;
+import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.feature.preference.PreferenceActivity;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
@@ -206,11 +206,11 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
     }
 
     private void openFood(Food food) {
-        openFragment(FoodDetailFragment.newInstance(food), Navigator.Operation.REPLACE, true);
+        openFragment(FoodDetailFragment.newInstance(food), Navigation.Operation.REPLACE, true);
     }
 
     private void createFood() {
-        openFragment(new FoodEditFragment(), Navigator.Operation.REPLACE, true);
+        openFragment(new FoodEditFragment(), Navigation.Operation.REPLACE, true);
     }
 
     @OnClick(R.id.fab)

@@ -8,14 +8,14 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 
-public interface Navigator extends Navigating {
+public class Navigation {
 
-    enum Operation {
+    public enum Operation {
         ADD,
         REPLACE
     }
 
-    default void openFragment(
+    public static void openFragment(
         @NonNull Fragment fragment,
         @NonNull FragmentManager fragmentManager,
         @IdRes int containerResId,

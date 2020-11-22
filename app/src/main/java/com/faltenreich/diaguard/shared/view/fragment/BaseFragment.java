@@ -21,7 +21,7 @@ import com.faltenreich.diaguard.DiaguardApplication;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.navigation.MainActivity;
 import com.faltenreich.diaguard.feature.navigation.Navigating;
-import com.faltenreich.diaguard.feature.navigation.Navigator;
+import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.feature.navigation.OnFragmentChangeListener;
 import com.faltenreich.diaguard.feature.navigation.ToolbarManager;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
@@ -159,10 +159,10 @@ public abstract class BaseFragment extends Fragment implements Navigating, Toolb
     }
 
     @Override
-    public void openFragment(@NonNull Fragment fragment, Navigator.Operation operation, boolean addToBackStack) {
-        Navigator navigator = (Navigator) getActivity();
-        if (navigator != null) {
-            navigator.openFragment(fragment, operation, addToBackStack);
+    public void openFragment(@NonNull Fragment fragment, Navigation.Operation operation, boolean addToBackStack) {
+        Navigating navigating = (Navigating) getActivity();
+        if (navigating != null) {
+            navigating.openFragment(fragment, operation, addToBackStack);
         }
     }
 

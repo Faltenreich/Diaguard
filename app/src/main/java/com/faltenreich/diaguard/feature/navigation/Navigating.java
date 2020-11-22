@@ -7,7 +7,7 @@ public interface Navigating {
 
     void openFragment(
         @NonNull Fragment fragment,
-        Navigator.Operation operation,
+        Navigation.Operation operation,
         boolean addToBackStack
     );
 }

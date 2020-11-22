@@ -11,7 +11,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
 import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
 import com.faltenreich.diaguard.feature.food.edit.FoodEditFragment;
-import com.faltenreich.diaguard.feature.navigation.Navigator;
+import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.google.android.material.tabs.TabLayout;
 
@@ -88,6 +88,6 @@ public class FoodDetailFragment extends BaseFoodFragment {
     }
 
     private void editFood() {
-        openFragment(FoodEditFragment.newInstance(getFood()), Navigator.Operation.REPLACE, true);
+        openFragment(FoodEditFragment.newInstance(getFood()), Navigation.Operation.REPLACE, true);
     }
 }

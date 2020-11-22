@@ -5,11 +5,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
+import com.faltenreich.diaguard.feature.navigation.ToolbarOwner;
 import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
@@ -27,7 +30,7 @@ import butterknife.OnClick;
  * Created by Faltenreich on 01.11.2016.
  */
 
-public class FoodEditFragment extends BaseFoodFragment {
+public class FoodEditFragment extends BaseFoodFragment implements ToolbarOwner {
 
     @BindView(R.id.food_edit_name) StickyHintInput nameInput;
     @BindView(R.id.food_edit_brand) StickyHintInput brandInput;
@@ -44,6 +47,16 @@ public class FoodEditFragment extends BaseFoodFragment {
 
     public FoodEditFragment() {
         super(R.layout.fragment_food_edit, R.string.food_new, R.menu.form_edit);
+    }
+
+    @Override
+    public Toolbar getToolbar() {
+        return getView().findViewById(R.id.toolbar);
+    }
+
+    @Override
+    public TextView getTitleView() {
+        return getView().findViewById(R.id.toolbar_title);
     }
 
     @Override
@@ -74,7 +87,10 @@ public class FoodEditFragment extends BaseFoodFragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.action_delete) {
+        int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            finish();
+        } else if (itemId == R.id.action_delete) {
             deleteFoodIfConfirmed();
             return true;
         }

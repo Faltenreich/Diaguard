@@ -13,6 +13,7 @@ import androidx.annotation.MenuRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -34,7 +35,6 @@ import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.shared.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
-import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -81,8 +81,11 @@ public abstract class BaseFragment extends Fragment implements Navigating, Toolb
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (getActivity() instanceof ToolbarOwner) {
-            ToolbarOwner toolbarOwner = (ToolbarOwner) getActivity();
+        if (this instanceof ToolbarOwner) {
+            ToolbarOwner toolbarOwner = (ToolbarOwner) this;
+            if (getActivity() instanceof AppCompatActivity) {
+                toolbarOwner.applyToolbar((AppCompatActivity) getActivity());
+            }
             TextView titleView = toolbarOwner.getTitleView();
             if (this instanceof ToolbarCallback) {
                 titleView.setClickable(true);

@@ -86,7 +86,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_search) {
+        if (item.getItemId() == android.R.id.home) {
+            supportFinishAfterTransition();
+            return true;
+        } else if (item.getItemId() == R.id.action_search) {
             EntrySearchActivity.show(MainActivity.this, findViewById(R.id.action_search));
             return true;
         }

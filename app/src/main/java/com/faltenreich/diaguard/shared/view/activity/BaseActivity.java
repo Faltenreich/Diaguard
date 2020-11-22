@@ -61,15 +61,6 @@ public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompa
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            supportFinishAfterTransition();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void setTitle(int titleId) {
         setTitle(getString(titleId));
     }

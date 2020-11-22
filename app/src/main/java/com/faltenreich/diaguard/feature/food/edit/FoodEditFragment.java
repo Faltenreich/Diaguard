@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
+import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
@@ -53,12 +54,6 @@ public class FoodEditFragment extends BaseFoodFragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        setTitle(getTitle());
-    }
-
-    @Override
     public void onPause() {
         if (getView() != null) {
             ViewUtils.hideKeyboard(getView());
@@ -85,8 +80,11 @@ public class FoodEditFragment extends BaseFoodFragment {
     }
 
     @Override
-    public String getTitle() {
-        return getString(getFood() != null ? R.string.food_edit : R.string.food_new);
+    public ToolbarProperties getToolbarProperties() {
+        return new ToolbarProperties(
+            getString(getFood() != null ? R.string.food_edit : R.string.food_new),
+            super.getToolbarProperties().showToolbar()
+        );
     }
 
     private void init() {

@@ -13,6 +13,7 @@ import com.faltenreich.diaguard.feature.food.search.FoodSearchFragment;
 import com.faltenreich.diaguard.feature.navigation.Navigating;
 import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.feature.navigation.ToolbarManager;
+import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 
@@ -53,8 +54,8 @@ public class FoodActivity extends BaseActivity<ActivityFoodBinding> implements N
     }
 
     private void invalidateLayout(Fragment fragment) {
-        if (fragment instanceof ToolbarProperties) {
-            ToolbarProperties properties = (ToolbarProperties) fragment;
+        if (fragment instanceof ToolbarDescribing) {
+            ToolbarProperties properties = ((ToolbarDescribing) fragment).getToolbarProperties();
             binding.toolbar.toolbar.setVisibility(properties.showToolbar() ? View.VISIBLE : View.GONE);
             binding.toolbar.toolbarTitle.setText(properties.getTitle());
         }

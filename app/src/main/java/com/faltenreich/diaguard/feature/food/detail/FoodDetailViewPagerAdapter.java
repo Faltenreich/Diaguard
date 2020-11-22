@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
+import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 
 class FoodDetailViewPagerAdapter extends FragmentStatePagerAdapter {
@@ -32,6 +32,8 @@ class FoodDetailViewPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         Fragment fragment = getItem(position);
-        return fragment instanceof ToolbarProperties ? ((ToolbarProperties) fragment).getTitle() : fragment.toString();
+        return fragment instanceof ToolbarDescribing
+            ? ((ToolbarDescribing) fragment).getToolbarProperties().getTitle()
+            : fragment.toString();
     }
 }

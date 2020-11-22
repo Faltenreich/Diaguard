@@ -155,15 +155,15 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     private void invalidateLayout() {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
         if (fragment != null) {
-            invalidateToolbar(fragment instanceof ToolbarProperties ? (ToolbarProperties) fragment : null);
+            invalidateToolbar(fragment instanceof ToolbarDescribing ? (ToolbarDescribing) fragment : null);
             invalidateMainButton(fragment instanceof MainButton ? (MainButton) fragment : null);
             invalidateNavigationDrawer(fragment);
         }
     }
 
-    private void invalidateToolbar(@Nullable ToolbarProperties toolbarProperties) {
-        if (toolbarProperties != null) {
-            setTitle(toolbarProperties.getTitle());
+    private void invalidateToolbar(@Nullable ToolbarDescribing toolbarDescribing) {
+        if (toolbarDescribing != null) {
+            setTitle(toolbarDescribing.getToolbarProperties().getTitle());
         }
     }
 

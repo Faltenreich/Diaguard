@@ -24,8 +24,9 @@ import com.faltenreich.diaguard.feature.navigation.Navigating;
 import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.feature.navigation.OnFragmentChangeListener;
 import com.faltenreich.diaguard.feature.navigation.ToolbarManager;
-import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
+import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarOwner;
+import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
@@ -42,7 +43,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.ButterKnife;
 
-public abstract class BaseFragment extends Fragment implements Navigating, ToolbarProperties {
+public abstract class BaseFragment extends Fragment implements Navigating, ToolbarDescribing {
 
     @MenuRes private final int menuResId;
 
@@ -123,8 +124,8 @@ public abstract class BaseFragment extends Fragment implements Navigating, Toolb
     }
 
     @Override
-    public String getTitle() {
-        return title;
+    public ToolbarProperties getToolbarProperties() {
+        return new ToolbarProperties(title, true);
     }
 
     public void setTitle(String title) {

@@ -15,6 +15,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.entry.search.EntrySearchActivity;
 import com.faltenreich.diaguard.feature.log.empty.LogEmptyListItem;
 import com.faltenreich.diaguard.feature.log.entry.LogEntryListItem;
+import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
@@ -74,10 +75,11 @@ public class LogFragment extends DateFragment implements LogListAdapter.Listener
     }
 
     @Override
-    public String getTitle() {
+    public ToolbarProperties getToolbarProperties() {
         boolean isLargeTitle = ViewUtils.isLandscape(getActivity()) || ViewUtils.isLargeScreen(getActivity());
         String format = isLargeTitle ? "MMMM YYYY" : "MMM YYYY";
-        return getDay().toString(format);
+        String title = getDay().toString(format);
+        return new ToolbarProperties(title, super.getToolbarProperties().showToolbar());
     }
 
     private void initLayout() {

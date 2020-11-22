@@ -45,7 +45,7 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
     }
 
     protected void updateLabels() {
-        setTitle(getTitle());
+        setTitle(getToolbarProperties().getTitle());
     }
 
     private void showDatePicker() {

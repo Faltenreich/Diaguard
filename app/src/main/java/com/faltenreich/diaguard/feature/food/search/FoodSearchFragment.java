@@ -19,6 +19,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.food.detail.FoodDetailFragment;
 import com.faltenreich.diaguard.feature.food.edit.FoodEditFragment;
 import com.faltenreich.diaguard.feature.navigation.Navigation;
+import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.preference.PreferenceActivity;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
@@ -102,8 +103,11 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
     }
 
     @Override
-    public boolean showToolbar() {
-        return false;
+    public ToolbarProperties getToolbarProperties() {
+        return new ToolbarProperties(
+            super.getToolbarProperties().getTitle(),
+            false
+        );
     }
 
     private void init() {

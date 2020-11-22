@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.shared.event.data.EntryDeletedEvent;
@@ -55,13 +56,14 @@ public class TimelineFragment extends DateFragment implements TimelineViewPager.
     }
 
     @Override
-    public String getTitle() {
+    public ToolbarProperties getToolbarProperties() {
         boolean isLargeTitle = ViewUtils.isLandscape(getActivity()) || ViewUtils.isLargeScreen(getActivity());
         String weekDay = isLargeTitle ?
             getDay().dayOfWeek().getAsText() :
             getDay().dayOfWeek().getAsShortText();
         String date = DateTimeFormat.mediumDate().print(getDay());
-        return String.format("%s, %s", weekDay, date);
+        String title = String.format("%s, %s", weekDay, date);
+        return new ToolbarProperties(title, super.getToolbarProperties().showToolbar());
     }
 
     private void openDialogForChartStyle() {

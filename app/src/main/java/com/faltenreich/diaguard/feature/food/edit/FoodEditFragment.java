@@ -81,10 +81,9 @@ public class FoodEditFragment extends BaseFoodFragment {
 
     @Override
     public ToolbarProperties getToolbarProperties() {
-        return new ToolbarProperties(
-            getString(getFood() != null ? R.string.food_edit : R.string.food_new),
-            super.getToolbarProperties().showToolbar()
-        );
+        return new ToolbarProperties.Builder()
+            .setTitle(getContext(), getFood() != null ? R.string.food_edit : R.string.food_new)
+            .build();
     }
 
     private void init() {

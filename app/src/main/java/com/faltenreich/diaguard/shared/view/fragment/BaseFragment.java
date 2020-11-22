@@ -117,15 +117,21 @@ public abstract class BaseFragment extends Fragment implements Navigating, Toolb
     @Override
     public void onCreateOptionsMenu(Menu menu, @NonNull MenuInflater inflater) {
         menu.clear();
-        if (menuResId >= 0) {
-            inflater.inflate(menuResId, menu);
+
+        @MenuRes int menuResId = getToolbarProperties().getMenuResId();
+        if (menuResId  >= 0) {
+            inflater.inflate(getToolbarProperties().getMenuResId(), menu);
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public ToolbarProperties getToolbarProperties() {
-        return new ToolbarProperties(title, true);
+        return new ToolbarProperties.Builder()
+            .setTitle(title)
+            .setMenu(menuResId)
+            .enableToolbar()
+            .build();
     }
 
     public void setTitle(String title) {

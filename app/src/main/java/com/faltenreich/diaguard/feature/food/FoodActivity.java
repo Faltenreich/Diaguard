@@ -36,7 +36,7 @@ public class FoodActivity extends BaseActivity<ActivityFoodBinding> implements N
         Fragment initialFragment = new FoodSearchFragment();
         openFragment(initialFragment, Navigation.Operation.REPLACE, false);
 
-        invalidateLayout(initialFragment);
+        // FIXME: invalidateLayout(initialFragment);
     }
 
     @Override

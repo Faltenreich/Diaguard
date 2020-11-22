@@ -63,7 +63,10 @@ public class TimelineFragment extends DateFragment implements TimelineViewPager.
             getDay().dayOfWeek().getAsShortText();
         String date = DateTimeFormat.mediumDate().print(getDay());
         String title = String.format("%s, %s", weekDay, date);
-        return new ToolbarProperties(title, super.getToolbarProperties().showToolbar());
+        return new ToolbarProperties.Builder()
+            .setTitle(title)
+            .setMenu(R.menu.timeline)
+            .build();
     }
 
     private void openDialogForChartStyle() {

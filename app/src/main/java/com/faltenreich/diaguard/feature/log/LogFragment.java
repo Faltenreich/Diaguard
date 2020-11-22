@@ -79,7 +79,10 @@ public class LogFragment extends DateFragment implements LogListAdapter.Listener
         boolean isLargeTitle = ViewUtils.isLandscape(getActivity()) || ViewUtils.isLargeScreen(getActivity());
         String format = isLargeTitle ? "MMMM YYYY" : "MMM YYYY";
         String title = getDay().toString(format);
-        return new ToolbarProperties(title, super.getToolbarProperties().showToolbar());
+        return new ToolbarProperties.Builder()
+            .setTitle(title)
+            .setMenu(R.menu.log)
+            .build();
     }
 
     private void initLayout() {

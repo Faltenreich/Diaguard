@@ -104,10 +104,10 @@ public class FoodSearchFragment extends BaseFragment implements SearchViewListen
 
     @Override
     public ToolbarProperties getToolbarProperties() {
-        return new ToolbarProperties(
-            super.getToolbarProperties().getTitle(),
-            false
-        );
+        return new ToolbarProperties.Builder()
+            .setTitle(getContext(), R.string.food)
+            .disableToolbar()
+            .build();
     }
 
     private void init() {

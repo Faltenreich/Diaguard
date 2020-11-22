@@ -9,11 +9,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
+import com.faltenreich.diaguard.feature.navigation.TabDescribing;
+import com.faltenreich.diaguard.feature.navigation.TabProperties;
+import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
-import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
-import com.faltenreich.diaguard.shared.Helper;
 
 import butterknife.BindView;
 
@@ -21,7 +23,7 @@ import butterknife.BindView;
  * Created by Faltenreich on 27.10.2016.
  */
 
-public class NutrientListFragment extends BaseFoodFragment {
+public class NutrientListFragment extends BaseFoodFragment implements TabDescribing {
 
     @BindView(R.id.food_list_nutrients) RecyclerView nutrientList;
 
@@ -29,6 +31,11 @@ public class NutrientListFragment extends BaseFoodFragment {
 
     public NutrientListFragment() {
         super(R.layout.fragment_food_nutrients);
+    }
+
+    @Override
+    public TabProperties getTabProperties() {
+        return new TabProperties.Builder(R.string.nutriments).build();
     }
 
     @Override

@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
+import com.faltenreich.diaguard.feature.navigation.TabDescribing;
+import com.faltenreich.diaguard.feature.navigation.TabProperties;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
@@ -21,7 +23,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 
-public class FoodInfoFragment extends BaseFoodFragment {
+public class FoodInfoFragment extends BaseFoodFragment implements TabDescribing {
 
     @BindView(R.id.food_brand) TextView brand;
     @BindView(R.id.food_ingredients) TextView ingredients;
@@ -30,6 +32,11 @@ public class FoodInfoFragment extends BaseFoodFragment {
 
     public FoodInfoFragment() {
         super(R.layout.fragment_food_info);
+    }
+
+    @Override
+    public TabProperties getTabProperties() {
+        return new TabProperties.Builder(R.string.info).build();
     }
 
     @Override

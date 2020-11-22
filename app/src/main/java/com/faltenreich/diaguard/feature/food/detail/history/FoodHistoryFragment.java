@@ -10,10 +10,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
+import com.faltenreich.diaguard.feature.navigation.TabDescribing;
+import com.faltenreich.diaguard.feature.navigation.TabProperties;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
-import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
 
 import java.util.List;
@@ -24,7 +26,7 @@ import butterknife.BindView;
  * Created by Faltenreich on 27.10.2016.
  */
 
-public class FoodHistoryFragment extends BaseFoodFragment {
+public class FoodHistoryFragment extends BaseFoodFragment implements TabDescribing {
 
     @BindView(R.id.list) RecyclerView historyList;
     @BindView(R.id.list_placeholder) TextView placeholder;
@@ -33,6 +35,11 @@ public class FoodHistoryFragment extends BaseFoodFragment {
 
     public FoodHistoryFragment() {
         super(R.layout.fragment_food_history);
+    }
+
+    @Override
+    public TabProperties getTabProperties() {
+        return new TabProperties.Builder(R.string.entries).build();
     }
 
     @Override

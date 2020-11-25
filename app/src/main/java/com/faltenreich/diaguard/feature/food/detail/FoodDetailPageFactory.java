@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment;
 import com.faltenreich.diaguard.feature.food.detail.history.FoodHistoryFragment;
 import com.faltenreich.diaguard.feature.food.detail.info.FoodInfoFragment;
 import com.faltenreich.diaguard.feature.food.detail.nutrient.NutrientListFragment;
-import com.faltenreich.diaguard.shared.data.database.entity.Food;
 
 class FoodDetailPageFactory {
 
@@ -14,7 +13,7 @@ class FoodDetailPageFactory {
             case INFO:
                 return FoodInfoFragment.newInstance(foodId);
             case NUTRIENTS:
-                return new NutrientListFragment();
+                return NutrientListFragment.newInstance(foodId);
             case HISTORY:
                 return FoodHistoryFragment.newInstance(foodId);
             default:

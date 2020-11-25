@@ -10,24 +10,37 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
 import com.faltenreich.diaguard.feature.navigation.TabDescribing;
 import com.faltenreich.diaguard.feature.navigation.TabProperties;
+import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
+import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
 
 import java.util.List;
 
 import butterknife.BindView;
 
-public class FoodHistoryFragment extends BaseFoodFragment implements TabDescribing {
+public class FoodHistoryFragment extends BaseFragment implements TabDescribing {
+
+    private static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
+
+    public static FoodHistoryFragment newInstance(Food food) {
+        FoodHistoryFragment fragment = new FoodHistoryFragment();
+        Bundle arguments = new Bundle();
+        arguments.putLong(EXTRA_FOOD_ID, food.getId());
+        fragment.setArguments(arguments);
+        return fragment;
+    }
 
     @BindView(R.id.list) RecyclerView historyList;
     @BindView(R.id.list_placeholder) TextView placeholder;
 
     private FoodHistoryListAdapter historyAdapter;
+
+    private Food food;
 
     public FoodHistoryFragment() {
         super(R.layout.fragment_food_history);
@@ -42,12 +55,13 @@ public class FoodHistoryFragment extends BaseFoodFragment implements TabDescribi
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(false);
+        init();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        init();
+        initLayout();
     }
 
     @Override
@@ -57,7 +71,12 @@ public class FoodHistoryFragment extends BaseFoodFragment implements TabDescribi
     }
 
     private void init() {
-        Food food = getFood();
+        Bundle arguments = requireArguments();
+        long foodId = arguments.getLong(EXTRA_FOOD_ID);
+        food = FoodDao.getInstance().getById(foodId);
+    }
+
+    private void initLayout() {
         if (food != null) {
             historyList.setLayoutManager(new LinearLayoutManager(getContext()));
             historyList.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
@@ -68,7 +87,7 @@ public class FoodHistoryFragment extends BaseFoodFragment implements TabDescribi
 
     private void update() {
         historyAdapter.clear();
-        List<FoodEaten> foodEatenList = FoodEatenDao.getInstance().getAll(getFood());
+        List<FoodEaten> foodEatenList = FoodEatenDao.getInstance().getAll(food);
         historyAdapter.addItems(foodEatenList);
         historyAdapter.notifyDataSetChanged();
         placeholder.setVisibility(foodEatenList.size() == 0 ? View.VISIBLE : View.GONE);

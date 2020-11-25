@@ -92,7 +92,7 @@ public class FoodDetailFragment extends BaseFragment implements ToolbarDescribin
     private void init() {
         Bundle arguments = requireArguments();
         long foodId = arguments.getLong(EXTRA_FOOD_ID);
-        this.food = FoodDao.getInstance().getById(foodId);
+        food = FoodDao.getInstance().getById(foodId);
     }
 
     private void initLayout() {

@@ -25,7 +25,6 @@ import com.faltenreich.diaguard.feature.datetime.TimePickerFragment;
 import com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementFloatingActionMenu;
 import com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementListView;
 import com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementView;
-import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.feature.tag.TagAutoCompleteAdapter;
 import com.faltenreich.diaguard.feature.tag.TagListActivity;
@@ -67,6 +66,7 @@ public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> im
     public static final String EXTRA_ENTRY_ID = "entryId";
     public static final String EXTRA_DATE = "date";
     public static final String EXTRA_CATEGORY = "category";
+    private static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
 
     private static Intent getIntent(Context context) {
         return new Intent(context, EntryEditActivity.class);
@@ -87,7 +87,7 @@ public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> im
     public static void show(Context context, @Nullable Food food) {
         Intent intent = getIntent(context);
         if (food != null) {
-            intent.putExtra(BaseFoodFragment.EXTRA_FOOD_ID, food.getId());
+            intent.putExtra(EXTRA_FOOD_ID, food.getId());
         }
         context.startActivity(intent);
     }
@@ -163,7 +163,7 @@ public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> im
         Bundle arguments = getIntent().getExtras();
         if (arguments != null) {
             entryId = arguments.getLong(EXTRA_ENTRY_ID);
-            foodId = arguments.getLong(BaseFoodFragment.EXTRA_FOOD_ID);
+            foodId = arguments.getLong(EXTRA_FOOD_ID);
             if (arguments.get(EXTRA_DATE) != null) {
                 time = (DateTime) arguments.getSerializable(EXTRA_DATE);
             }

@@ -7,9 +7,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.food.BaseFoodFragment;
 import com.faltenreich.diaguard.feature.food.FoodActions;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
@@ -20,26 +20,31 @@ import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.FoodSavedEvent;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.edittext.StickyHintInput;
+import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class FoodEditFragment extends BaseFoodFragment implements ToolbarDescribing {
+public class FoodEditFragment extends BaseFragment implements ToolbarDescribing {
+
+    private static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
+
+    public static FoodEditFragment newInstance(Food food) {
+        FoodEditFragment fragment = new FoodEditFragment();
+        Bundle arguments = new Bundle();
+        arguments.putLong(EXTRA_FOOD_ID, food.getId());
+        fragment.setArguments(arguments);
+        return fragment;
+    }
 
     @BindView(R.id.food_edit_name) StickyHintInput nameInput;
     @BindView(R.id.food_edit_brand) StickyHintInput brandInput;
     @BindView(R.id.food_edit_ingredients) StickyHintInput ingredientsInput;
     @BindView(R.id.food_edit_nutrient_input_layout) NutrientInputLayout nutrientInputLayout;
 
-    public static FoodEditFragment newInstance(Food food) {
-        FoodEditFragment fragment = new FoodEditFragment();
-        Bundle arguments = new Bundle();
-        arguments.putLong(BaseFoodFragment.EXTRA_FOOD_ID, food.getId());
-        fragment.setArguments(arguments);
-        return fragment;
-    }
+    private Food food;
 
     public FoodEditFragment() {
         super(R.layout.fragment_food_edit);
@@ -48,15 +53,29 @@ public class FoodEditFragment extends BaseFoodFragment implements ToolbarDescrib
     @Override
     public ToolbarProperties getToolbarProperties() {
         return new ToolbarProperties.Builder()
-            .setTitle(getContext(), getFood() != null ? R.string.food_edit : R.string.food_new)
+            .setTitle(getContext(), food != null ? R.string.food_edit : R.string.food_new)
             .setMenu(R.menu.form_edit)
             .build();
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        init();
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        init();
+        initLayout();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (food != null) {
+            food = FoodDao.getInstance().getById(food.getId());
+        }
     }
 
     @Override
@@ -70,7 +89,7 @@ public class FoodEditFragment extends BaseFoodFragment implements ToolbarDescrib
     @Override
     public void onCreateOptionsMenu(Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        menu.findItem(R.id.action_delete).setVisible(getFood() != null);
+        menu.findItem(R.id.action_delete).setVisible(food != null);
     }
 
     @Override
@@ -79,7 +98,7 @@ public class FoodEditFragment extends BaseFoodFragment implements ToolbarDescrib
         if (itemId == android.R.id.home) {
             finish();
         } else if (itemId == R.id.action_delete) {
-            FoodActions.deleteFoodIfConfirmed(getContext(), getFood());
+            FoodActions.deleteFoodIfConfirmed(getContext(), food);
             finish();
             return true;
         }
@@ -87,7 +106,12 @@ public class FoodEditFragment extends BaseFoodFragment implements ToolbarDescrib
     }
 
     private void init() {
-        Food food = getFood();
+        Bundle arguments = requireArguments();
+        long foodId = arguments.getLong(EXTRA_FOOD_ID);
+        food = FoodDao.getInstance().getById(foodId);
+    }
+
+    private void initLayout() {
         if (food != null) {
             nameInput.setText(food.getName());
             brandInput.setText(food.getBrand());
@@ -110,7 +134,6 @@ public class FoodEditFragment extends BaseFoodFragment implements ToolbarDescrib
     @OnClick(R.id.fab)
     public void store() {
         if (isValid()) {
-            Food food = getFood();
             if (food == null) {
                 food = new Food();
             }

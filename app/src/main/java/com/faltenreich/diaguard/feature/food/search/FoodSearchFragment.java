@@ -216,7 +216,7 @@ public class FoodSearchFragment extends BaseFragment implements ToolbarDescribin
     }
 
     private void openFood(Food food) {
-        openFragment(FoodDetailFragment.newInstance(food), Navigation.Operation.REPLACE, true);
+        openFragment(FoodDetailFragment.newInstance(food.getId()), Navigation.Operation.REPLACE, true);
     }
 
     private void createFood() {

@@ -17,21 +17,18 @@ public class NutrientInputLayout extends LinearLayout {
 
     public NutrientInputLayout(Context context) {
         super(context);
-        init();
     }
 
     public NutrientInputLayout(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init();
     }
 
     public NutrientInputLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
     }
 
-    private void init() {
-
+    public void clearNutrients() {
+        removeAllViews();
     }
 
     public void addNutrient(@NonNull Food.Nutrient nutrient, @Nullable Float value) {
@@ -48,18 +45,5 @@ public class NutrientInputLayout extends LinearLayout {
             }
         }
         return values;
-    }
-
-    public NutrientInputView getInputView(Food.Nutrient nutrient) {
-        for (int index = 0; index < getChildCount(); index++) {
-            View view = getChildAt(index);
-            if (view instanceof NutrientInputView) {
-                NutrientInputView nutrientInputView = (NutrientInputView) view;
-                if (nutrientInputView.getNutrient() == nutrient) {
-                    return nutrientInputView;
-                }
-            }
-        }
-        return null;
     }
 }

@@ -13,19 +13,19 @@ import com.faltenreich.diaguard.shared.data.database.entity.Food;
 class FoodDetailViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private final Context context;
-    private final Food food;
+    private final long foodId;
 
-    FoodDetailViewPagerAdapter(FragmentManager fragmentManager, Context context, Food food) {
+    FoodDetailViewPagerAdapter(FragmentManager fragmentManager, Context context, long foodId) {
         super(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.context = context;
-        this.food = food;
+        this.foodId = foodId;
     }
 
     @NonNull
     @Override
     public Fragment getItem(int position) {
         FoodDetailPage page = FoodDetailPage.values()[position];
-        return FoodDetailPageFactory.createFragmentForPage(page, food);
+        return FoodDetailPageFactory.createFragmentForPage(page, foodId);
     }
 
     @Override

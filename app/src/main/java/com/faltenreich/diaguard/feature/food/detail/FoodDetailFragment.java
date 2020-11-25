@@ -26,10 +26,10 @@ public class FoodDetailFragment extends BaseFragment implements ToolbarDescribin
 
     private static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
 
-    public static FoodDetailFragment newInstance(Food food) {
+    public static FoodDetailFragment newInstance(long foodId) {
         FoodDetailFragment fragment = new FoodDetailFragment();
         Bundle arguments = new Bundle();
-        arguments.putLong(EXTRA_FOOD_ID, food.getId());
+        arguments.putLong(EXTRA_FOOD_ID, foodId);
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -37,6 +37,7 @@ public class FoodDetailFragment extends BaseFragment implements ToolbarDescribin
     @BindView(R.id.food_viewpager) ViewPager viewPager;
     @BindView(R.id.food_tablayout) TabLayout tabLayout;
 
+    private long foodId;
     private Food food;
 
     public FoodDetailFragment() {
@@ -90,18 +91,16 @@ public class FoodDetailFragment extends BaseFragment implements ToolbarDescribin
     }
 
     private void init() {
-        Bundle arguments = requireArguments();
-        long foodId = arguments.getLong(EXTRA_FOOD_ID);
-        food = FoodDao.getInstance().getById(foodId);
+        foodId = requireArguments().getLong(EXTRA_FOOD_ID);
     }
 
     private void initLayout() {
-        viewPager.setAdapter(new FoodDetailViewPagerAdapter(getChildFragmentManager(), getContext(), food));
+        viewPager.setAdapter(new FoodDetailViewPagerAdapter(getChildFragmentManager(), getContext(), foodId));
         tabLayout.setupWithViewPager(viewPager);
     }
 
     private void update() {
-        food = FoodDao.getInstance().getById(food.getId());
+        food = FoodDao.getInstance().getById(foodId);
         setTitle(food != null ? food.getName() : null);
     }
 
@@ -110,6 +109,6 @@ public class FoodDetailFragment extends BaseFragment implements ToolbarDescribin
     }
 
     private void editFood() {
-        openFragment(FoodEditFragment.newInstance(food), Navigation.Operation.REPLACE, true);
+        openFragment(FoodEditFragment.newInstance(foodId), Navigation.Operation.REPLACE, true);
     }
 }

@@ -27,10 +27,10 @@ public class FoodHistoryFragment extends BaseFragment implements TabDescribing {
 
     private static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
 
-    public static FoodHistoryFragment newInstance(Food food) {
+    public static FoodHistoryFragment newInstance(long foodId) {
         FoodHistoryFragment fragment = new FoodHistoryFragment();
         Bundle arguments = new Bundle();
-        arguments.putLong(EXTRA_FOOD_ID, food.getId());
+        arguments.putLong(EXTRA_FOOD_ID, foodId);
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -40,6 +40,7 @@ public class FoodHistoryFragment extends BaseFragment implements TabDescribing {
 
     private FoodHistoryListAdapter historyAdapter;
 
+    private long foodId;
     private Food food;
 
     public FoodHistoryFragment() {
@@ -71,21 +72,19 @@ public class FoodHistoryFragment extends BaseFragment implements TabDescribing {
     }
 
     private void init() {
-        Bundle arguments = requireArguments();
-        long foodId = arguments.getLong(EXTRA_FOOD_ID);
-        food = FoodDao.getInstance().getById(foodId);
+        foodId = requireArguments().getLong(EXTRA_FOOD_ID);
     }
 
     private void initLayout() {
-        if (food != null) {
-            historyList.setLayoutManager(new LinearLayoutManager(getContext()));
-            historyList.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
-            historyAdapter = new FoodHistoryListAdapter(getContext());
-            historyList.setAdapter(historyAdapter);
-        }
+        historyList.setLayoutManager(new LinearLayoutManager(getContext()));
+        historyList.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
+        historyAdapter = new FoodHistoryListAdapter(getContext());
+        historyList.setAdapter(historyAdapter);
     }
 
     private void update() {
+        food = FoodDao.getInstance().getById(foodId);
+
         historyAdapter.clear();
         List<FoodEaten> foodEatenList = FoodEatenDao.getInstance().getAll(food);
         historyAdapter.addItems(foodEatenList);

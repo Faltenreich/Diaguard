@@ -31,10 +31,10 @@ public class FoodEditFragment extends BaseFragment implements ToolbarDescribing 
 
     private static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
 
-    public static FoodEditFragment newInstance(Food food) {
+    public static FoodEditFragment newInstance(long foodId) {
         FoodEditFragment fragment = new FoodEditFragment();
         Bundle arguments = new Bundle();
-        arguments.putLong(EXTRA_FOOD_ID, food.getId());
+        arguments.putLong(EXTRA_FOOD_ID, foodId);
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -44,6 +44,7 @@ public class FoodEditFragment extends BaseFragment implements ToolbarDescribing 
     @BindView(R.id.food_edit_ingredients) StickyHintInput ingredientsInput;
     @BindView(R.id.food_edit_nutrient_input_layout) NutrientInputLayout nutrientInputLayout;
 
+    private long foodId;
     private Food food;
 
     public FoodEditFragment() {
@@ -67,7 +68,7 @@ public class FoodEditFragment extends BaseFragment implements ToolbarDescribing 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initLayout();
+        update();
     }
 
     @Override
@@ -106,17 +107,17 @@ public class FoodEditFragment extends BaseFragment implements ToolbarDescribing 
     }
 
     private void init() {
-        Bundle arguments = requireArguments();
-        long foodId = arguments.getLong(EXTRA_FOOD_ID);
-        food = FoodDao.getInstance().getById(foodId);
+        foodId = requireArguments().getLong(EXTRA_FOOD_ID);
     }
 
-    private void initLayout() {
-        if (food != null) {
-            nameInput.setText(food.getName());
-            brandInput.setText(food.getBrand());
-            ingredientsInput.setText(food.getIngredients());
-        }
+    private void update() {
+        food = FoodDao.getInstance().getById(foodId);
+
+        nameInput.setText(food.getName());
+        brandInput.setText(food.getBrand());
+        ingredientsInput.setText(food.getIngredients());
+
+        nutrientInputLayout.clearNutrients();
         for (Food.Nutrient nutrient : Food.Nutrient.values()) {
             nutrientInputLayout.addNutrient(nutrient, food != null ? nutrient.getValue(food) : null);
         }

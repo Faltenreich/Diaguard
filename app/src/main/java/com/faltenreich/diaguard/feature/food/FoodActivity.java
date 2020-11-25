@@ -35,8 +35,7 @@ public class FoodActivity extends BaseActivity<ActivityFoodBinding> implements N
 
         Fragment initialFragment = new FoodSearchFragment();
         openFragment(initialFragment, Navigation.Operation.REPLACE, false);
-
-        // FIXME: invalidateLayout(initialFragment);
+        invalidateLayout(initialFragment);
     }
 
     @Override
@@ -55,9 +54,13 @@ public class FoodActivity extends BaseActivity<ActivityFoodBinding> implements N
 
     private void invalidateLayout(Fragment fragment) {
         if (fragment instanceof ToolbarDescribing) {
-            ToolbarProperties properties = ((ToolbarDescribing) fragment).getToolbarProperties();
-            binding.toolbar.toolbar.setVisibility(properties.showToolbar() ? View.VISIBLE : View.GONE);
-            binding.toolbar.toolbarTitle.setText(properties.getTitle());
+            if (fragment.isAdded()) {
+                ToolbarProperties properties = ((ToolbarDescribing) fragment).getToolbarProperties();
+                binding.toolbar.toolbar.setVisibility(properties.showToolbar() ? View.VISIBLE : View.GONE);
+                binding.toolbar.toolbarTitle.setText(properties.getTitle());
+            } else {
+                binding.toolbar.toolbar.setVisibility(View.GONE);
+            }
         }
     }
 }

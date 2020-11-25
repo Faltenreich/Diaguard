@@ -62,21 +62,19 @@ public class FoodEditFragment extends BaseFragment implements ToolbarDescribing 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init();
+        requestArguments();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        update();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (food != null) {
-            food = FoodDao.getInstance().getById(food.getId());
-        }
+        invalidateData();
+        invalidateLayout();
     }
 
     @Override
@@ -106,13 +104,15 @@ public class FoodEditFragment extends BaseFragment implements ToolbarDescribing 
         return super.onOptionsItemSelected(item);
     }
 
-    private void init() {
+    private void requestArguments() {
         foodId = requireArguments().getLong(EXTRA_FOOD_ID);
     }
 
-    private void update() {
+    private void invalidateData() {
         food = FoodDao.getInstance().getById(foodId);
+    }
 
+    private void invalidateLayout() {
         nameInput.setText(food.getName());
         brandInput.setText(food.getBrand());
         ingredientsInput.setText(food.getIngredients());

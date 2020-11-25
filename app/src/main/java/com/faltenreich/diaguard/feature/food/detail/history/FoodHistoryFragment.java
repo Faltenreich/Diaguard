@@ -56,7 +56,7 @@ public class FoodHistoryFragment extends BaseFragment implements TabDescribing {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(false);
-        init();
+        requestArguments();
     }
 
     @Override
@@ -68,10 +68,11 @@ public class FoodHistoryFragment extends BaseFragment implements TabDescribing {
     @Override
     public void onResume() {
         super.onResume();
-        update();
+        invalidateData();
+        invalidateLayout();
     }
 
-    private void init() {
+    private void requestArguments() {
         foodId = requireArguments().getLong(EXTRA_FOOD_ID);
     }
 
@@ -82,9 +83,11 @@ public class FoodHistoryFragment extends BaseFragment implements TabDescribing {
         historyList.setAdapter(historyAdapter);
     }
 
-    private void update() {
+    private void invalidateData() {
         food = FoodDao.getInstance().getById(foodId);
+    }
 
+    private void invalidateLayout() {
         historyAdapter.clear();
         List<FoodEaten> foodEatenList = FoodEatenDao.getInstance().getAll(food);
         historyAdapter.addItems(foodEatenList);

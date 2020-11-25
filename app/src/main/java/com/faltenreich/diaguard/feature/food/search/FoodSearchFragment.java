@@ -89,7 +89,7 @@ public class FoodSearchFragment extends BaseFragment implements ToolbarDescribin
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init();
+        requestArguments();
     }
 
     @Override
@@ -111,7 +111,7 @@ public class FoodSearchFragment extends BaseFragment implements ToolbarDescribin
         super.onPause();
     }
 
-    private void init() {
+    private void requestArguments() {
         if (getActivity() != null && getActivity().getIntent() != null && getActivity().getIntent().getExtras() != null) {
             Bundle extras = getActivity().getIntent().getExtras();
             finishOnSelection = extras.getBoolean(FINISH_ON_SELECTION);

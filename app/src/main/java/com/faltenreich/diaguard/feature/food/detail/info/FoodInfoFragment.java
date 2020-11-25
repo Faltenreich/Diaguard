@@ -58,7 +58,7 @@ public class FoodInfoFragment extends BaseFragment implements TabDescribing {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(false);
-        init();
+        requestArguments();
     }
 
     @Override
@@ -70,10 +70,11 @@ public class FoodInfoFragment extends BaseFragment implements TabDescribing {
     @Override
     public void onResume() {
         super.onResume();
-        update();
+        invalidateData();
+        invalidateLayout();
     }
 
-    private void init() {
+    private void requestArguments() {
         foodId = requireArguments().getLong(EXTRA_FOOD_ID);
     }
 
@@ -81,9 +82,11 @@ public class FoodInfoFragment extends BaseFragment implements TabDescribing {
         ingredients.setOnClickListener(view -> ingredients.setMaxLines(Integer.MAX_VALUE));
     }
 
-    private void update() {
+    private void invalidateData() {
         food = FoodDao.getInstance().getById(foodId);
+    }
 
+    private void invalidateLayout() {
         String placeholder = getString(R.string.placeholder);
         brand.setText(TextUtils.isEmpty(food.getBrand()) ? placeholder : food.getBrand());
         ingredients.setText(TextUtils.isEmpty(food.getIngredients()) ? placeholder : food.getIngredients());

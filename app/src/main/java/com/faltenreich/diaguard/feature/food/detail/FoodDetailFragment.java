@@ -55,20 +55,20 @@ public class FoodDetailFragment extends BaseFragment implements ToolbarDescribin
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init();
+        requestArguments();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initLayout();
-        update();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        update();
+        invalidateData();
+        invalidateLayout();
     }
 
     @Override
@@ -90,7 +90,7 @@ public class FoodDetailFragment extends BaseFragment implements ToolbarDescribin
         return super.onOptionsItemSelected(item);
     }
 
-    private void init() {
+    private void requestArguments() {
         foodId = requireArguments().getLong(EXTRA_FOOD_ID);
     }
 
@@ -99,8 +99,11 @@ public class FoodDetailFragment extends BaseFragment implements ToolbarDescribin
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    private void update() {
+    private void invalidateData() {
         food = FoodDao.getInstance().getById(foodId);
+    }
+
+    private void invalidateLayout() {
         setTitle(food != null ? food.getName() : null);
     }
 

@@ -108,9 +108,9 @@ public class FoodSearchFragment
 
     private void initLayout() {
         getBinding().fab.setOnClickListener((view) -> createFood());
-        getBinding().foodSearchEmptyButton.setOnClickListener((view) -> onEmptyButtonClick());
+        getBinding().emptyButton.setOnClickListener((view) -> onEmptyButtonClick());
 
-        getBinding().foodSearchUnit.setText(PreferenceStore.getInstance().getLabelForMealPer100g(requireContext()));
+        getBinding().unitLabel.setText(PreferenceStore.getInstance().getLabelForMealPer100g(requireContext()));
 
         SwipeRefreshLayout swipeRefreshLayout = getBinding().foodSearchSwipeRefreshLayout;
         swipeRefreshLayout.setColorSchemeResources(R.color.green, R.color.green_light, R.color.green_lighter);
@@ -130,7 +130,7 @@ public class FoodSearchFragment
             }
         };
 
-        RecyclerView listView = getBinding().foodSearchList;
+        RecyclerView listView = getBinding().listView;
         listView.setLayoutManager(listLayoutManager);
         listView.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
         listView.setAdapter(listAdapter);
@@ -139,7 +139,7 @@ public class FoodSearchFragment
 
     private void newSearch() {
         getBinding().foodSearchSwipeRefreshLayout.setRefreshing(true);
-        getBinding().foodSearchListEmpty.setVisibility(View.GONE);
+        getBinding().emptyView.setVisibility(View.GONE);
 
         currentPage = 0;
 
@@ -198,11 +198,11 @@ public class FoodSearchFragment
     }
 
     private void showError(@DrawableRes int iconResId, @StringRes int textResId, @StringRes int descResId, @StringRes int buttonTextResId) {
-        getBinding().foodSearchListEmpty.setVisibility(View.VISIBLE);
-        getBinding().foodSearchEmptyIcon.setImageResource(iconResId);
-        getBinding().foodSearchEmptyText.setText(textResId);
-        getBinding().foodSearchEmptyDescription.setText(descResId);
-        getBinding().foodSearchEmptyButton.setText(buttonTextResId);
+        getBinding().emptyView.setVisibility(View.VISIBLE);
+        getBinding().emptyIcon.setImageResource(iconResId);
+        getBinding().emptyTitleLabel.setText(textResId);
+        getBinding().emptyDescriptionLabel.setText(descResId);
+        getBinding().emptyButton.setText(buttonTextResId);
     }
 
     private void openSettings() {
@@ -222,7 +222,7 @@ public class FoodSearchFragment
             openSettings();
         } else {
             // Workaround since CONNECTIVITY_ACTION broadcasts cannot be caught since API level 24
-            boolean wasNetworkError = getBinding().foodSearchEmptyText.getText().toString().equals(getString(R.string.error_no_connection));
+            boolean wasNetworkError = getBinding().emptyTitleLabel.getText().toString().equals(getString(R.string.error_no_connection));
             if (wasNetworkError) {
                 newSearch();
             } else {

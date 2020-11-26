@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,8 +24,6 @@ import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import butterknife.BindView;
-
 public class FoodInfoFragment extends BaseFragment<FragmentFoodInfoBinding> implements TabDescribing {
 
     private static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
@@ -38,11 +35,6 @@ public class FoodInfoFragment extends BaseFragment<FragmentFoodInfoBinding> impl
         fragment.setArguments(arguments);
         return fragment;
     }
-
-    @BindView(R.id.food_brand) TextView brand;
-    @BindView(R.id.food_ingredients) TextView ingredients;
-    @BindView(R.id.food_value) TextView value;
-    @BindView(R.id.food_labels) ViewGroup labels;
 
     private Long foodId;
     private Food food;
@@ -86,7 +78,7 @@ public class FoodInfoFragment extends BaseFragment<FragmentFoodInfoBinding> impl
     }
 
     private void initLayout() {
-        ingredients.setOnClickListener(view -> ingredients.setMaxLines(Integer.MAX_VALUE));
+        getBinding().ingredientsLabel.setOnClickListener(view -> getBinding().ingredientsLabel.setMaxLines(Integer.MAX_VALUE));
     }
 
     private void invalidateData() {
@@ -95,22 +87,23 @@ public class FoodInfoFragment extends BaseFragment<FragmentFoodInfoBinding> impl
 
     private void invalidateLayout() {
         String placeholder = getString(R.string.placeholder);
-        brand.setText(TextUtils.isEmpty(food.getBrand()) ? placeholder : food.getBrand());
-        ingredients.setText(TextUtils.isEmpty(food.getIngredients()) ? placeholder : food.getIngredients());
+        getBinding().brandLabel.setText(TextUtils.isEmpty(food.getBrand()) ? placeholder : food.getBrand());
+        getBinding().ingredientsLabel.setText(TextUtils.isEmpty(food.getIngredients()) ? placeholder : food.getIngredients());
 
         float mealValue = PreferenceStore.getInstance().formatDefaultToCustomUnit(
             Category.MEAL,
             food.getCarbohydrates());
-        value.setText(String.format("%s %s", FloatUtils.parseFloat(mealValue), PreferenceStore.getInstance().getLabelForMealPer100g(getContext())));
+        getBinding().valueLabel.setText(String.format("%s %s", FloatUtils.parseFloat(mealValue), PreferenceStore.getInstance().getLabelForMealPer100g(getContext())));
 
-        labels.removeAllViews();
+        ViewGroup labelsLayout = getBinding().labelsLayout;
+        labelsLayout.removeAllViews();
         if (food.getLabels() != null && food.getLabels().length() > 0) {
-            labels.setVisibility(View.VISIBLE);
+            labelsLayout.setVisibility(View.VISIBLE);
             for (String label : food.getLabels().split(",")) {
-                labels.addView(new FoodInfoLabelView(getContext(), label));
+                labelsLayout.addView(new FoodInfoLabelView(getContext(), label));
             }
         } else {
-            labels.setVisibility(View.GONE);
+            labelsLayout.setVisibility(View.GONE);
         }
     }
 

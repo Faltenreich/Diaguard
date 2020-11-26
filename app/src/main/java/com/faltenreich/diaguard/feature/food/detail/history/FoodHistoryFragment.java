@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.feature.food.detail.history;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,8 +22,6 @@ import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDivi
 
 import java.util.List;
 
-import butterknife.BindView;
-
 public class FoodHistoryFragment extends BaseFragment<FragmentFoodHistoryBinding> implements TabDescribing {
 
     private static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
@@ -36,9 +33,6 @@ public class FoodHistoryFragment extends BaseFragment<FragmentFoodHistoryBinding
         fragment.setArguments(arguments);
         return fragment;
     }
-
-    @BindView(R.id.list) RecyclerView historyList;
-    @BindView(R.id.list_placeholder) TextView placeholder;
 
     private FoodHistoryListAdapter historyAdapter;
 
@@ -84,10 +78,11 @@ public class FoodHistoryFragment extends BaseFragment<FragmentFoodHistoryBinding
     }
 
     private void initLayout() {
-        historyList.setLayoutManager(new LinearLayoutManager(getContext()));
-        historyList.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
+        RecyclerView listView = getBinding().listView;
         historyAdapter = new FoodHistoryListAdapter(getContext());
-        historyList.setAdapter(historyAdapter);
+        listView.setLayoutManager(new LinearLayoutManager(getContext()));
+        listView.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
+        listView.setAdapter(historyAdapter);
     }
 
     private void invalidateData() {
@@ -99,6 +94,6 @@ public class FoodHistoryFragment extends BaseFragment<FragmentFoodHistoryBinding
         List<FoodEaten> foodEatenList = FoodEatenDao.getInstance().getAll(food);
         historyAdapter.addItems(foodEatenList);
         historyAdapter.notifyDataSetChanged();
-        placeholder.setVisibility(foodEatenList.size() == 0 ? View.VISIBLE : View.GONE);
+        getBinding().placeholderLabel.setVisibility(foodEatenList.size() == 0 ? View.VISIBLE : View.GONE);
     }
 }

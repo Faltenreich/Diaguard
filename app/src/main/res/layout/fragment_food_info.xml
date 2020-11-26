@@ -25,7 +25,7 @@
                 app:tint="?iconColorPrimary" />
 
             <TextView
-                android:id="@+id/food_brand"
+                android:id="@+id/brand_label"
                 style="@style/LayoutRowItemMultiline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
                 app:tint="?iconColorPrimary" />
 
             <TextView
-                android:id="@+id/food_ingredients"
+                android:id="@+id/ingredients_label"
                 style="@style/LayoutRowItemMultiline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
                 app:tint="?iconColorPrimary" />
 
             <TextView
-                android:id="@+id/food_value"
+                android:id="@+id/value_label"
                 style="@style/LayoutRowItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/food_labels"
+            android:id="@+id/labels_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_between"

@@ -20,8 +20,6 @@ import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
 
-import butterknife.BindView;
-
 public class NutrientListFragment extends BaseFragment<FragmentFoodNutrientListBinding> implements TabDescribing {
 
     private static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
@@ -33,8 +31,6 @@ public class NutrientListFragment extends BaseFragment<FragmentFoodNutrientListB
         fragment.setArguments(arguments);
         return fragment;
     }
-
-    @BindView(R.id.food_list_nutrients) RecyclerView nutrientList;
 
     private NutrientListAdapter listAdapter;
 
@@ -80,10 +76,11 @@ public class NutrientListFragment extends BaseFragment<FragmentFoodNutrientListB
     }
 
     private void initLayout() {
+        RecyclerView listView = getBinding().listView;
         listAdapter = new NutrientListAdapter(getContext());
-        nutrientList.setLayoutManager(new LinearLayoutManager(getContext()));
-        nutrientList.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
-        nutrientList.setAdapter(listAdapter);
+        listView.setLayoutManager(new LinearLayoutManager(getContext()));
+        listView.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
+        listView.setAdapter(listAdapter);
     }
 
     private void invalidateData() {

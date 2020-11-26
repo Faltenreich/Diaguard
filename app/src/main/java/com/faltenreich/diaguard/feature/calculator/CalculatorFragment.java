@@ -42,23 +42,10 @@ import org.joda.time.DateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-
 /**
  * Created by Faltenreich on 10.09.2016.
  */
 public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> implements ToolbarDescribing, MainButton {
-
-    @BindView(R.id.calculator_bloodsugar)
-    StickyHintInput bloodSugarInput;
-    @BindView(R.id.calculator_target)
-    StickyHintInput targetInput;
-    @BindView(R.id.calculator_correction)
-    StickyHintInput correctionInput;
-    @BindView(R.id.calculator_food_list_view)
-    FoodInputView foodInputView;
-    @BindView(R.id.calculator_factor)
-    StickyHintInput factorInput;
 
     public CalculatorFragment() {
         super(R.layout.fragment_calculator);
@@ -96,27 +83,28 @@ public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> 
     }
 
     private void clearInput() {
-        bloodSugarInput.setText(null);
-        targetInput.setText(null);
-        correctionInput.setText(null);
-        foodInputView.clear();
-        factorInput.setText(null);
+        getBinding().bloodsugarCurrentInput.setText(null);
+        getBinding().bloodsugarTargetInput.setText(null);
+        getBinding().correctionInput.setText(null);
+        getBinding().foodInputView.clear();
+        getBinding().factorInput.setText(null);
     }
 
     private void updateTargetValue() {
-        targetInput.setText(PreferenceStore.getInstance().getMeasurementForUi(
+        getBinding().bloodsugarTargetInput.setText(PreferenceStore.getInstance().getMeasurementForUi(
             Category.BLOODSUGAR,
             PreferenceStore.getInstance().getTargetValue()));
     }
 
     private void updateCorrectionValue() {
-        correctionInput.setText(PreferenceStore.getInstance().getMeasurementForUi(
+        getBinding().correctionInput.setText(PreferenceStore.getInstance().getMeasurementForUi(
             Category.BLOODSUGAR,
             PreferenceStore.getInstance().getCorrectionFactorForHour(
                 DateTime.now().getHourOfDay())));
     }
 
     private void updateMealFactor() {
+        StickyHintInput factorInput = getBinding().factorInput;
         int hourOfDay = DateTime.now().getHourOfDay();
         float mealFactor = PreferenceStore.getInstance().getMealFactorForHour(hourOfDay);
         factorInput.setText(mealFactor >= 0 ? FloatUtils.parseFloat(mealFactor) : null);
@@ -127,18 +115,19 @@ public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> 
         boolean isValid = true;
 
         // Blood Sugar
-        if (!Validator.validateEditTextEvent(getContext(), bloodSugarInput.getEditText(), Category.BLOODSUGAR, false)) {
+        if (!Validator.validateEditTextEvent(getContext(), getBinding().bloodsugarCurrentInput.getEditText(), Category.BLOODSUGAR, false)) {
             isValid = false;
         }
-        if (!Validator.validateEditTextEvent(getContext(), targetInput.getEditText(), Category.BLOODSUGAR, false)) {
+        if (!Validator.validateEditTextEvent(getContext(), getBinding().bloodsugarTargetInput.getEditText(), Category.BLOODSUGAR, false)) {
             isValid = false;
         }
-        if (!Validator.validateEditTextEvent(getContext(), correctionInput.getEditText(), Category.BLOODSUGAR, false)) {
+        if (!Validator.validateEditTextEvent(getContext(), getBinding().correctionInput.getEditText(), Category.BLOODSUGAR, false)) {
             isValid = false;
         }
 
         // Meal
-        if (foodInputView.getTotalCarbohydrates() > 0) {
+        if (getBinding().foodInputView.getTotalCarbohydrates() > 0) {
+            StickyHintInput factorInput = getBinding().factorInput;
             // Factor
             if (!Validator.validateEditTextFactor(getContext(), factorInput.getEditText(), false)) {
                 isValid = false;
@@ -151,36 +140,40 @@ public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> 
     }
 
     private float getBloodSugar() {
+        StickyHintInput input = getBinding().bloodsugarCurrentInput;
         return PreferenceStore.getInstance().formatCustomToDefaultUnit(
             Category.BLOODSUGAR,
-            FloatUtils.parseNumber(bloodSugarInput.getText()));
+            FloatUtils.parseNumber(input.getText()));
     }
 
     private float getTargetBloodSugar() {
-        return Validator.containsNumber(targetInput.getText()) ?
+        StickyHintInput input = getBinding().bloodsugarTargetInput;
+        return Validator.containsNumber(input.getText()) ?
             PreferenceStore.getInstance().formatCustomToDefaultUnit(
                 Category.BLOODSUGAR,
-                FloatUtils.parseNumber(targetInput.getText())) :
+                FloatUtils.parseNumber(input.getText())) :
             PreferenceStore.getInstance().getTargetValue();
     }
 
     private float getCorrectionFactor() {
+        StickyHintInput input = getBinding().correctionInput;
         int hourOfDay = DateTime.now().getHourOfDay();
-        return Validator.containsNumber(correctionInput.getText()) ?
+        return Validator.containsNumber(input.getText()) ?
             PreferenceStore.getInstance().formatCustomToDefaultUnit(
                 Category.BLOODSUGAR,
-                FloatUtils.parseNumber(correctionInput.getText())) :
+                FloatUtils.parseNumber(input.getText())) :
             PreferenceStore.getInstance().getCorrectionFactorForHour(hourOfDay);
     }
 
     private float getCarbohydrates() {
-        return foodInputView.getTotalCarbohydrates();
+        return getBinding().foodInputView.getTotalCarbohydrates();
     }
 
     private float getMealFactor() {
-        return Validator.containsNumber(factorInput.getText()) ?
-            FloatUtils.parseNumber(factorInput.getText()) :
-            FloatUtils.parseNumber(factorInput.getHint());
+        StickyHintInput input = getBinding().factorInput;
+        return Validator.containsNumber(input.getText()) ?
+            FloatUtils.parseNumber(input.getText()) :
+            FloatUtils.parseNumber(input.getHint());
     }
 
     private void calculate() {
@@ -300,6 +293,7 @@ public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> 
 
         List<FoodEaten> foodEatenList = new ArrayList<>();
         if (carbohydrates > 0) {
+            FoodInputView foodInputView = getBinding().foodInputView;
             foodEatenList.addAll(foodInputView.getFoodEatenList());
             Meal meal = new Meal();
             meal.setCarbohydrates(foodInputView.getInputCarbohydrates());

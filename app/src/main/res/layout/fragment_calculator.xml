@@ -41,7 +41,7 @@
                         app:tint="?iconColorPrimary" />
 
                     <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
-                        android:id="@+id/calculator_bloodsugar"
+                        android:id="@+id/bloodsugar_current_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingStart="@dimen/margin_between"
@@ -67,7 +67,7 @@
                         app:tint="?iconColorPrimary" />
 
                     <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
-                        android:id="@+id/calculator_target"
+                        android:id="@+id/bloodsugar_target_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingStart="@dimen/margin_between"
@@ -90,7 +90,7 @@
                         app:tint="?iconColorPrimary" />
 
                     <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
-                        android:id="@+id/calculator_correction"
+                        android:id="@+id/correction_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingStart="@dimen/margin_between"
@@ -137,7 +137,7 @@
                         app:tint="?iconColorPrimary" />
 
                     <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
-                        android:id="@+id/calculator_factor"
+                        android:id="@+id/factor_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingStart="@dimen/margin_between"
@@ -148,7 +148,7 @@
                 </LinearLayout>
 
                 <com.faltenreich.diaguard.feature.food.input.FoodInputView
-                    android:id="@+id/calculator_food_list_view"
+                    android:id="@+id/food_input_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:showIcon="true" />

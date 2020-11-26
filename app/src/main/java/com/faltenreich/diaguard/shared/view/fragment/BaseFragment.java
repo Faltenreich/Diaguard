@@ -110,6 +110,12 @@ public abstract class BaseFragment<BINDING extends ViewBinding> extends Fragment
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, @NonNull MenuInflater inflater) {
         menu.clear();
 

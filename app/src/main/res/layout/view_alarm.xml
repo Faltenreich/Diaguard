@@ -3,6 +3,7 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/alarm_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="@dimen/height_element"
@@ -27,14 +28,14 @@
             app:tint="?iconColorPrimary" />
 
         <TextView
-            android:id="@+id/alarm_text"
+            android:id="@+id/alarm_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/alarm_reminder_in"/>
 
         <ImageView
-            android:id="@+id/alarm_delete"
+            android:id="@+id/alarm_delete_button"
             android:layout_width="@dimen/height_element"
             android:layout_height="@dimen/height_element"
             android:padding="@dimen/padding_large"

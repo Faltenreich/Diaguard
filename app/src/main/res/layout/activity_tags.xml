@@ -14,6 +14,6 @@
         android:name="com.faltenreich.diaguard.feature.tag.TagListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout="@layout/fragment_tags" />
+        tools:layout="@layout/fragment_tag_list" />
 
 </LinearLayout>

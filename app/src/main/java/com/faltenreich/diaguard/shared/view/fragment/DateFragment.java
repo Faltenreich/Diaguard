@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import androidx.annotation.CallSuper;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
+import androidx.viewbinding.ViewBinding;
 
 import com.faltenreich.diaguard.feature.datetime.DatePickerFragment;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
@@ -14,7 +15,9 @@ import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 
 import org.joda.time.DateTime;
 
-public abstract class DateFragment extends BaseFragment implements ToolbarDescribing, BaseFragment.ToolbarCallback, MainButton {
+public abstract class DateFragment<BINDING extends ViewBinding>
+    extends BaseFragment<BINDING>
+    implements ToolbarDescribing, BaseFragment.ToolbarCallback, MainButton {
 
     private DateTime day;
 

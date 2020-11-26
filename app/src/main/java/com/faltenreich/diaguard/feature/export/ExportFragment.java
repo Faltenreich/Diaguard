@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.feature.export;
 import android.content.ActivityNotFoundException;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.FragmentExportBinding;
 import com.faltenreich.diaguard.feature.datetime.DatePickerFragment;
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.export.history.ExportHistoryFragment;
@@ -59,7 +61,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnItemSelected;
 
-public class ExportFragment extends BaseFragment implements ToolbarDescribing, ExportCallback, MainButton {
+public class ExportFragment extends BaseFragment<FragmentExportBinding> implements ToolbarDescribing, ExportCallback, MainButton {
 
     private static final String TAG = ExportFragment.class.getSimpleName();
 
@@ -98,6 +100,11 @@ public class ExportFragment extends BaseFragment implements ToolbarDescribing, E
 
     public ExportFragment() {
         super(R.layout.fragment_export);
+    }
+
+    @Override
+    protected FragmentExportBinding createBinding(LayoutInflater layoutInflater) {
+        return FragmentExportBinding.inflate(layoutInflater);
     }
 
     @Override

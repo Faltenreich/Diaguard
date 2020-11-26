@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.feature.timeline;
 
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.FragmentTimelineBinding;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.event.data.EntryAddedEvent;
@@ -27,12 +29,17 @@ import org.joda.time.format.DateTimeFormat;
 
 import butterknife.BindView;
 
-public class TimelineFragment extends DateFragment implements TimelineViewPager.Listener {
+public class TimelineFragment extends DateFragment<FragmentTimelineBinding> implements TimelineViewPager.Listener {
 
     @BindView(R.id.viewpager) TimelineViewPager viewPager;
 
     public TimelineFragment() {
         super(R.layout.fragment_timeline);
+    }
+
+    @Override
+    protected FragmentTimelineBinding createBinding(LayoutInflater layoutInflater) {
+        return FragmentTimelineBinding.inflate(layoutInflater);
     }
 
     @Override

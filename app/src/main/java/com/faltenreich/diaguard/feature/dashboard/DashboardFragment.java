@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.feature.dashboard;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.FragmentDashboardBinding;
 import com.faltenreich.diaguard.feature.alarm.AlarmUtils;
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.datetime.TimeSpan;
@@ -42,7 +44,7 @@ import org.joda.time.Minutes;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class DashboardFragment extends BaseFragment implements ToolbarDescribing, MainButton {
+public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> implements ToolbarDescribing, MainButton {
 
     @BindView(R.id.chart) LineChart chart;
     @BindView(R.id.layout_alarm) ViewGroup layoutAlarm;
@@ -63,6 +65,11 @@ public class DashboardFragment extends BaseFragment implements ToolbarDescribing
 
     public DashboardFragment() {
         super(R.layout.fragment_dashboard);
+    }
+
+    @Override
+    protected FragmentDashboardBinding createBinding(LayoutInflater layoutInflater) {
+        return FragmentDashboardBinding.inflate(layoutInflater);
     }
 
     @Override

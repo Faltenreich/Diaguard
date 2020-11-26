@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.feature.food.edit;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.FragmentFoodEditBinding;
 import com.faltenreich.diaguard.feature.food.FoodActions;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
@@ -27,7 +29,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class FoodEditFragment extends BaseFragment implements ToolbarDescribing {
+public class FoodEditFragment extends BaseFragment<FragmentFoodEditBinding> implements ToolbarDescribing {
 
     private static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
 
@@ -49,6 +51,11 @@ public class FoodEditFragment extends BaseFragment implements ToolbarDescribing 
 
     public FoodEditFragment() {
         super(R.layout.fragment_food_edit);
+    }
+
+    @Override
+    protected FragmentFoodEditBinding createBinding(LayoutInflater layoutInflater) {
+        return FragmentFoodEditBinding.inflate(layoutInflater);
     }
 
     @Override

@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -39,14 +38,12 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EntrySearchFragment extends BaseFragment implements ToolbarDescribing, SearchViewListener {
+public class EntrySearchFragment extends BaseFragment<FragmentEntrySearchBinding> implements ToolbarDescribing, SearchViewListener {
 
     private static final String TAG = EntrySearchFragment.class.getSimpleName();
     private static final int PAGE_SIZE = 25;
 
     static final String EXTRA_TAG_ID = "tagId";
-
-    private FragmentEntrySearchBinding binding;
 
     private SearchView searchView;
     private RecyclerView list;
@@ -59,6 +56,11 @@ public class EntrySearchFragment extends BaseFragment implements ToolbarDescribi
 
     public EntrySearchFragment() {
         super(R.layout.fragment_entry_search);
+    }
+
+    @Override
+    protected FragmentEntrySearchBinding createBinding(LayoutInflater layoutInflater) {
+        return FragmentEntrySearchBinding.inflate(layoutInflater);
     }
 
     @Override
@@ -75,18 +77,12 @@ public class EntrySearchFragment extends BaseFragment implements ToolbarDescribi
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentEntrySearchBinding.inflate(inflater, container, false);
-        return binding.getRoot();
-    }
-
-    @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        searchView = binding.searchView;
-        list = binding.searchList;
-        listEmptyView = binding.searchListEmpty;
-        progressView = binding.searchListProgress;
+        searchView = getBinding().searchView;
+        list = getBinding().searchList;
+        listEmptyView = getBinding().searchListEmpty;
+        progressView = getBinding().searchListProgress;
         initLayout();
         preFillQuery();
     }

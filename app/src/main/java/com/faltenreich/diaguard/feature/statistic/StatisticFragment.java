@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.feature.statistic;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.FragmentStatisticBinding;
 import com.faltenreich.diaguard.feature.datetime.TimeSpan;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
@@ -44,7 +46,7 @@ import butterknife.BindView;
  * Created by Faltenreich on 27.10.2016.
  */
 
-public class StatisticFragment extends BaseFragment implements ToolbarDescribing {
+public class StatisticFragment extends BaseFragment<FragmentStatisticBinding> implements ToolbarDescribing {
 
     private static final int MIN_MAX_Y_VALUE = 3;
 
@@ -67,6 +69,11 @@ public class StatisticFragment extends BaseFragment implements ToolbarDescribing
 
     public StatisticFragment() {
         super(R.layout.fragment_statistic);
+    }
+
+    @Override
+    protected FragmentStatisticBinding createBinding(LayoutInflater layoutInflater) {
+        return FragmentStatisticBinding.inflate(layoutInflater);
     }
 
     @Override

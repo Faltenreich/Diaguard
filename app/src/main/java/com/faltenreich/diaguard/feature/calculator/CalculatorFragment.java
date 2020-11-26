@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.FragmentCalculatorBinding;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
 import com.faltenreich.diaguard.feature.food.input.FoodInputView;
 import com.faltenreich.diaguard.feature.navigation.MainButton;
@@ -46,7 +47,7 @@ import butterknife.BindView;
 /**
  * Created by Faltenreich on 10.09.2016.
  */
-public class CalculatorFragment extends BaseFragment implements ToolbarDescribing, MainButton {
+public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> implements ToolbarDescribing, MainButton {
 
     @BindView(R.id.calculator_bloodsugar)
     StickyHintInput bloodSugarInput;
@@ -61,6 +62,11 @@ public class CalculatorFragment extends BaseFragment implements ToolbarDescribin
 
     public CalculatorFragment() {
         super(R.layout.fragment_calculator);
+    }
+
+    @Override
+    protected FragmentCalculatorBinding createBinding(LayoutInflater layoutInflater) {
+        return FragmentCalculatorBinding.inflate(layoutInflater);
     }
 
     @Override

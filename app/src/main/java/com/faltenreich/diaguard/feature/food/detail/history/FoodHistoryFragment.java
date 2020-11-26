@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.feature.food.detail.history;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.FragmentFoodHistoryBinding;
 import com.faltenreich.diaguard.feature.navigation.TabDescribing;
 import com.faltenreich.diaguard.feature.navigation.TabProperties;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
@@ -23,7 +25,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class FoodHistoryFragment extends BaseFragment implements TabDescribing {
+public class FoodHistoryFragment extends BaseFragment<FragmentFoodHistoryBinding> implements TabDescribing {
 
     private static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
 
@@ -45,6 +47,11 @@ public class FoodHistoryFragment extends BaseFragment implements TabDescribing {
 
     public FoodHistoryFragment() {
         super(R.layout.fragment_food_history);
+    }
+
+    @Override
+    protected FragmentFoodHistoryBinding createBinding(LayoutInflater layoutInflater) {
+        return FragmentFoodHistoryBinding.inflate(layoutInflater);
     }
 
     @Override

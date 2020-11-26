@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.feature.log;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.FragmentLogBinding;
 import com.faltenreich.diaguard.feature.entry.search.EntrySearchActivity;
 import com.faltenreich.diaguard.feature.log.empty.LogEmptyListItem;
 import com.faltenreich.diaguard.feature.log.entry.LogEntryListItem;
@@ -43,7 +45,7 @@ import butterknife.BindView;
 /**
  * Created by Filip on 05.07.2015.
  */
-public class LogFragment extends DateFragment implements LogListAdapter.Listener {
+public class LogFragment extends DateFragment<FragmentLogBinding> implements LogListAdapter.Listener {
 
     @BindView(R.id.log_list) RecyclerView recyclerView;
     @BindView(R.id.log_progressbar) ProgressBar progressBar;
@@ -54,6 +56,11 @@ public class LogFragment extends DateFragment implements LogListAdapter.Listener
 
     public LogFragment() {
         super(R.layout.fragment_log);
+    }
+
+    @Override
+    protected FragmentLogBinding createBinding(LayoutInflater layoutInflater) {
+        return FragmentLogBinding.inflate(layoutInflater);
     }
 
     @Override

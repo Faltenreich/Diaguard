@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.feature.food.detail;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -9,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.FragmentFoodDetailBinding;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
 import com.faltenreich.diaguard.feature.food.FoodActions;
 import com.faltenreich.diaguard.feature.food.edit.FoodEditFragment;
@@ -22,7 +24,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import butterknife.BindView;
 
-public class FoodDetailFragment extends BaseFragment implements ToolbarDescribing {
+public class FoodDetailFragment extends BaseFragment<FragmentFoodDetailBinding> implements ToolbarDescribing {
 
     private static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
 
@@ -42,6 +44,11 @@ public class FoodDetailFragment extends BaseFragment implements ToolbarDescribin
 
     public FoodDetailFragment() {
         super(R.layout.fragment_food_detail);
+    }
+
+    @Override
+    protected FragmentFoodDetailBinding createBinding(LayoutInflater layoutInflater) {
+        return FragmentFoodDetailBinding.inflate(layoutInflater);
     }
 
     @Override

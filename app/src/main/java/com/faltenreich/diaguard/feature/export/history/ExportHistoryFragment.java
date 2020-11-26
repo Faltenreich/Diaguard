@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.feature.export.history;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.FragmentExportHistoryBinding;
 import com.faltenreich.diaguard.feature.export.job.Export;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
@@ -35,7 +37,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class ExportHistoryFragment extends BaseFragment implements ToolbarDescribing {
+public class ExportHistoryFragment extends BaseFragment<FragmentExportHistoryBinding> implements ToolbarDescribing {
 
     @BindView(R.id.list) RecyclerView listView;
     @BindView(R.id.progressView) View progressView;
@@ -44,6 +46,11 @@ public class ExportHistoryFragment extends BaseFragment implements ToolbarDescri
 
     public ExportHistoryFragment() {
         super(R.layout.fragment_export_history);
+    }
+
+    @Override
+    protected FragmentExportHistoryBinding createBinding(LayoutInflater layoutInflater) {
+        return FragmentExportHistoryBinding.inflate(layoutInflater);
     }
 
     @Override

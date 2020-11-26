@@ -38,14 +38,18 @@ public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompa
         super(layoutResourceId);
     }
 
+    protected abstract BINDING createBinding(LayoutInflater layoutInflater);
+
+    protected BINDING getBinding() {
+        return binding;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initViewBinding();
         initAutofill();
     }
-
-    protected abstract BINDING createBinding(LayoutInflater layoutInflater);
 
     @Override
     protected void onResume() {
@@ -62,10 +66,6 @@ public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompa
     @Override
     public void setTitle(int titleId) {
         setTitle(getString(titleId));
-    }
-
-    protected BINDING getBinding() {
-        return binding;
     }
 
     private void initViewBinding() {

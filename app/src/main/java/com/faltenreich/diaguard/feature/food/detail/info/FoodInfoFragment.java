@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.feature.food.detail.info;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.FragmentFoodInfoBinding;
 import com.faltenreich.diaguard.feature.navigation.TabDescribing;
 import com.faltenreich.diaguard.feature.navigation.TabProperties;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
@@ -25,7 +27,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 
-public class FoodInfoFragment extends BaseFragment implements TabDescribing {
+public class FoodInfoFragment extends BaseFragment<FragmentFoodInfoBinding> implements TabDescribing {
 
     private static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
 
@@ -47,6 +49,11 @@ public class FoodInfoFragment extends BaseFragment implements TabDescribing {
 
     public FoodInfoFragment() {
         super(R.layout.fragment_food_info);
+    }
+
+    @Override
+    protected FragmentFoodInfoBinding createBinding(LayoutInflater layoutInflater) {
+        return FragmentFoodInfoBinding.inflate(layoutInflater);
     }
 
     @Override

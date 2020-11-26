@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.feature.food.search;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.FragmentFoodSearchBinding;
 import com.faltenreich.diaguard.feature.food.detail.FoodDetailFragment;
 import com.faltenreich.diaguard.feature.food.edit.FoodEditFragment;
 import com.faltenreich.diaguard.feature.navigation.Navigation;
@@ -52,7 +54,7 @@ import butterknife.OnClick;
 
 import static com.faltenreich.diaguard.R.id.food_search_list_empty;
 
-public class FoodSearchFragment extends BaseFragment implements ToolbarDescribing, SearchViewListener {
+public class FoodSearchFragment extends BaseFragment<FragmentFoodSearchBinding> implements ToolbarDescribing, SearchViewListener {
 
     public static final String FINISH_ON_SELECTION = "finishOnSelection";
 
@@ -76,6 +78,11 @@ public class FoodSearchFragment extends BaseFragment implements ToolbarDescribin
 
     public FoodSearchFragment() {
         super(R.layout.fragment_food_search);
+    }
+
+    @Override
+    protected FragmentFoodSearchBinding createBinding(LayoutInflater layoutInflater) {
+        return FragmentFoodSearchBinding.inflate(layoutInflater);
     }
 
     @Override

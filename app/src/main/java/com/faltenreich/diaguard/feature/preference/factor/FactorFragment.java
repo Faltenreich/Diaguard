@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.feature.preference.factor;
 
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.FragmentFactorBinding;
 import com.faltenreich.diaguard.feature.preference.data.TimeInterval;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.event.Events;
@@ -35,7 +37,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class FactorFragment extends BaseFragment implements FactorViewHolder.Callback {
+public class FactorFragment extends BaseFragment<FragmentFactorBinding> implements FactorViewHolder.Callback {
 
     private static final int X_AXIS_MINIMUM = 0;
     private static final int X_AXIS_MAXIMUM = DateTimeConstants.HOURS_PER_DAY;
@@ -52,6 +54,11 @@ public class FactorFragment extends BaseFragment implements FactorViewHolder.Cal
 
     public FactorFragment() {
         super(R.layout.fragment_factor);
+    }
+
+    @Override
+    protected FragmentFactorBinding createBinding(LayoutInflater layoutInflater) {
+        return FragmentFactorBinding.inflate(layoutInflater);
     }
 
     @Override

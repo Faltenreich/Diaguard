@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.feature.tag;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.FragmentTagListBinding;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
@@ -26,7 +28,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class TagListFragment extends BaseFragment implements ToolbarDescribing, TagListAdapter.TagListener {
+public class TagListFragment extends BaseFragment<FragmentTagListBinding> implements ToolbarDescribing, TagListAdapter.TagListener {
 
     @BindView(R.id.list)
     RecyclerView list;
@@ -37,7 +39,12 @@ public class TagListFragment extends BaseFragment implements ToolbarDescribing, 
     private TagListAdapter listAdapter;
 
     public TagListFragment() {
-        super(R.layout.fragment_tags);
+        super(R.layout.fragment_tag_list);
+    }
+
+    @Override
+    protected FragmentTagListBinding createBinding(LayoutInflater layoutInflater) {
+        return FragmentTagListBinding.inflate(layoutInflater);
     }
 
     @Override

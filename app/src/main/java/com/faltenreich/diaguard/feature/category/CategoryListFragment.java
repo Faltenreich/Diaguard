@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.feature.category;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.FragmentCategoryListBinding;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
@@ -25,7 +27,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class CategoryListFragment extends BaseFragment implements ToolbarDescribing, CategoryListAdapter.Listener {
+public class CategoryListFragment extends BaseFragment<FragmentCategoryListBinding> implements ToolbarDescribing, CategoryListAdapter.Listener {
 
     @BindView(R.id.listView) RecyclerView list;
 
@@ -34,7 +36,12 @@ public class CategoryListFragment extends BaseFragment implements ToolbarDescrib
     private boolean hasChanged;
 
     public CategoryListFragment() {
-        super(R.layout.fragment_categories);
+        super(R.layout.fragment_category_list);
+    }
+
+    @Override
+    protected FragmentCategoryListBinding createBinding(LayoutInflater layoutInflater) {
+        return FragmentCategoryListBinding.inflate(layoutInflater);
     }
 
     @Override

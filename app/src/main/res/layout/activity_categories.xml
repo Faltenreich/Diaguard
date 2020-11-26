@@ -14,6 +14,6 @@
         android:name="com.faltenreich.diaguard.feature.category.CategoryListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout="@layout/fragment_categories" />
+        tools:layout="@layout/fragment_category_list" />
 
 </LinearLayout>

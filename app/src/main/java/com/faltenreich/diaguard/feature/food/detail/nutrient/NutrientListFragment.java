@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.feature.food.detail.nutrient;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.FragmentFoodNutrientListBinding;
 import com.faltenreich.diaguard.feature.navigation.TabDescribing;
 import com.faltenreich.diaguard.feature.navigation.TabProperties;
 import com.faltenreich.diaguard.shared.Helper;
@@ -20,7 +22,7 @@ import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDivi
 
 import butterknife.BindView;
 
-public class NutrientListFragment extends BaseFragment implements TabDescribing {
+public class NutrientListFragment extends BaseFragment<FragmentFoodNutrientListBinding> implements TabDescribing {
 
     private static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
 
@@ -40,7 +42,12 @@ public class NutrientListFragment extends BaseFragment implements TabDescribing 
     private Food food;
 
     public NutrientListFragment() {
-        super(R.layout.fragment_food_nutrients);
+        super(R.layout.fragment_food_nutrient_list);
+    }
+
+    @Override
+    protected FragmentFoodNutrientListBinding createBinding(LayoutInflater layoutInflater) {
+        return FragmentFoodNutrientListBinding.inflate(layoutInflater);
     }
 
     @Override

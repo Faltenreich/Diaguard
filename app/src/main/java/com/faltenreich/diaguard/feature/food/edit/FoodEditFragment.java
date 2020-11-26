@@ -33,7 +33,7 @@ public class FoodEditFragment extends BaseFragment<FragmentFoodEditBinding> impl
 
     private static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
 
-    public static FoodEditFragment newInstance(long foodId) {
+    public static FoodEditFragment newInstance(Long foodId) {
         FoodEditFragment fragment = new FoodEditFragment();
         Bundle arguments = new Bundle();
         arguments.putLong(EXTRA_FOOD_ID, foodId);
@@ -46,7 +46,7 @@ public class FoodEditFragment extends BaseFragment<FragmentFoodEditBinding> impl
     @BindView(R.id.food_edit_ingredients) StickyHintInput ingredientsInput;
     @BindView(R.id.food_edit_nutrient_input_layout) NutrientInputLayout nutrientInputLayout;
 
-    private long foodId;
+    private Long foodId;
     private Food food;
 
     public FoodEditFragment() {
@@ -112,17 +112,19 @@ public class FoodEditFragment extends BaseFragment<FragmentFoodEditBinding> impl
     }
 
     private void requestArguments() {
-        foodId = requireArguments().getLong(EXTRA_FOOD_ID);
+        foodId = getArguments() != null ? getArguments().getLong(EXTRA_FOOD_ID) : null;
     }
 
     private void invalidateData() {
-        food = FoodDao.getInstance().getById(foodId);
+        if (foodId != null) {
+            food = FoodDao.getInstance().getById(foodId);
+        }
     }
 
     private void invalidateLayout() {
-        nameInput.setText(food.getName());
-        brandInput.setText(food.getBrand());
-        ingredientsInput.setText(food.getIngredients());
+        nameInput.setText(food != null ? food.getName() : null);
+        brandInput.setText(food != null ? food.getBrand() : null);
+        ingredientsInput.setText(food != null ? food.getIngredients() : null);
 
         nutrientInputLayout.clearNutrients();
         for (Food.Nutrient nutrient : Food.Nutrient.values()) {

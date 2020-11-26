@@ -31,7 +31,7 @@ public class FoodInfoFragment extends BaseFragment<FragmentFoodInfoBinding> impl
 
     private static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
 
-    public static FoodInfoFragment newInstance(long foodId) {
+    public static FoodInfoFragment newInstance(Long foodId) {
         FoodInfoFragment fragment = new FoodInfoFragment();
         Bundle arguments = new Bundle();
         arguments.putLong(EXTRA_FOOD_ID, foodId);
@@ -44,7 +44,7 @@ public class FoodInfoFragment extends BaseFragment<FragmentFoodInfoBinding> impl
     @BindView(R.id.food_value) TextView value;
     @BindView(R.id.food_labels) ViewGroup labels;
 
-    private long foodId;
+    private Long foodId;
     private Food food;
 
     public FoodInfoFragment() {

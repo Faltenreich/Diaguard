@@ -26,7 +26,7 @@ public class NutrientListFragment extends BaseFragment<FragmentFoodNutrientListB
 
     private static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
 
-    public static NutrientListFragment newInstance(long foodId) {
+    public static NutrientListFragment newInstance(Long foodId) {
         NutrientListFragment fragment = new NutrientListFragment();
         Bundle arguments = new Bundle();
         arguments.putLong(EXTRA_FOOD_ID, foodId);
@@ -38,7 +38,7 @@ public class NutrientListFragment extends BaseFragment<FragmentFoodNutrientListB
 
     private NutrientListAdapter listAdapter;
 
-    private long foodId;
+    private Long foodId;
     private Food food;
 
     public NutrientListFragment() {

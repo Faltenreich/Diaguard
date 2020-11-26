@@ -105,7 +105,7 @@ public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> im
     }
 
     private long entryId;
-    private long foodId;
+    private Long foodId;
     private DateTime time = DateTime.now();
 
     private Entry entry;

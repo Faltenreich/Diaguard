@@ -3,10 +3,6 @@ package com.faltenreich.diaguard.feature.food.search;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
@@ -49,29 +45,14 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.OnClick;
-
-import static com.faltenreich.diaguard.R.id.food_search_list_empty;
-
-public class FoodSearchFragment extends BaseFragment<FragmentFoodSearchBinding> implements ToolbarDescribing, SearchViewListener {
+public class FoodSearchFragment
+    extends BaseFragment<FragmentFoodSearchBinding>
+    implements ToolbarDescribing, SearchViewListener {
 
     public static final String FINISH_ON_SELECTION = "finishOnSelection";
 
-    @BindView(R.id.food_search_unit) TextView unitTextView;
-    @BindView(R.id.food_search_swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.food_search_list) RecyclerView listView;
-    @BindView(R.id.search_view) SearchView searchView;
-
-    @BindView(food_search_list_empty) ViewGroup emptyList;
-    @BindView(R.id.food_search_empty_icon) ImageView emptyIcon;
-    @BindView(R.id.food_search_empty_text) TextView emptyText;
-    @BindView(R.id.food_search_empty_description) TextView emptyDescription;
-    @BindView(R.id.food_search_empty_button) Button emptyButton;
-
     private FoodSearchListAdapter listAdapter;
     private LinearLayoutManager listLayoutManager;
-    private EndlessRecyclerViewScrollListener listScrollListener;
 
     private int currentPage;
     private boolean finishOnSelection;
@@ -126,24 +107,30 @@ public class FoodSearchFragment extends BaseFragment<FragmentFoodSearchBinding> 
     }
 
     private void initLayout() {
-        unitTextView.setText(PreferenceStore.getInstance().getLabelForMealPer100g(requireContext()));
+        getBinding().fab.setOnClickListener((view) -> createFood());
+        getBinding().foodSearchEmptyButton.setOnClickListener((view) -> onEmptyButtonClick());
 
+        getBinding().foodSearchUnit.setText(PreferenceStore.getInstance().getLabelForMealPer100g(requireContext()));
+
+        SwipeRefreshLayout swipeRefreshLayout = getBinding().foodSearchSwipeRefreshLayout;
         swipeRefreshLayout.setColorSchemeResources(R.color.green, R.color.green_light, R.color.green_lighter);
         swipeRefreshLayout.setOnRefreshListener(this::newSearch);
 
+        SearchView searchView = getBinding().searchView;
         searchView.setSearchListener(this);
         searchView.setAction(new SearchViewAction(R.drawable.ic_more_vertical, R.string.menu_open, (view) -> openSettings()));
         searchView.setSuggestions(PreferenceStore.getInstance().getInputQueries());
 
         listAdapter = new FoodSearchListAdapter(getContext());
         listLayoutManager = new LinearLayoutManager(getContext());
-        listScrollListener = new EndlessRecyclerViewScrollListener(listLayoutManager) {
+        EndlessRecyclerViewScrollListener listScrollListener = new EndlessRecyclerViewScrollListener(listLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 continueSearch();
             }
         };
 
+        RecyclerView listView = getBinding().foodSearchList;
         listView.setLayoutManager(listLayoutManager);
         listView.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
         listView.setAdapter(listAdapter);
@@ -151,8 +138,8 @@ public class FoodSearchFragment extends BaseFragment<FragmentFoodSearchBinding> 
     }
 
     private void newSearch() {
-        swipeRefreshLayout.setRefreshing(true);
-        emptyList.setVisibility(View.GONE);
+        getBinding().foodSearchSwipeRefreshLayout.setRefreshing(true);
+        getBinding().foodSearchListEmpty.setVisibility(View.GONE);
 
         currentPage = 0;
 
@@ -161,7 +148,7 @@ public class FoodSearchFragment extends BaseFragment<FragmentFoodSearchBinding> 
     }
 
     private void continueSearch() {
-        FoodRepository.getInstance().search(getContext(), searchView.getQuery(), currentPage, this::addItems);
+        FoodRepository.getInstance().search(getContext(), getBinding().searchView.getQuery(), currentPage, this::addItems);
     }
 
     private void addItems(List<FoodSearchListItem> items) {
@@ -200,7 +187,7 @@ public class FoodSearchFragment extends BaseFragment<FragmentFoodSearchBinding> 
 
     private void showEmptyList() {
         if (getContext() != null) {
-            if (StringUtils.isBlank(searchView.getQuery())) {
+            if (StringUtils.isBlank(getBinding().searchView.getQuery())) {
                 showError(R.drawable.ic_settings, R.string.error_no_data, R.string.error_no_data_settings_desc, R.string.settings_open);
             } else if (NetworkingUtils.isOnline(getContext())) {
                 showError(R.drawable.ic_sad, R.string.error_no_data, R.string.error_no_data_desc, R.string.food_add_desc);
@@ -211,11 +198,11 @@ public class FoodSearchFragment extends BaseFragment<FragmentFoodSearchBinding> 
     }
 
     private void showError(@DrawableRes int iconResId, @StringRes int textResId, @StringRes int descResId, @StringRes int buttonTextResId) {
-        emptyList.setVisibility(View.VISIBLE);
-        emptyIcon.setImageResource(iconResId);
-        emptyText.setText(textResId);
-        emptyDescription.setText(descResId);
-        emptyButton.setText(buttonTextResId);
+        getBinding().foodSearchListEmpty.setVisibility(View.VISIBLE);
+        getBinding().foodSearchEmptyIcon.setImageResource(iconResId);
+        getBinding().foodSearchEmptyText.setText(textResId);
+        getBinding().foodSearchEmptyDescription.setText(descResId);
+        getBinding().foodSearchEmptyButton.setText(buttonTextResId);
     }
 
     private void openSettings() {
@@ -230,18 +217,12 @@ public class FoodSearchFragment extends BaseFragment<FragmentFoodSearchBinding> 
         openFragment(new FoodEditFragment(), Navigation.Operation.REPLACE, true);
     }
 
-    @OnClick(R.id.fab)
-    void onFabClick() {
-        createFood();
-    }
-
-    @OnClick(R.id.food_search_empty_button)
-    void onEmptyButtonClick() {
-        if (StringUtils.isBlank(searchView.getQuery())) {
+    private void onEmptyButtonClick() {
+        if (StringUtils.isBlank(getBinding().searchView.getQuery())) {
             openSettings();
         } else {
             // Workaround since CONNECTIVITY_ACTION broadcasts cannot be caught since API level 24
-            boolean wasNetworkError = emptyText.getText().toString().equals(getString(R.string.error_no_connection));
+            boolean wasNetworkError = getBinding().foodSearchEmptyText.getText().toString().equals(getString(R.string.error_no_connection));
             if (wasNetworkError) {
                 newSearch();
             } else {
@@ -253,13 +234,13 @@ public class FoodSearchFragment extends BaseFragment<FragmentFoodSearchBinding> 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FoodQueryStartedEvent event) {
         if (listAdapter.getItemCount() == 0) {
-            swipeRefreshLayout.setRefreshing(true);
+            getBinding().foodSearchSwipeRefreshLayout.setRefreshing(true);
         }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FoodQueryEndedEvent event) {
-        swipeRefreshLayout.setRefreshing(false);
+        getBinding().foodSearchSwipeRefreshLayout.setRefreshing(false);
         if (listAdapter.getItemCount() == 0) {
             showEmptyList();
         }
@@ -267,7 +248,7 @@ public class FoodSearchFragment extends BaseFragment<FragmentFoodSearchBinding> 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FoodSavedEvent event) {
-        searchView.setQuery(null, true);
+        getBinding().searchView.setQuery(null, true);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

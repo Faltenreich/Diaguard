@@ -28,7 +28,7 @@ public class FoodDetailFragment extends BaseFragment<FragmentFoodDetailBinding> 
 
     private static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
 
-    public static FoodDetailFragment newInstance(long foodId) {
+    public static FoodDetailFragment newInstance(Long foodId) {
         FoodDetailFragment fragment = new FoodDetailFragment();
         Bundle arguments = new Bundle();
         arguments.putLong(EXTRA_FOOD_ID, foodId);
@@ -39,7 +39,7 @@ public class FoodDetailFragment extends BaseFragment<FragmentFoodDetailBinding> 
     @BindView(R.id.food_viewpager) ViewPager viewPager;
     @BindView(R.id.food_tablayout) TabLayout tabLayout;
 
-    private long foodId;
+    private Long foodId;
     private Food food;
 
     public FoodDetailFragment() {

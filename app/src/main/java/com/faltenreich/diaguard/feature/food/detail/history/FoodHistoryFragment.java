@@ -29,7 +29,7 @@ public class FoodHistoryFragment extends BaseFragment<FragmentFoodHistoryBinding
 
     private static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
 
-    public static FoodHistoryFragment newInstance(long foodId) {
+    public static FoodHistoryFragment newInstance(Long foodId) {
         FoodHistoryFragment fragment = new FoodHistoryFragment();
         Bundle arguments = new Bundle();
         arguments.putLong(EXTRA_FOOD_ID, foodId);
@@ -42,7 +42,7 @@ public class FoodHistoryFragment extends BaseFragment<FragmentFoodHistoryBinding
 
     private FoodHistoryListAdapter historyAdapter;
 
-    private long foodId;
+    private Long foodId;
     private Food food;
 
     public FoodHistoryFragment() {

@@ -26,9 +26,6 @@ import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 
 import java.util.Map;
 
-import butterknife.BindView;
-import butterknife.OnClick;
-
 public class FoodEditFragment extends BaseFragment<FragmentFoodEditBinding> implements ToolbarDescribing {
 
     private static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
@@ -40,11 +37,6 @@ public class FoodEditFragment extends BaseFragment<FragmentFoodEditBinding> impl
         fragment.setArguments(arguments);
         return fragment;
     }
-
-    @BindView(R.id.food_edit_name) StickyHintInput nameInput;
-    @BindView(R.id.food_edit_brand) StickyHintInput brandInput;
-    @BindView(R.id.food_edit_ingredients) StickyHintInput ingredientsInput;
-    @BindView(R.id.food_edit_nutrient_input_layout) NutrientInputLayout nutrientInputLayout;
 
     private Long foodId;
     private Food food;
@@ -122,10 +114,13 @@ public class FoodEditFragment extends BaseFragment<FragmentFoodEditBinding> impl
     }
 
     private void invalidateLayout() {
-        nameInput.setText(food != null ? food.getName() : null);
-        brandInput.setText(food != null ? food.getBrand() : null);
-        ingredientsInput.setText(food != null ? food.getIngredients() : null);
+        getBinding().fab.setOnClickListener((view) -> store());
 
+        getBinding().nameInput.setText(food != null ? food.getName() : null);
+        getBinding().brandInput.setText(food != null ? food.getBrand() : null);
+        getBinding().ingredientsInput.setText(food != null ? food.getIngredients() : null);
+
+        NutrientInputLayout nutrientInputLayout = getBinding().nutrientInputLayout;
         nutrientInputLayout.clearNutrients();
         for (Food.Nutrient nutrient : Food.Nutrient.values()) {
             nutrientInputLayout.addNutrient(nutrient, food != null ? nutrient.getValue(food) : null);
@@ -133,6 +128,7 @@ public class FoodEditFragment extends BaseFragment<FragmentFoodEditBinding> impl
     }
 
     private boolean isValid() {
+        StickyHintInput nameInput = getBinding().nameInput;
         boolean isValid = true;
         if (nameInput.getText().length() == 0) {
             nameInput.setError(getString(R.string.validator_value_empty));
@@ -141,18 +137,17 @@ public class FoodEditFragment extends BaseFragment<FragmentFoodEditBinding> impl
         return isValid;
     }
 
-    @OnClick(R.id.fab)
-    public void store() {
+    private void store() {
         if (isValid()) {
             if (food == null) {
                 food = new Food();
             }
             food.setLanguageCode(Helper.getLanguageCode());
-            food.setName(nameInput.getText());
-            food.setBrand(brandInput.getText());
-            food.setIngredients(ingredientsInput.getText());
+            food.setName(getBinding().nameInput.getText());
+            food.setBrand(getBinding().brandInput.getText());
+            food.setIngredients(getBinding().ingredientsInput.getText());
 
-            for (Map.Entry<Food.Nutrient, Float> entry : nutrientInputLayout.getValues().entrySet()) {
+            for (Map.Entry<Food.Nutrient, Float> entry : getBinding().nutrientInputLayout.getValues().entrySet()) {
                 Food.Nutrient nutrient = entry.getKey();
                 Float value = entry.getValue();
 

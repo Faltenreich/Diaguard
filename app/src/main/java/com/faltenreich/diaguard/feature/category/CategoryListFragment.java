@@ -25,11 +25,7 @@ import com.faltenreich.diaguard.shared.view.recyclerview.drag.DragDropItemTouchH
 
 import java.util.List;
 
-import butterknife.BindView;
-
 public class CategoryListFragment extends BaseFragment<FragmentCategoryListBinding> implements ToolbarDescribing, CategoryListAdapter.Listener {
-
-    @BindView(R.id.listView) RecyclerView list;
 
     private CategoryListAdapter listAdapter;
     private ItemTouchHelper itemTouchHelper;
@@ -67,13 +63,11 @@ public class CategoryListFragment extends BaseFragment<FragmentCategoryListBindi
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_help:
-                showHelp();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.action_help) {
+            showHelp();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -85,11 +79,12 @@ public class CategoryListFragment extends BaseFragment<FragmentCategoryListBindi
     }
 
     private void initLayout() {
-        list.setLayoutManager(new LinearLayoutManager(getContext()));
+        RecyclerView listView = getBinding().listView;
         listAdapter = new CategoryListAdapter(getContext(), this);
-        list.setAdapter(listAdapter);
+        listView.setLayoutManager(new LinearLayoutManager(getContext()));
+        listView.setAdapter(listAdapter);
         itemTouchHelper = new ItemTouchHelper(new DragDropItemTouchHelperCallback(listAdapter));
-        itemTouchHelper.attachToRecyclerView(list);
+        itemTouchHelper.attachToRecyclerView(listView);
     }
 
     private void setCategories() {

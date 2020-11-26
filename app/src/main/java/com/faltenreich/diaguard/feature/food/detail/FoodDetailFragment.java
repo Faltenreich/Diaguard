@@ -22,8 +22,6 @@ import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.google.android.material.tabs.TabLayout;
 
-import butterknife.BindView;
-
 public class FoodDetailFragment extends BaseFragment<FragmentFoodDetailBinding> implements ToolbarDescribing {
 
     private static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
@@ -35,9 +33,6 @@ public class FoodDetailFragment extends BaseFragment<FragmentFoodDetailBinding> 
         fragment.setArguments(arguments);
         return fragment;
     }
-
-    @BindView(R.id.food_viewpager) ViewPager viewPager;
-    @BindView(R.id.food_tablayout) TabLayout tabLayout;
 
     private Long foodId;
     private Food food;
@@ -102,7 +97,9 @@ public class FoodDetailFragment extends BaseFragment<FragmentFoodDetailBinding> 
     }
 
     private void initLayout() {
+        ViewPager viewPager = getBinding().viewPager;
         viewPager.setAdapter(new FoodDetailViewPagerAdapter(getChildFragmentManager(), getContext(), foodId));
+        TabLayout tabLayout = getBinding().tabLayout;
         tabLayout.setupWithViewPager(viewPager);
     }
 

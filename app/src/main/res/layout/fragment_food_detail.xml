@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/food_tablayout"
+        android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?backgroundColorGreen"
@@ -18,7 +18,7 @@
         app:tabTextColor="@color/gray_light" />
 
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/food_viewpager"
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

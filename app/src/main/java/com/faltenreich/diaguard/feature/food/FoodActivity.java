@@ -44,7 +44,7 @@ public class FoodActivity extends BaseActivity<ActivityFoodBinding> implements N
     }
 
     private void initLayout() {
-        ToolbarManager.applyToolbar(this, binding.toolbar.toolbar);
+        ToolbarManager.applyToolbar(this, getBinding().toolbar.toolbar);
 
         getSupportFragmentManager().addOnBackStackChangedListener(() -> {
             Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.container);
@@ -56,10 +56,10 @@ public class FoodActivity extends BaseActivity<ActivityFoodBinding> implements N
         if (fragment instanceof ToolbarDescribing) {
             if (fragment.isAdded()) {
                 ToolbarProperties properties = ((ToolbarDescribing) fragment).getToolbarProperties();
-                binding.toolbar.toolbar.setVisibility(properties.showToolbar() ? View.VISIBLE : View.GONE);
-                binding.toolbar.toolbarTitle.setText(properties.getTitle());
+                getBinding().toolbar.toolbar.setVisibility(properties.showToolbar() ? View.VISIBLE : View.GONE);
+                getBinding().toolbar.toolbarTitle.setText(properties.getTitle());
             } else {
-                binding.toolbar.toolbar.setVisibility(View.GONE);
+                getBinding().toolbar.toolbar.setVisibility(View.GONE);
             }
         }
     }

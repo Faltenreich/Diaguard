@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.LayoutRes;
@@ -33,7 +32,7 @@ public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompa
 
     public static final int REQUEST_CODE_BACKUP_IMPORT = 25151;
 
-    protected BINDING binding;
+    private BINDING binding;
 
     public BaseActivity(@LayoutRes int layoutResourceId) {
         super(layoutResourceId);
@@ -63,6 +62,10 @@ public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompa
     @Override
     public void setTitle(int titleId) {
         setTitle(getString(titleId));
+    }
+
+    protected BINDING getBinding() {
+        return binding;
     }
 
     private void initViewBinding() {

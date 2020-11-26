@@ -104,8 +104,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     private void initLayout() {
         drawerToggle = new ActionBarDrawerToggle(
             this,
-            binding.drawerLayout,
-            binding.toolbarContainer.toolbar,
+            getBinding().drawerLayout,
+            getBinding().toolbarContainer.toolbar,
             R.string.drawer_open,
             R.string.drawer_close
         ) {
@@ -120,23 +120,23 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
                 invalidateOptionsMenu();
             }
         };
-        binding.drawerLayout.addDrawerListener(drawerToggle);
+        getBinding().drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
-        binding.navigationView.getMenu().findItem(R.id.nav_calculator).setVisible(ApplicationConfig.isCalculatorEnabled());
-        binding.navigationView.setNavigationItemSelectedListener(menuItem -> {
-            binding.drawerLayout.closeDrawers();
+        getBinding().navigationView.getMenu().findItem(R.id.nav_calculator).setVisible(ApplicationConfig.isCalculatorEnabled());
+        getBinding().navigationView.setNavigationItemSelectedListener(menuItem -> {
+            getBinding().drawerLayout.closeDrawers();
             selectMenuItem(menuItem);
             return true;
         });
         drawerToggle.setToolbarNavigationClickListener(v -> {
             if (drawerToggle.isDrawerIndicatorEnabled()) {
-                if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                    binding.drawerLayout.closeDrawer(GravityCompat.START);
+                if (getBinding().drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    getBinding().drawerLayout.closeDrawer(GravityCompat.START);
                 } else {
-                    binding.drawerLayout.openDrawer(GravityCompat.START);
+                    getBinding().drawerLayout.openDrawer(GravityCompat.START);
                 }
             } else {
-                binding.drawerLayout.closeDrawer(GravityCompat.START);
+                getBinding().drawerLayout.closeDrawer(GravityCompat.START);
                 getSupportFragmentManager().popBackStackImmediate();
             }
         });
@@ -148,7 +148,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
 
         // Setup start fragment
         int startScreen = PreferenceStore.getInstance().getStartScreen();
-        MenuItem menuItem = binding.navigationView.getMenu().getItem(startScreen);
+        MenuItem menuItem = getBinding().navigationView.getMenu().getItem(startScreen);
         selectMenuItem(menuItem);
     }
 
@@ -169,11 +169,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
 
     private void invalidateMainButton(@Nullable MainButton mainButton) {
         MainButtonProperties properties = mainButton != null ? mainButton.getMainButtonProperties() : null;
-        binding.fab.setVisibility(properties != null ? View.VISIBLE : View.GONE);
-        binding.fab.setImageResource(properties != null ? properties.getIconDrawableResId() : android.R.color.transparent);
-        binding.fab.setOnClickListener(properties != null ? properties.getOnClickListener() : null);
+        getBinding().fab.setVisibility(properties != null ? View.VISIBLE : View.GONE);
+        getBinding().fab.setImageResource(properties != null ? properties.getIconDrawableResId() : android.R.color.transparent);
+        getBinding().fab.setOnClickListener(properties != null ? properties.getOnClickListener() : null);
         if (properties != null) {
-            CoordinatorLayout.Behavior<?> behavior = ViewUtils.getBehavior(binding.fab);
+            CoordinatorLayout.Behavior<?> behavior = ViewUtils.getBehavior(getBinding().fab);
             if (behavior instanceof SlideOutBehavior) {
                 ((SlideOutBehavior) behavior).setSlideOut(properties.slideOut());
             }
@@ -181,9 +181,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     }
 
     private void resetMainButton() {
-        if (binding.fab.getTranslationY() != 0) {
-            binding.fab.animate().cancel();
-            binding.fab.animate().translationY(0).start();
+        if (getBinding().fab.getTranslationY() != 0) {
+            getBinding().fab.animate().cancel();
+            getBinding().fab.animate().translationY(0).start();
         }
     }
 
@@ -191,15 +191,15 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         MainFragmentType mainFragmentType = MainFragmentType.valueOf(fragment.getClass());
         if (mainFragmentType != null) {
             int position = mainFragmentType.position;
-            if (position < binding.navigationView.getMenu().size()) {
-                MenuItem menuItem = binding.navigationView.getMenu().getItem(position);
+            if (position < getBinding().navigationView.getMenu().size()) {
+                MenuItem menuItem = getBinding().navigationView.getMenu().getItem(position);
                 selectNavigationDrawerMenuItem(menuItem);
             }
         }
     }
 
     public void openFragment(@IdRes int itemId) {
-        MenuItem menuItem = binding.navigationView.getMenu().findItem(itemId);
+        MenuItem menuItem = getBinding().navigationView.getMenu().findItem(itemId);
         selectMenuItem(menuItem);
     }
 
@@ -241,8 +241,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     private void selectNavigationDrawerMenuItem(MenuItem menuItem) {
         if (menuItem != null) {
             // First uncheck all, then check current Fragment
-            for (int index = 0; index < binding.navigationView.getMenu().size(); index++) {
-                binding.navigationView.getMenu().getItem(index).setChecked(false);
+            for (int index = 0; index < getBinding().navigationView.getMenu().size(); index++) {
+                getBinding().navigationView.getMenu().getItem(index).setChecked(false);
             }
             menuItem.setChecked(true);
         }
@@ -273,8 +273,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
 
     @Override
     public void onBackPressed() {
-        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            binding.drawerLayout.closeDrawer(GravityCompat.START);
+        if (getBinding().drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            getBinding().drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }

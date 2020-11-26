@@ -72,16 +72,16 @@ public class EntrySearchActivity extends BaseActivity<ActivityEntrySearchBinding
             revealX = getIntent().getIntExtra(ARGUMENT_REVEAL_X, -1);
             revealY = getIntent().getIntExtra(ARGUMENT_REVEAL_Y, -1);
             if (revealX >= 0 && revealY >= 0) {
-                binding.root.setVisibility(View.INVISIBLE);
-                ViewTreeObserver viewTreeObserver = binding.root.getViewTreeObserver();
+                getBinding().root.setVisibility(View.INVISIBLE);
+                ViewTreeObserver viewTreeObserver = getBinding().root.getViewTreeObserver();
                 if (viewTreeObserver.isAlive()) {
                     viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                         @TargetApi(Build.VERSION_CODES.LOLLIPOP)
                         @Override
                         public void onGlobalLayout() {
-                            binding.root.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                            binding.root.setVisibility(View.VISIBLE);
-                            ViewUtils.reveal(binding.root, revealX, revealY, true, null);
+                            getBinding().root.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                            getBinding().root.setVisibility(View.VISIBLE);
+                            ViewUtils.reveal(getBinding().root, revealX, revealY, true, null);
                         }
                     });
                 }
@@ -91,10 +91,10 @@ public class EntrySearchActivity extends BaseActivity<ActivityEntrySearchBinding
 
     private void unreveal() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && revealX >= 0 && revealY >= 0) {
-            ViewUtils.reveal(binding.root, revealX, revealY, false, new AnimatorListenerAdapter() {
+            ViewUtils.reveal(getBinding().root, revealX, revealY, false, new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    binding.root.setVisibility(View.INVISIBLE);
+                    getBinding().root.setVisibility(View.INVISIBLE);
                     EntrySearchActivity.super.finish();
                     overridePendingTransition(0, 0);
                 }

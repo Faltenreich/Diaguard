@@ -30,7 +30,6 @@ import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.layoutmanager.SafeLinearLayoutManager;
-import com.faltenreich.diaguard.shared.view.search.SearchView;
 import com.faltenreich.diaguard.shared.view.search.SearchViewListener;
 
 import org.apache.commons.lang3.StringUtils;
@@ -44,11 +43,6 @@ public class EntrySearchFragment extends BaseFragment<FragmentEntrySearchBinding
     private static final int PAGE_SIZE = 25;
 
     static final String EXTRA_TAG_ID = "tagId";
-
-    private SearchView searchView;
-    private RecyclerView list;
-    private TextView listEmptyView;
-    private View progressView;
 
     private EntrySearchListAdapter listAdapter;
     private long tagId = -1;
@@ -79,10 +73,6 @@ public class EntrySearchFragment extends BaseFragment<FragmentEntrySearchBinding
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        searchView = getBinding().searchView;
-        list = getBinding().searchList;
-        listEmptyView = getBinding().searchListEmpty;
-        progressView = getBinding().searchListProgress;
         initLayout();
         preFillQuery();
     }
@@ -95,12 +85,13 @@ public class EntrySearchFragment extends BaseFragment<FragmentEntrySearchBinding
     }
 
     private void initLayout() {
-        list.setLayoutManager(new SafeLinearLayoutManager(getActivity()));
-        listAdapter = new EntrySearchListAdapter(getContext(), (tag, view) -> { if (isAdded()) searchView.setQuery(tag.getName(), true); });
+        RecyclerView listView = getBinding().listView;
+        listView.setLayoutManager(new SafeLinearLayoutManager(getActivity()));
+        listAdapter = new EntrySearchListAdapter(getContext(), (tag, view) -> { if (isAdded()) getBinding().searchView.setQuery(tag.getName(), true); });
         listAdapter.setOnEndlessListener(scrollingDown -> { if (scrollingDown) continueSearch(); });
-        list.setAdapter(listAdapter);
+        listView.setAdapter(listAdapter);
 
-        searchView.setSearchListener(this);
+        getBinding().searchView.setSearchListener(this);
 
         invalidateEmptyView();
     }
@@ -115,14 +106,14 @@ public class EntrySearchFragment extends BaseFragment<FragmentEntrySearchBinding
                 @Override
                 public void onDidLoad(Tag tag) {
                     if (tag != null) {
-                        searchView.setQuery(tag.getName(), false);
+                        getBinding().searchView.setQuery(tag.getName(), false);
                         newSearch();
                     }
                 }
             });
         } else {
             // Workaround to focus EditText onViewCreated
-            new Handler().postDelayed(() -> searchView.focusSearchField(), 500);
+            new Handler().postDelayed(() -> getBinding().searchView.focusSearchField(), 500);
         }
     }
 
@@ -134,15 +125,15 @@ public class EntrySearchFragment extends BaseFragment<FragmentEntrySearchBinding
         }
         currentPage = 0;
 
-        if (StringUtils.isNotBlank(searchView.getQuery())) {
-            progressView.setVisibility(View.VISIBLE);
+        if (StringUtils.isNotBlank(getBinding().searchView.getQuery())) {
+            getBinding().progressIndicator.setVisibility(View.VISIBLE);
             continueSearch();
         }
         invalidateEmptyView();
     }
 
     private void continueSearch() {
-        final String query = searchView.getQuery();
+        final String query = getBinding().searchView.getQuery();
         DataLoader.getInstance().load(getContext(), new DataLoaderListener<List<LogEntryListItem>>() {
             @Override
             public List<LogEntryListItem> onShouldLoad() {
@@ -164,13 +155,13 @@ public class EntrySearchFragment extends BaseFragment<FragmentEntrySearchBinding
             }
             @Override
             public void onDidLoad(List<LogEntryListItem> items) {
-                String currentQuery = searchView.getQuery();
+                String currentQuery = getBinding().searchView.getQuery();
                 if (query.equals(currentQuery)) {
                     currentPage++;
                     int oldCount = listAdapter.getItemCount();
                     listAdapter.addItems(items);
                     listAdapter.notifyItemRangeInserted(oldCount, items.size());
-                    progressView.setVisibility(View.GONE);
+                    getBinding().progressIndicator.setVisibility(View.GONE);
                     invalidateEmptyView();
                 } else {
                     Log.d(TAG, "Dropping obsolete result for \'" + query + "\' (is now: \'" + currentQuery + "\'");
@@ -180,8 +171,9 @@ public class EntrySearchFragment extends BaseFragment<FragmentEntrySearchBinding
     }
 
     private void invalidateEmptyView() {
-        listEmptyView.setVisibility(progressView.getVisibility() != View.VISIBLE && listAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
-        listEmptyView.setText(StringUtils.isBlank(searchView.getQuery()) ? R.string.search_prompt : R.string.no_results_found);
+        TextView emptyLabel = getBinding().emptyLabel;
+        emptyLabel.setVisibility(getBinding().progressIndicator.getVisibility() != View.VISIBLE && listAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
+        emptyLabel.setText(StringUtils.isBlank(getBinding().searchView.getQuery()) ? R.string.search_prompt : R.string.no_results_found);
     }
 
     @Override

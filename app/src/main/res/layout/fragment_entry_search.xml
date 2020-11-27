@@ -18,13 +18,13 @@
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/search_list"
+            android:id="@+id/list_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/list_item_log_entry" />
 
         <TextView
-            android:id="@+id/search_list_empty"
+            android:id="@+id/empty_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -34,7 +34,7 @@
             tools:visibility="visible" />
 
         <ProgressBar
-            android:id="@+id/search_list_progress"
+            android:id="@+id/progress_indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

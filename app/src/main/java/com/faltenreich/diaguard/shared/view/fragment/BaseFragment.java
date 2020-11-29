@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.shared.view.fragment;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -9,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.LayoutRes;
-import androidx.annotation.MenuRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -116,10 +116,11 @@ public abstract class BaseFragment<BINDING extends ViewBinding> extends Fragment
         menu.clear();
 
         if (this instanceof ToolbarDescribing) {
-            @MenuRes int menuResId = ((ToolbarDescribing) this).getToolbarProperties().getMenuResId();
-            if (menuResId  >= 0) {
+            try {
+                ToolbarDescribing describing = (ToolbarDescribing) this;
+                int menuResId = describing.getToolbarProperties().getMenuResId();
                 inflater.inflate(menuResId, menu);
-            }
+            } catch (Resources.NotFoundException ignored) {}
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -137,7 +138,7 @@ public abstract class BaseFragment<BINDING extends ViewBinding> extends Fragment
         setTitle(getString(titleResId));
     }
 
-    protected void showFragment(BaseFragment fragment) {
+    protected void showFragment(Fragment fragment) {
         if (getActivity() != null && getActivity() instanceof MainActivity) {
             ((MainActivity) getActivity()).openFragment(fragment, null, true);
         }

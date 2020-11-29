@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.feature.timeline;
 
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -27,11 +26,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
-import butterknife.BindView;
-
 public class TimelineFragment extends DateFragment<FragmentTimelineBinding> implements TimelineViewPager.Listener {
-
-    @BindView(R.id.viewpager) TimelineViewPager viewPager;
 
     public TimelineFragment() {
         super(R.layout.fragment_timeline);
@@ -59,21 +54,20 @@ public class TimelineFragment extends DateFragment<FragmentTimelineBinding> impl
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewPager.setup(getChildFragmentManager(), this);
+        getBinding().viewPager.setup(getChildFragmentManager(), this);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_today:
-                goToDay(DateTime.now());
-                return true;
-            case R.id.action_style:
-                openDialogForChartStyle();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        int itemId = item.getItemId();
+        if (itemId == R.id.action_today) {
+            goToDay(DateTime.now());
+            return true;
+        } else if (itemId == R.id.action_style) {
+            openDialogForChartStyle();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private void openDialogForChartStyle() {
@@ -102,7 +96,7 @@ public class TimelineFragment extends DateFragment<FragmentTimelineBinding> impl
     @Override
     protected void goToDay(DateTime day) {
         super.goToDay(day);
-        viewPager.setDay(day);
+        getBinding().viewPager.setDay(day);
     }
 
     @Override
@@ -150,9 +144,9 @@ public class TimelineFragment extends DateFragment<FragmentTimelineBinding> impl
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(@SuppressWarnings("unused") CategoryPreferenceChangedEvent event) {
+    public void onEvent(CategoryPreferenceChangedEvent event) {
         if (isAdded()) {
-            viewPager.reset();
+            getBinding().viewPager.reset();
         }
     }
 }

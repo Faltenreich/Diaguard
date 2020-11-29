@@ -14,7 +14,7 @@
         android:layout_weight="1.3">
 
         <com.faltenreich.diaguard.feature.timeline.day.chart.DayChart
-            android:id="@+id/day_chart"
+            android:id="@+id/chart_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
@@ -32,13 +32,13 @@
             android:orientation="horizontal">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/category_table_images"
+                android:id="@+id/image_list_view"
                 android:layout_width="@dimen/chart_offset_left"
                 android:layout_height="match_parent"
                 tools:listItem="@layout/list_item_table_category_image" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/category_table_values"
+                android:id="@+id/value_list_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:listItem="@layout/list_item_table_category_value" />

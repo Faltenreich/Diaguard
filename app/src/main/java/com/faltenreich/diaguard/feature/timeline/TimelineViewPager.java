@@ -64,7 +64,7 @@ public class TimelineViewPager extends ViewPager {
                         int currentItem = getCurrentItem();
                         int targetItem = adapter.getMiddle();
 
-                        ((TimelineDayFragment) adapter.getItem(currentItem)).update();
+                        ((TimelineDayFragment) adapter.getItem(currentItem)).invalidateLayout();
 
                         if (currentItem != targetItem) {
                             switch (currentItem) {

@@ -28,7 +28,7 @@
 
                     <ImageView
                         style="@style/LayoutRowImage"
-                        android:id="@+id/statistics_image_category"
+                        android:id="@+id/category_image_view"
                         android:contentDescription="@string/category"
                         android:src="@drawable/ic_list"
                         app:tint="?iconColorPrimary" />
@@ -38,7 +38,7 @@
                         android:orientation="horizontal">
 
                         <Spinner
-                            android:id="@+id/statistics_categories"
+                            android:id="@+id/category_spinner"
                             style="@style/LayoutRowText"/>
 
                     </LinearLayout>
@@ -58,7 +58,7 @@
                         android:orientation="horizontal">
 
                         <Spinner
-                            android:id="@+id/statistics_interval"
+                            android:id="@+id/interval_spinner"
                             style="@style/LayoutRowText" />
 
                     </LinearLayout>
@@ -103,12 +103,12 @@
                         <TableRow style="@style/BoxRow">
 
                             <TextView
-                                android:id="@+id/statistics_avg_unit"
+                                android:id="@+id/average_unit_label"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="3"/>
 
-                            <TextView android:id="@+id/statistics_avg_value"
+                            <TextView android:id="@+id/average_value_label"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -126,7 +126,8 @@
                                 android:layout_weight="3"
                                 android:text="@string/entry_count_per_day"/>
 
-                            <TextView android:id="@+id/statistics_measurement_count_avg"
+                            <TextView
+                                android:id="@+id/measurement_count_average_label"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -137,7 +138,7 @@
                         </TableRow>
 
                         <TableRow style="@style/BoxRow"
-                            android:id="@+id/statistics_layout_hyper">
+                            android:id="@+id/hypergylcemia_count_average_layout">
 
                             <TextView
                                 android:layout_width="0dp"
@@ -145,7 +146,7 @@
                                 android:layout_weight="3"
                                 android:text="@string/hyper_per_day"/>
 
-                            <TextView android:id="@+id/statistics_avg_hyper"
+                            <TextView android:id="@+id/hypergylcemia_count_average_label"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -156,7 +157,7 @@
                         </TableRow>
 
                         <TableRow style="@style/BoxRow"
-                            android:id="@+id/statistics_layout_hypo">
+                            android:id="@+id/hypogylcemia_count_average_layout">
 
                             <TextView
                                 android:layout_width="0dp"
@@ -164,7 +165,7 @@
                                 android:layout_weight="3"
                                 android:text="@string/hypo_per_day"/>
 
-                            <TextView android:id="@+id/statistics_avg_hypo"
+                            <TextView android:id="@+id/hypogylcemia_count_average_label"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -182,7 +183,7 @@
 
             <!-- Trend -->
             <androidx.cardview.widget.CardView
-                android:id="@+id/layout_trend"
+                android:id="@+id/trend_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="4dp"
@@ -204,7 +205,7 @@
                         android:textColor="?colorPrimary"/>
 
                     <com.github.mikephil.charting.charts.LineChart
-                        android:id="@+id/statistics_chart_trend"
+                        android:id="@+id/trend_chart_view"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/line_chart_height_detailed"
                         android:orientation="horizontal" />
@@ -215,7 +216,7 @@
 
             <!-- Distribution -->
             <androidx.cardview.widget.CardView
-                android:id="@+id/layout_distribution"
+                android:id="@+id/distribution_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="4dp"
@@ -237,7 +238,7 @@
                         android:textColor="?colorPrimary"/>
 
                     <com.github.mikephil.charting.charts.PieChart
-                        android:id="@+id/statistics_chart_distribution"
+                        android:id="@+id/distribution_chart_view"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/pie_chart_height"
                         android:orientation="horizontal" />

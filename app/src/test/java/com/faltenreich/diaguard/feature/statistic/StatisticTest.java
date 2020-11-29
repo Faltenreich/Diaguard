@@ -33,7 +33,7 @@ public class StatisticTest {
     }
 
     private void selectCategory(Category category) {
-        Espresso.onView(ViewMatchers.withId(R.id.statistics_categories))
+        Espresso.onView(ViewMatchers.withId(R.id.category_spinner))
             .perform(ViewActions.click());
 
         String label = ApplicationProvider.getApplicationContext().getString(category.getStringResId());
@@ -54,7 +54,7 @@ public class StatisticTest {
             selectCategory(category);
 
             String label = ApplicationProvider.getApplicationContext().getString(category.getStringResId());
-            Espresso.onView(ViewMatchers.withId(R.id.statistics_categories))
+            Espresso.onView(ViewMatchers.withId(R.id.category_spinner))
                 .check(ViewAssertions.matches(ViewMatchers.withSpinnerText(label)));
 
             Espresso.onView(ViewMatchers.withText(R.string.average))

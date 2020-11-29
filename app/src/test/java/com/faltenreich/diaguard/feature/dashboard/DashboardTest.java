@@ -51,7 +51,7 @@ public class DashboardTest {
     public void clickingToday_shouldOpenStatistic() {
         Espresso.onView(ViewMatchers.withContentDescription(R.string.today))
             .perform(NestedScroll.nestedScrollTo(), ViewActions.click());
-        Espresso.onView(ViewMatchers.withId(R.id.statistics_categories))
+        Espresso.onView(ViewMatchers.withId(R.id.category_spinner))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
@@ -59,7 +59,7 @@ public class DashboardTest {
     public void clickingAverage_shouldOpenStatistic() {
         Espresso.onView(ViewMatchers.withContentDescription(R.string.average))
             .perform(NestedScroll.nestedScrollTo(), ViewActions.click());
-        Espresso.onView(ViewMatchers.withId(R.id.statistics_categories))
+        Espresso.onView(ViewMatchers.withId(R.id.category_spinner))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
@@ -75,7 +75,7 @@ public class DashboardTest {
     public void clickingTrend_shouldOpenStatistic() {
         Espresso.onView(ViewMatchers.withContentDescription(R.string.trend))
             .perform(NestedScroll.nestedScrollTo(), ViewActions.click());
-        Espresso.onView(ViewMatchers.withId(R.id.statistics_categories))
+        Espresso.onView(ViewMatchers.withId(R.id.category_spinner))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 }

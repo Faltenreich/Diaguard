@@ -25,16 +25,9 @@ import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDivi
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.OnClick;
-
-public class TagListFragment extends BaseFragment<FragmentTagListBinding> implements ToolbarDescribing, TagListAdapter.TagListener {
-
-    @BindView(R.id.list)
-    RecyclerView list;
-
-    @BindView(R.id.list_placeholder)
-    View placeholder;
+public class TagListFragment
+    extends BaseFragment<FragmentTagListBinding>
+    implements ToolbarDescribing, TagListAdapter.TagListener {
 
     private TagListAdapter listAdapter;
 
@@ -63,16 +56,19 @@ public class TagListFragment extends BaseFragment<FragmentTagListBinding> implem
     }
 
     private void initLayout() {
-        list.setLayoutManager(new LinearLayoutManager(getContext()));
-        list.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
+        getBinding().fab.setOnClickListener((view) -> createTag());
+
+        RecyclerView listView = getBinding().listView;
+        listView.setLayoutManager(new LinearLayoutManager(getContext()));
+        listView.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
         listAdapter = new TagListAdapter(getContext());
         listAdapter.setTagListener(this);
-        list.setAdapter(listAdapter);
+        listView.setAdapter(listAdapter);
     }
 
     private void invalidateLayout() {
         boolean isEmpty = listAdapter == null || listAdapter.getItemCount() == 0;
-        placeholder.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+        getBinding().listPlaceholder.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
     }
 
     private void setTags(List<Tag> tags) {
@@ -99,7 +95,7 @@ public class TagListFragment extends BaseFragment<FragmentTagListBinding> implem
 
     private void addTag(Tag tag) {
         int position = 0;
-        list.scrollToPosition(position);
+        getBinding().listView.scrollToPosition(position);
         listAdapter.addItem(position, tag);
         listAdapter.notifyItemInserted(position);
     }
@@ -167,10 +163,5 @@ public class TagListFragment extends BaseFragment<FragmentTagListBinding> implem
     @Override
     public void onTagDeleted(Tag tag, View view) {
         confirmTagDeletion(tag);
-    }
-
-    @OnClick(R.id.fab)
-    void onFabClick() {
-        createTag();
     }
 }

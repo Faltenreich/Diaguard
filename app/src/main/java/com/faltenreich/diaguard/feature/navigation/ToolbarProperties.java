@@ -1,11 +1,15 @@
 package com.faltenreich.diaguard.feature.navigation;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.MenuRes;
+import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
 public class ToolbarProperties {
+
+    private static final String TAG = ToolbarProperties.class.getSimpleName();
 
     private final String title;
     private final int menuResId;
@@ -41,8 +45,13 @@ public class ToolbarProperties {
             return this;
         }
 
-        public Builder setTitle(Context context, @StringRes int titleResId) {
-            return setTitle(context.getString(titleResId));
+        public Builder setTitle(@Nullable Context context, @StringRes int titleResId) {
+            if (context != null) {
+                return setTitle(context.getString(titleResId));
+            } else {
+                Log.w(TAG, "Failed to set title due to context that is null");
+            }
+            return this;
         }
 
         public Builder setMenu(@MenuRes int menuResId) {

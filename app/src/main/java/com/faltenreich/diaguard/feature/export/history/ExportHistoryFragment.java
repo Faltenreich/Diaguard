@@ -35,12 +35,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import butterknife.BindView;
-
 public class ExportHistoryFragment extends BaseFragment<FragmentExportHistoryBinding> implements ToolbarDescribing {
-
-    @BindView(R.id.list) RecyclerView listView;
-    @BindView(R.id.progressView) View progressView;
 
     private ExportHistoryListAdapter listAdapter;
 
@@ -85,10 +80,11 @@ public class ExportHistoryFragment extends BaseFragment<FragmentExportHistoryBin
     }
 
     private void initLayout() {
+        RecyclerView listView = getBinding().listView;
         listView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         listView.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
         listView.setAdapter(listAdapter);
-        progressView.setVisibility(View.VISIBLE);
+        getBinding().progressIndicator.setVisibility(View.VISIBLE);
     }
 
     private void checkPermissions() {
@@ -108,7 +104,7 @@ public class ExportHistoryFragment extends BaseFragment<FragmentExportHistoryBin
         listAdapter.clear();
         listAdapter.addItems(listItems);
         listAdapter.notifyDataSetChanged();
-        progressView.setVisibility(View.GONE);
+        getBinding().progressIndicator.setVisibility(View.GONE);
     }
 
     private void deleteExportIfConfirmed(ExportHistoryListItem item) {

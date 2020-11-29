@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewbinding.ViewBinding;
 
+import com.faltenreich.diaguard.feature.preference.backup.BackupImportPreference;
 import com.faltenreich.diaguard.shared.data.permission.Permission;
 import com.faltenreich.diaguard.shared.data.permission.PermissionManager;
 import com.faltenreich.diaguard.shared.data.permission.PermissionUseCase;
@@ -29,8 +30,6 @@ import org.greenrobot.eventbus.ThreadMode;
 public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompatActivity {
 
     private static final String TAG = BaseActivity.class.getSimpleName();
-
-    public static final int REQUEST_CODE_BACKUP_IMPORT = 25151;
 
     private BINDING binding;
 
@@ -61,11 +60,6 @@ public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompa
     protected void onPause() {
         Events.unregister(this);
         super.onPause();
-    }
-
-    @Override
-    public void setTitle(int titleId) {
-        setTitle(getString(titleId));
     }
 
     private void initViewBinding() {
@@ -101,7 +95,7 @@ public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompa
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_BACKUP_IMPORT) {
+        if (requestCode == BackupImportPreference.REQUEST_CODE_BACKUP_IMPORT) {
             if (resultCode == Activity.RESULT_OK) {
                 if (data != null && data.getData() != null) {
                     Events.post(new FileProvidedEvent(data.getData()));

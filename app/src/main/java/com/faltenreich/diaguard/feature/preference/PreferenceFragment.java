@@ -37,6 +37,7 @@ public abstract class PreferenceFragment extends PreferenceFragmentCompat {
     @Override
     public void onResume() {
         super.onResume();
+        // FIXME: Not visible
         requireActivity().setTitle(titleRes);
     }
 

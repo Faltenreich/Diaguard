@@ -13,6 +13,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.export.job.Export;
 import com.faltenreich.diaguard.feature.export.job.ExportCallback;
 import com.faltenreich.diaguard.feature.preference.PreferenceFragment;
+import com.faltenreich.diaguard.feature.preference.backup.BackupImportPreference;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.SystemUtils;
 import com.faltenreich.diaguard.shared.data.database.dao.TagDao;
@@ -26,7 +27,6 @@ import com.faltenreich.diaguard.shared.event.file.FileProvidedFailedEvent;
 import com.faltenreich.diaguard.shared.event.permission.PermissionResponseEvent;
 import com.faltenreich.diaguard.shared.event.preference.MealFactorUnitChangedEvent;
 import com.faltenreich.diaguard.shared.event.preference.UnitChangedEvent;
-import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 import com.faltenreich.diaguard.shared.view.progress.ProgressComponent;
 import com.faltenreich.diaguard.shared.view.theme.Theme;
 import com.faltenreich.diaguard.shared.view.theme.ThemeUtils;
@@ -192,7 +192,7 @@ public class PreferenceOverviewFragment
                 case BACKUP_READ:
                     if (getActivity() != null) {
                         String mimeType = "text/*"; // Workaround: text/csv does not work for all apps
-                        FileUtils.searchFiles(getActivity(), mimeType, BaseActivity.REQUEST_CODE_BACKUP_IMPORT);
+                        FileUtils.searchFiles(getActivity(), mimeType, BackupImportPreference.REQUEST_CODE_BACKUP_IMPORT);
                     }
                     break;
             }

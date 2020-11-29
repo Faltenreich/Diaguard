@@ -62,10 +62,7 @@ public abstract class BaseFragment<BINDING extends ViewBinding> extends Fragment
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
-        if (view == null) {
-            throw new IllegalStateException("View must not be null");
-        }
+        super.onCreateView(inflater, container, savedInstanceState);
         binding = createBinding(inflater);
         return binding.getRoot();
     }
@@ -114,7 +111,6 @@ public abstract class BaseFragment<BINDING extends ViewBinding> extends Fragment
     @Override
     public void onCreateOptionsMenu(Menu menu, @NonNull MenuInflater inflater) {
         menu.clear();
-
         if (this instanceof ToolbarDescribing) {
             try {
                 ToolbarDescribing describing = (ToolbarDescribing) this;

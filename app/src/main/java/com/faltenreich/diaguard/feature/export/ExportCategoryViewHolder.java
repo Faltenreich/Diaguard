@@ -7,20 +7,14 @@ import android.widget.ImageView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ListItemExportCategoryBinding;
-import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;
-
-import butterknife.BindView;
 
 class ExportCategoryViewHolder extends BaseViewHolder<ListItemExportCategoryBinding, ExportCategoryListItem> {
 
-    @BindView(R.id.category_image) ImageView categoryImageView;
-    @BindView(R.id.category_checkbox) CheckBox categoryCheckBox;
-    @BindView(R.id.extra_checkbox) CheckBox extraCheckBox;
-
     ExportCategoryViewHolder(ViewGroup parent) {
         super(parent, R.layout.list_item_export_category);
-        initLayout();
+        initCategoryCheckbox();
+        initExtraCheckbox();
     }
 
     @Override
@@ -28,26 +22,43 @@ class ExportCategoryViewHolder extends BaseViewHolder<ListItemExportCategoryBind
         return ListItemExportCategoryBinding.bind(view);
     }
 
-    private void initLayout() {
-        categoryCheckBox.setOnCheckedChangeListener((checkBox, isChecked) -> {
+    @Override
+    protected void onBind(ExportCategoryListItem item) {
+        invalidateImageView();
+        invalidateCategoryCheckbox();
+        invalidateExtraCheckbox();
+    }
+
+    private void invalidateImageView() {
+        ImageView imageView = getBinding().categoryImageView;
+        imageView.setImageResource(getItem().getCategory().getIconImageResourceId());
+    }
+
+    private void initCategoryCheckbox() {
+        CheckBox checkbox = getBinding().categoryCheckbox;
+        checkbox.setOnCheckedChangeListener((checkBox, isChecked) -> {
             getItem().setCategorySelected(isChecked);
-            extraCheckBox.setEnabled(isChecked);
+            getBinding().extraCheckbox.setEnabled(isChecked);
         });
-        extraCheckBox.setOnCheckedChangeListener((checkBox, isChecked) ->
+    }
+
+    private void invalidateCategoryCheckbox() {
+        CheckBox checkbox = getBinding().categoryCheckbox;
+        checkbox.setText(getContext().getString(getItem().getCategory().getStringResId()));
+        checkbox.setChecked(getItem().isCategorySelected());
+    }
+
+    private void initExtraCheckbox() {
+        CheckBox checkbox = getBinding().extraCheckbox;
+        checkbox.setOnCheckedChangeListener((checkBox, isChecked) ->
             getItem().setExtraSelected(isChecked)
         );
     }
 
-    @Override
-    protected void onBind(ExportCategoryListItem item) {
-        Category category = item.getCategory();
-
-        categoryImageView.setImageResource(category.getIconImageResourceId());
-        categoryCheckBox.setText(getContext().getString(category.getStringResId()));
-        categoryCheckBox.setChecked(item.isCategorySelected());
-
+    private void invalidateExtraCheckbox() {
+        CheckBox checkbox = getBinding().extraCheckbox;
         String extraTitle;
-        switch (category) {
+        switch (getItem().getCategory()) {
             case BLOODSUGAR:
                 extraTitle = getContext().getString(R.string.highlight_limits);
                 break;
@@ -60,9 +71,9 @@ class ExportCategoryViewHolder extends BaseViewHolder<ListItemExportCategoryBind
             default:
                 extraTitle = null;
         }
-        extraCheckBox.setText(extraTitle);
-        extraCheckBox.setEnabled(item.isCategorySelected());
-        extraCheckBox.setChecked(item.isExtraSelected());
-        extraCheckBox.setVisibility(extraTitle != null ? View.VISIBLE : View.GONE);
+        checkbox.setText(extraTitle);
+        checkbox.setEnabled(getItem().isCategorySelected());
+        checkbox.setChecked(getItem().isExtraSelected());
+        checkbox.setVisibility(extraTitle != null ? View.VISIBLE : View.GONE);
     }
 }

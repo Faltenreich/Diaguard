@@ -23,7 +23,7 @@
                 android:orientation="vertical">
 
                 <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/values_chart"
+                    android:id="@+id/chart_view"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/line_chart_height_detailed" />
 
@@ -38,7 +38,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/values_list"
+            android:id="@+id/list_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"

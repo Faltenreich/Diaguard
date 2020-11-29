@@ -37,10 +37,11 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.io.File;
 import java.util.Locale;
 
-public class PreferenceOverviewFragment extends PreferenceFragment
+public class PreferenceOverviewFragment
+    extends PreferenceFragment
     implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private ProgressComponent progressComponent = new ProgressComponent();
+    private final ProgressComponent progressComponent = new ProgressComponent();
 
     public PreferenceOverviewFragment() {
         super(R.xml.preferences_overview, R.string.settings);
@@ -117,7 +118,7 @@ public class PreferenceOverviewFragment extends PreferenceFragment
     }
 
     private void createBackup() {
-        Context context = getActivity();
+        Context context = requireActivity();
         progressComponent.show(context);
 
         ExportCallback callback = new ExportCallback() {
@@ -146,8 +147,9 @@ public class PreferenceOverviewFragment extends PreferenceFragment
     }
 
     private void importBackup(Uri uri) {
-        progressComponent.show(getActivity());
-        Export.importCsv(getActivity(), uri, new ExportCallback() {
+        Context context = requireActivity();
+        progressComponent.show(context);
+        Export.importCsv(context, uri, new ExportCallback() {
 
             @Override
             public void onProgress(String message) {

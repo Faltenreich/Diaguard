@@ -6,17 +6,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
+import android.widget.AdapterView;
 import android.widget.PopupMenu;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.Group;
 import androidx.core.view.ViewCompat;
-import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -57,43 +53,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.OnClick;
-import butterknife.OnItemSelected;
-
 public class ExportFragment extends BaseFragment<FragmentExportBinding> implements ToolbarDescribing, ExportCallback, MainButton {
 
     private static final String TAG = ExportFragment.class.getSimpleName();
 
-    @BindView(R.id.scroll_view)
-    NestedScrollView scrollView;
-    @BindView(R.id.date_start_button)
-    Button buttonDateStart;
-    @BindView(R.id.date_end_button)
-    Button buttonDateEnd;
-    @BindView(R.id.format_spinner)
-    Spinner spinnerFormat;
-    @BindView(R.id.style_group)
-    Group styleGroup;
-    @BindView(R.id.style_spinner)
-    Spinner spinnerStyle;
-    @BindView(R.id.header_checkbox)
-    CheckBox checkBoxHeader;
-    @BindView(R.id.header_group)
-    Group headerGroup;
-    @BindView(R.id.footer_checkbox)
-    CheckBox checkBoxFooter;
-    @BindView(R.id.footer_group)
-    Group footerGroup;
-    @BindView(R.id.note_checkbox)
-    CheckBox checkBoxNotes;
-    @BindView(R.id.tags_checkbox)
-    CheckBox checkBoxTags;
-    @BindView(R.id.categories_list)
-    RecyclerView categoryCheckBoxList;
-
-    private ProgressComponent progressComponent = new ProgressComponent();
-    private ExportCategoryListAdapter categoryCheckBoxListAdapter;
+    private final ProgressComponent progressComponent = new ProgressComponent();
+    private ExportCategoryListAdapter categoryListAdapter;
 
     private DateTime dateStart;
     private DateTime dateEnd;
@@ -153,31 +118,45 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
         // FIXME: Week days cannot be localized via JodaTime, so consider switching to ThreeTenABP
         dateEnd = DateTime.now().withTime(23, 59, 59, 999);
         dateStart = dateEnd.withDayOfWeek(1).withTimeAtStartOfDay();
-        categoryCheckBoxListAdapter = new ExportCategoryListAdapter(getContext());
+        categoryListAdapter = new ExportCategoryListAdapter(getContext());
     }
 
     private void initLayout() {
         setFormat(FileType.PDF);
         setStyle(PreferenceStore.getInstance().getPdfExportStyle());
 
-        buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
-        buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
+        getBinding().dateStartButton.setOnClickListener((view) -> showStartDatePicker());
+        getBinding().dateStartButton.setText(Helper.getDateFormat().print(dateStart));
+        getBinding().dateEndButton.setText(Helper.getDateFormat().print(dateEnd));
+        getBinding().dateEndButton.setOnClickListener((view) -> showEndDatePicker());
 
-        ViewUtils.setChecked(checkBoxHeader, PreferenceStore.getInstance().exportHeader(), false);
-        ViewUtils.setChecked(checkBoxFooter, PreferenceStore.getInstance().exportFooter(), false);
-        ViewUtils.setChecked(checkBoxNotes, PreferenceStore.getInstance().exportNotes(), false);
-        ViewUtils.setChecked(checkBoxTags, PreferenceStore.getInstance().exportTags(), false);
+        getBinding().dateMoreButton.setOnClickListener((view) -> openDateRangePicker());
 
-        checkBoxNotes.setOnCheckedChangeListener((buttonView, isChecked) ->
+        ViewUtils.setChecked(getBinding().headerCheckbox, PreferenceStore.getInstance().exportHeader(), false);
+        ViewUtils.setChecked(getBinding().footerCheckbox, PreferenceStore.getInstance().exportFooter(), false);
+        ViewUtils.setChecked(getBinding().noteCheckbox, PreferenceStore.getInstance().exportNotes(), false);
+        ViewUtils.setChecked(getBinding().tagsCheckbox, PreferenceStore.getInstance().exportTags(), false);
+
+        getBinding().noteCheckbox.setOnCheckedChangeListener((buttonView, isChecked) ->
             PreferenceStore.getInstance().setExportNotes(isChecked));
-        checkBoxTags.setOnCheckedChangeListener((buttonView, isChecked) ->
+        getBinding().tagsCheckbox.setOnCheckedChangeListener((buttonView, isChecked) ->
             PreferenceStore.getInstance().setExportTags(isChecked));
 
-        categoryCheckBoxList.setLayoutManager(new LinearLayoutManager(getContext()));
-        categoryCheckBoxList.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
-        categoryCheckBoxList.setAdapter(categoryCheckBoxListAdapter);
+        RecyclerView categoryListView = getBinding().categoryListView;
+        categoryListView.setLayoutManager(new LinearLayoutManager(getContext()));
+        categoryListView.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
+        categoryListView.setAdapter(categoryListAdapter);
 
-        ViewCompat.setNestedScrollingEnabled(categoryCheckBoxList, false);
+        ViewCompat.setNestedScrollingEnabled(categoryListView, false);
+
+        getBinding().formatSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                setFormat(getFormat());
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) { }
+        });
     }
 
     private void initCategories() {
@@ -204,12 +183,12 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
             items.add(new ExportCategoryListItem(category, isCategorySelected, isExtraSelected));
         }
 
-        categoryCheckBoxListAdapter.addItems(items);
-        categoryCheckBoxListAdapter.notifyItemRangeInserted(0, items.size());
+        categoryListAdapter.addItems(items);
+        categoryListAdapter.notifyItemRangeInserted(0, items.size());
     }
 
     private FileType getFormat() {
-        int selectedPosition = spinnerFormat.getSelectedItemPosition();
+        int selectedPosition = getBinding().formatSpinner.getSelectedItemPosition();
         switch (selectedPosition) {
             case 0:
                 return FileType.PDF;
@@ -221,13 +200,13 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
     }
 
     private void setFormat(FileType format) {
-        styleGroup.setVisibility(format == FileType.PDF ? View.VISIBLE : View.GONE);
-        headerGroup.setVisibility(format == FileType.PDF ? View.VISIBLE : View.GONE);
-        footerGroup.setVisibility(format == FileType.PDF ? View.VISIBLE : View.GONE);
+        getBinding().styleGroup.setVisibility(format == FileType.PDF ? View.VISIBLE : View.GONE);
+        getBinding().headerGroup.setVisibility(format == FileType.PDF ? View.VISIBLE : View.GONE);
+        getBinding().footerGroup.setVisibility(format == FileType.PDF ? View.VISIBLE : View.GONE);
     }
 
     private PdfExportStyle getStyle() {
-        int selectedPosition = spinnerStyle.getSelectedItemPosition();
+        int selectedPosition = getBinding().styleSpinner.getSelectedItemPosition();
         switch (selectedPosition) {
             case 0:
                 return PdfExportStyle.TABLE;
@@ -243,13 +222,13 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
     private void setStyle(PdfExportStyle style) {
         switch (style) {
             case TABLE:
-                spinnerStyle.setSelection(0);
+                getBinding().styleSpinner.setSelection(0);
                 break;
             case TIMELINE:
-                spinnerStyle.setSelection(1);
+                getBinding().styleSpinner.setSelection(1);
                 break;
             case LOG:
-                spinnerStyle.setSelection(2);
+                getBinding().styleSpinner.setSelection(2);
                 break;
         }
     }
@@ -271,7 +250,7 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
 
         DateTime dateStart = this.dateStart != null ? this.dateStart.withTimeAtStartOfDay() : null;
         DateTime dateEnd = this.dateEnd != null ? this.dateEnd.withTimeAtStartOfDay() : null;
-        Category[] categories = categoryCheckBoxListAdapter.getSelectedCategories();
+        Category[] categories = categoryListAdapter.getSelectedCategories();
 
         PdfExportConfig config = new PdfExportConfig(
             getContext(),
@@ -280,13 +259,13 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
             dateEnd,
             categories,
             getStyle(),
-            checkBoxHeader.isChecked(),
-            checkBoxFooter.isChecked(),
-            checkBoxNotes.isChecked(),
-            checkBoxTags.isChecked(),
-            categoryCheckBoxListAdapter.exportFood(),
-            categoryCheckBoxListAdapter.splitInsulin(),
-            categoryCheckBoxListAdapter.highlightLimits()
+            getBinding().headerCheckbox.isChecked(),
+            getBinding().footerCheckbox.isChecked(),
+            getBinding().noteCheckbox.isChecked(),
+            getBinding().tagsCheckbox.isChecked(),
+            categoryListAdapter.exportFood(),
+            categoryListAdapter.splitInsulin(),
+            categoryListAdapter.highlightLimits()
         );
         config.persistInSharedPreferences();
 
@@ -341,51 +320,42 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
         return MainButtonProperties.confirmButton(view -> exportIfInputIsValid(), false);
     }
 
-    @OnClick(R.id.date_start_button)
-    void showStartDatePicker() {
+    private void showStartDatePicker() {
         DatePickerFragment.newInstance(dateStart, null, dateEnd, dateTime -> {
             if (dateTime != null) {
                 dateStart = dateTime;
-                buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
+                getBinding().dateStartButton.setText(Helper.getDateFormat().print(dateStart));
             }
         }).show(getParentFragmentManager());
     }
 
-    @OnClick(R.id.date_end_button)
-    void showEndDatePicker() {
+    private void showEndDatePicker() {
         DatePickerFragment.newInstance(dateEnd, dateStart, null, dateTime -> {
             if (dateTime != null) {
                 dateEnd = dateTime;
-                buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
+                getBinding().dateEndButton.setText(Helper.getDateFormat().print(dateEnd));
             }
         }).show(getParentFragmentManager());
     }
 
-    @OnClick(R.id.date_more_button)
-    void openDateRangePicker(View view) {
-        PopupMenu popupMenu = new PopupMenu(getContext(), view);
+    private void openDateRangePicker() {
+        PopupMenu popupMenu = new PopupMenu(getContext(), getBinding().dateMoreButton);
         popupMenu.getMenuInflater().inflate(R.menu.export_date_range, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(menuItem -> {
             DateTime now = DateTime.now();
-            switch (menuItem.getItemId()) {
-                case R.id.action_today:
-                    pickDateRange(now, now);
-                    break;
-                case R.id.action_week:
-                    pickDateRange(now.withDayOfWeek(1), now);
-                    break;
-                case R.id.action_weeks_two:
-                    pickDateRange(now.withDayOfWeek(1).minusWeeks(1), now);
-                    break;
-                case R.id.action_weeks_four:
-                    pickDateRange(now.withDayOfWeek(1).minusWeeks(3), now);
-                    break;
-                case R.id.action_month:
-                    pickDateRange(now.withDayOfMonth(1), now);
-                    break;
-                case R.id.action_quarter:
-                    pickDateRange(DateTimeUtils.withStartOfQuarter(now), now);
-                    break;
+            int itemId = menuItem.getItemId();
+            if (itemId == R.id.action_today) {
+                pickDateRange(now, now);
+            } else if (itemId == R.id.action_week) {
+                pickDateRange(now.withDayOfWeek(1), now);
+            } else if (itemId == R.id.action_weeks_two) {
+                pickDateRange(now.withDayOfWeek(1).minusWeeks(1), now);
+            } else if (itemId == R.id.action_weeks_four) {
+                pickDateRange(now.withDayOfWeek(1).minusWeeks(3), now);
+            } else if (itemId == R.id.action_month) {
+                pickDateRange(now.withDayOfMonth(1), now);
+            } else if (itemId == R.id.action_quarter) {
+                pickDateRange(DateTimeUtils.withStartOfQuarter(now), now);
             }
             return true;
         });
@@ -394,14 +364,9 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
 
     private void pickDateRange(DateTime start, DateTime end) {
         dateStart = start;
-        buttonDateStart.setText(Helper.getDateFormat().print(dateStart));
+        getBinding().dateStartButton.setText(Helper.getDateFormat().print(dateStart));
         dateEnd = end;
-        buttonDateEnd.setText(Helper.getDateFormat().print(dateEnd));
-    }
-
-    @OnItemSelected(R.id.format_spinner)
-    void onFormatSelected() {
-        setFormat(getFormat());
+        getBinding().dateEndButton.setText(Helper.getDateFormat().print(dateEnd));
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -43,7 +43,7 @@
             tools:text="@tools:sample/date/ddmmyy" />
 
         <TextView
-            android:id="@+id/date_hyphen"
+            android:id="@+id/date_hyphen_label"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/margin_between"
@@ -62,9 +62,9 @@
             android:layout_marginLeft="@dimen/margin_between"
             android:textAllCaps="false"
             android:textColor="?android:textColorPrimary"
-            app:layout_constraintBottom_toBottomOf="@id/date_hyphen"
-            app:layout_constraintStart_toEndOf="@id/date_hyphen"
-            app:layout_constraintTop_toTopOf="@id/date_hyphen"
+            app:layout_constraintBottom_toBottomOf="@id/date_hyphen_label"
+            app:layout_constraintStart_toEndOf="@id/date_hyphen_label"
+            app:layout_constraintTop_toTopOf="@id/date_hyphen_label"
             tools:text="@tools:sample/date/ddmmyy" />
 
         <View
@@ -297,7 +297,7 @@
             app:layout_constraintTop_toBottomOf="@id/note_divider" />
 
         <TextView
-            android:id="@+id/categories_header"
+            android:id="@+id/category_list_header"
             style="@style/Padding"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -308,12 +308,12 @@
             app:layout_constraintTop_toBottomOf="@id/tags_checkbox" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/categories_list"
+            android:id="@+id/category_list_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/categories_header"
+            app:layout_constraintTop_toBottomOf="@id/category_list_header"
             tools:listitem="@layout/list_item_export_category" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

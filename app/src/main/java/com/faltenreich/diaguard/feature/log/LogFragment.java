@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -40,15 +39,10 @@ import org.joda.time.DateTime;
 
 import java.util.List;
 
-import butterknife.BindView;
-
 /**
  * Created by Filip on 05.07.2015.
  */
 public class LogFragment extends DateFragment<FragmentLogBinding> implements LogListAdapter.Listener {
-
-    @BindView(R.id.log_list) RecyclerView recyclerView;
-    @BindView(R.id.log_progressbar) ProgressBar progressBar;
 
     private LogListAdapter listAdapter;
     private StickyHeaderDecoration listDecoration;
@@ -93,17 +87,18 @@ public class LogFragment extends DateFragment<FragmentLogBinding> implements Log
     }
 
     private void initLayout() {
+        RecyclerView listView = getBinding().listView;
         listLayoutManager = new SafeLinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(listLayoutManager);
+        listView.setLayoutManager(listLayoutManager);
         listAdapter = new LogListAdapter(getActivity(), this);
-        recyclerView.setAdapter(listAdapter);
+        listView.setAdapter(listAdapter);
         listDecoration = new StickyHeaderDecoration(listAdapter, true);
-        recyclerView.addItemDecoration(listDecoration);
+        listView.addItemDecoration(listDecoration);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new LogSwipeCallback(listAdapter));
-        itemTouchHelper.attachToRecyclerView(recyclerView);
+        itemTouchHelper.attachToRecyclerView(listView);
 
         // Fragment updates
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        listView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -140,9 +135,9 @@ public class LogFragment extends DateFragment<FragmentLogBinding> implements Log
 
         int position = listAdapter.getDayPosition(dateTime);
         if (position >= 0) {
-            recyclerView.scrollToPosition(position);
+            getBinding().listView.scrollToPosition(position);
         } else {
-            progressBar.setVisibility(View.VISIBLE);
+            getBinding().progressIndicator.setVisibility(View.VISIBLE);
             listAdapter.setup(dateTime);
         }
     }
@@ -154,7 +149,7 @@ public class LogFragment extends DateFragment<FragmentLogBinding> implements Log
 
     @Override
     public void onSetupEnd() {
-        progressBar.setVisibility(View.GONE);
+        getBinding().progressIndicator.setVisibility(View.GONE);
         goToDay(getDay());
     }
 
@@ -282,7 +277,7 @@ public class LogFragment extends DateFragment<FragmentLogBinding> implements Log
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(@SuppressWarnings("unused") UnitChangedEvent event) {
         if (isAdded()) {
-            progressBar.setVisibility(View.VISIBLE);
+            getBinding().progressIndicator.setVisibility(View.VISIBLE);
             listAdapter.setup(getDay());
         }
     }
@@ -290,7 +285,7 @@ public class LogFragment extends DateFragment<FragmentLogBinding> implements Log
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(@SuppressWarnings("unused") BackupImportedEvent event) {
         if (isAdded()) {
-            progressBar.setVisibility(View.VISIBLE);
+            getBinding().progressIndicator.setVisibility(View.VISIBLE);
             listAdapter.setup(getDay());
         }
     }
@@ -298,7 +293,7 @@ public class LogFragment extends DateFragment<FragmentLogBinding> implements Log
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(@SuppressWarnings("unused") CategoryPreferenceChangedEvent event) {
         if (isAdded()) {
-            progressBar.setVisibility(View.VISIBLE);
+            getBinding().progressIndicator.setVisibility(View.VISIBLE);
             listAdapter.setup(getDay());
         }
     }

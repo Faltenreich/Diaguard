@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.ListItemFoodSearchBinding;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.ui.FoodSelectedEvent;
@@ -16,7 +17,7 @@ import butterknife.BindView;
 /**
  * Created by Faltenreich on 11.09.2016.
  */
-class FoodSearchViewHolder extends BaseViewHolder<FoodSearchListItem> {
+class FoodSearchViewHolder extends BaseViewHolder<ListItemFoodSearchBinding, FoodSearchListItem> {
 
     @BindView(R.id.food_name) TextView name;
     @BindView(R.id.food_brand) TextView brand;
@@ -26,6 +27,11 @@ class FoodSearchViewHolder extends BaseViewHolder<FoodSearchListItem> {
     FoodSearchViewHolder(ViewGroup parent) {
         super(parent, R.layout.list_item_food_search);
         itemView.setOnClickListener((view) -> selectFood());
+    }
+
+    @Override
+    protected ListItemFoodSearchBinding createBinding(View view) {
+        return ListItemFoodSearchBinding.bind(view);
     }
 
     @Override

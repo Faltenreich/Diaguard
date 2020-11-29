@@ -6,12 +6,13 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.ListItemExportCategoryBinding;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;
 
 import butterknife.BindView;
 
-class ExportCategoryViewHolder extends BaseViewHolder<ExportCategoryListItem> {
+class ExportCategoryViewHolder extends BaseViewHolder<ListItemExportCategoryBinding, ExportCategoryListItem> {
 
     @BindView(R.id.category_image) ImageView categoryImageView;
     @BindView(R.id.category_checkbox) CheckBox categoryCheckBox;
@@ -20,6 +21,11 @@ class ExportCategoryViewHolder extends BaseViewHolder<ExportCategoryListItem> {
     ExportCategoryViewHolder(ViewGroup parent) {
         super(parent, R.layout.list_item_export_category);
         initLayout();
+    }
+
+    @Override
+    protected ListItemExportCategoryBinding createBinding(View view) {
+        return ListItemExportCategoryBinding.bind(view);
     }
 
     private void initLayout() {

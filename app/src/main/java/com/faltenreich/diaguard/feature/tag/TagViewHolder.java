@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.ListItemTagBinding;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
 import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
@@ -13,7 +14,7 @@ import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHold
 
 import butterknife.BindView;
 
-class TagViewHolder extends BaseViewHolder<Tag> {
+class TagViewHolder extends BaseViewHolder<ListItemTagBinding, Tag> {
 
     @BindView(R.id.tag_name) TextView nameView;
     @BindView(R.id.tag_description) TextView descriptionView;
@@ -21,6 +22,11 @@ class TagViewHolder extends BaseViewHolder<Tag> {
 
     TagViewHolder(ViewGroup parent) {
         super(parent, R.layout.list_item_tag);
+    }
+
+    @Override
+    protected ListItemTagBinding createBinding(View view) {
+        return ListItemTagBinding.bind(view);
     }
 
     @Override

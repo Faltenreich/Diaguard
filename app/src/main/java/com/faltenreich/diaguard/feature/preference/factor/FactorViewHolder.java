@@ -2,10 +2,12 @@ package com.faltenreich.diaguard.feature.preference.factor;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.ListItemFactorBinding;
 import com.faltenreich.diaguard.feature.preference.data.Daytime;
 import com.faltenreich.diaguard.feature.preference.data.TimeInterval;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
@@ -16,7 +18,7 @@ import org.joda.time.DateTimeConstants;
 
 import butterknife.BindView;
 
-class FactorViewHolder extends BaseViewHolder<FactorRangeItem> implements TextWatcher {
+class FactorViewHolder extends BaseViewHolder<ListItemFactorBinding, FactorRangeItem> implements TextWatcher {
 
     @BindView(R.id.inputField) StickyHintInput inputField;
 
@@ -26,6 +28,11 @@ class FactorViewHolder extends BaseViewHolder<FactorRangeItem> implements TextWa
         super(parent, R.layout.list_item_factor);
         this.callback = callback;
         this.inputField.getEditText().setSelectAllOnFocus(true);
+    }
+
+    @Override
+    protected ListItemFactorBinding createBinding(View view) {
+        return ListItemFactorBinding.bind(view);
     }
 
     @Override

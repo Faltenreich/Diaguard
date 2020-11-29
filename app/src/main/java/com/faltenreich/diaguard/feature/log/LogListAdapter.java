@@ -24,7 +24,7 @@ import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHold
 import org.joda.time.DateTime;
 
 class LogListAdapter
-    extends EndlessAdapter<LogListItem, BaseViewHolder<LogListItem>>
+    extends EndlessAdapter<LogListItem, BaseViewHolder<?, LogListItem>>
     implements EndlessAdapter.OnEndlessListener, StickyHeaderAdapter<LogDayViewHolder> {
 
     private enum ViewType {

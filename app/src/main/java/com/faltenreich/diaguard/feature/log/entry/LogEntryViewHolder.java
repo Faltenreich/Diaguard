@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.ListItemLogEntryBinding;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
 import com.faltenreich.diaguard.feature.entry.search.EntrySearchListAdapter;
 import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
@@ -31,7 +32,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class LogEntryViewHolder extends BaseViewHolder<LogEntryListItem> {
+public class LogEntryViewHolder extends BaseViewHolder<ListItemLogEntryBinding, LogEntryListItem> {
 
     @BindView(R.id.root_layout) protected ViewGroup rootLayout;
     @BindView(R.id.cardview) protected CardView cardView;
@@ -41,7 +42,7 @@ public class LogEntryViewHolder extends BaseViewHolder<LogEntryListItem> {
     @BindView(R.id.measurements_layout) public ViewGroup measurementsLayout;
     @BindView(R.id.entry_tags) protected ViewGroup tagsView;
 
-    private EntrySearchListAdapter.OnSearchItemClickListener listener;
+    private final EntrySearchListAdapter.OnSearchItemClickListener listener;
 
     public LogEntryViewHolder(
         ViewGroup parent,
@@ -49,6 +50,11 @@ public class LogEntryViewHolder extends BaseViewHolder<LogEntryListItem> {
     ) {
         super(parent, R.layout.list_item_log_entry);
         this.listener = listener;
+    }
+
+    @Override
+    protected ListItemLogEntryBinding createBinding(View view) {
+        return ListItemLogEntryBinding.bind(view);
     }
 
     @Override

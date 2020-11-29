@@ -1,22 +1,29 @@
 package com.faltenreich.diaguard.feature.timeline.day.table;
 
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.ListItemTableCategoryImageBinding;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.image.ImageLoader;
 import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;
 
 import butterknife.BindView;
 
-class CategoryImageViewHolder extends BaseViewHolder<CategoryImageListItem> {
+class CategoryImageViewHolder extends BaseViewHolder<ListItemTableCategoryImageBinding, CategoryImageListItem> {
 
     @BindView(R.id.category_image) ImageView imageView;
 
     CategoryImageViewHolder(ViewGroup parent) {
         super(parent, R.layout.list_item_table_category_image);
         itemView.setOnClickListener((view) -> showCategory());
+    }
+
+    @Override
+    protected ListItemTableCategoryImageBinding createBinding(View view) {
+        return ListItemTableCategoryImageBinding.bind(view);
     }
 
     @Override

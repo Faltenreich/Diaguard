@@ -7,6 +7,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.ListItemCategoryBinding;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.view.recyclerview.drag.Draggable;
@@ -15,7 +16,7 @@ import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
 
 import butterknife.BindView;
 
-class CategoryViewHolder extends BaseViewHolder<Category> implements Draggable {
+class CategoryViewHolder extends BaseViewHolder<ListItemCategoryBinding, Category> implements Draggable {
 
     @BindView(R.id.background) ViewGroup background;
     @BindView(R.id.titleLabel) TextView titleLabel;
@@ -23,7 +24,7 @@ class CategoryViewHolder extends BaseViewHolder<Category> implements Draggable {
     @BindView(R.id.checkBoxPinned) CheckBox pinnedCheckBox;
     @BindView(R.id.dragView) View dragView;
 
-    private CategoryListAdapter.Listener listener;
+    private final CategoryListAdapter.Listener listener;
 
     CategoryViewHolder(ViewGroup parent, CategoryListAdapter.Listener listener) {
         super(parent, R.layout.list_item_category);
@@ -38,6 +39,11 @@ class CategoryViewHolder extends BaseViewHolder<Category> implements Draggable {
             }
             return false;
         });
+    }
+
+    @Override
+    protected ListItemCategoryBinding createBinding(View view) {
+        return ListItemCategoryBinding.bind(view);
     }
 
     @Override

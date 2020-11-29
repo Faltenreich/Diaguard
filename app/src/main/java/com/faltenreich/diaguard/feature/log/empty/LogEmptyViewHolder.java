@@ -1,26 +1,28 @@
 package com.faltenreich.diaguard.feature.log.empty;
 
+import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.ListItemLogEmptyBinding;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
 import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;
 
 import org.joda.time.DateTime;
 
-import butterknife.BindView;
-
 /**
  * Created by Faltenreich on 17.10.2015.
  */
-public class LogEmptyViewHolder extends BaseViewHolder<LogEmptyListItem> {
-
-    @BindView(R.id.empty) TextView textView;
+public class LogEmptyViewHolder extends BaseViewHolder<ListItemLogEmptyBinding, LogEmptyListItem> {
 
     public LogEmptyViewHolder(ViewGroup parent) {
         super(parent, R.layout.list_item_log_empty);
-        textView.setOnClickListener((view) -> createEntryForDate());
+        getBinding().empty.setOnClickListener((view) -> createEntryForDate());
+    }
+
+    @Override
+    protected ListItemLogEmptyBinding createBinding(View view) {
+        return ListItemLogEmptyBinding.bind(view);
     }
 
     @Override

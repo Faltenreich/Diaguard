@@ -1,9 +1,11 @@
 package com.faltenreich.diaguard.feature.food.detail.history;
 
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.ListItemFoodEatenBinding;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
 import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
@@ -17,7 +19,7 @@ import butterknife.BindView;
 /**
  * Created by Faltenreich on 11.09.2016.
  */
-class FoodHistoryViewHolder extends BaseViewHolder<FoodEaten> {
+class FoodHistoryViewHolder extends BaseViewHolder<ListItemFoodEatenBinding, FoodEaten> {
 
     @BindView(R.id.list_item_food_eaten_date_time) TextView dateTime;
     @BindView(R.id.list_item_food_eaten_amount) TextView amount;
@@ -25,6 +27,11 @@ class FoodHistoryViewHolder extends BaseViewHolder<FoodEaten> {
     FoodHistoryViewHolder(ViewGroup parent) {
         super(parent, R.layout.list_item_food_eaten);
         itemView.setOnClickListener((view) -> openEntry());
+    }
+
+    @Override
+    protected ListItemFoodEatenBinding createBinding(View view) {
+        return ListItemFoodEatenBinding.bind(view);
     }
 
     @Override

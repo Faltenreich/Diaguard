@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.feature.food.input;
 import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.ListItemMeasurementMealFoodItemBinding;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
@@ -28,7 +30,7 @@ import butterknife.BindView;
  * Created by Faltenreich on 03.10.2016.
  */
 
-class FoodInputViewHolder extends BaseViewHolder<FoodEaten> {
+class FoodInputViewHolder extends BaseViewHolder<ListItemMeasurementMealFoodItemBinding, FoodEaten> {
 
     @BindView(R.id.food_name)
     TextView name;
@@ -43,6 +45,11 @@ class FoodInputViewHolder extends BaseViewHolder<FoodEaten> {
         super(parent, R.layout.list_item_measurement_meal_food_item);
         amount.setOnClickListener(view -> showNumberPicker());
         delete.setOnClickListener(view -> deleteFood());
+    }
+
+    @Override
+    protected ListItemMeasurementMealFoodItemBinding createBinding(View view) {
+        return ListItemMeasurementMealFoodItemBinding.bind(view);
     }
 
     @SuppressLint("RestrictedApi")

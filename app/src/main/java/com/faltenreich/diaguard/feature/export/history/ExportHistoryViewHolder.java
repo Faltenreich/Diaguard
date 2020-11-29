@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.ListItemExportHistoryBinding;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.file.ExportHistoryDeleteEvent;
 import com.faltenreich.diaguard.feature.export.job.FileType;
@@ -24,7 +25,7 @@ import java.io.File;
 
 import butterknife.BindView;
 
-class ExportHistoryViewHolder extends BaseViewHolder<ExportHistoryListItem> {
+class ExportHistoryViewHolder extends BaseViewHolder<ListItemExportHistoryBinding, ExportHistoryListItem> {
 
     private static final String TAG = ExportHistoryViewHolder.class.getSimpleName();
 
@@ -36,6 +37,11 @@ class ExportHistoryViewHolder extends BaseViewHolder<ExportHistoryListItem> {
 
     ExportHistoryViewHolder(ViewGroup parent) {
         super(parent, R.layout.list_item_export_history);
+    }
+
+    @Override
+    protected ListItemExportHistoryBinding createBinding(View view) {
+        return ListItemExportHistoryBinding.bind(view);
     }
 
     @Override

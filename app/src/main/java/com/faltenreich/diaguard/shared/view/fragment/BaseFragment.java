@@ -19,7 +19,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.viewbinding.ViewBinding;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.databinding.FragmentEntrySearchBinding;
 import com.faltenreich.diaguard.feature.navigation.MainActivity;
 import com.faltenreich.diaguard.feature.navigation.Navigating;
 import com.faltenreich.diaguard.feature.navigation.Navigation;
@@ -40,8 +39,6 @@ import com.faltenreich.diaguard.shared.view.ViewUtils;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import butterknife.ButterKnife;
 
 public abstract class BaseFragment<BINDING extends ViewBinding> extends Fragment implements Navigating {
 
@@ -70,7 +67,6 @@ public abstract class BaseFragment<BINDING extends ViewBinding> extends Fragment
             throw new IllegalStateException("View must not be null");
         }
         binding = createBinding(inflater);
-        ButterKnife.bind(this, binding.getRoot());
         return binding.getRoot();
     }
 

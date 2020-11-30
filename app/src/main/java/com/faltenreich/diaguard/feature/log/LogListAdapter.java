@@ -196,7 +196,7 @@ class LogListAdapter
     @Override
     public void onViewRecycled(@NonNull BaseViewHolder holder) {
         if (holder instanceof LogEntryViewHolder) {
-            ((LogEntryViewHolder)holder).measurementsLayout.removeAllViews();
+            ((LogEntryViewHolder)holder).onRecycle();
         }
         super.onViewRecycled(holder);
     }

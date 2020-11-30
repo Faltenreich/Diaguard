@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.feature.log.day;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
@@ -12,15 +11,10 @@ import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHold
 
 import org.joda.time.DateTime;
 
-import butterknife.BindView;
-
 /**
  * Created by Faltenreich on 17.10.2015.
  */
 public class LogDayViewHolder extends BaseViewHolder<ListItemLogDayBinding, LogDayListItem> {
-
-    @BindView(R.id.day) TextView day;
-    @BindView(R.id.weekday) TextView weekDay;
 
     public LogDayViewHolder(ViewGroup parent) {
         super(parent, R.layout.list_item_log_day);
@@ -34,16 +28,19 @@ public class LogDayViewHolder extends BaseViewHolder<ListItemLogDayBinding, LogD
     @Override
     public void onBind(LogDayListItem item) {
         DateTime dateTime = item.getDateTime();
+        invalidateText(dateTime);
+        invalidateTextColor(dateTime);
+    }
 
-        day.setText(dateTime.toString("dd"));
-        weekDay.setText(dateTime.dayOfWeek().getAsShortText());
+    private void invalidateText(DateTime dateTime) {
+        getBinding().dateLabel.setText(dateTime.toString("dd"));
+        getBinding().weekDayLabel.setText(dateTime.dayOfWeek().getAsShortText());
+    }
 
-        // Highlight current day
+    private void invalidateTextColor(DateTime dateTime) {
         boolean isToday = dateTime.withTimeAtStartOfDay().isEqual(DateTime.now().withTimeAtStartOfDay());
-        int textColor =  isToday ?
-                ContextCompat.getColor(getContext(), R.color.green) :
-                ContextCompat.getColor(getContext(), R.color.gray_dark);
-        day.setTextColor(textColor);
-        weekDay.setTextColor(textColor);
+        int textColor = ContextCompat.getColor(getContext(), isToday ? R.color.green : R.color.gray_dark);
+        getBinding().dateLabel.setTextColor(textColor);
+        getBinding().weekDayLabel.setTextColor(textColor);
     }
 }

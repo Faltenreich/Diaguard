@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.feature.food.detail.history;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ListItemFoodEatenBinding;
@@ -14,15 +13,7 @@ import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHold
 
 import org.joda.time.DateTime;
 
-import butterknife.BindView;
-
-/**
- * Created by Faltenreich on 11.09.2016.
- */
 class FoodHistoryViewHolder extends BaseViewHolder<ListItemFoodEatenBinding, FoodEaten> {
-
-    @BindView(R.id.list_item_food_eaten_date_time) TextView dateTime;
-    @BindView(R.id.list_item_food_eaten_amount) TextView amount;
 
     FoodHistoryViewHolder(ViewGroup parent) {
         super(parent, R.layout.list_item_food_eaten);
@@ -39,13 +30,13 @@ class FoodHistoryViewHolder extends BaseViewHolder<ListItemFoodEatenBinding, Foo
         boolean hasDateTime = item.getMeal() != null && item.getMeal().getEntry() != null;
         if (hasDateTime) {
             DateTime foodEatenDateTime = item.getMeal().getEntry().getDate();
-            dateTime.setText(String.format("%s %s",
+            getBinding().dateLabel.setText(String.format("%s %s",
                     Helper.getDateFormat().print(foodEatenDateTime),
                     Helper.getTimeFormat().print(foodEatenDateTime)));
         } else {
-            dateTime.setText(null);
+            getBinding().dateLabel.setText(null);
         }
-        amount.setText(String.format("%s g", FloatUtils.parseFloat(item.getAmountInGrams())));
+        getBinding().amountLabel.setText(String.format("%s g", FloatUtils.parseFloat(item.getAmountInGrams())));
     }
 
     private void openEntry() {

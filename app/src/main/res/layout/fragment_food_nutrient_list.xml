@@ -11,14 +11,13 @@
         style="@style/Padding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/nutriments_per_100g"
-        android:textColor="?android:attr/textColorPrimary"
-        android:layout_marginTop="6dp"/>
+        android:layout_marginTop="6dp"
+        android:text="@string/nutriments_per_100g" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/list_item_nutrient"/>
+        tools:listitem="@layout/list_item_nutrient" />
 
 </LinearLayout>

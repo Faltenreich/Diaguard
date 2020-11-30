@@ -9,8 +9,6 @@ import androidx.annotation.LayoutRes;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
-import butterknife.ButterKnife;
-
 /**
  * Created by Faltenreich on 17.10.2015.
  */
@@ -24,7 +22,6 @@ public abstract class BaseViewHolder <BINDING extends ViewBinding, ITEM> extends
         super(view);
         context = view.getContext();
         binding = createBinding(view);
-        ButterKnife.bind(this, binding.getRoot());
     }
 
     public BaseViewHolder(ViewGroup parent, @LayoutRes int layoutResource) {

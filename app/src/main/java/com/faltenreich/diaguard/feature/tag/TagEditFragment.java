@@ -1,11 +1,12 @@
 package com.faltenreich.diaguard.feature.tag;
 
-import android.widget.EditText;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.DialogTagEditBinding;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
 import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.shared.data.database.dao.TagDao;
@@ -15,23 +16,24 @@ import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.dialog.DialogButton;
 import com.faltenreich.diaguard.shared.view.fragment.BaseDialogFragment;
 
-import butterknife.BindView;
-
-public class TagEditFragment extends BaseDialogFragment {
-
-    @BindView(R.id.input) EditText editText;
+public class TagEditFragment extends BaseDialogFragment<DialogTagEditBinding> {
 
     // FIXME: Replace with event to prevent memory leaks
     private TagListener listener;
 
     public TagEditFragment() {
-        super(R.string.tag_new, R.layout.dialog_input);
+        super(R.string.tag_new, R.layout.dialog_tag_edit);
+    }
+
+    @Override
+    protected DialogTagEditBinding createBinding(View view) {
+        return DialogTagEditBinding.bind(view);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        ViewUtils.showKeyboard(editText);
+        ViewUtils.showKeyboard(getBinding().input);
     }
 
     public void setListener(TagListener listener) {
@@ -39,7 +41,7 @@ public class TagEditFragment extends BaseDialogFragment {
     }
 
     private void trySubmit() {
-        final String name = editText.getText().toString();
+        String name = getBinding().input.getText().toString();
         DataLoader.getInstance().load(getContext(), new DataLoaderListener<TagResult>() {
             @Override
             public TagResult onShouldLoad() {
@@ -58,7 +60,7 @@ public class TagEditFragment extends BaseDialogFragment {
                 if (result.tag != null) {
                     dismiss();
                 } else {
-                    editText.setError(getString(result.error != null ? result.error.textResId : R.string.error_unexpected));
+                    getBinding().input.setError(getString(result.error != null ? result.error.textResId : R.string.error_unexpected));
                 }
             }
         });
@@ -98,7 +100,7 @@ public class TagEditFragment extends BaseDialogFragment {
         EMPTY(R.string.validator_value_empty),
         DUPLICATE(R.string.tag_duplicate);
 
-        @StringRes private int textResId;
+        @StringRes private final int textResId;
 
         TagError(@StringRes int textResId) {
             this.textResId = textResId;
@@ -106,8 +108,8 @@ public class TagEditFragment extends BaseDialogFragment {
     }
 
     private static class TagResult {
-        @Nullable private Tag tag;
-        @Nullable private TagError error;
+        @Nullable private final Tag tag;
+        @Nullable private final TagError error;
 
         private TagResult(@Nullable Tag tag, @Nullable TagError error) {
             this.tag = tag;

@@ -36,7 +36,7 @@ class LogListAdapter
         PENDING
     }
 
-    private Listener listener;
+    private final Listener listener;
 
     private boolean isInitializing;
     private boolean isLoadingPrevious;

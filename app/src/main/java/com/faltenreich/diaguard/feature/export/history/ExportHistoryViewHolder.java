@@ -4,36 +4,26 @@ import android.content.ActivityNotFoundException;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
-import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ListItemExportHistoryBinding;
+import com.faltenreich.diaguard.feature.export.job.FileType;
+import com.faltenreich.diaguard.shared.data.file.FileUtils;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.file.ExportHistoryDeleteEvent;
-import com.faltenreich.diaguard.feature.export.job.FileType;
-import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;
-import com.faltenreich.diaguard.shared.data.file.FileUtils;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
+import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;
 
 import org.joda.time.format.DateTimeFormat;
 
 import java.io.File;
 
-import butterknife.BindView;
-
 class ExportHistoryViewHolder extends BaseViewHolder<ListItemExportHistoryBinding, ExportHistoryListItem> {
 
     private static final String TAG = ExportHistoryViewHolder.class.getSimpleName();
-
-    @BindView(R.id.root_layout) ViewGroup rootLayout;
-    @BindView(R.id.format_icon) ImageView formatIcon;
-    @BindView(R.id.format_label) TextView formatLabel;
-    @BindView(R.id.created_at_label) TextView createdAtLabel;
-    @BindView(R.id.more_button) View moreButton;
 
     ExportHistoryViewHolder(ViewGroup parent) {
         super(parent, R.layout.list_item_export_history);
@@ -47,34 +37,26 @@ class ExportHistoryViewHolder extends BaseViewHolder<ListItemExportHistoryBindin
     @Override
     protected void onBind(ExportHistoryListItem item) {
         FileType format = FileType.valueOf(item.getFile());
-        if (format != null) {
-            formatIcon.setColorFilter(ContextCompat.getColor(getContext(), format.colorRes));
-            formatLabel.setText(format.extension);
-        } else {
-            formatIcon.setColorFilter(ContextCompat.getColor(getContext(), R.color.gray));
-            formatLabel.setText(null);
-        }
+        getBinding().formatIcon.setColorFilter(ContextCompat.getColor(getContext(), format != null ? format.colorRes : R.color.gray));
+        getBinding().formatLabel.setText(format != null ? format.extension : null);
 
-        createdAtLabel.setText(DateTimeFormat.mediumDateTime().print(item.getCreatedAt()));
+        getBinding().createdAtLabel.setText(DateTimeFormat.mediumDateTime().print(item.getCreatedAt()));
 
-        rootLayout.setOnClickListener(view -> openExport());
-        moreButton.setOnClickListener(this::openMenu);
+        getBinding().container.setOnClickListener(view -> openExport());
+        getBinding().moreButton.setOnClickListener(this::openMenu);
     }
 
     private void openMenu(View view) {
         PopupMenu popupMenu = new PopupMenu(getContext(), view);
         popupMenu.getMenuInflater().inflate(R.menu.export_history_item, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(menuItem -> {
-            switch (menuItem.getItemId()) {
-                case R.id.action_open:
-                    openExport();
-                    break;
-                case R.id.action_share:
-                    shareExport();
-                    break;
-                case R.id.action_delete:
-                    deleteExport();
-                    break;
+            int itemId = menuItem.getItemId();
+            if (itemId == R.id.action_open) {
+                openExport();
+            } else if (itemId == R.id.action_share) {
+                shareExport();
+            } else if (itemId == R.id.action_delete) {
+                deleteExport();
             }
             return true;
         });

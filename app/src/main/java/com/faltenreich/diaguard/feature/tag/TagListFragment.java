@@ -20,8 +20,12 @@ import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
 import com.faltenreich.diaguard.shared.data.database.dao.TagDao;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
+import com.faltenreich.diaguard.shared.event.data.TagSavedEvent;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -150,17 +154,16 @@ public class TagListFragment
     }
 
     private void createTag() {
-        TagEditFragment fragment = new TagEditFragment();
-        fragment.setListener(result -> {
-            if (result != null) {
-                addTag(result);
-            }
-        });
-        fragment.show(getParentFragmentManager(), null);
+        new TagEditFragment().show(getParentFragmentManager(), null);
     }
 
     @Override
     public void onTagDeleted(Tag tag, View view) {
         confirmTagDeletion(tag);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(TagSavedEvent event) {
+        addTag(event.context);
     }
 }

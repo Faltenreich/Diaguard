@@ -1,48 +1,33 @@
 package com.faltenreich.diaguard.shared.view.fragment;
 
 import android.app.Dialog;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.viewbinding.ViewBinding;
 
 import com.faltenreich.diaguard.shared.view.dialog.DialogButton;
+import com.faltenreich.diaguard.shared.view.dialog.DialogConfig;
 
 public abstract class BaseDialogFragment<BINDING extends ViewBinding> extends DialogFragment {
 
-    @StringRes private final int titleResId;
-    @StringRes private final int messageResId;
-    @LayoutRes private final int layoutResId;
+    private BINDING binding;
 
     private DialogButton positiveButton;
     private DialogButton negativeButton;
     private DialogButton neutralButton;
-
-    private BINDING binding;
-
-    public BaseDialogFragment(@StringRes int titleResId, @StringRes int messageResId, @LayoutRes int layoutResId) {
-        this.titleResId = titleResId;
-        this.messageResId = messageResId;
-        this.layoutResId = layoutResId;
-    }
-
-    public BaseDialogFragment(@StringRes int titleResId, @LayoutRes int layoutResId) {
-        this(titleResId, -1, layoutResId);
-    }
 
     protected BINDING getBinding() {
         return binding;
     }
 
     protected abstract BINDING createBinding(View view);
+
+    protected abstract DialogConfig getConfig();
 
     @NonNull
     @Override
@@ -61,51 +46,37 @@ public abstract class BaseDialogFragment<BINDING extends ViewBinding> extends Di
     @Override
     public void onStart() {
         super.onStart();
-        invalidateLayout();
+        setListeners();
     }
 
     private void initLayout(AlertDialog.Builder builder) {
-        try {
-            builder.setTitle(titleResId);
-        } catch (Resources.NotFoundException ignored) {}
+        DialogConfig config = getConfig();
 
-        try {
-            builder.setMessage(messageResId);
-        } catch (Resources.NotFoundException ignored) {}
+        builder.setTitle(config.getTitle());
+        builder.setMessage(config.getDescription());
 
-        // Listeners are set later on / after Dialog.show() in order to override default behavior (like dismiss after button click)
-        positiveButton = createPositiveButton();
+        positiveButton = config.getPositiveButton();
         if (positiveButton != null) {
             builder.setPositiveButton(positiveButton.getLabelResId(), null);
         }
-        negativeButton = createNegativeButton();
+
+        negativeButton = config.getNegativeButton();
         if (negativeButton != null) {
             builder.setNegativeButton(negativeButton.getLabelResId(), null);
         }
-        neutralButton = createNeutralButton();
+
+        neutralButton = config.getNeutralButton();
         if (neutralButton != null) {
             builder.setNeutralButton(neutralButton.getLabelResId(), null);
         }
 
-        View contentView = LayoutInflater.from(getContext()).inflate(layoutResId, null);
+        View contentView = LayoutInflater.from(getContext()).inflate(config.getLayoutResId(), null);
         builder.setView(contentView);
         binding = createBinding(contentView);
     }
 
-    @Nullable
-    abstract protected DialogButton createPositiveButton();
-
-    @Nullable
-    protected DialogButton createNegativeButton() {
-        return new DialogButton(android.R.string.cancel, this::dismiss);
-    }
-
-    @Nullable
-    protected DialogButton createNeutralButton() {
-        return null;
-    }
-
-    private void invalidateLayout() {
+    // Listeners are set later on in order to override default behavior (like dismiss after button click)
+    private void setListeners() {
         AlertDialog alertDialog = getDialog() instanceof AlertDialog ? (AlertDialog) getDialog() : null;
         if (alertDialog == null) {
             return;

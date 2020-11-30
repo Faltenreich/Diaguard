@@ -14,6 +14,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.dialog.DialogButton;
+import com.faltenreich.diaguard.shared.view.dialog.DialogConfig;
 import com.faltenreich.diaguard.shared.view.fragment.BaseDialogFragment;
 
 public class TagEditFragment extends BaseDialogFragment<DialogTagEditBinding> {
@@ -21,13 +22,21 @@ public class TagEditFragment extends BaseDialogFragment<DialogTagEditBinding> {
     // FIXME: Replace with event to prevent memory leaks
     private TagListener listener;
 
-    public TagEditFragment() {
-        super(R.string.tag_new, R.layout.dialog_tag_edit);
-    }
-
     @Override
     protected DialogTagEditBinding createBinding(View view) {
         return DialogTagEditBinding.bind(view);
+    }
+
+    @Override
+    protected DialogConfig getConfig() {
+        return new DialogConfig(
+            R.layout.dialog_tag_edit,
+            requireContext().getString(R.string.tag_new),
+            null,
+            new DialogButton(android.R.string.ok, this::trySubmit),
+            new DialogButton(android.R.string.cancel, this::dismiss),
+            null
+        );
     }
 
     @Override
@@ -82,18 +91,6 @@ public class TagEditFragment extends BaseDialogFragment<DialogTagEditBinding> {
         tag.setName(name);
         TagDao.getInstance().createOrUpdate(tag);
         return tag;
-    }
-
-    @Nullable
-    @Override
-    protected DialogButton createNegativeButton() {
-        return new DialogButton(android.R.string.cancel, this::dismiss);
-    }
-
-    @Nullable
-    @Override
-    protected DialogButton createPositiveButton() {
-        return new DialogButton(android.R.string.ok, this::trySubmit);
     }
 
     private enum TagError {

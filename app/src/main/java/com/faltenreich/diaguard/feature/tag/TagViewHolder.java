@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.feature.tag;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ListItemTagBinding;
@@ -12,16 +11,14 @@ import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;
 
-import butterknife.BindView;
-
 class TagViewHolder extends BaseViewHolder<ListItemTagBinding, Tag> {
 
-    @BindView(R.id.tag_name) TextView nameView;
-    @BindView(R.id.tag_description) TextView descriptionView;
-    @BindView(R.id.tag_button_delete) public View deleteButton;
+    private final TagListener listener;
 
-    TagViewHolder(ViewGroup parent) {
+    TagViewHolder(ViewGroup parent, TagListener listener) {
         super(parent, R.layout.list_item_tag);
+        this.listener = listener;
+        initLayout();
     }
 
     @Override
@@ -29,9 +26,17 @@ class TagViewHolder extends BaseViewHolder<ListItemTagBinding, Tag> {
         return ListItemTagBinding.bind(view);
     }
 
+    private void initLayout() {
+        getBinding().deleteButton.setOnClickListener((view) -> {
+            if (listener != null) {
+                listener.onTagDeleted(getItem(), view);
+            }
+        });
+    }
+
     @Override
     protected void onBind(Tag item) {
-        nameView.setText(item.getName());
+        getBinding().nameLabel.setText(item.getName());
 
         DataLoader.getInstance().load(getContext(), new DataLoaderListener<Long>() {
             @Override
@@ -40,7 +45,7 @@ class TagViewHolder extends BaseViewHolder<ListItemTagBinding, Tag> {
             }
             @Override
             public void onDidLoad(Long count) {
-                descriptionView.setText(String.format("%d %s", count, getContext().getString(R.string.entries)));
+                getBinding().descriptionLabel.setText(String.format("%d %s", count, getContext().getString(R.string.entries)));
             }
         });
     }

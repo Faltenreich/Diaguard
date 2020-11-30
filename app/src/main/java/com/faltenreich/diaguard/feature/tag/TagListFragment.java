@@ -27,7 +27,7 @@ import java.util.List;
 
 public class TagListFragment
     extends BaseFragment<FragmentTagListBinding>
-    implements ToolbarDescribing, TagListAdapter.TagListener {
+    implements ToolbarDescribing, TagListener {
 
     private TagListAdapter listAdapter;
 
@@ -61,8 +61,7 @@ public class TagListFragment
         RecyclerView listView = getBinding().listView;
         listView.setLayoutManager(new LinearLayoutManager(getContext()));
         listView.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
-        listAdapter = new TagListAdapter(getContext());
-        listAdapter.setTagListener(this);
+        listAdapter = new TagListAdapter(getContext(), this);
         listView.setAdapter(listAdapter);
     }
 

@@ -21,6 +21,7 @@ public class TagEditFragment extends BaseDialogFragment {
 
     @BindView(R.id.input) EditText editText;
 
+    // FIXME: Replace with event to prevent memory leaks
     private TagListener listener;
 
     public TagEditFragment() {

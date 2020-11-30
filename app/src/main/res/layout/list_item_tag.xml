@@ -24,7 +24,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tag_name"
+            android:id="@+id/name_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="?android:textColorPrimary"
@@ -32,7 +32,7 @@
             tools:text="Tag" />
 
         <TextView
-            android:id="@+id/tag_description"
+            android:id="@+id/description_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="?android:textColorTertiary"
@@ -42,7 +42,7 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/tag_button_delete"
+        android:id="@+id/delete_button"
         android:layout_width="@dimen/size_image"
         android:layout_height="@dimen/size_image"
         android:background="?attr/selectableItemBackgroundBorderless"

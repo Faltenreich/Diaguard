@@ -11,28 +11,27 @@ import com.faltenreich.diaguard.databinding.ListItemFactorBinding;
 import com.faltenreich.diaguard.feature.preference.data.Daytime;
 import com.faltenreich.diaguard.feature.preference.data.TimeInterval;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
-import com.faltenreich.diaguard.shared.view.edittext.StickyHintInput;
 import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;
 
 import org.joda.time.DateTimeConstants;
 
-import butterknife.BindView;
-
 class FactorViewHolder extends BaseViewHolder<ListItemFactorBinding, FactorRangeItem> implements TextWatcher {
 
-    @BindView(R.id.inputField) StickyHintInput inputField;
-
-    private Callback callback;
+    private final Callback callback;
 
     FactorViewHolder(ViewGroup parent, Callback callback) {
         super(parent, R.layout.list_item_factor);
         this.callback = callback;
-        this.inputField.getEditText().setSelectAllOnFocus(true);
+        initLayout();
     }
 
     @Override
     protected ListItemFactorBinding createBinding(View view) {
         return ListItemFactorBinding.bind(view);
+    }
+
+    private void initLayout() {
+        getBinding().input.getEditText().setSelectAllOnFocus(true);
     }
 
     @Override
@@ -42,7 +41,7 @@ class FactorViewHolder extends BaseViewHolder<ListItemFactorBinding, FactorRange
     }
 
     private void setValue(FactorRangeItem item) {
-        EditText editText = inputField.getEditText();
+        EditText editText = getBinding().input.getEditText();
         editText.removeTextChangedListener(this);
         editText.setText(item.getValue() >= 0
             ? FloatUtils.parseFloat(item.getValue())
@@ -65,7 +64,7 @@ class FactorViewHolder extends BaseViewHolder<ListItemFactorBinding, FactorRange
         } else {
             hint = String.format("%02d:00 - %02d:00", hourOfDay, target);
         }
-        inputField.setHint(hint);
+        getBinding().input.setHint(hint);
     }
 
     @Override

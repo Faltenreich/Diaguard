@@ -6,22 +6,18 @@ import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ListItemTableCategoryValueBinding;
-import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
+import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;
 
 import org.apache.commons.lang3.StringUtils;
 
-import butterknife.BindView;
-
 public class CategoryValueViewHolder extends BaseViewHolder<ListItemTableCategoryValueBinding, CategoryValueListItem> {
-
-    @BindView(R.id.category_value) TextView valueView;
 
     CategoryValueViewHolder(ViewGroup parent) {
         super(parent, R.layout.list_item_table_category_value);
-        valueView.setOnClickListener((view) -> showUnit());
+        getBinding().valueLabel.setOnClickListener((view) -> showUnit());
     }
 
     @Override
@@ -31,19 +27,20 @@ public class CategoryValueViewHolder extends BaseViewHolder<ListItemTableCategor
 
     @Override
     public void onBind(CategoryValueListItem item) {
+        TextView valueLabel = getBinding().valueLabel;
         String value = item.print();
 
-        valueView.setLines(1);
+        valueLabel.setLines(1);
 
         int lines = StringUtils.countMatches(value, "\n") + 1;
-        valueView.setLines(lines);
+        valueLabel.setLines(lines);
 
         if (value.length() > 0) {
-            valueView.setText(value);
-            valueView.setClickable(true);
+            valueLabel.setText(value);
+            valueLabel.setClickable(true);
         } else {
-            valueView.setText(null);
-            valueView.setClickable(false);
+            valueLabel.setText(null);
+            valueLabel.setClickable(false);
         }
     }
 

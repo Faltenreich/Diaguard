@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/category_image"
+    android:id="@+id/image_view"
     android:layout_width="@dimen/chart_offset_left"
     android:layout_height="@dimen/table_row_height"
     android:contentDescription="@null"

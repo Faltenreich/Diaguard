@@ -3,7 +3,7 @@
 <TextView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/category_value"
+    android:id="@+id/value_label"
     android:layout_width="match_parent"
     android:layout_height="@dimen/table_row_height"
     android:gravity="center"

@@ -19,7 +19,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/food_name"
+            android:id="@+id/name_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
@@ -28,7 +28,7 @@
             tools:text="Food"/>
 
         <TextView
-            android:id="@+id/food_carbohydrates"
+            android:id="@+id/value_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
@@ -40,7 +40,7 @@
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/food_amount"
+        android:id="@+id/amount_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_between"
@@ -51,7 +51,7 @@
         app:backgroundTint="?colorPrimary"/>
 
     <ImageView
-        android:id="@+id/food_delete"
+        android:id="@+id/delete_button"
         android:layout_width="@dimen/height_element"
         android:layout_height="@dimen/height_element"
         android:contentDescription="@string/food_delete"

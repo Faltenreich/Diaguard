@@ -5,17 +5,15 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ListItemMeasurementMealFoodItemBinding;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.ui.FoodEatenRemovedEvent;
@@ -24,27 +22,15 @@ import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;
 import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
 
-import butterknife.BindView;
-
 /**
  * Created by Faltenreich on 03.10.2016.
  */
 
 class FoodInputViewHolder extends BaseViewHolder<ListItemMeasurementMealFoodItemBinding, FoodEaten> {
 
-    @BindView(R.id.food_name)
-    TextView name;
-    @BindView(R.id.food_carbohydrates)
-    TextView value;
-    @BindView(R.id.food_amount)
-    AppCompatButton amount;
-    @BindView(R.id.food_delete)
-    ImageView delete;
-
     FoodInputViewHolder(ViewGroup parent) {
         super(parent, R.layout.list_item_measurement_meal_food_item);
-        amount.setOnClickListener(view -> showNumberPicker());
-        delete.setOnClickListener(view -> deleteFood());
+        initLayout();
     }
 
     @Override
@@ -52,17 +38,22 @@ class FoodInputViewHolder extends BaseViewHolder<ListItemMeasurementMealFoodItem
         return ListItemMeasurementMealFoodItemBinding.bind(view);
     }
 
+    private void initLayout() {
+        getBinding().amountButton.setOnClickListener(view -> showNumberPicker());
+        getBinding().deleteButton.setOnClickListener(view -> deleteFood());
+    }
+
     @SuppressLint("RestrictedApi")
     @Override
     protected void onBind(FoodEaten item) {
         Food food = item.getFood();
 
-        name.setText(food.getName());
-        value.setText(String.format("%s %s",
+        getBinding().nameLabel.setText(food.getName());
+        getBinding().valueLabel.setText(String.format("%s %s",
             food.getValueForUi(),
             PreferenceStore.getInstance().getLabelForMealPer100g(getContext()))
         );
-        delete.setContentDescription(String.format(getContext().getString(R.string.remove_placeholder), food.getName()));
+        getBinding().deleteButton.setContentDescription(String.format(getContext().getString(R.string.remove_placeholder), food.getName()));
 
         boolean isSet = item.getAmountInGrams() > 0;
         String text = isSet ?
@@ -70,9 +61,10 @@ class FoodInputViewHolder extends BaseViewHolder<ListItemMeasurementMealFoodItem
             getContext().getString(R.string.amount);
         int backgroundColor = isSet ? ColorUtils.getBackgroundTertiary(getContext()) : ColorUtils.getPrimaryColor(getContext());
         int textColor = isSet ? ColorUtils.getTextColorPrimary(getContext()) : Color.WHITE;
-        amount.setText(text);
-        amount.setSupportBackgroundTintList(ColorStateList.valueOf(backgroundColor));
-        amount.setTextColor(textColor);
+        AppCompatButton amountButton = getBinding().amountButton;
+        amountButton.setText(text);
+        amountButton.setSupportBackgroundTintList(ColorStateList.valueOf(backgroundColor));
+        amountButton.setTextColor(textColor);
     }
 
     private void showNumberPicker() {
@@ -86,7 +78,7 @@ class FoodInputViewHolder extends BaseViewHolder<ListItemMeasurementMealFoodItem
     }
 
     private int getAmountFromButton() {
-        String label = amount.getText().toString();
+        String label = getBinding().amountButton.getText().toString();
         if (label.length() > 0) {
             String numberLabel = label.substring(0, label.indexOf(" "));
             try {

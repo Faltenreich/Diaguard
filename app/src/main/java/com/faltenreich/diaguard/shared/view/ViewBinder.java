@@ -1,6 +1,8 @@
 package com.faltenreich.diaguard.shared.view;
 
-public class ViewBinder<BINDING extends androidx.viewbinding.ViewBinding> {
+import androidx.viewbinding.ViewBinding;
+
+public class ViewBinder<BINDING extends ViewBinding> {
 
     private final BINDING binding;
 

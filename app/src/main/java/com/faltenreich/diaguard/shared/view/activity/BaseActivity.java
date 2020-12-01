@@ -23,15 +23,17 @@ import com.faltenreich.diaguard.shared.event.file.FileProvidedEvent;
 import com.faltenreich.diaguard.shared.event.file.FileProvidedFailedEvent;
 import com.faltenreich.diaguard.shared.event.permission.PermissionRequestEvent;
 import com.faltenreich.diaguard.shared.event.permission.PermissionResponseEvent;
+import com.faltenreich.diaguard.shared.view.ViewBinder;
+import com.faltenreich.diaguard.shared.view.ViewBound;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompatActivity {
+public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompatActivity implements ViewBound<BINDING> {
 
     private static final String TAG = BaseActivity.class.getSimpleName();
 
-    private BINDING binding;
+    private ViewBinder<BINDING> binder;
 
     public BaseActivity(@LayoutRes int layoutResourceId) {
         super(layoutResourceId);
@@ -39,15 +41,16 @@ public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompa
 
     protected abstract BINDING createBinding(LayoutInflater layoutInflater);
 
-    protected BINDING getBinding() {
-        return binding;
+    @Override
+    public BINDING getBinding() {
+        return binder.getBinding();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initViewBinding();
-        initAutofill();
+        initLayout();
+        initAutoFill();
     }
 
     @Override
@@ -62,17 +65,17 @@ public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompa
         super.onPause();
     }
 
-    private void initViewBinding() {
+    private void initLayout() {
         // FIXME: Workaround for crash when using <fragment> or empty view when using <FragmentContainerView> in combination with View Binding
         try {
-            binding = createBinding(getLayoutInflater());
-            setContentView(binding.getRoot());
+            binder = new ViewBinder<>(createBinding(getLayoutInflater()));
+            setContentView(getBinding().getRoot());
         } catch (Exception exception) {
             Log.e(TAG, exception.toString());
         }
     }
 
-    private void initAutofill() {
+    private void initAutoFill() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             getWindow().getDecorView().setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS);
         }

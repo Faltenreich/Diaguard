@@ -19,14 +19,14 @@ import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Pressure;
 import com.faltenreich.diaguard.shared.view.ViewBinder;
-import com.faltenreich.diaguard.shared.view.ViewBinding;
+import com.faltenreich.diaguard.shared.view.ViewBound;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.swipe.SwipeDismissTouchListener;
 
 /**
  * Created by Faltenreich on 24.09.2015.
  */
-public class MeasurementView<T extends Measurement> extends CardView implements ViewBinding<ListItemMeasurementBinding> {
+public class MeasurementView<T extends Measurement> extends CardView implements ViewBound<ListItemMeasurementBinding> {
 
     private Category category;
     @Nullable private T measurement;

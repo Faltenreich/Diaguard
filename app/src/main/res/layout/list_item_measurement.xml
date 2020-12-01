@@ -21,7 +21,7 @@
             android:layout_height="@dimen/height_element">
 
             <ImageView
-                android:id="@+id/image_showcase"
+                android:id="@+id/showcase_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:contentDescription="@null"
@@ -37,7 +37,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/image_category"
+                    android:id="@+id/category_image_view"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
@@ -47,7 +47,7 @@
                     app:tint="@android:color/white" />
 
                 <TextView
-                    android:id="@+id/category"
+                    android:id="@+id/category_label"
                     style="@style/LayoutRowItem"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
                     tools:text="@string/bloodsugar" />
 
                 <androidx.appcompat.widget.AppCompatCheckBox
-                    android:id="@+id/checkbox_pin"
+                    android:id="@+id/pinned_checkbox"
                     android:layout_width="@dimen/checkbox_width"
                     android:layout_height="match_parent"
                     android:contentDescription="@string/category_pin"
@@ -71,7 +71,7 @@
                     android:theme="@style/WhiteCheckBox" />
 
                 <ImageView
-                    android:id="@+id/button_delete"
+                    android:id="@+id/delete_button"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
@@ -88,7 +88,7 @@
         </FrameLayout>
 
         <FrameLayout
-            android:id="@+id/layout_content"
+            android:id="@+id/content_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="@dimen/height_element" />

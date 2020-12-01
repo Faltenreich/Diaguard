@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,13 +18,14 @@ import com.faltenreich.diaguard.shared.data.database.entity.Insulin;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Pressure;
+import com.faltenreich.diaguard.shared.view.ViewBinding;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.swipe.SwipeDismissTouchListener;
 
 /**
  * Created by Faltenreich on 24.09.2015.
  */
-public class MeasurementView<T extends Measurement> extends CardView implements CompoundButton.OnCheckedChangeListener, SwipeDismissTouchListener.DismissCallbacks {
+public class MeasurementView<T extends Measurement> extends CardView implements ViewBinding<ListItemMeasurementBinding> {
 
     private Category category;
     @Nullable private T measurement;
@@ -35,7 +35,8 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
 
     private ListItemMeasurementBinding binding;
 
-    private ListItemMeasurementBinding getBinding() {
+    @Override
+    public ListItemMeasurementBinding getBinding() {
         return binding;
     }
 
@@ -81,12 +82,21 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
         setCardElevation(getContext().getResources().getDimension(R.dimen.card_elevation));
         setUseCompatPadding(true);
 
-        setOnTouchListener(new SwipeDismissTouchListener(this, null, this));
+        setOnTouchListener(new SwipeDismissTouchListener(this, null, new SwipeDismissTouchListener.DismissCallbacks() {
+            @Override
+            public boolean canDismiss(Object token) {
+                return true;
+            }
+            @Override
+            public void onDismiss(View view, Object token) {
+                remove();
+            }
+        }));
         getBinding().deleteButton.setOnClickListener((view) -> remove());
 
         CheckBox pinnedCheckbox = getBinding().pinnedCheckbox;
         pinnedCheckbox.setChecked(PreferenceStore.getInstance().isCategoryPinned(category));
-        pinnedCheckbox.setOnCheckedChangeListener(this);
+        pinnedCheckbox.setOnCheckedChangeListener((checkbox, isChecked) -> togglePinnedCategory(isChecked));
     }
 
     private void initData() {
@@ -123,7 +133,7 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
     public Measurement getMeasurement() {
         View childView = getBinding().contentLayout.getChildAt(0);
         if (childView instanceof MeasurementAbstractView) {
-            return ((MeasurementAbstractView) childView).getMeasurement();
+            return ((MeasurementAbstractView<?>) childView).getMeasurement();
         } else {
             return null;
         }
@@ -142,7 +152,7 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
             pinnedCheckbox.setOnCheckedChangeListener(null);
             pinnedCheckbox.setChecked(!isPinned);
             PreferenceStore.getInstance().setCategoryPinned(category, !isPinned);
-            pinnedCheckbox.setOnCheckedChangeListener(MeasurementView.this);
+            pinnedCheckbox.setOnCheckedChangeListener((checkbox, isChecked) -> togglePinnedCategory(isChecked));
         });
         PreferenceStore.getInstance().setCategoryPinned(category, isPinned);
     }
@@ -151,21 +161,6 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
         if (onCategoryRemovedListener != null) {
             onCategoryRemovedListener.onRemove(category);
         }
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-        togglePinnedCategory(isChecked);
-    }
-
-    @Override
-    public boolean canDismiss(Object token) {
-        return true;
-    }
-
-    @Override
-    public void onDismiss(View view, Object token) {
-        remove();
     }
 
     public interface OnCategoryRemovedListener {

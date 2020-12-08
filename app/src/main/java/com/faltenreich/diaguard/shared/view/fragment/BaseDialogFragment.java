@@ -10,10 +10,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.viewbinding.ViewBinding;
 
+import com.faltenreich.diaguard.shared.view.ViewBindable;
 import com.faltenreich.diaguard.shared.view.dialog.DialogButton;
 import com.faltenreich.diaguard.shared.view.dialog.DialogConfig;
 
-public abstract class BaseDialogFragment<BINDING extends ViewBinding> extends DialogFragment {
+public abstract class BaseDialogFragment<BINDING extends ViewBinding> extends DialogFragment implements ViewBindable<BINDING> {
 
     private BINDING binding;
 
@@ -21,7 +22,8 @@ public abstract class BaseDialogFragment<BINDING extends ViewBinding> extends Di
     private DialogButton negativeButton;
     private DialogButton neutralButton;
 
-    protected BINDING getBinding() {
+    @Override
+    public BINDING getBinding() {
         return binding;
     }
 

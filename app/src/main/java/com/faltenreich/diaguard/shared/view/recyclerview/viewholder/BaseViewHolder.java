@@ -9,10 +9,12 @@ import androidx.annotation.LayoutRes;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
+import com.faltenreich.diaguard.shared.view.ViewBindable;
+
 /**
  * Created by Faltenreich on 17.10.2015.
  */
-public abstract class BaseViewHolder <BINDING extends ViewBinding, ITEM> extends RecyclerView.ViewHolder {
+public abstract class BaseViewHolder <BINDING extends ViewBinding, ITEM> extends RecyclerView.ViewHolder implements ViewBindable<BINDING> {
 
     private final BINDING binding;
     private final Context context;
@@ -30,7 +32,8 @@ public abstract class BaseViewHolder <BINDING extends ViewBinding, ITEM> extends
 
     protected abstract BINDING createBinding(View view);
 
-    protected BINDING getBinding() {
+    @Override
+    public BINDING getBinding() {
         return binding;
     }
 

@@ -18,15 +18,14 @@ import com.faltenreich.diaguard.shared.data.database.entity.Insulin;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Pressure;
-import com.faltenreich.diaguard.shared.view.ViewBinder;
-import com.faltenreich.diaguard.shared.view.ViewBound;
+import com.faltenreich.diaguard.shared.view.ViewBindable;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.swipe.SwipeDismissTouchListener;
 
 /**
  * Created by Faltenreich on 24.09.2015.
  */
-public class MeasurementView<T extends Measurement> extends CardView implements ViewBound<ListItemMeasurementBinding> {
+public class MeasurementView<T extends Measurement> extends CardView implements ViewBindable<ListItemMeasurementBinding> {
 
     private Category category;
     @Nullable private T measurement;
@@ -34,7 +33,7 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
 
     private OnCategoryRemovedListener onCategoryRemovedListener;
 
-    private ViewBinder<ListItemMeasurementBinding> binder;
+    private ListItemMeasurementBinding binding;
 
     @Deprecated
     public MeasurementView(Context context) {
@@ -61,14 +60,14 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
         init();
     }
 
-    private void init() {
-        LayoutInflater.from(getContext()).inflate(R.layout.list_item_measurement, this);
-        binder = new ViewBinder<>(ListItemMeasurementBinding.bind(this));
-    }
-
     @Override
     public ListItemMeasurementBinding getBinding() {
-        return binder.getBinding();
+        return binding;
+    }
+
+    private void init() {
+        LayoutInflater.from(getContext()).inflate(R.layout.list_item_measurement, this);
+        binding = ListItemMeasurementBinding.bind(this);
     }
 
     @Override

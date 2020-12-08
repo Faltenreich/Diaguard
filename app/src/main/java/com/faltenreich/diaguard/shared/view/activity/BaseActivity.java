@@ -23,17 +23,16 @@ import com.faltenreich.diaguard.shared.event.file.FileProvidedEvent;
 import com.faltenreich.diaguard.shared.event.file.FileProvidedFailedEvent;
 import com.faltenreich.diaguard.shared.event.permission.PermissionRequestEvent;
 import com.faltenreich.diaguard.shared.event.permission.PermissionResponseEvent;
-import com.faltenreich.diaguard.shared.view.ViewBinder;
-import com.faltenreich.diaguard.shared.view.ViewBound;
+import com.faltenreich.diaguard.shared.view.ViewBindable;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompatActivity implements ViewBound<BINDING> {
+public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompatActivity implements ViewBindable<BINDING> {
 
     private static final String TAG = BaseActivity.class.getSimpleName();
 
-    private ViewBinder<BINDING> binder;
+    private BINDING binding;
 
     public BaseActivity(@LayoutRes int layoutResourceId) {
         super(layoutResourceId);
@@ -43,7 +42,7 @@ public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompa
 
     @Override
     public BINDING getBinding() {
-        return binder.getBinding();
+        return binding;
     }
 
     @Override
@@ -68,8 +67,8 @@ public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompa
     private void initLayout() {
         // FIXME: Workaround for crash when using <fragment> or empty view when using <FragmentContainerView> in combination with View Binding
         try {
-            binder = new ViewBinder<>(createBinding(getLayoutInflater()));
-            setContentView(getBinding().getRoot());
+            binding = createBinding(getLayoutInflater());
+            setContentView(binding.getRoot());
         } catch (Exception exception) {
             Log.e(TAG, exception.toString());
         }

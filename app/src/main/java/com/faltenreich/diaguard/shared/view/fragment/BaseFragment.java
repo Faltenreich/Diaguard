@@ -35,12 +35,13 @@ import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.shared.event.data.EntryDeletedEvent;
+import com.faltenreich.diaguard.shared.view.ViewBindable;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-public abstract class BaseFragment<BINDING extends ViewBinding> extends Fragment implements Navigating {
+public abstract class BaseFragment<BINDING extends ViewBinding> extends Fragment implements ViewBindable<BINDING>, Navigating {
 
     private BINDING binding;
 
@@ -50,7 +51,8 @@ public abstract class BaseFragment<BINDING extends ViewBinding> extends Fragment
 
     protected abstract BINDING createBinding(LayoutInflater layoutInflater);
 
-    protected BINDING getBinding() {
+    @Override
+    public BINDING getBinding() {
         return binding;
     }
 

@@ -9,14 +9,14 @@
     android:divider="?android:listDivider">
 
     <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
-        android:id="@+id/pressure_systolic"
+        android:id="@+id/systolic_input_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/systolic"
         android:inputType="numberDecimal"/>
 
     <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
-        android:id="@+id/pressure_diastolic"
+        android:id="@+id/diastolic_input_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/diastolic"

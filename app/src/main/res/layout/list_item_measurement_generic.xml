@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
+<!-- Workaround: Wrapping inside a LinearLayout fixes ClassCastException -->
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/value"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:inputType="numberDecimal"/>
+    android:layout_height="wrap_content">
+
+    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
+        android:id="@+id/input_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal" />
+
+</LinearLayout>

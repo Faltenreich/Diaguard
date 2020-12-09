@@ -4,25 +4,30 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
+
+import androidx.viewbinding.ViewBinding;
 
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
+import com.faltenreich.diaguard.shared.view.ViewBindable;
 
 import java.lang.reflect.Constructor;
-
-import butterknife.ButterKnife;
 
 /**
  * Created by Faltenreich on 20.09.2015.
  */
-public abstract class MeasurementAbstractView <T extends Measurement> extends LinearLayout {
+public abstract class MeasurementAbstractView <BINDING extends ViewBinding, MEASUREMENT extends Measurement>
+    extends LinearLayout implements ViewBindable<BINDING> {
 
     private static final String TAG = MeasurementAbstractView.class.getSimpleName();
 
-    protected T measurement;
+    private BINDING binding;
+
+    protected MEASUREMENT measurement;
     protected Food food;
 
     @Deprecated
@@ -37,7 +42,7 @@ public abstract class MeasurementAbstractView <T extends Measurement> extends Li
         init();
     }
 
-    public MeasurementAbstractView(Context context, T measurement) {
+    public MeasurementAbstractView(Context context, MEASUREMENT measurement) {
         super(context);
         this.measurement = measurement;
         init();
@@ -45,7 +50,7 @@ public abstract class MeasurementAbstractView <T extends Measurement> extends Li
 
     public MeasurementAbstractView(Context context, Food food) {
         super(context);
-        this.measurement = (T) new Meal();
+        this.measurement = (MEASUREMENT) new Meal();
         this.food = food;
         init();
     }
@@ -53,8 +58,8 @@ public abstract class MeasurementAbstractView <T extends Measurement> extends Li
     public MeasurementAbstractView(Context context, Category category) {
         super(context);
         try {
-            Class<T> clazz = category.toClass();
-            Constructor<T> constructor = clazz.getConstructor();
+            Class<MEASUREMENT> clazz = category.toClass();
+            Constructor<MEASUREMENT> constructor = clazz.getConstructor();
             measurement = constructor.newInstance();
         } catch (Exception exception) {
             Log.e(TAG, String.format("Could not get newInstance for %s", category.toClass().getSimpleName()));
@@ -62,18 +67,11 @@ public abstract class MeasurementAbstractView <T extends Measurement> extends Li
         init();
     }
 
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        initLayout();
-        if (measurement != null) {
-            setValues();
-        }
-    }
+    protected abstract BINDING createBinding(View view);
 
-    private void init() {
-        LayoutInflater.from(getContext()).inflate(getLayoutResourceId(), this);
-        ButterKnife.bind(this);
+    @Override
+    public BINDING getBinding() {
+        return binding;
     }
 
     protected abstract int getLayoutResourceId();
@@ -85,4 +83,18 @@ public abstract class MeasurementAbstractView <T extends Measurement> extends Li
     protected abstract boolean isValid();
 
     public abstract Measurement getMeasurement();
+
+    private void init() {
+        LayoutInflater.from(getContext()).inflate(getLayoutResourceId(), this);
+        binding = createBinding(this);
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        initLayout();
+        if (measurement != null) {
+            setValues();
+        }
+    }
 }

@@ -9,21 +9,21 @@
     android:divider="?android:listDivider">
 
     <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
-        android:id="@+id/insulin_bolus"
+        android:id="@+id/bolus_input_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/bolus"
         android:inputType="numberDecimal"/>
 
     <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
-        android:id="@+id/insulin_correction"
+        android:id="@+id/correction_input_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/correction"
         android:inputType="numberDecimal|numberSigned"/>
 
     <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
-        android:id="@+id/insulin_basal"
+        android:id="@+id/basal_input_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/basal"

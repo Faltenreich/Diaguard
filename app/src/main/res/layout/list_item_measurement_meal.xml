@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.faltenreich.diaguard.feature.food.input.FoodInputView
+<!-- Workaround: Wrapping inside a LinearLayout fixes ClassCastException -->
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/list_item_measurement_meal_food_list"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"/>
+    android:layout_height="wrap_content">
+
+    <com.faltenreich.diaguard.feature.food.input.FoodInputView
+        android:id="@+id/food_input_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

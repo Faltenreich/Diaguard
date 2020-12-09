@@ -1,23 +1,23 @@
 package com.faltenreich.diaguard.feature.entry.edit.measurement;
 
 import android.content.Context;
+import android.view.View;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.ListItemMeasurementGenericBinding;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
-import com.faltenreich.diaguard.shared.view.edittext.StickyHintInput;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
-
-import butterknife.BindView;
+import com.faltenreich.diaguard.shared.view.edittext.StickyHintInput;
 
 /**
  * Created by Faltenreich on 20.09.2015.
  */
-public class MeasurementGenericView <T extends Measurement> extends MeasurementAbstractView<T> {
+public class MeasurementGenericView <T extends Measurement> extends MeasurementAbstractView<ListItemMeasurementGenericBinding, T> {
 
-    @BindView(R.id.value) StickyHintInput inputView;
+    private StickyHintInput inputField;
 
     @Deprecated
     public MeasurementGenericView(Context context) {
@@ -38,24 +38,31 @@ public class MeasurementGenericView <T extends Measurement> extends MeasurementA
     }
 
     @Override
+    protected ListItemMeasurementGenericBinding createBinding(View view) {
+        // FIXME: MeasurementGenericView cannot be cast to com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
+        return ListItemMeasurementGenericBinding.bind(view);
+    }
+
+    @Override
     protected void initLayout() {
-        inputView.setHint(PreferenceStore.getInstance().getUnitAcronym(measurement.getCategory()));
+        inputField = getBinding().inputField;
+        inputField.setHint(PreferenceStore.getInstance().getUnitAcronym(measurement.getCategory()));
     }
 
     @Override
     protected void setValues() {
-        inputView.setText(measurement.getValuesForUI()[0]);
+        inputField.setText(measurement.getValuesForUI()[0]);
     }
 
     @Override
     protected boolean isValid() {
         boolean isValid;
-        String input = inputView.getText();
+        String input = inputField.getText();
         if (StringUtils.isBlank(input)) {
-            inputView.setError(getContext().getString(R.string.validator_value_empty));
+            inputField.setError(getContext().getString(R.string.validator_value_empty));
             isValid = false;
         } else {
-            isValid = PreferenceStore.getInstance().isValueValid(inputView.getEditText(), measurement.getCategory());
+            isValid = PreferenceStore.getInstance().isValueValid(inputField.getEditText(), measurement.getCategory());
         }
         return isValid;
     }
@@ -63,7 +70,7 @@ public class MeasurementGenericView <T extends Measurement> extends MeasurementA
     @Override
     public Measurement getMeasurement() {
         if (isValid()) {
-            float value = FloatUtils.parseNumber(inputView.getText());
+            float value = FloatUtils.parseNumber(inputField.getText());
             value = PreferenceStore.getInstance().formatCustomToDefaultUnit(measurement.getCategory(), value);
             measurement.setValues(value);
             return measurement;

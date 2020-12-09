@@ -1,26 +1,24 @@
 package com.faltenreich.diaguard.feature.entry.edit.measurement;
 
 import android.content.Context;
+import android.view.View;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.ListItemMeasurementPressureBinding;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Pressure;
-import com.faltenreich.diaguard.shared.view.edittext.StickyHintInput;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
-
-import butterknife.BindView;
+import com.faltenreich.diaguard.shared.view.edittext.StickyHintInput;
 
 /**
  * Created by Faltenreich on 20.09.2015.
  */
-public class MeasurementPressureView extends MeasurementAbstractView<Pressure> {
+public class MeasurementPressureView extends MeasurementAbstractView<ListItemMeasurementPressureBinding, Pressure> {
 
-    @BindView(R.id.pressure_systolic)
-    StickyHintInput systolic;
-    @BindView(R.id.pressure_diastolic)
-    StickyHintInput diastolic;
+    private StickyHintInput systolicInputField;
+    private StickyHintInput diastolicInputField;
 
     public MeasurementPressureView(Context context) {
         super(context, Category.PRESSURE);
@@ -36,20 +34,26 @@ public class MeasurementPressureView extends MeasurementAbstractView<Pressure> {
     }
 
     @Override
-    protected void initLayout() {
+    protected ListItemMeasurementPressureBinding createBinding(View view) {
+        return ListItemMeasurementPressureBinding.bind(view);
+    }
 
+    @Override
+    protected void initLayout() {
+        systolicInputField = getBinding().systolicInputField;
+        diastolicInputField = getBinding().diastolicInputField;
     }
 
     @Override
     protected void setValues() {
-        systolic.setText(measurement.getValuesForUI()[0]);
-        diastolic.setText(measurement.getValuesForUI()[1]);
+        systolicInputField.setText(measurement.getValuesForUI()[0]);
+        diastolicInputField.setText(measurement.getValuesForUI()[1]);
     }
 
     @Override
     protected boolean isValid() {
-        return PreferenceStore.getInstance().isValueValid(systolic.getEditText(), Category.PRESSURE) &&
-                PreferenceStore.getInstance().isValueValid(diastolic.getEditText(), Category.PRESSURE);
+        return PreferenceStore.getInstance().isValueValid(systolicInputField.getEditText(), Category.PRESSURE) &&
+                PreferenceStore.getInstance().isValueValid(diastolicInputField.getEditText(), Category.PRESSURE);
     }
 
     @Override
@@ -58,10 +62,10 @@ public class MeasurementPressureView extends MeasurementAbstractView<Pressure> {
             measurement.setValues(
                     PreferenceStore.getInstance().formatCustomToDefaultUnit(
                             measurement.getCategory(),
-                            FloatUtils.parseNumber(systolic.getText())),
+                            FloatUtils.parseNumber(systolicInputField.getText())),
                     PreferenceStore.getInstance().formatCustomToDefaultUnit(
                             measurement.getCategory(),
-                            FloatUtils.parseNumber(diastolic.getText())));
+                            FloatUtils.parseNumber(diastolicInputField.getText())));
             return measurement;
         } else {
             return null;

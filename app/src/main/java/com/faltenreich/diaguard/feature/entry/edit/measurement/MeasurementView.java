@@ -133,7 +133,7 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
     public Measurement getMeasurement() {
         View childView = getBinding().contentLayout.getChildAt(0);
         if (childView instanceof MeasurementAbstractView) {
-            return ((MeasurementAbstractView<?>) childView).getMeasurement();
+            return ((MeasurementAbstractView<?, ?>) childView).getMeasurement();
         } else {
             return null;
         }

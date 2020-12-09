@@ -12,33 +12,27 @@ import android.widget.AutoCompleteTextView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.ViewSearchBinding;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
+import com.faltenreich.diaguard.shared.view.ViewBindable;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
-public class SearchView extends FrameLayout implements Searchable, TextWatcher {
+public class SearchView extends FrameLayout implements ViewBindable<ViewSearchBinding>, Searchable, TextWatcher {
 
     private static final int INPUT_DELAY_IN_MILLIS = 1000;
 
-    @BindView(R.id.backIcon)
-    ImageView backIcon;
+    private ViewSearchBinding binding;
 
-    @BindView(R.id.inputField)
-    AutoCompleteTextView inputField;
-
-    @BindView(R.id.actionIcon)
-    ImageView actionIcon;
-
-    @BindView(R.id.clearIcon)
-    ImageView clearIcon;
+    private ImageView backButton;
+    private AutoCompleteTextView inputField;
+    private ImageView clearButton;
+    private ImageView actionButton;
 
     private SearchViewListener listener;
     private SearchViewAction action;
@@ -60,41 +54,56 @@ public class SearchView extends FrameLayout implements Searchable, TextWatcher {
         init(attributeSet);
     }
 
+    @Override
+    public ViewSearchBinding getBinding() {
+        return binding;
+    }
+
     private void init(@Nullable AttributeSet attributeSet) {
-        LayoutInflater.from(getContext()).inflate(R.layout.view_search, this);
-        if (!isInEditMode()) {
-            ButterKnife.bind(this);
+        if (attributeSet != null) {
             getAttributes(attributeSet);
+        }
+        if (!isInEditMode()) {
+            bindView();
             initLayout();
             invalidateLayout();
         }
     }
 
-    private void getAttributes(@Nullable AttributeSet attributeSet) {
-        if (attributeSet == null) {
-            return;
-        }
+    private void getAttributes(@NonNull AttributeSet attributeSet) {
         TypedArray typedArray = getContext().obtainStyledAttributes(attributeSet, R.styleable.SearchView);
         try {
             hint = typedArray.getString(R.styleable.SearchView_android_hint);
         } finally {
             typedArray.recycle();
         }
+    }
 
+    private void bindView() {
+        LayoutInflater.from(getContext()).inflate(R.layout.view_search, this);
+        binding = ViewSearchBinding.bind(this);
+
+        backButton = getBinding().backButton;
+        inputField = getBinding().inputField;
+        clearButton = getBinding().clearButton;
+        actionButton = getBinding().actionButton;
     }
 
     private void initLayout() {
         setHint(hint);
         inputField.addTextChangedListener(this);
+        backButton.setOnClickListener((view) -> onBackButtonClicked());
+        clearButton.setOnClickListener((view) -> onClearButtonClicked());
+        actionButton.setOnClickListener((view) -> onActionButtonClicked());
     }
 
     private void invalidateLayout() {
-        clearIcon.setVisibility(getQuery().isEmpty() ? GONE : VISIBLE);
+        clearButton.setVisibility(getQuery().isEmpty() ? GONE : VISIBLE);
 
         boolean hasAction = action != null;
-        actionIcon.setVisibility(hasAction ? VISIBLE : GONE);
-        actionIcon.setImageResource(hasAction ? action.getIconRes() : android.R.color.transparent);
-        actionIcon.setContentDescription(hasAction ? getContext().getString(action.getContentDescriptionRes()) : null);
+        actionButton.setVisibility(hasAction ? VISIBLE : GONE);
+        actionButton.setImageResource(hasAction ? action.getIconRes() : android.R.color.transparent);
+        actionButton.setContentDescription(hasAction ? getContext().getString(action.getContentDescriptionRes()) : null);
     }
 
     private void onInputChanged(String input) {
@@ -149,15 +158,13 @@ public class SearchView extends FrameLayout implements Searchable, TextWatcher {
         ViewUtils.showKeyboard(inputField);
     }
 
-    @OnClick(R.id.backIcon)
-    void onBackIconClicked() {
+    private void onBackButtonClicked() {
         if (listener != null) {
             listener.onQueryClosed();
         }
     }
 
-    @OnClick(R.id.clearIcon)
-    void onClearIconClicked() {
+    private void onClearButtonClicked() {
         // Workaround: TextWatcher breaks focus of EditText, so we trigger observers manually with slight delay
         inputField.removeTextChangedListener(this);
         inputField.setText(null);
@@ -168,11 +175,9 @@ public class SearchView extends FrameLayout implements Searchable, TextWatcher {
 
     }
 
-    @OnClick(R.id.actionIcon)
-    void onActionIconClicked() {
-        action.getCallback().onAction(actionIcon);
+    private void onActionButtonClicked() {
+        action.getCallback().onAction(actionButton);
     }
-
 
     @Override
     public void beforeTextChanged(CharSequence text, int start, int count, int after) {

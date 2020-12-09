@@ -23,7 +23,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/backIcon"
+                android:id="@+id/back_button"
                 android:layout_width="@dimen/height_element"
                 android:layout_height="@dimen/height_element"
                 android:adjustViewBounds="true"
@@ -36,7 +36,7 @@
                 app:tint="?iconColorPrimary" />
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                android:id="@+id/inputField"
+                android:id="@+id/input_field"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/margin_between"
@@ -48,7 +48,7 @@
                 android:inputType="text" />
 
             <ImageView
-                android:id="@+id/clearIcon"
+                android:id="@+id/clear_button"
                 android:layout_width="@dimen/height_element"
                 android:layout_height="@dimen/height_element"
                 android:layout_marginStart="@dimen/margin_between"
@@ -63,7 +63,7 @@
                 app:tint="?iconColorPrimary" />
 
             <ImageView
-                android:id="@+id/actionIcon"
+                android:id="@+id/action_button"
                 android:layout_width="@dimen/height_element"
                 android:layout_height="@dimen/height_element"
                 android:adjustViewBounds="true"

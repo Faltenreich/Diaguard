@@ -97,10 +97,12 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
         if (attributeSet != null) {
             getAttributes(attributeSet);
         }
-        bindViews();
-        initData();
-        initLayout();
-        invalidateLayout();
+        if (!isInEditMode()) {
+            bindView();
+            initData();
+            initLayout();
+            invalidateLayout();
+        }
     }
 
     private void getAttributes(@NonNull AttributeSet attributeSet) {
@@ -112,7 +114,7 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
         }
     }
 
-    private void bindViews() {
+    private void bindView() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_food_input, this);
         binding = ViewFoodInputBinding.bind(this);
 

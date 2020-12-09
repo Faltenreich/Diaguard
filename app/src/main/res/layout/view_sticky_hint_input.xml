@@ -15,7 +15,7 @@
     android:gravity="top">
 
     <com.faltenreich.diaguard.shared.view.edittext.LocalizedNumberEditText
-        android:id="@+id/editText"
+        android:id="@+id/input_field"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -27,7 +27,7 @@
         tools:text="20"/>
 
     <TextView
-        android:id="@+id/hintView"
+        android:id="@+id/hint_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_between"

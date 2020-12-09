@@ -10,27 +10,31 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.databinding.ViewStickyHintInputBinding;
+import com.faltenreich.diaguard.shared.view.ViewBindable;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-public class StickyHintInput extends LinearLayout implements TextWatcher {
+public class StickyHintInput extends LinearLayout implements ViewBindable<ViewStickyHintInputBinding>, TextWatcher {
 
     private static final int INPUT_TYPE_DEFAULT = InputType.TYPE_CLASS_NUMBER
         | InputType.TYPE_NUMBER_FLAG_DECIMAL
         | InputType.TYPE_NUMBER_FLAG_SIGNED;
 
-    @BindView(R.id.editText) LocalizedNumberEditText editText;
-    @BindView(R.id.hintView) TextView hintView;
+    private ViewStickyHintInputBinding binding;
+
+    private LocalizedNumberEditText inputField;
+    private TextView hintLabel;
 
     private CharSequence hint;
     private int inputType = INPUT_TYPE_DEFAULT;
 
     public StickyHintInput(Context context) {
         super(context);
-        init();
+        init(null);
     }
 
     public StickyHintInput(Context context, AttributeSet attrs) {
@@ -43,7 +47,22 @@ public class StickyHintInput extends LinearLayout implements TextWatcher {
         init(attrs);
     }
 
-    private void init(AttributeSet attributeSet) {
+    @Override
+    public ViewStickyHintInputBinding getBinding() {
+        return binding;
+    }
+
+    private void init(@Nullable AttributeSet attributeSet) {
+        if (attributeSet != null) {
+            getAttributes(attributeSet);
+        }
+        if (!isInEditMode()) {
+            bindView();
+            initLayout();
+        }
+    }
+
+    private void getAttributes(@NonNull AttributeSet attributeSet) {
         TypedArray typedArray = getContext().obtainStyledAttributes(
             attributeSet,
             new int[]{android.R.attr.hint, android.R.attr.inputType}
@@ -54,49 +73,52 @@ public class StickyHintInput extends LinearLayout implements TextWatcher {
         } finally {
             typedArray.recycle();
         }
-        init();
     }
 
-    private void init() {
+    private void bindView() {
         LayoutInflater.from(getContext()).inflate(R.layout.view_sticky_hint_input, this);
-        if (!isInEditMode()) {
-            ButterKnife.bind(this);
-            editText.addTextChangedListener(this);
-            editText.setHint(hint);
-            editText.setInputType(inputType);
-            hintView.setText(hint);
-            hintView.setOnClickListener(view -> ViewUtils.showKeyboard(editText));
-        }
+        binding = ViewStickyHintInputBinding.bind(this);
+
+        inputField = getBinding().inputField;
+        hintLabel = getBinding().hintLabel;
+    }
+
+    private void initLayout() {
+        inputField.addTextChangedListener(this);
+        inputField.setHint(hint);
+        inputField.setInputType(inputType);
+        hintLabel.setText(hint);
+        hintLabel.setOnClickListener(view -> ViewUtils.showKeyboard(inputField));
     }
 
     private void update() {
-        boolean isVisible = editText.getText() != null && editText.getText().toString().length() > 0;
-        hintView.setVisibility(isVisible ? VISIBLE : GONE);
+        boolean isVisible = inputField.getText() != null && inputField.getText().toString().length() > 0;
+        hintLabel.setVisibility(isVisible ? VISIBLE : GONE);
     }
 
     public LocalizedNumberEditText getEditText() {
-        return editText;
+        return inputField;
     }
 
     public String getText() {
-        return editText.getNonLocalizedText();
+        return inputField.getNonLocalizedText();
     }
 
     public void setText(String text) {
-        editText.setText(text);
+        inputField.setText(text);
     }
 
     public String getHint() {
-        return editText.getHint().toString();
+        return inputField.getHint().toString();
     }
 
     public void setHint(String hint) {
-        editText.setHint(hint);
-        hintView.setText(hint);
+        inputField.setHint(hint);
+        hintLabel.setText(hint);
     }
 
     public void setError(String error) {
-        editText.setError(error);
+        inputField.setError(error);
     }
 
     @Override

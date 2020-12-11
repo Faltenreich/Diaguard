@@ -36,7 +36,6 @@ import com.faltenreich.diaguard.shared.SystemUtils;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 import com.faltenreich.diaguard.shared.view.coordinatorlayout.SlideOutBehavior;
-import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
@@ -216,7 +215,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         selectMenuItem(menuItem);
     }
 
-    private void openFragment(BaseFragment fragment, MenuItem menuItem, boolean addToBackStack) {
+    private void openFragment(Fragment fragment, MenuItem menuItem, boolean addToBackStack) {
         selectNavigationDrawerMenuItem(menuItem);
         Navigation.Operation operation = addToBackStack ? Navigation.Operation.ADD : Navigation.Operation.REPLACE;
         openFragment(fragment, operation, addToBackStack);

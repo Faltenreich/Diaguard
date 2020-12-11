@@ -138,7 +138,7 @@ public abstract class BaseFragment<BINDING extends ViewBinding> extends Fragment
 
     protected void showFragment(Fragment fragment) {
         if (getActivity() != null && getActivity() instanceof MainActivity) {
-            ((MainActivity) getActivity()).openFragment(fragment, null, true);
+            ((MainActivity) getActivity()).openFragment(fragment, Navigation.Operation.REPLACE, true);
         }
     }
 

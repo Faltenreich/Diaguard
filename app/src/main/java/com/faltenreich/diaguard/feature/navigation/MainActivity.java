@@ -76,7 +76,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         PreferenceStore.getInstance().setDefaultValues(this);
-        ToolbarManager.applyToolbar(this, getToolbar());
         bindView();
         initLayout();
         checkChangelog();
@@ -114,6 +113,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     }
     
     private void initLayout() {
+        ToolbarManager.applyToolbar(this, getToolbar());
+
         drawerToggle = new ActionBarDrawerToggle(
             this,
             drawerLayout,
@@ -222,7 +223,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     }
 
     @Override
-    public void openFragment(@NonNull Fragment fragment, Navigation.Operation operation, boolean addToBackStack) {
+    public void openFragment(@NonNull Fragment fragment, @NonNull Navigation.Operation operation, boolean addToBackStack) {
         resetMainButton();
         Navigation.openFragment(fragment, getSupportFragmentManager(), R.id.container, operation, addToBackStack);
     }

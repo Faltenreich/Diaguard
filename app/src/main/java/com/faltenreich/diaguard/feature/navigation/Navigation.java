@@ -19,7 +19,7 @@ public class Navigation {
         @NonNull Fragment fragment,
         @NonNull FragmentManager fragmentManager,
         @IdRes int containerResId,
-        Operation operation,
+        @NonNull Operation operation,
         boolean addToBackStack
     ) {
         Fragment activeFragment = fragmentManager.findFragmentById(containerResId);

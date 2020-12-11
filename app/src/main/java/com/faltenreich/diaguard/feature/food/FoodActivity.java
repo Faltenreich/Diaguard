@@ -39,7 +39,7 @@ public class FoodActivity extends BaseActivity<ActivityFoodBinding> implements N
     }
 
     @Override
-    public void openFragment(@NonNull Fragment fragment, Navigation.Operation operation, boolean addToBackStack) {
+    public void openFragment(@NonNull Fragment fragment, @NonNull Navigation.Operation operation, boolean addToBackStack) {
         Navigation.openFragment(fragment, getSupportFragmentManager(), R.id.container, operation, addToBackStack);
     }
 

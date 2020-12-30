@@ -59,7 +59,8 @@ public abstract class BaseFragment<BINDING extends ViewBinding> extends Fragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+        boolean hasOptionsMenu = this instanceof ToolbarDescribing && ((ToolbarDescribing) this).getToolbarProperties().getMenuResId() != null;
+        setHasOptionsMenu(hasOptionsMenu);
     }
 
     @Override

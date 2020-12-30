@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
 import androidx.annotation.Nullable;
@@ -27,6 +28,8 @@ public class EntrySearchActivity extends BaseActivity<ActivityEntrySearchBinding
 
     private int revealX;
     private int revealY;
+
+    private ViewGroup rootView;
 
     public static void show(Context context, @Nullable View source) {
         Intent intent = new Intent(context, EntrySearchActivity.class);
@@ -57,8 +60,35 @@ public class EntrySearchActivity extends BaseActivity<ActivityEntrySearchBinding
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        bindView();
         if (savedInstanceState == null) {
             reveal();
+        }
+    }
+
+    private void bindView() {
+        rootView = getBinding().root;
+    }
+
+    private void reveal() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            revealX = getIntent().getIntExtra(ARGUMENT_REVEAL_X, -1);
+            revealY = getIntent().getIntExtra(ARGUMENT_REVEAL_Y, -1);
+            if (revealX >= 0 && revealY >= 0) {
+                rootView.setVisibility(View.INVISIBLE);
+                ViewTreeObserver viewTreeObserver = rootView.getViewTreeObserver();
+                if (viewTreeObserver.isAlive()) {
+                    viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+                        @Override
+                        public void onGlobalLayout() {
+                            rootView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                            rootView.setVisibility(View.VISIBLE);
+                            ViewUtils.reveal(rootView, revealX, revealY, true, null);
+                        }
+                    });
+                }
+            }
         }
     }
 
@@ -67,34 +97,12 @@ public class EntrySearchActivity extends BaseActivity<ActivityEntrySearchBinding
         unreveal();
     }
 
-    private void reveal() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            revealX = getIntent().getIntExtra(ARGUMENT_REVEAL_X, -1);
-            revealY = getIntent().getIntExtra(ARGUMENT_REVEAL_Y, -1);
-            if (revealX >= 0 && revealY >= 0) {
-                getBinding().root.setVisibility(View.INVISIBLE);
-                ViewTreeObserver viewTreeObserver = getBinding().root.getViewTreeObserver();
-                if (viewTreeObserver.isAlive()) {
-                    viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-                        @Override
-                        public void onGlobalLayout() {
-                            getBinding().root.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                            getBinding().root.setVisibility(View.VISIBLE);
-                            ViewUtils.reveal(getBinding().root, revealX, revealY, true, null);
-                        }
-                    });
-                }
-            }
-        }
-    }
-
     private void unreveal() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && revealX >= 0 && revealY >= 0) {
-            ViewUtils.reveal(getBinding().root, revealX, revealY, false, new AnimatorListenerAdapter() {
+            ViewUtils.reveal(rootView, revealX, revealY, false, new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    getBinding().root.setVisibility(View.INVISIBLE);
+                    rootView.setVisibility(View.INVISIBLE);
                     EntrySearchActivity.super.finish();
                     overridePendingTransition(0, 0);
                 }

@@ -12,10 +12,10 @@ public class ToolbarProperties {
     private static final String TAG = ToolbarProperties.class.getSimpleName();
 
     private final String title;
-    private final int menuResId;
+    private final Integer menuResId;
     private final boolean showToolbar;
 
-    private ToolbarProperties(String title, @MenuRes int menuResId, boolean showToolbar) {
+    private ToolbarProperties(String title, @MenuRes Integer menuResId, boolean showToolbar) {
         this.title = title;
         this.menuResId = menuResId;
         this.showToolbar = showToolbar;
@@ -26,7 +26,7 @@ public class ToolbarProperties {
     }
 
     @MenuRes
-    public int getMenuResId() {
+    public Integer getMenuResId() {
         return menuResId;
     }
 
@@ -37,7 +37,7 @@ public class ToolbarProperties {
     public static class Builder {
 
         private String title = null;
-        private int menuResId = -1;
+        private Integer menuResId = null;
         private boolean showToolbar = true;
 
         public Builder setTitle(String title) {
@@ -54,7 +54,7 @@ public class ToolbarProperties {
             return this;
         }
 
-        public Builder setMenu(@MenuRes int menuResId) {
+        public Builder setMenu(@MenuRes Integer menuResId) {
             this.menuResId = menuResId;
             return this;
         }

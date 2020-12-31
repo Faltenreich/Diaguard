@@ -1,10 +1,16 @@
 package com.faltenreich.diaguard.feature.entry.search;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -28,6 +34,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
+import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.layoutmanager.SafeLinearLayoutManager;
 import com.faltenreich.diaguard.shared.view.search.SearchViewListener;
@@ -42,11 +49,18 @@ public class EntrySearchFragment extends BaseFragment<FragmentEntrySearchBinding
     private static final String TAG = EntrySearchFragment.class.getSimpleName();
     private static final int PAGE_SIZE = 25;
 
-    static final String EXTRA_TAG_ID = "tagId";
+    static final String ARGUMENT_TAG_ID = "tagId";
+    static final String ARGUMENT_REVEAL_X = "revealX";
+    static final String ARGUMENT_REVEAL_Y = "revealY";
+
+    private ViewGroup rootView;
+    private RecyclerView listView;
 
     private EntrySearchListAdapter listAdapter;
     private long tagId = -1;
     private int currentPage = 0;
+    private int revealX;
+    private int revealY;
 
     public EntrySearchFragment() {
         super(R.layout.fragment_entry_search);
@@ -73,19 +87,29 @@ public class EntrySearchFragment extends BaseFragment<FragmentEntrySearchBinding
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        bindView();
         initLayout();
         preFillQuery();
+        if (savedInstanceState == null) {
+            reveal();
+        }
     }
 
     private void init() {
         if (getActivity() != null && getActivity().getIntent() != null && getActivity().getIntent().getExtras() != null) {
             Bundle arguments = getActivity().getIntent().getExtras();
-            tagId = arguments.getLong(EXTRA_TAG_ID, -1);
+            tagId = arguments.getLong(ARGUMENT_TAG_ID, -1);
+            revealX = arguments.getInt(ARGUMENT_REVEAL_X, -1);
+            revealY = arguments.getInt(ARGUMENT_REVEAL_Y, -1);
         }
     }
 
+    private void bindView() {
+        rootView = getBinding().root;
+        listView = getBinding().listView;
+    }
+
     private void initLayout() {
-        RecyclerView listView = getBinding().listView;
         listView.setLayoutManager(new SafeLinearLayoutManager(getActivity()));
         listAdapter = new EntrySearchListAdapter(getContext(), (tag, view) -> { if (isAdded()) getBinding().searchView.setQuery(tag.getName(), true); });
         listAdapter.setOnEndlessListener(scrollingDown -> { if (scrollingDown) continueSearch(); });
@@ -184,5 +208,43 @@ public class EntrySearchFragment extends BaseFragment<FragmentEntrySearchBinding
     @Override
     public void onQueryClosed() {
         finish();
+    }
+
+    private void reveal() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && revealX >= 0 && revealY >= 0) {
+            rootView.setVisibility(View.INVISIBLE);
+            ViewTreeObserver viewTreeObserver = rootView.getViewTreeObserver();
+            if (viewTreeObserver.isAlive()) {
+                viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+                    @Override
+                    public void onGlobalLayout() {
+                        rootView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        rootView.setVisibility(View.VISIBLE);
+                        ViewUtils.reveal(rootView, revealX, revealY, true, null);
+                    }
+                });
+            }
+        }
+    }
+
+    @Override
+    public void finish() {
+        unreveal();
+    }
+
+    private void unreveal() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && revealX >= 0 && revealY >= 0) {
+            ViewUtils.reveal(rootView, revealX, revealY, false, new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    rootView.setVisibility(View.INVISIBLE);
+                    EntrySearchFragment.super.finish();
+                    getActivity().overridePendingTransition(0, 0);
+                }
+            });
+        } else {
+            super.finish();
+        }
     }
 }

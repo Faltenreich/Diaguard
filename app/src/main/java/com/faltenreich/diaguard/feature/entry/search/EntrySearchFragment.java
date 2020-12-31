@@ -97,7 +97,7 @@ public class EntrySearchFragment extends BaseFragment<FragmentEntrySearchBinding
 
     private void init() {
         if (getActivity() != null && getActivity().getIntent() != null && getActivity().getIntent().getExtras() != null) {
-            Bundle arguments = getActivity().getIntent().getExtras();
+            Bundle arguments = getArguments();
             tagId = arguments.getLong(ARGUMENT_TAG_ID, -1);
             revealX = arguments.getInt(ARGUMENT_REVEAL_X, -1);
             revealY = arguments.getInt(ARGUMENT_REVEAL_Y, -1);

@@ -12,7 +12,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentFoodDetailBinding;
-import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivityFactory;
+import com.faltenreich.diaguard.feature.entry.edit.EntryEditIntentFactory;
 import com.faltenreich.diaguard.feature.food.FoodActions;
 import com.faltenreich.diaguard.feature.food.edit.FoodEditFragment;
 import com.faltenreich.diaguard.feature.navigation.Navigation;
@@ -113,7 +113,7 @@ public class FoodDetailFragment extends BaseFragment<FragmentFoodDetailBinding> 
     }
 
     private void eatFood() {
-        Intent intent = EntryEditActivityFactory.newInstance(getContext(), food);
+        Intent intent = EntryEditIntentFactory.newInstance(getContext(), food);
         startActivity(intent);
     }
 

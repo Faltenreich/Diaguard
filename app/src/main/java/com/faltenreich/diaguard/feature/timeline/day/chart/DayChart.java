@@ -9,7 +9,7 @@ import androidx.core.view.ViewCompat;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
-import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivityFactory;
+import com.faltenreich.diaguard.feature.entry.edit.EntryEditIntentFactory;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
@@ -115,7 +115,7 @@ public class DayChart extends CombinedChart implements OnChartValueSelectedListe
     @Override
     public void onValueSelected(com.github.mikephil.charting.data.Entry entry, Highlight highlight) {
         if (entry.getData() != null && entry.getData() instanceof Entry) {
-            Intent intent = EntryEditActivityFactory.newInstance(getContext(), (Entry) entry.getData());
+            Intent intent = EntryEditIntentFactory.newInstance(getContext(), (Entry) entry.getData());
             getContext().startActivity(intent);
         }
     }

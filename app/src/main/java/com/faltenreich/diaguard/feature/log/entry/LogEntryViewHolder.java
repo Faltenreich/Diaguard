@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ListItemLogEntryBinding;
-import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivityFactory;
+import com.faltenreich.diaguard.feature.entry.edit.EntryEditIntentFactory;
 import com.faltenreich.diaguard.feature.entry.search.EntrySearchListAdapter;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
@@ -56,7 +56,7 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemLogEntryBinding, 
         List<FoodEaten> foodEatenList = item.getFoodEatenList();
 
         getBinding().container.setOnClickListener(view -> {
-            Intent intent = EntryEditActivityFactory.newInstance(getContext(), entry);
+            Intent intent = EntryEditIntentFactory.newInstance(getContext(), entry);
             getContext().startActivity(intent);
         });
 

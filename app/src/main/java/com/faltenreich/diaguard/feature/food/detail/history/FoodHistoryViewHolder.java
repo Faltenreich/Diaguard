@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ListItemFoodEatenBinding;
-import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivityFactory;
+import com.faltenreich.diaguard.feature.entry.edit.EntryEditIntentFactory;
 import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
@@ -43,7 +43,7 @@ class FoodHistoryViewHolder extends BaseViewHolder<ListItemFoodEatenBinding, Foo
 
     private void openEntry() {
         Entry entry = getItem().getMeal().getEntry();
-        Intent intent = EntryEditActivityFactory.newInstance(getContext(), entry);
+        Intent intent = EntryEditIntentFactory.newInstance(getContext(), entry);
         getContext().startActivity(intent);
     }
 }

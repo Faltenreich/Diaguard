@@ -49,9 +49,9 @@ public class EntrySearchFragment extends BaseFragment<FragmentEntrySearchBinding
     private static final String TAG = EntrySearchFragment.class.getSimpleName();
     private static final int PAGE_SIZE = 25;
 
-    static final String ARGUMENT_TAG_ID = "tagId";
-    static final String ARGUMENT_REVEAL_X = "revealX";
-    static final String ARGUMENT_REVEAL_Y = "revealY";
+    private static final String ARGUMENT_TAG_ID = "tagId";
+    private static final String ARGUMENT_REVEAL_X = "revealX";
+    private static final String ARGUMENT_REVEAL_Y = "revealY";
 
     private ViewGroup rootView;
     private RecyclerView listView;
@@ -61,6 +61,16 @@ public class EntrySearchFragment extends BaseFragment<FragmentEntrySearchBinding
     private int currentPage = 0;
     private int revealX;
     private int revealY;
+
+    static EntrySearchFragment newInstance(int revealX, int revealY, long tagId) {
+        EntrySearchFragment fragment = new EntrySearchFragment();
+        Bundle arguments = new Bundle();
+        arguments.putInt(ARGUMENT_REVEAL_X, revealX);
+        arguments.putInt(ARGUMENT_REVEAL_Y, revealY);
+        arguments.putLong(ARGUMENT_TAG_ID, tagId);
+        fragment.setArguments(arguments);
+        return fragment;
+    }
 
     public EntrySearchFragment() {
         super(R.layout.fragment_entry_search);
@@ -96,11 +106,11 @@ public class EntrySearchFragment extends BaseFragment<FragmentEntrySearchBinding
     }
 
     private void init() {
-        if (getActivity() != null && getActivity().getIntent() != null && getActivity().getIntent().getExtras() != null) {
+        if (getArguments() != null) {
             Bundle arguments = getArguments();
-            tagId = arguments.getLong(ARGUMENT_TAG_ID, -1);
             revealX = arguments.getInt(ARGUMENT_REVEAL_X, -1);
             revealY = arguments.getInt(ARGUMENT_REVEAL_Y, -1);
+            tagId = arguments.getLong(ARGUMENT_TAG_ID, -1);
         }
     }
 

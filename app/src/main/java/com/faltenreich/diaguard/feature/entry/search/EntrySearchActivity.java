@@ -22,12 +22,16 @@ import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 
 public class EntrySearchActivity extends BaseActivity<ActivityEntrySearchBinding> implements Navigating {
 
+    private static final String ARGUMENT_REVEAL_X = "revealX";
+    private static final String ARGUMENT_REVEAL_Y = "revealY";
+    private static final String ARGUMENT_TAG_ID = "tagId";
+
     public static void show(Context context, @Nullable View source) {
         Intent intent = new Intent(context, EntrySearchActivity.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && source != null) {
             Vector2D position = ViewUtils.getPositionOnScreen(source);
-            intent.putExtra(EntrySearchFragment.ARGUMENT_REVEAL_X, position.x + (source.getWidth() / 2));
-            intent.putExtra(EntrySearchFragment.ARGUMENT_REVEAL_Y, position.y + (source.getHeight() / 2));
+            intent.putExtra(ARGUMENT_REVEAL_X, position.x + (source.getWidth() / 2));
+            intent.putExtra(ARGUMENT_REVEAL_Y, position.y + (source.getHeight() / 2));
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         }
         context.startActivity(intent);
@@ -35,12 +39,13 @@ public class EntrySearchActivity extends BaseActivity<ActivityEntrySearchBinding
 
     public static void show(Context context, Tag tag) {
         Intent intent = new Intent(context, EntrySearchActivity.class);
-        intent.putExtra(EntrySearchFragment.ARGUMENT_TAG_ID, tag.getId());
+        intent.putExtra(ARGUMENT_TAG_ID, tag.getId());
         context.startActivity(intent);
     }
 
     private int revealX;
     private int revealY;
+    private long tagId;
 
     public EntrySearchActivity() {
         super(R.layout.activity_entry_search);
@@ -59,16 +64,14 @@ public class EntrySearchActivity extends BaseActivity<ActivityEntrySearchBinding
     }
 
     private void getArguments() {
-        revealX = getIntent().getIntExtra(EntrySearchFragment.ARGUMENT_REVEAL_X, -1);
-        revealY = getIntent().getIntExtra(EntrySearchFragment.ARGUMENT_REVEAL_Y, -1);
+        Intent arguments = getIntent();
+        revealX = arguments.getIntExtra(ARGUMENT_REVEAL_X, -1);
+        revealY = arguments.getIntExtra(ARGUMENT_REVEAL_Y, -1);
+        tagId = arguments.getLongExtra(ARGUMENT_TAG_ID, -1);
     }
 
     private void addFragment() {
-        Fragment fragment = new EntrySearchFragment();
-        Bundle arguments = new Bundle();
-        arguments.putInt(EntrySearchFragment.ARGUMENT_REVEAL_X, revealX);
-        arguments.putInt(EntrySearchFragment.ARGUMENT_REVEAL_Y, revealY);
-        fragment.setArguments(arguments);
+        Fragment fragment = EntrySearchFragment.newInstance(revealX, revealY, tagId);
         openFragment(fragment, Navigation.Operation.REPLACE, false);
     }
 

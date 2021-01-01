@@ -1,17 +1,18 @@
 package com.faltenreich.diaguard.feature.timeline.day.chart;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 
 import androidx.annotation.ColorInt;
 import androidx.core.view.ViewCompat;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
+import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivityFactory;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
-import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
-import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
 import com.faltenreich.diaguard.shared.view.chart.ChartUtils;
 import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
 import com.github.mikephil.charting.charts.CombinedChart;
@@ -114,7 +115,8 @@ public class DayChart extends CombinedChart implements OnChartValueSelectedListe
     @Override
     public void onValueSelected(com.github.mikephil.charting.data.Entry entry, Highlight highlight) {
         if (entry.getData() != null && entry.getData() instanceof Entry) {
-            EntryEditActivity.show(getContext(), (Entry) entry.getData());
+            Intent intent = EntryEditActivityFactory.newInstance(getContext(), (Entry) entry.getData());
+            getContext().startActivity(intent);
         }
     }
 

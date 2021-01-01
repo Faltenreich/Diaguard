@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.feature.entry.edit;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.R;
@@ -66,43 +64,7 @@ public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> im
     public static final String EXTRA_ENTRY_ID = "entryId";
     public static final String EXTRA_DATE = "date";
     public static final String EXTRA_CATEGORY = "category";
-    private static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
-
-    private static Intent getIntent(Context context) {
-        return new Intent(context, EntryEditActivity.class);
-    }
-
-    public static void show(Context context) {
-        context.startActivity(getIntent(context));
-    }
-
-    public static void show(Context context, @Nullable Entry entry) {
-        Intent intent = getIntent(context);
-        if (entry != null) {
-            intent.putExtra(EXTRA_ENTRY_ID, entry.getId());
-        }
-        context.startActivity(intent);
-    }
-
-    public static void show(Context context, @Nullable Food food) {
-        Intent intent = getIntent(context);
-        if (food != null) {
-            intent.putExtra(EXTRA_FOOD_ID, food.getId());
-        }
-        context.startActivity(intent);
-    }
-
-    public static void show(Context context, @NonNull DateTime dateTime) {
-        Intent intent = getIntent(context);
-        intent.putExtra(EXTRA_DATE, dateTime);
-        context.startActivity(intent);
-    }
-
-    public static void show(Context context, @NonNull Category category) {
-        Intent intent = getIntent(context);
-        intent.putExtra(EXTRA_CATEGORY, category);
-        context.startActivity(intent);
-    }
+    public static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
 
     private long entryId;
     private long foodId;
@@ -541,7 +503,7 @@ public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> im
         for (int index = 0; index < getBinding().layoutMeasurements.getChildCount(); index++) {
             View view = getBinding().layoutMeasurements.getChildAt(index);
             if (view instanceof MeasurementView) {
-                MeasurementView measurementView = ((MeasurementView) view);
+                MeasurementView<?> measurementView = ((MeasurementView<?>) view);
                 Measurement measurement = measurementView.getMeasurement();
                 if (measurement instanceof Meal) {
                     return ((Meal) measurement).getFoodEatenCache();

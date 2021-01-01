@@ -1,11 +1,12 @@
 package com.faltenreich.diaguard.feature.log.empty;
 
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ListItemLogEmptyBinding;
-import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
+import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivityFactory;
 import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;
 
 import org.joda.time.DateTime;
@@ -36,6 +37,7 @@ public class LogEmptyViewHolder extends BaseViewHolder<ListItemLogEmptyBinding, 
             .withMinuteOfHour(now.minuteOfHour().get())
             .withSecondOfMinute(now.secondOfMinute().get())
             .withMillisOfSecond(now.millisOfSecond().get());
-        EntryEditActivity.show(getContext(), dateTime);
+        Intent intent = EntryEditActivityFactory.newInstance(getContext(), dateTime);
+        getContext().startActivity(intent);
     }
 }

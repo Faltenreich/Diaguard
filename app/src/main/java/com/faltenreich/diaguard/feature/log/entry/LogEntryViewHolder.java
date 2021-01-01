@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.feature.log.entry;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ListItemLogEntryBinding;
-import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
+import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivityFactory;
 import com.faltenreich.diaguard.feature.entry.search.EntrySearchListAdapter;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
@@ -54,7 +55,10 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemLogEntryBinding, 
         List<EntryTag> entryTags = item.getEntryTags();
         List<FoodEaten> foodEatenList = item.getFoodEatenList();
 
-        getBinding().container.setOnClickListener(view -> EntryEditActivity.show(getContext(), entry));
+        getBinding().container.setOnClickListener(view -> {
+            Intent intent = EntryEditActivityFactory.newInstance(getContext(), entry);
+            getContext().startActivity(intent);
+        });
 
         getBinding().dateLabel.setText(entry.getDate().toString("HH:mm"));
 

@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.feature.calculator;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +9,7 @@ import android.widget.TextView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentCalculatorBinding;
-import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
+import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivityFactory;
 import com.faltenreich.diaguard.feature.food.input.FoodInputView;
 import com.faltenreich.diaguard.feature.navigation.MainButton;
 import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
@@ -322,7 +323,8 @@ public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> 
     }
 
     private void openEntry(Entry entry) {
-        EntryEditActivity.show(getContext(), entry);
+        Intent intent = EntryEditActivityFactory.newInstance(getContext(), entry);
+        startActivity(intent);
     }
 
     @Override

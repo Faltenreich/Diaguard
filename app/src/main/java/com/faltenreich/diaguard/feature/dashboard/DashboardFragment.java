@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.feature.dashboard;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,7 @@ import com.faltenreich.diaguard.databinding.FragmentDashboardBinding;
 import com.faltenreich.diaguard.feature.alarm.AlarmUtils;
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.datetime.TimeSpan;
-import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
+import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivityFactory;
 import com.faltenreich.diaguard.feature.navigation.MainActivity;
 import com.faltenreich.diaguard.feature.navigation.MainButton;
 import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
@@ -220,7 +221,8 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
     }
 
     private void openEntry() {
-        EntryEditActivity.show(getContext(), latestEntry);
+        Intent intent = EntryEditActivityFactory.newInstance(getContext(), latestEntry);
+        startActivity(intent);
     }
 
     private void showHbA1cFormula() {
@@ -235,7 +237,8 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
     public MainButtonProperties getMainButtonProperties() {
         return MainButtonProperties.addButton(view -> {
             if (getContext() != null) {
-                EntryEditActivity.show(getContext());
+                Intent intent = EntryEditActivityFactory.newInstance(getContext());
+                startActivity(intent);
             }
         }, false);
     }

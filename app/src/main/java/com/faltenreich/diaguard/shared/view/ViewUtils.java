@@ -53,8 +53,8 @@ public class ViewUtils {
 
     public static boolean isLargeScreen(Context context) {
         return context != null && (context.getResources().getConfiguration().screenLayout &
-                Configuration.SCREENLAYOUT_SIZE_MASK) >=
-                Configuration.SCREENLAYOUT_SIZE_LARGE;
+            Configuration.SCREENLAYOUT_SIZE_MASK) >=
+            Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 
     public static boolean isLandscape(Activity activity) {
@@ -78,9 +78,9 @@ public class ViewUtils {
 
     public static void showSnackbar(View parentView, String text, View.OnClickListener onClickListener) {
         createSnackbar(parentView, text)
-                .setAction(R.string.undo, onClickListener)
-                .setActionTextColor(ContextCompat.getColor(parentView.getContext(), R.color.green_light))
-                .show();
+            .setAction(R.string.undo, onClickListener)
+            .setActionTextColor(ContextCompat.getColor(parentView.getContext(), R.color.green_light))
+            .show();
     }
 
     public static void showToast(Context context, String text) {
@@ -89,16 +89,16 @@ public class ViewUtils {
 
     public static void showNumberPicker(AppCompatActivity activity, @StringRes int labelResId, int initialValue, int minValue, int maxValue, NumberPickerDialogFragment.NumberPickerDialogHandlerV2 listener) {
         new NumberPickerBuilder()
-                .setFragmentManager(activity.getSupportFragmentManager())
-                .setStyleResId(R.style.NumberPicker)
-                .setLabelText(activity.getString(labelResId))
-                .setPlusMinusVisibility(View.GONE)
-                .setDecimalVisibility(View.GONE)
-                .setMaxNumber(BigDecimal.valueOf(maxValue))
-                .setMinNumber(BigDecimal.valueOf(minValue))
-                .addNumberPickerDialogHandler(listener)
-                .setCurrentNumber(initialValue > 0 ? initialValue : null)
-                .show();
+            .setFragmentManager(activity.getSupportFragmentManager())
+            .setStyleResId(R.style.NumberPicker)
+            .setLabelText(activity.getString(labelResId))
+            .setPlusMinusVisibility(View.GONE)
+            .setDecimalVisibility(View.GONE)
+            .setMaxNumber(BigDecimal.valueOf(maxValue))
+            .setMinNumber(BigDecimal.valueOf(minValue))
+            .addNumberPickerDialogHandler(listener)
+            .setCurrentNumber(initialValue > 0 ? initialValue : null)
+            .show();
     }
 
     public static Vector2D getPositionOnScreen(View view) {
@@ -110,7 +110,7 @@ public class ViewUtils {
     @Nullable
     public static CoordinatorLayout.Behavior<?> getBehavior(View view) {
         if (view.getLayoutParams() instanceof CoordinatorLayout.LayoutParams) {
-            return  ((CoordinatorLayout.LayoutParams) view.getLayoutParams()).getBehavior();
+            return ((CoordinatorLayout.LayoutParams) view.getLayoutParams()).getBehavior();
         }
         return null;
     }

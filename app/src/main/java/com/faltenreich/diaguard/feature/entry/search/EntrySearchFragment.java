@@ -208,7 +208,9 @@ public class EntrySearchFragment
 
     @Override
     public void onQueryChanged(String query) {
-        newSearch();
+        if (isAdded()) {
+            newSearch();
+        }
     }
 
     @Override

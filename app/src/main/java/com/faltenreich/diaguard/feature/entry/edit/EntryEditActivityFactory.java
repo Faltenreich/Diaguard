@@ -25,7 +25,7 @@ public class EntryEditActivityFactory {
     public static Intent newInstance(Context context, @Nullable Entry entry) {
         Intent intent = getIntent(context);
         if (entry != null) {
-            intent.putExtra(EntryEditActivity.EXTRA_ENTRY_ID, entry.getId());
+            intent.putExtra(EntryEditFragment.EXTRA_ENTRY_ID, entry.getId());
         }
         return intent;
     }
@@ -33,20 +33,20 @@ public class EntryEditActivityFactory {
     public static Intent newInstance(Context context, @Nullable Food food) {
         Intent intent = getIntent(context);
         if (food != null) {
-            intent.putExtra(EntryEditActivity.EXTRA_FOOD_ID, food.getId());
+            intent.putExtra(EntryEditFragment.EXTRA_FOOD_ID, food.getId());
         }
         return intent;
     }
 
     public static Intent newInstance(Context context, @NonNull DateTime dateTime) {
         Intent intent = getIntent(context);
-        intent.putExtra(EntryEditActivity.EXTRA_DATE, dateTime);
+        intent.putExtra(EntryEditFragment.EXTRA_DATE, dateTime);
         return intent;
     }
 
     public static Intent newInstance(Context context, @NonNull Category category) {
         Intent intent = getIntent(context);
-        intent.putExtra(EntryEditActivity.EXTRA_CATEGORY, category);
+        intent.putExtra(EntryEditFragment.EXTRA_CATEGORY, category);
         return intent;
     }
 }

@@ -6,15 +6,16 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
+import com.faltenreich.diaguard.shared.view.listener.OnItemSelectedListener;
 import com.faltenreich.diaguard.shared.view.recyclerview.adapter.BaseAdapter;
 
-/**
- * Created by Faltenreich on 11.09.2016.
- */
 class FoodHistoryListAdapter extends BaseAdapter<FoodEaten, FoodHistoryViewHolder> {
 
-    FoodHistoryListAdapter(Context context) {
+    private final OnItemSelectedListener<FoodEaten> listener;
+
+    FoodHistoryListAdapter(Context context, OnItemSelectedListener<FoodEaten> listener) {
         super(context);
+        this.listener = listener;
     }
 
     @NonNull
@@ -25,6 +26,8 @@ class FoodHistoryListAdapter extends BaseAdapter<FoodEaten, FoodHistoryViewHolde
 
     @Override
     public void onBindViewHolder(FoodHistoryViewHolder holder, int position) {
-        holder.bind(getItem(holder.getAdapterPosition()));
+        FoodEaten foodEaten = getItem(holder.getAdapterPosition());
+        holder.bind(foodEaten);
+        holder.itemView.setOnClickListener((view) -> listener.onItemSelected(foodEaten));
     }
 }

@@ -11,10 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentFoodHistoryBinding;
+import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragmentFactory;
+import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.feature.navigation.TabDescribing;
 import com.faltenreich.diaguard.feature.navigation.TabProperties;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodEatenDao;
+import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
@@ -79,7 +82,7 @@ public class FoodHistoryFragment extends BaseFragment<FragmentFoodHistoryBinding
 
     private void initLayout() {
         RecyclerView listView = getBinding().listView;
-        historyAdapter = new FoodHistoryListAdapter(getContext());
+        historyAdapter = new FoodHistoryListAdapter(getContext(), this::openEntry);
         listView.setLayoutManager(new LinearLayoutManager(getContext()));
         listView.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
         listView.setAdapter(historyAdapter);
@@ -95,5 +98,12 @@ public class FoodHistoryFragment extends BaseFragment<FragmentFoodHistoryBinding
         historyAdapter.addItems(foodEatenList);
         historyAdapter.notifyDataSetChanged();
         getBinding().placeholderLabel.setVisibility(foodEatenList.size() == 0 ? View.VISIBLE : View.GONE);
+    }
+
+    private void openEntry(FoodEaten foodEaten) {
+        if (foodEaten != null && foodEaten.getMeal() != null && foodEaten.getMeal().getEntry() != null) {
+            Entry entry = foodEaten.getMeal().getEntry();
+            openFragment(EntryEditFragmentFactory.newInstance(entry), Navigation.Operation.REPLACE, true);
+        }
     }
 }

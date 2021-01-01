@@ -1,16 +1,11 @@
 package com.faltenreich.diaguard.feature.entry.search;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -34,9 +29,10 @@ import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
-import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.layoutmanager.SafeLinearLayoutManager;
+import com.faltenreich.diaguard.shared.view.reveal.Reveal;
+import com.faltenreich.diaguard.shared.view.reveal.Revealable;
 import com.faltenreich.diaguard.shared.view.search.SearchViewListener;
 
 import org.apache.commons.lang3.StringUtils;
@@ -44,7 +40,9 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EntrySearchFragment extends BaseFragment<FragmentEntrySearchBinding> implements ToolbarDescribing, SearchViewListener {
+public class EntrySearchFragment
+    extends BaseFragment<FragmentEntrySearchBinding>
+    implements ToolbarDescribing, Revealable, SearchViewListener {
 
     private static final String TAG = EntrySearchFragment.class.getSimpleName();
     private static final String ARGUMENT_TAG_ID = "tagId";
@@ -99,7 +97,7 @@ public class EntrySearchFragment extends BaseFragment<FragmentEntrySearchBinding
         initLayout();
         preFillQuery();
         if (savedInstanceState == null) {
-            reveal();
+            reveal(null);
         }
     }
 
@@ -218,43 +216,13 @@ public class EntrySearchFragment extends BaseFragment<FragmentEntrySearchBinding
         finish();
     }
 
-    private void reveal() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && revealX >= 0 && revealY >= 0) {
-            rootView.setVisibility(View.INVISIBLE);
-            ViewTreeObserver viewTreeObserver = rootView.getViewTreeObserver();
-            if (viewTreeObserver.isAlive()) {
-                viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-                    @Override
-                    public void onGlobalLayout() {
-                        rootView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        rootView.setVisibility(View.VISIBLE);
-                        ViewUtils.reveal(rootView, revealX, revealY, true, null);
-                    }
-                });
-            }
-        }
+    @Override
+    public void reveal(Reveal.Callback callback) {
+        Reveal.reveal(rootView, revealX, revealY, callback);
     }
 
     @Override
-    public void finish() {
-        unreveal();
-    }
-
-    private void unreveal() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && revealX >= 0 && revealY >= 0) {
-            ViewUtils.reveal(rootView, revealX, revealY, false, new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    rootView.setVisibility(View.INVISIBLE);
-                    EntrySearchFragment.super.finish();
-                    if (getActivity() != null) {
-                        getActivity().overridePendingTransition(0, 0);
-                    }
-                }
-            });
-        } else {
-            super.finish();
-        }
+    public void unreveal(Reveal.Callback callback) {
+        Reveal.unreveal(rootView, revealX, revealY, callback);
     }
 }

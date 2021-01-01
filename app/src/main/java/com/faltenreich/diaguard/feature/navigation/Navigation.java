@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.feature.navigation;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -47,5 +48,13 @@ public class Navigation {
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             transaction.commit();
         }
+    }
+
+    @Nullable
+    public static Fragment getCurrentFragment(
+        @NonNull FragmentManager fragmentManager,
+        @IdRes int containerResId
+    ) {
+        return fragmentManager.findFragmentById(containerResId);
     }
 }

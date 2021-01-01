@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.shared.view;
 
-import android.animation.Animator;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
@@ -11,11 +10,8 @@ import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewAnimationUtils;
-import android.view.animation.AccelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -23,7 +19,6 @@ import android.widget.Toast;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -37,12 +32,9 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.math.BigDecimal;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
 public class ViewUtils {
 
     private static final String TAG = ViewUtils.class.getSimpleName();
-    private static final int REVEAL_DURATION = 400;
-    private static final int UNREVEAL_DURATION = 300;
     private static final long ANIMATION_DURATION = 400L;
 
     public static void showKeyboard(View view) {
@@ -124,29 +116,6 @@ public class ViewUtils {
                 .addNumberPickerDialogHandler(listener)
                 .setCurrentNumber(initialValue > 0 ? initialValue : null)
                 .show();
-    }
-
-
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public static void reveal(final View view, int positionX, int positionY, final boolean reveal, int duration, Animator.AnimatorListener listener) {
-        int radius = (int) Math.hypot(view.getWidth(), view.getHeight());
-        int startRadius = reveal ? 0 : radius;
-        int endRadius = reveal ? radius : 0;
-
-        Animator animator = ViewAnimationUtils.createCircularReveal(view, positionX, positionY, startRadius, endRadius);
-        animator.setInterpolator(new AccelerateInterpolator());
-        animator.setDuration(duration);
-
-        if (listener != null) {
-            animator.addListener(listener);
-        }
-
-        animator.start();
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public static void reveal(View view, int positionX, int positionY, boolean reveal, Animator.AnimatorListener listener) {
-        reveal(view, positionX, positionY, reveal, reveal ? REVEAL_DURATION : UNREVEAL_DURATION, listener);
     }
 
     public static Vector2D getPositionOnScreen(View view) {

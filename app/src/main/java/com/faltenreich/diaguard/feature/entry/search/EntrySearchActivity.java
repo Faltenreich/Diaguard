@@ -19,6 +19,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.data.primitive.Vector2D;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
+import com.faltenreich.diaguard.shared.view.reveal.Revealable;
 
 public class EntrySearchActivity extends BaseActivity<ActivityEntrySearchBinding> implements Navigating {
 
@@ -78,5 +79,18 @@ public class EntrySearchActivity extends BaseActivity<ActivityEntrySearchBinding
     @Override
     public void openFragment(@NonNull Fragment fragment, @NonNull Navigation.Operation operation, boolean addToBackStack) {
         Navigation.openFragment(fragment, getSupportFragmentManager(), R.id.fragment_container, operation, addToBackStack);
+    }
+
+    @Override
+    public void finish() {
+        Fragment fragment = Navigation.getCurrentFragment(getSupportFragmentManager(), R.id.fragment_container);
+        if (fragment instanceof Revealable) {
+            ((Revealable) fragment).unreveal(() -> {
+                EntrySearchActivity.super.finish();
+                overridePendingTransition(0, 0);
+            });
+        } else {
+            super.finish();
+        }
     }
 }

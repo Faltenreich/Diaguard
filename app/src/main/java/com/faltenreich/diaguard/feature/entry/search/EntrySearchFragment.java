@@ -47,20 +47,10 @@ import java.util.List;
 public class EntrySearchFragment extends BaseFragment<FragmentEntrySearchBinding> implements ToolbarDescribing, SearchViewListener {
 
     private static final String TAG = EntrySearchFragment.class.getSimpleName();
-    private static final int PAGE_SIZE = 25;
-
     private static final String ARGUMENT_TAG_ID = "tagId";
     private static final String ARGUMENT_REVEAL_X = "revealX";
     private static final String ARGUMENT_REVEAL_Y = "revealY";
-
-    private ViewGroup rootView;
-    private RecyclerView listView;
-
-    private EntrySearchListAdapter listAdapter;
-    private long tagId = -1;
-    private int currentPage = 0;
-    private int revealX;
-    private int revealY;
+    private static final int PAGE_SIZE = 25;
 
     static EntrySearchFragment newInstance(int revealX, int revealY, long tagId) {
         EntrySearchFragment fragment = new EntrySearchFragment();
@@ -71,6 +61,14 @@ public class EntrySearchFragment extends BaseFragment<FragmentEntrySearchBinding
         fragment.setArguments(arguments);
         return fragment;
     }
+
+    private ViewGroup rootView;
+    private RecyclerView listView;
+    private EntrySearchListAdapter listAdapter;
+    private int currentPage = 0;
+    private int revealX;
+    private int revealY;
+    private long tagId = -1;
 
     public EntrySearchFragment() {
         super(R.layout.fragment_entry_search);
@@ -198,7 +196,7 @@ public class EntrySearchFragment extends BaseFragment<FragmentEntrySearchBinding
                     getBinding().progressIndicator.setVisibility(View.GONE);
                     invalidateEmptyView();
                 } else {
-                    Log.d(TAG, "Dropping obsolete result for \'" + query + "\' (is now: \'" + currentQuery + "\'");
+                    Log.d(TAG, "Dropping obsolete result for " + query + " (is now: " + currentQuery);
                 }
             }
         });
@@ -250,7 +248,9 @@ public class EntrySearchFragment extends BaseFragment<FragmentEntrySearchBinding
                 public void onAnimationEnd(Animator animation) {
                     rootView.setVisibility(View.INVISIBLE);
                     EntrySearchFragment.super.finish();
-                    getActivity().overridePendingTransition(0, 0);
+                    if (getActivity() != null) {
+                        getActivity().overridePendingTransition(0, 0);
+                    }
                 }
             });
         } else {

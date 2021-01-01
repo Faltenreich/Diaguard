@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.feature.log;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -156,7 +157,8 @@ public class LogFragment extends DateFragment<FragmentLogBinding> implements Log
     @Override
     public void onTagClicked(Tag tag, View view) {
         if (isAdded()) {
-            EntrySearchActivity.show(getContext(), tag);
+            Intent intent = EntrySearchActivity.newInstance(getContext(), tag);
+            startActivity(intent);
         }
     }
 

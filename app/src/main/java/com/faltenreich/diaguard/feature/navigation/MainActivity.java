@@ -93,7 +93,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
             supportFinishAfterTransition();
             return true;
         } else if (item.getItemId() == R.id.action_search) {
-            EntrySearchActivity.show(this, findViewById(R.id.action_search));
+            Intent intent = EntrySearchActivity.newInstance(this, findViewById(R.id.action_search));
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);

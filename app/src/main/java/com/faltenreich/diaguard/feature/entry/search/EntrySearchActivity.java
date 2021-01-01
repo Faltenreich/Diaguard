@@ -26,7 +26,7 @@ public class EntrySearchActivity extends BaseActivity<ActivityEntrySearchBinding
     private static final String ARGUMENT_REVEAL_Y = "revealY";
     private static final String ARGUMENT_TAG_ID = "tagId";
 
-    public static void show(Context context, @Nullable View source) {
+    public static Intent newInstance(Context context, @Nullable View source) {
         Intent intent = new Intent(context, EntrySearchActivity.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && source != null) {
             Vector2D position = ViewUtils.getPositionOnScreen(source);
@@ -34,13 +34,13 @@ public class EntrySearchActivity extends BaseActivity<ActivityEntrySearchBinding
             intent.putExtra(ARGUMENT_REVEAL_Y, position.y + (source.getHeight() / 2));
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         }
-        context.startActivity(intent);
+        return intent;
     }
 
-    public static void show(Context context, Tag tag) {
+    public static Intent newInstance(Context context, Tag tag) {
         Intent intent = new Intent(context, EntrySearchActivity.class);
         intent.putExtra(ARGUMENT_TAG_ID, tag.getId());
-        context.startActivity(intent);
+        return intent;
     }
 
     private int revealX;

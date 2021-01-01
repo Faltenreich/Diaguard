@@ -14,7 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentEntrySearchBinding;
+import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragmentFactory;
 import com.faltenreich.diaguard.feature.log.entry.LogEntryListItem;
+import com.faltenreich.diaguard.feature.log.entry.LogEntryViewHolder;
+import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
@@ -36,13 +39,14 @@ import com.faltenreich.diaguard.shared.view.reveal.Revealable;
 import com.faltenreich.diaguard.shared.view.search.SearchViewListener;
 
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class EntrySearchFragment
     extends BaseFragment<FragmentEntrySearchBinding>
-    implements ToolbarDescribing, Revealable, SearchViewListener {
+    implements ToolbarDescribing, Revealable, SearchViewListener, LogEntryViewHolder.Listener {
 
     private static final String TAG = EntrySearchFragment.class.getSimpleName();
     private static final String ARGUMENT_TAG_ID = "tagId";
@@ -117,7 +121,7 @@ public class EntrySearchFragment
 
     private void initLayout() {
         listView.setLayoutManager(new SafeLinearLayoutManager(getActivity()));
-        listAdapter = new EntrySearchListAdapter(getContext(), (tag, view) -> { if (isAdded()) getBinding().searchView.setQuery(tag.getName(), true); });
+        listAdapter = new EntrySearchListAdapter(getContext(), this);
         listAdapter.setOnEndlessListener(scrollingDown -> { if (scrollingDown) continueSearch(); });
         listView.setAdapter(listAdapter);
 
@@ -226,5 +230,22 @@ public class EntrySearchFragment
     @Override
     public void unreveal(Reveal.Callback callback) {
         Reveal.unreveal(rootView, revealX, revealY, callback);
+    }
+
+    @Override
+    public void onEntrySelected(Entry entry) {
+        openFragment(EntryEditFragmentFactory.newInstance(entry), Navigation.Operation.REPLACE, true);
+    }
+
+    @Override
+    public void onTagSelected(Tag tag, View view) {
+        if (isAdded()) {
+            getBinding().searchView.setQuery(tag.getName(), true);
+        }
+    }
+
+    @Override
+    public void onDateSelected(DateTime dateTime) {
+        openFragment(EntryEditFragmentFactory.newInstance(dateTime), Navigation.Operation.REPLACE, true);
     }
 }

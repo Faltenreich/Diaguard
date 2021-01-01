@@ -5,7 +5,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
-import com.faltenreich.diaguard.feature.entry.search.EntrySearchListAdapter;
 import com.faltenreich.diaguard.feature.log.day.LogDayListItem;
 import com.faltenreich.diaguard.feature.log.day.LogDayViewHolder;
 import com.faltenreich.diaguard.feature.log.empty.LogEmptyListItem;
@@ -23,7 +22,7 @@ import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHold
 
 import org.joda.time.DateTime;
 
-class LogListAdapter
+public class LogListAdapter
     extends EndlessAdapter<LogListItem, BaseViewHolder<?, LogListItem>>
     implements EndlessAdapter.OnEndlessListener, StickyHeaderAdapter<LogDayViewHolder> {
 
@@ -179,7 +178,7 @@ class LogListAdapter
             case ENTRY:
                 return new LogEntryViewHolder(parent, listener);
             case EMPTY:
-                return new LogEmptyViewHolder(parent);
+                return new LogEmptyViewHolder(parent, listener);
             case PENDING:
                 return new LogPendingViewHolder(parent);
             default:
@@ -285,7 +284,7 @@ class LogListAdapter
         }).execute();
     }
 
-    interface Listener extends EntrySearchListAdapter.OnSearchItemClickListener {
+    public interface Listener extends LogEntryViewHolder.Listener {
         void onOrderChanges();
         void onSetupEnd();
     }

@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentTimelineDayBinding;
+import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragmentFactory;
+import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.feature.timeline.day.table.CategoryImageListAdapter;
 import com.faltenreich.diaguard.feature.timeline.day.table.CategoryImageListItem;
@@ -24,6 +26,7 @@ import com.faltenreich.diaguard.shared.data.async.DataLoader;
 import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
+import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.GridDividerItemDecoration;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
@@ -116,6 +119,7 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
         valueListView.setNestedScrollingEnabled(false);
 
         getBinding().scrollView.setOnScrollChangeListener(onScrollListener);
+        getBinding().chartView.setOnItemSelectedListener(this::openEntry);
     }
 
     private void invalidateData() {
@@ -198,5 +202,9 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
         valueAdapter.clear();
         imageAdapter.clear();
         setDay(day);
+    }
+
+    private void openEntry(Entry entry) {
+        openFragment(EntryEditFragmentFactory.newInstance(entry), Navigation.Operation.REPLACE, true);
     }
 }

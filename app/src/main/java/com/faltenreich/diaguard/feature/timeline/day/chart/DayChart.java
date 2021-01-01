@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.feature.timeline.day.chart;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.AttributeSet;
 
 import androidx.annotation.ColorInt;
@@ -9,11 +8,11 @@ import androidx.core.view.ViewCompat;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
-import com.faltenreich.diaguard.feature.entry.edit.EntryEditIntentFactory;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.view.chart.ChartUtils;
+import com.faltenreich.diaguard.shared.view.listener.OnItemSelectedListener;
 import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.highlight.Highlight;
@@ -32,6 +31,7 @@ public class DayChart extends CombinedChart implements OnChartValueSelectedListe
     private static final float Y_MAX_VALUE_DEFAULT = 200;
     private static final float Y_MAX_VALUE_OFFSET = 20;
 
+    private OnItemSelectedListener<Entry> listener;
     private DateTime day;
 
     public DayChart(Context context) {
@@ -42,6 +42,10 @@ public class DayChart extends CombinedChart implements OnChartValueSelectedListe
     public DayChart(Context context, AttributeSet attrs) {
         super(context, attrs);
         setup();
+    }
+
+    public void setOnItemSelectedListener(OnItemSelectedListener<Entry> listener) {
+        this.listener = listener;
     }
 
     private void setup() {
@@ -114,9 +118,8 @@ public class DayChart extends CombinedChart implements OnChartValueSelectedListe
 
     @Override
     public void onValueSelected(com.github.mikephil.charting.data.Entry entry, Highlight highlight) {
-        if (entry.getData() != null && entry.getData() instanceof Entry) {
-            Intent intent = EntryEditIntentFactory.newInstance(getContext(), (Entry) entry.getData());
-            getContext().startActivity(intent);
+        if (listener != null && entry.getData() != null && entry.getData() instanceof Entry) {
+            listener.onItemSelected((Entry) entry.getData());
         }
     }
 

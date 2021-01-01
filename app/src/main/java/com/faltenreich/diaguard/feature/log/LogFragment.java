@@ -14,9 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentLogBinding;
+import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragmentFactory;
 import com.faltenreich.diaguard.feature.entry.search.EntrySearchActivity;
 import com.faltenreich.diaguard.feature.log.empty.LogEmptyListItem;
 import com.faltenreich.diaguard.feature.log.entry.LogEntryListItem;
+import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
@@ -155,11 +157,21 @@ public class LogFragment extends DateFragment<FragmentLogBinding> implements Log
     }
 
     @Override
-    public void onTagClicked(Tag tag, View view) {
+    public void onEntrySelected(Entry entry) {
+        openFragment(EntryEditFragmentFactory.newInstance(entry), Navigation.Operation.REPLACE, true);
+    }
+
+    @Override
+    public void onTagSelected(Tag tag, View view) {
         if (isAdded()) {
             Intent intent = EntrySearchActivity.newInstance(getContext(), tag);
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void onDateSelected(DateTime dateTime) {
+        openFragment(EntryEditFragmentFactory.newInstance(dateTime), Navigation.Operation.REPLACE, true);
     }
 
     private void invalidateSections() {

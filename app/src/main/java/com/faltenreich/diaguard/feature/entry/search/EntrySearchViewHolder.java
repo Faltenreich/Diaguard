@@ -10,7 +10,7 @@ import org.joda.time.DateTime;
 
 class EntrySearchViewHolder extends LogEntryViewHolder {
 
-    EntrySearchViewHolder(ViewGroup parent, EntrySearchListAdapter.OnSearchItemClickListener listener) {
+    EntrySearchViewHolder(ViewGroup parent, LogEntryViewHolder.Listener listener) {
         super(parent, listener);
     }
 

@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.feature.log.entry;
 
 import android.content.Context;
-import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +14,6 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ListItemLogEntryBinding;
-import com.faltenreich.diaguard.feature.entry.edit.EntryEditIntentFactory;
-import com.faltenreich.diaguard.feature.entry.search.EntrySearchListAdapter;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.BloodSugar;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
@@ -29,19 +26,25 @@ import com.faltenreich.diaguard.shared.view.chip.ChipView;
 import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;
 import com.google.android.material.chip.ChipGroup;
 
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class LogEntryViewHolder extends BaseViewHolder<ListItemLogEntryBinding, LogEntryListItem> {
 
-    private final EntrySearchListAdapter.OnSearchItemClickListener listener;
+    public interface Listener {
+        void onEntrySelected(Entry entry);
+        void onTagSelected(Tag tag, View view);
+        void onDateSelected(DateTime dateTime);
+    }
 
-    public LogEntryViewHolder(
-        ViewGroup parent,
-        EntrySearchListAdapter.OnSearchItemClickListener listener
-    ) {
+    private final Listener listener;
+
+    public LogEntryViewHolder(ViewGroup parent, Listener listener) {
         super(parent, R.layout.list_item_log_entry);
         this.listener = listener;
+        getBinding().container.setOnClickListener(view -> listener.onEntrySelected(getItem().getEntry()));
     }
 
     @Override
@@ -54,11 +57,6 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemLogEntryBinding, 
         Entry entry = item.getEntry();
         List<EntryTag> entryTags = item.getEntryTags();
         List<FoodEaten> foodEatenList = item.getFoodEatenList();
-
-        getBinding().container.setOnClickListener(view -> {
-            Intent intent = EntryEditIntentFactory.newInstance(getContext(), entry);
-            getContext().startActivity(intent);
-        });
 
         getBinding().dateLabel.setText(entry.getDate().toString("HH:mm"));
 
@@ -93,11 +91,11 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemLogEntryBinding, 
         entryTagChipGroup.setVisibility(entryTags.size() > 0 ? View.VISIBLE : View.GONE);
         entryTagChipGroup.removeAllViews();
         for (EntryTag entryTag : entryTags) {
-            final Tag tag = entryTag.getTag();
+            Tag tag = entryTag.getTag();
             if (tag != null) {
                 ChipView chipView = new ChipView(getContext());
                 chipView.setText(tag.getName());
-                chipView.setOnClickListener(view -> listener.onTagClicked(tag, view));
+                chipView.setOnClickListener(view -> listener.onTagSelected(tag, view));
                 entryTagChipGroup.addView(chipView);
             }
         }

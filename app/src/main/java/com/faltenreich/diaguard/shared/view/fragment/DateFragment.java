@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.shared.view.fragment;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 
 import androidx.annotation.CallSuper;
@@ -9,9 +8,10 @@ import androidx.annotation.NonNull;
 import androidx.viewbinding.ViewBinding;
 
 import com.faltenreich.diaguard.feature.datetime.DatePickerFragment;
-import com.faltenreich.diaguard.feature.entry.edit.EntryEditIntentFactory;
+import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragment;
 import com.faltenreich.diaguard.feature.navigation.MainButton;
 import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
+import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 
 import org.joda.time.DateTime;
@@ -69,8 +69,7 @@ public abstract class DateFragment<BINDING extends ViewBinding>
         return MainButtonProperties.addButton(view -> {
             if (getContext() != null) {
                 // Date will not be passed through to compensate negative user feedback
-                Intent intent = EntryEditIntentFactory.newInstance(getContext());
-                startActivity(intent);
+                openFragment(new EntryEditFragment(), Navigation.Operation.REPLACE, true);
             }
         });
     }

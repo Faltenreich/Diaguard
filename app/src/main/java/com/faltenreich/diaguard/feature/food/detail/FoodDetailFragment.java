@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.feature.food.detail;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -12,7 +11,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentFoodDetailBinding;
-import com.faltenreich.diaguard.feature.entry.edit.EntryEditIntentFactory;
+import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragmentFactory;
 import com.faltenreich.diaguard.feature.food.FoodActions;
 import com.faltenreich.diaguard.feature.food.edit.FoodEditFragment;
 import com.faltenreich.diaguard.feature.navigation.Navigation;
@@ -50,7 +49,7 @@ public class FoodDetailFragment extends BaseFragment<FragmentFoodDetailBinding> 
     @Override
     public ToolbarProperties getToolbarProperties() {
         return new ToolbarProperties.Builder()
-            .setTitle(food.getName())
+            .setTitle(food != null ? food.getName() : null)
             .setMenu(R.menu.food)
             .build();
     }
@@ -113,8 +112,7 @@ public class FoodDetailFragment extends BaseFragment<FragmentFoodDetailBinding> 
     }
 
     private void eatFood() {
-        Intent intent = EntryEditIntentFactory.newInstance(getContext(), food);
-        startActivity(intent);
+        openFragment(EntryEditFragmentFactory.newInstance(food), Navigation.Operation.REPLACE, true);
     }
 
     private void editFood() {

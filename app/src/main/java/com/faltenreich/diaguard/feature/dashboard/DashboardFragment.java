@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.feature.dashboard;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +13,12 @@ import com.faltenreich.diaguard.databinding.FragmentDashboardBinding;
 import com.faltenreich.diaguard.feature.alarm.AlarmUtils;
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.datetime.TimeSpan;
-import com.faltenreich.diaguard.feature.entry.edit.EntryEditIntentFactory;
+import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragment;
+import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragmentFactory;
 import com.faltenreich.diaguard.feature.navigation.MainActivity;
 import com.faltenreich.diaguard.feature.navigation.MainButton;
 import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
+import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
@@ -221,8 +222,7 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
     }
 
     private void openEntry() {
-        Intent intent = EntryEditIntentFactory.newInstance(getContext(), latestEntry);
-        startActivity(intent);
+        openFragment(EntryEditFragmentFactory.newInstance(latestEntry), Navigation.Operation.REPLACE, true);
     }
 
     private void showHbA1cFormula() {
@@ -237,8 +237,7 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
     public MainButtonProperties getMainButtonProperties() {
         return MainButtonProperties.addButton(view -> {
             if (getContext() != null) {
-                Intent intent = EntryEditIntentFactory.newInstance(getContext());
-                startActivity(intent);
+                openFragment(new EntryEditFragment(), Navigation.Operation.REPLACE, true);
             }
         }, false);
     }

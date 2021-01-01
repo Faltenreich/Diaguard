@@ -66,6 +66,11 @@ public class EntryEditFragment
 
     private static final String TAG = EntryEditFragment.class.getSimpleName();
 
+    static final String EXTRA_ENTRY_ID = "entryId";
+    static final String EXTRA_DATE = "date";
+    static final String EXTRA_CATEGORY = "category";
+    static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
+
     private long entryId;
     private long foodId;
     private DateTime time = DateTime.now();
@@ -129,10 +134,10 @@ public class EntryEditFragment
     private void init() {
         Bundle arguments = getArguments();
         if (arguments != null) {
-            entryId = arguments.getLong(EntryEditIntentFactory.EXTRA_ENTRY_ID);
-            foodId = arguments.getLong(EntryEditIntentFactory.EXTRA_FOOD_ID);
-            if (arguments.get(EntryEditIntentFactory.EXTRA_DATE) != null) {
-                time = (DateTime) arguments.getSerializable(EntryEditIntentFactory.EXTRA_DATE);
+            entryId = arguments.getLong(EXTRA_ENTRY_ID);
+            foodId = arguments.getLong(EXTRA_FOOD_ID);
+            if (arguments.get(EXTRA_DATE) != null) {
+                time = (DateTime) arguments.getSerializable(EXTRA_DATE);
             }
         }
         activeCategories = PreferenceStore.getInstance().getActiveCategories();
@@ -254,7 +259,7 @@ public class EntryEditFragment
     private void addMeasurementForGivenCategory() {
         Bundle arguments = getArguments();
         if (arguments != null) {
-            Category category = (Category) arguments.getSerializable(EntryEditIntentFactory.EXTRA_CATEGORY);
+            Category category = (Category) arguments.getSerializable(EXTRA_CATEGORY);
             if (category != null) {
                 addMeasurementView(category);
             }

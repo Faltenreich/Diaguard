@@ -155,7 +155,7 @@ public abstract class BaseFragment<BINDING extends ViewBinding> extends Fragment
     }
 
     @Override
-    public void openFragment(@NonNull Fragment fragment, Navigation.Operation operation, boolean addToBackStack) {
+    public void openFragment(@NonNull Fragment fragment, @NonNull Navigation.Operation operation, boolean addToBackStack) {
         Navigating navigating = (Navigating) getActivity();
         if (navigating != null) {
             navigating.openFragment(fragment, operation, addToBackStack);

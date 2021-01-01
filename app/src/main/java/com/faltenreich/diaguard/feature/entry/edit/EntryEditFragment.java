@@ -26,6 +26,8 @@ import com.faltenreich.diaguard.feature.datetime.TimePickerFragment;
 import com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementFloatingActionMenu;
 import com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementListView;
 import com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementView;
+import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
+import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.feature.tag.TagAutoCompleteAdapter;
 import com.faltenreich.diaguard.feature.tag.TagListActivity;
@@ -62,7 +64,7 @@ import java.util.List;
 
 public class EntryEditFragment
     extends BaseFragment<FragmentEntryEditBinding>
-    implements MeasurementFloatingActionMenu.OnFabSelectedListener, MeasurementListView.OnCategoryEventListener {
+    implements ToolbarDescribing {
 
     private static final String TAG = EntryEditFragment.class.getSimpleName();
 
@@ -92,6 +94,13 @@ public class EntryEditFragment
     }
 
     @Override
+    public ToolbarProperties getToolbarProperties() {
+        return new ToolbarProperties.Builder()
+            .setTitle(getContext(), entryId > 0 ? R.string.entry_edit : R.string.entry_new)
+            .build();
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
@@ -102,6 +111,7 @@ public class EntryEditFragment
         super.onViewCreated(view, savedInstanceState);
         initLayout();
         if (entryId > 0) {
+            // FIXME: Refresh Toolbar?
             fetchEntry(entryId);
         } else if (foodId > 0) {
             fetchFood(foodId);
@@ -148,15 +158,38 @@ public class EntryEditFragment
         updateAlarm();
 
         if (entryId > 0) {
-            setTitle(getString(R.string.entry_edit));
             getBinding().entryAlarmContainer.setVisibility(View.GONE);
         } else {
             getBinding().entryAlarmContainer.setVisibility(View.VISIBLE);
         }
 
-        getBinding().layoutMeasurements.setOnCategoryEventListener(this);
+        getBinding().layoutMeasurements.setOnCategoryEventListener(new MeasurementListView.OnCategoryEventListener() {
 
-        getBinding().fabMenu.setOnFabSelectedListener(this);
+            @Override
+            public void onCategoryAdded(Category category) {
+                getBinding().fabMenu.ignore(category);
+                getBinding().fabMenu.restock();
+            }
+
+            @Override
+            public void onCategoryRemoved(Category category) {
+                getBinding().fabMenu.removeIgnore(category);
+                getBinding().fabMenu.restock();
+            }
+        });
+
+        getBinding().fabMenu.setOnFabSelectedListener(new MeasurementFloatingActionMenu.OnFabSelectedListener() {
+
+            @Override
+            public void onCategorySelected(@Nullable Category category) {
+                addMeasurementView(category);
+            }
+
+            @Override
+            public void onMiscellaneousSelected() {
+                showDialogCategories();
+            }
+        });
 
         if (entryId <= 0 && foodId <= 0) {
             addPinnedCategories();
@@ -546,27 +579,5 @@ public class EntryEditFragment
                 updateAlarm();
             });
         }
-    }
-
-    @Override
-    public void onCategorySelected(@Nullable Category category) {
-        addMeasurementView(category);
-    }
-
-    @Override
-    public void onMiscellaneousSelected() {
-        showDialogCategories();
-    }
-
-    @Override
-    public void onCategoryAdded(Category category) {
-        getBinding().fabMenu.ignore(category);
-        getBinding().fabMenu.restock();
-    }
-
-    @Override
-    public void onCategoryRemoved(Category category) {
-        getBinding().fabMenu.removeIgnore(category);
-        getBinding().fabMenu.restock();
     }
 }

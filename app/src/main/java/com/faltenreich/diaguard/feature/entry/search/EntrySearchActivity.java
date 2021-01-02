@@ -48,10 +48,6 @@ public class EntrySearchActivity extends BaseActivity<ActivityEntrySearchBinding
     private int revealY;
     private long tagId;
 
-    public EntrySearchActivity() {
-        super(R.layout.activity_entry_search);
-    }
-
     @Override
     protected ActivityEntrySearchBinding createBinding(LayoutInflater layoutInflater) {
         return ActivityEntrySearchBinding.inflate(layoutInflater);

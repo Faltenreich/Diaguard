@@ -2,21 +2,17 @@ package com.faltenreich.diaguard.feature.entry.edit;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.widget.Toolbar;
 
-import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ActivityEntryEditBinding;
-import com.faltenreich.diaguard.feature.navigation.Navigating;
-import com.faltenreich.diaguard.feature.navigation.Navigation;
+import com.faltenreich.diaguard.feature.navigation.ToolbarManager;
+import com.faltenreich.diaguard.feature.navigation.ToolbarOwner;
 import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 
-public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> implements Navigating {
-
-    public EntryEditActivity() {
-        super(R.layout.activity_entry_edit);
-    }
+public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> implements ToolbarOwner {
 
     @Override
     protected ActivityEntryEditBinding createBinding(LayoutInflater layoutInflater) {
@@ -24,19 +20,27 @@ public class EntryEditActivity extends BaseActivity<ActivityEntryEditBinding> im
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        addFragment();
+    public Toolbar getToolbar() {
+        return getBinding().toolbarContainer.toolbar;
     }
 
     @Override
-    public void openFragment(@NonNull Fragment fragment, @NonNull Navigation.Operation operation, boolean addToBackStack) {
-        Navigation.openFragment(fragment, getSupportFragmentManager(), R.id.fragment_container, operation, addToBackStack);
+    public TextView getTitleView() {
+        return getBinding().toolbarContainer.toolbarTitle;
     }
 
-    private void addFragment() {
-        Fragment fragment = new EntryEditFragment();
-        fragment.setArguments(getIntent().getExtras());
-        openFragment(fragment, Navigation.Operation.REPLACE, false);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ToolbarManager.applyToolbar(this, getToolbar());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

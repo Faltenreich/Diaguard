@@ -48,10 +48,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     private TextView toolbarTitle;
     private FloatingActionButton fab;
 
-    public MainActivity() {
-        super(R.layout.activity_main);
-    }
-
     @Override
     protected ActivityMainBinding createBinding(LayoutInflater layoutInflater) {
         return ActivityMainBinding.inflate(layoutInflater);

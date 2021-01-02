@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewbinding.ViewBinding;
@@ -34,10 +33,6 @@ public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompa
 
     private BINDING binding;
 
-    public BaseActivity(@LayoutRes int layoutResourceId) {
-        super(layoutResourceId);
-    }
-
     protected abstract BINDING createBinding(LayoutInflater layoutInflater);
 
     @Override
@@ -48,8 +43,13 @@ public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initLayout();
-        initAutoFill();
+
+        binding = createBinding(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            getWindow().getDecorView().setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS);
+        }
     }
 
     @Override
@@ -62,22 +62,6 @@ public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompa
     protected void onPause() {
         Events.unregister(this);
         super.onPause();
-    }
-
-    private void initLayout() {
-        // FIXME: Workaround for crash when using <fragment> or empty view when using <FragmentContainerView> in combination with View Binding
-        try {
-            binding = createBinding(getLayoutInflater());
-            setContentView(binding.getRoot());
-        } catch (Exception exception) {
-            Log.e(TAG, exception.toString());
-        }
-    }
-
-    private void initAutoFill() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            getWindow().getDecorView().setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS);
-        }
     }
 
     @Override

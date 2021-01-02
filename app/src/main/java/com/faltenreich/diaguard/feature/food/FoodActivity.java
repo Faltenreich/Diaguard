@@ -19,10 +19,6 @@ import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 
 public class FoodActivity extends BaseActivity<ActivityFoodBinding> implements Navigating {
 
-    public FoodActivity() {
-        super(R.layout.activity_food);
-    }
-
     @Override
     protected ActivityFoodBinding createBinding(LayoutInflater layoutInflater) {
         return ActivityFoodBinding.inflate(layoutInflater);

@@ -39,10 +39,6 @@ public class PreferenceActivity
         return intent;
     }
 
-    public PreferenceActivity() {
-        super(R.layout.activity_preference);
-    }
-
     @Override
     protected ActivityPreferenceBinding createBinding(LayoutInflater layoutInflater) {
         return ActivityPreferenceBinding.inflate(layoutInflater);

@@ -97,6 +97,7 @@ public class EntryEditFragment
     public ToolbarProperties getToolbarProperties() {
         return new ToolbarProperties.Builder()
             .setTitle(getContext(), entryId > 0 ? R.string.entry_edit : R.string.entry_new)
+            .setMenu(R.menu.form_edit)
             .build();
     }
 
@@ -128,7 +129,6 @@ public class EntryEditFragment
     @Override
     public void onCreateOptionsMenu(Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.form_edit, menu);
         menu.findItem(R.id.action_delete).setVisible(entryId > 0);
     }
 

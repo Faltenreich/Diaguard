@@ -79,7 +79,7 @@ public class StickyHintInputView extends LinearLayout implements ViewBindable<Vi
         LayoutInflater.from(getContext()).inflate(R.layout.view_sticky_hint_input, this);
         binding = ViewStickyHintInputBinding.bind(this);
 
-        inputField = getBinding().inputField;
+        inputField = getBinding().editText;
         hintLabel = getBinding().hintLabel;
     }
 

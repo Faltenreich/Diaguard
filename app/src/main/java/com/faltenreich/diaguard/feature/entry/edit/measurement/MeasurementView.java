@@ -87,6 +87,7 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
             public boolean canDismiss(Object token) {
                 return true;
             }
+
             @Override
             public void onDismiss(View view, Object token) {
                 remove();
@@ -110,23 +111,23 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
         switch (category) {
             case INSULIN:
                 getBinding().contentLayout.addView(isUpdating ?
-                        new MeasurementInsulinView(getContext(), (Insulin) measurement) :
-                        new MeasurementInsulinView(getContext()));
+                    new MeasurementInsulinView(getContext(), (Insulin) measurement) :
+                    new MeasurementInsulinView(getContext()));
                 break;
             case MEAL:
                 getBinding().contentLayout.addView(isUpdating ?
-                        new MeasurementMealView(getContext(), (Meal) measurement) :
-                        new MeasurementMealView(getContext(), food));
+                    new MeasurementMealView(getContext(), (Meal) measurement) :
+                    new MeasurementMealView(getContext(), food));
                 break;
             case PRESSURE:
                 getBinding().contentLayout.addView(isUpdating ?
-                        new MeasurementPressureView(getContext(), (Pressure) measurement) :
-                        new MeasurementPressureView(getContext()));
+                    new MeasurementPressureView(getContext(), (Pressure) measurement) :
+                    new MeasurementPressureView(getContext()));
                 break;
             default:
                 getBinding().contentLayout.addView(isUpdating ?
-                        new MeasurementGenericView<>(getContext(), measurement) :
-                        new MeasurementGenericView<>(getContext(), category));
+                    new MeasurementGenericView<>(getContext(), measurement) :
+                    new MeasurementGenericView<>(getContext(), category));
         }
     }
 

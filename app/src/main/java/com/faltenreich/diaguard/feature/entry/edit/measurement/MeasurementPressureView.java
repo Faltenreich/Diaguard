@@ -10,15 +10,15 @@ import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Pressure;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
-import com.faltenreich.diaguard.shared.view.edittext.StickyHintInput;
+import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
 
 /**
  * Created by Faltenreich on 20.09.2015.
  */
 public class MeasurementPressureView extends MeasurementAbstractView<ListItemMeasurementPressureBinding, Pressure> {
 
-    private StickyHintInput systolicInputField;
-    private StickyHintInput diastolicInputField;
+    private StickyHintInputView systolicInputField;
+    private StickyHintInputView diastolicInputField;
 
     public MeasurementPressureView(Context context) {
         super(context, Category.PRESSURE);

@@ -33,7 +33,7 @@ import com.faltenreich.diaguard.shared.event.preference.BloodSugarPreferenceChan
 import com.faltenreich.diaguard.shared.event.preference.FactorChangedEvent;
 import com.faltenreich.diaguard.shared.event.preference.MealFactorUnitChangedEvent;
 import com.faltenreich.diaguard.shared.event.preference.UnitChangedEvent;
-import com.faltenreich.diaguard.shared.view.edittext.StickyHintInput;
+import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -105,7 +105,7 @@ public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> 
     }
 
     private void updateMealFactor() {
-        StickyHintInput factorInput = getBinding().factorInput;
+        StickyHintInputView factorInput = getBinding().factorInput;
         int hourOfDay = DateTime.now().getHourOfDay();
         float mealFactor = PreferenceStore.getInstance().getMealFactorForHour(hourOfDay);
         factorInput.setText(mealFactor >= 0 ? FloatUtils.parseFloat(mealFactor) : null);
@@ -128,7 +128,7 @@ public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> 
 
         // Meal
         if (getBinding().foodInputView.getTotalCarbohydrates() > 0) {
-            StickyHintInput factorInput = getBinding().factorInput;
+            StickyHintInputView factorInput = getBinding().factorInput;
             // Factor
             if (!Validator.validateEditTextFactor(getContext(), factorInput.getEditText(), false)) {
                 isValid = false;
@@ -141,14 +141,14 @@ public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> 
     }
 
     private float getBloodSugar() {
-        StickyHintInput input = getBinding().bloodsugarCurrentInput;
+        StickyHintInputView input = getBinding().bloodsugarCurrentInput;
         return PreferenceStore.getInstance().formatCustomToDefaultUnit(
             Category.BLOODSUGAR,
             FloatUtils.parseNumber(input.getText()));
     }
 
     private float getTargetBloodSugar() {
-        StickyHintInput input = getBinding().bloodsugarTargetInput;
+        StickyHintInputView input = getBinding().bloodsugarTargetInput;
         return Validator.containsNumber(input.getText()) ?
             PreferenceStore.getInstance().formatCustomToDefaultUnit(
                 Category.BLOODSUGAR,
@@ -157,7 +157,7 @@ public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> 
     }
 
     private float getCorrectionFactor() {
-        StickyHintInput input = getBinding().correctionInput;
+        StickyHintInputView input = getBinding().correctionInput;
         int hourOfDay = DateTime.now().getHourOfDay();
         return Validator.containsNumber(input.getText()) ?
             PreferenceStore.getInstance().formatCustomToDefaultUnit(
@@ -171,7 +171,7 @@ public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> 
     }
 
     private float getMealFactor() {
-        StickyHintInput input = getBinding().factorInput;
+        StickyHintInputView input = getBinding().factorInput;
         return Validator.containsNumber(input.getText()) ?
             FloatUtils.parseNumber(input.getText()) :
             FloatUtils.parseNumber(input.getHint());

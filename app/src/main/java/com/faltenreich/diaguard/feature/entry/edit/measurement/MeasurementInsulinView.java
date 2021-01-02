@@ -11,16 +11,16 @@ import com.faltenreich.diaguard.shared.data.database.entity.Insulin;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
-import com.faltenreich.diaguard.shared.view.edittext.StickyHintInput;
+import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
 
 /**
  * Created by Faltenreich on 20.09.2015.
  */
 public class MeasurementInsulinView extends MeasurementAbstractView<ListItemMeasurementInsulinBinding, Insulin> {
 
-    private StickyHintInput bolusInputField;
-    private StickyHintInput correctionInputField;
-    private StickyHintInput basalInputField;
+    private StickyHintInputView bolusInputField;
+    private StickyHintInputView correctionInputField;
+    private StickyHintInputView basalInputField;
 
     public MeasurementInsulinView(Context context) {
         super(context, Category.INSULIN);

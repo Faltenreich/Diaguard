@@ -38,7 +38,7 @@
             android:textSize="@dimen/text_large"
             tools:text="20 +" />
 
-        <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
+        <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
             android:id="@+id/input_value_input_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

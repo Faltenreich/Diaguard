@@ -32,7 +32,7 @@ import com.faltenreich.diaguard.shared.event.ui.FoodEatenRemovedEvent;
 import com.faltenreich.diaguard.shared.event.ui.FoodEatenUpdatedEvent;
 import com.faltenreich.diaguard.shared.event.ui.FoodSelectedEvent;
 import com.faltenreich.diaguard.shared.view.ViewBindable;
-import com.faltenreich.diaguard.shared.view.edittext.StickyHintInput;
+import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
 import com.j256.ormlite.dao.ForeignCollection;
 
@@ -53,7 +53,7 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
     private ImageView inputIconImageView;
     private ViewGroup inputLayout;
     private TextView calculatedValueLabel;
-    private StickyHintInput inputValueInputField;
+    private StickyHintInputView inputValueInputField;
     private RecyclerView foodListView;
     private Button addButton;
 

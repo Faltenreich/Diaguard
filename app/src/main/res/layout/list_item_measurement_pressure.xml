@@ -8,14 +8,14 @@
     android:showDividers="middle"
     android:divider="?android:listDivider">
 
-    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
+    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
         android:id="@+id/systolic_input_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/systolic"
         android:inputType="numberDecimal"/>
 
-    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
+    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
         android:id="@+id/diastolic_input_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

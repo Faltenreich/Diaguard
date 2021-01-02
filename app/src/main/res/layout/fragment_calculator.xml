@@ -40,7 +40,7 @@
                         android:src="@drawable/ic_category_bloodsugar"
                         app:tint="?iconColorPrimary" />
 
-                    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
+                    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
                         android:id="@+id/bloodsugar_current_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
                         android:inputType="numberDecimal">
 
                         <requestFocus />
-                    </com.faltenreich.diaguard.shared.view.edittext.StickyHintInput>
+                    </com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView>
 
                 </LinearLayout>
 
@@ -66,7 +66,7 @@
                         android:src="@drawable/ic_done"
                         app:tint="?iconColorPrimary" />
 
-                    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
+                    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
                         android:id="@+id/bloodsugar_target_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
                         android:src="@drawable/ic_done_all"
                         app:tint="?iconColorPrimary" />
 
-                    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
+                    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
                         android:id="@+id/correction_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -136,7 +136,7 @@
                         android:src="@drawable/ic_factor"
                         app:tint="?iconColorPrimary" />
 
-                    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
+                    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
                         android:id="@+id/factor_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

@@ -21,7 +21,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.FoodSavedEvent;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
-import com.faltenreich.diaguard.shared.view.edittext.StickyHintInput;
+import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 
 import java.util.Map;
@@ -128,7 +128,7 @@ public class FoodEditFragment extends BaseFragment<FragmentFoodEditBinding> impl
     }
 
     private boolean isValid() {
-        StickyHintInput nameInput = getBinding().nameInput;
+        StickyHintInputView nameInput = getBinding().nameInput;
         boolean isValid = true;
         if (nameInput.getText().length() == 0) {
             nameInput.setError(getString(R.string.validator_value_empty));

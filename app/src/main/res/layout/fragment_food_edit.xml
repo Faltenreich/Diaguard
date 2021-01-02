@@ -40,7 +40,7 @@
                         app:srcCompat="@drawable/ic_edit"
                         app:tint="?iconColorPrimary" />
 
-                    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
+                    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
                         android:id="@+id/name_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
                         android:src="@drawable/ic_business"
                         app:tint="?iconColorPrimary" />
 
-                    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
+                    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
                         android:id="@+id/brand_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
                         android:src="@drawable/ic_note"
                         app:tint="?iconColorPrimary" />
 
-                    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
+                    <com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView
                         android:id="@+id/ingredients_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

@@ -9,10 +9,10 @@ import androidx.annotation.Nullable;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
-import com.faltenreich.diaguard.shared.view.edittext.StickyHintInput;
+import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
 
 @SuppressLint("ViewConstructor")
-public class NutrientInputView extends StickyHintInput {
+public class NutrientInputView extends StickyHintInputView {
 
     private Food.Nutrient nutrient;
     private Float initialValue;

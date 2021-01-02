@@ -18,7 +18,7 @@ import com.faltenreich.diaguard.databinding.ViewStickyHintInputBinding;
 import com.faltenreich.diaguard.shared.view.ViewBindable;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 
-public class StickyHintInput extends LinearLayout implements ViewBindable<ViewStickyHintInputBinding>, TextWatcher {
+public class StickyHintInputView extends LinearLayout implements ViewBindable<ViewStickyHintInputBinding>, TextWatcher {
 
     private static final int INPUT_TYPE_DEFAULT = InputType.TYPE_CLASS_NUMBER
         | InputType.TYPE_NUMBER_FLAG_DECIMAL
@@ -32,17 +32,17 @@ public class StickyHintInput extends LinearLayout implements ViewBindable<ViewSt
     private CharSequence hint;
     private int inputType = INPUT_TYPE_DEFAULT;
 
-    public StickyHintInput(Context context) {
+    public StickyHintInputView(Context context) {
         super(context);
         init(null);
     }
 
-    public StickyHintInput(Context context, AttributeSet attrs) {
+    public StickyHintInputView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(attrs);
     }
 
-    public StickyHintInput(Context context, AttributeSet attrs, int defStyleAttr) {
+    public StickyHintInputView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(attrs);
     }

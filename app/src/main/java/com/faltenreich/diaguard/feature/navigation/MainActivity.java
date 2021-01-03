@@ -28,8 +28,8 @@ import com.faltenreich.diaguard.feature.entry.search.EntrySearchActivity;
 import com.faltenreich.diaguard.feature.export.ExportFragment;
 import com.faltenreich.diaguard.feature.food.FoodActivity;
 import com.faltenreich.diaguard.feature.log.LogFragment;
-import com.faltenreich.diaguard.feature.preference.PreferenceActivity;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
+import com.faltenreich.diaguard.feature.preference.overview.PreferenceOverviewFragment;
 import com.faltenreich.diaguard.feature.statistic.StatisticFragment;
 import com.faltenreich.diaguard.feature.timeline.TimelineFragment;
 import com.faltenreich.diaguard.shared.SystemUtils;
@@ -198,52 +198,36 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
             int position = mainFragmentType.position;
             if (position < navigationView.getMenu().size()) {
                 MenuItem menuItem = navigationView.getMenu().getItem(position);
-                selectNavigationDrawerMenuItem(menuItem);
+                selectMenuItemInNavigationView(menuItem);
             }
         }
-    }
-
-    public void openFragment(@IdRes int itemId) {
-        MenuItem menuItem = navigationView.getMenu().findItem(itemId);
-        selectMenuItem(menuItem);
-    }
-
-    private void openFragment(Fragment fragment, MenuItem menuItem, boolean addToBackStack) {
-        selectNavigationDrawerMenuItem(menuItem);
-        Navigation.Operation operation = addToBackStack ? Navigation.Operation.ADD : Navigation.Operation.REPLACE;
-        openFragment(fragment, operation, addToBackStack);
-    }
-
-    @Override
-    public void openFragment(@NonNull Fragment fragment, @NonNull Navigation.Operation operation, boolean addToBackStack) {
-        resetMainButton();
-        Navigation.openFragment(fragment, getSupportFragmentManager(), R.id.container, operation, addToBackStack);
     }
 
     private void selectMenuItem(MenuItem menuItem) {
         if (menuItem != null) {
             int itemId = menuItem.getItemId();
             if (itemId == R.id.nav_timeline) {
-                openFragment(new TimelineFragment(), menuItem, false);
+                openFragment(new TimelineFragment(), Navigation.Operation.REPLACE, false);
             } else if (itemId == R.id.nav_log) {
-                openFragment(new LogFragment(), menuItem, false);
+                openFragment(new LogFragment(), Navigation.Operation.REPLACE, false);
             } else if (itemId == R.id.nav_calculator) {
-                openFragment(new CalculatorFragment(), menuItem, true);
+                openFragment(new CalculatorFragment(), Navigation.Operation.REPLACE, true);
             } else if (itemId == R.id.nav_food_database) {
                 startActivity(new Intent(this, FoodActivity.class));
             } else if (itemId == R.id.nav_statistics) {
-                openFragment(new StatisticFragment(), menuItem, true);
+                openFragment(new StatisticFragment(), Navigation.Operation.REPLACE, true);
             } else if (itemId == R.id.nav_export) {
-                openFragment(new ExportFragment(), menuItem, true);
+                openFragment(new ExportFragment(), Navigation.Operation.REPLACE, true);
             } else if (itemId == R.id.nav_settings) {
-                startActivity(PreferenceActivity.newInstance(this, PreferenceActivity.Link.NONE));
+                openFragment(new PreferenceOverviewFragment(), Navigation.Operation.REPLACE, true);
             } else {
-                openFragment(new DashboardFragment(), menuItem, false);
+                openFragment(new DashboardFragment(), Navigation.Operation.REPLACE, false);
             }
+            selectMenuItemInNavigationView(menuItem);
         }
     }
 
-    private void selectNavigationDrawerMenuItem(MenuItem menuItem) {
+    private void selectMenuItemInNavigationView(MenuItem menuItem) {
         if (menuItem != null) {
             // First uncheck all, then check current Fragment
             for (int index = 0; index < navigationView.getMenu().size(); index++) {
@@ -251,6 +235,18 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
             }
             menuItem.setChecked(true);
         }
+    }
+
+    @Deprecated
+    public void openFragment(@IdRes int itemId) {
+        MenuItem menuItem = navigationView.getMenu().findItem(itemId);
+        selectMenuItem(menuItem);
+    }
+
+    @Override
+    public void openFragment(@NonNull Fragment fragment, @NonNull Navigation.Operation operation, boolean addToBackStack) {
+        resetMainButton();
+        Navigation.openFragment(fragment, getSupportFragmentManager(), R.id.container, operation, addToBackStack);
     }
 
     private void checkChangelog() {

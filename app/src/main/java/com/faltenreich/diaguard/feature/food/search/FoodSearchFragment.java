@@ -19,8 +19,8 @@ import com.faltenreich.diaguard.feature.food.edit.FoodEditFragment;
 import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
-import com.faltenreich.diaguard.feature.preference.PreferenceActivity;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
+import com.faltenreich.diaguard.feature.preference.food.FoodPreferenceFragment;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
@@ -206,7 +206,7 @@ public class FoodSearchFragment
     }
 
     private void openSettings() {
-        startActivity(PreferenceActivity.newInstance(getContext(), PreferenceActivity.Link.FOOD));
+        openFragment(new FoodPreferenceFragment(), Navigation.Operation.REPLACE, true);
     }
 
     private void openFood(Food food) {

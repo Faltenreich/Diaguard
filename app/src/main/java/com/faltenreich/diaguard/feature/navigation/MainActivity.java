@@ -64,11 +64,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     }
 
     @Override
-    public void setTitle(CharSequence title) {
-        getTitleView().setText(title);
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         PreferenceStore.getInstance().setDefaultValues(this);

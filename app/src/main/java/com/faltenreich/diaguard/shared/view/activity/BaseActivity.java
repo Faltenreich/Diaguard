@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewbinding.ViewBinding;
 
+import com.faltenreich.diaguard.feature.navigation.ToolbarOwner;
 import com.faltenreich.diaguard.feature.preference.backup.BackupImportPreference;
 import com.faltenreich.diaguard.shared.data.permission.Permission;
 import com.faltenreich.diaguard.shared.data.permission.PermissionManager;
@@ -38,6 +39,15 @@ public abstract class BaseActivity<BINDING extends ViewBinding> extends AppCompa
     @Override
     public BINDING getBinding() {
         return binding;
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        if (this instanceof ToolbarOwner) {
+            ((ToolbarOwner) this).getTitleView().setText(title);
+        } else {
+            super.setTitle(title);
+        }
     }
 
     @Override

@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentCalculatorBinding;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragmentFactory;
 import com.faltenreich.diaguard.feature.food.input.FoodInputView;
+import com.faltenreich.diaguard.feature.food.search.FoodSearchFragment;
 import com.faltenreich.diaguard.feature.navigation.MainButton;
 import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
 import com.faltenreich.diaguard.feature.navigation.Navigation;
@@ -33,6 +34,7 @@ import com.faltenreich.diaguard.shared.event.preference.BloodSugarPreferenceChan
 import com.faltenreich.diaguard.shared.event.preference.FactorChangedEvent;
 import com.faltenreich.diaguard.shared.event.preference.MealFactorUnitChangedEvent;
 import com.faltenreich.diaguard.shared.event.preference.UnitChangedEvent;
+import com.faltenreich.diaguard.shared.event.ui.FoodSearchEvent;
 import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 
@@ -329,6 +331,13 @@ public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> 
     @Override
     public MainButtonProperties getMainButtonProperties() {
         return MainButtonProperties.confirmButton(v -> calculate(), false);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(FoodSearchEvent event) {
+        if (isAdded()) {
+            openFragment(FoodSearchFragment.newInstance(true), Navigation.Operation.REPLACE, true);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

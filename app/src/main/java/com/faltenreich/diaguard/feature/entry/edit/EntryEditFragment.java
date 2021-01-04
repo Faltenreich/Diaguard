@@ -26,6 +26,8 @@ import com.faltenreich.diaguard.feature.datetime.TimePickerFragment;
 import com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementFloatingActionMenu;
 import com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementListView;
 import com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementView;
+import com.faltenreich.diaguard.feature.food.search.FoodSearchFragment;
+import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
@@ -52,10 +54,13 @@ import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.shared.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.shared.event.data.EntryUpdatedEvent;
+import com.faltenreich.diaguard.shared.event.ui.FoodSearchEvent;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.chip.ChipView;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 
@@ -578,6 +583,13 @@ public class EntryEditFragment
                 alarmInMinutes = number.intValue();
                 updateAlarm();
             });
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(FoodSearchEvent event) {
+        if (isAdded()) {
+            openFragment(FoodSearchFragment.newInstance(true), Navigation.Operation.REPLACE, true);
         }
     }
 }

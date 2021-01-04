@@ -30,7 +30,7 @@ import com.faltenreich.diaguard.shared.event.data.FoodDeletedEvent;
 import com.faltenreich.diaguard.shared.event.data.FoodQueryEndedEvent;
 import com.faltenreich.diaguard.shared.event.data.FoodQueryStartedEvent;
 import com.faltenreich.diaguard.shared.event.data.FoodSavedEvent;
-import com.faltenreich.diaguard.shared.event.ui.FoodFoundEvent;
+import com.faltenreich.diaguard.shared.event.ui.FoodSearchedEvent;
 import com.faltenreich.diaguard.shared.event.ui.FoodSelectedEvent;
 import com.faltenreich.diaguard.shared.networking.NetworkingUtils;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
@@ -278,7 +278,7 @@ public class FoodSearchFragment
     public void onEvent(FoodSelectedEvent event) {
         if (finishOnSelection) {
             finish();
-            Events.post(new FoodFoundEvent(event.context));
+            Events.post(new FoodSearchedEvent(event.context));
         } else {
             openFood(event.context);
         }

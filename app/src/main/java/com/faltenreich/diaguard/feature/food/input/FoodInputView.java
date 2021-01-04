@@ -17,9 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ViewFoodInputBinding;
-import com.faltenreich.diaguard.feature.food.search.FoodSearchFragment;
-import com.faltenreich.diaguard.feature.navigation.MainActivity;
-import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
@@ -30,7 +27,8 @@ import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.ui.FoodEatenRemovedEvent;
 import com.faltenreich.diaguard.shared.event.ui.FoodEatenUpdatedEvent;
-import com.faltenreich.diaguard.shared.event.ui.FoodFoundEvent;
+import com.faltenreich.diaguard.shared.event.ui.FoodSearchEvent;
+import com.faltenreich.diaguard.shared.event.ui.FoodSearchedEvent;
 import com.faltenreich.diaguard.shared.view.ViewBindable;
 import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
@@ -263,12 +261,12 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
     }
 
     private void searchForFood() {
-        // FIXME: Cache current items
-        ((MainActivity) getContext()).openFragment(FoodSearchFragment.newInstance(true), Navigation.Operation.REPLACE, true);
+        // FIXME: Loses current selection due to missing cache
+        Events.post(new FoodSearchEvent());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(FoodFoundEvent event) {
+    public void onEvent(FoodSearchedEvent event) {
         addItem(event.context);
     }
 

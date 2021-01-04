@@ -26,7 +26,7 @@ import com.faltenreich.diaguard.feature.config.ApplicationConfig;
 import com.faltenreich.diaguard.feature.dashboard.DashboardFragment;
 import com.faltenreich.diaguard.feature.entry.search.EntrySearchActivity;
 import com.faltenreich.diaguard.feature.export.ExportFragment;
-import com.faltenreich.diaguard.feature.food.FoodActivity;
+import com.faltenreich.diaguard.feature.food.search.FoodSearchFragment;
 import com.faltenreich.diaguard.feature.log.LogFragment;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.feature.preference.overview.PreferenceOverviewFragment;
@@ -213,7 +213,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
             } else if (itemId == R.id.nav_calculator) {
                 openFragment(new CalculatorFragment(), Navigation.Operation.REPLACE, true);
             } else if (itemId == R.id.nav_food_database) {
-                startActivity(new Intent(this, FoodActivity.class));
+                openFragment(FoodSearchFragment.newInstance(), Navigation.Operation.REPLACE, true);
             } else if (itemId == R.id.nav_statistics) {
                 openFragment(new StatisticFragment(), Navigation.Operation.REPLACE, true);
             } else if (itemId == R.id.nav_export) {

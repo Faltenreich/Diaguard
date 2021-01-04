@@ -30,6 +30,7 @@ import com.faltenreich.diaguard.shared.event.data.FoodDeletedEvent;
 import com.faltenreich.diaguard.shared.event.data.FoodQueryEndedEvent;
 import com.faltenreich.diaguard.shared.event.data.FoodQueryStartedEvent;
 import com.faltenreich.diaguard.shared.event.data.FoodSavedEvent;
+import com.faltenreich.diaguard.shared.event.ui.FoodFoundEvent;
 import com.faltenreich.diaguard.shared.event.ui.FoodSelectedEvent;
 import com.faltenreich.diaguard.shared.networking.NetworkingUtils;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
@@ -57,7 +58,19 @@ public class FoodSearchFragment
     private int currentPage;
     private boolean finishOnSelection;
 
-    public FoodSearchFragment() {
+    public static FoodSearchFragment newInstance(boolean finishOnSelection) {
+        FoodSearchFragment fragment = new FoodSearchFragment();
+        Bundle arguments = new Bundle();
+        arguments.putBoolean(FINISH_ON_SELECTION, finishOnSelection);
+        fragment.setArguments(arguments);
+        return fragment;
+    }
+
+    public static FoodSearchFragment newInstance() {
+        return newInstance(false);
+    }
+
+    protected FoodSearchFragment() {
         super(R.layout.fragment_food_search);
     }
 
@@ -100,9 +113,8 @@ public class FoodSearchFragment
     }
 
     private void requestArguments() {
-        if (getActivity() != null && getActivity().getIntent() != null && getActivity().getIntent().getExtras() != null) {
-            Bundle extras = getActivity().getIntent().getExtras();
-            finishOnSelection = extras.getBoolean(FINISH_ON_SELECTION);
+        if (getArguments() != null) {
+            finishOnSelection = getArguments().getBoolean(FINISH_ON_SELECTION);
         }
     }
 
@@ -266,6 +278,7 @@ public class FoodSearchFragment
     public void onEvent(FoodSelectedEvent event) {
         if (finishOnSelection) {
             finish();
+            Events.post(new FoodFoundEvent(event.context));
         } else {
             openFood(event.context);
         }

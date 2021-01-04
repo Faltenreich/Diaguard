@@ -36,6 +36,6 @@ class FoodSearchViewHolder extends BaseViewHolder<ListItemFoodSearchBinding, Foo
     }
 
     private void selectFood() {
-        Events.post(new FoodSelectedEvent(getItem().getFood(), itemView));
+        Events.post(new FoodSelectedEvent(getItem().getFood()));
     }
 }

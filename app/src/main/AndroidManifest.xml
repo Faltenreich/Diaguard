@@ -58,12 +58,6 @@
         </activity>
 
         <activity
-            android:name=".feature.food.FoodActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/food"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
-
-        <activity
             android:name=".feature.tag.TagListActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/tags"
@@ -78,16 +72,6 @@
             android:configChanges="orientation|screenSize"
             android:label="@string/categories"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-
-        <activity
-            android:name=".feature.preference.PreferenceActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/settings"
-            android:windowSoftInputMode="adjustPan">
-            <meta-data
-                android:name=".feature.preference.PreferenceActivity"
-                android:value=".feature.navigation.MainActivity" />
-        </activity>
 
         <activity
             android:name=".feature.preference.factor.FactorActivity"

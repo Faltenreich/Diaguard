@@ -21,6 +21,9 @@ import com.faltenreich.diaguard.databinding.FragmentFoodSearchBinding;
 import com.faltenreich.diaguard.feature.food.detail.FoodDetailFragment;
 import com.faltenreich.diaguard.feature.food.edit.FoodEditFragment;
 import com.faltenreich.diaguard.feature.navigation.Navigation;
+import com.faltenreich.diaguard.feature.navigation.SearchOwner;
+import com.faltenreich.diaguard.feature.navigation.SearchProperties;
+import com.faltenreich.diaguard.feature.navigation.Searching;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
@@ -41,7 +44,6 @@ import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
 import com.faltenreich.diaguard.shared.view.recyclerview.pagination.EndlessRecyclerViewScrollListener;
-import com.faltenreich.diaguard.shared.view.search.SearchView;
 import com.faltenreich.diaguard.shared.view.search.SearchViewAction;
 import com.faltenreich.diaguard.shared.view.search.SearchViewListener;
 import com.github.clans.fab.FloatingActionButton;
@@ -53,11 +55,9 @@ import java.util.List;
 
 public class FoodSearchFragment
     extends BaseFragment<FragmentFoodSearchBinding>
-    implements ToolbarDescribing, SearchViewListener {
+    implements ToolbarDescribing, Searching, SearchViewListener {
 
     public static final String FINISH_ON_SELECTION = "finishOnSelection";
-
-    private SearchView searchView;
 
     private TextView unitLabel;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -107,6 +107,20 @@ public class FoodSearchFragment
     }
 
     @Override
+    public SearchProperties getSearchProperties() {
+        return new SearchProperties.Builder(this)
+            .setHint(getString(R.string.food_search))
+            .setAction(new SearchViewAction(R.drawable.ic_more_vertical, R.string.menu_open, (view) -> openSettings()))
+            .setSuggestions(PreferenceStore.getInstance().getInputQueries())
+            .build();
+    }
+
+    @Override
+    public SearchOwner getSearchOwner() {
+        return (SearchOwner) getActivity();
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestArguments();
@@ -140,7 +154,6 @@ public class FoodSearchFragment
 
     private void bindViews() {
         unitLabel = getBinding().unitLabel;
-        searchView = getBinding().searchView;
         swipeRefreshLayout = getBinding().swipeRefreshLayout;
         listView = getBinding().listView;
         emptyView = getBinding().emptyView;
@@ -160,10 +173,6 @@ public class FoodSearchFragment
         SwipeRefreshLayout swipeRefreshLayout = this.swipeRefreshLayout;
         swipeRefreshLayout.setColorSchemeResources(R.color.green, R.color.green_light, R.color.green_lighter);
         swipeRefreshLayout.setOnRefreshListener(this::newSearch);
-
-        searchView.setSearchListener(this);
-        searchView.setAction(new SearchViewAction(R.drawable.ic_more_vertical, R.string.menu_open, (view) -> openSettings()));
-        searchView.setSuggestions(PreferenceStore.getInstance().getInputQueries());
 
         listAdapter = new FoodSearchListAdapter(getContext());
         listLayoutManager = new LinearLayoutManager(getContext());
@@ -191,7 +200,7 @@ public class FoodSearchFragment
     }
 
     private void continueSearch() {
-        FoodRepository.getInstance().search(getContext(), searchView.getQuery(), currentPage, this::addItems);
+        FoodRepository.getInstance().search(getContext(), getSearchOwner().getSearchQuery(), currentPage, this::addItems);
     }
 
     private void addItems(List<FoodSearchListItem> items) {
@@ -230,7 +239,7 @@ public class FoodSearchFragment
 
     private void showEmptyList() {
         if (getContext() != null) {
-            if (StringUtils.isBlank(searchView.getQuery())) {
+            if (StringUtils.isBlank(getSearchOwner().getSearchQuery())) {
                 showError(R.drawable.ic_settings, R.string.error_no_data, R.string.error_no_data_settings_desc, R.string.settings_open);
             } else if (NetworkingUtils.isOnline(getContext())) {
                 showError(R.drawable.ic_sad, R.string.error_no_data, R.string.error_no_data_desc, R.string.food_add_desc);
@@ -261,7 +270,7 @@ public class FoodSearchFragment
     }
 
     private void onEmptyButtonClick() {
-        if (StringUtils.isBlank(searchView.getQuery())) {
+        if (StringUtils.isBlank(getSearchOwner().getSearchQuery())) {
             openSettings();
         } else {
             // Workaround since CONNECTIVITY_ACTION broadcasts cannot be caught since API level 24
@@ -291,7 +300,7 @@ public class FoodSearchFragment
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FoodSavedEvent event) {
-        searchView.setQuery(null, true);
+        getSearchOwner().setSearchQuery(null, true);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

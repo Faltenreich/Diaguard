@@ -7,9 +7,23 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/toolbarContainer"
-        layout="@layout/view_toolbar" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?backgroundColorGreen"
+        android:animateLayoutChanges="true">
+
+        <include
+            android:id="@+id/toolbarContainer"
+            layout="@layout/view_toolbar" />
+
+        <com.faltenreich.diaguard.shared.view.search.SearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+    </FrameLayout>
 
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"

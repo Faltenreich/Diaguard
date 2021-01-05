@@ -36,16 +36,20 @@ import com.faltenreich.diaguard.shared.SystemUtils;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.activity.BaseActivity;
 import com.faltenreich.diaguard.shared.view.coordinatorlayout.SlideOutBehavior;
+import com.faltenreich.diaguard.shared.view.search.SearchView;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
-public class MainActivity extends BaseActivity<ActivityMainBinding> implements Navigating, ToolbarOwner, OnFragmentChangeListener {
+public class MainActivity
+    extends BaseActivity<ActivityMainBinding>
+    implements Navigating, ToolbarOwner, SearchOwner, OnFragmentChangeListener {
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private NavigationView navigationView;
     private Toolbar toolbar;
     private TextView toolbarTitle;
+    private SearchView searchView;
     private FloatingActionButton fab;
 
     @Override
@@ -61,6 +65,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     @Override
     public TextView getTitleView() {
         return toolbarTitle;
+    }
+
+    @Override
+    public SearchView getSearchView() {
+        return searchView;
     }
 
     @Override
@@ -101,6 +110,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         navigationView = getBinding().navigationView;
         toolbar = getBinding().toolbarContainer.toolbar;
         toolbarTitle = getBinding().toolbarContainer.toolbarTitle;
+        searchView = getBinding().searchView;
         fab = getBinding().fab;
     }
     
@@ -161,6 +171,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
         if (fragment != null) {
             invalidateToolbar(fragment instanceof ToolbarDescribing ? (ToolbarDescribing) fragment : null);
+            invalidateSearch(fragment instanceof Searching ? (Searching) fragment : null);
             invalidateMainButton(fragment instanceof MainButton ? (MainButton) fragment : null);
             invalidateNavigationDrawer(fragment);
         }
@@ -169,6 +180,19 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     private void invalidateToolbar(@Nullable ToolbarDescribing toolbarDescribing) {
         if (toolbarDescribing != null) {
             setTitle(toolbarDescribing.getToolbarProperties().getTitle());
+        }
+    }
+
+    private void invalidateSearch(@Nullable Searching searching) {
+        if (searching != null) {
+            SearchProperties properties = searching.getSearchProperties();
+            searchView.setVisibility(View.VISIBLE);
+            searchView.setHint(properties.getHint());
+            searchView.setSearchListener(properties.getListener());
+            searchView.setAction(properties.getAction());
+            searchView.setSuggestions(properties.getSuggestions());
+        } else {
+            searchView.setVisibility(View.GONE);
         }
     }
 

@@ -15,7 +15,11 @@ public class ToolbarProperties {
     private final Integer menuResId;
     private final boolean showToolbar;
 
-    private ToolbarProperties(String title, @MenuRes Integer menuResId, boolean showToolbar) {
+    private ToolbarProperties(
+        String title,
+        @MenuRes Integer menuResId,
+        boolean showToolbar
+    ) {
         this.title = title;
         this.menuResId = menuResId;
         this.showToolbar = showToolbar;

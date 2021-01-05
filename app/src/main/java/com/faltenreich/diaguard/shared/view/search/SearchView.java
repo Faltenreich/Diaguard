@@ -139,7 +139,13 @@ public class SearchView extends FrameLayout implements ViewBindable<ViewSearchBi
 
     @Override
     public void setQuery(String query, boolean submit) {
-        inputField.setText(query);
+        if (submit) {
+            inputField.setText(query);
+        } else {
+            inputField.removeTextChangedListener(this);
+            inputField.setText(query);
+            inputField.addTextChangedListener(this);
+        }
     }
 
     @Override

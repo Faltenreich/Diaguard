@@ -165,6 +165,8 @@ public class FoodSearchFragment
     }
 
     private void initLayout() {
+        getSearchOwner().setSearchQuery(null, false);
+
         fab.setOnClickListener((view) -> createFood());
         emptyButton.setOnClickListener((view) -> onEmptyButtonClick());
 

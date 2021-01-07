@@ -7,11 +7,13 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.viewpager.widget.ViewPager;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentTimelineBinding;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
+import com.faltenreich.diaguard.feature.timeline.day.TimelineDayFragment;
 import com.faltenreich.diaguard.shared.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.shared.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.shared.event.data.EntryUpdatedEvent;
@@ -26,9 +28,13 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
-public class TimelineFragment extends DateFragment<FragmentTimelineBinding> implements TimelineViewPager.Listener {
+public class TimelineFragment
+    extends DateFragment<FragmentTimelineBinding>
+    implements ViewPager.OnPageChangeListener {
 
-    private TimelineViewPager viewPager;
+    private ViewPager viewPager;
+    private TimelineViewPagerAdapter adapter;
+    private int scrollOffset;
 
     public TimelineFragment() {
         super(R.layout.fragment_timeline);
@@ -78,8 +84,16 @@ public class TimelineFragment extends DateFragment<FragmentTimelineBinding> impl
     }
 
     private void initLayout() {
-        viewPager.setListener(this);
-        viewPager.setup(getChildFragmentManager());
+        adapter = new TimelineViewPagerAdapter(
+            getChildFragmentManager(),
+            DateTime.now(),
+            (view, scrollX, scrollY, oldScrollX, oldScrollY) -> scrollOffset = scrollY
+        );
+        viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(adapter.getMiddle(), false);
+        viewPager.addOnPageChangeListener(this);
+        // Prevent destroying offscreen fragments that occur on fast scrolling
+        viewPager.setOffscreenPageLimit(2);
     }
 
     private void openDialogForChartStyle() {
@@ -108,14 +122,45 @@ public class TimelineFragment extends DateFragment<FragmentTimelineBinding> impl
     @Override
     protected void goToDay(DateTime day) {
         super.goToDay(day);
-        getBinding().viewPager.setDay(day);
+        adapter.setDay(day);
     }
 
     @Override
-    public void onDaySelected(DateTime day) {
-        if (day != null) {
-            setDay(day);
-            updateLabels();
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        if (position != adapter.getMiddle() && adapter.getItem(position) instanceof TimelineDayFragment) {
+            TimelineDayFragment fragment = (TimelineDayFragment) adapter.getItem(position);
+            DateTime day = fragment.getDay();
+            if (day != null) {
+                setDay(day);
+                updateLabels();
+                fragment.scrollTo(scrollOffset);
+            }
+        }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+        if (state == ViewPager.SCROLL_STATE_IDLE) {
+            int currentItem = viewPager.getCurrentItem();
+            int targetItem = adapter.getMiddle();
+
+            ((TimelineDayFragment) adapter.getItem(currentItem)).invalidateLayout();
+
+            if (currentItem != targetItem) {
+                switch (currentItem) {
+                    case 0:
+                        adapter.previousDay();
+                        break;
+                    case 2:
+                        adapter.nextDay();
+                        break;
+                }
+                viewPager.setCurrentItem(targetItem, false);
+            }
         }
     }
 
@@ -158,7 +203,7 @@ public class TimelineFragment extends DateFragment<FragmentTimelineBinding> impl
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(CategoryPreferenceChangedEvent event) {
         if (isAdded()) {
-            getBinding().viewPager.reset();
+            adapter.reset();
         }
     }
 }

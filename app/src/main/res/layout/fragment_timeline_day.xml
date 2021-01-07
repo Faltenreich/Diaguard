@@ -13,7 +13,7 @@
         android:layout_height="0dp"
         android:layout_weight="1.3">
 
-        <com.faltenreich.diaguard.feature.timeline.day.chart.DayChart
+        <com.faltenreich.diaguard.feature.timeline.chart.DayChart
             android:id="@+id/chart_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

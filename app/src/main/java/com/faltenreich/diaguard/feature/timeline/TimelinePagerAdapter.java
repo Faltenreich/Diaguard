@@ -6,8 +6,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.faltenreich.diaguard.feature.timeline.day.TimelineDayFragment;
-
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
@@ -17,13 +15,13 @@ import java.util.List;
 /**
  * Created by Faltenreich on 01.08.2015.
  */
-public class TimelineViewPagerAdapter extends FragmentStatePagerAdapter {
+public class TimelinePagerAdapter extends FragmentStatePagerAdapter {
 
     private static final int ITEM_COUNT = 3;
 
     private final List<TimelineDayFragment> fragments;
 
-    TimelineViewPagerAdapter(
+    TimelinePagerAdapter(
         FragmentManager fragmentManager,
         DateTime dateTime,
         NestedScrollView.OnScrollChangeListener onScrollListener

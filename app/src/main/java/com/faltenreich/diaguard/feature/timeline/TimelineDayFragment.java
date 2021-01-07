@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.feature.timeline.day;
+package com.faltenreich.diaguard.feature.timeline;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,11 +17,11 @@ import com.faltenreich.diaguard.databinding.FragmentTimelineDayBinding;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragmentFactory;
 import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
-import com.faltenreich.diaguard.feature.timeline.day.table.CategoryImageListAdapter;
-import com.faltenreich.diaguard.feature.timeline.day.table.CategoryImageListItem;
-import com.faltenreich.diaguard.feature.timeline.day.table.CategoryValueListAdapter;
-import com.faltenreich.diaguard.feature.timeline.day.table.CategoryValueListItem;
-import com.faltenreich.diaguard.feature.timeline.day.table.CategoryValueViewHolder;
+import com.faltenreich.diaguard.feature.timeline.table.CategoryImageListAdapter;
+import com.faltenreich.diaguard.feature.timeline.table.CategoryImageListItem;
+import com.faltenreich.diaguard.feature.timeline.table.CategoryValueListAdapter;
+import com.faltenreich.diaguard.feature.timeline.table.CategoryValueListItem;
+import com.faltenreich.diaguard.feature.timeline.table.CategoryValueViewHolder;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
 import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;

@@ -13,7 +13,6 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentTimelineBinding;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
-import com.faltenreich.diaguard.feature.timeline.day.TimelineDayFragment;
 import com.faltenreich.diaguard.shared.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.shared.event.data.EntryDeletedEvent;
 import com.faltenreich.diaguard.shared.event.data.EntryUpdatedEvent;
@@ -28,12 +27,10 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
-public class TimelineFragment
-    extends DateFragment<FragmentTimelineBinding>
-    implements ViewPager.OnPageChangeListener {
+public class TimelineFragment extends DateFragment<FragmentTimelineBinding> implements ViewPager.OnPageChangeListener {
 
     private ViewPager viewPager;
-    private TimelineViewPagerAdapter adapter;
+    private TimelinePagerAdapter adapter;
     private int scrollOffset;
 
     public TimelineFragment() {
@@ -84,7 +81,7 @@ public class TimelineFragment
     }
 
     private void initLayout() {
-        adapter = new TimelineViewPagerAdapter(
+        adapter = new TimelinePagerAdapter(
             getChildFragmentManager(),
             DateTime.now(),
             (view, scrollX, scrollY, oldScrollX, oldScrollY) -> scrollOffset = scrollY

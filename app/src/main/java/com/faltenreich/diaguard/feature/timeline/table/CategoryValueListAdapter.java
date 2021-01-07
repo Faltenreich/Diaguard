@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.feature.timeline.day.table;
+package com.faltenreich.diaguard.feature.timeline.table;
 
 import android.content.Context;
 import android.view.ViewGroup;

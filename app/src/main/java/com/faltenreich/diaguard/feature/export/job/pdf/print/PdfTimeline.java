@@ -19,7 +19,7 @@ import com.faltenreich.diaguard.feature.export.job.pdf.meta.PdfNoteFactory;
 import com.faltenreich.diaguard.feature.export.job.pdf.view.CellFactory;
 import com.faltenreich.diaguard.feature.export.job.pdf.view.SizedBox;
 import com.faltenreich.diaguard.feature.export.job.pdf.view.SizedTable;
-import com.faltenreich.diaguard.feature.timeline.day.table.CategoryValueListItem;
+import com.faltenreich.diaguard.feature.timeline.table.CategoryValueListItem;
 import com.pdfjet.Align;
 import com.pdfjet.Cell;
 import com.pdfjet.Color;

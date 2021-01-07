@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.feature.timeline.day.chart;
+package com.faltenreich.diaguard.feature.timeline.chart;
 
 import androidx.annotation.ColorInt;
 

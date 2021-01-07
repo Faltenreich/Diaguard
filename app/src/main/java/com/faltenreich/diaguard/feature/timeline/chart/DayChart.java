@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.feature.timeline.day.chart;
+package com.faltenreich.diaguard.feature.timeline.chart;
 
 import android.content.Context;
 import android.util.AttributeSet;

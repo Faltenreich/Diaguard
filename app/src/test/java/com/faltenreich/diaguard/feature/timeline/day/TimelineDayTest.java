@@ -7,6 +7,7 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.timeline.TimelineDayFragment;
 import com.faltenreich.diaguard.test.junit.rule.ApplyAppTheme;
 import com.faltenreich.diaguard.test.junit.rule.CleanUpData;
 

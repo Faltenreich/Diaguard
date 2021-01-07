@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.feature.timeline.day.table;
+package com.faltenreich.diaguard.feature.timeline.table;
 
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;

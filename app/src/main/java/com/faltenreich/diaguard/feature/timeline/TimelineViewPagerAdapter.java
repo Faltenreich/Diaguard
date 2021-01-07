@@ -21,10 +21,14 @@ public class TimelineViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private static final int ITEM_COUNT = 3;
 
-    private List<TimelineDayFragment> fragments;
+    private final List<TimelineDayFragment> fragments;
 
-    TimelineViewPagerAdapter(FragmentManager fragmentManager, DateTime dateTime, NestedScrollView.OnScrollChangeListener onScrollListener) {
-        super(fragmentManager);
+    TimelineViewPagerAdapter(
+        FragmentManager fragmentManager,
+        DateTime dateTime,
+        NestedScrollView.OnScrollChangeListener onScrollListener
+    ) {
+        super(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
         fragments = new ArrayList<>();
         for (int position = 0; position < ITEM_COUNT; position++) {

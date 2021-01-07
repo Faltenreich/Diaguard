@@ -28,6 +28,8 @@ import org.joda.time.format.DateTimeFormat;
 
 public class TimelineFragment extends DateFragment<FragmentTimelineBinding> implements TimelineViewPager.Listener {
 
+    private TimelineViewPager viewPager;
+
     public TimelineFragment() {
         super(R.layout.fragment_timeline);
     }
@@ -54,7 +56,8 @@ public class TimelineFragment extends DateFragment<FragmentTimelineBinding> impl
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getBinding().viewPager.setup(getChildFragmentManager(), this);
+        bindViews();
+        initLayout();
     }
 
     @Override
@@ -68,6 +71,15 @@ public class TimelineFragment extends DateFragment<FragmentTimelineBinding> impl
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void bindViews() {
+        viewPager = getBinding().viewPager;
+    }
+
+    private void initLayout() {
+        viewPager.setListener(this);
+        viewPager.setup(getChildFragmentManager());
     }
 
     private void openDialogForChartStyle() {

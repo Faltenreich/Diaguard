@@ -21,6 +21,7 @@ public class TimelineViewPager extends ViewPager {
 
     private TimelineViewPagerAdapter adapter;
     private OnPageChangeListener onPageChangeListener;
+    private Listener listener;
     private int scrollOffset;
 
     public TimelineViewPager(Context context) {
@@ -31,7 +32,11 @@ public class TimelineViewPager extends ViewPager {
         super(context, attrs);
     }
 
-    void setup(final FragmentManager fragmentManager, final Listener callback) {
+    void setListener(Listener listener) {
+        this.listener = listener;
+    }
+
+    void setup(FragmentManager fragmentManager) {
         adapter = new TimelineViewPagerAdapter(
             fragmentManager,
             DateTime.now(),
@@ -54,7 +59,9 @@ public class TimelineViewPager extends ViewPager {
                     if (position != adapter.getMiddle() && adapter.getItem(position) instanceof TimelineDayFragment) {
                         TimelineDayFragment fragment = (TimelineDayFragment) adapter.getItem(position);
                         fragment.scrollTo(scrollOffset);
-                        callback.onDaySelected(fragment.getDay());
+                        if (listener != null) {
+                            listener.onDaySelected(fragment.getDay());
+                        }
                     }
                 }
 

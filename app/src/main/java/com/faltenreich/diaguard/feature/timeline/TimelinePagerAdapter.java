@@ -20,6 +20,8 @@ public class TimelinePagerAdapter extends FragmentStatePagerAdapter {
     private static final int ITEM_COUNT = 3;
 
     private final List<TimelineDayFragment> fragments;
+    private final NestedScrollView.OnScrollChangeListener onScrollListener;
+    private final DateTime dateTime;
 
     TimelinePagerAdapter(
         FragmentManager fragmentManager,
@@ -27,20 +29,20 @@ public class TimelinePagerAdapter extends FragmentStatePagerAdapter {
         NestedScrollView.OnScrollChangeListener onScrollListener
     ) {
         super(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-
-        fragments = new ArrayList<>();
-        for (int position = 0; position < ITEM_COUNT; position++) {
-            DateTime day = dateTime.minusDays(getMiddle()).plusDays(position);
-            TimelineDayFragment fragment = TimelineDayFragment.createInstance(day);
-            fragment.setOnScrollListener(onScrollListener);
-            fragments.add(fragment);
-        }
+        this.onScrollListener = onScrollListener;
+        this.dateTime = dateTime;
+        this.fragments = new ArrayList<>();
     }
 
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        return fragments.get(position);
+        DateTime day = dateTime.minusDays(getMiddle()).plusDays(position);
+        TimelineDayFragment fragment = TimelineDayFragment.createInstance(day);
+        // FIXME: Potential memory leak
+        fragment.setOnScrollListener(onScrollListener);
+        fragments.add(fragment);
+        return fragment;
     }
 
     @Override
@@ -57,7 +59,11 @@ public class TimelinePagerAdapter extends FragmentStatePagerAdapter {
         return getCount() >= 1 ? getCount() / 2 : 0;
     }
 
-    public void setDay(DateTime day) {
+    TimelineDayFragment getFragment(int position) {
+        return (TimelineDayFragment) fragments.get(position);
+    }
+
+    void setDay(DateTime day) {
         for (int position = 0; position < ITEM_COUNT; position++) {
             if (position < fragments.size()) {
                 TimelineDayFragment fragment = fragments.get(position);

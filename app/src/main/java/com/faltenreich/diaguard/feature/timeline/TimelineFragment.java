@@ -128,8 +128,8 @@ public class TimelineFragment extends DateFragment<FragmentTimelineBinding> impl
 
     @Override
     public void onPageSelected(int position) {
-        if (position != adapter.getMiddle() && adapter.getItem(position) instanceof TimelineDayFragment) {
-            TimelineDayFragment fragment = (TimelineDayFragment) adapter.getItem(position);
+        if (position != adapter.getMiddle()) {
+            TimelineDayFragment fragment = adapter.getFragment(position);
             DateTime day = fragment.getDay();
             if (day != null) {
                 setDay(day);
@@ -145,7 +145,7 @@ public class TimelineFragment extends DateFragment<FragmentTimelineBinding> impl
             int currentItem = viewPager.getCurrentItem();
             int targetItem = adapter.getMiddle();
 
-            ((TimelineDayFragment) adapter.getItem(currentItem)).invalidateLayout();
+            adapter.getFragment(currentItem).invalidateLayout();
 
             if (currentItem != targetItem) {
                 switch (currentItem) {

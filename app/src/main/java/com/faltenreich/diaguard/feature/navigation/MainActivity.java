@@ -229,8 +229,12 @@ public class MainActivity
 
     private void selectMenuItem(MenuItem menuItem) {
         if (menuItem != null) {
+            Navigation.clearBackStack(getSupportFragmentManager());
+
             int itemId = menuItem.getItemId();
-            if (itemId == R.id.nav_timeline) {
+            if (itemId == R.id.nav_home) {
+                openFragment(new DashboardFragment(), Navigation.Operation.REPLACE, false);
+            } else if (itemId == R.id.nav_timeline) {
                 openFragment(new TimelineFragment(), Navigation.Operation.REPLACE, false);
             } else if (itemId == R.id.nav_log) {
                 openFragment(new LogFragment(), Navigation.Operation.REPLACE, false);
@@ -244,9 +248,8 @@ public class MainActivity
                 openFragment(new ExportFragment(), Navigation.Operation.REPLACE, true);
             } else if (itemId == R.id.nav_settings) {
                 openFragment(new PreferenceOverviewFragment(), Navigation.Operation.REPLACE, true);
-            } else {
-                openFragment(new DashboardFragment(), Navigation.Operation.REPLACE, false);
             }
+
             selectMenuItemInNavigationView(menuItem);
         }
     }

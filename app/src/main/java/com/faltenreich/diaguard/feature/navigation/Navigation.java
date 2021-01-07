@@ -57,4 +57,8 @@ public class Navigation {
     ) {
         return fragmentManager.findFragmentById(containerResId);
     }
+
+    public static void clearBackStack(@NonNull FragmentManager fragmentManager) {
+        fragmentManager.popBackStackImmediate();
+    }
 }

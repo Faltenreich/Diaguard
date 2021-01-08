@@ -148,13 +148,17 @@ public class LogFragment extends DateFragment<FragmentLogBinding> implements Log
 
     @Override
     public void onSetupEnd() {
-        getBinding().progressIndicator.setVisibility(View.GONE);
-        goToDay(getDay());
+        if (isAdded()) {
+            getBinding().progressIndicator.setVisibility(View.GONE);
+            goToDay(getDay());
+        }
     }
 
     @Override
     public void onEntrySelected(Entry entry) {
-        openFragment(EntryEditFragmentFactory.newInstance(entry), Navigation.Operation.REPLACE, true);
+        if (isAdded()) {
+            openFragment(EntryEditFragmentFactory.newInstance(entry), Navigation.Operation.REPLACE, true);
+        }
     }
 
     @Override
@@ -167,7 +171,9 @@ public class LogFragment extends DateFragment<FragmentLogBinding> implements Log
 
     @Override
     public void onDateSelected(DateTime dateTime) {
-        openFragment(EntryEditFragmentFactory.newInstance(dateTime), Navigation.Operation.REPLACE, true);
+        if (isAdded()) {
+            openFragment(EntryEditFragmentFactory.newInstance(dateTime), Navigation.Operation.REPLACE, true);
+        }
     }
 
     private void invalidateSections() {

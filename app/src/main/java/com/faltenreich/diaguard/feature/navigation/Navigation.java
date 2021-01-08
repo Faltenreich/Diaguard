@@ -7,8 +7,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.faltenreich.diaguard.shared.view.ViewUtils;
-
 public class Navigation {
 
     public enum Operation {
@@ -27,8 +25,6 @@ public class Navigation {
         boolean isActive = activeFragment != null && activeFragment.getClass() == fragment.getClass();
 
         if (!isActive) {
-            ViewUtils.hideKeyboard(fragment.getActivity());
-
             String tag = fragment.getClass().getSimpleName();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
 

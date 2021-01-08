@@ -77,14 +77,6 @@ public class FoodEditFragment extends BaseFragment<FragmentFoodEditBinding> impl
     }
 
     @Override
-    public void onPause() {
-        if (getView() != null) {
-            ViewUtils.hideKeyboard(getView());
-        }
-        super.onPause();
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.findItem(R.id.action_delete).setVisible(food != null);

@@ -100,6 +100,14 @@ public abstract class BaseFragment<BINDING extends ViewBinding> extends Fragment
     }
 
     @Override
+    public void onPause() {
+        if (getView() != null) {
+            ViewUtils.hideKeyboard(getView());
+        }
+        super.onPause();
+    }
+
+    @Override
     public void onDestroy() {
         Events.unregister(this);
         super.onDestroy();

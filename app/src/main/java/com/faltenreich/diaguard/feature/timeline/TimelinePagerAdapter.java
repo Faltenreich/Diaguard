@@ -20,8 +20,6 @@ public class TimelinePagerAdapter extends FragmentStatePagerAdapter {
     private static final int ITEM_COUNT = 3;
 
     private final List<TimelineDayFragment> fragments;
-    private final NestedScrollView.OnScrollChangeListener onScrollListener;
-    private final DateTime dateTime;
 
     TimelinePagerAdapter(
         FragmentManager fragmentManager,
@@ -29,20 +27,19 @@ public class TimelinePagerAdapter extends FragmentStatePagerAdapter {
         NestedScrollView.OnScrollChangeListener onScrollListener
     ) {
         super(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        this.onScrollListener = onScrollListener;
-        this.dateTime = dateTime;
-        this.fragments = new ArrayList<>();
+        fragments = new ArrayList<>();
+        for (int position = 0; position < ITEM_COUNT; position++) {
+            DateTime day = dateTime.minusDays(getMiddle()).plusDays(position);
+            TimelineDayFragment fragment = TimelineDayFragment.createInstance(day);
+            fragment.setOnScrollListener(onScrollListener);
+            fragments.add(fragment);
+        }
     }
 
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        DateTime day = dateTime.minusDays(getMiddle()).plusDays(position);
-        TimelineDayFragment fragment = TimelineDayFragment.createInstance(day);
-        // FIXME: Potential memory leak
-        fragment.setOnScrollListener(onScrollListener);
-        fragments.add(fragment);
-        return fragment;
+        return getFragment(position);
     }
 
     @Override
@@ -60,7 +57,7 @@ public class TimelinePagerAdapter extends FragmentStatePagerAdapter {
     }
 
     TimelineDayFragment getFragment(int position) {
-        return (TimelineDayFragment) fragments.get(position);
+        return fragments.get(position);
     }
 
     void setDay(DateTime day) {

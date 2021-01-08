@@ -132,9 +132,9 @@ public class TimelineFragment extends DateFragment<FragmentTimelineBinding> impl
             TimelineDayFragment fragment = adapter.getFragment(position);
             DateTime day = fragment.getDay();
             if (day != null) {
+                fragment.scrollTo(scrollOffset);
                 setDay(day);
                 updateLabels();
-                fragment.scrollTo(scrollOffset);
             }
         }
     }

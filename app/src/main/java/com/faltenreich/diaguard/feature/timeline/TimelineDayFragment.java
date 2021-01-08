@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentTimelineDayBinding;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragmentFactory;
 import com.faltenreich.diaguard.feature.navigation.Navigation;
@@ -64,10 +63,6 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
             fragment.setArguments(bundle);
         }
         return fragment;
-    }
-
-    public TimelineDayFragment() {
-        super(R.layout.fragment_timeline_day);
     }
 
     @Override

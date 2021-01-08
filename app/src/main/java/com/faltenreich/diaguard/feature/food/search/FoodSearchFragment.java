@@ -89,10 +89,6 @@ public class FoodSearchFragment
         return newInstance(false);
     }
 
-    protected FoodSearchFragment() {
-        super(R.layout.fragment_food_search);
-    }
-
     @Override
     protected FragmentFoodSearchBinding createBinding(LayoutInflater layoutInflater) {
         return FragmentFoodSearchBinding.inflate(layoutInflater);

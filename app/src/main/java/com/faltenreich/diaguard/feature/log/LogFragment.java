@@ -51,10 +51,6 @@ public class LogFragment extends DateFragment<FragmentLogBinding> implements Log
     private StickyHeaderDecoration listDecoration;
     private LinearLayoutManager listLayoutManager;
 
-    public LogFragment() {
-        super(R.layout.fragment_log);
-    }
-
     @Override
     protected FragmentLogBinding createBinding(LayoutInflater layoutInflater) {
         return FragmentLogBinding.inflate(layoutInflater);

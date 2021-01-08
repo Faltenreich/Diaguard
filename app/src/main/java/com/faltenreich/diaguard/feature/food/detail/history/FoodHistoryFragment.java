@@ -42,10 +42,6 @@ public class FoodHistoryFragment extends BaseFragment<FragmentFoodHistoryBinding
     private Long foodId;
     private Food food;
 
-    public FoodHistoryFragment() {
-        super(R.layout.fragment_food_history);
-    }
-
     @Override
     protected FragmentFoodHistoryBinding createBinding(LayoutInflater layoutInflater) {
         return FragmentFoodHistoryBinding.inflate(layoutInflater);

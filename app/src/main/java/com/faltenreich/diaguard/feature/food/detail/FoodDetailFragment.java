@@ -37,10 +37,6 @@ public class FoodDetailFragment extends BaseFragment<FragmentFoodDetailBinding> 
     private Long foodId;
     private Food food;
 
-    public FoodDetailFragment() {
-        super(R.layout.fragment_food_detail);
-    }
-
     @Override
     protected FragmentFoodDetailBinding createBinding(LayoutInflater layoutInflater) {
         return FragmentFoodDetailBinding.inflate(layoutInflater);

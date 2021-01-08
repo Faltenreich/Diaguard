@@ -50,10 +50,6 @@ import java.util.List;
  */
 public class CalculatorFragment extends BaseFragment<FragmentCalculatorBinding> implements ToolbarDescribing, MainButton {
 
-    public CalculatorFragment() {
-        super(R.layout.fragment_calculator);
-    }
-
     @Override
     protected FragmentCalculatorBinding createBinding(LayoutInflater layoutInflater) {
         return FragmentCalculatorBinding.inflate(layoutInflater);

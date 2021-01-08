@@ -3,7 +3,6 @@ package com.faltenreich.diaguard.shared.view.fragment;
 import android.content.res.Configuration;
 
 import androidx.annotation.CallSuper;
-import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.viewbinding.ViewBinding;
 
@@ -22,8 +21,7 @@ public abstract class DateFragment<BINDING extends ViewBinding>
 
     private DateTime day;
 
-    protected DateFragment(@LayoutRes int layoutResourceId) {
-        super(layoutResourceId);
+    protected DateFragment() {
         this.day = DateTime.now().withHourOfDay(0).withMinuteOfHour(0);
     }
 

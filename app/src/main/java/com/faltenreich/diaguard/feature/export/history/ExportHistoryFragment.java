@@ -39,10 +39,6 @@ public class ExportHistoryFragment extends BaseFragment<FragmentExportHistoryBin
 
     private ExportHistoryListAdapter listAdapter;
 
-    public ExportHistoryFragment() {
-        super(R.layout.fragment_export_history);
-    }
-
     @Override
     protected FragmentExportHistoryBinding createBinding(LayoutInflater layoutInflater) {
         return FragmentExportHistoryBinding.inflate(layoutInflater);

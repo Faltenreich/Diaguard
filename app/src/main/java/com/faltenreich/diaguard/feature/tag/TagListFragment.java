@@ -35,10 +35,6 @@ public class TagListFragment
 
     private TagListAdapter listAdapter;
 
-    public TagListFragment() {
-        super(R.layout.fragment_tag_list);
-    }
-
     @Override
     protected FragmentTagListBinding createBinding(LayoutInflater layoutInflater) {
         return FragmentTagListBinding.inflate(layoutInflater);

@@ -89,10 +89,6 @@ public class EntryEditFragment
 
     private TagAutoCompleteAdapter tagAdapter;
 
-    public EntryEditFragment() {
-        super(R.layout.fragment_entry_edit);
-    }
-
     @Override
     protected FragmentEntryEditBinding createBinding(LayoutInflater layoutInflater) {
         return FragmentEntryEditBinding.inflate(layoutInflater);

@@ -31,10 +31,6 @@ public class CategoryListFragment extends BaseFragment<FragmentCategoryListBindi
     private ItemTouchHelper itemTouchHelper;
     private boolean hasChanged;
 
-    public CategoryListFragment() {
-        super(R.layout.fragment_category_list);
-    }
-
     @Override
     protected FragmentCategoryListBinding createBinding(LayoutInflater layoutInflater) {
         return FragmentCategoryListBinding.inflate(layoutInflater);

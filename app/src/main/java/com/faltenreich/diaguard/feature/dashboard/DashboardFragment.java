@@ -46,10 +46,6 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
 
     private Entry latestEntry;
 
-    public DashboardFragment() {
-        super(R.layout.fragment_dashboard);
-    }
-
     @Override
     protected FragmentDashboardBinding createBinding(LayoutInflater layoutInflater) {
         return FragmentDashboardBinding.inflate(layoutInflater);

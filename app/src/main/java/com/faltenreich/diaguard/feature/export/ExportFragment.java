@@ -63,10 +63,6 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
     private DateTime dateStart;
     private DateTime dateEnd;
 
-    public ExportFragment() {
-        super(R.layout.fragment_export);
-    }
-
     @Override
     protected FragmentExportBinding createBinding(LayoutInflater layoutInflater) {
         return FragmentExportBinding.inflate(layoutInflater);

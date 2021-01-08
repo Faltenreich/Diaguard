@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -45,8 +44,8 @@ public abstract class BaseFragment<BINDING extends ViewBinding> extends Fragment
 
     private BINDING binding;
 
-    public BaseFragment(@LayoutRes int layoutResourceId) {
-        super(layoutResourceId);
+    public BaseFragment() {
+        super();
     }
 
     protected abstract BINDING createBinding(LayoutInflater layoutInflater);

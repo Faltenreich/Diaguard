@@ -33,10 +33,6 @@ public class TimelineFragment extends DateFragment<FragmentTimelineBinding> impl
     private TimelinePagerAdapter adapter;
     private int scrollOffset;
 
-    public TimelineFragment() {
-        super(R.layout.fragment_timeline);
-    }
-
     @Override
     protected FragmentTimelineBinding createBinding(LayoutInflater layoutInflater) {
         return FragmentTimelineBinding.inflate(layoutInflater);

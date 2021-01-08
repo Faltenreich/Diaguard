@@ -72,10 +72,6 @@ public class EntrySearchFragment
     private int revealY;
     private long tagId = -1;
 
-    public EntrySearchFragment() {
-        super(R.layout.fragment_entry_search);
-    }
-
     @Override
     protected FragmentEntrySearchBinding createBinding(LayoutInflater layoutInflater) {
         return FragmentEntrySearchBinding.inflate(layoutInflater);

@@ -49,10 +49,6 @@ public class StatisticFragment extends BaseFragment<FragmentStatisticBinding> im
     private TimeSpan timeSpan;
     private Category category;
 
-    public StatisticFragment() {
-        super(R.layout.fragment_statistic);
-    }
-
     @Override
     protected FragmentStatisticBinding createBinding(LayoutInflater layoutInflater) {
         return FragmentStatisticBinding.inflate(layoutInflater);

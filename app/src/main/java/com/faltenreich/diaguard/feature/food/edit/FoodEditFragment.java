@@ -20,7 +20,6 @@ import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.FoodSavedEvent;
-import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 
@@ -40,10 +39,6 @@ public class FoodEditFragment extends BaseFragment<FragmentFoodEditBinding> impl
 
     private Long foodId;
     private Food food;
-
-    public FoodEditFragment() {
-        super(R.layout.fragment_food_edit);
-    }
 
     @Override
     protected FragmentFoodEditBinding createBinding(LayoutInflater layoutInflater) {

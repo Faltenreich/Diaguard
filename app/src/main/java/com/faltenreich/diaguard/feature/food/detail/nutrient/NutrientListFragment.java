@@ -37,10 +37,6 @@ public class NutrientListFragment extends BaseFragment<FragmentFoodNutrientListB
     private Long foodId;
     private Food food;
 
-    public NutrientListFragment() {
-        super(R.layout.fragment_food_nutrient_list);
-    }
-
     @Override
     protected FragmentFoodNutrientListBinding createBinding(LayoutInflater layoutInflater) {
         return FragmentFoodNutrientListBinding.inflate(layoutInflater);

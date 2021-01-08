@@ -45,10 +45,6 @@ public class FactorFragment extends BaseFragment<FragmentFactorBinding> implemen
     private TimeInterval timeInterval;
     private List<FactorItem> items;
 
-    public FactorFragment() {
-        super(R.layout.fragment_factor);
-    }
-
     @Override
     protected FragmentFactorBinding createBinding(LayoutInflater layoutInflater) {
         return FragmentFactorBinding.inflate(layoutInflater);

@@ -47,16 +47,6 @@
         </activity>
 
         <activity
-            android:name=".feature.tag.TagListActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/tags"
-            android:windowSoftInputMode="adjustResize|stateHidden">
-            <meta-data
-                android:name=".feature.tag.TagListActivity"
-                android:value=".feature.entry.edit.EntryEditActivity" />
-        </activity>
-
-        <activity
             android:name=".feature.category.CategoryListActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/categories"

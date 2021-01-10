@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.feature.entry.edit;
 
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -32,7 +31,7 @@ import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.feature.tag.TagAutoCompleteAdapter;
-import com.faltenreich.diaguard.feature.tag.TagListActivity;
+import com.faltenreich.diaguard.feature.tag.TagListFragment;
 import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
 import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
@@ -228,7 +227,7 @@ public class EntryEditFragment
             addTag(tag);
         });
 
-        getBinding().entryTagsEditButton.setOnClickListener(view -> startActivity(new Intent(getContext(), TagListActivity.class)));
+        getBinding().entryTagsEditButton.setOnClickListener(view -> openTags());
 
         getBinding().fab.setOnClickListener(view -> trySubmit());
         getBinding().buttonDate.setOnClickListener(view -> showDatePicker());
@@ -580,6 +579,10 @@ public class EntryEditFragment
                 updateAlarm();
             });
         }
+    }
+
+    private void openTags() {
+        openFragment(new TagListFragment(), Navigation.Operation.REPLACE, true);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

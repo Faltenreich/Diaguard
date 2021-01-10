@@ -52,12 +52,8 @@
 
         <Preference
             android:key="@string/preference_tags"
-            android:title="@string/tags">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:targetPackage="@string/package_name"
-                android:targetClass="com.faltenreich.diaguard.feature.tag.TagListActivity"/>
-        </Preference>
+            android:title="@string/tags"
+            app:fragment="com.faltenreich.diaguard.feature.tag.TagListFragment" />
 
         <Preference
             android:key="@string/preference_food"

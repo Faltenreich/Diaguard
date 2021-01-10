@@ -73,6 +73,10 @@ public abstract class BaseFragment<BINDING extends ViewBinding> extends Fragment
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if (getView() != null) {
+            ViewUtils.hideKeyboard(getView());
+        }
+
         if (this instanceof ToolbarOwner) {
             ToolbarOwner toolbarOwner = (ToolbarOwner) this;
             if (getActivity() instanceof AppCompatActivity) {
@@ -96,15 +100,6 @@ public abstract class BaseFragment<BINDING extends ViewBinding> extends Fragment
         if (getActivity() instanceof OnFragmentChangeListener) {
             ((OnFragmentChangeListener) getActivity()).onFragmentChanged(this);
         }
-    }
-
-    @Override
-    public void onPause() {
-        // FIXME: Does not work always, e.g. on switching Fragment via NavigationView
-        if (getView() != null) {
-            ViewUtils.hideKeyboard(getView());
-        }
-        super.onPause();
     }
 
     @Override

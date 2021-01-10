@@ -37,17 +37,22 @@ public class ViewUtils {
     }
 
     public static void hideKeyboard(View view) {
-        view.requestFocus();
         InputMethodManager inputMethodManager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (inputMethodManager != null) {
-            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            view.requestFocus();
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            view.clearFocus();
         }
-        view.clearFocus();
     }
 
     public static void hideKeyboard(Activity activity) {
-        if (activity != null && activity.getCurrentFocus() != null) {
-            hideKeyboard(activity.getCurrentFocus());
+        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        if (inputMethodManager != null) {
+            View view = activity.getCurrentFocus();
+            if (view == null) {
+                view = new View(activity);
+            }
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 

@@ -47,12 +47,6 @@
         </activity>
 
         <activity
-            android:name=".feature.category.CategoryListActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/categories"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
-
-        <activity
             android:name=".feature.preference.factor.FactorActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/factors"

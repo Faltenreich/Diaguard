@@ -43,12 +43,8 @@
 
         <Preference
             android:key="@string/preference_categories"
-            android:title="@string/categories">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:targetPackage="@string/package_name"
-                android:targetClass="com.faltenreich.diaguard.feature.category.CategoryListActivity"/>
-        </Preference>
+            android:title="@string/categories"
+            app:fragment="com.faltenreich.diaguard.feature.category.CategoryListFragment" />
 
         <Preference
             android:key="@string/preference_tags"

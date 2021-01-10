@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.feature.log;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -15,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentLogBinding;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragmentFactory;
-import com.faltenreich.diaguard.feature.entry.search.EntrySearchActivity;
+import com.faltenreich.diaguard.feature.entry.search.EntrySearchFragment;
 import com.faltenreich.diaguard.feature.log.empty.LogEmptyListItem;
 import com.faltenreich.diaguard.feature.log.entry.LogEntryListItem;
 import com.faltenreich.diaguard.feature.navigation.Navigation;
@@ -164,8 +163,7 @@ public class LogFragment extends DateFragment<FragmentLogBinding> implements Log
     @Override
     public void onTagSelected(Tag tag, View view) {
         if (isAdded()) {
-            Intent intent = EntrySearchActivity.newInstance(getContext(), tag);
-            startActivity(intent);
+            openFragment(EntrySearchFragment.newInstance(tag), Navigation.Operation.REPLACE, true);
         }
     }
 

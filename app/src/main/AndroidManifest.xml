@@ -47,17 +47,6 @@
         </activity>
 
         <activity
-            android:name=".feature.entry.search.EntrySearchActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/search"
-            android:theme="@style/AppTheme.Transparent"
-            android:windowSoftInputMode="adjustResize">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".feature.navigation.MainActivity" />
-        </activity>
-
-        <activity
             android:name=".feature.tag.TagListActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/tags"

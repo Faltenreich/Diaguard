@@ -1,6 +1,5 @@
 package com.faltenreich.diaguard.feature.navigation;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -24,7 +23,7 @@ import com.faltenreich.diaguard.feature.calculator.CalculatorFragment;
 import com.faltenreich.diaguard.feature.changelog.ChangelogFragment;
 import com.faltenreich.diaguard.feature.config.ApplicationConfig;
 import com.faltenreich.diaguard.feature.dashboard.DashboardFragment;
-import com.faltenreich.diaguard.feature.entry.search.EntrySearchActivity;
+import com.faltenreich.diaguard.feature.entry.search.EntrySearchFragment;
 import com.faltenreich.diaguard.feature.export.ExportFragment;
 import com.faltenreich.diaguard.feature.food.search.FoodSearchFragment;
 import com.faltenreich.diaguard.feature.log.LogFragment;
@@ -93,8 +92,7 @@ public class MainActivity
             supportFinishAfterTransition();
             return true;
         } else if (item.getItemId() == R.id.action_search) {
-            Intent intent = EntrySearchActivity.newInstance(this, findViewById(R.id.action_search));
-            startActivity(intent);
+            openFragment(new EntrySearchFragment(), Navigation.Operation.REPLACE, true);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -217,6 +215,8 @@ public class MainActivity
     }
 
     private void invalidateNavigationDrawer(Fragment fragment) {
+        drawerLayout.closeDrawer(GravityCompat.START);
+
         MainFragmentType mainFragmentType = MainFragmentType.valueOf(fragment.getClass());
         if (mainFragmentType != null) {
             int position = mainFragmentType.position;

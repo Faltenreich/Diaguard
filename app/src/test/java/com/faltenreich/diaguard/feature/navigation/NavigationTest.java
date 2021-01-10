@@ -14,7 +14,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
-import com.faltenreich.diaguard.feature.entry.search.EntrySearchActivity;
 import com.faltenreich.diaguard.test.junit.rule.CleanUpData;
 
 import org.junit.Assert;

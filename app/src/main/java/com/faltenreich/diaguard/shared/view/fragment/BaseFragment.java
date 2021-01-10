@@ -100,6 +100,7 @@ public abstract class BaseFragment<BINDING extends ViewBinding> extends Fragment
 
     @Override
     public void onPause() {
+        // FIXME: Does not work always, e.g. on switching Fragment via NavigationView
         if (getView() != null) {
             ViewUtils.hideKeyboard(getView());
         }

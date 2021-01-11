@@ -165,6 +165,7 @@ public class MainActivity
         selectMenuItem(menuItem);
     }
 
+    // FIXME: Called too often when switching Fragments
     private void invalidateLayout() {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
         if (fragment != null) {

@@ -98,7 +98,6 @@ public class FoodSearchFragment
     public ToolbarProperties getToolbarProperties() {
         return new ToolbarProperties.Builder()
             .setTitle(getContext(), R.string.food)
-            .setShowToolbar(false)
             .build();
     }
 

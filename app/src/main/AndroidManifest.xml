@@ -46,16 +46,6 @@
                 android:value=".feature.navigation.MainActivity" />
         </activity>
 
-        <activity
-            android:name=".feature.preference.factor.FactorActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/factors"
-            android:windowSoftInputMode="adjustResize|stateHidden">
-            <meta-data
-                android:name=".feature.preference.factor.FactorActivity"
-                android:value=".feature.preference.PreferenceActivity" />
-        </activity>
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

@@ -72,13 +72,7 @@ public class FactorFragment extends BaseFragment<FragmentFactorBinding> implemen
     }
 
     private void initArguments() {
-        Bundle arguments = getActivity() != null && getActivity().getIntent() != null
-            ? getActivity().getIntent().getExtras()
-            : null;
-        if (arguments == null) {
-            throw new IllegalStateException("Arguments must not be null");
-        }
-
+        Bundle arguments = requireArguments();
         String key = getString(R.string.argument_factor);
         if (arguments.containsKey(key)) {
             int factorArgument = arguments.getInt(key);

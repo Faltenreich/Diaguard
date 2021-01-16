@@ -14,6 +14,14 @@ public class Navigation {
         REPLACE
     }
 
+    @Nullable
+    public static Fragment getCurrentFragment(
+        @NonNull FragmentManager fragmentManager,
+        @IdRes int containerResId
+    ) {
+        return fragmentManager.findFragmentById(containerResId);
+    }
+
     public static void openFragment(
         @NonNull Fragment fragment,
         @NonNull FragmentManager fragmentManager,
@@ -21,8 +29,8 @@ public class Navigation {
         @NonNull Operation operation,
         boolean addToBackStack
     ) {
-        Fragment activeFragment = fragmentManager.findFragmentById(containerResId);
-        boolean isActive = activeFragment != null && activeFragment.getClass() == fragment.getClass();
+        Fragment currentFragment = getCurrentFragment(fragmentManager, containerResId);
+        boolean isActive = currentFragment != null && currentFragment.getClass() == fragment.getClass();
 
         if (!isActive) {
             String tag = fragment.getClass().getSimpleName();
@@ -44,14 +52,6 @@ public class Navigation {
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             transaction.commit();
         }
-    }
-
-    @Nullable
-    public static Fragment getCurrentFragment(
-        @NonNull FragmentManager fragmentManager,
-        @IdRes int containerResId
-    ) {
-        return fragmentManager.findFragmentById(containerResId);
     }
 
     public static void clearBackStack(@NonNull FragmentManager fragmentManager) {

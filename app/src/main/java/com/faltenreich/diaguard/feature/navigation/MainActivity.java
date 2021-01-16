@@ -1,6 +1,7 @@
 package com.faltenreich.diaguard.feature.navigation;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -100,7 +101,10 @@ public class MainActivity
 
     @Override
     public void onFragmentChanged(Fragment fragment) {
-        invalidateLayout();
+        Fragment visibleFragment = Navigation.getCurrentFragment(getSupportFragmentManager(), R.id.container);
+        if (fragment != null && fragment == visibleFragment) {
+            invalidateLayout(fragment);
+        }
     }
 
     private void bindView() {
@@ -156,7 +160,6 @@ public class MainActivity
 
         getSupportFragmentManager().addOnBackStackChangedListener(() -> {
             drawerToggle.setDrawerIndicatorEnabled(getSupportFragmentManager().getBackStackEntryCount() == 0);
-            invalidateLayout();
         });
 
         // Setup start fragment
@@ -165,15 +168,12 @@ public class MainActivity
         selectMenuItem(menuItem);
     }
 
-    // FIXME: Called too often when switching Fragments
-    private void invalidateLayout() {
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
-        if (fragment != null) {
-            invalidateToolbar(fragment instanceof ToolbarDescribing ? (ToolbarDescribing) fragment : null);
-            invalidateSearch(fragment instanceof Searching ? (Searching) fragment : null);
-            invalidateMainButton(fragment instanceof MainButton ? (MainButton) fragment : null);
-            invalidateNavigationDrawer(fragment);
-        }
+    private void invalidateLayout(@NonNull Fragment fragment) {
+        Log.d(getClass().getSimpleName(), "Invalidating layout for " + fragment.getClass().getSimpleName());
+        invalidateToolbar(fragment instanceof ToolbarDescribing ? (ToolbarDescribing) fragment : null);
+        invalidateSearch(fragment instanceof Searching ? (Searching) fragment : null);
+        invalidateMainButton(fragment instanceof MainButton ? (MainButton) fragment : null);
+        invalidateNavigationDrawer(fragment);
     }
 
     private void invalidateToolbar(@Nullable ToolbarDescribing toolbarDescribing) {
@@ -231,7 +231,6 @@ public class MainActivity
     private void selectMenuItem(MenuItem menuItem) {
         if (menuItem != null) {
             Navigation.clearBackStack(getSupportFragmentManager());
-
             int itemId = menuItem.getItemId();
             if (itemId == R.id.nav_home) {
                 openFragment(new DashboardFragment(), Navigation.Operation.REPLACE, false);
@@ -250,7 +249,6 @@ public class MainActivity
             } else if (itemId == R.id.nav_settings) {
                 openFragment(new PreferenceOverviewFragment(), Navigation.Operation.REPLACE, true);
             }
-
             selectMenuItemInNavigationView(menuItem);
         }
     }

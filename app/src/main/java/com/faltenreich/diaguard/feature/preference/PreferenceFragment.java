@@ -14,18 +14,28 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceManager;
 
+import com.faltenreich.diaguard.feature.navigation.OnFragmentChangeListener;
+import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
+import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreference;
 import com.faltenreich.diaguard.feature.preference.bloodsugar.BloodSugarPreferenceDialogFragment;
 import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
 
-public abstract class PreferenceFragment extends PreferenceFragmentCompat {
+public abstract class PreferenceFragment extends PreferenceFragmentCompat implements ToolbarDescribing {
 
-    @XmlRes private final int preferenceRes;
-    @StringRes private final int titleRes;
+    private final int preferenceRes;
+    private final int titleRes;
 
     public PreferenceFragment(@XmlRes int preferenceRes, @StringRes int titleRes) {
         this.preferenceRes = preferenceRes;
         this.titleRes = titleRes;
+    }
+
+    @Override
+    public ToolbarProperties getToolbarProperties() {
+        return new ToolbarProperties.Builder()
+            .setTitle(getContext(), titleRes)
+            .build();
     }
 
     @Override
@@ -37,8 +47,10 @@ public abstract class PreferenceFragment extends PreferenceFragmentCompat {
     @Override
     public void onResume() {
         super.onResume();
-        // FIXME: Not visible
-        requireActivity().setTitle(titleRes);
+
+        if (getActivity() instanceof OnFragmentChangeListener) {
+            ((OnFragmentChangeListener) getActivity()).onFragmentChanged(this);
+        }
     }
 
     @Override

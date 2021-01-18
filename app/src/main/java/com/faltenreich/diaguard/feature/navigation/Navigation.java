@@ -55,6 +55,6 @@ public class Navigation {
     }
 
     public static void clearBackStack(@NonNull FragmentManager fragmentManager) {
-        fragmentManager.popBackStackImmediate();
+        fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
 }

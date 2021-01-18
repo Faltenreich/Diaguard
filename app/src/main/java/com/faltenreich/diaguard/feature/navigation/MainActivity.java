@@ -230,13 +230,15 @@ public class MainActivity
 
     private void selectMenuItem(MenuItem menuItem) {
         if (menuItem != null) {
-            Navigation.clearBackStack(getSupportFragmentManager());
             int itemId = menuItem.getItemId();
             if (itemId == R.id.nav_home) {
+                Navigation.clearBackStack(getSupportFragmentManager());
                 openFragment(new DashboardFragment(), Navigation.Operation.REPLACE, false);
             } else if (itemId == R.id.nav_timeline) {
+                Navigation.clearBackStack(getSupportFragmentManager());
                 openFragment(new TimelineFragment(), Navigation.Operation.REPLACE, false);
             } else if (itemId == R.id.nav_log) {
+                Navigation.clearBackStack(getSupportFragmentManager());
                 openFragment(new LogFragment(), Navigation.Operation.REPLACE, false);
             } else if (itemId == R.id.nav_calculator) {
                 openFragment(new CalculatorFragment(), Navigation.Operation.REPLACE, true);
@@ -261,12 +263,6 @@ public class MainActivity
             }
             menuItem.setChecked(true);
         }
-    }
-
-    @Deprecated
-    public void openFragment(@IdRes int itemId) {
-        MenuItem menuItem = navigationView.getMenu().findItem(itemId);
-        selectMenuItem(menuItem);
     }
 
     @Override

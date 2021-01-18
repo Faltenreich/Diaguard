@@ -23,6 +23,7 @@ import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.feature.statistic.MeasurementAverageTask;
+import com.faltenreich.diaguard.feature.statistic.StatisticFragment;
 import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
@@ -212,9 +213,7 @@ public class DashboardFragment extends BaseFragment<FragmentDashboardBinding> im
     }
 
     private void openStatistics() {
-        if (getActivity() instanceof MainActivity) {
-            ((MainActivity) getActivity()).openFragment(R.id.nav_statistics);
-        }
+        openFragment(new StatisticFragment(), Navigation.Operation.REPLACE, true);
     }
 
     private void openEntry() {

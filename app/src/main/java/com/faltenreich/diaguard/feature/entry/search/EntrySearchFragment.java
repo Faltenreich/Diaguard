@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -61,6 +62,9 @@ public class EntrySearchFragment
     }
 
     private RecyclerView listView;
+    private ProgressBar progressIndicator;
+    private TextView emptyLabel;
+
     private EntrySearchListAdapter listAdapter;
     private int currentPage = 0;
     private long tagId = -1;
@@ -112,6 +116,8 @@ public class EntrySearchFragment
 
     private void bindView() {
         listView = getBinding().listView;
+        progressIndicator = getBinding().progressIndicator;
+        emptyLabel = getBinding().emptyLabel;
     }
 
     private void initLayout() {
@@ -140,7 +146,10 @@ public class EntrySearchFragment
             });
         } else {
             // Workaround to focus EditText onViewCreated
-            new Handler().postDelayed(() -> getSearchOwner().getSearchView().focusSearchField(), 500);
+            new Handler().postDelayed(() -> {
+                getSearchOwner().getSearchView().focusSearchField();
+                newSearch();
+            }, 500);
         }
     }
 
@@ -153,7 +162,7 @@ public class EntrySearchFragment
         currentPage = 0;
 
         if (StringUtils.isNotBlank(getSearchOwner().getSearchQuery())) {
-            getBinding().progressIndicator.setVisibility(View.VISIBLE);
+            progressIndicator.setVisibility(View.VISIBLE);
             continueSearch();
         }
         invalidateEmptyView();
@@ -188,7 +197,7 @@ public class EntrySearchFragment
                     int oldCount = listAdapter.getItemCount();
                     listAdapter.addItems(items);
                     listAdapter.notifyItemRangeInserted(oldCount, items.size());
-                    getBinding().progressIndicator.setVisibility(View.GONE);
+                    progressIndicator.setVisibility(View.GONE);
                     invalidateEmptyView();
                 } else {
                     Log.d(TAG, "Dropping obsolete result for " + query + " (is now: " + currentQuery);
@@ -198,8 +207,7 @@ public class EntrySearchFragment
     }
 
     private void invalidateEmptyView() {
-        TextView emptyLabel = getBinding().emptyLabel;
-        emptyLabel.setVisibility(getBinding().progressIndicator.getVisibility() != View.VISIBLE && listAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
+        emptyLabel.setVisibility(progressIndicator.getVisibility() != View.VISIBLE && listAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
         emptyLabel.setText(StringUtils.isBlank(getSearchOwner().getSearchQuery()) ? R.string.search_prompt : R.string.no_results_found);
     }
 

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +24,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.event.data.TagSavedEvent;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
+import com.github.clans.fab.FloatingActionButton;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -32,6 +34,10 @@ import java.util.List;
 public class TagListFragment
     extends BaseFragment<FragmentTagListBinding>
     implements ToolbarDescribing, TagListener {
+
+    private RecyclerView listView;
+    private TextView listPlaceholder;
+    private FloatingActionButton fab;
 
     private TagListAdapter listAdapter;
 
@@ -55,10 +61,15 @@ public class TagListFragment
         loadTags();
     }
 
-    private void initLayout() {
-        getBinding().fab.setOnClickListener((view) -> createTag());
+    private void bindViews() {
+        listView = getBinding().listView;
+        listPlaceholder = getBinding().listPlaceholder;
+        fab = getBinding().fab;
+    }
 
-        RecyclerView listView = getBinding().listView;
+    private void initLayout() {
+        fab.setOnClickListener((view) -> createTag());
+
         listView.setLayoutManager(new LinearLayoutManager(getContext()));
         listView.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
         listAdapter = new TagListAdapter(getContext(), this);
@@ -67,7 +78,7 @@ public class TagListFragment
 
     private void invalidateLayout() {
         boolean isEmpty = listAdapter == null || listAdapter.getItemCount() == 0;
-        getBinding().listPlaceholder.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+        listPlaceholder.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
     }
 
     private void setTags(List<Tag> tags) {
@@ -94,7 +105,7 @@ public class TagListFragment
 
     private void addTag(Tag tag) {
         int position = 0;
-        getBinding().listView.scrollToPosition(position);
+        listView.scrollToPosition(position);
         listAdapter.addItem(position, tag);
         listAdapter.notifyItemInserted(position);
     }

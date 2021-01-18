@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,6 +39,10 @@ import java.util.List;
 
 public class ExportHistoryFragment extends BaseFragment<FragmentExportHistoryBinding> implements ToolbarDescribing {
 
+    private RecyclerView listView;
+    private ProgressBar progressIndicator;
+    private TextView listPlaceholder;
+
     private ExportHistoryListAdapter listAdapter;
 
     @Override
@@ -61,6 +67,7 @@ public class ExportHistoryFragment extends BaseFragment<FragmentExportHistoryBin
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Events.register(this);
+        bindViews();
         initLayout();
         checkPermissions();
     }
@@ -75,12 +82,17 @@ public class ExportHistoryFragment extends BaseFragment<FragmentExportHistoryBin
         listAdapter = new ExportHistoryListAdapter(getContext());
     }
 
+    private void bindViews() {
+        listView = getBinding().listView;
+        listPlaceholder = getBinding().listPlaceholder;
+        progressIndicator = getBinding().progressIndicator;
+    }
+
     private void initLayout() {
-        RecyclerView listView = getBinding().listView;
         listView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         listView.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
         listView.setAdapter(listAdapter);
-        getBinding().progressIndicator.setVisibility(View.VISIBLE);
+        progressIndicator.setVisibility(View.VISIBLE);
     }
 
     private void checkPermissions() {
@@ -100,7 +112,8 @@ public class ExportHistoryFragment extends BaseFragment<FragmentExportHistoryBin
         listAdapter.clear();
         listAdapter.addItems(listItems);
         listAdapter.notifyDataSetChanged();
-        getBinding().progressIndicator.setVisibility(View.GONE);
+        progressIndicator.setVisibility(View.GONE);
+        listPlaceholder.setVisibility(listItems.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
     private void deleteExportIfConfirmed(ExportHistoryListItem item) {

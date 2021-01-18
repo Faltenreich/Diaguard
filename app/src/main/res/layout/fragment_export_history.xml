@@ -13,6 +13,14 @@
         android:background="?attr/backgroundColorPrimary"
         tools:listitem="@layout/list_item_export_history" />
 
+    <TextView
+        android:id="@+id/list_placeholder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/no_data"
+        android:visibility="gone"/>
+
     <ProgressBar
         android:id="@+id/progress_indicator"
         android:layout_width="wrap_content"

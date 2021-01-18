@@ -2,7 +2,7 @@ package com.faltenreich.diaguard.feature.entry.edit;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
@@ -12,35 +12,43 @@ import org.joda.time.DateTime;
 
 public class EntryEditFragmentFactory {
 
-    public static EntryEditFragment newInstance(@NonNull Entry entry) {
+    public static EntryEditFragment newInstance(@Nullable Entry entry) {
         EntryEditFragment fragment = new EntryEditFragment();
-        Bundle arguments = new Bundle();
-        arguments.putLong(EntryEditFragment.EXTRA_ENTRY_ID, entry.getId());
-        fragment.setArguments(arguments);
+        if (entry != null) {
+            Bundle arguments = new Bundle();
+            arguments.putLong(EntryEditFragment.EXTRA_ENTRY_ID, entry.getId());
+            fragment.setArguments(arguments);
+        }
         return fragment;
     }
 
-    public static EntryEditFragment newInstance(@NonNull Food food) {
+    public static EntryEditFragment newInstance(@Nullable Food food) {
         EntryEditFragment fragment = new EntryEditFragment();
-        Bundle arguments = new Bundle();
-        arguments.putLong(EntryEditFragment.EXTRA_FOOD_ID, food.getId());
-        fragment.setArguments(arguments);
+        if (food != null) {
+            Bundle arguments = new Bundle();
+            arguments.putLong(EntryEditFragment.EXTRA_FOOD_ID, food.getId());
+            fragment.setArguments(arguments);
+        }
         return fragment;
     }
 
-    public static EntryEditFragment newInstance(@NonNull DateTime dateTime) {
+    public static EntryEditFragment newInstance(@Nullable DateTime dateTime) {
         EntryEditFragment fragment = new EntryEditFragment();
-        Bundle arguments = new Bundle();
-        arguments.putSerializable(EntryEditFragment.EXTRA_DATE, dateTime);
-        fragment.setArguments(arguments);
+        if (dateTime != null) {
+            Bundle arguments = new Bundle();
+            arguments.putSerializable(EntryEditFragment.EXTRA_DATE, dateTime);
+            fragment.setArguments(arguments);
+        }
         return fragment;
     }
 
-    public static EntryEditFragment newInstance(@NonNull Category category) {
+    public static EntryEditFragment newInstance(@Nullable Category category) {
         EntryEditFragment fragment = new EntryEditFragment();
-        Bundle arguments = new Bundle();
-        arguments.putSerializable(EntryEditFragment.EXTRA_CATEGORY, category);
-        fragment.setArguments(arguments);
+        if (category != null) {
+            Bundle arguments = new Bundle();
+            arguments.putSerializable(EntryEditFragment.EXTRA_CATEGORY, category);
+            fragment.setArguments(arguments);
+        }
         return fragment;
     }
 }

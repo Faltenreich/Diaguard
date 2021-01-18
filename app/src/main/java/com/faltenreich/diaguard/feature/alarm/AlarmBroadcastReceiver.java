@@ -8,8 +8,7 @@ import android.util.Log;
 /**
  * Created by Filip on 22.12.2014.
  */
-public class
-AlarmBroadcastReceiver extends BroadcastReceiver {
+public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
     private static final String TAG = AlarmBroadcastReceiver.class.getSimpleName();
 

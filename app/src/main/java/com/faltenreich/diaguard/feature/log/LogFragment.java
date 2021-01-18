@@ -1,7 +1,6 @@
 package com.faltenreich.diaguard.feature.log;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -82,9 +81,7 @@ public class LogFragment extends DateFragment<FragmentLogBinding> implements Log
         super.onViewCreated(view, savedInstanceState);
         bindViews();
         initLayout();
-
-        // Fake delay for smoother fragment transitions
-        new Handler().postDelayed(() -> goToDay(getDay()), 350);
+        goToDay(getDay());
     }
 
     @Override

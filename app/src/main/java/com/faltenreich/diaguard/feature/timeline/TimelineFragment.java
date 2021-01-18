@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.viewpager.widget.ViewPager;
 
@@ -53,6 +54,12 @@ public class TimelineFragment extends DateFragment<FragmentTimelineBinding> impl
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        init();
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         bindViews();
@@ -72,16 +79,19 @@ public class TimelineFragment extends DateFragment<FragmentTimelineBinding> impl
         return super.onOptionsItemSelected(item);
     }
 
-    private void bindViews() {
-        viewPager = getBinding().viewPager;
-    }
-
-    private void initLayout() {
+    private void init() {
         adapter = new TimelinePagerAdapter(
             getChildFragmentManager(),
             DateTime.now(),
             (view, scrollX, scrollY, oldScrollX, oldScrollY) -> scrollOffset = scrollY
         );
+    }
+
+    private void bindViews() {
+        viewPager = getBinding().viewPager;
+    }
+
+    private void initLayout() {
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(adapter.getMiddle(), false);
         viewPager.addOnPageChangeListener(this);

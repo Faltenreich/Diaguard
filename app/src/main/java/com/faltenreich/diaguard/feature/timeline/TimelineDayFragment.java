@@ -16,6 +16,7 @@ import com.faltenreich.diaguard.databinding.FragmentTimelineDayBinding;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragmentFactory;
 import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
+import com.faltenreich.diaguard.feature.timeline.chart.DayChart;
 import com.faltenreich.diaguard.feature.timeline.table.CategoryImageListAdapter;
 import com.faltenreich.diaguard.feature.timeline.table.CategoryImageListItem;
 import com.faltenreich.diaguard.feature.timeline.table.CategoryValueListAdapter;
@@ -43,6 +44,11 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
 
     private static final String EXTRA_DATE_TIME = "EXTRA_DATE_TIME";
     private static final int SKIP_EVERY_X_HOUR = 2;
+
+    private RecyclerView imageListView;
+    private RecyclerView valueListView;
+    private NestedScrollView scrollView;
+    private DayChart chartView;
 
     private DateTime day;
     private NestedScrollView.OnScrollChangeListener onScrollListener;
@@ -79,6 +85,7 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        bindViews();
         initLayout();
         setDay(day);
     }
@@ -98,14 +105,19 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
         }
     }
 
+    private void bindViews() {
+        imageListView = getBinding().imageListView;
+        valueListView = getBinding().valueListView;
+        scrollView = getBinding().scrollView;
+        chartView = getBinding().chartView;
+    }
+
     private void initLayout() {
-        RecyclerView imageListView = getBinding().imageListView;
         imageListView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         imageListView.addItemDecoration(new VerticalDividerItemDecoration(getContext()));
         imageListView.setAdapter(imageAdapter);
         imageListView.setNestedScrollingEnabled(false);
 
-        RecyclerView valueListView = getBinding().valueListView;
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), DateTimeConstants.HOURS_PER_DAY / 2);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         valueListView.setLayoutManager(layoutManager);
@@ -113,12 +125,12 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
         valueListView.setAdapter(valueAdapter);
         valueListView.setNestedScrollingEnabled(false);
 
-        getBinding().scrollView.setOnScrollChangeListener(onScrollListener);
-        getBinding().chartView.setOnItemSelectedListener(this::openEntry);
+        scrollView.setOnScrollChangeListener(onScrollListener);
+        chartView.setOnItemSelectedListener(this::openEntry);
     }
 
     private void invalidateData() {
-        getBinding().chartView.setDay(day);
+        chartView.setDay(day);
 
         DataLoader.getInstance().load(getContext(), new DataLoaderListener<List<CategoryValueListItem>>() {
             @Override
@@ -149,7 +161,7 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
             if (valueAdapter.getItemCount() > 0) {
                 for (int index = 0; index < temp.size(); index++) {
                     CategoryValueListItem listItem = temp.get(index);
-                    RecyclerView.ViewHolder viewHolder = getBinding().valueListView.findViewHolderForAdapterPosition(index);
+                    RecyclerView.ViewHolder viewHolder = valueListView.findViewHolderForAdapterPosition(index);
                     if (viewHolder instanceof CategoryValueViewHolder) {
                         valueAdapter.setItem(listItem, index);
                         // We access the ViewHolder directly for better performance compared to notifyItem(Range)Changed
@@ -187,8 +199,8 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
 
     public void scrollTo(int yOffset) {
         if (isAdded()) {
-            int y = yOffset - getBinding().valueListView.computeVerticalScrollOffset();
-            getBinding().scrollView.scrollBy(0, y);
+            int y = yOffset - valueListView.computeVerticalScrollOffset();
+            scrollView.scrollBy(0, y);
         }
     }
 

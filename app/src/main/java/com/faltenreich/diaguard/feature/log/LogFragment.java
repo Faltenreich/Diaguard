@@ -5,8 +5,10 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -46,6 +48,9 @@ import java.util.List;
  */
 public class LogFragment extends DateFragment<FragmentLogBinding> implements LogListAdapter.Listener {
 
+    private RecyclerView listView;
+    private ProgressBar progressIndicator;
+
     private LogListAdapter listAdapter;
     private StickyHeaderDecoration listDecoration;
     private LinearLayoutManager listLayoutManager;
@@ -67,8 +72,15 @@ public class LogFragment extends DateFragment<FragmentLogBinding> implements Log
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        init();
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        bindViews();
         initLayout();
 
         // Fake delay for smoother fragment transitions
@@ -84,11 +96,18 @@ public class LogFragment extends DateFragment<FragmentLogBinding> implements Log
         return super.onOptionsItemSelected(item);
     }
 
+    private void init() {
+        listAdapter = new LogListAdapter(getActivity(), this);
+    }
+
+    private void bindViews() {
+        listView = getBinding().listView;
+        progressIndicator = getBinding().progressIndicator;
+    }
+
     private void initLayout() {
-        RecyclerView listView = getBinding().listView;
         listLayoutManager = new SafeLinearLayoutManager(getActivity());
         listView.setLayoutManager(listLayoutManager);
-        listAdapter = new LogListAdapter(getActivity(), this);
         listView.setAdapter(listAdapter);
         listDecoration = new StickyHeaderDecoration(listAdapter, true);
         listView.addItemDecoration(listDecoration);
@@ -133,9 +152,9 @@ public class LogFragment extends DateFragment<FragmentLogBinding> implements Log
 
         int position = listAdapter.getDayPosition(dateTime);
         if (position >= 0) {
-            getBinding().listView.scrollToPosition(position);
+            listView.scrollToPosition(position);
         } else {
-            getBinding().progressIndicator.setVisibility(View.VISIBLE);
+            progressIndicator.setVisibility(View.VISIBLE);
             listAdapter.setup(dateTime);
         }
     }
@@ -148,7 +167,7 @@ public class LogFragment extends DateFragment<FragmentLogBinding> implements Log
     @Override
     public void onSetupEnd() {
         if (isAdded()) {
-            getBinding().progressIndicator.setVisibility(View.GONE);
+            progressIndicator.setVisibility(View.GONE);
             goToDay(getDay());
         }
     }
@@ -268,47 +287,35 @@ public class LogFragment extends DateFragment<FragmentLogBinding> implements Log
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EntryAddedEvent event) {
-        if (isAdded()) {
-            addEntry(event.context, event.entryTags, event.foodEatenList);
-        }
+        addEntry(event.context, event.entryTags, event.foodEatenList);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EntryDeletedEvent event) {
         super.onEvent(event);
-        if (isAdded()) {
-            removeEntry(event.context);
-        }
+        removeEntry(event.context);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EntryUpdatedEvent event) {
-        if (isAdded()) {
-            updateEntry(event.context, event.entryTags, event.foodEatenList, event.originalDate);
-        }
+        updateEntry(event.context, event.entryTags, event.foodEatenList, event.originalDate);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(@SuppressWarnings("unused") UnitChangedEvent event) {
-        if (isAdded()) {
-            getBinding().progressIndicator.setVisibility(View.VISIBLE);
-            listAdapter.setup(getDay());
-        }
+    public void onEvent(UnitChangedEvent event) {
+        progressIndicator.setVisibility(View.VISIBLE);
+        listAdapter.setup(getDay());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(@SuppressWarnings("unused") BackupImportedEvent event) {
-        if (isAdded()) {
-            getBinding().progressIndicator.setVisibility(View.VISIBLE);
-            listAdapter.setup(getDay());
-        }
+    public void onEvent(BackupImportedEvent event) {
+        progressIndicator.setVisibility(View.VISIBLE);
+        listAdapter.setup(getDay());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(@SuppressWarnings("unused") CategoryPreferenceChangedEvent event) {
-        if (isAdded()) {
-            getBinding().progressIndicator.setVisibility(View.VISIBLE);
-            listAdapter.setup(getDay());
-        }
+    public void onEvent(CategoryPreferenceChangedEvent event) {
+        progressIndicator.setVisibility(View.VISIBLE);
+        listAdapter.setup(getDay());
     }
 }

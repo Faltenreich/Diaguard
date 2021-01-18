@@ -75,8 +75,7 @@ public class FoodDetailFragment extends BaseFragment<FragmentFoodDetailBinding> 
         if (itemId == android.R.id.home) {
             finish();
         } else if (itemId == R.id.action_delete) {
-            FoodActions.deleteFoodIfConfirmed(getContext(), food);
-            finish();
+            FoodActions.deleteFoodIfConfirmed(requireContext(), food, (food) -> finish());
             return true;
         } else if (itemId == R.id.action_edit) {
             editFood();

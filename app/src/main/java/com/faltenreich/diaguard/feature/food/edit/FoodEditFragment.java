@@ -48,7 +48,7 @@ public class FoodEditFragment extends BaseFragment<FragmentFoodEditBinding> impl
     @Override
     public ToolbarProperties getToolbarProperties() {
         return new ToolbarProperties.Builder()
-            .setTitle(getContext(), food != null ? R.string.food_edit : R.string.food_new)
+            .setTitle(getContext(), foodId != null ? R.string.food_edit : R.string.food_new)
             .setMenu(R.menu.form_edit)
             .build();
     }
@@ -83,8 +83,7 @@ public class FoodEditFragment extends BaseFragment<FragmentFoodEditBinding> impl
         if (itemId == android.R.id.home) {
             finish();
         } else if (itemId == R.id.action_delete) {
-            FoodActions.deleteFoodIfConfirmed(getContext(), food);
-            finish();
+            FoodActions.deleteFoodIfConfirmed(requireContext(), food, (food) -> finish());
             return true;
         }
         return super.onOptionsItemSelected(item);

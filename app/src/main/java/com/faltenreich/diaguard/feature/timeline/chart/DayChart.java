@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.feature.timeline.chart;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import androidx.annotation.ColorInt;
 import androidx.core.view.ViewCompat;
@@ -10,7 +9,6 @@ import androidx.core.view.ViewCompat;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
-import com.faltenreich.diaguard.feature.timeline.TimelineDayFragment;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.view.chart.ChartUtils;
@@ -83,7 +81,6 @@ public class DayChart extends CombinedChart implements OnChartValueSelectedListe
     }
 
     private void update() {
-        Log.d(DayChart.class.getSimpleName(), "Invalidating data for " + day.toString());
         new DayChartDataFetchTask(getContext(), data -> {
             if (ViewCompat.isAttachedToWindow(DayChart.this)) {
                 clear();

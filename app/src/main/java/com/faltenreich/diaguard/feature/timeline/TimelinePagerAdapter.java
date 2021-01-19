@@ -28,12 +28,18 @@ public class TimelinePagerAdapter extends FragmentStatePagerAdapter {
     ) {
         super(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         fragments = new ArrayList<>();
-        for (int position = 0; position < ITEM_COUNT; position++) {
+
+        for (int position = 0; position < getCount(); position++) {
             DateTime day = dateTime.minusDays(getMiddle()).plusDays(position);
             TimelineDayFragment fragment = TimelineDayFragment.createInstance(day);
             fragment.setOnScrollListener(onScrollListener);
             fragments.add(fragment);
         }
+    }
+
+    @NonNull
+    TimelineDayFragment getFragment(int position) {
+        return fragments.get(position);
     }
 
     @NonNull
@@ -56,19 +62,11 @@ public class TimelinePagerAdapter extends FragmentStatePagerAdapter {
         return getCount() >= 1 ? getCount() / 2 : 0;
     }
 
-    TimelineDayFragment getFragment(int position) {
-        return fragments.get(position);
-    }
-
     void setDay(DateTime day) {
-        for (int position = 0; position < ITEM_COUNT; position++) {
-            if (position < fragments.size()) {
-                TimelineDayFragment fragment = fragments.get(position);
-                if (fragment != null) {
-                    DateTime fragmentDay = day.minusDays(getMiddle()).plusDays(position);
-                    fragment.setDay(fragmentDay);
-                }
-            }
+        for (int position = 0; position < getCount(); position++) {
+            TimelineDayFragment fragment = getFragment(position);
+            DateTime fragmentDay = day.minusDays(getMiddle()).plusDays(position);
+            fragment.setDay(fragmentDay);
         }
     }
 
@@ -76,8 +74,8 @@ public class TimelinePagerAdapter extends FragmentStatePagerAdapter {
         Collections.rotate(fragments, 1);
         notifyDataSetChanged();
 
-        TimelineDayFragment fragment = fragments.get(0);
-        DateTime previousDay = fragment.getDay().minusDays(ITEM_COUNT);
+        TimelineDayFragment fragment = getFragment(0);
+        DateTime previousDay = fragment.getDay().minusDays(getCount());
         fragment.setDay(previousDay);
     }
 
@@ -85,17 +83,15 @@ public class TimelinePagerAdapter extends FragmentStatePagerAdapter {
         Collections.rotate(fragments, -1);
         notifyDataSetChanged();
 
-        TimelineDayFragment fragment = fragments.get(ITEM_COUNT - 1);
-        DateTime nextDay = fragment.getDay().plusDays(ITEM_COUNT);
+        TimelineDayFragment fragment = getFragment(getCount() - 1);
+        DateTime nextDay = fragment.getDay().plusDays(getCount());
         fragment.setDay(nextDay);
     }
 
     void reset() {
-        for (int position = 0; position < ITEM_COUNT; position++) {
-            if (position < fragments.size()) {
-                TimelineDayFragment fragment = fragments.get(position);
-                fragment.reset();
-            }
+        for (int position = 0; position < getCount(); position++) {
+            TimelineDayFragment fragment = getFragment(position);
+            fragment.reset();
         }
     }
 }

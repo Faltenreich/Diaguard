@@ -127,7 +127,6 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
     }
 
     private void invalidateData() {
-        Log.d(TimelineDayFragment.class.getSimpleName(), "Invalidating data for " + day.toString());
         chartView.setDay(day);
         DataLoader.getInstance().load(getContext(), new DataLoaderListener<List<CategoryValueListItem>>() {
             @Override
@@ -155,7 +154,6 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
 
     public void invalidateLayout() {
         if (isAdded() && temp != null) {
-            Log.d(TimelineDayFragment.class.getSimpleName(), "Invalidating layout for " + day.toString());
             if (valueAdapter.getItemCount() > 0) {
                 for (int index = 0; index < temp.size(); index++) {
                     CategoryValueListItem listItem = temp.get(index);

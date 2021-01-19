@@ -20,6 +20,8 @@ public class TimelinePagerAdapter extends FragmentStatePagerAdapter {
     private static final int ITEM_COUNT = 3;
 
     private final List<TimelineDayFragment> fragments;
+    private final DateTime dateTime;
+    private final NestedScrollView.OnScrollChangeListener onScrollListener;
 
     TimelinePagerAdapter(
         FragmentManager fragmentManager,
@@ -27,25 +29,20 @@ public class TimelinePagerAdapter extends FragmentStatePagerAdapter {
         NestedScrollView.OnScrollChangeListener onScrollListener
     ) {
         super(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        fragments = new ArrayList<>();
-
-        for (int position = 0; position < getCount(); position++) {
-            DateTime day = dateTime.minusDays(getMiddle()).plusDays(position);
-            TimelineDayFragment fragment = TimelineDayFragment.createInstance(day);
-            fragment.setOnScrollListener(onScrollListener);
-            fragments.add(fragment);
-        }
-    }
-
-    @NonNull
-    TimelineDayFragment getFragment(int position) {
-        return fragments.get(position);
+        this.fragments = new ArrayList<>();
+        this.dateTime = dateTime;
+        this.onScrollListener = onScrollListener;
     }
 
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        return getFragment(position);
+        DateTime day = dateTime.minusDays(getMiddle()).plusDays(position);
+        TimelineDayFragment fragment = TimelineDayFragment.createInstance(day);
+        // FIXME: Fix memory leak by removing fragment property, e.g. via shared view model
+        fragment.setOnScrollListener(onScrollListener);
+        fragments.add(position < fragments.size() ? 0 : fragments.size(), fragment);
+        return fragment;
     }
 
     @Override
@@ -60,6 +57,11 @@ public class TimelinePagerAdapter extends FragmentStatePagerAdapter {
 
     public int getMiddle() {
         return getCount() >= 1 ? getCount() / 2 : 0;
+    }
+
+    @NonNull
+    TimelineDayFragment getFragment(int position) {
+        return fragments.get(position);
     }
 
     void setDay(DateTime day) {

@@ -147,7 +147,6 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
 
             @Override
             public void onDidLoad(DayChartData data) {
-                chartView.clear();
                 chartView.setData(data);
                 chartView.getAxisLeft().setAxisMaximum(data.getYAxisMaximum() + DayChart.Y_MAX_VALUE_OFFSET);
                 chartView.invalidate();

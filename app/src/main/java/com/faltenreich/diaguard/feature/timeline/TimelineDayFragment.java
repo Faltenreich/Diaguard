@@ -2,7 +2,6 @@ package com.faltenreich.diaguard.feature.timeline;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -18,6 +17,7 @@ import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragmentFactory;
 import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.feature.timeline.chart.DayChart;
+import com.faltenreich.diaguard.feature.timeline.chart.DayChartData;
 import com.faltenreich.diaguard.feature.timeline.table.CategoryImageListAdapter;
 import com.faltenreich.diaguard.feature.timeline.table.CategoryImageListItem;
 import com.faltenreich.diaguard.feature.timeline.table.CategoryValueListAdapter;
@@ -28,6 +28,7 @@ import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
+import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.GridDividerItemDecoration;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
@@ -127,7 +128,32 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
     }
 
     private void invalidateData() {
-        chartView.setDay(day);
+        // TODO: Request only if data is not available and observe data changes
+
+        DataLoader.getInstance().load(getContext(), new DataLoaderListener<DayChartData>() {
+            @Override
+            public DayChartData onShouldLoad() {
+                List<Measurement> values = new ArrayList<>();
+                List<Entry> entries = EntryDao.getInstance().getEntriesOfDay(day);
+                if (entries != null && entries.size() > 0) {
+                    for (Entry entry : entries) {
+                        // TODO: Improve performance by using transaction / bulk fetch
+                        List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry, new Category[] { Category.BLOODSUGAR });
+                        values.addAll(measurements);
+                    }
+                }
+                return new DayChartData(getContext(), values);
+            }
+
+            @Override
+            public void onDidLoad(DayChartData data) {
+                chartView.clear();
+                chartView.setData(data);
+                chartView.getAxisLeft().setAxisMaximum(data.getYAxisMaximum() + DayChart.Y_MAX_VALUE_OFFSET);
+                chartView.invalidate();
+            }
+        });
+
         DataLoader.getInstance().load(getContext(), new DataLoaderListener<List<CategoryValueListItem>>() {
             @Override
             public List<CategoryValueListItem> onShouldLoad() {
@@ -175,6 +201,7 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
                 valueAdapter.addItems(temp);
                 valueAdapter.notifyDataSetChanged();
             }
+            temp = null;
         }
     }
 

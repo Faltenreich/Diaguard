@@ -24,7 +24,7 @@ import java.util.List;
  * Created by Faltenreich on 15.03.2017
  */
 
-class DayChartData extends CombinedData {
+public class DayChartData extends CombinedData {
 
     private enum DataSetType {
         TARGET("target", R.color.green),
@@ -40,19 +40,25 @@ class DayChartData extends CombinedData {
         }
     }
 
-    private Context context;
-    private TimelineStyle timelineStyle;
-    private List<Measurement> values;
+    private final Context context;
+    private final TimelineStyle timelineStyle;
+    private final List<Measurement> values;
+    private float yAxisMaximum;
 
-    DayChartData(Context context, List<Measurement> values) {
+    public DayChartData(Context context, List<Measurement> values) {
         super();
         this.context = context;
         this.timelineStyle = PreferenceStore.getInstance().getTimelineStyle();
         this.values = values;
-        init();
+        createEntries();
+        calculateYAxisMaximum();
     }
 
-    private void init() {
+    public float getYAxisMaximum() {
+        return yAxisMaximum;
+    }
+
+    private void createEntries() {
         if (values.size() > 0) {
             for (Measurement value : values) {
                 int xValue = value.getEntry().getDate().getMinuteOfDay();
@@ -64,6 +70,20 @@ class DayChartData extends CombinedData {
         } else {
             // Add fake entry to display empty chart
             addEntry(new Entry(-1, 0));
+        }
+    }
+
+    // Identify max value manually because data.getYMax does not work when combining scatter with line chart
+    private void calculateYAxisMaximum() {
+        yAxisMaximum = PreferenceStore.getInstance().formatDefaultToCustomUnit(Category.BLOODSUGAR, DayChart.Y_MAX_VALUE_DEFAULT);
+        for (int datasetIndex = 0; datasetIndex < getScatterData().getDataSetCount(); datasetIndex++) {
+            IScatterDataSet dataSet = getScatterData().getDataSetByIndex(datasetIndex);
+            for (int entryIndex = 0; entryIndex < dataSet.getEntryCount(); entryIndex++) {
+                float entryValue = dataSet.getEntryForIndex(entryIndex).getY();
+                if (entryValue > yAxisMaximum) {
+                    yAxisMaximum = entryValue;
+                }
+            }
         }
     }
 

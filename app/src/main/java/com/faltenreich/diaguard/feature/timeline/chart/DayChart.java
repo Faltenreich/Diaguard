@@ -4,11 +4,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import androidx.annotation.ColorInt;
-import androidx.core.view.ViewCompat;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.view.chart.ChartUtils;
@@ -16,10 +13,8 @@ import com.faltenreich.diaguard.shared.view.listener.OnItemSelectedListener;
 import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.interfaces.datasets.IScatterDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
-import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 
 /**
@@ -28,11 +23,10 @@ import org.joda.time.DateTimeConstants;
 public class DayChart extends CombinedChart implements OnChartValueSelectedListener {
 
     private static final float TAP_THRESHOLD_IN_DP = 24;
-    private static final float Y_MAX_VALUE_DEFAULT = 200;
-    private static final float Y_MAX_VALUE_OFFSET = 20;
+    public static final float Y_MAX_VALUE_DEFAULT = 200;
+    public static final float Y_MAX_VALUE_OFFSET = 20;
 
     private OnItemSelectedListener<Entry> listener;
-    private DateTime day;
 
     public DayChart(Context context) {
         super(context);
@@ -78,40 +72,6 @@ public class DayChart extends CombinedChart implements OnChartValueSelectedListe
             setOnChartValueSelectedListener(this);
             setDragEnabled(false);
         }
-    }
-
-    private void update() {
-        new DayChartDataFetchTask(getContext(), data -> {
-            if (ViewCompat.isAttachedToWindow(DayChart.this)) {
-                clear();
-                setData(data);
-
-                // Identify max value manually because data.getYMax does not work when combining scatter with line chart
-                float yAxisMaximum = PreferenceStore.getInstance().formatDefaultToCustomUnit(Category.BLOODSUGAR, Y_MAX_VALUE_DEFAULT);
-                for (int datasetIndex = 0; datasetIndex < data.getScatterData().getDataSetCount(); datasetIndex++) {
-                    IScatterDataSet dataSet = data.getScatterData().getDataSetByIndex(datasetIndex);
-                    for (int entryIndex = 0; entryIndex < dataSet.getEntryCount(); entryIndex++) {
-                        float entryValue = dataSet.getEntryForIndex(entryIndex).getY();
-                        if (entryValue > yAxisMaximum) {
-                            yAxisMaximum = entryValue;
-                        }
-                    }
-                }
-
-                getAxisLeft().setAxisMaximum(yAxisMaximum + Y_MAX_VALUE_OFFSET);
-                invalidate();
-            }
-        }, day).execute();
-    }
-
-    public DateTime getDay() {
-        return day;
-    }
-
-    public void setDay(DateTime day) {
-        this.day = day;
-        this.setTag(DateTimeUtils.toDateString(day));
-        update();
     }
 
     @Override

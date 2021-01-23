@@ -56,6 +56,7 @@ public class TagListFragment
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        bindViews();
         initLayout();
         invalidateLayout();
         loadTags();

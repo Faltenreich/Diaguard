@@ -119,3 +119,9 @@
 -dontnote org.apache.commons.lang3.ObjectUtils
 -dontwarn org.apache.**
 ##---------------End: Apache Commons ----------
+
+##---------------Begin: AboutLibraries ----------
+-keep class **.R$* {
+    <fields>;
+}
+##---------------End: AboutLibraries ----------

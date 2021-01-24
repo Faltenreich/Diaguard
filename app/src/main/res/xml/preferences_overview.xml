@@ -160,9 +160,10 @@
                 android:data="@string/app_sourcecode" />
         </Preference>
 
-        <com.faltenreich.diaguard.feature.preference.license.LicensePreference
+        <Preference
             android:key="@string/preference_license"
-            android:title="@string/licenses" />
+            android:title="@string/licenses"
+            app:fragment="com.faltenreich.diaguard.feature.preference.license.LicenseFragment" />
 
         <Preference
             android:key="@string/preference_privacy_policy"

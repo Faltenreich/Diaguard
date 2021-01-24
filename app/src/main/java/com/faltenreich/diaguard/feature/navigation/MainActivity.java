@@ -7,7 +7,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -17,6 +16,8 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ActivityMainBinding;
@@ -42,7 +43,7 @@ import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity
     extends BaseActivity<ActivityMainBinding>
-    implements Navigating, ToolbarOwner, SearchOwner, OnFragmentChangeListener {
+    implements Navigating, ToolbarOwner, SearchOwner, OnFragmentChangeListener, PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
@@ -269,6 +270,13 @@ public class MainActivity
     public void openFragment(@NonNull Fragment fragment, @NonNull Navigation.Operation operation, boolean addToBackStack) {
         resetMainButton();
         Navigation.openFragment(fragment, getSupportFragmentManager(), R.id.container, operation, addToBackStack);
+    }
+
+    @Override
+    public boolean onPreferenceStartFragment(PreferenceFragmentCompat caller, Preference preference) {
+        Fragment fragment = Navigation.instantiateFragment(preference, getSupportFragmentManager(), getClassLoader(), caller);
+        openFragment(fragment, Navigation.Operation.REPLACE, true);
+        return true;
     }
 
     private void checkChangelog() {

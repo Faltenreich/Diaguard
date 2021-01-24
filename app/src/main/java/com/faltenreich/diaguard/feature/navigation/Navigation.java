@@ -4,8 +4,11 @@ import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentFactory;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
 
 public class Navigation {
 
@@ -56,5 +59,18 @@ public class Navigation {
 
     public static void clearBackStack(@NonNull FragmentManager fragmentManager) {
         fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    }
+
+    public static Fragment instantiateFragment(
+        @NonNull Preference preference,
+        @NonNull FragmentManager fragmentManager,
+        @NonNull ClassLoader classLoader,
+        @NonNull PreferenceFragmentCompat caller
+    ) {
+        FragmentFactory factory = fragmentManager.getFragmentFactory();
+        Fragment fragment = factory.instantiate(classLoader, preference.getFragment());
+        fragment.setArguments(preference.getExtras());
+        fragment.setTargetFragment(caller, 0);
+        return fragment;
     }
 }

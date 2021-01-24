@@ -43,7 +43,8 @@ import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity
     extends BaseActivity<ActivityMainBinding>
-    implements Navigating, ToolbarOwner, SearchOwner, OnFragmentChangeListener, PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
+    implements Navigating, ToolbarOwner, SearchOwner, OnFragmentChangeListener, PreferenceFragmentCompat.OnPreferenceStartFragmentCallback
+{
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
@@ -101,11 +102,24 @@ public class MainActivity
     }
 
     @Override
+    public void openFragment(@NonNull Fragment fragment, @NonNull Navigation.Operation operation, boolean addToBackStack) {
+        resetMainButton();
+        Navigation.openFragment(fragment, getSupportFragmentManager(), R.id.container, operation, addToBackStack);
+    }
+
+    @Override
     public void onFragmentChanged(Fragment fragment) {
         Fragment visibleFragment = Navigation.getCurrentFragment(getSupportFragmentManager(), R.id.container);
         if (fragment != null && fragment == visibleFragment) {
             invalidateLayout(fragment);
         }
+    }
+
+    @Override
+    public boolean onPreferenceStartFragment(PreferenceFragmentCompat caller, Preference preference) {
+        Fragment fragment = Navigation.instantiateFragment(preference, getSupportFragmentManager(), getClassLoader(), caller);
+        openFragment(fragment, Navigation.Operation.REPLACE, true);
+        return true;
     }
 
     private void bindView() {
@@ -159,9 +173,9 @@ public class MainActivity
             }
         });
 
-        getSupportFragmentManager().addOnBackStackChangedListener(() -> {
-            drawerToggle.setDrawerIndicatorEnabled(getSupportFragmentManager().getBackStackEntryCount() == 0);
-        });
+        getSupportFragmentManager().addOnBackStackChangedListener(() ->
+            drawerToggle.setDrawerIndicatorEnabled(getSupportFragmentManager().getBackStackEntryCount() == 0)
+        );
 
         // Setup start fragment
         int startScreen = PreferenceStore.getInstance().getStartScreen();
@@ -264,19 +278,6 @@ public class MainActivity
             }
             menuItem.setChecked(true);
         }
-    }
-
-    @Override
-    public void openFragment(@NonNull Fragment fragment, @NonNull Navigation.Operation operation, boolean addToBackStack) {
-        resetMainButton();
-        Navigation.openFragment(fragment, getSupportFragmentManager(), R.id.container, operation, addToBackStack);
-    }
-
-    @Override
-    public boolean onPreferenceStartFragment(PreferenceFragmentCompat caller, Preference preference) {
-        Fragment fragment = Navigation.instantiateFragment(preference, getSupportFragmentManager(), getClassLoader(), caller);
-        openFragment(fragment, Navigation.Operation.REPLACE, true);
-        return true;
     }
 
     private void checkChangelog() {

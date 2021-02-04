@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.feature.timeline;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -12,6 +13,12 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentTimelineBinding;
+import com.faltenreich.diaguard.feature.datetime.DatePicking;
+import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragment;
+import com.faltenreich.diaguard.feature.navigation.MainButton;
+import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
+import com.faltenreich.diaguard.feature.navigation.Navigation;
+import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.event.data.EntryAddedEvent;
@@ -21,14 +28,19 @@ import com.faltenreich.diaguard.shared.event.file.BackupImportedEvent;
 import com.faltenreich.diaguard.shared.event.preference.CategoryPreferenceChangedEvent;
 import com.faltenreich.diaguard.shared.event.preference.UnitChangedEvent;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
-import com.faltenreich.diaguard.shared.view.fragment.DateFragment;
+import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
-public class TimelineFragment extends DateFragment<FragmentTimelineBinding> implements ViewPager.OnPageChangeListener {
+public class TimelineFragment
+    extends BaseFragment<FragmentTimelineBinding>
+    implements ToolbarDescribing, MainButton, DatePicking, ViewPager.OnPageChangeListener
+{
+
+    private DateTime day;
 
     private ViewPager viewPager;
     private TimelinePagerAdapter adapter;
@@ -41,17 +53,30 @@ public class TimelineFragment extends DateFragment<FragmentTimelineBinding> impl
 
     @Override
     public ToolbarProperties getToolbarProperties() {
-        boolean isLargeTitle = ViewUtils.isLandscape(getActivity()) || ViewUtils.isLargeScreen(getActivity());
-        String weekDay = isLargeTitle ?
-            getDay().dayOfWeek().getAsText() :
-            getDay().dayOfWeek().getAsShortText();
-        String date = DateTimeFormat.mediumDate().print(getDay());
-        String title = String.format("%s, %s", weekDay, date);
+        String title = null;
+        if (day != null) {
+            boolean isLargeTitle = ViewUtils.isLandscape(getActivity()) || ViewUtils.isLargeScreen(getActivity());
+            String weekDay = isLargeTitle ?
+                day.dayOfWeek().getAsText() :
+                day.dayOfWeek().getAsShortText();
+            String date = DateTimeFormat.mediumDate().print(day);
+            title = String.format("%s, %s", weekDay, date);
+        }
         return new ToolbarProperties.Builder()
             .setTitle(title)
             .setMenu(R.menu.timeline)
-            .setOnClickListener((view) -> showDatePicker())
+            .setOnClickListener((view) -> showDatePicker(day, getParentFragmentManager()))
             .build();
+    }
+
+    @Override
+    public MainButtonProperties getMainButtonProperties() {
+        return MainButtonProperties.addButton(view -> {
+            if (getContext() != null) {
+                // Date will not be passed through to compensate negative user feedback
+                openFragment(new EntryEditFragment(), Navigation.Operation.REPLACE, true);
+            }
+        });
     }
 
     @Override
@@ -68,6 +93,12 @@ public class TimelineFragment extends DateFragment<FragmentTimelineBinding> impl
     }
 
     @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        updateLabels();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
         if (itemId == R.id.action_today) {
@@ -81,9 +112,10 @@ public class TimelineFragment extends DateFragment<FragmentTimelineBinding> impl
     }
 
     private void init() {
+        day = DateTime.now().withHourOfDay(0).withMinuteOfHour(0);
         adapter = new TimelinePagerAdapter(
             getChildFragmentManager(),
-            DateTime.now(),
+            day,
             (view, scrollX, scrollY, oldScrollX, oldScrollY) -> scrollOffset = scrollY
         );
     }
@@ -116,7 +148,7 @@ public class TimelineFragment extends DateFragment<FragmentTimelineBinding> impl
                     int position = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
                     TimelineStyle style = styles[position];
                     PreferenceStore.getInstance().setTimelineStyle(style);
-                    goToDay(getDay());
+                    goToDay(day);
                 })
             .create()
             .show();
@@ -124,9 +156,14 @@ public class TimelineFragment extends DateFragment<FragmentTimelineBinding> impl
     }
 
     @Override
-    protected void goToDay(DateTime day) {
-        super.goToDay(day);
+    public void goToDay(DateTime day) {
+        this.day = day;
+        updateLabels();
         adapter.setDay(day);
+    }
+
+    private void updateLabels() {
+        setTitle(getToolbarProperties().getTitle());
     }
 
     @Override
@@ -140,7 +177,7 @@ public class TimelineFragment extends DateFragment<FragmentTimelineBinding> impl
             DateTime day = fragment.getDay();
             if (day != null) {
                 fragment.scrollTo(scrollOffset);
-                setDay(day);
+                this.day = day;
                 updateLabels();
             }
         }
@@ -171,7 +208,7 @@ public class TimelineFragment extends DateFragment<FragmentTimelineBinding> impl
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EntryAddedEvent event) {
         if (isAdded()) {
-            goToDay(getDay());
+            goToDay(day);
         }
     }
 
@@ -179,28 +216,28 @@ public class TimelineFragment extends DateFragment<FragmentTimelineBinding> impl
     public void onEvent(EntryDeletedEvent event) {
         super.onEvent(event);
         if (isAdded()) {
-            goToDay(getDay());
+            goToDay(day);
         }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EntryUpdatedEvent event) {
         if (isAdded()) {
-            goToDay(getDay());
+            goToDay(day);
         }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(UnitChangedEvent event) {
         if (isAdded()) {
-            goToDay(getDay());
+            goToDay(day);
         }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(BackupImportedEvent event) {
         if (isAdded()) {
-            goToDay(getDay());
+            goToDay(day);
         }
     }
 

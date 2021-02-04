@@ -67,6 +67,7 @@ public class LogFragment extends DateFragment<FragmentLogBinding> implements Log
         return new ToolbarProperties.Builder()
             .setTitle(title)
             .setMenu(R.menu.log)
+            .setOnClickListener((view) -> showDatePicker())
             .build();
     }
 

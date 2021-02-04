@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.feature.navigation;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.MenuRes;
 import androidx.annotation.Nullable;
@@ -13,13 +14,16 @@ public class ToolbarProperties {
 
     private final String title;
     private final Integer menuResId;
+    private final View.OnClickListener onClickListener;
 
     private ToolbarProperties(
         String title,
-        @MenuRes Integer menuResId
+        @MenuRes Integer menuResId,
+        View.OnClickListener onClickListener
     ) {
         this.title = title;
         this.menuResId = menuResId;
+        this.onClickListener = onClickListener;
     }
 
     public String getTitle() {
@@ -31,10 +35,15 @@ public class ToolbarProperties {
         return menuResId;
     }
 
+    public View.OnClickListener getOnClickListener() {
+        return onClickListener;
+    }
+
     public static class Builder {
 
         private String title = null;
         private Integer menuResId = null;
+        private View.OnClickListener onClickListener = null;
 
         public Builder setTitle(String title) {
             this.title = title;
@@ -55,8 +64,13 @@ public class ToolbarProperties {
             return this;
         }
 
+        public Builder setOnClickListener(View.OnClickListener onClickListener) {
+            this.onClickListener = onClickListener;
+            return this;
+        }
+
         public ToolbarProperties build() {
-            return new ToolbarProperties(title, menuResId);
+            return new ToolbarProperties(title, menuResId, onClickListener);
         }
     }
 }

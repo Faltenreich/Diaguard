@@ -193,7 +193,13 @@ public class MainActivity
 
     private void invalidateToolbar(@Nullable ToolbarDescribing toolbarDescribing) {
         if (toolbarDescribing != null) {
-            setTitle(toolbarDescribing.getToolbarProperties().getTitle());
+            ToolbarProperties properties = toolbarDescribing.getToolbarProperties();
+            setTitle(properties.getTitle());
+            View titleView = getTitleView();
+            titleView.setOnClickListener(properties.getOnClickListener());
+            titleView.setClickable(properties.getOnClickListener() != null);
+            titleView.setFocusable(properties.getOnClickListener() != null);
+            titleView.setEnabled(properties.getOnClickListener() != null);
         }
     }
 

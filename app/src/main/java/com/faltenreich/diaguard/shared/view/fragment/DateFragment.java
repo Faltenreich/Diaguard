@@ -17,7 +17,7 @@ import org.joda.time.DateTime;
 
 public abstract class DateFragment<BINDING extends ViewBinding>
     extends BaseFragment<BINDING>
-    implements ToolbarDescribing, BaseFragment.ToolbarCallback, MainButton {
+    implements ToolbarDescribing, MainButton {
 
     private DateTime day;
 
@@ -49,17 +49,12 @@ public abstract class DateFragment<BINDING extends ViewBinding>
         setTitle(getToolbarProperties().getTitle());
     }
 
-    private void showDatePicker() {
+    protected void showDatePicker() {
         DatePickerFragment.newInstance(day, dateTime -> {
             if (dateTime != null) {
                 goToDay(dateTime);
             }
         }).show(getParentFragmentManager());
-    }
-
-    @Override
-    public void action() {
-        showDatePicker();
     }
 
     @Override

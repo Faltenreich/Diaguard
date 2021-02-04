@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -82,13 +81,6 @@ public abstract class BaseFragment<BINDING extends ViewBinding> extends Fragment
             if (getActivity() instanceof AppCompatActivity) {
                 ToolbarManager.applyToolbar((AppCompatActivity) getActivity(), toolbarOwner.getToolbar());
             }
-            TextView titleView = toolbarOwner.getTitleView();
-            if (this instanceof ToolbarCallback) {
-                titleView.setClickable(true);
-                titleView.setOnClickListener(childView -> ((ToolbarCallback) BaseFragment.this).action());
-            } else {
-                titleView.setClickable(false);
-            }
         }
     }
 
@@ -162,10 +154,6 @@ public abstract class BaseFragment<BINDING extends ViewBinding> extends Fragment
         if (getActivity() instanceof Navigating) {
             ((Navigating) getActivity()).openFragment(fragment, operation, addToBackStack);
         }
-    }
-
-    interface ToolbarCallback {
-        void action();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

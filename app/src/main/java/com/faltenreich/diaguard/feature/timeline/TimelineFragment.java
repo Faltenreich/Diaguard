@@ -50,6 +50,7 @@ public class TimelineFragment extends DateFragment<FragmentTimelineBinding> impl
         return new ToolbarProperties.Builder()
             .setTitle(title)
             .setMenu(R.menu.timeline)
+            .setOnClickListener((view) -> showDatePicker())
             .build();
     }
 

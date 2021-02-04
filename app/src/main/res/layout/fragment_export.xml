@@ -6,8 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scroll_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?attr/backgroundColorPrimary">
+    android:layout_height="match_parent">
 
     <!-- Workaround: descendantFocusability fixes initial scroll offset on older devices -->
     <androidx.constraintlayout.widget.ConstraintLayout

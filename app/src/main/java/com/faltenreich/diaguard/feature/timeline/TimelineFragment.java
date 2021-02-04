@@ -151,7 +151,7 @@ public class TimelineFragment extends DateFragment<FragmentTimelineBinding> impl
             int currentItem = viewPager.getCurrentItem();
             int targetItem = adapter.getMiddle();
 
-            adapter.getFragment(currentItem).invalidateLayout();
+            adapter.getFragment(currentItem).invalidateList();
 
             if (currentItem != targetItem) {
                 switch (currentItem) {

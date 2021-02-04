@@ -2,6 +2,7 @@ package com.faltenreich.diaguard.feature.timeline;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -44,6 +45,7 @@ import java.util.Map;
 
 public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding> {
 
+    private static final String TAG = TimelineDayFragment.class.getSimpleName();
     private static final String EXTRA_DATE_TIME = "EXTRA_DATE_TIME";
     private static final int SKIP_EVERY_X_HOUR = 2;
 
@@ -52,14 +54,12 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
     private NestedScrollView scrollView;
     private DayChart chartView;
 
-    private DateTime day;
     private NestedScrollView.OnScrollChangeListener onScrollListener;
     private CategoryImageListAdapter imageAdapter;
     private CategoryValueListAdapter valueAdapter;
     private Category[] categories;
-    private boolean isVisible;
 
-    private List<CategoryValueListItem> temp;
+    private TimelineDayData data;
 
     public static TimelineDayFragment createInstance(DateTime dateTime) {
         TimelineDayFragment fragment = new TimelineDayFragment();
@@ -85,19 +85,15 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
         super.onViewCreated(view, savedInstanceState);
         bindViews();
         initLayout();
-        setDay(day);
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        this.isVisible = isVisibleToUser;
+        // Delay invalidation to improve performance on instantiation
+        new Handler().postDelayed(this::invalidateData, 300);
     }
 
     private void init() {
-        if (getArguments() != null) {
-            day = (DateTime) getArguments().getSerializable(EXTRA_DATE_TIME);
-        }
+        DateTime day = getArguments() != null
+            ? (DateTime) getArguments().getSerializable(EXTRA_DATE_TIME)
+            : null;
+        data = new TimelineDayData(day != null ? day : DateTime.now());
         categories = PreferenceStore.getInstance().getActiveCategories(Category.BLOODSUGAR);
         imageAdapter = new CategoryImageListAdapter(getContext());
         valueAdapter = new CategoryValueListAdapter(getContext());
@@ -128,60 +124,71 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
     }
 
     private void invalidateData() {
-        // TODO: Request only if data is not available and observe data changes
-
-        DataLoader.getInstance().load(getContext(), new DataLoaderListener<DayChartData>() {
-            @Override
-            public DayChartData onShouldLoad() {
-                List<Measurement> values = new ArrayList<>();
-                List<Entry> entries = EntryDao.getInstance().getEntriesOfDay(day);
-                if (entries != null && entries.size() > 0) {
-                    for (Entry entry : entries) {
-                        // TODO: Improve performance by using transaction / bulk fetch
-                        List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry, new Category[] { Category.BLOODSUGAR });
-                        values.addAll(measurements);
+        if (data.needsChartData()) {
+            Log.d(TAG, data.getDay().toString() + ": Invalidating data for chart");
+            DataLoader.getInstance().load(getContext(), new DataLoaderListener<DayChartData>() {
+                @Override
+                public DayChartData onShouldLoad() {
+                    List<Measurement> values = new ArrayList<>();
+                    List<Entry> entries = EntryDao.getInstance().getEntriesOfDay(data.getDay());
+                    if (entries != null && entries.size() > 0) {
+                        for (Entry entry : entries) {
+                            // TODO: Improve performance by using transaction / bulk fetch
+                            List<Measurement> measurements = EntryDao.getInstance().getMeasurements(entry, new Category[] { Category.BLOODSUGAR });
+                            values.addAll(measurements);
+                        }
                     }
+                    return new DayChartData(getContext(), values);
                 }
-                return new DayChartData(getContext(), values);
-            }
 
-            @Override
-            public void onDidLoad(DayChartData data) {
-                chartView.setData(data);
-                chartView.getAxisLeft().setAxisMaximum(data.getYAxisMaximum() + DayChart.Y_MAX_VALUE_OFFSET);
-                chartView.invalidate();
-            }
-        });
+                @Override
+                public void onDidLoad(DayChartData chartData) {
+                    data.setChartData(chartData);
+                    invalidateChart();
+                }
+            });
+        } else {
+            invalidateChart();
+        }
 
-        DataLoader.getInstance().load(getContext(), new DataLoaderListener<List<CategoryValueListItem>>() {
-            @Override
-            public List<CategoryValueListItem> onShouldLoad() {
-                List<CategoryValueListItem> listItems = new ArrayList<>();
-                LinkedHashMap<Category, CategoryValueListItem[]> values = EntryDao.getInstance().getAverageDataTable(day, categories, SKIP_EVERY_X_HOUR);
-                for (Map.Entry<Category, CategoryValueListItem[]> mapEntry : values.entrySet()) {
-                    Collections.addAll(listItems, mapEntry.getValue());
+        if (data.needsListData()) {
+            Log.d(TAG, data.getDay().toString() + ": Invalidating data for list");
+            DataLoader.getInstance().load(getContext(), new DataLoaderListener<List<CategoryValueListItem>>() {
+                @Override
+                public List<CategoryValueListItem> onShouldLoad() {
+                    List<CategoryValueListItem> listItems = new ArrayList<>();
+                    LinkedHashMap<Category, CategoryValueListItem[]> values = EntryDao.getInstance().getAverageDataTable(data.getDay(), categories, SKIP_EVERY_X_HOUR);
+                    for (Map.Entry<Category, CategoryValueListItem[]> mapEntry : values.entrySet()) {
+                        Collections.addAll(listItems, mapEntry.getValue());
+                    }
+                    return listItems;
                 }
-                return listItems;
-            }
-            @Override
-            public void onDidLoad(List<CategoryValueListItem> values) {
-                temp = values;
-                if (isVisible) {
-                    // Update only onPageChanged to improve performance
-                    invalidateLayout();
-                } else if (valueAdapter.getItemCount() == 0) {
-                    // Delay updating invisible fragments onStart to improve performance
-                    new Handler().postDelayed(() -> invalidateLayout(), 500);
+                @Override
+                public void onDidLoad(List<CategoryValueListItem> listData) {
+                    data.setListData(listData);
+                    invalidateList();
                 }
-            }
-        });
+            });
+        } else {
+            invalidateList();
+        }
     }
 
-    public void invalidateLayout() {
-        if (isAdded() && temp != null) {
+    private void invalidateChart() {
+        if (isAdded() && !data.needsChartData()) {
+            DayChartData chartData = data.getChartData();
+            chartView.setData(chartData);
+            chartView.getAxisLeft().setAxisMaximum(chartData.getYAxisMaximum() + DayChart.Y_MAX_VALUE_OFFSET);
+            chartView.invalidate();
+        }
+    }
+
+    public void invalidateList() {
+        if (isAdded() && !data.needsListData()) {
+            List<CategoryValueListItem> valueListItems = data.getListData();
             if (valueAdapter.getItemCount() > 0) {
-                for (int index = 0; index < temp.size(); index++) {
-                    CategoryValueListItem listItem = temp.get(index);
+                for (int index = 0; index < valueListItems.size(); index++) {
+                    CategoryValueListItem listItem = valueListItems.get(index);
                     RecyclerView.ViewHolder viewHolder = valueListView.findViewHolderForAdapterPosition(index);
                     if (viewHolder instanceof CategoryValueViewHolder) {
                         valueAdapter.setItem(listItem, index);
@@ -197,20 +204,20 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
                 imageAdapter.notifyDataSetChanged();
 
                 // Other notify methods lead to rendering issues on view paging
-                valueAdapter.addItems(temp);
+                valueAdapter.addItems(valueListItems);
                 valueAdapter.notifyDataSetChanged();
             }
-            temp = null;
         }
     }
 
     public DateTime getDay() {
-        return day;
+        return data.getDay();
     }
 
     public void setDay(DateTime day) {
-        this.day = day;
-        if (isAdded()) {
+        if (data.getDay() != day) {
+            data.setDay(day);
+            data.reset();
             invalidateData();
         }
     }
@@ -230,7 +237,8 @@ public class TimelineDayFragment extends BaseFragment<FragmentTimelineDayBinding
         categories = PreferenceStore.getInstance().getActiveCategories(Category.BLOODSUGAR);
         valueAdapter.clear();
         imageAdapter.clear();
-        setDay(day);
+        data.reset();
+        invalidateData();
     }
 
     private void openEntry(Entry entry) {

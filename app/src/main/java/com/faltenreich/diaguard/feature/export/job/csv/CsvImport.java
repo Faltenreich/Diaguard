@@ -46,7 +46,7 @@ public class CsvImport extends AsyncTask<Void, Void, Boolean> {
     private static final DateStrategy defaultDateStrategy = new OriginDateStrategy();
 
     @NonNull
-    private InputStream inputStream;
+    private final InputStream inputStream;
 
     @Nullable
     private DateStrategy dateStrategy;

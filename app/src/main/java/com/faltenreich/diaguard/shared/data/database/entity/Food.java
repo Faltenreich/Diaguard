@@ -52,7 +52,7 @@ public class Food extends BaseServerEntity implements Backupable {
         SALT(R.string.salt),
         SODIUM(R.string.sodium);
 
-        private int textResId;
+        private final int textResId;
 
         Nutrient(@StringRes int textResId) {
             this.textResId = textResId;

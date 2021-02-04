@@ -7,7 +7,7 @@ public enum PdfExportStyle {
     TIMELINE(1),
     LOG(2);
 
-    public int stableId;
+    public final int stableId;
 
     PdfExportStyle(int stableId) {
         this.stableId = stableId;

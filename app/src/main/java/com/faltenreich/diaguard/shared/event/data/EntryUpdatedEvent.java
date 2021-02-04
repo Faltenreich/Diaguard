@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class EntryUpdatedEvent extends BaseEntryEvent {
 
-    public DateTime originalDate;
+    public final DateTime originalDate;
 
     public EntryUpdatedEvent(Entry entry, List<EntryTag> entryTags, DateTime originalDate, List<FoodEaten> foodEatenList) {
         super(entry, entryTags, foodEatenList);

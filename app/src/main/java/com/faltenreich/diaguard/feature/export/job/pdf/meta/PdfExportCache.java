@@ -18,7 +18,7 @@ public class PdfExportCache {
 
     private static final float FONT_SIZE_HEADER = 14f;
 
-    private PdfExportConfig config;
+    private final PdfExportConfig config;
     private Pdf pdf;
     private PdfPage page;
     private DateTime dateTime;

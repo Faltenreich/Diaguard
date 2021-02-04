@@ -176,7 +176,6 @@ public class PreferenceOverviewFragment
         importBackup(event.context);
     }
 
-    @SuppressWarnings("unused")
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FileProvidedFailedEvent event) {
         Toast.makeText(getActivity(), getString(R.string.error_unexpected), Toast.LENGTH_SHORT).show();

@@ -17,12 +17,12 @@ public enum Category {
     PRESSURE(Pressure.class, 8, R.string.pressure, R.string.pressure_acronym, R.drawable.ic_category_pressure, R.drawable.ic_showcase_pressure),
     OXYGEN_SATURATION(OxygenSaturation.class, 9, R.string.oxygen_saturation, R.string.oxygen_saturation_acronym, R.drawable.ic_category_oxygen_saturation, R.drawable.ic_showcase_oxygen_saturation);
 
-    private Class clazz;
-    private int stableId;
-    private int stringResId;
-    private int stringAcronymResId;
-    private int iconImageResId;
-    private int showcaseImageResId;
+    private final Class clazz;
+    private final int stableId;
+    private final int stringResId;
+    private final int stringAcronymResId;
+    private final int iconImageResId;
+    private final int showcaseImageResId;
 
     Category(
         Class clazz,

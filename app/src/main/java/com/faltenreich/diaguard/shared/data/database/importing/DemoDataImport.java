@@ -19,7 +19,7 @@ class DemoDataImport implements Importing {
     private static final String DEMO_BACKUP_FILE_NAME = "backup.csv";
     private static final DateTime MAXIMUM_DATE_IN_BACKUP = new DateTime().withDate(2020, 1, 31);
 
-    private Context context;
+    private final Context context;
 
     DemoDataImport(Context context) {
         this.context = context;

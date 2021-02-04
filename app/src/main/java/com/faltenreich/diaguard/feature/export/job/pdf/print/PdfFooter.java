@@ -13,8 +13,8 @@ import org.joda.time.format.DateTimeFormat;
 
 public class PdfFooter implements PdfPrintable {
 
-    private TextLine createdBy;
-    private TextLine url;
+    private final TextLine createdBy;
+    private final TextLine url;
 
     public PdfFooter(PdfExportCache cache) {
         Context context = cache.getContext();

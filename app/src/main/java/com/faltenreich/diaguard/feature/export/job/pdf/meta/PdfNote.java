@@ -4,8 +4,8 @@ import org.joda.time.DateTime;
 
 public class PdfNote {
 
-    private DateTime dateTime;
-    private String note;
+    private final DateTime dateTime;
+    private final String note;
 
     public PdfNote(DateTime dateTime, String note) {
         this.dateTime = dateTime;

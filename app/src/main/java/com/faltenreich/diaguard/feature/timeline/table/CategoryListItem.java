@@ -7,7 +7,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Category;
  */
 public class CategoryListItem {
 
-    private Category category;
+    private final Category category;
 
     CategoryListItem(Category category) {
         this.category = category;

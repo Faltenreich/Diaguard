@@ -6,7 +6,7 @@ import com.faltenreich.diaguard.shared.data.permission.PermissionUseCase;
 
 public class PermissionRequestEvent extends BaseContextEvent<Permission> {
 
-    public PermissionUseCase useCase;
+    public final PermissionUseCase useCase;
 
     public PermissionRequestEvent(Permission permission, PermissionUseCase useCase) {
         super(permission);

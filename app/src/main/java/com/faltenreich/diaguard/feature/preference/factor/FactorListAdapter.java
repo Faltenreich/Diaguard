@@ -9,7 +9,7 @@ import com.faltenreich.diaguard.shared.view.recyclerview.adapter.BaseAdapter;
 
 class FactorListAdapter extends BaseAdapter<FactorRangeItem, FactorViewHolder> {
 
-    private FactorViewHolder.Callback callback;
+    private final FactorViewHolder.Callback callback;
 
     FactorListAdapter(Context context, FactorViewHolder.Callback callback) {
         super(context);

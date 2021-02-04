@@ -33,11 +33,11 @@ import java.util.Map;
  */
 public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
 
-    private Map<Long, RecyclerView.ViewHolder> mHeaderCache;
+    private final Map<Long, RecyclerView.ViewHolder> mHeaderCache;
 
-    private StickyHeaderAdapter mAdapter;
+    private final StickyHeaderAdapter mAdapter;
 
-    private boolean mRenderInline;
+    private final boolean mRenderInline;
 
     /**
      * @param adapter

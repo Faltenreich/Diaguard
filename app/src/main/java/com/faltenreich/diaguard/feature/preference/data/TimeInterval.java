@@ -10,8 +10,8 @@ public enum  TimeInterval {
     EVERY_SECOND_HOUR(0, 2),
     EVERY_HOUR(0, 1);
 
-    public int startingHour;
-    public int rangeInHours;
+    public final int startingHour;
+    public final int rangeInHours;
 
     TimeInterval(int startingHour, int rangeInHours) {
         this.rangeInHours = rangeInHours;

@@ -7,8 +7,8 @@ import java.lang.ref.WeakReference;
 
 public abstract class BaseAsyncTask <Params, Progress, Result> extends AsyncTask<Params, Progress, Result> {
 
-    private WeakReference<Context> context;
-    private OnAsyncProgressListener<Result> onAsyncProgressListener;
+    private final WeakReference<Context> context;
+    private final OnAsyncProgressListener<Result> onAsyncProgressListener;
 
     public BaseAsyncTask(Context context, OnAsyncProgressListener<Result> onAsyncProgressListener) {
         this.context = new WeakReference<>(context);

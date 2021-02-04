@@ -38,8 +38,8 @@ public class PdfLog implements PdfPrintable {
     private static final String TAG = PdfLog.class.getSimpleName();
     private static final float TIME_WIDTH = 72;
 
-    private PdfExportCache cache;
-    private SizedTable table;
+    private final PdfExportCache cache;
+    private final SizedTable table;
 
     PdfLog(PdfExportCache cache) {
         this.cache = cache;

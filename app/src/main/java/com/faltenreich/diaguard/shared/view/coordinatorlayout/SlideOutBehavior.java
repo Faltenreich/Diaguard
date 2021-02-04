@@ -9,17 +9,12 @@ import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.ViewCompat;
 
-@SuppressWarnings("unused")
 public class SlideOutBehavior extends CoordinatorLayout.Behavior<View> {
 
     private boolean slideOut = true;
 
     public SlideOutBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
-    }
-
-    public boolean isSlideOut() {
-        return slideOut;
     }
 
     public void setSlideOut(boolean slideOut) {

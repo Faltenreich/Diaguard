@@ -8,8 +8,8 @@ import java.util.Locale;
 
 public class Import implements Importing {
 
-    private Context context;
-    private Locale locale;
+    private final Context context;
+    private final Locale locale;
 
     public Import(Context context) {
         this.context = context;

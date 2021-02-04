@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 abstract public class NetworkServer<API> {
 
-    public API api;
+    public final API api;
 
     public NetworkServer(Class<API> clazz) {
         this.api = new Retrofit.Builder()

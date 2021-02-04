@@ -14,8 +14,8 @@ import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
 @SuppressLint("ViewConstructor")
 public class NutrientInputView extends StickyHintInputView {
 
-    private Food.Nutrient nutrient;
-    private Float initialValue;
+    private final Food.Nutrient nutrient;
+    private final Float initialValue;
 
     public NutrientInputView(Context context, @NonNull Food.Nutrient nutrient, @Nullable Float value) {
         super(context);

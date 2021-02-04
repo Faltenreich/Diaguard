@@ -7,7 +7,7 @@ enum ApplicationFlavor {
     BETA("beta"),
     STORE("store");
 
-    private String identifier;
+    private final String identifier;
 
     ApplicationFlavor(String identifier) {
         this.identifier = identifier;

@@ -31,8 +31,9 @@ public class DayChartData extends CombinedData {
         HYPER("hyperglycemia", R.color.red),
         HYPO("hypoglycemia", R.color.blue);
 
-        public String label;
-        public @ColorRes int colorResId;
+        public final String label;
+        public @ColorRes
+        final int colorResId;
 
         DataSetType(String label, @ColorRes int colorResId) {
             this.label = label;

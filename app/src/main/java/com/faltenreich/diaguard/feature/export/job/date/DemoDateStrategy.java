@@ -5,7 +5,7 @@ import org.joda.time.Days;
 
 public class DemoDateStrategy implements DateStrategy {
 
-    private DateTime maxDate;
+    private final DateTime maxDate;
 
     public DemoDateStrategy(DateTime maxDate) {
         this.maxDate = maxDate;

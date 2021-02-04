@@ -9,9 +9,9 @@ import com.faltenreich.diaguard.R;
 public class MainButtonProperties {
 
     @DrawableRes
-    private int iconDrawableResId;
-    private View.OnClickListener onClickListener;
-    private boolean slideOut;
+    private final int iconDrawableResId;
+    private final View.OnClickListener onClickListener;
+    private final boolean slideOut;
 
     public MainButtonProperties(@DrawableRes int iconDrawableResId, View.OnClickListener onClickListener, boolean slideOut) {
         this.iconDrawableResId = iconDrawableResId;

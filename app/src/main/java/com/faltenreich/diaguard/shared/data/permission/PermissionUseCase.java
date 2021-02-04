@@ -9,7 +9,7 @@ public enum PermissionUseCase {
     BACKUP_WRITE,
     BACKUP_READ;
 
-    public int requestCode = ordinal() + 123;
+    public final int requestCode = ordinal() + 123;
 
     @Nullable
     public static PermissionUseCase fromRequestCode(int requestCode) {

@@ -13,8 +13,9 @@ public enum  Daytime {
 
     public static final int INTERVAL_LENGTH = 6;
 
-    public int startingHour;
-    public @StringRes int textResourceId;
+    public final int startingHour;
+    public @StringRes
+    final int textResourceId;
 
     Daytime(int startingHour, @StringRes int textResourceId) {
         this.startingHour = startingHour;

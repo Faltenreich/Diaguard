@@ -23,10 +23,10 @@ import java.util.List;
 
 class LogFetchDataTask extends AsyncTask<Void, Integer, List<LogListItem>> {
 
-    private DateTime startDate;
-    private boolean scrollingDown;
-    private boolean isInitializing;
-    private Listener<List<LogListItem>> listener;
+    private final DateTime startDate;
+    private final boolean scrollingDown;
+    private final boolean isInitializing;
+    private final Listener<List<LogListItem>> listener;
 
     LogFetchDataTask(DateTime startDate, boolean scrollingDown, boolean isInitializing, Listener<List<LogListItem>> listener) {
         this.startDate = startDate;

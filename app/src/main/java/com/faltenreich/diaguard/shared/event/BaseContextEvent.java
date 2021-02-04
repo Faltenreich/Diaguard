@@ -5,7 +5,7 @@ package com.faltenreich.diaguard.shared.event;
  */
 public abstract class BaseContextEvent <T> extends BaseEvent {
 
-    public T context;
+    public final T context;
 
     public BaseContextEvent(T context) {
         this.context = context;

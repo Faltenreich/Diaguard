@@ -22,7 +22,7 @@ public class PdfExport extends AsyncTask<Void, String, File> {
 
     private static final String TAG = PdfExport.class.getSimpleName();
 
-    private PdfExportConfig config;
+    private final PdfExportConfig config;
 
     public PdfExport(PdfExportConfig config) {
         this.config = config;

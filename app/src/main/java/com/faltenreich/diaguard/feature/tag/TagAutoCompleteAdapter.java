@@ -27,7 +27,7 @@ import java.util.Map;
 
 public class TagAutoCompleteAdapter extends ArrayAdapter<Tag> {
 
-    private HashMap<Tag, Boolean> tags;
+    private final HashMap<Tag, Boolean> tags;
 
     public TagAutoCompleteAdapter(@NonNull Context context) {
         super(context, -1);

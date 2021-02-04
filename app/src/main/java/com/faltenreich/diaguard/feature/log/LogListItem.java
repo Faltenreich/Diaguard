@@ -8,7 +8,7 @@ import org.joda.time.format.DateTimeFormat;
  */
 public abstract class LogListItem {
 
-    private DateTime dateTime;
+    private final DateTime dateTime;
 
     public LogListItem(DateTime dateTime) {
         this.dateTime = dateTime;

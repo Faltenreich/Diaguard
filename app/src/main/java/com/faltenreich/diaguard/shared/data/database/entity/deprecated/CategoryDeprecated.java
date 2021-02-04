@@ -15,7 +15,7 @@ public enum CategoryDeprecated {
     WEIGHT(Category.WEIGHT),
     PULSE(Category.PULSE);
 
-    private Category category;
+    private final Category category;
 
     CategoryDeprecated(Category category) {
         this.category = category;

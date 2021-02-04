@@ -18,7 +18,7 @@ import java.util.List;
  */
 class DayChartDataFetchTask extends BaseAsyncTask<Void, Void, DayChartData> {
 
-    private DateTime day;
+    private final DateTime day;
 
     DayChartDataFetchTask(Context context, OnAsyncProgressListener<DayChartData> onAsyncProgressListener, DateTime day) {
         super(context, onAsyncProgressListener);

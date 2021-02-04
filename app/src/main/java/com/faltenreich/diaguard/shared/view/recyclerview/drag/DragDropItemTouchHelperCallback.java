@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class DragDropItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
-    private DragDropListener listener;
+    private final DragDropListener listener;
 
     public DragDropItemTouchHelperCallback(DragDropListener listener) {
         this.listener = listener;

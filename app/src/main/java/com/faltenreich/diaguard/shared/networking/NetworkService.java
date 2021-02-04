@@ -16,7 +16,7 @@ public abstract class NetworkService<SERVER> {
 
     private static final String TAG = NetworkService.class.getSimpleName();
 
-    protected SERVER server;
+    protected final SERVER server;
 
     public NetworkService(SERVER server) {
         this.server = server;

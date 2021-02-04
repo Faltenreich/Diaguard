@@ -28,7 +28,8 @@ public class FoodInfoLabelView extends LinearLayout implements ViewBindable<View
         WARNING(R.color.yellow),
         ERROR(R.color.red_dark);
 
-        public @ColorRes int color;
+        public @ColorRes
+        final int color;
 
         Type(@ColorRes int color) {
             this.color = color;

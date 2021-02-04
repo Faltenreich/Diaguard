@@ -15,9 +15,9 @@ public enum FileType {
     public static final String MIME_TYPE_PDF = "application/pdf";
     public static final String MIME_TYPE_CSV = "text/csv";
 
-    public String mimeType;
-    public String extension;
-    @ColorRes public int colorRes;
+    public final String mimeType;
+    public final String extension;
+    @ColorRes public final int colorRes;
 
     FileType(String mimeType, String extension, @ColorRes int colorRes) {
         this.mimeType = mimeType;

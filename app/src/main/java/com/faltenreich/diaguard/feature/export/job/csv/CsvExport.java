@@ -35,7 +35,7 @@ public class CsvExport extends AsyncTask<Void, String, File> {
 
     private static final String TAG = CsvExport.class.getSimpleName();
 
-    private CsvExportConfig config;
+    private final CsvExportConfig config;
 
     public CsvExport(CsvExportConfig config) {
         this.config = config;

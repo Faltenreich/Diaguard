@@ -34,8 +34,8 @@ public class PdfTable implements PdfPrintable {
     private static final String TAG = PdfTable.class.getSimpleName();
     private static final int HOURS_TO_SKIP = 2;
 
-    private PdfExportCache cache;
-    private SizedTable table;
+    private final PdfExportCache cache;
+    private final SizedTable table;
 
     PdfTable(PdfExportCache cache) {
         this.cache = cache;

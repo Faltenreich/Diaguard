@@ -68,7 +68,8 @@ import java.util.List;
 
 public class EntryEditFragment
     extends BaseFragment<FragmentEntryEditBinding>
-    implements ToolbarDescribing {
+    implements ToolbarDescribing
+{
 
     private static final String TAG = EntryEditFragment.class.getSimpleName();
 
@@ -419,7 +420,7 @@ public class EntryEditFragment
     }
 
     private void addMeasurementView(Category category) {
-        getBinding().activityNeweventScrollview.smoothScrollTo(0, 0);
+        getBinding().scrollView.smoothScrollTo(0, 0);
         getBinding().layoutMeasurements.addMeasurement(category);
     }
 

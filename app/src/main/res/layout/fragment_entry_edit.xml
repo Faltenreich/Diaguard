@@ -8,193 +8,184 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/activity_newevent_scrollview"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <androidx.cardview.widget.CardView
+                style="@style/CardViewNoMargin"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
-                <androidx.cardview.widget.CardView
-                    style="@style/CardViewNoMargin"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:divider="?android:listDivider"
+                    android:orientation="vertical"
+                    android:showDividers="middle">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:divider="?android:listDivider"
-                        android:orientation="vertical"
-                        android:showDividers="middle">
+                    <LinearLayout style="@style/LayoutRow">
 
-                        <LinearLayout style="@style/LayoutRow">
+                        <ImageView
+                            style="@style/LayoutRowImage"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_time"
+                            app:tint="?iconColorPrimary" />
 
-                            <ImageView
-                                style="@style/LayoutRowImage"
-                                android:contentDescription="@null"
-                                android:src="@drawable/ic_time"
-                                app:tint="?iconColorPrimary" />
+                        <Button
+                            android:id="@+id/button_date"
+                            style="@style/LayoutRowItem"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textAllCaps="false"
+                            android:textColor="?android:textColorPrimary"
+                            tools:text="@tools:sample/date/ddmmyy" />
 
-                            <Button
-                                android:id="@+id/button_date"
-                                style="@style/LayoutRowItem"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:textAllCaps="false"
-                                android:textColor="?android:textColorPrimary"
-                                tools:text="@tools:sample/date/ddmmyy" />
+                        <Button
+                            android:id="@+id/button_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textAllCaps="false"
+                            android:textColor="?android:textColorPrimary"
+                            tools:text="@tools:sample/date/hhmm" />
 
-                            <Button
-                                android:id="@+id/button_time"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:textAllCaps="false"
-                                android:textColor="?android:textColorPrimary"
-                                tools:text="@tools:sample/date/hhmm" />
+                    </LinearLayout>
 
-                        </LinearLayout>
+                    <LinearLayout style="@style/LayoutRow">
 
-                        <LinearLayout style="@style/LayoutRow">
+                        <ImageView
+                            style="@style/LayoutRowImageMultiline"
+                            android:contentDescription="@null"
+                            android:padding="4dp"
+                            app:srcCompat="@drawable/ic_tag"
+                            app:tint="?iconColorPrimary" />
 
-                            <ImageView
-                                style="@style/LayoutRowImageMultiline"
-                                android:contentDescription="@null"
-                                android:padding="4dp"
-                                app:srcCompat="@drawable/ic_tag"
-                                app:tint="?iconColorPrimary" />
+                        <LinearLayout
+                            style="@style/LayoutRowItem"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
 
                             <LinearLayout
-                                style="@style/LayoutRowItem"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical">
+                                android:divider="@drawable/divider_medium"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:showDividers="middle">
 
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:divider="@drawable/divider_medium"
-                                    android:gravity="center_vertical"
-                                    android:orientation="horizontal"
-                                    android:showDividers="middle">
-
-                                    <AutoCompleteTextView
-                                        android:id="@+id/entry_tags_input"
-                                        android:layout_width="0dp"
-                                        android:layout_height="@dimen/height_element_large"
-                                        android:layout_weight="1"
-                                        android:background="@android:color/transparent"
-                                        android:completionThreshold="0"
-                                        android:hint="@string/tags"
-                                        android:imeOptions="actionDone"
-                                        android:inputType="text"
-                                        android:lines="1"
-                                        android:paddingStart="@dimen/margin_between"
-                                        android:paddingLeft="@dimen/margin_between"
-                                        tools:ignore="RtlSymmetry" />
-
-                                    <ImageView
-                                        android:id="@+id/entry_tags_edit_button"
-                                        android:layout_width="@dimen/size_image_small"
-                                        android:layout_height="@dimen/size_image_small"
-                                        android:background="?selectableItemBackgroundBorderless"
-                                        android:clickable="true"
-                                        android:contentDescription="@string/tags"
-                                        android:focusable="true"
-                                        app:srcCompat="@drawable/ic_more_vertical"
-                                        app:tint="?iconColorPrimary" />
-
-                                </LinearLayout>
-
-                                <com.google.android.material.chip.ChipGroup
-                                    android:id="@+id/entry_tags"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:paddingTop="0dp"
-                                    android:paddingBottom="@dimen/padding"
-                                    android:visibility="gone"
+                                <AutoCompleteTextView
+                                    android:id="@+id/entry_tags_input"
+                                    android:layout_width="0dp"
+                                    android:layout_height="@dimen/height_element_large"
+                                    android:layout_weight="1"
+                                    android:background="@android:color/transparent"
+                                    android:completionThreshold="0"
+                                    android:hint="@string/tags"
+                                    android:imeOptions="actionDone"
+                                    android:inputType="text"
+                                    android:lines="1"
+                                    android:paddingStart="@dimen/margin_between"
+                                    android:paddingLeft="@dimen/margin_between"
                                     tools:ignore="RtlSymmetry" />
+
+                                <ImageView
+                                    android:id="@+id/entry_tags_edit_button"
+                                    android:layout_width="@dimen/size_image_small"
+                                    android:layout_height="@dimen/size_image_small"
+                                    android:background="?selectableItemBackgroundBorderless"
+                                    android:clickable="true"
+                                    android:contentDescription="@string/tags"
+                                    android:focusable="true"
+                                    app:srcCompat="@drawable/ic_more_vertical"
+                                    app:tint="?iconColorPrimary" />
 
                             </LinearLayout>
 
-                        </LinearLayout>
-
-                        <LinearLayout style="@style/LayoutRow">
-
-                            <ImageView
-                                style="@style/LayoutRowImageMultiline"
-                                android:contentDescription="@null"
-                                android:src="@drawable/ic_note"
-                                app:tint="?iconColorPrimary" />
-
-                            <EditText
-                                android:id="@+id/edittext_notes"
-                                style="@style/LayoutRowItemMultiline"
+                            <com.google.android.material.chip.ChipGroup
+                                android:id="@+id/entry_tags"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:background="@android:color/transparent"
-                                android:hint="@string/note"
-                                android:importantForAutofill="no"
-                                android:inputType="textMultiLine|textCapSentences"
-                                android:paddingStart="@dimen/margin_between"
-                                android:paddingLeft="@dimen/margin_between"
+                                android:paddingTop="0dp"
+                                android:paddingBottom="@dimen/padding"
+                                android:visibility="gone"
                                 tools:ignore="RtlSymmetry" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/entry_alarm_container"
-                            style="@style/LayoutRow">
-
-                            <ImageView
-                                style="@style/LayoutRowImage"
-                                android:contentDescription="@null"
-                                android:padding="2dp"
-                                app:srcCompat="@drawable/ic_alarm"
-                                app:tint="?iconColorPrimary" />
-
-                            <Button
-                                android:id="@+id/entry_button_alarm"
-                                style="@style/LayoutRowItem"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:gravity="start|center_vertical"
-                                android:text="@string/alarm_reminder_none"
-                                android:textAllCaps="false"
-                                android:textColor="?android:textColorPrimary" />
 
                         </LinearLayout>
 
                     </LinearLayout>
 
-                </androidx.cardview.widget.CardView>
+                    <LinearLayout style="@style/LayoutRow">
 
-                <com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementListView
-                    android:id="@+id/layout_measurements"
-                    style="@style/Padding"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="140dp"
-                    android:animateLayoutChanges="true"
-                    android:clipToPadding="false"
-                    android:divider="@drawable/divider_medium"
-                    android:orientation="vertical"
-                    android:showDividers="middle" />
+                        <ImageView
+                            style="@style/LayoutRowImageMultiline"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_note"
+                            app:tint="?iconColorPrimary" />
 
-            </LinearLayout>
+                        <EditText
+                            android:id="@+id/edittext_notes"
+                            style="@style/LayoutRowItemMultiline"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:hint="@string/note"
+                            android:importantForAutofill="no"
+                            android:inputType="textMultiLine|textCapSentences"
+                            android:paddingStart="@dimen/margin_between"
+                            android:paddingLeft="@dimen/margin_between"
+                            tools:ignore="RtlSymmetry" />
 
-        </androidx.core.widget.NestedScrollView>
+                    </LinearLayout>
 
-    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/entry_alarm_container"
+                        style="@style/LayoutRow">
+
+                        <ImageView
+                            style="@style/LayoutRowImage"
+                            android:contentDescription="@null"
+                            android:padding="2dp"
+                            app:srcCompat="@drawable/ic_alarm"
+                            app:tint="?iconColorPrimary" />
+
+                        <Button
+                            android:id="@+id/entry_button_alarm"
+                            style="@style/LayoutRowItem"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="start|center_vertical"
+                            android:text="@string/alarm_reminder_none"
+                            android:textAllCaps="false"
+                            android:textColor="?android:textColorPrimary" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementListView
+                android:id="@+id/layout_measurements"
+                style="@style/Padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="140dp"
+                android:animateLayoutChanges="true"
+                android:clipToPadding="false"
+                android:divider="@drawable/divider_medium"
+                android:orientation="vertical"
+                android:showDividers="middle" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
     <com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementFloatingActionMenu
         android:id="@+id/fab_menu"

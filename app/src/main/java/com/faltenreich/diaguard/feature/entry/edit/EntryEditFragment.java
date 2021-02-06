@@ -87,17 +87,17 @@ public class EntryEditFragment
 
     private ViewGroup root;
     private NestedScrollView scrollView;
+    private Button dateButton;
+    private Button timeButton;
+    private AutoCompleteTextView tagInput;
+    private ChipGroup tagListView;
+    private ImageView tagEditButton;
+    private EditText noteInput;
     private ViewGroup alarmContainer;
+    private Button alarmButton;
     private MeasurementListView measurementContainer;
     private MeasurementFloatingActionMenu fabMenu;
     private FloatingActionButton fab;
-    private ChipGroup tagListView;
-    private AutoCompleteTextView tagInput;
-    private ImageView tagEditButton;
-    private Button dateButton;
-    private Button timeButton;
-    private Button alarmButton;
-    private EditText noteInput;
 
     private long entryId;
     private long foodId;
@@ -192,23 +192,16 @@ public class EntryEditFragment
     }
 
     private void initLayout() {
+        dateButton.setOnClickListener(view -> showDatePicker());
+        timeButton.setOnClickListener(view -> showTimePicker());
         updateDateTime();
-        updateAlarm();
-
-        if (entryId > 0) {
-            alarmContainer.setVisibility(View.GONE);
-        } else {
-            alarmContainer.setVisibility(View.VISIBLE);
-        }
 
         measurementContainer.setOnCategoryEventListener(new MeasurementListView.OnCategoryEventListener() {
-
             @Override
             public void onCategoryAdded(Category category) {
                 fabMenu.ignore(category);
                 fabMenu.restock();
             }
-
             @Override
             public void onCategoryRemoved(Category category) {
                 fabMenu.removeIgnore(category);
@@ -217,12 +210,10 @@ public class EntryEditFragment
         });
 
         fabMenu.setOnFabSelectedListener(new MeasurementFloatingActionMenu.OnFabSelectedListener() {
-
             @Override
             public void onCategorySelected(@Nullable Category category) {
                 addMeasurementView(category);
             }
-
             @Override
             public void onMiscellaneousSelected() {
                 showDialogCategories();
@@ -266,10 +257,11 @@ public class EntryEditFragment
 
         tagEditButton.setOnClickListener(view -> openTags());
 
-        fab.setOnClickListener(view -> trySubmit());
-        dateButton.setOnClickListener(view -> showDatePicker());
-        timeButton.setOnClickListener(view -> showTimePicker());
+        alarmContainer.setVisibility(entryId > 0 ? View.GONE : View.VISIBLE);
         alarmButton.setOnClickListener(view -> showAlarmPicker());
+        updateAlarm();
+
+        fab.setOnClickListener(view -> trySubmit());
     }
 
     private void fetchEntry(final long id) {

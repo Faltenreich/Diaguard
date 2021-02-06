@@ -126,7 +126,6 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
 
     public interface OnFabSelectedListener {
         void onCategorySelected(Category category);
-
         void onMiscellaneousSelected();
     }
 }

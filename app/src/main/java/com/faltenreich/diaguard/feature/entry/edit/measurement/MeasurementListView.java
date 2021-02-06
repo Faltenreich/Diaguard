@@ -1,10 +1,13 @@
 package com.faltenreich.diaguard.feature.entry.edit.measurement;
 
 import android.content.Context;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import androidx.annotation.Nullable;
 
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
@@ -32,6 +35,31 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
         this.callback = callback;
     }
 
+    @Nullable
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Parcelable savedState = super.onSaveInstanceState();
+        // FIXME: Avoid casting to harden api
+        List<Measurement> measurements = getMeasurements();
+        return new MeasurementSavedState(savedState, (ArrayList<Measurement>) measurements);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        super.onRestoreInstanceState(state);
+        if (state instanceof MeasurementSavedState) {
+            MeasurementSavedState measurementSavedState = (MeasurementSavedState) state;
+            // FIXME: Retrieve correctly cached measurements
+            List<Measurement> measurements = measurementSavedState.getMeasurements();
+            Log.d(MeasurementListView.class.getSimpleName(), "Restored measurements: " + measurements.toString());
+            for (int index = 0; index < measurements.size(); index++) {
+                Measurement measurement = measurements.get(index);
+                // TODO: Add measurements when views are prepared
+                // addMeasurement(index, measurement);
+            }
+        }
+    }
+
     private void init() {
         this.categories = new ArrayList<>();
     }
@@ -41,13 +69,13 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
     }
 
     public boolean hasCategory(Category category) {
-        return categories.indexOf(category) != -1;
+        return categories.contains(category);
     }
 
     public void addMeasurement(Category category) {
         if (!hasCategory(category)) {
             categories.add(0, category);
-            MeasurementView measurementView = new MeasurementView(getContext(), category);
+            MeasurementView<?> measurementView = new MeasurementView<>(getContext(), category);
             measurementView.setOnCategoryRemovedListener(this);
             addMeasurementView(measurementView, 0);
             if (callback != null) {
@@ -61,7 +89,7 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
             try {
                 int position = categories.size();
                 categories.add(position, category);
-                MeasurementView measurementView = new MeasurementView(getContext(), category);
+                MeasurementView<?> measurementView = new MeasurementView<>(getContext(), category);
                 measurementView.setOnCategoryRemovedListener(this);
                 addMeasurementView(measurementView, position);
                 if (callback != null) {
@@ -121,7 +149,7 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
         for (int position = 0; position < getChildCount(); position++) {
             View childView = getChildAt(position);
             if (childView instanceof MeasurementView) {
-                measurements.add(((MeasurementView) childView).getMeasurement());
+                measurements.add(((MeasurementView<?>) childView).getMeasurement());
             }
         }
         return measurements;
@@ -131,7 +159,7 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
         for (int position = 0; position < getChildCount(); position++) {
             View childView = getChildAt(position);
             if (childView instanceof MeasurementView) {
-                Measurement measurement = ((MeasurementView) childView).getMeasurement();
+                Measurement measurement = ((MeasurementView<?>) childView).getMeasurement();
                 if (measurement.getCategory() == category) {
                     return measurement;
                 }

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.feature.entry.edit.measurement;
+package com.faltenreich.diaguard.feature.entry.edit.input;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,20 +13,20 @@ import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 /**
  * Created by Faltenreich on 20.09.2015.
  */
-public class MeasurementMealView extends MeasurementAbstractView<ListItemMeasurementMealBinding, Meal> {
+public class MealInputView extends MeasurementInputView<ListItemMeasurementMealBinding, Meal> {
 
     private FoodInputView foodInputView;
     private Food food;
 
-    public MeasurementMealView(Context context) {
+    public MealInputView(Context context) {
         super(context, Category.MEAL);
     }
 
-    public MeasurementMealView(Context context, Meal meal) {
+    public MealInputView(Context context, Meal meal) {
         super(context, meal);
     }
 
-    public MeasurementMealView(Context context, Food food) {
+    public MealInputView(Context context, Food food) {
         this(context);
         this.food = food;
     }

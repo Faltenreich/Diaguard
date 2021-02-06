@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.feature.entry.edit.measurement;
+package com.faltenreich.diaguard.feature.entry.edit.input;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,16 +14,16 @@ import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
 /**
  * Created by Faltenreich on 20.09.2015.
  */
-public class MeasurementPressureView extends MeasurementAbstractView<ListItemMeasurementPressureBinding, Pressure> {
+public class PressureInputView extends MeasurementInputView<ListItemMeasurementPressureBinding, Pressure> {
 
     private StickyHintInputView systolicInputField;
     private StickyHintInputView diastolicInputField;
 
-    public MeasurementPressureView(Context context) {
+    public PressureInputView(Context context) {
         super(context, Category.PRESSURE);
     }
 
-    public MeasurementPressureView(Context context, Pressure pressure) {
+    public PressureInputView(Context context, Pressure pressure) {
         super(context, pressure);
     }
 

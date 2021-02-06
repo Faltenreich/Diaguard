@@ -11,6 +11,11 @@ import androidx.cardview.widget.CardView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ListItemMeasurementBinding;
+import com.faltenreich.diaguard.feature.entry.edit.input.MeasurementInputView;
+import com.faltenreich.diaguard.feature.entry.edit.input.GenericInputView;
+import com.faltenreich.diaguard.feature.entry.edit.input.InsulinInputView;
+import com.faltenreich.diaguard.feature.entry.edit.input.MealInputView;
+import com.faltenreich.diaguard.feature.entry.edit.input.PressureInputView;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
@@ -111,30 +116,30 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
         switch (category) {
             case INSULIN:
                 getBinding().contentLayout.addView(isUpdating ?
-                    new MeasurementInsulinView(getContext(), (Insulin) measurement) :
-                    new MeasurementInsulinView(getContext()));
+                    new InsulinInputView(getContext(), (Insulin) measurement) :
+                    new InsulinInputView(getContext()));
                 break;
             case MEAL:
                 getBinding().contentLayout.addView(isUpdating ?
-                    new MeasurementMealView(getContext(), (Meal) measurement) :
-                    new MeasurementMealView(getContext(), food));
+                    new MealInputView(getContext(), (Meal) measurement) :
+                    new MealInputView(getContext(), food));
                 break;
             case PRESSURE:
                 getBinding().contentLayout.addView(isUpdating ?
-                    new MeasurementPressureView(getContext(), (Pressure) measurement) :
-                    new MeasurementPressureView(getContext()));
+                    new PressureInputView(getContext(), (Pressure) measurement) :
+                    new PressureInputView(getContext()));
                 break;
             default:
                 getBinding().contentLayout.addView(isUpdating ?
-                    new MeasurementGenericView<>(getContext(), measurement) :
-                    new MeasurementGenericView<>(getContext(), category));
+                    new GenericInputView<>(getContext(), measurement) :
+                    new GenericInputView<>(getContext(), category));
         }
     }
 
     public Measurement getMeasurement() {
         View childView = getBinding().contentLayout.getChildAt(0);
-        if (childView instanceof MeasurementAbstractView) {
-            return ((MeasurementAbstractView<?, ?>) childView).getMeasurement();
+        if (childView instanceof MeasurementInputView) {
+            return ((MeasurementInputView<?, ?>) childView).getMeasurement();
         } else {
             return null;
         }

@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.feature.entry.edit.measurement;
+package com.faltenreich.diaguard.feature.entry.edit.input;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,20 +15,20 @@ import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
 /**
  * Created by Faltenreich on 20.09.2015.
  */
-public class MeasurementGenericView <T extends Measurement> extends MeasurementAbstractView<ListItemMeasurementGenericBinding, T> {
+public class GenericInputView<T extends Measurement> extends MeasurementInputView<ListItemMeasurementGenericBinding, T> {
 
     private StickyHintInputView inputField;
 
     @Deprecated
-    public MeasurementGenericView(Context context) {
+    public GenericInputView(Context context) {
         super(context);
     }
 
-    public MeasurementGenericView(Context context, T measurement) {
+    public GenericInputView(Context context, T measurement) {
         super(context, measurement);
     }
 
-    public MeasurementGenericView(Context context, Category category) {
+    public GenericInputView(Context context, Category category) {
         super(context, category);
     }
 

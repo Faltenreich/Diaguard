@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.feature.entry.edit.measurement;
+package com.faltenreich.diaguard.feature.entry.edit.input;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -16,17 +16,17 @@ import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
 /**
  * Created by Faltenreich on 20.09.2015.
  */
-public class MeasurementInsulinView extends MeasurementAbstractView<ListItemMeasurementInsulinBinding, Insulin> {
+public class InsulinInputView extends MeasurementInputView<ListItemMeasurementInsulinBinding, Insulin> {
 
     private StickyHintInputView bolusInputField;
     private StickyHintInputView correctionInputField;
     private StickyHintInputView basalInputField;
 
-    public MeasurementInsulinView(Context context) {
+    public InsulinInputView(Context context) {
         super(context, Category.INSULIN);
     }
 
-    public MeasurementInsulinView(Context context, Insulin insulin) {
+    public InsulinInputView(Context context, Insulin insulin) {
         super(context, insulin);
     }
 

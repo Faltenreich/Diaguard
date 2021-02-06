@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.feature.entry.edit.measurement;
+package com.faltenreich.diaguard.feature.entry.edit.input;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,7 +11,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.factory.MeasurementFactory;
 import com.faltenreich.diaguard.shared.view.ViewBindable;
 
-public abstract class MeasurementAbstractView<BINDING extends ViewBinding, MEASUREMENT extends Measurement>
+public abstract class MeasurementInputView<BINDING extends ViewBinding, MEASUREMENT extends Measurement>
     extends LinearLayout
     implements ViewBindable<BINDING>
 {
@@ -21,17 +21,17 @@ public abstract class MeasurementAbstractView<BINDING extends ViewBinding, MEASU
     protected MEASUREMENT measurement;
 
     @Deprecated
-    public MeasurementAbstractView(Context context) {
+    public MeasurementInputView(Context context) {
         super(context);
     }
 
-    public MeasurementAbstractView(Context context, MEASUREMENT measurement) {
+    public MeasurementInputView(Context context, MEASUREMENT measurement) {
         super(context);
         this.measurement = measurement;
         this.binding = createBinding(LayoutInflater.from(getContext()));
     }
 
-    public MeasurementAbstractView(Context context, Category category) {
+    public MeasurementInputView(Context context, Category category) {
         this(context, MeasurementFactory.createFromCategory(category));
     }
 

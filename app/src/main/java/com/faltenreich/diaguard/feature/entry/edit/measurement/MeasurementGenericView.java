@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.feature.entry.edit.measurement;
 
 import android.content.Context;
-import android.view.View;
+import android.view.LayoutInflater;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ListItemMeasurementGenericBinding;
@@ -33,13 +33,8 @@ public class MeasurementGenericView <T extends Measurement> extends MeasurementA
     }
 
     @Override
-    protected int getLayoutResourceId() {
-        return R.layout.list_item_measurement_generic;
-    }
-
-    @Override
-    protected ListItemMeasurementGenericBinding createBinding(View view) {
-        return ListItemMeasurementGenericBinding.bind(view);
+    protected ListItemMeasurementGenericBinding createBinding(LayoutInflater inflater) {
+        return ListItemMeasurementGenericBinding.inflate(inflater, this, true);
     }
 
     @Override

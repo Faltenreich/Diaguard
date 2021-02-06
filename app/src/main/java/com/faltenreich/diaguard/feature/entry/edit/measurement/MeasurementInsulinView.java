@@ -1,7 +1,7 @@
 package com.faltenreich.diaguard.feature.entry.edit.measurement;
 
 import android.content.Context;
-import android.view.View;
+import android.view.LayoutInflater;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ListItemMeasurementInsulinBinding;
@@ -31,13 +31,8 @@ public class MeasurementInsulinView extends MeasurementAbstractView<ListItemMeas
     }
 
     @Override
-    protected int getLayoutResourceId() {
-        return R.layout.list_item_measurement_insulin;
-    }
-
-    @Override
-    protected ListItemMeasurementInsulinBinding createBinding(View view) {
-        return ListItemMeasurementInsulinBinding.bind(view);
+    protected ListItemMeasurementInsulinBinding createBinding(LayoutInflater inflater) {
+        return ListItemMeasurementInsulinBinding.inflate(inflater, this, true);
     }
 
     @Override

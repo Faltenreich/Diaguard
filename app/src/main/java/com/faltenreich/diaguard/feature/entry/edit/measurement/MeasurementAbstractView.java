@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.viewbinding.ViewBinding;
@@ -67,14 +66,12 @@ public abstract class MeasurementAbstractView <BINDING extends ViewBinding, MEAS
         init();
     }
 
-    protected abstract BINDING createBinding(View view);
+    protected abstract BINDING createBinding(LayoutInflater inflater);
 
     @Override
     public BINDING getBinding() {
         return binding;
     }
-
-    protected abstract int getLayoutResourceId();
 
     protected abstract void initLayout();
 
@@ -85,8 +82,7 @@ public abstract class MeasurementAbstractView <BINDING extends ViewBinding, MEAS
     public abstract Measurement getMeasurement();
 
     private void init() {
-        LayoutInflater.from(getContext()).inflate(getLayoutResourceId(), this);
-        binding = createBinding(this);
+        binding = createBinding(LayoutInflater.from(getContext()));
     }
 
     @Override

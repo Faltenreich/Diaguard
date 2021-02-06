@@ -1,9 +1,8 @@
 package com.faltenreich.diaguard.feature.entry.edit.measurement;
 
 import android.content.Context;
-import android.view.View;
+import android.view.LayoutInflater;
 
-import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ListItemMeasurementMealBinding;
 import com.faltenreich.diaguard.feature.food.input.FoodInputView;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
@@ -31,14 +30,8 @@ public class MeasurementMealView extends MeasurementAbstractView<ListItemMeasure
     }
 
     @Override
-    protected int getLayoutResourceId() {
-        return R.layout.list_item_measurement_meal;
-    }
-
-    @Override
-    protected ListItemMeasurementMealBinding createBinding(View view) {
-        // FIXME: MeasurementMealView cannot be cast to android.widget.FrameLayout
-        return ListItemMeasurementMealBinding.bind(view);
+    protected ListItemMeasurementMealBinding createBinding(LayoutInflater inflater) {
+        return ListItemMeasurementMealBinding.inflate(inflater, this, true);
     }
 
     @Override

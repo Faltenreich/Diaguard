@@ -449,14 +449,15 @@ public class EntryEditFragment
     private boolean inputIsValid() {
         boolean inputIsValid = true;
 
-        if (measurementContainer.getMeasurements().size() == 0) {
+        List<Measurement> measurements = measurementContainer.getMeasurements();
+        if (measurements.size() == 0) {
             // Allow entries with no measurements but with a note or tag
             if (StringUtils.isBlank(noteInput.getText().toString()) && tagListView.getChildCount() == 0) {
                 ViewUtils.showSnackbar(root, getString(R.string.validator_value_none));
                 inputIsValid = false;
             }
         } else {
-            for (Measurement measurement : measurementContainer.getMeasurements()) {
+            for (Measurement measurement : measurements) {
                 if (measurement == null) {
                     inputIsValid = false;
                     break;

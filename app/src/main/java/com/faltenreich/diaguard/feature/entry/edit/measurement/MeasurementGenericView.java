@@ -39,7 +39,6 @@ public class MeasurementGenericView <T extends Measurement> extends MeasurementA
 
     @Override
     protected ListItemMeasurementGenericBinding createBinding(View view) {
-        // FIXME: MeasurementGenericView cannot be cast to com.faltenreich.diaguard.shared.view.edittext.StickyHintInput
         return ListItemMeasurementGenericBinding.bind(view);
     }
 

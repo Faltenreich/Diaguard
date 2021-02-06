@@ -38,13 +38,10 @@ public class MeasurementGenericView <T extends Measurement> extends MeasurementA
     }
 
     @Override
-    protected void initLayout() {
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
         inputField = getBinding().inputField;
         inputField.setHint(PreferenceStore.getInstance().getUnitAcronym(measurement.getCategory()));
-    }
-
-    @Override
-    protected void setValues() {
         inputField.setText(measurement.getValuesForUI()[0]);
     }
 

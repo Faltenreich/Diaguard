@@ -36,16 +36,16 @@ public class MeasurementInsulinView extends MeasurementAbstractView<ListItemMeas
     }
 
     @Override
-    protected void initLayout() {
-        bolusInputField = getBinding().bolusInputField;
-        correctionInputField = getBinding().correctionInputField;
-        basalInputField = getBinding().basalInputField;
-    }
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
 
-    @Override
-    protected void setValues() {
+        bolusInputField = getBinding().bolusInputField;
         bolusInputField.setText(measurement.getValuesForUI()[0]);
+
+        correctionInputField = getBinding().correctionInputField;
         correctionInputField.setText(measurement.getValuesForUI()[1]);
+
+        basalInputField = getBinding().basalInputField;
         basalInputField.setText(measurement.getValuesForUI()[2]);
     }
 

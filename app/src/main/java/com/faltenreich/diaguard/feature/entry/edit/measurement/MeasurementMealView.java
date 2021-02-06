@@ -16,6 +16,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 public class MeasurementMealView extends MeasurementAbstractView<ListItemMeasurementMealBinding, Meal> {
 
     private FoodInputView foodInputView;
+    private Food food;
 
     public MeasurementMealView(Context context) {
         super(context, Category.MEAL);
@@ -26,7 +27,8 @@ public class MeasurementMealView extends MeasurementAbstractView<ListItemMeasure
     }
 
     public MeasurementMealView(Context context, Food food) {
-        super(context, food);
+        super(context, Category.MEAL);
+        this.food = food;
     }
 
     @Override
@@ -35,13 +37,10 @@ public class MeasurementMealView extends MeasurementAbstractView<ListItemMeasure
     }
 
     @Override
-    protected void initLayout() {
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
         foodInputView = getBinding().foodInputView;
         foodInputView.addItem(food);
-    }
-
-    @Override
-    protected void setValues() {
         foodInputView.setupWithMeal(measurement);
     }
 

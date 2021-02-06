@@ -33,14 +33,13 @@ public class MeasurementPressureView extends MeasurementAbstractView<ListItemMea
     }
 
     @Override
-    protected void initLayout() {
-        systolicInputField = getBinding().systolicInputField;
-        diastolicInputField = getBinding().diastolicInputField;
-    }
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
 
-    @Override
-    protected void setValues() {
+        systolicInputField = getBinding().systolicInputField;
         systolicInputField.setText(measurement.getValuesForUI()[0]);
+
+        diastolicInputField = getBinding().diastolicInputField;
         diastolicInputField.setText(measurement.getValuesForUI()[1]);
     }
 

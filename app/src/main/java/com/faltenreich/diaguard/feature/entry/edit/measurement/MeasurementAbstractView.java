@@ -42,7 +42,5 @@ public abstract class MeasurementAbstractView<BINDING extends ViewBinding, MEASU
         return binding;
     }
 
-    protected abstract boolean isValid();
-
     public abstract Measurement getMeasurement();
 }

@@ -43,8 +43,7 @@ public class MeasurementPressureView extends MeasurementAbstractView<ListItemMea
         diastolicInputField.setText(measurement.getValuesForUI()[1]);
     }
 
-    @Override
-    protected boolean isValid() {
+    private boolean isValid() {
         return PreferenceStore.getInstance().isValueValid(systolicInputField.getEditText(), Category.PRESSURE) &&
                 PreferenceStore.getInstance().isValueValid(diastolicInputField.getEditText(), Category.PRESSURE);
     }

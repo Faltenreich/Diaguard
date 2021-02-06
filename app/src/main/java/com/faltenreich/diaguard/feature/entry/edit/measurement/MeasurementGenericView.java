@@ -45,8 +45,7 @@ public class MeasurementGenericView <T extends Measurement> extends MeasurementA
         inputField.setText(measurement.getValuesForUI()[0]);
     }
 
-    @Override
-    protected boolean isValid() {
+    private boolean isValid() {
         boolean isValid;
         String input = inputField.getText();
         if (StringUtils.isBlank(input)) {

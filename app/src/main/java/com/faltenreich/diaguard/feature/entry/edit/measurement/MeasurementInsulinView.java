@@ -49,8 +49,7 @@ public class MeasurementInsulinView extends MeasurementAbstractView<ListItemMeas
         basalInputField.setText(measurement.getValuesForUI()[2]);
     }
 
-    @Override
-    protected boolean isValid() {
+    private boolean isValid() {
         boolean isValid = true;
 
         String bolus = bolusInputField.getText().trim();

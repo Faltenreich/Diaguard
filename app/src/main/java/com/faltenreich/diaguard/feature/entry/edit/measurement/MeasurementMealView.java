@@ -27,7 +27,7 @@ public class MeasurementMealView extends MeasurementAbstractView<ListItemMeasure
     }
 
     public MeasurementMealView(Context context, Food food) {
-        super(context, Category.MEAL);
+        this(context);
         this.food = food;
     }
 
@@ -42,11 +42,6 @@ public class MeasurementMealView extends MeasurementAbstractView<ListItemMeasure
         foodInputView = getBinding().foodInputView;
         foodInputView.addItem(food);
         foodInputView.setupWithMeal(measurement);
-    }
-
-    @Override
-    protected boolean isValid() {
-        return foodInputView.isValid();
     }
 
     @Override

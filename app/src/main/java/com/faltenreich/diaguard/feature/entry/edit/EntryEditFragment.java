@@ -9,12 +9,18 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentEntryEditBinding;
@@ -57,6 +63,8 @@ import com.faltenreich.diaguard.shared.event.ui.FoodSearchEvent;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.chip.ChipView;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
+import com.github.clans.fab.FloatingActionButton;
+import com.google.android.material.chip.ChipGroup;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -74,9 +82,22 @@ public class EntryEditFragment
     private static final String TAG = EntryEditFragment.class.getSimpleName();
 
     static final String EXTRA_ENTRY_ID = "entryId";
+    static final String EXTRA_FOOD_ID = "foodId";
     static final String EXTRA_DATE = "date";
-    static final String EXTRA_CATEGORY = "category";
-    static final String EXTRA_FOOD_ID = "EXTRA_FOOD_ID";
+
+    private ViewGroup root;
+    private NestedScrollView scrollView;
+    private ViewGroup alarmContainer;
+    private MeasurementListView measurementContainer;
+    private MeasurementFloatingActionMenu fabMenu;
+    private FloatingActionButton fab;
+    private ChipGroup tagListView;
+    private AutoCompleteTextView tagInput;
+    private ImageView tagEditButton;
+    private Button dateButton;
+    private Button timeButton;
+    private Button alarmButton;
+    private EditText noteInput;
 
     private long entryId;
     private long foodId;
@@ -111,14 +132,13 @@ public class EntryEditFragment
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        bindViews();
         initLayout();
         if (entryId > 0) {
-            // FIXME: Refresh Toolbar?
             fetchEntry(entryId);
         } else if (foodId > 0) {
             fetchFood(foodId);
         }
-        addMeasurementForGivenCategory();
     }
 
     @Override
@@ -152,6 +172,23 @@ public class EntryEditFragment
             }
         }
         activeCategories = PreferenceStore.getInstance().getActiveCategories();
+        tagAdapter = new TagAutoCompleteAdapter(requireContext());
+    }
+
+    private void bindViews() {
+        root = getBinding().root;
+        scrollView = getBinding().scrollView;
+        dateButton = getBinding().dateButton;
+        timeButton = getBinding().timeButton;
+        tagInput = getBinding().tagInput;
+        tagListView = getBinding().tagListView;
+        tagEditButton = getBinding().tagEditButton;
+        noteInput = getBinding().noteInput;
+        alarmContainer = getBinding().alarmContainer;
+        alarmButton = getBinding().alarmButton;
+        measurementContainer = getBinding().measurementContainer;
+        fabMenu = getBinding().fabMenu;
+        fab = getBinding().fab;
     }
 
     private void initLayout() {
@@ -159,27 +196,27 @@ public class EntryEditFragment
         updateAlarm();
 
         if (entryId > 0) {
-            getBinding().entryAlarmContainer.setVisibility(View.GONE);
+            alarmContainer.setVisibility(View.GONE);
         } else {
-            getBinding().entryAlarmContainer.setVisibility(View.VISIBLE);
+            alarmContainer.setVisibility(View.VISIBLE);
         }
 
-        getBinding().layoutMeasurements.setOnCategoryEventListener(new MeasurementListView.OnCategoryEventListener() {
+        measurementContainer.setOnCategoryEventListener(new MeasurementListView.OnCategoryEventListener() {
 
             @Override
             public void onCategoryAdded(Category category) {
-                getBinding().fabMenu.ignore(category);
-                getBinding().fabMenu.restock();
+                fabMenu.ignore(category);
+                fabMenu.restock();
             }
 
             @Override
             public void onCategoryRemoved(Category category) {
-                getBinding().fabMenu.removeIgnore(category);
-                getBinding().fabMenu.restock();
+                fabMenu.removeIgnore(category);
+                fabMenu.restock();
             }
         });
 
-        getBinding().fabMenu.setOnFabSelectedListener(new MeasurementFloatingActionMenu.OnFabSelectedListener() {
+        fabMenu.setOnFabSelectedListener(new MeasurementFloatingActionMenu.OnFabSelectedListener() {
 
             @Override
             public void onCategorySelected(@Nullable Category category) {
@@ -195,12 +232,11 @@ public class EntryEditFragment
         if (entryId <= 0 && foodId <= 0) {
             addPinnedCategories();
         }
-        getBinding().fabMenu.restock();
+        fabMenu.restock();
 
-        getBinding().entryTags.setVisibility(View.GONE);
-        tagAdapter = new TagAutoCompleteAdapter(requireContext());
-        getBinding().entryTagsInput.setAdapter(tagAdapter);
-        getBinding().entryTagsInput.setOnEditorActionListener((textView, action, keyEvent) -> {
+        tagListView.setVisibility(View.GONE);
+        tagInput.setAdapter(tagAdapter);
+        tagInput.setOnEditorActionListener((textView, action, keyEvent) -> {
             if (action == EditorInfo.IME_ACTION_DONE) {
                 String name = textView.getText().toString().trim();
                 if (!StringUtils.isBlank(name)) {
@@ -211,29 +247,29 @@ public class EntryEditFragment
             }
             return false;
         });
-        getBinding().entryTagsInput.setOnFocusChangeListener((view, hasFocus) -> {
+        tagInput.setOnFocusChangeListener((view, hasFocus) -> {
             // Attempt to fix android.view.WindowManager$BadTokenException
             new Handler().post(() -> {
                 try {
-                    if (hasFocus) getBinding().entryTagsInput.showDropDown();
+                    if (hasFocus) tagInput.showDropDown();
                 } catch (Exception exception) {
                     Log.e(TAG, exception.getMessage() != null ? exception.getMessage() : "Failed to show dropdown");
                 }
             });
         });
-        getBinding().entryTagsInput.setOnClickListener(view -> getBinding().entryTagsInput.showDropDown());
-        getBinding().entryTagsInput.setOnItemClickListener((adapterView, view, position, l) -> {
-            getBinding().entryTagsInput.setText(null);
+        tagInput.setOnClickListener(view -> tagInput.showDropDown());
+        tagInput.setOnItemClickListener((adapterView, view, position, l) -> {
+            tagInput.setText(null);
             Tag tag = tagAdapter.getItem(position);
             addTag(tag);
         });
 
-        getBinding().entryTagsEditButton.setOnClickListener(view -> openTags());
+        tagEditButton.setOnClickListener(view -> openTags());
 
-        getBinding().fab.setOnClickListener(view -> trySubmit());
-        getBinding().buttonDate.setOnClickListener(view -> showDatePicker());
-        getBinding().buttonTime.setOnClickListener(view -> showTimePicker());
-        getBinding().entryButtonAlarm.setOnClickListener(view -> showAlarmPicker());
+        fab.setOnClickListener(view -> trySubmit());
+        dateButton.setOnClickListener(view -> showDatePicker());
+        timeButton.setOnClickListener(view -> showTimePicker());
+        alarmButton.setOnClickListener(view -> showAlarmPicker());
     }
 
     private void fetchEntry(final long id) {
@@ -266,9 +302,9 @@ public class EntryEditFragment
             @Override
             public void onDidLoad(Food food) {
                 if (food != null) {
-                    getBinding().layoutMeasurements.addMeasurement(food);
-                    getBinding().fabMenu.ignore(Category.MEAL);
-                    getBinding().fabMenu.restock();
+                    measurementContainer.addMeasurement(food);
+                    fabMenu.ignore(Category.MEAL);
+                    fabMenu.restock();
                 }
             }
         });
@@ -290,20 +326,10 @@ public class EntryEditFragment
         });
     }
 
-    private void addMeasurementForGivenCategory() {
-        Bundle arguments = getArguments();
-        if (arguments != null) {
-            Category category = (Category) arguments.getSerializable(EXTRA_CATEGORY);
-            if (category != null) {
-                addMeasurementView(category);
-            }
-        }
-    }
-
     private void addPinnedCategories() {
         for (Category category : activeCategories) {
-            if (PreferenceStore.getInstance().isCategoryPinned(category) && !getBinding().layoutMeasurements.hasCategory(category)) {
-                getBinding().layoutMeasurements.addMeasurementAtEnd(category);
+            if (PreferenceStore.getInstance().isCategoryPinned(category) && !measurementContainer.hasCategory(category)) {
+                measurementContainer.addMeasurementAtEnd(category);
             }
         }
     }
@@ -314,8 +340,8 @@ public class EntryEditFragment
             this.entryTags = entryTags;
             this.time = entry.getDate();
 
-            getBinding().edittextNotes.setText(entry.getNote());
-            getBinding().layoutMeasurements.addMeasurements(entry.getMeasurementCache());
+            noteInput.setText(entry.getNote());
+            measurementContainer.addMeasurements(entry.getMeasurementCache());
 
             if (entryTags != null) {
                 for (EntryTag entryTag : entryTags) {
@@ -332,7 +358,7 @@ public class EntryEditFragment
     }
 
     private void toggleSubmitButton(boolean isEnabled) {
-        getBinding().fab.setEnabled(isEnabled);
+        fab.setEnabled(isEnabled);
     }
 
     private void addTag(String name) {
@@ -352,30 +378,30 @@ public class EntryEditFragment
         chipView.setCloseIconVisible(true);
         chipView.setOnCloseIconClickListener(view -> removeTag(tag, chipView));
         chipView.setOnClickListener(view -> removeTag(tag, chipView));
-        getBinding().entryTags.addView(chipView);
+        tagListView.addView(chipView);
 
         tagAdapter.set(tag, false);
         dismissTagDropDown();
 
-        getBinding().entryTags.setVisibility(View.VISIBLE);
+        tagListView.setVisibility(View.VISIBLE);
     }
 
     private void removeTag(Tag tag, View view) {
         tagAdapter.set(tag, true);
-        getBinding().entryTags.removeView(view);
+        tagListView.removeView(view);
 
         // Workaround: Force notifyDataSetChanged
-        getBinding().entryTagsInput.setText(getBinding().entryTagsInput.getText().toString());
+        tagInput.setText(tagInput.getText().toString());
         dismissTagDropDown();
 
-        if (getBinding().entryTags.getChildCount() == 0) {
-            getBinding().entryTags.setVisibility(View.GONE);
+        if (tagListView.getChildCount() == 0) {
+            tagListView.setVisibility(View.GONE);
         }
     }
 
     private void dismissTagDropDown() {
         // Workaround
-        getBinding().entryTagsInput.post(() -> getBinding().entryTagsInput.dismissDropDown());
+        tagInput.post(() -> tagInput.dismissDropDown());
     }
 
     private void showDialogCategories() {
@@ -384,7 +410,7 @@ public class EntryEditFragment
         for (int position = 0; position < activeCategories.length; position++) {
             Category category = activeCategories[position];
             categoryNames[position] = getString(category.getStringResId());
-            visibleCategoriesOld[position] = getBinding().layoutMeasurements.hasCategory(category);
+            visibleCategoriesOld[position] = measurementContainer.hasCategory(category);
         }
 
         final boolean[] visibleCategories = visibleCategoriesOld.clone();
@@ -407,12 +433,12 @@ public class EntryEditFragment
     }
 
     private void updateDateTime() {
-        getBinding().buttonDate.setText(Helper.getDateFormat().print(time));
-        getBinding().buttonTime.setText(Helper.getTimeFormat().print(time));
+        dateButton.setText(Helper.getDateFormat().print(time));
+        timeButton.setText(Helper.getTimeFormat().print(time));
     }
 
     private void updateAlarm() {
-        getBinding().entryButtonAlarm.setText(alarmInMinutes > 0 ?
+        alarmButton.setText(alarmInMinutes > 0 ?
             String.format("%s %s",
                 getString(R.string.alarm_reminder_in),
                 DateTimeUtils.parseInterval(getContext(), alarmInMinutes * DateTimeConstants.MILLIS_PER_MINUTE)
@@ -420,25 +446,25 @@ public class EntryEditFragment
     }
 
     private void addMeasurementView(Category category) {
-        getBinding().scrollView.smoothScrollTo(0, 0);
-        getBinding().layoutMeasurements.addMeasurement(category);
+        scrollView.smoothScrollTo(0, 0);
+        measurementContainer.addMeasurement(category);
     }
 
     private void removeMeasurementView(Category category) {
-        getBinding().layoutMeasurements.removeMeasurement(category);
+        measurementContainer.removeMeasurement(category);
     }
 
     private boolean inputIsValid() {
         boolean inputIsValid = true;
 
-        if (getBinding().layoutMeasurements.getMeasurements().size() == 0) {
+        if (measurementContainer.getMeasurements().size() == 0) {
             // Allow entries with no measurements but with a note or tag
-            if (StringUtils.isBlank(getBinding().edittextNotes.getText().toString()) && getBinding().entryTags.getChildCount() == 0) {
-                ViewUtils.showSnackbar(getBinding().root, getString(R.string.validator_value_none));
+            if (StringUtils.isBlank(noteInput.getText().toString()) && tagListView.getChildCount() == 0) {
+                ViewUtils.showSnackbar(root, getString(R.string.validator_value_none));
                 inputIsValid = false;
             }
         } else {
-            for (Measurement measurement : getBinding().layoutMeasurements.getMeasurements()) {
+            for (Measurement measurement : measurementContainer.getMeasurements()) {
                 if (measurement == null) {
                     inputIsValid = false;
                     break;
@@ -453,10 +479,10 @@ public class EntryEditFragment
         toggleSubmitButton(false);
 
         // Convenience: Accept tag that hasn't been submitted by user
-        String missingTag = getBinding().entryTagsInput.getText().toString();
+        String missingTag = tagInput.getText().toString();
         if (!StringUtils.isBlank(missingTag)) {
             addTag(missingTag);
-            getBinding().entryTagsInput.setText(null);
+            tagInput.setText(null);
         }
 
         if (inputIsValid()) {
@@ -474,13 +500,13 @@ public class EntryEditFragment
         }
 
         entry.setDate(time);
-        entry.setNote(getBinding().edittextNotes.length() > 0 ? getBinding().edittextNotes.getText().toString() : null);
+        entry.setNote(noteInput.length() > 0 ? noteInput.getText().toString() : null);
         entry = EntryDao.getInstance().createOrUpdate(entry);
 
         entry.getMeasurementCache().clear();
         for (Category category : Category.values()) {
-            if (getBinding().layoutMeasurements.hasCategory(category)) {
-                Measurement measurement = getBinding().layoutMeasurements.getMeasurement(category);
+            if (measurementContainer.hasCategory(category)) {
+                Measurement measurement = measurementContainer.getMeasurement(category);
                 measurement.setEntry(entry);
                 //noinspection unchecked
                 MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
@@ -497,8 +523,8 @@ public class EntryEditFragment
 
         List<Tag> tags = new ArrayList<>();
         List<EntryTag> entryTags = new ArrayList<>();
-        for (int index = 0; index < getBinding().entryTags.getChildCount(); index++) {
-            View view = getBinding().entryTags.getChildAt(index);
+        for (int index = 0; index < tagListView.getChildCount(); index++) {
+            View view = tagListView.getChildAt(index);
             if (view.getTag() instanceof Tag) {
                 Tag tag = (Tag) view.getTag();
                 if (tag.getId() < 0) {
@@ -544,8 +570,8 @@ public class EntryEditFragment
     }
 
     private List<FoodEaten> getFoodEaten() {
-        for (int index = 0; index < getBinding().layoutMeasurements.getChildCount(); index++) {
-            View view = getBinding().layoutMeasurements.getChildAt(index);
+        for (int index = 0; index < measurementContainer.getChildCount(); index++) {
+            View view = measurementContainer.getChildAt(index);
             if (view instanceof MeasurementView) {
                 MeasurementView<?> measurementView = ((MeasurementView<?>) view);
                 Measurement measurement = measurementView.getMeasurement();

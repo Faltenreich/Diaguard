@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
-import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 
@@ -37,16 +36,6 @@ public class EntryEditFragmentFactory {
         if (dateTime != null) {
             Bundle arguments = new Bundle();
             arguments.putSerializable(EntryEditFragment.EXTRA_DATE, dateTime);
-            fragment.setArguments(arguments);
-        }
-        return fragment;
-    }
-
-    public static EntryEditFragment newInstance(@Nullable Category category) {
-        EntryEditFragment fragment = new EntryEditFragment();
-        if (category != null) {
-            Bundle arguments = new Bundle();
-            arguments.putSerializable(EntryEditFragment.EXTRA_CATEGORY, category);
             fragment.setArguments(arguments);
         }
         return fragment;

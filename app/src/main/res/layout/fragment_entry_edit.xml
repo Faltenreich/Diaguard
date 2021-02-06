@@ -39,7 +39,7 @@
                             app:tint="?iconColorPrimary" />
 
                         <Button
-                            android:id="@+id/button_date"
+                            android:id="@+id/date_button"
                             style="@style/LayoutRowItem"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
@@ -48,7 +48,7 @@
                             tools:text="@tools:sample/date/ddmmyy" />
 
                         <Button
-                            android:id="@+id/button_time"
+                            android:id="@+id/time_button"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:textAllCaps="false"
@@ -81,7 +81,7 @@
                                 android:showDividers="middle">
 
                                 <AutoCompleteTextView
-                                    android:id="@+id/entry_tags_input"
+                                    android:id="@+id/tag_input"
                                     android:layout_width="0dp"
                                     android:layout_height="@dimen/height_element_large"
                                     android:layout_weight="1"
@@ -96,7 +96,7 @@
                                     tools:ignore="RtlSymmetry" />
 
                                 <ImageView
-                                    android:id="@+id/entry_tags_edit_button"
+                                    android:id="@+id/tag_edit_button"
                                     android:layout_width="@dimen/size_image_small"
                                     android:layout_height="@dimen/size_image_small"
                                     android:background="?selectableItemBackgroundBorderless"
@@ -109,7 +109,7 @@
                             </LinearLayout>
 
                             <com.google.android.material.chip.ChipGroup
-                                android:id="@+id/entry_tags"
+                                android:id="@+id/tag_list_view"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:paddingTop="0dp"
@@ -130,7 +130,7 @@
                             app:tint="?iconColorPrimary" />
 
                         <EditText
-                            android:id="@+id/edittext_notes"
+                            android:id="@+id/note_input"
                             style="@style/LayoutRowItemMultiline"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -145,7 +145,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/entry_alarm_container"
+                        android:id="@+id/alarm_container"
                         style="@style/LayoutRow">
 
                         <ImageView
@@ -156,7 +156,7 @@
                             app:tint="?iconColorPrimary" />
 
                         <Button
-                            android:id="@+id/entry_button_alarm"
+                            android:id="@+id/alarm_button"
                             style="@style/LayoutRowItem"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -172,7 +172,7 @@
             </androidx.cardview.widget.CardView>
 
             <com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementListView
-                android:id="@+id/layout_measurements"
+                android:id="@+id/measurement_container"
                 style="@style/Padding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

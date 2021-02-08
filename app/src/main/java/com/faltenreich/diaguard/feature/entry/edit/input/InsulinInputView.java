@@ -8,9 +8,9 @@ import com.faltenreich.diaguard.databinding.ListItemMeasurementInsulinBinding;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Insulin;
-import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
+import com.faltenreich.diaguard.shared.view.edittext.EditTextUtils;
 import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
 
 /**
@@ -36,20 +36,40 @@ public class InsulinInputView extends MeasurementInputView<ListItemMeasurementIn
     }
 
     @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-
+    protected void onBind(Insulin measurement) {
         bolusInputField = getBinding().bolusInputField;
         bolusInputField.setText(measurement.getValuesForUI()[0]);
+        EditTextUtils.afterTextChanged(bolusInputField.getEditText(), () -> {
+            measurement.setBolus(bolusInputField.getText().length() > 0 ?
+                PreferenceStore.getInstance().formatCustomToDefaultUnit(
+                    measurement.getCategory(),
+                    FloatUtils.parseNumber(bolusInputField.getText())
+                ) : 0);
+        });
 
         correctionInputField = getBinding().correctionInputField;
         correctionInputField.setText(measurement.getValuesForUI()[1]);
+        EditTextUtils.afterTextChanged(correctionInputField.getEditText(), () -> {
+            measurement.setCorrection(correctionInputField.getText().length() > 0 ?
+                PreferenceStore.getInstance().formatCustomToDefaultUnit(
+                    measurement.getCategory(),
+                    FloatUtils.parseNumber(correctionInputField.getText())
+                ) : 0);
+        });
 
         basalInputField = getBinding().basalInputField;
         basalInputField.setText(measurement.getValuesForUI()[2]);
+        EditTextUtils.afterTextChanged(basalInputField.getEditText(), () -> {
+            measurement.setBasal(basalInputField.getText().length() > 0 ?
+                PreferenceStore.getInstance().formatCustomToDefaultUnit(
+                    measurement.getCategory(),
+                    FloatUtils.parseNumber(basalInputField.getText())
+                ) : 0);
+        });
     }
 
-    private boolean isValid() {
+    @Override
+    public boolean isValid(Insulin measurement) {
         boolean isValid = true;
 
         String bolus = bolusInputField.getText().trim();
@@ -71,27 +91,5 @@ public class InsulinInputView extends MeasurementInputView<ListItemMeasurementIn
             }
         }
         return isValid;
-    }
-
-    @Override
-    public Measurement getMeasurement() {
-        if (isValid()) {
-            measurement.setValues(
-                    bolusInputField.getText().length() > 0 ?
-                            PreferenceStore.getInstance().formatCustomToDefaultUnit(
-                                    measurement.getCategory(),
-                                    FloatUtils.parseNumber(bolusInputField.getText())) : 0,
-                    correctionInputField.getText().length() > 0 ?
-                            PreferenceStore.getInstance().formatCustomToDefaultUnit(
-                                    measurement.getCategory(),
-                                    FloatUtils.parseNumber(correctionInputField.getText())) : 0,
-                    basalInputField.getText().length() > 0 ?
-                            PreferenceStore.getInstance().formatCustomToDefaultUnit(
-                                    measurement.getCategory(),
-                                    FloatUtils.parseNumber(basalInputField.getText())) : 0);
-            return measurement;
-        } else {
-            return null;
-        }
     }
 }

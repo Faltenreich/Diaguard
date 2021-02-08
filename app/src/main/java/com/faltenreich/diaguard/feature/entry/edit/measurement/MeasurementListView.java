@@ -49,13 +49,14 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
         super.onRestoreInstanceState(state);
         if (state instanceof MeasurementSavedState) {
             MeasurementSavedState measurementSavedState = (MeasurementSavedState) state;
-            // FIXME: Retrieve correctly cached measurements
             List<Measurement> measurements = measurementSavedState.getMeasurements();
             Log.d(MeasurementListView.class.getSimpleName(), "Restored measurements: " + measurements.toString());
             for (int index = 0; index < measurements.size(); index++) {
                 Measurement measurement = measurements.get(index);
-                // TODO: Add measurements when views are prepared
-                // addMeasurement(index, measurement);
+                MeasurementView<?> existing = getMeasurementView(measurement.getCategory());
+                if (existing != null) {
+                    // TODO: existing.setMeasurement(measurement);
+                }
             }
         }
     }
@@ -96,7 +97,7 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
                     callback.onCategoryAdded(category);
                 }
             } catch (IndexOutOfBoundsException exception) {
-                Log.e(MeasurementListView.class.getSimpleName(), exception.getMessage());
+                Log.e(MeasurementListView.class.getSimpleName(), exception.toString());
             }
         }
     }
@@ -107,6 +108,7 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
             categories.add(index, category);
             MeasurementView<Measurement> measurementView = new MeasurementView<>(getContext(), measurement);
             measurementView.setOnCategoryRemovedListener(this);
+            measurementView.setTag(category);
             addMeasurementView(measurementView, index);
             if (callback != null) {
                 callback.onCategoryAdded(category);
@@ -155,12 +157,26 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
         return measurements;
     }
 
+    private MeasurementView<?> getMeasurementView(Category category) {
+        for (int position = 0; position < getChildCount(); position++) {
+            View childView = getChildAt(position);
+            if (childView instanceof MeasurementView) {
+                MeasurementView<?> measurementView = (MeasurementView<?>) childView;
+                Measurement measurement = measurementView.getMeasurement();
+                if (measurement != null && measurement.getCategory() == category) {
+                    return measurementView;
+                }
+            }
+        }
+        return null;
+    }
+
     public Measurement getMeasurement(Category category) {
         for (int position = 0; position < getChildCount(); position++) {
             View childView = getChildAt(position);
             if (childView instanceof MeasurementView) {
                 Measurement measurement = ((MeasurementView<?>) childView).getMeasurement();
-                if (measurement.getCategory() == category) {
+                if (measurement != null && measurement.getCategory() == category) {
                     return measurement;
                 }
             }

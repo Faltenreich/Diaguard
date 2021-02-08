@@ -10,6 +10,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
+import com.faltenreich.diaguard.shared.view.edittext.EditTextUtils;
 import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
 
 /**
@@ -38,14 +39,20 @@ public class GenericInputView<T extends Measurement> extends MeasurementInputVie
     }
 
     @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
+    protected void onBind(Measurement measurement) {
         inputField = getBinding().inputField;
         inputField.setHint(PreferenceStore.getInstance().getUnitAcronym(measurement.getCategory()));
         inputField.setText(measurement.getValuesForUI()[0]);
+
+        EditTextUtils.afterTextChanged(inputField.getEditText(), () -> {
+            float value = FloatUtils.parseNumber(inputField.getText());
+            value = PreferenceStore.getInstance().formatCustomToDefaultUnit(measurement.getCategory(), value);
+            measurement.setValues(value);
+        });
     }
 
-    private boolean isValid() {
+    @Override
+    public boolean isValid(Measurement measurement) {
         boolean isValid;
         String input = inputField.getText();
         if (StringUtils.isBlank(input)) {
@@ -56,17 +63,4 @@ public class GenericInputView<T extends Measurement> extends MeasurementInputVie
         }
         return isValid;
     }
-
-    @Override
-    public Measurement getMeasurement() {
-        if (isValid()) {
-            float value = FloatUtils.parseNumber(inputField.getText());
-            value = PreferenceStore.getInstance().formatCustomToDefaultUnit(measurement.getCategory(), value);
-            measurement.setValues(value);
-            return measurement;
-        } else {
-            return null;
-        }
-    }
-    
 }

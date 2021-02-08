@@ -18,7 +18,7 @@ import com.faltenreich.diaguard.databinding.ViewStickyHintInputBinding;
 import com.faltenreich.diaguard.shared.view.ViewBindable;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 
-public class StickyHintInputView extends LinearLayout implements ViewBindable<ViewStickyHintInputBinding>, TextWatcher {
+public class StickyHintInputView extends LinearLayout implements ViewBindable<ViewStickyHintInputBinding> {
 
     private static final int INPUT_TYPE_DEFAULT = InputType.TYPE_CLASS_NUMBER
         | InputType.TYPE_NUMBER_FLAG_DECIMAL
@@ -84,7 +84,16 @@ public class StickyHintInputView extends LinearLayout implements ViewBindable<Vi
     }
 
     private void initLayout() {
-        inputField.addTextChangedListener(this);
+        inputField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                update();
+            }
+        });
         inputField.setHint(hint);
         inputField.setInputType(inputType);
         hintLabel.setText(hint);
@@ -119,18 +128,5 @@ public class StickyHintInputView extends LinearLayout implements ViewBindable<Vi
 
     public void setError(String error) {
         inputField.setError(error);
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-    }
-
-    @Override
-    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-    }
-
-    @Override
-    public void afterTextChanged(Editable editable) {
-        update();
     }
 }

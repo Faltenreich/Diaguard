@@ -6,9 +6,9 @@ import android.view.LayoutInflater;
 import com.faltenreich.diaguard.databinding.ListItemMeasurementPressureBinding;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
-import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Pressure;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
+import com.faltenreich.diaguard.shared.view.edittext.EditTextUtils;
 import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
 
 /**
@@ -33,34 +33,27 @@ public class PressureInputView extends MeasurementInputView<ListItemMeasurementP
     }
 
     @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-
+    protected void onBind(Pressure measurement) {
         systolicInputField = getBinding().systolicInputField;
         systolicInputField.setText(measurement.getValuesForUI()[0]);
+        EditTextUtils.afterTextChanged(systolicInputField.getEditText(), () ->
+            measurement.setSystolic(PreferenceStore.getInstance().formatCustomToDefaultUnit(
+                measurement.getCategory(),
+                FloatUtils.parseNumber(systolicInputField.getText())))
+        );
 
         diastolicInputField = getBinding().diastolicInputField;
         diastolicInputField.setText(measurement.getValuesForUI()[1]);
-    }
-
-    private boolean isValid() {
-        return PreferenceStore.getInstance().isValueValid(systolicInputField.getEditText(), Category.PRESSURE) &&
-                PreferenceStore.getInstance().isValueValid(diastolicInputField.getEditText(), Category.PRESSURE);
+        EditTextUtils.afterTextChanged(diastolicInputField.getEditText(), () ->
+            measurement.setDiastolic(PreferenceStore.getInstance().formatCustomToDefaultUnit(
+                measurement.getCategory(),
+                FloatUtils.parseNumber(diastolicInputField.getText())))
+        );
     }
 
     @Override
-    public Measurement getMeasurement() {
-        if (isValid()) {
-            measurement.setValues(
-                    PreferenceStore.getInstance().formatCustomToDefaultUnit(
-                            measurement.getCategory(),
-                            FloatUtils.parseNumber(systolicInputField.getText())),
-                    PreferenceStore.getInstance().formatCustomToDefaultUnit(
-                            measurement.getCategory(),
-                            FloatUtils.parseNumber(diastolicInputField.getText())));
-            return measurement;
-        } else {
-            return null;
-        }
+    public boolean isValid(Pressure measurement) {
+        return PreferenceStore.getInstance().isValueValid(systolicInputField.getEditText(), Category.PRESSURE)
+            && PreferenceStore.getInstance().isValueValid(diastolicInputField.getEditText(), Category.PRESSURE);
     }
 }

@@ -8,7 +8,6 @@ import com.faltenreich.diaguard.feature.food.input.FoodInputView;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
-import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 
 /**
  * Created by Faltenreich on 20.09.2015.
@@ -37,15 +36,19 @@ public class MealInputView extends MeasurementInputView<ListItemMeasurementMealB
     }
 
     @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
+    protected void onBind(Meal measurement) {
         foodInputView = getBinding().foodInputView;
         foodInputView.addItem(food);
         foodInputView.setupWithMeal(measurement);
     }
 
     @Override
-    public Measurement getMeasurement() {
+    public boolean isValid(Meal measurement) {
+        return foodInputView.isValid();
+    }
+
+    @Override
+    public Meal getMeasurement() {
         return foodInputView.getMeal();
     }
 }

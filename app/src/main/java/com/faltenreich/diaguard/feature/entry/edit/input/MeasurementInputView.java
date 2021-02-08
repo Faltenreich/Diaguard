@@ -18,7 +18,7 @@ public abstract class MeasurementInputView<BINDING extends ViewBinding, MEASUREM
 
     private BINDING binding;
 
-    protected MEASUREMENT measurement;
+    private MEASUREMENT measurement;
 
     @Deprecated
     public MeasurementInputView(Context context) {
@@ -35,6 +35,12 @@ public abstract class MeasurementInputView<BINDING extends ViewBinding, MEASUREM
         this(context, MeasurementFactory.createFromCategory(category));
     }
 
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        onBind(measurement);
+    }
+
     protected abstract BINDING createBinding(LayoutInflater inflater);
 
     @Override
@@ -42,5 +48,11 @@ public abstract class MeasurementInputView<BINDING extends ViewBinding, MEASUREM
         return binding;
     }
 
-    public abstract Measurement getMeasurement();
+    protected abstract void onBind(MEASUREMENT measurement);
+
+    public MEASUREMENT getMeasurement() {
+        return measurement;
+    }
+
+    public abstract boolean isValid(MEASUREMENT measurement);
 }

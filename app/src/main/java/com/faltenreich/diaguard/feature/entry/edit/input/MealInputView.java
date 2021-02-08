@@ -3,9 +3,10 @@ package com.faltenreich.diaguard.feature.entry.edit.input;
 import android.content.Context;
 import android.view.LayoutInflater;
 
+import androidx.annotation.Nullable;
+
 import com.faltenreich.diaguard.databinding.ListItemMeasurementMealBinding;
 import com.faltenreich.diaguard.feature.food.input.FoodInputView;
-import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 
@@ -18,15 +19,11 @@ public class MealInputView extends MeasurementInputView<ListItemMeasurementMealB
     private Food food;
 
     public MealInputView(Context context) {
-        super(context, Category.MEAL);
+        super(context);
     }
 
-    public MealInputView(Context context, Meal meal) {
-        super(context, meal);
-    }
-
-    public MealInputView(Context context, Food food) {
-        this(context);
+    public MealInputView(Context context, @Nullable Meal meal, @Nullable Food food) {
+        super(context, Meal.class, meal);
         this.food = food;
     }
 

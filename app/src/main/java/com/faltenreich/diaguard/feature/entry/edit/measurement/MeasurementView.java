@@ -125,28 +125,21 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
         categoryLabel.setText(categoryName);
         deleteButton.setContentDescription(String.format(getContext().getString(R.string.remove_placeholder), categoryName));
 
-        boolean isUpdating = measurement != null;
+        View measurementView;
         switch (category) {
             case INSULIN:
-                contentLayout.addView(isUpdating ?
-                    new InsulinInputView(getContext(), (Insulin) measurement) :
-                    new InsulinInputView(getContext()));
+                measurementView = new InsulinInputView(getContext(), (Insulin) measurement);
                 break;
             case MEAL:
-                contentLayout.addView(isUpdating ?
-                    new MealInputView(getContext(), (Meal) measurement) :
-                    new MealInputView(getContext(), food));
+                measurementView = new MealInputView(getContext(), (Meal) measurement, food);
                 break;
             case PRESSURE:
-                contentLayout.addView(isUpdating ?
-                    new PressureInputView(getContext(), (Pressure) measurement) :
-                    new PressureInputView(getContext()));
+                measurementView = new PressureInputView(getContext(), (Pressure) measurement);
                 break;
             default:
-                contentLayout.addView(isUpdating ?
-                    new GenericInputView<>(getContext(), measurement) :
-                    new GenericInputView<>(getContext(), category));
+                measurementView = new GenericInputView<>(getContext(), category.toClass(), measurement);
         }
+        contentLayout.addView(measurementView);
     }
 
     public Measurement getMeasurement() {

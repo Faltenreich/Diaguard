@@ -3,6 +3,8 @@ package com.faltenreich.diaguard.feature.entry.edit.input;
 import android.content.Context;
 import android.view.LayoutInflater;
 
+import androidx.annotation.Nullable;
+
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ListItemMeasurementInsulinBinding;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
@@ -23,11 +25,11 @@ public class InsulinInputView extends MeasurementInputView<ListItemMeasurementIn
     private StickyHintInputView basalInputField;
 
     public InsulinInputView(Context context) {
-        super(context, Category.INSULIN);
+        super(context);
     }
 
-    public InsulinInputView(Context context, Insulin insulin) {
-        super(context, insulin);
+    public InsulinInputView(Context context, @Nullable Insulin insulin) {
+        super(context, Insulin.class, insulin);
     }
 
     @Override

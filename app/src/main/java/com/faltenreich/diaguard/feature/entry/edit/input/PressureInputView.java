@@ -20,11 +20,11 @@ public class PressureInputView extends MeasurementInputView<ListItemMeasurementP
     private StickyHintInputView diastolicInputField;
 
     public PressureInputView(Context context) {
-        super(context, Category.PRESSURE);
+        super(context);
     }
 
     public PressureInputView(Context context, Pressure pressure) {
-        super(context, pressure);
+        super(context, Pressure.class, pressure);
     }
 
     @Override

@@ -3,10 +3,11 @@ package com.faltenreich.diaguard.feature.entry.edit.input;
 import android.content.Context;
 import android.view.LayoutInflater;
 
+import androidx.annotation.Nullable;
+
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ListItemMeasurementGenericBinding;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
-import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
@@ -25,12 +26,8 @@ public class GenericInputView<T extends Measurement> extends MeasurementInputVie
         super(context);
     }
 
-    public GenericInputView(Context context, T measurement) {
-        super(context, measurement);
-    }
-
-    public GenericInputView(Context context, Category category) {
-        super(context, category);
+    public GenericInputView(Context context, Class<T> clazz, @Nullable T measurement) {
+        super(context, clazz, measurement);
     }
 
     @Override

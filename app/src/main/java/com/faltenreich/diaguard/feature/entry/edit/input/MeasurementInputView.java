@@ -4,11 +4,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
+import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
 
-import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
-import com.faltenreich.diaguard.shared.data.database.factory.MeasurementFactory;
+import com.faltenreich.diaguard.shared.data.reflect.ObjectFactory;
 import com.faltenreich.diaguard.shared.view.ViewBindable;
 
 public abstract class MeasurementInputView<BINDING extends ViewBinding, MEASUREMENT extends Measurement>
@@ -17,7 +17,6 @@ public abstract class MeasurementInputView<BINDING extends ViewBinding, MEASUREM
 {
 
     private BINDING binding;
-
     private MEASUREMENT measurement;
 
     @Deprecated
@@ -25,14 +24,10 @@ public abstract class MeasurementInputView<BINDING extends ViewBinding, MEASUREM
         super(context);
     }
 
-    public MeasurementInputView(Context context, MEASUREMENT measurement) {
+    public MeasurementInputView(Context context, Class<MEASUREMENT> clazz, @Nullable MEASUREMENT measurement) {
         super(context);
-        this.measurement = measurement;
         this.binding = createBinding(LayoutInflater.from(getContext()));
-    }
-
-    public MeasurementInputView(Context context, Category category) {
-        this(context, MeasurementFactory.createFromCategory(category));
+        this.measurement = measurement != null ? measurement : ObjectFactory.createFromClass(clazz);
     }
 
     @Override

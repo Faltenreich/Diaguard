@@ -3,7 +3,10 @@ package com.faltenreich.diaguard.feature.entry.edit.measurement;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,10 +14,10 @@ import androidx.cardview.widget.CardView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ListItemMeasurementBinding;
-import com.faltenreich.diaguard.feature.entry.edit.input.MeasurementInputView;
 import com.faltenreich.diaguard.feature.entry.edit.input.GenericInputView;
 import com.faltenreich.diaguard.feature.entry.edit.input.InsulinInputView;
 import com.faltenreich.diaguard.feature.entry.edit.input.MealInputView;
+import com.faltenreich.diaguard.feature.entry.edit.input.MeasurementInputView;
 import com.faltenreich.diaguard.feature.entry.edit.input.PressureInputView;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
@@ -31,6 +34,13 @@ import com.faltenreich.diaguard.shared.view.swipe.SwipeDismissTouchListener;
  * Created by Faltenreich on 24.09.2015.
  */
 public class MeasurementView<T extends Measurement> extends CardView implements ViewBindable<ListItemMeasurementBinding> {
+
+    private ImageView deleteButton;
+    private CheckBox pinnedCheckbox;
+    private ImageView showcaseImageView;
+    private ImageView categoryImageView;
+    private TextView categoryLabel;
+    private ViewGroup contentLayout;
 
     private Category category;
     @Nullable private T measurement;
@@ -71,73 +81,76 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
     }
 
     private void init() {
-        LayoutInflater.from(getContext()).inflate(R.layout.list_item_measurement, this);
-        binding = ListItemMeasurementBinding.bind(this);
+        binding = ListItemMeasurementBinding.inflate(LayoutInflater.from(getContext()), this);
     }
 
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        bindViews();
         initLayout();
         initData();
+    }
+
+    private void bindViews() {
+        deleteButton = getBinding().deleteButton;
+        pinnedCheckbox = getBinding().pinnedCheckbox;
+        showcaseImageView = getBinding().showcaseImageView;
+        categoryImageView = getBinding().categoryImageView;
+        categoryLabel = getBinding().categoryLabel;
+        contentLayout = getBinding().contentLayout;
     }
 
     private void initLayout() {
         setRadius(getContext().getResources().getDimension(R.dimen.card_corner_radius));
         setCardElevation(getContext().getResources().getDimension(R.dimen.card_elevation));
         setUseCompatPadding(true);
-
         setOnTouchListener(new SwipeDismissTouchListener(this, null, new SwipeDismissTouchListener.DismissCallbacks() {
             @Override
-            public boolean canDismiss(Object token) {
-                return true;
-            }
-
+            public boolean canDismiss(Object token) { return true; }
             @Override
-            public void onDismiss(View view, Object token) {
-                remove();
-            }
+            public void onDismiss(View view, Object token) { remove(); }
         }));
-        getBinding().deleteButton.setOnClickListener((view) -> remove());
 
-        CheckBox pinnedCheckbox = getBinding().pinnedCheckbox;
+        deleteButton.setOnClickListener((view) -> remove());
+
         pinnedCheckbox.setChecked(PreferenceStore.getInstance().isCategoryPinned(category));
         pinnedCheckbox.setOnCheckedChangeListener((checkbox, isChecked) -> togglePinnedCategory(isChecked));
     }
 
     private void initData() {
         String categoryName = getContext().getString(category.getStringResId());
-        getBinding().showcaseImageView.setImageResource(category.getShowcaseImageResourceId());
-        getBinding().categoryImageView.setImageResource(category.getIconImageResourceId());
-        getBinding().categoryLabel.setText(categoryName);
-        getBinding().deleteButton.setContentDescription(String.format(getContext().getString(R.string.remove_placeholder), categoryName));
+        showcaseImageView.setImageResource(category.getShowcaseImageResourceId());
+        categoryImageView.setImageResource(category.getIconImageResourceId());
+        categoryLabel.setText(categoryName);
+        deleteButton.setContentDescription(String.format(getContext().getString(R.string.remove_placeholder), categoryName));
 
         boolean isUpdating = measurement != null;
         switch (category) {
             case INSULIN:
-                getBinding().contentLayout.addView(isUpdating ?
+                contentLayout.addView(isUpdating ?
                     new InsulinInputView(getContext(), (Insulin) measurement) :
                     new InsulinInputView(getContext()));
                 break;
             case MEAL:
-                getBinding().contentLayout.addView(isUpdating ?
+                contentLayout.addView(isUpdating ?
                     new MealInputView(getContext(), (Meal) measurement) :
                     new MealInputView(getContext(), food));
                 break;
             case PRESSURE:
-                getBinding().contentLayout.addView(isUpdating ?
+                contentLayout.addView(isUpdating ?
                     new PressureInputView(getContext(), (Pressure) measurement) :
                     new PressureInputView(getContext()));
                 break;
             default:
-                getBinding().contentLayout.addView(isUpdating ?
+                contentLayout.addView(isUpdating ?
                     new GenericInputView<>(getContext(), measurement) :
                     new GenericInputView<>(getContext(), category));
         }
     }
 
     public Measurement getMeasurement() {
-        View childView = getBinding().contentLayout.getChildAt(0);
+        View childView = contentLayout.getChildAt(0);
         if (childView instanceof MeasurementInputView) {
             return ((MeasurementInputView<?, ?>) childView).getMeasurement();
         } else {
@@ -150,7 +163,6 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
     }
 
     private void togglePinnedCategory(final boolean isPinned) {
-        CheckBox pinnedCheckbox = getBinding().pinnedCheckbox;
         int textResId = isPinned ? R.string.category_pin_confirm : R.string.category_unpin_confirm;
         String categoryString = getContext().getString(category.getStringResId());
         String confirmation = String.format(getContext().getString(textResId), categoryString);

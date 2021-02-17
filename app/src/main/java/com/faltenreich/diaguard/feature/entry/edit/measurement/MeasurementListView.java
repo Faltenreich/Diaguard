@@ -39,9 +39,7 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
     @Override
     protected Parcelable onSaveInstanceState() {
         Parcelable savedState = super.onSaveInstanceState();
-        // FIXME: Avoid casting to harden api
-        List<Measurement> measurements = getMeasurements();
-        return new MeasurementSavedState(savedState, (ArrayList<Measurement>) measurements);
+        return new MeasurementSavedState(savedState, getMeasurements());
     }
 
     @Override
@@ -146,8 +144,8 @@ public class MeasurementListView extends LinearLayout implements MeasurementView
         }
     }
 
-    public List<Measurement> getMeasurements() {
-        List<Measurement> measurements = new ArrayList<>();
+    public ArrayList<Measurement> getMeasurements() {
+        ArrayList<Measurement> measurements = new ArrayList<>();
         for (int position = 0; position < getChildCount(); position++) {
             View childView = getChildAt(position);
             if (childView instanceof MeasurementView) {

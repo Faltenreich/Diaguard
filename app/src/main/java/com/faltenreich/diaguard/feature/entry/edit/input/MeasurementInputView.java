@@ -16,13 +16,8 @@ public abstract class MeasurementInputView<BINDING extends ViewBinding, MEASUREM
     implements ViewBindable<BINDING>
 {
 
-    private BINDING binding;
-    private MEASUREMENT measurement;
-
-    @Deprecated
-    public MeasurementInputView(Context context) {
-        super(context);
-    }
+    private final BINDING binding;
+    private final MEASUREMENT measurement;
 
     public MeasurementInputView(Context context, Class<MEASUREMENT> clazz, @Nullable MEASUREMENT measurement) {
         super(context);

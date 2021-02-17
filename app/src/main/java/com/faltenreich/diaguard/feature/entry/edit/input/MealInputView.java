@@ -1,5 +1,6 @@
 package com.faltenreich.diaguard.feature.entry.edit.input;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 
@@ -13,14 +14,12 @@ import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 /**
  * Created by Faltenreich on 20.09.2015.
  */
+@SuppressLint("ViewConstructor")
 public class MealInputView extends MeasurementInputView<ListItemMeasurementMealBinding, Meal> {
 
     private FoodInputView foodInputView;
-    private Food food;
 
-    public MealInputView(Context context) {
-        super(context);
-    }
+    private final Food food;
 
     public MealInputView(Context context, @Nullable Meal meal, @Nullable Food food) {
         super(context, Meal.class, meal);

@@ -16,7 +16,6 @@ import com.faltenreich.diaguard.databinding.ListItemMeasurementBinding;
 import com.faltenreich.diaguard.feature.entry.edit.input.GenericInputView;
 import com.faltenreich.diaguard.feature.entry.edit.input.InsulinInputView;
 import com.faltenreich.diaguard.feature.entry.edit.input.MealInputView;
-import com.faltenreich.diaguard.feature.entry.edit.input.MeasurementInputView;
 import com.faltenreich.diaguard.feature.entry.edit.input.PressureInputView;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
@@ -126,12 +125,7 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
     }
 
     public Measurement getMeasurement() {
-        View childView = contentLayout.getChildAt(0);
-        if (childView instanceof MeasurementInputView) {
-            return ((MeasurementInputView<?, ?>) childView).getMeasurement();
-        } else {
-            return null;
-        }
+        return measurement;
     }
 
     public void setOnCategoryRemovedListener(OnCategoryRemovedListener onCategoryRemovedListener) {

@@ -396,10 +396,6 @@ public class EntryEditFragment
         updateDateTime();
     }
 
-    private void toggleSubmitButton(boolean isEnabled) {
-        fab.setEnabled(isEnabled);
-    }
-
     private void addTag(String name) {
         Tag tag = tagAdapter.find(name);
         if (tag == null) {
@@ -509,7 +505,7 @@ public class EntryEditFragment
     }
 
     private void trySubmit() {
-        toggleSubmitButton(false);
+        fab.setEnabled(false);
 
         // Convenience: Accept tag that hasn't been submitted by user
         String missingTag = tagInput.getText().toString();
@@ -522,7 +518,7 @@ public class EntryEditFragment
             submit();
         }
 
-        toggleSubmitButton(true);
+        fab.setEnabled(true);
     }
 
     private void submit() {

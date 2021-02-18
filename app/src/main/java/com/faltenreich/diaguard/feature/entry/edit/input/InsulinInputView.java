@@ -4,8 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 
-import androidx.annotation.Nullable;
-
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ListItemMeasurementInsulinBinding;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
@@ -26,7 +24,7 @@ public class InsulinInputView extends MeasurementInputView<ListItemMeasurementIn
     private StickyHintInputView correctionInputField;
     private StickyHintInputView basalInputField;
 
-    public InsulinInputView(Context context, @Nullable Insulin insulin) {
+    public InsulinInputView(Context context, Insulin insulin) {
         super(context, Insulin.class, insulin);
     }
 

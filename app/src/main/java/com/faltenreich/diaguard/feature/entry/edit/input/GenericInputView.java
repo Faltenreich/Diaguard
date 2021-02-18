@@ -4,8 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 
-import androidx.annotation.Nullable;
-
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.ListItemMeasurementGenericBinding;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
@@ -23,7 +21,7 @@ public class GenericInputView<T extends Measurement> extends MeasurementInputVie
 
     private StickyHintInputView inputField;
 
-    public GenericInputView(Context context, Class<T> clazz, @Nullable T measurement) {
+    public GenericInputView(Context context, Class<T> clazz, T measurement) {
         super(context, clazz, measurement);
     }
 

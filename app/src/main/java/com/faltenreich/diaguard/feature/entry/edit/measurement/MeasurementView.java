@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 
 import com.faltenreich.diaguard.R;
@@ -21,7 +20,6 @@ import com.faltenreich.diaguard.feature.entry.edit.input.MeasurementInputView;
 import com.faltenreich.diaguard.feature.entry.edit.input.PressureInputView;
 import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
-import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.Insulin;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
@@ -42,9 +40,7 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
     private TextView categoryLabel;
     private ViewGroup contentLayout;
 
-    private Category category;
-    @Nullable private T measurement;
-    @Nullable private Food food;
+    private T measurement;
 
     private OnCategoryRemovedListener onCategoryRemovedListener;
 
@@ -57,21 +53,7 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
 
     public MeasurementView(Context context, @NonNull T measurement) {
         super(context);
-        this.category = measurement.getCategory();
         this.measurement = measurement;
-        init();
-    }
-
-    public MeasurementView(Context context, @NonNull Food food) {
-        super(context);
-        this.category = Category.MEAL;
-        this.food = food;
-        init();
-    }
-
-    public MeasurementView(Context context, @NonNull Category category) {
-        super(context);
-        this.category = category;
         init();
     }
 
@@ -114,11 +96,12 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
 
         deleteButton.setOnClickListener((view) -> remove());
 
-        pinnedCheckbox.setChecked(PreferenceStore.getInstance().isCategoryPinned(category));
+        pinnedCheckbox.setChecked(PreferenceStore.getInstance().isCategoryPinned(measurement.getCategory()));
         pinnedCheckbox.setOnCheckedChangeListener((checkbox, isChecked) -> togglePinnedCategory(isChecked));
     }
 
     private void initData() {
+        Category category = measurement.getCategory();
         String categoryName = getContext().getString(category.getStringResId());
         showcaseImageView.setImageResource(category.getShowcaseImageResourceId());
         categoryImageView.setImageResource(category.getIconImageResourceId());
@@ -131,7 +114,7 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
                 measurementView = new InsulinInputView(getContext(), (Insulin) measurement);
                 break;
             case MEAL:
-                measurementView = new MealInputView(getContext(), (Meal) measurement, food);
+                measurementView = new MealInputView(getContext(), (Meal) measurement);
                 break;
             case PRESSURE:
                 measurementView = new PressureInputView(getContext(), (Pressure) measurement);
@@ -156,6 +139,7 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
     }
 
     private void togglePinnedCategory(final boolean isPinned) {
+        Category category = measurement.getCategory();
         int textResId = isPinned ? R.string.category_pin_confirm : R.string.category_unpin_confirm;
         String categoryString = getContext().getString(category.getStringResId());
         String confirmation = String.format(getContext().getString(textResId), categoryString);
@@ -170,7 +154,7 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
 
     private void remove() {
         if (onCategoryRemovedListener != null) {
-            onCategoryRemovedListener.onRemove(category);
+            onCategoryRemovedListener.onRemove(measurement.getCategory());
         }
     }
 

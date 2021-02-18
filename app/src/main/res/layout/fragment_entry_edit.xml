@@ -171,7 +171,7 @@
 
             </androidx.cardview.widget.CardView>
 
-            <com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementListView
+            <LinearLayout
                 android:id="@+id/measurement_container"
                 style="@style/Padding"
                 android:layout_width="match_parent"

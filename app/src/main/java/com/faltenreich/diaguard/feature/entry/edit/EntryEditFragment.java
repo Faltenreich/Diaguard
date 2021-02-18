@@ -15,6 +15,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,7 +30,6 @@ import com.faltenreich.diaguard.feature.datetime.DatePickerFragment;
 import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.datetime.TimePickerFragment;
 import com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementFloatingActionMenu;
-import com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementListView;
 import com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementView;
 import com.faltenreich.diaguard.feature.food.search.FoodSearchFragment;
 import com.faltenreich.diaguard.feature.navigation.Navigation;
@@ -44,7 +44,6 @@ import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
-import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 import com.faltenreich.diaguard.shared.data.database.dao.TagDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
@@ -55,6 +54,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.data.primitive.StringUtils;
+import com.faltenreich.diaguard.shared.data.reflect.ObjectFactory;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.data.EntryAddedEvent;
 import com.faltenreich.diaguard.shared.event.data.EntryDeletedEvent;
@@ -95,20 +95,19 @@ public class EntryEditFragment
     private EditText noteInput;
     private ViewGroup alarmContainer;
     private Button alarmButton;
-    private MeasurementListView measurementContainer;
+    private LinearLayout measurementContainer;
     private MeasurementFloatingActionMenu fabMenu;
     private FloatingActionButton fab;
 
+    private TagAutoCompleteAdapter tagAdapter;
+
     private long entryId;
     private long foodId;
-    private DateTime time = DateTime.now();
+    private DateTime time;
 
     private Entry entry;
     private List<EntryTag> entryTags;
-    private Category[] activeCategories;
     private int alarmInMinutes;
-
-    private TagAutoCompleteAdapter tagAdapter;
 
     @Override
     protected FragmentEntryEditBinding createBinding(LayoutInflater layoutInflater) {
@@ -134,10 +133,14 @@ public class EntryEditFragment
         super.onViewCreated(view, savedInstanceState);
         bindViews();
         initLayout();
+
         if (entryId > 0) {
             fetchEntry(entryId);
         } else if (foodId > 0) {
+            entry = new Entry();
             fetchFood(foodId);
+        } else {
+            entry = new Entry();
         }
     }
 
@@ -171,7 +174,6 @@ public class EntryEditFragment
                 time = (DateTime) arguments.getSerializable(EXTRA_DATE);
             }
         }
-        activeCategories = PreferenceStore.getInstance().getActiveCategories();
         tagAdapter = new TagAutoCompleteAdapter(requireContext());
     }
 
@@ -196,23 +198,10 @@ public class EntryEditFragment
         timeButton.setOnClickListener(view -> showTimePicker());
         updateDateTime();
 
-        measurementContainer.setOnCategoryEventListener(new MeasurementListView.OnCategoryEventListener() {
-            @Override
-            public void onCategoryAdded(Category category) {
-                fabMenu.ignore(category);
-                fabMenu.restock();
-            }
-            @Override
-            public void onCategoryRemoved(Category category) {
-                fabMenu.removeIgnore(category);
-                fabMenu.restock();
-            }
-        });
-
         fabMenu.setOnFabSelectedListener(new MeasurementFloatingActionMenu.OnFabSelectedListener() {
             @Override
             public void onCategorySelected(@Nullable Category category) {
-                addMeasurementView(category);
+                addCategory(category, 0);
             }
             @Override
             public void onMiscellaneousSelected() {
@@ -294,9 +283,7 @@ public class EntryEditFragment
             @Override
             public void onDidLoad(Food food) {
                 if (food != null) {
-                    measurementContainer.addMeasurement(food);
-                    fabMenu.ignore(Category.MEAL);
-                    fabMenu.restock();
+                    addFood(food);
                 }
             }
         });
@@ -318,12 +305,67 @@ public class EntryEditFragment
         });
     }
 
+    private Category[] getActiveCategories() {
+        return PreferenceStore.getInstance().getActiveCategories();
+    }
+
     private void addPinnedCategories() {
-        for (Category category : activeCategories) {
-            if (PreferenceStore.getInstance().isCategoryPinned(category) && !measurementContainer.hasCategory(category)) {
-                measurementContainer.addMeasurementAtEnd(category);
+        for (Category category : getActiveCategories()) {
+            if (PreferenceStore.getInstance().isCategoryPinned(category) && !hasCategory(category)) {
+                addCategory(category, 0);
             }
         }
+    }
+
+
+    private void addMeasurement(Measurement measurement, int index) {
+        MeasurementView<?> view = new MeasurementView<>(getContext(), measurement);
+        view.setOnCategoryRemovedListener(this::removeCategory);
+        measurementContainer.addView(view, index);
+        fabMenu.ignore(measurement.getCategory());
+        fabMenu.restock();
+    }
+
+    private void addCategory(Category category, int index) {
+        Measurement measurement = ObjectFactory.createFromClass(category.toClass());
+        addMeasurement(measurement, index);
+        entry.getMeasurementCache().add(measurement);
+    }
+
+    private void addFood(Food food) {
+        // TODO
+    }
+
+    private void removeCategory(Category category) {
+        int index = indexOf(category);
+        if (index != -1) {
+            measurementContainer.removeViewAt(index);
+
+            int indexInCache = entry.indexInMeasurementCache(category);
+            if (indexInCache != -1) {
+                entry.getMeasurementCache().remove(indexInCache);
+            }
+
+            fabMenu.removeIgnore(category);
+            fabMenu.restock();
+        }
+    }
+
+    private int indexOf(Category category) {
+        for (int index = 0; index < measurementContainer.getChildCount(); index++) {
+            View view = measurementContainer.getChildAt(index);
+            if (view instanceof MeasurementView<?>) {
+                MeasurementView<?> measurementView = (MeasurementView<?>) view;
+                if (measurementView.getMeasurement().getCategory() == category) {
+                    return index;
+                }
+            }
+        }
+        return -1;
+    }
+
+    private boolean hasCategory(Category category) {
+        return indexOf(category) != -1;
     }
 
     private void initEntry(Entry entry, List<EntryTag> entryTags) {
@@ -333,7 +375,12 @@ public class EntryEditFragment
             this.time = entry.getDate();
 
             noteInput.setText(entry.getNote());
-            measurementContainer.addMeasurements(entry.getMeasurementCache());
+
+            if (entry.getMeasurementCache() != null) {
+                for (Measurement measurement : entry.getMeasurementCache()) {
+                    addMeasurement(measurement, 0);
+                }
+            }
 
             if (entryTags != null) {
                 for (EntryTag entryTag : entryTags) {
@@ -397,12 +444,13 @@ public class EntryEditFragment
     }
 
     private void showDialogCategories() {
+        Category[] activeCategories = getActiveCategories();
         String[] categoryNames = new String[activeCategories.length];
         boolean[] visibleCategoriesOld = new boolean[activeCategories.length];
         for (int position = 0; position < activeCategories.length; position++) {
             Category category = activeCategories[position];
             categoryNames[position] = getString(category.getStringResId());
-            visibleCategoriesOld[position] = measurementContainer.hasCategory(category);
+            visibleCategoriesOld[position] = hasCategory(category);
         }
 
         final boolean[] visibleCategories = visibleCategoriesOld.clone();
@@ -413,9 +461,10 @@ public class EntryEditFragment
                 for (int position = activeCategories.length - 1; position >= 0; position--) {
                     Category category = activeCategories[position];
                     if (visibleCategories[position]) {
-                        addMeasurementView(category);
+                        scrollView.smoothScrollTo(0, 0);
+                        addCategory(category, 0);
                     } else {
-                        removeMeasurementView(category);
+                        removeCategory(category);
                     }
                 }
             })
@@ -437,19 +486,10 @@ public class EntryEditFragment
             ) : getString(R.string.alarm_reminder_none));
     }
 
-    private void addMeasurementView(Category category) {
-        scrollView.smoothScrollTo(0, 0);
-        measurementContainer.addMeasurement(category);
-    }
-
-    private void removeMeasurementView(Category category) {
-        measurementContainer.removeMeasurement(category);
-    }
-
     private boolean inputIsValid() {
         boolean inputIsValid = true;
 
-        List<Measurement> measurements = measurementContainer.getMeasurements();
+        List<Measurement> measurements = entry.getMeasurementCache();
         if (measurements.size() == 0) {
             // Allow entries with no measurements but with a note or tag
             if (StringUtils.isBlank(noteInput.getText().toString()) && tagListView.getChildCount() == 0) {
@@ -495,19 +535,7 @@ public class EntryEditFragment
         entry.setDate(time);
         entry.setNote(noteInput.length() > 0 ? noteInput.getText().toString() : null);
         entry = EntryDao.getInstance().createOrUpdate(entry);
-
-        entry.getMeasurementCache().clear();
-        for (Category category : Category.values()) {
-            if (measurementContainer.hasCategory(category)) {
-                Measurement measurement = measurementContainer.getMeasurement(category);
-                measurement.setEntry(entry);
-                //noinspection unchecked
-                MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
-                entry.getMeasurementCache().add(measurement);
-            } else {
-                MeasurementDao.getInstance(category.toClass()).deleteMeasurements(entry);
-            }
-        }
+        // TODO: Check measurements
 
         // TODO: Delete distinct
         if (entryTags != null && entryTags.size() > 0) {

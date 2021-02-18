@@ -4,11 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 
-import androidx.annotation.Nullable;
-
 import com.faltenreich.diaguard.databinding.ListItemMeasurementMealBinding;
 import com.faltenreich.diaguard.feature.food.input.FoodInputView;
-import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 
 /**
@@ -19,11 +16,8 @@ public class MealInputView extends MeasurementInputView<ListItemMeasurementMealB
 
     private FoodInputView foodInputView;
 
-    private final Food food;
-
-    public MealInputView(Context context, @Nullable Meal meal, @Nullable Food food) {
+    public MealInputView(Context context, Meal meal) {
         super(context, Meal.class, meal);
-        this.food = food;
     }
 
     @Override
@@ -34,7 +28,7 @@ public class MealInputView extends MeasurementInputView<ListItemMeasurementMealB
     @Override
     protected void onBind(Meal measurement) {
         foodInputView = getBinding().foodInputView;
-        foodInputView.addItem(food);
+        foodInputView.addItems(measurement.getFoodEaten());
         foodInputView.setupWithMeal(measurement);
     }
 

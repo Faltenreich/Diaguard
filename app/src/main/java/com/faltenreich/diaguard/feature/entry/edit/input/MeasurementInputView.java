@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
-import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
 
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
@@ -19,7 +18,7 @@ public abstract class MeasurementInputView<BINDING extends ViewBinding, MEASUREM
     private final BINDING binding;
     private final MEASUREMENT measurement;
 
-    public MeasurementInputView(Context context, Class<MEASUREMENT> clazz, @Nullable MEASUREMENT measurement) {
+    public MeasurementInputView(Context context, Class<MEASUREMENT> clazz, MEASUREMENT measurement) {
         super(context);
         this.binding = createBinding(LayoutInflater.from(getContext()));
         this.measurement = measurement != null ? measurement : ObjectFactory.createFromClass(clazz);

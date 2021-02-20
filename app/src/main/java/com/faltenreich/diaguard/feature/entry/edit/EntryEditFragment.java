@@ -103,7 +103,7 @@ public class EntryEditFragment
 
     private long entryId;
     private long foodId;
-    private DateTime time;
+    private DateTime dateTime;
 
     private Entry entry;
     private List<EntryTag> entryTags;
@@ -131,17 +131,10 @@ public class EntryEditFragment
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        fetchArguments();
         bindViews();
         initLayout();
-
-        if (entryId > 0) {
-            fetchEntry(entryId);
-        } else if (foodId > 0) {
-            entry = new Entry();
-            fetchFood(foodId);
-        } else {
-            entry = new Entry();
-        }
+        updateDateTime();
     }
 
     @Override
@@ -171,7 +164,7 @@ public class EntryEditFragment
             entryId = arguments.getLong(EXTRA_ENTRY_ID);
             foodId = arguments.getLong(EXTRA_FOOD_ID);
             if (arguments.get(EXTRA_DATE) != null) {
-                time = (DateTime) arguments.getSerializable(EXTRA_DATE);
+                dateTime = (DateTime) arguments.getSerializable(EXTRA_DATE);
             }
         }
         tagAdapter = new TagAutoCompleteAdapter(requireContext());
@@ -196,11 +189,10 @@ public class EntryEditFragment
     private void initLayout() {
         dateButton.setOnClickListener(view -> showDatePicker());
         timeButton.setOnClickListener(view -> showTimePicker());
-        updateDateTime();
 
         fabMenu.setOnFabSelectedListener(new MeasurementFloatingActionMenu.OnFabSelectedListener() {
             @Override
-            public void onCategorySelected(@Nullable Category category) {
+            public void onCategorySelected(Category category) {
                 addCategory(category, 0);
             }
             @Override
@@ -251,6 +243,21 @@ public class EntryEditFragment
         updateAlarm();
 
         fab.setOnClickListener(view -> trySubmit());
+    }
+
+    private void fetchArguments() {
+        if (entry == null) {
+            if (entryId > 0) {
+                fetchEntry(entryId);
+            } else if (foodId > 0) {
+                entry = new Entry();
+                entry.setDate(dateTime);
+                fetchFood(foodId);
+            } else {
+                entry = new Entry();
+                entry.setDate(dateTime);
+            }
+        }
     }
 
     private void fetchEntry(final long id) {
@@ -372,7 +379,6 @@ public class EntryEditFragment
         if (entry != null) {
             this.entry = entry;
             this.entryTags = entryTags;
-            this.time = entry.getDate();
 
             noteInput.setText(entry.getNote());
 
@@ -470,8 +476,9 @@ public class EntryEditFragment
     }
 
     private void updateDateTime() {
-        dateButton.setText(Helper.getDateFormat().print(time));
-        timeButton.setText(Helper.getTimeFormat().print(time));
+        DateTime dateTime = entry.getDate();
+        dateButton.setText(Helper.getDateFormat().print(dateTime));
+        timeButton.setText(Helper.getTimeFormat().print(dateTime));
     }
 
     private void updateAlarm() {
@@ -528,7 +535,6 @@ public class EntryEditFragment
             entry = new Entry();
         }
 
-        entry.setDate(time);
         entry.setNote(noteInput.length() > 0 ? noteInput.getText().toString() : null);
         entry = EntryDao.getInstance().createOrUpdate(entry);
         // TODO: Check measurements
@@ -601,17 +607,17 @@ public class EntryEditFragment
     }
 
     private void showDatePicker() {
-        DatePickerFragment.newInstance(time, dateTime -> {
+        DatePickerFragment.newInstance(entry.getDate(), dateTime -> {
             if (dateTime != null) {
-                time = dateTime;
+                entry.setDate(dateTime);
                 updateDateTime();
             }
         }).show(getChildFragmentManager());
     }
 
     private void showTimePicker() {
-        TimePickerFragment.newInstance(time, (view, hourOfDay, minute) -> {
-            time = time.withHourOfDay(hourOfDay).withMinuteOfHour(minute);
+        TimePickerFragment.newInstance(entry.getDate(), (view, hourOfDay, minute) -> {
+            entry.setDate(entry.getDate().withHourOfDay(hourOfDay).withMinuteOfHour(minute));
             updateDateTime();
         }).show(getChildFragmentManager());
     }

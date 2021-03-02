@@ -68,10 +68,12 @@ public class Entry extends BaseEntity implements Backupable, Exportable {
     }
 
     public int indexInMeasurementCache(Category category) {
-        for (int index = 0; index < measurementCache.size(); index++) {
-            Measurement measurement = measurementCache.get(index);
-            if (measurement.getCategory() == category) {
-                return index;
+        if (measurementCache != null) {
+            for (int index = 0; index < measurementCache.size(); index++) {
+                Measurement measurement = measurementCache.get(index);
+                if (measurement.getCategory() == category) {
+                    return index;
+                }
             }
         }
         return -1;

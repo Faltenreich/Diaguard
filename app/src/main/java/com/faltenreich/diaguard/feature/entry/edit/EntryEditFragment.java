@@ -131,9 +131,9 @@ public class EntryEditFragment
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        fetchArguments();
         bindViews();
         initLayout();
+        fetchData();
         updateDateTime();
     }
 
@@ -201,11 +201,6 @@ public class EntryEditFragment
             }
         });
 
-        if (entryId <= 0 && foodId <= 0) {
-            addPinnedCategories();
-        }
-        fabMenu.restock();
-
         tagListView.setVisibility(View.GONE);
         tagInput.setAdapter(tagAdapter);
         tagInput.setOnEditorActionListener((textView, action, keyEvent) -> {
@@ -245,17 +240,21 @@ public class EntryEditFragment
         fab.setOnClickListener(view -> trySubmit());
     }
 
-    private void fetchArguments() {
-        if (entry == null) {
+    private void fetchData() {
+        if (entry != null) {
+            initEntry(entry, entryTags);
+        } else {
             if (entryId > 0) {
                 fetchEntry(entryId);
             } else if (foodId > 0) {
                 entry = new Entry();
                 entry.setDate(dateTime);
                 fetchFood(foodId);
+                updateDateTime();
             } else {
                 entry = new Entry();
                 entry.setDate(dateTime);
+                addPinnedCategories();
             }
         }
     }
@@ -336,7 +335,12 @@ public class EntryEditFragment
     private void addCategory(Category category, int index) {
         Measurement measurement = ObjectFactory.createFromClass(category.toClass());
         addMeasurement(measurement, index);
-        entry.getMeasurementCache().add(measurement);
+        int indexInCache = entry.indexInMeasurementCache(category);
+        if (indexInCache != -1) {
+            entry.getMeasurementCache().set(indexInCache, measurement);
+        } else {
+            entry.getMeasurementCache().add(measurement);
+        }
     }
 
     private void addFood(Food food) {
@@ -396,10 +400,8 @@ public class EntryEditFragment
                     }
                 }
             }
-        } else {
-            addPinnedCategories();
+            updateDateTime();
         }
-        updateDateTime();
     }
 
     private void addTag(String name) {
@@ -476,9 +478,11 @@ public class EntryEditFragment
     }
 
     private void updateDateTime() {
-        DateTime dateTime = entry.getDate();
-        dateButton.setText(Helper.getDateFormat().print(dateTime));
-        timeButton.setText(Helper.getTimeFormat().print(dateTime));
+        if (entry != null) {
+            DateTime dateTime = entry.getDate();
+            dateButton.setText(Helper.getDateFormat().print(dateTime));
+            timeButton.setText(Helper.getTimeFormat().print(dateTime));
+        }
     }
 
     private void updateAlarm() {

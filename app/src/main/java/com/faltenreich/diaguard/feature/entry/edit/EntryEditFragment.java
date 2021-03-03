@@ -39,11 +39,8 @@ import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.feature.tag.TagAutoCompleteAdapter;
 import com.faltenreich.diaguard.feature.tag.TagListFragment;
 import com.faltenreich.diaguard.shared.Helper;
-import com.faltenreich.diaguard.shared.data.async.DataLoader;
-import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
-import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.dao.TagDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
@@ -81,9 +78,7 @@ public class EntryEditFragment
 
     private static final String TAG = EntryEditFragment.class.getSimpleName();
 
-    static final String EXTRA_ENTRY_ID = "entryId";
-    static final String EXTRA_FOOD_ID = "foodId";
-    static final String EXTRA_DATE = "date";
+    private final EntryEditViewModel viewModel = new EntryEditViewModel();
 
     private ViewGroup root;
     private NestedScrollView scrollView;
@@ -101,14 +96,6 @@ public class EntryEditFragment
 
     private TagAutoCompleteAdapter tagAdapter;
 
-    private long entryId;
-    private long foodId;
-    private DateTime dateTime;
-
-    private Entry entry;
-    private List<EntryTag> entryTags;
-    private int alarmInMinutes;
-
     @Override
     protected FragmentEntryEditBinding createBinding(LayoutInflater layoutInflater) {
         return FragmentEntryEditBinding.inflate(layoutInflater);
@@ -117,7 +104,7 @@ public class EntryEditFragment
     @Override
     public ToolbarProperties getToolbarProperties() {
         return new ToolbarProperties.Builder()
-            .setTitle(getContext(), entryId > 0 ? R.string.entry_edit : R.string.entry_new)
+            .setTitle(getContext(), viewModel.isEditing() ? R.string.entry_edit : R.string.entry_new)
             .setMenu(R.menu.form_edit)
             .build();
     }
@@ -125,7 +112,8 @@ public class EntryEditFragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init();
+        viewModel.extractArgumentsFromBundle(getArguments());
+        tagAdapter = new TagAutoCompleteAdapter(requireContext());
     }
 
     @Override
@@ -133,20 +121,19 @@ public class EntryEditFragment
         super.onViewCreated(view, savedInstanceState);
         bindViews();
         initLayout();
-        fetchData();
-        updateDateTime();
+        viewModel.observeEntry(requireContext(), this::invalidateEntry);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        fetchTags();
+        viewModel.observeTags(requireContext(), this::setTags);
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        menu.findItem(R.id.action_delete).setVisible(entryId > 0);
+        menu.findItem(R.id.action_delete).setVisible(viewModel.isEditing());
     }
 
     @Override
@@ -156,18 +143,6 @@ public class EntryEditFragment
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void init() {
-        Bundle arguments = getArguments();
-        if (arguments != null) {
-            entryId = arguments.getLong(EXTRA_ENTRY_ID);
-            foodId = arguments.getLong(EXTRA_FOOD_ID);
-            if (arguments.get(EXTRA_DATE) != null) {
-                dateTime = (DateTime) arguments.getSerializable(EXTRA_DATE);
-            }
-        }
-        tagAdapter = new TagAutoCompleteAdapter(requireContext());
     }
 
     private void bindViews() {
@@ -233,82 +208,41 @@ public class EntryEditFragment
 
         tagEditButton.setOnClickListener(view -> openTags());
 
-        alarmContainer.setVisibility(entryId > 0 ? View.GONE : View.VISIBLE);
+        alarmContainer.setVisibility(viewModel.isEditing() ? View.GONE : View.VISIBLE);
         alarmButton.setOnClickListener(view -> showAlarmPicker());
-        updateAlarm();
+        invalidateAlarm();
 
         fab.setOnClickListener(view -> trySubmit());
     }
 
-    private void fetchData() {
-        if (entry != null) {
-            initEntry(entry, entryTags);
+    private void setTags(List<Tag> tags) {
+        tagAdapter.clear();
+        tagAdapter.addAll(tags);
+        tagAdapter.notifyDataSetChanged();
+    }
+
+    private void invalidateEntry(Entry entry) {
+        noteInput.setText(entry.getNote());
+
+        if (entry.getMeasurementCache() != null && !entry.getMeasurementCache().isEmpty()) {
+            for (Measurement measurement : entry.getMeasurementCache()) {
+                addMeasurement(measurement, 0);
+            }
         } else {
-            if (entryId > 0) {
-                fetchEntry(entryId);
-            } else if (foodId > 0) {
-                entry = new Entry();
-                entry.setDate(dateTime);
-                fetchFood(foodId);
-                updateDateTime();
-            } else {
-                entry = new Entry();
-                entry.setDate(dateTime);
-                addPinnedCategories();
+            addPinnedCategories();
+        }
+
+        if (viewModel.getEntryTags() != null) {
+            for (EntryTag entryTag : viewModel.getEntryTags()) {
+                Tag tag = entryTag.getTag();
+                if (tag != null) {
+                    addTag(entryTag.getTag());
+                }
             }
         }
-    }
 
-    private void fetchEntry(final long id) {
-        DataLoader.getInstance().load(getContext(), new DataLoaderListener<List<Tag>>() {
-            @Override
-            public List<Tag> onShouldLoad() {
-                EntryDao dao = EntryDao.getInstance();
-                entry = dao.getById(id);
-                if (entry != null) {
-                    entry.setMeasurementCache(dao.getMeasurements(entry));
-                    entryTags = EntryTagDao.getInstance().getAll(entry);
-                }
-                return null;
-            }
-
-            @Override
-            public void onDidLoad(List<Tag> data) {
-                initEntry(entry, entryTags);
-            }
-        });
-    }
-
-    private void fetchFood(final long id) {
-        DataLoader.getInstance().load(getContext(), new DataLoaderListener<Food>() {
-            @Override
-            public Food onShouldLoad() {
-                return FoodDao.getInstance().getById(id);
-            }
-
-            @Override
-            public void onDidLoad(Food food) {
-                if (food != null) {
-                    addFood(food);
-                }
-            }
-        });
-    }
-
-    private void fetchTags() {
-        DataLoader.getInstance().load(getContext(), new DataLoaderListener<List<Tag>>() {
-            @Override
-            public List<Tag> onShouldLoad() {
-                return TagDao.getInstance().getRecent();
-            }
-
-            @Override
-            public void onDidLoad(List<Tag> tags) {
-                tagAdapter.clear();
-                tagAdapter.addAll(tags);
-                tagAdapter.notifyDataSetChanged();
-            }
-        });
+        invalidateDateTime();
+        fabMenu.restock();
     }
 
     private Category[] getActiveCategories() {
@@ -323,7 +257,6 @@ public class EntryEditFragment
         }
     }
 
-
     private void addMeasurement(Measurement measurement, int index) {
         MeasurementView<?> view = new MeasurementView<>(getContext(), measurement);
         view.setOnCategoryRemovedListener(this::removeCategory);
@@ -333,6 +266,7 @@ public class EntryEditFragment
     }
 
     private void addCategory(Category category, int index) {
+        Entry entry = viewModel.getEntry();
         Measurement measurement = ObjectFactory.createFromClass(category.toClass());
         addMeasurement(measurement, index);
         int indexInCache = entry.indexInMeasurementCache(category);
@@ -350,6 +284,7 @@ public class EntryEditFragment
     private void removeCategory(Category category) {
         int index = indexOf(category);
         if (index != -1) {
+            Entry entry = viewModel.getEntry();
             measurementContainer.removeViewAt(index);
 
             int indexInCache = entry.indexInMeasurementCache(category);
@@ -379,31 +314,6 @@ public class EntryEditFragment
         return indexOf(category) != -1;
     }
 
-    private void initEntry(Entry entry, List<EntryTag> entryTags) {
-        if (entry != null) {
-            this.entry = entry;
-            this.entryTags = entryTags;
-
-            noteInput.setText(entry.getNote());
-
-            if (entry.getMeasurementCache() != null) {
-                for (Measurement measurement : entry.getMeasurementCache()) {
-                    addMeasurement(measurement, 0);
-                }
-            }
-
-            if (entryTags != null) {
-                for (EntryTag entryTag : entryTags) {
-                    Tag tag = entryTag.getTag();
-                    if (tag != null) {
-                        addTag(entryTag.getTag());
-                    }
-                }
-            }
-            updateDateTime();
-        }
-    }
-
     private void addTag(String name) {
         Tag tag = tagAdapter.find(name);
         if (tag == null) {
@@ -415,13 +325,13 @@ public class EntryEditFragment
     }
 
     private void addTag(final Tag tag) {
-        final ChipView chipView = new ChipView(getContext());
-        chipView.setTag(tag);
-        chipView.setText(tag.getName());
-        chipView.setCloseIconVisible(true);
-        chipView.setOnCloseIconClickListener(view -> removeTag(tag, chipView));
-        chipView.setOnClickListener(view -> removeTag(tag, chipView));
-        tagListView.addView(chipView);
+        ChipView chip = new ChipView(getContext());
+        chip.setTag(tag);
+        chip.setText(tag.getName());
+        chip.setCloseIconVisible(true);
+        chip.setOnCloseIconClickListener(view -> removeTag(tag, chip));
+        chip.setOnClickListener(view -> removeTag(tag, chip));
+        tagListView.addView(chip);
 
         tagAdapter.set(tag, false);
         dismissTagDropDown();
@@ -457,7 +367,7 @@ public class EntryEditFragment
             visibleCategoriesOld[position] = hasCategory(category);
         }
 
-        final boolean[] visibleCategories = visibleCategoriesOld.clone();
+        boolean[] visibleCategories = visibleCategoriesOld.clone();
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(R.string.categories)
             .setMultiChoiceItems(categoryNames, visibleCategoriesOld, (dialog, which, isChecked) -> visibleCategories[which] = isChecked)
@@ -477,26 +387,26 @@ public class EntryEditFragment
         dialog.show();
     }
 
-    private void updateDateTime() {
-        if (entry != null) {
-            DateTime dateTime = entry.getDate();
-            dateButton.setText(Helper.getDateFormat().print(dateTime));
-            timeButton.setText(Helper.getTimeFormat().print(dateTime));
-        }
+    private void invalidateDateTime() {
+        DateTime dateTime = viewModel.getEntry() != null ? viewModel.getEntry().getDate() : DateTime.now();
+        dateButton.setText(Helper.getDateFormat().print(dateTime));
+        timeButton.setText(Helper.getTimeFormat().print(dateTime));
     }
 
-    private void updateAlarm() {
-        alarmButton.setText(alarmInMinutes > 0 ?
+    private void invalidateAlarm() {
+        int alarmInMinutes = viewModel.getAlarmInMinutes();
+        String label = alarmInMinutes > 0 ?
             String.format("%s %s",
                 getString(R.string.alarm_reminder_in),
-                DateTimeUtils.parseInterval(getContext(), alarmInMinutes * DateTimeConstants.MILLIS_PER_MINUTE)
-            ) : getString(R.string.alarm_reminder_none));
+                DateTimeUtils.parseInterval(getContext(), alarmInMinutes * DateTimeConstants.MILLIS_PER_MINUTE)) :
+            getString(R.string.alarm_reminder_none);
+        alarmButton.setText(label);
     }
 
     private boolean inputIsValid() {
         boolean inputIsValid = true;
 
-        List<Measurement> measurements = entry.getMeasurementCache();
+        List<Measurement> measurements = viewModel.getEntry().getMeasurementCache();
         if (measurements.size() == 0) {
             // Allow entries with no measurements but with a note or tag
             if (StringUtils.isBlank(noteInput.getText().toString()) && tagListView.getChildCount() == 0) {
@@ -533,6 +443,7 @@ public class EntryEditFragment
     }
 
     private void submit() {
+        Entry entry = viewModel.getEntry();
         boolean isNewEntry = entry == null;
         DateTime originalDate = isNewEntry ? null : entry.getDate();
         if (isNewEntry) {
@@ -544,12 +455,13 @@ public class EntryEditFragment
         // TODO: Check measurements
 
         // TODO: Delete distinct
+        List<EntryTag> entryTags = viewModel.getEntryTags();
         if (entryTags != null && entryTags.size() > 0) {
             EntryTagDao.getInstance().delete(entryTags);
         }
 
         List<Tag> tags = new ArrayList<>();
-        List<EntryTag> entryTags = new ArrayList<>();
+        entryTags = new ArrayList<>();
         for (int index = 0; index < tagListView.getChildCount(); index++) {
             View view = tagListView.getChildAt(index);
             if (view.getTag() instanceof Tag) {
@@ -581,6 +493,7 @@ public class EntryEditFragment
             Events.post(new EntryUpdatedEvent(entry, entryTags, originalDate, foodEatenList));
         }
 
+        int alarmInMinutes = viewModel.getAlarmInMinutes();
         if (alarmInMinutes > 0) {
             AlarmUtils.setAlarm(alarmInMinutes * DateTimeConstants.MILLIS_PER_MINUTE);
         }
@@ -589,9 +502,10 @@ public class EntryEditFragment
     }
 
     private void deleteEntry() {
+        Entry entry = viewModel.getEntry();
         if (entry != null) {
             EntryDao.getInstance().delete(entry);
-            Events.post(new EntryDeletedEvent(entry, entryTags, getFoodEaten()));
+            Events.post(new EntryDeletedEvent(entry, viewModel.getEntryTags(), getFoodEaten()));
             finish();
         }
     }
@@ -611,26 +525,28 @@ public class EntryEditFragment
     }
 
     private void showDatePicker() {
+        Entry entry = viewModel.getEntry();
         DatePickerFragment.newInstance(entry.getDate(), dateTime -> {
             if (dateTime != null) {
                 entry.setDate(dateTime);
-                updateDateTime();
+                invalidateDateTime();
             }
         }).show(getChildFragmentManager());
     }
 
     private void showTimePicker() {
+        Entry entry = viewModel.getEntry();
         TimePickerFragment.newInstance(entry.getDate(), (view, hourOfDay, minute) -> {
             entry.setDate(entry.getDate().withHourOfDay(hourOfDay).withMinuteOfHour(minute));
-            updateDateTime();
+            invalidateDateTime();
         }).show(getChildFragmentManager());
     }
 
     private void showAlarmPicker() {
         if (getActivity() instanceof AppCompatActivity) {
-            ViewUtils.showNumberPicker((AppCompatActivity) getActivity(), R.string.minutes, alarmInMinutes, 0, 10_000, (reference, number, decimal, isNegative, fullNumber) -> {
-                alarmInMinutes = number.intValue();
-                updateAlarm();
+            ViewUtils.showNumberPicker((AppCompatActivity) getActivity(), R.string.minutes, viewModel.getAlarmInMinutes(), 0, 10_000, (reference, number, decimal, isNegative, fullNumber) -> {
+                viewModel.setAlarmInMinutes(number.intValue());
+                invalidateAlarm();
             });
         }
     }

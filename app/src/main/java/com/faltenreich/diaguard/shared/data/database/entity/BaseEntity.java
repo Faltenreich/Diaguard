@@ -45,6 +45,10 @@ public abstract class BaseEntity {
         this.updatedAt = updatedAt;
     }
 
+    public boolean isPersisted() {
+        return id > 0;
+    }
+
     @Override
     public boolean equals(Object object) {
         return this.getClass().equals(object.getClass()) && this.getId() == ((BaseEntity) object).getId();

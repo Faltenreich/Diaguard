@@ -15,11 +15,11 @@ import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
+import com.faltenreich.diaguard.shared.data.primitive.Consumer;
 
 import org.joda.time.DateTime;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 class EntryEditViewModel {
 

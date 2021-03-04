@@ -11,6 +11,7 @@ android {
         versionName "3.7.0"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -43,6 +44,7 @@ android {
     }
 
     compileOptions {
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -76,6 +78,8 @@ def retrofit = '2.7.1'
 
 dependencies {
     implementation project(':pdfjet')
+
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 
     testImplementation "junit:junit:$jUnit"
     testImplementation "org.robolectric:robolectric:$robolectric"

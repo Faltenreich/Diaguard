@@ -19,6 +19,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import org.joda.time.DateTime;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 class EntryEditViewModel {
 
@@ -50,23 +51,26 @@ class EntryEditViewModel {
         this.alarmInMinutes = alarmInMinutes;
     }
 
-    void extractArgumentsFromBundle(@Nullable Bundle bundle) {
-        if (bundle != null) {
-            entryId = bundle.getLong(EXTRA_ENTRY_ID);
-            foodId = bundle.getLong(EXTRA_FOOD_ID);
-            dateTime = bundle.get(EXTRA_DATE) != null
-                ? (DateTime) bundle.getSerializable(EXTRA_DATE)
-                : DateTime.now();
-        }
-    }
-
     boolean isEditing() {
         return entryId > 0;
     }
 
-    void observeEntry(Context context, Callback<Entry> callback) {
+    void setArguments(@Nullable Bundle arguments) {
+        if (arguments != null) {
+            entryId = arguments.getLong(EXTRA_ENTRY_ID);
+            foodId = arguments.getLong(EXTRA_FOOD_ID);
+            dateTime = arguments.get(EXTRA_DATE) != null
+                ? (DateTime) arguments.getSerializable(EXTRA_DATE)
+                : null;
+        }
+        if (dateTime == null) {
+            dateTime = DateTime.now();
+        }
+    }
+
+    void observeEntry(Context context, Consumer<Entry> callback) {
         if (entry != null) {
-            callback.onObserve(entry);
+            callback.accept(entry);
         } else if (entryId > 0) {
             fetchEntry(context, callback);
         } else if (foodId > 0) {
@@ -74,11 +78,11 @@ class EntryEditViewModel {
         } else {
             entry = new Entry();
             entry.setDate(dateTime);
-            callback.onObserve(entry);
+            callback.accept(entry);
         }
     }
 
-    private void fetchEntry(Context context, Callback<Entry> callback) {
+    private void fetchEntry(Context context, Consumer<Entry> callback) {
         DataLoader.getInstance().load(context, new DataLoaderListener<List<Tag>>() {
             @Override
             public List<Tag> onShouldLoad() {
@@ -92,12 +96,12 @@ class EntryEditViewModel {
             }
             @Override
             public void onDidLoad(List<Tag> data) {
-                callback.onObserve(entry);
+                callback.accept(entry);
             }
         });
     }
 
-    private void fetchFood(Context context, Callback<Entry> callback) {
+    private void fetchFood(Context context, Consumer<Entry> callback) {
         DataLoader.getInstance().load(context, new DataLoaderListener<Food>() {
             @Override
             public Food onShouldLoad() {
@@ -109,12 +113,12 @@ class EntryEditViewModel {
                 entry = new Entry();
                 entry.setDate(dateTime);
                 // TODO: Add food to entry
-                callback.onObserve(entry);
+                callback.accept(entry);
             }
         });
     }
 
-    void observeTags(Context context, Callback<List<Tag>> callback) {
+    void observeTags(Context context, Consumer<List<Tag>> callback) {
         DataLoader.getInstance().load(context, new DataLoaderListener<List<Tag>>() {
             @Override
             public List<Tag> onShouldLoad() {
@@ -123,12 +127,8 @@ class EntryEditViewModel {
 
             @Override
             public void onDidLoad(List<Tag> tags) {
-                callback.onObserve(tags);
+                callback.accept(tags);
             }
         });
-    }
-
-    interface Callback<T> {
-        void onObserve(T data);
     }
 }

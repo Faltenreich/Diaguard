@@ -112,7 +112,7 @@ public class EntryEditFragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel.extractArgumentsFromBundle(getArguments());
+        viewModel.setArguments(getArguments());
         tagAdapter = new TagAutoCompleteAdapter(requireContext());
     }
 
@@ -121,7 +121,7 @@ public class EntryEditFragment
         super.onViewCreated(view, savedInstanceState);
         bindViews();
         initLayout();
-        viewModel.observeEntry(requireContext(), this::invalidateEntry);
+        viewModel.observeEntry(requireContext(), this::setEntry);
     }
 
     @Override
@@ -221,7 +221,7 @@ public class EntryEditFragment
         tagAdapter.notifyDataSetChanged();
     }
 
-    private void invalidateEntry(Entry entry) {
+    private void setEntry(Entry entry) {
         noteInput.setText(entry.getNote());
 
         if (entry.getMeasurementCache() != null && !entry.getMeasurementCache().isEmpty()) {

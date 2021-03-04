@@ -22,7 +22,8 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
     private static final int MAX_BUTTON_COUNT = 3;
 
     private List<Category> categoriesToSkip;
-    private OnFabSelectedListener onFabSelectedListener;
+    private OnCategorySelectedListener onCategorySelectedListener;
+    private OnMiscellaneousSelectedListener onMiscellaneousSelectedListener;
 
     public MeasurementFloatingActionMenu(Context context) {
         super(context);
@@ -32,6 +33,14 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
     public MeasurementFloatingActionMenu(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
         init();
+    }
+
+    public void setOnCategorySelectedListener(OnCategorySelectedListener onCategorySelectedListener) {
+        this.onCategorySelectedListener = onCategorySelectedListener;
+    }
+
+    public void setOnMiscellaneousSelectedListener(OnMiscellaneousSelectedListener onMiscellaneousSelectedListener) {
+        this.onMiscellaneousSelectedListener = onMiscellaneousSelectedListener;
     }
 
     private void init() {
@@ -92,10 +101,10 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
 
             addMenuButton(fabAll);
 
-            fabAll.setOnClickListener(v -> {
+            fabAll.setOnClickListener(view -> {
                 close(true);
-                if (hasMeasurementFloatingActionMenuCallback()) {
-                    onFabSelectedListener.onMiscellaneousSelected();
+                if (onMiscellaneousSelectedListener != null) {
+                    onMiscellaneousSelectedListener.onMiscellaneousSelected();
                 }
             });
         }
@@ -109,23 +118,20 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
             ContextCompat.getColor(getContext(), R.color.green));
         fab.setOnClickListener(view -> {
             close(true);
-            if (hasMeasurementFloatingActionMenuCallback()) {
-                onFabSelectedListener.onCategorySelected(category);
+            if (onCategorySelectedListener != null) {
+                onCategorySelectedListener.onCategorySelected(category);
             }
         });
         addMenuButton(fab);
     }
 
-    public void setOnFabSelectedListener(OnFabSelectedListener onFabSelectedListener) {
-        this.onFabSelectedListener = onFabSelectedListener;
-    }
+    public interface OnCategorySelectedListener {
 
-    private boolean hasMeasurementFloatingActionMenuCallback() {
-        return onFabSelectedListener != null;
-    }
-
-    public interface OnFabSelectedListener {
         void onCategorySelected(Category category);
+    }
+
+    public interface OnMiscellaneousSelectedListener {
+
         void onMiscellaneousSelected();
     }
 }

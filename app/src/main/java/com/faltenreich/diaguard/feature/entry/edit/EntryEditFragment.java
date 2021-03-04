@@ -27,7 +27,6 @@ import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentEntryEditBinding;
 import com.faltenreich.diaguard.feature.alarm.AlarmUtils;
 import com.faltenreich.diaguard.feature.datetime.DatePickerFragment;
-import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.datetime.TimePickerFragment;
 import com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementFloatingActionMenu;
 import com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementView;
@@ -35,7 +34,6 @@ import com.faltenreich.diaguard.feature.food.search.FoodSearchFragment;
 import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
-import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.feature.tag.TagAutoCompleteAdapter;
 import com.faltenreich.diaguard.feature.tag.TagListFragment;
 import com.faltenreich.diaguard.shared.Helper;
@@ -121,6 +119,7 @@ public class EntryEditFragment
         super.onViewCreated(view, savedInstanceState);
         bindViews();
         initLayout();
+        invalidateAlarm();
         viewModel.observeEntry(requireContext(), this::setEntry);
     }
 
@@ -165,18 +164,6 @@ public class EntryEditFragment
         dateButton.setOnClickListener(view -> showDatePicker());
         timeButton.setOnClickListener(view -> showTimePicker());
 
-        fabMenu.setOnFabSelectedListener(new MeasurementFloatingActionMenu.OnFabSelectedListener() {
-            @Override
-            public void onCategorySelected(Category category) {
-                addCategory(category, 0);
-            }
-            @Override
-            public void onMiscellaneousSelected() {
-                showDialogCategories();
-            }
-        });
-
-        tagListView.setVisibility(View.GONE);
         tagInput.setAdapter(tagAdapter);
         tagInput.setOnEditorActionListener((textView, action, keyEvent) -> {
             if (action == EditorInfo.IME_ACTION_DONE) {
@@ -195,30 +182,25 @@ public class EntryEditFragment
                 try {
                     if (hasFocus) tagInput.showDropDown();
                 } catch (Exception exception) {
-                    Log.e(TAG, exception.getMessage() != null ? exception.getMessage() : "Failed to show dropdown");
+                    Log.e(TAG, exception.toString());
                 }
             });
         });
         tagInput.setOnClickListener(view -> tagInput.showDropDown());
         tagInput.setOnItemClickListener((adapterView, view, position, l) -> {
             tagInput.setText(null);
-            Tag tag = tagAdapter.getItem(position);
-            addTag(tag);
+            addTag(tagAdapter.getItem(position));
         });
-
+        tagListView.setVisibility(View.GONE);
         tagEditButton.setOnClickListener(view -> openTags());
 
         alarmContainer.setVisibility(viewModel.isEditing() ? View.GONE : View.VISIBLE);
         alarmButton.setOnClickListener(view -> showAlarmPicker());
-        invalidateAlarm();
+
+        fabMenu.setOnCategorySelectedListener(this::addCategory);
+        fabMenu.setOnMiscellaneousSelectedListener(this::showDialogCategories);
 
         fab.setOnClickListener(view -> trySubmit());
-    }
-
-    private void setTags(List<Tag> tags) {
-        tagAdapter.clear();
-        tagAdapter.addAll(tags);
-        tagAdapter.notifyDataSetChanged();
     }
 
     private void setEntry(Entry entry) {
@@ -226,10 +208,14 @@ public class EntryEditFragment
 
         if (entry.getMeasurementCache() != null && !entry.getMeasurementCache().isEmpty()) {
             for (Measurement measurement : entry.getMeasurementCache()) {
-                addMeasurement(measurement, 0);
+                addMeasurement(measurement);
             }
         } else {
-            addPinnedCategories();
+            for (Category category : viewModel.getPinnedCategory()) {
+                if (!hasCategory(category)) {
+                    addCategory(category);
+                }
+            }
         }
 
         if (viewModel.getEntryTags() != null) {
@@ -245,30 +231,24 @@ public class EntryEditFragment
         fabMenu.restock();
     }
 
-    private Category[] getActiveCategories() {
-        return PreferenceStore.getInstance().getActiveCategories();
+    private void setTags(List<Tag> tags) {
+        tagAdapter.clear();
+        tagAdapter.addAll(tags);
+        tagAdapter.notifyDataSetChanged();
     }
 
-    private void addPinnedCategories() {
-        for (Category category : getActiveCategories()) {
-            if (PreferenceStore.getInstance().isCategoryPinned(category) && !hasCategory(category)) {
-                addCategory(category, 0);
-            }
-        }
-    }
-
-    private void addMeasurement(Measurement measurement, int index) {
+    private void addMeasurement(Measurement measurement) {
         MeasurementView<?> view = new MeasurementView<>(getContext(), measurement);
         view.setOnCategoryRemovedListener(this::removeCategory);
-        measurementContainer.addView(view, index);
+        measurementContainer.addView(view, 0);
         fabMenu.ignore(measurement.getCategory());
         fabMenu.restock();
     }
 
-    private void addCategory(Category category, int index) {
+    private void addCategory(Category category) {
         Entry entry = viewModel.getEntry();
         Measurement measurement = ObjectFactory.createFromClass(category.toClass());
-        addMeasurement(measurement, index);
+        addMeasurement(measurement);
         int indexInCache = entry.indexInMeasurementCache(category);
         if (indexInCache != -1) {
             entry.getMeasurementCache().set(indexInCache, measurement);
@@ -358,7 +338,7 @@ public class EntryEditFragment
     }
 
     private void showDialogCategories() {
-        Category[] activeCategories = getActiveCategories();
+        Category[] activeCategories = viewModel.getActiveCategories();
         String[] categoryNames = new String[activeCategories.length];
         boolean[] visibleCategoriesOld = new boolean[activeCategories.length];
         for (int position = 0; position < activeCategories.length; position++) {
@@ -376,7 +356,7 @@ public class EntryEditFragment
                     Category category = activeCategories[position];
                     if (visibleCategories[position]) {
                         scrollView.smoothScrollTo(0, 0);
-                        addCategory(category, 0);
+                        addCategory(category);
                     } else {
                         removeCategory(category);
                     }
@@ -394,13 +374,7 @@ public class EntryEditFragment
     }
 
     private void invalidateAlarm() {
-        int alarmInMinutes = viewModel.getAlarmInMinutes();
-        String label = alarmInMinutes > 0 ?
-            String.format("%s %s",
-                getString(R.string.alarm_reminder_in),
-                DateTimeUtils.parseInterval(getContext(), alarmInMinutes * DateTimeConstants.MILLIS_PER_MINUTE)) :
-            getString(R.string.alarm_reminder_none);
-        alarmButton.setText(label);
+        alarmButton.setText(viewModel.getAlarmInMinutesAsText(getContext()));
     }
 
     private boolean inputIsValid() {

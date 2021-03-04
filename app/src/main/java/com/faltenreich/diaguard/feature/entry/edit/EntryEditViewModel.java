@@ -5,12 +5,16 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
+import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
+import com.faltenreich.diaguard.feature.preference.data.PreferenceStore;
 import com.faltenreich.diaguard.shared.data.async.DataLoader;
 import com.faltenreich.diaguard.shared.data.async.DataLoaderListener;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
 import com.faltenreich.diaguard.shared.data.database.dao.FoodDao;
 import com.faltenreich.diaguard.shared.data.database.dao.TagDao;
+import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
@@ -18,6 +22,7 @@ import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.data.primitive.Consumer;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 
 import java.util.List;
 
@@ -45,6 +50,14 @@ class EntryEditViewModel {
 
     int getAlarmInMinutes() {
         return alarmInMinutes;
+    }
+
+    String getAlarmInMinutesAsText(Context context) {
+        return alarmInMinutes > 0 ?
+            String.format("%s %s",
+                context.getString(R.string.alarm_reminder_in),
+                DateTimeUtils.parseInterval(context, alarmInMinutes * DateTimeConstants.MILLIS_PER_MINUTE)) :
+            context.getString(R.string.alarm_reminder_none);
     }
 
     void setAlarmInMinutes(int alarmInMinutes) {
@@ -130,5 +143,13 @@ class EntryEditViewModel {
                 callback.accept(tags);
             }
         });
+    }
+
+    Category[] getActiveCategories() {
+        return PreferenceStore.getInstance().getActiveCategories();
+    }
+
+    Category[] getPinnedCategory() {
+        return PreferenceStore.getInstance().getPinnedCategories();
     }
 }

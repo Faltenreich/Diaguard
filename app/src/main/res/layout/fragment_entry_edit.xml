@@ -114,7 +114,6 @@
                                 android:layout_height="wrap_content"
                                 android:paddingTop="0dp"
                                 android:paddingBottom="@dimen/padding"
-                                android:visibility="gone"
                                 tools:ignore="RtlSymmetry" />
 
                         </LinearLayout>

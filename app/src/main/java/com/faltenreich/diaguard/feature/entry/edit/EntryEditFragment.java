@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
 
 import com.faltenreich.diaguard.R;
@@ -58,6 +57,7 @@ import com.faltenreich.diaguard.shared.event.ui.FoodSearchEvent;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.chip.ChipView;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
+import com.faltenreich.diaguard.shared.view.picker.NumberPickerDialog;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.android.material.chip.ChipGroup;
 
@@ -517,12 +517,10 @@ public class EntryEditFragment
     }
 
     private void showAlarmPicker() {
-        if (getActivity() instanceof AppCompatActivity) {
-            ViewUtils.showNumberPicker((AppCompatActivity) getActivity(), R.string.minutes, viewModel.getAlarmInMinutes(), 0, 10_000, (reference, number, decimal, isNegative, fullNumber) -> {
-                viewModel.setAlarmInMinutes(number.intValue());
-                invalidateAlarm();
-            });
-        }
+        new NumberPickerDialog(requireContext(), R.string.minutes, viewModel.getAlarmInMinutes(), 0, 10_000, (number) -> {
+            viewModel.setAlarmInMinutes(number.intValue());
+            invalidateAlarm();
+        }).show(getParentFragmentManager());
     }
 
     private void openTags() {

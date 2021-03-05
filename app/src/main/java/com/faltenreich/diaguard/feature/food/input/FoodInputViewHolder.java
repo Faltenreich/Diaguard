@@ -18,7 +18,7 @@ import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
 import com.faltenreich.diaguard.shared.event.Events;
 import com.faltenreich.diaguard.shared.event.ui.FoodEatenRemovedEvent;
 import com.faltenreich.diaguard.shared.event.ui.FoodEatenUpdatedEvent;
-import com.faltenreich.diaguard.shared.view.ViewUtils;
+import com.faltenreich.diaguard.shared.view.picker.NumberPickerDialog;
 import com.faltenreich.diaguard.shared.view.recyclerview.viewholder.BaseViewHolder;
 import com.faltenreich.diaguard.shared.view.resource.ColorUtils;
 
@@ -69,11 +69,12 @@ class FoodInputViewHolder extends BaseViewHolder<ListItemMeasurementMealFoodItem
 
     private void showNumberPicker() {
         if (getContext() instanceof AppCompatActivity) {
-            ViewUtils.showNumberPicker((AppCompatActivity) getContext(), R.string.grams_milliliters_acronym, getAmountFromButton(), 1, 10000, (reference, number, decimal, isNegative, fullNumber) -> {
+            AppCompatActivity activity = (AppCompatActivity) getContext();
+            new NumberPickerDialog(getContext(), R.string.grams_milliliters_acronym, getAmountFromButton(), 1, 10000, (number) -> {
                 FoodEaten foodEaten = getItem();
                 foodEaten.setAmountInGrams(number.floatValue());
                 Events.post(new FoodEatenUpdatedEvent(foodEaten, getAdapterPosition()));
-            });
+            }).show(activity.getSupportFragmentManager());
         }
     }
 

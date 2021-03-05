@@ -11,18 +11,11 @@ import android.widget.CheckBox;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 
-import com.codetroopers.betterpickers.numberpicker.NumberPickerBuilder;
-import com.codetroopers.betterpickers.numberpicker.NumberPickerDialogFragment;
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.shared.data.primitive.Vector2D;
 import com.google.android.material.snackbar.Snackbar;
-
-import java.math.BigDecimal;
 
 public class ViewUtils {
 
@@ -90,26 +83,6 @@ public class ViewUtils {
 
     public static void showToast(Context context, String text) {
         Toast.makeText(context, text, Toast.LENGTH_LONG).show();
-    }
-
-    public static void showNumberPicker(AppCompatActivity activity, @StringRes int labelResId, int initialValue, int minValue, int maxValue, NumberPickerDialogFragment.NumberPickerDialogHandlerV2 listener) {
-        new NumberPickerBuilder()
-            .setFragmentManager(activity.getSupportFragmentManager())
-            .setStyleResId(R.style.NumberPicker)
-            .setLabelText(activity.getString(labelResId))
-            .setPlusMinusVisibility(View.GONE)
-            .setDecimalVisibility(View.GONE)
-            .setMaxNumber(BigDecimal.valueOf(maxValue))
-            .setMinNumber(BigDecimal.valueOf(minValue))
-            .addNumberPickerDialogHandler(listener)
-            .setCurrentNumber(initialValue > 0 ? initialValue : null)
-            .show();
-    }
-
-    public static Vector2D getPositionOnScreen(View view) {
-        int[] screenLocation = new int[2];
-        view.getLocationOnScreen(screenLocation);
-        return new Vector2D(screenLocation[0], screenLocation[1]);
     }
 
     @Nullable

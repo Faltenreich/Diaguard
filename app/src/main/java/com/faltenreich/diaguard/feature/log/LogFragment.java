@@ -277,27 +277,28 @@ public class LogFragment
         if (entry != null) {
             int position = listAdapter.getEntryPosition(entry);
             if (position >= 0) {
-                removeEntry(position, entry.getDate());
+                removeEntry(position);
             }
         }
     }
 
-    private void removeEntry(int position, DateTime date) {
+    private void removeEntry(int position) {
+        DateTime dateTime = listAdapter.getItem(position).getDateTime();
         listAdapter.removeItem(position);
 
         // Add empty view if there is no entry available anymore for this day
-        boolean hasNoMoreEntries = listAdapter.getFirstListItemEntryOfDayPosition(date) == -1;
+        boolean hasNoMoreEntries = listAdapter.getFirstListItemEntryOfDayPosition(dateTime) == -1;
         if (hasNoMoreEntries) {
-            listAdapter.addItem(position, new LogEmptyListItem(date));
+            listAdapter.addItem(position, new LogEmptyListItem(dateTime));
             listAdapter.notifyItemChanged(position);
         } else {
             listAdapter.notifyItemRemoved(position);
         }
 
-        updateHeaderSection(date);
+        updateHeaderSection(dateTime);
     }
 
-    private void updateEntry(Entry entry, List<EntryTag> entryTags, List<FoodEaten> foodEatenList, DateTime originalDate) {
+    private void updateEntry(Entry entry, List<EntryTag> entryTags, List<FoodEaten> foodEatenList) {
         if (entry != null) {
             int originalPosition = listAdapter.getEntryPosition(entry);
             if (originalPosition >= 0) {
@@ -312,7 +313,7 @@ public class LogFragment
                         listAdapter.notifyItemChanged(originalPosition);
                     }
                 } else {
-                    removeEntry(originalPosition, originalDate);
+                    removeEntry(originalPosition);
                     addEntry(entry, entryTags, foodEatenList);
                 }
             }
@@ -332,7 +333,7 @@ public class LogFragment
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EntryUpdatedEvent event) {
-        updateEntry(event.context, event.entryTags, event.foodEatenList, event.originalDate);
+        updateEntry(event.context, event.entryTags, event.foodEatenList);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

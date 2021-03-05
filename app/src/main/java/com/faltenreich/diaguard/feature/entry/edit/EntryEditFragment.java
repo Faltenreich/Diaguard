@@ -38,6 +38,7 @@ import com.faltenreich.diaguard.feature.tag.TagListFragment;
 import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
+import com.faltenreich.diaguard.shared.data.database.dao.MeasurementDao;
 import com.faltenreich.diaguard.shared.data.database.dao.TagDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
@@ -56,6 +57,7 @@ import com.faltenreich.diaguard.shared.event.data.EntryUpdatedEvent;
 import com.faltenreich.diaguard.shared.event.ui.FoodSearchEvent;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.chip.ChipView;
+import com.faltenreich.diaguard.shared.view.edittext.EditTextUtils;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
 import com.faltenreich.diaguard.shared.view.picker.NumberPickerDialog;
 import com.github.clans.fab.FloatingActionButton;
@@ -195,6 +197,8 @@ public class EntryEditFragment
         tagListView.setVisibility(View.GONE);
         tagEditButton.setOnClickListener(view -> openTags());
 
+        EditTextUtils.afterTextChanged(noteInput, () -> viewModel.getEntry().setNote(noteInput.getText().toString()));
+
         alarmContainer.setVisibility(viewModel.isEditing() ? View.GONE : View.VISIBLE);
         alarmButton.setOnClickListener(view -> showAlarmPicker());
 
@@ -247,13 +251,15 @@ public class EntryEditFragment
     }
 
     private void addCategory(Category category) {
-        Entry entry = viewModel.getEntry();
         Measurement measurement = ObjectFactory.createFromClass(category.toClass());
         addMeasurement(measurement);
+
+        Entry entry = viewModel.getEntry();
         int indexInCache = entry.indexInMeasurementCache(category);
         if (indexInCache != -1) {
             entry.getMeasurementCache().set(indexInCache, measurement);
         } else {
+            measurement.setEntry(entry);
             entry.getMeasurementCache().add(measurement);
         }
     }
@@ -384,7 +390,7 @@ public class EntryEditFragment
         List<Measurement> measurements = viewModel.getEntry().getMeasurementCache();
         if (measurements.size() == 0) {
             // Allow entries with no measurements but with a note or tag
-            if (StringUtils.isBlank(noteInput.getText().toString()) && tagListView.getChildCount() == 0) {
+            if (StringUtils.isBlank(viewModel.getEntry().getNote()) && tagListView.getChildCount() == 0) {
                 ViewUtils.showSnackbar(root, getString(R.string.validator_value_none));
                 inputIsValid = false;
             }
@@ -419,20 +425,17 @@ public class EntryEditFragment
 
     private void submit() {
         Entry entry = viewModel.getEntry();
-        boolean isNewEntry = entry == null;
-        DateTime originalDate = isNewEntry ? null : entry.getDate();
-        if (isNewEntry) {
-            entry = new Entry();
-        }
-
-        entry.setNote(noteInput.length() > 0 ? noteInput.getText().toString() : null);
+        boolean isNewEntry = !entry.isPersisted();
         entry = EntryDao.getInstance().createOrUpdate(entry);
-        // TODO: Check measurements
 
         // TODO: Delete distinct
         List<EntryTag> entryTags = viewModel.getEntryTags();
         if (entryTags != null && entryTags.size() > 0) {
             EntryTagDao.getInstance().delete(entryTags);
+        }
+
+        for (Measurement measurement : entry.getMeasurementCache()) {
+            MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
         }
 
         List<Tag> tags = new ArrayList<>();
@@ -465,7 +468,7 @@ public class EntryEditFragment
             Toast.makeText(getContext(), getString(R.string.entry_added), Toast.LENGTH_LONG).show();
             Events.post(new EntryAddedEvent(entry, entryTags, foodEatenList));
         } else {
-            Events.post(new EntryUpdatedEvent(entry, entryTags, originalDate, foodEatenList));
+            Events.post(new EntryUpdatedEvent(entry, entryTags, foodEatenList));
         }
 
         int alarmInMinutes = viewModel.getAlarmInMinutes();

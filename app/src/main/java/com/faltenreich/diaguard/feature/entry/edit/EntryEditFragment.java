@@ -65,6 +65,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
+import org.joda.time.LocalTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -502,7 +503,9 @@ public class EntryEditFragment
         Entry entry = viewModel.getEntry();
         DatePickerFragment.newInstance(entry.getDate(), dateTime -> {
             if (dateTime != null) {
-                entry.setDate(dateTime);
+                LocalTime time = viewModel.getEntry().getDate() != null ? viewModel.getEntry().getDate().toLocalTime() : LocalTime.now();
+                dateTime = dateTime.withTime(time);
+                viewModel.getEntry().setDate(dateTime);
                 invalidateDateTime();
             }
         }).show(getChildFragmentManager());
@@ -511,7 +514,8 @@ public class EntryEditFragment
     private void showTimePicker() {
         Entry entry = viewModel.getEntry();
         TimePickerFragment.newInstance(entry.getDate(), (view, hourOfDay, minute) -> {
-            entry.setDate(entry.getDate().withHourOfDay(hourOfDay).withMinuteOfHour(minute));
+            DateTime dateTime = viewModel.getEntry().getDate().withHourOfDay(hourOfDay).withMinuteOfHour(minute);
+            viewModel.getEntry().setDate(dateTime);
             invalidateDateTime();
         }).show(getChildFragmentManager());
     }
@@ -520,7 +524,7 @@ public class EntryEditFragment
         new NumberPickerDialog(requireContext(), R.string.minutes, viewModel.getAlarmInMinutes(), 0, 10_000, (number) -> {
             viewModel.setAlarmInMinutes(number.intValue());
             invalidateAlarm();
-        }).show(getParentFragmentManager());
+        }).show(getChildFragmentManager());
     }
 
     private void openTags() {

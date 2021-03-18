@@ -73,6 +73,13 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
         initData();
     }
 
+    @Override
+    protected void onDetachedFromWindow() {
+        pinnedCheckbox.setOnCheckedChangeListener(null);
+        contentLayout.removeAllViews();
+        super.onDetachedFromWindow();
+    }
+
     private void bindViews() {
         deleteButton = getBinding().deleteButton;
         pinnedCheckbox = getBinding().pinnedCheckbox;
@@ -97,6 +104,7 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
 
         pinnedCheckbox.setChecked(PreferenceStore.getInstance().isCategoryPinned(measurement.getCategory()));
         pinnedCheckbox.setOnCheckedChangeListener((checkbox, isChecked) -> togglePinnedCategory(isChecked));
+        pinnedCheckbox.setSaveEnabled(false);
     }
 
     private void initData() {

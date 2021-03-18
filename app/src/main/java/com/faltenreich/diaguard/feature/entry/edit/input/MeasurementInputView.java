@@ -16,11 +16,15 @@ public abstract class MeasurementInputView<BINDING extends ViewBinding, MEASUREM
 {
 
     private final BINDING binding;
-    private final MEASUREMENT measurement;
+    private MEASUREMENT measurement;
 
-    public MeasurementInputView(Context context, Class<MEASUREMENT> clazz, MEASUREMENT measurement) {
+    public MeasurementInputView(Context context) {
         super(context);
         this.binding = createBinding(LayoutInflater.from(getContext()));
+    }
+
+    public MeasurementInputView(Context context, Class<MEASUREMENT> clazz, MEASUREMENT measurement) {
+        this(context);
         this.measurement = measurement != null ? measurement : ObjectFactory.createFromClass(clazz);
     }
 
@@ -28,6 +32,12 @@ public abstract class MeasurementInputView<BINDING extends ViewBinding, MEASUREM
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         onBind(measurement);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        onUnbind(measurement);
+        super.onDetachedFromWindow();
     }
 
     protected abstract BINDING createBinding(LayoutInflater inflater);
@@ -38,6 +48,8 @@ public abstract class MeasurementInputView<BINDING extends ViewBinding, MEASUREM
     }
 
     protected abstract void onBind(MEASUREMENT measurement);
+
+    protected void onUnbind(MEASUREMENT measurement) {}
 
     public MEASUREMENT getMeasurement() {
         return measurement;

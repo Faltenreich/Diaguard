@@ -36,6 +36,7 @@ public class InsulinInputView extends MeasurementInputView<ListItemMeasurementIn
     @Override
     protected void onBind(Insulin measurement) {
         bolusInputField = getBinding().bolusInputField;
+        bolusInputField.setSaveEnabled(false);
         bolusInputField.setText(measurement.getValuesForUI()[0]);
         EditTextUtils.afterTextChanged(bolusInputField.getEditText(), () -> {
             measurement.setBolus(bolusInputField.getText().length() > 0 ?
@@ -46,6 +47,7 @@ public class InsulinInputView extends MeasurementInputView<ListItemMeasurementIn
         });
 
         correctionInputField = getBinding().correctionInputField;
+        correctionInputField.setSaveEnabled(false);
         correctionInputField.setText(measurement.getValuesForUI()[1]);
         EditTextUtils.afterTextChanged(correctionInputField.getEditText(), () -> {
             measurement.setCorrection(correctionInputField.getText().length() > 0 ?
@@ -56,6 +58,7 @@ public class InsulinInputView extends MeasurementInputView<ListItemMeasurementIn
         });
 
         basalInputField = getBinding().basalInputField;
+        basalInputField.setSaveEnabled(false);
         basalInputField.setText(measurement.getValuesForUI()[2]);
         EditTextUtils.afterTextChanged(basalInputField.getEditText(), () -> {
             measurement.setBasal(basalInputField.getText().length() > 0 ?

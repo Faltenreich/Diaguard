@@ -2,6 +2,8 @@ package com.faltenreich.diaguard.feature.food.input;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -32,19 +34,18 @@ import com.faltenreich.diaguard.shared.event.ui.FoodSearchedEvent;
 import com.faltenreich.diaguard.shared.view.ViewBindable;
 import com.faltenreich.diaguard.shared.view.edittext.StickyHintInputView;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.VerticalDividerItemDecoration;
-import com.j256.ormlite.dao.ForeignCollection;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
  * Created by Faltenreich on 13.10.2016.
  */
 
-public class FoodInputView extends LinearLayout implements ViewBindable<ViewFoodInputBinding> {
+public class FoodInputView extends LinearLayout implements ViewBindable<ViewFoodInputBinding>, TextWatcher {
 
     private ViewFoodInputBinding binding;
 
@@ -87,8 +88,9 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
 
     @Override
     protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
+        inputValueInputField.getEditText().removeTextChangedListener(this);
         Events.unregister(this);
+        super.onDetachedFromWindow();
     }
 
     private void init(@Nullable AttributeSet attributeSet) {
@@ -135,6 +137,8 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
         inputLayout.setMinimumHeight(getResources().getDimensionPixelSize(showIcon ? R.dimen.height_element_large : R.dimen.height_element));
 
         inputValueInputField.setHint(PreferenceStore.getInstance().getUnitName(Category.MEAL));
+        inputValueInputField.getEditText().addTextChangedListener(this);
+        inputValueInputField.getEditText().setSaveEnabled(false);
 
         foodListAdapter = new FoodInputListAdapter(getContext());
         foodListView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -154,12 +158,24 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
             calculatedValueLabel.setVisibility(GONE);
             calculatedValueLabel.setText(null);
         }
+
+        meal.setFoodEatenCache(foodListAdapter.getItems());
     }
 
-    public void setupWithMeal(Meal meal) {
+    @NonNull
+    public Meal getMeal() {
+        return meal;
+    }
+
+    public void setMeal(Meal meal) {
         this.meal = meal;
         this.inputValueInputField.setText(meal.getValuesForUI()[0]);
-        addItems(meal.getFoodEaten());
+        // FIXME: Restores previously deleted and persisted items
+        if (meal.getFoodEatenCache().isEmpty()) {
+            addItems(meal.getFoodEaten());
+        } else {
+            addItems(meal.getFoodEatenCache());
+        }
     }
 
     public boolean isValid() {
@@ -174,25 +190,6 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
             isValid = PreferenceStore.getInstance().isValueValid(inputValueInputField.getEditText(), Category.MEAL);
         }
         return isValid;
-    }
-
-    public Meal getMeal() {
-        if (isValid()) {
-            meal.setValues(inputValueInputField.getText().length() > 0 ?
-                    PreferenceStore.getInstance().formatCustomToDefaultUnit(
-                            meal.getCategory(),
-                            FloatUtils.parseNumber(inputValueInputField.getText())) : 0);
-            List<FoodEaten> foodEatenCache = new ArrayList<>();
-            for (FoodEaten foodEaten : foodListAdapter.getItems()) {
-                if (foodEaten.getAmountInGrams() > 0) {
-                    foodEatenCache.add(foodEaten);
-                }
-            }
-            meal.setFoodEatenCache(foodEatenCache);
-            return meal;
-        } else {
-            return null;
-        }
     }
 
     public void addItem(FoodEaten foodEaten) {
@@ -213,7 +210,7 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
         }
     }
 
-    public void addItems(ForeignCollection<FoodEaten> foodEatenList) {
+    public void addItems(Collection<FoodEaten> foodEatenList) {
         if (foodEatenList != null && foodEatenList.size() > 0) {
             int oldCount = foodListAdapter.getItemCount();
             for (FoodEaten foodEaten : foodEatenList) {
@@ -263,6 +260,26 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
     private void searchForFood() {
         // FIXME: Loses current selection due to missing cache
         Events.post(new FoodSearchEvent());
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+        String input = editable.toString();
+        meal.setValues(input.length() > 0 ?
+            PreferenceStore.getInstance().formatCustomToDefaultUnit(
+                meal.getCategory(),
+                FloatUtils.parseNumber(input)
+            ) : 0);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

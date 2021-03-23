@@ -17,7 +17,6 @@ import com.faltenreich.diaguard.shared.data.database.entity.Pressure;
 import com.faltenreich.diaguard.shared.data.database.entity.Pulse;
 import com.faltenreich.diaguard.shared.data.database.entity.Weight;
 import com.faltenreich.diaguard.shared.data.primitive.FloatUtils;
-import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.table.DatabaseTableConfig;
 
@@ -58,37 +57,41 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
     @Override
     public M createOrUpdate(M object) {
         M entity = super.createOrUpdate(object);
-        switch (entity.getCategory()) {
-            case MEAL:
-                createOrUpdate((Meal) entity);
-                break;
+        if (entity.getCategory() == Category.MEAL) {
+            createOrUpdate((Meal) entity);
         }
         return entity;
     }
 
     @Override
     public int delete(M object) {
-        switch (object.getCategory()) {
-            case MEAL:
-                Meal meal = (Meal) object;
-                for (FoodEaten foodEaten : meal.getFoodEaten()) {
-                    meal.getFoodEatenCache().add(foodEaten);
-                    FoodEatenDao.getInstance().delete(foodEaten);
-                }
-                break;
+        if (object.getCategory() == Category.MEAL) {
+            Meal meal = (Meal) object;
+            for (FoodEaten foodEaten : meal.getFoodEaten()) {
+                meal.getFoodEatenCache().add(foodEaten);
+                FoodEatenDao.getInstance().delete(foodEaten);
+            }
         }
         return super.delete(object);
     }
 
     private void createOrUpdate(Meal meal) {
         for (FoodEaten foodEatenOld : FoodEatenDao.getInstance().getAll(meal)) {
-            if (!meal.getFoodEatenCache().contains(foodEatenOld)) {
+            int indexInCache = meal.getFoodEatenCache().indexOf(foodEatenOld);
+            if (indexInCache != -1) {
+                FoodEaten foodEatenNew = meal.getFoodEatenCache().get(indexInCache);
+                if (!foodEatenNew.isValid()) {
+                    FoodEatenDao.getInstance().delete(foodEatenOld);
+                }
+            } else {
                 FoodEatenDao.getInstance().delete(foodEatenOld);
             }
         }
         for (FoodEaten foodEaten : meal.getFoodEatenCache()) {
-            foodEaten.setMeal(meal);
-            FoodEatenDao.getInstance().createOrUpdate(foodEaten);
+            if (foodEaten.isValid()) {
+                foodEaten.setMeal(meal);
+                FoodEatenDao.getInstance().createOrUpdate(foodEaten);
+            }
         }
     }
 
@@ -208,19 +211,8 @@ public class MeasurementDao <M extends Measurement> extends BaseDao<M> {
                     .where().gt(Entry.Column.DATE, start).and().lt(Entry.Column.DATE, end);
             return measurementQb.join(entryQb).query();
         } catch (SQLException exception) {
-            Log.e(TAG, exception.getMessage());
+            Log.e(TAG, exception.toString());
             return new ArrayList<>();
-        }
-    }
-
-    public int deleteMeasurements(Entry entry) {
-        try {
-            DeleteBuilder deleteBuilder = getDeleteBuilder();
-            deleteBuilder.where().eq(Measurement.Column.ENTRY, entry);
-            return deleteBuilder.delete();
-        } catch (SQLException exception) {
-            Log.e(TAG, String.format("Could not delete '%s' measurements of entry with id %d", getClazz().toString(), entry.getId()));
-            return 0;
         }
     }
 }

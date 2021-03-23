@@ -495,7 +495,13 @@ public class EntryEditFragment
                 MeasurementView<?> measurementView = ((MeasurementView<?>) view);
                 Measurement measurement = measurementView.getMeasurement();
                 if (measurement instanceof Meal) {
-                    return ((Meal) measurement).getFoodEatenCache();
+                    List<FoodEaten> foodEatenList = new ArrayList<>();
+                    for (FoodEaten foodEaten : ((Meal) measurement).getFoodEatenCache()) {
+                        if (foodEaten.isValid()) {
+                            foodEatenList.add(foodEaten);
+                        }
+                    }
+                    return foodEatenList;
                 }
             }
         }

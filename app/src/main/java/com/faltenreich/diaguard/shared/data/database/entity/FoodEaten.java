@@ -55,6 +55,10 @@ public class FoodEaten extends BaseEntity implements Backupable {
         return getFood() != null ? getAmountInGrams() * getFood().getCarbohydrates() / 100 : 0;
     }
 
+    public boolean isValid() {
+        return amountInGrams > 0;
+    }
+
     @Nullable
     public String print() {
         int amountEaten = (int) getAmountInGrams();

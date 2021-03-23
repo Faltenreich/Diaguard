@@ -55,7 +55,7 @@ class FoodInputViewHolder extends BaseViewHolder<ListItemMeasurementMealFoodItem
         );
         getBinding().deleteButton.setContentDescription(String.format(getContext().getString(R.string.remove_placeholder), food.getName()));
 
-        boolean isSet = item.getAmountInGrams() > 0;
+        boolean isSet = item.isValid();
         String text = isSet ?
             String.format("%s %s", FloatUtils.parseFloat(item.getAmountInGrams()), getContext().getString(R.string.grams_milliliters_acronym)) :
             getContext().getString(R.string.amount);

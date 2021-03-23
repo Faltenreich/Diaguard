@@ -28,8 +28,7 @@ public class MealInputView extends MeasurementInputView<ListItemMeasurementMealB
     @Override
     protected void onBind(Meal measurement) {
         foodInputView = getBinding().foodInputView;
-        foodInputView.addItems(measurement.getFoodEaten());
-        foodInputView.setupWithMeal(measurement);
+        foodInputView.setMeal(measurement);
     }
 
     @Override

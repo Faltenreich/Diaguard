@@ -88,15 +88,17 @@ public class LogEntryViewHolder extends BaseViewHolder<ListItemLogEntryBinding, 
         }
 
         ChipGroup entryTagChipGroup = getBinding().entryTagChipGroup;
-        entryTagChipGroup.setVisibility(entryTags.size() > 0 ? View.VISIBLE : View.GONE);
+        entryTagChipGroup.setVisibility(entryTags != null && entryTags.size() > 0 ? View.VISIBLE : View.GONE);
         entryTagChipGroup.removeAllViews();
-        for (EntryTag entryTag : entryTags) {
-            Tag tag = entryTag.getTag();
-            if (tag != null) {
-                ChipView chipView = new ChipView(getContext());
-                chipView.setText(tag.getName());
-                chipView.setOnClickListener(view -> listener.onTagSelected(tag, view));
-                entryTagChipGroup.addView(chipView);
+        if (entryTags != null) {
+            for (EntryTag entryTag : entryTags) {
+                Tag tag = entryTag.getTag();
+                if (tag != null) {
+                    ChipView chipView = new ChipView(getContext());
+                    chipView.setText(tag.getName());
+                    chipView.setOnClickListener(view -> listener.onTagSelected(tag, view));
+                    entryTagChipGroup.addView(chipView);
+                }
             }
         }
 

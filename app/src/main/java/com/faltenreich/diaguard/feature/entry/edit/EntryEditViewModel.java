@@ -18,6 +18,8 @@ import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
+import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
+import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.data.primitive.Consumer;
 
@@ -125,7 +127,16 @@ class EntryEditViewModel {
             public void onDidLoad(Food food) {
                 entry = new Entry();
                 entry.setDate(dateTime);
-                // TODO: Add food to entry
+
+                Meal meal = new Meal();
+                entry.getMeasurementCache().add(meal);
+
+                FoodEaten foodEaten = new FoodEaten();
+                foodEaten.setMeal(meal);
+                foodEaten.setFood(food);
+                foodEaten.setAmountInGrams(0);
+                meal.getFoodEatenCache().add(foodEaten);
+
                 callback.accept(entry);
             }
         });

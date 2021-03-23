@@ -43,7 +43,6 @@ import com.faltenreich.diaguard.shared.data.database.dao.TagDao;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.shared.data.database.entity.Entry;
 import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
-import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
 import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
@@ -262,10 +261,6 @@ public class EntryEditFragment
             measurement.setEntry(entry);
             entry.getMeasurementCache().add(measurement);
         }
-    }
-
-    private void addFood(Food food) {
-        // TODO
     }
 
     private void removeCategory(Category category) {

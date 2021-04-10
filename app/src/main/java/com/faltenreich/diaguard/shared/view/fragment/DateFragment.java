@@ -14,6 +14,7 @@ import com.faltenreich.diaguard.feature.navigation.MainButton;
 import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
 
 import org.joda.time.DateTime;
+import org.joda.time.IllegalFieldValueException;
 
 public abstract class DateFragment extends BaseFragment implements BaseFragment.ToolbarCallback, MainButton {
 
@@ -21,7 +22,12 @@ public abstract class DateFragment extends BaseFragment implements BaseFragment.
 
     protected DateFragment(@LayoutRes int layoutResourceId, @StringRes int titleResourceId, @MenuRes int menuRes) {
         super(layoutResourceId, titleResourceId, menuRes);
-        this.day = DateTime.now().withHourOfDay(0).withMinuteOfHour(0);
+        try {
+            this.day = DateTime.now().withHourOfDay(0).withMinuteOfHour(0);
+        } catch (IllegalFieldValueException exception) {
+            // Fixes IllegalFieldValueException on Motorola Moto G6 Play
+            this.day = DateTime.now();
+        }
     }
 
     @Override

@@ -14,6 +14,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentTimelineBinding;
 import com.faltenreich.diaguard.feature.datetime.DatePicking;
+import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragment;
 import com.faltenreich.diaguard.feature.navigation.MainButton;
 import com.faltenreich.diaguard.feature.navigation.MainButtonProperties;
@@ -112,7 +113,7 @@ public class TimelineFragment
     }
 
     private void init() {
-        day = DateTime.now().withHourOfDay(0).withMinuteOfHour(0);
+        day = DateTimeUtils.atStartOfDay(DateTime.now());
         adapter = new TimelinePagerAdapter(
             getChildFragmentManager(),
             day,

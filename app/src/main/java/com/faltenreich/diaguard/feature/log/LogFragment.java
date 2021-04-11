@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentLogBinding;
+import com.faltenreich.diaguard.feature.datetime.DatePicking;
+import com.faltenreich.diaguard.feature.datetime.DateTimeUtils;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragment;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragmentFactory;
 import com.faltenreich.diaguard.feature.entry.search.EntrySearchFragment;
@@ -38,7 +40,6 @@ import com.faltenreich.diaguard.shared.event.preference.CategoryPreferenceChange
 import com.faltenreich.diaguard.shared.event.preference.UnitChangedEvent;
 import com.faltenreich.diaguard.shared.view.ViewUtils;
 import com.faltenreich.diaguard.shared.view.fragment.BaseFragment;
-import com.faltenreich.diaguard.feature.datetime.DatePicking;
 import com.faltenreich.diaguard.shared.view.recyclerview.decoration.StickyHeaderDecoration;
 import com.faltenreich.diaguard.shared.view.recyclerview.layoutmanager.SafeLinearLayoutManager;
 
@@ -125,7 +126,7 @@ public class LogFragment
     }
 
     private void init() {
-        day = DateTime.now().withHourOfDay(0).withMinuteOfHour(0);
+        day = DateTimeUtils.atStartOfDay(DateTime.now());
         listAdapter = new LogListAdapter(getActivity(), this);
     }
 

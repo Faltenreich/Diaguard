@@ -8,11 +8,21 @@ import com.faltenreich.diaguard.R;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
+import org.joda.time.IllegalFieldValueException;
 import org.joda.time.format.DateTimeFormat;
 
 public class DateTimeUtils {
 
     private static final String FORMAT_DATE = "yyyy-MM-dd";
+
+    public static DateTime atStartOfDay(DateTime dateTime) {
+        try {
+            return dateTime.withHourOfDay(0).withMinuteOfHour(0);
+        } catch (IllegalFieldValueException exception) {
+            // Fixes IllegalFieldValueException on Motorola Moto G6 Play
+            return dateTime;
+        }
+    }
 
     private static String toWeekDayShort(DateTime dateTime, boolean withDot) {
         String weekDay = dateTime.toString("E");

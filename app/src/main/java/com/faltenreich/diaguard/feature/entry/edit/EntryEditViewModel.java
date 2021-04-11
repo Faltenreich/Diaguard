@@ -70,6 +70,14 @@ class EntryEditViewModel {
         return entryId > 0;
     }
 
+    Category[] getActiveCategories() {
+        return PreferenceStore.getInstance().getActiveCategories();
+    }
+
+    Category[] getPinnedCategory() {
+        return PreferenceStore.getInstance().getPinnedCategories();
+    }
+
     void setArguments(@Nullable Bundle arguments) {
         if (arguments != null) {
             entryId = arguments.getLong(EXTRA_ENTRY_ID);
@@ -154,13 +162,5 @@ class EntryEditViewModel {
                 callback.accept(tags);
             }
         });
-    }
-
-    Category[] getActiveCategories() {
-        return PreferenceStore.getInstance().getActiveCategories();
-    }
-
-    Category[] getPinnedCategory() {
-        return PreferenceStore.getInstance().getPinnedCategories();
     }
 }

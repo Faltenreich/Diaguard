@@ -86,6 +86,7 @@ public class EntryEditFragment
     private Button timeButton;
     private AutoCompleteTextView tagInput;
     private ChipGroup tagListView;
+    private TagAutoCompleteAdapter tagAdapter;
     private ImageView tagEditButton;
     private EditText noteInput;
     private ViewGroup alarmContainer;
@@ -93,8 +94,6 @@ public class EntryEditFragment
     private LinearLayout measurementContainer;
     private MeasurementFloatingActionMenu fabMenu;
     private FloatingActionButton fab;
-
-    private TagAutoCompleteAdapter tagAdapter;
 
     @Override
     protected FragmentEntryEditBinding createBinding(LayoutInflater layoutInflater) {
@@ -171,7 +170,7 @@ public class EntryEditFragment
             if (action == EditorInfo.IME_ACTION_DONE) {
                 String name = textView.getText().toString().trim();
                 if (!StringUtils.isBlank(name)) {
-                    addTag(textView.getText().toString());
+                    addTag(name);
                     textView.setText(null);
                 }
                 return true;
@@ -418,6 +417,7 @@ public class EntryEditFragment
         fab.setEnabled(true);
     }
 
+    // TODO: Extract into view model
     private void submit() {
         Entry entry = viewModel.getEntry();
         boolean isNewEntry = !entry.isPersisted();
@@ -513,7 +513,9 @@ public class EntryEditFragment
         Entry entry = viewModel.getEntry();
         DatePickerFragment.newInstance(entry.getDate(), dateTime -> {
             if (dateTime != null) {
-                LocalTime time = viewModel.getEntry().getDate() != null ? viewModel.getEntry().getDate().toLocalTime() : LocalTime.now();
+                LocalTime time = viewModel.getEntry().getDate() != null
+                    ? viewModel.getEntry().getDate().toLocalTime()
+                    : LocalTime.now();
                 dateTime = dateTime.withTime(time);
                 viewModel.getEntry().setDate(dateTime);
                 invalidateDateTime();

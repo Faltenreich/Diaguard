@@ -429,6 +429,12 @@ public class EntryEditFragment
             EntryTagDao.getInstance().delete(entryTags);
         }
 
+        for (Measurement measurement : EntryDao.getInstance().getMeasurements(entry)) {
+            boolean isObsolete = !entry.getMeasurementCache().contains(measurement);
+            if (isObsolete) {
+                MeasurementDao.getInstance(measurement.getClass()).delete(measurement);
+            }
+        }
         for (Measurement measurement : entry.getMeasurementCache()) {
             MeasurementDao.getInstance(measurement.getClass()).createOrUpdate(measurement);
         }

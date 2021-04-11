@@ -33,7 +33,6 @@ public class PressureInputView extends MeasurementInputView<ListItemMeasurementP
     @Override
     protected void onBind(Pressure measurement) {
         systolicInputField = getBinding().systolicInputField;
-        systolicInputField.setSaveEnabled(false);
         systolicInputField.setText(measurement.getValuesForUI()[0]);
         EditTextUtils.afterTextChanged(systolicInputField.getEditText(), () ->
             measurement.setSystolic(PreferenceStore.getInstance().formatCustomToDefaultUnit(
@@ -42,7 +41,6 @@ public class PressureInputView extends MeasurementInputView<ListItemMeasurementP
         );
 
         diastolicInputField = getBinding().diastolicInputField;
-        diastolicInputField.setSaveEnabled(false);
         diastolicInputField.setText(measurement.getValuesForUI()[1]);
         EditTextUtils.afterTextChanged(diastolicInputField.getEditText(), () ->
             measurement.setDiastolic(PreferenceStore.getInstance().formatCustomToDefaultUnit(

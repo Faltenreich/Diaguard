@@ -2,6 +2,8 @@ package com.faltenreich.diaguard.shared.view.edittext;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -52,6 +54,27 @@ public class StickyHintInputView extends LinearLayout implements ViewBindable<Vi
         return binding;
     }
 
+    @Nullable
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        SavedState savedState = new SavedState(super.onSaveInstanceState());
+        savedState.text = getEditText().getText().toString();
+        savedState.hint = hint != null ? hint.toString() : null;
+        savedState.inputType = inputType;
+        return savedState;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        super.onRestoreInstanceState(state);
+        if (state instanceof SavedState) {
+            SavedState savedState = (SavedState) state;
+            inputField.setText(savedState.text);
+            hint = savedState.hint;
+            inputType = savedState.inputType;
+        }
+    }
+
     private void init(@Nullable AttributeSet attributeSet) {
         if (attributeSet != null) {
             getAttributes(attributeSet);
@@ -94,6 +117,7 @@ public class StickyHintInputView extends LinearLayout implements ViewBindable<Vi
                 update();
             }
         });
+        inputField.setSaveEnabled(false);
         inputField.setHint(hint);
         inputField.setInputType(inputType);
         hintLabel.setText(hint);
@@ -128,5 +152,24 @@ public class StickyHintInputView extends LinearLayout implements ViewBindable<Vi
 
     public void setError(String error) {
         inputField.setError(error);
+    }
+
+    private static class SavedState extends BaseSavedState {
+
+        private String text;
+        private String hint;
+        private int inputType;
+
+        private SavedState(Parcelable state) {
+            super(state);
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+            out.writeString(text);
+            out.writeString(hint);
+            out.writeInt(inputType);
+        }
     }
 }

@@ -38,7 +38,6 @@ public class GenericInputView<T extends Measurement> extends MeasurementInputVie
         inputField.setHint(PreferenceStore.getInstance().getUnitAcronym(measurement.getCategory()));
         inputField.setText(measurement.getValuesForUI()[0]);
         inputField.getEditText().addTextChangedListener(this);
-        inputField.getEditText().setSaveEnabled(false);
     }
 
     @Override

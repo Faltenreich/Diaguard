@@ -179,6 +179,7 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
             items.add(new ExportCategoryListItem(category, isCategorySelected, isExtraSelected));
         }
 
+        categoryListAdapter.clear();
         categoryListAdapter.addItems(items);
         categoryListAdapter.notifyItemRangeInserted(0, items.size());
     }

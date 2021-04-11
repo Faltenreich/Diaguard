@@ -202,7 +202,6 @@ public class EntryEditFragment
 
         fabMenu.setOnCategorySelectedListener(this::addCategory);
         fabMenu.setOnMiscellaneousSelectedListener(this::showDialogCategories);
-
         fab.setOnClickListener(view -> trySubmit());
     }
 

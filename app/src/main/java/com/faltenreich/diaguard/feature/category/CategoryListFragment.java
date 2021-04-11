@@ -84,6 +84,7 @@ public class CategoryListFragment extends BaseFragment<FragmentCategoryListBindi
     }
 
     private void setCategories() {
+        listAdapter.clear();
         listAdapter.addItems(PreferenceStore.getInstance().getSortedCategories());
         listAdapter.notifyDataSetChanged();
     }

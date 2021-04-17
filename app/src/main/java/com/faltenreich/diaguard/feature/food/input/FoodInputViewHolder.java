@@ -91,6 +91,7 @@ class FoodInputViewHolder extends BaseViewHolder<ListItemMeasurementMealFoodItem
             return 0;
         }
     }
+
     private void deleteFood() {
         Events.post(new FoodEatenRemovedEvent(getItem(), getAdapterPosition()));
     }

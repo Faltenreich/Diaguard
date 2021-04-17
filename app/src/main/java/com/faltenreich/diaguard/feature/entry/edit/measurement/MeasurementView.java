@@ -41,6 +41,7 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
     private ViewGroup contentLayout;
 
     private T measurement;
+    private MeasurementInputView<?, T> inputView;
 
     private OnCategoryRemovedListener onCategoryRemovedListener;
 
@@ -62,8 +63,30 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
         return binding;
     }
 
+    public MeasurementInputView<?, T> getInputView() {
+        return (MeasurementInputView<?, T> ) inputView;
+    }
+
     private void init() {
         binding = ListItemMeasurementBinding.inflate(LayoutInflater.from(getContext()), this);
+
+        View inputView;
+        Category category = measurement.getCategory();
+        switch (category) {
+            case INSULIN:
+                inputView = new InsulinInputView(getContext(), (Insulin) measurement);
+                break;
+            case MEAL:
+                inputView = new MealInputView(getContext(), (Meal) measurement);
+                break;
+            case PRESSURE:
+                inputView = new PressureInputView(getContext(), (Pressure) measurement);
+                break;
+            default:
+                inputView = new GenericInputView<>(getContext(), category.toClass(), measurement);
+        }
+        //noinspection unchecked
+        this.inputView = (MeasurementInputView<?, T>) inputView;
     }
 
     @Override
@@ -71,7 +94,6 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
         super.onAttachedToWindow();
         bindViews();
         initLayout();
-        initData();
     }
 
     @Override
@@ -91,6 +113,8 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
     }
 
     private void initLayout() {
+        Category category = measurement.getCategory();
+
         setRadius(getContext().getResources().getDimension(R.dimen.card_corner_radius));
         setCardElevation(getContext().getResources().getDimension(R.dimen.card_elevation));
         setUseCompatPadding(true);
@@ -103,38 +127,17 @@ public class MeasurementView<T extends Measurement> extends CardView implements 
 
         deleteButton.setOnClickListener((view) -> remove());
 
-        pinnedCheckbox.setChecked(PreferenceStore.getInstance().isCategoryPinned(measurement.getCategory()));
+        pinnedCheckbox.setChecked(PreferenceStore.getInstance().isCategoryPinned(category));
         pinnedCheckbox.setOnCheckedChangeListener((checkbox, isChecked) -> togglePinnedCategory(isChecked));
         pinnedCheckbox.setSaveEnabled(false);
-    }
 
-    private void initData() {
-        Category category = measurement.getCategory();
         String categoryName = getContext().getString(category.getStringResId());
         showcaseImageView.setImageResource(category.getShowcaseImageResourceId());
         categoryImageView.setImageResource(category.getIconImageResourceId());
         categoryLabel.setText(categoryName);
         deleteButton.setContentDescription(String.format(getContext().getString(R.string.remove_placeholder), categoryName));
 
-        View measurementView;
-        switch (category) {
-            case INSULIN:
-                measurementView = new InsulinInputView(getContext(), (Insulin) measurement);
-                break;
-            case MEAL:
-                measurementView = new MealInputView(getContext(), (Meal) measurement);
-                break;
-            case PRESSURE:
-                measurementView = new PressureInputView(getContext(), (Pressure) measurement);
-                break;
-            default:
-                measurementView = new GenericInputView<>(getContext(), category.toClass(), measurement);
-        }
-        contentLayout.addView(measurementView);
-    }
-
-    public MeasurementInputView<?, T> getInputView() {
-        return (MeasurementInputView<?, T> ) contentLayout.getChildAt(0);
+        contentLayout.addView(inputView);
     }
 
     public Measurement getMeasurement() {

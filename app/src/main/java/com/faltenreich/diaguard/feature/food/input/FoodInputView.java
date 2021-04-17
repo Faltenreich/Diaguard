@@ -191,7 +191,7 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
         return isValid;
     }
 
-    public void addItem(FoodEaten foodEaten) {
+    private void addItem(FoodEaten foodEaten) {
         if (foodEaten != null) {
             int position = 0;
             foodListAdapter.addItem(position, foodEaten);
@@ -200,7 +200,7 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
         }
     }
 
-    public void addItem(Food food) {
+    private void addItem(Food food) {
         if (food != null) {
             FoodEaten foodEaten = new FoodEaten();
             foodEaten.setFood(food);
@@ -209,7 +209,7 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
         }
     }
 
-    public void addItems(Collection<FoodEaten> foodEatenList) {
+    private void addItems(Collection<FoodEaten> foodEatenList) {
         if (foodEatenList != null && foodEatenList.size() > 0) {
             int oldCount = foodListAdapter.getItemCount();
             for (FoodEaten foodEaten : foodEatenList) {
@@ -233,7 +233,7 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
         invalidateLayout();
     }
 
-    public void updateItem(FoodEaten foodEaten, int position) {
+    private void updateItem(FoodEaten foodEaten, int position) {
         foodListAdapter.updateItem(position, foodEaten);
         foodListAdapter.notifyItemChanged(position);
         invalidateLayout();

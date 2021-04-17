@@ -50,7 +50,7 @@ public class PressureInputView extends MeasurementInputView<ListItemMeasurementP
     }
 
     @Override
-    public boolean isValid(Pressure measurement) {
+    public boolean isValid() {
         return PreferenceStore.getInstance().isValueValid(systolicInputField.getEditText(), Category.PRESSURE)
             && PreferenceStore.getInstance().isValueValid(diastolicInputField.getEditText(), Category.PRESSURE);
     }

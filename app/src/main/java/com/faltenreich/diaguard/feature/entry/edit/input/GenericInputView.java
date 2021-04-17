@@ -47,7 +47,7 @@ public class GenericInputView<T extends Measurement> extends MeasurementInputVie
     }
 
     @Override
-    public boolean isValid(Measurement measurement) {
+    public boolean isValid() {
         StickyHintInputView inputField = getBinding().inputField;
         boolean isValid;
         String input = inputField.getText();
@@ -55,7 +55,7 @@ public class GenericInputView<T extends Measurement> extends MeasurementInputVie
             inputField.setError(getContext().getString(R.string.validator_value_empty));
             isValid = false;
         } else {
-            isValid = PreferenceStore.getInstance().isValueValid(inputField.getEditText(), measurement.getCategory());
+            isValid = PreferenceStore.getInstance().isValueValid(inputField.getEditText(), getMeasurement().getCategory());
         }
         return isValid;
     }

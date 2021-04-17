@@ -55,5 +55,5 @@ public abstract class MeasurementInputView<BINDING extends ViewBinding, MEASUREM
         return measurement;
     }
 
-    public abstract boolean isValid(MEASUREMENT measurement);
+    public abstract boolean isValid();
 }

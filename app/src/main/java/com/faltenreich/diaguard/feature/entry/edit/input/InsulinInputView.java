@@ -67,7 +67,7 @@ public class InsulinInputView extends MeasurementInputView<ListItemMeasurementIn
     }
 
     @Override
-    public boolean isValid(Insulin measurement) {
+    public boolean isValid() {
         boolean isValid = true;
 
         String bolus = bolusInputField.getText().trim();

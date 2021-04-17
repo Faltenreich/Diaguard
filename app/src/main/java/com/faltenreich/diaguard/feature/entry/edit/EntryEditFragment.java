@@ -388,10 +388,13 @@ public class EntryEditFragment
                 inputIsValid = false;
             }
         } else {
-            for (Measurement measurement : measurements) {
-                if (measurement == null) {
-                    inputIsValid = false;
-                    break;
+            for (int index = 0; index < measurementContainer.getChildCount(); index++) {
+                View view = measurementContainer.getChildAt(index);
+                if (view instanceof MeasurementView<?>) {
+                    MeasurementView<?> measurementView = (MeasurementView<?>) view;
+                    if (!measurementView.getInputView().isValid()) {
+                        inputIsValid = false;
+                    }
                 }
             }
         }

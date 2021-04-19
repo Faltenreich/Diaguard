@@ -212,7 +212,7 @@ public class EntryEditFragment
             for (Measurement measurement : entry.getMeasurementCache()) {
                 addMeasurement(measurement);
             }
-        } else {
+        } else if (!entry.isPersisted()) {
             for (Category category : viewModel.getPinnedCategory()) {
                 if (!hasCategory(category)) {
                     addCategory(category);
@@ -304,7 +304,15 @@ public class EntryEditFragment
         addTag(tag);
     }
 
-    private void addTag(final Tag tag) {
+    private void addTag(Tag tag) {
+        int index = viewModel.getIndexOfTag(tag);
+        if (index == -1) {
+            EntryTag entryTag = new EntryTag();
+            entryTag.setEntry(viewModel.getEntry());
+            entryTag.setTag(tag);
+            viewModel.getEntryTags().add(entryTag);
+        }
+
         ChipView chip = new ChipView(getContext());
         chip.setTag(tag);
         chip.setText(tag.getName());
@@ -320,6 +328,11 @@ public class EntryEditFragment
     }
 
     private void removeTag(Tag tag, View view) {
+        int index = viewModel.getIndexOfTag(tag);
+        if (index != -1) {
+            viewModel.getEntryTags().remove(index);
+        }
+
         tagAdapter.set(tag, true);
         tagListView.removeView(view);
 

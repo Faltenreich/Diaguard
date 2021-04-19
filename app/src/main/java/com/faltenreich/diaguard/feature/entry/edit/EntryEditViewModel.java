@@ -26,6 +26,7 @@ import com.faltenreich.diaguard.shared.data.primitive.Consumer;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class EntryEditViewModel {
@@ -42,12 +43,26 @@ class EntryEditViewModel {
     private List<EntryTag> entryTags;
     private int alarmInMinutes;
 
+    protected EntryEditViewModel() {
+        this.entryTags = new ArrayList<>();
+    }
+
     Entry getEntry() {
         return entry;
     }
 
     List<EntryTag> getEntryTags() {
         return entryTags;
+    }
+
+    int getIndexOfTag(Tag tag) {
+        for (int index = 0; index < entryTags.size(); index++) {
+            EntryTag entryTag = entryTags.get(index);
+            if (entryTag.getTag().equals(tag)) {
+                return index;
+            }
+        }
+        return -1;
     }
 
     int getAlarmInMinutes() {

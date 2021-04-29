@@ -234,7 +234,6 @@ public class EntryEditFragment
     }
 
     private void setTags(List<Tag> tags) {
-        tagAdapter.clear();
         tagAdapter.addAll(tags);
         tagAdapter.notifyDataSetChanged();
     }
@@ -438,12 +437,6 @@ public class EntryEditFragment
         boolean isNewEntry = !entry.isPersisted();
         entry = EntryDao.getInstance().createOrUpdate(entry);
 
-        // TODO: Delete distinct
-        List<EntryTag> entryTags = viewModel.getEntryTags();
-        if (entryTags != null && entryTags.size() > 0) {
-            EntryTagDao.getInstance().delete(entryTags);
-        }
-
         for (Measurement measurement : EntryDao.getInstance().getMeasurements(entry)) {
             boolean isObsolete = !entry.getMeasurementCache().contains(measurement);
             if (isObsolete) {
@@ -455,7 +448,7 @@ public class EntryEditFragment
         }
 
         List<Tag> tags = new ArrayList<>();
-        entryTags = new ArrayList<>();
+        List<EntryTag> entryTags = new ArrayList<>();
         for (int index = 0; index < tagListView.getChildCount(); index++) {
             View view = tagListView.getChildAt(index);
             if (view.getTag() instanceof Tag) {
@@ -477,6 +470,8 @@ public class EntryEditFragment
             }
         }
         TagDao.getInstance().bulkCreateOrUpdate(tags);
+        // TODO: Update instead of delete
+        EntryTagDao.getInstance().deleteAll(entry);
         EntryTagDao.getInstance().bulkCreateOrUpdate(entryTags);
 
         List<FoodEaten> foodEatenList = getFoodEaten();

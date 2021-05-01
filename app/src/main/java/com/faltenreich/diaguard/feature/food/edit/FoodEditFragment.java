@@ -62,13 +62,11 @@ public class FoodEditFragment extends BaseFragment<FragmentFoodEditBinding> impl
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        invalidateData();
-        invalidateLayout();
+        boolean isRecreated = getBinding().nutrientInputLayout.getChildCount() > 0;
+        if (!isRecreated) {
+            initData();
+            initLayout();
+        }
     }
 
     @Override
@@ -93,24 +91,20 @@ public class FoodEditFragment extends BaseFragment<FragmentFoodEditBinding> impl
         foodId = getArguments() != null ? getArguments().getLong(EXTRA_FOOD_ID) : null;
     }
 
-    private void invalidateData() {
+    private void initData() {
         if (foodId != null) {
             food = FoodDao.getInstance().getById(foodId);
         }
     }
 
-    private void invalidateLayout() {
+    private void initLayout() {
         getBinding().fab.setOnClickListener((view) -> store());
-
-        NutrientInputLayout nutrientInputLayout = getBinding().nutrientInputLayout;
-        if (nutrientInputLayout.getChildCount() > 0) {
-            return;
-        }
 
         getBinding().nameInput.setText(food != null ? food.getName() : null);
         getBinding().brandInput.setText(food != null ? food.getBrand() : null);
         getBinding().ingredientsInput.setText(food != null ? food.getIngredients() : null);
 
+        NutrientInputLayout nutrientInputLayout = getBinding().nutrientInputLayout;
         for (Food.Nutrient nutrient : Food.Nutrient.values()) {
             nutrientInputLayout.addNutrient(nutrient, food != null ? nutrient.getValue(food) : null);
         }

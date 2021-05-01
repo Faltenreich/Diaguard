@@ -85,8 +85,11 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        boolean isRecreated = categoryListAdapter.getItemCount() > 0;
         initLayout();
-        initCategories();
+        if (!isRecreated) {
+            initCategories();
+        }
     }
 
     @Override
@@ -156,10 +159,6 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
     }
 
     private void initCategories() {
-        if (categoryListAdapter.getItemCount() > 0) {
-            return;
-        }
-
         List<ExportCategoryListItem> items = new ArrayList<>();
         Category[] activeCategories = PreferenceStore.getInstance().getActiveCategories();
         List<Category> selectedCategories = Arrays.asList(PreferenceStore.getInstance().getExportCategories());

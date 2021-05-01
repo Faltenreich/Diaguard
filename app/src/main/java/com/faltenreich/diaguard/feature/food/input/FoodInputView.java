@@ -169,7 +169,6 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
     public void setMeal(Meal meal) {
         this.meal = meal;
         this.inputValueInputField.setText(meal.getValuesForUI()[0]);
-        // FIXME: Restores previously deleted and persisted items
         if (meal.getFoodEatenCache().isEmpty()) {
             addItems(meal.getFoodEaten());
         } else {
@@ -257,7 +256,6 @@ public class FoodInputView extends LinearLayout implements ViewBindable<ViewFood
     }
 
     private void searchForFood() {
-        // FIXME: Loses current selection due to missing cache
         Events.post(new FoodSearchEvent());
     }
 

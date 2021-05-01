@@ -100,6 +100,9 @@ public class PreferenceOverviewFragment
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (!isAdded()) {
+            return;
+        }
         if (key.equals(getString(R.string.preference_unit_bloodsugar))) {
             Events.post(new UnitChangedEvent(Category.BLOODSUGAR));
         } else if (key.equals(getString(R.string.preference_unit_meal))) {

@@ -25,6 +25,7 @@ import androidx.core.widget.NestedScrollView;
 import com.faltenreich.diaguard.R;
 import com.faltenreich.diaguard.databinding.FragmentEntryEditBinding;
 import com.faltenreich.diaguard.feature.alarm.AlarmUtils;
+import com.faltenreich.diaguard.feature.category.CategoryListFragment;
 import com.faltenreich.diaguard.feature.datetime.DatePickerFragment;
 import com.faltenreich.diaguard.feature.datetime.TimePickerFragment;
 import com.faltenreich.diaguard.feature.entry.edit.measurement.MeasurementFloatingActionMenu;
@@ -193,7 +194,7 @@ public class EntryEditFragment
             addTag(tagAdapter.getItem(position));
         });
         tagListView.setVisibility(View.GONE);
-        tagEditButton.setOnClickListener(view -> openTags());
+        tagEditButton.setOnClickListener(view -> openTagSettings());
 
         EditTextUtils.afterTextChanged(noteInput, () -> viewModel.getEntry().setNote(noteInput.getText().toString()));
 
@@ -201,7 +202,7 @@ public class EntryEditFragment
         alarmButton.setOnClickListener(view -> showAlarmPicker());
 
         fabMenu.setOnCategorySelectedListener(this::addCategory);
-        fabMenu.setOnMiscellaneousSelectedListener(this::showDialogCategories);
+        fabMenu.setOnMiscellaneousSelectedListener(this::openCategoryPicker);
         fab.setOnClickListener(view -> trySubmit());
     }
 
@@ -349,7 +350,7 @@ public class EntryEditFragment
         tagInput.post(() -> tagInput.dismissDropDown());
     }
 
-    private void showDialogCategories() {
+    private void openCategoryPicker() {
         Category[] activeCategories = viewModel.getActiveCategories();
         String[] categoryNames = new String[activeCategories.length];
         boolean[] visibleCategoriesOld = new boolean[activeCategories.length];
@@ -374,7 +375,8 @@ public class EntryEditFragment
                     }
                 }
             })
-            .setNegativeButton(getString(R.string.cancel), (dialog, which) -> dialog.cancel());
+            .setNegativeButton(getString(R.string.cancel), (dialog, which) -> dialog.cancel())
+            .setNeutralButton(R.string.settings, (dialog, which) -> openCategorySettings());
         AlertDialog dialog = builder.create();
         dialog.show();
     }
@@ -548,7 +550,11 @@ public class EntryEditFragment
         }).show(getChildFragmentManager());
     }
 
-    private void openTags() {
+    private void openCategorySettings() {
+        openFragment(new CategoryListFragment(), Navigation.Operation.REPLACE, true);
+    }
+
+    private void openTagSettings() {
         openFragment(new TagListFragment(), Navigation.Operation.REPLACE, true);
     }
 

@@ -34,6 +34,7 @@ import com.faltenreich.diaguard.feature.navigation.Navigation;
 import com.faltenreich.diaguard.feature.navigation.ToolbarDescribing;
 import com.faltenreich.diaguard.feature.navigation.ToolbarProperties;
 import com.faltenreich.diaguard.feature.tag.TagAutoCompleteAdapter;
+import com.faltenreich.diaguard.feature.tag.TagListFragment;
 import com.faltenreich.diaguard.shared.Helper;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryDao;
 import com.faltenreich.diaguard.shared.data.database.dao.EntryTagDao;
@@ -548,7 +549,7 @@ public class EntryEditFragment
     }
 
     private void openTags() {
-        //openFragment(new TagListFragment(), Navigation.Operation.REPLACE, true);
+        openFragment(new TagListFragment(), Navigation.Operation.REPLACE, true);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

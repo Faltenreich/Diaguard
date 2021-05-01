@@ -1,4 +1,4 @@
-package com.faltenreich.diaguard.feature.category;
+package com.faltenreich.diaguard.feature.tag;
 
 import androidx.fragment.app.testing.FragmentScenario;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -15,16 +15,16 @@ import org.robolectric.annotation.LooperMode;
 
 @RunWith(AndroidJUnit4.class)
 @LooperMode(LooperMode.Mode.PAUSED)
-public class CategoryListFragmentTest {
+public class TagListFragmentTest {
 
-    private FragmentScenario<CategoryListFragment> scenario;
+    private FragmentScenario<TagListFragment> scenario;
 
     @Rule
     public final TestRule dataCleanUp = new CleanUpData();
 
     @Before
     public void setup() {
-        scenario = FragmentScenario.launch(CategoryListFragment.class);
+        scenario = FragmentScenario.launch(TagListFragment.class);
     }
 
     @Test

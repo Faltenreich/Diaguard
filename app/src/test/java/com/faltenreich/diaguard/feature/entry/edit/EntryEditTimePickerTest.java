@@ -37,7 +37,7 @@ public class EntryEditTimePickerTest {
 
     @Test
     public void clickingTimeButton_shouldOpenTimePicker() {
-        Espresso.onView(ViewMatchers.withId(R.id.button_time))
+        Espresso.onView(ViewMatchers.withId(R.id.time_button))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withClassName(Matchers.equalTo(TimePicker.class.getName())))
             .inRoot(RootMatchers.isDialog())
@@ -47,14 +47,14 @@ public class EntryEditTimePickerTest {
     @Test
     public void pickingTime_shouldApplyToForm() {
         LocalTime time = LocalTime.now().minusHours(1);
-        Espresso.onView(ViewMatchers.withId(R.id.button_time))
+        Espresso.onView(ViewMatchers.withId(R.id.time_button))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withClassName(Matchers.equalTo(TimePicker.class.getName())))
             .inRoot(RootMatchers.isDialog())
             .perform(PickerActions.setTime(time.hourOfDay().get(), time.minuteOfHour().get()));
         Espresso.onView(ViewMatchers.withId(android.R.id.button1))
             .perform(ViewActions.click());
-        Espresso.onView(ViewMatchers.withId(R.id.button_time))
+        Espresso.onView(ViewMatchers.withId(R.id.time_button))
             .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getTimeFormat().print(time))));
     }
 }

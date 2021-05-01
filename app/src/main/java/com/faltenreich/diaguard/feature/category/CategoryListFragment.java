@@ -38,6 +38,7 @@ public class CategoryListFragment extends BaseFragment<FragmentCategoryListBindi
 
     @Override
     public ToolbarProperties getToolbarProperties() {
+        CategoryListFragment.class.getSimpleName();
         return new ToolbarProperties.Builder()
             .setTitle(getContext(), R.string.categories)
             .setMenu(R.menu.categories)

@@ -37,7 +37,7 @@ public class EntryEditDatePickerTest {
 
     @Test
     public void clickingDateButton_shouldOpenDatePicker() {
-        Espresso.onView(ViewMatchers.withId(R.id.button_date))
+        Espresso.onView(ViewMatchers.withId(R.id.date_button))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withClassName(Matchers.equalTo(DatePicker.class.getName())))
             .inRoot(RootMatchers.isDialog())
@@ -47,14 +47,14 @@ public class EntryEditDatePickerTest {
     @Test
     public void pickingDate_shouldApplyToForm() {
         LocalDate date = LocalDate.now().minusDays(1);
-        Espresso.onView(ViewMatchers.withId(R.id.button_date))
+        Espresso.onView(ViewMatchers.withId(R.id.date_button))
             .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withClassName(Matchers.equalTo(DatePicker.class.getName())))
             .inRoot(RootMatchers.isDialog())
             .perform(PickerActions.setDate(date.year().get(), date.getMonthOfYear(), date.getDayOfMonth()));
         Espresso.onView(ViewMatchers.withId(android.R.id.button1))
             .perform(ViewActions.click());
-        Espresso.onView(ViewMatchers.withId(R.id.button_date))
+        Espresso.onView(ViewMatchers.withId(R.id.date_button))
             .check(ViewAssertions.matches(ViewMatchers.withText(Helper.getDateFormat().print(date))));
     }
 }

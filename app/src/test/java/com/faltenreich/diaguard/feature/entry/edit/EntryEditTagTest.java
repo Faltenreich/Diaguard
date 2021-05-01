@@ -33,7 +33,7 @@ public class EntryEditTagTest {
         // TODO: Replace sleep with IdlingResource or synchronous dao
         Thread.sleep(1000);
 
-        Espresso.onView(ViewMatchers.withId(R.id.entry_tags_input))
+        Espresso.onView(ViewMatchers.withId(R.id.tag_input))
             .perform(ViewActions.click());
     }
 
@@ -56,7 +56,7 @@ public class EntryEditTagTest {
     @Test
     public void creatingTagViaKeyboardInput_shouldAppendToList() {
         String tag = "new tag";
-        Espresso.onView(ViewMatchers.withId(R.id.entry_tags_input)).perform(
+        Espresso.onView(ViewMatchers.withId(R.id.tag_input)).perform(
             ViewActions.replaceText(tag),
             ViewActions.pressImeActionButton()
         );

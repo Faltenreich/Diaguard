@@ -52,7 +52,7 @@ public class EntryEditValidationTest {
     @Test
     public void confirmingEntryWithNote_shouldFinishActivity() {
         scenario.onActivity(activity -> {
-            Espresso.onView(ViewMatchers.withId(R.id.edittext_notes))
+            Espresso.onView(ViewMatchers.withId(R.id.note_input))
                 .perform(ViewActions.replaceText("Test"));
             Espresso.onView(ViewMatchers.withId(R.id.fab))
                 .perform(ViewActions.click());
@@ -64,9 +64,9 @@ public class EntryEditValidationTest {
     public void confirmingEntryWithTag_shouldFinishActivity() {
         scenario.onActivity(activity -> {
             String tag = "new tag";
-            Espresso.onView(ViewMatchers.withId(R.id.entry_tags_input))
+            Espresso.onView(ViewMatchers.withId(R.id.tag_input))
                 .perform(ViewActions.click());
-            Espresso.onView(ViewMatchers.withId(R.id.entry_tags_input)).perform(
+            Espresso.onView(ViewMatchers.withId(R.id.tag_input)).perform(
                 ViewActions.replaceText(tag),
                 ViewActions.pressImeActionButton()
             );

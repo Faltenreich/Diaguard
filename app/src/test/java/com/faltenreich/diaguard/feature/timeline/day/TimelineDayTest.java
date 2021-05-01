@@ -33,15 +33,15 @@ public class TimelineDayTest {
 
     @Test
     public void showsChart() {
-        Espresso.onView(ViewMatchers.withId(R.id.day_chart))
+        Espresso.onView(ViewMatchers.withId(R.id.chart_view))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
     @Test
     public void showsTable() {
-        Espresso.onView(ViewMatchers.withId(R.id.category_table_images))
+        Espresso.onView(ViewMatchers.withId(R.id.image_list_view))
             .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
-        Espresso.onView(ViewMatchers.withId(R.id.category_table_values))
+        Espresso.onView(ViewMatchers.withId(R.id.value_list_view))
             .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
     }
 }

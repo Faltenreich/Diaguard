@@ -43,34 +43,34 @@ public class EntryEditMeasurementWeightTest {
     public void confirmingEmptyValue_shouldShowWarning() {
         Espresso.onView(ViewMatchers.withId(R.id.fab))
             .perform(ViewActions.click());
-        Espresso.onView(ViewMatchers.withId(R.id.editText))
+        Espresso.onView(ViewMatchers.withId(R.id.input_field))
             .check(ViewAssertions.matches(EditTextMatcher.hasErrorText(R.string.validator_value_empty)));
     }
 
     @Test
     public void confirmingValueBelowMinimum_shouldShowWarning() {
-        Espresso.onView(ViewMatchers.withId(R.id.editText))
+        Espresso.onView(ViewMatchers.withId(R.id.input_field))
             .perform(ViewActions.replaceText("-1"));
         Espresso.onView(ViewMatchers.withId(R.id.fab))
             .perform(ViewActions.click());
-        Espresso.onView(ViewMatchers.withId(R.id.editText))
+        Espresso.onView(ViewMatchers.withId(R.id.input_field))
             .check(ViewAssertions.matches(EditTextMatcher.hasErrorText(R.string.validator_value_unrealistic)));
     }
 
     @Test
     public void confirmingValueAboveMaximum_shouldShowWarning() {
-        Espresso.onView(ViewMatchers.withId(R.id.editText))
+        Espresso.onView(ViewMatchers.withId(R.id.input_field))
             .perform(ViewActions.replaceText("1401"));
         Espresso.onView(ViewMatchers.withId(R.id.fab))
             .perform(ViewActions.click());
-        Espresso.onView(ViewMatchers.withId(R.id.editText))
+        Espresso.onView(ViewMatchers.withId(R.id.input_field))
             .check(ViewAssertions.matches(EditTextMatcher.hasErrorText(R.string.validator_value_unrealistic)));
     }
 
     @Test
     public void confirmingValidValue_shouldFinishActivity() {
         scenario.onActivity(activity -> {
-            Espresso.onView(ViewMatchers.withId(R.id.editText))
+            Espresso.onView(ViewMatchers.withId(R.id.input_field))
                 .perform(ViewActions.replaceText("70"));
             Espresso.onView(ViewMatchers.withId(R.id.fab))
                 .perform(ViewActions.click());

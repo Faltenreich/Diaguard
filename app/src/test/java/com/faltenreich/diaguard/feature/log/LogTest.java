@@ -39,7 +39,6 @@ public class LogTest {
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
-    // FIXME
     @Test
     @Ignore("RecyclerView items are not visible")
     public void showsTodayOnStart() {

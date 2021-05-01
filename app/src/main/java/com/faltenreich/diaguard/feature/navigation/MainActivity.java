@@ -293,7 +293,7 @@ public class MainActivity
             boolean isUpdate = oldVersionCode < currentVersionCode;
             if (isUpdate) {
                 PreferenceStore.getInstance().setVersionCode(currentVersionCode);
-                // TODO: openChangelog() if needed
+                // openChangelog()
             }
         } else {
             // Skip changelog for fresh installs

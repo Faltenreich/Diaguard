@@ -45,7 +45,6 @@ public class CategoryValueViewHolder extends BaseViewHolder<ListItemTableCategor
     }
 
     private void showUnit() {
-        // TODO: Use Measurement.toString() instead
         Category category = getItem().getCategory();
         String unitAcronym = PreferenceStore.getInstance().getUnitName(category);
         ViewUtils.showToast(getContext(), unitAcronym);

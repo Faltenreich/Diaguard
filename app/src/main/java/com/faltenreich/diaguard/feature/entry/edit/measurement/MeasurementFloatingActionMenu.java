@@ -72,42 +72,35 @@ public class MeasurementFloatingActionMenu extends FloatingActionMenu {
         categoriesToSkip.remove(category);
     }
 
-    private boolean hasChanged() {
-        // TODO: Check whether ignores have changed
-        return true;
-    }
-
     public void restock() {
-        if (hasChanged()) {
-            removeAllMenuButtons();
+        removeAllMenuButtons();
 
-            Category[] activeCategories = PreferenceStore.getInstance().getActiveCategories();
-            int menuButtonCount = 0;
-            int position = 0;
-            while (position < activeCategories.length && menuButtonCount < MAX_BUTTON_COUNT) {
-                Category category = activeCategories[position];
-                if (!categoriesToSkip.contains(category)) {
-                    addMenuButton(category);
-                    menuButtonCount++;
-                }
-                position++;
+        Category[] activeCategories = PreferenceStore.getInstance().getActiveCategories();
+        int menuButtonCount = 0;
+        int position = 0;
+        while (position < activeCategories.length && menuButtonCount < MAX_BUTTON_COUNT) {
+            Category category = activeCategories[position];
+            if (!categoriesToSkip.contains(category)) {
+                addMenuButton(category);
+                menuButtonCount++;
             }
-
-            FloatingActionButton fabAll = FloatingActionButtonFactory.createFloatingActionButton(
-                getContext(),
-                getContext().getString(R.string.all),
-                R.drawable.ic_more,
-                ColorUtils.getBackgroundSecondary(getContext()));
-
-            addMenuButton(fabAll);
-
-            fabAll.setOnClickListener(view -> {
-                close(true);
-                if (onMiscellaneousSelectedListener != null) {
-                    onMiscellaneousSelectedListener.onMiscellaneousSelected();
-                }
-            });
+            position++;
         }
+
+        FloatingActionButton fabAll = FloatingActionButtonFactory.createFloatingActionButton(
+            getContext(),
+            getContext().getString(R.string.all),
+            R.drawable.ic_more,
+            ColorUtils.getBackgroundSecondary(getContext()));
+
+        addMenuButton(fabAll);
+
+        fabAll.setOnClickListener(view -> {
+            close(true);
+            if (onMiscellaneousSelectedListener != null) {
+                onMiscellaneousSelectedListener.onMiscellaneousSelected();
+            }
+        });
     }
 
     public void addMenuButton(final Category category) {

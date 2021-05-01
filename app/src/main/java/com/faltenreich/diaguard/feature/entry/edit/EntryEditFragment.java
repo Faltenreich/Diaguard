@@ -431,7 +431,6 @@ public class EntryEditFragment
         fab.setEnabled(true);
     }
 
-    // TODO: Extract into view model
     private void submit() {
         Entry entry = viewModel.getEntry();
         boolean isNewEntry = !entry.isPersisted();

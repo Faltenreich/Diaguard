@@ -32,7 +32,6 @@ public class ExportCategoryTest {
         FragmentScenario.launchInContainer(ExportFragment.class);
     }
 
-    // FIXME
     @Test
     @Ignore("View is not fully visible")
     public void unselectingBloodSugar_shouldDisableCheckboxForHighlightLimits() {

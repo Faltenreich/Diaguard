@@ -156,6 +156,10 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
     }
 
     private void initCategories() {
+        if (categoryListAdapter.getItemCount() > 0) {
+            return;
+        }
+
         List<ExportCategoryListItem> items = new ArrayList<>();
         Category[] activeCategories = PreferenceStore.getInstance().getActiveCategories();
         List<Category> selectedCategories = Arrays.asList(PreferenceStore.getInstance().getExportCategories());
@@ -179,20 +183,16 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
             items.add(new ExportCategoryListItem(category, isCategorySelected, isExtraSelected));
         }
 
-        categoryListAdapter.clear();
         categoryListAdapter.addItems(items);
-        categoryListAdapter.notifyItemRangeInserted(0, items.size());
+        categoryListAdapter.notifyDataSetChanged();
     }
 
     private FileType getFormat() {
-        int selectedPosition = getBinding().formatSpinner.getSelectedItemPosition();
-        switch (selectedPosition) {
-            case 0:
-                return FileType.PDF;
-            case 1:
-                return FileType.CSV;
-            default:
-                throw new IllegalArgumentException("Unknown type at position: " + selectedPosition);
+        int position = getBinding().formatSpinner.getSelectedItemPosition();
+        switch (position) {
+            case 0: return FileType.PDF;
+            case 1: return FileType.CSV;
+            default: throw new IllegalArgumentException("Unknown type at position: " + position);
         }
     }
 
@@ -203,30 +203,20 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
     }
 
     private PdfExportStyle getStyle() {
-        int selectedPosition = getBinding().styleSpinner.getSelectedItemPosition();
-        switch (selectedPosition) {
-            case 0:
-                return PdfExportStyle.TABLE;
-            case 1:
-                return PdfExportStyle.TIMELINE;
-            case 2:
-                return PdfExportStyle.LOG;
-            default:
-                throw new IllegalArgumentException("Unknown style at position: " + selectedPosition);
+        int position = getBinding().styleSpinner.getSelectedItemPosition();
+        switch (position) {
+            case 0: return PdfExportStyle.TABLE;
+            case 1: return PdfExportStyle.TIMELINE;
+            case 2: return PdfExportStyle.LOG;
+            default: throw new IllegalArgumentException("Unknown style at position: " + position);
         }
     }
 
     private void setStyle(PdfExportStyle style) {
         switch (style) {
-            case TABLE:
-                getBinding().styleSpinner.setSelection(0);
-                break;
-            case TIMELINE:
-                getBinding().styleSpinner.setSelection(1);
-                break;
-            case LOG:
-                getBinding().styleSpinner.setSelection(2);
-                break;
+            case TABLE: getBinding().styleSpinner.setSelection(0); break;
+            case TIMELINE: getBinding().styleSpinner.setSelection(1); break;
+            case LOG: getBinding().styleSpinner.setSelection(2); break;
         }
     }
 

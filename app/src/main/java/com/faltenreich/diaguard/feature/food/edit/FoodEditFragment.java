@@ -102,12 +102,15 @@ public class FoodEditFragment extends BaseFragment<FragmentFoodEditBinding> impl
     private void invalidateLayout() {
         getBinding().fab.setOnClickListener((view) -> store());
 
+        NutrientInputLayout nutrientInputLayout = getBinding().nutrientInputLayout;
+        if (nutrientInputLayout.getChildCount() > 0) {
+            return;
+        }
+
         getBinding().nameInput.setText(food != null ? food.getName() : null);
         getBinding().brandInput.setText(food != null ? food.getBrand() : null);
         getBinding().ingredientsInput.setText(food != null ? food.getIngredients() : null);
 
-        NutrientInputLayout nutrientInputLayout = getBinding().nutrientInputLayout;
-        nutrientInputLayout.clearNutrients();
         for (Food.Nutrient nutrient : Food.Nutrient.values()) {
             nutrientInputLayout.addNutrient(nutrient, food != null ? nutrient.getValue(food) : null);
         }

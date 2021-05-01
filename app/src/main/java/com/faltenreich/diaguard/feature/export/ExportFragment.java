@@ -114,8 +114,8 @@ public class ExportFragment extends BaseFragment<FragmentExportBinding> implemen
     }
 
     private void init() {
-        // FIXME: Week days cannot be localized via JodaTime, so consider switching to ThreeTenABP
         dateEnd = DateTime.now().withTime(23, 59, 59, 999);
+        // JodaTime cannot localize days of week, so consider falling back to java.util.Calendar
         dateStart = dateEnd.withDayOfWeek(1).withTimeAtStartOfDay();
         categoryListAdapter = new ExportCategoryListAdapter(getContext());
     }

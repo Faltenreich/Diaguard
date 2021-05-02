@@ -3,6 +3,7 @@ package com.faltenreich.diaguard.feature.category;
 import androidx.fragment.app.testing.FragmentScenario;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.faltenreich.diaguard.test.junit.rule.ApplyAppTheme;
 import com.faltenreich.diaguard.test.junit.rule.CleanUpData;
 import com.faltenreich.diaguard.test.junit.rule.TestRule;
 
@@ -17,14 +18,14 @@ import org.robolectric.annotation.LooperMode;
 @LooperMode(LooperMode.Mode.PAUSED)
 public class CategoryListFragmentTest {
 
-    private FragmentScenario<CategoryListFragment> scenario;
+    @Rule public final ApplyAppTheme applyAppTheme = new ApplyAppTheme();
+    @Rule public final TestRule dataCleanUp = new CleanUpData();
 
-    @Rule
-    public final TestRule dataCleanUp = new CleanUpData();
+    private FragmentScenario<CategoryListFragment> scenario;
 
     @Before
     public void setup() {
-        scenario = FragmentScenario.launch(CategoryListFragment.class);
+        scenario = FragmentScenario.launchInContainer(CategoryListFragment.class);
     }
 
     @Test

@@ -1,17 +1,26 @@
 package com.faltenreich.diaguard.feature.entry.edit.measurement;
 
+import android.os.Bundle;
+
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.RootMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
 
 import com.faltenreich.diaguard.R;
+import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragment;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
 
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.core.AllOf;
 
 public class EntryEditMeasurementTestUtils {
+
+    public static Bundle createBundle(Category category) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(EntryEditFragment.EXTRA_CATEGORY, category);
+        return bundle;
+    }
 
     public static void openFloatingMenuForCategories() {
         Espresso.onView(AllOf.allOf(

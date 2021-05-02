@@ -20,8 +20,10 @@ import com.faltenreich.diaguard.shared.data.database.entity.EntryTag;
 import com.faltenreich.diaguard.shared.data.database.entity.Food;
 import com.faltenreich.diaguard.shared.data.database.entity.FoodEaten;
 import com.faltenreich.diaguard.shared.data.database.entity.Meal;
+import com.faltenreich.diaguard.shared.data.database.entity.Measurement;
 import com.faltenreich.diaguard.shared.data.database.entity.Tag;
 import com.faltenreich.diaguard.shared.data.primitive.Consumer;
+import com.faltenreich.diaguard.shared.data.reflect.ObjectFactory;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -29,15 +31,12 @@ import org.joda.time.DateTimeConstants;
 import java.util.ArrayList;
 import java.util.List;
 
-class EntryEditViewModel {
-
-    static final String EXTRA_ENTRY_ID = "entryId";
-    static final String EXTRA_FOOD_ID = "foodId";
-    static final String EXTRA_DATE = "date";
+public class EntryEditViewModel {
 
     private long entryId;
     private long foodId;
     private DateTime dateTime;
+    private Category category;
 
     private Entry entry;
     private List<EntryTag> entryTags;
@@ -95,10 +94,13 @@ class EntryEditViewModel {
 
     void setArguments(@Nullable Bundle arguments) {
         if (arguments != null) {
-            entryId = arguments.getLong(EXTRA_ENTRY_ID);
-            foodId = arguments.getLong(EXTRA_FOOD_ID);
-            dateTime = arguments.get(EXTRA_DATE) != null
-                ? (DateTime) arguments.getSerializable(EXTRA_DATE)
+            entryId = arguments.getLong(EntryEditFragment.EXTRA_ENTRY_ID);
+            foodId = arguments.getLong(EntryEditFragment.EXTRA_FOOD_ID);
+            dateTime = arguments.get(EntryEditFragment.EXTRA_DATE) != null
+                ? (DateTime) arguments.getSerializable(EntryEditFragment.EXTRA_DATE)
+                : null;
+            category = arguments.get(EntryEditFragment.EXTRA_CATEGORY) != null
+                ? (Category) arguments.get(EntryEditFragment.EXTRA_CATEGORY)
                 : null;
         }
         if (dateTime == null) {
@@ -116,6 +118,13 @@ class EntryEditViewModel {
         } else {
             entry = new Entry();
             entry.setDate(dateTime);
+
+            if (category != null) {
+                Measurement measurement = ObjectFactory.createFromClass(category.toClass());
+                measurement.setEntry(entry);
+                entry.getMeasurementCache().add(measurement);
+            }
+
             callback.accept(entry);
         }
     }

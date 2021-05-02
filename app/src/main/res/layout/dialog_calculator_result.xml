@@ -13,7 +13,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/bolus_no1"
-        android:textColor="@android:color/black"
+        android:textColor="?android:textColorPrimary"
         android:visibility="gone" />
 
     <LinearLayout
@@ -27,7 +27,7 @@
             android:id="@+id/textViewResult"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
+            android:textColor="?android:textColorPrimary"
             android:textSize="28sp" />
 
         <TextView
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_between"
             android:layout_marginStart="@dimen/margin_between"
-            android:textColor="@android:color/black" />
+            android:textColor="?android:textColorPrimary" />
 
     </LinearLayout>
 
@@ -58,7 +58,7 @@
             android:id="@+id/dialog_calculator_result_formula_content"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black" />
+            android:textColor="?android:textColorPrimary" />
 
     </LinearLayout>
 

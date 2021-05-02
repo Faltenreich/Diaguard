@@ -11,6 +11,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
 import com.faltenreich.diaguard.shared.data.database.entity.Category;
+import com.faltenreich.diaguard.test.junit.rule.ApplyAppTheme;
 import com.faltenreich.diaguard.test.junit.rule.CleanUpData;
 
 import org.junit.Before;
@@ -27,6 +28,7 @@ public class EntryEditMeasurementFoodTest {
 
     private ActivityScenario<EntryEditActivity> scenario;
 
+    @Rule public final ApplyAppTheme applyAppTheme = new ApplyAppTheme();
     @Rule public final TestRule dataCleanUp = new CleanUpData();
 
     @Before

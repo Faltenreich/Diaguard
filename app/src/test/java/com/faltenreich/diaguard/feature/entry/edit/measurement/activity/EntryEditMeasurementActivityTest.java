@@ -1,22 +1,22 @@
 package com.faltenreich.diaguard.feature.entry.edit.measurement.activity;
 
-import android.content.Intent;
+import android.os.Bundle;
 
-import androidx.test.core.app.ActivityScenario;
+import androidx.fragment.app.testing.FragmentScenario;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.faltenreich.diaguard.R;
-import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.feature.entry.edit.EntryEditActivity;
+import com.faltenreich.diaguard.feature.entry.edit.EntryEditFragment;
+import com.faltenreich.diaguard.shared.data.database.entity.Category;
 import com.faltenreich.diaguard.test.espresso.matcher.EditTextMatcher;
+import com.faltenreich.diaguard.test.junit.rule.ApplyAppTheme;
 import com.faltenreich.diaguard.test.junit.rule.CleanUpData;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -28,15 +28,14 @@ import org.robolectric.annotation.LooperMode;
 @LooperMode(LooperMode.Mode.PAUSED)
 public class EntryEditMeasurementActivityTest {
 
-    private ActivityScenario<EntryEditActivity> scenario;
-
+    @Rule public final ApplyAppTheme applyAppTheme = new ApplyAppTheme();
     @Rule public final TestRule dataCleanUp = new CleanUpData();
 
     @Before
     public void setup() {
-        Intent intent = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), EntryEditActivity.class);
-        intent.putExtra(EntryEditActivity.EXTRA_CATEGORY, Category.ACTIVITY);
-        scenario = ActivityScenario.launch(intent);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(EntryEditActivity.EXTRA_CATEGORY, Category.ACTIVITY);
+        FragmentScenario.launchInContainer(EntryEditFragment.class, bundle);
     }
 
     @Test
@@ -68,13 +67,12 @@ public class EntryEditMeasurementActivityTest {
     }
 
     @Test
-    public void confirmingValidValue_shouldFinishActivity() {
-        scenario.onActivity(activity -> {
-            Espresso.onView(ViewMatchers.withId(R.id.input_field))
-                .perform(ViewActions.replaceText("120"));
-            Espresso.onView(ViewMatchers.withId(R.id.fab))
-                .perform(ViewActions.click());
-            Assert.assertTrue(activity.isFinishing());
-        });
+    public void confirmingValidValue_shouldSucceed() {
+        Espresso.onView(ViewMatchers.withId(R.id.input_field))
+            .perform(ViewActions.replaceText("120"));
+        Espresso.onView(ViewMatchers.withId(R.id.fab))
+            .perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.input_field))
+            .check(ViewAssertions.matches(ViewMatchers.hasErrorText("")));
     }
 }
